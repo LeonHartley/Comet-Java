@@ -92,7 +92,8 @@ public class RoomManager {
             while(room.next()) {
                 RoomData data = new RoomData(room);
 
-                if(this.getRooms().containsKey(data.getId())) {
+                if(!this.getRooms().containsKey(data.getId())) {
+                    player.getRooms().put(data.getId(), this.getRooms().get(data.getId()));
                     continue;
                 }
 

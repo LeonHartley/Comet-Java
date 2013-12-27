@@ -92,7 +92,7 @@ public class PurchaseItemMessageEvent implements IEvent {
                             statement.setInt(2, newItemId);
                             statement.setString(3, extraData);
                             statement.setString(4, "");
-                            statement.addBatch();
+                            statement.execute();
 
                             ResultSet keys = statement.getGeneratedKeys();
 
