@@ -12,12 +12,14 @@ import com.cometsrv.network.messages.outgoing.misc.AlertMessageComposer;
 import com.cometsrv.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometsrv.network.messages.types.Event;
 import com.cometsrv.network.sessions.Session;
+import javolution.util.FastList;
 import javolution.util.FastMap;
 import org.joda.time.DateTime;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Map;
 
 public class PurchaseItemMessageEvent implements IEvent {
@@ -78,9 +80,20 @@ public class PurchaseItemMessageEvent implements IEvent {
 
                 String extraData = "";
 
+                boolean isTeleport = false;
+
                 if(def.getInteraction().equals("trophy")) {
                     extraData +=
                             client.getPlayer().getData().getUsername() + Character.toChars(9)[0] + DateTime.now().getDayOfMonth() + "-" + DateTime.now().getMonthOfYear() + "-" + DateTime.now().getYear() + Character.toChars(9)[0] + data;
+                } else if(def.getInteraction().equals("teleport")) {
+                    amount = amount * 2;
+                    isTeleport = true;
+                }
+
+                int[] teleportIds = null;
+
+                if(isTeleport) {
+                    teleportIds = new int[amount];
                 }
 
                 try {
@@ -97,8 +110,14 @@ public class PurchaseItemMessageEvent implements IEvent {
                             ResultSet keys = statement.getGeneratedKeys();
 
                             if(keys.next()) {
-                                unseenItems.put(keys.getInt(1), def.getType().equalsIgnoreCase("s") ? 1 : 2);
-                                client.getPlayer().getInventory().add(keys.getInt(1), newItemId, extraData);
+                                int insertedId = keys.getInt(1);
+
+                                if(isTeleport) {
+                                    teleportIds[e] = insertedId;
+                                }
+
+                                unseenItems.put(insertedId, def.getType().equalsIgnoreCase("s") ? 1 : 2);
+                                client.getPlayer().getInventory().add(insertedId, newItemId, extraData);
                             }
                         }
 
@@ -113,6 +132,24 @@ public class PurchaseItemMessageEvent implements IEvent {
                     }
                 } catch(Exception e) {
                     e.printStackTrace();
+                }
+
+                if(isTeleport) {
+                    int lastId = 0;
+
+                    for(int i = 0; i < teleportIds.length; i++) {
+                        if(lastId == 0) {
+                            lastId = teleportIds[i];
+                        }
+
+                        if(i % 2 == 0 && lastId != 0) {
+                            lastId = teleportIds[i];
+                            continue;
+                        }
+
+                        Comet.getServer().getStorage().execute("INSERT into items_teles (id_one, id_two) VALUES(" + lastId + ", " + teleportIds[i] + ");");
+                        Comet.getServer().getStorage().execute("INSERT into items_teles (id_one, id_two) VALUES(" + teleportIds[i] + ", " + lastId + ");");
+                    }
                 }
 
                 if(item.hasBadge()) {

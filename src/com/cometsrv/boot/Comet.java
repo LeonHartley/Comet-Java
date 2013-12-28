@@ -85,6 +85,7 @@ public class Comet {
                                     GameEngine.getBans().loadBans();
                                     Comet.log.info("Bans were reloaded.");
                                     break;
+
                             }
                         } else {
                             Comet.log.error("Invalid command");

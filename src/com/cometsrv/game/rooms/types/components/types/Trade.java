@@ -54,14 +54,33 @@ public class Trade {
     }
 
     public void cancel(int userId) {
+        this.cancel(userId, true);
+    }
+
+    public void cancel(int userId, boolean isLeave) {
         this.user1Items.clear();
         this.user2Items.clear();
 
-        user1.getPlayer().getAvatar().removeStatus("trd");
-        user1.getPlayer().getAvatar().setNeedsUpdate(true);
+        boolean sendToUser1 = true;
+        boolean sendToUser2 = true;
 
-        user2.getPlayer().getAvatar().removeStatus("trd");
-        user2.getPlayer().getAvatar().setNeedsUpdate(true);
+        if(isLeave) {
+            if(userId == user1.getPlayer().getId()) {
+                sendToUser1 = false;
+            } else {
+                sendToUser2 = false;
+            }
+        }
+
+        if(sendToUser1) {
+            user1.getPlayer().getAvatar().removeStatus("trd");
+            user1.getPlayer().getAvatar().setNeedsUpdate(true);
+        }
+
+        if(sendToUser2) {
+            user2.getPlayer().getAvatar().removeStatus("trd");
+            user2.getPlayer().getAvatar().setNeedsUpdate(true);
+        }
 
         sendToUsers(TradeCloseMessageComposer.compose(userId));
     }

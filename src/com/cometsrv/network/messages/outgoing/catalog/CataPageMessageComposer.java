@@ -99,7 +99,12 @@ public class CataPageMessageComposer {
                 msg.writeString(item.getDisplayName());
                 msg.writeInt(item.getCostCredits());
                 msg.writeInt(item.getCostOther());
-                msg.writeInt(105); // currency type :: diamonds
+
+                if(item.getCostOther() != 0)
+                    msg.writeInt(105); // currency type :: diamonds
+                else
+                    msg.writeInt(0);
+
                 msg.writeBoolean(true);
 
                 if(!item.hasBadge()) {

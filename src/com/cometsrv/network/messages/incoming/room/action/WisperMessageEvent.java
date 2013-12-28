@@ -17,6 +17,9 @@ public class WisperMessageEvent implements IEvent {
         if(userTo == null || userTo == client)
             return;
 
+        if(!client.getPlayer().getAvatar().onChat(message))
+            return;
+
         client.send(WisperMessageComposer.compose(client.getPlayer().getId(), message));
         userTo.send(WisperMessageComposer.compose(client.getPlayer().getId(), message));
     }

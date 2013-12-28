@@ -24,8 +24,6 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
             return;
         }
 
-        GameEngine.getLogger().debug("We're here.");
-
         GameEngine.getItems().getInteractions().onInteract(0, item, client.getPlayer().getAvatar());
     }
 }

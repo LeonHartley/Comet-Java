@@ -133,6 +133,10 @@ public class ItemsComponent {
     }
 
     public void removeItem(FloorItem item, Session client) {
+        removeItem(item, client, true);
+    }
+
+    public void removeItem(FloorItem item, Session client, boolean toInventory) {
         // the client which is sent here is the removing user (most likely the owner of the room or staff member)
 
         Avatar affectedUser = room.getAvatars().getAvatarAt(item.getX(), item.getY());
@@ -158,13 +162,17 @@ public class ItemsComponent {
             }
         }
 
-        Comet.getServer().getStorage().execute("UPDATE items SET x = 0, y = 0, z = 0, rot = 0, room_id = 0, user_id = " + client.getPlayer().getId() + " WHERE id = " + item.getId());
-
         room.getAvatars().broadcast(RemoveFloorItemMessageComposer.compose(item.getId(), room.getData().getOwnerId()));
         room.getItems().getFloorItems().remove(item);
 
-        client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
-        client.send(UpdateInventoryMessageComposer.compose());
+        if(toInventory) {
+            Comet.getServer().getStorage().execute("UPDATE items SET x = 0, y = 0, z = 0, rot = 0, room_id = 0, user_id = " + client.getPlayer().getId() + " WHERE id = " + item.getId());
+
+            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
+            client.send(UpdateInventoryMessageComposer.compose());
+        } else {
+            Comet.getServer().getStorage().execute("DELETE FROM items WHERE id = " + item.getId());
+        }
     }
 
     public Room getRoom() {

@@ -19,4 +19,8 @@ public class WiredActionMoveRotate extends Interactor {
         return true;
     }
 
+    @Override
+    public boolean requiresRights() {
+        return true;
+    }
 }

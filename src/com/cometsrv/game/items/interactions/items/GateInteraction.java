@@ -30,4 +30,8 @@ public class GateInteraction extends Interactor{
         return true;
     }
 
+    @Override
+    public boolean requiresRights() {
+        return true;
+    }
 }

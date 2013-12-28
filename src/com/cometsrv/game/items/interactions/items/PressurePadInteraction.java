@@ -20,4 +20,8 @@ public class PressurePadInteraction extends Interactor {
         return false;
     }
 
+    @Override
+    public boolean requiresRights() {
+        return false;
+    }
 }

@@ -25,6 +25,7 @@ public class CometServer {
 
         Locale.init();
         GameEngine.init();
+
         networkEngine = new NetworkEngine(this.getConfig().get("comet.network.host"), Integer.parseInt(this.getConfig().get("comet.network.port")));
         GameEngine.gameThread = new GameThread();
 

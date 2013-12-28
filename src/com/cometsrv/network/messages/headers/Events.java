@@ -84,6 +84,7 @@ public class Events {
     public static short BuyGroupMessageEvent = 660;
     public static short BuyGroupDialogMessageEvent = 3253;
     public static short PetRacesMessageEvent = 3675;
+    public static short ExchangeItemMessageEvent = 3582;
 
     public static short ManageGroupMessageEvent = 454;
     public static short AddUserToRoom2MessageEvent = 3317;

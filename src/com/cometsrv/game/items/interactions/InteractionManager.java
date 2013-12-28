@@ -6,10 +6,7 @@ import com.cometsrv.game.items.interactions.banzai.gates.BanzaiGateBlueInteracti
 import com.cometsrv.game.items.interactions.banzai.gates.BanzaiGateGreenInteraction;
 import com.cometsrv.game.items.interactions.banzai.gates.BanzaiGateRedInteraction;
 import com.cometsrv.game.items.interactions.banzai.gates.BanzaiGateYellowInteraction;
-import com.cometsrv.game.items.interactions.items.DefaultInteraction;
-import com.cometsrv.game.items.interactions.items.DiceInteraction;
-import com.cometsrv.game.items.interactions.items.GateInteraction;
-import com.cometsrv.game.items.interactions.items.PressurePadInteraction;
+import com.cometsrv.game.items.interactions.items.*;
 import com.cometsrv.game.items.interactions.wired.action.WiredActionMoveRotate;
 import com.cometsrv.game.items.interactions.wired.action.WiredActionShowMessage;
 import com.cometsrv.game.items.interactions.wired.trigger.WiredTriggerEnterRoom;
@@ -34,6 +31,7 @@ public class InteractionManager {
         this.interactions.put("default", new DefaultInteraction());
         this.interactions.put("gate", new GateInteraction());
         this.interactions.put("pressure_pad", new PressurePadInteraction());
+        this.interactions.put("teleport", new TeleportInteraction());
 
         // Wired Actions
         this.interactions.put("wf_act_move_rotate", new WiredActionMoveRotate());
@@ -54,20 +52,25 @@ public class InteractionManager {
     }
 
     public boolean onWalk(boolean state, FloorItem item, Avatar avatar) {
-        if(!this.isInteraction(item.getDefinition().getInteraction())) {
-            return false;
-        }
+        return this.isInteraction(item.getDefinition().getInteraction()) && this.getInteractions().get(item.getDefinition().getInteraction()).onWalk(state, item, avatar);
 
-        return this.getInteractions().get(item.getDefinition().getInteraction()).onWalk(state, item, avatar);
     }
 
     public boolean onInteract(int state, FloorItem item, Avatar avatar) {
+        GameEngine.getLogger().debug("Interacted with: " + item.getDefinition().getInteraction());
+
         if(!this.isInteraction(item.getDefinition().getInteraction())) {
             return false;
         }
 
 
-        return this.getInteractions().get(item.getDefinition().getInteraction()).onInteract(state, item, avatar);
+        Interactor action = this.getInteractions().get(item.getDefinition().getInteraction());
+
+        if(action.requiresRights() && !avatar.getRoom().getRights().hasRights(avatar.getPlayer().getId()))
+            return false;
+
+        return action.onInteract(state, item, avatar);
+
     }
 
     private boolean isInteraction(String interaction) {

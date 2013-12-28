@@ -34,4 +34,8 @@ public class WiredActionShowMessage extends Interactor {
         return true;
     }
 
+    @Override
+    public boolean requiresRights() {
+        return true;
+    }
 }

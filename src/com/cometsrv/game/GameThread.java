@@ -9,6 +9,7 @@ import com.cometsrv.network.sessions.Session;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.concurrent.TimeUnit;
 
 public class GameThread implements Runnable {

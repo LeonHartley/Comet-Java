@@ -18,4 +18,9 @@ public class DiceInteraction extends Interactor {
         return true;
     }
 
+    @Override
+    public boolean requiresRights() {
+        return false;
+    }
+
 }

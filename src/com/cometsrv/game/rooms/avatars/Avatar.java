@@ -8,6 +8,7 @@ import com.cometsrv.game.rooms.avatars.pathfinding.Pathfinder;
 import com.cometsrv.game.rooms.avatars.pathfinding.Square;
 import com.cometsrv.game.rooms.types.components.games.GameTeam;
 import com.cometsrv.game.rooms.types.Room;
+import com.cometsrv.game.rooms.types.components.types.Trade;
 import com.cometsrv.game.wired.types.TriggerType;
 import com.cometsrv.network.messages.outgoing.room.alerts.RoomFullMessageComposer;
 import com.cometsrv.network.messages.outgoing.room.avatar.ApplyEffectMessageComposer;
@@ -241,13 +242,13 @@ public class Avatar {
             this.getPlayer().getSession().send(HotelViewMessageComposer.compose());
         }
 
-        if(isKick) {
-            // TODO: find the packet to send
+        Trade trade = getRoom().getTrade().get(this.getPlayer().getSession());
+
+        if(trade != null) {
+            trade.cancel(getPlayer().getId(), true);
         }
 
-        if(this.getRoom() != null) {
-            this.getRoom().getAvatars().remove(this);
-        }
+        this.getRoom().getAvatars().remove(this);
 
         if(this.getRoom().getAvatars().count() == 0) {
             this.getRoom().dispose();

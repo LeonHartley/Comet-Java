@@ -45,7 +45,11 @@ public class RightsComponent {
     }
 
     public boolean hasRights(int playerId) {
-        return this.rights.contains(playerId);
+        if(this.room.getData().getOwnerId() == playerId) {
+            return true;
+        } else {
+            return this.rights.contains(playerId);
+        }
     }
 
     public void removeRights(int playerId) {

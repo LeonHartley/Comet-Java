@@ -7,9 +7,11 @@ import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
+import java.util.Map;
 
 public class ItemManager {
     private FastMap<Integer, ItemDefinition> itemDefinitions;
+    private Map<Integer, Integer> teleportPairs;
     private InteractionManager interactions;
 
     private Logger log = Logger.getLogger(ItemManager.class.getName());
@@ -17,6 +19,7 @@ public class ItemManager {
     public ItemManager() {
         this.itemDefinitions = new FastMap<>();
         this.interactions = new InteractionManager();
+        this.teleportPairs = new FastMap<>();
 
         this.loadItemDefinitions();
     }
@@ -37,6 +40,27 @@ public class ItemManager {
         }
 
         log.info("Loaded " + this.getItemDefinitions().size() + " item definitions");
+    }
+
+    public int getTeleportPartner(int itemId) {
+        if(this.teleportPairs.containsKey(itemId)) {
+            return teleportPairs.get(itemId);
+        } else {
+            try {
+                ResultSet check = Comet.getServer().getStorage().getRow("SELECT * FROM items_teles WHERE id_one = " + itemId);
+
+                if(check != null) {
+                    this.teleportPairs.put(itemId, check.getInt("id_two"));
+                    this.teleportPairs.put(check.getInt("id_two"), itemId);
+
+                    return check.getInt("id_two");
+                }
+            } catch(Exception e) {
+                log.error("Error while searching for teleport partner", e);
+            }
+        }
+
+        return 0;
     }
 
     public ItemDefinition getDefintion(int itemId) {

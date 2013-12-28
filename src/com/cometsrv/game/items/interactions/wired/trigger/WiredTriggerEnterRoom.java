@@ -32,4 +32,9 @@ public class WiredTriggerEnterRoom extends Interactor {
         avatar.getPlayer().getSession().send(msg);
         return false;
     }
+
+    @Override
+    public boolean requiresRights() {
+        return true;
+    }
 }

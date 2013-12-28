@@ -24,4 +24,9 @@ public class BanzaiPatchInteraction extends Interactor {
     public boolean onInteract(int request, FloorItem item, Avatar avatar) {
         return false;
     }
+
+    @Override
+    public boolean requiresRights() {
+        return false;
+    }
 }

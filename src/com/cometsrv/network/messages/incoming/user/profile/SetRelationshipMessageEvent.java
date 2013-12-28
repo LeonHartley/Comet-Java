@@ -24,8 +24,6 @@ public class SetRelationshipMessageEvent implements IEvent {
                 if(relationships.getRelationships().containsKey(user)) {
                     relationships.getRelationships().remove(user);
                 }
-
-                return;
             } else {
                 if(relationships.getRelationships().containsKey(user)) {
                     Comet.getServer().getStorage().execute("DELETE FROM player_relationships WHERE player_id = " + client.getPlayer().getId() + " AND partner = " + user);

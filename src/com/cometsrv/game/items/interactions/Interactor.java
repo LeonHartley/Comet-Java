@@ -17,4 +17,6 @@ public abstract class Interactor {
      * Avatar: the interacting avatar
      */
     public abstract boolean onInteract(int request, FloorItem item, Avatar avatar);
+
+    public abstract boolean requiresRights();
 }
