@@ -9,6 +9,7 @@
     <version>0.3.8-SNAPSHOT</version>
     <name>Comet</name>
     <url>http://www.comet.im</url>
+    <description>Comet Habbo Server developed by the Comet Team</description>
 
     <build>
         <plugins>
@@ -71,6 +72,20 @@
 
         <resources>
         </resources>
+
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.4</version>
+            </extension>
+
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh-external</artifactId>
+                <version>1.0-beta-6</version>
+            </extension>
+        </extensions>
     </build>
 
     <properties>
@@ -140,5 +155,12 @@
             <version>1.2.17</version>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>comet-im</id>
+            <url>sftp://comet.im/root/comet-deploy</url>
+        </repository>
+    </distributionManagement>
 
 </project>
