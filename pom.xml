@@ -11,6 +11,17 @@
     <url>http://www.comet.im</url>
     <description>Comet Habbo Server developed by the Comet Team</description>
 
+    <developers>
+        <developer>
+            <name>Leon</name>
+            <email>ljph@outlook.com</email>
+        </developer>
+        <developer>
+            <name>Matty</name>
+            <email>null@null.com</email>
+        </developer>
+    </developers>
+
     <build>
         <plugins>
             <plugin>
