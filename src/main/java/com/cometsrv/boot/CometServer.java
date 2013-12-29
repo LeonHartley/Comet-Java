@@ -8,9 +8,12 @@ import com.cometsrv.game.GameThread;
 import com.cometsrv.monitor.SystemMonitor;
 import com.cometsrv.network.NetworkEngine;
 import com.cometsrv.storage.StorageEngine;
+import com.cometsrv.tasks.CometThreadManagement;
 
 public class CometServer {
     private Configuration config;
+
+    private CometThreadManagement threadManagement;
 
     private StorageEngine storageEngine;
     private NetworkEngine networkEngine;
@@ -20,6 +23,8 @@ public class CometServer {
 
     public void init() {
         loadConfig();
+
+        threadManagement = new CometThreadManagement();
         storageEngine = new StorageEngine();
         systemMonitor = new SystemMonitor();
 
@@ -44,7 +49,7 @@ public class CometServer {
     }
 
     public StorageEngine getStorage() {
-        return storageEngine;
+        return this.storageEngine;
     }
 
     public NetworkEngine getNetwork() {
@@ -52,6 +57,8 @@ public class CometServer {
     }
 
     public SystemMonitor getSystemMonitor() {
-        return systemMonitor;
+        return this.systemMonitor;
     }
+
+    public CometThreadManagement getThreadManagement() { return this.threadManagement; }
 }

@@ -1,29 +1,31 @@
 package com.cometsrv.monitor;
 
+import java.util.concurrent.ScheduledFuture;
 import com.cometsrv.boot.Comet;
+import com.cometsrv.tasks.CometTask;
+import com.cometsrv.tasks.CometThreadManagement;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.TimeUnit;
 
-public class SystemMonitor implements Runnable {
-
-    private Thread monitorThread;
-    private boolean active = false;
+public class SystemMonitor implements CometTask {
     private Logger log = Logger.getLogger(SystemMonitor.class.getName());
+    private ScheduledFuture myFuture;
+
+    private boolean active = false;
     private int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.gc.interval"));
     private int cycleCount = 0;
 
-    public SystemMonitor() {
-        this.monitorThread = new Thread(this);
+    public SystemMonitor(CometThreadManagement mgr) {
+        this.myFuture = mgr.executePeriodic(this, this.interval, this.interval, TimeUnit.MINUTES);
         this.active = true;
-        this.monitorThread.start();
     }
 
     @Override
     public void run() {
         while(this.active) {
             try {
-                if(this.monitorThread.isInterrupted() || !this.active) {
+                if(!this.active) {
                     return;
                 }
 
@@ -44,7 +46,7 @@ public class SystemMonitor implements Runnable {
     }
 
     public void stop() {
-        this.monitorThread.interrupt();
+        myFuture.cancel(false); // Cancels after the last cycle
         this.active = false;
     }
 
