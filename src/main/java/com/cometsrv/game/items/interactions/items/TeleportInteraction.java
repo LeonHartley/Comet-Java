@@ -4,6 +4,7 @@ import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.items.FloorItem;
+import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 
 public class TeleportInteraction extends Interactor {
@@ -20,11 +21,23 @@ public class TeleportInteraction extends Interactor {
             return false;
         }
 
+        Room room = avatar.getRoom();
 
+        FloorItem partner = room.getItems().getFloorItem(pairId);
 
+        if(partner == null) {
+            // We'll have to find the item in db and get the room id?
+            // TODO: find room where partner tele exists
+            return false;
+        }
 
-        item.handleInteraction(true);
-        item.sendUpdate(avatar.getPlayer().getSession());
+        partner.setExtraData("2");
+        partner.setNeedsUpdate(true);
+
+        item.setExtraData("2");
+        item.setNeedsUpdate(true);
+
+        GameEngine.getLogger().debug("testest");
 
         return false;
     }
