@@ -5,10 +5,7 @@ import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class StorageEngine {
     private static Logger log = Logger.getLogger(StorageEngine.class.getName());
@@ -54,11 +51,21 @@ public class StorageEngine {
     }
 
     public PreparedStatement prepare(String query) throws SQLException {
+        return prepare(query, false);
+    }
+
+    public PreparedStatement prepare(String query, boolean returnKeys) throws SQLException {
         Connection conn = null;
 
         try {
             conn = this.connections.getConnection();
-            return conn.prepareStatement(query);
+
+            if(returnKeys) {
+                return conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            } else {
+                return conn.prepareStatement(query);
+            }
+
         } catch(SQLException e) {
             log.error("Error while creating prepared statement", e);
         } finally {

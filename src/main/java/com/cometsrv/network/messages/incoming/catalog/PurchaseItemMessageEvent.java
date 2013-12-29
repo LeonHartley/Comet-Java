@@ -99,7 +99,7 @@ public class PurchaseItemMessageEvent implements IEvent {
                 try {
                     for(int e = 0; e < amount; e++) {
                         for(int i = 0; i != item.getAmount(); i++) {
-                            PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into items (`user_id`, `base_item`, `extra_data`, `wall_pos`) VALUES(?, ?, ?, ?);");
+                            PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into items (`user_id`, `base_item`, `extra_data`, `wall_pos`) VALUES(?, ?, ?, ?);", true);
 
                             statement.setInt(1, client.getPlayer().getId());
                             statement.setInt(2, newItemId);
