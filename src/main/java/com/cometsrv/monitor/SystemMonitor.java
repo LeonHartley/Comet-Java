@@ -29,7 +29,7 @@ public class SystemMonitor implements CometTask {
                     return;
                 }
 
-                System.gc();
+                //System.gc();
                 cycleCount++;
 
                 // Make sure we don't run this process too often as it spikes CPU usage.
