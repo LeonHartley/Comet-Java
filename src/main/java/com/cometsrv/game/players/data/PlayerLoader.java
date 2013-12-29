@@ -66,7 +66,9 @@ public class PlayerLoader {
             return null;
         }
 
-        result.next();
+        if(!result.next()) {
+            return null;
+        }
 
         return new Player(result.getInt("id"));
     }
