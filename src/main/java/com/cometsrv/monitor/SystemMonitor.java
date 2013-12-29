@@ -46,8 +46,8 @@ public class SystemMonitor implements CometTask {
     }
 
     public void stop() {
-        myFuture.cancel(false); // Cancels after the last cycle
         this.active = false;
+        this.myFuture.cancel(false);
     }
 
     public int getCycleCount() {

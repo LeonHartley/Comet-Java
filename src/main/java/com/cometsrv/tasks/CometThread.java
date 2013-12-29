@@ -7,7 +7,7 @@ public class CometThread extends Thread {
     }
 
     public CometThread(CometTask task, String identifier) {
-        super(task, "Comet Task [" + name + "]");
+        super(task, "Comet Task [" + identifier + "]");
     }
 
     @Override

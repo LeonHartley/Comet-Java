@@ -6,22 +6,23 @@ import com.cometsrv.config.Locale;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometsrv.network.sessions.Session;
+import com.cometsrv.tasks.CometTask;
+import com.cometsrv.tasks.CometThreadManagement;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class GameThread implements Runnable {
+public class GameThread implements CometTask {
 
-    private Thread gameThread;
+    private ScheduledFuture myFuture;
     private boolean active = false;
     private Logger log = Logger.getLogger(GameThread.class.getName());
     private int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.thread.interval"));
 
-    public GameThread() {
-        this.gameThread = new Thread(this);
-        this.gameThread.start();
+    public GameThread(CometThreadManagement mgr) {
+        mgr.executePeriodic(this, interval, interval, TimeUnit.MINUTES);
         this.active = true;
     }
 
@@ -31,7 +32,7 @@ public class GameThread implements Runnable {
     public void run() {
         while(this.active) {
             try {
-                if(this.gameThread.isInterrupted() || !this.active) {
+                if(!this.active) {
                     return;
                 }
 
@@ -82,7 +83,7 @@ public class GameThread implements Runnable {
     }
 
     public void stop() {
-        this.gameThread.interrupt();
         this.active = false;
+        this.myFuture.cancel(false);
     }
 }

@@ -32,7 +32,7 @@ public class CometServer {
         GameEngine.init();
 
         networkEngine = new NetworkEngine(this.getConfig().get("comet.network.host"), Integer.parseInt(this.getConfig().get("comet.network.port")));
-        GameEngine.gameThread = new GameThread();
+        GameEngine.gameThread = new GameThread(threadManagement);
 
         if(Comet.isDebugging) {
             GameEngine.getLogger().debug("Comet Server is debugging");
