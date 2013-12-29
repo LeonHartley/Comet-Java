@@ -26,7 +26,7 @@ public class CometServer {
 
         threadManagement = new CometThreadManagement();
         storageEngine = new StorageEngine();
-        systemMonitor = new SystemMonitor();
+        systemMonitor = new SystemMonitor(threadManagement);
 
         Locale.init();
         GameEngine.init();
