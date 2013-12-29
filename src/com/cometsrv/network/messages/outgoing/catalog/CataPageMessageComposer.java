@@ -49,14 +49,6 @@ public class CataPageMessageComposer {
             msg.writeString(page.getPageText1());
             msg.writeString(page.getPageTextDetails());
 
-        } else if(page.getTemplate().equals("badge_display")) {
-            msg.writeString("badge_display");
-            msg.writeInt(2);
-            msg.writeString(page.getHeadline());
-            msg.writeString(page.getPageText1());
-            msg.writeInt(1);
-            msg.writeString(page.getPageTextDetails());
-
         } else if(page.getTemplate().equals("pets")) {
             msg.writeString("pets");
             msg.writeInt(2);
@@ -91,7 +83,7 @@ public class CataPageMessageComposer {
             msg.writeString(page.getPageText2());
         }
 
-        if(!page.getTemplate().equals("frontpage") && !page.getTemplate().equals("club_buy")) {
+        if(!page.getTemplate().equals("frontpage") && !page.getTemplate().equals("club_buy") && !page.getTemplate().equals("badge_display")) {
             msg.writeInt(page.getItems().size());
 
             for(CatalogItem item : page.getItems().values()) {

@@ -86,7 +86,7 @@ public class RoomData {
                 decorString += ",";
             }
 
-            decorString += tags[i];
+            decorString += decorations[i];
         }
 
         std.setString(11, decorString);
