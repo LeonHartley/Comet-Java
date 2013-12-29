@@ -71,6 +71,12 @@
         </plugins>
 
         <resources>
+            <resource>
+                <directory>src/main/resources-internal</directory>
+                <includes>
+                    <include>*.*</include>
+                </includes>
+            </resource>
         </resources>
 
         <extensions>
