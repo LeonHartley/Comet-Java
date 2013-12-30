@@ -76,7 +76,7 @@ public class BanzaiGame extends RoomGame {
 
     public int getScore(GameTeam team) {
         if(!scores.containsKey(team)) {
-            return 0; // Not teamed (team = GameTeam.NONE proably)
+            return 0; // Not teamed (team = GameTeam.NONE probably)
         }
 
         if(scores.get(team) != null) {
