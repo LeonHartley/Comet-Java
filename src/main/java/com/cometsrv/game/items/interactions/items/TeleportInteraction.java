@@ -1,6 +1,7 @@
 package com.cometsrv.game.items.interactions.items;
 
 import com.cometsrv.game.GameEngine;
+import com.cometsrv.game.items.interactions.InteractionAction;
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.items.FloorItem;
@@ -32,10 +33,10 @@ public class TeleportInteraction extends Interactor {
         }
 
         partner.setExtraData("2");
-        partner.setNeedsUpdate(true);
+        item.sendUpdate(avatar.getPlayer().getSession());
 
         item.setExtraData("2");
-        item.setNeedsUpdate(true);
+        item.sendUpdate(avatar.getPlayer().getSession());
 
         GameEngine.getLogger().debug("testest");
 
