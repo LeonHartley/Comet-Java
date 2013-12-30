@@ -1,45 +1,43 @@
 package com.cometsrv.network.codec;
 
 import com.cometsrv.network.messages.types.Event;
-import org.apache.log4j.Logger;
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.channel.Channel;
-import org.jboss.netty.channel.ChannelHandlerContext;
-import org.jboss.netty.handler.codec.frame.FrameDecoder;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.ByteToMessageDecoder;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 
-public class MessageDecoder extends FrameDecoder {
-
-    private static Logger log = Logger.getLogger(MessageDecoder.class.getName());
-
+public class MessageDecoder extends ByteToMessageDecoder {
     @Override
-    public Object decode(ChannelHandlerContext ctx, Channel channel, ChannelBuffer buffer) {
+    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> objects) throws Exception {
         try {
-            if(buffer.readableBytes() < 6) {
-                return null;
+            if(byteBuf.readableBytes() < 6) {
+                return;
             }
 
-            byte[] length = buffer.readBytes(4).array();
+            byte[] length = byteBuf.readBytes(4).array();
 
             if(length[0] == 60) {
-                buffer.discardReadBytes();
+                byteBuf.discardReadBytes();
 
-                channel.write(
-                    "<?xml version=\"1.0\"?>\r\n"
-                    + "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\r\n"
-                    + "<cross-domain-policy>\r\n"
-                    + "<allow-access-from domain=\"*\" to-ports=\"*\" />\r\n"
-                    + "</cross-domain-policy>\0"
-                );
+                channelHandlerContext.channel().write(
+                        "<?xml version=\"1.0\"?>\r\n"
+                                + "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\r\n"
+                                + "<cross-domain-policy>\r\n"
+                                + "<allow-access-from domain=\"*\" to-ports=\"*\" />\r\n"
+                                + "</cross-domain-policy>\0"
+                ).addListener(ChannelFutureListener.CLOSE);
+
+                System.out.println("Sent policy");
             } else {
                 int messageLength = ByteBuffer.wrap(length).asIntBuffer().get();
-                ChannelBuffer msgBuffer = buffer.readBytes(messageLength);
+                ByteBuf msgBuffer = byteBuf.readBytes(messageLength);
 
                 short header = msgBuffer.readShort();
-                return new Event(header, msgBuffer);
+                objects.add(new Event(header, msgBuffer));
             }
         } catch(Exception e) { }
-        return null;
     }
 }

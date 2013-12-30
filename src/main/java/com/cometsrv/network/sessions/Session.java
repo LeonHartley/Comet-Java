@@ -3,7 +3,7 @@ package com.cometsrv.network.sessions;
 import com.cometsrv.game.players.types.Player;
 import com.cometsrv.network.messages.types.Composer;
 import org.apache.log4j.Logger;
-import org.jboss.netty.channel.Channel;
+import io.netty.channel.Channel;
 
 public class Session {
     private Channel channel;

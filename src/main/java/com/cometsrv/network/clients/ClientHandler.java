@@ -1,54 +1,47 @@
 package com.cometsrv.network.clients;
 
 import com.cometsrv.boot.Comet;
+import com.cometsrv.network.NetworkEngine;
 import com.cometsrv.network.messages.types.Event;
 import com.cometsrv.network.sessions.Session;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import org.apache.log4j.Logger;
-import org.jboss.netty.channel.*;
 
-public class ClientHandler extends SimpleChannelHandler {
-
+public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
 
     @Override
-    public void channelOpen(ChannelHandlerContext ctx, ChannelStateEvent event) {
-        log.debug("Channel [" + ctx.getChannel().getId() + "] connected");
+    public void channelActive(final ChannelHandlerContext ctx) throws Exception {
+        //log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] connected");
 
-        if(!Comet.getServer().getNetwork().getSessions().add(ctx.getChannel())) {
-            ctx.getChannel().disconnect();
+        if(!Comet.getServer().getNetwork().getSessions().add(ctx.channel())) {
+            ctx.channel().disconnect();
         }
     }
 
     @Override
-    public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent event) {
+    public void channelInactive(final ChannelHandlerContext ctx) throws Exception {
         try {
-            Session client = (Session) ctx.getChannel().getAttachment();
+            Session client = ctx.channel().attr(NetworkEngine.SESSION_ATTRIBUTE_KEY).get();
             client.onDisconnect();
         } catch(Exception e) { }
 
-        Comet.getServer().getNetwork().getSessions().remove(ctx.getChannel());
-        log.debug("Channel [" + ctx.getChannel().getId() + "] disconnected");
+        Comet.getServer().getNetwork().getSessions().remove(ctx.channel());
+        //log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] disconnected");
     }
 
     @Override
-    public void messageReceived(ChannelHandlerContext ctx, MessageEvent event) {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Event event) throws Exception {
         try {
-            Session session = (Session) ctx.getChannel().getAttachment();
+            Session client = channelHandlerContext.channel().attr(NetworkEngine.SESSION_ATTRIBUTE_KEY).get();
 
-            if(session != null) {
-                Comet.getServer().getNetwork().getMessages().handle((Event) event.getMessage(), session);
+            if(client != null) {
+                //System.out.println(o);
+                Comet.getServer().getNetwork().getMessages().handle(event, client);
             }
         } catch(Exception e) {
             log.error("Error while recieving message", e);
         }
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) throws Exception {
-        //if(e instanceof ClosedChannelException) {
-        //  return;
-        //}
-
-        //log.error("Exception caught from channel handler", e.getCause());
     }
 }

@@ -1,13 +1,12 @@
 package com.cometsrv.network.messages.types;
 
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBufferOutputStream;
-import org.jboss.netty.buffer.ChannelBuffers;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 
 public class Composer {
 	private int id;
-	private ChannelBufferOutputStream stream;
-	private ChannelBuffer body;
+	//private ChannelBufferOutputStream stream;
+	private ByteBuf body;
 	
 	public Composer() {}
 	
@@ -17,12 +16,12 @@ public class Composer {
 	
 	public Composer init(int id) {
 		this.id = id;
-		this.body = ChannelBuffers.dynamicBuffer();
-		this.stream = new ChannelBufferOutputStream(body);
+		this.body = Unpooled.buffer(); // change to pooled bytebuf
+        //this.stream = new ChannelBufferOutputStream(body);
 		
 		try {
-			this.getStream().writeInt(0);
-			this.getStream().writeShort(id);
+			this.body.writeInt(0);
+            this.body.writeShort(id);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -32,7 +31,15 @@ public class Composer {
 	
 	public void writeString(Object obj) {
 		try {
-			this.getStream().writeUTF(obj.toString());
+			//this.body.writeUTF(obj.toString());
+            String s = "";
+            if (obj != null) {
+                s = obj.toString();
+            }
+
+            byte[] dat = s.getBytes();
+            this.body.writeShort(dat.length);
+            this.body.writeBytes(dat);
 		} catch(Exception e) {}
 	}
 	
@@ -42,30 +49,30 @@ public class Composer {
 	
 	public void writeInt(int i) {
 		try {
-			this.getStream().writeInt(i);
+			this.body.writeInt(i);
 		} catch(Exception e) {}
 	}
 
     public void writeLong(long i) {
         try {
-            this.getStream().writeLong(i);
+            this.body.writeLong(i);
         } catch(Exception e) {}
     }
 
 
     public void writeBoolean(Boolean b) {
 		try {
-			this.getStream().writeBoolean(b);
+			this.body.writeBoolean(b);
 		} catch(Exception e) {}
 	}
 	
 	public void writeShort(int s) {
 		try {
-			this.getStream().writeShort((short) s);
+			this.body.writeShort((short) s);
 		} catch(Exception e) {}
 	}
 
-	public ChannelBuffer get() {
+	public ByteBuf get() {
 		body.setInt(0, body.writerIndex() - 4);
 		return this.body;
 	}
@@ -74,7 +81,7 @@ public class Composer {
 		return this.id;
 	}
 	
-	public ChannelBufferOutputStream getStream() {
+	/*public ChannelBufferOutputStream getStream() {
 		return this.stream;
-	}
+	}*/
 }
