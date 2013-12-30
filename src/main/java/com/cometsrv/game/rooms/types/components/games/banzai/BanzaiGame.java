@@ -16,6 +16,7 @@ public class BanzaiGame extends RoomGame {
         super(room, GameType.BANZAI);
 
         capturedTiles = new FastMap<>();
+        scores = new FastMap<>();
 
         int sizeX = room.getModel().getSizeX();
         int sizeY = room.getModel().getSizeY();
