@@ -4,13 +4,13 @@ Comet is a Habbo Hotel emulation software.
 
 Current To-do List
 -------
-*   Groups (DONE)
 *   Limited Edition (DONE)
 *   Achieved Badge (DONE)
 *   Achievement Score (DONE)
 *   Badge Catalog (DONE)
 *   Multiple Quantity (DONE)
-*   Wired
+*   Finish Wired
+*   Finish Groups
 *   Battle Banzai, Freeze, Football, Snow, Skateboard
 *   Games
 *   Pets
