@@ -68,6 +68,8 @@ public class ItemManager {
             return this.getItemDefinitions().get(itemId);
         }
 
+        log.error("Couldn't find item definition for item: " + itemId + ", make sure the database is complete! (`furniture` table)");
+
         return null;
     }
 
