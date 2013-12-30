@@ -30,55 +30,52 @@ public class GameThread implements CometTask {
 
     @Override
     public void run() {
-        while(this.active) {
-            try {
-                if(!this.active) {
-                    return;
-                }
-
-                if(cycleCount >= 15) {
-                    synchronized (GameEngine.getRooms().getActiveRooms()) {
-                        for(Room room : GameEngine.getRooms().getActiveRooms()) {
-                            room.getChatlog().cycle();
-                            room.getRights().cycle();
-                        }
-                    }
-
-                    if(CometSettings.quartlyCreditsEnabled) {
-                        for(Session client : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
-                            if(client.getPlayer() == null) {
-                                continue;
-                            }
-
-                            int amountCredits = CometSettings.quartlyCreditsAmount;
-                            client.getPlayer().getData().increaseCredits(amountCredits);
-                            client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.received.credits.title"), Locale.get("game.received.credits").replace("{$}", amountCredits + "")));
-
-                        }
-                    }
-
-                    cycleCount = 0;
-                }
-
-                Connection connection = Comet.getServer().getStorage().getConnections().getConnection();
-                connection.setAutoCommit(true);
-
-                connection.prepareStatement("UPDATE server_status SET "
-                        + "active_players = " + Comet.getServer().getNetwork().getSessions().getUsersOnlineCount() + ","
-                        + "active_rooms = " + GameEngine.getRooms().getActiveRooms().size() + ","
-                        + "server_version = '" + Comet.getBuild() + "'").executeUpdate();
-
-                connection.close();
-
-                cycleCount++;
-                TimeUnit.MINUTES.sleep(interval);
-            } catch(Exception e) {
-                if(e instanceof InterruptedException) {
-                    return;
-                }
-
-                log.error("Error during game thread", e);
+        try {
+            if(!this.active) {
+                return;
             }
+
+            if(cycleCount >= 15) {
+                synchronized (GameEngine.getRooms().getActiveRooms()) {
+                    for(Room room : GameEngine.getRooms().getActiveRooms()) {
+                        room.getChatlog().cycle();
+                        room.getRights().cycle();
+                    }
+                }
+
+                if(CometSettings.quartlyCreditsEnabled) {
+                    for(Session client : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
+                        if(client.getPlayer() == null) {
+                            continue;
+                        }
+
+                        int amountCredits = CometSettings.quartlyCreditsAmount;
+                        client.getPlayer().getData().increaseCredits(amountCredits);
+                        client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.received.credits.title"), Locale.get("game.received.credits").replace("{$}", amountCredits + "")));
+
+                    }
+                }
+
+                cycleCount = 0;
+            }
+
+            Connection connection = Comet.getServer().getStorage().getConnections().getConnection();
+            connection.setAutoCommit(true);
+
+            connection.prepareStatement("UPDATE server_status SET "
+                    + "active_players = " + Comet.getServer().getNetwork().getSessions().getUsersOnlineCount() + ","
+                    + "active_rooms = " + GameEngine.getRooms().getActiveRooms().size() + ","
+                    + "server_version = '" + Comet.getBuild() + "'").executeUpdate();
+
+            connection.close();
+
+            cycleCount++;
+        } catch(Exception e) {
+            if(e instanceof InterruptedException) {
+                return;
+            }
+
+            log.error("Error during game thread", e);
         }
     }
 

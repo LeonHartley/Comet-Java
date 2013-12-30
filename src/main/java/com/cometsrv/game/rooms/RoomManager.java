@@ -29,7 +29,7 @@ public class RoomManager {
         rooms = new FastMap<>();
         models = new FastList<>();
         emotions = new ChatEmotionsManager();
-        globalProcessor = new RoomCycle();
+        globalProcessor = new RoomCycle(Comet.getServer().getThreadManagement());
 
         this.loadModels();
     }
