@@ -15,6 +15,7 @@ public class Comet {
     public static long start;
 
     public static boolean isDebugging = false;
+    public static volatile boolean isRunning = true;
 
     public static void main(String[] args) {
         start = System.currentTimeMillis();
@@ -31,9 +32,9 @@ public class Comet {
         server.init();
 
         // Console commands
-        new Thread() {
+        Thread cmdThr = new Thread() {
             public void run() {
-                while(true) {
+                while(isRunning) {
                     try {
                         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                         String input = br.readLine();
@@ -95,7 +96,17 @@ public class Comet {
                     }
                 }
             }
-        }.start();
+        };
+
+        // Shutdown hook
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                isRunning = false;
+            }
+        });
+
+        cmdThr.start();
     }
 
     public static void exit(String message) {
