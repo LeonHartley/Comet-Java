@@ -1,5 +1,6 @@
 package com.cometsrv.game.rooms.types;
 
+import com.cometsrv.boot.Comet;
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.groups.types.Group;
 import com.cometsrv.game.rooms.types.components.*;
@@ -37,7 +38,7 @@ public class Room {
     }
 
     public void load() {
-        this.itemProcess = new ItemProcessComponent(this);
+        this.itemProcess = new ItemProcessComponent(Comet.getServer().getThreadManagement(), this);
         this.avatars = new AvatarComponent(this);
         this.process = new ProcessComponent(this);
         this.rights = new RightsComponent(this);
