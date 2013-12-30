@@ -18,7 +18,6 @@
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.2" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.2" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.27" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty:3.6.1.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.14.Final" level="project" />
     <orderEntry type="library" name="Maven: com.jolbox:bonecp:0.8.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:15.0" level="project" />

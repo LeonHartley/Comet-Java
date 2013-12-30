@@ -16,8 +16,6 @@ import org.apache.log4j.Logger;
 
 import java.net.InetSocketAddress;
 import java.util.UUID;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class NetworkEngine {
     public static final AttributeKey<Session> SESSION_ATTRIBUTE_KEY = AttributeKey.valueOf("Session.attr");
@@ -44,14 +42,6 @@ public class NetworkEngine {
         if(CometSettings.httpEnabled)
             this.managementServer = new ManagementServer();
 
-        // TODO: learn more about this
-        //ExecutionHandler execution = new ExecutionHandler(new OrderedMemoryAwareThreadPoolExecutor(10000, 1048576, 1073741824, 100, TimeUnit.MILLISECONDS, Executors.defaultThreadFactory()));
-
-        // TODO: find out the best way to handle this - cachedthreadpool or orderedmemoryawarethreadpool
-        //NioServerSocketChannelFactory channels = new NioServerSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool());
-        /*NioServerSocketChannelFactory channels = new NioServerSocketChannelFactory(execution.getExecutor(), execution.getExecutor());
-        ServerBootstrap bootstrap = new ServerBootstrap(channels);*/
-
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(this.bossGroup, this.workerGroup)
                 .channel(NioServerSocketChannel.class)
@@ -59,12 +49,6 @@ public class NetworkEngine {
 
         this.ip = ip;
         this.port = port;
-
-        /*ChannelPipeline pipeline = bootstrap.getPipeline();
-
-        pipeline.addLast("encoder", new MessageEncoder());
-        pipeline.addLast("decoder", new MessageDecoder());
-        pipeline.addLast("handler", new ClientHandler());*/
 
         try {
             this.listenChannel = bootstrap.bind(new InetSocketAddress(ip, port)).channel();
