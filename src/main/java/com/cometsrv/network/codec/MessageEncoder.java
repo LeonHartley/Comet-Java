@@ -6,18 +6,22 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import io.netty.handler.codec.MessageToMessageEncoder;
 import org.apache.log4j.Logger;
 
-public class MessageEncoder extends MessageToByteEncoder<Composer> {
+import java.util.List;
+
+public class MessageEncoder extends MessageToMessageEncoder<Composer> {
     private static Logger log = Logger.getLogger(MessageEncoder.class.getName());
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, Composer composer, ByteBuf byteBuf) throws Exception {
+    protected void encode(ChannelHandlerContext ctx, Composer msg, List<Object> out) throws Exception {
         try {
-            //byteBuf.writeBytes(composer.get());
-            ctx.writeAndFlush(composer.get());
+            out.add(msg.get());
 
-            log.debug("Composed message: " + Composers.valueOfId(composer.getId()));
+            ctx.flush();
+
+            log.debug("Composed message: " + Composers.valueOfId(msg.getId()));
         } catch(Exception e) {
             log.error("Failed to encode message : ", e);
         }
