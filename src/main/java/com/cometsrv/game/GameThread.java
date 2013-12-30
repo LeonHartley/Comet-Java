@@ -15,13 +15,19 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class GameThread implements CometTask {
+    private static final boolean MULTITHREADED_CYCLE = false;
+    private static Logger log = Logger.getLogger(GameThread.class.getName());
+
+    private CometThreadManagement threadManagement;
 
     private ScheduledFuture myFuture;
+
     private boolean active = false;
-    private Logger log = Logger.getLogger(GameThread.class.getName());
     private int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.thread.interval"));
 
     public GameThread(CometThreadManagement mgr) {
+        this.threadManagement = mgr;
+
         mgr.executePeriodic(this, interval, interval, TimeUnit.MINUTES);
         this.active = true;
     }
@@ -36,27 +42,16 @@ public class GameThread implements CometTask {
             }
 
             if(cycleCount >= 15) {
-                synchronized (GameEngine.getRooms().getActiveRooms()) {
-                    for(Room room : GameEngine.getRooms().getActiveRooms()) {
-                        room.getChatlog().cycle();
-                        room.getRights().cycle();
-                    }
-                }
-
-                if(CometSettings.quartlyCreditsEnabled) {
-                    for(Session client : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
-                        if(client.getPlayer() == null) {
-                            continue;
+                if (MULTITHREADED_CYCLE) {
+                    this.threadManagement.executeOnce(new CometTask() {
+                        @Override
+                        public void run() {
+                            // Need to do some changes here to allow cycling to run multi threaded...
                         }
-
-                        int amountCredits = CometSettings.quartlyCreditsAmount;
-                        client.getPlayer().getData().increaseCredits(amountCredits);
-                        client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.received.credits.title"), Locale.get("game.received.credits").replace("{$}", amountCredits + "")));
-
-                    }
+                    });
+                } else {
+                    this.cycle();
                 }
-
-                cycleCount = 0;
             }
 
             Connection connection = Comet.getServer().getStorage().getConnections().getConnection();
@@ -77,6 +72,30 @@ public class GameThread implements CometTask {
 
             log.error("Error during game thread", e);
         }
+    }
+
+    private void cycle() throws Exception {
+        synchronized (GameEngine.getRooms().getActiveRooms()) {
+            for(Room room : GameEngine.getRooms().getActiveRooms()) {
+                room.getChatlog().cycle();
+                room.getRights().cycle();
+            }
+        }
+
+        if(CometSettings.quartlyCreditsEnabled) {
+            for(Session client : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
+                if(client.getPlayer() == null) {
+                    continue;
+                }
+
+                int amountCredits = CometSettings.quartlyCreditsAmount;
+                client.getPlayer().getData().increaseCredits(amountCredits);
+                client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.received.credits.title"), Locale.get("game.received.credits").replace("{$}", amountCredits + "")));
+
+            }
+        }
+
+        cycleCount = 0;
     }
 
     public void stop() {
