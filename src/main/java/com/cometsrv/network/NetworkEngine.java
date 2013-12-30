@@ -8,16 +8,20 @@ import com.cometsrv.network.sessions.Session;
 import com.cometsrv.network.sessions.SessionManager;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.AttributeKey;
+import io.netty.util.ResourceLeakDetector;
 import org.apache.log4j.Logger;
 
 import java.net.InetSocketAddress;
 import java.util.UUID;
 
 public class NetworkEngine {
+    private static final boolean RESOURCE_LEAK_DETECTOR = true; // for testing with netty 4...
+
     public static final AttributeKey<Session> SESSION_ATTRIBUTE_KEY = AttributeKey.valueOf("Session.attr");
     public static final AttributeKey<UUID> UNIQUE_ID_KEY = AttributeKey.valueOf("SessionKey.attr");
 
@@ -42,10 +46,15 @@ public class NetworkEngine {
         if(CometSettings.httpEnabled)
             this.managementServer = new ManagementServer();
 
+        if (RESOURCE_LEAK_DETECTOR) {
+            ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.SIMPLE);
+        }
+
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(this.bossGroup, this.workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new NetworkChannelInitializer());
+                .childHandler(new NetworkChannelInitializer())
+                .childOption(ChannelOption.TCP_NODELAY, true);
 
         this.ip = ip;
         this.port = port;

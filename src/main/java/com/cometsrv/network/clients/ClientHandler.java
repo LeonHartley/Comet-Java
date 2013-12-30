@@ -5,11 +5,15 @@ import com.cometsrv.network.NetworkEngine;
 import com.cometsrv.network.messages.types.Event;
 import com.cometsrv.network.sessions.Session;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.timeout.ReadTimeoutException;
 import org.apache.log4j.Logger;
 
 public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
+
+    private final boolean CLOSE_ON_ERROR = false;
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) throws Exception {
@@ -18,6 +22,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
         if(!Comet.getServer().getNetwork().getSessions().add(ctx.channel())) {
             ctx.channel().disconnect();
         }
+
+        ctx.fireChannelActive();
     }
 
     @Override
@@ -29,19 +35,29 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
 
         Comet.getServer().getNetwork().getSessions().remove(ctx.channel());
         //log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] disconnected");
+
+        ctx.fireChannelInactive();
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Event event) throws Exception {
+    protected void channelRead0(final ChannelHandlerContext ctx, Event msg) throws Exception {
         try {
-            Session client = channelHandlerContext.channel().attr(NetworkEngine.SESSION_ATTRIBUTE_KEY).get();
+            Session client = ctx.channel().attr(NetworkEngine.SESSION_ATTRIBUTE_KEY).get();
 
             if(client != null) {
-                //System.out.println(o);
-                Comet.getServer().getNetwork().getMessages().handle(event, client);
+                Comet.getServer().getNetwork().getMessages().handle(msg, client);
             }
         } catch(Exception e) {
-            log.error("Error while recieving message", e);
+            log.error("Error while receiving message", e);
+        }
+    }
+
+    @Override
+    public void exceptionCaught(final ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        if (ctx.channel().isActive()) {
+            log.error("Exception in ClientHandler : " + cause.getMessage());
+
+            if (CLOSE_ON_ERROR) { ctx.close(); }
         }
     }
 }

@@ -19,34 +19,6 @@ public class Comet {
     public static void main(String[] args) {
         start = System.currentTimeMillis();
 
-        boolean debug = false;
-        boolean verbose = false;
-        boolean outputHtml = false;
-
-        for (int i = 0; i < args.length; i++) {
-            String line = args[i];
-
-            if (line.equals("--debug")) {
-                debug = true;
-            } else if (line.equals("--verbose")) {
-                verbose = true;
-            } else if (line.equals("--loghtml")) {
-                outputHtml = true;
-            }
-        }
-
-        /*org.apache.log4j.Logger rootLogger = org.apache.log4j.Logger.getRootLogger();
-        if (!rootLogger.getAllAppenders().hasMoreElements()) {
-
-            if (args.length > 0 && debug) {
-                rootLogger.setLevel(Level.DEBUG);
-            } else if (args.length > 0 && verbose) {
-                rootLogger.setLevel(Level.ALL);
-            } else {
-                rootLogger.setLevel(Level.INFO);
-            }
-        }*/
-
         PropertyConfigurator.configure(Comet.class.getResourceAsStream("/log4j.properties"));
         log.info("Comet Server - " + getBuild());
 

@@ -3,6 +3,7 @@ package com.cometsrv.network.codec;
 import com.cometsrv.network.messages.types.Event;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class MessageDecoder extends ByteToMessageDecoder {
     @Override
-    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> objects) throws Exception {
+    protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> out) throws Exception {
         try {
             if(byteBuf.readableBytes() < 6) {
                 return;
@@ -22,7 +23,7 @@ public class MessageDecoder extends ByteToMessageDecoder {
             if(length[0] == 60) {
                 byteBuf.discardReadBytes();
 
-                channelHandlerContext.channel().write(
+                ctx.writeAndFlush(
                         "<?xml version=\"1.0\"?>\r\n"
                                 + "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\r\n"
                                 + "<cross-domain-policy>\r\n"
@@ -36,7 +37,7 @@ public class MessageDecoder extends ByteToMessageDecoder {
                 ByteBuf msgBuffer = byteBuf.readBytes(messageLength);
 
                 short header = msgBuffer.readShort();
-                objects.add(new Event(header, msgBuffer));
+                out.add(new Event(header, msgBuffer));
             }
         } catch(Exception e) { }
     }
