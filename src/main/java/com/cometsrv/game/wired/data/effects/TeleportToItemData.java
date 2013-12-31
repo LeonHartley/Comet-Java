@@ -18,6 +18,14 @@ public class TeleportToItemData extends WiredDataInstance {
         }
     }
 
+    public List<Integer> getItems() {
+        return items;
+    }
+
+    public int getCount() {
+        return items.size();
+    }
+
     public void addItem(int id) {
         this.items.add(id);
     }
