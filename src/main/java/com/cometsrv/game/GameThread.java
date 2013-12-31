@@ -28,7 +28,7 @@ public class GameThread implements CometTask {
     public GameThread(CometThreadManagement mgr) {
         this.threadManagement = mgr;
 
-        mgr.executePeriodic(this, interval, interval, TimeUnit.MINUTES);
+        this.myFuture = mgr.executePeriodic(this, interval, interval, TimeUnit.MINUTES);
         this.active = true;
     }
 
