@@ -13,6 +13,26 @@ public class MessageDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out) throws Exception {
         try {
+            if (msg.readableBytes() < 6) {
+                return;
+            }
+
+            msg.markReaderIndex();
+            int length = msg.readInt();
+
+            if (!(msg.readableBytes() >= length)) {
+                msg.resetReaderIndex();
+                return;
+            }
+
+            length -= 2;
+
+            out.add(new Event(msg.readShort(), msg.readBytes(length)));
+        } catch (Exception e) {
+            e.printStackTrace(); // for debugging!
+        }
+
+        /*try {
             if(msg.readableBytes() < 6) {
                 return;
             }
@@ -36,6 +56,8 @@ public class MessageDecoder extends ByteToMessageDecoder {
                 short header = msgBuffer.readShort();
                 out.add(new Event(header, msgBuffer));
             }
-        } catch(Exception e) { }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }*/
     }
 }

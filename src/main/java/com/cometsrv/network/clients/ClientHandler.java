@@ -57,6 +57,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
         if (ctx.channel().isActive()) {
             log.error("Exception in ClientHandler : " + cause.getMessage());
 
+            cause.printStackTrace();
+
             if (CLOSE_ON_ERROR) { ctx.close(); }
         }
     }
