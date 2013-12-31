@@ -4,6 +4,7 @@ import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.InteractionAction;
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.Avatar;
+import com.cometsrv.game.rooms.avatars.misc.Position;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
@@ -32,13 +33,38 @@ public class TeleportInteraction extends Interactor {
             return false;
         }
 
-        partner.setExtraData("2");
-        item.sendUpdate(avatar.getPlayer().getSession());
+        boolean flash = false;
 
-        item.setExtraData("2");
-        item.sendUpdate(avatar.getPlayer().getSession());
+        Position posInFront = Position.getSquareInFront(item);
 
-        GameEngine.getLogger().debug("testest");
+        if((avatar.getPosition().getX() != posInFront.getX() && avatar.getPosition().getY() != posInFront.getY())
+                && !(avatar.getPosition().getX() == item.getX() && avatar.getPosition().getY() == item.getY())) {
+            avatar.moveTo(posInFront.getX(), posInFront.getY());
+
+            return false;
+        }
+
+        if(!item.getExtraData().equals("1")) {
+            item.setExtraData("1");
+        }
+
+        if(avatar.getPosition().getX() != item.getX() && avatar.getPosition().getY() != item.getY()) {
+            avatar.warpTo(item.getX(), item.getY());
+            flash = true;
+        }
+
+        if(flash) {
+            if(!item.getExtraData().equals("2")) {
+                item.setExtraData("2");
+            }
+        } else {
+            if(!item.getExtraData().equals("0")) {
+                item.setExtraData("0");
+
+            }
+        }
+
+        item.sendUpdate(avatar.getPlayer().getSession());
 
         return false;
     }

@@ -49,6 +49,7 @@ public class Avatar {
     public boolean isSitting;
     public boolean isMoonwalking;
     private boolean isTeleporting;
+    public boolean isWarping;
     private boolean isInvisible;
     private int danceId;
     private int effectId;
@@ -80,6 +81,7 @@ public class Avatar {
         this.isMoonwalking = false;
         this.isSitting = false;
         this.isTeleporting = false;
+        this.isWarping = false;
         this.isInvisible = false;
         this.isIdle = false;
 
@@ -171,6 +173,27 @@ public class Avatar {
         }
 
         return true;
+    }
+
+    public void moveTo(int x, int y) {
+        this.setGoal(x, y);
+
+        LinkedList<Square> path = this.getPathfinder().makePath();
+
+        if(path == null) {
+            return;
+        }
+
+        this.unidle();
+        this.setPath(path);
+        this.isMoving = true;
+    }
+
+    public void warpTo(int x, int y) {
+        this.setGoal(x, y);
+        this.unidle();
+
+        this.isWarping = true;
     }
 
     public boolean onChat(String message) {

@@ -83,6 +83,12 @@ public class ProcessComponent implements CometTask {
                         avatar.getPlayer().floodTime -= 0.5;
                     }
 
+                    if(avatar.isWarping) {
+                        avatar.getPosition().setX(avatar.getGoalX());
+                        avatar.getPosition().setY(avatar.getGoalY());
+                        avatar.needsUpdate = true;
+                    }
+
                     if(avatar.isMoving && avatar.getPath().size() > 0) {
                         handleWalk(avatar);
                     } else if(avatar.isMoving) {

@@ -85,6 +85,28 @@ public class Position {
         return rotation;
     }
 
+    public static Position getSquareInFront(FloorItem item) {
+        Position pos = new Position(item.getX(), item.getY(), 0);
+
+        int posX = pos.getX();
+        int posY = pos.getY();
+
+        if(item.getRotation() == 0) {
+            posX--;
+        } else if(item.getRotation() == 2) {
+            posX++;
+        } else if(item.getRotation() == 4) {
+            posY++;
+        } else if(item.getRotation() == 6) {
+            posX--;
+        }
+
+        pos.setX(posX);
+        pos.setY(posY);
+
+        return pos;
+    }
+
     public int getX() {
         return this.x;
     }
