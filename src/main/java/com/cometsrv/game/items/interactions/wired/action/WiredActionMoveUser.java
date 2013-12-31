@@ -1,5 +1,6 @@
 package com.cometsrv.game.items.interactions.wired.action;
 
+import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.items.FloorItem;
@@ -19,14 +20,15 @@ public class WiredActionMoveUser extends Interactor {
     public boolean onInteract(int request, FloorItem item, Avatar avatar) {
         TeleportToItemData data = (TeleportToItemData) WiredDataFactory.get(item);
 
+        if(data == null) {
+            GameEngine.getLogger().debug("Failed to find WiredDataInstance for item: " + item.getId());
+            return false;
+        }
+
         Composer msg = new Composer(Composers.WiredEffectMessageComposer);
 
         msg.writeBoolean(false);
-        msg.writeInt(0);
         msg.writeInt(WiredStaticConfig.MAX_FURNI_SELECTION);
-        msg.writeInt(item.getDefinition().getSpriteId());
-        msg.writeInt(item.getId());
-        msg.writeString(item.getExtraData());
 
         msg.writeInt(data.getCount());
 
@@ -34,11 +36,16 @@ public class WiredActionMoveUser extends Interactor {
             msg.writeInt(itemId);
         }
 
+        msg.writeInt(item.getDefinition().getSpriteId());
+        msg.writeInt(item.getId());
+
+        msg.writeString("");
         msg.writeInt(0);
         msg.writeInt(8);
         msg.writeInt(0);
+        msg.writeInt(data.getDelay());
         msg.writeInt(0);
-        msg.writeInt(0);
+        msg.writeString("");
 
         avatar.getPlayer().getSession().send(msg);
         return false;
@@ -46,6 +53,6 @@ public class WiredActionMoveUser extends Interactor {
 
     @Override
     public boolean requiresRights() {
-        return false;
+        return true;
     }
 }

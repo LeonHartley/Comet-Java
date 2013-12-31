@@ -8,6 +8,7 @@ import com.cometsrv.game.items.interactions.banzai.gates.BanzaiGateRedInteractio
 import com.cometsrv.game.items.interactions.banzai.gates.BanzaiGateYellowInteraction;
 import com.cometsrv.game.items.interactions.items.*;
 import com.cometsrv.game.items.interactions.wired.action.WiredActionMoveRotate;
+import com.cometsrv.game.items.interactions.wired.action.WiredActionMoveUser;
 import com.cometsrv.game.items.interactions.wired.action.WiredActionShowMessage;
 import com.cometsrv.game.items.interactions.wired.trigger.WiredTriggerEnterRoom;
 import com.cometsrv.game.items.interactions.wired.trigger.WiredTriggerOnSay;
@@ -36,6 +37,7 @@ public class InteractionManager {
         // Wired Actions
         this.interactions.put("wf_act_move_rotate", new WiredActionMoveRotate());
         this.interactions.put("wf_act_saymsg", new WiredActionShowMessage());
+        this.interactions.put("wf_act_moveuser", new WiredActionMoveUser());
 
         // Wired Triggers
         this.interactions.put("wf_trg_onsay", new WiredTriggerOnSay());

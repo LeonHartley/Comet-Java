@@ -6,6 +6,7 @@ import javolution.util.FastList;
 import java.util.List;
 
 public class TeleportToItemData extends WiredDataInstance {
+    private int delay;
     private List<Integer> items;
 
     public TeleportToItemData(int id, int itemId, String data) {
@@ -13,8 +14,15 @@ public class TeleportToItemData extends WiredDataInstance {
 
         items = new FastList<>();
 
-        for(String s : data.split(",")) {
-            items.add(Integer.parseInt(s));
+        if(!data.isEmpty()) {
+            String[] parse = data.split(":");
+            this.delay = Integer.parseInt(parse[0]);
+
+            for(String s : data.replace(this.delay + ":", "").split(",")) {
+                items.add(Integer.parseInt(s));
+            }
+        } else {
+            delay = 0;
         }
     }
 
@@ -32,5 +40,9 @@ public class TeleportToItemData extends WiredDataInstance {
 
     public boolean isMember(int id) {
         return items.contains(id);
+    }
+
+    public int getDelay() {
+        return this.delay;
     }
 }
