@@ -28,6 +28,9 @@ public class FloorItem {
     private Avatar updateAvatar;
     private int updateState;
 
+    public int interactingAvatar;
+    public int interactingAvatar2;
+
     public FloorItem(int id, int itemId, int owner, int x, int y, float z, int rotation, String data) {
         this.id = id;
         this.itemId = itemId;

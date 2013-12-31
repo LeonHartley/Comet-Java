@@ -20,18 +20,7 @@ public class WalkMessageEvent implements IEvent {
                 return;
             }
 
-            client.getPlayer().getAvatar().setGoal(goalX, goalY);
-
-            LinkedList<Square> path = client.getPlayer().getAvatar().getPathfinder().makePath();
-
-            if(path == null) {
-                return;
-            }
-
-            client.getPlayer().getAvatar().unidle();
-
-            client.getPlayer().getAvatar().setPath(path);
-            client.getPlayer().getAvatar().isMoving = true;
+            client.getPlayer().getAvatar().moveTo(goalX, goalY);
         } catch(Exception e) {
             client.getLogger().error("Error while finding path", e);
         }
