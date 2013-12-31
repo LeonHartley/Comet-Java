@@ -77,6 +77,30 @@ public class WiredDataFactory {
     }
 
     public static void save(WiredDataInstance data) {
-        throw new NotImplementedException();
+        try {
+            if(data.getType().equals("wf_act_moveuser")) {
+                TeleportToItemData inst = (TeleportToItemData) data;
+
+                int last = inst.getItems().get(inst.getItems().size() - 1);
+                String saveData = inst.getCount() + ":";
+
+                for(int id : inst.getItems()) {
+                    if(id != last) {
+                        saveData += id + ",";
+                    } else {
+                        saveData += id;
+                    }
+                }
+
+                PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE items_wired_data SET data = ? WHERE id = ?");
+
+                statement.setString(1, saveData);
+                statement.setInt(2, inst.getId());
+
+                statement.executeUpdate();
+            }
+        } catch(Exception e) {
+            log.error("Error while updating wired data", e);
+        }
     }
 }
