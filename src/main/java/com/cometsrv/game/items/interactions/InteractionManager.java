@@ -63,7 +63,6 @@ public class InteractionManager {
             return false;
         }
 
-
         Interactor action = this.getInteractions().get(item.getDefinition().getInteraction());
 
         if(action.requiresRights() && !avatar.getRoom().getRights().hasRights(avatar.getPlayer().getId()))
