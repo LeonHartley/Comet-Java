@@ -1,11 +1,22 @@
 package com.cometsrv.game.wired.data;
 
-public class WiredDataInstance {
+public abstract class WiredDataInstance {
     private int id;
     private int itemId;
 
-    public WiredDataInstance(int id, int itemId) {
+    private String type;
+
+    public WiredDataInstance(String type, int id, int itemId) {
         this.id = id;
         this.itemId = itemId;
+        this.type = type;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public int getItemId() {
+        return this.itemId;
     }
 }
