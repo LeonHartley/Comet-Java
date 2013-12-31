@@ -5,10 +5,8 @@ import com.cometsrv.game.GameEngine;
 import org.apache.log4j.*;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
-
 public class Comet {
     private static Logger log = Logger.getLogger(Comet.class.getName());
     private static CometServer server = new CometServer();
@@ -86,7 +84,6 @@ public class Comet {
                                     GameEngine.getBans().loadBans();
                                     Comet.log.info("Bans were reloaded.");
                                     break;
-
                             }
                         } else {
                             Comet.log.error("Invalid command");

@@ -14,8 +14,7 @@ public class PlaceBotMessageComposer {
         msg.writeString(bot.getName());
         msg.writeString(bot.getMotto());
         msg.writeString(bot.getFigure());
-        msg.writeInt(2);//vid
-
+        msg.writeInt(bot.getId());//vid
 
         msg.writeInt(bot.getX());
         msg.writeInt(bot.getY());

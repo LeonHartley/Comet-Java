@@ -19,6 +19,21 @@ public abstract class Bot {
     private boolean needsRemove = false;
     private Room room;
 
+    public Bot(int id, int ownerId, String owner, String name, String figure, String gender, String motto, int virtualId, int x, int y, double z, Room room) {
+        this.id = id;
+        this.ownerId = ownerId;
+        this.owner = owner;
+        this.name = name;
+        this.figure = figure;
+        this.gender = gender;
+        this.motto = motto;
+        this.virtualId = virtualId;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.room = room;
+    }
+
     public Bot(int virtualId, ResultSet data, Room room) throws SQLException {
         this.id = data.getInt("id");
         this.virtualId = virtualId;
