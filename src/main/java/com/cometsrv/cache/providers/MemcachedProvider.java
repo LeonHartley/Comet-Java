@@ -34,4 +34,9 @@ public class MemcachedProvider implements CacheProvider {
     public Object get(Object identifier) {
         return null;
     }
+
+    @Override
+    public boolean exists(Object identifier) {
+        return false;
+    }
 }

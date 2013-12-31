@@ -35,6 +35,11 @@ public class PlayerCacheHandler implements CacheHandler<Integer, PlayerData> {
     }
 
     @Override
+    public boolean exists(Integer key) {
+        return this.provider.exists(key);
+    }
+
+    @Override
     public CacheProvider getProvider() {
         return this.provider;
     }

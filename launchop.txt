@@ -5,3 +5,7 @@ The reasoning for each setting is as follows:
 -XX:+DisableExplicitGC - some libs call System.gc(). This is usually a bad idea and could explain some of what we saw.
 -XX:+UseConcMarkSweepGC - use the low pause collector
 -XX:NewSize=<1/4 of total heap size> -XX:SurvivorRatio=16
+
+
+-XX:MaxDirectMemorySize=2G
+-XX:+UseLargePages

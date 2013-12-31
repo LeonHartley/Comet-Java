@@ -7,8 +7,10 @@ public interface CacheProvider {
     public void deinitialize();
 
     public void put(Object identifier, Object obj);
-    public void put(Object identifer, Object obj, Long expires);
-    public void put(Object identifier, Object obj, Long expires, TimeUnit unit);
+    public void put(Object identifer, Object obj, int expires);
+    public void put(Object identifier, Object obj, int expires, TimeUnit unit);
 
     public Object get(Object identifier);
+
+    public boolean exists(Object identifier);
 }
