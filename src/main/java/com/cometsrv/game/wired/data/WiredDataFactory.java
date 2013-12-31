@@ -5,7 +5,6 @@ import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.wired.data.effects.TeleportToItemData;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -77,28 +76,30 @@ public class WiredDataFactory {
     }
 
     public static void save(WiredDataInstance data) {
+        String saveData = "";
         try {
             if(data.getType().equals("wf_act_moveuser")) {
                 TeleportToItemData inst = (TeleportToItemData) data;
 
                 int last = inst.getItems().get(inst.getItems().size() - 1);
-                String saveData = inst.getCount() + ":";
+                saveData += inst.getCount() + ":";
 
                 for(int id : inst.getItems()) {
+                    log.debug(id);
                     if(id != last) {
                         saveData += id + ",";
                     } else {
                         saveData += id;
                     }
                 }
-
-                PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE items_wired_data SET data = ? WHERE id = ?");
-
-                statement.setString(1, saveData);
-                statement.setInt(2, inst.getId());
-
-                statement.executeUpdate();
             }
+
+            PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE items_wired_data SET data = ? WHERE id = ?");
+
+            statement.setString(1, saveData);
+            statement.setInt(2, data.getId());
+
+            statement.executeUpdate();
         } catch(Exception e) {
             log.error("Error while updating wired data", e);
         }

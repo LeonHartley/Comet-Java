@@ -1,5 +1,6 @@
 package com.cometsrv.game.wired.effects;
 
+import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.wired.data.WiredDataFactory;
@@ -26,9 +27,15 @@ public class MoveUserEffect extends WiredEffect {
             return;
         }
 
+        instance.getItems().clear();
+
         for(int i = 0; i < itemCount; i++) {
             instance.addItem(event.readInt());
         }
+
+        instance.setDelay(event.readInt());
+
+        GameEngine.getLogger().debug("Wired data: Item count: " + itemCount);
 
         WiredDataFactory.save(instance);
     }

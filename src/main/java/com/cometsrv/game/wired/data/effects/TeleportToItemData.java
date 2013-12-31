@@ -22,7 +22,7 @@ public class TeleportToItemData extends WiredDataInstance {
                 items.add(Integer.parseInt(s));
             }
         } else {
-            delay = 0;
+            delay = 1; // 0.5s
         }
     }
 
@@ -44,5 +44,9 @@ public class TeleportToItemData extends WiredDataInstance {
 
     public int getDelay() {
         return this.delay;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
     }
 }
