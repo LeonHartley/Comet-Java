@@ -21,12 +21,12 @@ public class MemcachedProvider implements CacheProvider {
     }
 
     @Override
-    public void put(Object identifer, Object obj, Long expires) {
+    public void put(Object identifer, Object obj, int expires) {
 
     }
 
     @Override
-    public void put(Object identifier, Object obj, Long expires, TimeUnit unit) {
+    public void put(Object identifier, Object obj, int expires, TimeUnit unit) {
 
     }
 

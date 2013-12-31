@@ -19,12 +19,12 @@ public class PlayerCacheHandler implements CacheHandler<Integer, PlayerData> {
     }
 
     @Override
-    public void put(Integer key, PlayerData value, Long expires) {
+    public void put(Integer key, PlayerData value, int expires) {
         this.provider.put(key, value, expires);
     }
 
     @Override
-    public void put(Integer key, PlayerData value, Long expires, TimeUnit unit) {
+    public void put(Integer key, PlayerData value, int expires, TimeUnit unit) {
         this.provider.put(key, value, expires, unit);
     }
 
