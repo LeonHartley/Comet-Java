@@ -5,7 +5,6 @@ import io.netty.buffer.Unpooled;
 
 public class Composer {
 	private int id;
-	//private ChannelBufferOutputStream stream;
 	private ByteBuf body;
 	
 	public Composer() {}
@@ -16,8 +15,7 @@ public class Composer {
 	
 	public Composer init(int id) {
 		this.id = id;
-		this.body = Unpooled.buffer(); // change to pooled bytebuf
-        //this.stream = new ChannelBufferOutputStream(body);
+		this.body = Unpooled.buffer();
 		
 		try {
 			this.body.writeInt(0);

@@ -3,7 +3,6 @@ package com.cometsrv.network.codec;
 import com.cometsrv.network.messages.types.Event;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
@@ -12,16 +11,16 @@ import java.util.List;
 
 public class MessageDecoder extends ByteToMessageDecoder {
     @Override
-    protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> out) throws Exception {
+    protected void decode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out) throws Exception {
         try {
-            if(byteBuf.readableBytes() < 6) {
+            if(msg.readableBytes() < 6) {
                 return;
             }
 
-            byte[] length = byteBuf.readBytes(4).array();
+            byte[] length = msg.readBytes(4).array();
 
             if(length[0] == 60) {
-                byteBuf.discardReadBytes();
+                msg.discardReadBytes();
 
                 ctx.writeAndFlush(
                         "<?xml version=\"1.0\"?>\r\n"
@@ -30,11 +29,9 @@ public class MessageDecoder extends ByteToMessageDecoder {
                                 + "<allow-access-from domain=\"*\" to-ports=\"*\" />\r\n"
                                 + "</cross-domain-policy>\0"
                 ).addListener(ChannelFutureListener.CLOSE);
-
-                System.out.println("Sent policy");
             } else {
                 int messageLength = ByteBuffer.wrap(length).asIntBuffer().get();
-                ByteBuf msgBuffer = byteBuf.readBytes(messageLength);
+                ByteBuf msgBuffer = msg.readBytes(messageLength);
 
                 short header = msgBuffer.readShort();
                 out.add(new Event(header, msgBuffer));

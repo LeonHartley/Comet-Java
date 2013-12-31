@@ -32,7 +32,7 @@ public class Session {
         if(msg == null)
             return;
 
-        channel.write(msg);
+        channel.writeAndFlush(msg);
     }
 
     public Logger getLogger() {
