@@ -53,53 +53,41 @@ public class InteractionManager {
         this.interactions.put("bb_red_gate", new BanzaiGateRedInteraction());
     }
 
-    public InteractionState onWalk(boolean state, FloorItem item, Avatar avatar) {
+    public boolean onWalk(boolean state, FloorItem item, Avatar avatar) {
         if (!this.isInteraction(item.getDefinition().getInteraction())) {
-            return InteractionState.FINISHED;
+            return false;
         }
 
         return this.getInteractions().get(item.getDefinition().getInteraction()).onWalk(state, item, avatar);
     }
 
-    public InteractionState onInteract(int state, FloorItem item, Avatar avatar) {
+    public boolean onInteract(int state, FloorItem item, Avatar avatar) {
         GameEngine.getLogger().debug("Interacted with: " + item.getDefinition().getInteraction());
 
         if(!this.isInteraction(item.getDefinition().getInteraction())) {
-            return InteractionState.FINISHED;
+            return false;
         }
 
         Interactor action = this.getInteractions().get(item.getDefinition().getInteraction());
 
         if(action.requiresRights() && !avatar.getRoom().getRights().hasRights(avatar.getPlayer().getId()))
-            return InteractionState.FINISHED;
+            return false;
 
         return action.onInteract(state, item, avatar);
     }
 
     // Method not yet finished!
-    public InteractionState onPlace(FloorItem item, Avatar avatar) {
-        return InteractionState.FINISHED;
+    public boolean onPlace(FloorItem item, Avatar avatar) {
+        return false;
     }
 
     // Method not yet finished!
-    public InteractionState onPickup(FloorItem item, Avatar avatar) {
-        return InteractionState.FINISHED;
+    public boolean onPickup(FloorItem item, Avatar avatar) {
+        return false;
     }
 
-    public InteractionState onTick(FloorItem item, Avatar avatar) {
-        if (this.isInteraction(item.getDefinition().getInteraction())) {
-            return InteractionState.FINISHED;
-        }
-
-        if (item.getUpdateCycles() > 0) {
-            item.decrementUpdateCycles();
-
-            return InteractionState.CYCLE;
-        }
-
-        Interactor action = this.getInteractions().get(item.getDefinition().getInteraction());
-
-        return action.onTick(item, avatar);
+    public boolean onTick(FloorItem item, Avatar avatar) {
+        return false;
     }
 
     private boolean isInteraction(String interaction) {

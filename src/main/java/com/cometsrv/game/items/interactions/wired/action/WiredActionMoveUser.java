@@ -1,6 +1,5 @@
 package com.cometsrv.game.items.interactions.wired.action;
 
-import com.cometsrv.game.items.interactions.InteractionState;
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.Avatar;
@@ -13,17 +12,17 @@ import com.cometsrv.network.messages.types.Composer;
 
 public class WiredActionMoveUser extends Interactor {
     @Override
-    public InteractionState onWalk(boolean state, FloorItem item, Avatar avatar) {
-        return InteractionState.FINISHED;
+    public boolean onWalk(boolean state, FloorItem item, Avatar avatar) {
+        return false;
     }
 
     @Override
-    public InteractionState onInteract(int request, FloorItem item, Avatar avatar) {
+    public boolean onInteract(int request, FloorItem item, Avatar avatar) {
         TeleportToItemData data = (TeleportToItemData) WiredDataFactory.get(item);
 
         if(data == null) {
             GameEngine.getLogger().debug("Failed to find WiredDataInstance for item: " + item.getId());
-            return InteractionState.FINISHED;
+            return false;
         }
 
         Composer msg = new Composer(Composers.WiredEffectMessageComposer);
@@ -49,22 +48,22 @@ public class WiredActionMoveUser extends Interactor {
         msg.writeString("");
 
         avatar.getPlayer().getSession().send(msg);
-        return InteractionState.FINISHED;
+        return false;
     }
 
     @Override
-    public InteractionState onPlace(FloorItem item, Avatar avatar) {
-        return InteractionState.FINISHED;
+    public boolean onPlace(FloorItem item, Avatar avatar) {
+        return false;
     }
 
     @Override
-    public InteractionState onPickup(FloorItem item, Avatar avatar) {
-        return InteractionState.FINISHED;
+    public boolean onPickup(FloorItem item, Avatar avatar) {
+        return false;
     }
 
     @Override
-    public InteractionState onTick(FloorItem item, Avatar avatar) {
-        return InteractionState.FINISHED;
+    public boolean onTick(FloorItem item, Avatar avatar) {
+        return false;
     }
 
     @Override
