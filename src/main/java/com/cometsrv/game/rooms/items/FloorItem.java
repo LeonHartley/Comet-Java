@@ -27,6 +27,7 @@ public class FloorItem {
     private boolean updateNeeded;
     private Avatar updateAvatar;
     private int updateState;
+    private int updateCycles;
 
     public int interactingAvatar;
     public int interactingAvatar2;
@@ -95,6 +96,22 @@ public class FloorItem {
         this.updateType = action;
         this.updateAvatar = avatar;
         this.updateState = updateState;
+
+        if (action == InteractionAction.ON_TICK) {
+            this.updateCycles = 1; // default
+        }
+    }
+
+    public void setNeedsUpdate(boolean needsUpdate, InteractionAction action, Avatar avatar, int updateState, int updateCycles) {
+        this.updateNeeded = needsUpdate;
+        this.updateType = action;
+        this.updateAvatar = avatar;
+        this.updateState = updateState;
+        this.updateCycles = updateCycles;
+
+        if (action != InteractionAction.ON_TICK) {
+            this.updateCycles = 0;
+        }
     }
 
     public void setNeedsUpdate(boolean needsUpdate) {
@@ -102,6 +119,18 @@ public class FloorItem {
         this.updateType = null;
         this.updateAvatar = null;
         this.updateState = 0;
+    }
+
+    public void decrementUpdateCycles() {
+        this.updateCycles--;
+
+        if (this.updateCycles < 0) {
+            this.updateCycles = 0;
+        }
+    }
+
+    public int getUpdateCycles() {
+        return this.updateCycles;
     }
 
     public Avatar getUpdateAvatar() {
@@ -132,8 +161,16 @@ public class FloorItem {
         }
     }
 
+    private ItemDefinition cachedDefinition;
+    private long definitionLastUpdated;
+
     public ItemDefinition getDefinition() {
-        return GameEngine.getItems().getDefintion(this.getItemId());
+        if (cachedDefinition == null) {
+            cachedDefinition = GameEngine.getItems().getDefintion(this.getItemId());
+            //definitionLastUpdated = System.nanoTime();
+        }
+
+        return cachedDefinition;
     }
 
     public int getId() {

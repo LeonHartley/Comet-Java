@@ -1,5 +1,6 @@
 package com.cometsrv.game.items.interactions.wired.action;
 
+import com.cometsrv.game.items.interactions.InteractionState;
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.items.FloorItem;
@@ -9,12 +10,12 @@ import com.cometsrv.network.messages.types.Composer;
 public class WiredActionShowMessage extends Interactor {
 
     @Override
-    public boolean onWalk(boolean state, FloorItem item, Avatar avatar) {
-        return true;
+    public InteractionState onWalk(boolean state, FloorItem item, Avatar avatar) {
+        return InteractionState.FINISHED;
     }
 
     @Override
-    public boolean onInteract(int state, FloorItem item, Avatar avatar) {
+    public InteractionState onInteract(int state, FloorItem item, Avatar avatar) {
         Composer msg = new Composer(Composers.WiredEffectMessageComposer);
 
         msg.writeBoolean(false);
@@ -31,7 +32,22 @@ public class WiredActionShowMessage extends Interactor {
         msg.writeInt(0);
 
         avatar.getPlayer().getSession().send(msg);
-        return true;
+        return InteractionState.FINISHED;
+    }
+
+    @Override
+    public InteractionState onPlace(FloorItem item, Avatar avatar) {
+        return InteractionState.FINISHED;
+    }
+
+    @Override
+    public InteractionState onPickup(FloorItem item, Avatar avatar) {
+        return InteractionState.FINISHED;
+    }
+
+    @Override
+    public InteractionState onTick(FloorItem item, Avatar avatar) {
+        return InteractionState.FINISHED;
     }
 
     @Override

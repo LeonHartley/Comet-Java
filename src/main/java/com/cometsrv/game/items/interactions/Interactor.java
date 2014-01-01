@@ -9,14 +9,20 @@ public abstract class Interactor {
      * Item: the interacting item
      * Avatar: the interacting avatar
      */
-    public abstract boolean onWalk(boolean state, FloorItem item, Avatar avatar);
+    public abstract InteractionState onWalk(boolean state, FloorItem item, Avatar avatar);
 
     /*
      * State: ???
      * Item: the interacting item
      * Avatar: the interacting avatar
      */
-    public abstract boolean onInteract(int request, FloorItem item, Avatar avatar);
+    public abstract InteractionState onInteract(int request, FloorItem item, Avatar avatar);
+
+    public abstract InteractionState onPlace(FloorItem item, Avatar avatar);
+
+    public abstract InteractionState onPickup(FloorItem item, Avatar avatar);
+
+    public abstract InteractionState onTick(FloorItem item, Avatar avatar);
 
     public abstract boolean requiresRights();
 }

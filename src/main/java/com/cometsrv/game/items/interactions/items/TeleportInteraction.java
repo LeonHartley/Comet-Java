@@ -2,6 +2,7 @@ package com.cometsrv.game.items.interactions.items;
 
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.InteractionAction;
+import com.cometsrv.game.items.interactions.InteractionState;
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.avatars.misc.Position;
@@ -11,16 +12,16 @@ import com.cometsrv.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 
 public class TeleportInteraction extends Interactor {
     @Override
-    public boolean onWalk(boolean state, FloorItem item, Avatar avatar) {
-        return false;
+    public InteractionState onWalk(boolean state, FloorItem item, Avatar avatar) {
+        return InteractionState.FINISHED;
     }
 
     @Override
-    public boolean onInteract(int request, FloorItem item, Avatar avatar) {
+    public InteractionState onInteract(int request, FloorItem item, Avatar avatar) {
         int pairId = GameEngine.getItems().getTeleportPartner(item.getId());
 
         if(pairId == 0) {
-            return false;
+            return InteractionState.FINISHED;
         }
 
         Room room = avatar.getRoom();
@@ -30,7 +31,7 @@ public class TeleportInteraction extends Interactor {
         if(partner == null) {
             // We'll have to find the item in db and get the room id?
             // TODO: find room where partner tele exists
-            return false;
+            return InteractionState.FINISHED;
         }
 
         boolean flash = false;
@@ -41,7 +42,7 @@ public class TeleportInteraction extends Interactor {
                 && !(avatar.getPosition().getX() == item.getX() && avatar.getPosition().getY() == item.getY())) {
             avatar.moveTo(posInFront.getX(), posInFront.getY());
 
-            return false;
+            return InteractionState.FINISHED;
         }
 
         if(!item.getExtraData().equals("1")) {
@@ -66,7 +67,22 @@ public class TeleportInteraction extends Interactor {
 
         item.sendUpdate(avatar.getPlayer().getSession());
 
-        return false;
+        return InteractionState.FINISHED;
+    }
+
+    @Override
+    public InteractionState onPlace(FloorItem item, Avatar avatar) {
+        return InteractionState.FINISHED;
+    }
+
+    @Override
+    public InteractionState onPickup(FloorItem item, Avatar avatar) {
+        return InteractionState.FINISHED;
+    }
+
+    @Override
+    public InteractionState onTick(FloorItem item, Avatar avatar) {
+        return InteractionState.FINISHED;
     }
 
     @Override
