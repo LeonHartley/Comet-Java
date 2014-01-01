@@ -1,6 +1,9 @@
 package com.cometsrv.game.wired;
 
 import com.cometsrv.game.rooms.items.FloorItem;
+import com.cometsrv.game.wired.data.WiredDataFactory;
+import com.cometsrv.game.wired.data.WiredDataInstance;
+import com.cometsrv.game.wired.effects.MoveUserEffect;
 import com.cometsrv.game.wired.effects.SayMessageEffect;
 import com.cometsrv.game.wired.triggers.EnterRoomTrigger;
 import com.cometsrv.game.wired.triggers.OnSayTrigger;
@@ -24,6 +27,9 @@ public class WiredManager {
         this.triggers.put("wf_trg_enterroom", new EnterRoomTrigger());
 
         this.effects.put("wf_act_saymsg", new SayMessageEffect());
+        this.effects.put("wf_act_moveuser", new MoveUserEffect());
+
+        WiredDataFactory.init();
     }
 
     public boolean isWiredTrigger(FloorItem item) {

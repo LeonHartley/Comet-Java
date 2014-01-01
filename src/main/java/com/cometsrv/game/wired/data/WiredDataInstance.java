@@ -19,4 +19,8 @@ public abstract class WiredDataInstance {
     public int getItemId() {
         return this.itemId;
     }
+
+    public String getType() {
+        return this.type;
+    }
 }
