@@ -27,7 +27,9 @@ public class WiredDataFactory {
             ResultSet data = Comet.getServer().getStorage().getRow("SELECT * FROM items_wired_data WHERE item_id = " + item.getId());
 
             if(data == null) {
-                return create(item.getDefinition().getInteraction(), item.getId(), "");
+                WiredDataInstance instance = create(item.getDefinition().getInteraction(), item.getId(), "");
+                instances.put(item.getId(), instance);
+                return instance;
             }
 
             return buildInstance(data.getString("wired_type"), data.getInt("item_id"), data.getString("data"), data.getInt("id"));
@@ -82,7 +84,7 @@ public class WiredDataFactory {
                 TeleportToItemData inst = (TeleportToItemData) data;
 
                 int last = inst.getItems().get(inst.getItems().size() - 1);
-                saveData += inst.getCount() + ":";
+                saveData += inst.getDelay() + ":";
 
                 for(int id : inst.getItems()) {
                     log.debug(id);
