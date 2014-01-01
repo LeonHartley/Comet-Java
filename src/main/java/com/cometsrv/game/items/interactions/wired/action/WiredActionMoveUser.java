@@ -1,10 +1,7 @@
 package com.cometsrv.game.items.interactions.wired.action;
 
-<<<<<<< HEAD
 import com.cometsrv.game.items.interactions.InteractionState;
-=======
 import com.cometsrv.game.GameEngine;
->>>>>>> b3abff84edc6ae897532f13fcf2b5de2e98d782f
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.items.FloorItem;
@@ -21,18 +18,14 @@ public class WiredActionMoveUser extends Interactor {
     }
 
     @Override
-<<<<<<< HEAD
     public InteractionState onInteract(int request, FloorItem item, Avatar avatar) {
-=======
-    public boolean onInteract(int request, FloorItem item, Avatar avatar) {
         TeleportToItemData data = (TeleportToItemData) WiredDataFactory.get(item);
 
         if(data == null) {
             GameEngine.getLogger().debug("Failed to find WiredDataInstance for item: " + item.getId());
-            return false;
+            return InteractionState.FINISHED;
         }
 
->>>>>>> b3abff84edc6ae897532f13fcf2b5de2e98d782f
         Composer msg = new Composer(Composers.WiredEffectMessageComposer);
 
         msg.writeBoolean(false);
