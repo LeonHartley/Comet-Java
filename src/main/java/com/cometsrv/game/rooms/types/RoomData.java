@@ -94,6 +94,8 @@ public class RoomData {
         std.setInt(13, hideWalls ? 1 : 0);
         std.setInt(14, thicknessWall);
         std.setInt(15, thicknessFloor);
+
+        std.executeUpdate();
     }
 
     public int getId() {
