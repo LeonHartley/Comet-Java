@@ -145,7 +145,7 @@ public class RoomManager {
     public int createRoom(String name, String model, Session client) {
         int roomId = 0;
         try {
-            PreparedStatement std = Comet.getServer().getStorage().prepare("INSERT into rooms (`owner_id`, `owner`, `name`, `model`) VALUES(?, ?, ?, ?);");
+            PreparedStatement std = Comet.getServer().getStorage().prepare("INSERT into rooms (`owner_id`, `owner`, `name`, `model`) VALUES(?, ?, ?, ?);", true);
 
             std.setInt(1, client.getPlayer().getId());
             std.setString(2, client.getPlayer().getData().getUsername());
