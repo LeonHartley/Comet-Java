@@ -7,12 +7,13 @@ import com.cometsrv.network.messages.types.Composer;
 public class WallItem {
     private int id;
     private int itemId;
+    private int roomId;
     private int owner;
     private String position;
     private String extraData;
     private boolean state;
 
-    public WallItem(int id, int itemId, int owner, String position, String data) {
+    public WallItem(int id, int itemId, int roomId, int owner, String position, String data) {
         this.id = id;
         this.itemId = itemId;
         this.owner = owner;
@@ -44,6 +45,8 @@ public class WallItem {
     public int getItemId() {
         return itemId;
     }
+
+    public int getRoomId() { return roomId; }
 
     public int getOwner() {
         return owner;

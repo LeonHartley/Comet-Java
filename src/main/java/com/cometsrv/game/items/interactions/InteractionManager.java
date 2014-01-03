@@ -21,7 +21,7 @@ import javolution.util.FastMap;
 import java.util.Map;
 
 public class InteractionManager {
-    public static final boolean DICE_ENABLED = Boolean.parseBoolean(Comet.getServer().getConfig().get("comet.game.interactions.dice.enabled"));
+    public static final boolean DICE_ENABLED = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.interactions.dice.enabled")) == 1;
     public static final int DICE_ROLL_TIME = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.interactions.dice.cycles"));
 
     private FastMap<String, Interactor> interactions;

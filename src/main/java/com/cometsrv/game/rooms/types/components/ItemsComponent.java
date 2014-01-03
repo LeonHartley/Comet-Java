@@ -57,7 +57,7 @@ public class ItemsComponent {
                 if(data.getString("wall_pos").equals(""))
                     this.getFloorItems().add(new FloorItem(data.getInt("id"), data.getInt("base_item"), this.room.getId(), data.getInt("user_id"), data.getInt("x"), data.getInt("y"), data.getFloat("z"), data.getInt("rot"), data.getString("extra_data")));
                 else
-                    this.getWallItems().add(new WallItem(data.getInt("id"), data.getInt("base_item"), data.getInt("user_id"), data.getString("wall_pos"), data.getString("extra_data")));
+                    this.getWallItems().add(new WallItem(data.getInt("id"), data.getInt("base_item"), this.room.getId(), data.getInt("user_id"), data.getString("wall_pos"), data.getString("extra_data")));
             }
 
         } catch(Exception e) {
@@ -72,8 +72,8 @@ public class ItemsComponent {
         return item;
     }
 
-    public WallItem addWallItem(int id, int baseId, int ownerId, String position, String data) {
-        WallItem item = new WallItem(id, baseId, ownerId, position, data);
+    public WallItem addWallItem(int id, int baseId, int roomId, int ownerId, String position, String data) {
+        WallItem item = new WallItem(id, baseId, roomId, ownerId, position, data);
         this.getWallItems().add(item);
 
         return item;

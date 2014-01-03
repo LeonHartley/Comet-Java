@@ -41,10 +41,13 @@ public class PlaceItemMessageEvent implements IEvent {
                 query.executeUpdate();
 
                 client.getPlayer().getInventory().removeWallItem(id);
+
+                Room r = client.getPlayer().getAvatar().getRoom();
+
                 client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(
                         SendWallItemMessageComposer.compose(
-                                client.getPlayer().getAvatar().getRoom().getItems().addWallItem(id, item.getBaseId(), client.getPlayer().getId(), position, (item.getExtraData().isEmpty() || item.getExtraData() == " ") ? "0" : item.getExtraData()),
-                                client.getPlayer().getAvatar().getRoom()
+                                r.getItems().addWallItem(id, item.getBaseId(), client.getPlayer().getId(), r.getId(), position, (item.getExtraData().isEmpty() || item.getExtraData() == " ") ? "0" : item.getExtraData()),
+                                r
                         )
                 );
             } else {
