@@ -24,6 +24,7 @@ public class Comet {
         for(String arg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
             if(arg.contains("dt_")) {
                 isDebugging = true;
+                break;
             }
         }
 

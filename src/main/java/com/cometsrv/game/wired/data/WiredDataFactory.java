@@ -87,7 +87,6 @@ public class WiredDataFactory {
                 saveData += inst.getDelay() + ":";
 
                 for(int id : inst.getItems()) {
-                    log.debug(id);
                     if(id != last) {
                         saveData += id + ",";
                     } else {

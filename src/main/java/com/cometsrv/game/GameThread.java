@@ -84,7 +84,7 @@ public class GameThread implements CometTask {
 
         if(CometSettings.quartlyCreditsEnabled) {
             for(Session client : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
-                if(client.getPlayer() == null) {
+                if(client.getPlayer() == null || client.getPlayer().getData() == null) {
                     continue;
                 }
 
