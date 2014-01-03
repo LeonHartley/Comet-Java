@@ -89,7 +89,7 @@ public class RoomWriter {
         msg.writeInt(room.getData().getOwnerId());
         msg.writeString(room.getData().getOwner());
         msg.writeInt(RoomWriter.roomAccessToNumber(room.getData().getAccess()));
-        msg.writeInt(room.getAvatars().count());
+        msg.writeInt(room.getAvatars() != null ? room.getAvatars().count() : 0);
         msg.writeInt(room.getData().getMaxUsers());
         msg.writeString(room.getData().getDescription());
         msg.writeInt(0);
