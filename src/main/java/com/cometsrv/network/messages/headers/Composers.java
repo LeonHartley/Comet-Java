@@ -21,7 +21,6 @@ public class Composers {
     public static short CurrenciesMessageComposer = 1271;
     public static short DanceMessageComposer = 732;
     public static short EndTalentPractiseMessageComposer = 840;
-    public static short FeaturedMessageComposer = 1969;
     public static short FloorItemsMessageComposer = 2087;
     public static short FollowBuddyMessageComposer = 1959;
     public static short GetPowerListMessageComposer = 2532;
@@ -97,6 +96,7 @@ public class Composers {
     public static short HTMLColoursMessageComposer = 2049;
     public static short SendAdvGroupInitMessageComposer = 3225;
     public static short GroupModifyInfoMessageComposer = 858;
+    public static short FeaturedRoomsMessageComposer = 1969;
 
     public static short WiredTriggerMessageComposer = 639;
     public static short WiredEffectMessageComposer = 1843;

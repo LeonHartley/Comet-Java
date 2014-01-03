@@ -5,8 +5,10 @@ import com.cometsrv.network.messages.headers.Composers;
 import com.cometsrv.network.messages.types.Composer;
 import javolution.util.FastList;
 
+import java.util.List;
+
 public class RoomCategoriesMessageComposer {
-    public static Composer compose(FastList<Category> categories, int rank) {
+    public static Composer compose(List<Category> categories, int rank) {
         Composer msg = new Composer(Composers.RoomCategoriesMessageComposer);
 
         msg.writeInt(categories.size());

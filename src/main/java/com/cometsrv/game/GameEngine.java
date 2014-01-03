@@ -31,11 +31,11 @@ public class GameEngine {
     private static Logger log = Logger.getLogger(GameEngine.class.getName());
 
     public static void init() {
-        navigatorManager = new NavigatorManager();
         permissionsManager = new PermissionsManager();
         catalogManager = new CatalogManager();
         itemManager = new ItemManager();
         roomManager = new RoomManager();
+        navigatorManager = new NavigatorManager();
         commandManager = new CommandManager();
         wiredManager = new WiredManager();
         banManager = new BanManager();

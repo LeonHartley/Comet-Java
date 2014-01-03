@@ -2,15 +2,17 @@ package com.cometsrv.game.navigator;
 
 import com.cometsrv.boot.Comet;
 import com.cometsrv.game.navigator.types.Category;
-import com.cometsrv.game.navigator.types.FeaturedRoom;
+import com.cometsrv.game.navigator.types.featured.FeaturedRoom;
 import javolution.util.FastList;
 import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
+import java.util.List;
+import java.util.Map;
 
 public class NavigatorManager {
-    public FastList<Category> categories;
-    public FastList<FeaturedRoom> featuredRooms;
+    public List<Category> categories;
+    public List<FeaturedRoom> featuredRooms;
 
     Logger log = Logger.getLogger(NavigatorManager.class.getName());
 
@@ -19,6 +21,29 @@ public class NavigatorManager {
         this.featuredRooms = new FastList<>();
 
         this.loadCategories();
+        this.loadFeaturedRooms();
+    }
+
+    public void loadFeaturedRooms() {
+        try {
+            if(this.featuredRooms.size() != 0) {
+                this.featuredRooms.clear();
+            }
+
+            ResultSet result = Comet.getServer().getStorage().getTable("SELECT * FROM navigator_featured_rooms WHERE enabled = '1'");
+
+            if(result == null) {
+                return;
+            }
+
+            while(result.next()) {
+                this.featuredRooms.add(new FeaturedRoom(result));
+            }
+        } catch(Exception e) {
+            log.error("Error while loading featured rooms", e);
+        }
+
+        log.info("Loaded " + this.featuredRooms.size() + " featured rooms");
     }
 
     public void loadCategories() {
@@ -27,7 +52,7 @@ public class NavigatorManager {
                 this.getCategories().clear();
             }
 
-            ResultSet result = Comet.getServer().getStorage().getRow("SELECT * FROM navigator_categories WHERE enabled = '1'");
+            ResultSet result = Comet.getServer().getStorage().getTable("SELECT * FROM navigator_categories WHERE enabled = '1'");
 
             while(result.next()) {
                 this.getCategories().add(new Category(result));
@@ -49,7 +74,11 @@ public class NavigatorManager {
         return null;
     }
 
-    public FastList<Category> getCategories() {
+    public List<Category> getCategories() {
         return this.categories;
+    }
+
+    public List<FeaturedRoom> getFeaturedRooms() {
+        return this.featuredRooms;
     }
 }
