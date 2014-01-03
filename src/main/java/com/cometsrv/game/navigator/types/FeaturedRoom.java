@@ -9,5 +9,6 @@ public class FeaturedRoom {
     private boolean enabled, recommended;
 
     public FeaturedRoom(ResultSet data) throws SQLException {
+
     }
 }

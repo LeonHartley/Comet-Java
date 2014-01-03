@@ -23,11 +23,11 @@ public class GameThread implements CometTask {
     private ScheduledFuture myFuture;
 
     private boolean active = false;
-    private int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.thread.interval"));
 
     public GameThread(CometThreadManagement mgr) {
         this.threadManagement = mgr;
 
+        int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.thread.interval"));
         this.myFuture = mgr.executePeriodic(this, interval, interval, TimeUnit.MINUTES);
         this.active = true;
     }
