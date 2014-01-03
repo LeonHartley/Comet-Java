@@ -4,6 +4,7 @@ import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.items.FloorItem;
+import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.game.wired.WiredStaticConfig;
 import com.cometsrv.game.wired.data.WiredDataFactory;
 import com.cometsrv.game.wired.data.effects.TeleportToItemData;
@@ -52,17 +53,17 @@ public class WiredActionMoveUser extends Interactor {
     }
 
     @Override
-    public boolean onPlace(FloorItem item, Avatar avatar) {
+    public boolean onPlace(FloorItem item, Avatar avatar, Room room) {
         return false;
     }
 
     @Override
-    public boolean onPickup(FloorItem item, Avatar avatar) {
+    public boolean onPickup(FloorItem item, Avatar avatar, Room room) {
         return false;
     }
 
     @Override
-    public boolean onTick(FloorItem item, Avatar avatar) {
+    public boolean onTick(FloorItem item) {
         return false;
     }
 

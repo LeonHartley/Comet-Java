@@ -4,6 +4,7 @@ import com.cometsrv.boot.Comet;
 import com.cometsrv.game.players.components.types.InventoryItem;
 import com.cometsrv.game.rooms.avatars.misc.Position;
 import com.cometsrv.game.rooms.items.FloorItem;
+import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.incoming.IEvent;
 import com.cometsrv.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
 import com.cometsrv.network.messages.outgoing.room.items.SendWallItemMessageComposer;
@@ -78,10 +79,13 @@ public class PlaceItemMessageEvent implements IEvent {
                 query.executeUpdate();
 
                 client.getPlayer().getInventory().removeFloorItem(id);
-                client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(
+
+                Room room = client.getPlayer().getAvatar().getRoom();
+
+                room.getAvatars().broadcast(
                         SendFloorItemMessageComposer.compose(
-                                client.getPlayer().getAvatar().getRoom().getItems().addFloorItem(id, item.getBaseId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData() == " ") ? "0" : item.getExtraData()),
-                                client.getPlayer().getAvatar().getRoom()
+                                room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData() == " ") ? "0" : item.getExtraData()),
+                                room
                         )
                 );
             }

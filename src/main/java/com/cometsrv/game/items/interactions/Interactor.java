@@ -2,6 +2,7 @@ package com.cometsrv.game.items.interactions;
 
 import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.items.FloorItem;
+import com.cometsrv.game.rooms.types.Room;
 
 public abstract class Interactor {
     /*
@@ -18,11 +19,24 @@ public abstract class Interactor {
      */
     public abstract boolean onInteract(int request, FloorItem item, Avatar avatar);
 
-    public abstract boolean onPlace(FloorItem item, Avatar avatar);
+    /*
+     * Item: the item placed
+     * Avatar: the avatar who placed the item
+     * Room: the room the item was placed in
+     */
+    public abstract boolean onPlace(FloorItem item, Avatar avatar, Room room);
 
-    public abstract boolean onPickup(FloorItem item, Avatar avatar);
+    /*
+     * Item: the item placed
+     * Avatar: the avatar who picked up the item
+     * Room: the room the item was picked up
+     */
+    public abstract boolean onPickup(FloorItem item, Avatar avatar, Room room);
 
-    public abstract boolean onTick(FloorItem item, Avatar avatar);
+    /*
+     * Item: the item which is ticking
+     */
+    public abstract boolean onTick(FloorItem item);
 
     public abstract boolean requiresRights();
 }

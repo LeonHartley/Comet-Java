@@ -1,5 +1,6 @@
 package com.cometsrv.game.items.interactions;
 
+import com.cometsrv.boot.Comet;
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.banzai.BanzaiPatchInteraction;
 import com.cometsrv.game.items.interactions.banzai.gates.BanzaiGateBlueInteraction;
@@ -14,11 +15,14 @@ import com.cometsrv.game.items.interactions.wired.trigger.WiredTriggerEnterRoom;
 import com.cometsrv.game.items.interactions.wired.trigger.WiredTriggerOnSay;
 import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.items.FloorItem;
+import com.cometsrv.game.rooms.types.Room;
 import javolution.util.FastMap;
 
 import java.util.Map;
 
 public class InteractionManager {
+    public static final int DICE_ROLL_TIME = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.interactions.dice.cycles"));
+
     private FastMap<String, Interactor> interactions;
 
     public InteractionManager() {
@@ -53,41 +57,65 @@ public class InteractionManager {
         this.interactions.put("bb_red_gate", new BanzaiGateRedInteraction());
     }
 
-    public boolean onWalk(boolean state, FloorItem item, Avatar avatar) {
+    public InteractionState onWalk(boolean state, FloorItem item, Avatar avatar) {
         if (!this.isInteraction(item.getDefinition().getInteraction())) {
-            return false;
+            return InteractionState.NO_INTERACTION;
         }
 
-        return this.getInteractions().get(item.getDefinition().getInteraction()).onWalk(state, item, avatar);
+        if (this.getInteractions().get(item.getDefinition().getInteraction()).onWalk(state, item, avatar)) {
+            return InteractionState.COMPLETED;
+        }
+
+        return InteractionState.NO_INTERACTION;
     }
 
-    public boolean onInteract(int state, FloorItem item, Avatar avatar) {
+    public InteractionState onInteract(int state, FloorItem item, Avatar avatar) {
         GameEngine.getLogger().debug("Interacted with: " + item.getDefinition().getInteraction());
 
         if(!this.isInteraction(item.getDefinition().getInteraction())) {
-            return false;
+            return InteractionState.NO_INTERACTION;
         }
 
         Interactor action = this.getInteractions().get(item.getDefinition().getInteraction());
 
         if(action.requiresRights() && !avatar.getRoom().getRights().hasRights(avatar.getPlayer().getId()))
-            return false;
+            return InteractionState.NO_INTERACTION;
 
-        return action.onInteract(state, item, avatar);
+        if (action.onInteract(state, item, avatar)) {
+            return InteractionState.COMPLETED;
+        }
+
+        return InteractionState.NO_INTERACTION;
     }
 
     // Method not yet finished!
-    public boolean onPlace(FloorItem item, Avatar avatar) {
-        return false;
+    public InteractionState onPlace(FloorItem item, Avatar avatar, Room room) {
+        return InteractionState.NO_INTERACTION;
     }
 
     // Method not yet finished!
-    public boolean onPickup(FloorItem item, Avatar avatar) {
-        return false;
+    public InteractionState onPickup(FloorItem item, Avatar avatar, Room room) {
+        return InteractionState.NO_INTERACTION;
     }
 
-    public boolean onTick(FloorItem item, Avatar avatar) {
-        return false;
+    public InteractionState onTick(FloorItem item) {
+        GameEngine.getLogger().debug("Item tick: " + item.getDefinition().getInteraction());
+
+        if (!this.isInteraction(item.getDefinition().getInteraction())) {
+            return InteractionState.NO_INTERACTION;
+        }
+
+        if (item.needsCycling()) {
+            return InteractionState.CYCLING;
+        }
+
+        Interactor action = this.getInteractions().get(item.getDefinition().getInteraction());
+
+        if (action.onTick(item)) {
+            return InteractionState.COMPLETED;
+        }
+
+        return InteractionState.NO_INTERACTION;
     }
 
     private boolean isInteraction(String interaction) {

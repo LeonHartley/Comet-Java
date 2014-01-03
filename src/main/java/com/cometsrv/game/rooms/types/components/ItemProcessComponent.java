@@ -3,6 +3,7 @@ package com.cometsrv.game.rooms.types.components;
 import com.cometsrv.boot.Comet;
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.InteractionAction;
+import com.cometsrv.game.items.interactions.InteractionState;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.tasks.CometTask;
@@ -71,19 +72,23 @@ public class ItemProcessComponent implements CometTask {
 
             for(FloorItem item : this.getRoom().getItems().getFloorItems()) {
                 if(item.needsUpdate()) {
+                    InteractionState state = InteractionState.COMPLETED;
+
                     if(item.getUpdateType() == InteractionAction.ON_WALK) {
-                        GameEngine.getItems().getInteractions().onWalk(item.getUpdateState() == 1, item, item.getUpdateAvatar());
+                        state = GameEngine.getItems().getInteractions().onWalk(item.getUpdateState() == 1, item, item.getUpdateAvatar());
                     } else if(item.getUpdateType() == InteractionAction.ON_USE) {
-                        GameEngine.getItems().getInteractions().onInteract(item.getUpdateState(), item, item.getUpdateAvatar());
+                        state = GameEngine.getItems().getInteractions().onInteract(item.getUpdateState(), item, item.getUpdateAvatar());
                     } else if (item.getUpdateType() == InteractionAction.ON_PLACED) {
-                        GameEngine.getItems().getInteractions().onPlace(item, item.getUpdateAvatar());
+                        //GameEngine.getItems().getInteractions().onPlace(item, item.getUpdateAvatar());
                     } else if (item.getUpdateType() == InteractionAction.ON_PICKUP) {
-                        GameEngine.getItems().getInteractions().onPickup(item, item.getUpdateAvatar());
+                        //GameEngine.getItems().getInteractions().onPickup(item, item.getUpdateAvatar());
                     } else if (item.getUpdateType() == InteractionAction.ON_TICK) {
-                        GameEngine.getItems().getInteractions().onTick(item, item.getUpdateAvatar());
+                        state = GameEngine.getItems().getInteractions().onTick(item);
                     }
 
-                    item.setNeedsUpdate(false);
+                    if (state != InteractionState.CYCLING) {
+                        item.setNeedsUpdate(false);
+                    }
                 }
 
                 if(GameEngine.getWired().isWiredTrigger(item)) {

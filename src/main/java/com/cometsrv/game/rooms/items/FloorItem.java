@@ -3,25 +3,35 @@ package com.cometsrv.game.rooms.items;
 import com.cometsrv.boot.Comet;
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.InteractionAction;
+import com.cometsrv.game.items.interactions.InteractionQueueItem;
 import com.cometsrv.game.items.types.ItemDefinition;
 import com.cometsrv.game.rooms.avatars.Avatar;
+import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometsrv.network.messages.types.Composer;
 import com.cometsrv.network.sessions.Session;
 
+import java.lang.ref.WeakReference;
 import java.sql.PreparedStatement;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class FloorItem {
     private int id;
     private int itemId;
+    private int roomId;
     private int owner;
     private int x;
     private int y;
     private int rotation;
     private float height;
 
+    private WeakReference<Room> room;
+
     private String extraData;
     private boolean state;
+
+    private final Queue<InteractionQueueItem> interactions = new LinkedList<>();
 
     private InteractionAction updateType;
     private boolean updateNeeded;
@@ -29,12 +39,10 @@ public class FloorItem {
     private int updateState;
     private int updateCycles;
 
-    public int interactingAvatar;
-    public int interactingAvatar2;
-
-    public FloorItem(int id, int itemId, int owner, int x, int y, float z, int rotation, String data) {
+    public FloorItem(int id, int itemId, int roomId, int owner, int x, int y, float z, int rotation, String data) {
         this.id = id;
         this.itemId = itemId;
+        this.roomId = roomId;
         this.owner = owner;
         this.x = x;
         this.y = y;
@@ -87,6 +95,20 @@ public class FloorItem {
         }
     }
 
+    public int getUpdateCycles() {
+        return this.updateCycles;
+    }
+
+    public boolean needsCycling() {
+        this.updateCycles--;
+
+        if (this.updateCycles < 0) {
+            this.updateCycles = 0;
+        }
+
+        return this.updateCycles > 0;
+    }
+
     public boolean needsUpdate() {
         return (this.updateType != null && updateNeeded && updateAvatar != null);
     }
@@ -98,11 +120,20 @@ public class FloorItem {
         this.updateState = updateState;
     }
 
+    public void setNeedsUpdate(boolean needsUpdate, InteractionAction action, Avatar avatar, int updateState, int updateCycles) {
+        this.updateNeeded = needsUpdate;
+        this.updateType = action;
+        this.updateAvatar = avatar;
+        this.updateState = updateState;
+        this.updateCycles = updateCycles;
+    }
+
     public void setNeedsUpdate(boolean needsUpdate) {
         this.updateNeeded = needsUpdate;
         this.updateType = null;
         this.updateAvatar = null;
         this.updateState = 0;
+        this.updateCycles = 0;
     }
 
     public Avatar getUpdateAvatar() {
@@ -117,8 +148,24 @@ public class FloorItem {
         return this.updateType;
     }
 
+    // TODO: Remove this method once updated code
+    @Deprecated
     public void sendUpdate(Session client) {
-        client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
+        //client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
+        Room r = this.getRoom();
+
+        if (r != null) {
+            r.getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
+        }
+    }
+
+    public void sendUpdate() {
+        //client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
+        Room r = this.getRoom();
+
+        if (r != null) {
+            r.getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
+        }
     }
 
     public void saveData() {
@@ -143,6 +190,14 @@ public class FloorItem {
         }
 
         return cachedDefinition;
+    }
+
+    public Room getRoom() {
+        if (this.room == null) {
+            this.room = new WeakReference<>(GameEngine.getRooms().get(this.roomId));
+        }
+
+        return this.room.get();
     }
 
     public int getId() {

@@ -3,6 +3,7 @@ package com.cometsrv.game.items.interactions.banzai;
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.items.FloorItem;
+import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.game.rooms.types.components.games.banzai.BanzaiGame;
 
 public class BanzaiPatchInteraction extends Interactor {
@@ -26,17 +27,17 @@ public class BanzaiPatchInteraction extends Interactor {
     }
 
     @Override
-    public boolean onPlace(FloorItem item, Avatar avatar) {
+    public boolean onPlace(FloorItem item, Avatar avatar, Room room) {
         return false;
     }
 
     @Override
-    public boolean onPickup(FloorItem item, Avatar avatar) {
+    public boolean onPickup(FloorItem item, Avatar avatar, Room room) {
         return false;
     }
 
     @Override
-    public boolean onTick(FloorItem item, Avatar avatar) {
+    public boolean onTick(FloorItem item) {
         return false;
     }
 

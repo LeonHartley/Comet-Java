@@ -62,23 +62,23 @@ public class TeleportInteraction extends Interactor {
             }
         }
 
-        item.sendUpdate(avatar.getPlayer().getSession());
+        item.sendUpdate();
 
         return false;
     }
 
     @Override
-    public boolean onPlace(FloorItem item, Avatar avatar) {
+    public boolean onPlace(FloorItem item, Avatar avatar, Room room) {
         return false;
     }
 
     @Override
-    public boolean onPickup(FloorItem item, Avatar avatar) {
+    public boolean onPickup(FloorItem item, Avatar avatar, Room room) {
         return false;
     }
 
     @Override
-    public boolean onTick(FloorItem item, Avatar avatar) {
+    public boolean onTick(FloorItem item) {
         return false;
     }
 
