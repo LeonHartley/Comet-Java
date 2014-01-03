@@ -189,6 +189,10 @@ public class Avatar {
         this.isMoving = true;
     }
 
+    public void moveToAndInteract(int x, int y) {
+
+    }
+
     public void warpTo(int x, int y) {
         this.setGoal(x, y);
         this.unidle();

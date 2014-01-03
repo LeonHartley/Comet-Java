@@ -38,6 +38,7 @@ public class InteractionManager {
         this.interactions.put("gate", new GateInteraction());
         this.interactions.put("pressure_pad", new PressurePadInteraction());
         this.interactions.put("teleport", new TeleportInteraction());
+        this.interactions.put("habbowheel", new WheelInteractor());
 
         // Wired Actions
         this.interactions.put("wf_act_move_rotate", new WiredActionMoveRotate());
@@ -100,13 +101,13 @@ public class InteractionManager {
     }
 
     public InteractionState onTick(FloorItem item) {
-        GameEngine.getLogger().debug("Item tick: " + item.getDefinition().getInteraction());
+        GameEngine.getLogger().debug("GenericRoomItem tick: " + item.getDefinition().getInteraction());
 
         if (!this.isInteraction(item.getDefinition().getInteraction())) {
             return InteractionState.NO_INTERACTION;
         }
 
-        if (item.needsCycling()) {
+        if (item.hasInteraction()) {
             return InteractionState.CYCLING;
         }
 

@@ -2,7 +2,6 @@ package com.cometsrv.game.wired;
 
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.wired.data.WiredDataFactory;
-import com.cometsrv.game.wired.data.WiredDataInstance;
 import com.cometsrv.game.wired.effects.MoveUserEffect;
 import com.cometsrv.game.wired.effects.SayMessageEffect;
 import com.cometsrv.game.wired.triggers.EnterRoomTrigger;

@@ -3,6 +3,7 @@ package com.cometsrv.game.rooms.types.components;
 import com.cometsrv.boot.Comet;
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.InteractionAction;
+import com.cometsrv.game.items.interactions.InteractionQueueItem;
 import com.cometsrv.game.items.interactions.InteractionState;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.types.Room;
@@ -30,7 +31,7 @@ public class ItemProcessComponent implements CometTask {
 
         this.myFuture = this.mgr.executePeriodic(this, interval, interval, TimeUnit.MILLISECONDS);
 
-        log = Logger.getLogger("Item Process [" + room.getData().getName() + "]");
+        log = Logger.getLogger("GenericRoomItem Process [" + room.getData().getName() + "]");
     }
 
     public void start() {
@@ -71,7 +72,7 @@ public class ItemProcessComponent implements CometTask {
             long timeStart = System.currentTimeMillis();
 
             for(FloorItem item : this.getRoom().getItems().getFloorItems()) {
-                if(item.needsUpdate()) {
+                /*if(item.needsUpdate()) {
                     InteractionState state = InteractionState.COMPLETED;
 
                     if(item.getUpdateType() == InteractionAction.ON_WALK) {
@@ -83,6 +84,27 @@ public class ItemProcessComponent implements CometTask {
                     } else if (item.getUpdateType() == InteractionAction.ON_PICKUP) {
                         //GameEngine.getItems().getInteractions().onPickup(item, item.getUpdateAvatar());
                     } else if (item.getUpdateType() == InteractionAction.ON_TICK) {
+                        state = GameEngine.getItems().getInteractions().onTick(item);
+                    }
+
+                    if (state != InteractionState.CYCLING) {
+                        item.setNeedsUpdate(false);
+                    }
+                }*/
+
+                if (item.hasInteraction()) {
+                    InteractionQueueItem interactItem = item.getNextInteraction();
+                    InteractionState state = InteractionState.COMPLETED;
+
+                    if (interactItem.getAction() == InteractionAction.ON_WALK) {
+                        state = GameEngine.getItems().getInteractions().onWalk(interactItem.getUpdateState() == 1, item, interactItem.getAvatar());
+                    } else if (interactItem.getAction() == InteractionAction.ON_USE) {
+                        state = GameEngine.getItems().getInteractions().onInteract(interactItem.getUpdateState(), item, interactItem.getAvatar());
+                    } else if (interactItem.getAction() == InteractionAction.ON_PLACED) {
+
+                    } else if (interactItem.getAction() == InteractionAction.ON_PICKUP) {
+
+                    } else if (interactItem.getAction() == InteractionAction.ON_TICK) {
                         state = GameEngine.getItems().getInteractions().onTick(item);
                     }
 
@@ -101,7 +123,7 @@ public class ItemProcessComponent implements CometTask {
             TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
             if(span.toMilliseconds() > flag) {
-                log.warn("Item process took: " + span.toMilliseconds() + "ms to execute.");
+                log.warn("GenericRoomItem process took: " + span.toMilliseconds() + "ms to execute.");
             }
         } catch(Exception e) {
             if(e instanceof InterruptedException) {

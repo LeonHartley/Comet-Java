@@ -7,34 +7,34 @@ import com.cometsrv.game.rooms.types.Room;
 public abstract class Interactor {
     /*
      * State: user is walking on or off furni (true = on, false = off)
-     * Item: the interacting item
+     * GenericRoomItem: the interacting item
      * Avatar: the interacting avatar
      */
     public abstract boolean onWalk(boolean state, FloorItem item, Avatar avatar);
 
     /*
      * State: ???
-     * Item: the interacting item
+     * GenericRoomItem: the interacting item
      * Avatar: the interacting avatar
      */
     public abstract boolean onInteract(int request, FloorItem item, Avatar avatar);
 
     /*
-     * Item: the item placed
+     * GenericRoomItem: the item placed
      * Avatar: the avatar who placed the item
      * Room: the room the item was placed in
      */
     public abstract boolean onPlace(FloorItem item, Avatar avatar, Room room);
 
     /*
-     * Item: the item placed
+     * GenericRoomItem: the item placed
      * Avatar: the avatar who picked up the item
      * Room: the room the item was picked up
      */
     public abstract boolean onPickup(FloorItem item, Avatar avatar, Room room);
 
     /*
-     * Item: the item which is ticking
+     * GenericRoomItem: the item which is ticking
      */
     public abstract boolean onTick(FloorItem item);
 

@@ -35,7 +35,7 @@ public class MoveUserEffect extends WiredEffect {
 
         instance.setDelay(event.readInt());
 
-        GameEngine.getLogger().debug("Wired data: Item count: " + itemCount);
+        GameEngine.getLogger().debug("Wired data: GenericRoomItem count: " + itemCount);
 
         WiredDataFactory.save(instance);
     }
