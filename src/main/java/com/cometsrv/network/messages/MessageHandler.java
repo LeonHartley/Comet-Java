@@ -191,6 +191,7 @@ public class MessageHandler {
         this.getMessages().put(Events.SaveWiredTriggerMessageEvent, new SaveWiredMessageEvent());
         this.getMessages().put(Events.SaveWiredEffectMessageEvent, new SaveWiredMessageEvent());
         this.getMessages().put(Events.ExchangeItemMessageEvent, new ExchangeItemMessageEvent());
+        this.getMessages().put(Events.UseWallItemMessageEvent, new UseWallItemMessageEvent());
     }
 
     public void registerCatalog() {

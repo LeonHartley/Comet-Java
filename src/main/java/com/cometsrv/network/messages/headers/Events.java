@@ -21,6 +21,7 @@ public class Events {
 	public static short ChangeFloorItemStateMessageEvent = 3820;
 	public static short ChangeLooksMessageEvent = 885;
 	public static short ChangeWallItemPositionMessageEvent = 1897;
+    public static short UseWallItemMessageEvent = 2882;
 	public static short ClubStatusMessageEvent = 2999;
 	public static short ConfirmTradeMessageEvent = 1717;
 	public static short CreateNewRoomMessageEvent = 9;

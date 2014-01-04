@@ -3,6 +3,7 @@ package com.cometsrv.game.items.interactions.wired.action;
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.items.FloorItem;
+import com.cometsrv.game.rooms.items.RoomItem;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.headers.Composers;
 import com.cometsrv.network.messages.types.Composer;
@@ -10,12 +11,12 @@ import com.cometsrv.network.messages.types.Composer;
 public class WiredActionShowMessage extends Interactor {
 
     @Override
-    public boolean onWalk(boolean state, FloorItem item, Avatar avatar) {
+    public boolean onWalk(boolean state, RoomItem item, Avatar avatar) {
         return false;
     }
 
     @Override
-    public boolean onInteract(int state, FloorItem item, Avatar avatar) {
+    public boolean onInteract(int state, RoomItem item, Avatar avatar) {
         Composer msg = new Composer(Composers.WiredEffectMessageComposer);
 
         msg.writeBoolean(false);
@@ -36,17 +37,17 @@ public class WiredActionShowMessage extends Interactor {
     }
 
     @Override
-    public boolean onPlace(FloorItem item, Avatar avatar, Room room) {
+    public boolean onPlace(RoomItem item, Avatar avatar, Room room) {
         return false;
     }
 
     @Override
-    public boolean onPickup(FloorItem item, Avatar avatar, Room room) {
+    public boolean onPickup(RoomItem item, Avatar avatar, Room room) {
         return false;
     }
 
     @Override
-    public boolean onTick(FloorItem item) {
+    public boolean onTick(RoomItem item) {
         return false;
     }
 

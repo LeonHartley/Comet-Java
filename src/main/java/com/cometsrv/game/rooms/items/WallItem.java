@@ -2,7 +2,11 @@ package com.cometsrv.game.rooms.items;
 
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.types.ItemDefinition;
+import com.cometsrv.game.rooms.types.Room;
+import com.cometsrv.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometsrv.network.messages.types.Composer;
+
+import java.lang.ref.WeakReference;
 
 public class WallItem extends RoomItem {
     private int roomId;
@@ -10,9 +14,12 @@ public class WallItem extends RoomItem {
     private String extraData;
     private boolean state;
 
+    private WeakReference<Room> room;
+
     public WallItem(int id, int itemId, int roomId, int owner, String position, String data) {
         this.id = id;
         this.itemId = itemId;
+        this.roomId = roomId;
         this.ownerId = owner;
         this.position = position;
         this.extraData = data;
@@ -37,8 +44,41 @@ public class WallItem extends RoomItem {
         return false;
     }
 
+    public Room getRoom() {
+        if (this.room == null) {
+            this.room = new WeakReference<>(GameEngine.getRooms().get(this.roomId));
+        }
+
+        return this.room.get();
+    }
+
+    @Override
+    public void sendUpdate() {
+        Room r = this.getRoom();
+
+        if (r != null) {
+            System.out.println("Sent update..");
+            r.getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
+
+            // TODO: Check this..
+        } else {
+            System.out.println("Room is null ???");
+        }
+    }
+
+    @Override
+    public void saveData() {
+
+    }
+
+    @Override
     public ItemDefinition getDefinition() {
         return GameEngine.getItems().getDefintion(this.getItemId());
+    }
+
+    @Override
+    public boolean handleInteraction(boolean state) {
+        return this.toggleInteract(state);
     }
 
     public int getId() {

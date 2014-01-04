@@ -4,6 +4,7 @@ import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.items.FloorItem;
+import com.cometsrv.game.rooms.items.RoomItem;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.game.wired.WiredStaticConfig;
 import com.cometsrv.game.wired.data.WiredDataFactory;
@@ -13,13 +14,19 @@ import com.cometsrv.network.messages.types.Composer;
 
 public class WiredActionMoveUser extends Interactor {
     @Override
-    public boolean onWalk(boolean state, FloorItem item, Avatar avatar) {
+    public boolean onWalk(boolean state, RoomItem item, Avatar avatar) {
         return false;
     }
 
     @Override
-    public boolean onInteract(int request, FloorItem item, Avatar avatar) {
-        TeleportToItemData data = (TeleportToItemData) WiredDataFactory.get(item);
+    public boolean onInteract(int request, RoomItem item, Avatar avatar) {
+        if (!(item instanceof FloorItem)) {
+            return false;
+        }
+
+        FloorItem floorItem = (FloorItem) item;
+
+        TeleportToItemData data = (TeleportToItemData) WiredDataFactory.get(floorItem);
 
         if(data == null) {
             GameEngine.getLogger().debug("Failed to find WiredDataInstance for item: " + item.getId());
@@ -53,17 +60,17 @@ public class WiredActionMoveUser extends Interactor {
     }
 
     @Override
-    public boolean onPlace(FloorItem item, Avatar avatar, Room room) {
+    public boolean onPlace(RoomItem item, Avatar avatar, Room room) {
         return false;
     }
 
     @Override
-    public boolean onPickup(FloorItem item, Avatar avatar, Room room) {
+    public boolean onPickup(RoomItem item, Avatar avatar, Room room) {
         return false;
     }
 
     @Override
-    public boolean onTick(FloorItem item) {
+    public boolean onTick(RoomItem item) {
         return false;
     }
 

@@ -15,6 +15,7 @@ import com.cometsrv.game.items.interactions.wired.trigger.WiredTriggerEnterRoom;
 import com.cometsrv.game.items.interactions.wired.trigger.WiredTriggerOnSay;
 import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.items.FloorItem;
+import com.cometsrv.game.rooms.items.RoomItem;
 import com.cometsrv.game.rooms.types.Room;
 import javolution.util.FastMap;
 
@@ -71,7 +72,7 @@ public class InteractionManager {
         return InteractionState.NO_INTERACTION;
     }
 
-    public InteractionState onInteract(int state, FloorItem item, Avatar avatar) {
+    public InteractionState onInteract(int state, RoomItem item, Avatar avatar) {
         GameEngine.getLogger().debug("Interacted with: " + item.getDefinition().getInteraction());
 
         if(!this.isInteraction(item.getDefinition().getInteraction())) {
