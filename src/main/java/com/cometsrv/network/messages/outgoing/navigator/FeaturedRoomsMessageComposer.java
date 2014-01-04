@@ -13,6 +13,10 @@ public class FeaturedRoomsMessageComposer {
         msg.writeInt(rooms.size());
 
         for(FeaturedRoom room : rooms) {
+            if(!room.isCategory()) {
+                continue;
+            }
+
             room.compose(msg);
 
             if(room.isCategory()) {
