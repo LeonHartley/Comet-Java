@@ -72,26 +72,6 @@ public class ItemProcessComponent implements CometTask {
             long timeStart = System.currentTimeMillis();
 
             for(FloorItem item : this.getRoom().getItems().getFloorItems()) {
-                /*if(item.needsUpdate()) {
-                    InteractionState state = InteractionState.COMPLETED;
-
-                    if(item.getUpdateType() == InteractionAction.ON_WALK) {
-                        state = GameEngine.getItems().getInteractions().onWalk(item.getUpdateState() == 1, item, item.getUpdateAvatar());
-                    } else if(item.getUpdateType() == InteractionAction.ON_USE) {
-                        state = GameEngine.getItems().getInteractions().onInteract(item.getUpdateState(), item, item.getUpdateAvatar());
-                    } else if (item.getUpdateType() == InteractionAction.ON_PLACED) {
-                        //GameEngine.getItems().getInteractions().onPlace(item, item.getUpdateAvatar());
-                    } else if (item.getUpdateType() == InteractionAction.ON_PICKUP) {
-                        //GameEngine.getItems().getInteractions().onPickup(item, item.getUpdateAvatar());
-                    } else if (item.getUpdateType() == InteractionAction.ON_TICK) {
-                        state = GameEngine.getItems().getInteractions().onTick(item);
-                    }
-
-                    if (state != InteractionState.CYCLING) {
-                        item.setNeedsUpdate(false);
-                    }
-                }*/
-
                 if (item.hasInteraction()) {
                     InteractionQueueItem interactItem = item.getNextInteraction();
                     InteractionState state = InteractionState.COMPLETED;

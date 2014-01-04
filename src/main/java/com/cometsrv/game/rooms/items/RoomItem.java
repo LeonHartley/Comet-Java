@@ -119,7 +119,7 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem 
         int posY = pos.getY();
 
         if(getRotation() == 0) {
-            posX--;
+            posY--;
         } else if(getRotation() == 2) {
             posX++;
         } else if(getRotation() == 4) {

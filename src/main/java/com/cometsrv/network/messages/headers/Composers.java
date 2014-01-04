@@ -125,6 +125,8 @@ public class Composers {
     public static short GroupPartsMessageComposer = 1061;
     public static short GroupElementsMessageComposer = 29;
 
+    public static short SlideObjectBundleMessageComposer = 106;
+
     public static String valueOfId(int i) {
         Composers c = new Composers();
         Field[] fields;

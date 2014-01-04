@@ -40,6 +40,7 @@ public class InteractionManager {
         this.interactions.put("pressure_pad", new PressurePadInteraction());
         this.interactions.put("teleport", new TeleportInteraction());
         this.interactions.put("habbowheel", new WheelInteractor());
+        this.interactions.put("roller", new RollerInteraction());
 
         // Wired Actions
         this.interactions.put("wf_act_move_rotate", new WiredActionMoveRotate());
