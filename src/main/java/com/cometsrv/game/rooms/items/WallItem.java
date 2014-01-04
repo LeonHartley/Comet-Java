@@ -4,11 +4,8 @@ import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.types.ItemDefinition;
 import com.cometsrv.network.messages.types.Composer;
 
-public class WallItem {
-    private int id;
-    private int itemId;
+public class WallItem extends RoomItem {
     private int roomId;
-    private int owner;
     private String position;
     private String extraData;
     private boolean state;
@@ -16,13 +13,14 @@ public class WallItem {
     public WallItem(int id, int itemId, int roomId, int owner, String position, String data) {
         this.id = id;
         this.itemId = itemId;
-        this.owner = owner;
+        this.ownerId = owner;
         this.position = position;
         this.extraData = data;
 
         state = false;
     }
 
+    @Override
     public void serialize(Composer msg) {
         msg.writeString(this.getId());
         msg.writeInt(this.getDefinition().getSpriteId());
@@ -32,6 +30,11 @@ public class WallItem {
         msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
         msg.writeInt(-1);
         msg.writeInt(-1);
+    }
+
+    @Override
+    public boolean toggleInteract(boolean state) {
+        return false;
     }
 
     public ItemDefinition getDefinition() {
@@ -49,7 +52,7 @@ public class WallItem {
     public int getRoomId() { return roomId; }
 
     public int getOwner() {
-        return owner;
+        return ownerId;
     }
 
     public void setPosition(String position) {
@@ -71,5 +74,4 @@ public class WallItem {
     public boolean getState() {
         return this.state;
     }
-
 }
