@@ -19,18 +19,26 @@ public class FeaturedRoomsMessageComposer {
 
             room.compose(msg);
 
-            if(room.isCategory()) {
-                for(FeaturedRoom room1 : rooms) {
-                    if(room1.getCategoryId() == room.getId()) {
-                        room1.compose(msg);
-                    }
-                }
+            for(FeaturedRoom room1 : rooms) {
+                if(room1.getCategoryId() != room.getId())
+                    continue;
+
+                room1.compose(msg);
+            }
+        }
+
+        for(FeaturedRoom room : rooms) {
+            if(!room.isCategory() && room.isRecommended()) {
+                msg.writeInt(1);
+                room.compose(msg);
+                msg.writeInt(0);
+
+                return msg;
             }
         }
 
         msg.writeInt(0);
-        msg.writeInt(0); // is there a featured featured room? 1= yes, if yes, we need serialize again
-
+        msg.writeInt(0);
         return msg;
     }
 }

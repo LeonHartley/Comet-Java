@@ -18,11 +18,8 @@ public class FeaturedRoom {
     private ImageType imageType;
     private int roomId;
     private int categoryId;
-    private int parentCategoryId;
     private boolean enabled;
     private boolean recommended;
-    private int typeOfData;
-    private String tag;
 
     private Room room;
 
@@ -35,11 +32,8 @@ public class FeaturedRoom {
         this.imageType = ImageType.get(data.getString("image_type"));
         this.roomId = data.getInt("room_id");
         this.categoryId = data.getInt("category_id");
-        this.parentCategoryId = data.getInt("category_parent_id");
         this.enabled = Boolean.parseBoolean(data.getString("enabled"));
         this.recommended = Boolean.parseBoolean(data.getString("recommended"));
-        this.typeOfData = data.getInt("typeofdata");
-        this.tag = data.getString("tag");
         this.isCategory = data.getString("type").equals("category");
 
         // cache the room data so we dont have to get it every time we load the nav
@@ -98,24 +92,12 @@ public class FeaturedRoom {
         return categoryId;
     }
 
-    public int getParentCategoryId() {
-        return parentCategoryId;
-    }
-
     public boolean isEnabled() {
         return enabled;
     }
 
     public boolean isRecommended() {
         return recommended;
-    }
-
-    public int getTypeOfData() {
-        return typeOfData;
-    }
-
-    public String getTag() {
-        return tag;
     }
 
     public boolean isCategory() {
