@@ -32,7 +32,7 @@ public class FeaturedRoomsMessageComposer {
                 msg.writeInt(1);
                 room.compose(msg);
                 msg.writeInt(0);
-
+                
                 return msg;
             }
         }

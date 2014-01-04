@@ -33,7 +33,7 @@ public class FeaturedRoom {
         this.roomId = data.getInt("room_id");
         this.categoryId = data.getInt("category_id");
         this.enabled = Boolean.parseBoolean(data.getString("enabled"));
-        this.recommended = Boolean.parseBoolean(data.getString("recommended"));
+        this.recommended = data.getString("recommended").equals("1");
         this.isCategory = data.getString("type").equals("category");
 
         // cache the room data so we dont have to get it every time we load the nav
