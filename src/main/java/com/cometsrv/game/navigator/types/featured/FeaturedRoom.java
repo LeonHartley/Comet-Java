@@ -50,7 +50,8 @@ public class FeaturedRoom {
         boolean isActive = (room != null && room.getAvatars() != null);
 
         msg.writeInt(id);
-        msg.writeString(isCategory ? caption : "");
+        //msg.writeString(isCategory ? caption : "");
+        msg.writeString(caption);
         msg.writeString(description);
         msg.writeInt(bannerType == BannerType.BIG ? 0 : 1);
         msg.writeString(!isCategory ? caption : "");
