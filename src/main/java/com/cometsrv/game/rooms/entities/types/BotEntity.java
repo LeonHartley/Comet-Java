@@ -18,4 +18,9 @@ public class BotEntity extends GenericEntity {
     public void leaveRoom() {
 
     }
+
+    @Override
+    public void process() {
+
+    }
 }
