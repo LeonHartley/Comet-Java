@@ -117,14 +117,6 @@ public class FloorItem extends RoomItem {
         }
     }
 
-    public void toggleState() {
-        if(state) {
-            state = false;
-        } else {
-            state = true;
-        }
-    }
-
     public void setNeedsUpdate(boolean needsUpdate, InteractionAction action, Avatar avatar, int updateState) {
         if (needsUpdate) {
             this.queueInteraction(new InteractionQueueItem(needsUpdate, this, action, avatar, updateState));
