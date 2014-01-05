@@ -12,12 +12,18 @@ import com.cometsrv.network.messages.outgoing.room.avatar.IdleStatusMessageCompo
 import com.cometsrv.tasks.CometTask;
 import com.cometsrv.utilities.TimeSpan;
 import javolution.util.FastList;
+import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class ProcessComponent implements CometTask {
+    private final int ROOM_DISPOSE_TIME = Integer.parseInt(Comet.getServer().getConfig().get("comet.room.dispose.cycles"));
+    private int disposeCycles = 0;
+
+    private FastList<Avatar> usersToUpdate;
+
     private Room room;
 
     private Logger log;
@@ -49,11 +55,99 @@ public class ProcessComponent implements CometTask {
         }
     }
 
-    public boolean isActive() {
-        return this.active;
+    @Override
+    public void run() {
+        if (!this.active) {
+            return;
+        }
+
+        // Dispose the room if it has been idle for a certain amount of time
+        if (this.getRoom().getAvatars().getAvatars().size() == 0) {
+            if (this.disposeCycles >= ROOM_DISPOSE_TIME) {
+                this.getRoom().dispose();
+                return;
+            }
+
+            this.disposeCycles++;
+        } else {
+            if (this.disposeCycles >= 0) {
+                this.disposeCycles = 0;
+            }
+        }
+
+        long timeStart = System.currentTimeMillis();
+
+        // Reset the users to update
+        if (this.usersToUpdate == null) {
+            this.usersToUpdate = new FastList<>();
+        } else if (this.usersToUpdate.size() > 0) {
+            this.usersToUpdate.clear();
+        }
+
+        FastMap<Integer, Avatar> avatars = this.getRoom().getAvatars().getAvatars();
+
+        for (Avatar avatar : avatars.values()) {
+            if (checkLostAvatar(avatar)) { continue; }
+
+            if (avatar.getPlayer().floodTime >= 0.5) {
+                avatar.getPlayer().floodTime -= 0.5;
+
+                if (avatar.getPlayer().floodTime < 0) {
+                    avatar.getPlayer().floodTime = 0;
+                }
+            }
+
+            // Handle the sign status
+            if(avatar.hasStatus("sign")) {
+                if(avatar.signTime != 0) {
+                    avatar.signTime--;
+                } else {
+                    avatar.removeStatus("sign");
+                    avatar.needsUpdate = true;
+                }
+            }
+
+            // If the user is animating the walk status remove it (it will be reset below if the user is walking)
+            if (avatar.hasStatus("mv")) {
+                avatar.removeStatus("mv");
+                avatar.setNeedsUpdate(true);
+            }
+
+            // Do we need to set a position?
+            if (avatar.getPositionToSet() != null) {
+                int posX = avatar.getPositionToSet().getX();
+                int posY = avatar.getPositionToSet().getY();
+
+                if (posX == this.getRoom().getModel().getDoorX() && posY == this.getRoom().getModel().getDoorY()) {
+                    this.removeFromRoom(avatar);
+                    continue;
+                }
+
+
+            }
+        }
     }
 
-    @Override
+    protected void removeFromRoom(Avatar avatar) {
+        this.getRoom().getAvatars().remove(avatar);
+        this.getRoom().getAvatars().broadcast(AvatarUpdateMessageComposer.compose(avatar));
+    }
+
+    private boolean checkLostAvatar(Avatar avatar) {
+        if(avatar.getPlayer() == null) {
+            this.getRoom().getAvatars().remove(avatar);
+            return true;
+        }
+
+        if(!avatar.inRoom || avatar.getRoom() == null) {
+            this.getRoom().getAvatars().remove(avatar);
+            return true;
+        }
+
+        return false;
+    }
+
+    /*@Override
     public void run() {
         try {
             if(!this.active) {
@@ -164,9 +258,9 @@ public class ProcessComponent implements CometTask {
     private void handleWalk(Avatar avatar) {
         Square next = (avatar.getIsTeleporting()) ? new Square(avatar.getGoalX(), avatar.getGoalY()) : avatar.getPath().poll();
 
-        /*if(avatar.getIsTeleporting()) {
+        if(avatar.getIsTeleporting()) {
             avatar.getPath().clear();
-        }*/
+        }
 
         if(next.x == room.getModel().getDoorX() && next.y == room.getModel().getDoorY()) {
             avatar.dispose(false, false, true);
@@ -221,14 +315,16 @@ public class ProcessComponent implements CometTask {
 
         avatar.getPosition().setZ(height);
 
-    }
+    }*/
 
     public void dispose() {
         this.active = false;
         this.myFuture.cancel(false);
     }
 
-    public Room getRoom() {
-        return this.room;
+    public boolean isActive() {
+        return this.active;
     }
+
+    public Room getRoom() { return this.room; }
 }

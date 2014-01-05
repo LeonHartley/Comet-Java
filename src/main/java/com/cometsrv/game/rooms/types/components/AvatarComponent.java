@@ -9,7 +9,7 @@ import javolution.util.FastMap;
 
 public class AvatarComponent {
     private FastMap<Integer, Avatar> avatars;
-    private int virtualCounter = 0;
+
     private Room room;
 
     public AvatarComponent(Room room) {
@@ -96,7 +96,7 @@ public class AvatarComponent {
         }
     }
 
-    public synchronized FastMap<Integer, Avatar> getAvatars() {
+    public FastMap<Integer, Avatar> getAvatars() {
         return this.avatars;
     }
 

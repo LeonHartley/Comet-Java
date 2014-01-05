@@ -54,6 +54,7 @@ public class Avatar {
     private int danceId;
     private int effectId;
 
+    private Position positionToSet;
     private LinkedList<Square> path;
     private Pathfinder pathfinder;
 
@@ -303,6 +304,8 @@ public class Avatar {
     public void dispose() {
         this.dispose(true, false, false);
     }
+
+    public Position getPositionToSet() { return this.positionToSet; };
 
     public LinkedList<Square> getPath() {
         return this.path;
