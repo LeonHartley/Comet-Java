@@ -51,9 +51,11 @@ public class RollerInteraction extends Interactor {
         FloorItem floorItem = (FloorItem) item;
         Avatar av = floorItem.getRoom().getAvatars().getAvatarAt(floorItem.getX(), floorItem.getY());
 
-        floorItem.getRoom().getAvatars().broadcast(SlideObjectBundleMessageComposer.compose(av.getPosition(), new Position(sq.getX(), sq.getY(), sq.getZ()), floorItem.getId(), av.getPlayer().getId(), 0));
+        if(av.getPathfinder() == null || !av.getPathfinder().checkSquare(sq.getX(), sq.getY())) {
+            return false;
+        }
 
-        //av.warpTo(sq.getX(), sq.getY());
+        floorItem.getRoom().getAvatars().broadcast(SlideObjectBundleMessageComposer.compose(av.getPosition(), new Position(sq.getX(), sq.getY(), floorItem.getHeight()), floorItem.getId(), av.getPlayer().getId(), 0));
         return false;
     }
 

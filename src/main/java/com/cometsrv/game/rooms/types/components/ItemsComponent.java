@@ -149,8 +149,7 @@ public class ItemsComponent {
             }
         }
 
-        for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation()))
-        {
+        for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
             affectedUser = room.getAvatars().getAvatarAt(tile.x, tile.y);
 
             if (affectedUser != null) {
