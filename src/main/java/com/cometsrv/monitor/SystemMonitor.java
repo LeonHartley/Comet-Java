@@ -13,7 +13,7 @@ public class SystemMonitor implements CometTask {
     private ScheduledFuture myFuture;
 
     private boolean active = false;
-    private int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.gc.interval"));
+    private int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.interval"));
     private int cycleCount = 0;
 
     public SystemMonitor(CometThreadManagement mgr) {
