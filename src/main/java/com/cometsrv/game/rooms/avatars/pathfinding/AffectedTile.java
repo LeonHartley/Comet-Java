@@ -1,6 +1,5 @@
 package com.cometsrv.game.rooms.avatars.pathfinding;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
