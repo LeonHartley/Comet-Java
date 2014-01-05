@@ -85,6 +85,12 @@ public class Comet {
                                     GameEngine.getBans().loadBans();
                                     Comet.log.info("Bans were reloaded.");
                                     break;
+
+                                case "/reload_navigator":
+                                    GameEngine.getNavigator().loadFeaturedRooms();
+                                    GameEngine.getNavigator().loadCategories();
+                                    Comet.log.info("Navigator was reloaded.");
+                                    break;
                             }
                         } else {
                             Comet.log.error("Invalid command");
