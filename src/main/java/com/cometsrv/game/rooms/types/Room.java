@@ -21,6 +21,7 @@ public class Room {
     private TradeComponent trade;
     private BotComponent bots;
     private GameComponent game;
+    private EntityComponent entities;
 
     private Group group;
 
@@ -48,6 +49,7 @@ public class Room {
         this.trade = new TradeComponent(this);
         this.bots = new BotComponent(this);
         this.game = new GameComponent(this);
+        this.entities = new EntityComponent(this);
 
         this.isActive = true;
         this.log.debug("Room loaded");
@@ -68,6 +70,7 @@ public class Room {
         this.trade.dispose();
         this.bots.dispose();
         this.game.dispose();
+        this.entities.dispose();
 
         this.itemProcess = null;
         this.avatars = null;
@@ -126,6 +129,10 @@ public class Room {
 
     public GameComponent getGame() {
         return this.game;
+    }
+
+    public EntityComponent getEntities() {
+        return this.entities;
     }
 
     public int getId() {
