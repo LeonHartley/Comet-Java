@@ -325,6 +325,10 @@ public class Avatar {
         this.goalY = y;
     }
 
+    public void setPosition(Position pos) {
+        this.position = pos;
+    }
+
     public int getGoalX() {
         return this.goalX;
     }

@@ -109,7 +109,7 @@ public class Pathfinder
         return newX >= 0 && newY >= 0 && mapX > newX && mapY > newY && avatar.getRoom().getModel().getSquareState()[newX][newY] == RoomTileState.VALID && avatar.getRoom().getAvatars().isSquareAvailable(newX, newY) && checkSquare(newX, newY);
     }
 
-    private boolean checkSquare(int x, int y) {
+    public boolean checkSquare(int x, int y) {
         // Author: LH
         boolean isItem = false;
         boolean isAvailable = false;

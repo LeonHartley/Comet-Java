@@ -156,10 +156,6 @@ public class ProcessComponent implements CometTask {
             }
 
         } catch(Exception e) {
-            if(e instanceof InterruptedException) {
-                return;
-            }
-
             log.error("Error while processing room", e);
             this.getRoom().dispose();
         }
@@ -182,7 +178,7 @@ public class ProcessComponent implements CometTask {
 
         for(FloorItem item : avatar.getRoom().getItems().getItemsOnSquare(avatar.getPosition().getX(), avatar.getPosition().getY())) {
             item.setNeedsUpdate(true, InteractionAction.ON_WALK, avatar, 0);
-            //height += item.getHeight();
+            height += item.getHeight();
         }
 
         if(avatar.hasStatus("mv")) {
