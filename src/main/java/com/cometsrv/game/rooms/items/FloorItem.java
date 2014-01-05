@@ -16,12 +16,12 @@ import java.sql.PreparedStatement;
 
 public class FloorItem extends RoomItem {
     private int roomId;
-    private float height;
+    private double height;
     private String extraData;
 
     private WeakReference<Room> room;
 
-    public FloorItem(int id, int itemId, int roomId, int owner, int x, int y, float z, int rotation, String data) {
+    public FloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         this.id = id;
         this.itemId = itemId;
         this.roomId = roomId;
@@ -42,7 +42,7 @@ public class FloorItem extends RoomItem {
         msg.writeInt(this.getX());
         msg.writeInt(this.getY());
         msg.writeInt(this.getRotation());
-        msg.writeString(Float.toString(this.getHeight()));
+        msg.writeString(Double.toString(this.getHeight()));
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeString(this.getExtraData());
@@ -162,7 +162,7 @@ public class FloorItem extends RoomItem {
         }
     }
 
-    public float getHeight() {
+    public double getHeight() {
         return this.height;
     }
 

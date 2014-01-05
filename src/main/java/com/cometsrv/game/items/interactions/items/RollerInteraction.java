@@ -51,11 +51,25 @@ public class RollerInteraction extends Interactor {
         FloorItem floorItem = (FloorItem) item;
         Avatar av = floorItem.getRoom().getAvatars().getAvatarAt(floorItem.getX(), floorItem.getY());
 
-        if(av.getPathfinder() == null || !av.getPathfinder().checkSquare(sq.getX(), sq.getY())) {
+        if (av.getPathfinder() == null) { // Something wrong with pathfinder?
             return false;
         }
 
-        floorItem.getRoom().getAvatars().broadcast(SlideObjectBundleMessageComposer.compose(av.getPosition(), new Position(sq.getX(), sq.getY(), floorItem.getHeight()), floorItem.getId(), av.getPlayer().getId(), 0));
+        if(!av.getPathfinder().checkSquare(sq.getX(), sq.getY())) {
+            // Try again soon if they are still on the same square
+            if (av.getPosition().getX() == floorItem.getX() && av.getPosition().getY() == floorItem.getY()) {
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, null, 0, 10));
+            }
+            return false;
+        }
+
+        double height = 0.0;
+
+        for(FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(item.getX(), item.getY())) {
+            height += itemInStack.getDefinition().getHeight();
+        }
+
+        floorItem.getRoom().getAvatars().broadcast(SlideObjectBundleMessageComposer.compose(av.getPosition(), new Position(sq.getX(), sq.getY(), height), floorItem.getId(), av.getPlayer().getId(), 0));
         return false;
     }
 

@@ -164,9 +164,9 @@ public class ProcessComponent implements CometTask {
     private void handleWalk(Avatar avatar) {
         Square next = (avatar.getIsTeleporting()) ? new Square(avatar.getGoalX(), avatar.getGoalY()) : avatar.getPath().poll();
 
-        if(avatar.getIsTeleporting()) {
+        /*if(avatar.getIsTeleporting()) {
             avatar.getPath().clear();
-        }
+        }*/
 
         if(next.x == room.getModel().getDoorX() && next.y == room.getModel().getDoorY()) {
             avatar.dispose(false, false, true);

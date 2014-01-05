@@ -55,7 +55,7 @@ public class ItemsComponent {
 
             while(data.next()) {
                 if(data.getString("wall_pos").equals(""))
-                    this.getFloorItems().add(new FloorItem(data.getInt("id"), data.getInt("base_item"), this.room.getId(), data.getInt("user_id"), data.getInt("x"), data.getInt("y"), data.getFloat("z"), data.getInt("rot"), data.getString("extra_data")));
+                    this.getFloorItems().add(new FloorItem(data.getInt("id"), data.getInt("base_item"), this.room.getId(), data.getInt("user_id"), data.getInt("x"), data.getInt("y"), data.getDouble("z"), data.getInt("rot"), data.getString("extra_data")));
                 else
                     this.getWallItems().add(new WallItem(data.getInt("id"), data.getInt("base_item"), this.room.getId(), data.getInt("user_id"), data.getString("wall_pos"), data.getString("extra_data")));
             }
@@ -65,7 +65,7 @@ public class ItemsComponent {
         }
     }
 
-    public FloorItem addFloorItem(int id, int baseId, int roomId, int ownerId, int x, int y, int rot, float height, String data) {
+    public FloorItem addFloorItem(int id, int baseId, int roomId, int ownerId, int x, int y, int rot, double height, String data) {
         FloorItem item = new FloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
         this.getFloorItems().add(item);
 
