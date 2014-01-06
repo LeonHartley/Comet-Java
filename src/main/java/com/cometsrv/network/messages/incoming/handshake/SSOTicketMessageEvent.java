@@ -1,5 +1,6 @@
 package com.cometsrv.network.messages.incoming.handshake;
 
+import com.cometsrv.boot.Comet;
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.players.data.PlayerLoader;
 import com.cometsrv.game.players.types.Player;
@@ -29,6 +30,12 @@ public class SSOTicketMessageEvent implements IEvent {
         if(player == null) {
             client.disconnect();
             return;
+        }
+
+        Session cloneSession = Comet.getServer().getNetwork().getSessions().getByPlayerId(player.getId());
+
+        if(cloneSession != null) {
+            cloneSession.disconnect();
         }
 
         if(GameEngine.getBans().hasBan(Integer.toString(player.getId()))) {
