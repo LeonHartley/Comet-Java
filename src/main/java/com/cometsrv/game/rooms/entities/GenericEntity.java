@@ -55,7 +55,7 @@ public abstract class GenericEntity implements AvatarEntity {
     }
 
     @Override
-    public int getId() {
+    public int getVirtualId() {
         return this.id;
     }
 
@@ -142,7 +142,50 @@ public abstract class GenericEntity implements AvatarEntity {
         this.statusses.put(key, value);
     }
 
-    public abstract void joinRoom();
+    @Override
+    public int getIdleTime() {
+        return this.idleTime;
+    }
+
+    @Override
+    public boolean isIdleAndIncrement() {
+        this.idleTime++;
+
+        if (this.idleTime >= 600) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void resetIdleTime() {
+        this.idleTime = 0;
+    }
+
+    public void unIdle() {
+        this.resetIdleTime();
+    }
+
+    @Override
+    public int getSignTime() {
+        return this.signTime;
+    }
+
+    @Override
+    public boolean isDisplayingSign() {
+        this.signTime++;
+
+        if (this.signTime <= 6) {
+            return true;
+        } else {
+            this.signTime = 0;
+            return false;
+        }
+    }
+
+
+    public abstract void joinRoom(Room room, String password);
     protected abstract void finalizeJoinRoom();
 
     public abstract void leaveRoom();

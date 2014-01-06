@@ -58,11 +58,11 @@ public class BotEntity extends GenericEntity {
 
     @Override
     public void compose(Composer msg) {
-        msg.writeInt(this.getId());
+        msg.writeInt(this.getVirtualId());
         msg.writeString(this.getUsername());
         msg.writeString(this.getMotto());
         msg.writeString(this.getFigure());
-        msg.writeInt(this.getId());
+        msg.writeInt(this.getVirtualId());
 
         msg.writeInt(this.getPosition().getX());
         msg.writeInt(this.getPosition().getY());

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface AvatarEntity {
-    public int getId();
+    public int getVirtualId();
 
     public Position3D getPosition();
     public void setPosition(Position3D position);
@@ -26,6 +26,13 @@ public interface AvatarEntity {
 
     public Map<String, String> getStatuses();
     public void addStatus(String key, String value);
+
+    public int getIdleTime();
+    public boolean isIdleAndIncrement();
+    public void resetIdleTime();
+
+    public int getSignTime();
+    public boolean isDisplayingSign();
 
     public Room getRoom();
 
