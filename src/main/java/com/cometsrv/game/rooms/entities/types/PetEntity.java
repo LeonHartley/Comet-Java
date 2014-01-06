@@ -68,7 +68,7 @@ public class PetEntity extends GenericEntity {
         msg.writeDouble(this.getPosition().getZ());
 
         msg.writeInt(4); // 2 = user 4 = bot
-        msg.writeInt(3); // 1 = user 2 = pet 3 = bot
+        msg.writeInt(2); // 1 = user 2 = pet 3 = bot
 
         msg.writeString(this.getGender().toLowerCase());
         msg.writeInt(0);
