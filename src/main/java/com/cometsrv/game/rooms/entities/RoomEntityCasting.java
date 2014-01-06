@@ -28,7 +28,7 @@ public class RoomEntityCasting {
         return (BotEntity) genericEntity;
     }
 
-    public static PetEntity castToPet(PetEntity genericEntity) {
+    public static PetEntity castToPet(GenericEntity genericEntity) {
         // This provides validation that the Entity is actually a pet (an easy way to tell)
         if (genericEntity.getEntityType() != RoomEntityType.PET) {
             return null;
