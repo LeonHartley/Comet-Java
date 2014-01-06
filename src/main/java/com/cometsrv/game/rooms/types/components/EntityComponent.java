@@ -72,6 +72,20 @@ public class EntityComponent {
         }
     }
 
+    public GenericEntity getEntity(int id) {
+        return this.entities.get(id);
+    }
+
+    public PlayerEntity tryGetPlayerEntity(int id) throws Exception {
+        GenericEntity entity = this.entities.get(id);
+
+        if (entity.getEntityType() != RoomEntityType.PLAYER) {
+            throw new Exception("This entity is not a player.");
+        }
+
+        return (PlayerEntity) entity;
+    }
+
     protected int getFreeId() {
         return this.entityIdGenerator.incrementAndGet();
     }
