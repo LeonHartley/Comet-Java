@@ -16,7 +16,7 @@ public class PetEntity extends GenericEntity {
     }
 
     @Override
-    public void joinRoom() {
+    public void joinRoom(Room room, String password) {
 
     }
 

@@ -3,6 +3,7 @@ package com.cometsrv.game.rooms.entities.types;
 import com.cometsrv.game.players.types.Player;
 import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.rooms.entities.GenericEntity;
+import com.cometsrv.game.rooms.entities.PlayerEntityAccess;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.outgoing.room.alerts.RoomFullMessageComposer;
 import com.cometsrv.network.messages.outgoing.room.engine.HotelViewMessageComposer;
@@ -12,7 +13,7 @@ import com.cometsrv.network.messages.outgoing.room.permissions.AccessLevelMessag
 import com.cometsrv.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
 import com.cometsrv.network.messages.types.Composer;
 
-public class PlayerEntity extends GenericEntity {
+public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     private Player player;
 
     public PlayerEntity(Player player, int identifier, Position3D startPosition, Room roomInstance) {
@@ -109,6 +110,10 @@ public class PlayerEntity extends GenericEntity {
 
     }
 
+    public int getPlayerId() {
+        return this.player.getId();
+    }
+
     @Override
     public String getUsername() {
         return this.player.getData().getUsername();
@@ -150,5 +155,10 @@ public class PlayerEntity extends GenericEntity {
         msg.writeString("");
         msg.writeString("");
         msg.writeInt(0);
+    }
+
+    @Override
+    public Player getPlayer() {
+        return this.player;
     }
 }
