@@ -1,16 +1,10 @@
 package com.cometsrv.game.rooms.types.components;
 
 import com.cometsrv.boot.Comet;
-import com.cometsrv.game.items.interactions.InteractionAction;
 import com.cometsrv.game.rooms.avatars.Avatar;
-import com.cometsrv.game.rooms.avatars.misc.Position;
-import com.cometsrv.game.rooms.avatars.pathfinding.Square;
-import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
-import com.cometsrv.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometsrv.tasks.CometTask;
-import com.cometsrv.utilities.TimeSpan;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;

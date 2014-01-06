@@ -2,7 +2,7 @@ package com.cometsrv.network.messages.incoming.room.item;
 
 import com.cometsrv.boot.Comet;
 import com.cometsrv.game.players.components.types.InventoryItem;
-import com.cometsrv.game.rooms.avatars.misc.Position;
+import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.incoming.IEvent;
@@ -24,7 +24,7 @@ public class PlaceItemMessageEvent implements IEvent {
 
         try {
             if(parts[1].startsWith(":")) {
-                String position = Position.validateWallPosition(parts[1] + " " + parts[2] + " " + parts[3]);
+                String position = Position3D.validateWallPosition(parts[1] + " " + parts[2] + " " + parts[3]);
 
                 if(position == null) {
                     return;

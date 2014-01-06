@@ -3,7 +3,7 @@ package com.cometsrv.game.items.interactions.items;
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.Avatar;
-import com.cometsrv.game.rooms.avatars.misc.Position;
+import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.items.RoomItem;
 import com.cometsrv.game.rooms.types.Room;
@@ -34,7 +34,7 @@ public class TeleportInteraction extends Interactor {
 
         boolean flash = false;
 
-        Position posInFront = item.squareInfront();
+        Position3D posInFront = item.squareInfront();
 
         if((avatar.getPosition().getX() != posInFront.getX() && avatar.getPosition().getY() != posInFront.getY())
                 && !(avatar.getPosition().getX() == item.getX() && avatar.getPosition().getY() == item.getY())) {

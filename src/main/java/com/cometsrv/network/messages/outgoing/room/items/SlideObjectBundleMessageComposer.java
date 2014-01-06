@@ -1,11 +1,11 @@
 package com.cometsrv.network.messages.outgoing.room.items;
 
-import com.cometsrv.game.rooms.avatars.misc.Position;
+import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.network.messages.headers.Composers;
 import com.cometsrv.network.messages.types.Composer;
 
 public class SlideObjectBundleMessageComposer {
-    public static Composer compose(Position from, Position to, int RollerItemId, int AvatarId, int ItemId) {
+    public static Composer compose(Position3D from, Position3D to, int RollerItemId, int AvatarId, int ItemId) {
         Composer msg = new Composer(Composers.SlideObjectBundleMessageComposer);
 
         boolean isItem = ItemId > 0;

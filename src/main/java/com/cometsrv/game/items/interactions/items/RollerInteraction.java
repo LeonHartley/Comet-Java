@@ -4,7 +4,7 @@ import com.cometsrv.game.items.interactions.InteractionAction;
 import com.cometsrv.game.items.interactions.InteractionQueueItem;
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.Avatar;
-import com.cometsrv.game.rooms.avatars.misc.Position;
+import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.items.RoomItem;
 import com.cometsrv.game.rooms.types.Room;
@@ -46,7 +46,7 @@ public class RollerInteraction extends Interactor {
             return false;
         }
 
-        Position sq = item.squareInfront();
+        Position3D sq = item.squareInfront();
 
         FloorItem floorItem = (FloorItem) item;
         Avatar av = floorItem.getRoom().getAvatars().getAvatarAt(floorItem.getX(), floorItem.getY());
@@ -70,7 +70,7 @@ public class RollerInteraction extends Interactor {
         }
 
         av.warpTo(sq.getX(), sq.getY());
-        floorItem.getRoom().getAvatars().broadcast(SlideObjectBundleMessageComposer.compose(av.getPosition(), new Position(sq.getX(), sq.getY(), height), floorItem.getId(), av.getPlayer().getId(), 0));
+        floorItem.getRoom().getAvatars().broadcast(SlideObjectBundleMessageComposer.compose(av.getPosition(), new Position3D(sq.getX(), sq.getY(), height), floorItem.getId(), av.getPlayer().getId(), 0));
         return false;
     }
 

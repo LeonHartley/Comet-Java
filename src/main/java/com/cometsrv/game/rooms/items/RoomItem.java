@@ -1,10 +1,9 @@
 package com.cometsrv.game.rooms.items;
 
-import com.cometsrv.game.items.interactions.InteractionAction;
 import com.cometsrv.game.items.interactions.InteractionQueueItem;
 import com.cometsrv.game.items.types.ItemDefinition;
 import com.cometsrv.game.rooms.avatars.Avatar;
-import com.cometsrv.game.rooms.avatars.misc.Position;
+import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.utilities.DistanceCalculator;
 import com.cometsrv.network.messages.types.Composer;
 
@@ -112,8 +111,8 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem 
         return DistanceCalculator.tilesTouching(avatarX, avatarY, this.getX(), this.getY());
     }
 
-    public Position squareInfront() {
-        Position pos = new Position(getX(), getY(), 0);
+    public Position3D squareInfront() {
+        Position3D pos = new Position3D(getX(), getY(), 0);
 
         int posX = pos.getX();
         int posY = pos.getY();

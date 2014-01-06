@@ -2,18 +2,18 @@ package com.cometsrv.game.rooms.avatars.misc;
 
 import com.cometsrv.game.rooms.items.FloorItem;
 
-public class Position {
+public class Position3D {
     private int x;
     private int y;
     private double z;
 
-    public Position(int x, int y, double z) {
+    public Position3D(int x, int y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public Position() {
+    public Position3D() {
         this.x = 0;
         this.y = 0;
         this.z = 0;

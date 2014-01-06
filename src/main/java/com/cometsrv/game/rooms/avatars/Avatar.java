@@ -3,7 +3,7 @@ package com.cometsrv.game.rooms.avatars;
 import com.cometsrv.config.CometSettings;
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.players.types.Player;
-import com.cometsrv.game.rooms.avatars.misc.Position;
+import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.rooms.avatars.pathfinding.Pathfinder;
 import com.cometsrv.game.rooms.avatars.pathfinding.Square;
 import com.cometsrv.game.rooms.types.components.games.GameTeam;
@@ -36,7 +36,7 @@ public class Avatar {
     public boolean authOK;
 
     private FastMap<String, String> statuses;
-    private Position position;
+    private Position3D position;
 
     private int bodyRotation;
     private int headRotation;
@@ -54,7 +54,7 @@ public class Avatar {
     private int danceId;
     private int effectId;
 
-    private Position positionToSet;
+    private Position3D positionToSet;
     private LinkedList<Square> path;
     private Pathfinder pathfinder;
 
@@ -92,7 +92,7 @@ public class Avatar {
         this.effectId = 0;
 
         this.statuses = new FastMap<>();
-        this.position = new Position(0, 0, 0);
+        this.position = new Position3D(0, 0, 0);
         this.gameTeam = GameTeam.NONE;
     }
 
@@ -305,7 +305,7 @@ public class Avatar {
         this.dispose(true, false, false);
     }
 
-    public Position getPositionToSet() { return this.positionToSet; };
+    public Position3D getPositionToSet() { return this.positionToSet; };
 
     public LinkedList<Square> getPath() {
         return this.path;
@@ -328,7 +328,7 @@ public class Avatar {
         this.goalY = y;
     }
 
-    public void setPosition(Position pos) {
+    public void setPosition(Position3D pos) {
         this.position = pos;
     }
 
@@ -344,7 +344,7 @@ public class Avatar {
         return this.statuses;
     }
 
-    public Position getPosition() {
+    public Position3D getPosition() {
         return this.position;
     }
 
