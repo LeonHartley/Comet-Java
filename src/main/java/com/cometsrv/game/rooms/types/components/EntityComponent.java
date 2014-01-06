@@ -56,6 +56,10 @@ public class EntityComponent {
         }
     }
 
+    public boolean isSquareAvailable(int x, int y) {
+        return this.entityGrid[x][y] == null || this.entityGrid[x][y].isEmpty();
+    }
+
     public PlayerEntity createEntity(Player player) {
         Position3D startPosition = new Position3D(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY(), this.getRoom().getModel().getDoorZ());
 
