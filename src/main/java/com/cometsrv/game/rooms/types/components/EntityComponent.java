@@ -6,10 +6,14 @@ import com.cometsrv.game.rooms.entities.GenericEntity;
 import com.cometsrv.game.rooms.entities.RoomEntityType;
 import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.types.Room;
+import com.cometsrv.game.rooms.types.RoomModel;
 import com.cometsrv.network.messages.types.Composer;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
+import sun.net.www.content.text.Generic;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,8 +27,33 @@ public class EntityComponent {
     private Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().shared();
     private Map<Integer, Integer> playerEntityToPlayerId = new FastMap<Integer, Integer>().shared();
 
-    public EntityComponent(Room room) {
+    private List<GenericEntity>[][] entityGrid;
+
+    public EntityComponent(Room room, RoomModel model) {
         this.room = room;
+
+        this.entityGrid = new ArrayList[model.getSizeX()][model.getSizeY()];
+    }
+
+    public List<GenericEntity> getEntitiesAt(int x, int y) {
+        return this.entityGrid[x][y] != null ? this.entityGrid[x][y] : new ArrayList<GenericEntity>();
+    }
+
+    public void replaceEntityGrid(List<GenericEntity>[][] entityGrid) {
+        this.entityGrid = entityGrid;
+    }
+
+    public void updateEntityGrid(GenericEntity entity, int prevX, int prevY, int newX, int newY) {
+        // Synchronize access because the grid is not thread safe
+        synchronized (this.entityGrid) {
+            this.entityGrid[prevX][prevY].remove(entity);
+
+            if (this.entityGrid[newX][newY] == null) {
+                this.entityGrid[newX][newY] = new ArrayList<GenericEntity>();
+            }
+
+            this.entityGrid[newX][newY].add(entity);
+        }
     }
 
     public PlayerEntity createEntity(Player player) {
