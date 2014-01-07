@@ -62,8 +62,9 @@ public class EntityComponent {
 
     public PlayerEntity createEntity(Player player) {
         Position3D startPosition = new Position3D(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY(), this.getRoom().getModel().getDoorZ());
+        int doorRotation = this.getRoom().getModel().getDoorRotation();
 
-        PlayerEntity entity = new PlayerEntity(player, this.getFreeId(), startPosition, this.getRoom());
+        PlayerEntity entity = new PlayerEntity(player, this.getFreeId(), startPosition, doorRotation, doorRotation, this.getRoom());
         this.addEntity(entity);
 
         return entity;

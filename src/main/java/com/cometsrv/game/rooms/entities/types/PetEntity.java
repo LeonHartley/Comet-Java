@@ -9,8 +9,8 @@ import com.cometsrv.network.messages.types.Composer;
 public class PetEntity extends GenericEntity {
     private BotData data;
 
-    public PetEntity(BotData data, int identifier, Position3D startPosition, Room roomInstance) {
-        super(identifier, startPosition, roomInstance);
+    public PetEntity(BotData data, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
+        super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.data = data;
     }

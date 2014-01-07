@@ -10,8 +10,8 @@ import com.cometsrv.network.messages.types.Composer;
 public class BotEntity extends GenericEntity {
     private BotData data;
 
-    public BotEntity(BotData data, int identifier, Position3D startPosition, Room roomInstance) {
-        super(identifier, startPosition, roomInstance);
+    public BotEntity(BotData data, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
+        super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.data = data;
     }

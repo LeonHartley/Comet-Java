@@ -18,6 +18,12 @@ public interface AvatarEntity {
     public Position3D getWalkingGoal();
     public void setWalkingGoal(int x, int y);
 
+    public int getBodyRotation();
+    public void setBodyRotation(int rotation);
+
+    public int getHeadRotation();
+    public void setHeadRotation(int rotation);
+
     public List<Square> getWalkingPath();
     public void setWalkingPath(List<Square> path);
     public boolean isWalking();

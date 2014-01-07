@@ -22,6 +22,9 @@ public abstract class GenericEntity implements AvatarEntity {
     private Position3D position;
     private Position3D walkingGoal;
 
+    private int bodyRotation;
+    private int headRotation;
+
     private int roomId;
     private WeakReference<Room> room;
 
@@ -33,7 +36,7 @@ public abstract class GenericEntity implements AvatarEntity {
 
     private Map<String, String> statusses = new FastMap<>();
 
-    public GenericEntity(int identifier, Position3D startPosition, Room roomInstance) {
+    public GenericEntity(int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         this.id = identifier;
 
         // Set the entity type
@@ -46,6 +49,9 @@ public abstract class GenericEntity implements AvatarEntity {
         }
 
         this.position = startPosition;
+
+        this.bodyRotation = startBodyRotation;
+        this.headRotation = startHeadRotation;
 
         this.roomId = roomInstance.getId();
         this.room = new WeakReference<>(roomInstance);
@@ -85,6 +91,26 @@ public abstract class GenericEntity implements AvatarEntity {
             this.walkingGoal.setX(x);
             this.walkingGoal.setY(y);
         }
+    }
+
+    @Override
+    public int getBodyRotation() {
+        return this.bodyRotation;
+    }
+
+    @Override
+    public void setBodyRotation(int rotation) {
+        this.bodyRotation = rotation;
+    }
+
+    @Override
+    public int getHeadRotation() {
+        return this.headRotation;
+    }
+
+    @Override
+    public void setHeadRotation(int rotation) {
+        this.headRotation = rotation;
     }
 
     @Override
