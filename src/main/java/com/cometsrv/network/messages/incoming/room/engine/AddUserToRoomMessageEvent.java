@@ -29,16 +29,6 @@ public class AddUserToRoomMessageEvent implements IEvent {
 
         // TODO: Check this over
 
-        /*RoomModel model = room.getModel();
-        avatar.getPosition().setX(model.getDoorX());
-        avatar.getPosition().setY(model.getDoorY());
-        avatar.getPosition().setZ(model.getDoorZ());
-
-        avatar.setBodyRotation(model.getDoorRotation());
-        avatar.setHeadRotation(model.getDoorRotation());
-
-        room.getEntities().addEntity(avatar);*/
-
         if(!room.getProcess().isActive()) {
             room.getProcess().start();
         }

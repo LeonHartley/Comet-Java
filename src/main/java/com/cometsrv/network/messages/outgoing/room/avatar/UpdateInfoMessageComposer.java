@@ -1,6 +1,5 @@
 package com.cometsrv.network.messages.outgoing.room.avatar;
 
-import com.cometsrv.game.players.data.PlayerData;
 import com.cometsrv.game.rooms.entities.GenericEntity;
 import com.cometsrv.network.messages.headers.Composers;
 import com.cometsrv.network.messages.types.Composer;
@@ -18,23 +17,8 @@ public class UpdateInfoMessageComposer {
         return msg;
     }
 
-    @Deprecated
-    // TODO: Cleanup old methods like this
-    public static Composer compose(PlayerData data) {
-        return compose(data.getId(),data.getFigure(), data.getGender(), data.getMotto());
-    }
-
     public static Composer compose(GenericEntity entity) {
         return compose(entity.getVirtualId(), entity.getFigure(), entity.getGender(), entity.getMotto());
-    }
-
-    @Deprecated
-    // TODO: Cleanup old methods like this
-    public static Composer compose(boolean isMe, PlayerData data) {
-        if(!isMe)
-            return compose(data.getId(), data.getFigure(), data.getGender(), data.getMotto());
-        else
-            return compose(-1, data.getFigure(), data.getGender(), data.getMotto());
     }
 
     public static Composer compose(boolean isMe, GenericEntity entity) {

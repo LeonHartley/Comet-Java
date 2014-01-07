@@ -6,8 +6,6 @@ import com.cometsrv.network.messages.types.Composer;
 
 public class AvatarWriter {
     public static void write(GenericEntity entity, Composer msg) {
-        //PlayerData data = avatar.getPlayer().getData();
-
         msg.writeInt(entity.getVirtualId());
         msg.writeString(entity.getUsername());
         msg.writeString(entity.getMotto());

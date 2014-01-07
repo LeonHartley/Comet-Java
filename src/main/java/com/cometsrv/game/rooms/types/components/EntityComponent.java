@@ -112,7 +112,7 @@ public class EntityComponent {
     public PlayerEntity tryGetPlayerEntityNullable(int id) {
         GenericEntity entity = this.entities.get(id);
 
-        if (entity.getEntityType() != RoomEntityType.PLAYER) {
+        if (entity == null || entity.getEntityType() != RoomEntityType.PLAYER) {
             return null;
 
             // Instead of throwing an exception i will return null and add 'Nullable' to this method as a reminder to always check null!
