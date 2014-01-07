@@ -14,7 +14,7 @@ import com.cometsrv.network.sessions.Session;
 
 public class SaveRoomDataMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        Room room = client.getPlayer().getAvatar().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if(room == null || room.getData().getOwnerId() != client.getPlayer().getId()) {
             return;
@@ -104,7 +104,7 @@ public class SaveRoomDataMessageEvent implements IEvent {
             data.save();
 
             client.send(ConfigureWallAndFloorMessageComposer.compose(hideWall == 1, wallThick, floorThick));
-            room.getAvatars().broadcast(GetRoomDataMessageComposer.compose(room));
+            room.getEntities().broadcastMessage(GetRoomDataMessageComposer.compose(room));
         } catch(Exception e) {
             RoomManager.log.error("Error while saving room data", e);
         }

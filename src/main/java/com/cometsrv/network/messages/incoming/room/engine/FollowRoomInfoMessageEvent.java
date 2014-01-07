@@ -11,13 +11,13 @@ import com.cometsrv.network.sessions.Session;
 public class FollowRoomInfoMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
 
-        Room room = client.getPlayer().getAvatar().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         client.send(FloorItemsMessageComposer.compose(room));
         client.send(WallItemsMessageComposer.compose(room));
 
-        room.getWired().trigger(TriggerType.ENTER_ROOM, null, client.getPlayer().getAvatar());
+        room.getWired().trigger(TriggerType.ENTER_ROOM, null, client.getPlayer().getEntity());
 
-        //client.send(FollowRoomDataMessageComposer.compose(client.getPlayer().getAvatar().getRoom()));
+        //client.send(FollowRoomDataMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
     }
 }

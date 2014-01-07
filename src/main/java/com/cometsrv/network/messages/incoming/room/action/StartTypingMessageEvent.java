@@ -7,7 +7,7 @@ import com.cometsrv.network.sessions.Session;
 
 public class StartTypingMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        client.getPlayer().getAvatar().unidle();
-        client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(TypingStatusMessageComposer.compose(client.getPlayer().getId(), 1));
+        client.getPlayer().getEntity().unIdle();
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(TypingStatusMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), 1));
     }
 }

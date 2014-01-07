@@ -11,10 +11,12 @@ public class ShoutMessageEvent implements IEvent {
         String message = msg.readString();
         int colour = msg.readInt();
 
-        if(!TalkMessageEvent.isValidColour(colour, client))
+        if(!TalkMessageEvent.isValidColour(colour, client)) {
             colour = 0;
+        }
 
-        if(client.getPlayer().getAvatar().onChat(message))
-            client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(ShoutMessageComposer.compose(client.getPlayer().getId(), message, GameEngine.getRooms().getEmotions().getEmotion(message), colour));
+        if(client.getPlayer().getEntity().onChat(message)) {
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), message, GameEngine.getRooms().getEmotions().getEmotion(message), colour));
+        }
     }
 }

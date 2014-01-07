@@ -10,7 +10,7 @@ import com.cometsrv.network.sessions.Session;
 public class PickAllCommand extends ChatCommand {
     @Override
     public void execute(Session client, String message[]) {
-        Room room = client.getPlayer().getAvatar().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if(room == null || !room.getData().getOwner().equals(client.getPlayer().getData().getUsername())) {
             return;

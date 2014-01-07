@@ -10,7 +10,7 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int itemId = msg.readInt();
 
-        if(client.getPlayer().getAvatar() == null || client.getPlayer().getAvatar().getRoom() == null) {
+        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
@@ -20,10 +20,12 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
             return;
         }
 
-        if(item.getDefinition().getInteraction().equals("gate") && client.getPlayer().getAvatar().getRoom().getAvatars().getAvatarAt(item.getX(), item.getY()) != null) {
+        // Can't close gate when a user is on same tile?
+        if (item.getDefinition().getInteraction().equals("gate")
+                && client.getPlayer().getEntity().getRoom().getEntities().getEntitiesAt(item.getX(), item.getY()).size() > 0) {
             return;
         }
 
-        GameEngine.getItems().getInteractions().onInteract(0, item, client.getPlayer().getAvatar());
+        GameEngine.getItems().getInteractions().onInteract(0, item, client.getPlayer().getEntity());
     }
 }

@@ -1,6 +1,6 @@
 package com.cometsrv.network.messages.incoming.room.moderation;
 
-import com.cometsrv.game.rooms.avatars.Avatar;
+import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.incoming.IEvent;
 import com.cometsrv.network.messages.types.Event;
@@ -8,25 +8,30 @@ import com.cometsrv.network.sessions.Session;
 
 public class KickUserMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        int avatarId = msg.readInt();
+        int virtualEntityId = msg.readInt();
 
-        Room room = client.getPlayer().getAvatar().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null) return;
+        if(room == null) {
+            return;
+        }
+
+        PlayerEntity playerEntity = room.getEntities().tryGetPlayerEntityNullable(virtualEntityId);
+
+        if (playerEntity == null) {
+            return;
+        }
 
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
         boolean hasRights = room.getRights().hasRights(client.getPlayer().getId());
 
+
         if(isOwner || hasRights) {
-            if(room.getData().getOwnerId() == avatarId) {
+            if(room.getData().getOwnerId() == playerEntity.getPlayerId()) {
                 return;
             }
 
-            Avatar user = room.getAvatars().get(avatarId);
-
-            if(user != null) {
-                user.dispose(false, true, true);
-            }
+            playerEntity.leaveRoom(false, true, true);
         }
     }
 }

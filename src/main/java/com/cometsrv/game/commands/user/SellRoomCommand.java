@@ -10,7 +10,7 @@ public class SellRoomCommand extends ChatCommand {
 
     @Override
     public void execute(Session client, String message[]) {
-        Room room = client.getPlayer().getAvatar().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if(message[0].equals("info")) {
             client.send(MotdNotificationComposer.compose(Locale.get("command.sellroom.info")));

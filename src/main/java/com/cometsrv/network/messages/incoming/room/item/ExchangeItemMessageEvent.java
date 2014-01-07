@@ -11,11 +11,11 @@ public class ExchangeItemMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int itemId = msg.readInt();
 
-        if(client.getPlayer().getAvatar() == null) {
+        if(client.getPlayer().getEntity() == null) {
             return;
         }
 
-        Room room = client.getPlayer().getAvatar().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         FloorItem item = room.getItems().getFloorItem(itemId);
 

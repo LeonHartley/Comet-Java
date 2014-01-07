@@ -184,8 +184,9 @@ public class RoomManager {
         List<Room> rooms = new ArrayList<>();
 
         for(Room room : this.getRooms().values()) {
-            if(room.getAvatars() == null)
+            if(room.getEntities() == null) {
                 continue;
+            }
 
             rooms.add(room);
         }

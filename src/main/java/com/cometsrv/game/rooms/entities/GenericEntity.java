@@ -1,13 +1,12 @@
 package com.cometsrv.game.rooms.entities;
 
 import com.cometsrv.game.rooms.avatars.misc.Position3D;
-import com.cometsrv.game.rooms.avatars.pathfinding.PathfinderNew;
+import com.cometsrv.game.rooms.avatars.pathfinding.Pathfinder;
 import com.cometsrv.game.rooms.avatars.pathfinding.Square;
 import com.cometsrv.game.rooms.entities.types.BotEntity;
 import com.cometsrv.game.rooms.entities.types.PetEntity;
 import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.types.Room;
-import com.sun.java.swing.plaf.windows.resources.windows_es;
 import javolution.util.FastMap;
 
 import java.lang.ref.WeakReference;
@@ -21,6 +20,7 @@ public abstract class GenericEntity implements AvatarEntity {
 
     private Position3D position;
     private Position3D walkingGoal;
+    private Position3D positionToSet;
 
     private int bodyRotation;
     private int headRotation;
@@ -29,10 +29,15 @@ public abstract class GenericEntity implements AvatarEntity {
     private WeakReference<Room> room;
 
     private List<Square> walkingPath;
-    private PathfinderNew pathfinder;
+    private Pathfinder pathfinder;
 
     private int idleTime;
     private int signTime;
+
+    private int danceId;
+    private int effectId;
+
+    private boolean markedNeedsUpdate;
 
     private Map<String, String> statusses = new FastMap<>();
 
@@ -58,6 +63,11 @@ public abstract class GenericEntity implements AvatarEntity {
 
         this.idleTime = 0;
         this.signTime = 0;
+
+        this.danceId = 0;
+        this.effectId = 0;
+
+        this.markedNeedsUpdate = false;
     }
 
     @Override
@@ -94,6 +104,36 @@ public abstract class GenericEntity implements AvatarEntity {
     }
 
     @Override
+    public void setPosition(Position3D pos) {
+        if (this.position == null) {
+            this.position = pos;
+        } else {
+            this.position.setX(pos.getX());
+            this.position.setY(pos.getY());
+            this.position.setZ(pos.getZ());
+        }
+    }
+
+    @Override
+    public Position3D getPositionToSet() {
+        return this.positionToSet;
+    }
+
+    @Override
+    public void updateAndSetPosition(Position3D pos) {
+        this.positionToSet = pos;
+    }
+
+    @Override
+    public void markPositionIsSet() {
+        this.positionToSet = null;
+    }
+
+    public boolean hasPositionToSet() {
+        return (this.positionToSet != null);
+    }
+
+    @Override
     public int getBodyRotation() {
         return this.bodyRotation;
     }
@@ -111,17 +151,6 @@ public abstract class GenericEntity implements AvatarEntity {
     @Override
     public void setHeadRotation(int rotation) {
         this.headRotation = rotation;
-    }
-
-    @Override
-    public void setPosition(Position3D pos) {
-        if (this.position == null) {
-            this.position = pos;
-        } else {
-            this.position.setX(pos.getX());
-            this.position.setY(pos.getY());
-            this.position.setZ(pos.getZ());
-        }
     }
 
     @Override
@@ -146,9 +175,9 @@ public abstract class GenericEntity implements AvatarEntity {
     }
 
     @Override
-    public PathfinderNew getPathfinder() {
+    public Pathfinder getPathfinder() {
         if (this.pathfinder == null) {
-            this.pathfinder = new PathfinderNew(this);
+            this.pathfinder = new Pathfinder(this);
         }
 
         return this.pathfinder;
@@ -169,6 +198,30 @@ public abstract class GenericEntity implements AvatarEntity {
     }
 
     @Override
+    public void removeStatus(String key) {
+        if (!this.statusses.containsKey(key)) {
+            return;
+        }
+
+        this.statusses.remove(key);
+    }
+
+    @Override
+    public boolean hasStatus(String key) {
+        return this.statusses.containsKey(key);
+    }
+
+    @Override
+    public void markNeedsUpdate() {
+        this.markedNeedsUpdate = true;
+    }
+
+    @Override
+    public boolean needsUpdate() {
+        return this.markedNeedsUpdate;
+    }
+
+    @Override
     public int getIdleTime() {
         return this.idleTime;
     }
@@ -178,6 +231,10 @@ public abstract class GenericEntity implements AvatarEntity {
         this.idleTime++;
 
         if (this.idleTime >= 600) {
+            if (this.idleTime > 600) {
+                this.idleTime = 600;
+            }
+
             return true;
         }
 
@@ -189,6 +246,12 @@ public abstract class GenericEntity implements AvatarEntity {
         this.idleTime = 0;
     }
 
+    @Override
+    public void setIdle() {
+        this.idleTime = 600;
+    }
+
+    // Should call 'resetIdleTime()' instead of this method
     public void unIdle() {
         this.resetIdleTime();
     }
@@ -199,22 +262,50 @@ public abstract class GenericEntity implements AvatarEntity {
     }
 
     @Override
-    public boolean isDisplayingSign() {
-        this.signTime++;
+    public void markDisplayingSign() {
+        this.signTime = 6;
+    }
 
-        if (this.signTime <= 6) {
-            return true;
-        } else {
-            this.signTime = 0;
+    @Override
+    public boolean isDisplayingSign() {
+        this.signTime--;
+
+        if (this.signTime <= 0) {
+            if (this.signTime < 0) {
+                this.signTime = 0;
+            }
+
             return false;
+        } else {
+            return true;
         }
     }
 
+    @Override
+    public int getDanceId() {
+        return this.danceId;
+    }
+
+    @Override
+    public void setDanceId(int danceId) {
+        this.danceId = danceId;
+    }
+
+    @Override
+    public int getCurrentEffect() {
+        return this.effectId;
+    }
+
+    @Override
+    public void applyEffect(int effectId) {
+        this.effectId = effectId;
+    }
 
     public abstract void joinRoom(Room room, String password);
     protected abstract void finalizeJoinRoom();
 
-    public abstract void leaveRoom();
+    public abstract void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView);
+    protected abstract void finalizeLeaveRoom();
 
-    public abstract void onChat(String message);
+    public abstract boolean onChat(String message);
 }

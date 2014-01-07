@@ -12,7 +12,7 @@ public class ChangeMottoMessageEvent implements IEvent {
         client.getPlayer().getData().setMotto(motto);
         client.getPlayer().getData().save();
 
-        client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(UpdateInfoMessageComposer.compose(client.getPlayer().getData()));
-        client.send(UpdateInfoMessageComposer.compose(true, client.getPlayer().getData()));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(client.getPlayer().getEntity()));
+        client.send(UpdateInfoMessageComposer.compose(true, client.getPlayer().getEntity()));
     }
 }

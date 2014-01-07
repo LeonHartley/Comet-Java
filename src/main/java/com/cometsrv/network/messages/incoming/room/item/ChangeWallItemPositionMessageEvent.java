@@ -16,7 +16,7 @@ public class ChangeWallItemPositionMessageEvent implements IEvent {
         int itemId = msg.readInt();
         String position = msg.readString();
 
-        Room room = client.getPlayer().getAvatar().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if(room == null) {
             return;
@@ -41,7 +41,7 @@ public class ChangeWallItemPositionMessageEvent implements IEvent {
                 statement.executeUpdate();
 
                 item.setPosition(position);
-                room.getAvatars().broadcast(UpdateWallItemMessageComposer.compose(item, room.getData().getOwnerId(), room.getData().getOwner()));
+                room.getEntities().broadcastMessage(UpdateWallItemMessageComposer.compose(item, room.getData().getOwnerId(), room.getData().getOwner()));
             } catch(Exception e) {
                 GameEngine.getLogger().error("Error while updating wall item position", e);
             }

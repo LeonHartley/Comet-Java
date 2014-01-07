@@ -9,11 +9,11 @@ public class SaveWiredMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int itemId = msg.readInt();
 
-        if(client.getPlayer().getAvatar() == null || client.getPlayer().getAvatar().getRoom() == null) {
+        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
-        client.getPlayer().getAvatar().getRoom().getWired().handleSave(client.getPlayer().getAvatar().getRoom().getItems().getFloorItem(itemId), msg);
+        client.getPlayer().getEntity().getRoom().getWired().handleSave(client.getPlayer().getEntity().getRoom().getItems().getFloorItem(itemId), msg);
         client.send(SaveWiredMessageComposer.compose());
     }
 }

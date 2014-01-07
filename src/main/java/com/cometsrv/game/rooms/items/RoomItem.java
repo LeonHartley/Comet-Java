@@ -2,8 +2,8 @@ package com.cometsrv.game.rooms.items;
 
 import com.cometsrv.game.items.interactions.InteractionQueueItem;
 import com.cometsrv.game.items.types.ItemDefinition;
-import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.avatars.misc.Position3D;
+import com.cometsrv.game.rooms.entities.GenericEntity;
 import com.cometsrv.game.utilities.DistanceCalculator;
 import com.cometsrv.network.messages.types.Composer;
 
@@ -97,16 +97,16 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem 
         this.interactionQueue.add(interaction);
     }
 
-    public int distance(Avatar avatar) {
-        int avatarX = avatar.getPosition().getX();
-        int avatarY = avatar.getPosition().getY();
+    public int distance(GenericEntity entity) {
+        int avatarX = entity.getPosition().getX();
+        int avatarY = entity.getPosition().getY();
 
         return DistanceCalculator.calculate(avatarX, avatarY, this.getX(), this.getY());
     }
 
-    public boolean touching(Avatar avatar) {
-        int avatarX = avatar.getPosition().getX();
-        int avatarY = avatar.getPosition().getY();
+    public boolean touching(GenericEntity entity) {
+        int avatarX = entity.getPosition().getX();
+        int avatarY = entity.getPosition().getY();
 
         return DistanceCalculator.tilesTouching(avatarX, avatarY, this.getX(), this.getY());
     }

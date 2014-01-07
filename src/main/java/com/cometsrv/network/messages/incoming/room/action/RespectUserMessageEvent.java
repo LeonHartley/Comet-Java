@@ -12,14 +12,16 @@ public class RespectUserMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int respect = msg.readInt();
 
-        if(respect == client.getPlayer().getId() || client.getPlayer().getStats().getDailyRespects() < 0)
+        if(respect == client.getPlayer().getEntity().getVirtualId()) {
             return;
+        }
 
         Session user = Comet.getServer().getNetwork().getSessions().getByPlayerId(respect);
-        Room room = client.getPlayer().getAvatar().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
-        if(user == null || user.getPlayer() == null)
+        if(user == null || user.getPlayer() == null) {
             return;
+        }
 
         if(client.getPlayer().getStats().getDailyRespects() < 1) {
             return;
@@ -28,7 +30,7 @@ public class RespectUserMessageEvent implements IEvent {
         user.getPlayer().getStats().incrementRespectPoints(1);
         client.getPlayer().getStats().decrementDailyRespects(1);
 
-        room.getAvatars().broadcast(ActionMessageComposer.compose(client.getPlayer().getId(), 7));
-        room.getAvatars().broadcast(GiveRespectMessageComposer.compose(user.getPlayer().getId(), user.getPlayer().getStats().getRespectPoints()));
+        room.getEntities().broadcastMessage(ActionMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), 7));
+        room.getEntities().broadcastMessage(GiveRespectMessageComposer.compose(user.getPlayer().getEntity().getVirtualId(), user.getPlayer().getStats().getRespectPoints()));
     }
 }

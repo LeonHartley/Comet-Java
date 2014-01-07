@@ -6,6 +6,6 @@ import com.cometsrv.network.sessions.Session;
 
 public class ExitRoomMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        client.getPlayer().getAvatar().dispose(false, false, true);
+        client.getPlayer().getEntity().leaveRoom(false, false, true);
     }
 }

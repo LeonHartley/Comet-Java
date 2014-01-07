@@ -6,10 +6,14 @@ import com.cometsrv.network.sessions.Session;
 
 public class ApplySignMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        client.getPlayer().getAvatar().unidle();
+        // UnIdle the entity
+        client.getPlayer().getEntity().unIdle();
 
-        client.getPlayer().getAvatar().signTime = 3;
-        client.getPlayer().getAvatar().getStatuses().put("sign", String.valueOf(msg.readInt()));
-        client.getPlayer().getAvatar().needsUpdate = true;
+        // Add the sign status
+        client.getPlayer().getEntity().addStatus("sign", String.valueOf(msg.readInt()));
+
+        // Set the entity to displaying a sign
+        client.getPlayer().getEntity().markDisplayingSign();
+        client.getPlayer().getEntity().markNeedsUpdate();
     }
 }

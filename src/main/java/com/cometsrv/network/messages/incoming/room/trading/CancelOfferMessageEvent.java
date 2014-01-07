@@ -15,7 +15,7 @@ public class CancelOfferMessageEvent implements IEvent {
             item = client.getPlayer().getInventory().getWallItem(itemId);
         }
 
-        Trade trade = client.getPlayer().getAvatar().getRoom().getTrade().get(client);
+        Trade trade = client.getPlayer().getEntity().getRoom().getTrade().get(client);
         trade.removeItem(trade.getUserNumber(client), item);
     }
 }

@@ -13,7 +13,7 @@ import com.cometsrv.game.items.interactions.wired.action.WiredActionMoveUser;
 import com.cometsrv.game.items.interactions.wired.action.WiredActionShowMessage;
 import com.cometsrv.game.items.interactions.wired.trigger.WiredTriggerEnterRoom;
 import com.cometsrv.game.items.interactions.wired.trigger.WiredTriggerOnSay;
-import com.cometsrv.game.rooms.avatars.Avatar;
+import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.items.RoomItem;
 import com.cometsrv.game.rooms.types.Room;
@@ -61,7 +61,7 @@ public class InteractionManager {
         this.interactions.put("bb_red_gate", new BanzaiGateRedInteraction());
     }
 
-    public InteractionState onWalk(boolean state, FloorItem item, Avatar avatar) {
+    public InteractionState onWalk(boolean state, FloorItem item, PlayerEntity avatar) {
         if (!this.isInteraction(item.getDefinition().getInteraction())) {
             return InteractionState.NO_INTERACTION;
         }
@@ -73,7 +73,7 @@ public class InteractionManager {
         return InteractionState.NO_INTERACTION;
     }
 
-    public InteractionState onInteract(int state, RoomItem item, Avatar avatar) {
+    public InteractionState onInteract(int state, RoomItem item, PlayerEntity avatar) {
         GameEngine.getLogger().debug("Interacted with: " + item.getDefinition().getInteraction());
 
         if(!this.isInteraction(item.getDefinition().getInteraction())) {
@@ -93,12 +93,12 @@ public class InteractionManager {
     }
 
     // Method not yet finished!
-    public InteractionState onPlace(FloorItem item, Avatar avatar, Room room) {
+    public InteractionState onPlace(FloorItem item, PlayerEntity avatar, Room room) {
         return InteractionState.NO_INTERACTION;
     }
 
     // Method not yet finished!
-    public InteractionState onPickup(FloorItem item, Avatar avatar, Room room) {
+    public InteractionState onPickup(FloorItem item, PlayerEntity avatar, Room room) {
         return InteractionState.NO_INTERACTION;
     }
 

@@ -2,7 +2,7 @@ package com.cometsrv.game.commands.vip;
 
 import com.cometsrv.config.Locale;
 import com.cometsrv.game.commands.ChatCommand;
-import com.cometsrv.game.rooms.avatars.Avatar;
+import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.network.sessions.Session;
 
 public class EnableCommand extends ChatCommand {
@@ -19,8 +19,8 @@ public class EnableCommand extends ChatCommand {
 
         try {
             int effectId = Integer.parseInt(params[0]);
-            Avatar avatar = client.getPlayer().getAvatar();
-            avatar.applyEffect(effectId);
+            PlayerEntity entity = client.getPlayer().getEntity();
+            entity.applyEffect(effectId);
         } catch(Exception e) {
             this.sendChat("Invalid effect ID", client);
         }

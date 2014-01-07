@@ -60,7 +60,7 @@ public class MessengerFriend {
             return false;
         }
 
-        if(client.getPlayer().getAvatar() == null) {
+        if(client.getPlayer().getEntity() == null) {
             return false;
         }
 

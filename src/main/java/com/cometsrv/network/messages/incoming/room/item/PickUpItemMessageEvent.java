@@ -12,9 +12,9 @@ public class PickUpItemMessageEvent implements IEvent {
         msg.readInt();
 
         int id = msg.readInt();
-        Room room = client.getPlayer().getAvatar().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null || !client.getPlayer().getData().getUsername().equals(client.getPlayer().getAvatar().getRoom().getData().getOwner())) {
+        if(room == null || !client.getPlayer().getData().getUsername().equals(client.getPlayer().getEntity().getRoom().getData().getOwner())) {
             return;
         }
 

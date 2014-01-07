@@ -1,8 +1,8 @@
 package com.cometsrv.game.rooms.types.components;
 
 import com.cometsrv.boot.Comet;
-import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.avatars.pathfinding.AffectedTile;
+import com.cometsrv.game.rooms.entities.GenericEntity;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.items.WallItem;
 import com.cometsrv.game.rooms.types.Room;
@@ -125,7 +125,7 @@ public class ItemsComponent {
     public void removeItem(WallItem item, Session client) {
         Comet.getServer().getStorage().execute("UPDATE items SET wall_pos = '', room_id = 0, user_id = " + client.getPlayer().getId() + " WHERE id = " + item.getId());
 
-        room.getAvatars().broadcast(RemoveWallItemMessageComposer.compose(item.getId(), room.getData().getOwnerId()));
+        room.getEntities().broadcastMessage(RemoveWallItemMessageComposer.compose(item.getId(), room.getData().getOwnerId()));
         room.getItems().getWallItems().remove(item);
 
         client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
@@ -139,7 +139,7 @@ public class ItemsComponent {
     public void removeItem(FloorItem item, Session client, boolean toInventory) {
         // the client which is sent here is the removing user (most likely the owner of the room or staff member)
 
-        Avatar affectedUser = room.getAvatars().getAvatarAt(item.getX(), item.getY());
+        /*Avatar affectedUser = room.getAvatars().getAvatarAt(item.getX(), item.getY());
 
         if(affectedUser != null) {
             if(affectedUser.isSitting) {
@@ -147,10 +147,19 @@ public class ItemsComponent {
                 affectedUser.isSitting = false;
                 affectedUser.needsUpdate = true;
             }
+        }*/
+
+        List<GenericEntity> affectEntities = room.getEntities().getEntitiesAt(item.getX(), item.getY());
+
+        for (GenericEntity entity : affectEntities) {
+            if (entity.hasStatus("sit")) {
+                entity.removeStatus("sit");
+                entity.markNeedsUpdate();
+            }
         }
 
         for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
-            affectedUser = room.getAvatars().getAvatarAt(tile.x, tile.y);
+            /*affectedUser = room.getAvatars().getAvatarAt(tile.x, tile.y);
 
             if (affectedUser != null) {
                 if(affectedUser.isSitting) {
@@ -158,10 +167,19 @@ public class ItemsComponent {
                     affectedUser.isSitting = false;
                     affectedUser.needsUpdate = true;
                 }
+            }*/
+
+            List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(tile.x, tile.y);
+
+            for (GenericEntity entity0 : affectEntities0) {
+                if (entity0.hasStatus("sit")) {
+                    entity0.removeStatus("sit");
+                    entity0.markNeedsUpdate();
+                }
             }
         }
 
-        room.getAvatars().broadcast(RemoveFloorItemMessageComposer.compose(item.getId(), room.getData().getOwnerId()));
+        room.getEntities().broadcastMessage(RemoveFloorItemMessageComposer.compose(item.getId(), room.getData().getOwnerId()));
         room.getItems().getFloorItems().remove(item);
 
         if(toInventory) {

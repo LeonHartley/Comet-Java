@@ -10,7 +10,6 @@ import com.cometsrv.game.rooms.types.RoomModel;
 import com.cometsrv.network.messages.types.Composer;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
-import sun.net.www.content.text.Generic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +69,7 @@ public class EntityComponent {
         return entity;
     }
 
-    protected void addEntity(GenericEntity entity) {
+    public void addEntity(GenericEntity entity) {
         // Handle adding players
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
@@ -110,15 +109,20 @@ public class EntityComponent {
         return this.entities.get(id);
     }
 
-    public PlayerEntity tryGetPlayerEntity(int id) throws Exception {
+    public PlayerEntity tryGetPlayerEntityNullable(int id) {
         GenericEntity entity = this.entities.get(id);
 
         if (entity.getEntityType() != RoomEntityType.PLAYER) {
-            throw new Exception("This entity is not a player.");
+            return null;
+
+            // Instead of throwing an exception i will return null and add 'Nullable' to this method as a reminder to always check null!
+            //throw new Exception("This entity is not a player.");
         }
 
         return (PlayerEntity) entity;
     }
+
+    // TODO: get bot / pet entity
 
     protected int getFreeId() {
         return this.entityIdGenerator.incrementAndGet();
@@ -128,13 +132,22 @@ public class EntityComponent {
         return this.entities.size();
     }
 
+    public Map<Integer, GenericEntity> getEntitiesCollection() {
+        return this.entities;
+    }
+
+    @Deprecated
+    public void broadcast(Composer msg) {
+        this.broadcastMessage(msg);
+    }
+
     private Room getRoom() {
         return this.room;
     }
 
     public void dispose() {
         for(GenericEntity entity : entities.values()) {
-            entity.leaveRoom();
+            entity.leaveRoom(false, false, true);
         }
 
         entities.clear();

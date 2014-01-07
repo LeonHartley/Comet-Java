@@ -30,7 +30,7 @@ public class PushCommand extends ChatCommand {
             return;
         }
 
-        if(user.getPlayer().getAvatar() == null) {
+        if(user.getPlayer().getEntity() == null) {
             return;
         }
 
@@ -39,11 +39,11 @@ public class PushCommand extends ChatCommand {
             return;
         }
 
-        int posX = user.getPlayer().getAvatar().getPosition().getX();
-        int posY = user.getPlayer().getAvatar().getPosition().getY();
-        int playerX = client.getPlayer().getAvatar().getPosition().getX();
-        int playerY = client.getPlayer().getAvatar().getPosition().getY();
-        int rot = client.getPlayer().getAvatar().getBodyRotation();
+        int posX = user.getPlayer().getEntity().getPosition().getX();
+        int posY = user.getPlayer().getEntity().getPosition().getY();
+        int playerX = client.getPlayer().getEntity().getPosition().getX();
+        int playerY = client.getPlayer().getEntity().getPosition().getY();
+        int rot = client.getPlayer().getEntity().getBodyRotation();
 
         if (!((Math.abs((posX - playerX)) >= 2) || (Math.abs(posY - playerY) >= 2))) {
             switch(rot) {
@@ -91,18 +91,18 @@ public class PushCommand extends ChatCommand {
                 return;
             }
 
-            user.getPlayer().getAvatar().setGoal(posX, posY);
+            user.getPlayer().getEntity().setWalkingGoal(posX, posY);
 
-            if(user.getPlayer().getAvatar().getPathfinder() == null) {
-                user.getPlayer().getAvatar().setPathfinder();
-            }
+            /*if(user.getPlayer().getEntity().getPathfinder() == null) {
+                user.getPlayer().getEntity().setPathfinder();
+            }*/
 
             LinkedList<Square> path = user.getPlayer().getAvatar().getPathfinder().makePath();
-            user.getPlayer().getAvatar().unidle();
-            user.getPlayer().getAvatar().setPath(path);
-            user.getPlayer().getAvatar().isMoving = true;
+            user.getPlayer().getEntity().unIdle();
+            user.getPlayer().getEntity().setWalkingPath(path);
+            //user.getPlayer().getEntity().isMoving = true;
 
-            client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(
                     TalkMessageComposer.compose(client.getPlayer().getId(), "*pushes " + user.getPlayer().getData().getUsername() + "*", 0, 0)
             );
         }

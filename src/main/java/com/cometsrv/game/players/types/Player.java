@@ -1,10 +1,9 @@
 package com.cometsrv.game.players.types;
 
-import com.cometsrv.boot.Comet;
 import com.cometsrv.game.players.components.*;
 import com.cometsrv.game.players.data.PlayerData;
 import com.cometsrv.game.players.data.PlayerLoader;
-import com.cometsrv.game.rooms.avatars.Avatar;
+import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.outgoing.user.purse.CurrenciesMessageComposer;
 import com.cometsrv.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
@@ -20,7 +19,7 @@ public class Player {
     private PlayerData data;
     private PlayerStatistics stats;
 
-    private Avatar avatar;
+    private PlayerEntity avatar;
     private Session session;
 
     private PermissionComponent permissions;
@@ -30,7 +29,7 @@ public class Player {
     private RelationshipComponent relationships;
     private BotComponent bots;
 
-    private Map<Integer, Room> rooms;
+    private Map<Integer, Room> rooms = new FastMap<>();
 
     public long lastMessage = 0;
     public double floodTime = 0;
@@ -51,14 +50,14 @@ public class Player {
         this.bots = new BotComponent(this);
 
         this.avatar = null;
-
-        rooms = new FastMap<>();
     }
 
     public void dispose() {
-        if(this.getAvatar() != null) {
-            this.getAvatar().dispose(true, false, false);
-        }
+        /*if(this.getEntity() != null) {
+            this.getEntity().dispose(true, false, false);
+        }*/
+
+        // TODO: Add dispose to the entity
 
         this.getBots().dispose();
         this.getInventory().dispose();
@@ -93,11 +92,16 @@ public class Player {
         this.session = client;
     }
 
-    public void setAvatar(Avatar avatar) {
+    public void setAvatar(PlayerEntity avatar) {
         this.avatar = avatar;
     }
 
-    public Avatar getAvatar() {
+    @Deprecated
+    public PlayerEntity getAvatar() {
+        return null;
+    }
+
+    public PlayerEntity getEntity() {
         return this.avatar;
     }
 

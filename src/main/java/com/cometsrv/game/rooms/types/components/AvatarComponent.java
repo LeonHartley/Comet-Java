@@ -1,12 +1,11 @@
 package com.cometsrv.game.rooms.types.components;
 
-import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.game.rooms.types.RoomModel;
 import com.cometsrv.network.messages.types.Composer;
 import com.cometsrv.network.sessions.Session;
 import javolution.util.FastMap;
-
+/*
 public class AvatarComponent {
     private FastMap<Integer, Avatar> avatars;
 
@@ -103,4 +102,4 @@ public class AvatarComponent {
     public void clear() {
         this.avatars.clear();
     }
-}
+}*/

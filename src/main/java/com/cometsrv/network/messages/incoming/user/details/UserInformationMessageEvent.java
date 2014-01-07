@@ -31,6 +31,6 @@ public class UserInformationMessageEvent implements IEvent {
         client.send(AllowancesMessageComposer.compose(client.getPlayer().getData().getRank()));
 
         client.send(LoadFriendsMessageComposer.compose(client.getPlayer().getMessenger().getFriends()));
-        client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getAvatar() != null);
+        client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
     }
 }

@@ -7,16 +7,16 @@ import com.cometsrv.network.sessions.Session;
 
 public class ApplyActionMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        if(client.getPlayer().getAvatar().getRoom() != null) {
+        if(client.getPlayer().getEntity().getRoom() != null) {
             int actionId = msg.readInt();
 
             if(actionId == 5) {
-                client.getPlayer().getAvatar().idle();
+                client.getPlayer().getEntity().setIdle();
             } else {
-                client.getPlayer().getAvatar().unidle();
+                client.getPlayer().getEntity().unIdle();
             }
 
-            client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(ActionMessageComposer.compose(client.getPlayer().getId(), actionId));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(ActionMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), actionId));
         }
     }
 }

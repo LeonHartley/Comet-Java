@@ -30,14 +30,14 @@ public class Trade {
         user1Items = new FastList<>();
         user2Items = new FastList<>();
 
-        if(!user1.getPlayer().getAvatar().hasStatus("trd")) {
-            user1.getPlayer().getAvatar().getStatuses().put("trd", "");
-            user1.getPlayer().getAvatar().setNeedsUpdate(true);
+        if(!user1.getPlayer().getEntity().hasStatus("trd")) {
+            user1.getPlayer().getEntity().addStatus("trd", "");
+            user1.getPlayer().getEntity().markNeedsUpdate();
         }
 
-        if(!user2.getPlayer().getAvatar().hasStatus("trd")) {
-            user2.getPlayer().getAvatar().getStatuses().put("trd", "");
-            user2.getPlayer().getAvatar().setNeedsUpdate(true);
+        if(!user2.getPlayer().getEntity().hasStatus("trd")) {
+            user2.getPlayer().getEntity().addStatus("trd", "");
+            user2.getPlayer().getEntity().markNeedsUpdate();
         }
 
         sendToUsers(TradeStartMessageComposer.compose(user1.getPlayer().getId(), user2.getPlayer().getId()));
@@ -73,13 +73,13 @@ public class Trade {
         }
 
         if(sendToUser1) {
-            user1.getPlayer().getAvatar().removeStatus("trd");
-            user1.getPlayer().getAvatar().setNeedsUpdate(true);
+            user1.getPlayer().getEntity().removeStatus("trd");
+            user1.getPlayer().getEntity().markNeedsUpdate();
         }
 
         if(sendToUser2) {
-            user2.getPlayer().getAvatar().removeStatus("trd");
-            user2.getPlayer().getAvatar().setNeedsUpdate(true);
+            user2.getPlayer().getEntity().removeStatus("trd");
+            user2.getPlayer().getEntity().markNeedsUpdate();
         }
 
         sendToUsers(TradeCloseMessageComposer.compose(userId));
@@ -153,14 +153,14 @@ public class Trade {
 
             tradeComponent.remove(this);
 
-            if(user1.getPlayer().getAvatar().hasStatus("trd")) {
-                user1.getPlayer().getAvatar().getStatuses().remove("trd");
-                user1.getPlayer().getAvatar().setNeedsUpdate(true);
+            if(user1.getPlayer().getEntity().hasStatus("trd")) {
+                user1.getPlayer().getEntity().removeStatus("trd");
+                user1.getPlayer().getEntity().markNeedsUpdate();
             }
 
-            if(user2.getPlayer().getAvatar().hasStatus("trd")) {
-                user2.getPlayer().getAvatar().getStatuses().remove("trd");
-                user2.getPlayer().getAvatar().setNeedsUpdate(true);
+            if(user2.getPlayer().getEntity().hasStatus("trd")) {
+                user2.getPlayer().getEntity().removeStatus("trd");
+                user2.getPlayer().getEntity().markNeedsUpdate();
             }
 
         }

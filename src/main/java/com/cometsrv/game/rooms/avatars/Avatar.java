@@ -1,30 +1,6 @@
 package com.cometsrv.game.rooms.avatars;
 
-import com.cometsrv.config.CometSettings;
-import com.cometsrv.game.GameEngine;
-import com.cometsrv.game.players.types.Player;
-import com.cometsrv.game.rooms.avatars.misc.Position3D;
-import com.cometsrv.game.rooms.avatars.pathfinding.Pathfinder;
-import com.cometsrv.game.rooms.avatars.pathfinding.Square;
-import com.cometsrv.game.rooms.types.components.games.GameTeam;
-import com.cometsrv.game.rooms.types.Room;
-import com.cometsrv.game.rooms.types.components.types.Trade;
-import com.cometsrv.game.wired.types.TriggerType;
-import com.cometsrv.network.messages.outgoing.room.alerts.RoomFullMessageComposer;
-import com.cometsrv.network.messages.outgoing.room.avatar.ApplyEffectMessageComposer;
-import com.cometsrv.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
-import com.cometsrv.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
-import com.cometsrv.network.messages.outgoing.room.engine.HotelViewMessageComposer;
-import com.cometsrv.network.messages.outgoing.room.engine.ModelAndIdMessageComposer;
-import com.cometsrv.network.messages.outgoing.room.engine.PapersMessageComposer;
-import com.cometsrv.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
-import com.cometsrv.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
-import com.cometsrv.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
-import javolution.util.FastMap;
-
-import java.util.LinkedList;
-import java.util.Map;
-
+/*
 public class Avatar {
     private Player player;
     private Room room;
@@ -442,3 +418,4 @@ public class Avatar {
         return (this.gameTeam != GameTeam.NONE);
     }
 }
+*/

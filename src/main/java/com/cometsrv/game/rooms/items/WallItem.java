@@ -58,7 +58,7 @@ public class WallItem extends RoomItem {
 
         if (r != null) {
             System.out.println("Sent update..");
-            r.getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
+            r.getEntities().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
 
             // TODO: Check this..
         } else {

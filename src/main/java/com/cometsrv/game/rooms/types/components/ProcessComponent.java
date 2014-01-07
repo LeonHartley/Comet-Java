@@ -1,7 +1,7 @@
 package com.cometsrv.game.rooms.types.components;
 
 import com.cometsrv.boot.Comet;
-import com.cometsrv.game.rooms.avatars.Avatar;
+import com.cometsrv.game.rooms.entities.GenericEntity;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometsrv.tasks.CometTask;
@@ -16,7 +16,7 @@ public class ProcessComponent implements CometTask {
     private final int ROOM_DISPOSE_TIME = Integer.parseInt(Comet.getServer().getConfig().get("comet.room.dispose.cycles"));
     private int disposeCycles = 0;
 
-    private FastList<Avatar> usersToUpdate;
+    private FastList<GenericEntity> usersToUpdate;
 
     private Room room;
 
@@ -56,7 +56,7 @@ public class ProcessComponent implements CometTask {
         }
 
         // Dispose the room if it has been idle for a certain amount of time
-        if (this.getRoom().getAvatars().getAvatars().size() == 0) {
+        if (this.getRoom().getEntities().count() == 0) {
             if (this.disposeCycles >= ROOM_DISPOSE_TIME) {
                 this.getRoom().dispose();
                 return;
@@ -78,9 +78,9 @@ public class ProcessComponent implements CometTask {
             this.usersToUpdate.clear();
         }
 
-        FastMap<Integer, Avatar> avatars = this.getRoom().getAvatars().getAvatars();
+        //FastMap<Integer, Avatar> avatars = this.getRoom().getAvatars().getAvatars();
 
-        for (Avatar avatar : avatars.values()) {
+        /*for (Avatar avatar : avatars.values()) {
             if (checkLostAvatar(avatar)) { continue; }
 
             if (avatar.getPlayer().floodTime >= 0.5) {
@@ -119,10 +119,10 @@ public class ProcessComponent implements CometTask {
 
 
             }
-        }
+        }*/
     }
 
-    protected void removeFromRoom(Avatar avatar) {
+    /*protected void removeFromRoom(Avatar avatar) {
         this.getRoom().getAvatars().remove(avatar);
         this.getRoom().getAvatars().broadcast(AvatarUpdateMessageComposer.compose(avatar));
     }
@@ -139,7 +139,7 @@ public class ProcessComponent implements CometTask {
         }
 
         return false;
-    }
+    }*/
 
     /*@Override
     public void run() {

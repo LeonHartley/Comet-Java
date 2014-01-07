@@ -10,11 +10,11 @@ public class InvisibleCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         client.send(WisperMessageComposer.compose(client.getPlayer().getId(), Locale.get("command.error.disabled")));
 
-        /*if(client.getPlayer().getAvatar().getIsInvisible()) {
-            client.getPlayer().getAvatar().setIsInvisible(false);
+        /*if(client.getPlayer().getEntity().getIsInvisible()) {
+            client.getPlayer().getEntity().setIsInvisible(false);
             client.send(WisperMessageComposer.compose(client.getPlayer().getId(), Locale.get("command.invisible.disabled")));
         } else {
-            client.getPlayer().getAvatar().setIsInvisible(true);
+            client.getPlayer().getEntity().setIsInvisible(true);
             client.send(WisperMessageComposer.compose(client.getPlayer().getId(), Locale.get("command.invisible.enabled")));
         }*/
     }

@@ -37,7 +37,7 @@ public class PlayerBot extends Bot {
             int chance = RandomInteger.getRandom(1, 3);
 
             if(chance == 1) {
-                this.getRoom().getAvatars().broadcast(ShoutMessageComposer.compose(this.getVirtualId(), (tickCount % 2 == 0) ? "Hi!" : "I | Leon", 0, 1));
+                this.getRoom().getEntities().broadcast(ShoutMessageComposer.compose(this.getVirtualId(), (tickCount % 2 == 0) ? "Hi!" : "I | Leon", 0, 1));
             }
 
             talkTimer = 0;

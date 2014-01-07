@@ -8,7 +8,7 @@ import com.cometsrv.network.sessions.Session;
 
 public class UsersWithRightsMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        Room room = client.getPlayer().getAvatar().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if(room == null) {
             return;

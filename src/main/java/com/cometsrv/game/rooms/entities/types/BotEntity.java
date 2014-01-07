@@ -27,13 +27,18 @@ public class BotEntity extends GenericEntity {
     }
 
     @Override
-    public void leaveRoom() {
+    public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
 
     }
 
     @Override
-    public void onChat(String message) {
+    public void finalizeLeaveRoom() {
 
+    }
+
+    @Override
+    public boolean onChat(String message) {
+        return false;
     }
 
     @Override

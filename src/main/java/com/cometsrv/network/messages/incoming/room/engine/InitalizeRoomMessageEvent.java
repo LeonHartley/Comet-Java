@@ -1,7 +1,7 @@
 package com.cometsrv.network.messages.incoming.room.engine;
 
 import com.cometsrv.game.GameEngine;
-import com.cometsrv.game.rooms.avatars.Avatar;
+import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.incoming.IEvent;
 import com.cometsrv.network.messages.outgoing.room.engine.HotelViewMessageComposer;
@@ -13,8 +13,8 @@ public class InitalizeRoomMessageEvent implements IEvent {
         int id = msg.readInt();
         String password = msg.readString();
 
-        if(client.getPlayer().getAvatar() != null && client.getPlayer().getAvatar().getRoom() != null) {
-            client.getPlayer().getAvatar().dispose();
+        if(client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
+            client.getPlayer().getEntity().dispose();
             client.getPlayer().setAvatar(null);
         }
 
@@ -25,9 +25,13 @@ public class InitalizeRoomMessageEvent implements IEvent {
             return;
         }
 
-        Avatar avatar = new Avatar(client.getPlayer());
-        client.getPlayer().setAvatar(avatar);
+        if (!room.isActive) {
+            room.load();
+        }
 
-        avatar.prepareRoom(room, password);
+        PlayerEntity playerEntity = room.getEntities().createEntity(client.getPlayer());
+        client.getPlayer().setAvatar(playerEntity);
+
+        playerEntity.joinRoom(room, password);
     }
 }

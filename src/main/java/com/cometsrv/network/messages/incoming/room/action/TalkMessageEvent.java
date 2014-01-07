@@ -14,8 +14,9 @@ public class TalkMessageEvent implements IEvent {
         if(!TalkMessageEvent.isValidColour(colour, client))
             colour = 0;
 
-        if(client.getPlayer().getAvatar().onChat(message))
-            client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(TalkMessageComposer.compose(client.getPlayer().getId(), message, GameEngine.getRooms().getEmotions().getEmotion(message), colour));
+        if(client.getPlayer().getEntity().onChat(message)) {
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), message, GameEngine.getRooms().getEmotions().getEmotion(message), colour));
+        }
     }
 
     public static boolean isValidColour(int colour, Session client) {

@@ -1,6 +1,6 @@
 package com.cometsrv.game.rooms.avatars.pathfinding;
 
-import com.cometsrv.game.rooms.avatars.Avatar;
+import com.cometsrv.game.rooms.entities.AvatarEntity;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.types.tiles.RoomTileState;
 
@@ -21,9 +21,9 @@ public class Pathfinder
     private int mapX = 0;
     private int mapY = 0;
 
-    private Avatar avatar;
+    protected AvatarEntity avatar;
 
-    public Pathfinder(Avatar avatar)
+    public Pathfinder(AvatarEntity avatar)
     {
         points = new Point[] {
                 new Point(0, -1),
@@ -49,16 +49,16 @@ public class Pathfinder
         int UserX = avatar.getPosition().getX();
         int UserY = avatar.getPosition().getY();
 
-        goalX = avatar.getGoalX();
-        goalY = avatar.getGoalY();
+        goalX = avatar.getWalkingGoal().getX();
+        goalY = avatar.getWalkingGoal().getY();
 
         Square LastCoord = new Square(-200, -200);
         int Trys = 0;
 
-        if(this.avatar.getIsTeleporting()) {
+        /*if(this.avatar.getIsTeleporting()) {
             CoordSquares.add(new Square(goalX, goalY));
             return CoordSquares;
-        }
+        }*/
 
         while(true)
         {
@@ -70,7 +70,7 @@ public class Pathfinder
                 int newX = MovePoint.x + UserX;
                 int newY = MovePoint.y + UserY;
 
-                if (newX >= 0 && newY >= 0 && mapX > newX && mapY > newY &&  avatar.getRoom().getModel().getSquareState()[newX][newY] == RoomTileState.VALID && avatar.getRoom().getAvatars().isSquareAvailable(newX, newY) && checkSquare(newX, newY))
+                if (newX >= 0 && newY >= 0 && mapX > newX && mapY > newY &&  avatar.getRoom().getModel().getSquareState()[newX][newY] == RoomTileState.VALID && avatar.getRoom().getEntities().isSquareAvailable(newX, newY) && checkSquare(newX, newY))
                 {
                     Square pCoord = new Square(newX, newY);
                     pCoord.positionDistance = DistanceBetween(newX, newY, goalX, goalY);
@@ -106,7 +106,7 @@ public class Pathfinder
 
     public boolean canWalk(int newX, int newY) {
         // Author: LH
-        return newX >= 0 && newY >= 0 && mapX > newX && mapY > newY && avatar.getRoom().getModel().getSquareState()[newX][newY] == RoomTileState.VALID && avatar.getRoom().getAvatars().isSquareAvailable(newX, newY) && checkSquare(newX, newY);
+        return newX >= 0 && newY >= 0 && mapX > newX && mapY > newY && avatar.getRoom().getModel().getSquareState()[newX][newY] == RoomTileState.VALID && avatar.getRoom().getEntities().isSquareAvailable(newX, newY) && checkSquare(newX, newY);
     }
 
     public boolean checkSquare(int x, int y) {

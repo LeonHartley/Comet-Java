@@ -45,13 +45,13 @@ public class AcceptFriendshipMessageEvent implements IEvent {
 
                 if(friend != null) {
                     friend.getPlayer().getMessenger().addFriend(new MessengerFriend(client.getPlayer().getId(), client));
-                    friend.getPlayer().getMessenger().sendStatus(true, friend.getPlayer().getAvatar() != null);
+                    friend.getPlayer().getMessenger().sendStatus(true, friend.getPlayer().getEntity() != null);
                 } else {
                     client.getPlayer().getMessenger().sendOffline(request, false, false);
                 }
 
                 client.getPlayer().getMessenger().addFriend(new MessengerFriend(request.getFromId(), client));
-                client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getAvatar() != null);
+                client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
             }
         } catch(SQLException e) {
             GameEngine.getLogger().error("Error while accepting messenger request", e);

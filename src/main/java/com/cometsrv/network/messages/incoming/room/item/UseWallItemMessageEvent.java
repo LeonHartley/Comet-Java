@@ -11,11 +11,11 @@ public class UseWallItemMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int itemId = msg.readInt();
 
-        if(client.getPlayer().getAvatar() == null || client.getPlayer().getAvatar().getRoom() == null) {
+        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
-        WallItem item = client.getPlayer().getAvatar().getRoom().getItems().getWallItem(itemId);
+        WallItem item = client.getPlayer().getEntity().getRoom().getItems().getWallItem(itemId);
 
         if(item == null) {
             return;
@@ -23,6 +23,6 @@ public class UseWallItemMessageEvent implements IEvent {
 
         int requestData = msg.readInt();
 
-        GameEngine.getItems().getInteractions().onInteract(requestData, item, client.getPlayer().getAvatar());
+        GameEngine.getItems().getInteractions().onInteract(requestData, item, client.getPlayer().getEntity());
     }
 }

@@ -19,11 +19,11 @@ public class PlaceBotMessageEvent implements IEvent {
         InventoryBot bot = client.getPlayer().getBots().getBot(botId);
         if(room == null || bot == null) return;
 
-        if(client.getPlayer().getAvatar().getPathfinder() == null) {
-            client.getPlayer().getAvatar().setPathfinder();
-        }
+        /*if(client.getPlayer().getEntity().getPathfinder() == null) {
+            client.getPlayer().getEntity().setPathfinder();
+        }*/
 
-        if(!client.getPlayer().getAvatar().getPathfinder().canWalk(x, y)) {
+        if(!client.getPlayer().getEntity().getPathfinder().canWalk(x, y)) {
             return;
         }
 
@@ -31,7 +31,7 @@ public class PlaceBotMessageEvent implements IEvent {
         room.getBots().addBot(bot, x, y);
         client.getPlayer().getBots().remove(botId);
 
-        room.getAvatars().broadcast(PlaceBotMessageComposer.compose(room.getBots().getBot(botId)));
-        room.getAvatars().broadcast(AvatarUpdateMessageComposer.compose(room.getBots().getBot(botId)));
+        room.getEntities().broadcastMessage(PlaceBotMessageComposer.compose(room.getBots().getBot(botId)));
+        room.getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(room.getBots().getBot(botId)));
     }
 }

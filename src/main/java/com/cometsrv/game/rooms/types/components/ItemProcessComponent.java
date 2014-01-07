@@ -65,7 +65,7 @@ public class ItemProcessComponent implements CometTask {
                 return;
             }
 
-            if(this.getRoom().getAvatars().getAvatars().size() == 0) {
+            if(this.getRoom().getEntities().count() == 0) {
                 this.stop();
             }
 
@@ -77,9 +77,9 @@ public class ItemProcessComponent implements CometTask {
                     InteractionState state = InteractionState.COMPLETED;
 
                     if (interactItem.getAction() == InteractionAction.ON_WALK) {
-                        state = GameEngine.getItems().getInteractions().onWalk(interactItem.getUpdateState() == 1, item, interactItem.getAvatar());
+                        state = GameEngine.getItems().getInteractions().onWalk(interactItem.getUpdateState() == 1, item, interactItem.getEntity());
                     } else if (interactItem.getAction() == InteractionAction.ON_USE) {
-                        state = GameEngine.getItems().getInteractions().onInteract(interactItem.getUpdateState(), item, interactItem.getAvatar());
+                        state = GameEngine.getItems().getInteractions().onInteract(interactItem.getUpdateState(), item, interactItem.getEntity());
                     } else if (interactItem.getAction() == InteractionAction.ON_PLACED) {
 
                     } else if (interactItem.getAction() == InteractionAction.ON_PICKUP) {

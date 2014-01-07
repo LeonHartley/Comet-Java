@@ -2,21 +2,21 @@ package com.cometsrv.game.items.interactions.items;
 
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.Interactor;
-import com.cometsrv.game.rooms.avatars.Avatar;
 import com.cometsrv.game.rooms.avatars.misc.Position3D;
+import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.items.RoomItem;
 import com.cometsrv.game.rooms.types.Room;
 
 public class TeleportInteraction extends Interactor {
     @Override
-    public boolean onWalk(boolean state, RoomItem item, Avatar avatar) {
+    public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
         return false;
     }
 
     @Override
-    public boolean onInteract(int request, RoomItem item, Avatar avatar) {
-        int pairId = GameEngine.getItems().getTeleportPartner(item.getId());
+    public boolean onInteract(int request, RoomItem item, PlayerEntity avatar) {
+        /*int pairId = GameEngine.getItems().getTeleportPartner(item.getId());
 
         if(pairId == 0) {
             return false;
@@ -63,18 +63,18 @@ public class TeleportInteraction extends Interactor {
             }
         }
 
-        item.sendUpdate();
+        item.sendUpdate();*/
 
         return false;
     }
 
     @Override
-    public boolean onPlace(RoomItem item, Avatar avatar, Room room) {
+    public boolean onPlace(RoomItem item, PlayerEntity avatar, Room room) {
         return false;
     }
 
     @Override
-    public boolean onPickup(RoomItem item, Avatar avatar, Room room) {
+    public boolean onPickup(RoomItem item, PlayerEntity avatar, Room room) {
         return false;
     }
 

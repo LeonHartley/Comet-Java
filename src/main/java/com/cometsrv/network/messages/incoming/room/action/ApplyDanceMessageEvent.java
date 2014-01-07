@@ -9,10 +9,11 @@ public class ApplyDanceMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int danceId = msg.readInt();
 
-        if(client.getPlayer().getAvatar().getDanceId() == danceId)
+        if(client.getPlayer().getEntity().getDanceId() == danceId) {
             return;
+        }
 
-        client.getPlayer().getAvatar().setDanceId(danceId);
-        client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(DanceMessageComposer.compose(client.getPlayer().getId(), danceId));
+        client.getPlayer().getEntity().setDanceId(danceId);
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(DanceMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), danceId));
     }
 }

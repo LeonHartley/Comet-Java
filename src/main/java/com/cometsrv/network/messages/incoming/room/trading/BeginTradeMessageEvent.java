@@ -12,8 +12,10 @@ public class BeginTradeMessageEvent implements IEvent {
 
         Session user = Comet.getServer().getNetwork().getSessions().getByPlayerId(userId);
 
-        if(user == null) return;
+        if(user == null) {
+            return;
+        }
 
-        client.getPlayer().getAvatar().getRoom().getTrade().add(new Trade(client, user));
+        client.getPlayer().getEntity().getRoom().getTrade().add(new Trade(client, user));
     }
 }

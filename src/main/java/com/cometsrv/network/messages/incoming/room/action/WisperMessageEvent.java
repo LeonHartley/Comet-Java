@@ -17,10 +17,10 @@ public class WisperMessageEvent implements IEvent {
         if(userTo == null || userTo == client)
             return;
 
-        if(!client.getPlayer().getAvatar().onChat(message))
+        if(!client.getPlayer().getEntity().onChat(message))
             return;
 
-        client.send(WisperMessageComposer.compose(client.getPlayer().getId(), message));
-        userTo.send(WisperMessageComposer.compose(client.getPlayer().getId(), message));
+        client.send(WisperMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), message));
+        userTo.send(WisperMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), message));
     }
 }

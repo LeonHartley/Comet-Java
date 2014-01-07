@@ -18,7 +18,7 @@ public class PlaceItemMessageEvent implements IEvent {
         String[] parts = msg.readString().split(" ");
         int id = Integer.parseInt(parts[0].replace("-", ""));
 
-        if(!client.getPlayer().getData().getUsername().equals(client.getPlayer().getAvatar().getRoom().getData().getOwner())) {
+        if(!client.getPlayer().getData().getUsername().equals(client.getPlayer().getEntity().getRoom().getData().getOwner())) {
             return;
         }
 
@@ -33,7 +33,7 @@ public class PlaceItemMessageEvent implements IEvent {
                 InventoryItem item = client.getPlayer().getInventory().getWallItem(id);
                 PreparedStatement query = Comet.getServer().getStorage().prepare("UPDATE items SET room_id = ?, wall_pos = ?, extra_data = ? WHERE id = ?;");
 
-                query.setInt(1, client.getPlayer().getAvatar().getRoomId());
+                query.setInt(1, client.getPlayer().getEntity().getRoom().getId());
                 query.setString(2, position);
                 query.setString(3, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
                 query.setInt(4, item.getId());
@@ -42,9 +42,9 @@ public class PlaceItemMessageEvent implements IEvent {
 
                 client.getPlayer().getInventory().removeWallItem(id);
 
-                Room r = client.getPlayer().getAvatar().getRoom();
+                Room r = client.getPlayer().getEntity().getRoom();
 
-                client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(
+                client.getPlayer().getAvatar().getRoom().getEntities().broadcastMessage(
                         SendWallItemMessageComposer.compose(
                                 r.getItems().addWallItem(id, item.getBaseId(), client.getPlayer().getId(), r.getId(), position, (item.getExtraData().isEmpty() || item.getExtraData() == " ") ? "0" : item.getExtraData()),
                                 r
@@ -56,9 +56,9 @@ public class PlaceItemMessageEvent implements IEvent {
                 int rot = Integer.parseInt(parts[3]);
 
                 InventoryItem item = client.getPlayer().getInventory().getFloorItem(id);
-                float height = (float) client.getPlayer().getAvatar().getRoom().getModel().getSquareHeight()[x][y];
+                float height = (float) client.getPlayer().getEntity().getRoom().getModel().getSquareHeight()[x][y];
 
-                for(FloorItem stackItem : client.getPlayer().getAvatar().getRoom().getItems().getItemsOnSquare(x, y)) {
+                for(FloorItem stackItem : client.getPlayer().getEntity().getRoom().getItems().getItemsOnSquare(x, y)) {
                     if(item.getId() != stackItem.getId()) {
                         // TODO: re-do the stack heights in the database (for all items)
                         if(stackItem.getDefinition().canStack) {
@@ -71,7 +71,7 @@ public class PlaceItemMessageEvent implements IEvent {
 
                 PreparedStatement query = Comet.getServer().getStorage().prepare("UPDATE items SET room_id = ?, x = ?, y = ?, z = ?, rot = ?, extra_data = ? WHERE id = ?;");
 
-                query.setInt(1, client.getPlayer().getAvatar().getRoomId());
+                query.setInt(1, client.getPlayer().getEntity().getRoom().getId());
                 query.setInt(2, x);
                 query.setInt(3, y);
                 query.setFloat(4, height);
@@ -83,9 +83,9 @@ public class PlaceItemMessageEvent implements IEvent {
 
                 client.getPlayer().getInventory().removeFloorItem(id);
 
-                Room room = client.getPlayer().getAvatar().getRoom();
+                Room room = client.getPlayer().getEntity().getRoom();
 
-                room.getAvatars().broadcast(
+                room.getEntities().broadcastMessage(
                         SendFloorItemMessageComposer.compose(
                                 room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData() == " ") ? "0" : item.getExtraData()),
                                 room

@@ -12,11 +12,11 @@ public class RunDiceMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int itemId = msg.readInt();
 
-        if(client.getPlayer().getAvatar() == null || client.getPlayer().getAvatar().getRoom() == null) {
+        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
-        FloorItem item = client.getPlayer().getAvatar().getRoom().getItems().getFloorItem(itemId);
+        FloorItem item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(itemId);
 
         if(item == null) {
             return;

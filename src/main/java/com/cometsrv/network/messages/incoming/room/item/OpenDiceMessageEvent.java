@@ -12,7 +12,7 @@ public class OpenDiceMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int itemId = msg.readInt();
 
-        if(client.getPlayer().getAvatar() == null || client.getPlayer().getAvatar().getRoom() == null) {
+        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
@@ -23,7 +23,7 @@ public class OpenDiceMessageEvent implements IEvent {
         }
 
         if(item.getDefinition().getInteraction().equals("dice")) {
-            GameEngine.getItems().getInteractions().onInteract(0, item, client.getPlayer().getAvatar());
+            GameEngine.getItems().getInteractions().onInteract(0, item, client.getPlayer().getEntity());
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.cometsrv.network.messages.outgoing.room.avatar;
 
-import com.cometsrv.game.rooms.avatars.Avatar;
+import com.cometsrv.game.rooms.entities.GenericEntity;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.game.rooms.types.components.bots.Bot;
 import com.cometsrv.network.messages.headers.Composers;
@@ -13,22 +13,22 @@ public class AvatarUpdateMessageComposer {
     public static Composer compose(Room room) {
         Composer msg = new Composer(Composers.RoomStatusesMessageComposer);
 
-        msg.writeInt(room.getAvatars().getAvatars().size()); // items count
+        msg.writeInt(room.getEntities().count()); // items count
 
-        for(Avatar avatar : room.getAvatars().getAvatars().values()) {
-            msg.writeInt(avatar.getPlayer().getId());
+        for(GenericEntity entity : room.getEntities().getEntitiesCollection().values()) {
+            msg.writeInt(entity.getVirtualId());
 
-            msg.writeInt(avatar.getPosition().getX());
-            msg.writeInt(avatar.getPosition().getY());
-            msg.writeString(String.valueOf(avatar.getPosition().getZ()));
+            msg.writeInt(entity.getPosition().getX());
+            msg.writeInt(entity.getPosition().getY());
+            msg.writeString(String.valueOf(entity.getPosition().getZ()));
 
-            msg.writeInt(avatar.getHeadRotation());
-            msg.writeInt(avatar.getBodyRotation());
+            msg.writeInt(entity.getHeadRotation());
+            msg.writeInt(entity.getBodyRotation());
 
             StringBuilder statusString = new StringBuilder();
             statusString.append("/");
 
-            for(Map.Entry<String, String> status : avatar.getStatuses().entrySet()) {
+            for(Map.Entry<String, String> status : entity.getStatuses().entrySet()) {
 
                 statusString.append(status.getKey());
 
@@ -48,25 +48,25 @@ public class AvatarUpdateMessageComposer {
         return msg;
     }
 
-    public static Composer compose(List<Avatar> list) {
+    public static Composer compose(List<GenericEntity> list) {
         Composer msg = new Composer(Composers.RoomStatusesMessageComposer);
 
         msg.writeInt(list.size()); // items count
 
-        for(Avatar avatar : list) {
-            msg.writeInt(avatar.getPlayer().getId());
+        for(GenericEntity entity : list) {
+            msg.writeInt(entity.getVirtualId());
 
-            msg.writeInt(avatar.getPosition().getX());
-            msg.writeInt(avatar.getPosition().getY());
-            msg.writeString(String.valueOf(avatar.getPosition().getZ()));
+            msg.writeInt(entity.getPosition().getX());
+            msg.writeInt(entity.getPosition().getY());
+            msg.writeString(String.valueOf(entity.getPosition().getZ()));
 
-            msg.writeInt(avatar.getHeadRotation());
-            msg.writeInt(avatar.getBodyRotation());
+            msg.writeInt(entity.getHeadRotation());
+            msg.writeInt(entity.getBodyRotation());
 
             StringBuilder statusString = new StringBuilder();
             statusString.append("/");
 
-            for(Map.Entry<String, String> status : avatar.getStatuses().entrySet()) {
+            for(Map.Entry<String, String> status : entity.getStatuses().entrySet()) {
 
                 statusString.append(status.getKey());
 
@@ -86,24 +86,24 @@ public class AvatarUpdateMessageComposer {
         return msg;
     }
 
-    public static Composer compose(Avatar avatar) {
+    public static Composer compose(GenericEntity entity) {
         Composer msg = new Composer(Composers.RoomStatusesMessageComposer);
 
         msg.writeInt(1);
 
-        msg.writeInt(avatar.getPlayer().getId());
+        msg.writeInt(entity.getVirtualId());
 
-        msg.writeInt(avatar.getPosition().getX());
-        msg.writeInt(avatar.getPosition().getY());
-        msg.writeString(String.valueOf(avatar.getPosition().getZ()));
+        msg.writeInt(entity.getPosition().getX());
+        msg.writeInt(entity.getPosition().getY());
+        msg.writeString(String.valueOf(entity.getPosition().getZ()));
 
-        msg.writeInt(avatar.getHeadRotation());
-        msg.writeInt(avatar.getBodyRotation());
+        msg.writeInt(entity.getHeadRotation());
+        msg.writeInt(entity.getBodyRotation());
 
         StringBuilder statusString = new StringBuilder();
         statusString.append("/");
 
-        for(Map.Entry<String, String> status : avatar.getStatuses().entrySet()) {
+        for(Map.Entry<String, String> status : entity.getStatuses().entrySet()) {
 
             statusString.append(status.getKey());
 

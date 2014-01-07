@@ -4,23 +4,21 @@ import com.cometsrv.game.items.interactions.InteractionAction;
 import com.cometsrv.game.items.interactions.InteractionManager;
 import com.cometsrv.game.items.interactions.InteractionQueueItem;
 import com.cometsrv.game.items.interactions.Interactor;
-import com.cometsrv.game.rooms.avatars.Avatar;
-import com.cometsrv.game.rooms.items.FloorItem;
+import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.items.RoomItem;
 import com.cometsrv.game.rooms.types.Room;
-import com.cometsrv.game.utilities.DistanceCalculator;
 
 import java.util.Random;
 
 public class DiceInteraction extends Interactor {
 
     @Override
-    public boolean onWalk(boolean state, RoomItem item, Avatar avatar) {
+    public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
         return false;
     }
 
     @Override
-    public boolean onInteract(int request, RoomItem item, Avatar avatar) {
+    public boolean onInteract(int request, RoomItem item, PlayerEntity avatar) {
         if (!item.touching(avatar)) {
             avatar.moveTo(item.getX(), item.getY());
             return false;
@@ -43,7 +41,7 @@ public class DiceInteraction extends Interactor {
     }
 
     @Override
-    public boolean onPlace(RoomItem item, Avatar avatar, Room room) {
+    public boolean onPlace(RoomItem item, PlayerEntity avatar, Room room) {
         if (!"0".equals(item.getExtraData())) {
             item.setExtraData("0");
             item.sendUpdate();
@@ -53,7 +51,7 @@ public class DiceInteraction extends Interactor {
     }
 
     @Override
-    public boolean onPickup(RoomItem item, Avatar avatar, Room room) {
+    public boolean onPickup(RoomItem item, PlayerEntity avatar, Room room) {
         return false;
     }
 

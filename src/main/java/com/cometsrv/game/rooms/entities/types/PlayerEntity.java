@@ -1,17 +1,25 @@
 package com.cometsrv.game.rooms.entities.types;
 
+import com.cometsrv.config.CometSettings;
+import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.players.types.Player;
 import com.cometsrv.game.rooms.avatars.misc.Position3D;
+import com.cometsrv.game.rooms.avatars.pathfinding.Square;
 import com.cometsrv.game.rooms.entities.GenericEntity;
 import com.cometsrv.game.rooms.entities.PlayerEntityAccess;
 import com.cometsrv.game.rooms.types.Room;
+import com.cometsrv.game.wired.types.TriggerType;
 import com.cometsrv.network.messages.outgoing.room.alerts.RoomFullMessageComposer;
+import com.cometsrv.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometsrv.network.messages.outgoing.room.engine.HotelViewMessageComposer;
 import com.cometsrv.network.messages.outgoing.room.engine.ModelAndIdMessageComposer;
 import com.cometsrv.network.messages.outgoing.room.engine.PapersMessageComposer;
 import com.cometsrv.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
+import com.cometsrv.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometsrv.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
 import com.cometsrv.network.messages.types.Composer;
+
+import java.util.LinkedList;
 
 public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     private Player player;
@@ -30,12 +38,13 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
         }
 
         // Is the room loaded
-        if (!this.getRoom().isActive) {
+        // Method has been moved to initialize room packet.
+        /*if (!this.getRoom().isActive) {
             this.getRoom().load();
-        }
+        }*/
 
         // Room full or slot available
-        if (this.getRoom().getAvatars().count() >= this.getRoom().getData().getMaxUsers() && !this.player.getPermissions().hasPermission("room_enter_full")) {
+        if (this.getRoom().getEntities().count() >= this.getRoom().getData().getMaxUsers() && !this.player.getPermissions().hasPermission("room_enter_full")) {
             this.player.getSession().send(RoomFullMessageComposer.compose());
             this.player.getSession().send(HotelViewMessageComposer.compose());
             return;
@@ -101,13 +110,87 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     }
 
     @Override
-    public void leaveRoom() {
+    public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
+        this.getStatuses().clear();
+    }
+
+    @Override
+    public void finalizeLeaveRoom() {
 
     }
 
     @Override
-    public void onChat(String message) {
+    public boolean onChat(String message) {
+        long time = System.currentTimeMillis();
 
+        if (time - this.player.lastMessage < 500) {
+            this.player.floodFlag++;
+
+            if(this.player.floodFlag >= 4) {
+                this.player.floodTime = 30;
+                this.player.floodFlag = 0;
+
+                this.player.getSession().send(FloodFilterMessageComposer.compose(player.floodTime));
+            }
+        }
+
+        if (player.floodTime >= 1) {
+            return false;
+        }
+
+        player.lastMessage = time;
+
+        try {
+            if(message.startsWith(":")) {
+                if(GameEngine.getCommands().isCommand(message.substring(1))) {
+                    GameEngine.getCommands().parse(message.substring(1), this.player.getSession());
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            // command error?
+        }
+
+        if(this.getRoom().getWired().trigger(TriggerType.ON_SAY, message, this)) {
+            return false;
+        }
+
+        if(CometSettings.logChatToConsole) {
+            this.getRoom().log.info(this.getPlayer().getData().getUsername() + ": " + message);
+        }
+
+        this.getRoom().getChatlog().add(message, this.getPlayer().getId());
+
+        this.unIdle();
+        return true;
+    }
+
+    public void moveTo(int x, int y) {
+        // TODO: Redirection grid here for beds
+
+        // Set the goal we are wanting to achieve
+        this.setWalkingGoal(x, y);
+
+        // Create a walking path
+        LinkedList<Square> path = this.getPathfinder().makePath();
+
+        // Check returned path to see if it calculated one
+        if (path == null || path.size() == 0) {
+            // Reset the goal and return as no path was found
+            this.setWalkingGoal(this.getPosition().getX(), this.getPosition().getY());
+            return;
+        }
+
+        // UnIdle the user and set the path (if the path has nodes it will mean the user is walking)
+        this.unIdle();
+        this.setWalkingPath(path);
+    }
+
+    @Override
+    public void setIdle() {
+        super.setIdle();
+
+        this.getRoom().getEntities().broadcastMessage(IdleStatusMessageComposer.compose(this.player.getId(), true));
     }
 
     public int getPlayerId() {
@@ -160,5 +243,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     @Override
     public Player getPlayer() {
         return this.player;
+    }
+
+    @Deprecated
+    public void dispose() {
+        this.leaveRoom(true, false, false);
     }
 }

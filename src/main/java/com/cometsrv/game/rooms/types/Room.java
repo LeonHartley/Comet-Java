@@ -11,7 +11,6 @@ public class Room {
     private RoomData data;
     private RoomModel model;
 
-    private AvatarComponent avatars;
     private ProcessComponent process;
     private RightsComponent rights;
     private ItemsComponent items;
@@ -40,7 +39,6 @@ public class Room {
 
     public void load() {
         this.itemProcess = new ItemProcessComponent(Comet.getServer().getThreadManagement(), this);
-        this.avatars = new AvatarComponent(this);
         this.process = new ProcessComponent(this);
         this.rights = new RightsComponent(this);
         this.items = new ItemsComponent(this);
@@ -49,7 +47,7 @@ public class Room {
         this.trade = new TradeComponent(this);
         this.bots = new BotComponent(this);
         this.game = new GameComponent(this);
-        this.entities = new EntityComponent(this);
+        this.entities = new EntityComponent(this, this.model);
 
         this.isActive = true;
         this.log.debug("Room loaded");
@@ -61,7 +59,6 @@ public class Room {
         this.game.stop();
 
         this.itemProcess.dispose();
-        this.avatars.dispose();
         this.process.dispose();
         this.rights.dispose();
         this.items.dispose();
@@ -73,7 +70,6 @@ public class Room {
         this.entities.dispose();
 
         this.itemProcess = null;
-        this.avatars = null;
         this.process = null;
         this.rights = null;
         this.items = null;
@@ -81,6 +77,7 @@ public class Room {
         this.chatlog = null;
         this.trade = null;
         this.bots = null;
+        this.entities = null;
 
         this.isActive = false;
         this.log.debug("Room disposed");
@@ -89,10 +86,6 @@ public class Room {
     public void tick() {
         if(bots != null)
             this.bots.tick();
-    }
-
-    public AvatarComponent getAvatars() {
-        return this.avatars;
     }
 
     public ProcessComponent getProcess() {

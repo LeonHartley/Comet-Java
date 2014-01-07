@@ -1,9 +1,8 @@
 package com.cometsrv.network.messages.incoming.room.engine;
 
-import com.cometsrv.game.rooms.avatars.Avatar;
+import com.cometsrv.game.rooms.entities.GenericEntity;
+import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.types.Room;
-import com.cometsrv.game.rooms.types.RoomModel;
-import com.cometsrv.game.wired.types.TriggerType;
 import com.cometsrv.network.messages.incoming.IEvent;
 import com.cometsrv.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometsrv.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
@@ -16,7 +15,7 @@ import com.cometsrv.network.sessions.Session;
 
 public class AddUserToRoomMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        Avatar avatar = client.getPlayer().getAvatar();
+        PlayerEntity avatar = client.getPlayer().getEntity();
 
         if(avatar == null) {
             return;
@@ -28,7 +27,9 @@ public class AddUserToRoomMessageEvent implements IEvent {
             return;
         }
 
-        RoomModel model = room.getModel();
+        // TODO: Check this over
+
+        /*RoomModel model = room.getModel();
         avatar.getPosition().setX(model.getDoorX());
         avatar.getPosition().setY(model.getDoorY());
         avatar.getPosition().setZ(model.getDoorZ());
@@ -36,7 +37,7 @@ public class AddUserToRoomMessageEvent implements IEvent {
         avatar.setBodyRotation(model.getDoorRotation());
         avatar.setHeadRotation(model.getDoorRotation());
 
-        room.getAvatars().getAvatars().put(avatar.getPlayer().getId(), avatar);
+        room.getEntities().addEntity(avatar);*/
 
         if(!room.getProcess().isActive()) {
             room.getProcess().start();
@@ -53,12 +54,12 @@ public class AddUserToRoomMessageEvent implements IEvent {
         client.send(RoomPanelMessageComposer.compose(room.getId(), room.getRights().hasRights(client.getPlayer().getId()) || room.getData().getOwnerId() == client.getPlayer().getId()));
         client.send(RoomDataMessageComposer.compose(room));
 
-        client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(AvatarsMessageComposer.compose(client.getPlayer().getAvatar().getRoom()));
-        client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(AvatarUpdateMessageComposer.compose(client.getPlayer().getAvatar().getRoom()));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
 
-        for(Avatar av : client.getPlayer().getAvatar().getRoom().getAvatars().getAvatars().values()) {
+        for(GenericEntity av : client.getPlayer().getEntity().getRoom().getEntities().getEntitiesCollection().values()) {
             if(av.getDanceId() != 0) {
-                client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(DanceMessageComposer.compose(av.getPlayer().getId(), av.getDanceId()));
+                client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(DanceMessageComposer.compose(av.getVirtualId(), av.getDanceId()));
             }
         }
     }

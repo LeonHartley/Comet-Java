@@ -1,7 +1,7 @@
 package com.cometsrv.game.rooms.types.components;
 
 import com.cometsrv.game.GameEngine;
-import com.cometsrv.game.rooms.avatars.Avatar;
+import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.game.wired.misc.WiredSquare;
@@ -36,7 +36,7 @@ public class WiredComponent {
         return false;
     }
 
-    public boolean trigger(TriggerType type, Object data, Avatar user) {
+    public boolean trigger(TriggerType type, Object data, PlayerEntity user) {
         if(this.squares.size() == 0) {
             return false;
         }

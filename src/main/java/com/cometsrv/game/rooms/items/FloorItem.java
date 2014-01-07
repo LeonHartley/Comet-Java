@@ -5,7 +5,7 @@ import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.InteractionAction;
 import com.cometsrv.game.items.interactions.InteractionQueueItem;
 import com.cometsrv.game.items.types.ItemDefinition;
-import com.cometsrv.game.rooms.avatars.Avatar;
+import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometsrv.network.messages.types.Composer;
@@ -117,7 +117,7 @@ public class FloorItem extends RoomItem {
         }
     }
 
-    public void setNeedsUpdate(boolean needsUpdate, InteractionAction action, Avatar avatar, int updateState) {
+    public void setNeedsUpdate(boolean needsUpdate, InteractionAction action, PlayerEntity avatar, int updateState) {
         if (needsUpdate) {
             this.queueInteraction(new InteractionQueueItem(needsUpdate, this, action, avatar, updateState));
         } else {
@@ -125,7 +125,7 @@ public class FloorItem extends RoomItem {
         }
     }
 
-    public void setNeedsUpdate(boolean needsUpdate, InteractionAction action, Avatar avatar, int updateState, int updateCycles) {
+    public void setNeedsUpdate(boolean needsUpdate, InteractionAction action, PlayerEntity avatar, int updateState, int updateCycles) {
         if (needsUpdate) {
             this.queueInteraction(new InteractionQueueItem(needsUpdate, this, action, avatar, updateState, updateCycles));
         } else {
@@ -145,20 +145,20 @@ public class FloorItem extends RoomItem {
 
     @Deprecated
     public void sendUpdate(Session client) {
-        //client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
+        //client.getPlayer().getEntity().getRoom().getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
         Room r = this.getRoom();
 
         if (r != null) {
-            r.getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
+            r.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
         }
     }
 
     public void sendUpdate() {
-        //client.getPlayer().getAvatar().getRoom().getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
+        //client.getPlayer().getEntity().getRoom().getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
         Room r = this.getRoom();
 
         if (r != null) {
-            r.getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
+            r.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
         }
     }
 
