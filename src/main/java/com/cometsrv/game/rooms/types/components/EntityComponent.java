@@ -122,6 +122,21 @@ public class EntityComponent {
         return (PlayerEntity) entity;
     }
 
+    public PlayerEntity getEntityByPlayerId(int id) {
+        if (!this.playerEntityToPlayerId.containsKey(id)) {
+            return null;
+        }
+
+        int entityId = this.playerEntityToPlayerId.get(id);
+        GenericEntity genericEntity = this.entities.get(entityId);
+
+        if (genericEntity == null || genericEntity.getEntityType() != RoomEntityType.PLAYER) {
+            return null;
+        }
+
+        return (PlayerEntity) genericEntity;
+    }
+
     // TODO: get bot / pet entity
 
     protected int getFreeId() {
