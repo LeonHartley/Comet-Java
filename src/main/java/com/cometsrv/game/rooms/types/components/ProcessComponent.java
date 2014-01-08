@@ -1,11 +1,15 @@
 package com.cometsrv.game.rooms.types.components;
 
 import com.cometsrv.boot.Comet;
+import com.cometsrv.game.items.interactions.InteractionAction;
+import com.cometsrv.game.rooms.avatars.misc.Position3D;
+import com.cometsrv.game.rooms.avatars.pathfinding.Square;
 import com.cometsrv.game.rooms.entities.GenericEntity;
 import com.cometsrv.game.rooms.entities.RoomEntityType;
 import com.cometsrv.game.rooms.entities.types.BotEntity;
 import com.cometsrv.game.rooms.entities.types.PetEntity;
 import com.cometsrv.game.rooms.entities.types.PlayerEntity;
+import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometsrv.tasks.CometTask;
@@ -13,6 +17,8 @@ import javolution.util.FastList;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -102,6 +108,12 @@ public class ProcessComponent implements CometTask {
                 entity.removeStatus("sign");
                 entity.markNeedsUpdate();
             }
+
+            if (entity.needsUpdate()) {
+                entity.markNeedsUpdateComplete();
+
+                this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
+            }
         }
     }
 
@@ -120,7 +132,81 @@ public class ProcessComponent implements CometTask {
             }
         }
 
-        
+        if (entity.hasStatus("mv")) {
+            entity.removeStatus("mv");
+            entity.markNeedsUpdate();
+        }
+
+        // Check if we are wanting to walk to a location
+        if (entity.getWalkingPath() != null) {
+            entity.setProcessingPath(new ArrayList<Square>(entity.getWalkingPath()));
+
+            // Clear the walking path now we have a goal set
+            entity.getWalkingPath().clear();
+            entity.setWalkingPath(null);
+        }
+
+        // We should store players which need removing from the room here and process it last
+        List<PlayerEntity> leavingRoom = new ArrayList<>();
+
+        // Do we have a position to set from previous moves?
+        if (entity.getPositionToSet() != null) {
+            if ((entity.getPositionToSet().getX() == this.room.getModel().getDoorX()) && (entity.getPositionToSet().getY() == this.room.getModel().getDoorY())) {
+                leavingRoom.add(entity);
+                return;
+            }
+
+            // Copy the current position before updating
+            Position3D currentPosition = new Position3D(entity.getPosition());
+
+            // Create the new position
+            Position3D newPosition = new Position3D();
+            newPosition.setX(entity.getPositionToSet().getX());
+            newPosition.setY(entity.getPositionToSet().getY());
+            newPosition.setZ(entity.getPositionToSet().getZ());
+
+            entity.setPosition(newPosition);
+
+            // We can also handle walk to + interact here in the future!
+        }
+
+        if (entity.isWalking()) {
+            Square nextSq = entity.getProcessingPath().get(0);
+            entity.getProcessingPath().remove(nextSq);
+
+            boolean isLastStep = (entity.getProcessingPath().size() == 0);
+
+            if (nextSq != null && entity.getPathfinder().checkSquare(nextSq.x, nextSq.y) && entity.getPathfinder().canWalk(nextSq.x, nextSq.y)) {
+                Position3D currentPos = entity.getPosition() != null ? entity.getPosition() : new Position3D(0, 0, 0);
+                entity.setBodyRotation(Position3D.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, false));
+                entity.setHeadRotation(entity.getBodyRotation());
+
+                double height = this.getRoom().getModel().getSquareHeight()[nextSq.x][nextSq.y];
+
+                for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
+                    item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 0);
+                    height += item.getHeight();
+                }
+
+                entity.addStatus("mv", String.valueOf(nextSq.x).concat(",").concat(String.valueOf(nextSq.y)).concat(",").concat(String.valueOf(height)));
+
+                if (entity.hasStatus("sit")) {
+                    entity.removeStatus("sit");
+                }
+
+                if (entity.hasStatus("lay")) {
+                    entity.removeStatus("lay");
+                }
+
+                entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, 0));
+                entity.markNeedsUpdate();
+            }
+        }
+
+        // Remove entities from room
+        for (PlayerEntity entity0 : leavingRoom) {
+            entity0.leaveRoom(false, false, true);
+        }
     }
 
     protected void processBotEntity(BotEntity entity) {
@@ -128,6 +214,10 @@ public class ProcessComponent implements CometTask {
     }
 
     protected void processPetEntity(PetEntity entity) {
+
+    }
+
+    private void broadcastEntityUpdate() {
 
     }
 

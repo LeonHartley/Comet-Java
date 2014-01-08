@@ -156,7 +156,6 @@ public abstract class GenericEntity implements AvatarEntity {
 
     @Override
     public Room getRoom() {
-        if (this.room.isEnqueued()) { return null; }
         return this.room.get();
     }
 
@@ -225,6 +224,10 @@ public abstract class GenericEntity implements AvatarEntity {
     @Override
     public void markNeedsUpdate() {
         this.markedNeedsUpdate = true;
+    }
+
+    public void markNeedsUpdateComplete() {
+        this.markedNeedsUpdate = false;
     }
 
     @Override

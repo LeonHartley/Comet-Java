@@ -46,8 +46,8 @@ public class Pathfinder
     {
         LinkedList<Square> CoordSquares = new LinkedList<>();
 
-        int UserX = avatar.getPosition().getX();
-        int UserY = avatar.getPosition().getY();
+        int UserX = avatar.getPositionToSet() == null ? avatar.getPosition().getX() : avatar.getPositionToSet().getX();
+        int UserY = avatar.getPositionToSet() == null ? avatar.getPosition().getY() : avatar.getPositionToSet().getY();
 
         goalX = avatar.getWalkingGoal().getX();
         goalY = avatar.getWalkingGoal().getY();
@@ -114,19 +114,17 @@ public class Pathfinder
         boolean isItem = false;
         boolean isAvailable = false;
 
-        synchronized (avatar.getRoom().getItems().getItemsOnSquare(x, y)) {
-            for(FloorItem item : avatar.getRoom().getItems().getItemsOnSquare(x, y)) {
-                isItem = true;
+        for(FloorItem item : avatar.getRoom().getItems().getItemsOnSquare(x, y)) {
+            isItem = true;
 
-                if(item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("1")) {
-                    isAvailable = true;
-                } else if(item.getDefinition().getInteraction().equals("bed")) {
-                    isAvailable = true;
-                } else if(item.getDefinition().canSit) {
-                    isAvailable = true;
-                } else if(item.getDefinition().canWalk) {
-                    isAvailable = true;
-                }
+            if(item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("1")) {
+                isAvailable = true;
+            } else if(item.getDefinition().getInteraction().equals("bed")) {
+                isAvailable = true;
+            } else if(item.getDefinition().canSit) {
+                isAvailable = true;
+            } else if(item.getDefinition().canWalk) {
+                isAvailable = true;
             }
         }
 

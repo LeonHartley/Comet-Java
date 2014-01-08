@@ -13,6 +13,12 @@ public class Position3D {
         this.z = z;
     }
 
+    public Position3D(Position3D old) {
+        this.x = old.getX();
+        this.y = old.getY();
+        this.z = old.getZ();
+    }
+
     public Position3D() {
         this.x = 0;
         this.y = 0;
