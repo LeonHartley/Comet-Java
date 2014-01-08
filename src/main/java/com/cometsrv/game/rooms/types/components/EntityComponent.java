@@ -147,6 +147,10 @@ public class EntityComponent {
         return this.entities.size();
     }
 
+    public int playerCount() {
+        return this.playerEntityToPlayerId.size();
+    }
+
     public Map<Integer, GenericEntity> getEntitiesCollection() {
         return this.entities;
     }

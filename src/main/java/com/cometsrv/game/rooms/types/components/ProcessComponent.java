@@ -2,6 +2,10 @@ package com.cometsrv.game.rooms.types.components;
 
 import com.cometsrv.boot.Comet;
 import com.cometsrv.game.rooms.entities.GenericEntity;
+import com.cometsrv.game.rooms.entities.RoomEntityType;
+import com.cometsrv.game.rooms.entities.types.BotEntity;
+import com.cometsrv.game.rooms.entities.types.PetEntity;
+import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometsrv.tasks.CometTask;
@@ -9,6 +13,7 @@ import javolution.util.FastList;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
+import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -78,7 +83,60 @@ public class ProcessComponent implements CometTask {
             this.usersToUpdate.clear();
         }
 
-        //FastMap<Integer, Avatar> avatars = this.getRoom().getAvatars().getAvatars();
+        Map<Integer, GenericEntity> entities = this.room.getEntities().getEntitiesCollection();
+
+        for (GenericEntity entity : entities.values()) {
+            // Process each entity as its own
+            if (entity.getEntityType() == RoomEntityType.PLAYER) {
+                processPlayerEntity((PlayerEntity) entity);
+            } else if (entity.getEntityType() == RoomEntityType.BOT) {
+                processBotEntity((BotEntity) entity);
+            } else if (entity.getEntityType() == RoomEntityType.PET) {
+                processPetEntity((PetEntity) entity);
+            }
+
+            // Process anything generic for all entities below this line
+
+            // Handle signs
+            if (entity.hasStatus("sign") && !entity.isDisplayingSign()) {
+                entity.removeStatus("sign");
+                entity.markNeedsUpdate();
+            }
+        }
+    }
+
+    protected void processPlayerEntity(PlayerEntity entity) {
+        // Cleanup if the entity is offline
+        if (entity.getPlayer() == null || entity.getRoom() == null) {
+            this.room.getEntities().removeEntity(entity);
+            this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
+        }
+
+        if (entity.getPlayer().floodTime >= 0.5) {
+            entity.getPlayer().floodTime -= 0.5;
+
+            if (entity.getPlayer().floodTime < 0) {
+                entity.getPlayer().floodTime = 0;
+            }
+        }
+
+        
+    }
+
+    protected void processBotEntity(BotEntity entity) {
+
+    }
+
+    protected void processPetEntity(PetEntity entity) {
+
+    }
+
+    private void removeFromRoom(GenericEntity entity) {
+        this.room.getEntities().removeEntity(entity);
+        this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
+    }
+
+    //FastMap<Integer, Avatar> avatars = this.getRoom().getAvatars().getAvatars();
 
         /*for (Avatar avatar : avatars.values()) {
             if (checkLostAvatar(avatar)) { continue; }
@@ -120,7 +178,6 @@ public class ProcessComponent implements CometTask {
 
             }
         }*/
-    }
 
     /*protected void removeFromRoom(Avatar avatar) {
         this.getRoom().getAvatars().remove(avatar);

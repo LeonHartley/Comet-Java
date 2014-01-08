@@ -8,9 +8,11 @@ import com.cometsrv.game.rooms.avatars.pathfinding.Square;
 import com.cometsrv.game.rooms.entities.GenericEntity;
 import com.cometsrv.game.rooms.entities.PlayerEntityAccess;
 import com.cometsrv.game.rooms.types.Room;
+import com.cometsrv.game.rooms.types.components.types.Trade;
 import com.cometsrv.game.wired.types.TriggerType;
 import com.cometsrv.network.messages.outgoing.room.alerts.RoomFullMessageComposer;
 import com.cometsrv.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
+import com.cometsrv.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometsrv.network.messages.outgoing.room.engine.HotelViewMessageComposer;
 import com.cometsrv.network.messages.outgoing.room.engine.ModelAndIdMessageComposer;
 import com.cometsrv.network.messages.outgoing.room.engine.PapersMessageComposer;
@@ -20,6 +22,7 @@ import com.cometsrv.network.messages.outgoing.room.permissions.OwnerRightsMessag
 import com.cometsrv.network.messages.types.Composer;
 
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     private Player player;
@@ -111,12 +114,38 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
 
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
+        // Clear all  statuses
         this.getStatuses().clear();
+
+        // Send leave room message to all current entities
+        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
+
+        // Sending this user to the hotel view?
+        if (!isOffline && toHotelView) {
+            this.getPlayer().getSession().send(HotelViewMessageComposer.compose());
+        }
+
+        // TODO: Change trade from 'Session' to 'PlayerEntity' to avoid confusion between player and virtual id
+        // Also could be useful for bot trading etc
+
+        // Check and cancel any active trades
+        Trade trade = this.getRoom().getTrade().get(this.getPlayer().getSession());
+
+        if (trade != null) {
+            trade.cancel(this.getPlayer().getId());
+        }
+
+        // Remove entity from the room
+        this.getRoom().getEntities().removeEntity(this);
+
+        // De-reference things
+        this.getPlayer().setAvatar(null);
+        this.player = null;
     }
 
     @Override
     public void finalizeLeaveRoom() {
-
+        // not used, could be removed?
     }
 
     @Override

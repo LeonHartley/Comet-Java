@@ -28,6 +28,7 @@ public abstract class GenericEntity implements AvatarEntity {
     private int roomId;
     private WeakReference<Room> room;
 
+    private List<Square> processingPath;
     private List<Square> walkingPath;
     private Pathfinder pathfinder;
 
@@ -160,6 +161,16 @@ public abstract class GenericEntity implements AvatarEntity {
     }
 
     @Override
+    public List<Square> getProcessingPath() {
+        return this.processingPath;
+    }
+
+    @Override
+    public void setProcessingPath(List<Square> path) {
+        this.processingPath = path;
+    }
+
+    @Override
     public List<Square> getWalkingPath() {
         return this.walkingPath;
     }
@@ -171,7 +182,7 @@ public abstract class GenericEntity implements AvatarEntity {
 
     @Override
     public boolean isWalking() {
-        return (this.walkingPath != null) && (this.walkingPath.size() > 0);
+        return (this.processingPath != null) && (this.processingPath.size() > 0);
     }
 
     @Override

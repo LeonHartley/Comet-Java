@@ -30,6 +30,8 @@ public interface AvatarEntity {
 
     public List<Square> getWalkingPath();
     public void setWalkingPath(List<Square> path);
+    public List<Square> getProcessingPath();
+    public void setProcessingPath(List<Square> path);
     public boolean isWalking();
 
     public Pathfinder getPathfinder();
