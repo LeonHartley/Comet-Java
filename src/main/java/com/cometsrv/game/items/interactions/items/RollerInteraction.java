@@ -49,33 +49,6 @@ public class RollerInteraction extends Interactor {
             return false;
         }
 
-        /*Position3D sq = item.squareInfront();
-
-        FloorItem floorItem = (FloorItem) item;
-        GenericEntity av = floorItem.getRoom().getEntities().getEntitiesAt(floorItem.getX(), floorItem.getY());
-
-        if (av.getPathfinder() == null) { // Something wrong with pathfinder?
-            return false;
-        }
-
-        if(!av.getPathfinder().checkSquare(sq.getX(), sq.getY())) {
-            // Try again soon if they are still on the same square
-            if (av.getPosition().getX() == floorItem.getX() && av.getPosition().getY() == floorItem.getY()) {
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, null, 0, 10));
-            }
-            return false;
-        }
-
-        double height = 0.0;
-
-        for(FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(item.getX(), item.getY())) {
-            height += itemInStack.getDefinition().getHeight();
-        }
-
-        av.warpTo(sq.getX(), sq.getY());
-        floorItem.getRoom().getAvatars().broadcast(SlideObjectBundleMessageComposer.compose(av.getPosition(), new Position3D(sq.getX(), sq.getY(), height), floorItem.getId(), av.getPlayer().getId(), 0));
-        return false;*/
-
         Position3D sqInfront = item.squareInfront();
         FloorItem floorItem = (FloorItem) item;
 

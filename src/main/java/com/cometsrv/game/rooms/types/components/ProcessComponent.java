@@ -171,6 +171,10 @@ public class ProcessComponent implements CometTask {
             // Copy the current position before updating
             Position3D currentPosition = new Position3D(entity.getPosition());
 
+            for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
+                item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 0);
+            }
+
             // Create the new position
             Position3D newPosition = new Position3D();
             newPosition.setX(entity.getPositionToSet().getX());
@@ -179,6 +183,8 @@ public class ProcessComponent implements CometTask {
 
             // Apply sit
             for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY())) {
+                item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 1);
+
                 if (item.getDefinition().canSit) {
                     entity.addStatus("sit", String.valueOf(item.getHeight()));
                 }
@@ -203,8 +209,6 @@ public class ProcessComponent implements CometTask {
                 double height = this.getRoom().getModel().getSquareHeight()[nextSq.x][nextSq.y];
 
                 for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
-                    System.out.println("On walk :::: >>> " + item.getDefinition().getInteraction());
-                    item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 0);
                     height += item.getHeight();
                 }
 
