@@ -186,6 +186,8 @@ public class ProcessComponent implements CometTask {
                 item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 1);
 
                 if (item.getDefinition().canSit) {
+                    entity.setBodyRotation(item.getRotation());
+                    entity.setHeadRotation(item.getRotation());
                     entity.addStatus("sit", String.valueOf(item.getHeight()));
                 }
             }
