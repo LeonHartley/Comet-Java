@@ -16,7 +16,7 @@ public class OpenDiceMessageEvent implements IEvent {
             return;
         }
 
-        FloorItem item = client.getPlayer().getAvatar().getRoom().getItems().getFloorItem(itemId);
+        FloorItem item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(itemId);
 
         if(item == null) {
             return;

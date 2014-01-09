@@ -4,11 +4,14 @@ import com.cometsrv.game.items.interactions.InteractionAction;
 import com.cometsrv.game.items.interactions.InteractionQueueItem;
 import com.cometsrv.game.items.interactions.Interactor;
 import com.cometsrv.game.rooms.avatars.misc.Position3D;
+import com.cometsrv.game.rooms.entities.GenericEntity;
 import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.items.RoomItem;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
+
+import java.util.List;
 
 public class RollerInteraction extends Interactor {
     @Override
@@ -49,7 +52,7 @@ public class RollerInteraction extends Interactor {
         /*Position3D sq = item.squareInfront();
 
         FloorItem floorItem = (FloorItem) item;
-        Avatar av = floorItem.getRoom().getAvatars().getAvatarAt(floorItem.getX(), floorItem.getY());
+        GenericEntity av = floorItem.getRoom().getEntities().getEntitiesAt(floorItem.getX(), floorItem.getY());
 
         if (av.getPathfinder() == null) { // Something wrong with pathfinder?
             return false;
@@ -71,7 +74,34 @@ public class RollerInteraction extends Interactor {
 
         av.warpTo(sq.getX(), sq.getY());
         floorItem.getRoom().getAvatars().broadcast(SlideObjectBundleMessageComposer.compose(av.getPosition(), new Position3D(sq.getX(), sq.getY(), height), floorItem.getId(), av.getPlayer().getId(), 0));
-        */
+        return false;*/
+
+        Position3D sqInfront = item.squareInfront();
+        FloorItem floorItem = (FloorItem) item;
+
+        List<GenericEntity> entitiesOnSq = floorItem.getRoom().getEntities().getEntitiesAt(floorItem.getX(), floorItem.getY());
+
+        for (GenericEntity entity : entitiesOnSq) {
+            // Check using the first entity if this square is available
+            if (entity.getPathfinder().checkSquare(sqInfront.getX(), sqInfront.getY())) {
+                // Try again soon if they are still on the same square
+                if (entity.getPosition().getX() == floorItem.getX() && entity.getPosition().getY() == floorItem.getY()) {
+                    item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, null, 0, 10));
+                }
+
+                return false;
+            }
+
+            double height = 1.0;
+
+            for(FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(item.getX(), item.getY())) {
+                height += itemInStack.getDefinition().getHeight();
+            }
+
+            entity.setPosition(new Position3D(sqInfront.getX(), sqInfront.getY(), height));
+            floorItem.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position3D(sqInfront.getX(), sqInfront.getY(), height), floorItem.getId(), entity.getVirtualId(), 0));
+        }
+
         return false;
     }
 

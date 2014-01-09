@@ -91,6 +91,8 @@ public class ProcessComponent implements CometTask {
 
         Map<Integer, GenericEntity> entities = this.room.getEntities().getEntitiesCollection();
 
+        List<GenericEntity>[][] entityGrid = new ArrayList[this.getRoom().getModel().getSizeX()][this.getRoom().getModel().getSizeY()];
+
         for (GenericEntity entity : entities.values()) {
             // Process each entity as its own
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
@@ -100,6 +102,13 @@ public class ProcessComponent implements CometTask {
             } else if (entity.getEntityType() == RoomEntityType.PET) {
                 processPetEntity((PetEntity) entity);
             }
+
+            // Create the new entity grid
+            if (entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] == null) {
+                entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] = new ArrayList<GenericEntity>();
+            }
+
+            entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
 
             // Process anything generic for all entities below this line
 
@@ -115,6 +124,9 @@ public class ProcessComponent implements CometTask {
                 this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
             }
         }
+
+        // Update the entity grid
+        this.getRoom().getEntities().replaceEntityGrid(entityGrid);
     }
 
     protected void processPlayerEntity(PlayerEntity entity) {
@@ -165,6 +177,13 @@ public class ProcessComponent implements CometTask {
             newPosition.setY(entity.getPositionToSet().getY());
             newPosition.setZ(entity.getPositionToSet().getZ());
 
+            // Apply sit
+            for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY())) {
+                if (item.getDefinition().canSit) {
+                    entity.addStatus("sit", String.valueOf(item.getHeight()));
+                }
+            }
+
             entity.setPosition(newPosition);
 
             // We can also handle walk to + interact here in the future!
@@ -184,6 +203,7 @@ public class ProcessComponent implements CometTask {
                 double height = this.getRoom().getModel().getSquareHeight()[nextSq.x][nextSq.y];
 
                 for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
+                    System.out.println("On walk :::: >>> " + item.getDefinition().getInteraction());
                     item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 0);
                     height += item.getHeight();
                 }
@@ -198,7 +218,7 @@ public class ProcessComponent implements CometTask {
                     entity.removeStatus("lay");
                 }
 
-                entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, 0));
+                entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, height));
                 entity.markNeedsUpdate();
             }
         }
@@ -214,10 +234,6 @@ public class ProcessComponent implements CometTask {
     }
 
     protected void processPetEntity(PetEntity entity) {
-
-    }
-
-    private void broadcastEntityUpdate() {
 
     }
 

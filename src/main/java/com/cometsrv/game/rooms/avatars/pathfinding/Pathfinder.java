@@ -44,31 +44,26 @@ public class Pathfinder
 
     public LinkedList<Square> makePath()
     {
-        LinkedList<Square> CoordSquares = new LinkedList<>();
+        LinkedList<Square> coordSquares = new LinkedList<>();
 
-        int UserX = avatar.getPositionToSet() == null ? avatar.getPosition().getX() : avatar.getPositionToSet().getX();
-        int UserY = avatar.getPositionToSet() == null ? avatar.getPosition().getY() : avatar.getPositionToSet().getY();
+        int userX = avatar.getPosition().getX();
+        int userY = avatar.getPosition().getY();
 
         goalX = avatar.getWalkingGoal().getX();
         goalY = avatar.getWalkingGoal().getY();
 
-        Square LastCoord = new Square(-200, -200);
-        int Trys = 0;
-
-        /*if(this.avatar.getIsTeleporting()) {
-            CoordSquares.add(new Square(goalX, goalY));
-            return CoordSquares;
-        }*/
+        Square lastCoord = new Square(-200, -200);
+        int trys = 0;
 
         while(true)
         {
-            Trys++;
-            int StepsToWalk = 10000;
+            trys++;
+            int stepsToWalk = 10000;
 
-            for (Point MovePoint : points)
+            for (Point movePoint : points)
             {
-                int newX = MovePoint.x + UserX;
-                int newY = MovePoint.y + UserY;
+                int newX = movePoint.x + userX;
+                int newY = movePoint.y + userY;
 
                 if (newX >= 0 && newY >= 0 && mapX > newX && mapY > newY &&  avatar.getRoom().getModel().getSquareState()[newX][newY] == RoomTileState.VALID && avatar.getRoom().getEntities().isSquareAvailable(newX, newY) && checkSquare(newX, newY))
                 {
@@ -76,27 +71,28 @@ public class Pathfinder
                     pCoord.positionDistance = DistanceBetween(newX, newY, goalX, goalY);
                     pCoord.reversedPositionDistance = DistanceBetween(goalX, goalY, newX, newY);
 
-                    if (StepsToWalk > pCoord.positionDistance)
+                    if (stepsToWalk > pCoord.positionDistance)
                     {
-                        StepsToWalk = pCoord.positionDistance;
-                        LastCoord = pCoord;
+                        stepsToWalk = pCoord.positionDistance;
+                        lastCoord = pCoord;
                     }
                 }
             }
-            if (Trys >= 200)
+            if (trys >= 200) {
                 return null;
-
-            else if (LastCoord.x == -200 && LastCoord.y == -200)
+            } else if (lastCoord.x == -200 && lastCoord.y == -200) {
                 return null;
+            }
 
-            UserX = LastCoord.x;
-            UserY = LastCoord.y;
-            CoordSquares.add(LastCoord);
+            userX = lastCoord.x;
+            userY = lastCoord.y;
+            coordSquares.add(lastCoord);
 
-            if(UserX == goalX && UserY == goalY)
+            if(userX == goalX && userY == goalY) {
                 break;
+            }
         }
-        return CoordSquares;
+        return coordSquares;
     }
 
     public void dispose() {

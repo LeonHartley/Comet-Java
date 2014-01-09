@@ -197,6 +197,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     public void moveTo(int x, int y) {
         // TODO: Redirection grid here for beds
 
+        if (this.getPositionToSet() != null){
+            this.setPosition(this.getPositionToSet());
+        }
+
         // Set the goal we are wanting to achieve
         this.setWalkingGoal(x, y);
 

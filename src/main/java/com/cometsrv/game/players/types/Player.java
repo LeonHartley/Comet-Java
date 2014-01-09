@@ -98,7 +98,7 @@ public class Player {
 
     @Deprecated
     public PlayerEntity getAvatar() {
-        return null;
+        return this.getEntity();
     }
 
     public PlayerEntity getEntity() {
