@@ -15,7 +15,7 @@ public class PlaceBotMessageEvent implements IEvent {
         int x = msg.readInt();
         int y = msg.readInt();
 
-        Room room = client.getPlayer().getAvatar().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
         InventoryBot bot = client.getPlayer().getBots().getBot(botId);
         if(room == null || bot == null) return;
 

@@ -84,7 +84,7 @@ public class PushCommand extends ChatCommand {
                     break;
             }
 
-            RoomModel model = client.getPlayer().getAvatar().getRoom().getModel();
+            RoomModel model = client.getPlayer().getEntity().getRoom().getModel();
 
             if(model.getDoorX() == posX && model.getDoorY() == posY) {
                 this.sendChat("You can't push a user out of the room!", client);
@@ -97,13 +97,12 @@ public class PushCommand extends ChatCommand {
                 user.getPlayer().getEntity().setPathfinder();
             }*/
 
-            LinkedList<Square> path = user.getPlayer().getAvatar().getPathfinder().makePath();
+            LinkedList<Square> path = user.getPlayer().getEntity().getPathfinder().makePath();
             user.getPlayer().getEntity().unIdle();
             user.getPlayer().getEntity().setWalkingPath(path);
-            //user.getPlayer().getEntity().isMoving = true;
 
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(
-                    TalkMessageComposer.compose(client.getPlayer().getId(), "*pushes " + user.getPlayer().getData().getUsername() + "*", 0, 0)
+                    TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), "*pushes " + user.getPlayer().getData().getUsername() + "*", 0, 0)
             );
         }
     }

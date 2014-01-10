@@ -23,7 +23,7 @@ public class RunDiceMessageEvent implements IEvent {
         }
 
         if(item.getDefinition().getInteraction().equals("dice")) {
-            GameEngine.getItems().getInteractions().onInteract(-1, item, client.getPlayer().getAvatar());
+            GameEngine.getItems().getInteractions().onInteract(-1, item, client.getPlayer().getEntity());
         }
     }
 }

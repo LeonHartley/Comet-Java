@@ -96,11 +96,6 @@ public class Player {
         this.avatar = avatar;
     }
 
-    @Deprecated
-    public PlayerEntity getAvatar() {
-        return this.getEntity();
-    }
-
     public PlayerEntity getEntity() {
         return this.avatar;
     }
