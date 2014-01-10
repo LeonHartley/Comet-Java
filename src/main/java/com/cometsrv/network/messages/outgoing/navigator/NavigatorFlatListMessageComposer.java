@@ -27,7 +27,8 @@ public class NavigatorFlatListMessageComposer {
         Collections.sort((List<Room>) rooms, new Comparator<Room>() {
             @Override
             public int compare(Room o1, Room o2) {
-                return o2.getEntities().count() - o1.getEntities().count();
+                return ((o2.getEntities() == null ? 0 : o2.getEntities().playerCount()) -
+                                (o1.getEntities() == null ? 0 : o1.getEntities().playerCount()));
             }
         });
 
