@@ -22,7 +22,6 @@ import com.cometsrv.network.messages.outgoing.room.permissions.OwnerRightsMessag
 import com.cometsrv.network.messages.types.Composer;
 
 import java.util.LinkedList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     private Player player;

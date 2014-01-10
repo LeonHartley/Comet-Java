@@ -28,6 +28,8 @@ public class RoomModel {
     private double[][] squareHeight;
     private RoomTileState[][] squareState;
 
+    private final RoomMapping mapping;
+
     public RoomModel(ResultSet data) throws SQLException {
         this.name = data.getString("id");
         this.heightmap = data.getString("heightmap");
@@ -86,6 +88,8 @@ public class RoomModel {
             }
             map += MapLine + (char)13;
         }
+
+        this.mapping = new RoomMapping(this);
     }
 
     public String getId() {

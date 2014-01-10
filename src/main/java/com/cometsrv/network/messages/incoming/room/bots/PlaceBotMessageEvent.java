@@ -17,11 +17,10 @@ public class PlaceBotMessageEvent implements IEvent {
 
         Room room = client.getPlayer().getEntity().getRoom();
         InventoryBot bot = client.getPlayer().getBots().getBot(botId);
-        if(room == null || bot == null) return;
 
-        /*if(client.getPlayer().getEntity().getPathfinder() == null) {
-            client.getPlayer().getEntity().setPathfinder();
-        }*/
+        if(room == null || bot == null) {
+            return;
+        }
 
         if(!client.getPlayer().getEntity().getPathfinder().canWalk(x, y)) {
             return;
