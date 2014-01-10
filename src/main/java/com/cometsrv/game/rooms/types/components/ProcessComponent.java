@@ -181,6 +181,15 @@ public class ProcessComponent implements CometTask {
             newPosition.setY(entity.getPositionToSet().getY());
             newPosition.setZ(entity.getPositionToSet().getZ());
 
+            // Calculate highest seat point
+            double seatHeight = this.getRoom().getModel().getSquareHeight()[entity.getPositionToSet().getX()][entity.getPositionToSet().getY()];
+
+            for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY())) {
+                if (item.getDefinition().canSit) {
+                    seatHeight += item.getHeight();
+                }
+            }
+
             // Apply sit
             for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY())) {
                 item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 1);
@@ -188,7 +197,8 @@ public class ProcessComponent implements CometTask {
                 if (item.getDefinition().canSit) {
                     entity.setBodyRotation(item.getRotation());
                     entity.setHeadRotation(item.getRotation());
-                    entity.addStatus("sit", String.valueOf(item.getHeight()));
+                    entity.addStatus("sit", String.valueOf(item.getHeight() < 1.0 ? 1.0 : seatHeight));
+                    entity.markNeedsUpdate();
                 }
             }
 
