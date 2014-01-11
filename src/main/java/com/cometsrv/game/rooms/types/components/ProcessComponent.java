@@ -190,14 +190,24 @@ public class ProcessComponent implements CometTask {
                 }
             }
 
+            List<FloorItem> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
+
             // Apply sit
-            for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY())) {
+            for(FloorItem item : itemsOnSq) {
                 item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 1);
 
                 if (item.getDefinition().canSit) {
+                    double height = item.getHeight();
+
+                    if (height < 1.0) {
+                        height = 1.0;
+                    } else if (itemsOnSq.size() == 1 && height > 1.0) {
+                        height = 1.0;
+                    }
+
                     entity.setBodyRotation(item.getRotation());
                     entity.setHeadRotation(item.getRotation());
-                    entity.addStatus("sit", String.valueOf(item.getHeight() < 1.0 ? 1.0 : seatHeight));
+                    entity.addStatus("sit", String.valueOf(height).replace(',', '.'));
                     entity.markNeedsUpdate();
                 }
             }
