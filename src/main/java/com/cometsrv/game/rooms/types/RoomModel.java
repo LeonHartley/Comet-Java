@@ -18,7 +18,6 @@ public class RoomModel {
 
     private int mapSizeX;
     private int mapSizeY;
-    private int mapSizeZ;
     private int mapSize;
 
     private int open = 0;
@@ -27,8 +26,6 @@ public class RoomModel {
     private int[][] squares;
     private double[][] squareHeight;
     private RoomTileState[][] squareState;
-
-    private final RoomMapping mapping;
 
     public RoomModel(ResultSet data) throws SQLException {
         this.name = data.getString("id");
@@ -46,6 +43,7 @@ public class RoomModel {
         this.squareHeight = new double[mapSizeX][mapSizeY];
         this.squareState = new RoomTileState[mapSizeX][mapSizeY];
 
+        // TODO: Add 'door' to room tile state
 
         for (int y = 0; y < mapSizeY; y++) {
             if (y > 0) {
@@ -88,8 +86,6 @@ public class RoomModel {
             }
             map += MapLine + (char)13;
         }
-
-        this.mapping = new RoomMapping(this);
     }
 
     public String getId() {
@@ -130,10 +126,6 @@ public class RoomModel {
 
     public int getSizeY() {
         return this.mapSizeY;
-    }
-
-    public int getSize() {
-        return this.mapSize;
     }
 
     public RoomTileState[][] getSquareState() {

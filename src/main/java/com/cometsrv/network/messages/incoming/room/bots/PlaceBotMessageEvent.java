@@ -22,9 +22,11 @@ public class PlaceBotMessageEvent implements IEvent {
             return;
         }
 
-        if(!client.getPlayer().getEntity().getPathfinder().canWalk(x, y)) {
+        /*if(!room.getMapping().isValidPosition(x, y)) {
             return;
-        }
+        }*/
+
+        // TODO: Check square!
 
         Comet.getServer().getStorage().execute("UPDATE bots SET room_id = " + room.getId() + ", x = " + x + ", y = " + y + ", z = '0.0' WHERE id = " + botId);
         room.getBots().addBot(bot, x, y);

@@ -4,12 +4,14 @@ import com.cometsrv.boot.Comet;
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.groups.types.Group;
 import com.cometsrv.game.rooms.types.components.*;
+import com.cometsrv.game.rooms.types.mapping.RoomMapping;
 import org.apache.log4j.Logger;
 
 public class Room {
     private int id;
     private RoomData data;
     private RoomModel model;
+    private RoomMapping mapping;
 
     private ProcessComponent process;
     private RightsComponent rights;
@@ -38,6 +40,7 @@ public class Room {
     }
 
     public void load() {
+        this.mapping = new RoomMapping(this, this.model);
         this.itemProcess = new ItemProcessComponent(Comet.getServer().getThreadManagement(), this);
         this.process = new ProcessComponent(this);
         this.rights = new RightsComponent(this);
@@ -48,6 +51,9 @@ public class Room {
         this.bots = new BotComponent(this);
         this.game = new GameComponent(this);
         this.entities = new EntityComponent(this, this.model);
+
+        // Generate the mapping last
+        this.mapping.regenerate();
 
         this.isActive = true;
         this.log.debug("Room loaded");
@@ -126,6 +132,10 @@ public class Room {
 
     public EntityComponent getEntities() {
         return this.entities;
+    }
+
+    public RoomMapping getMapping() {
+        return this.mapping;
     }
 
     public int getId() {

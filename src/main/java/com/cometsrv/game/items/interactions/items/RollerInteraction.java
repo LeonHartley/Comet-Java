@@ -49,7 +49,7 @@ public class RollerInteraction extends Interactor {
             return false;
         }
 
-        Position3D sqInfront = item.squareInfront();
+        /*Position3D sqInfront = item.squareInfront();
         FloorItem floorItem = (FloorItem) item;
 
         List<GenericEntity> entitiesOnSq = floorItem.getRoom().getEntities().getEntitiesAt(floorItem.getX(), floorItem.getY());
@@ -73,7 +73,7 @@ public class RollerInteraction extends Interactor {
 
             entity.setPosition(new Position3D(sqInfront.getX(), sqInfront.getY(), height));
             floorItem.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position3D(sqInfront.getX(), sqInfront.getY(), height), floorItem.getId(), entity.getVirtualId(), 0));
-        }
+        }*/
 
         return false;
     }

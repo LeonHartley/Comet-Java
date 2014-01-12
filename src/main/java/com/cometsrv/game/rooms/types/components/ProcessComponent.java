@@ -223,7 +223,7 @@ public class ProcessComponent implements CometTask {
 
             boolean isLastStep = (entity.getProcessingPath().size() == 0);
 
-            if (nextSq != null && entity.getPathfinder().checkSquare(nextSq.x, nextSq.y) && entity.getPathfinder().canWalk(nextSq.x, nextSq.y)) {
+            if (nextSq != null && entity.getRoom().getMapping().isValidStep(entity.getPosition(), new Position3D(nextSq.x, nextSq.y, 0), isLastStep)) {
                 Position3D currentPos = entity.getPosition() != null ? entity.getPosition() : new Position3D(0, 0, 0);
                 entity.setBodyRotation(Position3D.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, false));
                 entity.setHeadRotation(entity.getBodyRotation());

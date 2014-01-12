@@ -1,17 +1,25 @@
 package com.cometsrv.game.rooms.types.mapping;
 
 import com.cometsrv.game.rooms.avatars.misc.Position3D;
+import com.cometsrv.game.rooms.avatars.pathfinding.AffectedTile;
+import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.game.rooms.types.RoomModel;
+import com.cometsrv.game.rooms.types.tiles.RoomTileState;
 
-public abstract class RoomMapping {
+import java.util.AbstractQueue;
+import java.util.List;
 
+public class RoomMapping {
     private final Room room;
     private final RoomModel model;
 
-    private Position3D[][] redirectGrid;
+    private volatile Position3D[][] redirectGrid;
+    private volatile RoomTileStatus[][] statusGrid;
+    private volatile RoomEntityMovementNode[][] movementNodes;
 
-    private RoomTileStatus[][] statusGrid;
+    private volatile double[][] stackHeight;
+    private volatile double[][] topStackHeight;
 
     public RoomMapping(Room roomInstance, RoomModel roomModel) {
         this.room = roomInstance;
@@ -23,7 +31,22 @@ public abstract class RoomMapping {
     }
 
     public double getStepHeight(Position3D position) {
-        return 1.0;
+        if (!isValidPosition(position)) {
+            return 0.0;
+        }
+
+        RoomTileStatus tileStatus = this.statusGrid[position.getX()][position.getX()];
+        double height = this.stackHeight[position.getX()][position.getY()];
+
+        if (tileStatus == null) {
+            return 0.0;
+        }
+
+        if (tileStatus.getInteractionHeight() >= 0) {
+            height -= tileStatus.getInteractionHeight();
+        }
+
+        return height;
     }
 
     public boolean canStepUpwards(double height0, double height1) {
@@ -54,6 +77,13 @@ public abstract class RoomMapping {
             return false;
         }
 
+        if (this.model.getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID
+                || positionHasUser(to)
+                || movementNodes[to.getX()][to.getY()] == RoomEntityMovementNode.CLOSED
+                || movementNodes[to.getX()][to.getY()] == RoomEntityMovementNode.END_OF_ROUTE && !lastStep) {
+            return false;
+        }
+
         // Is the step a door and is it the last step? (if its not then we don't want to walk into the door to get around furniture)
         if (to.getX() == this.model.getDoorX() && to.getY() == this.model.getDoorY() && !lastStep) {
             return false;
@@ -63,7 +93,154 @@ public abstract class RoomMapping {
         if (!canStepUpwards(getStepHeight(to), getStepHeight(from))) {
             return false;
         }
+
+        return true;
     }
 
-    public abstract void regenerateMap();
+    public double calculateItemPlacementHeight(FloorItem item, List<AffectedTile> affectedTiles, boolean rotateOnly) {
+        double rootFloorHeight = -1;
+        double heighestStack = 0;
+
+        int sizeX = this.model.getSizeX();
+        int sizeY = this.model.getSizeY();
+
+        double[][] tmpStackHeights = new double[sizeX][sizeY];
+
+        for (AffectedTile tile : affectedTiles) {
+            // Check valid position & door position
+            if (!isValidPosition(new Position3D(tile.x, tile.y, 0)) || (tile.x == this.model.getDoorX() && tile.y == this.model.getDoorY())) {
+                return -1;
+            }
+
+            // Calculate first the 'root' floor height (stairs etc)
+            if (rootFloorHeight == -1) {
+                rootFloorHeight = this.model.getSquareHeight()[tile.x][tile.y];
+            }
+
+            if (rootFloorHeight != this.model.getSquareHeight()[tile.x][tile.y]) {
+                return -1;
+            }
+
+            tmpStackHeights[tile.x][tile.y] = rootFloorHeight;
+            heighestStack = rootFloorHeight;
+
+            boolean canRotateIntoEntity = (item.getDefinition().getInteraction().toLowerCase() == "bed"
+                    || item.getDefinition().getInteraction().toLowerCase() == "seat"
+                    || item.getDefinition().getInteraction().toLowerCase() == "roller"
+                    || item.getDefinition().getInteraction().toLowerCase() == "teleporter");
+
+            if ((!rotateOnly || !canRotateIntoEntity) && this.room.getEntities().getEntitiesAt(tile.x, tile.y).size() > 0) {
+                return -1;
+            }
+        }
+
+        for (FloorItem stackItem : this.room.getItems().getFloorItems()) {
+            if (stackItem.getId() == item.getId()) {
+                continue;
+            }
+
+            Position3D matchedTile;
+            List<AffectedTile> itemTiles = AffectedTile.getAffectedTilesAt(stackItem.getDefinition().getLength(), stackItem.getDefinition().getWidth(), stackItem.getX(), stackItem.getY(), stackItem.getRotation());
+
+            for (AffectedTile affectedTile : affectedTiles) {
+                for (AffectedTile itemTile : itemTiles) {
+                    if (itemTile.x == affectedTile.x && itemTile.y == affectedTile.y) {
+                        matchedTile = new Position3D(affectedTile.x, affectedTile.y, 0);
+
+                        if (stackItem.getDefinition().getInteraction() == "roller" && (item.getDefinition().getLength() != 1 || item.getDefinition().getWidth() != 1)) {
+                            return -1;
+                        }
+
+                        double itemTotalHeight = stackItem.getHeight() + stackItem.getDefinition().getHeight();
+
+                        if (itemTotalHeight >= tmpStackHeights[matchedTile.getX()][matchedTile.getY()]) {
+                            tmpStackHeights[matchedTile.getX()][matchedTile.getY()] = itemTotalHeight;
+                        }
+
+                        if (itemTotalHeight >= heighestStack) {
+                            heighestStack = itemTotalHeight;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Stack height limits
+        if ((heighestStack + item.getDefinition().getHeight()) >= 12) {
+            return -1;
+        }
+
+        return heighestStack;
+    }
+
+    public void regenerate() {
+        int sizeX = this.model.getSizeX();
+        int sizeY = this.model.getSizeY();
+
+        Position3D[][] redirectGrid = new Position3D[sizeX][sizeY];
+        RoomTileStatus[][] statusGrid = new RoomTileStatus[sizeX][sizeY];
+        RoomEntityMovementNode[][] movementNodes = new RoomEntityMovementNode[sizeX][sizeY];
+        double[][] stackHeight = new double[sizeX][sizeY];
+        double[][] topStackHeight = new double [sizeX][sizeY];
+
+        for (int y = 0; y < sizeY; y++)
+        {
+            for (int x = 0; x < sizeX; x++)
+            {
+                movementNodes[x][y] = RoomEntityMovementNode.OPEN;
+                stackHeight[x][y] = this.room.getModel().getSquareHeight()[x][y];
+                topStackHeight[x][y] = 0;
+            }
+        }
+
+        AbstractQueue<FloorItem> floorItems = this.room.getItems().getFloorItems();
+
+        for (FloorItem item : floorItems) {
+            int itemX = item.getX();
+            int itemY = item.getY();
+            int itemRotation = item.getRotation();
+
+            double totalStackHeight = item.getHeight() + Math.round(item.getDefinition().getHeight());
+            List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), itemX, itemY, itemRotation);
+
+            switch (item.getDefinition().getInteraction().toLowerCase()) {
+                case "sit":
+                    statusGrid[itemX][itemY] = new RoomTileStatus(RoomTileStatusType.SIT, 0, itemX, itemY, itemRotation, totalStackHeight);
+                    movementNodes[itemX][itemY] = RoomEntityMovementNode.END_OF_ROUTE;
+                    break;
+                case "bed":
+                    statusGrid[itemX][itemY] = new RoomTileStatus(RoomTileStatusType.LAY, 0, itemX, itemY, itemRotation, totalStackHeight);
+                    movementNodes[itemX][itemY] = RoomEntityMovementNode.END_OF_ROUTE;
+                    break;
+
+                case "gate":
+                    movementNodes[itemX][itemY] = item.getExtraData().equals("1") ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
+                    break;
+
+                default:
+                    break;
+            }
+
+            for (AffectedTile tile : affectedTiles) {
+                if (totalStackHeight >= stackHeight[tile.x][tile.y]) {
+                    stackHeight[tile.x][tile.y] = totalStackHeight;
+                    topStackHeight[tile.x][tile.y] = item.getHeight();
+
+                    if (item.getDefinition().getInteraction().toLowerCase() == "bed") {
+                        if (itemRotation == 2 || itemRotation == 6) {
+                            redirectGrid[tile.x][tile.y] = new Position3D(itemX, tile.y, 0);
+                        } else if (itemRotation == 0 || itemRotation == 4) {
+                            redirectGrid[tile.x][tile.y] = new Position3D(tile.x, itemY, 0);
+                        }
+                    }
+                }
+            }
+        }
+
+        this.redirectGrid = redirectGrid;
+        this.statusGrid = statusGrid;
+        this.movementNodes = movementNodes;
+        this.stackHeight = stackHeight;
+        this.topStackHeight = topStackHeight;
+    }
 }

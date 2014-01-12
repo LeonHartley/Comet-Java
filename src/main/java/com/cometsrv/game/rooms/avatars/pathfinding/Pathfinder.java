@@ -1,8 +1,7 @@
 package com.cometsrv.game.rooms.avatars.pathfinding;
 
+import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.rooms.entities.AvatarEntity;
-import com.cometsrv.game.rooms.items.FloorItem;
-import com.cometsrv.game.rooms.types.tiles.RoomTileState;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -65,7 +64,8 @@ public class Pathfinder
                 int newX = movePoint.x + userX;
                 int newY = movePoint.y + userY;
 
-                if (newX >= 0 && newY >= 0 && mapX > newX && mapY > newY &&  avatar.getRoom().getModel().getSquareState()[newX][newY] == RoomTileState.VALID && avatar.getRoom().getEntities().isSquareAvailable(newX, newY) && checkSquare(newX, newY))
+                //if (newX >= 0 && newY >= 0 && mapX > newX && mapY > newY &&  avatar.getRoom().getModel().getSquareState()[newX][newY] == RoomTileState.VALID && avatar.getRoom().getEntities().isSquareAvailable(newX, newY) && checkSquare(newX, newY))
+                if (avatar.getRoom().getMapping().isValidStep(new Position3D(userX, userY, 0), new Position3D(newX, newY, 0), false))
                 {
                     Square pCoord = new Square(newX, newY);
                     pCoord.positionDistance = DistanceBetween(newX, newY, goalX, goalY);
@@ -100,12 +100,12 @@ public class Pathfinder
         avatar = null;
     }
 
-    public boolean canWalk(int newX, int newY) {
+    /*public boolean canWalk(int newX, int newY) {
         // Author: LH
         return newX >= 0 && newY >= 0 && mapX > newX && mapY > newY && avatar.getRoom().getModel().getSquareState()[newX][newY] == RoomTileState.VALID && avatar.getRoom().getEntities().isSquareAvailable(newX, newY) && checkSquare(newX, newY);
-    }
+    }*/
 
-    public boolean checkSquare(int x, int y) {
+    /*public boolean checkSquare(int x, int y) {
         // Author: LH
         boolean isItem = false;
         boolean isAvailable = false;
@@ -128,7 +128,7 @@ public class Pathfinder
             return false;
         }
         return true;
-    }
+    }*/
 
     private int DistanceBetween(int currentX, int currentY, int goX, int goY)
     {
