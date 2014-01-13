@@ -204,7 +204,7 @@ public class RoomMapping {
             List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), itemX, itemY, itemRotation);
 
             RoomTileStatus status = null;
-            RoomEntityMovementNode movementNode;
+            RoomEntityMovementNode movementNode = RoomEntityMovementNode.CLOSED;
 
             switch (item.getDefinition().getInteraction().toLowerCase()) {
                 case "sit":
@@ -219,14 +219,10 @@ public class RoomMapping {
                 case "gate":
                     movementNode = item.getExtraData().equals("1") ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
                     break;
-
-                default:
-                    movementNode = RoomEntityMovementNode.CLOSED;
-                    break;
             }
 
             for (AffectedTile tile : affectedTiles) {
-                if (totalStackHeight >= stackHeight[tile.x][tile.y]) {
+                if (totalStackHeight >= this.stackHeight[tile.x][tile.y]) {
                     stackHeight[tile.x][tile.y] = totalStackHeight;
                     topStackHeight[tile.x][tile.y] = item.getHeight();
                     movementNodes[tile.x][tile.y] = movementNode;
