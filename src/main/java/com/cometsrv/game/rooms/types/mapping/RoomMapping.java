@@ -203,21 +203,25 @@ public class RoomMapping {
             double totalStackHeight = item.getHeight() + Math.round(item.getDefinition().getHeight());
             List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), itemX, itemY, itemRotation);
 
+            RoomTileStatus status = null;
+            RoomEntityMovementNode movementNode;
+
             switch (item.getDefinition().getInteraction().toLowerCase()) {
                 case "sit":
-                    statusGrid[itemX][itemY] = new RoomTileStatus(RoomTileStatusType.SIT, 0, itemX, itemY, itemRotation, totalStackHeight);
-                    movementNodes[itemX][itemY] = RoomEntityMovementNode.END_OF_ROUTE;
+                    status = new RoomTileStatus(RoomTileStatusType.SIT, 0, itemX, itemY, itemRotation, totalStackHeight);
+                    movementNode = RoomEntityMovementNode.END_OF_ROUTE;
                     break;
                 case "bed":
-                    statusGrid[itemX][itemY] = new RoomTileStatus(RoomTileStatusType.LAY, 0, itemX, itemY, itemRotation, totalStackHeight);
-                    movementNodes[itemX][itemY] = RoomEntityMovementNode.END_OF_ROUTE;
+                    status = new RoomTileStatus(RoomTileStatusType.LAY, 0, itemX, itemY, itemRotation, totalStackHeight);
+                    movementNode = RoomEntityMovementNode.END_OF_ROUTE;
                     break;
 
                 case "gate":
-                    movementNodes[itemX][itemY] = item.getExtraData().equals("1") ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
+                    movementNode = item.getExtraData().equals("1") ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
                     break;
 
                 default:
+                    movementNode = RoomEntityMovementNode.CLOSED;
                     break;
             }
 
@@ -225,6 +229,8 @@ public class RoomMapping {
                 if (totalStackHeight >= stackHeight[tile.x][tile.y]) {
                     stackHeight[tile.x][tile.y] = totalStackHeight;
                     topStackHeight[tile.x][tile.y] = item.getHeight();
+                    movementNodes[tile.x][tile.y] = movementNode;
+                    statusGrid[tile.x][tile.y] = status;
 
                     if (item.getDefinition().getInteraction().toLowerCase() == "bed") {
                         if (itemRotation == 2 || itemRotation == 6) {

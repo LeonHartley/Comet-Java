@@ -96,7 +96,14 @@ public class ProcessComponent implements CometTask {
         for (GenericEntity entity : entities.values()) {
             // Process each entity as its own
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
-                processPlayerEntity((PlayerEntity) entity);
+                PlayerEntity playerEntity = (PlayerEntity) entity;
+
+                if (playerEntity.getPlayer() == null) {
+                    removeFromRoom(playerEntity);
+                    continue;
+                }
+
+                processPlayerEntity(playerEntity);
             } else if (entity.getEntityType() == RoomEntityType.BOT) {
                 processBotEntity((BotEntity) entity);
             } else if (entity.getEntityType() == RoomEntityType.PET) {
