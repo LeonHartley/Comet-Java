@@ -21,6 +21,8 @@ public class RoomMapping {
     private volatile double[][] stackHeight;
     private volatile double[][] topStackHeight;
 
+    private volatile boolean guestsCanPlaceStickies;
+
     public RoomMapping(Room roomInstance, RoomModel roomModel) {
         this.room = roomInstance;
         this.model = roomModel;
@@ -177,21 +179,13 @@ public class RoomMapping {
         int sizeX = this.model.getSizeX();
         int sizeY = this.model.getSizeY();
 
+        this.guestsCanPlaceStickies = false;
+
         Position3D[][] redirectGrid = new Position3D[sizeX][sizeY];
         RoomTileStatus[][] statusGrid = new RoomTileStatus[sizeX][sizeY];
         RoomEntityMovementNode[][] movementNodes = new RoomEntityMovementNode[sizeX][sizeY];
         double[][] stackHeight = new double[sizeX][sizeY];
         double[][] topStackHeight = new double [sizeX][sizeY];
-
-        for (int y = 0; y < sizeY; y++)
-        {
-            for (int x = 0; x < sizeX; x++)
-            {
-                movementNodes[x][y] = RoomEntityMovementNode.OPEN;
-                stackHeight[x][y] = this.room.getModel().getSquareHeight()[x][y];
-                topStackHeight[x][y] = 0;
-            }
-        }
 
         AbstractQueue<FloorItem> floorItems = this.room.getItems().getFloorItems();
 
@@ -200,8 +194,11 @@ public class RoomMapping {
             int itemY = item.getY();
             int itemRotation = item.getRotation();
 
+            int itemLength = item.getDefinition().getLength();
+            int itemWidth = item.getDefinition().getWidth();
+
             double totalStackHeight = item.getHeight() + Math.round(item.getDefinition().getHeight());
-            List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), itemX, itemY, itemRotation);
+            List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(itemLength, itemWidth, itemX, itemY, itemRotation);
 
             RoomTileStatus status = null;
             RoomEntityMovementNode movementNode = RoomEntityMovementNode.CLOSED;
@@ -219,10 +216,14 @@ public class RoomMapping {
                 case "gate":
                     movementNode = item.getExtraData().equals("1") ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
                     break;
+
+                case "sticky_pole":
+                    this.guestsCanPlaceStickies = true;
+                    break;
             }
 
             for (AffectedTile tile : affectedTiles) {
-                if (totalStackHeight >= this.stackHeight[tile.x][tile.y]) {
+                if (totalStackHeight >= stackHeight[tile.x][tile.y]) {
                     stackHeight[tile.x][tile.y] = totalStackHeight;
                     topStackHeight[tile.x][tile.y] = item.getHeight();
                     movementNodes[tile.x][tile.y] = movementNode;
@@ -234,6 +235,8 @@ public class RoomMapping {
                         } else if (itemRotation == 0 || itemRotation == 4) {
                             redirectGrid[tile.x][tile.y] = new Position3D(tile.x, itemY, 0);
                         }
+                    } else {
+                        redirectGrid[tile.x][tile.y] = null;
                     }
                 }
             }

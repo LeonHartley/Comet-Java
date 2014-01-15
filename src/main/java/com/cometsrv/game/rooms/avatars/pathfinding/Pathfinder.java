@@ -64,8 +64,9 @@ public class Pathfinder
                 int newX = movePoint.x + userX;
                 int newY = movePoint.y + userY;
 
-                //if (newX >= 0 && newY >= 0 && mapX > newX && mapY > newY &&  avatar.getRoom().getModel().getSquareState()[newX][newY] == RoomTileState.VALID && avatar.getRoom().getEntities().isSquareAvailable(newX, newY) && checkSquare(newX, newY))
-                if (avatar.getRoom().getMapping().isValidStep(new Position3D(userX, userY, 0), new Position3D(newX, newY, 0), false))
+                boolean isLastStep = false;
+
+                if (avatar.getRoom().getMapping().isValidStep(new Position3D(userX, userY, 0), new Position3D(newX, newY, 0), isLastStep))
                 {
                     Square pCoord = new Square(newX, newY);
                     pCoord.positionDistance = DistanceBetween(newX, newY, goalX, goalY);
