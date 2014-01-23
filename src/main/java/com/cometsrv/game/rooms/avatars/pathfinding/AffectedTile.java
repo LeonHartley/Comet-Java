@@ -16,7 +16,8 @@ public class AffectedTile
 
     public static List<AffectedTile> getAffectedTilesAt(int length, int width, int posX, int posY, int rotation)
     {
-        List<AffectedTile> points = new ArrayList<>();
+    //old
+       List<AffectedTile> points = new ArrayList<>();
 
         if (length > 0) {
             if (rotation == 0 || rotation == 4) {
@@ -77,60 +78,61 @@ public class AffectedTile
         }
 
         return points;
+        //endofold
+/*
+        List<AffectedTile> pointList = new ArrayList<>();
 
-        /*List<AffectedTile> pointList = new ArrayList<>();
-
-        if (Length > 1)
+        if (length > 1)
         {
-            if (Rotation == 0 || Rotation == 4)
+            if (rotation == 0 || rotation == 4)
             {
-                for (int i = 1; i < Length; i++)
+                for (int i = 1; i < length; i++)
                 {
-                    pointList.add(new AffectedTile(PosX, PosY + i, i));
+                    pointList.add(new AffectedTile(posX, posY + i));
 
-                    for (int j = 1; j < Width; j++)
+                    for (int j = 1; j < width; j++)
                     {
-                        pointList.add(new AffectedTile(PosX + j, PosY + i, (i < j) ? j : i));
+                        pointList.add(new AffectedTile(posX + j, posY + i));
                     }
                 }
             }
-            else if (Rotation == 2 || Rotation == 6)
+            else if (rotation == 2 || rotation == 6)
             {
-                for (int i = 1; i < Length; i++)
+                for (int i = 1; i < length; i++)
                 {
-                    pointList.add(new AffectedTile(PosX + i, PosY, i));
+                    pointList.add(new AffectedTile(posX + i, posY));
 
-                    for (int j = 1; j < Width; j++)
+                    for (int j = 1; j < width; j++)
                     {
-                        pointList.add(new AffectedTile(PosX + i, PosY + j, (i < j) ? j : i));
+                        pointList.add(new AffectedTile(posX + i, posY + j));
                     }
                 }
             }
         }
 
-        if (Width > 1)
+        if (width > 1)
         {
-            if (Rotation == 0 || Rotation == 4)
+            if (rotation == 0 || rotation == 4)
             {
-                for (int i = 1; i < Width; i++)
+                for (int i = 1; i < width; i++)
                 {
-                    pointList.add(new AffectedTile(PosX + i, PosY, i));
+                    pointList.add(new AffectedTile(posX + i, posY));
 
-                    for (int j = 1; j < Length; j++)
+                    for (int j = 1; j < length; j++)
                     {
-                        pointList.add(new AffectedTile(PosX + i, PosY + j, (i < j) ? j : i));
+                        pointList.add(new AffectedTile(posX + i, posY + j));
                     }
                 }
             }
-            else if (Rotation == 2 || Rotation == 6)
+            else if (rotation == 2 || rotation == 6)
             {
-                for (int i = 1; i < Width; i++)
+                for (int i = 1; i < width; i++)
                 {
-                    pointList.add(new AffectedTile(PosX, PosY + i, i));
+                    pointList.add(new AffectedTile(posX, posY + i));
 
-                    for (int j = 1; j < Length; j++)
+                    for (int j = 1; j < length; j++)
                     {
-                        pointList.add(new AffectedTile(PosX + j, PosY + i, (i < j) ? j : i));
+                        pointList.add(new AffectedTile(posX + j, posY + i));
                     }
                 }
             }

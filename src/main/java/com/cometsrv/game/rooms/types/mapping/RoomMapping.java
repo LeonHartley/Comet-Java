@@ -126,10 +126,10 @@ public class RoomMapping {
             tmpStackHeights[tile.x][tile.y] = rootFloorHeight;
             heighestStack = rootFloorHeight;
 
-            boolean canRotateIntoEntity = (item.getDefinition().getInteraction().toLowerCase() == "bed"
-                    || item.getDefinition().getInteraction().toLowerCase() == "seat"
-                    || item.getDefinition().getInteraction().toLowerCase() == "roller"
-                    || item.getDefinition().getInteraction().toLowerCase() == "teleporter");
+            boolean canRotateIntoEntity = (item.getDefinition().getInteraction().toLowerCase().equals("bed")
+                    || item.getDefinition().getInteraction().toLowerCase().equals("seat")
+                    || item.getDefinition().getInteraction().toLowerCase().equals("roller")
+                    || item.getDefinition().getInteraction().toLowerCase().equals("teleporter"));
 
             if ((!rotateOnly || !canRotateIntoEntity) && this.room.getEntities().getEntitiesAt(tile.x, tile.y).size() > 0) {
                 return -1;
@@ -149,7 +149,7 @@ public class RoomMapping {
                     if (itemTile.x == affectedTile.x && itemTile.y == affectedTile.y) {
                         matchedTile = new Position3D(affectedTile.x, affectedTile.y, 0);
 
-                        if (stackItem.getDefinition().getInteraction() == "roller" && (item.getDefinition().getLength() != 1 || item.getDefinition().getWidth() != 1)) {
+                        if (stackItem.getDefinition().getInteraction().equals("roller") && (item.getDefinition().getLength() != 1 || item.getDefinition().getWidth() != 1)) {
                             return -1;
                         }
 
@@ -222,14 +222,17 @@ public class RoomMapping {
                     break;
             }
 
+            affectedTiles.add(new AffectedTile(item.getX(), item.getY()));
+
             for (AffectedTile tile : affectedTiles) {
+
                 if (totalStackHeight >= stackHeight[tile.x][tile.y]) {
                     stackHeight[tile.x][tile.y] = totalStackHeight;
                     topStackHeight[tile.x][tile.y] = item.getHeight();
                     movementNodes[tile.x][tile.y] = movementNode;
                     statusGrid[tile.x][tile.y] = status;
 
-                    if (item.getDefinition().getInteraction().toLowerCase() == "bed") {
+                    if (item.getDefinition().getInteraction().toLowerCase().equals("bed")) {
                         if (itemRotation == 2 || itemRotation == 6) {
                             redirectGrid[tile.x][tile.y] = new Position3D(itemX, tile.y, 0);
                         } else if (itemRotation == 0 || itemRotation == 4) {
