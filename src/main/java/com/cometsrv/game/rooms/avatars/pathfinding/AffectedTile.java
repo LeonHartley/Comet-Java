@@ -16,8 +16,7 @@ public class AffectedTile
 
     public static List<AffectedTile> getAffectedTilesAt(int length, int width, int posX, int posY, int rotation)
     {
-    //old
-       List<AffectedTile> points = new ArrayList<>();
+       /*List<AffectedTile> points = new ArrayList<>();
 
         if (length > 0) {
             if (rotation == 0 || rotation == 4) {
@@ -77,9 +76,8 @@ public class AffectedTile
             }
         }
 
-        return points;
-        //endofold
-/*
+        return points;*/
+
         List<AffectedTile> pointList = new ArrayList<>();
 
         if (length > 1)
@@ -138,6 +136,6 @@ public class AffectedTile
             }
         }
 
-        return pointList;*/
+        return pointList;
     }
 }

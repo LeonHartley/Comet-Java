@@ -41,10 +41,6 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
                     return;
                 }
             }
-
-            if(client.getPlayer().getEntity().getFutureSquare() != null && client.getPlayer().getEntity().getFutureSquare() == new Square(item.getX(), item.getY())) {
-                return;
-            }
         }
 
         GameEngine.getItems().getInteractions().onInteract(0, item, client.getPlayer().getEntity());

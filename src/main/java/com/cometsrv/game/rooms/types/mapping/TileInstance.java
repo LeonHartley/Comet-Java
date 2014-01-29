@@ -42,7 +42,6 @@ public class TileInstance {
                     break;
 
                 case "gate":
-                    System.out.println(item.getExtraData());
                     movementNode = item.getExtraData().equals("1") ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
                     break;
 

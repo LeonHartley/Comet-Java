@@ -82,10 +82,6 @@ public class RoomMapping {
             return 0.0;
         }
 
-        //if (tileStatus.getInteractionHeight() >= 0) {
-        //    height -= tileStatus.getInteractionHeight();
-        //}
-
         return height;
     }
 
