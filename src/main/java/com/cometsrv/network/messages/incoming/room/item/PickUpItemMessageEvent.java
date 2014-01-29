@@ -18,22 +18,20 @@ public class PickUpItemMessageEvent implements IEvent {
             return;
         }
 
-        try {
-            FloorItem item = room.getItems().getFloorItem(id);
+        FloorItem item = room.getItems().getFloorItem(id);
 
-            if(item == null) {
-                WallItem wItem = room.getItems().getWallItem(id);
+        if(item == null) {
+            WallItem wItem = room.getItems().getWallItem(id);
 
-                if(wItem == null) {
-                    return;
-                }
-
-                room.getItems().removeItem(wItem, client);
+            if(wItem == null) {
+                return;
             }
 
-            room.getItems().removeItem(item, client);
-        } catch(Exception e) {
-
+            room.getItems().removeItem(wItem, client);
+            return;
         }
+
+        room.getMapping().updateTile(item.getX(), item.getY());
+        room.getItems().removeItem(item, client);
     }
 }

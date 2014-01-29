@@ -2,6 +2,7 @@ package com.cometsrv.network.messages.incoming.room.item;
 
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.rooms.items.FloorItem;
+import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.incoming.IEvent;
 import com.cometsrv.network.messages.types.Event;
 import com.cometsrv.network.sessions.Session;
@@ -14,7 +15,9 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
             return;
         }
 
-        FloorItem item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(itemId);
+        Room room = client.getPlayer().getEntity().getRoom();
+
+        FloorItem item = room.getItems().getFloorItem(itemId);
 
         if(item == null) {
             return;
@@ -22,10 +25,11 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
 
         // Can't close gate when a user is on same tile?
         if (item.getDefinition().getInteraction().equals("gate")
-                && client.getPlayer().getEntity().getRoom().getEntities().getEntitiesAt(item.getX(), item.getY()).size() > 0) {
+                && room.getEntities().getEntitiesAt(item.getX(), item.getY()).size() > 0) {
             return;
         }
 
         GameEngine.getItems().getInteractions().onInteract(0, item, client.getPlayer().getEntity());
+        room.getMapping().updateTile(item.getX(), item.getY());
     }
 }
