@@ -85,14 +85,14 @@ public class PlaceItemMessageEvent implements IEvent {
 
                 Room room = client.getPlayer().getEntity().getRoom();
 
-                room.getMapping().updateTile(x, y);
-
                 room.getEntities().broadcastMessage(
                         SendFloorItemMessageComposer.compose(
                                 room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData() == " ") ? "0" : item.getExtraData()),
                                 room
                         )
                 );
+
+                room.getMapping().updateTile(x, y);
             }
         } catch(Exception e) {
             e.printStackTrace();

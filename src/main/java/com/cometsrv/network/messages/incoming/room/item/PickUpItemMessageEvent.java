@@ -31,7 +31,7 @@ public class PickUpItemMessageEvent implements IEvent {
             return;
         }
 
-        room.getMapping().updateTile(item.getX(), item.getY());
         room.getItems().removeItem(item, client);
+        room.getMapping().updateTile(item.getX(), item.getY());
     }
 }

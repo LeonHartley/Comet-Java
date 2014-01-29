@@ -90,7 +90,7 @@ public class RoomMapping {
     }
 
     public boolean isValidPosition(Position3D position) {
-        return !(this.model.getSizeX() < position.getX() || this.model.getSizeY() < position.getY()) && this.tiles[position.getY()][position.getX()] != null;
+        return !(this.model.getSizeX() < position.getX() || this.model.getSizeY() < position.getY()) && this.tiles[position.getX()][position.getY()] != null;
     }
 
     public final Room getRoom() {

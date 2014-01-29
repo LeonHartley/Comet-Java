@@ -133,9 +133,9 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                 Comet.getServer().getStorage().execute("UPDATE items SET x = " + x + ", y = " + y + ", z = " + height + ", rot = " + rot + " WHERE id = " + id);
 
                 room.getItems().getFloorItems().remove(item);
-                room.getItems().getFloorItems().add(item);
-
                 room.getMapping().updateTile(item.getX(), item.getY());
+
+                room.getItems().getFloorItems().add(item);
                 room.getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(item, room.getData().getOwnerId()));
             } catch(Exception e) {
                 room.log.error("Error while changing floor item position", e);
