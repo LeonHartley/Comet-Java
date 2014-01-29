@@ -3,6 +3,7 @@ package com.cometsrv.network.messages.incoming.room.item;
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.rooms.avatars.pathfinding.AffectedTile;
+import com.cometsrv.game.rooms.avatars.pathfinding.Square;
 import com.cometsrv.game.rooms.entities.GenericEntity;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.types.Room;
@@ -30,9 +31,20 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
         }
 
         // Can't close gate when a user is on same tile?
-        if (item.getDefinition().getInteraction().equals("gate")
-                && room.getEntities().getEntitiesAt(item.getX(), item.getY()).size() > 0) {
-            return;
+        if (item.getDefinition().getInteraction().equals("gate")) {
+            if(room.getEntities().getEntitiesAt(item.getX(), item.getY()).size() > 0) {
+                return;
+            }
+
+            for(GenericEntity entity : room.getEntities().getEntitiesCollection().values()) {
+                if(Position3D.distanceBetween(client.getPlayer().getEntity().getPosition(), new Position3D(item.getX(), item.getY(), 0d)) <= 1 && entity.isWalking()) {
+                    return;
+                }
+            }
+
+            if(client.getPlayer().getEntity().getFutureSquare() != null && client.getPlayer().getEntity().getFutureSquare() == new Square(item.getX(), item.getY())) {
+                return;
+            }
         }
 
         GameEngine.getItems().getInteractions().onInteract(0, item, client.getPlayer().getEntity());

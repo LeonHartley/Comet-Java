@@ -34,6 +34,9 @@ public interface AvatarEntity {
     public void setProcessingPath(List<Square> path);
     public boolean isWalking();
 
+    public Square getFutureSquare();
+    public void setFutureSquare(Square square);
+
     public Pathfinder getPathfinder();
 
     public Map<String, String> getStatuses();

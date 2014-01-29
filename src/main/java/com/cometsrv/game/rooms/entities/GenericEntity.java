@@ -30,6 +30,9 @@ public abstract class GenericEntity implements AvatarEntity {
 
     private List<Square> processingPath;
     private List<Square> walkingPath;
+
+    private Square futureSquare;
+
     private Pathfinder pathfinder;
 
     private int idleTime;
@@ -182,6 +185,16 @@ public abstract class GenericEntity implements AvatarEntity {
     @Override
     public boolean isWalking() {
         return (this.processingPath != null) && (this.processingPath.size() > 0);
+    }
+
+    @Override
+    public Square getFutureSquare() {
+        return this.futureSquare;
+    }
+
+    @Override
+    public void setFutureSquare(Square square) {
+        this.futureSquare = square;
     }
 
     @Override

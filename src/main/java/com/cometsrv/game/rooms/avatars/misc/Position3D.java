@@ -91,6 +91,13 @@ public class Position3D {
         return rotation;
     }
 
+    public static double distanceBetween(Position3D pos1, Position3D pos2) {
+        int xDistance = pos2.getX() - pos1.getX();
+        int yDistance = pos2.getY() - pos1.getY();
+
+        return Math.sqrt(xDistance * xDistance + yDistance * yDistance);
+    }
+
     public int getX() {
         return this.x;
     }
