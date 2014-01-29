@@ -53,7 +53,7 @@ public class Room {
         this.entities = new EntityComponent(this, this.model);
 
         // Generate the mapping last
-        this.mapping.regenerate();
+        this.mapping.init();
 
         this.isActive = true;
         this.log.debug("Room loaded");
