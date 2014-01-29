@@ -191,37 +191,48 @@ public class ProcessComponent implements CometTask {
             // Calculate highest seat point
             double seatHeight = this.getRoom().getModel().getSquareHeight()[entity.getPositionToSet().getX()][entity.getPositionToSet().getY()];
 
+
+            boolean walkCancelled = false;
+
             for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY())) {
                 if (item.getDefinition().canSit) {
                     seatHeight += item.getHeight();
                 }
-            }
 
-            List<FloorItem> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
-
-            // Apply sit
-            for(FloorItem item : itemsOnSq) {
-                item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 1);
-
-                if (item.getDefinition().canSit) {
-                    double height = item.getHeight();
-
-                    if (height < 1.0) {
-                        height = 1.0;
-                    } else if (itemsOnSq.size() == 1 && height > 1.0) {
-                        height = 1.0;
+                if(item.getDefinition().equals("gate")) {
+                    if(item.getExtraData().equals("0")) {
+                        walkCancelled = true;
                     }
-
-                    entity.setBodyRotation(item.getRotation());
-                    entity.setHeadRotation(item.getRotation());
-                    entity.addStatus("sit", String.valueOf(height).replace(',', '.'));
-                    entity.markNeedsUpdate();
                 }
             }
 
-            entity.setPosition(newPosition);
+            if(!walkCancelled) {
+                List<FloorItem> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
 
-            // We can also handle walk to + interact here in the future!
+                // Apply sit
+                for(FloorItem item : itemsOnSq) {
+                    item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 1);
+
+                    if (item.getDefinition().canSit) {
+                        double height = item.getHeight();
+
+                        if (height < 1.0) {
+                            height = 1.0;
+                        } else if (itemsOnSq.size() == 1 && height > 1.0) {
+                            height = 1.0;
+                        }
+
+                        entity.setBodyRotation(item.getRotation());
+                        entity.setHeadRotation(item.getRotation());
+                        entity.addStatus("sit", String.valueOf(height).replace(',', '.'));
+                        entity.markNeedsUpdate();
+                    }
+                }
+
+                entity.setPosition(newPosition);
+
+                // We can also handle walk to + interact here in the future!lo
+            }
         }
 
         if (entity.isWalking()) {
