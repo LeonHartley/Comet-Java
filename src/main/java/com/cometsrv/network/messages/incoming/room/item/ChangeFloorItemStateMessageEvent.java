@@ -40,7 +40,6 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
         List<Position3D> tilesToUpdate = new FastList<>();
         tilesToUpdate.add(new Position3D(item.getX(), item.getY(), 0d));
 
-
         for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation()))
         {
             tilesToUpdate.add(new Position3D(tile.x, tile.y, 0d));

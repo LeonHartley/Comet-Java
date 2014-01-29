@@ -19,6 +19,11 @@ public class TileInstance {
     }
 
     public void reload() {
+        // reset stuff
+        this.movementNode = RoomEntityMovementNode.OPEN;
+        this.stackHeight = 0.0;
+        this.status = RoomTileStatusType.NONE;
+
         for(FloorItem item : mappingInstance.getRoom().getItems().getItemsOnSquare(this.position.getX(), this.position.getY())) {
             stackHeight += item.getHeight() + Math.round(item.getDefinition().getHeight());
 
@@ -37,6 +42,7 @@ public class TileInstance {
                     break;
 
                 case "gate":
+                    System.out.println("lol");
                     movementNode = item.getExtraData().equals("1") ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
                     break;
 

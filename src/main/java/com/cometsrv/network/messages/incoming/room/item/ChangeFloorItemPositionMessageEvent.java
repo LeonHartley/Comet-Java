@@ -53,8 +53,15 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                     }
                 }
 
+
+                List<Position3D> tilesToUpdate = new FastList<>();
+
+                tilesToUpdate.add(new Position3D(item.getX(), item.getY(), item.getHeight()));
+                tilesToUpdate.add(new Position3D(x, y, item.getHeight()));
+
                 for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation()))
                 {
+                    tilesToUpdate.add(new Position3D(tile.x, tile.y, 0d));
                     List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(tile.x, tile.y);
 
                     for (GenericEntity entity0 : affectEntities0) {
@@ -66,12 +73,9 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                     }
                 }
 
-                List<Position3D> tilesToUpdate = new FastList<>();
-
-                tilesToUpdate.add(new Position3D(item.getX(), item.getY(), item.getHeight()));
-
                 item.setX(x);
                 item.setY(y);
+
                 item.setRotation(rot);
                 item.setHeight(height);
 
