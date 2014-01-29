@@ -195,6 +195,7 @@ public class ProcessComponent implements CometTask {
                 if (item.getDefinition().canSit) {
                     seatHeight += item.getHeight();
                 }
+
             }
 
             List<FloorItem> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
@@ -220,12 +221,14 @@ public class ProcessComponent implements CometTask {
             }
 
             entity.setPosition(newPosition);
-
-            // We can also handle walk to + interact here in the future!
         }
 
         if (entity.isWalking()) {
             Square nextSq = entity.getProcessingPath().get(0);
+
+            if(entity.getProcessingPath().size() > 1)
+                entity.setFutureSquare(entity.getProcessingPath().get(1));
+
             entity.getProcessingPath().remove(nextSq);
 
             boolean isLastStep = (entity.getProcessingPath().size() == 0);
@@ -237,22 +240,32 @@ public class ProcessComponent implements CometTask {
 
                 double height = this.getRoom().getModel().getSquareHeight()[nextSq.x][nextSq.y];
 
+                boolean isCancelled = false;
+
                 for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
+                    if(item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0"))
+                        isCancelled = true;
+
                     height += item.getHeight();
                 }
 
-                entity.addStatus("mv", String.valueOf(nextSq.x).concat(",").concat(String.valueOf(nextSq.y)).concat(",").concat(String.valueOf(height)));
+                if(!isCancelled) {
+                    entity.addStatus("mv", String.valueOf(nextSq.x).concat(",").concat(String.valueOf(nextSq.y)).concat(",").concat(String.valueOf(height)));
 
-                if (entity.hasStatus("sit")) {
-                    entity.removeStatus("sit");
+                    if (entity.hasStatus("sit")) {
+                        entity.removeStatus("sit");
+                    }
+
+                    if (entity.hasStatus("lay")) {
+                        entity.removeStatus("lay");
+                    }
+
+                    entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, height));
+                    entity.markNeedsUpdate();
+                } else {
+                    entity.getWalkingPath().clear();
+                    entity.getProcessingPath().clear();
                 }
-
-                if (entity.hasStatus("lay")) {
-                    entity.removeStatus("lay");
-                }
-
-                entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, height));
-                entity.markNeedsUpdate();
             }
         }
 

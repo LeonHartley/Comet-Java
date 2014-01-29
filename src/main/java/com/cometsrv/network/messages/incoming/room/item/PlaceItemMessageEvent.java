@@ -3,6 +3,8 @@ package com.cometsrv.network.messages.incoming.room.item;
 import com.cometsrv.boot.Comet;
 import com.cometsrv.game.players.components.types.InventoryItem;
 import com.cometsrv.game.rooms.avatars.misc.Position3D;
+import com.cometsrv.game.rooms.avatars.pathfinding.AffectedTile;
+import com.cometsrv.game.rooms.entities.GenericEntity;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.incoming.IEvent;
@@ -10,8 +12,10 @@ import com.cometsrv.network.messages.outgoing.room.items.SendFloorItemMessageCom
 import com.cometsrv.network.messages.outgoing.room.items.SendWallItemMessageComposer;
 import com.cometsrv.network.messages.types.Event;
 import com.cometsrv.network.sessions.Session;
+import javolution.util.FastList;
 
 import java.sql.PreparedStatement;
+import java.util.List;
 
 public class PlaceItemMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
@@ -60,7 +64,6 @@ public class PlaceItemMessageEvent implements IEvent {
 
                 for(FloorItem stackItem : client.getPlayer().getEntity().getRoom().getItems().getItemsOnSquare(x, y)) {
                     if(item.getId() != stackItem.getId()) {
-                        // TODO: re-do the stack heights in the database (for all items)
                         if(stackItem.getDefinition().canStack) {
                             height+= stackItem.getDefinition().getHeight();
                         } else {
@@ -85,12 +88,20 @@ public class PlaceItemMessageEvent implements IEvent {
 
                 Room room = client.getPlayer().getEntity().getRoom();
 
-                room.getEntities().broadcastMessage(
-                        SendFloorItemMessageComposer.compose(
-                                room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData() == " ") ? "0" : item.getExtraData()),
-                                room
-                        )
-                );
+                FloorItem floorItem = room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData() == " ") ? "0" : item.getExtraData());
+                List<Position3D> tilesToUpdate = new FastList<>();
+
+                tilesToUpdate.add(new Position3D(floorItem.getX(), floorItem.getY(), 0d));
+
+                for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), floorItem.getX(), floorItem.getY(), floorItem.getRotation())) {
+                    tilesToUpdate.add(new Position3D(tile.x, tile.y, 0d));
+                }
+
+                for(Position3D tileToUpdate : tilesToUpdate) {
+                    room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
+                }
+
+                room.getEntities().broadcastMessage(SendFloorItemMessageComposer.compose(floorItem, room));
             }
         } catch(Exception e) {
             e.printStackTrace();
