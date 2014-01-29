@@ -1,6 +1,7 @@
 package com.cometsrv.game.rooms.types.components;
 
 import com.cometsrv.boot.Comet;
+import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometsrv.game.rooms.entities.GenericEntity;
 import com.cometsrv.game.rooms.items.FloorItem;
@@ -10,6 +11,7 @@ import com.cometsrv.network.messages.outgoing.room.items.RemoveFloorItemMessageC
 import com.cometsrv.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
 import com.cometsrv.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometsrv.network.sessions.Session;
+import javolution.util.FastList;
 import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
@@ -138,18 +140,10 @@ public class ItemsComponent {
 
     public void removeItem(FloorItem item, Session client, boolean toInventory) {
         // the client which is sent here is the removing user (most likely the owner of the room or staff member)
-
-        /*Avatar affectedUser = room.getAvatars().getAvatarAt(item.getX(), item.getY());
-
-        if(affectedUser != null) {
-            if(affectedUser.isSitting) {
-                affectedUser.removeStatus("sit");
-                affectedUser.isSitting = false;
-                affectedUser.needsUpdate = true;
-            }
-        }*/
-
         List<GenericEntity> affectEntities = room.getEntities().getEntitiesAt(item.getX(), item.getY());
+        List<Position3D> tilesToUpdate = new FastList<>();
+
+        tilesToUpdate.add(new Position3D(item.getX(), item.getY(), 0d));
 
         for (GenericEntity entity : affectEntities) {
             if (entity.hasStatus("sit")) {
@@ -159,17 +153,8 @@ public class ItemsComponent {
         }
 
         for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
-            /*affectedUser = room.getAvatars().getAvatarAt(tile.x, tile.y);
-
-            if (affectedUser != null) {
-                if(affectedUser.isSitting) {
-                    affectedUser.removeStatus("sit");
-                    affectedUser.isSitting = false;
-                    affectedUser.needsUpdate = true;
-                }
-            }*/
-
             List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(tile.x, tile.y);
+            tilesToUpdate.add(new Position3D(tile.x, tile.y, 0d));
 
             for (GenericEntity entity0 : affectEntities0) {
                 if (entity0.hasStatus("sit")) {
@@ -189,6 +174,10 @@ public class ItemsComponent {
             client.send(UpdateInventoryMessageComposer.compose());
         } else {
             Comet.getServer().getStorage().execute("DELETE FROM items WHERE id = " + item.getId());
+        }
+
+        for(Position3D tileToUpdate : tilesToUpdate) {
+            room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
         }
     }
 

@@ -1,6 +1,7 @@
 package com.cometsrv.network.messages.incoming.room.item;
 
 import com.cometsrv.boot.Comet;
+import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometsrv.game.rooms.entities.GenericEntity;
 import com.cometsrv.game.rooms.items.FloorItem;
@@ -9,6 +10,7 @@ import com.cometsrv.network.messages.incoming.IEvent;
 import com.cometsrv.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometsrv.network.messages.types.Event;
 import com.cometsrv.network.sessions.Session;
+import javolution.util.FastList;
 
 import java.util.List;
 
@@ -41,16 +43,6 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                     }
                 }
 
-                /*Avatar affectedUser = room.getAvatars().getAvatarAt(item.getX(), item.getY());
-
-                if(affectedUser != null) {
-                    if(affectedUser.isSitting) {
-                        affectedUser.removeStatus("sit");
-                        affectedUser.isSitting = false;
-                        affectedUser.needsUpdate = true;
-                    }
-                }*/
-
                 List<GenericEntity> affectEntities = room.getEntities().getEntitiesAt(item.getX(), item.getY());
 
                 for (GenericEntity entity : affectEntities) {
@@ -63,16 +55,6 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
 
                 for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation()))
                 {
-                    /*affectedUser = room.getAvatars().getAvatarAt(tile.x, tile.y);
-
-                    if (affectedUser != null) {
-                        if(affectedUser.isSitting) {
-                            affectedUser.removeStatus("sit");
-                            affectedUser.isSitting = false;
-                            affectedUser.needsUpdate = true;
-                        }
-                    }*/
-
                     List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(tile.x, tile.y);
 
                     for (GenericEntity entity0 : affectEntities0) {
@@ -82,22 +64,16 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                             entity0.markNeedsUpdate();
                         }
                     }
-            }
+                }
+
+                List<Position3D> tilesToUpdate = new FastList<>();
+
+                tilesToUpdate.add(new Position3D(item.getX(), item.getY(), item.getHeight()));
 
                 item.setX(x);
                 item.setY(y);
                 item.setRotation(rot);
                 item.setHeight(height);
-
-                /*Avatar newAffectedUser = room.getAvatars().getAvatarAt(item.getX(), item.getY());
-
-                if(newAffectedUser != null) {
-                    if(!newAffectedUser.isSitting && item.getDefinition().canSit) {
-                        affectedUser.getStatuses().put("sit", String.valueOf(item.getDefinition().getHeight()));
-                        newAffectedUser.isSitting = true;
-                        newAffectedUser.needsUpdate = true;
-                    }
-                }*/
 
                 List<GenericEntity> newAffectEntities0 = room.getEntities().getEntitiesAt(item.getX(), item.getY());
 
@@ -110,15 +86,7 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
 
                 for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation()))
                 {
-                    /*affectedUser = room.getAvatars().getAvatarAt(tile.x, tile.y);
-
-                    if (affectedUser != null) {
-                        if(!affectedUser.isSitting) {
-                            affectedUser.getStatuses().put("sit", String.valueOf(item.getDefinition().getHeight()));
-                            affectedUser.isSitting = true;
-                            affectedUser.needsUpdate = true;
-                        }
-                    }*/
+                    tilesToUpdate.add(new Position3D(tile.x, tile.y, 0d));
 
                     List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(tile.x, tile.y);
 
@@ -133,10 +101,12 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                 Comet.getServer().getStorage().execute("UPDATE items SET x = " + x + ", y = " + y + ", z = " + height + ", rot = " + rot + " WHERE id = " + id);
 
                 room.getItems().getFloorItems().remove(item);
-                room.getMapping().updateTile(item.getX(), item.getY());
-
                 room.getItems().getFloorItems().add(item);
                 room.getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(item, room.getData().getOwnerId()));
+
+                for(Position3D tileToUpdate : tilesToUpdate) {
+                    room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
+                }
             } catch(Exception e) {
                 room.log.error("Error while changing floor item position", e);
             }
