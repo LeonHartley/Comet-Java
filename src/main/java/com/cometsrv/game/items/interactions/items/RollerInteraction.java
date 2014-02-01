@@ -49,7 +49,9 @@ public class RollerInteraction extends Interactor {
             return false;
         }
 
-        Position3D sqInfront = item.squareInfront();
+        System.out.println("Roller ticked");
+
+        /*Position3D sqInfront = item.squareInfront();
         FloorItem floorItem = (FloorItem) item;
 
         List<GenericEntity> entitiesOnSq = floorItem.getRoom().getEntities().getEntitiesAt(floorItem.getX(), floorItem.getY());
@@ -72,6 +74,24 @@ public class RollerInteraction extends Interactor {
             }
 
             entity.setPosition(new Position3D(sqInfront.getX(), sqInfront.getY(), height));
+            floorItem.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position3D(sqInfront.getX(), sqInfront.getY(), height), floorItem.getId(), entity.getVirtualId(), 0));
+        }*/
+
+        Position3D sqInfront = item.squareInfront();
+        FloorItem floorItem = (FloorItem) item;
+
+        List<GenericEntity> entitiesOnSq = floorItem.getRoom().getEntities().getEntitiesAt(floorItem.getX(), floorItem.getY());
+
+        for (GenericEntity entity : entitiesOnSq) {
+            // to-do: check valid psoition
+
+            double height = 1.0;
+
+            for(FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(item.getX(), item.getY())) {
+                height += itemInStack.getDefinition().getHeight();
+            }
+
+            entity.updateAndSetPosition(new Position3D(sqInfront.getX(), sqInfront.getY(), height));
             floorItem.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position3D(sqInfront.getX(), sqInfront.getY(), height), floorItem.getId(), entity.getVirtualId(), 0));
         }
 
