@@ -1,5 +1,7 @@
 package com.cometsrv.game.rooms.types.mapping;
 
+import com.cometsrv.boot.Comet;
+import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.game.rooms.types.RoomModel;
@@ -30,6 +32,8 @@ public class RoomMapping {
                 instance.reload();
 
                 this.tiles[x][y] = instance;
+
+                System.out.println("TileX: " + x + ", TileY: " + y);
             }
         }
     }
@@ -53,7 +57,7 @@ public class RoomMapping {
 
         TileInstance tile = tiles[to.getX()][to.getY()];
 
-        if(tile.getMovementNode() == RoomEntityMovementNode.CLOSED || (tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep)) {
+        if(tile.getMovementNode() == RoomEntityMovementNode.CLOSED) {// || (tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep)) {
             return false;
         }
 
@@ -86,7 +90,18 @@ public class RoomMapping {
     }
 
     public boolean isValidPosition(Position3D position) {
-        return !(this.model.getSizeX() < position.getX() || this.model.getSizeY() < position.getY()) && this.tiles[position.getX()][position.getY()] != null;
+        boolean isOutOfBounds = false;
+        boolean isTileNull = false;
+
+        if(this.model.getSizeX() < position.getX() || this.model.getSizeY() < position.getY()) {
+            isOutOfBounds = true;
+        }
+
+        if(this.tiles[position.getX()][position.getY()] == null) {
+            isTileNull = true;
+        }
+
+        return !isOutOfBounds || !isTileNull;
     }
 
     public final Room getRoom() {

@@ -32,10 +32,6 @@ public class TileInstance {
             }
 
             switch (item.getDefinition().getInteraction().toLowerCase()) {
-                case "sit":
-                    status = RoomTileStatusType.SIT;
-                    movementNode = RoomEntityMovementNode.END_OF_ROUTE;
-                    break;
                 case "bed":
                     status = RoomTileStatusType.LAY;
                     movementNode = RoomEntityMovementNode.END_OF_ROUTE;
@@ -49,15 +45,13 @@ public class TileInstance {
                     this.mappingInstance.setGuestsPlaceStickies(true);
                     break;
             }
+
+            if(item.getDefinition().canSit) {
+                status = RoomTileStatusType.SIT;
+                movementNode = RoomEntityMovementNode.END_OF_ROUTE;
+                break;
+            }
         }
-    }
-
-    public void addItem(FloorItem item) {
-        stackHeight += item.getHeight() + Math.round(item.getDefinition().getHeight());
-    }
-
-    public void removeItem(FloorItem item) {
-        this.stackHeight -= item.getHeight() + Math.round(item.getDefinition().getHeight());
     }
 
     public RoomEntityMovementNode getMovementNode() {
