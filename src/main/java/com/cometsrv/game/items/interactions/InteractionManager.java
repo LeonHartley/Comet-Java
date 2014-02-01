@@ -61,65 +61,58 @@ public class InteractionManager {
         this.interactions.put("bb_red_gate", new BanzaiGateRedInteraction());
     }
 
-    public InteractionState onWalk(boolean state, FloorItem item, PlayerEntity avatar) {
-        if (!this.isInteraction(item.getDefinition().getInteraction())) {
-            return InteractionState.NO_INTERACTION;
+    public void onWalk(boolean state, FloorItem item, PlayerEntity avatar) {
+        if (this.isInteraction(item.getDefinition().getInteraction())) {
+            if (this.getInteractions().get(item.getDefinition().getInteraction()).onWalk(state, item, avatar)) {
+                // ??
+            }
         }
-
-        if (this.getInteractions().get(item.getDefinition().getInteraction()).onWalk(state, item, avatar)) {
-            return InteractionState.COMPLETED;
-        }
-
-        return InteractionState.NO_INTERACTION;
     }
 
-    public InteractionState onInteract(int state, RoomItem item, PlayerEntity avatar) {
+    public void onInteract(int state, RoomItem item, PlayerEntity avatar) {
         GameEngine.getLogger().debug("Interacted with: " + item.getDefinition().getInteraction());
 
         if(!this.isInteraction(item.getDefinition().getInteraction())) {
-            return InteractionState.NO_INTERACTION;
+            return;
         }
 
         Interactor action = this.getInteractions().get(item.getDefinition().getInteraction());
 
-        if(action.requiresRights() && !avatar.getRoom().getRights().hasRights(avatar.getPlayer().getId()))
-            return InteractionState.NO_INTERACTION;
-
-        if (action.onInteract(state, item, avatar)) {
-            return InteractionState.COMPLETED;
+        if(action.requiresRights() && !avatar.getRoom().getRights().hasRights(avatar.getPlayer().getId())) {
+            return;
         }
 
-        return InteractionState.NO_INTERACTION;
+        if (action.onInteract(state, item, avatar)) {
+            // ??
+        }
     }
 
     // Method not yet finished!
-    public InteractionState onPlace(FloorItem item, PlayerEntity avatar, Room room) {
-        return InteractionState.NO_INTERACTION;
+    public void onPlace(FloorItem item, PlayerEntity avatar, Room room) {
+
     }
 
     // Method not yet finished!
-    public InteractionState onPickup(FloorItem item, PlayerEntity avatar, Room room) {
-        return InteractionState.NO_INTERACTION;
+    public void onPickup(FloorItem item, PlayerEntity avatar, Room room) {
+
     }
 
-    public InteractionState onTick(FloorItem item) {
+    public void onTick(FloorItem item) {
         GameEngine.getLogger().debug("GenericRoomItem tick: " + item.getDefinition().getInteraction());
 
         if (!this.isInteraction(item.getDefinition().getInteraction())) {
-            return InteractionState.NO_INTERACTION;
+            return;
         }
 
-        if (item.hasInteraction()) {
-            return InteractionState.CYCLING;
+        if (item.getNextInteraction().needsCycling()) {
+            return;
         }
 
         Interactor action = this.getInteractions().get(item.getDefinition().getInteraction());
 
         if (action.onTick(item)) {
-            return InteractionState.COMPLETED;
+            // ??
         }
-
-        return InteractionState.NO_INTERACTION;
     }
 
     private boolean isInteraction(String interaction) {

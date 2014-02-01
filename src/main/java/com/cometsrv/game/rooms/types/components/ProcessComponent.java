@@ -220,6 +220,7 @@ public class ProcessComponent implements CometTask {
                 }
             }
 
+            entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
         }
 

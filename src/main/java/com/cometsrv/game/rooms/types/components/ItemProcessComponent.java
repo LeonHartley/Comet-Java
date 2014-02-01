@@ -4,7 +4,6 @@ import com.cometsrv.boot.Comet;
 import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.items.interactions.InteractionAction;
 import com.cometsrv.game.items.interactions.InteractionQueueItem;
-import com.cometsrv.game.items.interactions.InteractionState;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.tasks.CometTask;
@@ -74,26 +73,20 @@ public class ItemProcessComponent implements CometTask {
             for(FloorItem item : this.getRoom().getItems().getFloorItems()) {
                 if (item.hasInteraction()) {
                     InteractionQueueItem interactItem = item.getNextInteraction();
-                    InteractionState state = InteractionState.COMPLETED;
 
-                    if(interactItem == null) {
-                        this.dispose();
-                        return;
-                    }
+                    if (interactItem != null) {
+                        if (interactItem.getAction() == InteractionAction.ON_PLACED) {
 
-                    if (interactItem.getAction() == InteractionAction.ON_WALK) {
-                        state = GameEngine.getItems().getInteractions().onWalk(interactItem.getUpdateState() == 1, item, interactItem.getEntity());
-                    } else if (interactItem.getAction() == InteractionAction.ON_USE) {
-                        state = GameEngine.getItems().getInteractions().onInteract(interactItem.getUpdateState(), item, interactItem.getEntity());
-                    } else if (interactItem.getAction() == InteractionAction.ON_PLACED) {
+                        } else if (interactItem.getAction() == InteractionAction.ON_PICKUP) {
 
-                    } else if (interactItem.getAction() == InteractionAction.ON_PICKUP) {
-
-                    } else if (interactItem.getAction() == InteractionAction.ON_TICK) {
-                        state = GameEngine.getItems().getInteractions().onTick(item);
-                    }
-
-                    if (state != InteractionState.CYCLING) {
+                        } else if (interactItem.getAction() == InteractionAction.ON_USE) {
+                            GameEngine.getItems().getInteractions().onInteract(interactItem.getUpdateState(), item, interactItem.getEntity());
+                        } else if (interactItem.getAction() == InteractionAction.ON_WALK) {
+                            GameEngine.getItems().getInteractions().onWalk(interactItem.getUpdateState() == 1, item, interactItem.getEntity());
+                        } else if (interactItem.getAction() == InteractionAction.ON_TICK) {
+                            GameEngine.getItems().getInteractions().onTick(item);
+                        }
+                    } else {
                         item.setNeedsUpdate(false);
                     }
                 }

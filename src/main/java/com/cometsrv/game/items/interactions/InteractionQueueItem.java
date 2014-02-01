@@ -30,18 +30,14 @@ public class InteractionQueueItem {
     }
 
     public boolean needsCycling() {
-        if (this.updateCycles < 1) { return false; }
-
         this.updateCycles--;
 
         if (this.updateCycles < 0) {
             this.updateCycles = 0;
         }
 
-        return this.updateCycles > 0;
+        return (this.updateCycles > 0);
     }
-
-    public boolean getNeedsUpdate() { return this.needsUpdate; }
 
     public RoomItem getItem() {
         return this.item;

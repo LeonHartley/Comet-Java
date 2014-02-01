@@ -65,13 +65,13 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem 
 
     @Override
     public boolean hasInteraction() {
-        return (this.interactionQueue.size() > 0 || (this.curInteractionItem != null && this.curInteractionItem.getUpdateCycles() > 1));
+        return (this.curInteractionItem != null || this.interactionQueue.size() > 0);
     }
 
     @Override
     public InteractionQueueItem getNextInteraction() {
         if (this.curInteractionItem != null) {
-            if (this.curInteractionItem.getUpdateCycles() > 0 && this.curInteractionItem.needsCycling()) {
+            if (this.curInteractionItem.getUpdateCycles() > 0) {
                 return this.curInteractionItem;
             } else {
                 this.curInteractionItem = null;
