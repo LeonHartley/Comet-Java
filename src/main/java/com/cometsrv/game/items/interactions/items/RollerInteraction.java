@@ -48,35 +48,7 @@ public class RollerInteraction extends Interactor {
         if (!(item instanceof FloorItem)) {
             return false;
         }
-
-        System.out.println("Roller ticked");
-
-        /*Position3D sqInfront = item.squareInfront();
-        FloorItem floorItem = (FloorItem) item;
-
-        List<GenericEntity> entitiesOnSq = floorItem.getRoom().getEntities().getEntitiesAt(floorItem.getX(), floorItem.getY());
-
-        for (GenericEntity entity : entitiesOnSq) {
-            // Check using the first entity if this square is available
-            if (entity.getRoom().getMapping().isValidPosition(new Position3D(sqInfront.getX(), sqInfront.getY(), 0))) {
-                // Try again soon if they are still on the same square
-                if (entity.getPosition().getX() == floorItem.getX() && entity.getPosition().getY() == floorItem.getY()) {
-                    item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, null, 0, 10));
-                }
-
-                return false;
-            }
-
-            double height = 1.0;
-
-            for(FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(item.getX(), item.getY())) {
-                height += itemInStack.getDefinition().getHeight();
-            }
-
-            entity.setPosition(new Position3D(sqInfront.getX(), sqInfront.getY(), height));
-            floorItem.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position3D(sqInfront.getX(), sqInfront.getY(), height), floorItem.getId(), entity.getVirtualId(), 0));
-        }*/
-
+        
         Position3D sqInfront = item.squareInfront();
         FloorItem floorItem = (FloorItem) item;
 
