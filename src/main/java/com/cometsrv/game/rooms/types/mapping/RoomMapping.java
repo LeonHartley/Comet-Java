@@ -57,7 +57,8 @@ public class RoomMapping {
 
         TileInstance tile = tiles[to.getX()][to.getY()];
 
-        if(tile.getMovementNode() == RoomEntityMovementNode.CLOSED) {// || (tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep)) {
+        if(tile.getMovementNode() == RoomEntityMovementNode.CLOSED
+                || tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep) {
             return false;
         }
 

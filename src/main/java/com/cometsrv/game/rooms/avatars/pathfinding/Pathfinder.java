@@ -101,36 +101,6 @@ public class Pathfinder
         avatar = null;
     }
 
-    /*public boolean canWalk(int newX, int newY) {
-        // Author: LH
-        return newX >= 0 && newY >= 0 && mapX > newX && mapY > newY && avatar.getRoom().getModel().getSquareState()[newX][newY] == RoomTileState.VALID && avatar.getRoom().getEntities().isSquareAvailable(newX, newY) && checkSquare(newX, newY);
-    }*/
-
-    /*public boolean checkSquare(int x, int y) {
-        // Author: LH
-        boolean isItem = false;
-        boolean isAvailable = false;
-
-        for(FloorItem item : avatar.getRoom().getItems().getItemsOnSquare(x, y)) {
-            isItem = true;
-
-            if(item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("1")) {
-                isAvailable = true;
-            } else if(item.getDefinition().getInteraction().equals("bed")) {
-                isAvailable = true;
-            } else if(item.getDefinition().canSit) {
-                isAvailable = true;
-            } else if(item.getDefinition().canWalk) {
-                isAvailable = true;
-            }
-        }
-
-        if(isItem && !isAvailable) {
-            return false;
-        }
-        return true;
-    }*/
-
     private int DistanceBetween(int currentX, int currentY, int goX, int goY)
     {
         return Math.abs(currentX - goX) + Math.abs(currentY - goY);
