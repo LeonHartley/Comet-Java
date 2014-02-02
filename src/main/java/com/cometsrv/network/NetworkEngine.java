@@ -4,6 +4,7 @@ import com.cometsrv.boot.Comet;
 import com.cometsrv.config.CometSettings;
 import com.cometsrv.network.http.ManagementServer;
 import com.cometsrv.network.messages.MessageHandler;
+import com.cometsrv.network.monitor.MonitorClient;
 import com.cometsrv.network.sessions.Session;
 import com.cometsrv.network.sessions.SessionManager;
 import io.netty.bootstrap.ServerBootstrap;
@@ -20,6 +21,7 @@ import java.net.InetSocketAddress;
 import java.util.UUID;
 
 public class NetworkEngine {
+    private static final boolean USE_MONITOR_SERVER = true;
     private static final boolean RESOURCE_LEAK_DETECTOR = false; // for testing with netty 4...
 
     public static final AttributeKey<Session> SESSION_ATTRIBUTE_KEY = AttributeKey.valueOf("Session.attr");
@@ -31,6 +33,7 @@ public class NetworkEngine {
     private SessionManager sessions;
     private MessageHandler messageHandler;
     private ManagementServer managementServer;
+    private MonitorClient monitorClient;
 
     public String ip;
     public int port;
@@ -45,6 +48,9 @@ public class NetworkEngine {
 
         if(CometSettings.httpEnabled)
             this.managementServer = new ManagementServer();
+
+        if(USE_MONITOR_SERVER)
+            this.monitorClient = new MonitorClient();
 
         if (RESOURCE_LEAK_DETECTOR) {
             ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.SIMPLE);
