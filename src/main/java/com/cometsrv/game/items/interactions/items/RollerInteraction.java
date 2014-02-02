@@ -48,7 +48,7 @@ public class RollerInteraction extends Interactor {
         if (!(item instanceof FloorItem)) {
             return false;
         }
-        
+
         Position3D sqInfront = item.squareInfront();
         FloorItem floorItem = (FloorItem) item;
 
@@ -57,7 +57,7 @@ public class RollerInteraction extends Interactor {
         for (GenericEntity entity : entitiesOnSq) {
             // to-do: check valid psoition
 
-            double height = 1.0;
+            double height = 0;
 
             for(FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(item.getX(), item.getY())) {
                 height += itemInStack.getDefinition().getHeight();
