@@ -3,8 +3,9 @@ package com.cometsrv.network.messages.headers;
 import java.lang.reflect.Field;
 
 public class Composers {
-    public static short InitCryptoMessageComposer = 889;//1099; //889;
-    public static short SecretKeyMessageComposer = 3489;//1474; //3489;
+    public static short InitCryptoMessageComposer = 38;//l
+    public static short SecretKeyMessageComposer = 547;//l
+    public static short LoginMessageComposer = 2715;//l
     public static short HomeRoomMessageComposer = 854;
     public static short FuserightsMessageComposer = 325;
     public static short ActionMessageComposer = 3984;
@@ -38,7 +39,6 @@ public class Composers {
     public static short LoadProfileMessageComposer = 3330;
     public static short LoadQuizMessageComposer = 1652;
     public static short LoadRightsOnRoomMessageComposer = 8;
-    public static short LoginMessageComposer = 2008;
     public static short ModelAndIdMessageComposer = 206;
     public static short ModToolMessageComposer = 3563;
     public static short MotdMessageComposer = 367;
