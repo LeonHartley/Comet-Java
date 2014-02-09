@@ -73,7 +73,7 @@ public class MessageHandler {
         }
 
         this.registerHandshake();
-        /*this.registerModTool();
+        this.registerModTool();
         this.registerHelpTool();
         this.registerMessenger();
         this.registerNavigator();
@@ -83,7 +83,7 @@ public class MessageHandler {
         this.registerRoomTrade();
         this.registerRoomModeration();
         this.registerItems();
-        this.registerCatalog();*/
+        this.registerCatalog();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
     }
