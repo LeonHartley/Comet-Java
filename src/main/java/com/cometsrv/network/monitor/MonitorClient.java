@@ -10,6 +10,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.apache.log4j.Logger;
 
+import java.net.ConnectException;
+
 public class MonitorClient {
     public final String MONITOR_HOST = "127.0.0.1";
     public final int    MONITOR_PORT = 1337;
@@ -39,7 +41,12 @@ public class MonitorClient {
 
                     future.channel().closeFuture().sync();
                 } catch(Exception e) {
-                    log.error("Failed to connect to the monitor server", e);
+                    if(e instanceof ConnectException) {
+                        log.error("Could not connect to monitor server. " + e.getMessage());
+                        return;
+                    }
+
+                    log.error("Error while initializing monitor client", e);
                 } finally {
                     group.shutdownGracefully();
                 }
