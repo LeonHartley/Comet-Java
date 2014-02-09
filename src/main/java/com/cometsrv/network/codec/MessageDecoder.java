@@ -1,6 +1,8 @@
 package com.cometsrv.network.codec;
 
+import com.cometsrv.network.NetworkEngine;
 import com.cometsrv.network.messages.types.Event;
+import com.cometsrv.network.sessions.Session;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -25,9 +27,15 @@ public class MessageDecoder extends ByteToMessageDecoder {
                 return;
             }
 
-            length -= 2;
+            Session session = ctx.channel().attr(NetworkEngine.SESSION_ATTRIBUTE_KEY).get();
 
-            out.add(new Event(msg.readShort(), msg.readBytes(length)));
+            ByteBuf decryptedBytes = msg.readBytes(length);
+
+            if(session != null && session.getEncryption() != null && session.getEncryption().isInitialized()) {
+                decryptedBytes = session.getEncryption().decipher(decryptedBytes);
+            }
+
+            out.add(new Event(decryptedBytes.readShort(), decryptedBytes));
         } catch (Exception e) {
             e.printStackTrace(); // for debugging!
         }

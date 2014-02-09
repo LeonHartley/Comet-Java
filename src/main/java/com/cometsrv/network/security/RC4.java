@@ -1,6 +1,9 @@
 package com.cometsrv.network.security;
 
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+
 public class RC4
 {
     private int i = 0;
@@ -49,21 +52,22 @@ public class RC4
         this.table[b] = k;
     }
 
-    public byte[] decipher(byte[] bytes)
+    public ByteBuf decipher(ByteBuf bytes)
     {
         int k = 0;
-        byte[] result = new byte[bytes.length];
+        //byte[] result = new byte[bytes.readableBytes()];
+        ByteBuf buf = Unpooled.buffer();
         int pos = 0;
 
-        for (byte aByte : bytes) {
+        for (byte aByte : bytes.array()) {
             this.i = ((this.i + 1) % 256);
             this.j = ((this.j + this.table[this.i]) % 256);
             this.swap(this.i, this.j);
             k = ((this.table[this.i] + this.table[this.j]) % 256);
-            result[pos++] = (byte) (aByte ^ this.table[k]);
+            buf.setByte(buf.readableBytes()+1, (byte) (aByte ^ this.table[k]));
         }
 
-        return result;
+        return buf;
     }
 
 }

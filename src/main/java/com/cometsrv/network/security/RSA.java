@@ -2,236 +2,163 @@ package com.cometsrv.network.security;
 
 import org.apache.log4j.Logger;
 
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
-import java.util.Random;
+import java.security.*;
+import java.security.interfaces.RSAPrivateCrtKey;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.RSAKeyGenParameterSpec;
+import java.security.spec.RSAPrivateCrtKeySpec;
+import java.security.spec.RSAPublicKeySpec;
 
-public class RSA
-{
-    public BigInteger n;
-    public BigInteger e;
-    public BigInteger d;
-    public BigInteger p;
-    public BigInteger q;
-    public BigInteger dmp1;
-    public BigInteger dmq1;
-    public BigInteger coeff;
+public class RSA {
+    private static Logger logger = Logger.getLogger(RSA.class);
+    private KeyPair keyPair;
+    private Cipher cipher;
+    private int blockSize;
 
-    protected Boolean canDecrypt;
-    protected Boolean canEncrypt;
-
-    private Logger log = Logger.getLogger(RSA.class.getName());
-
-    public RSA(BigInteger n, BigInteger e, BigInteger d, BigInteger p, BigInteger q, BigInteger dmp1, BigInteger dmq1, BigInteger coeff)
-    {
-        this.n = n;
-        this.e = e;
-        this.d = d;
-        this.p = p;
-        this.q = q;
-        this.dmp1 = dmp1;
-        this.dmq1 = dmq1;
-        this.coeff = coeff;
-
-        this.canEncrypt = this.n.intValue() != 0 && this.e.intValue() != 0;
-        this.canDecrypt = this.canEncrypt && this.d.intValue() != 0;
+    public RSA(String privateKey, String publicKey, String modulus, String primP, String primQ, String dmodp1, String dmodq1, String qinvmodp) {
+        this.blockSize = (modulus.length() / 2);
+        this.keyPair = this.getKeyPair(privateKey, publicKey, modulus, primP, primQ, dmodp1, dmodq1, qinvmodp);
     }
 
-    public RSA(int b, BigInteger e)
-    {
-        this.e = e;
+    public static void generateKeyPair(int keySize) {
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(new RSAKeyGenParameterSpec(keySize, new BigInteger("10001", 16)));
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+            RSAPrivateCrtKey privateKey = (RSAPrivateCrtKey) keyPair.getPrivate();
+            RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
 
-        int qs = b >> 1;
+            logger.info("priv_exp: " + privateKey.getPrivateExponent().toString(16));
+            logger.info("pub_exp: " + publicKey.getPublicExponent().toString(16));
+            logger.info("modulus: " + privateKey.getModulus().toString(16));
+            logger.info("p_prim: " + privateKey.getPrimeP().toString(16));
+            logger.info("q_prim: " + privateKey.getPrimeQ().toString(16));
+            logger.info("dmodp1: " + privateKey.getPrimeExponentP().toString(16));
+            logger.info("dmodq1: " + privateKey.getPrimeExponentQ().toString(16));
+            logger.info("invpmodq: " + privateKey.getCrtCoefficient().toString(16));
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
-        while (true)
-        {
-            while (true)
-            {
-                this.p = BigInteger.probablePrime(b - qs, new Random());
+    public boolean init() {
+        String data = "testing123";
+        try {
+            this.cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding"); // if this doesn't work change ECB to None
+        } catch (NoSuchAlgorithmException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return this.decrypt(this.encrypt(data)).equals(data);
+    }
 
-                if (BigInteger.valueOf(this.p.intValue() - 1).gcd(this.e).intValue() == 1 && this.p.isProbablePrime(10))
-                {
-                    break;
+    public int getBlockSize() {
+        return blockSize;
+    }
+
+    private KeyPair getKeyPair(String privateKey, String publicKey, String modulus, String primP, String primQ, String dmodp1, String dmodq1, String qinvmodp) {
+        try {
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+
+            PublicKey rsaPublicKey = keyFactory.generatePublic(
+                    new RSAPublicKeySpec(
+                            new BigInteger(modulus, 16),
+                            new BigInteger(publicKey, 16)
+                    )
+            );
+
+            PrivateKey rsaPrivateKey = keyFactory.generatePrivate(
+                    new RSAPrivateCrtKeySpec(
+                            new BigInteger(modulus, 16),
+                            new BigInteger(publicKey, 16),
+                            new BigInteger(privateKey, 16),
+                            new BigInteger(primP, 16),
+                            new BigInteger(primQ, 16),
+                            new BigInteger(dmodp1, 16),
+                            new BigInteger(dmodq1, 16),
+                            new BigInteger(qinvmodp, 16)
+                    )
+            );
+
+            return new KeyPair(rsaPublicKey, rsaPrivateKey);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public String decrypt(byte[] data) {
+        try {
+            return new String(this.decryptRaw(data), "UTF8");
+        } catch (UnsupportedEncodingException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
+    public byte[] decryptRaw(byte[] data) {
+        try {
+            this.cipher.init(Cipher.DECRYPT_MODE, this.keyPair.getPrivate());
+
+            try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+                int length;
+                for (int i = 0; i < data.length; i += this.getBlockSize()) {
+                    length = Math.min(this.getBlockSize(), data.length - i);
+                    outputStream.write(this.cipher.doFinal(data, i, length));
                 }
+
+                return outputStream.toByteArray();
             }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
 
-            while (true)
-            {
-                this.q = BigInteger.probablePrime(qs, new Random());
+        return null;
+    }
 
-                if (BigInteger.valueOf(this.q.intValue() - 1).gcd(this.e).intValue() == 1 && this.p.isProbablePrime(10))
-                {
-                    break;
+    public byte[] encrypt(String data) {
+        try {
+            return this.encryptRaw(data.getBytes("UTF8"));
+        } catch (UnsupportedEncodingException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public byte[] encryptRaw(byte[] data) {
+        try {
+            this.cipher.init(Cipher.ENCRYPT_MODE, this.keyPair.getPublic());
+
+            try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+                int length;
+                for (int i = 0; i < data.length; i += this.getBlockSize()) {
+                    length = Math.min(this.getBlockSize(), data.length - i);
+                    outputStream.write(this.cipher.doFinal(data, i, length));
                 }
+
+                return outputStream.toByteArray();
             }
-
-            if (this.p.intValue() < this.q.intValue())
-            {
-                BigInteger t = this.p;
-                this.p = this.q;
-                this.q = t;
-            }
-
-            BigInteger phi = BigInteger.valueOf((this.p.intValue() - 1) * (this.q.intValue() - 1));
-            if (phi.gcd(this.e).intValue() == 1)
-            {
-                this.n = BigInteger.valueOf(this.p.intValue() * this.q.intValue());
-                this.d = this.e.modInverse(phi);
-                this.dmp1 = BigInteger.valueOf(this.d.intValue() % (this.p.intValue() - 1));
-                this.dmq1 = BigInteger.valueOf(this.d.intValue() % (this.q.intValue() - 1));
-                this.coeff = this.q.modInverse(this.p);
-                break;
-            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
         }
 
-        this.canEncrypt = this.n.intValue() != 0 && this.e.intValue() != 0;
-        this.canDecrypt = this.canEncrypt && this.d.intValue() != 0;
-    }
-
-    public RSA(BigInteger e, BigInteger p, BigInteger q)
-    {
-        this.e = e;
-        this.p = p;
-        this.q = q;
-
-        BigInteger phi = BigInteger.valueOf((this.p.intValue() - 1) * (this.q.intValue() - 1));
-        if (phi.gcd(this.e).intValue() == 1)
-        {
-            this.n = BigInteger.valueOf(this.p.intValue() * this.q.intValue());
-            this.d = this.e.modInverse(phi);
-            this.dmp1 = BigInteger.valueOf(this.d.intValue() % (this.p.intValue() - 1));
-            this.dmq1 = BigInteger.valueOf(this.d.intValue() % (this.q.intValue() - 1));
-            this.coeff = this.q.modInverse(this.p);
-        }
-
-        this.canEncrypt = this.n.intValue() != 0 && this.e.intValue() != 0;
-        this.canDecrypt = this.canEncrypt && this.d.intValue() != 0;
-    }
-
-    private int getBlockSize()
-    {
-        return (this.n.bitCount() + 7) / 8;
-    }
-
-    public BigInteger doPublic(BigInteger x)
-    {
-        if (this.canEncrypt)
-        {
-            return x.modPow(this.e, this.n);
-        }
-
-        return BigInteger.valueOf(0);
-    }
-
-    public String encrypt(String text)
-    {
-        if (text.length() > this.getBlockSize() - 11)
-        {
-            log.warn("Message is too long! [Length: " + text.length() + "]");
-        }
-
-        BigInteger m = new BigInteger(this.pkcs1pad2(text.getBytes(), this.getBlockSize()));
-        if (m.intValue() == 0)
-        {
-            return null;
-        }
-
-        BigInteger c = this.doPublic(m);
-        if (c.intValue() == 0)
-        {
-            return null;
-        }
-
-        String result = c.toString(16);
-        if ((result.length() & 1) == 0)
-        {
-            return result;
-        }
-
-        return "0" + result;
-    }
-
-    private byte[] pkcs1pad2(byte[] data, int n)
-    {
-        byte[] bytes = new byte[n];
-        int i = data.length - 1;
-        while (i >= 0 && n > 11)
-        {
-            bytes[--n] = data[i--];
-        }
-        bytes[--n] = 0;
-
-        while (n > 2)
-        {
-            bytes[--n] = 0x01;
-        }
-
-        bytes[--n] = 0x2;
-        bytes[--n] = 0;
-
-        return bytes;
-    }
-
-    public BigInteger doPrivate(BigInteger x)
-    {
-        if (this.canDecrypt)
-        {
-            return x.modPow(this.d, this.n);
-        }
-        else
-        {
-            System.out.println("fail");
-            return BigInteger.valueOf(0);
-        }
-    }
-
-    public String decrypt(String ctext)
-    {
-        BigInteger c = new BigInteger(ctext, 16);
-        BigInteger m = this.doPrivate(c);
-
-
-        if (m.intValue() == 0)
-        {
-            return null;
-        }
-
-        byte[] bytes = this.pkcs1unpad2(m, this.getBlockSize());
-
-        if (bytes == null)
-        {
-            return null;
-        }
-
-        return new String(bytes);
-    }
-
-    private byte[] pkcs1unpad2(BigInteger m, int b)
-    {
-        byte[] bytes = m.toByteArray();
-
-        int i = 0;
-        while (i < bytes.length && bytes[i] == 0) ++i;
-
-        if (bytes.length - i != (b - 1) || bytes[i] != 0x2)
-        {
-            return null;
-        }
-
-        while (bytes[i] != 0)
-        {
-            if (++i >= bytes.length)
-            {
-                return null;
-            }
-        }
-
-        byte[] result = new byte[bytes.length - i + 1];
-        int p = 0;
-        while (++i < bytes.length)
-        {
-            result[p++] = bytes[i];
-        }
-
-        return result;
+        return null;
     }
 }
