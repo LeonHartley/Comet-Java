@@ -2,12 +2,14 @@ package com.cometsrv.network.sessions;
 
 import com.cometsrv.game.players.types.Player;
 import com.cometsrv.network.messages.types.Composer;
+import com.cometsrv.network.security.HabboEncryption;
 import org.apache.log4j.Logger;
 import io.netty.channel.Channel;
 
 public class Session {
     private Channel channel;
     private Player player;
+    private HabboEncryption encryption;
 
     private Logger logger = Logger.getLogger("Unknown session");
 
@@ -45,5 +47,13 @@ public class Session {
 
     public Channel getChannel() {
         return this.channel;
+    }
+
+    public HabboEncryption getEncryption() {
+        return this.encryption;
+    }
+
+    public void setEncryption(HabboEncryption encryption) {
+        this.encryption = encryption;
     }
 }
