@@ -50,7 +50,7 @@ public class PlaceItemMessageEvent implements IEvent {
 
                 client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(
                         SendWallItemMessageComposer.compose(
-                                r.getItems().addWallItem(id, item.getBaseId(), client.getPlayer().getId(), r.getId(), position, (item.getExtraData().isEmpty() || item.getExtraData() == " ") ? "0" : item.getExtraData()),
+                                r.getItems().addWallItem(id, item.getBaseId(), client.getPlayer().getId(), r.getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData()),
                                 r
                         )
                 );
@@ -88,7 +88,7 @@ public class PlaceItemMessageEvent implements IEvent {
 
                 Room room = client.getPlayer().getEntity().getRoom();
 
-                FloorItem floorItem = room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData() == " ") ? "0" : item.getExtraData());
+                FloorItem floorItem = room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
                 List<Position3D> tilesToUpdate = new FastList<>();
 
                 tilesToUpdate.add(new Position3D(floorItem.getX(), floorItem.getY(), 0d));

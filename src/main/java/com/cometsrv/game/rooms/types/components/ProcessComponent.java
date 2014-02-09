@@ -224,7 +224,7 @@ public class ProcessComponent implements CometTask {
 
             boolean isLastStep = (entity.getProcessingPath().size() == 0);
 
-            if (nextSq != null && entity.getRoom().getMapping().isValidStep(entity.getPosition(), new Position3D(nextSq.x, nextSq.y, 0), isLastStep)) {
+            if (nextSq != null && entity.getRoom().getMapping().isValidStep(entity.getPosition(), new Position3D(nextSq.x, nextSq.y, 0))) {//, isLastStep)) {
                 Position3D currentPos = entity.getPosition() != null ? entity.getPosition() : new Position3D(0, 0, 0);
                 entity.setBodyRotation(Position3D.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, false));
                 entity.setHeadRotation(entity.getBodyRotation());
@@ -237,7 +237,7 @@ public class ProcessComponent implements CometTask {
                     if(item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0"))
                         isCancelled = true;
 
-                    height += item.getDefinition().getHeight();
+                    height += item.getHeight();
                 }
 
                 if(!isCancelled) {

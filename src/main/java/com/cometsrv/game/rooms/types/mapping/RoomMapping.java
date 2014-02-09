@@ -27,14 +27,16 @@ public class RoomMapping {
         this.tiles = new TileInstance[sizeX][sizeY];
 
         for(int x = 0; x < sizeX; x++) {
+            TileInstance[] xArray = new TileInstance[sizeY];
+
             for(int y = 0; y < sizeY; y++) {
                 TileInstance instance = new TileInstance(this, new Position3D(x, y, 0d));
                 instance.reload();
 
-                this.tiles[x][y] = instance;
-
-                System.out.println("TileX: " + x + ", TileY: " + y);
+                xArray[y] = instance;
             }
+
+            this.tiles[x] = xArray;
         }
     }
 
@@ -50,21 +52,25 @@ public class RoomMapping {
         return (height0 - height1) <= 1.5;
     }
 
-    public boolean isValidStep(Position3D from, Position3D to, boolean lastStep) {
+    public boolean isValidStep(Position3D from, Position3D to) {//, boolean lastStep) {
         if(!isValidPosition(to) || (this.model.getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID) || positionHasUser(to)) {
             return false;
         }
 
         TileInstance tile = tiles[to.getX()][to.getY()];
 
-        if(tile.getMovementNode() == RoomEntityMovementNode.CLOSED
-                || tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep) {
+        if(tile == null) {
             return false;
         }
 
-        if(to.getX() == this.model.getDoorX() && to.getY() == this.model.getDoorY() && !lastStep) {
+        if(tile.getMovementNode() == RoomEntityMovementNode.CLOSED) {
+                //|| tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep) {
             return false;
         }
+
+        /*if(to.getX() == this.model.getDoorX() && to.getY() == this.model.getDoorY()) { //&& !lastStep) {
+            return false;
+        }*/
 
         if (!canStepUpwards(getStepHeight(to), getStepHeight(from))) {
             return false;
@@ -91,7 +97,7 @@ public class RoomMapping {
     }
 
     public boolean isValidPosition(Position3D position) {
-        boolean isOutOfBounds = false;
+        /*boolean isOutOfBounds = false;
         boolean isTileNull = false;
 
         if(this.model.getSizeX() < position.getX() || this.model.getSizeY() < position.getY()) {
@@ -102,7 +108,9 @@ public class RoomMapping {
             isTileNull = true;
         }
 
-        return !isOutOfBounds || !isTileNull;
+        return !isOutOfBounds || !isTileNull;*/
+
+        return (position.getX() >= 0 && position.getY() >= 0 && position.getX() < this.model.getSizeX() && position.getY() < this.model.getSizeY());
     }
 
     public final Room getRoom() {

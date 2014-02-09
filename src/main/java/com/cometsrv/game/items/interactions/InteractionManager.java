@@ -34,13 +34,14 @@ public class InteractionManager {
 
     public void loadInteractions() {
         // Furniture
-        if (this.DICE_ENABLED) { this.interactions.put("dice", new DiceInteraction()); }
         this.interactions.put("default", new DefaultInteraction());
         this.interactions.put("gate", new GateInteraction());
         this.interactions.put("pressure_pad", new PressurePadInteraction());
         this.interactions.put("teleport", new TeleportInteraction());
         this.interactions.put("habbowheel", new WheelInteractor());
         this.interactions.put("roller", new RollerInteraction());
+
+        if (InteractionManager.DICE_ENABLED) { this.interactions.put("dice", new DiceInteraction()); }
 
         // Wired Actions
         this.interactions.put("wf_act_move_rotate", new WiredActionMoveRotate());
