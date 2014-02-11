@@ -52,8 +52,6 @@ public class TileInstance {
                 break;
             }
         }
-
-        System.out.println(this.movementNode.toString());
     }
 
     public RoomEntityMovementNode getMovementNode() {
