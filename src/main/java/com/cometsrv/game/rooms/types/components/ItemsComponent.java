@@ -1,6 +1,7 @@
 package com.cometsrv.game.rooms.types.components;
 
 import com.cometsrv.boot.Comet;
+import com.cometsrv.game.GameEngine;
 import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometsrv.game.rooms.entities.GenericEntity;
@@ -174,6 +175,10 @@ public class ItemsComponent {
             client.send(UpdateInventoryMessageComposer.compose());
         } else {
             Comet.getServer().getStorage().execute("DELETE FROM items WHERE id = " + item.getId());
+        }
+
+        if(GameEngine.getWired().isWiredItem(item)) {
+            Comet.getServer().getStorage().execute("DELETE FROM items_wired_data WHERE id = " + item.getId());
         }
 
         for(Position3D tileToUpdate : tilesToUpdate) {

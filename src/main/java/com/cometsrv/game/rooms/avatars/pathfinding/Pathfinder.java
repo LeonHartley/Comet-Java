@@ -61,8 +61,8 @@ public class Pathfinder {
 
                 if (avatar.getRoom().getMapping().isValidStep(currentPos, newPos, lastStep)) {
                     Square square = new Square(newX, newY);
-                    square.positionDistance = DistanceBetween(newX, newY, goalX, goalY);
-                    square.reversedPositionDistance = DistanceBetween(goalX, goalY, newX, newY);
+                    square.positionDistance = distanceBetween(newX, newY, goalX, goalY);
+                    square.reversedPositionDistance = distanceBetween(goalX, goalY, newX, newY);
 
                     if (stepsToWalk > square.positionDistance)
                     {
@@ -94,7 +94,7 @@ public class Pathfinder {
         avatar = null;
     }
 
-    private int DistanceBetween(int currentX, int currentY, int goX, int goY) {
+    private int distanceBetween(int currentX, int currentY, int goX, int goY) {
         return Math.abs(currentX - goX) + Math.abs(currentY - goY);
     }
 }
