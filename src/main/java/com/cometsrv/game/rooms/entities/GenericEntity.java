@@ -1,5 +1,6 @@
 package com.cometsrv.game.rooms.entities;
 
+import com.cometsrv.game.rooms.avatars.effects.UserEffect;
 import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.rooms.avatars.pathfinding.Pathfinder;
 import com.cometsrv.game.rooms.avatars.pathfinding.Square;
@@ -7,6 +8,7 @@ import com.cometsrv.game.rooms.entities.types.BotEntity;
 import com.cometsrv.game.rooms.entities.types.PetEntity;
 import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.types.Room;
+import com.cometsrv.network.messages.outgoing.room.avatar.ApplyEffectMessageComposer;
 import javolution.util.FastMap;
 
 import java.lang.ref.WeakReference;
@@ -39,7 +41,7 @@ public abstract class GenericEntity implements AvatarEntity {
     private int signTime;
 
     private int danceId;
-    private int effectId;
+    private UserEffect effect;
 
     private boolean markedNeedsUpdate;
 
@@ -50,11 +52,11 @@ public abstract class GenericEntity implements AvatarEntity {
 
         // Set the entity type
         if (this instanceof PlayerEntity) {
-            this.entityType = entityType.PLAYER;
+            this.entityType = RoomEntityType.PLAYER;
         } else if (this instanceof BotEntity) {
-            this.entityType = entityType.BOT;
+            this.entityType = RoomEntityType.BOT;
         } else if (this instanceof PetEntity) {
-            this.entityType = entityType.PET;
+            this.entityType = RoomEntityType.PET;
         }
 
         this.position = startPosition;
@@ -69,7 +71,6 @@ public abstract class GenericEntity implements AvatarEntity {
         this.signTime = 0;
 
         this.danceId = 0;
-        this.effectId = 0;
 
         this.markedNeedsUpdate = false;
     }
@@ -323,13 +324,19 @@ public abstract class GenericEntity implements AvatarEntity {
     }
 
     @Override
-    public int getCurrentEffect() {
-        return this.effectId;
+    public UserEffect getCurrentEffect() {
+        return this.effect;
     }
 
     @Override
-    public void applyEffect(int effectId) {
-        this.effectId = effectId;
+    public void applyEffect(UserEffect effect) {
+        if(effect == null) {
+            this.getRoom().getEntities().broadcastMessage(ApplyEffectMessageComposer.compose(this.id, 0));
+        } else {
+            this.getRoom().getEntities().broadcastMessage(ApplyEffectMessageComposer.compose(this.id, effect.getEffectId()));
+        }
+
+        this.effect = effect;
     }
 
     public abstract void joinRoom(Room room, String password);

@@ -1,5 +1,6 @@
 package com.cometsrv.game.rooms.entities;
 
+import com.cometsrv.game.rooms.avatars.effects.UserEffect;
 import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.rooms.avatars.pathfinding.Pathfinder;
 import com.cometsrv.game.rooms.avatars.pathfinding.Square;
@@ -59,8 +60,8 @@ public interface AvatarEntity {
     public void markDisplayingSign();
     public boolean isDisplayingSign();
 
-    public int getCurrentEffect();
-    public void applyEffect(int effectId);
+    public UserEffect getCurrentEffect();
+    public void applyEffect(UserEffect effect);
 
     public Room getRoom();
 

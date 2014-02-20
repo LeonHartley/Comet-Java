@@ -1,18 +1,41 @@
 package com.cometsrv.game.wired.effects;
 
 import com.cometsrv.game.GameEngine;
+import com.cometsrv.game.commands.staff.TeleportCommand;
+import com.cometsrv.game.rooms.avatars.effects.UserEffect;
+import com.cometsrv.game.rooms.avatars.misc.Position3D;
 import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.wired.data.WiredDataFactory;
+import com.cometsrv.game.wired.data.WiredDataInstance;
 import com.cometsrv.game.wired.data.effects.TeleportToItemData;
 import com.cometsrv.game.wired.types.WiredEffect;
 import com.cometsrv.network.messages.types.Event;
 
+import java.util.Random;
+
 
 public class MoveUserEffect extends WiredEffect {
+    private Random randomGenerator = new Random();
+
     @Override
     public void onActivate(PlayerEntity avatar, FloorItem item) {
-        // move user
+        TeleportToItemData data = (TeleportToItemData) WiredDataFactory.get(item);
+
+        int locationItemId = data.getItems().get(randomGenerator.nextInt(data.getItems().size()));
+
+        FloorItem itemInstance = avatar.getRoom().getItems().getFloorItem(locationItemId);
+
+        if(itemInstance == null)
+            return;
+
+        Position3D position = new Position3D(itemInstance.getX(), itemInstance.getY(), itemInstance.getHeight());
+
+        // Teleport player to position
+        avatar.applyEffect(new UserEffect(4, 5));
+        avatar.updateAndSetPosition(position);
+
+        avatar.markNeedsUpdate();
     }
 
     @Override
@@ -34,8 +57,6 @@ public class MoveUserEffect extends WiredEffect {
         }
 
         instance.setDelay(event.readInt());
-
-        GameEngine.getLogger().debug("Wired data: GenericRoomItem count: " + itemCount);
 
         WiredDataFactory.save(instance);
     }

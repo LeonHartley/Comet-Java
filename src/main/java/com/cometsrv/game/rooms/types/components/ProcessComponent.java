@@ -151,6 +151,14 @@ public class ProcessComponent implements CometTask {
             }
         }
 
+        if(entity.getCurrentEffect() != null) {
+            entity.getCurrentEffect().decrementDuration();
+
+            if(entity.getCurrentEffect().getDuration() == 0 && entity.getCurrentEffect().expires()) {
+                entity.applyEffect(null);
+            }
+        }
+
         if (entity.hasStatus("mv")) {
             entity.removeStatus("mv");
             entity.markNeedsUpdate();
@@ -158,7 +166,7 @@ public class ProcessComponent implements CometTask {
 
         // Check if we are wanting to walk to a location
         if (entity.getWalkingPath() != null) {
-            entity.setProcessingPath(new ArrayList<Square>(entity.getWalkingPath()));
+            entity.setProcessingPath(new ArrayList<>(entity.getWalkingPath()));
 
             // Clear the walking path now we have a goal set
             entity.getWalkingPath().clear();

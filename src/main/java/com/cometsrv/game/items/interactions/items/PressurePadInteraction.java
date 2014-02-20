@@ -10,11 +10,16 @@ public class PressurePadInteraction extends Interactor {
 
     @Override
     public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
-        if(item.getExtraData().equals("0")) {
+        /*if(item.getExtraData().equals("0")) {
             item.setExtraData("1");
         } else if(item.getExtraData().equals("1")) {
             item.setExtraData("0");
-        }
+        }*/
+
+        if(state)
+            item.setExtraData("1");
+        else
+            item.setExtraData("0");
 
         item.sendUpdate();
         item.saveData();
