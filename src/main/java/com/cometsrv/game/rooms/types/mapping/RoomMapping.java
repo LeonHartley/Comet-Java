@@ -68,14 +68,9 @@ public class RoomMapping {
             return false;
         }
 
-        /*if(to.getX() == this.model.getDoorX() && to.getY() == this.model.getDoorY()) { //&& !lastStep) {
-            return false;
-        }*/
-
         if (!canStepUpwards(getStepHeight(to), getStepHeight(from))) {
             return false;
         }
-
         return true;
     }
 

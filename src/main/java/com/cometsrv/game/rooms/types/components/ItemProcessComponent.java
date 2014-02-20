@@ -104,10 +104,6 @@ public class ItemProcessComponent implements CometTask {
                 log.warn("GenericRoomItem process took: " + span.toMilliseconds() + "ms to execute.");
             }
         } catch(Exception e) {
-            if(e instanceof InterruptedException) {
-                return;
-            }
-
             log.error("Error while processing items", e);
         }
     }

@@ -27,9 +27,11 @@ public class TileInstance {
         for(FloorItem item : mappingInstance.getRoom().getItems().getItemsOnSquare(this.position.getX(), this.position.getY())) {
             stackHeight += item.getHeight() + Math.round(item.getDefinition().getHeight());
 
-            /*if(!item.getDefinition().canWalk) {
+            // TODO: Re-do the endofroute shit.
+
+            if(!item.getDefinition().canWalk) {
                 this.movementNode = RoomEntityMovementNode.CLOSED;
-            }*/
+            }
 
             switch (item.getDefinition().getInteraction().toLowerCase()) {
                 case "bed":
@@ -48,12 +50,9 @@ public class TileInstance {
 
             if(item.getDefinition().canSit) {
                 status = RoomTileStatusType.SIT;
-                //movementNode = RoomEntityMovementNode.END_OF_ROUTE;
                 break;
             }
         }
-
-        System.out.println(this.movementNode.toString());
     }
 
     public RoomEntityMovementNode getMovementNode() {

@@ -73,6 +73,8 @@ public class Pathfinder
 
                 if (avatar.getRoom().getMapping().isValidStep(currentPos, newPos)) //, true))
                 {
+                    System.out.println("We're here");
+
                     Square pCoord = new Square(newX, newY);
                     pCoord.positionDistance = DistanceBetween(newX, newY, goalX, goalY);
                     pCoord.reversedPositionDistance = DistanceBetween(goalX, goalY, newX, newY);
