@@ -31,7 +31,7 @@ public class RoomManager {
         emotions = new ChatEmotionsManager();
         globalProcessor = new RoomCycle(Comet.getServer().getThreadManagement());
 
-        this.loadModels();
+        loadModels();
     }
 
     public void loadModels() {

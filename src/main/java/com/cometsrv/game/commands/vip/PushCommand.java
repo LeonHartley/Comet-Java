@@ -93,12 +93,12 @@ public class PushCommand extends ChatCommand {
 
             user.getPlayer().getEntity().setWalkingGoal(posX, posY);
 
-            /*if(user.getPlayer().getEntity().getPathfinder() == null) {
-                user.getPlayer().getEntity().setPathfinder();
-            }*/
-
             LinkedList<Square> path = user.getPlayer().getEntity().getPathfinder().makePath();
             user.getPlayer().getEntity().unIdle();
+
+            if(user.getPlayer().getEntity().getWalkingPath() != null)
+                user.getPlayer().getEntity().getWalkingPath().clear();
+
             user.getPlayer().getEntity().setWalkingPath(path);
 
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(

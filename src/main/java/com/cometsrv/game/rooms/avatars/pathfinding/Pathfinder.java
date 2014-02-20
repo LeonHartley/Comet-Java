@@ -7,23 +7,15 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class Pathfinder
-{
-    /*
-        @author Unknown
-     */
-
+public class Pathfinder {
     private Point[] points;
 
     public int goalX;
     public int goalY;
-    private int mapX = 0;
-    private int mapY = 0;
 
     protected AvatarEntity avatar;
 
-    public Pathfinder(AvatarEntity avatar)
-    {
+    public Pathfinder(AvatarEntity avatar) {
         points = new Point[] {
                 new Point(0, -1),
                 new Point(0, 1),
@@ -35,14 +27,10 @@ public class Pathfinder
                 new Point(-1, -1)
         };
 
-        mapX = avatar.getRoom().getModel().getSizeX();
-        mapY = avatar.getRoom().getModel().getSizeY();
-
         this.avatar = avatar;
     }
 
-    public LinkedList<Square> makePath()
-    {
+    public LinkedList<Square> makePath() {
         LinkedList<Square> coordSquares = new LinkedList<>();
 
         int userX = avatar.getPosition().getX();
@@ -54,38 +42,36 @@ public class Pathfinder
         Square lastCoord = new Square(-200, -200);
         int trys = 0;
 
-        while(true)
-        {
+        while(true) {
             trys++;
             int stepsToWalk = 10000;
 
-            for (Point movePoint : points)
-            {
+            for (Point movePoint : points) {
                 int newX = movePoint.x + userX;
                 int newY = movePoint.y + userY;
 
-                /*boolean lastStep = false;
-
-                if(newX == goalX && newY == goalY)
-                    lastStep = true;*/
                 Position3D currentPos = new Position3D(userX, userY, 0);
                 Position3D newPos = new Position3D(newX, newY, 0);
 
-                if (avatar.getRoom().getMapping().isValidStep(currentPos, newPos)) //, true))
-                {
-                    System.out.println("We're here");
+                boolean lastStep = false;
 
-                    Square pCoord = new Square(newX, newY);
-                    pCoord.positionDistance = DistanceBetween(newX, newY, goalX, goalY);
-                    pCoord.reversedPositionDistance = DistanceBetween(goalX, goalY, newX, newY);
+                if(newY == goalY && newX == goalX) {
+                    lastStep = true;
+                }
 
-                    if (stepsToWalk > pCoord.positionDistance)
+                if (avatar.getRoom().getMapping().isValidStep(currentPos, newPos, lastStep)) {
+                    Square square = new Square(newX, newY);
+                    square.positionDistance = DistanceBetween(newX, newY, goalX, goalY);
+                    square.reversedPositionDistance = DistanceBetween(goalX, goalY, newX, newY);
+
+                    if (stepsToWalk > square.positionDistance)
                     {
-                        stepsToWalk = pCoord.positionDistance;
-                        lastCoord = pCoord;
+                        stepsToWalk = square.positionDistance;
+                        lastCoord = square;
                     }
                 }
             }
+
             if (trys >= 200) {
                 return null;
             } else if (lastCoord.x == -200 && lastCoord.y == -200) {
@@ -108,8 +94,7 @@ public class Pathfinder
         avatar = null;
     }
 
-    private int DistanceBetween(int currentX, int currentY, int goX, int goY)
-    {
+    private int DistanceBetween(int currentX, int currentY, int goX, int goY) {
         return Math.abs(currentX - goX) + Math.abs(currentY - goY);
     }
 }

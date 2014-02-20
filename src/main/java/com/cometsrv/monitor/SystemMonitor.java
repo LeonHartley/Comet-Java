@@ -13,31 +13,18 @@ public class SystemMonitor implements CometTask {
     private ScheduledFuture myFuture;
 
     private boolean active = false;
-    private int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.interval"));
     private int cycleCount = 0;
 
     public SystemMonitor(CometThreadManagement mgr) {
-        this.myFuture = mgr.executePeriodic(this, this.interval, this.interval, TimeUnit.MINUTES);
+        int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.interval"));
+        this.myFuture = mgr.executePeriodic(this, interval, interval, TimeUnit.SECONDS);
         this.active = true;
     }
 
     @Override
     public void run() {
-        while(this.active) {
-            try {
-                if(!this.active) {
-                    return;
-                }
-
-                cycleCount++;
-            } catch(Exception e) {
-                if(e instanceof InterruptedException) {
-                    return;
-                }
-
-                log.error("Error while monitoring server", e);
-            }
-        }
+        System.gc();
+        cycleCount++;
     }
 
     public void stop() {

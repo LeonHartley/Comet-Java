@@ -179,6 +179,10 @@ public abstract class GenericEntity implements AvatarEntity {
 
     @Override
     public void setWalkingPath(List<Square> path) {
+        if(this.walkingPath != null) {
+            this.walkingPath.clear();
+        }
+
         this.walkingPath = path;
     }
 

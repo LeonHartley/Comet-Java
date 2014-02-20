@@ -42,7 +42,7 @@ public class MonitorClient {
                     future.channel().closeFuture().sync();
                 } catch(Exception e) {
                     if(e instanceof ConnectException) {
-                        log.error("Could not connect to monitor server. " + e.getMessage());
+                        log.warn("Could not connect to monitor server. " + e.getMessage());
                         return;
                     }
 

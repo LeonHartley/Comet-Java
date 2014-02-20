@@ -97,7 +97,7 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                     List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(tile.x, tile.y);
 
                     for (GenericEntity entity0 : affectEntities0) {
-                        if (!entity0.hasStatus("sit")) {
+                        if (!entity0.hasStatus("sit") && item.getDefinition().canSit) {
                             entity0.addStatus("sit", String.valueOf(item.getDefinition().getHeight()));
                             entity0.setBodyRotation(rot);
                             entity0.setHeadRotation(rot);

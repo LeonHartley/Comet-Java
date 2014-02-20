@@ -27,16 +27,10 @@ public class TileInstance {
         for(FloorItem item : mappingInstance.getRoom().getItems().getItemsOnSquare(this.position.getX(), this.position.getY())) {
             stackHeight += item.getHeight() + Math.round(item.getDefinition().getHeight());
 
-            // TODO: Re-do the endofroute shit.
-
-            if(!item.getDefinition().canWalk) {
-                this.movementNode = RoomEntityMovementNode.CLOSED;
-            }
-
             switch (item.getDefinition().getInteraction().toLowerCase()) {
                 case "bed":
                     status = RoomTileStatusType.LAY;
-                    //movementNode = RoomEntityMovementNode.END_OF_ROUTE;
+                    movementNode = RoomEntityMovementNode.END_OF_ROUTE;
                     break;
 
                 case "gate":
@@ -50,7 +44,7 @@ public class TileInstance {
 
             if(item.getDefinition().canSit) {
                 status = RoomTileStatusType.SIT;
-                break;
+                movementNode = RoomEntityMovementNode.END_OF_ROUTE;
             }
         }
     }

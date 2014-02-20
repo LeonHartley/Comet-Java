@@ -52,7 +52,7 @@ public class RoomMapping {
         return (height0 - height1) <= 1.5;
     }
 
-    public boolean isValidStep(Position3D from, Position3D to) {//, boolean lastStep) {
+    public boolean isValidStep(Position3D from, Position3D to, boolean lastStep) {
         if(!isValidPosition(to) || (this.model.getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID) || positionHasUser(to)) {
             return false;
         }
@@ -63,14 +63,14 @@ public class RoomMapping {
             return false;
         }
 
-        if(tile.getMovementNode() == RoomEntityMovementNode.CLOSED) {
-                //|| tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep) {
+        if(tile.getMovementNode() == RoomEntityMovementNode.CLOSED || tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep) {
             return false;
         }
 
         if (!canStepUpwards(getStepHeight(to), getStepHeight(from))) {
             return false;
         }
+
         return true;
     }
 
