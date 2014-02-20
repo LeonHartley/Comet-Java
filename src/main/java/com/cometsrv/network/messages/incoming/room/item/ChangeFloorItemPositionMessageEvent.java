@@ -84,6 +84,8 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                 for (GenericEntity entity0 : newAffectEntities0) {
                     if (!entity0.hasStatus("sit") && item.getDefinition().canSit) {
                         entity0.addStatus("sit", String.valueOf(item.getDefinition().getHeight()));
+                        entity0.setBodyRotation(rot);
+                        entity0.setHeadRotation(rot);
                         entity0.markNeedsUpdate();
                     }
                 }
@@ -97,6 +99,9 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                     for (GenericEntity entity0 : affectEntities0) {
                         if (!entity0.hasStatus("sit")) {
                             entity0.addStatus("sit", String.valueOf(item.getDefinition().getHeight()));
+                            entity0.setBodyRotation(rot);
+                            entity0.setHeadRotation(rot);
+
                             entity0.markNeedsUpdate();
                         }
                     }

@@ -25,7 +25,6 @@ Current To-do List
 *   Polls
 *   Helps
 *   Habbovision + pending file if the room is full: option for staff only
-*   Fast Food/Snowstorm
 *   Badge showing furni
 *   Manequins
 *   Background
