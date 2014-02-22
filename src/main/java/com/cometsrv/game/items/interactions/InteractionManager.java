@@ -7,6 +7,7 @@ import com.cometsrv.game.items.interactions.banzai.gates.BanzaiGateBlueInteracti
 import com.cometsrv.game.items.interactions.banzai.gates.BanzaiGateGreenInteraction;
 import com.cometsrv.game.items.interactions.banzai.gates.BanzaiGateRedInteraction;
 import com.cometsrv.game.items.interactions.banzai.gates.BanzaiGateYellowInteraction;
+import com.cometsrv.game.items.interactions.football.BallInteraction;
 import com.cometsrv.game.items.interactions.items.*;
 import com.cometsrv.game.items.interactions.wired.action.WiredActionMoveRotate;
 import com.cometsrv.game.items.interactions.wired.action.WiredActionMoveUser;
@@ -40,11 +41,12 @@ public class InteractionManager {
         this.interactions.put("teleport", new TeleportInteraction());
         this.interactions.put("habbowheel", new WheelInteractor());
         this.interactions.put("roller", new RollerInteraction());
+        this.interactions.put("ball", new BallInteraction());
 
         if (InteractionManager.DICE_ENABLED) { this.interactions.put("dice", new DiceInteraction()); }
 
         // Wired Actions
-        this.interactions.put("wf_act_move_rotate", new WiredActionMoveRotate());
+        this.interactions.put("wf_act_moverotate", new WiredActionMoveRotate());
         this.interactions.put("wf_act_saymsg", new WiredActionShowMessage());
         this.interactions.put("wf_act_moveuser", new WiredActionMoveUser());
 
@@ -65,6 +67,14 @@ public class InteractionManager {
     public void onWalk(boolean state, FloorItem item, PlayerEntity avatar) {
         if (this.isInteraction(item.getDefinition().getInteraction())) {
             if (this.getInteractions().get(item.getDefinition().getInteraction()).onWalk(state, item, avatar)) {
+                // ??
+            }
+        }
+    }
+
+    public void onPreWalk(FloorItem item, PlayerEntity avatar) {
+        if (this.isInteraction(item.getDefinition().getInteraction())) {
+            if (this.getInteractions().get(item.getDefinition().getInteraction()).onPreWalk(item, avatar)) {
                 // ??
             }
         }

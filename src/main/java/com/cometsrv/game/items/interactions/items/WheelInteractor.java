@@ -16,18 +16,12 @@ public class WheelInteractor extends Interactor {
     }
 
     @Override
+    public boolean onPreWalk(RoomItem item, PlayerEntity avatar) {
+        return false;
+    }
+
+    @Override
     public boolean onInteract(int request, RoomItem item, PlayerEntity avatar) {
-        if (!item.touching(avatar)) {
-            //avatar.moveTo(item.getX(), item.getY());
-            // CANNOT GET POSITION OF WHEEL FROM GETX / GETY!!!
-            return false;
-        }
-
-        /*if (!"-1".equals(item.getExtraData())) {
-            item.setExtraData("-1");
-            item.sendUpdate();
-        }*/
-
         int wheelPos = new Random().nextInt(10) + 1;
 
         item.setExtraData(Integer.toString(wheelPos));

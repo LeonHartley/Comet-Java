@@ -15,6 +15,11 @@ public class WiredActionShowMessage extends Interactor {
     }
 
     @Override
+    public boolean onPreWalk(RoomItem item, PlayerEntity avatar) {
+        return false;
+    }
+
+    @Override
     public boolean onInteract(int state, RoomItem item, PlayerEntity avatar) {
         Composer msg = new Composer(Composers.WiredEffectMessageComposer);
 

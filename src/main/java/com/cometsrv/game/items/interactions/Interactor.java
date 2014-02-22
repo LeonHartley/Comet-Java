@@ -13,6 +13,12 @@ public abstract class Interactor {
     public abstract boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar);
 
     /*
+     * RoomItem: the interacting item (most likely a football.. :P)
+     * Avatar: the interacting avatar
+     */
+    public abstract boolean onPreWalk(RoomItem item, PlayerEntity avatar);
+
+    /*
      * State: ???
      * GenericRoomItem: the interacting item
      * Avatar: the interacting avatar

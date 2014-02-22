@@ -12,6 +12,11 @@ public class DefaultInteraction extends Interactor {
     }
 
     @Override
+    public boolean onPreWalk(RoomItem item, PlayerEntity avatar) {
+        return false;
+    }
+
+    @Override
     public boolean onInteract(int request, RoomItem item, PlayerEntity avatar) {
         item.handleInteraction(true);
         item.sendUpdate();

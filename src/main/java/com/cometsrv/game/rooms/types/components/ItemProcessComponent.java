@@ -85,6 +85,8 @@ public class ItemProcessComponent implements CometTask {
                             GameEngine.getItems().getInteractions().onWalk(interactItem.getUpdateState() == 1, item, interactItem.getEntity());
                         } else if (interactItem.getAction() == InteractionAction.ON_TICK) {
                             GameEngine.getItems().getInteractions().onTick(item);
+                        }else if (interactItem.getAction() == InteractionAction.ON_PRE_WALK) {
+                            GameEngine.getItems().getInteractions().onPreWalk(item, interactItem.getEntity());
                         }
                     } else {
                         item.setNeedsUpdate(false);

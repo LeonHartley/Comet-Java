@@ -12,6 +12,7 @@ import com.cometsrv.game.rooms.entities.types.PlayerEntity;
 import com.cometsrv.game.rooms.items.FloorItem;
 import com.cometsrv.game.rooms.types.Room;
 import com.cometsrv.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
+import com.cometsrv.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometsrv.tasks.CometTask;
 import javolution.util.FastList;
 import javolution.util.FastMap;
@@ -190,11 +191,17 @@ public class ProcessComponent implements CometTask {
                 item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 0);
             }
 
+            if(entity.hasStatus("sit")) {
+                entity.removeStatus("sit");
+            }
+
             // Create the new position
             Position3D newPosition = new Position3D();
             newPosition.setX(entity.getPositionToSet().getX());
             newPosition.setY(entity.getPositionToSet().getY());
             newPosition.setZ(entity.getPositionToSet().getZ());
+
+            //entity.getPlayer().getSession().send(TalkMessageComposer.compose(entity.getVirtualId(), "X: " + newPosition.getX() + ", Y: " + newPosition.getY() + ", Rot: " + entity.getBodyRotation(), 0,0));
 
             List<FloorItem> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
 
@@ -246,6 +253,8 @@ public class ProcessComponent implements CometTask {
                         isCancelled = true;
 
                     height += item.getHeight();
+
+                    item.setNeedsUpdate(true, InteractionAction.ON_PRE_WALK, entity, 0);
                 }
 
                 if(!isCancelled) {
