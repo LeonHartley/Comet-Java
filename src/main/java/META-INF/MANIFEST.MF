@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Created-By: 1.0 (Comet Development Team)
-Main-Class: com.cometsrv.boot.Comet
+Main-Class: com.cometproject.server.boot.Comet
 Class-Path: *
 

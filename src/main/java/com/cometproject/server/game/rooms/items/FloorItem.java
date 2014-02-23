@@ -5,6 +5,7 @@ import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
+import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
@@ -13,11 +14,14 @@ import com.cometproject.server.network.sessions.Session;
 
 import java.lang.ref.WeakReference;
 import java.sql.PreparedStatement;
+import java.util.List;
 
 public class FloorItem extends RoomItem {
     private int roomId;
     private double height;
     private String extraData;
+
+    private List<Position3D> rollingPositions;
 
     private WeakReference<Room> room;
 
@@ -103,6 +107,18 @@ public class FloorItem extends RoomItem {
         }
 
         return this.room.get();
+    }
+
+    public boolean isRolling() {
+        return (this.rollingPositions != null && this.rollingPositions.size() > 0);
+    }
+
+    public List<Position3D> getRollingPositions() {
+        return this.rollingPositions;
+    }
+
+    public void setRollingPositions(List<Position3D> positions) {
+        this.rollingPositions = positions;
     }
 
     public void saveData() {

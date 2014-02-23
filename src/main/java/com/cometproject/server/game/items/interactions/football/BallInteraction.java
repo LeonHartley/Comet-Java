@@ -6,18 +6,26 @@ import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
+import javolution.util.FastList;
+
+import java.util.List;
 
 public class BallInteraction extends Interactor {
     @Override
     public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
         FloorItem floorItem = (FloorItem) item;
+
+        if(((FloorItem) item).isRolling())
+            return false;
+
         Position3D currentPosition = new Position3D(floorItem.getX(), floorItem.getY(), floorItem.getHeight());
 
         Position3D newPosition = calculatePosition(floorItem.getX(), floorItem.getY(), avatar.getBodyRotation());
         newPosition.setZ(floorItem.getHeight());
 
-        roll(floorItem, currentPosition, newPosition, avatar);
+        roll(floorItem, currentPosition, newPosition, avatar.getRoom());
 
         floorItem.setX(newPosition.getX());
         floorItem.setY(newPosition.getY());
@@ -32,14 +40,18 @@ public class BallInteraction extends Interactor {
             return false;
         }
 
+        if(((FloorItem) item).isRolling())
+            return false;
+
         FloorItem floorItem = (FloorItem) item;
         Position3D currentPosition = new Position3D(floorItem.getX(), floorItem.getY(), floorItem.getHeight());
 
         Position3D newPosition = calculatePosition(floorItem.getX(), floorItem.getY(), avatar.getBodyRotation());
         newPosition.setZ(floorItem.getHeight());
 
-        roll(floorItem, currentPosition, newPosition, avatar);
+        roll(floorItem, currentPosition, newPosition, avatar.getRoom());
 
+        floorItem.setRotation(avatar.getBodyRotation());
         floorItem.setX(newPosition.getX());
         floorItem.setY(newPosition.getY());
 
@@ -47,8 +59,8 @@ public class BallInteraction extends Interactor {
         return false;
     }
 
-    private void roll(FloorItem item, Position3D from, Position3D to, PlayerEntity avatar) {
-        avatar.getRoom().getEntities().broadcastMessage(
+    public static void roll(FloorItem item, Position3D from, Position3D to, Room room) {
+        room.getEntities().broadcastMessage(
                 SlideObjectBundleMessageComposer.compose(
                         from,
                         to, item.getId(), 0, item.getId())
@@ -97,8 +109,41 @@ public class BallInteraction extends Interactor {
         return new Position3D(x, y, 0d);
     }
 
-            @Override
+    public static final int KICK_POWER = 6;
+
+    @Override
     public boolean onInteract(int request, RoomItem item, PlayerEntity avatar) {
+        if (!(item instanceof FloorItem)) {
+            return false;
+        }
+
+        if(((FloorItem) item).isRolling())
+            return false;
+
+        if(!DistanceCalculator.tilesTouching(item.getX(), item.getY(), avatar.getPosition().getX(), avatar.getPosition().getY()))
+            return false;
+
+        FloorItem floorItem = (FloorItem) item;
+        List<Position3D> positions = new FastList<>();
+
+        Position3D currentPosition = new Position3D(floorItem.getX(), floorItem.getY(), floorItem.getHeight());
+        Position3D lastPosition = null;
+
+        for(int i = 0; i < KICK_POWER; i++) {
+            Position3D kickPosition;
+
+            if(lastPosition == null) {
+                kickPosition = calculatePosition(currentPosition.getX(), currentPosition.getY(), avatar.getBodyRotation());
+            } else {
+                kickPosition = calculatePosition(lastPosition.getX(), lastPosition.getY(), avatar.getBodyRotation());
+            }
+
+            positions.add(kickPosition);
+            lastPosition = kickPosition;
+        }
+
+        floorItem.setRollingPositions(positions);
+
         return false;
     }
 

@@ -4,6 +4,8 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
+import com.cometproject.server.game.items.interactions.football.BallInteraction;
+import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.tasks.CometTask;
@@ -22,6 +24,8 @@ public class ItemProcessComponent implements CometTask {
     private CometThreadManagement mgr;
     private boolean active = false;
     private int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
+    private int rollCounter = 0;
+
     private int flag = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.flag"));
 
     public ItemProcessComponent(CometThreadManagement mgr, Room room) {
@@ -68,6 +72,14 @@ public class ItemProcessComponent implements CometTask {
                 this.stop();
             }
 
+            boolean needsRoll = false;
+            rollCounter++;
+
+            if(rollCounter >= 2) {
+                needsRoll = true;
+                rollCounter = 0;
+            }
+
             long timeStart = System.currentTimeMillis();
 
             for(FloorItem item : this.getRoom().getItems().getFloorItems()) {
@@ -93,6 +105,12 @@ public class ItemProcessComponent implements CometTask {
                     }
                 }
 
+                if(needsRoll) {
+                    if(item.isRolling()) {
+                        doBallRoll(item);
+                    }
+                }
+
                 if(GameEngine.getWired().isWiredTrigger(item)) {
                     if(!this.getRoom().getWired().isWiredSquare(item.getX(), item.getY())) {
                         this.getRoom().getWired().add(item.getX(), item.getY());
@@ -107,6 +125,30 @@ public class ItemProcessComponent implements CometTask {
             }
         } catch(Exception e) {
             log.error("Error while processing items", e);
+        }
+    }
+
+    public void doBallRoll(FloorItem item) {
+        Position3D nextPos = item.getRollingPositions().get(0);
+        Position3D currentPos = new Position3D(item.getX(), item.getY(), item.getHeight());
+
+        item.getRollingPositions().remove(0);
+
+        if(this.getRoom().getMapping().isValidStep(currentPos, nextPos, false)) {
+            // roll to position
+
+            BallInteraction.roll(item, currentPos, nextPos, room);
+
+            item.setX(nextPos.getX());
+            item.setY(nextPos.getY());
+
+            item.setNeedsUpdate(true);
+        } else {
+            int length = item.getRollingPositions().size();
+
+            for(int i = 0; i < length; i++) {
+                
+            }
         }
     }
 

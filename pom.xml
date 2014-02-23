@@ -43,7 +43,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.cometsrv.boot.Comet</mainClass>
+                            <mainClass>com.cometproject.server.boot.Comet</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
