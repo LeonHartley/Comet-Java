@@ -11,8 +11,10 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
+import javolution.util.FastList;
 import org.apache.log4j.Logger;
 
+import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -132,23 +134,26 @@ public class ItemProcessComponent implements CometTask {
         Position3D nextPos = item.getRollingPositions().get(0);
         Position3D currentPos = new Position3D(item.getX(), item.getY(), item.getHeight());
 
-        item.getRollingPositions().remove(0);
-
         if(this.getRoom().getMapping().isValidStep(currentPos, nextPos, false)) {
-            // roll to position
-
             BallInteraction.roll(item, currentPos, nextPos, room);
 
             item.setX(nextPos.getX());
             item.setY(nextPos.getY());
 
             item.setNeedsUpdate(true);
+
+            item.getRollingPositions().remove(0);
         } else {
             int length = item.getRollingPositions().size();
+            List<Position3D> newPositions = new FastList<>();
 
             for(int i = 0; i < length; i++) {
-                
+                Position3D pos = item.getRollingPositions().get(i);
+
+                newPositions.add(BallInteraction.calculatePosition(pos.getX(), pos.getY(), item.getRotation(), true));
             }
+
+            item.setRollingPositions(newPositions);
         }
     }
 

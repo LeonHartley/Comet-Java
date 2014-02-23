@@ -46,7 +46,14 @@ public class BallInteraction extends Interactor {
         FloorItem floorItem = (FloorItem) item;
         Position3D currentPosition = new Position3D(floorItem.getX(), floorItem.getY(), floorItem.getHeight());
 
-        Position3D newPosition = calculatePosition(floorItem.getX(), floorItem.getY(), avatar.getBodyRotation());
+        Position3D newPosition;
+
+        if(avatar.getRoom().getMapping().isValidStep(currentPosition, calculatePosition(floorItem.getX(), floorItem.getY(), avatar.getBodyRotation()), false)) {
+            newPosition = calculatePosition(floorItem.getX(), floorItem.getY(), avatar.getBodyRotation());
+        } else {
+            newPosition = calculatePosition(floorItem.getX(), floorItem.getY(), avatar.getBodyRotation(), true);
+        }
+
         newPosition.setZ(floorItem.getHeight());
 
         roll(floorItem, currentPosition, newPosition, avatar.getRoom());
@@ -67,42 +74,78 @@ public class BallInteraction extends Interactor {
         );
     }
 
-    private Position3D calculatePosition(int x, int y, int playerRotation) {
+    public static Position3D calculatePosition(int x, int y, int playerRotation) {
+        return calculatePosition(x, y, playerRotation, false);
+    }
+
+    public static Position3D calculatePosition(int x, int y, int playerRotation, boolean isReversed) {
         switch(playerRotation) {
             case 0:
-                y--;
+                if(!isReversed)
+                    y--;
+                else
+                    y++;
                 break;
 
             case 1:
-                x++;
-                y--;
+                if(!isReversed) {
+                    x++;
+                    y--;
+                } else {
+                    x--;
+                    y++;
+                }
                 break;
 
             case 2:
-                x++;
+                if(!isReversed)
+                    x++;
+                else
+                    x--;
                 break;
 
             case 3:
-                x++;
-                y++;
+                if(!isReversed) {
+                    x++;
+                    y++;
+                } else {
+                    x--;
+                    y--;
+                }
                 break;
 
             case 4:
-                y++;
+                if(!isReversed)
+                    y++;
+                else
+                    y--;
                 break;
 
             case 5:
-                x--;
-                y++;
+                if(!isReversed) {
+                    x--;
+                    y++;
+                } else {
+                    x++;
+                    y--;
+                }
                 break;
 
             case 6:
-                x--;
+                if(!isReversed)
+                    x--;
+                else
+                    x++;
                 break;
 
             case 7:
-                x--;
-                y--;
+                if(!isReversed) {
+                    x--;
+                    y--;
+                } else {
+                    x++;
+                    y++;
+                }
                 break;
         }
 
