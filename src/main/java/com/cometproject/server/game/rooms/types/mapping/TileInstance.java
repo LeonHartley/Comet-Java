@@ -46,6 +46,10 @@ public class TileInstance {
                 status = RoomTileStatusType.SIT;
                 movementNode = RoomEntityMovementNode.END_OF_ROUTE;
             }
+
+            if(!item.getDefinition().canWalk) {
+                movementNode = RoomEntityMovementNode.CLOSED;
+            }
         }
     }
 
