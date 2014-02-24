@@ -19,6 +19,10 @@ public class MoveUserEffect extends WiredEffect {
     public void onActivate(PlayerEntity avatar, FloorItem item) {
         TeleportToItemData data = (TeleportToItemData) WiredDataFactory.get(item);
 
+        if(data.getItems().size() == 0) {
+            return;
+        }
+
         int locationItemId = data.getItems().get(randomGenerator.nextInt(data.getItems().size()));
 
         FloorItem itemInstance = avatar.getRoom().getItems().getFloorItem(locationItemId);
@@ -27,6 +31,10 @@ public class MoveUserEffect extends WiredEffect {
             return;
 
         Position3D position = new Position3D(itemInstance.getX(), itemInstance.getY(), itemInstance.getHeight());
+
+        //if(!avatar.getRoom().getMapping().isValidStep(avatar.getPosition(), position, true)) {
+        //    return;
+        //}
 
         // Teleport player to position
         avatar.applyEffect(new UserEffect(4, 5));
