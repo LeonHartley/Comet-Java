@@ -4,6 +4,8 @@ import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.wired.data.WiredDataFactory;
+import com.cometproject.server.game.wired.data.triggers.OnFurniData;
 import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.types.Event;
@@ -49,6 +51,13 @@ public class WiredComponent {
                     if(item.getDefinition().getInteraction().equals(GameEngine.getWired().getString(type))) {
                         if(type == TriggerType.ON_SAY) {
                             if(!item.getExtraData().equals(data)) {
+                                continue;
+                            }
+                        } else if(type == TriggerType.ON_FURNI) {
+                            OnFurniData wiredData = (OnFurniData) WiredDataFactory.get(item);
+                            int itemId = (int) data;
+
+                            if(!wiredData.getItems().contains(itemId)) {
                                 continue;
                             }
                         }

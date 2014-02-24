@@ -125,7 +125,7 @@ public class Comet {
     public static String getBuild() {
         // Soon, there will be a connection to the "master server"
         // which will give warnings on the console
-        // that the version is out of date (if its ture)
+        // that the version is out of date (if its true)
         //
         // Version guide
         // ===============================

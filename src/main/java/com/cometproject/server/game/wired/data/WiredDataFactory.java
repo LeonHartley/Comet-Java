@@ -3,6 +3,7 @@ package com.cometproject.server.game.wired.data;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.wired.data.effects.TeleportToItemData;
+import com.cometproject.server.game.wired.data.triggers.OnFurniData;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -82,6 +83,19 @@ public class WiredDataFactory {
         try {
             if(data.getType().equals("wf_act_moveuser")) {
                 TeleportToItemData inst = (TeleportToItemData) data;
+
+                int last = inst.getItems().get(inst.getItems().size() - 1);
+                saveData += inst.getDelay() + ":";
+
+                for(int id : inst.getItems()) {
+                    if(id != last) {
+                        saveData += id + ",";
+                    } else {
+                        saveData += id;
+                    }
+                }
+            } else if(data.getType().equals("wf_trg_onfurni")) {
+                OnFurniData inst = (OnFurniData) data;
 
                 int last = inst.getItems().get(inst.getItems().size() - 1);
                 saveData += inst.getDelay() + ":";

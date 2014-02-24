@@ -11,6 +11,7 @@ import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.tasks.CometTask;
 import javolution.util.FastList;
@@ -187,6 +188,8 @@ public class ProcessComponent implements CometTask {
 
             for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
                 item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 0);
+
+                // Wired trigger: off furni
             }
 
             if(entity.hasStatus("sit")) {
@@ -206,6 +209,7 @@ public class ProcessComponent implements CometTask {
             // Apply sit
             for(FloorItem item : itemsOnSq) {
                 item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 1);
+                this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity);
 
                 if (item.getDefinition().canSit) {
                     double height = item.getHeight();
