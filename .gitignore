@@ -85,4 +85,5 @@ release.properties
 
 # Project folders
 logs
+classes
 Comet.iml
