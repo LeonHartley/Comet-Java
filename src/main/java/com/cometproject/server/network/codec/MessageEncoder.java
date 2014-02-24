@@ -11,16 +11,13 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
-public class MessageEncoder extends MessageToByteEncoder<Composer> {
+public class MessageEncoder extends MessageToMessageEncoder<Composer> {
     private static Logger log = Logger.getLogger(MessageEncoder.class.getName());
 
-/*    @Override
+    @Override
     protected void encode(ChannelHandlerContext ctx, Composer msg, List<Object> out) throws Exception {
        try {
-            ByteBuf bytes = msg.get();
-
-            out.add(bytes);
-            bytes.retain();
+            out.add(msg.get());
 
             ctx.flush();
             log.debug("Composed message: " + Composers.valueOfId(msg.getId()));
@@ -28,9 +25,9 @@ public class MessageEncoder extends MessageToByteEncoder<Composer> {
             log.error("Failed to encode message: ", e);
         }
     }
-*/
-    @Override
+
+   /* @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Composer composer, ByteBuf byteBuf) throws Exception {
         byteBuf.writeBytes(composer.get());
-    }
+    }*/
 }

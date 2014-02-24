@@ -70,9 +70,15 @@ public class Composer {
 		} catch(Exception e) {}
 	}
 
+    private boolean finalized = false;
+
 	public ByteBuf get() {
-		body.setInt(0, body.writerIndex() - 4);
-		return this.body;
+        if(!finalized) {
+		    body.setInt(0, body.writerIndex() - 4);
+            finalized = true;
+        }
+
+		return this.body.copy();
 	}
 	
 	public int getId() {
