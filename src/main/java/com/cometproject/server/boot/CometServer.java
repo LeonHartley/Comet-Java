@@ -40,7 +40,7 @@ public class CometServer {
     }
 
     public void loadConfig() {
-        config = new Configuration("/comet.properties");
+        config = new Configuration("./config/comet.properties");
         CometSettings.set(config.getProperties());
     }
 
