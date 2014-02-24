@@ -44,6 +44,7 @@ public abstract class GenericEntity implements AvatarEntity {
     private UserEffect effect;
 
     private boolean markedNeedsUpdate;
+    private boolean isMoonwalking;
 
     private Map<String, String> statusses = new FastMap<>();
 
@@ -73,6 +74,7 @@ public abstract class GenericEntity implements AvatarEntity {
         this.danceId = 0;
 
         this.markedNeedsUpdate = false;
+        this.isMoonwalking = false;
     }
 
     @Override
@@ -251,6 +253,14 @@ public abstract class GenericEntity implements AvatarEntity {
     @Override
     public boolean needsUpdate() {
         return this.markedNeedsUpdate;
+    }
+
+    public boolean isMoonwalking() {
+        return this.isMoonwalking;
+    }
+
+    public void setIsMoonwalking(boolean isMoonwalking) {
+        this.isMoonwalking = isMoonwalking;
     }
 
     @Override

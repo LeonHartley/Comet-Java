@@ -12,13 +12,13 @@ public class MoonwalkCommand extends ChatCommand {
             return;
         }
 
-        /*if(client.getPlayer().getEntity().isMoonwalking) {
-            client.getPlayer().getEntity().isMoonwalking = false;
+        if(client.getPlayer().getEntity().isMoonwalking()) {
+            client.getPlayer().getEntity().setIsMoonwalking(false);
             this.sendChat("Moonwalking is now disabled!", client);
             return;
         }
 
-        client.getPlayer().getEntity().isMoonwalking = true;*/
+        client.getPlayer().getEntity().setIsMoonwalking(true);
         this.sendChat("Moonwalking is now enabled!", client);
     }
 
