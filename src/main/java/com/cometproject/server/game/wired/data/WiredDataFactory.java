@@ -73,6 +73,8 @@ public class WiredDataFactory {
     private static WiredDataInstance buildInstance(String wiredType, int itemId, String data, int instanceId) {
         if(wiredType.equals("wf_act_moveuser")) {
             return new TeleportToItemData(instanceId, itemId, data);
+        } else if(wiredType.equals("wf_trg_onfurni")) {
+            return new OnFurniData(instanceId, itemId, data);
         }
 
         return null;

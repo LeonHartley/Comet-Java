@@ -47,9 +47,9 @@ public class TileInstance {
                 movementNode = RoomEntityMovementNode.END_OF_ROUTE;
             }
 
-            if(!item.getDefinition().canWalk) {
+           /* if(!item.getDefinition().canWalk) {
                 movementNode = RoomEntityMovementNode.CLOSED;
-            }
+            }*/
         }
     }
 

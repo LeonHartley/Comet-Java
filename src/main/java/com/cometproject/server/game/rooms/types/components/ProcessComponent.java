@@ -209,7 +209,6 @@ public class ProcessComponent implements CometTask {
             // Apply sit
             for(FloorItem item : itemsOnSq) {
                 item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 1);
-                this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity);
 
                 if (item.getDefinition().canSit) {
                     double height = item.getHeight();
@@ -229,6 +228,12 @@ public class ProcessComponent implements CometTask {
 
             entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
+
+            for(FloorItem item : itemsOnSq) {
+                if(this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
+                    // idk what to do here for this trigger but ya
+                }
+            }
         }
 
         if (entity.isWalking()) {

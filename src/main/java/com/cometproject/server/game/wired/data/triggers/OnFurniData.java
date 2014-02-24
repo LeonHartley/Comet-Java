@@ -10,7 +10,7 @@ public class OnFurniData extends WiredDataInstance {
     private List<Integer> items;
 
     public OnFurniData(int id, int itemId, String data) {
-        super("wf_act_moveuser", id, itemId);
+        super("wf_trg_onfurni", id, itemId);
 
         this.items = new FastList<>();
 
