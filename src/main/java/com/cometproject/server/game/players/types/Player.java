@@ -53,9 +53,9 @@ public class Player {
     }
 
     public void dispose() {
-        /*if(this.getEntity() != null) {
-            this.getEntity().dispose(true, false, false);
-        }*/
+        if(this.getEntity() != null) {
+            this.getEntity().leaveRoom(true, false, false);
+        }
 
         // TODO: Add dispose to the entity
 

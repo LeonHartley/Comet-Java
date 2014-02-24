@@ -2,20 +2,19 @@ package com.cometproject.server.config;
 
 import com.cometproject.server.boot.Comet;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
 public class Configuration {
-    private String file;
     private Properties properties;
 
     public Configuration(String file) {
-        this.file = file;
-
-        InputStream stream = Configuration.class.getResourceAsStream(this.file);
-        this.properties = new Properties();
-
         try {
+            InputStream stream = new FileInputStream(file);
+
+            this.properties = new Properties();
+
             getProperties().load(stream);
             stream.close();
         } catch(Exception e) {

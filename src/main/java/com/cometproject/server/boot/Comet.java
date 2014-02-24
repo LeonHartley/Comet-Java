@@ -5,6 +5,7 @@ import com.cometproject.server.game.GameEngine;
 import org.apache.log4j.*;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
 public class Comet {
@@ -18,7 +19,13 @@ public class Comet {
     public static void main(String[] args) {
         start = System.currentTimeMillis();
 
-        PropertyConfigurator.configure(Comet.class.getResourceAsStream("/log4j.properties"));
+        try {
+            PropertyConfigurator.configure(new FileInputStream("./config/log4j.properties"));
+        } catch(Exception e) {
+            log.error("Error while loading log4j configuration", e);
+            return;
+        }
+
         log.info("Comet Server - " + getBuild());
 
         for(String arg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
