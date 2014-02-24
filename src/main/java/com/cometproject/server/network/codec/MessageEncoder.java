@@ -17,7 +17,7 @@ public class MessageEncoder extends MessageToMessageEncoder<Composer> {
     @Override
     protected void encode(ChannelHandlerContext ctx, Composer msg, List<Object> out) throws Exception {
        try {
-            out.add(msg.get());
+            out.add(msg.get().duplicate().retain());
 
             ctx.flush();
             log.debug("Composed message: " + Composers.valueOfId(msg.getId()));

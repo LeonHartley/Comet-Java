@@ -78,7 +78,7 @@ public class Composer {
             finalized = true;
         }
 
-		return this.body.copy();
+		return this.body;//.copy();
 	}
 	
 	public int getId() {
