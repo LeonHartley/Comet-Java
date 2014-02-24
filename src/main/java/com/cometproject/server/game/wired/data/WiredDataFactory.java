@@ -86,28 +86,36 @@ public class WiredDataFactory {
             if(data.getType().equals("wf_act_moveuser")) {
                 TeleportToItemData inst = (TeleportToItemData) data;
 
-                int last = inst.getItems().get(inst.getItems().size() - 1);
-                saveData += inst.getDelay() + ":";
+                if(inst.getItems().size() != 0) {
+                    int last = inst.getItems().get(inst.getItems().size() - 1);
+                    saveData += inst.getDelay() + ":";
 
-                for(int id : inst.getItems()) {
-                    if(id != last) {
-                        saveData += id + ",";
-                    } else {
-                        saveData += id;
+                    for(int id : inst.getItems()) {
+                        if(id != last) {
+                            saveData += id + ",";
+                        } else {
+                            saveData += id;
+                        }
                     }
+                }else {
+                    Comet.getServer().getStorage().execute("DELETE FROM items_wired_data WHERE id = " + data.getId());
                 }
             } else if(data.getType().equals("wf_trg_onfurni")) {
                 OnFurniData inst = (OnFurniData) data;
 
-                int last = inst.getItems().get(inst.getItems().size() - 1);
-                saveData += inst.getDelay() + ":";
+                if(inst.getItems().size() != 0) {
+                    int last = inst.getItems().get(inst.getItems().size() - 1);
+                    saveData += inst.getDelay() + ":";
 
-                for(int id : inst.getItems()) {
-                    if(id != last) {
-                        saveData += id + ",";
-                    } else {
-                        saveData += id;
+                    for(int id : inst.getItems()) {
+                        if(id != last) {
+                            saveData += id + ",";
+                        } else {
+                            saveData += id;
+                        }
                     }
+                } else {
+                    Comet.getServer().getStorage().execute("DELETE FROM items_wired_data WHERE id = " + data.getId());
                 }
             }
 
