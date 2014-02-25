@@ -12,6 +12,8 @@ public class TileInstance {
     private RoomEntityMovementNode movementNode;
     private RoomTileStatusType status;
 
+    private boolean canStack = true;
+
     public TileInstance(RoomMapping mappingInstance, Position3D position) {
         this.mappingInstance = mappingInstance;
         this.position = position;
@@ -36,17 +38,15 @@ public class TileInstance {
                 case "gate":
                     movementNode = item.getExtraData().equals("1") ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
                     break;
-
-                case "sticky_pole":
-                    this.mappingInstance.setGuestsPlaceStickies(true);
-                    break;
             }
 
             if(item.getDefinition().canSit) {
                 status = RoomTileStatusType.SIT;
                 movementNode = RoomEntityMovementNode.END_OF_ROUTE;
-            } else if(!item.getDefinition().canWalk) {
-                movementNode = RoomEntityMovementNode.CLOSED;
+            }
+
+            if(!item.getDefinition().canStack) {
+                this.canStack = false;
             }
         }
     }
@@ -65,5 +65,9 @@ public class TileInstance {
 
     public Position3D getPosition() {
         return this.position;
+    }
+
+    public boolean canStack() {
+        return this.canStack;
     }
 }

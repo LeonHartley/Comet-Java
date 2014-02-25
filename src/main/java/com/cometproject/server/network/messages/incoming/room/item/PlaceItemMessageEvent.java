@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.TileInstance;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.SendWallItemMessageComposer;
@@ -59,17 +60,13 @@ public class PlaceItemMessageEvent implements IEvent {
                 int rot = Integer.parseInt(parts[3]);
 
                 InventoryItem item = client.getPlayer().getInventory().getFloorItem(id);
-                float height = (float) client.getPlayer().getEntity().getRoom().getModel().getSquareHeight()[x][y];
 
-                for(FloorItem stackItem : client.getPlayer().getEntity().getRoom().getItems().getItemsOnSquare(x, y)) {
-                    if(item.getId() != stackItem.getId()) {
-                        if(stackItem.getDefinition().canStack) {
-                            height+= stackItem.getDefinition().getHeight();
-                        } else {
-                            return;
-                        }
-                    }
-                }
+                TileInstance tile = client.getPlayer().getEntity().getRoom().getMapping().getTile(x, y);
+
+                if(!tile.canStack())
+                    return;
+
+                float height = (float) tile.getStackHeight();
 
                 PreparedStatement query = Comet.getServer().getStorage().prepare("UPDATE items SET room_id = ?, x = ?, y = ?, z = ?, rot = ?, extra_data = ? WHERE id = ?;");
 
@@ -92,8 +89,8 @@ public class PlaceItemMessageEvent implements IEvent {
 
                 tilesToUpdate.add(new Position3D(floorItem.getX(), floorItem.getY(), 0d));
 
-                for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), floorItem.getX(), floorItem.getY(), floorItem.getRotation())) {
-                    tilesToUpdate.add(new Position3D(tile.x, tile.y, 0d));
+                for (AffectedTile affTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), floorItem.getX(), floorItem.getY(), floorItem.getRotation())) {
+                    tilesToUpdate.add(new Position3D(affTile.x, affTile.y, 0d));
                 }
 
                 for(Position3D tileToUpdate : tilesToUpdate) {

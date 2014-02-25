@@ -11,8 +11,6 @@ public class RoomMapping {
 
     private TileInstance[][] tiles;
 
-    private boolean guestsCanPlaceStickies = false;
-
     public RoomMapping(Room roomInstance, RoomModel roomModel) {
         this.room = roomInstance;
         this.model = roomModel;
@@ -40,6 +38,10 @@ public class RoomMapping {
 
     public void updateTile(int x, int y) {
         this.tiles[x][y].reload();
+    }
+
+    public TileInstance getTile(int x, int y) {
+        return this.tiles[x][y];
     }
 
     public boolean positionHasUser(Position3D position) {
@@ -90,19 +92,6 @@ public class RoomMapping {
     }
 
     public boolean isValidPosition(Position3D position) {
-        /*boolean isOutOfBounds = false;
-        boolean isTileNull = false;
-
-        if(this.model.getSizeX() < position.getX() || this.model.getSizeY() < position.getY()) {
-            isOutOfBounds = true;
-        }
-
-        if(this.tiles[position.getX()][position.getY()] == null) {
-            isTileNull = true;
-        }
-
-        return !isOutOfBounds || !isTileNull;*/
-
         return (position.getX() >= 0 && position.getY() >= 0 && position.getX() < this.model.getSizeX() && position.getY() < this.model.getSizeY());
     }
 
@@ -112,13 +101,5 @@ public class RoomMapping {
 
     public final RoomModel getModel() {
         return this.model;
-    }
-
-    public boolean canGuestsPlaceStickies() {
-        return this.guestsCanPlaceStickies;
-    }
-
-    public void setGuestsPlaceStickies(boolean guestsCanPlaceStickies) {
-        this.guestsCanPlaceStickies = guestsCanPlaceStickies;
     }
 }
