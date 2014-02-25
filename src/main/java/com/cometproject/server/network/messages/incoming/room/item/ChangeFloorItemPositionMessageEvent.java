@@ -34,8 +34,8 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
 
                 TileInstance tile = client.getPlayer().getEntity().getRoom().getMapping().getTile(x, y);
 
-                if(!tile.canStack())
-                    return;
+                /*if(!tile.canStack())
+                    return;*/
 
                 float height = (float) tile.getStackHeight();
 
@@ -48,7 +48,6 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                         entity.markNeedsUpdate();
                     }
                 }
-
 
                 List<Position3D> tilesToUpdate = new FastList<>();
 
