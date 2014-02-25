@@ -12,7 +12,7 @@ public class TileInstance {
     private RoomEntityMovementNode movementNode;
     private RoomTileStatusType status;
 
-    private boolean canStack = true;
+    private boolean canStack;
 
     public TileInstance(RoomMapping mappingInstance, Position3D position) {
         this.mappingInstance = mappingInstance;
@@ -21,10 +21,10 @@ public class TileInstance {
     }
 
     public void reload() {
-        // reset stuff
         this.movementNode = RoomEntityMovementNode.OPEN;
         this.stackHeight = 0.0;
         this.status = RoomTileStatusType.NONE;
+        this.canStack = true;
 
         for(FloorItem item : mappingInstance.getRoom().getItems().getItemsOnSquare(this.position.getX(), this.position.getY())) {
             stackHeight += item.getHeight() + Math.round(item.getDefinition().getHeight());
