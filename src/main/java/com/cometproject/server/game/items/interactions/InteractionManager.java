@@ -12,6 +12,7 @@ import com.cometproject.server.game.items.interactions.items.*;
 import com.cometproject.server.game.items.interactions.wired.action.WiredActionMoveRotate;
 import com.cometproject.server.game.items.interactions.wired.action.WiredActionMoveUser;
 import com.cometproject.server.game.items.interactions.wired.action.WiredActionShowMessage;
+import com.cometproject.server.game.items.interactions.wired.action.WiredActionToggleFurni;
 import com.cometproject.server.game.items.interactions.wired.trigger.WiredTriggerEnterRoom;
 import com.cometproject.server.game.items.interactions.wired.trigger.WiredTriggerOnFurni;
 import com.cometproject.server.game.items.interactions.wired.trigger.WiredTriggerOnSay;
@@ -50,6 +51,7 @@ public class InteractionManager {
         this.interactions.put("wf_act_moverotate", new WiredActionMoveRotate());
         this.interactions.put("wf_act_saymsg", new WiredActionShowMessage());
         this.interactions.put("wf_act_moveuser", new WiredActionMoveUser());
+        this.interactions.put("wf_act_togglefurni", new WiredActionToggleFurni());
 
         // Wired Triggers
         this.interactions.put("wf_trg_onsay", new WiredTriggerOnSay());
@@ -82,7 +84,7 @@ public class InteractionManager {
         }
     }
 
-    public void onInteract(int state, RoomItem item, PlayerEntity avatar) {
+    public void onInteract(int state, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
         GameEngine.getLogger().debug("Interacted with: " + item.getDefinition().getInteraction());
 
         if(!this.isInteraction(item.getDefinition().getInteraction())) {
@@ -91,13 +93,19 @@ public class InteractionManager {
 
         Interactor action = this.getInteractions().get(item.getDefinition().getInteraction());
 
-        if(action.requiresRights() && !avatar.getRoom().getRights().hasRights(avatar.getPlayer().getId())) {
-            return;
+        if(!isWiredTriggered) {
+            if(action.requiresRights() && !avatar.getRoom().getRights().hasRights(avatar.getPlayer().getId())) {
+                return;
+            }
         }
 
-        if (action.onInteract(state, item, avatar)) {
+        if (action.onInteract(state, item, avatar, isWiredTriggered)) {
             // ??
         }
+    }
+
+    public void onInteract(int state, RoomItem item, PlayerEntity entity) {
+        this.onInteract(state, item, entity, false);
     }
 
     // Method not yet finished!

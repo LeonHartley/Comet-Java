@@ -20,7 +20,7 @@ public class WheelInteractor extends Interactor {
     }
 
     @Override
-    public boolean onInteract(int request, RoomItem item, PlayerEntity avatar) {
+    public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
         int wheelPos = new Random().nextInt(10) + 1;
 
         item.setExtraData(Integer.toString(wheelPos));

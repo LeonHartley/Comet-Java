@@ -40,6 +40,10 @@ public class TileInstance {
                     break;
             }
 
+            if(!item.getDefinition().canWalk) {
+                movementNode = RoomEntityMovementNode.CLOSED;
+            }
+
             if(item.getDefinition().canSit) {
                 status = RoomTileStatusType.SIT;
                 movementNode = RoomEntityMovementNode.END_OF_ROUTE;

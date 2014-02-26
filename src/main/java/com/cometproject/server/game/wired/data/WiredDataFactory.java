@@ -3,6 +3,7 @@ package com.cometproject.server.game.wired.data;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.wired.data.effects.TeleportToItemData;
+import com.cometproject.server.game.wired.data.effects.ToggleFurniData;
 import com.cometproject.server.game.wired.data.triggers.OnFurniData;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
@@ -75,6 +76,8 @@ public class WiredDataFactory {
             return new TeleportToItemData(instanceId, itemId, data);
         } else if(wiredType.equals("wf_trg_onfurni")) {
             return new OnFurniData(instanceId, itemId, data);
+        } else if(wiredType.equals("wf_act_togglefurni")) {
+            return new ToggleFurniData(instanceId, itemId, data);
         }
 
         return null;
@@ -82,6 +85,9 @@ public class WiredDataFactory {
 
     public static void save(WiredDataInstance data) {
         String saveData = "";
+
+        // TODO: Change the data up!!!!
+
         try {
             if(data.getType().equals("wf_act_moveuser")) {
                 TeleportToItemData inst = (TeleportToItemData) data;
@@ -102,6 +108,23 @@ public class WiredDataFactory {
                 }
             } else if(data.getType().equals("wf_trg_onfurni")) {
                 OnFurniData inst = (OnFurniData) data;
+
+                if(inst.getItems().size() != 0) {
+                    int last = inst.getItems().get(inst.getItems().size() - 1);
+                    saveData += inst.getDelay() + ":";
+
+                    for(int id : inst.getItems()) {
+                        if(id != last) {
+                            saveData += id + ",";
+                        } else {
+                            saveData += id;
+                        }
+                    }
+                } else {
+                    Comet.getServer().getStorage().execute("DELETE FROM items_wired_data WHERE id = " + data.getId());
+                }
+            } else if(data.getType().equals("wf_act_togglefurni")) {
+                ToggleFurniData inst = (ToggleFurniData) data;
 
                 if(inst.getItems().size() != 0) {
                     int last = inst.getItems().get(inst.getItems().size() - 1);

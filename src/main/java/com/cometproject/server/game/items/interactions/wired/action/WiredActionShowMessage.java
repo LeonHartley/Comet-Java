@@ -20,7 +20,7 @@ public class WiredActionShowMessage extends Interactor {
     }
 
     @Override
-    public boolean onInteract(int state, RoomItem item, PlayerEntity avatar) {
+    public boolean onInteract(int state, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
         Composer msg = new Composer(Composers.WiredEffectMessageComposer);
 
         msg.writeBoolean(false);

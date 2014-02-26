@@ -31,7 +31,7 @@ public class PressurePadInteraction extends Interactor {
     }
 
     @Override
-    public boolean onInteract(int request, RoomItem item, PlayerEntity avatar) {
+    public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
         return false;
     }
 
