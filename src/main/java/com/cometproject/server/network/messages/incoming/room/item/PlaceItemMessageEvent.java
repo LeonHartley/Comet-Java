@@ -61,12 +61,26 @@ public class PlaceItemMessageEvent implements IEvent {
 
                 InventoryItem item = client.getPlayer().getInventory().getFloorItem(id);
 
-                TileInstance tile = client.getPlayer().getEntity().getRoom().getMapping().getTile(x, y);
+                /*TileInstance tile = client.getPlayer().getEntity().getRoom().getMapping().getTile(x, y);
 
                 if(!tile.canStack())
                     return;
 
-                float height = (float) tile.getStackHeight();
+                float height = (float) tile.getStackHeight();*/
+
+                Room room = client.getPlayer().getEntity().getRoom();
+
+                float height = (float) client.getPlayer().getEntity().getRoom().getModel().getSquareHeight()[x][y];
+
+                for(FloorItem stackItem : room.getItems().getItemsOnSquare(x, y)) {
+                    if(item.getId() != stackItem.getId()) {
+                        if(stackItem.getDefinition().canStack) {
+                            height += stackItem.getHeight() + stackItem.getDefinition().getHeight();
+                        } else {
+                            return;
+                        }
+                    }
+                }
 
                 PreparedStatement query = Comet.getServer().getStorage().prepare("UPDATE items SET room_id = ?, x = ?, y = ?, z = ?, rot = ?, extra_data = ? WHERE id = ?;");
 
@@ -81,8 +95,6 @@ public class PlaceItemMessageEvent implements IEvent {
                 query.executeUpdate();
 
                 client.getPlayer().getInventory().removeFloorItem(id);
-
-                Room room = client.getPlayer().getEntity().getRoom();
 
                 FloorItem floorItem = room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
                 List<Position3D> tilesToUpdate = new FastList<>();
