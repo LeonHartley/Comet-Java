@@ -13,18 +13,20 @@ public class MonitorMessageHandler {
 
     public MonitorMessageHandler() {
         this.messageRegistry = new FastList<>();
+
         this.messageRegistry.add("hello");
+        this.messageRegistry.add("heartbeat");
     }
 
-    public boolean handle(String originalMessage, ChannelHandlerContext ctx) {
-        String messageHeader = originalMessage.split(":")[0];
+    public boolean handle(MonitorPacket message, ChannelHandlerContext ctx) {
+        String messageHeader = message.getName();
 
         if(!this.messageRegistry.contains(messageHeader)) {
             return false;
         }
 
         try {
-            MonitorMessageLibrary.request = originalMessage.replace(messageHeader + ":", "");
+            MonitorMessageLibrary.request = message.getMessage();
             MonitorMessageLibrary.ctx = ctx;
 
             Method method = MonitorMessageLibrary.class.getMethod(messageHeader);

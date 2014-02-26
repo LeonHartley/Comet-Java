@@ -1,6 +1,7 @@
 package com.cometproject.server.network.monitor;
 
 import com.cometproject.server.boot.Comet;
+import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -13,6 +14,7 @@ public class MonitorClientHandler extends ChannelInboundHandlerAdapter {
     private Logger log = Logger.getLogger(MonitorClientHandler.class.getName());
     private ByteBuf handshakeMessage;
     private MonitorMessageHandler messageHandler;
+    private Gson gson = new Gson();
 
     public MonitorClientHandler() {
         String message = "Comet Server [" + Comet.getBuild() + "]";
@@ -34,7 +36,8 @@ public class MonitorClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         ByteBuf buffer = (ByteBuf) msg;
-        String message = buffer.toString(Charset.defaultCharset());
+        String messageJson = buffer.toString(Charset.defaultCharset());
+        MonitorPacket message = gson.fromJson(messageJson, MonitorPacket.class);
 
         this.messageHandler.handle(message, ctx);
     }
