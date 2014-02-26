@@ -155,7 +155,7 @@ public class BallInteraction extends Interactor {
     public static final int KICK_POWER = 6;
 
     @Override
-    public boolean onInteract(int request, RoomItem item, PlayerEntity avatar) {
+    public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
         if (!(item instanceof FloorItem)) {
             return false;
         }

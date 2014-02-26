@@ -13,6 +13,7 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastList;
 
+import javax.xml.bind.SchemaOutputResolver;
 import java.util.List;
 
 public class ChangeFloorItemPositionMessageEvent implements IEvent {
@@ -32,12 +33,24 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
             try {
                 FloorItem item = room.getItems().getFloorItem(id);
 
-                TileInstance tile = client.getPlayer().getEntity().getRoom().getMapping().getTile(x, y);
+                /*TileInstance tile = client.getPlayer().getEntity().getRoom().getMapping().getTile(x, y);
 
-                /*if(!tile.canStack())
-                    return;*/
+                if(item.getX() == x && item.getY() == y) {
+                    // We just want to rotate the furniture, therefore we don't wanna change the height of the furni
+                    height -= item.getHeight() - Math.round(item.getDefinition().getHeight());
+                }*/
 
-                float height = (float) tile.getStackHeight();
+                float height = (float) client.getPlayer().getEntity().getRoom().getModel().getSquareHeight()[x][y];
+
+                for(FloorItem stackItem : room.getItems().getItemsOnSquare(x, y)) {
+                    if(item.getId() != stackItem.getId()) {
+                        if(stackItem.getDefinition().canStack) {
+                            height += stackItem.getDefinition().getHeight();
+                        } else {
+                            return;
+                        }
+                    }
+                }
 
                 List<GenericEntity> affectEntities = room.getEntities().getEntitiesAt(item.getX(), item.getY());
 

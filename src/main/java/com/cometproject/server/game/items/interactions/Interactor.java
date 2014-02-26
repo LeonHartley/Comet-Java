@@ -23,7 +23,7 @@ public abstract class Interactor {
      * GenericRoomItem: the interacting item
      * Avatar: the interacting avatar
      */
-    public abstract boolean onInteract(int request, RoomItem item, PlayerEntity avatar);
+    public abstract boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered);
 
     /*
      * GenericRoomItem: the item placed

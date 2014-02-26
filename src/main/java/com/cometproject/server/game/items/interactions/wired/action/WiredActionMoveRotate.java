@@ -23,7 +23,7 @@ public class WiredActionMoveRotate extends Interactor {
     }
 
     @Override
-    public boolean onInteract(int state, RoomItem item, PlayerEntity avatar) {
+    public boolean onInteract(int state, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
         // TODO: This - this is just a test to see if i had the effectId correct (9)
         // TODO: Move wiredeffectmessagecomposer to it's own class!!
 

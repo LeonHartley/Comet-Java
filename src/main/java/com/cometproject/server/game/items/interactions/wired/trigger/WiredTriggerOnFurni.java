@@ -8,7 +8,6 @@ import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.WiredStaticConfig;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
-import com.cometproject.server.game.wired.data.effects.TeleportToItemData;
 import com.cometproject.server.game.wired.data.triggers.OnFurniData;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
@@ -25,7 +24,7 @@ public class WiredTriggerOnFurni extends Interactor {
     }
 
     @Override
-    public boolean onInteract(int request, RoomItem item, PlayerEntity avatar) {
+    public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
         if (!(item instanceof FloorItem)) {
             return false;
         }
