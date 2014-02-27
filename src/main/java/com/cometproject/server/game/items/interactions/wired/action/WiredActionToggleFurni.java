@@ -8,7 +8,7 @@ import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.WiredStaticConfig;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
-import com.cometproject.server.game.wired.data.effects.ToggleFurniData;
+import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
@@ -31,7 +31,7 @@ public class WiredActionToggleFurni extends Interactor {
 
         FloorItem floorItem = (FloorItem) item;
 
-        ToggleFurniData data = (ToggleFurniData) WiredDataFactory.get(floorItem);
+        WiredDataInstance data = WiredDataFactory.get(floorItem);
 
         if(data == null) {
             GameEngine.getLogger().debug("Failed to find WiredDataInstance for item: " + item.getId());

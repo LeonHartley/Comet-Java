@@ -2,9 +2,6 @@ package com.cometproject.server.game.wired.data;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.items.FloorItem;
-import com.cometproject.server.game.wired.data.effects.TeleportToItemData;
-import com.cometproject.server.game.wired.data.effects.ToggleFurniData;
-import com.cometproject.server.game.wired.data.triggers.OnFurniData;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -72,76 +69,36 @@ public class WiredDataFactory {
     }
 
     private static WiredDataInstance buildInstance(String wiredType, int itemId, String data, int instanceId) {
-        if(wiredType.equals("wf_act_moveuser")) {
+        /*if(wiredType.equals("wf_act_moveuser")) {
             return new TeleportToItemData(instanceId, itemId, data);
         } else if(wiredType.equals("wf_trg_onfurni")) {
             return new OnFurniData(instanceId, itemId, data);
         } else if(wiredType.equals("wf_act_togglefurni")) {
             return new ToggleFurniData(instanceId, itemId, data);
-        }
+        }*/
 
-        return null;
+        return new WiredDataInstance(instanceId, itemId, data);
     }
 
     public static void save(WiredDataInstance data) {
         String saveData = "";
 
-        // TODO: Change the data up!!!!
+        if(data.getItems().size() != 0) {
+            int last = data.getItems().get(data.getItems().size() - 1);
+            saveData += data.getDelay() + ":";
 
-        try {
-            if(data.getType().equals("wf_act_moveuser")) {
-                TeleportToItemData inst = (TeleportToItemData) data;
-
-                if(inst.getItems().size() != 0) {
-                    int last = inst.getItems().get(inst.getItems().size() - 1);
-                    saveData += inst.getDelay() + ":";
-
-                    for(int id : inst.getItems()) {
-                        if(id != last) {
-                            saveData += id + ",";
-                        } else {
-                            saveData += id;
-                        }
-                    }
-                }else {
-                    Comet.getServer().getStorage().execute("DELETE FROM items_wired_data WHERE id = " + data.getId());
-                }
-            } else if(data.getType().equals("wf_trg_onfurni")) {
-                OnFurniData inst = (OnFurniData) data;
-
-                if(inst.getItems().size() != 0) {
-                    int last = inst.getItems().get(inst.getItems().size() - 1);
-                    saveData += inst.getDelay() + ":";
-
-                    for(int id : inst.getItems()) {
-                        if(id != last) {
-                            saveData += id + ",";
-                        } else {
-                            saveData += id;
-                        }
-                    }
+            for(int id : data.getItems()) {
+                if(id != last) {
+                    saveData += id + ",";
                 } else {
-                    Comet.getServer().getStorage().execute("DELETE FROM items_wired_data WHERE id = " + data.getId());
-                }
-            } else if(data.getType().equals("wf_act_togglefurni")) {
-                ToggleFurniData inst = (ToggleFurniData) data;
-
-                if(inst.getItems().size() != 0) {
-                    int last = inst.getItems().get(inst.getItems().size() - 1);
-                    saveData += inst.getDelay() + ":";
-
-                    for(int id : inst.getItems()) {
-                        if(id != last) {
-                            saveData += id + ",";
-                        } else {
-                            saveData += id;
-                        }
-                    }
-                } else {
-                    Comet.getServer().getStorage().execute("DELETE FROM items_wired_data WHERE id = " + data.getId());
+                    saveData += id;
                 }
             }
+        }else {
+            Comet.getServer().getStorage().execute("DELETE FROM items_wired_data WHERE id = " + data.getId());
+        }
 
+        try {
             PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE items_wired_data SET data = ? WHERE id = ?");
 
             statement.setString(1, saveData);
