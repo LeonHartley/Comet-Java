@@ -8,6 +8,8 @@ import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.WallItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.wired.data.WiredDataFactory;
+import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
@@ -178,7 +180,11 @@ public class ItemsComponent {
         }
 
         if(GameEngine.getWired().isWiredItem(item)) {
-            Comet.getServer().getStorage().execute("DELETE FROM items_wired_data WHERE id = " + item.getId());
+            WiredDataInstance instance = WiredDataFactory.get(item);
+            Comet.getServer().getStorage().execute("DELETE FROM items_wired_data WHERE id = " + instance.getId());
+            WiredDataFactory.removeInstance(item.getId());
+
+            instance.dispose();
         }
 
         for(Position3D tileToUpdate : tilesToUpdate) {

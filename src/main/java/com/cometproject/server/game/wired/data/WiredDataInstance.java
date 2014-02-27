@@ -9,7 +9,10 @@ public class WiredDataInstance {
     private int itemId;
 
     private int delay;
+    private int movement; // wf_act_moverotate
+    private int rotation; // wf_act_moverotate
     private List<Integer> items;
+    public int cycles; // incremented ever tick
 
     public WiredDataInstance(int id, int itemId, String data) {
         this.id = id;
@@ -20,13 +23,29 @@ public class WiredDataInstance {
         if(!data.isEmpty()) {
             String[] parse = data.split(":");
             this.delay = Integer.parseInt(parse[0]);
+            this.movement = Integer.parseInt(parse[1]);
+            this.rotation = Integer.parseInt(parse[2]);
 
-            for(String s : data.replace(this.delay + ":", "").split(",")) {
-                this.items.add(Integer.parseInt(s));
+            String[] items = data.replace(getDelay() + ":" + getMovement() + ":" + getRotation() + ":", "").split(",");
+
+            if(items.length > 0) {
+                for(String s : items) {
+                    if(!s.isEmpty())
+                        this.items.add(Integer.parseInt(s));
+                }
             }
         } else {
-            this.delay = 1; // 0.5s
+            this.movement = 0;
+            this.rotation = 0;
+            this.delay = 0;
         }
+
+        this.cycles = 0;
+    }
+
+    public void dispose() {
+        this.items.clear();
+        this.items = null;
     }
 
     public int getId() {
@@ -43,6 +62,22 @@ public class WiredDataInstance {
 
     public int getDelay() {
         return this.delay;
+    }
+
+    public int getRotation() {
+        return this.rotation;
+    }
+
+    public int getMovement() {
+        return this.movement;
+    }
+
+    public void setMovement(int movement) {
+        this.movement = movement;
+    }
+
+    public void setRotation(int rotation) {
+        this.rotation = rotation;
     }
 
     public void addItem(int id) {

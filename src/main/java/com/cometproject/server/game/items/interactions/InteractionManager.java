@@ -13,10 +13,7 @@ import com.cometproject.server.game.items.interactions.wired.action.WiredActionM
 import com.cometproject.server.game.items.interactions.wired.action.WiredActionMoveUser;
 import com.cometproject.server.game.items.interactions.wired.action.WiredActionShowMessage;
 import com.cometproject.server.game.items.interactions.wired.action.WiredActionToggleFurni;
-import com.cometproject.server.game.items.interactions.wired.trigger.WiredTriggerEnterRoom;
-import com.cometproject.server.game.items.interactions.wired.trigger.WiredTriggerOffFurni;
-import com.cometproject.server.game.items.interactions.wired.trigger.WiredTriggerOnFurni;
-import com.cometproject.server.game.items.interactions.wired.trigger.WiredTriggerOnSay;
+import com.cometproject.server.game.items.interactions.wired.trigger.*;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
@@ -59,6 +56,7 @@ public class InteractionManager {
         this.interactions.put("wf_trg_enterroom", new WiredTriggerEnterRoom());
         this.interactions.put("wf_trg_onfurni", new WiredTriggerOnFurni());
         this.interactions.put("wf_trg_offfurni", new WiredTriggerOffFurni());
+        this.interactions.put("wf_trg_timer", new WiredTriggerTimer());
 
         // Wired Conditions
 

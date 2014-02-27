@@ -2,13 +2,11 @@ package com.cometproject.server.game.wired;
 
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
+import com.cometproject.server.game.wired.effects.MoveRotateEffect;
 import com.cometproject.server.game.wired.effects.MoveUserEffect;
 import com.cometproject.server.game.wired.effects.SayMessageEffect;
 import com.cometproject.server.game.wired.effects.ToggleFurniEffect;
-import com.cometproject.server.game.wired.triggers.EnterRoomTrigger;
-import com.cometproject.server.game.wired.triggers.OffFurniTrigger;
-import com.cometproject.server.game.wired.triggers.OnFurniTrigger;
-import com.cometproject.server.game.wired.triggers.OnSayTrigger;
+import com.cometproject.server.game.wired.triggers.*;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.game.wired.types.WiredCondition;
 import com.cometproject.server.game.wired.types.WiredEffect;
@@ -29,10 +27,12 @@ public class WiredManager {
         this.triggers.put("wf_trg_enterroom", new EnterRoomTrigger());
         this.triggers.put("wf_trg_onfurni", new OnFurniTrigger());
         this.triggers.put("wf_trg_offfurni", new OffFurniTrigger());
+        this.triggers.put("wf_trg_timer", new TimerTrigger());
 
         this.effects.put("wf_act_saymsg", new SayMessageEffect());
         this.effects.put("wf_act_moveuser", new MoveUserEffect());
         this.effects.put("wf_act_togglefurni", new ToggleFurniEffect());
+        this.effects.put("wf_act_moverotate", new MoveRotateEffect());
 
         WiredDataFactory.init();
     }
@@ -62,6 +62,8 @@ public class WiredManager {
             return "wf_trg_onfurni";
         } else if(type == TriggerType.OFF_FURNI) {
             return "wf_trg_offfurni";
+        } else if(type == TriggerType.TIMER) {
+            return "wf_trg_timer";
         }
 
         return "wf_trg_unknown";
