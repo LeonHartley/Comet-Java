@@ -36,7 +36,6 @@ public class RoomCycle implements CometTask {
                 return;
             }
 
-
             synchronized(GameEngine.getRooms().getActiveRooms()) {
                 for(Room room : GameEngine.getRooms().getActiveRooms()) {
                     if(room == null) continue;

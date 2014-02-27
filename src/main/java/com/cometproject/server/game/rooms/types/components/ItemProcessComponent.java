@@ -8,6 +8,7 @@ import com.cometproject.server.game.items.interactions.football.BallInteraction;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
@@ -117,6 +118,12 @@ public class ItemProcessComponent implements CometTask {
                     if(!this.getRoom().getWired().isWiredSquare(item.getX(), item.getY())) {
                         this.getRoom().getWired().add(item.getX(), item.getY());
                     }
+                }
+            }
+
+            for(WiredSquare wiredSquare : this.getRoom().getWired().getSquares()) {
+                if(this.getRoom().getItems().getItemsOnSquare(wiredSquare.getX(), wiredSquare.getY()).size() < 1) {
+                    this.getRoom().getWired().disposeSquare(wiredSquare);
                 }
             }
 
