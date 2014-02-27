@@ -4,7 +4,7 @@ import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
-import com.cometproject.server.game.wired.data.triggers.OnFurniData;
+import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.game.wired.types.WiredTrigger;
 import com.cometproject.server.network.messages.types.Event;
@@ -26,7 +26,7 @@ public class OnFurniTrigger extends WiredTrigger{
         event.readString(); // don't need this
 
         int itemCount = event.readInt();
-        OnFurniData instance = (OnFurniData) WiredDataFactory.get(item);
+        WiredDataInstance instance = WiredDataFactory.get(item);
 
         if(instance == null) {
             return;

@@ -5,7 +5,7 @@ import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
-import com.cometproject.server.game.wired.data.effects.TeleportToItemData;
+import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.game.wired.types.WiredEffect;
 import com.cometproject.server.network.messages.types.Event;
 
@@ -17,7 +17,7 @@ public class MoveUserEffect extends WiredEffect {
 
     @Override
     public void onActivate(PlayerEntity avatar, FloorItem item) {
-        TeleportToItemData data = (TeleportToItemData) WiredDataFactory.get(item);
+        WiredDataInstance data = WiredDataFactory.get(item);
 
         if(data.getItems().size() == 0) {
             return;
@@ -49,7 +49,7 @@ public class MoveUserEffect extends WiredEffect {
         event.readString(); // don't need this
 
         int itemCount = event.readInt();
-        TeleportToItemData instance = (TeleportToItemData) WiredDataFactory.get(item);
+        WiredDataInstance instance = WiredDataFactory.get(item);
 
         if(instance == null) {
             return;

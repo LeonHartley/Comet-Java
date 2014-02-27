@@ -75,7 +75,7 @@ public class PlaceItemMessageEvent implements IEvent {
                 for(FloorItem stackItem : room.getItems().getItemsOnSquare(x, y)) {
                     if(item.getId() != stackItem.getId()) {
                         if(stackItem.getDefinition().canStack) {
-                            height += stackItem.getHeight() + stackItem.getDefinition().getHeight();
+                            height += stackItem.getDefinition().getHeight();
                         } else {
                             return;
                         }
