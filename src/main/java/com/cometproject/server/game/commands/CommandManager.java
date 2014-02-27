@@ -33,6 +33,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.push.name"), new PushCommand());
         this.commands.put(Locale.get("command.moonwalk.name"), new MoonwalkCommand());
         this.commands.put(Locale.get("command.enable.name"), new EnableCommand());
+        this.commands.put(Locale.get("command.empty.name"), new EmptyCommand());
     }
 
     public void loadStaffCommands() {
