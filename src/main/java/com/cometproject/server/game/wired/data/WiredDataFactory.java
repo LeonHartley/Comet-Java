@@ -19,6 +19,7 @@ public class WiredDataFactory {
 
     public static WiredDataInstance get(FloorItem item) {
         if(instances.containsKey(item.getId())) {
+            System.out.println("Instance was cached");
             return instances.get(item.getId());
         }
 
@@ -28,10 +29,12 @@ public class WiredDataFactory {
             if(data == null) {
                 WiredDataInstance instance = create(item.getDefinition().getInteraction(), item.getId(), "");
                 instances.put(item.getId(), instance);
+
+                System.out.println("Instance is new");
                 return instance;
             }
 
-            return buildInstance(data.getString("wired_type"), data.getInt("item_id"), data.getString("data"), data.getInt("id"));
+            return buildInstance(data.getInt("item_id"), data.getString("data"), data.getInt("id"));
         } catch(Exception e) {
             log.error("Error while attempting to load wired data for item: " + item.getId(), e);
         }
@@ -55,7 +58,7 @@ public class WiredDataFactory {
             if(keys.next()) {
                 int insertedId = keys.getInt(1);
 
-                WiredDataInstance instance = buildInstance(wiredType, itemId, data, insertedId);
+                WiredDataInstance instance = buildInstance(itemId, data, insertedId);
                 instances.put(itemId, instance);
 
                 return instance;
@@ -68,24 +71,15 @@ public class WiredDataFactory {
         return null;
     }
 
-    private static WiredDataInstance buildInstance(String wiredType, int itemId, String data, int instanceId) {
-        /*if(wiredType.equals("wf_act_moveuser")) {
-            return new TeleportToItemData(instanceId, itemId, data);
-        } else if(wiredType.equals("wf_trg_onfurni")) {
-            return new OnFurniData(instanceId, itemId, data);
-        } else if(wiredType.equals("wf_act_togglefurni")) {
-            return new ToggleFurniData(instanceId, itemId, data);
-        }*/
-
+    private static WiredDataInstance buildInstance(int itemId, String data, int instanceId) {
         return new WiredDataInstance(instanceId, itemId, data);
     }
 
     public static void save(WiredDataInstance data) {
-        String saveData = "";
+        String saveData = data.getDelay() + ":" + data.getMovement() + ":" + data.getRotation() + ":";
 
         if(data.getItems().size() != 0) {
             int last = data.getItems().get(data.getItems().size() - 1);
-            saveData += data.getDelay() + ":";
 
             for(int id : data.getItems()) {
                 if(id != last) {
@@ -94,8 +88,6 @@ public class WiredDataFactory {
                     saveData += id;
                 }
             }
-        }else {
-            Comet.getServer().getStorage().execute("DELETE FROM items_wired_data WHERE id = " + data.getId());
         }
 
         try {
@@ -108,5 +100,9 @@ public class WiredDataFactory {
         } catch(Exception e) {
             log.error("Error while updating wired data", e);
         }
+    }
+
+    public static void removeInstance(int id) {
+        instances.remove(id);
     }
 }

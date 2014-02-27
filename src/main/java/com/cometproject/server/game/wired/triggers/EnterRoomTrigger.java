@@ -7,14 +7,16 @@ import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.game.wired.types.WiredTrigger;
 import com.cometproject.server.network.messages.types.Event;
 
+import java.util.List;
+
 public class EnterRoomTrigger extends WiredTrigger {
     @Override
-    public void onTrigger(Object data, PlayerEntity user, WiredSquare wiredBlock) {
+    public void onTrigger(Object data, List<PlayerEntity> entities, WiredSquare wiredBlock) {
 
-        for(FloorItem item : user.getRoom().getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {
+        for(FloorItem item : entities.get(0).getRoom().getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {
             // TODO: check for condition.
             if(GameEngine.getWired().isWiredEffect(item)) {
-                GameEngine.getWired().getEffect(item.getDefinition().getInteraction()).onActivate(user, item);
+                GameEngine.getWired().getEffect(item.getDefinition().getInteraction()).onActivate(entities, item);
             }
         }
     }

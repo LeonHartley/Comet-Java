@@ -12,13 +12,13 @@ import com.cometproject.server.network.messages.types.Event;
 
 import java.util.List;
 
-public class OffFurniTrigger extends WiredTrigger {
+public class TimerTrigger extends WiredTrigger {
     @Override
     public void onTrigger(Object data, List<PlayerEntity> entities, WiredSquare wiredBlock) {
         Room room = entities.get(0).getRoom();
 
         for(FloorItem item : room.getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {
-            // TODO: check for condition.
+            // TODO: check for condition
             if(GameEngine.getWired().isWiredEffect(item)) {
                 GameEngine.getWired().getEffect(item.getDefinition().getInteraction()).onActivate(entities, item);
             }
@@ -27,20 +27,12 @@ public class OffFurniTrigger extends WiredTrigger {
 
     @Override
     public void onSave(Event event, FloorItem item) {
-        event.readInt(); // don't need this
-        event.readString(); // don't need this
+        event.readInt();
 
-        int itemCount = event.readInt();
         WiredDataInstance instance = WiredDataFactory.get(item);
 
         if(instance == null) {
             return;
-        }
-
-        instance.getItems().clear();
-
-        for(int i = 0; i < itemCount; i++) {
-            instance.addItem(event.readInt());
         }
 
         instance.setDelay(event.readInt());

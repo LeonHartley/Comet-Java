@@ -7,7 +7,6 @@ import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
-import com.sun.tools.javac.util.Convert;
 
 public class CataPageMessageComposer {
     public static Composer compose(CatalogPage page) {

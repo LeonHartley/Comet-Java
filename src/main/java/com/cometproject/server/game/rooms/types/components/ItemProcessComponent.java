@@ -6,9 +6,15 @@ import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.interactions.football.BallInteraction;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.entities.RoomEntityType;
+import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.wired.data.WiredDataFactory;
+import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.game.wired.misc.WiredSquare;
+import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
@@ -120,6 +126,7 @@ public class ItemProcessComponent implements CometTask {
                     }
                 }
             }
+
 
             for(WiredSquare wiredSquare : this.getRoom().getWired().getSquares()) {
                 if(this.getRoom().getItems().getItemsOnSquare(wiredSquare.getX(), wiredSquare.getY()).size() < 1) {

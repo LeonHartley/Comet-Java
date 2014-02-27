@@ -5,7 +5,9 @@ import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.network.messages.types.Event;
 
+import java.util.List;
+
 public abstract class WiredTrigger {
-    public abstract void onTrigger(Object data, PlayerEntity user, WiredSquare wiredBlock);
+    public abstract void onTrigger(Object data, List<PlayerEntity> entities, WiredSquare wiredBlock);
     public abstract void onSave(Event event, FloorItem item);
 }
