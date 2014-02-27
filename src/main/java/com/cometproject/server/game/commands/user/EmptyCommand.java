@@ -14,17 +14,13 @@ public class EmptyCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         for(Map.Entry<Integer, InventoryItem> floorItem : client.getPlayer().getInventory().getFloorItems().entrySet()) {
             client.getPlayer().getInventory().removeFloorItem(floorItem.getKey());
-
-            Comet.getServer().getStorage().execute("DELETE from items WHERE id = " + floorItem.getKey());
-            // TODO: more checks for wired, teleports etc (misc item data).
         }
 
         for(Map.Entry<Integer, InventoryItem> wallItem : client.getPlayer().getInventory().getWallItems().entrySet()) {
             client.getPlayer().getInventory().removeWallItem(wallItem.getKey());
-
-            Comet.getServer().getStorage().execute("DELETE from items WHERE id = " + wallItem.getKey());
-            // TODO: check if is moodlight, if so - delete data
         }
+
+        Comet.getServer().getStorage().execute("DELETE FROM items WHERE user_id = " + client.getPlayer().getId() + " AND room_id = 0");
 
         this.sendChat("Your inventory was cleared.", client);
         client.send(UpdateInventoryMessageComposer.compose());

@@ -6,6 +6,7 @@ import com.cometproject.server.game.wired.effects.MoveUserEffect;
 import com.cometproject.server.game.wired.effects.SayMessageEffect;
 import com.cometproject.server.game.wired.effects.ToggleFurniEffect;
 import com.cometproject.server.game.wired.triggers.EnterRoomTrigger;
+import com.cometproject.server.game.wired.triggers.OffFurniTrigger;
 import com.cometproject.server.game.wired.triggers.OnFurniTrigger;
 import com.cometproject.server.game.wired.triggers.OnSayTrigger;
 import com.cometproject.server.game.wired.types.TriggerType;
@@ -27,6 +28,7 @@ public class WiredManager {
         this.triggers.put("wf_trg_onsay", new OnSayTrigger());
         this.triggers.put("wf_trg_enterroom", new EnterRoomTrigger());
         this.triggers.put("wf_trg_onfurni", new OnFurniTrigger());
+        this.triggers.put("wf_trg_offfurni", new OffFurniTrigger());
 
         this.effects.put("wf_act_saymsg", new SayMessageEffect());
         this.effects.put("wf_act_moveuser", new MoveUserEffect());
@@ -58,6 +60,8 @@ public class WiredManager {
             return "wf_trg_enterroom";
         } else if(type == TriggerType.ON_FURNI) {
             return "wf_trg_onfurni";
+        } else if(type == TriggerType.OFF_FURNI) {
+            return "wf_trg_offfurni";
         }
 
         return "wf_trg_unknown";

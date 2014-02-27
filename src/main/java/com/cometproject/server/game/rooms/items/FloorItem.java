@@ -82,11 +82,13 @@ public class FloorItem extends RoomItem {
 
             int i = Integer.parseInt(this.getExtraData()) + 1;
 
-            if(i > this.getDefinition().getInteractionCycleCount()) {
+            if(i > (this.getDefinition().getInteractionCycleCount() - 1)) { // take one because count starts at 0 (0, 1) = count(2)
                 this.setExtraData("0");
             }  else {
                 this.setExtraData(i + "");
             }
+
+            System.out.println("ED: " + this.extraData + " Count: " + this.getDefinition().getInteractionCycleCount());
             return true;
         } else {
             return false;

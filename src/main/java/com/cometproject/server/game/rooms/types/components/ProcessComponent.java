@@ -189,7 +189,9 @@ public class ProcessComponent implements CometTask {
             for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
                 item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 0);
 
-                // Wired trigger: off furni
+                if(this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
+                    // idk what to do here for this trigger but ya
+                }
             }
 
             if(entity.hasStatus("sit")) {

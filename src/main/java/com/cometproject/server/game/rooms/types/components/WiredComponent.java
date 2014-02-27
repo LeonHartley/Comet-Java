@@ -81,6 +81,14 @@ public class WiredComponent {
         }
     }
 
+    public void disposeSquare(WiredSquare square) {
+        this.squares.remove(square);
+    }
+
+    public FastList<WiredSquare> getSquares() {
+        return this.squares;
+    }
+
     public void add(int x, int y) {
         this.squares.add(new WiredSquare(x, y));
     }
