@@ -7,6 +7,7 @@ import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import com.sun.tools.javac.util.Convert;
 
 public class CataPageMessageComposer {
     public static Composer compose(CatalogPage page) {
@@ -22,17 +23,19 @@ public class CataPageMessageComposer {
             msg.writeString(page.getTeaser());
             msg.writeString("");
             msg.writeInt(11);
-            msg.writeString(page.getSpecial());
             msg.writeString(page.getPageText1());
-            msg.writeString("");
             msg.writeString(page.getPageText2());
+            msg.writeString("");
+            msg.writeString("How to get " + CometSettings.hotelName.split(" ")[0] + " Credits");
+            msg.writeString("You can get " + CometSettings.hotelName.split(" ")[0] + " Credits via Prepaid Cards, Home Phone, Credit Card, Mobile, completing offers and more! "
+                    + (char)13 + (char)10 + (char)13 + (char)10 + "To redeem your " + CometSettings.hotelName.split(" ")[0] + " Credits, enter your voucher code below.");
+
             msg.writeString(page.getPageTextDetails());
-            msg.writeString(page.getPageTextTeaser());
-            msg.writeString("Rares");
+            msg.writeString("");
             msg.writeString("#FEFEFE");
             msg.writeString("#FEFEFE");
-            msg.writeString("Click here for more info..");
-            msg.writeString("magic.credits");
+            msg.writeString("Other ways to get credits >");
+            msg.writeString("credits");
 
         } else if(page.getTemplate().equals("spaces")) {
             msg.writeString("spaces_new");
