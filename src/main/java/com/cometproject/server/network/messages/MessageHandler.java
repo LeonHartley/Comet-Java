@@ -39,6 +39,7 @@ import com.cometproject.server.network.messages.incoming.room.moderation.KickUse
 import com.cometproject.server.network.messages.incoming.room.moderation.RemoveAllRightsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.settings.LoadRoomInfoMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.settings.SaveRoomDataMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.settings.UpdatePapersMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.settings.UsersWithRightsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
@@ -162,6 +163,7 @@ public class MessageHandler {
         this.getMessages().put(Events.StopTypingMessageEvent, new StopTypingMessageEvent());
         this.getMessages().put(Events.LookToMessageEvent, new LookToMessageEvent());
         this.getMessages().put(Events.UserBadgesMessageEvent, new UserBadgesMessageEvent());
+        this.getMessages().put(Events.UpdatePapersMessageEvent, new UpdatePapersMessageEvent());
     }
 
     public void registerRoomTrade() {
