@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Random;
 
 public class ToggleFurniEffect extends WiredEffect {
-    private Random random = new Random();
     @Override
     public void onActivate(List<PlayerEntity> entities, FloorItem item) {
         WiredDataInstance data = WiredDataFactory.get(item);

@@ -19,7 +19,6 @@ public class WiredDataFactory {
 
     public static WiredDataInstance get(FloorItem item) {
         if(instances.containsKey(item.getId())) {
-            System.out.println("Instance was cached");
             return instances.get(item.getId());
         }
 
@@ -29,16 +28,16 @@ public class WiredDataFactory {
             if(data == null) {
                 WiredDataInstance instance = create(item.getDefinition().getInteraction(), item.getId(), "");
                 instances.put(item.getId(), instance);
-
-                System.out.println("Instance is new");
                 return instance;
             }
 
-            return buildInstance(data.getInt("item_id"), data.getString("data"), data.getInt("id"));
+            WiredDataInstance instance = buildInstance(data.getInt("item_id"), data.getString("data"), data.getInt("id"));
+            instances.put(instance.getItemId(), instance);
+
+            return instance;
         } catch(Exception e) {
             log.error("Error while attempting to load wired data for item: " + item.getId(), e);
         }
-
 
         return null;
     }

@@ -24,9 +24,11 @@ public class DiceInteraction extends Interactor {
 
     @Override
     public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
-        if (!item.touching(avatar) && !isWiredTriggered) {
-            avatar.moveTo(item.getX(), item.getY());
-            return false;
+        if(!isWiredTriggered) {
+            if (!item.touching(avatar)) {
+                avatar.moveTo(item.getX(), item.getY());
+                return false;
+            }
         }
 
         if (request >= 0) {

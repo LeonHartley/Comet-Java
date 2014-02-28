@@ -37,27 +37,44 @@ public class MoveRotateEffect extends WiredEffect {
             Position3D newPosition = handleMovement(new Position3D(itemInstance.getX(), itemInstance.getY(), itemInstance.getHeight()), data.getMovement());
             int rotation = handleRotation(itemInstance.getRotation(), data.getRotation());
 
-            float height = (float) room.getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()];
+            float height = 0;
 
-            for(FloorItem stackItem : room.getItems().getItemsOnSquare(newPosition.getX(), newPosition.getY())) {
-                if(item.getId() != stackItem.getId()) {
-                    if(stackItem.getDefinition().canStack) {
-                        height += stackItem.getDefinition().getHeight();
-                    } else {
-                        isCancelled = true;
-                        break;
+            boolean isSameTile = true;
+            if(previousPosition.getX() != newPosition.getX() || previousPosition.getY() != newPosition.getY()) {
+                isSameTile = false;
+                try {
+                    height += (float) room.getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()];
+                    for(FloorItem stackItem : room.getItems().getItemsOnSquare(newPosition.getX(), newPosition.getY())) {
+                        if(item.getId() != stackItem.getId()) {
+                            if(stackItem.getDefinition().canStack) {
+                                height += stackItem.getDefinition().getHeight();
+                            } else {
+                                isCancelled = true;
+                                break;
+                            }
+                        }
                     }
+                } catch(Exception e) {
+                    isCancelled = true;
                 }
             }
 
             if(!room.getMapping().isValidStep(previousPosition, newPosition, false)) {
                 // We can't move here!
                 isCancelled = true;
-            }
+            };
 
             if(!isCancelled) {
                 for(AvatarEntity entity : room.getEntities().getEntitiesAt(previousPosition.getX(), previousPosition.getY())) {
-                    if(entity.hasStatus("sit")) {
+                    if(entity.hasStatus("sit") && !isSameTile) {
+                        entity.removeStatus("sit");
+                    }
+
+                    entity.markNeedsUpdate();
+                }
+
+                for(AvatarEntity entity : room.getEntities().getEntitiesAt(newPosition.getX(), newPosition.getY())) {
+                    if(entity.hasStatus("sit") && !isSameTile) {
                         entity.removeStatus("sit");
                     }
 
@@ -76,6 +93,8 @@ public class MoveRotateEffect extends WiredEffect {
                                 previousPosition,
                                 newPosition, itemInstance.getId(), 0, itemInstance.getId())
                 );*/
+            } else {
+                System.out.println("IZ CANCELLED");
             }
         }
     }

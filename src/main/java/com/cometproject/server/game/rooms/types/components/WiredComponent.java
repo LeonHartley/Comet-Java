@@ -106,7 +106,6 @@ public class WiredComponent {
                         }
 
                         data.cycles++;
-                        System.out.println("Cycles: " + data.cycles);
                     }
                 }
             }

@@ -53,6 +53,10 @@ public class RoomMapping {
     }
 
     public boolean isValidStep(Position3D from, Position3D to, boolean lastStep) {
+        if(from.getX() == to.getX() && from.getY() == to.getY()) {
+            return true;
+        }
+
         if(!isValidPosition(to) || (this.model.getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID) || positionHasUser(to)) {
             return false;
         }
