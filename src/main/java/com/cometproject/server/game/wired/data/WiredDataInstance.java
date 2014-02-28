@@ -28,16 +28,18 @@ public class WiredDataInstance {
 
             String[] items = data.replace(getDelay() + ":" + getMovement() + ":" + getRotation() + ":", "").split(",");
 
-            if(items.length > 0) {
-                for(String s : items) {
-                    if(!s.isEmpty())
-                        this.items.add(Integer.parseInt(s));
+            if(!items[0].equals("")) {
+                if(items.length > 0) {
+                    for(String s : items) {
+                        if(!s.isEmpty())
+                            this.items.add(Integer.parseInt(s));
+                    }
                 }
             }
         } else {
             this.movement = 0;
             this.rotation = 0;
-            this.delay = 0;
+            this.delay = 1;
         }
 
         this.cycles = 0;
