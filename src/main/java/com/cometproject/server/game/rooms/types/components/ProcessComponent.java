@@ -69,7 +69,7 @@ public class ProcessComponent implements CometTask {
         }
 
         // Dispose the room if it has been idle for a certain amount of time
-        if (this.getRoom().getEntities().count() == 0) {
+        if (this.getRoom().getEntities().playerCount() == 0) {
             if (this.disposeCycles >= ROOM_DISPOSE_TIME) {
                 this.getRoom().dispose();
                 return;
@@ -303,7 +303,7 @@ public class ProcessComponent implements CometTask {
             this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), "I | Leon", 0, 1));
         }
 
-        log.debug("Processed bot entity: " + entity.getUsername() + ", " + entity.getVirtualId());
+        //log.debug("Processed bot entity: " + entity.getUsername() + ", " + entity.getVirtualId());
     }
 
     protected void processPetEntity(PetEntity entity) {

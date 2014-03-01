@@ -154,7 +154,10 @@ public class EntityComponent {
     }
 
     protected int getFreeId() {
-        return this.entityIdGenerator.incrementAndGet();
+        int id = this.entityIdGenerator.incrementAndGet();
+
+        System.out.println(id);
+        return id;
     }
 
     public int count() {

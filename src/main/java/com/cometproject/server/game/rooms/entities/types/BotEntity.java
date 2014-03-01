@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.entities.types;
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.types.Composer;
 
@@ -62,7 +63,7 @@ public class BotEntity extends GenericEntity {
 
     @Override
     public void compose(Composer msg) {
-        msg.writeInt(this.getVirtualId());
+        msg.writeInt(((PlayerBotData)data).getBotId());
         msg.writeString(this.getUsername());
         msg.writeString(this.getMotto());
         msg.writeString(this.getFigure());
@@ -71,9 +72,10 @@ public class BotEntity extends GenericEntity {
         msg.writeInt(this.getPosition().getX());
         msg.writeInt(this.getPosition().getY());
         msg.writeDouble(this.getPosition().getZ());
+        msg.writeInt(0);
 
         msg.writeInt(4);
-        msg.writeInt(3);
+        //msg.writeInt(3);
 
         msg.writeString(this.getGender().toLowerCase());
         msg.writeInt(this.getRoom().getData().getOwnerId());
