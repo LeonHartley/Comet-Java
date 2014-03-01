@@ -22,8 +22,8 @@ public class SessionManager {
     }
 
     public boolean remove(Channel channel) {
-        if(this.sessions.containsKey(channel.attr(NetworkEngine.UNIQUE_ID_KEY))) {
-            this.sessions.remove(channel.attr(NetworkEngine.UNIQUE_ID_KEY));
+        if(this.sessions.containsKey(channel.attr(NetworkEngine.UNIQUE_ID_KEY).get())) {
+            this.sessions.remove(channel.attr(NetworkEngine.UNIQUE_ID_KEY).get());
             return true;
         }
 

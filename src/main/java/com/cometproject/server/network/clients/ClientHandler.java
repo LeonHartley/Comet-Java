@@ -32,7 +32,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
         } catch(Exception e) { }
 
         Comet.getServer().getNetwork().getSessions().remove(ctx.channel());
-        //log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] disconnected");
+        log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] disconnected");
 
         ctx.fireChannelInactive();
     }
