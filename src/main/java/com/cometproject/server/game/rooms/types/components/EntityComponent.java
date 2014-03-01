@@ -4,10 +4,12 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.RoomEntityType;
+import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomModel;
 import com.cometproject.server.network.messages.types.Composer;
+import javolution.util.FastList;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -76,9 +78,11 @@ public class EntityComponent {
 
             this.playerEntityToPlayerId.put(playerEntity.getVirtualId(), playerEntity.getPlayerId());
             this.entities.put(playerEntity.getVirtualId(), playerEntity);
+            System.out.println("PlayerEntityId: " + playerEntity.getVirtualId());
         } else {
             // Handle all other entity types which just rely on a virtual id
             this.entities.put(entity.getVirtualId(), entity);
+            System.out.println("BotEntityId: " + entity.getVirtualId());
         }
     }
 
@@ -137,7 +141,17 @@ public class EntityComponent {
         return (PlayerEntity) genericEntity;
     }
 
-    // TODO: get bot / pet entity
+    public List<BotEntity> getBotEntities() {
+        List<BotEntity> entities = new FastList<>();
+
+        for(GenericEntity entity : this.entities.values()) {
+            if(entity.getEntityType() == RoomEntityType.BOT) {
+                entities.add((BotEntity)entity);
+            }
+        }
+
+        return entities;
+    }
 
     protected int getFreeId() {
         return this.entityIdGenerator.incrementAndGet();

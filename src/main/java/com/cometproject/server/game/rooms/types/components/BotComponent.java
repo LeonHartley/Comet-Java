@@ -28,7 +28,7 @@ public class BotComponent {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM bots WHERE room_id = " + this.room.getId());
 
             while(data.next()) {
-                BotData botData = new PlayerBotData(data.getString("name"), data.getString("figure"), data.getString("motto"), data.getString("gender"));
+                BotData botData = new PlayerBotData(data.getString("name"), data.getString("motto"), data.getString("figure"), data.getString("gender"));
                 BotEntity botEntity = new BotEntity(botData, room.getEntities().getFreeId(), new Position3D(data.getInt("x"), data.getInt("y"), data.getInt("z")), 1, 1, room);
 
                 this.getRoom().getEntities().addEntity(botEntity);
@@ -41,7 +41,7 @@ public class BotComponent {
     public BotEntity addBot(InventoryBot bot, int x, int y) {
         int virtualId = room.getEntities().getFreeId();
 
-        BotData botData = new PlayerBotData(bot.getName(), bot.getMotto(), bot.getMotto(), bot.getGender());
+        BotData botData = new PlayerBotData(bot.getName(), bot.getMotto(), bot.getFigure(), bot.getGender());
         BotEntity botEntity = new BotEntity(botData, virtualId, new Position3D(x, y, 0), 1, 1, room);
 
         this.getRoom().getEntities().addEntity(botEntity);
