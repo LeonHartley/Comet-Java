@@ -48,9 +48,9 @@ public class Room {
         this.wired = new WiredComponent(this);
         this.chatlog = new ChatlogComponent(this);
         this.trade = new TradeComponent(this);
-        this.bots = new BotComponent(this);
         this.game = new GameComponent(this);
         this.entities = new EntityComponent(this, this.model);
+        this.bots = new BotComponent(this);
 
         // Generate the mapping last
         this.mapping.init();

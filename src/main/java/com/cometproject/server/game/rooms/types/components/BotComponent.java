@@ -14,7 +14,6 @@ import java.util.Map;
 public class BotComponent {
     private Room room;
     private Map<Integer, Bot> bots;
-    private int virtualIdCounter = 0;
     private Logger log;
 
     public BotComponent(Room room) {
@@ -44,8 +43,7 @@ public class BotComponent {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM bots WHERE room_id = " + this.room.getId());
 
             while(data.next()) {
-                virtualIdCounter--;
-                this.bots.put(data.getInt("id"), new PlayerBot(virtualIdCounter, data, this.getRoom()));
+                this.bots.put(data.getInt("id"), new PlayerBot(room.getEntities().getFreeId(), data, this.getRoom()));
             }
         } catch(Exception e) {
             room.log.error("Error while deploying bots", e);
@@ -53,12 +51,15 @@ public class BotComponent {
     }
 
     public void addBot(InventoryBot bot, int x, int y) {
-        virtualIdCounter--;
-        this.bots.put(bot.getId(), new PlayerBot(virtualIdCounter, bot, x, y, this.getRoom()));
+        this.bots.put(bot.getId(), new PlayerBot(room.getEntities().getFreeId(), bot, x, y, this.getRoom()));
     }
 
     public Bot getBot(int id) {
         return this.bots.get(id);
+    }
+
+    public Map<Integer, Bot> getBots() {
+        return this.bots;
     }
 
     public void dispose() {

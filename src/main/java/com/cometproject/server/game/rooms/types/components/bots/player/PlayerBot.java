@@ -26,8 +26,6 @@ public class PlayerBot extends Bot {
 
     @Override
     public void tick() {
-        log.debug("Tick: " + tickCount);
-
         if(walkTimer >= 20) {
             // Walk!
             walkTimer = 0;
@@ -37,7 +35,7 @@ public class PlayerBot extends Bot {
             int chance = RandomInteger.getRandom(1, 3);
 
             if(chance == 1) {
-                this.getRoom().getEntities().broadcast(ShoutMessageComposer.compose(this.getVirtualId(), (tickCount % 2 == 0) ? "Hi!" : "I | Leon", 0, 1));
+                this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(this.getId(), (tickCount % 2 == 0) ? "Hi!" : "I | Leon", 0, 1));
             }
 
             talkTimer = 0;

@@ -7,6 +7,7 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.bots.PlaceBotMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomPanelMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
@@ -44,8 +45,10 @@ public class AddUserToRoomMessageEvent implements IEvent {
         client.send(RoomPanelMessageComposer.compose(room.getId(), room.getRights().hasRights(client.getPlayer().getId()) || room.getData().getOwnerId() == client.getPlayer().getId()));
         client.send(RoomDataMessageComposer.compose(room));
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
+        room.getEntities().broadcastMessage(AvatarsMessageComposer.compose(room));
+        room.getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(room));
+
+        client.send(PlaceBotMessageComposer.compose(room.getBots().getBots().values()));
 
         for(GenericEntity av : client.getPlayer().getEntity().getRoom().getEntities().getEntitiesCollection().values()) {
             if(av.getDanceId() != 0) {
