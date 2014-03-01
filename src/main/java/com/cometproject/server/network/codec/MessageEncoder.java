@@ -18,7 +18,7 @@ public class MessageEncoder extends MessageToMessageEncoder<Composer> {
             ByteBuf buf = msg.get().duplicate().retain();
 
             out.add(buf);
-            buf.release();
+            //buf.release();
             ctx.flush();
             log.debug("Composed message: " + Composers.valueOfId(msg.getId()));
         } catch(Exception e) {
