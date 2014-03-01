@@ -36,6 +36,7 @@ public class PurchaseItemMessageEvent implements IEvent {
 
             if(amount > 1 && !item.allowOffer()) {
                 client.send(AlertMessageComposer.compose(Locale.get("catalog.error.nooffer")));
+
                 return;
             }
 
@@ -55,6 +56,7 @@ public class PurchaseItemMessageEvent implements IEvent {
 
             if(client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getPoints() < totalCostPoints) {
                 GameEngine.getLogger().warn("Player with ID: " + client.getPlayer().getId() + " tried to purchase item with ID: " + item.getId() + " with the incorrect amount of credits or points.");
+                client.send(AlertMessageComposer.compose(Locale.get("catalog.error.notenough")));
                 return;
             }
 
