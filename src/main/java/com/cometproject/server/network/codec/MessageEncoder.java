@@ -2,6 +2,7 @@ package com.cometproject.server.network.codec;
 
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import org.apache.log4j.Logger;
@@ -13,13 +14,15 @@ public class MessageEncoder extends MessageToMessageEncoder<Composer> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, Composer msg, List<Object> out) throws Exception {
-       try {
-            out.add(msg.get().duplicate().retain());
+        try {
+            ByteBuf buf = msg.get().duplicate().retain();
 
+            out.add(buf);
+            buf.release();
             ctx.flush();
             log.debug("Composed message: " + Composers.valueOfId(msg.getId()));
         } catch(Exception e) {
-            log.error("Failed to encode message: ", e);
+        log.error("Failed to encode message: ", e);
         }
     }
 }
