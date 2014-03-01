@@ -21,7 +21,9 @@ import java.net.InetSocketAddress;
 import java.util.UUID;
 
 public class NetworkEngine {
-    private static final boolean USE_MONITOR_SERVER = true;
+    // If server is offline, disable monitor server
+    private static final boolean USE_MONITOR_SERVER = false;
+
     private static final boolean RESOURCE_LEAK_DETECTOR = false; // for testing with netty 4...
 
     public static final AttributeKey<Session> SESSION_ATTRIBUTE_KEY = AttributeKey.valueOf("Session.attr");

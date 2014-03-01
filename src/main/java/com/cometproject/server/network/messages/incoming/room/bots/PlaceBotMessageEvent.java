@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.bots.PlaceBotMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -35,6 +36,8 @@ public class PlaceBotMessageEvent implements IEvent {
 
         BotEntity botEntity = room.getBots().addBot(bot, x, y);
         client.getPlayer().getBots().remove(botId);
+
+        room.getEntities().broadcastMessage(AvatarsMessageComposer.compose(botEntity));
         client.send(UpdateInventoryMessageComposer.compose());
     }
 }

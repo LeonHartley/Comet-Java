@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.engine;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -47,6 +48,10 @@ public class AddUserToRoomMessageEvent implements IEvent {
 
         room.getEntities().broadcastMessage(AvatarsMessageComposer.compose(room));
         room.getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(room));
+
+        for(BotEntity entity : room.getEntities().getBotEntities()) {
+            client.send(AvatarsMessageComposer.compose(entity));
+        }
 
         for(GenericEntity av : client.getPlayer().getEntity().getRoom().getEntities().getEntitiesCollection().values()) {
             if(av.getDanceId() != 0) {

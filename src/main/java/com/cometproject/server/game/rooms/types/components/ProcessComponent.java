@@ -13,7 +13,9 @@ import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
 import com.cometproject.server.tasks.CometTask;
+import com.cometproject.server.utilities.RandomInteger;
 import javolution.util.FastList;
 import org.apache.log4j.Logger;
 
@@ -295,7 +297,13 @@ public class ProcessComponent implements CometTask {
     }
 
     protected void processBotEntity(BotEntity entity) {
-        System.out.println("Processed bot entity: " + entity.getUsername() + ", " + entity.getVirtualId());
+        int chance = RandomInteger.getRandom(1, 5);
+
+        if(chance == 1) {
+            this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), "I | Leon", 0, 1));
+        }
+
+        log.debug("Processed bot entity: " + entity.getUsername() + ", " + entity.getVirtualId());
     }
 
     protected void processPetEntity(PetEntity entity) {
