@@ -12,19 +12,16 @@ import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessa
 public class KickCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (params.length < 1)
-        {
+        if (params.length < 1) {
             return;
         }
         String username = params[1];
         Session PlayerToKick = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
-        if (PlayerToKick.getPlayer().getEntity().getUsername() == client.getPlayer().getEntity().getUsername())
-        {
+        if (PlayerToKick.getPlayer().getEntity().getUsername() == client.getPlayer().getEntity().getUsername()) {
             client.send(AdvancedAlertMessageComposer.compose("Command error", "You can't kick yourself"));
             return;
         }
-        if (PlayerToKick.getPlayer().getPermissions().hasPermission("user_unkickable"))
-        {
+        if (PlayerToKick.getPlayer().getPermissions().hasPermission("user_unkickable")) {
             client.send(AdvancedAlertMessageComposer.compose("Command error", "You can't kicked this user"));
             return;
         }
