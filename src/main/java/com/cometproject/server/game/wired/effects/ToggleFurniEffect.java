@@ -17,11 +17,15 @@ public class ToggleFurniEffect extends WiredEffect {
     public void onActivate(List<PlayerEntity> entities, FloorItem item) {
         WiredDataInstance data = WiredDataFactory.get(item);
 
-        if(data.getItems().size() == 0) {
+        if(data == null || data.getItems().size() == 0) {
             return;
         }
 
         Room room = entities.get(0).getRoom();
+
+        if(room == null) {
+            return;
+        }
 
         for(int itemId : data.getItems()) {
             FloorItem itemInstance = room.getItems().getFloorItem(itemId);
