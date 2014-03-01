@@ -46,6 +46,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.force_gc.name"), new ForceGCCommand());
         this.commands.put(Locale.get("command.reload_permissions.name"), new ReloadPermissionsCommand());
         this.commands.put(Locale.get("command.ban.name"), new BanCommand());
+        this.commands.put(Locale.get("command.kick.name"), new KickCommand());
     }
 
     public boolean isCommand(String message) {
