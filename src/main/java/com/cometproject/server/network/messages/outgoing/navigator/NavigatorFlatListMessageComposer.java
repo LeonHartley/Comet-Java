@@ -16,12 +16,16 @@ public class NavigatorFlatListMessageComposer {
         Composer msg = new Composer(Composers.NavigatorFlatListMessageComposer);
         msg.writeInt(mode);
         msg.writeString(query);
-        msg.writeInt(activeRooms.size());
+        msg.writeInt(activeRooms.size() > 50 ? 50 : activeRooms.size());
 
         Collection<Room> rooms = new FastList<>();
 
+        int i = 0;
         for(Room room : activeRooms) {
+            if(i >= 50) break;
             rooms.add(room);
+
+            i++;
         }
 
         Collections.sort((List<Room>) rooms, new Comparator<Room>() {
