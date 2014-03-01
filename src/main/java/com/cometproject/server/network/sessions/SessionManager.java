@@ -69,7 +69,7 @@ public class SessionManager {
     public Session getByPlayerUsername(String username) {
         for(Map.Entry<UUID, Session> session : this.sessions.entrySet()) {
             if(session.getValue().getPlayer() != null && session.getValue().getPlayer().getData() != null) {
-                if(session.getValue().getPlayer().getData().getUsername().equals(username)) {
+                if(session.getValue().getPlayer().getData().getUsername().toLowerCase().equals(username.toLowerCase())) {
                     return session.getValue();
                 }
             }
