@@ -90,9 +90,6 @@ public class Room {
     }
 
     public void tick() {
-        if(bots != null)
-            this.bots.tick();
-
         if(wired != null)
             this.wired.tick();
     }

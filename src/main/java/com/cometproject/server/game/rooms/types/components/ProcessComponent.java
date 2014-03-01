@@ -293,7 +293,7 @@ public class ProcessComponent implements CometTask {
     }
 
     protected void processBotEntity(BotEntity entity) {
-
+        System.out.println("Processed bot entity: " + entity);
     }
 
     protected void processPetEntity(PetEntity entity) {
