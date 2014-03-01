@@ -66,20 +66,23 @@ public class BotEntity extends GenericEntity {
         msg.writeString(this.getUsername());
         msg.writeString(this.getMotto());
         msg.writeString(this.getFigure());
-        msg.writeInt(this.getVirtualId());
+        msg.writeInt(this.getVirtualId());//vid
 
         msg.writeInt(this.getPosition().getX());
         msg.writeInt(this.getPosition().getY());
         msg.writeDouble(this.getPosition().getZ());
 
-        msg.writeInt(4); // 2 = user 4 = bot
-        msg.writeInt(3); // 1 = user 2 = pet 3 = bot
+        msg.writeInt(4);
+        msg.writeInt(3);
 
         msg.writeString(this.getGender().toLowerCase());
-        msg.writeInt(0);
-        msg.writeInt(0);
-        msg.writeString("");
-        msg.writeString("");
-        msg.writeInt(0);
+        msg.writeInt(this.getRoom().getData().getOwnerId());
+        msg.writeString(this.getRoom().getData().getOwner());
+
+        msg.writeInt(4);
+        msg.writeShort(1);
+        msg.writeShort(2);
+        msg.writeShort(5);
+        msg.writeShort(4);
     }
 }

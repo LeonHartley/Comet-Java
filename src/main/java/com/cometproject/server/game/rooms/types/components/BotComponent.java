@@ -17,11 +17,9 @@ import java.util.Map;
 
 public class BotComponent {
     private Room room;
-    private Map<Integer, Bot> bots;
 
     public BotComponent(Room room) {
         this.room = room;
-        this.bots = new FastMap<>();
         this.load();
     }
 
@@ -40,28 +38,17 @@ public class BotComponent {
         }
     }
 
-    public void addBot(InventoryBot bot, int x, int y) {
+    public BotEntity addBot(InventoryBot bot, int x, int y) {
         int virtualId = room.getEntities().getFreeId();
 
         BotData botData = new PlayerBotData(bot.getName(), bot.getMotto(), bot.getMotto(), bot.getGender());
         BotEntity botEntity = new BotEntity(botData, virtualId, new Position3D(x, y, 0), 1, 1, room);
 
         this.getRoom().getEntities().addEntity(botEntity);
-        this.getRoom().getEntities().getEntity(virtualId).markNeedsUpdate();
-    }
-
-    public Bot getBot(int id) {
-        return this.bots.get(id);
-    }
-
-    public Map<Integer, Bot> getBots() {
-        return this.bots;
+        return botEntity;
     }
 
     public void dispose() {
-        this.bots.clear();
-        this.bots = null;
-
         this.room = null;
     }
 

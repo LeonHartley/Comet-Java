@@ -11,6 +11,7 @@ import java.util.List;
 public class PlaceBotMessageComposer {
     public static Composer compose(Bot bot) {
         List<Bot> bots = new FastList<>();
+        bots.add(bot);
 
         return compose(bots);
     }
