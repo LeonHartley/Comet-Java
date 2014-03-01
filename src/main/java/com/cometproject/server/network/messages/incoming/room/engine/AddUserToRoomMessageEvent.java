@@ -48,8 +48,6 @@ public class AddUserToRoomMessageEvent implements IEvent {
         room.getEntities().broadcastMessage(AvatarsMessageComposer.compose(room));
         room.getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(room));
 
-        client.send(PlaceBotMessageComposer.compose(room.getBots().getBots().values()));
-
         for(GenericEntity av : client.getPlayer().getEntity().getRoom().getEntities().getEntitiesCollection().values()) {
             if(av.getDanceId() != 0) {
                 client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(DanceMessageComposer.compose(av.getVirtualId(), av.getDanceId()));

@@ -119,12 +119,6 @@ public class ProcessComponent implements CometTask {
 
             // Process anything generic for all entities below this line
 
-            // Handle signs
-            if (entity.hasStatus("sign") && !entity.isDisplayingSign()) {
-                entity.removeStatus("sign");
-                entity.markNeedsUpdate();
-            }
-
             if (entity.needsUpdate()) {
                 entity.markNeedsUpdateComplete();
 
@@ -143,6 +137,7 @@ public class ProcessComponent implements CometTask {
             this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
         }
 
+        // Handle flood
         if (entity.getPlayer().floodTime >= 0.5) {
             entity.getPlayer().floodTime -= 0.5;
 
@@ -151,6 +146,13 @@ public class ProcessComponent implements CometTask {
             }
         }
 
+        // Handle signs
+        if (entity.hasStatus("sign") && !entity.isDisplayingSign()) {
+            entity.removeStatus("sign");
+            entity.markNeedsUpdate();
+        }
+
+        // Handle expiring effects
         if(entity.getCurrentEffect() != null) {
             entity.getCurrentEffect().decrementDuration();
 
@@ -293,7 +295,7 @@ public class ProcessComponent implements CometTask {
     }
 
     protected void processBotEntity(BotEntity entity) {
-        System.out.println("Processed bot entity: " + entity);
+        System.out.println("Processed bot entity: " + entity.getUsername() + ", " + entity.getVirtualId());
     }
 
     protected void processPetEntity(PetEntity entity) {
