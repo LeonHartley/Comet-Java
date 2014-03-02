@@ -86,6 +86,9 @@ public class Events {
     public static short BuyGroupDialogMessageEvent = 3253;
     public static short PetRacesMessageEvent = 3675;
     public static short ExchangeItemMessageEvent = 3582;
+    public static short BotDanceMessageEvent = 616;
+    public static short RemoveBotMessageEvent = 2788;
+    public static short UpdatePapersMessageEvent = 2421;
 
     public static short ManageGroupMessageEvent = 454;
     public static short AddUserToRoom2MessageEvent = 3317;
@@ -93,7 +96,6 @@ public class Events {
     public static short DeleteRoomMessageEvent = 2830;
     public static short StartQuizMessageEvent = 1337;//2048;
     public static short UnacceptTradeMessageEvent = 478;
-    public static short UpdatePapersMessageEvent = 2421;
     public static short PurchaseGiftMessageEvent = 553;
     public static short ModRoomChatMessageEvent = 2620;
     public static short ModRoomInfoMessageEvent = 1847;

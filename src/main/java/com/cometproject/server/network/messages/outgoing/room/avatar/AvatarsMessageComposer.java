@@ -13,13 +13,13 @@ public class AvatarsMessageComposer {
     public static Composer compose(Room room) {
         Composer msg = new Composer(Composers.RoomUsersMessageComposer);
 
-        msg.writeInt(room.getEntities().playerCount());
+        msg.writeInt(room.getEntities().count());
 
         for(GenericEntity entity : room.getEntities().getEntitiesCollection().values()) {
-            if(entity.getEntityType() == RoomEntityType.PLAYER) {
-                AvatarWriter.write(entity, msg);
-            }
-            //entity.compose(msg);
+            //if(entity.getEntityType() == RoomEntityType.PLAYER) {
+            //    AvatarWriter.write(entity, msg);
+            //}
+            entity.compose(msg);
         }
 
         return msg;

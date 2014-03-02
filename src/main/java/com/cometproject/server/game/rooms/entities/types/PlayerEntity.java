@@ -251,7 +251,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
 
     @Override
     public void compose(Composer msg) {
-        msg.writeInt(this.getVirtualId());
+        msg.writeInt(this.getPlayerId());
+        //msg.writeInt(this.getVirtualId());
         msg.writeString(this.getUsername());
         msg.writeString(this.getMotto());
         msg.writeString(this.getFigure());
@@ -261,15 +262,17 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
         msg.writeInt(this.getPosition().getY());
         msg.writeDouble(this.getPosition().getZ());
 
-        msg.writeInt(2); // 2 = user 4 = bot
+        msg.writeInt(this.getBodyRotation()); // 2 = user 4 = bot
         msg.writeInt(1); // 1 = user 2 = pet 3 = bot
 
         msg.writeString(this.getGender().toLowerCase());
+        msg.writeInt(-1);
+        msg.writeInt(-1);
         msg.writeInt(0);
-        msg.writeInt(0);
-        msg.writeString("");
-        msg.writeString("");
-        msg.writeInt(0);
+        msg.writeInt(0); //achv points
+       // msg.writeString("");
+       // msg.writeString("");
+       // msg.writeInt(0);
     }
 
     @Override
