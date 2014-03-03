@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -301,9 +302,120 @@ public class ProcessComponent implements CometTask {
 
         if(chance == 1) {
             this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), "I | Leon", 0, 1));
+
+            if(!entity.isWalking()) {
+                int x = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeX());
+                int y = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeY());
+
+                if(this.getRoom().getMapping().isValidStep(entity.getPosition(), new Position3D(x, y, 0d), true)) {
+                    entity.moveTo(x, y);
+                }
+            }
         }
 
         //log.debug("Processed bot entity: " + entity.getUsername() + ", " + entity.getVirtualId());
+
+        if(entity.hasStatus("mv")) {
+            entity.removeStatus("mv");
+            entity.markNeedsUpdate();
+        }
+
+        // Check if we are wanting to walk to a location
+        if (entity.getWalkingPath() != null) {
+            entity.setProcessingPath(new ArrayList<>(entity.getWalkingPath()));
+
+            // Clear the walking path now we have a goal set
+            entity.getWalkingPath().clear();
+            entity.setWalkingPath(null);
+        }
+
+        // Do we have a position to set from previous moves?
+        if (entity.getPositionToSet() != null) {
+            // Copy the current position before updating
+            Position3D currentPosition = new Position3D(entity.getPosition());
+
+            if(entity.hasStatus("sit")) {
+                entity.removeStatus("sit");
+            }
+
+            // Create the new position
+            Position3D newPosition = new Position3D();
+            newPosition.setX(entity.getPositionToSet().getX());
+            newPosition.setY(entity.getPositionToSet().getY());
+            newPosition.setZ(entity.getPositionToSet().getZ());
+
+            //entity.getPlayer().getSession().send(TalkMessageComposer.compose(entity.getVirtualId(), "X: " + newPosition.getX() + ", Y: " + newPosition.getY() + ", Rot: " + entity.getBodyRotation(), 0,0));
+
+            List<FloorItem> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
+
+            // Apply sit
+            for(FloorItem item : itemsOnSq) {
+
+                if (item.getDefinition().canSit) {
+                    double height = item.getHeight();
+
+                    if (height < 1.0) {
+                        height = 1.0;
+                    } else if (itemsOnSq.size() == 1 && height > 1.0) {
+                        height = 1.0;
+                    }
+
+                    entity.setBodyRotation(item.getRotation());
+                    entity.setHeadRotation(item.getRotation());
+                    entity.addStatus("sit", String.valueOf(height).replace(',', '.'));
+                    entity.markNeedsUpdate();
+                }
+            }
+
+            entity.updateAndSetPosition(null);
+            entity.setPosition(newPosition);
+        }
+
+        if (entity.isWalking()) {
+            Square nextSq = entity.getProcessingPath().get(0);
+
+            if(entity.getProcessingPath().size() > 1)
+                entity.setFutureSquare(entity.getProcessingPath().get(1));
+
+            entity.getProcessingPath().remove(nextSq);
+
+            boolean isLastStep = (entity.getProcessingPath().size() == 0);
+
+            if (nextSq != null && entity.getRoom().getMapping().isValidStep(entity.getPosition(), new Position3D(nextSq.x, nextSq.y, 0), isLastStep)) {
+                Position3D currentPos = entity.getPosition() != null ? entity.getPosition() : new Position3D(0, 0, 0);
+                entity.setBodyRotation(Position3D.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
+                entity.setHeadRotation(entity.getBodyRotation());
+
+                double height = this.getRoom().getModel().getSquareHeight()[nextSq.x][nextSq.y];
+
+                boolean isCancelled = false;
+
+                for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
+                    if(item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0"))
+                        isCancelled = true;
+
+                    height += item.getHeight();
+                }
+
+                if(!isCancelled) {
+                    entity.addStatus("mv", String.valueOf(nextSq.x).concat(",").concat(String.valueOf(nextSq.y)).concat(",").concat(String.valueOf(height)));
+
+                    if (entity.hasStatus("sit")) {
+                        entity.removeStatus("sit");
+                    }
+
+                    if (entity.hasStatus("lay")) {
+                        entity.removeStatus("lay");
+                    }
+
+                    entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, height));
+                    entity.markNeedsUpdate();
+                } else {
+                    entity.getWalkingPath().clear();
+                    entity.getProcessingPath().clear();
+                }
+            }
+        }
     }
 
     protected void processPetEntity(PetEntity entity) {

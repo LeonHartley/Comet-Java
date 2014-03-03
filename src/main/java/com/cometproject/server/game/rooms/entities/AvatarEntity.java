@@ -39,6 +39,7 @@ public interface AvatarEntity {
     public void setFutureSquare(Square square);
 
     public Pathfinder getPathfinder();
+    public void moveTo(int x, int y);
 
     public Map<String, String> getStatuses();
     public void addStatus(String key, String value);

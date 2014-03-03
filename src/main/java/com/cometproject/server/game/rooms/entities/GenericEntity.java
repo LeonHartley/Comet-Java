@@ -12,6 +12,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.ApplyEffect
 import javolution.util.FastMap;
 
 import java.lang.ref.WeakReference;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -108,6 +109,32 @@ public abstract class GenericEntity implements AvatarEntity {
             this.walkingGoal.setX(x);
             this.walkingGoal.setY(y);
         }
+    }
+
+    @Override
+    public void moveTo(int x, int y) {
+        // TODO: Redirection grid here for beds
+
+        if (this.getPositionToSet() != null){
+            this.setPosition(this.getPositionToSet());
+        }
+
+        // Set the goal we are wanting to achieve
+        this.setWalkingGoal(x, y);
+
+        // Create a walking path
+        LinkedList<Square> path = this.getPathfinder().makePath();
+
+        // Check returned path to see if it calculated one
+        if (path == null || path.size() == 0) {
+            // Reset the goal and return as no path was found
+            this.setWalkingGoal(this.getPosition().getX(), this.getPosition().getY());
+            return;
+        }
+
+        // UnIdle the user and set the path (if the path has nodes it will mean the user is walking)
+        this.unIdle();
+        this.setWalkingPath(path);
     }
 
     @Override
