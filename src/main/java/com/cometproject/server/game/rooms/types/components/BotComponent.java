@@ -32,7 +32,7 @@ public class BotComponent {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM bots WHERE room_id = " + this.room.getId());
 
             while(data.next()) {
-                BotData botData = new PlayerBotData(data.getInt("id"), data.getString("name"), data.getString("motto"), data.getString("figure"), data.getString("gender"), data.getString("owner"), data.getInt("owner_id"));
+                BotData botData = new PlayerBotData(data.getInt("id"), data.getString("name"), data.getString("motto"), data.getString("figure"), data.getString("gender"), data.getString("owner"), data.getInt("owner_id"), data.getString("messages"), data.getString("automatic_chat").equals("1"), data.getInt("chat_delay"));
                 BotEntity botEntity = new BotEntity(botData, room.getEntities().getFreeId(), new Position3D(data.getInt("x"), data.getInt("y"), data.getInt("z")), 1, 1, room);
 
                 this.botDataInstances.put(botData.getId(), botData);
@@ -50,7 +50,7 @@ public class BotComponent {
     public BotEntity addBot(InventoryBot bot, int x, int y) {
         int virtualId = room.getEntities().getFreeId();
 
-        BotData botData = new PlayerBotData(bot.getId(), bot.getName(), bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId());
+        BotData botData = new PlayerBotData(bot.getId(), bot.getName(), bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7);
         BotEntity botEntity = new BotEntity(botData, virtualId, new Position3D(x, y, 0), 1, 1, room);
 
         this.botDataInstances.put(botData.getId(), botData);

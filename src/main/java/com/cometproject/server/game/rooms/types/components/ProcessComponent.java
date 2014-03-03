@@ -301,8 +301,6 @@ public class ProcessComponent implements CometTask {
         int chance = RandomInteger.getRandom(1, 6);
 
         if(chance == 1) {
-            //this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), "I | Leon", 0, 1));
-
             if(!entity.isWalking()) {
                 int x = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeX());
                 int y = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeY());
@@ -312,6 +310,19 @@ public class ProcessComponent implements CometTask {
                 }
             }
         }
+
+        if(entity.getCycleCount() == entity.getData().getChatDelay() * 2) {
+            int messageKey = RandomInteger.getRandom(0, entity.getData().getMessages().length);
+            String message = entity.getData().getMessages()[messageKey];
+
+            if(message != null && !message.isEmpty()) {
+                this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), message, 0, 1));
+            }
+
+            entity.resetCycleCount();
+        }
+
+        entity.incrementCycleCount();
 
         if(entity.hasStatus("mv")) {
             entity.removeStatus("mv");
