@@ -9,12 +9,12 @@ Current To-do List
 *   Achievement Score (DONE)
 *   Badge Catalog (DONE)
 *   Multiple Quantity (DONE)
+*   Bots (DONE)
 *   Finish Wired
 *   Finish Groups
 *   Battle Banzai, Freeze, Football, Snow, Skateboard
 *   Games
 *   Pets
-*   Bots
 *   Trax
 *   Horse
 *   Talents
