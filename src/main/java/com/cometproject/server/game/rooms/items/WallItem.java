@@ -32,7 +32,7 @@ public class WallItem extends RoomItem {
         msg.writeString(this.getId());
         msg.writeInt(this.getDefinition().getSpriteId());
         msg.writeString(this.position);
-        GameEngine.getLogger().info("Position => "+ this.position);
+
         msg.writeString(this.getExtraData());
         msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
         msg.writeInt(-1);
@@ -57,12 +57,9 @@ public class WallItem extends RoomItem {
         Room r = this.getRoom();
 
         if (r != null) {
-            System.out.println("Sent update..");
-            r.getEntities().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
+            r.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
 
             // TODO: Check this..
-        } else {
-            System.out.println("Room is null ???");
         }
     }
 

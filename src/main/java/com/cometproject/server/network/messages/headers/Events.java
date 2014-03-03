@@ -86,7 +86,8 @@ public class Events {
     public static short BuyGroupDialogMessageEvent = 3253;
     public static short PetRacesMessageEvent = 3675;
     public static short ExchangeItemMessageEvent = 3582;
-    public static short BotDanceMessageEvent = 616;
+    public static short ModifyBotMessageEvent = 616;
+    public static short BotChatListMessageEvent = 2841;
     public static short RemoveBotMessageEvent = 2788;
     public static short UpdatePapersMessageEvent = 2421;
 

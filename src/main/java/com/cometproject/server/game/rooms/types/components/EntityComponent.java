@@ -26,7 +26,9 @@ public class EntityComponent {
     private AtomicInteger entityIdGenerator = new AtomicInteger();
 
     private Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().shared();
+
     private Map<Integer, Integer> playerEntityToPlayerId = new FastMap<Integer, Integer>().shared();
+    private Map<Integer, Integer> botEntityToBotId = new FastMap<Integer, Integer>().shared();
 
     private List<GenericEntity>[][] entityGrid;
 
@@ -77,13 +79,13 @@ public class EntityComponent {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
             this.playerEntityToPlayerId.put(playerEntity.getVirtualId(), playerEntity.getPlayerId());
-            this.entities.put(playerEntity.getVirtualId(), playerEntity);
-            System.out.println("PlayerEntityId: " + playerEntity.getVirtualId());
-        } else {
-            // Handle all other entity types which just rely on a virtual id
-            this.entities.put(entity.getVirtualId(), entity);
-            System.out.println("BotEntityId: " + entity.getVirtualId());
+        } else if(entity.getEntityType() == RoomEntityType.BOT) {
+            BotEntity botEntity = (BotEntity) entity;
+
+            this.botEntityToBotId.put(botEntity.getVirtualId(), botEntity.getBotId());
         }
+
+        this.entities.put(entity.getVirtualId(), entity);
     }
 
     public void removeEntity(GenericEntity entity) {
@@ -141,6 +143,21 @@ public class EntityComponent {
         return (PlayerEntity) genericEntity;
     }
 
+    public BotEntity getEntityByBotId(int id) {
+        if(!this.botEntityToBotId.containsKey(id)) {
+            return null;
+        }
+
+        int entityId = this.botEntityToBotId.get(id);
+        GenericEntity genericEntity = this.entities.get(entityId);
+
+        if(genericEntity == null || genericEntity.getEntityType() != RoomEntityType.BOT) {
+            return null;
+        }
+
+        return (BotEntity) genericEntity;
+    }
+
     public List<BotEntity> getBotEntities() {
         List<BotEntity> entities = new FastList<>();
 
@@ -154,10 +171,7 @@ public class EntityComponent {
     }
 
     protected int getFreeId() {
-        int id = this.entityIdGenerator.incrementAndGet();
-
-        System.out.println(id);
-        return id;
+        return this.entityIdGenerator.incrementAndGet();
     }
 
     public int count() {

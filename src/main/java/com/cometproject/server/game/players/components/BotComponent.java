@@ -27,6 +27,10 @@ public class BotComponent {
         }
     }
 
+    public void addBot(InventoryBot bot) {
+        this.bots.put(bot.getId(), bot);
+    }
+
     public void dispose() {
         this.bots.clear();
         this.bots = null;
