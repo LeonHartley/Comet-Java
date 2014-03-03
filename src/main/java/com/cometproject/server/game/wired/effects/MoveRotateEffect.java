@@ -87,14 +87,6 @@ public class MoveRotateEffect extends WiredEffect {
                 itemInstance.setHeight(height);
 
                 room.getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(itemInstance, room.getData().getOwnerId()));
-
-                /*avatar.getRoom().getEntities().broadcastMessage(
-                        SlideObjectBundleMessageComposer.compose(
-                                previousPosition,
-                                newPosition, itemInstance.getId(), 0, itemInstance.getId())
-                );*/
-            } else {
-                System.out.println("IZ CANCELLED");
             }
         }
     }

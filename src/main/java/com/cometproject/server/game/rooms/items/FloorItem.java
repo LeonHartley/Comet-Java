@@ -68,27 +68,26 @@ public class FloorItem extends RoomItem {
     public boolean toggleInteract(boolean state) {
         String interaction = this.getDefinition().getInteraction();
 
-        if(!state) {
-            if(!GameEngine.getWired().isWiredItem(this))
+        if (!state) {
+            if (!GameEngine.getWired().isWiredItem(this))
                 this.setExtraData("0");
 
             return true;
         }
 
-        if((interaction.equals("default") || interaction.equals("gate") || interaction.equals("pressure_pad")) && (this.getDefinition().getInteractionCycleCount() > 1)) {
-            if(this.getExtraData().isEmpty() || this.getExtraData().equals(" ")) {
+        if ((interaction.equals("default") || interaction.equals("gate") || interaction.equals("pressure_pad")) && (this.getDefinition().getInteractionCycleCount() > 1)) {
+            if (this.getExtraData().isEmpty() || this.getExtraData().equals(" ")) {
                 this.setExtraData("0");
             }
 
             int i = Integer.parseInt(this.getExtraData()) + 1;
 
-            if(i > (this.getDefinition().getInteractionCycleCount() - 1)) { // take one because count starts at 0 (0, 1) = count(2)
+            if (i > (this.getDefinition().getInteractionCycleCount() - 1)) { // take one because count starts at 0 (0, 1) = count(2)
                 this.setExtraData("0");
-            }  else {
+            } else {
                 this.setExtraData(i + "");
             }
 
-            System.out.println("ED: " + this.extraData + " Count: " + this.getDefinition().getInteractionCycleCount());
             return true;
         } else {
             return false;
@@ -131,7 +130,7 @@ public class FloorItem extends RoomItem {
             statement.setInt(2, this.getId());
 
             statement.executeUpdate();
-        } catch(Exception e) {
+        } catch (Exception e) {
         }
     }
 

@@ -18,8 +18,12 @@ import java.util.Map;
 public class BotComponent {
     private Room room;
 
+    private Map<Integer, BotData> botDataInstances;
+
     public BotComponent(Room room) {
         this.room = room;
+        this.botDataInstances = new FastMap<>();
+
         this.load();
     }
 
@@ -28,9 +32,10 @@ public class BotComponent {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM bots WHERE room_id = " + this.room.getId());
 
             while(data.next()) {
-                BotData botData = new PlayerBotData(data.getInt("id"), data.getString("name"), data.getString("motto"), data.getString("figure"), data.getString("gender"));
+                BotData botData = new PlayerBotData(data.getInt("id"), data.getString("name"), data.getString("motto"), data.getString("figure"), data.getString("gender"), data.getString("owner"), data.getInt("owner_id"));
                 BotEntity botEntity = new BotEntity(botData, room.getEntities().getFreeId(), new Position3D(data.getInt("x"), data.getInt("y"), data.getInt("z")), 1, 1, room);
 
+                this.botDataInstances.put(botData.getId(), botData);
                 this.getRoom().getEntities().addEntity(botEntity);
             }
         } catch(Exception e) {
@@ -38,12 +43,17 @@ public class BotComponent {
         }
     }
 
+    public BotData getBotData(int id) {
+        return this.botDataInstances.get(id);
+    }
+
     public BotEntity addBot(InventoryBot bot, int x, int y) {
         int virtualId = room.getEntities().getFreeId();
 
-        BotData botData = new PlayerBotData(bot.getId(), bot.getName(), bot.getMotto(), bot.getFigure(), bot.getGender());
+        BotData botData = new PlayerBotData(bot.getId(), bot.getName(), bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId());
         BotEntity botEntity = new BotEntity(botData, virtualId, new Position3D(x, y, 0), 1, 1, room);
 
+        this.botDataInstances.put(botData.getId(), botData);
         this.getRoom().getEntities().addEntity(botEntity);
         return botEntity;
     }

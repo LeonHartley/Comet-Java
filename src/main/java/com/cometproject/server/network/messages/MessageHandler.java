@@ -26,7 +26,8 @@ import com.cometproject.server.network.messages.incoming.moderation.ModToolUserC
 import com.cometproject.server.network.messages.incoming.moderation.ModToolUserInfoMessageEvent;
 import com.cometproject.server.network.messages.incoming.navigator.*;
 import com.cometproject.server.network.messages.incoming.room.action.*;
-import com.cometproject.server.network.messages.incoming.room.bots.BotDanceMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.bots.BotChatListMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.PlaceBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.RemoveBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.AddUserToRoomMessageEvent;
@@ -143,8 +144,9 @@ public class MessageHandler {
     public void registerBots() {
         this.getMessages().put(Events.BotInventoryMessageEvent, new BotInventoryMessageEvent());
         this.getMessages().put(Events.PlaceBotMessageEvent, new PlaceBotMessageEvent());
-        this.getMessages().put(Events.BotDanceMessageEvent, new BotDanceMessageEvent());
+        this.getMessages().put(Events.ModifyBotMessageEvent, new ModifyBotMessageEvent());
         this.getMessages().put(Events.RemoveBotMessageEvent, new RemoveBotMessageEvent());
+        this.getMessages().put(Events.BotChatListMessageEvent, new BotChatListMessageEvent());
     }
 
     public void registerRoom() {

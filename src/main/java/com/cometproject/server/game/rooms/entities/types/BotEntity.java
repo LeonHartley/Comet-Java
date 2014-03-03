@@ -5,6 +5,9 @@ import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.components.types.Trade;
+import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class BotEntity extends GenericEntity {
@@ -26,9 +29,17 @@ public class BotEntity extends GenericEntity {
 
     }
 
+    public void leaveRoom() {
+        this.leaveRoom(false, false, false);
+    }
+
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
+        // Send leave room message to all current entities
+        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
 
+        // Remove entity from the room
+        this.getRoom().getEntities().removeEntity(this);
     }
 
     @Override
@@ -61,9 +72,14 @@ public class BotEntity extends GenericEntity {
         return this.data.getGender();
     }
 
+    public int getBotId() {
+        return this.data.getId();
+    }
+
     @Override
     public void compose(Composer msg) {
-        msg.writeInt(((PlayerBotData)data).getBotId());
+        System.out.println(this.getBotId());
+        msg.writeInt(this.getBotId());
         msg.writeString(this.getUsername());
         msg.writeString(this.getMotto());
         msg.writeString(this.getFigure());
@@ -86,5 +102,9 @@ public class BotEntity extends GenericEntity {
         msg.writeShort(2);
         msg.writeShort(5);
         msg.writeShort(4);
+    }
+
+    public BotData getData() {
+        return this.data;
     }
 }

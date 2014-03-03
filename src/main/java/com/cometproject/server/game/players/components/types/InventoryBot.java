@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class InventoryBot {
     private int id, ownerId;
-    private String name, figure, gender, motto;
+    private String name, figure, gender, motto, ownerName;
 
     public InventoryBot(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
@@ -15,6 +15,16 @@ public class InventoryBot {
         this.figure = data.getString("figure");
         this.gender = data.getString("gender");
         this.motto = data.getString("motto");
+    }
+
+    public InventoryBot(int id, int ownerId, String ownerName, String name, String figure, String gender, String motto) {
+        this.id = id;
+        this.ownerId = ownerId;
+
+        this.name = name;
+        this.figure = figure;
+        this.gender = figure;
+        this.motto = motto;
     }
 
     public int getId() {
@@ -39,5 +49,9 @@ public class InventoryBot {
 
     public String getMotto() {
         return this.motto;
+    }
+
+    public String getOwnerName() {
+        return this.ownerName;
     }
 }
