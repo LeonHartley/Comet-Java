@@ -27,13 +27,15 @@ public class PlaceBotMessageEvent implements IEvent {
             return;
         }
 
-        if(room.getEntities().getEntitiesAt(x, y).size() >= 1 || !room.getMapping().isValidPosition(new Position3D(x, y, 0d))) {
+        double height = room.getModel().getSquareHeight()[x][y];
+
+        if(room.getEntities().getEntitiesAt(x, y).size() >= 1 || !room.getMapping().isValidPosition(new Position3D(x, y, height))) {
             return;
         }
 
         // TODO: Check square!
 
-        Comet.getServer().getStorage().execute("UPDATE bots SET room_id = " + room.getId() + ", x = " + x + ", y = " + y + ", z = '0.0' WHERE id = " + botId);
+        Comet.getServer().getStorage().execute("UPDATE bots SET room_id = " + room.getId() + ", x = " + x + ", y = " + y + ", z = '" + height + "' WHERE id = " + botId);
 
         BotEntity botEntity = room.getBots().addBot(bot, x, y);
         client.getPlayer().getBots().remove(botId);

@@ -14,7 +14,7 @@ public class InitalizeRoomMessageEvent implements IEvent {
         String password = msg.readString();
 
         if(client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
-            client.getPlayer().getEntity().dispose();
+            client.getPlayer().getEntity().leaveRoom(true, false, false);
             client.getPlayer().setAvatar(null);
         }
 
