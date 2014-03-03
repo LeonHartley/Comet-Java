@@ -28,7 +28,7 @@ public abstract class BotData implements BotInformation {
 
     public void save() {
         try {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE bots SET figure = ?, gender = ?, motto = ?, name = ?, messages = ?, automatic_chat, chat_delay WHERE id = ?");
+            PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE bots SET figure = ?, gender = ?, motto = ?, name = ?, messages = ?, automatic_chat = ?, chat_delay = ? WHERE id = ?");
 
             statement.setString(1, this.getFigure());
             statement.setString(2, this.getGender());
@@ -87,6 +87,10 @@ public abstract class BotData implements BotInformation {
         return this.chatDelay;
     }
 
+    public void setChatDelay(int delay) {
+        this.chatDelay = delay;
+    }
+
     public String[] getMessages() {
         return this.messages;
     }
@@ -97,6 +101,10 @@ public abstract class BotData implements BotInformation {
 
     public boolean isAutomaticChat() {
         return isAutomaticChat;
+    }
+
+    public void setAutomaticChat(boolean isAutomaticChat) {
+        this.isAutomaticChat = isAutomaticChat;
     }
 
     public String getOwnerName() {

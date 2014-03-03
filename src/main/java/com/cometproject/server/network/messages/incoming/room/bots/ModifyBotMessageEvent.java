@@ -56,6 +56,8 @@ public class ModifyBotMessageEvent implements IEvent {
                 }
 
                 botEntity.getData().setMessages(messages);
+                botEntity.getData().setChatDelay(Integer.parseInt(speakingInterval));
+                botEntity.getData().setAutomaticChat(Boolean.parseBoolean(automaticChat));
                 break;
 
             case 3:

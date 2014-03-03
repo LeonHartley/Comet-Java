@@ -12,6 +12,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class BotEntity extends GenericEntity {
     private BotData data;
+    private int cycleCount = 0;
 
     public BotEntity(BotData data, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
@@ -78,7 +79,6 @@ public class BotEntity extends GenericEntity {
 
     @Override
     public void compose(Composer msg) {
-        System.out.println(this.getBotId());
         msg.writeInt(this.getBotId());
         msg.writeString(this.getUsername());
         msg.writeString(this.getMotto());
@@ -89,9 +89,7 @@ public class BotEntity extends GenericEntity {
         msg.writeInt(this.getPosition().getY());
         msg.writeDouble(this.getPosition().getZ());
         msg.writeInt(0);
-
         msg.writeInt(4);
-        //msg.writeInt(3);
 
         msg.writeString(this.getGender().toLowerCase());
         msg.writeInt(this.getRoom().getData().getOwnerId());
@@ -106,5 +104,21 @@ public class BotEntity extends GenericEntity {
 
     public BotData getData() {
         return this.data;
+    }
+
+    public int getCycleCount() {
+        return this.cycleCount;
+    }
+
+    public void decrementCycleCount() {
+        cycleCount--;
+    }
+
+    public void incrementCycleCount() {
+        cycleCount++;
+    }
+
+    public void resetCycleCount() {
+        this.cycleCount = 0;
     }
 }
