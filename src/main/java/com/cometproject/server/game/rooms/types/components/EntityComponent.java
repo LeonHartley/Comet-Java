@@ -89,15 +89,18 @@ public class EntityComponent {
     }
 
     public void removeEntity(GenericEntity entity) {
-        // Handle removing player entities specifics
+        // Handle removing entity specifics
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
-            this.playerEntityToPlayerId.remove(playerEntity.getPlayerId());
-        }
+            this.playerEntityToPlayerId.remove(playerEntity.getVirtualId());
+            this.entities.remove(playerEntity.getVirtualId());
+        } else if(entity.getEntityType() == RoomEntityType.BOT) {
+            BotEntity botEntity = (BotEntity) entity;
 
-        // Remove entity by the virtual id
-        this.entities.remove(entity.getVirtualId());
+            this.botEntityToBotId.remove(botEntity.getBotId());
+            this.entities.remove(botEntity.getVirtualId());
+        }
     }
 
     public void broadcastMessage(Composer msg) {
