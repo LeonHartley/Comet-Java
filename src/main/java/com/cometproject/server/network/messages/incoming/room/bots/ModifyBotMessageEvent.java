@@ -51,7 +51,7 @@ public class ModifyBotMessageEvent implements IEvent {
                 String automaticChat = data1[2];
                 String speakingInterval = data1[4];
 
-                if(speakingInterval.isEmpty()) {
+                if(speakingInterval.isEmpty() || Integer.parseInt(speakingInterval) < 7) {
                     speakingInterval = "7";
                 }
 
