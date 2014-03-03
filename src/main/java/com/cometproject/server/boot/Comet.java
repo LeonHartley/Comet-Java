@@ -1,8 +1,10 @@
 package com.cometproject.server.boot;
 
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameEngine;
 import org.apache.log4j.*;
+import com.cometproject.server.*;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -98,6 +100,12 @@ public class Comet {
                                     GameEngine.getNavigator().loadCategories();
                                     Comet.log.info("Navigator was reloaded.");
                                     break;
+
+                                case "/reload_locales":
+                                    Locale.init();
+                                    Comet.log.info("Locales were reloaded.");
+                                    break;
+
                             }
                         } else {
                             Comet.log.error("Invalid command");
