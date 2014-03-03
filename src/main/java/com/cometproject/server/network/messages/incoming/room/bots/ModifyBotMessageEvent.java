@@ -5,11 +5,13 @@ import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.RandomInteger;
+import com.google.gson.Gson;
 
 public class ModifyBotMessageEvent implements IEvent {
     @Override
@@ -44,7 +46,16 @@ public class ModifyBotMessageEvent implements IEvent {
                 break;
 
             case 2:
-                // Talk stuff
+                String[] data1 = data.split(";");
+                String[] messages = data1[0].split("\r");
+                String automaticChat = data1[2];
+                String speakingInterval = data1[4];
+
+                if(speakingInterval.isEmpty()) {
+                    speakingInterval = "7";
+                }
+
+                botEntity.getData().setMessages(messages);
                 break;
 
             case 3:
@@ -62,6 +73,9 @@ public class ModifyBotMessageEvent implements IEvent {
 
             case 5:
                 // Change name
+                botEntity.getData().setUsername(data);
+
+                room.getEntities().broadcastMessage(AvatarsMessageComposer.compose(botEntity));
                 break;
         }
 

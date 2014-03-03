@@ -298,10 +298,10 @@ public class ProcessComponent implements CometTask {
     }
 
     protected void processBotEntity(BotEntity entity) {
-        int chance = RandomInteger.getRandom(1, 5);
+        int chance = RandomInteger.getRandom(1, 6);
 
         if(chance == 1) {
-            this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), "I | Leon", 0, 1));
+            //this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), "I | Leon", 0, 1));
 
             if(!entity.isWalking()) {
                 int x = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeX());
@@ -312,8 +312,6 @@ public class ProcessComponent implements CometTask {
                 }
             }
         }
-
-        //log.debug("Processed bot entity: " + entity.getUsername() + ", " + entity.getVirtualId());
 
         if(entity.hasStatus("mv")) {
             entity.removeStatus("mv");
