@@ -44,7 +44,7 @@ public class ProcessComponent implements CometTask {
     }
 
     public void start() {
-        if(this.active) {
+        if (this.active) {
             stop();
         }
 
@@ -55,7 +55,7 @@ public class ProcessComponent implements CometTask {
     }
 
     public void stop() {
-        if(this.myFuture != null) {
+        if (this.myFuture != null) {
             this.active = false;
             this.myFuture.cancel(false);
 
@@ -69,68 +69,73 @@ public class ProcessComponent implements CometTask {
             return;
         }
 
-        // Dispose the room if it has been idle for a certain amount of time
-        if (this.getRoom().getEntities().playerCount() == 0) {
-            if (this.disposeCycles >= ROOM_DISPOSE_TIME) {
-                this.getRoom().dispose();
-                return;
-            }
+        try {
 
-            this.disposeCycles++;
-        } else {
-            if (this.disposeCycles >= 0) {
-                this.disposeCycles = 0;
-            }
-        }
-
-        long timeStart = System.currentTimeMillis();
-
-        // Reset the users to update
-        if (this.usersToUpdate == null) {
-            this.usersToUpdate = new FastList<>();
-        } else if (this.usersToUpdate.size() > 0) {
-            this.usersToUpdate.clear();
-        }
-
-        Map<Integer, GenericEntity> entities = this.room.getEntities().getEntitiesCollection();
-
-        List<GenericEntity>[][] entityGrid = new ArrayList[this.getRoom().getModel().getSizeX()][this.getRoom().getModel().getSizeY()];
-
-        for (GenericEntity entity : entities.values()) {
-            // Process each entity as its own
-            if (entity.getEntityType() == RoomEntityType.PLAYER) {
-                PlayerEntity playerEntity = (PlayerEntity) entity;
-
-                if (playerEntity.getPlayer() == null) {
-                    removeFromRoom(playerEntity);
-                    continue;
+            // Dispose the room if it has been idle for a certain amount of time
+            if (this.getRoom().getEntities().playerCount() == 0) {
+                if (this.disposeCycles >= ROOM_DISPOSE_TIME) {
+                    this.getRoom().dispose();
+                    return;
                 }
 
-                processPlayerEntity(playerEntity);
-            } else if (entity.getEntityType() == RoomEntityType.BOT) {
-                processBotEntity((BotEntity) entity);
-            } else if (entity.getEntityType() == RoomEntityType.PET) {
-                processPetEntity((PetEntity) entity);
+                this.disposeCycles++;
+            } else {
+                if (this.disposeCycles >= 0) {
+                    this.disposeCycles = 0;
+                }
             }
 
-            // Create the new entity grid
-            if (entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] == null) {
-                entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] = new ArrayList<GenericEntity>();
+            long timeStart = System.currentTimeMillis();
+
+            // Reset the users to update
+            if (this.usersToUpdate == null) {
+                this.usersToUpdate = new FastList<>();
+            } else if (this.usersToUpdate.size() > 0) {
+                this.usersToUpdate.clear();
             }
 
-            entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
+            Map<Integer, GenericEntity> entities = this.room.getEntities().getEntitiesCollection();
 
-            // Process anything generic for all entities below this line
+            List<GenericEntity>[][] entityGrid = new ArrayList[this.getRoom().getModel().getSizeX()][this.getRoom().getModel().getSizeY()];
 
-            if (entity.needsUpdate()) {
-                entity.markNeedsUpdateComplete();
+            for (GenericEntity entity : entities.values()) {
+                // Process each entity as its own
+                if (entity.getEntityType() == RoomEntityType.PLAYER) {
+                    PlayerEntity playerEntity = (PlayerEntity) entity;
 
-                this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
+                    if (playerEntity.getPlayer() == null) {
+                        removeFromRoom(playerEntity);
+                        continue;
+                    }
+
+                    processPlayerEntity(playerEntity);
+                } else if (entity.getEntityType() == RoomEntityType.BOT) {
+                    processBotEntity((BotEntity) entity);
+                } else if (entity.getEntityType() == RoomEntityType.PET) {
+                    processPetEntity((PetEntity) entity);
+                }
+
+                // Create the new entity grid
+                if (entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] == null) {
+                    entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] = new ArrayList<GenericEntity>();
+                }
+
+                entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
+
+                // Process anything generic for all entities below this line
+
+                if (entity.needsUpdate()) {
+                    entity.markNeedsUpdateComplete();
+
+                    this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
+                }
             }
+
+            // Update the entity grid
+            this.getRoom().getEntities().replaceEntityGrid(entityGrid);
+        } catch (Exception e) {
+            log.error("Error during room process", e);
         }
-
-        // Update the entity grid
-        this.getRoom().getEntities().replaceEntityGrid(entityGrid);
     }
 
     protected void processPlayerEntity(PlayerEntity entity) {
@@ -156,10 +161,10 @@ public class ProcessComponent implements CometTask {
         }
 
         // Handle expiring effects
-        if(entity.getCurrentEffect() != null) {
+        if (entity.getCurrentEffect() != null) {
             entity.getCurrentEffect().decrementDuration();
 
-            if(entity.getCurrentEffect().getDuration() == 0 && entity.getCurrentEffect().expires()) {
+            if (entity.getCurrentEffect().getDuration() == 0 && entity.getCurrentEffect().expires()) {
                 entity.applyEffect(null);
             }
         }
@@ -191,15 +196,15 @@ public class ProcessComponent implements CometTask {
             // Copy the current position before updating
             Position3D currentPosition = new Position3D(entity.getPosition());
 
-            for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
+            for (FloorItem item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
                 item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 0);
 
-                if(this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
+                if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
                     // idk what to do here for this trigger but ya
                 }
             }
 
-            if(entity.hasStatus("sit")) {
+            if (entity.hasStatus("sit")) {
                 entity.removeStatus("sit");
             }
 
@@ -214,7 +219,7 @@ public class ProcessComponent implements CometTask {
             List<FloorItem> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
 
             // Apply sit
-            for(FloorItem item : itemsOnSq) {
+            for (FloorItem item : itemsOnSq) {
                 item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 1);
 
                 if (item.getDefinition().canSit) {
@@ -236,8 +241,8 @@ public class ProcessComponent implements CometTask {
             entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
 
-            for(FloorItem item : itemsOnSq) {
-                if(this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
+            for (FloorItem item : itemsOnSq) {
+                if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
                     // idk what to do here for this trigger but ya
                 }
             }
@@ -246,7 +251,7 @@ public class ProcessComponent implements CometTask {
         if (entity.isWalking()) {
             Square nextSq = entity.getProcessingPath().get(0);
 
-            if(entity.getProcessingPath().size() > 1)
+            if (entity.getProcessingPath().size() > 1)
                 entity.setFutureSquare(entity.getProcessingPath().get(1));
 
             entity.getProcessingPath().remove(nextSq);
@@ -262,8 +267,8 @@ public class ProcessComponent implements CometTask {
 
                 boolean isCancelled = false;
 
-                for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
-                    if(item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0"))
+                for (FloorItem item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
+                    if (item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0"))
                         isCancelled = true;
 
                     height += item.getHeight();
@@ -271,7 +276,7 @@ public class ProcessComponent implements CometTask {
                     item.setNeedsUpdate(true, InteractionAction.ON_PRE_WALK, entity, 0);
                 }
 
-                if(!isCancelled) {
+                if (!isCancelled) {
                     entity.addStatus("mv", String.valueOf(nextSq.x).concat(",").concat(String.valueOf(nextSq.y)).concat(",").concat(String.valueOf(height)));
 
                     if (entity.hasStatus("sit")) {
@@ -300,22 +305,22 @@ public class ProcessComponent implements CometTask {
     protected void processBotEntity(BotEntity entity) {
         int chance = RandomInteger.getRandom(1, 6);
 
-        if(chance == 1) {
-            if(!entity.isWalking()) {
+        if (chance == 1) {
+            if (!entity.isWalking()) {
                 int x = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeX());
                 int y = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeY());
 
-                if(this.getRoom().getMapping().isValidStep(entity.getPosition(), new Position3D(x, y, 0d), true)) {
+                if (this.getRoom().getMapping().isValidStep(entity.getPosition(), new Position3D(x, y, 0d), true)) {
                     entity.moveTo(x, y);
                 }
             }
         }
 
-        if(entity.getCycleCount() == entity.getData().getChatDelay() * 2) {
-            int messageKey = RandomInteger.getRandom(0, entity.getData().getMessages().length);
+        if (entity.getCycleCount() == entity.getData().getChatDelay() * 2) {
+            int messageKey = RandomInteger.getRandom(0, entity.getData().getMessages().length - 1);
             String message = entity.getData().getMessages()[messageKey];
 
-            if(message != null && !message.isEmpty()) {
+            if (message != null && !message.isEmpty()) {
                 this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), message, 0, 1));
             }
 
@@ -324,7 +329,7 @@ public class ProcessComponent implements CometTask {
 
         entity.incrementCycleCount();
 
-        if(entity.hasStatus("mv")) {
+        if (entity.hasStatus("mv")) {
             entity.removeStatus("mv");
             entity.markNeedsUpdate();
         }
@@ -343,7 +348,7 @@ public class ProcessComponent implements CometTask {
             // Copy the current position before updating
             Position3D currentPosition = new Position3D(entity.getPosition());
 
-            if(entity.hasStatus("sit")) {
+            if (entity.hasStatus("sit")) {
                 entity.removeStatus("sit");
             }
 
@@ -358,7 +363,7 @@ public class ProcessComponent implements CometTask {
             List<FloorItem> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
 
             // Apply sit
-            for(FloorItem item : itemsOnSq) {
+            for (FloorItem item : itemsOnSq) {
 
                 if (item.getDefinition().canSit) {
                     double height = item.getHeight();
@@ -383,7 +388,7 @@ public class ProcessComponent implements CometTask {
         if (entity.isWalking()) {
             Square nextSq = entity.getProcessingPath().get(0);
 
-            if(entity.getProcessingPath().size() > 1)
+            if (entity.getProcessingPath().size() > 1)
                 entity.setFutureSquare(entity.getProcessingPath().get(1));
 
             entity.getProcessingPath().remove(nextSq);
@@ -399,14 +404,14 @@ public class ProcessComponent implements CometTask {
 
                 boolean isCancelled = false;
 
-                for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
-                    if(item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0"))
+                for (FloorItem item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
+                    if (item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0"))
                         isCancelled = true;
 
                     height += item.getHeight();
                 }
 
-                if(!isCancelled) {
+                if (!isCancelled) {
                     entity.addStatus("mv", String.valueOf(nextSq.x).concat(",").concat(String.valueOf(nextSq.y)).concat(",").concat(String.valueOf(height)));
 
                     if (entity.hasStatus("sit")) {
@@ -445,5 +450,7 @@ public class ProcessComponent implements CometTask {
         return this.active;
     }
 
-    public Room getRoom() { return this.room; }
+    public Room getRoom() {
+        return this.room;
+    }
 }

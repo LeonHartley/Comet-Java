@@ -126,6 +126,7 @@ public class Composers {
     public static short GroupElementsMessageComposer = 29;
 
     public static short SlideObjectBundleMessageComposer = 106;
+    public static short BotConfigMessageComposer = 20;
 
     public static String valueOfId(int i) {
         Composers c = new Composers();
