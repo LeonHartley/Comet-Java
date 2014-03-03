@@ -193,31 +193,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
         return true;
     }
 
-    public void moveTo(int x, int y) {
-        // TODO: Redirection grid here for beds
-
-        if (this.getPositionToSet() != null){
-            this.setPosition(this.getPositionToSet());
-        }
-
-        // Set the goal we are wanting to achieve
-        this.setWalkingGoal(x, y);
-
-        // Create a walking path
-        LinkedList<Square> path = this.getPathfinder().makePath();
-
-        // Check returned path to see if it calculated one
-        if (path == null || path.size() == 0) {
-            // Reset the goal and return as no path was found
-            this.setWalkingGoal(this.getPosition().getX(), this.getPosition().getY());
-            return;
-        }
-
-        // UnIdle the user and set the path (if the path has nodes it will mean the user is walking)
-        this.unIdle();
-        this.setWalkingPath(path);
-    }
-
     @Override
     public void setIdle() {
         super.setIdle();
