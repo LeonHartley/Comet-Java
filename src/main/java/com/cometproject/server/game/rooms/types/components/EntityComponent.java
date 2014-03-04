@@ -27,8 +27,8 @@ public class EntityComponent {
 
     private Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().shared();
 
-    private Map<Integer, Integer> playerEntityToPlayerId = new FastMap<Integer, Integer>().shared();
-    private Map<Integer, Integer> botEntityToBotId = new FastMap<Integer, Integer>().shared();
+    private Map<Integer, Integer> playerIdToEntity = new FastMap<Integer, Integer>().shared();
+    private Map<Integer, Integer> botIdToEntity = new FastMap<Integer, Integer>().shared();
 
     private List<GenericEntity>[][] entityGrid;
 
@@ -78,11 +78,11 @@ public class EntityComponent {
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
-            this.playerEntityToPlayerId.put(playerEntity.getVirtualId(), playerEntity.getPlayerId());
+            this.playerIdToEntity.put(playerEntity.getPlayerId(), playerEntity.getVirtualId());
         } else if(entity.getEntityType() == RoomEntityType.BOT) {
             BotEntity botEntity = (BotEntity) entity;
 
-            this.botEntityToBotId.put(botEntity.getVirtualId(), botEntity.getBotId());
+            this.botIdToEntity.put(botEntity.getBotId(), botEntity.getVirtualId());
         }
 
         this.entities.put(entity.getVirtualId(), entity);
@@ -93,12 +93,12 @@ public class EntityComponent {
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
-            this.playerEntityToPlayerId.remove(playerEntity.getVirtualId());
+            this.playerIdToEntity.remove(playerEntity.getPlayerId());
             this.entities.remove(playerEntity.getVirtualId());
         } else if(entity.getEntityType() == RoomEntityType.BOT) {
             BotEntity botEntity = (BotEntity) entity;
 
-            this.botEntityToBotId.remove(botEntity.getBotId());
+            this.botIdToEntity.remove(botEntity.getBotId());
             this.entities.remove(botEntity.getVirtualId());
         }
     }
@@ -132,11 +132,11 @@ public class EntityComponent {
     }
 
     public PlayerEntity getEntityByPlayerId(int id) {
-        if (!this.playerEntityToPlayerId.containsKey(id)) {
+        if (!this.playerIdToEntity.containsKey(id)) {
             return null;
         }
 
-        int entityId = this.playerEntityToPlayerId.get(id);
+        int entityId = this.playerIdToEntity.get(id);
         GenericEntity genericEntity = this.entities.get(entityId);
 
         if (genericEntity == null || genericEntity.getEntityType() != RoomEntityType.PLAYER) {
@@ -147,11 +147,11 @@ public class EntityComponent {
     }
 
     public BotEntity getEntityByBotId(int id) {
-        if(!this.botEntityToBotId.containsKey(id)) {
+        if(!this.botIdToEntity.containsKey(id)) {
             return null;
         }
 
-        int entityId = this.botEntityToBotId.get(id);
+        int entityId = this.botIdToEntity.get(id);
         GenericEntity genericEntity = this.entities.get(entityId);
 
         if(genericEntity == null || genericEntity.getEntityType() != RoomEntityType.BOT) {
@@ -182,7 +182,7 @@ public class EntityComponent {
     }
 
     public int playerCount() {
-        return this.playerEntityToPlayerId.size();
+        return this.playerIdToEntity.size();
     }
 
     public Map<Integer, GenericEntity> getEntitiesCollection() {
