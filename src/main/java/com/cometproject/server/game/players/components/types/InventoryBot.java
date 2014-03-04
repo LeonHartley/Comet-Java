@@ -15,6 +15,7 @@ public class InventoryBot {
         this.figure = data.getString("figure");
         this.gender = data.getString("gender");
         this.motto = data.getString("motto");
+        this.ownerName = data.getString("owner");
     }
 
     public InventoryBot(int id, int ownerId, String ownerName, String name, String figure, String gender, String motto) {
@@ -23,8 +24,9 @@ public class InventoryBot {
 
         this.name = name;
         this.figure = figure;
-        this.gender = figure;
+        this.gender = gender;
         this.motto = motto;
+        this.ownerName = ownerName;
     }
 
     public int getId() {
