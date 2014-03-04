@@ -11,23 +11,24 @@ Current To-do List
 *   Multiple Quantity (DONE)
 *   Bots (DONE)
 *   Finish Wired
-*   Finish Groups
-*   Battle Banzai, Freeze, Football, Snow, Skateboard
-*   Games
+*   Finish Groups (NO FOR THE MOMENT)
+*   Battle Banzai, Freeze, Football, Snow (NO FOR THE MOMENT), Skateboard (NO FOR THE MOMENT)
 *   Pets
-*   Trax
+*   Trax (NO FOR THE MOMENT)
 *   Horse
-*   Talents
-*   :floor command to edit the room model
+*   :floor command to edit the room model (NO FOR THE MOMENT)
 *   Report
-*   Promoted
+*   Promoted (NO FOR THE MOMENT)
 *   Mod-Tools
-*   Polls
+*   Polls (NO FOR THE MOMENT)
 *   Helps
-*   Habbovision + pending file if the room is full: option for staff only
-*   Badge showing furni
+*   Habbovision + pending file if the room is full: option for staff only (NO FOR THE MOMENT)
+*   Badge showing furni (NO FOR THE MOMENT)
 *   Manequins
 *   Background
+*   Talents
+*   TV
+*   Rollers
 
 Official Server
 --------------------
