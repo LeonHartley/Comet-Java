@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.incoming.room.bots;
 import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -19,5 +20,6 @@ public class RemoveBotMessageEvent implements IEvent {
         client.getPlayer().getBots().addBot(bot);
 
         entity.leaveRoom();
+        client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
     }
 }
