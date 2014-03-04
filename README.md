@@ -28,6 +28,7 @@ Current To-do List
 *   Background
 *   Talents
 *   TV
+*   Rollers
 
 Official Server
 --------------------
