@@ -13,21 +13,20 @@ Current To-do List
 *   Finish Wired
 *   Finish Groups
 *   Battle Banzai, Freeze, Football, Snow, Skateboard
-*   Games
 *   Pets
-*   Trax
+*   Trax (NO FOR THE MOMENT)
 *   Horse
-*   Talents
-*   :floor command to edit the room model
+*   :floor command to edit the room model (NO FOR THE MOMENT)
 *   Report
-*   Promoted
+*   Promoted (NO FOR THE MOMENT)
 *   Mod-Tools
-*   Polls
+*   Polls (NO FOR THE MOMENT)
 *   Helps
-*   Habbovision + pending file if the room is full: option for staff only
-*   Badge showing furni
+*   Habbovision + pending file if the room is full: option for staff only (NO FOR THE MOMENT)
+*   Badge showing furni (NO FOR THE MOMENT)
 *   Manequins
 *   Background
+*   Talents
 
 Official Server
 --------------------
