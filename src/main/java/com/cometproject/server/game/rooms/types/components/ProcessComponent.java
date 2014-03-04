@@ -290,7 +290,9 @@ public class ProcessComponent implements CometTask {
                     entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, height));
                     entity.markNeedsUpdate();
                 } else {
-                    entity.getWalkingPath().clear();
+                    if(entity.getWalkingPath() != null)
+                        entity.getWalkingPath().clear();
+
                     entity.getProcessingPath().clear();
                 }
             }
@@ -317,11 +319,13 @@ public class ProcessComponent implements CometTask {
         }
 
         if (entity.getCycleCount() == entity.getData().getChatDelay() * 2) {
-            int messageKey = RandomInteger.getRandom(0, entity.getData().getMessages().length - 1);
-            String message = entity.getData().getMessages()[messageKey];
+            if(entity.getData().getMessages().length > 0) {
+                int messageKey = RandomInteger.getRandom(0, entity.getData().getMessages().length - 1);
+                String message = entity.getData().getMessages()[messageKey];
 
-            if (message != null && !message.isEmpty()) {
-                this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), message, 0, 1));
+                if (message != null && !message.isEmpty()) {
+                    this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), message, 0, 1));
+                }
             }
 
             entity.resetCycleCount();
