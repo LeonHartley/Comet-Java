@@ -11,8 +11,8 @@ Current To-do List
 *   Multiple Quantity (DONE)
 *   Bots (DONE)
 *   Finish Wired
-*   Finish Groups
-*   Battle Banzai, Freeze, Football, Snow, Skateboard
+*   Finish Groups (NO FOR THE MOMENT)
+*   Battle Banzai, Freeze, Football, Snow (NO FOR THE MOMENT), Skateboard (NO FOR THE MOMENT)
 *   Pets
 *   Trax (NO FOR THE MOMENT)
 *   Horse
