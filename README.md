@@ -27,6 +27,7 @@ Current To-do List
 *   Manequins
 *   Background
 *   Talents
+*   TV
 
 Official Server
 --------------------
