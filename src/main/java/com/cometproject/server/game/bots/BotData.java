@@ -21,7 +21,7 @@ public abstract class BotData implements BotInformation {
         this.gender = gender;
         this.ownerId = ownerId;
         this.ownerName = ownerName;
-        this.messages = messages == null ? new String[0] : new Gson().fromJson(messages, String[].class);
+        this.messages = (messages == null || messages.isEmpty()) ? new String[0] : new Gson().fromJson(messages, String[].class);
         this.chatDelay = chatDelay;
         this.isAutomaticChat = automaticChat;
     }
