@@ -7,6 +7,7 @@ import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.items.data.MannequinData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
@@ -47,6 +48,13 @@ public class FloorItem extends RoomItem {
         msg.writeInt(this.getY());
         msg.writeInt(this.getRotation());
         msg.writeString(Double.toString(this.getHeight()));
+
+        if(this.getDefinition().getInteraction().equals("mannequin")) {
+            MannequinData data = MannequinData.get(extraData);
+
+            // TODO: compose data
+        }
+
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeString(this.getExtraData());
