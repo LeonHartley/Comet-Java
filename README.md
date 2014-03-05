@@ -10,6 +10,7 @@ Current To-do List
 *   Badge Catalog (DONE)
 *   Multiple Quantity (DONE)
 *   Bots (DONE)
+*   Manequins (DONE)
 *   Finish Wired
 *   Finish Groups (NO FOR THE MOMENT)
 *   Battle Banzai, Freeze, Football, Snow (NO FOR THE MOMENT), Skateboard (NO FOR THE MOMENT)
@@ -24,7 +25,6 @@ Current To-do List
 *   Helps
 *   Habbovision + pending file if the room is full: option for staff only (NO FOR THE MOMENT)
 *   Badge showing furni (NO FOR THE MOMENT)
-*   Manequins
 *   Background
 *   Talents
 *   TV
