@@ -7,6 +7,7 @@ import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.items.data.BackgroundTonerData;
 import com.cometproject.server.game.rooms.items.data.MannequinData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
@@ -52,7 +53,47 @@ public class FloorItem extends RoomItem {
         if(this.getDefinition().getInteraction().equals("mannequin")) {
             MannequinData data = MannequinData.get(extraData);
 
-            // TODO: compose data
+            msg.writeInt(0);
+            msg.writeInt(1);
+            msg.writeInt(3);
+
+            if(data != null) {
+                msg.writeString("GENDER");
+                msg.writeString(data.getGender());
+                msg.writeString("FIGURE");
+                msg.writeString(data.getFigure());
+                msg.writeString("OUTFIT_NAME");
+                msg.writeString(data.getName());
+            } else {
+                msg.writeString("GENDER");
+                msg.writeString("");
+                msg.writeString("FIGURE");
+                msg.writeString("");
+                msg.writeString("OUTFIT_NAME");
+                msg.writeString("");
+            }
+
+        } else if(this.getDefinition().getInteraction().equals("roombg")) {
+            BackgroundTonerData data = BackgroundTonerData.get(extraData);
+
+            msg.writeInt(0);
+            msg.writeInt(5);
+            msg.writeInt(4);
+            msg.writeInt(1); // enabled
+
+            if(data != null) {
+                msg.writeInt(data.getHue());
+                msg.writeInt(data.getSaturation());
+                msg.writeInt(data.getLightness());
+            } else {
+                this.extraData = "0,0,0";
+                this.saveData();
+
+                msg.writeInt(0);
+                msg.writeInt(0);
+                msg.writeInt(0);
+            }
+
         }
 
         msg.writeInt(0);

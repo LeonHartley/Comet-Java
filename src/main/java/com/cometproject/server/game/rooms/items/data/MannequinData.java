@@ -5,12 +5,10 @@ public class MannequinData {
     private String figure;
     private String gender;
 
-    public MannequinData(String extradata) {
-        String[] data = extradata.split(",");
-
-        this.name = data[0];
-        this.figure = data[1];
-        this.gender = data[2];
+    public MannequinData(String name, String figure, String gender) {
+        this.name = name;
+        this.figure = figure;
+        this.gender = gender;
     }
 
     public String getName() {
@@ -38,7 +36,17 @@ public class MannequinData {
     }
 
     public static MannequinData get(String extraData) {
-        return new MannequinData(extraData);
+        if(!extraData.contains(",")) {
+            return null;
+        }
+
+        String[] data = extraData.split(",");
+
+        if(data.length < 3) {
+            return null;
+        }
+
+        return new MannequinData(data[0], data[1], data[2]);
     }
 
     public static String get(MannequinData data) {
