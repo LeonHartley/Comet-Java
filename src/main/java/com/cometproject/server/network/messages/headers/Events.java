@@ -91,7 +91,7 @@ public class Events {
     public static short RemoveBotMessageEvent = 2788;
     public static short UpdatePapersMessageEvent = 2421;
     public static short SaveMannequinMessageEvent = 1311;
-    public static short SaveMannequinNameMessageEvent = 2451;
+    public static short SaveMannequinNameMessageEvent = 2529;
 
     public static short ManageGroupMessageEvent = 454;
     public static short AddUserToRoom2MessageEvent = 3317;
