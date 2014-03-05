@@ -29,6 +29,10 @@ public class WallItem extends RoomItem {
 
     @Override
     public void serialize(Composer msg) {
+        this.serialize(msg, false);
+    }
+
+    public void serialize(Composer msg, boolean isNew) {
         msg.writeString(this.getId());
         msg.writeInt(this.getDefinition().getSpriteId());
         msg.writeString(this.position);
