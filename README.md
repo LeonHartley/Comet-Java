@@ -29,6 +29,8 @@ Current To-do List
 *   Talents
 *   TV
 *   Rollers
+*   BlackHole
+*   ADS MPU
 
 Official Server
 --------------------
