@@ -36,7 +36,15 @@ public class BackgroundTonerData {
     }
 
     public static BackgroundTonerData get(String extradata) {
+        if(!extradata.contains(",")) {
+            return null;
+        }
+
         String[] data = extradata.split(",");
+
+        if(data.length < 3) {
+            return null;
+        }
 
         return new BackgroundTonerData(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
     }
