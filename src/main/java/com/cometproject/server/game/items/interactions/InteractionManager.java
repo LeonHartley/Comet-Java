@@ -42,6 +42,7 @@ public class InteractionManager {
         this.interactions.put("habbowheel", new WheelInteractor());
         this.interactions.put("roller", new RollerInteraction());
         this.interactions.put("ball", new BallInteraction());
+        this.interactions.put("mannequin", new MannequinInteraction());
 
         if (InteractionManager.DICE_ENABLED) { this.interactions.put("dice", new DiceInteraction()); }
 
