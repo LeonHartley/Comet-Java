@@ -6,19 +6,17 @@
 
     <groupId>groupId</groupId>
     <artifactId>Comet</artifactId>
-    <version>0.3.8-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <version>0.5.0-SNAPSHOT</version>
+
     <name>Comet</name>
     <url>http://www.comet.im</url>
-    <description>Comet Habbo Server developed by the Comet Team</description>
+    <description>Comet Server developed by the Comet Team</description>
 
     <developers>
         <developer>
             <name>Leon</name>
             <email>ljph@outlook.com</email>
-        </developer>
-        <developer>
-            <name>Matty</name>
-            <email>null@null.com</email>
         </developer>
     </developers>
 
