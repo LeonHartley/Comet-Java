@@ -75,12 +75,16 @@ public class FloorItem extends RoomItem {
                 msg.writeString("FIGURE");
                 msg.writeString("ch-210-62.lg-270-62");
                 msg.writeString("OUTFIT_NAME");
-                msg.writeString("Test");
+                msg.writeString("New Mannequin");
             }
 
             msg.writeInt(0);
             msg.writeInt(0);
             msg.writeInt(this.ownerId);
+
+            if(isNew) {
+                msg.writeString(this.getRoom().getData().getOwner());
+            }
 
             return;
         } /*else if(this.getDefinition().getInteraction().equals("roombg")) {
