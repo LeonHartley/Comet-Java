@@ -15,6 +15,10 @@ import java.util.List;
 public class TimerTrigger extends WiredTrigger {
     @Override
     public void onTrigger(Object data, List<PlayerEntity> entities, WiredSquare wiredBlock) {
+        if(entities.size() == 0) {
+            return;
+        }
+
         Room room = entities.get(0).getRoom();
 
         for(FloorItem item : room.getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {

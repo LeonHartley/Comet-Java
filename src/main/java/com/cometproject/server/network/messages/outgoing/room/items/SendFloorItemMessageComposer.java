@@ -9,9 +9,9 @@ public class SendFloorItemMessageComposer {
     public static Composer compose(FloorItem item, Room room) {
         Composer msg = new Composer(Composers.SendFloorItemMessageComposer);
 
-        item.serialize(msg);
-        msg.writeInt(item.getOwner());
-        msg.writeString(room.getData().getOwner());
+        item.serialize(msg, true);
+        //msg.writeInt(item.getOwner());
+        //msg.writeString(room.getData().getOwner());
         return msg;
     }
 }

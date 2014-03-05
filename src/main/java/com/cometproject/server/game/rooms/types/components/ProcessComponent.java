@@ -429,8 +429,10 @@ public class ProcessComponent implements CometTask {
                     entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, height));
                     entity.markNeedsUpdate();
                 } else {
-                    entity.getWalkingPath().clear();
-                    entity.getProcessingPath().clear();
+                    if(entity.getWalkingPath() != null)
+                        entity.getWalkingPath().clear();
+                    if(entity.getProcessingPath() != null)
+                        entity.getProcessingPath().clear();
                 }
             }
         }

@@ -23,7 +23,7 @@ public class RoomCycle implements CometTask {
 
     @Override
     public void run() {
-        int flag = 100;
+        int flag = 250;
 
         try {
             if(!this.isActive()) {

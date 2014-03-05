@@ -17,7 +17,6 @@ public class FloorItemsMessageComposer {
 
         for(FloorItem item : room.getItems().getFloorItems()) {
             item.serialize(msg);
-            msg.writeInt(room.getData().getOwnerId());
         }
 
         msg.writeInt(room.getItems().getWallItems().size());

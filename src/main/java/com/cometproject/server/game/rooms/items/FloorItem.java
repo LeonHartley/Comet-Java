@@ -43,6 +43,11 @@ public class FloorItem extends RoomItem {
 
     @Override
     public void serialize(Composer msg) {
+        this.serialize(msg, false);
+    }
+
+    @Override
+    public void serialize(Composer msg, boolean isNew) {
         msg.writeInt(this.getId());
         msg.writeInt(this.getDefinition().getSpriteId());
         msg.writeInt(this.getX());
@@ -66,14 +71,19 @@ public class FloorItem extends RoomItem {
                 msg.writeString(data.getName());
             } else {
                 msg.writeString("GENDER");
-                msg.writeString("");
+                msg.writeString("m");
                 msg.writeString("FIGURE");
-                msg.writeString("");
+                msg.writeString("ch-210-62.lg-270-62");
                 msg.writeString("OUTFIT_NAME");
-                msg.writeString("");
+                msg.writeString("Test");
             }
 
-        } else if(this.getDefinition().getInteraction().equals("roombg")) {
+            msg.writeInt(0);
+            msg.writeInt(0);
+            msg.writeInt(this.ownerId);
+
+            return;
+        } /*else if(this.getDefinition().getInteraction().equals("roombg")) {
             BackgroundTonerData data = BackgroundTonerData.get(extraData);
 
             msg.writeInt(0);
@@ -86,7 +96,7 @@ public class FloorItem extends RoomItem {
                 msg.writeInt(data.getSaturation());
                 msg.writeInt(data.getLightness());
             } else {
-                this.extraData = "0,0,0";
+                this.extraData = "0;#;0;#;0";
                 this.saveData();
 
                 msg.writeInt(0);
@@ -94,13 +104,17 @@ public class FloorItem extends RoomItem {
                 msg.writeInt(0);
             }
 
-        }
+        }*/
 
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeString(this.getExtraData());
         msg.writeInt(-1);
         msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
+        msg.writeInt(this.getRoom().getData().getOwnerId());
+
+        if(isNew)
+            msg.writeString(this.getRoom().getData().getOwner());
     }
 
     private ItemDefinition cachedDefinition;
@@ -209,18 +223,7 @@ public class FloorItem extends RoomItem {
         this.curInteractionItem = null;
     }
 
-    @Deprecated
-    public void sendUpdate(Session client) {
-        //client.getPlayer().getEntity().getRoom().getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
-        Room r = this.getRoom();
-
-        if (r != null) {
-            r.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
-        }
-    }
-
     public void sendUpdate() {
-        //client.getPlayer().getEntity().getRoom().getAvatars().broadcast(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
         Room r = this.getRoom();
 
         if (r != null) {

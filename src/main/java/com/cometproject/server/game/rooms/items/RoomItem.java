@@ -133,7 +133,9 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem 
         return pos;
     }
 
+    public abstract void serialize(Composer msg, boolean isNew);
     public abstract void serialize(Composer msg);
+
     public abstract ItemDefinition getDefinition();
 
     @Deprecated
