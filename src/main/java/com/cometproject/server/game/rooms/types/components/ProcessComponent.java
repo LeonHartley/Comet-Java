@@ -14,6 +14,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.utilities.RandomInteger;
 import javolution.util.FastList;
@@ -214,7 +215,7 @@ public class ProcessComponent implements CometTask {
             newPosition.setY(entity.getPositionToSet().getY());
             newPosition.setZ(entity.getPositionToSet().getZ());
 
-            //entity.getPlayer().getSession().send(TalkMessageComposer.compose(entity.getVirtualId(), "X: " + newPosition.getX() + ", Y: " + newPosition.getY() + ", Rot: " + entity.getBodyRotation(), 0,0));
+            //entity.getPlayer().getSession().send(TalkMessageComposer.compose(entity.getVirtualId(), "X: " + newPosition.getX() + ", Y: " + newPosition.getY() + ", Rot: " + entity.getBodyRotation(), 0, 0));
 
             List<FloorItem> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
 
