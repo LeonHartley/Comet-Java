@@ -27,11 +27,14 @@ public class SaveMannequinMessageEvent implements IEvent {
 
         MannequinData data = MannequinData.get(item.getExtraData());
 
+        String figure = client.getPlayer().getData().getFigure();
+        String gender = client.getPlayer().getData().getGender().toLowerCase();
+
         if(data == null) {
-            data = new MannequinData("New Mannequin", client.getPlayer().getData().getFigure(), client.getPlayer().getData().getGender());
+            data = new MannequinData("New Mannequin", figure, gender);
         } else {
-            data.setFigure(client.getPlayer().getData().getFigure());
-            data.setGender(client.getPlayer().getData().getGender());
+            data.setFigure(figure);
+            data.setGender(gender);
         }
 
         room.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(item.getId(), MannequinData.get(data)));
