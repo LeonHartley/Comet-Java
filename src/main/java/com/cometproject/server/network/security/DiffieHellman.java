@@ -3,87 +3,78 @@ package com.cometproject.server.network.security;
 import java.math.BigInteger;
 import java.util.Random;
 
-public class DiffieHellman
-{
+public class DiffieHellman {
     public int BITLENGTH = 30;
+    public BigInteger Prime;
+    public BigInteger Generator;
 
-    public BigInteger prime;
-    public BigInteger generator;
+    public BigInteger PrivateKey;
+    public BigInteger PublicKey;
 
-    public BigInteger privateKey;
-    public BigInteger publicKey;
+    public BigInteger PublicClientKey;
+    public BigInteger SharedKey;
+    private BigInteger zero = (new BigInteger("0"));
 
-    public BigInteger publicClientKey;
-
-    public BigInteger sharedKey;
-
-    public DiffieHellman()
-    {
+    public DiffieHellman() {
         this.init();
     }
 
-    public DiffieHellman(int b)
-    {
+    public DiffieHellman(int b) {
         this.BITLENGTH = b;
 
         this.init();
     }
 
-    private void init()
-    {
-        this.publicKey = BigInteger.valueOf(0);
-        while (this.publicKey.intValue() == 0)
-        {
-            this.prime = BigInteger.probablePrime(BITLENGTH, new Random());
-            this.generator = BigInteger.probablePrime(BITLENGTH, new Random());
+    private void init() {
+        this.PublicKey = new BigInteger("0");
+        while (this.PublicKey.equals(zero)) {
+            //this.Prime = BigInteger.probablePrime(BITLENGTH, new Random());
+            //this.Generator = BigInteger.probablePrime(BITLENGTH, new Random());
 
-            this.privateKey = new BigInteger(generateRandomHex(BITLENGTH), 16);
+            this.Prime = HabboEncryption.PRIME;
+            this.Generator = HabboEncryption.GENERATOR;
 
-            if (this.generator.intValue() > this.prime.intValue())
-            {
-                BigInteger temp = this.prime;
-                this.prime = this.generator;
-                this.generator = temp;
+            this.PrivateKey = new BigInteger(GenerateRandomHexString(30), 16);
+
+            if (this.Generator.intValue() > this.Prime.intValue()) {
+                BigInteger temp = this.Prime;
+                this.Prime = this.Generator;
+                this.Generator = temp;
             }
 
-            this.publicKey = this.generator.modPow(this.privateKey, this.prime);
+            this.PublicKey = this.Generator.modPow(this.PrivateKey, this.Prime);
         }
     }
 
-    public DiffieHellman(BigInteger prime, BigInteger generator)
-    {
-        this.prime = prime;
-        this.generator = generator;
+    public DiffieHellman(BigInteger prime, BigInteger generator) {
+        this.Prime = prime;
+        this.Generator = generator;
 
-        this.privateKey = new BigInteger(generateRandomHex(BITLENGTH), 16);
+        this.PrivateKey = new BigInteger(GenerateRandomHexString(BITLENGTH), 16);
 
-        if (this.generator.intValue() > this.prime.intValue())
-        {
-            BigInteger temp = this.prime;
-            this.prime = this.generator;
-            this.generator = temp;
+        if (this.Generator.intValue() > this.Prime.intValue()) {
+            BigInteger temp = this.Prime;
+            this.Prime = this.Generator;
+            this.Generator = temp;
         }
 
-        this.publicKey = this.generator.modPow(this.privateKey, this.prime);
+        this.PublicKey = this.Generator.modPow(this.PrivateKey, this.Prime);
     }
 
-    public void generateSharedKey(String ckey)
-    {
-        this.publicClientKey = new BigInteger(ckey, 10);
+    public void GenerateSharedKey(String ckey) {
+        this.PublicClientKey = new BigInteger(ckey, 10);
 
-        this.sharedKey = this.publicClientKey.modPow(this.privateKey, this.prime);
+        this.SharedKey = this.PublicClientKey.modPow(this.PrivateKey, this.Prime);
     }
 
-    public static String generateRandomHex(int len)
-    {
+    public static String GenerateRandomHexString(int len) {
         int rand = 0;
         String result = "";
 
         Random rnd = new Random();
 
-        for (int i = 0; i < len; i++)
-        {
-            rand =  1 + (int)(rnd.nextDouble() * 254); // 1 - 255
+        for (int i = 0; i < len; i++) {
+            rand = 1 + (int) (rnd.nextDouble() * 254); // 1 - 255
             result += Integer.toString(rand, 16);
         }
         return result;

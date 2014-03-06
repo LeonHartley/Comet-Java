@@ -5,6 +5,7 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.network.http.ManagementServer;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
+import com.cometproject.server.network.security.HabboEncryption;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
 import io.netty.bootstrap.ServerBootstrap;
@@ -17,6 +18,7 @@ import io.netty.util.AttributeKey;
 import io.netty.util.ResourceLeakDetector;
 import org.apache.log4j.Logger;
 
+import java.math.BigInteger;
 import java.net.InetSocketAddress;
 import java.util.UUID;
 
@@ -42,11 +44,14 @@ public class NetworkEngine {
 
     private Channel listenChannel;
 
+    private HabboEncryption encryption;
+
     private static Logger log = Logger.getLogger(NetworkEngine.class.getName());
 
     public NetworkEngine(String ip, int port) {
         this.sessions = new SessionManager();
         this.messageHandler = new MessageHandler();
+        this.encryption = new HabboEncryption(HabboEncryption.N, HabboEncryption.E, HabboEncryption.D);
 
         if(CometSettings.httpEnabled)
             this.managementServer = new ManagementServer();
@@ -88,5 +93,9 @@ public class NetworkEngine {
 
     public MessageHandler getMessages() {
         return this.messageHandler;
+    }
+
+    public HabboEncryption getEncryption() {
+        return encryption;
     }
 }

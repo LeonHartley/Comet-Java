@@ -2,12 +2,14 @@ package com.cometproject.server.network.sessions;
 
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.network.security.RC4;
 import org.apache.log4j.Logger;
 import io.netty.channel.Channel;
 
 public class Session {
     private Channel channel;
     private Player player;
+    private RC4 rc4;
 
     private Logger logger = Logger.getLogger("Unknown session");
 
@@ -45,5 +47,13 @@ public class Session {
 
     public Channel getChannel() {
         return this.channel;
+    }
+
+    public RC4 getRC4() {
+        return rc4;
+    }
+
+    public void setRC4(RC4 rc4) {
+        this.rc4 = rc4;
     }
 }

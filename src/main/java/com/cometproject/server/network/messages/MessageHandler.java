@@ -11,10 +11,7 @@ import com.cometproject.server.network.messages.incoming.catalog.data.GetShopDat
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupDialogMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.pets.PetRacesMessageEvent;
-import com.cometproject.server.network.messages.incoming.handshake.CheckReleaseMessageEvent;
-import com.cometproject.server.network.messages.incoming.handshake.GenerateSecretKeyMessageEvent;
-import com.cometproject.server.network.messages.incoming.handshake.InitCryptoMessageEvent;
-import com.cometproject.server.network.messages.incoming.handshake.SSOTicketMessageEvent;
+import com.cometproject.server.network.messages.incoming.handshake.*;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.AcceptFriendshipMessageEvent;
@@ -79,7 +76,7 @@ public class MessageHandler {
         }
 
         this.registerHandshake();
-        this.registerModTool();
+       /* this.registerModTool();
         this.registerHelpTool();
         this.registerMessenger();
         this.registerNavigator();
@@ -89,7 +86,7 @@ public class MessageHandler {
         this.registerRoomTrade();
         this.registerRoomModeration();
         this.registerItems();
-        this.registerCatalog();
+        this.registerCatalog();*/
 
         log.info("Loaded " + this.getMessages().size() + " message events");
     }
@@ -99,6 +96,7 @@ public class MessageHandler {
         this.getMessages().put(Events.InitCryptoMessageEvent, new InitCryptoMessageEvent());
         this.getMessages().put(Events.GenerateSecretKeyMessageEvent, new GenerateSecretKeyMessageEvent());
         this.getMessages().put(Events.SSOTicketMessageEvent, new SSOTicketMessageEvent());
+        this.getMessages().put(Events.UniqueIdMessageEvent, new UniqueIdMessageEvent());
 	}
 
     public void registerModTool() {
