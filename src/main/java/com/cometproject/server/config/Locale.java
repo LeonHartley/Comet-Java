@@ -12,7 +12,7 @@ public class Locale {
 
     public static void init() {
         String language = Comet.getServer().getConfig().get("comet.language.locale");
-        Configuration localeFile = new Configuration("./config/locale_" + language + ".properties");
+        Configuration localeFile = new Configuration("./config/locales/locale_" + language + ".properties");
         locale = new FastMap<>();
 
         for(Map.Entry<Object, Object> prop : localeFile.getProperties().entrySet()) {
