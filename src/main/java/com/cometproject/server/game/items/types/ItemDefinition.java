@@ -22,6 +22,7 @@ public class ItemDefinition {
     public boolean canGift;
     public boolean canInventoryStack;
 
+    private int effectId;
     private String interaction;
     private int interactionCycleCount;
 
@@ -45,6 +46,8 @@ public class ItemDefinition {
         this.canMarket = true;
         this.canGift = true;
 
+
+        this.effectId = data.getInt("effectid");
         this.interaction = data.getString("interaction_type");
         this.interactionCycleCount = data.getInt("interaction_modes_count");
     }
@@ -87,5 +90,9 @@ public class ItemDefinition {
 
     public int getInteractionCycleCount() {
         return this.interactionCycleCount;
+    }
+
+    public int getEffectId() {
+        return effectId;
     }
 }

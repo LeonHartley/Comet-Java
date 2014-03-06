@@ -141,6 +141,10 @@ public class ProcessComponent implements CometTask {
 
     protected void processPlayerEntity(PlayerEntity entity) {
         // Cleanup if the entity is offline
+
+        // Copy the current position before updating
+        Position3D currentPosition = new Position3D(entity.getPosition());
+
         if (entity.getPlayer() == null || entity.getRoom() == null) {
             this.room.getEntities().removeEntity(entity);
             this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
@@ -168,6 +172,20 @@ public class ProcessComponent implements CometTask {
             if (entity.getCurrentEffect().getDuration() == 0 && entity.getCurrentEffect().expires()) {
                 entity.applyEffect(null);
             }
+
+            if (entity.getCurrentEffect().isItemEffect()) {
+                boolean needsRemove = true;
+
+                for (FloorItem item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
+                    if(item.getDefinition().getEffectId() == entity.getCurrentEffect().getEffectId()) {
+                        needsRemove = false;
+                    }
+                }
+
+                if(needsRemove) {
+                    entity.applyEffect(null);
+                }
+            }
         }
 
         if (entity.hasStatus("mv")) {
@@ -193,9 +211,6 @@ public class ProcessComponent implements CometTask {
                 leavingRoom.add(entity);
                 return;
             }
-
-            // Copy the current position before updating
-            Position3D currentPosition = new Position3D(entity.getPosition());
 
             for (FloorItem item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
                 item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 0);

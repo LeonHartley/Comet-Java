@@ -1,6 +1,7 @@
 package com.cometproject.server.game.items.interactions.items;
 
 import com.cometproject.server.game.items.interactions.Interactor;
+import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -8,6 +9,13 @@ import com.cometproject.server.game.rooms.types.Room;
 public class DefaultInteraction extends Interactor {
     @Override
     public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
+        if(state) {
+            if(item.getDefinition().getEffectId() != 0) {
+                if(avatar.getCurrentEffect() == null) {
+                    avatar.applyEffect(new UserEffect(item.getDefinition().getEffectId(), true));
+                }
+            }
+        }
         return false;
     }
 
