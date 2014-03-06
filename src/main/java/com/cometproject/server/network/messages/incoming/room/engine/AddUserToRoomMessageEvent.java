@@ -11,6 +11,8 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessag
 import com.cometproject.server.network.messages.outgoing.room.bots.PlaceBotMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomPanelMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.items.FloorItemsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.items.WallItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -42,6 +44,9 @@ public class AddUserToRoomMessageEvent implements IEvent {
         if(client.getPlayer().floodTime >= 1) {
             client.send(FloodFilterMessageComposer.compose(client.getPlayer().floodTime));
         }
+
+        client.send(FloorItemsMessageComposer.compose(room));
+        client.send(WallItemsMessageComposer.compose(room));
 
         client.send(RoomPanelMessageComposer.compose(room.getId(), room.getRights().hasRights(client.getPlayer().getId()) || room.getData().getOwnerId() == client.getPlayer().getId()));
         client.send(RoomDataMessageComposer.compose(room));

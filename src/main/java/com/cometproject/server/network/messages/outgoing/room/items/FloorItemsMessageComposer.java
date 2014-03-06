@@ -19,17 +19,6 @@ public class FloorItemsMessageComposer {
             item.serialize(msg);
         }
 
-        msg.writeInt(room.getItems().getWallItems().size());
-
-        for(WallItem item : room.getItems().getWallItems()) {
-            msg.writeString(item.getId());
-            msg.writeInt(item.getDefinition().getSpriteId());
-            msg.writeString(item.getPosition());
-            msg.writeString(item.getExtraData());
-            msg.writeInt(0);
-            msg.writeInt(room.getData().getOwnerId());
-            msg.writeInt(0);
-        }
 
         return msg;
     }
