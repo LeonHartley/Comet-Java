@@ -11,6 +11,7 @@ Current To-do List
 *   Multiple Quantity (DONE)
 *   Bots (DONE)
 *   Manequins (DONE)
+*   Black Hole (DONE)
 *   Finish Wired
 *   Finish Groups (NO FOR THE MOMENT)
 *   Battle Banzai, Freeze, Football, Snow (NO FOR THE MOMENT), Skateboard (NO FOR THE MOMENT)
@@ -29,7 +30,6 @@ Current To-do List
 *   Talents
 *   TV
 *   Rollers
-*   BlackHole
 *   ADS MPU
 
 Official Server
