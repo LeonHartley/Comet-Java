@@ -1,5 +1,6 @@
 package com.cometproject.server.config;
 
+import com.cometproject.server.boot.Comet;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -10,7 +11,8 @@ public class Locale {
     private static Map<String, String> locale;
 
     public static void init() {
-        Configuration localeFile = new Configuration("./config/locale.properties");
+        String language = Comet.getServer().getConfig().get("comet.language.locale");
+        Configuration localeFile = new Configuration("./config/locale_" + language + ".properties");
         locale = new FastMap<>();
 
         for(Map.Entry<Object, Object> prop : localeFile.getProperties().entrySet()) {
