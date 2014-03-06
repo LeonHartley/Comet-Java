@@ -1,5 +1,6 @@
 package com.cometproject.server.network.codec;
 
+import com.cometproject.server.network.messages.headers.Events;
 import com.cometproject.server.network.messages.types.Event;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -23,9 +24,18 @@ public class MessageDecoder extends ByteToMessageDecoder {
                 return;
             }
 
+            short messageId = msg.readShort();
+
+            System.out.println(Events.valueOfId(messageId));
+            System.out.println(Events.valueOfId(messageId));
+            System.out.println(Events.valueOfId(messageId));
+            System.out.println(Events.valueOfId(messageId));
+            System.out.println(Events.valueOfId(messageId));
+            System.out.println(length);
+
             length -= 2;
 
-            out.add(new Event(msg.readShort(), msg.readBytes(length)));
+            out.add(new Event(messageId, msg.readBytes(length)));
         } catch (Exception e) {
             e.printStackTrace(); // for debugging!
         }

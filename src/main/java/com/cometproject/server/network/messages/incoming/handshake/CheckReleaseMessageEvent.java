@@ -8,6 +8,6 @@ import com.cometproject.server.network.sessions.Session;
 public class CheckReleaseMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) {
-        GameEngine.getLogger().debug("Client running on release: " + msg.readString());
+        GameEngine.getLogger().debug("Client running on release: " + msg.readString().split(" ")[0]);
     }
 }
