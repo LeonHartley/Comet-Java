@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.bots;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -21,5 +22,7 @@ public class RemoveBotMessageEvent implements IEvent {
 
         entity.leaveRoom();
         client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
+
+        Comet.getServer().getStorage().execute("UPDATE bots SET room_id = 0 WHERE id = " + bot.getId());
     }
 }

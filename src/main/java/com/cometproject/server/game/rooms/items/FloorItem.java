@@ -62,21 +62,22 @@ public class FloorItem extends RoomItem {
             msg.writeInt(1);
             msg.writeInt(3);
 
+            String gender = "m";
+            String figure = "ch-210-62.lg-270-62";
+            String name = "New Mannequin";
+
             if(data != null) {
-                msg.writeString("GENDER");
-                msg.writeString(data.getGender());
-                msg.writeString("FIGURE");
-                msg.writeString(data.getFigure());
-                msg.writeString("OUTFIT_NAME");
-                msg.writeString(data.getName());
-            } else {
-                msg.writeString("GENDER");
-                msg.writeString("m");
-                msg.writeString("FIGURE");
-                msg.writeString("ch-210-62.lg-270-62");
-                msg.writeString("OUTFIT_NAME");
-                msg.writeString("New Mannequin");
+                gender = data.getGender().toLowerCase();
+                figure = data.getFigure();
+                name = data.getName();
             }
+
+            msg.writeString("GENDER");
+            msg.writeString(gender);
+            msg.writeString("FIGURE");
+            msg.writeString(figure);
+            msg.writeString("OUTFIT_NAME");
+            msg.writeString(name);
 
             msg.writeInt(0);
             msg.writeInt(0);

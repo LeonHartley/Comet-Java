@@ -33,10 +33,13 @@ public class BotComponent {
 
             while(data.next()) {
                 BotData botData = new PlayerBotData(data.getInt("id"), data.getString("name"), data.getString("motto"), data.getString("figure"), data.getString("gender"), data.getString("owner"), data.getInt("owner_id"), data.getString("messages"), data.getString("automatic_chat").equals("1"), data.getInt("chat_delay"));
-                BotEntity botEntity = new BotEntity(botData, room.getEntities().getFreeId(), new Position3D(data.getInt("x"), data.getInt("y"), data.getInt("z")), 1, 1, room);
 
-                this.botDataInstances.put(botData.getId(), botData);
-                this.getRoom().getEntities().addEntity(botEntity);
+                //for(int i = 0; i < 1000; i++) {
+                    BotEntity botEntity = new BotEntity(botData, room.getEntities().getFreeId(), new Position3D(data.getInt("x"), data.getInt("y"), data.getInt("z")), 1, 1, room);
+
+                    this.botDataInstances.put(botData.getId(), botData);
+                    this.getRoom().getEntities().addEntity(botEntity);
+                //}
             }
         } catch(Exception e) {
             room.log.error("Error while deploying bots", e);

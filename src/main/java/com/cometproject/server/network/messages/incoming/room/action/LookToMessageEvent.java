@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
@@ -14,7 +15,7 @@ public class LookToMessageEvent implements IEvent {
             return;
         }
 
-        PlayerEntity lookingAt = avatar.getRoom().getEntities().tryGetPlayerEntityNullable(msg.readInt());
+        GenericEntity lookingAt = avatar.getRoom().getEntities().getEntity(msg.readInt());
 
         if(lookingAt == null || avatar == lookingAt) {
             return;
