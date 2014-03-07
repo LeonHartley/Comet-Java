@@ -1,94 +1,80 @@
 package com.cometproject.server.network.security;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 
 public class RSA {
-    // public key
-    public int e; // public exponent
-    public BigInteger n; // modulus
-    // private key
+    public BigInteger n;
+    public BigInteger e;
     public BigInteger d;
-    // extended private key
     public BigInteger p;
     public BigInteger q;
     public BigInteger dmp1;
     public BigInteger dmq1;
     public BigInteger coeff;
-    // bools (can encrypt/decrypt?)
-    public boolean canDecrypt;
-    public boolean canEncrypt;
 
-    private BigInteger zero = new BigInteger("0");
+    protected Boolean canDecrypt;
+    protected Boolean canEncrypt;
 
-    public RSA(BigInteger N, int E, BigInteger D, BigInteger P, BigInteger Q, BigInteger DP, BigInteger DQ, BigInteger C)
-    {
-        this.n = N;
-        this.e = E;
-        this.d = D;
-        this.p = P;
-        this.q = Q;
-        this.dmp1 = DP;
-        this.dmq1 = DQ;
-        this.coeff = C;
-        // adjust a few flags.
-        canEncrypt = (n!=null&&n!=zero&&e!=0);
-        canDecrypt = (canEncrypt&&d!=zero&&d!=null);
+    public RSA(BigInteger n, BigInteger e, BigInteger d, BigInteger p, BigInteger q, BigInteger dmp1, BigInteger dmq1, BigInteger coeff) {
+        this.n = n;
+        this.e = e;
+        this.d = d;
+        this.p = p;
+        this.q = q;
+        this.dmp1 = dmp1;
+        this.dmq1 = dmq1;
+        this.coeff = coeff;
+
+        this.canEncrypt = !this.n.equals(BigInteger.ZERO) && !this.e.equals(BigInteger.ZERO);
+        this.canDecrypt = this.canEncrypt && !this.d.equals(BigInteger.ZERO);
     }
 
-    public int GetBlockSize() {
-        return (n.bitLength()+7)/8;
+    private int getBlockSize() {
+        return (this.n.bitCount() + 7) / 8;
     }
 
-    public BigInteger DoPublic(BigInteger x)
-    {
-        if (this.canEncrypt)
-        {
-            return x.modPow(new BigInteger(this.e + ""), this.n);
+    public BigInteger doPublic(BigInteger x) {
+        if (this.canEncrypt) {
+            return x.modPow(this.e, this.n);
         }
 
-        return zero;
+        return BigInteger.ZERO;
     }
 
-    public String Encrypt(String text)
-    {
-        if (text.length() > this.GetBlockSize() - 11)
-        {
-            //Console.WriteLine("RSA Encrypt: Message is to big!");
+    public String encrypt(String text) {
+        if (text.length() > this.getBlockSize() - 11) {
+            // ERROR!
         }
 
-        BigInteger m = new BigInteger(this.pkcs1pad2(text.getBytes(), this.GetBlockSize()));
-        if (m.equals(zero))
-        {
+        BigInteger m = new BigInteger(this.pkcs1pad2(text.getBytes(Charset.forName("iso-8859-1")), this.getBlockSize()));
+        if (m == BigInteger.ZERO) {
             return null;
         }
 
-        BigInteger c = this.DoPublic(m);
-        if (c.equals(zero))
-        {
+        BigInteger c = this.doPublic(m);
+        if (c == BigInteger.ZERO) {
             return null;
         }
 
         String result = c.toString(16);
-        if ((result.length() & 1) == 0)
-        {
+        if ((result.length() & 1) == 0) {
             return result;
         }
 
         return "0" + result;
     }
 
-    private byte[] pkcs1pad2(byte[] data, int n)
-    {
+    private byte[] pkcs1pad2(byte[] data, int n) {
         byte[] bytes = new byte[n];
         int i = data.length - 1;
-        while (i >= 0 && n > 11)
-        {
+        while (i >= 0 && n > 11) {
             bytes[--n] = data[i--];
         }
         bytes[--n] = 0;
 
-        while (n > 2)
-        {
+        while (n > 2) {
             bytes[--n] = 0x01;
         }
 
@@ -98,56 +84,52 @@ public class RSA {
         return bytes;
     }
 
-    public BigInteger DoPrivate(BigInteger x)
-    {
-        if (this.canDecrypt)
-        {
+    public BigInteger doPrivate(BigInteger x) {
+        if (this.canDecrypt) {
             return x.modPow(this.d, this.n);
         }
 
-        return zero;
+        return BigInteger.ZERO;
     }
 
-    public String Decrypt(String ctext)
-    {
+    public String decrypt(String ctext) throws UnsupportedEncodingException {
         BigInteger c = new BigInteger(ctext, 16);
-        BigInteger m = this.DoPrivate(c);
-        if (m.equals(zero))
-        {
-            return null;
-        }
-        byte[] bytes = this.pkcs1unpad2(m, this.GetBlockSize());
-
-        if (bytes == null)
-        {
+        BigInteger m = this.doPrivate(c);
+        if (m.equals(BigInteger.ZERO)) {
             return null;
         }
 
-        return new String(bytes);
+        byte[] bytes = this.pkcs1unpad2(m, this.getBlockSize());
+
+        if (bytes == null) {
+            return null;
+        }
+
+        return new String(bytes, "iso-8859-1");
     }
 
-    private byte[] pkcs1unpad2(BigInteger src, int n) {
-        byte[] bytes = src.toByteArray();
-        byte[] out;
+    private byte[] pkcs1unpad2(BigInteger m, int b) {
+        byte[] bytes = m.toByteArray();
+
         int i = 0;
-        while(i<bytes.length && bytes[i]==0) ++i;
-        if(bytes.length-i != n-1 || bytes[i]>2) {
-            System.out.println("PKCS#1 unpad: i="+i+", expected b[i]==[0,1,2], got b[i]="+bytes[i]);
+        while (i < bytes.length && bytes[i] == 0) ++i;
+
+        if (bytes.length - i != (b - 1) || bytes[i] != 2) {
             return null;
         }
-        ++i;
-        while(bytes[i]!=0) {
-            if(++i>=bytes.length)
-            {
-                System.out.println("PKCS#1 unpad: i="+i+", b[i-1]!=0 (="+bytes[i-1]+")");
+
+        while (bytes[i] != 0) {
+            if (++i >= bytes.length) {
                 return null;
             }
         }
-        out = new byte[(bytes.length-i)+1];
+
+        byte[] result = new byte[bytes.length - i + 1];
         int p = 0;
         while (++i < bytes.length) {
-            out[p++] = (bytes[i]);
+            result[p++] = bytes[i];
         }
-        return out;
+
+        return result;
     }
 }

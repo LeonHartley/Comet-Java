@@ -12,7 +12,7 @@ public class InitCryptoMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) {
         //client.send(InitCryptoMessageComposer.compose("12f449917de4f94a8c48dbadd92b6276", false));
-        client.send(InitCryptoMessageComposer.compose(new BigInteger(DiffieHellman.GenerateRandomHexString(15), 16).toString(16), false));
+        client.send(InitCryptoMessageComposer.compose(new BigInteger(DiffieHellman.getRandomHexString(15), 16).toString(16), false));
         //client.send(InitCryptoMessageComposer.compose("00a2acf44a945c81b56c71f1b6df8acb", false));
     }
 }

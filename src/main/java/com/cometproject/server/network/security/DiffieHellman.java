@@ -5,78 +5,80 @@ import java.util.Random;
 
 public class DiffieHellman {
     public int BITLENGTH = 30;
-    public BigInteger Prime;
-    public BigInteger Generator;
 
-    public BigInteger PrivateKey;
-    public BigInteger PublicKey;
+    public BigInteger prime;
+    public BigInteger generator;
 
-    public BigInteger PublicClientKey;
-    public BigInteger SharedKey;
-    private BigInteger zero = (new BigInteger("0"));
+    public BigInteger privateKey;
+    public BigInteger publicKey;
+    public BigInteger sharedKey;
 
-    public DiffieHellman() {
-        this.init();
+    public BigInteger publicClientKey;
+
+    /*public DiffieHellman()
+    {
+        this.InitDH();
     }
 
-    public DiffieHellman(int b) {
+    public DiffieHellman(int b)
+    {
         this.BITLENGTH = b;
 
-        this.init();
+        this.InitDH();
     }
 
-    private void init() {
-        this.PublicKey = new BigInteger("0");
-        while (this.PublicKey.equals(zero)) {
-            //this.Prime = BigInteger.probablePrime(BITLENGTH, new Random());
-            //this.Generator = BigInteger.probablePrime(BITLENGTH, new Random());
+    private void InitDH()
+    {
+        this.publicKey = BigInteger.ZERO;
 
-            this.Prime = HabboEncryption.PRIME;
-            this.Generator = HabboEncryption.GENERATOR;
+        while (this.publicKey.equals(BigInteger.ZERO))
+        {
+            this.prime = BigInteger.genPseudoPrime(BITLENGTH, 10, new Random());
+            this.generator = BigInteger.genPseudoPrime(BITLENGTH, 10, new Random());
 
-            this.PrivateKey = new BigInteger(GenerateRandomHexString(30), 16);
+            this.privateKey = new BigInteger(getRandomHexString(BITLENGTH), 16);
 
-            if (this.Generator.intValue() > this.Prime.intValue()) {
-                BigInteger temp = this.Prime;
-                this.Prime = this.Generator;
-                this.Generator = temp;
+            if (this.generator.intValue() > this.prime.intValue())
+            {
+                BigInteger temp = this.prime;
+                this.prime = this.generator;
+                this.generator = temp;
             }
 
-            this.PublicKey = this.Generator.modPow(this.PrivateKey, this.Prime);
+            this.publicKey = this.generator.modPow(this.privateKey, this.prime);
         }
-    }
+    }*/
 
     public DiffieHellman(BigInteger prime, BigInteger generator) {
-        this.Prime = prime;
-        this.Generator = generator;
+        this.prime = prime;
+        this.generator = generator;
 
-        this.PrivateKey = new BigInteger(GenerateRandomHexString(BITLENGTH), 16);
+        this.privateKey = new BigInteger(getRandomHexString(BITLENGTH), 16);
 
-        if (this.Generator.intValue() > this.Prime.intValue()) {
-            BigInteger temp = this.Prime;
-            this.Prime = this.Generator;
-            this.Generator = temp;
+        if (this.generator.intValue() > this.prime.intValue()) {
+            BigInteger temp = this.prime;
+            this.prime = this.generator;
+            this.generator = temp;
         }
 
-        this.PublicKey = this.Generator.modPow(this.PrivateKey, this.Prime);
+        this.publicKey = this.generator.modPow(this.privateKey, this.prime);
+
     }
 
-    public void GenerateSharedKey(String ckey) {
-        this.PublicClientKey = new BigInteger(ckey, 10);
+    public void generateSharedKey(String ckey) {
+        this.publicClientKey = new BigInteger(ckey, 10);
 
-        this.SharedKey = this.PublicClientKey.modPow(this.PrivateKey, this.Prime);
+        this.sharedKey = this.publicClientKey.modPow(this.privateKey, this.prime);
     }
 
-    public static String GenerateRandomHexString(int len) {
-        int rand = 0;
-        String result = "";
-
-        Random rnd = new Random();
-
-        for (int i = 0; i < len; i++) {
-            rand = 1 + (int) (rnd.nextDouble() * 254); // 1 - 255
-            result += Integer.toString(rand, 16);
+    public static String getRandomHexString(int numchars) {
+        Random r = new Random();
+        StringBuilder sb = new StringBuilder();
+        while (sb.length() < numchars) {
+            sb.append(Integer.toHexString(r.nextInt()));
         }
-        return result;
+
+        return sb.toString().substring(0, numchars);
     }
+
 }
