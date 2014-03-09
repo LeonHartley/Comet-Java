@@ -4,10 +4,9 @@ import java.lang.reflect.Field;
 
 public class Events {
 	public static short CheckReleaseMessageEvent = 4000;
-	public static short InitCryptoMessageEvent = 112;//1266;
-    public static short GenerateSecretKeyMessageEvent = 290;//3987;
-	public static short SSOTicketMessageEvent = 2780;// 1461;
-    public static short UniqueIdMessageEvent = 83; // New header
+	public static short InitCryptoMessageEvent = 1266;//642;//1266;
+    public static short GenerateSecretKeyMessageEvent = 3987; //1042;//3987;
+	public static short SSOTicketMessageEvent = 1461;
 	public static short AcceptFriendshipMessageEvent = 3528;
     public static short AcceptTradeMessageEvent = 3202;
     public static short ApplyActionMessageEvent = 1843;
