@@ -1,45 +1,69 @@
 package com.cometproject.server.network.security;
 
-public class RC4 {
+
+public class RC4
+{
     private int i = 0;
     private int j = 0;
-    private int[] Table = new int[256];
-    public void init(byte[] a)
+    private int[] table;
+
+    public RC4()
     {
-        int k = a.length;
+        this.table = new int[256];
+    }
+
+    public RC4(byte[] key)
+    {
+        this.table = new int[256];
+
+        this.init(key);
+    }
+
+    public void init(byte[] key)
+    {
+        int k = key.length;
         this.i = 0;
         while (this.i < 256)
         {
-            this.Table[this.i] = this.i;
+            this.table[this.i] = this.i;
             this.i++;
         }
+
+        this.i = 0;
         this.j = 0;
-        this.i = 0;
-        while (this.i < 256)
+        while (this.i < 0x0100)
         {
-            this.j = ((this.j + this.Table[this.i]) + (a[this.i % k] & 0xff)) % 256;
-            this.Swamp(this.i, this.j);
+            this.j = (((this.j + this.table[this.i]) + key[(this.i % k)]) % 256);
+            this.swap(this.i, this.j);
             this.i++;
         }
+
         this.i = 0;
         this.j = 0;
     }
 
-    public void parse(byte[] b) // encrypt and decrypt
+    public void swap(int a, int b)
     {
-        for(int a = 0;a<b.length;a++)
-        {
-            this.i = (this.i + 1) % 256;
-            this.j = (this.j + this.Table[this.i]) % 256;
-            this.Swamp(this.i, this.j);
-            b[a] = (byte) ((b[a] & 0xff) ^ this.Table[(this.Table[this.i] + this.Table[this.j]) % 256]);
-        }
+        int k = this.table[a];
+        this.table[a] = this.table[b];
+        this.table[b] = k;
     }
 
-    private void Swamp(int a1, int a2)
+    public byte[] decipher(byte[] bytes)
     {
-        int k = this.Table[a1];
-        this.Table[a1] = this.Table[a2];
-        this.Table[a2] = k;
+        int k = 0;
+        byte[] result = new byte[bytes.length];
+        int pos = 0;
+
+        for (byte aByte : bytes) {
+            this.i = ((this.i + 1) % 256);
+            this.j = ((this.j + this.table[this.i]) % 256);
+            this.swap(this.i, this.j);
+            k = ((this.table[this.i] + this.table[this.j]) % 256);
+            result[pos++] = (byte) (aByte ^ this.table[k]);
+        }
+
+        return result;
     }
+
 }

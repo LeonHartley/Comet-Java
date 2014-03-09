@@ -4,15 +4,15 @@ import org.apache.log4j.Logger;
 
 import java.math.BigInteger;
 
-public class HabboEncryption {
+public class Encryption {
     private RSA rsa;
     private RC4 rc4;
     private DiffieHellman diffieHellman;
 
     private boolean initialized = false;
-    private Logger log = Logger.getLogger(HabboEncryption.class.getName());
+    private Logger log = Logger.getLogger(Encryption.class.getName());
 
-    public HabboEncryption(BigInteger n, BigInteger e, BigInteger d) {
+    public Encryption(BigInteger n, BigInteger e, BigInteger d) {
         this.rsa = new RSA(n, e, d, BigInteger.ZERO, BigInteger.ZERO, BigInteger.ZERO, BigInteger.ZERO, BigInteger.ZERO);
         this.rc4 = new RC4();
         this.diffieHellman = new DiffieHellman(200);
@@ -27,7 +27,7 @@ public class HabboEncryption {
 
             this.initialized = true;
         } catch(Exception e) {
-            log.error("Failed to initialize HabboEncryption", e);
+            log.error("Failed to initialize encryption", e);
 
             this.initialized = false;
         }

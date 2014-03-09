@@ -62,12 +62,12 @@ public class SSOTicketMessageEvent implements IEvent {
         client.getLogger().info(client.getPlayer().getData().getUsername() + " logged in");
 
         client.send(LoginMessageComposer.compose());
-      /*  client.send(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));
+        client.send(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));
         client.send(MotdNotificationComposer.compose());
         client.send(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
 
         if(client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             client.send(ModToolMessageComposer.compose());
-        }*/
+        }
     }
 }
