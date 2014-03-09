@@ -17,7 +17,7 @@ public class GenerateSecretKeyMessageEvent implements IEvent {
             return;
         }
 
-        client.send(SecretKeyMessageComposer.compose(Comet.getServer().getNetwork().getEncryption().publicKey.toString()));
+        client.send(SecretKeyMessageComposer.compose(Comet.getServer().getNetwork().getEncryption().getPublicKey()));
         //client.send(SecretKeyMessageComposer.compose("21537332639399204031623654620231596559338920113974249280766895854583189569023"));
     }
 }
