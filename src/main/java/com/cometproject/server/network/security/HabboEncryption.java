@@ -2,7 +2,6 @@ package com.cometproject.server.network.security;
 
 import com.cometproject.server.network.sessions.Session;
 import org.apache.log4j.Logger;
-import sun.security.util.BigInt;
 
 import java.math.BigInteger;
 
@@ -20,18 +19,16 @@ public class HabboEncryption extends DiffieHellman {
     public HabboEncryption(BigInteger n, BigInteger e, BigInteger d) {
         super(PRIME, GENERATOR);
 
-        this.rsa = new RSA(n, e, d, BigInteger.ZERO, BigInteger.ZERO, BigInteger.ZERO, BigInteger.ZERO, BigInteger.ZERO);
+        this.rsa = new RSA(n, e, d, new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"));
     }
 
     public boolean initialize(Session client, String text) {
         try {
-            String publicKey = this.rsa.Decrypt(text);
+            String publicKey = this.rsa.decrypt(text);
 
             System.out.println("Pubkey: " + publicKey);
 
             this.generateSharedKey(publicKey.replace(Character.toString((char) 0), ""));
-
-            client.setRC4(new RC4(this.sharedKey.toByteArray()));
 
             return true;
         } catch(Exception e) {
