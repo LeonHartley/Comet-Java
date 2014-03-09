@@ -43,10 +43,10 @@ public class HabboEncryption {
     }
 
     public String getPublicKey() {
-        return diffieHellman.PublicKey.toString();
+        return diffieHellman.SharedKey.toString();
     }
 
     public String getPrivateKey() {
-        return diffieHellman.PrivateKey.toString();
+        return diffieHellman.SharedKey.toString();
     }
 }
