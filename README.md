@@ -12,6 +12,7 @@ Current To-do List
 *   Bots (DONE)
 *   Manequins (DONE)
 *   Black Hole (DONE)
+*   Background Toner (DONE)
 *   Finish Wired
 *   Finish Groups (NO FOR THE MOMENT)
 *   Battle Banzai, Freeze, Football, Snow (NO FOR THE MOMENT), Skateboard (NO FOR THE MOMENT)
