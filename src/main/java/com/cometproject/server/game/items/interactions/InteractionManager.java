@@ -43,6 +43,7 @@ public class InteractionManager {
         this.interactions.put("roller", new RollerInteraction());
         this.interactions.put("ball", new BallInteraction());
         this.interactions.put("mannequin", new MannequinInteraction());
+        this.interactions.put("roombg", new BackgroundTonerInteraction());
 
         if (InteractionManager.DICE_ENABLED) { this.interactions.put("dice", new DiceInteraction()); }
 
