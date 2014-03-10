@@ -88,15 +88,17 @@ public class FloorItem extends RoomItem {
             }
 
             return;
-        } /*else if(this.getDefinition().getInteraction().equals("roombg")) {
+        } else if(this.getDefinition().getInteraction().equals("roombg")) {
             BackgroundTonerData data = BackgroundTonerData.get(extraData);
+
+            boolean enabled = (data != null);
 
             msg.writeInt(0);
             msg.writeInt(5);
             msg.writeInt(4);
-            msg.writeInt(1); // enabled
+            msg.writeInt(enabled ? 1 : 0);
 
-            if(data != null) {
+            if(enabled) {
                 msg.writeInt(data.getHue());
                 msg.writeInt(data.getSaturation());
                 msg.writeInt(data.getLightness());
@@ -108,12 +110,12 @@ public class FloorItem extends RoomItem {
                 msg.writeInt(0);
                 msg.writeInt(0);
             }
+        } else {
+            msg.writeInt(0);
+            msg.writeInt(0);
+            msg.writeString(this.getExtraData());
+        }
 
-        }*/
-
-        msg.writeInt(0);
-        msg.writeInt(0);
-        msg.writeString(this.getExtraData());
         msg.writeInt(-1);
         msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
         msg.writeInt(this.getRoom().getData().getOwnerId());
