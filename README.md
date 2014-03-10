@@ -27,7 +27,7 @@ Current To-do List
 *   Helps
 *   Habbovision + pending file if the room is full: option for staff only (NO FOR THE MOMENT)
 *   Badge showing furni (NO FOR THE MOMENT)
-*   Talents
+*   Talents (NO FOR THE MOMENT)
 *   TV
 *   Rollers
 *   ADS MPU
