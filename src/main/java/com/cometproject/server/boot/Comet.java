@@ -20,9 +20,6 @@ public class Comet {
     public static volatile boolean isRunning = true;
 
     public static void main(String[] args) {
-        System.out.println(DiffieHellman.generateRandomHexString(32));
-
-
         start = System.currentTimeMillis();
 
         try {
