@@ -62,14 +62,13 @@ public class RollerInteraction extends Interactor {
         for (GenericEntity entity : entitiesOnSq) {
             // to-do: check valid psoition
 
-            double height = 0;
-
-            for(FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(item.getX(), item.getY())) {
-                height += itemInStack.getDefinition().getHeight();
+            double toHeight = 0;
+            for(FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
+                toHeight += itemInStack.getDefinition().getHeight();
             }
 
-            entity.updateAndSetPosition(new Position3D(sqInfront.getX(), sqInfront.getY(), height));
-            floorItem.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position3D(sqInfront.getX(), sqInfront.getY(), height), floorItem.getId(), entity.getVirtualId(), 0));
+            entity.updateAndSetPosition(new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight));
+            floorItem.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight), floorItem.getId(), entity.getVirtualId(), 0));
         }
 
         return false;
