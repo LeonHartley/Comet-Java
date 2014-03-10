@@ -3,6 +3,7 @@ package com.cometproject.server.boot;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.network.security.DiffieHellman;
 import org.apache.log4j.*;
 import com.cometproject.server.*;
 
@@ -19,6 +20,9 @@ public class Comet {
     public static volatile boolean isRunning = true;
 
     public static void main(String[] args) {
+        System.out.println(DiffieHellman.generateRandomHexString(32));
+
+
         start = System.currentTimeMillis();
 
         try {
