@@ -239,7 +239,7 @@ public class ProcessComponent implements CometTask {
                 item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 1);
 
                 if (item.getDefinition().canSit) {
-                    double height = item.getHeight();
+                    double height = item.getDefinition().getHeight();
 
                     if (height < 1.0) {
                         height = 1.0;
@@ -291,7 +291,10 @@ public class ProcessComponent implements CometTask {
                     if (item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0"))
                         isCancelled = true;
 
-                    height += item.getHeight();
+                    //height += item.getHeight();
+
+                    if(!item.getDefinition().canSit)
+                        height += item.getDefinition().getHeight();
 
                     item.setNeedsUpdate(true, InteractionAction.ON_PRE_WALK, entity, 0);
                 }
