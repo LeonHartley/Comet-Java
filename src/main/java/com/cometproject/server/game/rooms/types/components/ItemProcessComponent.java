@@ -114,6 +114,20 @@ public class ItemProcessComponent implements CometTask {
                     }
                 }
 
+                if(item.getDefinition().getInteraction().equals("roller")) {
+                    // make tick
+                    boolean needsTick = false;
+
+                    for(FloorItem rollerStack : room.getItems().getItemsOnSquare(item.getX(), item.getY())) {// && !item.hasInteraction()) {
+                        if(!needsTick && !rollerStack.getDefinition().getInteraction().equals("roller")) {
+                            needsTick = true;
+                        }
+                    }
+
+                    if(needsTick)
+                        item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, null, 0, 10));
+                }
+
                 if(needsRoll) {
                     if(item.isRolling()) {
                         doBallRoll(item);
