@@ -252,16 +252,20 @@ public class ProcessComponent implements CometTask {
                     entity.addStatus("sit", String.valueOf(height).replace(',', '.'));
                     entity.markNeedsUpdate();
                 }
+
+                if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
+                    // idk what to do here for this trigger but ya
+                }
             }
 
             entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
 
-            for (FloorItem item : itemsOnSq) {
+            /*for (FloorItem item : itemsOnSq) {
                 if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
                     // idk what to do here for this trigger but ya
                 }
-            }
+            }*/
         }
 
         if (entity.isWalking()) {
