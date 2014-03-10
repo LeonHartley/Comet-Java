@@ -87,7 +87,8 @@ public class RollerInteraction extends Interactor {
             }
 
             // Use the same logic footballs use to roll (no point re-creating it :P)
-            BallInteraction.roll(itemOnSq, new Position3D(itemOnSq.getX(), itemOnSq.getY(), itemOnSq.getHeight()), new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight), itemOnSq.getRoom());
+            //floorItem.getRoom().getEntities().broadcastMessage((itemOnSq, new Position3D(itemOnSq.getX(), itemOnSq.getY(), itemOnSq.getHeight()), new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight), itemOnSq.getRoom());
+            floorItem.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position3D(itemOnSq.getX(), itemOnSq.getY(), itemOnSq.getHeight()), new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight), floorItem.getId(), 0, itemOnSq.getId()));
 
             itemOnSq.setX(sqInfront.getX());
             itemOnSq.setY(sqInfront.getY());
