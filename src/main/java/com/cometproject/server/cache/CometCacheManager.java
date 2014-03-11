@@ -3,6 +3,7 @@ package com.cometproject.server.cache;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.cache.handlers.PlayerCacheHandler;
 import com.cometproject.server.cache.providers.InternalCacheProvider;
+import com.cometproject.server.cache.providers.MemcachedProvider;
 
 public class CometCacheManager {
     private String provider = Comet.getServer().getConfig().get("comet.cache.provider");
@@ -20,6 +21,8 @@ public class CometCacheManager {
 
             if ("default".equals(provider) || "internal".equals(provider) || "".equals(provider)) {
                 this.masterProvider = new InternalCacheProvider();
+            } else if ("memcached".equals(provider)) {
+                this.masterProvider = new MemcachedProvider();
             }
 
             this.playerCache = new PlayerCacheHandler(this.masterProvider);

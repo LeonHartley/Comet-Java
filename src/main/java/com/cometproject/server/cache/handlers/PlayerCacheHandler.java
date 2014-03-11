@@ -6,7 +6,7 @@ import com.cometproject.server.game.players.data.PlayerData;
 
 import java.util.concurrent.TimeUnit;
 
-public class PlayerCacheHandler implements CacheHandler<Integer, PlayerData> {
+public class PlayerCacheHandler implements CacheHandler<String, PlayerData> {
     private final CacheProvider provider;
 
     public PlayerCacheHandler(CacheProvider provider) {
@@ -14,28 +14,28 @@ public class PlayerCacheHandler implements CacheHandler<Integer, PlayerData> {
     }
 
     @Override
-    public void put(Integer key, PlayerData value) {
+    public void put(String key, PlayerData value) {
         this.provider.put(key, value);
     }
 
     @Override
-    public void put(Integer key, PlayerData value, int expires) {
+    public void put(String key, PlayerData value, int expires) {
         this.provider.put(key, value, expires);
     }
 
     @Override
-    public void put(Integer key, PlayerData value, int expires, TimeUnit unit) {
+    public void put(String key, PlayerData value, int expires, TimeUnit unit) {
         this.provider.put(key, value, expires, unit);
     }
 
     @Override
-    public PlayerData get(Integer key) {
+    public PlayerData get(String key) {
         Object o = this.provider.get(key);
         return (PlayerData) o;
     }
 
     @Override
-    public boolean exists(Integer key) {
+    public boolean exists(String key) {
         return this.provider.exists(key);
     }
 
