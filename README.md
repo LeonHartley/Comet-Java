@@ -13,6 +13,7 @@ Current To-do List
 *   Manequins (DONE)
 *   Black Hole (DONE)
 *   Background Toner (DONE)
+*   Rollers (DONE)
 *   Finish Wired
 *   Finish Groups (NO FOR THE MOMENT)
 *   Battle Banzai, Freeze, Football, Snow (NO FOR THE MOMENT), Skateboard (NO FOR THE MOMENT)
@@ -29,7 +30,6 @@ Current To-do List
 *   Badge showing furni (NO FOR THE MOMENT)
 *   Talents (NO FOR THE MOMENT)
 *   TV
-*   Rollers
 *   ADS MPU
 
 Official Server
