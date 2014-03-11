@@ -31,6 +31,7 @@ Current To-do List
 *   Talents (NO FOR THE MOMENT)
 *   TV
 *   ADS MPU
+*   Gift
 
 Official Server
 --------------------
