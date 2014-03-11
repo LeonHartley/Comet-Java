@@ -10,7 +10,7 @@ public class CometCache {
         mgr = new CometCacheManager();
     }
 
-    public CometCacheManager getManager() {
-        return this.mgr;
+    public static CometCacheManager getManager() {
+        return mgr;
     }
 }
