@@ -1,7 +1,10 @@
 package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
+import com.cometproject.server.network.messages.types.Composer;
+import com.google.common.base.Charsets;
 
+import java.nio.charset.Charset;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -24,7 +27,7 @@ public class RoomModel {
     private int closed = 1;
 
     private int[][] squares;
-    private double[][] squareHeight;
+    private short[][] squareHeight;
     private RoomTileState[][] squareState;
 
     public RoomModel(ResultSet data) throws SQLException {
@@ -40,7 +43,7 @@ public class RoomModel {
         this.mapSizeX = temp[0].length();
         this.mapSizeY = temp.length;
         this.squares = new int[mapSizeX][mapSizeY];
-        this.squareHeight = new double[mapSizeX][mapSizeY];
+        this.squareHeight = new short[mapSizeX][mapSizeY];
         this.squareState = new RoomTileState[mapSizeX][mapSizeY];
 
         // TODO: Add 'door' to room tile state
@@ -60,7 +63,7 @@ public class RoomModel {
                 else if(isNumeric(Square))  {
                     squareState[x][y] = RoomTileState.VALID;
                     squares[x][y] = open;
-                    squareHeight[x][y] = Double.parseDouble(Square);
+                    squareHeight[x][y] = Short.parseShort(Square);
                     mapSize++;
                 }
 
@@ -85,6 +88,50 @@ public class RoomModel {
                 continue;
             }
             map += MapLine + (char)13;
+        }
+    }
+
+    public void composeRelative(Composer msg) {
+        int area = mapSizeX * mapSizeY;
+
+        msg.writeInt(mapSizeX);
+        msg.writeInt(area);
+
+        for(int y = 0; y < mapSizeY; y++) {
+            for(int x = 0; x < mapSizeX; x++) {
+                if(squareState[x][y].equals(RoomTileState.INVALID))
+                    msg.writeShort(-1);
+                else
+                    msg.writeShort(squareHeight[x][y] << 8);
+            }
+        }
+    }
+
+    public void compose(Composer msg) {
+        StringBuilder builder = new StringBuilder();
+
+        for(int y = 0; y < mapSizeY; y++) {
+            for(int x = 0; x < mapSizeX; x++) {
+                if(squareState[x][y] == RoomTileState.INVALID) {
+                    builder.append("x");
+                } else if(x == doorX && y == doorY) {
+                    builder.append(doorZ);
+                } else {
+                    builder.append(squareHeight[x][y]);
+                }
+            }
+        }
+
+        String[] map = builder.toString().split("\r");
+
+        msg.writeInt(map[0].length());
+        msg.writeInt((map.length - 1) * map[0].length());
+
+        for(int y = 0; y < map.length - 1; y++) {
+            for(int x = 0; x < map[0].length(); x++) {
+                String tile = map[y];
+                System.out.println(tile);
+            }
         }
     }
 
@@ -132,7 +179,7 @@ public class RoomModel {
         return this.squareState;
     }
 
-    public double[][] getSquareHeight() {
+    public short[][] getSquareHeight() {
         return this.squareHeight;
     }
 

@@ -70,6 +70,12 @@ public class Composer {
 		} catch(Exception e) {}
 	}
 
+    public void writeBytes(byte[] bytes) {
+        try {
+            this.body.writeBytes(bytes);
+        } catch(Exception e) { }
+    }
+
     private boolean finalized = false;
 
 	public ByteBuf get() {

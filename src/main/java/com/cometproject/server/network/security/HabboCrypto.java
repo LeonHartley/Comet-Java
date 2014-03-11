@@ -14,6 +14,5 @@ public class HabboCrypto extends  DiffieHellman {
     public HabboCrypto() {
         super(new BigInteger("114670925920269957593299136150366957983142588366300079186349531", 10), new BigInteger("1589935137502239924254699078669119674538324391752663931735947", 10));
 
-
     }
 }

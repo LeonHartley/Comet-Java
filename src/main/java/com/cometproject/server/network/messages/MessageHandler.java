@@ -11,10 +11,7 @@ import com.cometproject.server.network.messages.incoming.catalog.data.GetShopDat
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupDialogMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.pets.PetRacesMessageEvent;
-import com.cometproject.server.network.messages.incoming.handshake.CheckReleaseMessageEvent;
-import com.cometproject.server.network.messages.incoming.handshake.GenerateSecretKeyMessageEvent;
-import com.cometproject.server.network.messages.incoming.handshake.InitCryptoMessageEvent;
-import com.cometproject.server.network.messages.incoming.handshake.SSOTicketMessageEvent;
+import com.cometproject.server.network.messages.incoming.handshake.*;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.AcceptFriendshipMessageEvent;
@@ -79,17 +76,17 @@ public class MessageHandler {
         }
 
         this.registerHandshake();
-        this.registerModTool();
-        this.registerHelpTool();
-        this.registerMessenger();
+        //this.registerModTool();
+        //this.registerHelpTool();
+        //this.registerMessenger();
         this.registerNavigator();
         this.registerUser();
-        this.registerBots();
+        //this.registerBots();
         this.registerRoom();
-        this.registerRoomTrade();
-        this.registerRoomModeration();
-        this.registerItems();
-        this.registerCatalog();
+        //this.registerRoomTrade();
+        //this.registerRoomModeration();
+        //this.registerItems();
+        //this.registerCatalog();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
     }
@@ -99,6 +96,7 @@ public class MessageHandler {
         this.getMessages().put(Events.InitCryptoMessageEvent, new InitCryptoMessageEvent());
         this.getMessages().put(Events.GenerateSecretKeyMessageEvent, new GenerateSecretKeyMessageEvent());
         this.getMessages().put(Events.SSOTicketMessageEvent, new SSOTicketMessageEvent());
+        this.getMessages().put(Events.UniqueIdMessageEvent, new UniqueIdMessageEvent());
 	}
 
     public void registerModTool() {
@@ -122,25 +120,25 @@ public class MessageHandler {
 
     public void registerNavigator() {
         this.getMessages().put(Events.OwnRoomsMessageEvent, new OwnRoomsMessageEvent());
-        this.getMessages().put(Events.PopularRoomsMessageEvent, new PopularRoomsMessageEvent());
+        /*this.getMessages().put(Events.PopularRoomsMessageEvent, new PopularRoomsMessageEvent());
         this.getMessages().put(Events.LoadSearchRoomMessageEvent, new LoadSearchRoomMessageEvent());
         this.getMessages().put(Events.SearchRoomMessageEvent, new SearchRoomMessageEvent());
         this.getMessages().put(Events.CanCreateRoomMessageEvent, new CanCreateRoomMessageEvent());
         this.getMessages().put(Events.CreateNewRoomMessageEvent, new CreateRoomMessageEvent());
         this.getMessages().put(Events.LoadCategoriesMessageEvent, new LoadCategoriesMessageEvent());
-        this.getMessages().put(Events.FeaturedRoomsMessageEvent, new FeaturedRoomsMessageEvent());
+        this.getMessages().put(Events.FeaturedRoomsMessageEvent, new FeaturedRoomsMessageEvent());*/
     }
 
     public void registerUser() {
-        this.getMessages().put(Events.GetProfileMessageEvent, new GetProfileMessageEvent());
-        this.getMessages().put(Events.ClubStatusMessageEvent, new ClubStatusMessageEvent());
+       // this.getMessages().put(Events.GetProfileMessageEvent, new GetProfileMessageEvent());
+       // this.getMessages().put(Events.ClubStatusMessageEvent, new ClubStatusMessageEvent());
         this.getMessages().put(Events.UserInformationMessageEvent, new UserInformationMessageEvent());
-        this.getMessages().put(Events.ChangeLooksMessageEvent, new ChangeLooksMessageEvent());
-        this.getMessages().put(Events.OpenInventoryMessageEvent, new OpenInventoryMessageEvent());
-        this.getMessages().put(Events.BadgeInventoryMessageEvent, new BadgeInventoryMessageEvent());
-        this.getMessages().put(Events.ChangeMottoMessageEvent, new ChangeMottoMessageEvent());
-        this.getMessages().put(Events.GetRelationshipsMessageEvent, new GetRelationshipsMessageEvent());
-        this.getMessages().put(Events.SetRelationshipMessageEvent, new SetRelationshipMessageEvent());
+       // this.getMessages().put(Events.ChangeLooksMessageEvent, new ChangeLooksMessageEvent());
+       // this.getMessages().put(Events.OpenInventoryMessageEvent, new OpenInventoryMessageEvent());
+       // this.getMessages().put(Events.BadgeInventoryMessageEvent, new BadgeInventoryMessageEvent());
+       // this.getMessages().put(Events.ChangeMottoMessageEvent, new ChangeMottoMessageEvent());
+       // this.getMessages().put(Events.GetRelationshipsMessageEvent, new GetRelationshipsMessageEvent());
+       // this.getMessages().put(Events.SetRelationshipMessageEvent, new SetRelationshipMessageEvent());
     }
 
     public void registerBots() {
@@ -154,9 +152,10 @@ public class MessageHandler {
     public void registerRoom() {
         this.getMessages().put(Events.InitalizeRoomMessageEvent, new InitalizeRoomMessageEvent());
         this.getMessages().put(Events.LoadHeightmapMessageEvent, new LoadHeightmapMessageEvent());
-        this.getMessages().put(Events.AddUserToRoomMessageEvent, new AddUserToRoomMessageEvent());
-        this.getMessages().put(Events.ExitRoomMessageEvent, new ExitRoomMessageEvent());
         this.getMessages().put(Events.TalkMessageEvent, new TalkMessageEvent());
+        /*this.getMessages().put(Events.AddUserToRoomMessageEvent, new AddUserToRoomMessageEvent());
+        this.getMessages().put(Events.ExitRoomMessageEvent, new ExitRoomMessageEvent());
+
         this.getMessages().put(Events.ShoutMessageEvent, new ShoutMessageEvent());
         this.getMessages().put(Events.WisperMessageEvent, new WisperMessageEvent());
         this.getMessages().put(Events.WalkMessageEvent, new WalkMessageEvent());
@@ -171,7 +170,7 @@ public class MessageHandler {
         this.getMessages().put(Events.StopTypingMessageEvent, new StopTypingMessageEvent());
         this.getMessages().put(Events.LookToMessageEvent, new LookToMessageEvent());
         this.getMessages().put(Events.UserBadgesMessageEvent, new UserBadgesMessageEvent());
-        this.getMessages().put(Events.UpdatePapersMessageEvent, new UpdatePapersMessageEvent());
+        this.getMessages().put(Events.UpdatePapersMessageEvent, new UpdatePapersMessageEvent());*/
     }
 
     public void registerRoomTrade() {
@@ -232,9 +231,9 @@ public class MessageHandler {
 				this.getMessages().get(header).handle(client, message);
                 log.debug("Finished packet process for packet: [" + Events.valueOfId(header) + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
 			} else {
-				if(Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != 2906) // 2906 = annoying ping header
+				if(Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != 2783) // 2783 = annoying ping header
                     log.debug("Unknown message ID: " + header);
-                else if(header != 2906)
+                else if(header != 2783)
                     log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
 			}
 		} catch(Exception e) {

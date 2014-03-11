@@ -4,9 +4,13 @@ import java.lang.reflect.Field;
 
 public class Events {
 	public static short CheckReleaseMessageEvent = 4000;
-	public static short InitCryptoMessageEvent = 1266;//642;//1266;
-    public static short GenerateSecretKeyMessageEvent = 3987; //1042;//3987;
-	public static short SSOTicketMessageEvent = 1461;
+	public static short InitCryptoMessageEvent = 3102;//1266;//642;//1266;
+    public static short GenerateSecretKeyMessageEvent = 371; //3987; //1042;//3987;
+	public static short SSOTicketMessageEvent = 1424;//1461;
+    public static short UniqueIdMessageEvent = 18; // new id
+    public static short UserInformationMessageEvent = 1589; //1396;
+    public static short InitalizeRoomMessageEvent = 2704;//2807;
+
 	public static short AcceptFriendshipMessageEvent = 3528;
     public static short AcceptTradeMessageEvent = 3202;
     public static short ApplyActionMessageEvent = 1843;
@@ -30,14 +34,13 @@ public class Events {
 	public static short GetCataIndexMessageEvent = 3071;
 	public static short GetCataPageMessageEvent = 1777;
 	public static short GetProfileMessageEvent = 3637;
-	public static short InitalizeRoomMessageEvent = 2807;
-	public static short LoadHeightmapMessageEvent = 2327;
+	public static short LoadHeightmapMessageEvent = 2792; //2327;
 	public static short LoadRoomInfoMessageEvent = 1102;
 	public static short LoadSearchRoomMessageEvent = 3733;
 	public static short LookToMessageEvent = 1653;
-	public static short OpenDiceMessageEvent = 3101;
+	public static short OpenDiceMessageEvent = 0;// 3101;
 	public static short OpenInventoryMessageEvent = 2297;
-	public static short OwnRoomsMessageEvent = 1907;
+	public static short OwnRoomsMessageEvent = 3160;//1907;
 	public static short PickUpItemMessageEvent = 1019;
 	public static short PlaceItemMessageEvent = 2696;
 	public static short PopularRoomsMessageEvent = 512;
@@ -50,8 +53,7 @@ public class Events {
 	public static short ShoutMessageEvent = 1454;
 	public static short StartTypingMessageEvent = 678;
 	public static short StopTypingMessageEvent = 1236;
-	public static short TalkMessageEvent = 2275;
-	public static short UserInformationMessageEvent = 1396;
+	public static short TalkMessageEvent = 3101; //2275;
 	public static short WalkMessageEvent = 2600;
 	public static short WisperMessageEvent = 3802;
 	public static short AddUserToRoomMessageEvent = 383;

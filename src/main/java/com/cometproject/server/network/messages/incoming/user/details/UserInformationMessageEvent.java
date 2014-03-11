@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.incoming.user.details;
 
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.messenger.LoadFriendsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.UserInfoMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.WelcomeUserMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.AllowancesMessageComposer;
@@ -21,7 +22,7 @@ public class UserInformationMessageEvent implements IEvent {
 
         Map<Integer, Integer> currencies = new FastMap<>();
 
-        currencies.put(0, 0); // duckets
+        currencies.put(0, 0); // TODO: duckets
         currencies.put(105, client.getPlayer().getData().getPoints());
 
         client.send(CurrenciesMessageComposer.compose(currencies));
@@ -30,7 +31,12 @@ public class UserInformationMessageEvent implements IEvent {
         client.send(WelcomeUserMessageComposer.compose());
         client.send(AllowancesMessageComposer.compose(client.getPlayer().getData().getRank()));
 
+        client.send(AdvancedAlertMessageComposer.compose("Comet Server", "Test alert!"));
+
+        /*
+
+
         client.send(LoadFriendsMessageComposer.compose(client.getPlayer().getMessenger().getFriends()));
-        client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
+        client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);*/
     }
 }
