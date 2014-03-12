@@ -8,6 +8,7 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -72,7 +73,7 @@ public class PurchaseItemMessageEvent implements IEvent {
 
                 if(def.getItemName().equals("DEAL_HC_1")) {
                     // TODO: HC buying
-                    return;
+                    throw new Exception("HC purchasing is not implemented");
                 }
 
                 Map<Integer, Integer> unseenItems = new FastMap<>();
@@ -87,6 +88,17 @@ public class PurchaseItemMessageEvent implements IEvent {
                 } else if(def.getInteraction().equals("teleport")) {
                     amount = amount * 2;
                     isTeleport = true;
+                } else if(item.getDisplayName().startsWith("a0 pet")) {
+                    String petRace = item.getDisplayName().replace("a0 pet", "");
+                    String[] petData = data.split("\n"); // [name, race, colour]
+
+                    if(petData.length != 3) {
+                        throw new Exception("Invalid pet data length: " + petData.length);
+                    }
+
+                    PetD
+
+                    return;
                 }
 
                 int[] teleportIds = null;
