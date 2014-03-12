@@ -1,5 +1,6 @@
 package com.cometproject.server.boot;
 
+import com.cometproject.server.cache.CometCache;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Configuration;
 import com.cometproject.server.config.Locale;
@@ -30,6 +31,8 @@ public class CometServer {
 
         Locale.init();
         GameEngine.init();
+
+        CometCache.create();
 
         networkEngine = new NetworkEngine(this.getConfig().get("comet.network.host"), Integer.parseInt(this.getConfig().get("comet.network.port")));
         GameEngine.gameThread = new GameThread(threadManagement);
