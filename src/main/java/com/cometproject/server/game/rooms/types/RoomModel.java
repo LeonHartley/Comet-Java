@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.utilities.CometUtil;
 import com.google.common.base.Charsets;
 
 import java.nio.charset.Charset;
@@ -72,7 +73,7 @@ public class RoomModel {
                     relativeMap += (int)doorZ + "";
                 }
                 else {
-                    if(Square.isEmpty() || Square == null) {
+                    if(Square.isEmpty()) {
                         continue;
                     }
                     relativeMap += Square;
@@ -108,6 +109,10 @@ public class RoomModel {
     }
 
     public void compose(Composer msg) {
+        ////////////////////////////////////////////
+        /// CREDITS TO SLEDMORE FOR HELPING
+        ////////////////////////////////////////////
+        
         StringBuilder builder = new StringBuilder();
 
         for(int y = 0; y < mapSizeY; y++) {
@@ -120,6 +125,8 @@ public class RoomModel {
                     builder.append(squareHeight[x][y]);
                 }
             }
+
+            builder.append("\r");
         }
 
         String[] map = builder.toString().split("\r");
@@ -129,8 +136,19 @@ public class RoomModel {
 
         for(int y = 0; y < map.length - 1; y++) {
             for(int x = 0; x < map[0].length(); x++) {
-                String tile = map[y];
-                System.out.println(tile);
+                String tile = map[y].split("(?!^)")[x];
+
+                if(tile.equals("x")) {
+                    msg.writeShort(-1);
+                } else {
+                    int height = 0;
+
+                    if(CometUtil.tryParseInteger(tile)) {
+                        height = Integer.parseInt(tile);
+                    }
+
+                    msg.writeShort(height);
+                }
             }
         }
     }
