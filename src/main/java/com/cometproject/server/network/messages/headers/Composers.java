@@ -3,8 +3,8 @@ package com.cometproject.server.network.messages.headers;
 import java.lang.reflect.Field;
 
 public class Composers {
-    public static short InitCryptoMessageComposer = 2688; // 889;//1099; //889;
-    public static short SecretKeyMessageComposer = 3099; //3489;//1474; //3489;
+    public static short InitCryptoMessageComposer = 2688; // 889;
+    public static short SecretKeyMessageComposer = 3099; //3489;;
     public static short LoginMessageComposer = 1448; //2008;
     public static short UserInfoMessageComposer = 1177; //178;
     public static short AllowancesMessageComposer = 1307; //709;
@@ -34,7 +34,7 @@ public class Composers {
     public static short HotelViewMessageComposer = 436;
     public static short InstantChatMessageComposer = 2747;
     public static short InstantInviteMessageComposer = 2925;
-    public static short InventoryMessageComposer = 3572;
+    public static short InventoryMessageComposer = 828; //3572;
     public static short ItemInHandMessageComposer = 1773;
     public static short LeaveRoomMessageComposer = 3359;
     public static short LoadFriendsMessageComposer = 1800;
@@ -101,11 +101,11 @@ public class Composers {
     public static short WiredTriggerMessageComposer = 639;
     public static short WiredEffectMessageComposer = 1843;
     public static short SaveWiredMessageComposer = 2992;
-    public static short RoomCategoriesMessageComposer = 450;// 224;
+    public static short RoomCategoriesMessageComposer = 450; // 224;
     public static short ConfigureWallAndFloorMessageComposer = 287;
     public static short GiveRespectMessageComposer = 123;
     public static short RelationshipsMessageComposer = 3570;
-    public static short SendPurchaseAlertMessageComposer = 469;
+    public static short SendPurchaseAlertMessageComposer = 757; // 469;
     public static short BotInventoryMessageComposer = 1294;
     public static short PlaceBotMessageComposer = 610;
 
@@ -117,7 +117,7 @@ public class Composers {
     public static short HelpTicketMessageComposer = 2740;
 
     public static short BadgeInventoryMessageComposer = 2356;
-    public static short FloodFilterMessageComposer = 3410;
+    public static short FloodFilterMessageComposer = 1039; //3410;
 
     public static short ApplyEffectMessageComposer = 3194;
     public static short UserBadgesMessageComposer = 833;

@@ -39,7 +39,7 @@ public class Events {
 	public static short LoadSearchRoomMessageEvent = 3733;
 	public static short LookToMessageEvent = 1653;
 	public static short OpenDiceMessageEvent = 0;// 3101;
-	public static short OpenInventoryMessageEvent = 2297;
+	public static short OpenInventoryMessageEvent = 1087;//3712; //2297;
 	public static short OwnRoomsMessageEvent = 3160;//1907;
 	public static short PickUpItemMessageEvent = 1019;
 	public static short PlaceItemMessageEvent = 2696;
@@ -71,7 +71,7 @@ public class Events {
     public static short GetRelationshipsMessageEvent = 2233;
     public static short SetRelationshipMessageEvent = 1590;
     public static short CancelOfferMessageEvent = 2147;
-    public static short BotInventoryMessageEvent = 1280;
+    public static short BotInventoryMessageEvent = 1970; //1280;
     public static short PlaceBotMessageEvent = 2343;
     public static short UsersWithRightsMessageEvent = 308;
     public static short GetBannedUsersMessageEvent = 1450;
@@ -95,6 +95,7 @@ public class Events {
     public static short SaveMannequinMessageEvent = 1311;
     public static short SaveMannequinNameMessageEvent = 2529;
     public static short SaveTonerMessageEvent = 3103;
+    public static short MarketplaceConfigurationMessageEvent = 0; // new
 
     public static short ManageGroupMessageEvent = 454;
     public static short AddUserToRoom2MessageEvent = 3317;

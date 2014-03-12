@@ -112,7 +112,7 @@ public class RoomModel {
         ////////////////////////////////////////////
         /// CREDITS TO SLEDMORE FOR HELPING
         ////////////////////////////////////////////
-        
+
         StringBuilder builder = new StringBuilder();
 
         for(int y = 0; y < mapSizeY; y++) {

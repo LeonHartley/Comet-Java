@@ -10,6 +10,7 @@ import com.cometproject.server.network.messages.incoming.catalog.data.GetShopDat
 import com.cometproject.server.network.messages.incoming.catalog.data.GetShopDataMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupDialogMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupMessageEvent;
+import com.cometproject.server.network.messages.incoming.catalog.marketplace.MarketplaceConfigurationMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.pets.PetRacesMessageEvent;
 import com.cometproject.server.network.messages.incoming.handshake.*;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
@@ -81,12 +82,12 @@ public class MessageHandler {
         //this.registerMessenger();
         this.registerNavigator();
         this.registerUser();
-        //this.registerBots();
+        this.registerBots();
         this.registerRoom();
         //this.registerRoomTrade();
         //this.registerRoomModeration();
         //this.registerItems();
-        //this.registerCatalog();
+        this.registerCatalog();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
     }
@@ -134,8 +135,8 @@ public class MessageHandler {
        // this.getMessages().put(Events.ClubStatusMessageEvent, new ClubStatusMessageEvent());
         this.getMessages().put(Events.UserInformationMessageEvent, new UserInformationMessageEvent());
        // this.getMessages().put(Events.ChangeLooksMessageEvent, new ChangeLooksMessageEvent());
-       // this.getMessages().put(Events.OpenInventoryMessageEvent, new OpenInventoryMessageEvent());
-       // this.getMessages().put(Events.BadgeInventoryMessageEvent, new BadgeInventoryMessageEvent());
+        this.getMessages().put(Events.OpenInventoryMessageEvent, new OpenInventoryMessageEvent());
+        this.getMessages().put(Events.BadgeInventoryMessageEvent, new BadgeInventoryMessageEvent());
        // this.getMessages().put(Events.ChangeMottoMessageEvent, new ChangeMottoMessageEvent());
        // this.getMessages().put(Events.GetRelationshipsMessageEvent, new GetRelationshipsMessageEvent());
        // this.getMessages().put(Events.SetRelationshipMessageEvent, new SetRelationshipMessageEvent());
@@ -143,10 +144,10 @@ public class MessageHandler {
 
     public void registerBots() {
         this.getMessages().put(Events.BotInventoryMessageEvent, new BotInventoryMessageEvent());
-        this.getMessages().put(Events.PlaceBotMessageEvent, new PlaceBotMessageEvent());
-        this.getMessages().put(Events.ModifyBotMessageEvent, new ModifyBotMessageEvent());
-        this.getMessages().put(Events.RemoveBotMessageEvent, new RemoveBotMessageEvent());
-        this.getMessages().put(Events.BotConfigMessageEvent, new BotConfigMessageEvent());
+        //this.getMessages().put(Events.PlaceBotMessageEvent, new PlaceBotMessageEvent());
+        //this.getMessages().put(Events.ModifyBotMessageEvent, new ModifyBotMessageEvent());
+        //this.getMessages().put(Events.RemoveBotMessageEvent, new RemoveBotMessageEvent());
+        //this.getMessages().put(Events.BotConfigMessageEvent, new BotConfigMessageEvent());
     }
 
     public void registerRoom() {
@@ -207,7 +208,8 @@ public class MessageHandler {
     }
 
     public void registerCatalog() {
-        this.getMessages().put(Events.GetCataIndexMessageEvent, new GetCataIndexMessageEvent());
+        this.getMessages().put(Events.MarketplaceConfigurationMessageEvent, new MarketplaceConfigurationMessageEvent());
+        /*this.getMessages().put(Events.GetCataIndexMessageEvent, new GetCataIndexMessageEvent());
         this.getMessages().put(Events.GetCataPageMessageEvent, new GetCataPageMessageEvent());
         this.getMessages().put(Events.PurchaseItemMessageEvent, new PurchaseItemMessageEvent());
         this.getMessages().put(Events.HabboClubPackagesMessageEvent, new HabboClubPackagesMessageEvent());
@@ -215,7 +217,7 @@ public class MessageHandler {
         this.getMessages().put(Events.CatalogData2MessageEvent, new GetShopData2MessageEvent());
         this.getMessages().put(Events.BuyGroupDialogMessageEvent, new BuyGroupDialogMessageEvent());
         this.getMessages().put(Events.BuyGroupMessageEvent, new BuyGroupMessageEvent());
-        this.getMessages().put(Events.PetRacesMessageEvent, new PetRacesMessageEvent());
+        this.getMessages().put(Events.PetRacesMessageEvent, new PetRacesMessageEvent());*/
     }
 
 	public void handle(Event message, Session client) {
