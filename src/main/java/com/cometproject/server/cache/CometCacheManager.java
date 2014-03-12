@@ -21,8 +21,10 @@ public class CometCacheManager {
 
             if ("default".equals(provider) || "internal".equals(provider) || "".equals(provider)) {
                 this.masterProvider = new InternalCacheProvider();
+                this.masterProvider.init();
             } else if ("memcached".equals(provider)) {
                 this.masterProvider = new MemcachedProvider();
+                this.masterProvider.init();
             }
 
             this.playerCache = new PlayerCacheHandler(this.masterProvider);
