@@ -11,6 +11,7 @@ import com.cometproject.server.network.messages.incoming.catalog.data.GetShopDat
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupDialogMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.pets.PetRacesMessageEvent;
+import com.cometproject.server.network.messages.incoming.catalog.pets.ValidatePetNameMessageEvent;
 import com.cometproject.server.network.messages.incoming.handshake.CheckReleaseMessageEvent;
 import com.cometproject.server.network.messages.incoming.handshake.GenerateSecretKeyMessageEvent;
 import com.cometproject.server.network.messages.incoming.handshake.InitCryptoMessageEvent;
@@ -217,6 +218,7 @@ public class MessageHandler {
         this.getMessages().put(Events.BuyGroupDialogMessageEvent, new BuyGroupDialogMessageEvent());
         this.getMessages().put(Events.BuyGroupMessageEvent, new BuyGroupMessageEvent());
         this.getMessages().put(Events.PetRacesMessageEvent, new PetRacesMessageEvent());
+        this.getMessages().put(Events.ValidatePetNameMessageEvent, new ValidatePetNameMessageEvent());
     }
 
 	public void handle(Event message, Session client) {
