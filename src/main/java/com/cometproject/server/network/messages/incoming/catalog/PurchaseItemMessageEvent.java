@@ -96,8 +96,6 @@ public class PurchaseItemMessageEvent implements IEvent {
                         throw new Exception("Invalid pet data length: " + petData.length);
                     }
 
-                    PetD
-
                     return;
                 }
 
