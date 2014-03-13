@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.entities;
 import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.Pathfinder;
+import com.cometproject.server.game.rooms.avatars.pathfinding.PathfinderNew;
 import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
@@ -36,7 +37,7 @@ public abstract class GenericEntity implements AvatarEntity {
 
     private Square futureSquare;
 
-    private Pathfinder pathfinder;
+    private PathfinderNew pathfinder;
 
     private int idleTime;
     private int signTime;
@@ -123,7 +124,7 @@ public abstract class GenericEntity implements AvatarEntity {
         this.setWalkingGoal(x, y);
 
         // Create a walking path
-        LinkedList<Square> path = this.getPathfinder().makePath();
+        List<Square> path = this.getPathfinder().makePath();
 
         // Check returned path to see if it calculated one
         if (path == null || path.size() == 0) {
@@ -232,9 +233,9 @@ public abstract class GenericEntity implements AvatarEntity {
     }
 
     @Override
-    public Pathfinder getPathfinder() {
+    public PathfinderNew getPathfinder() {
         if (this.pathfinder == null) {
-            this.pathfinder = new Pathfinder(this);
+            this.pathfinder = new PathfinderNew(this);
         }
 
         return this.pathfinder;

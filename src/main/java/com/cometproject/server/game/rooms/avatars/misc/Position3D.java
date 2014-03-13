@@ -25,6 +25,21 @@ public class Position3D {
         this.z = 0;
     }
 
+    public Position3D add(Position3D other) {
+        return new Position3D(other.getX() + getX(), other.getY() + getY(), other.getZ() + getZ());
+    }
+
+    public Position3D subtract(Position3D other) {
+        return new Position3D(other.getX() - getX(), other.getY() - getY(), other.getZ() - getZ());
+    }
+
+    public int getDistanceSquared(Position3D point) {
+        int dx = this.getX() - point.getX();
+        int dy = this.getY() - point.getY();
+
+        return (dx * dx) + (dy * dy);
+    }
+
     public static String validateWallPosition(String position) {
         try {
             String[] data = position.split(" ");
