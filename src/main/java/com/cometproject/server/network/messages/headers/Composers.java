@@ -127,6 +127,9 @@ public class Composers {
 
     public static short SlideObjectBundleMessageComposer = 106;
     public static short BotConfigMessageComposer = 20;
+    public static short PetRacesMessageComposer = 714;
+    public static short ValidatePetNameMessageComposer = 204;
+    public static short PetInventoryMessageComposer = 2304;
 
     public static String valueOfId(int i) {
         Composers c = new Composers();
