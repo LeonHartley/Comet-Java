@@ -1,6 +1,7 @@
 package com.cometproject.server.cache;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.cache.handlers.NavigatorSearchCacheHandler;
 import com.cometproject.server.cache.handlers.PlayerCacheHandler;
 import com.cometproject.server.cache.providers.InternalCacheProvider;
 import com.cometproject.server.cache.providers.MemcachedProvider;
@@ -12,6 +13,7 @@ public class CometCacheManager {
     private boolean isCacheEnabled;
 
     private PlayerCacheHandler playerCache;
+    private NavigatorSearchCacheHandler navigatorSearchCacheHandler;
 
     public CometCacheManager() {
         if ("disabled".equals(provider)) {
@@ -28,6 +30,7 @@ public class CometCacheManager {
             }
 
             this.playerCache = new PlayerCacheHandler(this.masterProvider);
+            this.navigatorSearchCacheHandler = new NavigatorSearchCacheHandler(this.masterProvider);
         }
     }
 
@@ -37,5 +40,9 @@ public class CometCacheManager {
 
     public PlayerCacheHandler getPlayerCache() {
         return this.playerCache;
+    }
+
+    public NavigatorSearchCacheHandler getNavigatorSearchCacheHandler() {
+        return this.navigatorSearchCacheHandler;
     }
 }

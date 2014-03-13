@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.cache.CometCache;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
@@ -107,6 +108,16 @@ public class RoomManager {
     }
 
     public List<Room> getRoomByQuery(String query) {
+        // Cache?
+        if (CometCache.getManager().isCacheEnabled()) {
+            List<Room> cachedRoomList = CometCache.getManager().getNavigatorSearchCacheHandler().get("NAVIGATORCACHE-" + query);
+
+            if (cachedRoomList != null) {
+                System.out.println("Returning from cache!!");
+                return cachedRoomList;
+            }
+        }
+
         List<Room> rooms = new ArrayList<>();
 
         try {
@@ -137,6 +148,12 @@ public class RoomManager {
             }
         } catch(Exception e) {
             log.error("Error while loading rooms by query", e);
+        }
+
+        // Cache?
+        if (CometCache.getManager().isCacheEnabled()) {
+            CometCache.getManager().getNavigatorSearchCacheHandler().put("NAVIGATORCACHE-" + query, rooms, 60);
+            System.out.println("Cached for 60 seconds");
         }
 
         return rooms;
