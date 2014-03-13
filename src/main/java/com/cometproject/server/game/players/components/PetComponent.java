@@ -18,11 +18,13 @@ public class PetComponent {
     public PetComponent(Player player) {
         this.player = player;
         this.pets = new FastMap<>();
+
+        this.loadPets();
     }
 
     public void loadPets() {
         try {
-            ResultSet data = Comet.getServer().getStorage().getRow("SELECT * FROM pet_data WHERE owner_id = " + this.player.getId() + " AND room_id = 0");
+            ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM pet_data WHERE owner_id = " + this.player.getId() + " AND room_id = 0");
 
             while(data.next()) {
                 this.pets.put(data.getInt("id"), new PetData(data));
@@ -40,5 +42,9 @@ public class PetComponent {
         this.pets.clear();
         this.pets = null;
         this.player = null;
+    }
+
+    public Map<Integer, PetData> getPets() {
+        return this.pets;
     }
 }

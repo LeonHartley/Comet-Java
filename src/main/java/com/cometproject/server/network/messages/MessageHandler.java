@@ -43,6 +43,7 @@ import com.cometproject.server.network.messages.incoming.room.moderation.GetBann
 import com.cometproject.server.network.messages.incoming.room.moderation.GiveRightsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.KickUserMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.RemoveAllRightsMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.pets.PlacePetMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.settings.LoadRoomInfoMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.settings.SaveRoomDataMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.settings.UpdatePapersMessageEvent;
@@ -54,6 +55,7 @@ import com.cometproject.server.network.messages.incoming.user.details.UserInform
 import com.cometproject.server.network.messages.incoming.user.inventory.BadgeInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.BotInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.OpenInventoryMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.inventory.PetInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.profile.GetProfileMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.profile.GetRelationshipsMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.profile.SetRelationshipMessageEvent;
@@ -91,6 +93,7 @@ public class MessageHandler {
         this.registerRoomModeration();
         this.registerItems();
         this.registerCatalog();
+        this.registerPets();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
     }
@@ -150,6 +153,11 @@ public class MessageHandler {
         this.getMessages().put(Events.ModifyBotMessageEvent, new ModifyBotMessageEvent());
         this.getMessages().put(Events.RemoveBotMessageEvent, new RemoveBotMessageEvent());
         this.getMessages().put(Events.BotConfigMessageEvent, new BotConfigMessageEvent());
+    }
+
+    public void registerPets() {
+        this.getMessages().put(Events.PetInventoryMessageEvent, new PetInventoryMessageEvent());
+        this.getMessages().put(Events.PlacePetMessageEvent, new PlacePetMessageEvent());
     }
 
     public void registerRoom() {

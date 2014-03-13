@@ -12,7 +12,7 @@ public class PetData {
     private int energy;
     private int ownerId;
     private String colour;
-    public int raceId;
+    private int raceId;
 
     public PetData(int id, String name, int level, int happiness, int experience, int energy, int ownerId, String colour, int raceId) {
         this.id = id;
