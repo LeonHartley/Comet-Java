@@ -111,6 +111,8 @@ public class PurchaseItemMessageEvent implements IEvent {
                     statement.setInt(9, StaticPetProperties.DEFAULT_ENERGY);
 
                     statement.execute();
+
+                    // TODO: Put in inventory or w/e :P
                     return;
                 }
 
