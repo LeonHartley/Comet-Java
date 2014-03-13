@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.entities;
 import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.Pathfinder;
+import com.cometproject.server.game.rooms.avatars.pathfinding.PathfinderNew;
 import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.types.Composer;
@@ -38,7 +39,7 @@ public interface AvatarEntity {
     public Square getFutureSquare();
     public void setFutureSquare(Square square);
 
-    public Pathfinder getPathfinder();
+    public PathfinderNew getPathfinder();
     public void moveTo(int x, int y);
 
     public Map<String, String> getStatuses();

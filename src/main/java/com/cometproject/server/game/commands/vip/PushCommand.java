@@ -9,6 +9,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessage
 import com.cometproject.server.network.sessions.Session;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class PushCommand extends ChatCommand {
     @Override
@@ -93,7 +94,7 @@ public class PushCommand extends ChatCommand {
 
             user.getPlayer().getEntity().setWalkingGoal(posX, posY);
 
-            LinkedList<Square> path = user.getPlayer().getEntity().getPathfinder().makePath();
+            List<Square> path = user.getPlayer().getEntity().getPathfinder().makePath();
             user.getPlayer().getEntity().unIdle();
 
             if(user.getPlayer().getEntity().getWalkingPath() != null)
