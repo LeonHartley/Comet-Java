@@ -28,6 +28,7 @@ public class Player {
     private MessengerComponent messenger;
     private RelationshipComponent relationships;
     private BotComponent bots;
+    private PetComponent pets;
 
     private Map<Integer, Room> rooms = new FastMap<>();
 
@@ -48,6 +49,7 @@ public class Player {
         this.subscription = new SubscriptionComponent(this);
         this.relationships = new RelationshipComponent(this);
         this.bots = new BotComponent(this);
+        this.pets = new PetComponent(this);
 
         this.avatar = null;
     }
@@ -59,6 +61,7 @@ public class Player {
 
         // TODO: Add dispose to the entity
 
+        this.getPets().dispose();
         this.getBots().dispose();
         this.getInventory().dispose();
         this.getMessenger().dispose();
@@ -134,6 +137,10 @@ public class Player {
 
     public BotComponent getBots() {
         return this.bots;
+    }
+
+    public PetComponent getPets() {
+        return this.pets;
     }
 
     public PlayerSettings getSettings() {
