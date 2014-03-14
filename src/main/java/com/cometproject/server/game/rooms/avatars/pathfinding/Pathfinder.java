@@ -2,99 +2,114 @@ package com.cometproject.server.game.rooms.avatars.pathfinding;
 
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.AvatarEntity;
+import com.google.common.collect.Lists;
+import com.google.common.collect.MinMaxPriorityQueue;
 
-import java.awt.*;
-import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Pathfinder {
-    private Point[] points;
+    protected AvatarEntity entity;
 
-    public int goalX;
-    public int goalY;
-
-    protected AvatarEntity avatar;
-
-    public Pathfinder(AvatarEntity avatar) {
-        points = new Point[] {
-                new Point(0, -1),
-                new Point(0, 1),
-                new Point(1, 0),
-                new Point(-1, 0),
-                new Point(1, -1),
-                new Point(-1, 1),
-                new Point(1, 1),
-                new Point(-1, -1)
-        };
-
-        this.avatar = avatar;
+    public Pathfinder(AvatarEntity entity) {
+        this.entity = entity;
     }
 
-    public LinkedList<Square> makePath() {
-        LinkedList<Square> coordSquares = new LinkedList<>();
+    public List<Square> makePath() {
+        LinkedList<Square> squares = new LinkedList<>();
 
-        int userX = avatar.getPosition().getX();
-        int userY = avatar.getPosition().getY();
+        PathfinderNode nodes = makePathReversed();
 
-        goalX = avatar.getWalkingGoal().getX();
-        goalY = avatar.getWalkingGoal().getY();
+        if (nodes != null) {
+            while (nodes.getNextNode() != null) {
+                squares.add(new Square(nodes.getPosition().getX(), nodes.getPosition().getY()));
+                nodes = nodes.getNextNode();
+            }
+        }
 
-        Square lastCoord = new Square(-200, -200);
-        int trys = 0;
+        return Lists.reverse(squares);
+    }
 
-        while(true) {
-            trys++;
-            int stepsToWalk = 10000;
+    private PathfinderNode makePathReversed() {
+        MinMaxPriorityQueue<PathfinderNode> openList = MinMaxPriorityQueue.maximumSize(256).create();
 
-            for (Point movePoint : points) {
-                int newX = movePoint.x + userX;
-                int newY = movePoint.y + userY;
+        PathfinderNode[][] map = new PathfinderNode[entity.getRoom().getMapping().getModel().getSizeX()][entity.getRoom().getMapping().getModel().getSizeY()];
+        PathfinderNode node;
+        Position3D tmp;
 
-                Position3D currentPos = new Position3D(userX, userY, 0);
-                Position3D newPos = new Position3D(newX, newY, 0);
+        int cost;
+        int diff;
 
-                boolean lastStep = false;
+        PathfinderNode current = new PathfinderNode(entity.getPosition());
+        current.setCost(0);
 
-                if(newY == goalY && newX == goalX) {
-                    lastStep = true;
-                }
+        Position3D end = entity.getWalkingGoal();
+        PathfinderNode finish = new PathfinderNode(end);
 
-                if (avatar.getRoom().getMapping().isValidStep(currentPos, newPos, lastStep)) {
-                    Square square = new Square(newX, newY);
-                    square.positionDistance = distanceBetween(newX, newY, goalX, goalY);
-                    square.reversedPositionDistance = distanceBetween(goalX, goalY, newX, newY);
+        map[current.getPosition().getX()][current.getPosition().getY()] = current;
+        openList.add(current);
 
-                    if (stepsToWalk > square.positionDistance)
-                    {
-                        stepsToWalk = square.positionDistance;
-                        lastCoord = square;
+        while (openList.size() > 0) {
+            current = openList.pollFirst();
+            current.setInClosed(true);
+
+            for (int i = 0; i < movePoints().length; i++) {
+                tmp = current.getPosition().add(movePoints()[i]);
+                boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
+
+                if (entity.getRoom().getMapping().isValidStep(new Position3D(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove)) {
+                    if (map[tmp.getX()][tmp.getY()] == null) {
+                        node = new PathfinderNode(tmp);
+                        map[tmp.getX()][tmp.getY()] = node;
+                    } else {
+                        node = map[tmp.getX()][tmp.getY()];
+                    }
+
+                    if (!node.isInClosed()) {
+                        diff = 0;
+
+                        if (current.getPosition().getX() != node.getPosition().getX()) {
+                            diff += 1;
+                        }
+
+                        if (current.getPosition().getY() != node.getPosition().getY()) {
+                            diff += 1;
+                        }
+
+                        cost = current.getCost() + diff + node.getPosition().getDistanceSquared(end);
+
+                        if (cost < node.getCost()) {
+                            node.setCost(cost);
+                            node.setNextNode(current);
+                        }
+
+                        if (!node.isInOpen()) {
+                            if (node.getPosition().getX() == finish.getPosition().getX() && node.getPosition().getY() == finish.getPosition().getY()) {
+                                node.setNextNode(current);
+                                return node;
+                            }
+
+                            node.setInOpen(true);
+                            openList.add(node);
+                        }
                     }
                 }
             }
-
-            if (trys >= 200) {
-                return null;
-            } else if (lastCoord.x == -200 && lastCoord.y == -200) {
-                return null;
-            }
-
-            userX = lastCoord.x;
-            userY = lastCoord.y;
-            coordSquares.add(lastCoord);
-
-            if(userX == goalX && userY == goalY) {
-                break;
-            }
         }
-        return coordSquares;
+
+        return null;
     }
 
-    public void dispose() {
-        Arrays.fill(points, null);
-        avatar = null;
-    }
-
-    private int distanceBetween(int currentX, int currentY, int goX, int goY) {
-        return Math.abs(currentX - goX) + Math.abs(currentY - goY);
+    private Position3D[] movePoints() {
+        return new Position3D[] {
+                new Position3D(0, -1, 0),
+                new Position3D(0, 1, 0),
+                new Position3D(1, 0, 0),
+                new Position3D(-1, 0, 0),
+                new Position3D(1, -1, 0),
+                new Position3D(-1, 1, 0),
+                new Position3D(1, 1, 0),
+                new Position3D(-1, -1, 0)
+        };
     }
 }
