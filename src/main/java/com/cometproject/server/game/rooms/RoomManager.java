@@ -110,7 +110,7 @@ public class RoomManager {
     public List<Room> getRoomByQuery(String query) {
         // Cache?
         if (CometCache.getManager().isCacheEnabled()) {
-            List<Room> cachedRoomList = CometCache.getManager().getNavigatorSearchCacheHandler().get("NAVIGATORCACHE-" + query);
+            ArrayList<Room> cachedRoomList = CometCache.getManager().getNavigatorSearchCacheHandler().get("NAVIGATORCACHE-" + query);
 
             if (cachedRoomList != null) {
                 System.out.println("Returning from cache!!");
@@ -118,7 +118,7 @@ public class RoomManager {
             }
         }
 
-        List<Room> rooms = new ArrayList<>();
+        ArrayList<Room> rooms = new ArrayList<>();
 
         try {
             PreparedStatement std;
