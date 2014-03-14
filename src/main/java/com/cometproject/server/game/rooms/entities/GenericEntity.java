@@ -3,7 +3,6 @@ package com.cometproject.server.game.rooms.entities;
 import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.Pathfinder;
-import com.cometproject.server.game.rooms.avatars.pathfinding.PathfinderNew;
 import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
@@ -13,7 +12,6 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.ApplyEffect
 import javolution.util.FastMap;
 
 import java.lang.ref.WeakReference;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +35,7 @@ public abstract class GenericEntity implements AvatarEntity {
 
     private Square futureSquare;
 
-    private PathfinderNew pathfinder;
+    private Pathfinder pathfinder;
 
     private int idleTime;
     private int signTime;
@@ -233,9 +231,9 @@ public abstract class GenericEntity implements AvatarEntity {
     }
 
     @Override
-    public PathfinderNew getPathfinder() {
+    public Pathfinder getPathfinder() {
         if (this.pathfinder == null) {
-            this.pathfinder = new PathfinderNew(this);
+            this.pathfinder = new Pathfinder(this);
         }
 
         return this.pathfinder;

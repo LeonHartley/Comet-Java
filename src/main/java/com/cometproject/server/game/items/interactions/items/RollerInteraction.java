@@ -59,10 +59,15 @@ public class RollerInteraction extends Interactor {
         Position3D sqInfront = item.squareInfront();
         FloorItem floorItem = (FloorItem) item;
 
+        if(!floorItem.getRoom().getMapping().isValidPosition(sqInfront))
+            return false;
+
         List<GenericEntity> entitiesOnSq = floorItem.getRoom().getEntities().getEntitiesAt(floorItem.getX(), floorItem.getY());
 
         for (GenericEntity entity : entitiesOnSq) {
-            // to-do: check valid position
+            if(!entity.getRoom().getMapping().isValidStep(entity.getPosition(), sqInfront, true)) {
+                continue;
+            }
 
             double toHeight = 0;
 
@@ -81,21 +86,32 @@ public class RollerInteraction extends Interactor {
                 continue;
 
             double toHeight = 0;
+            boolean needsSave = true;
 
             for(FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
+                if(!itemInStack.getDefinition().canStack) {
+                    continue;
+                }
+
+                if(needsSave && itemInStack.getDefinition().getInteraction().equals("roller"))
+                    needsSave = false;
+
                 toHeight += itemInStack.getDefinition().getHeight();
             }
 
-            // Use the same logic footballs use to roll (no point re-creating it :P)
-            //floorItem.getRoom().getEntities().broadcastMessage((itemOnSq, new Position3D(itemOnSq.getX(), itemOnSq.getY(), itemOnSq.getHeight()), new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight), itemOnSq.getRoom());
             floorItem.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position3D(itemOnSq.getX(), itemOnSq.getY(), itemOnSq.getHeight()), new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight), floorItem.getId(), 0, itemOnSq.getId()));
 
             itemOnSq.setX(sqInfront.getX());
             itemOnSq.setY(sqInfront.getY());
             itemOnSq.setHeight((float) toHeight); // maybe / maybe not
 
-            //itemOnSq.getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(itemOnSq, itemOnSq.getOwner()));
-            // TODO: save item position when finished rolling?
+            if(needsSave) {
+               // TODO: Save position
+            }
+        }
+
+        if(itemsOnSq.size() > 0) {
+            floorItem.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY()).reload();
         }
 
         return false;

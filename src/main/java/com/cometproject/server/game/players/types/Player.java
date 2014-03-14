@@ -59,8 +59,6 @@ public class Player {
             this.getEntity().leaveRoom(true, false, false);
         }
 
-        // TODO: Add dispose to the entity
-
         this.getPets().dispose();
         this.getBots().dispose();
         this.getInventory().dispose();
