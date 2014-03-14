@@ -16,7 +16,7 @@ public class Pathfinder {
     }
 
     public List<Square> makePath() {
-        List<Square> squares = new LinkedList<>();
+        LinkedList<Square> squares = new LinkedList<>();
 
         PathfinderNode nodes = makePathReversed();
 
