@@ -5,13 +5,14 @@ import com.cometproject.server.cache.CacheProvider;
 import com.cometproject.server.game.rooms.types.Room;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Matty on 13/03/2014.
  */
-public class NavigatorSearchCacheHandler implements CacheHandler<String, List<Room>> {
+public class NavigatorSearchCacheHandler implements CacheHandler<String, ArrayList<Room>> {
     private final CacheProvider provider;
 
     public NavigatorSearchCacheHandler(CacheProvider provider) {
@@ -19,24 +20,24 @@ public class NavigatorSearchCacheHandler implements CacheHandler<String, List<Ro
     }
 
     @Override
-    public void put(String key, List<Room> value) {
+    public void put(String key, ArrayList<Room> value) {
         this.provider.put(key, value);
     }
 
     @Override
-    public void put(String key, List<Room> value, int expires) {
+    public void put(String key, ArrayList<Room> value, int expires) {
         this.provider.put(key, value, expires);
     }
 
     @Override
-    public void put(String key, List<Room> value, int expires, TimeUnit unit) {
+    public void put(String key, ArrayList<Room> value, int expires, TimeUnit unit) {
         this.provider.put(key, value, expires, unit);
     }
 
     @Override
-    public List<Room> get(String key) {
+    public ArrayList<Room> get(String key) {
         Object o = this.provider.get(key);
-        return (List<Room>) o;
+        return (ArrayList<Room>) o;
     }
 
     @Override
