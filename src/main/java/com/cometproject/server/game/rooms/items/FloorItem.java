@@ -113,10 +113,14 @@ public class FloorItem extends RoomItem {
         } else {
             msg.writeInt(0);
             msg.writeInt(0);
+
             msg.writeString(this.getExtraData());
+
+            // limited edition stuff goes here
         }
 
         msg.writeInt(-1);
+        //msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
         msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
         msg.writeInt(this.getRoom().getData().getOwnerId());
 

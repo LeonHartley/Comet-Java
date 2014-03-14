@@ -1,5 +1,6 @@
 package com.cometproject.server.game.items.interactions.items;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.interactions.Interactor;
@@ -87,10 +88,11 @@ public class RollerInteraction extends Interactor {
 
             double toHeight = 0;
             boolean needsSave = true;
+            boolean needsCancel = false;
 
             for(FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
                 if(!itemInStack.getDefinition().canStack) {
-                    continue;
+                    needsCancel = true;
                 }
 
                 if(needsSave && itemInStack.getDefinition().getInteraction().equals("roller"))
@@ -99,14 +101,17 @@ public class RollerInteraction extends Interactor {
                 toHeight += itemInStack.getDefinition().getHeight();
             }
 
+            if(needsCancel)
+                continue;
+
             floorItem.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position3D(itemOnSq.getX(), itemOnSq.getY(), itemOnSq.getHeight()), new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight), floorItem.getId(), 0, itemOnSq.getId()));
 
             itemOnSq.setX(sqInfront.getX());
             itemOnSq.setY(sqInfront.getY());
-            itemOnSq.setHeight((float) toHeight); // maybe / maybe not
+            itemOnSq.setHeight((float) toHeight);
 
             if(needsSave) {
-               // TODO: Save position
+                Comet.getServer().getStorage().execute("UPDATE items SET x = " + itemOnSq.getX() + ", y = " + itemOnSq.getY() + ", z = '" + itemOnSq.getHeight() + "' WHERE id = " + itemOnSq.getId());
             }
         }
 
