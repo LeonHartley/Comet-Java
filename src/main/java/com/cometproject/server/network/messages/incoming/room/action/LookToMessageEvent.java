@@ -27,7 +27,7 @@ public class LookToMessageEvent implements IEvent {
 
         if(!avatar.hasStatus("sit"))
             avatar.setBodyRotation(rotation);
-        
+
         avatar.setHeadRotation(rotation);
 
         avatar.markNeedsUpdate();
