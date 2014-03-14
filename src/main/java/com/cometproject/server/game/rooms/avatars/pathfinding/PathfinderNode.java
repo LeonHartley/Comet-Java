@@ -2,9 +2,6 @@ package com.cometproject.server.game.rooms.avatars.pathfinding;
 
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 
-/**
- * Created by Matty on 13/03/2014.
- */
 public class PathfinderNode implements Comparable<PathfinderNode> {
     private Position3D position;
     private PathfinderNode nextNode;

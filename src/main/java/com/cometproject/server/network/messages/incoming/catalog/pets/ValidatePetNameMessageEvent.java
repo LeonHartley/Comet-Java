@@ -16,7 +16,8 @@ public class ValidatePetNameMessageEvent implements IEvent {
         switch(errorCode) {
             case 1:
                 // LONG
-                data = "16"; // we send the max length we expect
+                // TODO: put in locale
+                data = "We expect a maximum of 16 characters!"; // we send the max length we expect
                 break;
 
             case 2:
