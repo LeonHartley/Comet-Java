@@ -59,6 +59,9 @@ public class RollerInteraction extends Interactor {
         Position3D sqInfront = item.squareInfront();
         FloorItem floorItem = (FloorItem) item;
 
+        if(!floorItem.getRoom().getMapping().isValidPosition(sqInfront))
+            return false;
+
         List<GenericEntity> entitiesOnSq = floorItem.getRoom().getEntities().getEntitiesAt(floorItem.getX(), floorItem.getY());
 
         for (GenericEntity entity : entitiesOnSq) {
@@ -103,8 +106,12 @@ public class RollerInteraction extends Interactor {
             itemOnSq.setHeight((float) toHeight); // maybe / maybe not
 
             if(needsSave) {
-               // Save position
+               // TODO: Save position
             }
+        }
+
+        if(itemsOnSq.size() > 0) {
+            floorItem.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY()).reload();
         }
 
         return false;
