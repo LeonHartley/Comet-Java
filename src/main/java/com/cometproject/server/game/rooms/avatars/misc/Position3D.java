@@ -22,7 +22,13 @@ public class Position3D {
     public Position3D() {
         this.x = 0;
         this.y = 0;
-        this.z = 0;
+        this.z = 0d;
+    }
+
+    public Position3D(int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.z = 0d;
     }
 
     public Position3D add(Position3D other) {
