@@ -5,12 +5,14 @@ import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.players.data.PlayerLoader;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.catalog.pets.ValidatePetNameMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.LoginMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
+import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -65,6 +67,15 @@ public class SSOTicketMessageEvent implements IEvent {
         client.send(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));
         client.send(MotdNotificationComposer.compose());
         client.send(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
+
+        /*
+            this will be a way of sending the old-style alert notifications
+            if you need more info - ask leon
+
+            Header: 2442 (VOUCHER_ERROR)
+            #################
+            String: AlertId
+        */
 
         if(client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             client.send(ModToolMessageComposer.compose());

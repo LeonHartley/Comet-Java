@@ -60,7 +60,7 @@ public class PathfinderNew {
 
             for (int i = 0; DISABLE_DIAGONAL ? i < noDiagMovePoints().length : i < movePoints().length; i++) {
                 tmp = current.getPosition().add(DISABLE_DIAGONAL ? noDiagMovePoints()[i] : movePoints()[i]);
-                boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getX());
+                boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
 
                 if (entity.getRoom().getMapping().isValidStep(new Position3D(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove)) {
                     if (map[tmp.getX()][tmp.getY()] == null) {
