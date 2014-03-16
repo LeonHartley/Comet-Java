@@ -173,7 +173,7 @@ public class ProcessComponent implements CometTask {
                 entity.applyEffect(null);
             }
 
-            if (entity.getCurrentEffect().isItemEffect()) {
+            if (entity.getCurrentEffect() != null && entity.getCurrentEffect().isItemEffect()) {
                 boolean needsRemove = true;
 
                 for (FloorItem item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
@@ -253,19 +253,19 @@ public class ProcessComponent implements CometTask {
                     entity.markNeedsUpdate();
                 }
 
-                if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
+                /*if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
                     // idk what to do here for this trigger but ya
-                }
+                }*/
             }
 
             entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
 
-            /*for (FloorItem item : itemsOnSq) {
+            for (FloorItem item : itemsOnSq) {
                 if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
                     // idk what to do here for this trigger but ya
                 }
-            }*/
+            }
         }
 
         if (entity.isWalking()) {

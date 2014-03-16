@@ -35,7 +35,7 @@ public class WallItem extends RoomItem {
     public void serialize(Composer msg, boolean isNew) {
         msg.writeString(this.getId());
         msg.writeInt(this.getDefinition().getSpriteId());
-        msg.writeString(this.position);
+        msg.writeString(this.getPosition());
 
         msg.writeString(this.getExtraData());
         msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
