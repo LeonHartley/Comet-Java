@@ -12,6 +12,7 @@ import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessa
 import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.AlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -98,7 +99,7 @@ public class PurchaseItemMessageEvent implements IEvent {
                         throw new Exception("Invalid pet data length: " + petData.length);
                     }
 
-                    PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT INTO `pet_data` (`owner_id`, `pet_name`, `race_id`, `colour`, `scratches`, `level`, `happiness`, `experience`, `energy`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+                    PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT INTO `pet_data` (`owner_id`, `pet_name`, `race_id`, `colour`, `scratches`, `level`, `happiness`, `experience`, `energy`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);", true);
 
                     statement.setInt(1, client.getPlayer().getId());
                     statement.setString(2, petData[0]);
@@ -112,7 +113,14 @@ public class PurchaseItemMessageEvent implements IEvent {
 
                     statement.execute();
 
-                    // TODO: Put in inventory or w/e :P
+                    ResultSet keys = statement.getGeneratedKeys();
+
+                    if(keys.next()) {
+                        int insertedId = keys.getInt(1);
+                        client.getPlayer().getPets().addPet(new PetData(insertedId, petData[0], StaticPetProperties.DEFAULT_LEVEL, StaticPetProperties.DEFAULT_HAPPINESS, StaticPetProperties.DEFAULT_EXPERIENCE, StaticPetProperties.DEFAULT_ENERGY, client.getPlayer().getId(), petData[2], Integer.parseInt(petRace)));
+                        client.send(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));
+                    }
+
                     return;
                 }
 
