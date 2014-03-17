@@ -3,6 +3,7 @@ package com.cometproject.server.game.items.interactions;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.items.interactions.banzai.BanzaiPatchInteraction;
+import com.cometproject.server.game.items.interactions.banzai.BanzaiTeleportInteraction;
 import com.cometproject.server.game.items.interactions.banzai.gates.BanzaiGateBlueInteraction;
 import com.cometproject.server.game.items.interactions.banzai.gates.BanzaiGateGreenInteraction;
 import com.cometproject.server.game.items.interactions.banzai.gates.BanzaiGateRedInteraction;
@@ -69,6 +70,7 @@ public class InteractionManager {
         this.interactions.put("bb_yellow_gate", new BanzaiGateYellowInteraction());
         this.interactions.put("bb_blue_gate", new BanzaiGateBlueInteraction());
         this.interactions.put("bb_red_gate", new BanzaiGateRedInteraction());
+        this.interactions.put("bb_teleport", new BanzaiTeleportInteraction());
     }
 
     public void onWalk(boolean state, FloorItem item, PlayerEntity avatar) {

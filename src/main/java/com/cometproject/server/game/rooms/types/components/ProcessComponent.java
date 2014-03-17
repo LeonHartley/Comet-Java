@@ -116,6 +116,8 @@ public class ProcessComponent implements CometTask {
                     processPetEntity((PetEntity) entity);
                 }
 
+                // TODO: Change the movement handling to do it per entity, not per entity type. (Remove it from the process{EntityType}Entity method and create a new one)
+
                 // Create the new entity grid
                 if (entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] == null) {
                     entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] = new ArrayList<GenericEntity>();
