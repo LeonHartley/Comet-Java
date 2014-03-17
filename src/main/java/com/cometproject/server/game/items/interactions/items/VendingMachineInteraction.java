@@ -33,6 +33,7 @@ public class VendingMachineInteraction extends Interactor {
         int vendingId = Integer.parseInt(item.getDefinition().getVendingIds()[RandomInteger.getRandom(0, item.getDefinition().getVendingIds().length - 1)].trim());
 
         // TODO: item animation
+        item.toggleInteract(true);
 
         avatar.carryItem(vendingId);
         return true;

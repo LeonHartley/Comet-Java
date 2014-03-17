@@ -34,6 +34,14 @@ public class PetComponent {
         }
     }
 
+    public PetData getPet(int id) {
+        if(this.getPets().containsKey(id)) {
+            return this.getPets().get(id);
+        }
+
+        return null;
+    }
+
     public void addPet(PetData petData) {
         this.pets.put(petData.getId(), petData);
     }

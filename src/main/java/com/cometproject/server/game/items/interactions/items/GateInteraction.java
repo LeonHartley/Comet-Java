@@ -36,8 +36,6 @@ public class GateInteraction extends Interactor {
 
         // Reload mapping!
         ((FloorItem) item).getRoom().getMapping().updateTile(item.getX(), item.getY());
-        System.out.println(((FloorItem) item).getRoom().getMapping().getTile(item.getX(), item.getY()).getMovementNode());
-
         return false;
     }
 
