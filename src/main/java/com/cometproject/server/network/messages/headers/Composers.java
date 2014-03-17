@@ -32,7 +32,6 @@ public class Composers {
     public static short InstantChatMessageComposer = 2747;
     public static short InstantInviteMessageComposer = 2925;
     public static short InventoryMessageComposer = 3572;
-    public static short ItemInHandMessageComposer = 1773;
     public static short LeaveRoomMessageComposer = 3359;
     public static short LoadFriendsMessageComposer = 1800;
     public static short LoadProfileMessageComposer = 3330;
@@ -130,6 +129,7 @@ public class Composers {
     public static short PetRacesMessageComposer = 714;
     public static short ValidatePetNameMessageComposer = 204;
     public static short PetInventoryMessageComposer = 2304;
+    public static short HandItemMessageComposer = 3395;
 
     public static String valueOfId(int i) {
         Composers c = new Composers();

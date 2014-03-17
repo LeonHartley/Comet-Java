@@ -181,6 +181,7 @@ public class MessageHandler {
         this.getMessages().put(Events.LookToMessageEvent, new LookToMessageEvent());
         this.getMessages().put(Events.UserBadgesMessageEvent, new UserBadgesMessageEvent());
         this.getMessages().put(Events.UpdatePapersMessageEvent, new UpdatePapersMessageEvent());
+        this.getMessages().put(Events.DropHandItemMessageEvent, new DropHandItemMessageEvent());
     }
 
     public void registerRoomTrade() {

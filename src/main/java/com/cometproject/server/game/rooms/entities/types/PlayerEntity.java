@@ -245,9 +245,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
         msg.writeInt(-1);
         msg.writeInt(0);
         msg.writeInt(0); //achv points
-       // msg.writeString("");
-       // msg.writeString("");
-       // msg.writeInt(0);
     }
 
     @Override

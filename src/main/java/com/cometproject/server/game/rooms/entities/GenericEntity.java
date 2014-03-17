@@ -9,6 +9,7 @@ import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ApplyEffectMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.HandItemMessageComposer;
 import javolution.util.FastMap;
 
 import java.lang.ref.WeakReference;
@@ -43,6 +44,9 @@ public abstract class GenericEntity implements AvatarEntity {
     private int danceId;
     private UserEffect effect;
 
+    private int handItem;
+    private int handItemTimer;
+
     private boolean markedNeedsUpdate;
     private boolean isMoonwalking;
 
@@ -70,6 +74,8 @@ public abstract class GenericEntity implements AvatarEntity {
 
         this.idleTime = 0;
         this.signTime = 0;
+        this.handItem = 0;
+        this.handItemTimer = 0;
 
         this.danceId = 0;
 
@@ -319,6 +325,13 @@ public abstract class GenericEntity implements AvatarEntity {
         this.idleTime = 600;
     }
 
+    public boolean handItemNeedsRemove() {
+        this.handItemTimer--;
+
+        return this.handItemTimer <= 0;
+
+    }
+
     // Should call 'resetIdleTime()' instead of this method
     public void unIdle() {
         this.resetIdleTime();
@@ -362,6 +375,29 @@ public abstract class GenericEntity implements AvatarEntity {
     @Override
     public UserEffect getCurrentEffect() {
         return this.effect;
+    }
+
+    @Override
+    public int getHandItem() {
+        return this.handItem;
+    }
+
+    @Override
+    public void carryItem(int id) {
+        this.handItem = id;
+
+        this.handItemTimer = 240;
+        this.getRoom().getEntities().broadcastMessage(HandItemMessageComposer.compose(this.getVirtualId(), handItem));
+    }
+
+    @Override
+    public int getHandItemTimer() {
+        return this.handItemTimer;
+    }
+
+    @Override
+    public void setHandItemTimer(int time) {
+        this.handItemTimer = time;
     }
 
     @Override

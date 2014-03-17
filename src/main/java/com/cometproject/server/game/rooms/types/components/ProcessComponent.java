@@ -159,6 +159,11 @@ public class ProcessComponent implements CometTask {
             }
         }
 
+        if(entity.handItemNeedsRemove() && entity.getHandItem() != 0) {
+            entity.carryItem(0);
+            entity.setHandItemTimer(0);
+        }
+
         // Handle signs
         if (entity.hasStatus("sign") && !entity.isDisplayingSign()) {
             entity.removeStatus("sign");
