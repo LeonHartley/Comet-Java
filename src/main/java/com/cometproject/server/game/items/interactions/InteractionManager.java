@@ -39,7 +39,7 @@ public class InteractionManager {
         this.interactions.put("gate", new GateInteraction());
         this.interactions.put("pressure_pad", new PressurePadInteraction());
         this.interactions.put("teleport", new TeleportInteraction());
-        this.interactions.put("habbowheel", new WheelInteractor());
+        this.interactions.put("habbowheel", new WheelInteraction());
         this.interactions.put("roller", new RollerInteraction());
         this.interactions.put("ball", new BallInteraction());
         this.interactions.put("mannequin", new MannequinInteraction());
