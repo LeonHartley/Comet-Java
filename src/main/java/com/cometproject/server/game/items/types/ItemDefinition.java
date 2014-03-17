@@ -25,6 +25,7 @@ public class ItemDefinition {
     private int effectId;
     private String interaction;
     private int interactionCycleCount;
+    private String[] vendingIds;
 
     public ItemDefinition(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
@@ -46,10 +47,10 @@ public class ItemDefinition {
         this.canMarket = true;
         this.canGift = true;
 
-
         this.effectId = data.getInt("effectid");
         this.interaction = data.getString("interaction_type");
         this.interactionCycleCount = data.getInt("interaction_modes_count");
+        this.vendingIds = data.getString("vending_ids").isEmpty() ? new String[0] : data.getString("vending_ids").split(",");
     }
 
     public int getId() {
@@ -94,5 +95,9 @@ public class ItemDefinition {
 
     public int getEffectId() {
         return effectId;
+    }
+
+    public String[] getVendingIds() {
+        return vendingIds;
     }
 }

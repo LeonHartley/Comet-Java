@@ -8,6 +8,7 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.HandItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.bots.PlaceBotMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomPanelMessageComposer;
@@ -61,6 +62,10 @@ public class AddUserToRoomMessageEvent implements IEvent {
         for(GenericEntity av : client.getPlayer().getEntity().getRoom().getEntities().getEntitiesCollection().values()) {
             if(av.getDanceId() != 0) {
                 client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(DanceMessageComposer.compose(av.getVirtualId(), av.getDanceId()));
+            }
+
+            if(av.getHandItem() != 0) {
+                client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(HandItemMessageComposer.compose(av.getVirtualId(), av.getHandItem()));
             }
         }
     }

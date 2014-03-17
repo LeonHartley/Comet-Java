@@ -44,6 +44,7 @@ public class InteractionManager {
         this.interactions.put("ball", new BallInteraction());
         this.interactions.put("mannequin", new MannequinInteraction());
         this.interactions.put("roombg", new BackgroundTonerInteraction());
+        this.interactions.put("vendingmachine", new VendingMachineInteraction());
 
         if (InteractionManager.DICE_ENABLED) { this.interactions.put("dice", new DiceInteraction()); }
 

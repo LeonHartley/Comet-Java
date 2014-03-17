@@ -64,6 +64,12 @@ public interface AvatarEntity {
     public UserEffect getCurrentEffect();
     public void applyEffect(UserEffect effect);
 
+    public void carryItem(int id);
+    public int getHandItem();
+    public boolean handItemNeedsRemove();
+    public int getHandItemTimer();
+    public void setHandItemTimer(int time);
+
     public Room getRoom();
 
     public String getUsername();
