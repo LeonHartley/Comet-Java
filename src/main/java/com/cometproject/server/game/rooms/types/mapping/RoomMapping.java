@@ -67,7 +67,7 @@ public class RoomMapping {
             return false;
         }
 
-        if(tile.getMovementNode() == RoomEntityMovementNode.CLOSED || tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep) {
+        if(tile.getMovementNode() == RoomEntityMovementNode.CLOSED || (tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep)) {
             return false;
         }
 

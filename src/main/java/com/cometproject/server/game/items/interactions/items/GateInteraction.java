@@ -2,6 +2,7 @@ package com.cometproject.server.game.items.interactions.items;
 
 import com.cometproject.server.game.items.interactions.Interactor;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 
@@ -32,6 +33,10 @@ public class GateInteraction extends Interactor {
             item.saveData();
             item.sendUpdate();
         }
+
+        // Reload mapping!
+        ((FloorItem) item).getRoom().getMapping().updateTile(item.getX(), item.getY());
+        System.out.println(((FloorItem) item).getRoom().getMapping().getTile(item.getX(), item.getY()).getMovementNode());
 
         return false;
     }
