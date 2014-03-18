@@ -3,6 +3,8 @@ package com.cometproject.server.game.rooms.entities.types;
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.entities.types.ai.BotAI;
+import com.cometproject.server.game.rooms.entities.types.ai.DefaultAI;
 import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
@@ -13,11 +15,15 @@ import com.cometproject.server.network.messages.types.Composer;
 public class BotEntity extends GenericEntity {
     private BotData data;
     private int cycleCount = 0;
+    private BotAI ai;
 
     public BotEntity(BotData data, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.data = data;
+
+        // Currently only the default ai is supported - more will be added soon maybe
+        this.ai = new DefaultAI(this);
     }
 
     @Override
@@ -120,5 +126,9 @@ public class BotEntity extends GenericEntity {
 
     public void resetCycleCount() {
         this.cycleCount = 0;
+    }
+
+    public BotAI getAI() {
+        return ai;
     }
 }
