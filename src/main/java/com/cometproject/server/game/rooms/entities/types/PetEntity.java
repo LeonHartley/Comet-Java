@@ -3,16 +3,20 @@ package com.cometproject.server.game.rooms.entities.types;
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.entities.types.ai.BotAI;
+import com.cometproject.server.game.rooms.entities.types.ai.DefaultAI;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class PetEntity extends GenericEntity {
     private BotData data;
+    private BotAI ai;
 
     public PetEntity(BotData data, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.data = data;
+        this.ai = new DefaultAI(this);
     }
 
     @Override

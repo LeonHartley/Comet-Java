@@ -17,6 +17,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessag
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.utilities.RandomInteger;
+import com.cometproject.server.utilities.TimeSpan;
 import javolution.util.FastList;
 import org.apache.log4j.Logger;
 
@@ -136,6 +137,12 @@ public class ProcessComponent implements CometTask {
 
             // Update the entity grid
             this.getRoom().getEntities().replaceEntityGrid(entityGrid);
+
+
+            TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
+
+            if(span.toMilliseconds() > 250)
+                log.info("ProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
         } catch (Exception e) {
             log.error("Error during room process", e);
         }

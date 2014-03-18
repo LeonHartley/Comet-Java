@@ -151,7 +151,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     public boolean onChat(String message) {
         long time = System.currentTimeMillis();
 
-        if (time - this.player.lastMessage < 500) {
+        if (time - this.player.lastMessage < 500) { // TODO: add flood bypass for staff with permission or something
             this.player.floodFlag++;
 
             if(this.player.floodFlag >= 4) {
@@ -167,6 +167,9 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
         }
 
         player.lastMessage = time;
+
+        if(message.isEmpty())
+            return false;
 
         try {
             if(message.startsWith(":")) {
@@ -185,6 +188,14 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
 
         if(CometSettings.logChatToConsole) {
             this.getRoom().log.info(this.getPlayer().getData().getUsername() + ": " + message);
+        }
+
+        for(BotEntity entity : this.getRoom().getEntities().getBotEntities()) {
+            if(entity.getUsername().replace(" ", "_").toLowerCase().equals(message.split(" ")[0].toLowerCase())) {
+                if(entity.getAI().onTalk(this, message.replace(message.split(" ")[0] + " ", ""))) {
+                    return false;
+                }
+            }
         }
 
         this.getRoom().getChatlog().add(message, this.getPlayer().getId());
