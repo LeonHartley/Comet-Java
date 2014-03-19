@@ -132,7 +132,7 @@ public class InteractionManager {
 
         InteractionQueueItem interactionQueueItem = item.getNextInteraction();
 
-        if (interactionQueueItem.needsCycling()) {
+        if(interactionQueueItem == null || interactionQueueItem.needsCycling()) {
             return;
         }
 

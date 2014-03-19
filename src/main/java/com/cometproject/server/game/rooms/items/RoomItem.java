@@ -90,9 +90,9 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem 
     @Override
     public void queueInteraction(InteractionQueueItem interaction) {
         // check the queue size
-        if (this.interactionQueue.size() > MAX_INTERACTION_QUEUE) {
+        /*if (this.interactionQueue.size() > MAX_INTERACTION_QUEUE) {
             return; // ignore the interaction
-        }
+        }*/
 
         this.interactionQueue.add(interaction);
     }
