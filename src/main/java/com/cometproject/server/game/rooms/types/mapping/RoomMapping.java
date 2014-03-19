@@ -71,9 +71,9 @@ public class RoomMapping {
             return false;
         }
 
-        if (!canStepUpwards(getStepHeight(to), getStepHeight(from))) {
-            return false;
-        }
+        //if (!canStepUpwards(getStepHeight(to), getStepHeight(from))) {
+        //    return false;
+        //}
 
         return true;
     }
