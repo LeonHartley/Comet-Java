@@ -53,6 +53,10 @@ public class ItemDefinition {
         this.vendingIds = data.getString("vending_ids").isEmpty() ? new String[0] : data.getString("vending_ids").split(",");
     }
 
+    public boolean isAdFurni() {
+        return itemName.equals("ads_mpu_720") || this.itemName.equals("ads_background") || this.itemName.equals("ads_mpu_300") || this.itemName.equals("ads_mpu_160");
+    }
+
     public int getId() {
         return this.id;
     }

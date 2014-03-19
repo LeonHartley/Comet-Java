@@ -18,7 +18,7 @@ public class SaveTonerMessageEvent implements IEvent {
 
         FloorItem item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(tonerId);
 
-        if(item == null) {
+        if(item == null || !item.getRoom().getRights().hasRights(client.getPlayer().getId())) {
             // Item doesn't exist, gtfo
             return;
         }
