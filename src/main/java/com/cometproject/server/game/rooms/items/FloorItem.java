@@ -55,7 +55,23 @@ public class FloorItem extends RoomItem {
         msg.writeInt(this.getRotation());
         msg.writeString(Double.toString(this.getHeight()));
 
-        if(this.getDefinition().getInteraction().equals("mannequin")) {
+        if(this.getDefinition().isAdFurni()) {
+            msg.writeInt(0);
+            msg.writeInt(1);
+
+            if(!extraData.equals("")) {
+                String[] adsData = extraData.split(String.valueOf((char)9));
+                int count = adsData.length;
+
+                msg.writeInt(count / 2);
+
+                for(int i = 0; i <= count - 1; i++) {
+                    msg.writeString(adsData[i]);
+                }
+            } else {
+                msg.writeInt(0);
+            }
+        } else if(this.getDefinition().getInteraction().equals("mannequin")) {
             MannequinData data = MannequinData.get(extraData);
 
             msg.writeInt(0);
@@ -116,7 +132,8 @@ public class FloorItem extends RoomItem {
 
             msg.writeString(this.getExtraData());
 
-            // limited edition stuff goes here
+            //msg.writeInt(15); // rare id
+            //msg.writeInt(100); // amount of limited items in a stack
         }
 
         msg.writeInt(-1);

@@ -215,6 +215,7 @@ public class MessageHandler {
         this.getMessages().put(Events.SaveMannequinMessageEvent, new SaveMannequinMessageEvent());
         this.getMessages().put(Events.SaveMannequinNameMessageEvent, new SaveMannequinNameMessageEvent());
         this.getMessages().put(Events.SaveTonerMessageEvent, new SaveTonerMessageEvent());
+        this.getMessages().put(Events.SaveBrandingMessageEvent, new SaveBrandingMessageEvent());
     }
 
     public void registerCatalog() {
