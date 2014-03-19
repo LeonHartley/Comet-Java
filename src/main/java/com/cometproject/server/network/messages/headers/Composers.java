@@ -130,6 +130,7 @@ public class Composers {
     public static short ValidatePetNameMessageComposer = 204;
     public static short PetInventoryMessageComposer = 2304;
     public static short HandItemMessageComposer = 3395;
+    public static short PopularTagsMessageComposer = 257;
 
     public static String valueOfId(int i) {
         Composers c = new Composers();

@@ -22,7 +22,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) throws Exception {
-        log.debug("Channel [" + ctx.channel().remoteAddress().toString() + "] connected");
+        //log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] connected");
 
         if(!Comet.getServer().getNetwork().getSessions().add(ctx.channel())) {
             ctx.channel().disconnect();
