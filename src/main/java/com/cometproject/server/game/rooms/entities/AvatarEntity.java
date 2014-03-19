@@ -61,6 +61,9 @@ public interface AvatarEntity {
     public void markDisplayingSign();
     public boolean isDisplayingSign();
 
+    public boolean isInTeleporter();
+    public void setIsInTeleporter(boolean isInTeleporter);
+
     public UserEffect getCurrentEffect();
     public void applyEffect(UserEffect effect);
 

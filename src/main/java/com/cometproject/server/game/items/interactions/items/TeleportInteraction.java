@@ -36,7 +36,6 @@ public class TeleportInteraction extends Interactor {
         }
 
         item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, 4));
-
         return false;
     }
 
@@ -56,6 +55,7 @@ public class TeleportInteraction extends Interactor {
             case 0:
                 // user is initiating the teleport, open door and walk in
                 // lock walking
+                avatar.setIsInTeleporter(true);
                 item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 1, 4));
                 break;
 
@@ -66,7 +66,8 @@ public class TeleportInteraction extends Interactor {
                 break;
 
             case 2:
-                // open door, walk out
+                // open door, walk out - it's finished!
+                avatar.setIsInTeleporter(false);
                 break;
         }
         return false;

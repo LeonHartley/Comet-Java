@@ -17,7 +17,8 @@ public class WalkMessageEvent implements IEvent {
                 return;
             }
 
-            client.getPlayer().getEntity().moveTo(goalX, goalY);
+            if(!client.getPlayer().getEntity().isInTeleporter())
+                client.getPlayer().getEntity().moveTo(goalX, goalY);
         } catch(Exception e) {
             client.getLogger().error("Error while finding path", e);
         }
