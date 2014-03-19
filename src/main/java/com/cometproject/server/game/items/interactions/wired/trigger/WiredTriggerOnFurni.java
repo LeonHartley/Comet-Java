@@ -75,7 +75,7 @@ public class WiredTriggerOnFurni extends Interactor {
     }
 
     @Override
-    public boolean onTick(RoomItem item, PlayerEntity avatar) {
+    public boolean onTick(RoomItem item, PlayerEntity avatar, int updateState) {
         return false;
     }
 

@@ -42,7 +42,7 @@ public abstract class Interactor {
     /*
      * GenericRoomItem: the item which is ticking
      */
-    public abstract boolean onTick(RoomItem item, PlayerEntity avatar);
+    public abstract boolean onTick(RoomItem item, PlayerEntity avatar, int updateState);
 
     public abstract boolean requiresRights();
 }
