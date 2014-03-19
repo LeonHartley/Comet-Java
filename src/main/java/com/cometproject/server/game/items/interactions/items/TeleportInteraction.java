@@ -52,6 +52,23 @@ public class TeleportInteraction extends Interactor {
 
     @Override
     public boolean onTick(RoomItem item, PlayerEntity avatar, int updateState) {
+        switch(updateState) {
+            case 0:
+                // user is initiating the teleport, open door and walk in
+                // lock walking
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 1, 4));
+                break;
+
+            case 1:
+                // close door
+                // user is in the teleport, show animation and warp to location
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 2, 4));
+                break;
+
+            case 2:
+                // open door, walk out
+                break;
+        }
         return false;
     }
 
