@@ -97,6 +97,7 @@ public class Events {
     public static short PetInventoryMessageEvent = 686;
     public static short PlacePetMessageEvent = 730;
     public static short DropHandItemMessageEvent = 1220;
+    public static short SaveBrandingMessageEvent = 559;
 
     public static short ManageGroupMessageEvent = 454;
     public static short AddUserToRoom2MessageEvent = 3317;
