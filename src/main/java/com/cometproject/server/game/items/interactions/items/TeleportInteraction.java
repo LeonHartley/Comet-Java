@@ -1,7 +1,10 @@
 package com.cometproject.server.game.items.interactions.items;
 
-import com.cometproject.server.game.items.interactions.Interactor;
+import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.items.interactions.*;
+import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 
@@ -18,7 +21,7 @@ public class TeleportInteraction extends Interactor {
 
     @Override
     public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
-        /*int pairId = GameEngine.getItems().getTeleportPartner(item.getId());
+        int pairId = GameEngine.getItems().getTeleportPartner(item.getId());
 
         if(pairId == 0) {
             return false;
@@ -34,8 +37,6 @@ public class TeleportInteraction extends Interactor {
             return false;
         }
 
-        boolean flash = false;
-
         Position3D posInFront = item.squareInfront();
 
         if((avatar.getPosition().getX() != posInFront.getX() && avatar.getPosition().getY() != posInFront.getY())
@@ -45,27 +46,7 @@ public class TeleportInteraction extends Interactor {
             return false;
         }
 
-        if(!item.getExtraData().equals("1")) {
-            item.setExtraData("1");
-        }
-
-        if(avatar.getPosition().getX() != item.getX() && avatar.getPosition().getY() != item.getY()) {
-            avatar.warpTo(item.getX(), item.getY());
-            flash = true;
-        }
-
-        if(flash) {
-            if(!item.getExtraData().equals("2")) {
-                item.setExtraData("2");
-            }
-        } else {
-            if(!item.getExtraData().equals("0")) {
-                item.setExtraData("0");
-
-            }
-        }
-
-        item.sendUpdate();*/
+        item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, 4));
 
         return false;
     }
@@ -81,7 +62,7 @@ public class TeleportInteraction extends Interactor {
     }
 
     @Override
-    public boolean onTick(RoomItem item) {
+    public boolean onTick(RoomItem item, PlayerEntity avatar) {
         return false;
     }
 

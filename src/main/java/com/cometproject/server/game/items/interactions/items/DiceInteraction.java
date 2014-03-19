@@ -63,7 +63,7 @@ public class DiceInteraction extends Interactor {
     }
 
     @Override
-    public boolean onTick(RoomItem item) {
+    public boolean onTick(RoomItem item, PlayerEntity avatar) {
         int num = new Random().nextInt(6) + 1;
 
         // Provide a bit more randomness
