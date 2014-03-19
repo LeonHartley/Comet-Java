@@ -138,7 +138,7 @@ public class InteractionManager {
 
         Interactor action = this.getInteractions().get(item.getDefinition().getInteraction());
 
-        if (action.onTick(item, interactionQueueItem.getEntity())) {
+        if (action.onTick(item, interactionQueueItem.getEntity(), )) {
             // ??
         }
     }

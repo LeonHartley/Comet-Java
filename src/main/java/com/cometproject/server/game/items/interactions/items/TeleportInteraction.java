@@ -4,7 +4,6 @@ import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.items.interactions.*;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 
@@ -24,16 +23,6 @@ public class TeleportInteraction extends Interactor {
         int pairId = GameEngine.getItems().getTeleportPartner(item.getId());
 
         if(pairId == 0) {
-            return false;
-        }
-
-        Room room = avatar.getRoom();
-
-        FloorItem partner = room.getItems().getFloorItem(pairId);
-
-        if(partner == null) {
-            // We'll have to find the item in db and get the room id?
-            // TODO: find room where partner tele exists
             return false;
         }
 
@@ -62,7 +51,7 @@ public class TeleportInteraction extends Interactor {
     }
 
     @Override
-    public boolean onTick(RoomItem item, PlayerEntity avatar) {
+    public boolean onTick(RoomItem item, PlayerEntity avatar, int updateState) {
         return false;
     }
 
