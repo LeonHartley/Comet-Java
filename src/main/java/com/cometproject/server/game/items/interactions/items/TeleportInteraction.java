@@ -73,8 +73,10 @@ public class TeleportInteraction extends Interactor {
 
                 pairItem = ((FloorItem)item).getRoom().getItems().getFloorItem(pairId);
 
-                if(pairItem == null || pairId == 0)
-                    pairItem = (FloorItem) item;
+                if(pairItem == null || pairId == 0) {
+                    item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 5, 5));
+                    return false;
+                }
 
                 this.toggleAnimation(item, true);
 
@@ -84,6 +86,9 @@ public class TeleportInteraction extends Interactor {
             case 3: // stop first portal from animating and animate 2nd portal
                 pairId = GameEngine.getItems().getTeleportPartner(item.getId());
                 pairItem = ((FloorItem)item).getRoom().getItems().getFloorItem(pairId);
+
+                if(pairItem == null || pairId == 0)
+                    pairItem = (FloorItem) item;
 
                 this.toggleAnimation(pairItem, false);
                 this.toggleAnimation(item, true);
