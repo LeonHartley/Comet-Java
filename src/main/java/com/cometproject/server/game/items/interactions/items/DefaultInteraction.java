@@ -44,7 +44,7 @@ public class DefaultInteraction extends Interactor {
     }
 
     @Override
-    public boolean onTick(RoomItem item) {
+    public boolean onTick(RoomItem item, PlayerEntity avatar) {
         return false;
     }
 

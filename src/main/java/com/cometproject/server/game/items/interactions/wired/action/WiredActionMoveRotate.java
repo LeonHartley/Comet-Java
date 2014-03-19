@@ -10,7 +10,6 @@ import com.cometproject.server.game.wired.WiredStaticConfig;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class WiredActionMoveRotate extends Interactor {
@@ -79,7 +78,7 @@ public class WiredActionMoveRotate extends Interactor {
     }
 
     @Override
-    public boolean onTick(RoomItem item) {
+    public boolean onTick(RoomItem item, PlayerEntity avatar) {
         return false;
     }
 

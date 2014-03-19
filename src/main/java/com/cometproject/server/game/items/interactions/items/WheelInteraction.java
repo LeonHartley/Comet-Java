@@ -40,7 +40,7 @@ public class WheelInteraction extends Interactor {
     }
 
     @Override
-    public boolean onTick(RoomItem item) {
+    public boolean onTick(RoomItem item, PlayerEntity avatar) {
         int wheelPos = new Random().nextInt(10) + 1;
 
         item.setExtraData(Integer.toString(wheelPos));

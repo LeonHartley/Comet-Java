@@ -4,7 +4,6 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.interactions.Interactor;
-import com.cometproject.server.game.items.interactions.football.BallInteraction;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
@@ -12,7 +11,6 @@ import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 
 import java.util.List;
 
@@ -52,7 +50,7 @@ public class RollerInteraction extends Interactor {
     }
 
     @Override
-    public boolean onTick(RoomItem item) {
+    public boolean onTick(RoomItem item, PlayerEntity avatar) {
         if (!(item instanceof FloorItem)) {
             return false;
         }

@@ -130,13 +130,15 @@ public class InteractionManager {
             return;
         }
 
-        if (item.getNextInteraction().needsCycling()) {
+        InteractionQueueItem interactionQueueItem = item.getNextInteraction();
+
+        if (interactionQueueItem.needsCycling()) {
             return;
         }
 
         Interactor action = this.getInteractions().get(item.getDefinition().getInteraction());
 
-        if (action.onTick(item)) {
+        if (action.onTick(item, interactionQueueItem.getEntity())) {
             // ??
         }
     }
