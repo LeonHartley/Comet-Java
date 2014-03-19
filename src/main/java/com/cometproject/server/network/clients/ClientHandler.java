@@ -6,19 +6,37 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import javolution.util.FastMap;
 import org.apache.log4j.Logger;
+
+import java.net.SocketAddress;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
+    private Map<String, AtomicInteger> connectionsPerIp = new FastMap<>();
 
     private final boolean CLOSE_ON_ERROR = false;
+    private final int CONNECTIONS_PER_IP = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.connPerIp"));
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) throws Exception {
-        //log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] connected");
+        log.debug("Channel [" + ctx.channel().remoteAddress().toString() + "] connected");
 
         if(!Comet.getServer().getNetwork().getSessions().add(ctx.channel())) {
             ctx.channel().disconnect();
+        }
+
+        String ip = ctx.channel().remoteAddress().toString().replace("/", "").split(":")[0];
+
+        if(this.connectionsPerIp.containsKey(ip)) {
+            int connectionCount = connectionsPerIp.get(ip).incrementAndGet();
+
+            if(connectionCount > CONNECTIONS_PER_IP)
+                ctx.close();
+        } else {
+            this.connectionsPerIp.put(ip, new AtomicInteger());
         }
 
         ctx.fireChannelActive();
@@ -33,6 +51,17 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
 
         Comet.getServer().getNetwork().getSessions().remove(ctx.channel());
         log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] disconnected");
+
+        String ip = ctx.channel().remoteAddress().toString().replace("/", "").split(":")[0];
+
+        if(this.connectionsPerIp.containsKey(ip)) {
+            int connectionCount = connectionsPerIp.get(ip).get();
+
+            if(connectionCount == 1)
+                this.connectionsPerIp.remove(ip);
+        } else {
+            this.connectionsPerIp.get(ip).decrementAndGet();
+        }
 
         ctx.fireChannelInactive();
     }
