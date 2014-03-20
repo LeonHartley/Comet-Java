@@ -24,19 +24,21 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     public void channelActive(final ChannelHandlerContext ctx) throws Exception {
         //log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] connected");
 
-        if(!Comet.getServer().getNetwork().getSessions().add(ctx.channel())) {
+        if (!Comet.getServer().getNetwork().getSessions().add(ctx.channel())) {
             ctx.channel().disconnect();
         }
 
         String ip = ctx.channel().remoteAddress().toString().replace("/", "").split(":")[0];
 
-        if(this.connectionsPerIp.containsKey(ip)) {
-            int connectionCount = connectionsPerIp.get(ip).incrementAndGet();
+        if (CONNECTIONS_PER_IP != 0) {
+            if (this.connectionsPerIp.containsKey(ip)) {
+                int connectionCount = connectionsPerIp.get(ip).incrementAndGet();
 
-            if(connectionCount > CONNECTIONS_PER_IP)
-                ctx.close();
-        } else {
-            this.connectionsPerIp.put(ip, new AtomicInteger());
+                if (connectionCount > CONNECTIONS_PER_IP)
+                    ctx.close();
+            } else {
+                this.connectionsPerIp.put(ip, new AtomicInteger());
+            }
         }
 
         ctx.fireChannelActive();
@@ -47,20 +49,23 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
         try {
             Session client = ctx.channel().attr(NetworkEngine.SESSION_ATTRIBUTE_KEY).get();
             client.onDisconnect();
-        } catch(Exception e) { }
+        } catch (Exception e) {
+        }
 
         Comet.getServer().getNetwork().getSessions().remove(ctx.channel());
         log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] disconnected");
 
         String ip = ctx.channel().remoteAddress().toString().replace("/", "").split(":")[0];
 
-        if(this.connectionsPerIp.containsKey(ip)) {
-            int connectionCount = connectionsPerIp.get(ip).get();
+        if (CONNECTIONS_PER_IP != 0) {
+            if (this.connectionsPerIp.containsKey(ip)) {
+                int connectionCount = connectionsPerIp.get(ip).get();
 
-            if(connectionCount == 1)
-                this.connectionsPerIp.remove(ip);
-        } else {
-            this.connectionsPerIp.get(ip).decrementAndGet();
+                if (connectionCount == 1)
+                    this.connectionsPerIp.remove(ip);
+            } else {
+                this.connectionsPerIp.get(ip).decrementAndGet();
+            }
         }
 
         ctx.fireChannelInactive();
@@ -71,10 +76,10 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
         try {
             Session client = ctx.channel().attr(NetworkEngine.SESSION_ATTRIBUTE_KEY).get();
 
-            if(client != null) {
+            if (client != null) {
                 Comet.getServer().getNetwork().getMessages().handle(msg, client);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while receiving message", e);
         }
     }
@@ -86,7 +91,9 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
 
             cause.printStackTrace();
 
-            if (CLOSE_ON_ERROR) { ctx.close(); }
+            if (CLOSE_ON_ERROR) {
+                ctx.close();
+            }
         }
     }
 }

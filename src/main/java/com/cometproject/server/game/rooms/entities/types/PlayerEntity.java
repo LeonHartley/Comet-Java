@@ -88,6 +88,9 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
         for (String decoration : this.getRoom().getData().getDecorations()) {
             String[] deco = decoration.split("=");
 
+            if(deco.length < 2)
+                continue;
+
             if(deco[0].equals("wallpaper") || deco[0].equals("floor")) {
                 if(deco[1].equals("0.0")) {
                     continue;
