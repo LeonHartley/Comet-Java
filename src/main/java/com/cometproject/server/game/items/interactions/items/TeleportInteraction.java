@@ -1,15 +1,11 @@
 package com.cometproject.server.game.items.interactions.items;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.items.interactions.*;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 
 public class TeleportInteraction extends Interactor {
     @Override
@@ -33,7 +29,9 @@ public class TeleportInteraction extends Interactor {
             return false;
         }
 
-        item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, 1));
+        avatar.getPlayer().getSession().send(AdvancedAlertMessageComposer.compose("Feature Disabled", "This feature is currently disabled."));
+
+        //item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, 1));
         return false;
     }
 
@@ -49,88 +47,35 @@ public class TeleportInteraction extends Interactor {
 
     @Override
     public boolean onTick(RoomItem item, PlayerEntity avatar, int updateState) {
-        FloorItem pairItem;
-        int pairId;
+       // TeleportAction action = TeleportAction.values()[updateState];
 
-        switch(updateState) {
-            case 0: // init
-                // user is initiating the teleport, open door and walk in
-                // lock walking
-                avatar.setIsInTeleporter(true);
-                avatar.moveTo(item.getX(), item.getY());
-
-                this.toggleDoor(item, true);
-
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 1, 6));
-                break;
-
-            case 1: // close door
-                this.toggleDoor(item, false);
-
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 2, 5));
-                break;
-
-            case 2: // animate first portal
-                pairId = GameEngine.getItems().getTeleportPartner(item.getId());
-                pairItem = ((FloorItem)item).getRoom().getItems().getFloorItem(pairId);
-
-                if(pairId == 0) {
-                    item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 5, 5));
-                    return false;
-                }
-
-                if(pairItem == null) {
-                    int roomId = GameEngine.getItems().roomIdByItemId(pairId);
-
-                    // if room exists, we visit it!
-                    if(GameEngine.getRooms().get(roomId) != null) {
-                        avatar.getPlayer().setTeleportId(pairId);
-                        avatar.getPlayer().loadRoom(roomId, "");
-                    }
-
-                    item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 5, 5));
-                    return false;
-                }
-
-                this.toggleAnimation(item, true);
-
-                pairItem.queueInteraction(new InteractionQueueItem(true, pairItem, InteractionAction.ON_TICK, avatar, 3, 8));
-                break;
-
-            case 3: // stop first portal from animating and animate 2nd portal
-                pairId = GameEngine.getItems().getTeleportPartner(item.getId());
-                pairItem = ((FloorItem)item).getRoom().getItems().getFloorItem(pairId);
-
-                if(pairItem != null) {
-                    this.toggleAnimation(pairItem, false);
-                }
-
-                this.toggleAnimation(item, true);
-
-                avatar.updateAndSetPosition(new Position3D(item.getX(), item.getY()));
-
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 4, 8));
-                break;
-
-            case 4: // stop portal animation
-                this.toggleAnimation(item, false);
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 5, 5));
-                break;
-
-            case 5:
-                this.toggleDoor(item, true);
-                avatar.moveTo(item.squareInfront().getX(), item.squareInfront().getY());
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 6, 6));
-                break;
-
-            case 6:
-                this.toggleDoor(item, false);
-                // We're finished!
-
-                avatar.setIsInTeleporter(false);
-                break;
-        }
+       // switch(action) {
+       //     case OPEN_DOOR:
+       //
+       //         break;
+       // }
         return false;
+    }
+
+
+    public enum TeleportAction {
+        OPEN_DOOR (0),
+        CLOSE_DOOR (1),
+        ANIMATION_ON (2),
+        ANIMATION_OFF (3),
+        TELEPORT_USER (4),
+        WALK_OUT (5),
+        WALK_IN (6);
+
+        private int value;
+
+        TeleportAction(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 
     public void toggleDoor(RoomItem item, boolean state) {
@@ -150,7 +95,6 @@ public class TeleportInteraction extends Interactor {
 
         item.sendUpdate();
     }
-
     @Override
     public boolean requiresRights() {
         return false;

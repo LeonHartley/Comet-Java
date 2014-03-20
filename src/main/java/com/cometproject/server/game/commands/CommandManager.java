@@ -48,6 +48,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.ban.name"), new BanCommand());
         this.commands.put(Locale.get("command.kick.name"), new KickCommand());
         this.commands.put(Locale.get("command.disconnect.name"), new DisconnectCommand());
+        this.commands.put(Locale.get("command.ipban.name"), new IpBanCommand());
     }
 
     public boolean isCommand(String message) {
