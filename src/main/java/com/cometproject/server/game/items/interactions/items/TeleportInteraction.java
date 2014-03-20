@@ -9,6 +9,7 @@ import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.types.Composer;
 
 public class TeleportInteraction extends Interactor {
     @Override
@@ -84,7 +85,6 @@ public class TeleportInteraction extends Interactor {
                     // if room exists, we visit it!
                     if(GameEngine.getRooms().get(roomId) != null) {
                         avatar.getPlayer().setTeleportId(pairId);
-
                         avatar.getPlayer().loadRoom(roomId, "");
                     }
 
@@ -101,10 +101,10 @@ public class TeleportInteraction extends Interactor {
                 pairId = GameEngine.getItems().getTeleportPartner(item.getId());
                 pairItem = ((FloorItem)item).getRoom().getItems().getFloorItem(pairId);
 
-                if(pairItem == null)
-                    pairItem = (FloorItem) item;
+                if(pairItem != null) {
+                    this.toggleAnimation(pairItem, false);
+                }
 
-                this.toggleAnimation(pairItem, false);
                 this.toggleAnimation(item, true);
 
                 avatar.updateAndSetPosition(new Position3D(item.getX(), item.getY()));
