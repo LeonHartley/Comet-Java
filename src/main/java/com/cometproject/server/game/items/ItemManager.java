@@ -63,6 +63,14 @@ public class ItemManager {
         return 0;
     }
 
+    public int roomIdByItemId(int itemId) {
+        try {
+            return Integer.parseInt(Comet.getServer().getStorage().getString("SELECT `room_id` FROM items WHERE id = " + itemId));
+        } catch(Exception e) {
+            return 0;
+        }
+    }
+
     public ItemDefinition getDefintion(int itemId) {
         if(this.getItemDefinitions().containsKey(itemId)) {
             return this.getItemDefinitions().get(itemId);

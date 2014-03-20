@@ -1,10 +1,12 @@
 package com.cometproject.server.game.players.types;
 
+import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.data.PlayerLoader;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -35,6 +37,8 @@ public class Player {
     public long lastMessage = 0;
     public double floodTime = 0;
     public int floodFlag = 0;
+    private int teleportId = 0;
+
 
     public Player(int id) {
         this.id = id;
@@ -83,6 +87,29 @@ public class Player {
 
         session.send(CurrenciesMessageComposer.compose(currencies));
         currencies.clear();
+    }
+
+    public void loadRoom(int id, String password) {
+        if(avatar != null && avatar.getRoom() != null) {
+            avatar.leaveRoom(true, false, false);
+            setAvatar(null);
+        }
+
+        Room room = GameEngine.getRooms().get(id);
+
+        if(room == null) {
+            session.send(HotelViewMessageComposer.compose());
+            return;
+        }
+
+        if (!room.isActive) {
+            room.load();
+        }
+
+        PlayerEntity playerEntity = room.getEntities().createEntity(this);
+        setAvatar(playerEntity);
+
+        playerEntity.joinRoom(room, password);
     }
 
     public Map<Integer, Room> getRooms() {
@@ -147,5 +174,17 @@ public class Player {
 
     public int getId() {
         return this.id;
+    }
+
+    public boolean isTeleporting() {
+        return this.teleportId != 0;
+    }
+
+    public int getTeleportId() {
+        return this.teleportId;
+    }
+
+    public void setTeleportId(int teleportId) {
+        this.teleportId = teleportId;
     }
 }
