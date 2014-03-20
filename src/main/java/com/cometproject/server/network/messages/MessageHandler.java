@@ -164,6 +164,7 @@ public class MessageHandler {
         this.getMessages().put(Events.InitalizeRoomMessageEvent, new InitalizeRoomMessageEvent());
         this.getMessages().put(Events.LoadHeightmapMessageEvent, new LoadHeightmapMessageEvent());
         this.getMessages().put(Events.AddUserToRoomMessageEvent, new AddUserToRoomMessageEvent());
+        this.getMessages().put(Events.AddUserToRoom2MessageEvent, new LoadHeightmapMessageEvent());
         this.getMessages().put(Events.ExitRoomMessageEvent, new ExitRoomMessageEvent());
         this.getMessages().put(Events.TalkMessageEvent, new TalkMessageEvent());
         this.getMessages().put(Events.ShoutMessageEvent, new ShoutMessageEvent());

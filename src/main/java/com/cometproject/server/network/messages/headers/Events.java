@@ -98,9 +98,9 @@ public class Events {
     public static short PlacePetMessageEvent = 730;
     public static short DropHandItemMessageEvent = 1220;
     public static short SaveBrandingMessageEvent = 559;
+    public static short AddUserToRoom2MessageEvent = 329;
 
     public static short ManageGroupMessageEvent = 454;
-    public static short AddUserToRoom2MessageEvent = 3317;
     public static short RemoveRightsMessageEvent = 572;
     public static short DeleteRoomMessageEvent = 2830;
     public static short StartQuizMessageEvent = 1337;//2048;
