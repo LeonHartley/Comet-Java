@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 
 public class TeleportInteraction extends Interactor {
     @Override
@@ -70,24 +71,37 @@ public class TeleportInteraction extends Interactor {
 
             case 2: // animate first portal
                 pairId = GameEngine.getItems().getTeleportPartner(item.getId());
-
                 pairItem = ((FloorItem)item).getRoom().getItems().getFloorItem(pairId);
 
-                if(pairItem == null || pairId == 0) {
+                if(pairId == 0) {
+                    item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 5, 5));
+                    return false;
+                }
+
+                if(pairItem == null) {
+                    int roomId = GameEngine.getItems().roomIdByItemId(pairId);
+
+                    // if room exists, we visit it!
+                    if(GameEngine.getRooms().get(roomId) != null) {
+                        avatar.getPlayer().setTeleportId(pairId);
+
+                        avatar.getPlayer().loadRoom(roomId, "");
+                    }
+
                     item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 5, 5));
                     return false;
                 }
 
                 this.toggleAnimation(item, true);
 
-                pairItem.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 3, 8));
+                pairItem.queueInteraction(new InteractionQueueItem(true, pairItem, InteractionAction.ON_TICK, avatar, 3, 8));
                 break;
 
             case 3: // stop first portal from animating and animate 2nd portal
                 pairId = GameEngine.getItems().getTeleportPartner(item.getId());
                 pairItem = ((FloorItem)item).getRoom().getItems().getFloorItem(pairId);
 
-                if(pairItem == null || pairId == 0)
+                if(pairItem == null)
                     pairItem = (FloorItem) item;
 
                 this.toggleAnimation(pairItem, false);

@@ -30,6 +30,9 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.player = player;
+
+        if(this.player.isTeleporting())
+            this.setIsInTeleporter(true);
     }
 
     @Override

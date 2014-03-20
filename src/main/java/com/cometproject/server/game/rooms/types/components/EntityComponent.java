@@ -1,11 +1,14 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.server.game.items.interactions.InteractionAction;
+import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomModel;
 import com.cometproject.server.network.messages.types.Composer;
@@ -65,10 +68,26 @@ public class EntityComponent {
 
     public PlayerEntity createEntity(Player player) {
         Position3D startPosition = new Position3D(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY(), this.getRoom().getModel().getDoorZ());
+
+        if(player.isTeleporting()) {
+            FloorItem item = this.room.getItems().getFloorItem(player.getTeleportId());
+
+            if(item != null) {
+                startPosition = new Position3D(item.getX(), item.getY(), item.getHeight());
+            }
+        }
+
         int doorRotation = this.getRoom().getModel().getDoorRotation();
 
         PlayerEntity entity = new PlayerEntity(player, this.getFreeId(), startPosition, doorRotation, doorRotation, this.getRoom());
         this.addEntity(entity);
+
+        if(player.isTeleporting()) {
+            FloorItem item = this.room.getItems().getFloorItem(player.getTeleportId());
+
+            item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, entity, 3, 8));
+            player.setTeleportId(0);
+        }
 
         return entity;
     }
