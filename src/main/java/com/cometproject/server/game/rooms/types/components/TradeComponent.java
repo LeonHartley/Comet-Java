@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.network.sessions.Session;
@@ -33,7 +34,7 @@ public class TradeComponent {
         this.trades.add(trade);
     }
 
-    public Trade get(Session client) {
+    public Trade get(PlayerEntity client) {
         for(Trade trade : this.getTrades()) {
             if(trade.getUser1() == client || trade.getUser2() == client)
                 return trade;

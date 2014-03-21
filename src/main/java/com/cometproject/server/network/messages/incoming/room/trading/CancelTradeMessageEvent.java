@@ -7,7 +7,7 @@ import com.cometproject.server.network.sessions.Session;
 
 public class CancelTradeMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        Trade trade = client.getPlayer().getEntity().getRoom().getTrade().get(client);
+        Trade trade = client.getPlayer().getEntity().getRoom().getTrade().get(client.getPlayer().getEntity());
 
         if(trade == null) {
             return;

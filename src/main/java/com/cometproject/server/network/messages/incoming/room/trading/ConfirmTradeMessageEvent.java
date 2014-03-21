@@ -7,12 +7,12 @@ import com.cometproject.server.network.sessions.Session;
 
 public class ConfirmTradeMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        Trade trade = client.getPlayer().getEntity().getRoom().getTrade().get(client);
+        Trade trade = client.getPlayer().getEntity().getRoom().getTrade().get(client.getPlayer().getEntity());
 
         if(trade == null) {
             return;
         }
 
-        trade.confirm(trade.getUserNumber(client), client.getPlayer().getEntity().getRoom().getTrade());
+        trade.confirm(trade.getUserNumber(client.getPlayer().getEntity()), client.getPlayer().getEntity().getRoom().getTrade());
     }
 }

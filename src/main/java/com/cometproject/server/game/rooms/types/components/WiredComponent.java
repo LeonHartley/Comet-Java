@@ -56,28 +56,32 @@ public class WiredComponent {
 
         boolean wasTriggered = false;
 
-        for(WiredSquare s : this.squares) {
-            for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(s.getX(), s.getY())) {
-                if(GameEngine.getWired().isWiredTrigger(item)) {
-                    if(item.getDefinition().getInteraction().equals(GameEngine.getWired().getString(type))) {
-                        if(type == TriggerType.ON_SAY) {
-                            if(!item.getExtraData().equals(data)) {
-                                continue;
-                            }
-                        } else if(type == TriggerType.ON_FURNI) {
-                            WiredDataInstance wiredData = WiredDataFactory.get(item);
-                            int itemId = (int) data;
+        try {
+            for(WiredSquare s : this.squares) {
+                for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(s.getX(), s.getY())) {
+                    if(GameEngine.getWired().isWiredTrigger(item)) {
+                        if(item.getDefinition().getInteraction().equals(GameEngine.getWired().getString(type))) {
+                            if(type == TriggerType.ON_SAY) {
+                                if(!item.getExtraData().equals(data)) {
+                                    continue;
+                                }
+                            } else if(type == TriggerType.ON_FURNI) {
+                                WiredDataInstance wiredData = WiredDataFactory.get(item);
+                                int itemId = (int) data;
 
-                            if(!wiredData.getItems().contains(itemId)) {
-                                continue;
+                                if(!wiredData.getItems().contains(itemId)) {
+                                    continue;
+                                }
                             }
+
+                            GameEngine.getWired().getTrigger(item.getDefinition().getInteraction()).onTrigger(data, entities, s);
+                            wasTriggered = true;
                         }
-
-                        GameEngine.getWired().getTrigger(item.getDefinition().getInteraction()).onTrigger(data, entities, s);
-                        wasTriggered = true;
                     }
                 }
             }
+        } catch(Exception e) {
+            this.room.log.error("Error while processing wired trigger", e);
         }
 
         return wasTriggered;

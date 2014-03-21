@@ -130,11 +130,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
             this.getPlayer().getSession().send(HotelViewMessageComposer.compose());
         }
 
-        // TODO: Change trade from 'Session' to 'PlayerEntity' to avoid confusion between player and virtual id
         // Also could be useful for bot trading etc
 
         // Check and cancel any active trades
-        Trade trade = this.getRoom().getTrade().get(this.getPlayer().getSession());
+        Trade trade = this.getRoom().getTrade().get(this.getPlayer().getEntity());
 
         if (trade != null) {
             trade.cancel(this.getPlayer().getId());
