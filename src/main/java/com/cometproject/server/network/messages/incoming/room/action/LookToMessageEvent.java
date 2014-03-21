@@ -15,7 +15,7 @@ public class LookToMessageEvent implements IEvent {
             return;
         }
 
-        GenericEntity lookingAt = avatar.getRoom().getEntities().getEntity(msg.readInt());
+        GenericEntity lookingAt = avatar.getRoom().getEntities().getEntityByPlayerId(msg.readInt());
 
         if(lookingAt == null || avatar == lookingAt) {
             return;
