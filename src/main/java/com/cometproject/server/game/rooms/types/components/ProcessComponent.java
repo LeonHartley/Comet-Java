@@ -265,6 +265,13 @@ public class ProcessComponent implements CometTask {
                     entity.setHeadRotation(item.getRotation());
                     entity.addStatus("sit", String.valueOf(height).replace(',', '.'));
                     entity.markNeedsUpdate();
+                } else if (item.getDefinition().getInteraction().equals("bed")) {
+                    double height = item.getDefinition().getHeight();
+
+                    entity.setBodyRotation(item.getRotation());
+                    entity.setHeadRotation(item.getRotation());
+                    entity.addStatus("lay", String.valueOf(height).replace(',', '.'));
+                    entity.markNeedsUpdate();
                 }
 
                 /*if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
