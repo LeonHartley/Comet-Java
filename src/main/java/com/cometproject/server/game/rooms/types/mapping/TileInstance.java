@@ -30,6 +30,11 @@ public class TileInstance {
             boolean isGate = item.getDefinition().getInteraction().equals("gate");
             stackHeight += item.getHeight() + Math.round(item.getDefinition().getHeight());
 
+            if(!item.getDefinition().canWalk && !isGate) {
+                movementNode = RoomEntityMovementNode.CLOSED;
+            }
+
+
             switch (item.getDefinition().getInteraction().toLowerCase()) {
                 case "bed":
                     status = RoomTileStatusType.LAY;
@@ -41,12 +46,13 @@ public class TileInstance {
                     break;
             }
 
-            if(!item.getDefinition().canWalk && !isGate) {
-                movementNode = RoomEntityMovementNode.CLOSED;
-            }
-
             if(item.getDefinition().canSit) {
                 status = RoomTileStatusType.SIT;
+                movementNode = RoomEntityMovementNode.END_OF_ROUTE;
+            }
+
+            if (item.getDefinition().getInteraction().equals("bed")) {
+                status = RoomTileStatusType.LAY;
                 movementNode = RoomEntityMovementNode.END_OF_ROUTE;
             }
 
