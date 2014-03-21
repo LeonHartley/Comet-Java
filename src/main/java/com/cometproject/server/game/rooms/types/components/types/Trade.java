@@ -4,6 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.players.components.types.InventoryItem;
+import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.components.TradeComponent;
 import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.AlertMessageComposer;
@@ -17,27 +18,27 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 public class Trade {
-    private Session user1, user2;
+    private PlayerEntity user1, user2;
     private int stage = 1;
     private List<InventoryItem> user1Items, user2Items;
 
     private boolean user1Accepted = false, user2Accepted = false;
 
-    public Trade(Session user1, Session user2) {
+    public Trade(PlayerEntity user1, PlayerEntity user2) {
         this.user1 = user1;
         this.user2 = user2;
 
         user1Items = new FastList<>();
         user2Items = new FastList<>();
 
-        if(!user1.getPlayer().getEntity().hasStatus("trd")) {
-            user1.getPlayer().getEntity().addStatus("trd", "");
-            user1.getPlayer().getEntity().markNeedsUpdate();
+        if(!user1.hasStatus("trd")) {
+            user1.addStatus("trd", "");
+            user1.markNeedsUpdate();
         }
 
         if(!user2.getPlayer().getEntity().hasStatus("trd")) {
-            user2.getPlayer().getEntity().addStatus("trd", "");
-            user2.getPlayer().getEntity().markNeedsUpdate();
+            user2.addStatus("trd", "");
+            user2.markNeedsUpdate();
         }
 
         sendToUsers(TradeStartMessageComposer.compose(user1.getPlayer().getId(), user2.getPlayer().getId()));
@@ -73,13 +74,13 @@ public class Trade {
         }
 
         if(sendToUser1) {
-            user1.getPlayer().getEntity().removeStatus("trd");
-            user1.getPlayer().getEntity().markNeedsUpdate();
+            user1.removeStatus("trd");
+            user1.markNeedsUpdate();
         }
 
         if(sendToUser2) {
-            user2.getPlayer().getEntity().removeStatus("trd");
-            user2.getPlayer().getEntity().markNeedsUpdate();
+            user2.removeStatus("trd");
+            user2.markNeedsUpdate();
         }
 
         sendToUsers(TradeCloseMessageComposer.compose(userId));
@@ -99,8 +100,8 @@ public class Trade {
         this.updateWindow();
     }
 
-    public int getUserNumber(Session client) {
-        return (user1 == client) ? 1 : 0;
+    public int getUserNumber(PlayerEntity user) {
+        return (user1 == user) ? 1 : 0;
     }
 
     public void removeItem(int user, InventoryItem item) {
@@ -209,8 +210,8 @@ public class Trade {
             }
         }
 
-        user1.send(SendPurchaseAlertMessageComposer.compose(user2Items));
-        user2.send(SendPurchaseAlertMessageComposer.compose(user1Items));
+        user1.getPlayer().getSession().send(SendPurchaseAlertMessageComposer.compose(user2Items));
+        user2.getPlayer().getSession().send(SendPurchaseAlertMessageComposer.compose(user1Items));
 
         sendToUsers(UpdateInventoryMessageComposer.compose());
         sendToUsers(TradeCloseCleanMessageComposer.compose());
@@ -226,15 +227,15 @@ public class Trade {
     }
 
     public void sendToUsers(Composer msg) {
-        user1.send(msg);
-        user2.send(msg);
+        user1.getPlayer().getSession().send(msg);
+        user2.getPlayer().getSession().send(msg);
     }
 
-    public Session getUser1() {
+    public PlayerEntity getUser1() {
         return this.user1;
     }
 
-    public Session getUser2() {
+    public PlayerEntity getUser2() {
         return this.user2;
     }
 }

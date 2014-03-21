@@ -19,7 +19,7 @@ public class SendOfferMessageEvent implements IEvent {
             }
         }
 
-        Trade trade = client.getPlayer().getEntity().getRoom().getTrade().get(client);
-        trade.addItem(trade.getUserNumber(client), item);
+        Trade trade = client.getPlayer().getEntity().getRoom().getTrade().get(client.getPlayer().getEntity());
+        trade.addItem(trade.getUserNumber(client.getPlayer().getEntity()), item);
     }
 }
