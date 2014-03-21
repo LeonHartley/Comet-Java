@@ -6,7 +6,7 @@
 
     <groupId>groupId</groupId>
     <artifactId>Comet</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>0.5.0-SNAPSHOT</version>
 
     <name>Comet</name>
@@ -41,6 +41,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
+                            <addClasspath>true</addClasspath>
                             <mainClass>com.cometproject.server.boot.Comet</mainClass>
                         </manifest>
                     </archive>
@@ -224,8 +225,8 @@
 
     <distributionManagement>
         <repository>
-            <id>comet-im</id>
-            <url>sftp://comet.im/root/comet-deploy</url>
+            <id>sjovt-linux</id>
+            <url>sftp://37.187.137.100/root/comet-deploy</url>
         </repository>
     </distributionManagement>
 

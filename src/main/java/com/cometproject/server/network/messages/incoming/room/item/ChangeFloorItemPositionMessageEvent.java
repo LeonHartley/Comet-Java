@@ -28,7 +28,7 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
         boolean hasRights = room.getRights().hasRights(client.getPlayer().getId());
 
-        if(isOwner || hasRights) {
+        if((isOwner || hasRights) || client.getPlayer().getData().getRank() > 5) {
 
             try {
                 FloorItem item = room.getItems().getFloorItem(id);
