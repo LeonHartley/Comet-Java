@@ -54,8 +54,8 @@ public class RoomData {
     }
 
     public void save() throws SQLException {
-        PreparedStatement std = Comet.getServer().getStorage().prepare("UPDATE rooms (`name`, `description`, `owner_id`, `owner`, `category`, `max_users`, `access_type`, `password`, `score`, `tags`, " +
-            "`decorations`, `model`, `hide_walls`, `thickness_wall`, `thickness_floor`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) WHERE id = ?");
+        PreparedStatement std = Comet.getServer().getStorage().prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?, max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, " +
+            "decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?, thickness_floor = ? WHERE id = ?");
 
         std.setString(1, name);
         std.setString(2, description);

@@ -39,7 +39,7 @@ public class SSOTicketMessageEvent implements IEvent {
         if (cloneSession != null) {
             cloneSession.disconnect();
         }
-
+/*
         if (GameEngine.getBans().hasBan(Integer.toString(player.getId())) || GameEngine.getBans().hasBan(Comet.getServer().getStorage().getString("SELECT `last_ip` FROM players WHERE id = " + player.getId()))) {
             client.send(AdvancedAlertMessageComposer.compose(
                     "You've been banned!",
@@ -55,7 +55,7 @@ public class SSOTicketMessageEvent implements IEvent {
             }
             return;
         }
-
+*/
         player.setSession(client);
         client.setPlayer(player);
 

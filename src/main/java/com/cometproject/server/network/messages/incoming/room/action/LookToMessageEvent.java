@@ -15,13 +15,10 @@ public class LookToMessageEvent implements IEvent {
             return;
         }
 
-        GenericEntity lookingAt = avatar.getRoom().getEntities().getEntityByPlayerId(msg.readInt());
+        int x = msg.readInt();
+        int y = msg.readInt();
 
-        if(lookingAt == null || avatar == lookingAt) {
-            return;
-        }
-
-        int rotation = Position3D.calculateRotation(avatar.getPosition().getX(), avatar.getPosition().getY(), lookingAt.getPosition().getX(), lookingAt.getPosition().getY(), false);
+        int rotation = Position3D.calculateRotation(avatar.getPosition().getX(), avatar.getPosition().getY(), x, y, false);
 
         avatar.unIdle();
 
