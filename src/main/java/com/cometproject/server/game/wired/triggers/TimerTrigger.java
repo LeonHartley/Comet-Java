@@ -24,7 +24,11 @@ public class TimerTrigger extends WiredTrigger {
         for(FloorItem item : room.getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {
             // TODO: check for condition
             if(GameEngine.getWired().isWiredEffect(item)) {
-                GameEngine.getWired().getEffect(item.getDefinition().getInteraction()).onActivate(entities, item);
+                try {
+                    GameEngine.getWired().getEffect(item.getDefinition().getInteraction()).onActivate(entities, item);
+                } catch(Exception ignored) {
+
+                }
             }
         }
     }

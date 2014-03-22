@@ -66,19 +66,19 @@ public class Trade {
         boolean sendToUser2 = true;
 
         if(isLeave) {
-            if(userId == user1.getPlayer().getId()) {
+            if(user1.getPlayer() == null || user1.getPlayer() == null || userId == user1.getPlayer().getId()) {
                 sendToUser1 = false;
             } else {
                 sendToUser2 = false;
             }
         }
 
-        if(sendToUser1) {
+        if(user1 != null && user1.getPlayer() != null &&sendToUser1) {
             user1.removeStatus("trd");
             user1.markNeedsUpdate();
         }
 
-        if(sendToUser2) {
+        if(user2 != null && user2.getPlayer() != null && sendToUser2) {
             user2.removeStatus("trd");
             user2.markNeedsUpdate();
         }

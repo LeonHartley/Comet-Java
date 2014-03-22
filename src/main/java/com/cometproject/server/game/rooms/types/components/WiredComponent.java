@@ -88,6 +88,9 @@ public class WiredComponent {
     }
 
     public void tick() {
+        if(this.squares == null)
+            return;
+
         for(WiredSquare square : this.squares) {
             for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(square.getX(), square.getY())) {
                 if(GameEngine.getWired().isWiredTrigger(item)) {
