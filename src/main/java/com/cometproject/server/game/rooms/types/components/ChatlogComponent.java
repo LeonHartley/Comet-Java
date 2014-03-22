@@ -35,7 +35,7 @@ public class ChatlogComponent {
 
     public void cycle() throws SQLException {
         if(!CometSettings.logChatToDatabase) return; // if we don't wanna log to db, we might as well halt right here...
-
+/*
         Connection connection = Comet.getServer().getStorage().getConnections().getConnection();
         PreparedStatement statement;
 
@@ -59,7 +59,7 @@ public class ChatlogComponent {
         } finally {
             connection.close();
         }
-
+*/
         messages.clear();
     }
 }
