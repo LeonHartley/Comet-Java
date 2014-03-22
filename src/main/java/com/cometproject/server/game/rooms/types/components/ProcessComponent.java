@@ -266,7 +266,7 @@ public class ProcessComponent implements CometTask {
                     entity.addStatus("sit", String.valueOf(height).replace(',', '.'));
                     entity.markNeedsUpdate();
                 } else if (item.getDefinition().getInteraction().equals("bed")) {
-                    double height = item.getDefinition().getHeight();
+                    double height = 0;
 
                     entity.setBodyRotation(item.getRotation());
                     entity.setHeadRotation(item.getRotation());
