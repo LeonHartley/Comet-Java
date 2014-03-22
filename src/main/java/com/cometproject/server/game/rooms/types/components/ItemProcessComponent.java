@@ -159,6 +159,7 @@ public class ItemProcessComponent implements CometTask {
     }
 
     public void doBallRoll(FloorItem item) {
+        // THIS DOESNT WORK PROPERLY - ITS EXTREMELY EXPERIMENTAL!!
         Position3D nextPos = item.getRollingPositions().get(0);
         Position3D currentPos = new Position3D(item.getX(), item.getY(), item.getHeight());
 
