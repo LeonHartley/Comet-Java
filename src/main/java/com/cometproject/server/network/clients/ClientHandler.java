@@ -88,8 +88,10 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     @Override
     public void exceptionCaught(final ChannelHandlerContext ctx, Throwable cause) throws Exception {
         if (ctx.channel().isActive()) {
-            if(cause instanceof IOException)
+            if(cause instanceof IOException) {
                 ctx.close();
+                return;
+            }
 
             log.error("Exception in ClientHandler : " + cause.getMessage());
 
