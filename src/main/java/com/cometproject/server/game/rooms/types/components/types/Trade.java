@@ -227,8 +227,11 @@ public class Trade {
     }
 
     public void sendToUsers(Composer msg) {
-        user1.getPlayer().getSession().send(msg);
-        user2.getPlayer().getSession().send(msg);
+        if(user1 != null && user1.getPlayer() != null && user1.getPlayer().getSession() != null)
+            user1.getPlayer().getSession().send(msg);
+
+        if(user2 != null && user2.getPlayer() != null && user2.getPlayer().getSession() != null)
+            user2.getPlayer().getSession().send(msg);
     }
 
     public PlayerEntity getUser1() {
