@@ -36,6 +36,9 @@ public class RightsComponent {
         try {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM room_rights WHERE room_id = " + this.room.getId());
 
+            if(data == null)
+                return;
+
             while(data.next()) {
                 this.rights.add(data.getInt("player_id"));
             }
