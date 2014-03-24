@@ -12,6 +12,7 @@ import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessa
 import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.AlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.InventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -186,7 +187,8 @@ public class PurchaseItemMessageEvent implements IEvent {
                     client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
                 }
 
-                client.send(UpdateInventoryMessageComposer.compose());
+                //client.send(UpdateInventoryMessageComposer.compose());
+                client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
                 client.send(SendPurchaseAlertMessageComposer.compose(unseenItems));
             }
         } catch (Exception e) {

@@ -36,7 +36,7 @@ public class CataPageMessageComposer {
             msg.writeString("Other ways to get credits >");
             msg.writeString("credits");
 
-        } else if(page.getTemplate().equals("spaces")) {
+        } else if(page.getTemplate().equals("spaces_new")) {
             msg.writeString("spaces_new");
             msg.writeInt(1);
             msg.writeString(page.getHeadline());
@@ -115,8 +115,8 @@ public class CataPageMessageComposer {
                     msg.writeInt(def.getSpriteId());
 
                     //if(page.getTemplate().equals("spaces")) {
-                    if(def.getItemName().contains("wallpaper_single") || def.getItemName().contains("floor_single") || def.getItemName().contains("landscape_single")) {
-                        msg.writeString(def.getItemName().split("_")[2]);
+                    if(item.getDisplayName().contains("wallpaper_single") || item.getDisplayName().contains("floor_single") || item.getDisplayName().contains("landscape_single")) {
+                        msg.writeString(item.getDisplayName().split("_")[2]);
                     } else {
                         //msg.writeString(def.getItemName());
                         msg.writeString(""); // Not sure yet...

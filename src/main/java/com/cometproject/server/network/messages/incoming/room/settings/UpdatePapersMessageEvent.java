@@ -5,6 +5,7 @@ import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.InventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -42,14 +43,15 @@ public class UpdatePapersMessageEvent implements IEvent {
 
             client.getPlayer().getInventory().removeItem(item);
             Comet.getServer().getStorage().execute("DELETE FROM items WHERE id = " + item.getId());
-            client.send(UpdateInventoryMessageComposer.compose());
+            client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
 
             try {
                 // TODO: allow for only partial saving (only decorations, for example)
                 room.getData().save();
                 room.getEntities().broadcastMessage(PapersMessageComposer.compose(type, data));
             } catch(Exception e) {
-                Logger.getLogger(UpdatePapersMessageEvent.class.getName()).error("Error while saving room data");
+                //Logger.getLogger(UpdatePapersMessageEvent.class.getName()).error("Error while saving room data");
+                Logger.getLogger(UpdatePapersMessageEvent.class.getName()).error("Error while saving room data", e);
             }
         }
     }

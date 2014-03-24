@@ -91,7 +91,7 @@ public class RoomData {
 
         std.setString(11, decorString);
         std.setString(12, model);
-        std.setInt(13, hideWalls ? 1 : 0);
+        std.setString(13, hideWalls ? "1" : "0");
         std.setInt(14, thicknessWall);
         std.setInt(15, thicknessFloor);
         std.setInt(16, id);

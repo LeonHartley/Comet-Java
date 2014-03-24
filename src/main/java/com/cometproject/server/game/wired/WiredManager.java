@@ -38,15 +38,18 @@ public class WiredManager {
     }
 
     public boolean isWiredTrigger(FloorItem item) {
-        return (item.getDefinition().getInteraction().startsWith("wf_trg"));
+        //return (item.getDefinition().getInteraction().startsWith("wf_trg"));
+        return this.triggers.containsKey(item.getDefinition().getInteraction());
     }
 
     public boolean isWiredEffect(FloorItem item) {
-        return (item.getDefinition().getInteraction().startsWith("wf_act"));
+        //return (item.getDefinition().getInteraction().startsWith("wf_act"));
+        return this.effects.containsKey(item.getDefinition().getInteraction());
     }
 
     public boolean isWiredCondition(FloorItem item) {
-        return (item.getDefinition().getInteraction().startsWith("wf_cnd"));
+        //return (item.getDefinition().getInteraction().startsWith("wf_cnd"));
+        return this.conditions.containsKey(item.getDefinition().getInteraction());
     }
 
     public boolean isWiredItem(FloorItem item) {

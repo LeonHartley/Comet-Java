@@ -18,6 +18,9 @@ public class LookToMessageEvent implements IEvent {
         int x = msg.readInt();
         int y = msg.readInt();
 
+        if(x == avatar.getPosition().getX() && y == avatar.getPosition().getY())
+            return;
+
         int rotation = Position3D.calculateRotation(avatar.getPosition().getX(), avatar.getPosition().getY(), x, y, false);
 
         avatar.unIdle();
