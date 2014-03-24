@@ -187,8 +187,8 @@ public class PurchaseItemMessageEvent implements IEvent {
                     client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
                 }
 
-                //client.send(UpdateInventoryMessageComposer.compose());
-                client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
+                client.send(UpdateInventoryMessageComposer.compose());
+                //client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
                 client.send(SendPurchaseAlertMessageComposer.compose(unseenItems));
             }
         } catch (Exception e) {
