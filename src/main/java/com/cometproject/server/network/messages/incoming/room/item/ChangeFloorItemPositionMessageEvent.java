@@ -33,13 +33,6 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
             try {
                 FloorItem item = room.getItems().getFloorItem(id);
 
-                /*TileInstance tile = client.getPlayer().getEntity().getRoom().getMapping().getTile(x, y);
-
-                if(item.getX() == x && item.getY() == y) {
-                    // We just want to rotate the furniture, therefore we don't wanna change the height of the furni
-                    height -= item.getHeight() - Math.round(item.getDefinition().getHeight());
-                }*/
-
                 float height = (float) client.getPlayer().getEntity().getRoom().getModel().getSquareHeight()[x][y];
 
                 for(FloorItem stackItem : room.getItems().getItemsOnSquare(x, y)) {

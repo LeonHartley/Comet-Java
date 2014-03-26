@@ -69,13 +69,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
                 this.player.getSession().send(HotelViewMessageComposer.compose());
                 return;
             } else if (this.getRoom().getData().getAccess().equals("doorbell")) {
-                // TODO: Doorbell
-                this.player.getSession().send(HotelViewMessageComposer.compose());
+
                 return;
             }
         }
-
-        //this.authPassed = true;
 
         this.finalizeJoinRoom();
     }
