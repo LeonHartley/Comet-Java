@@ -65,7 +65,7 @@ import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-public class MessageHandler {
+public class  MessageHandler {
 	private FastMap<Short, IEvent> messages;
 
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());

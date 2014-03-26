@@ -13,6 +13,7 @@ import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.tasks.CometTask;
@@ -199,6 +200,17 @@ public class ProcessComponent implements CometTask {
                 if(needsRemove) {
                     entity.applyEffect(null);
                 }
+            }
+        }
+
+        if(entity.isIdleAndIncrement()) {
+            if(entity.getIdleTime() >= 2400) {
+                // Remove entity
+                entity.leaveRoom(false, false, true);
+            } else {
+                // Set idle status!
+                this.room.getEntities().broadcastMessage(IdleStatusMessageComposer.compose(entity.getVirtualId(), true));
+                entity.resetIdleTime();
             }
         }
 

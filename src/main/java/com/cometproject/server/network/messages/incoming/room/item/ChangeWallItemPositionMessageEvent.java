@@ -22,7 +22,7 @@ public class ChangeWallItemPositionMessageEvent implements IEvent {
             return;
         }
 
-        boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
+        boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId() || client.getPlayer().getData().getRank() > 5;
         boolean hasRights = room.getRights().hasRights(client.getPlayer().getId());
 
         if(isOwner || hasRights) {

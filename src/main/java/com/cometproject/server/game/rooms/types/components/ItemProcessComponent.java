@@ -82,11 +82,12 @@ public class ItemProcessComponent implements CometTask {
             }
 
             boolean needsRoll = false;
-            rollCounter++;
 
-            if(rollCounter >= 2) {
+            this.rollCounter++;
+
+            if(this.rollCounter >= 2) {
                 needsRoll = true;
-                rollCounter = 0;
+                this.rollCounter = 0;
             }
 
             long timeStart = System.currentTimeMillis();

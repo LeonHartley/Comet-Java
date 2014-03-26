@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ApplyEffectMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.HandItemMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import javolution.util.FastMap;
 
 import java.lang.ref.WeakReference;
@@ -307,10 +308,6 @@ public abstract class GenericEntity implements AvatarEntity {
         this.idleTime++;
 
         if (this.idleTime >= 600) {
-            if (this.idleTime > 600) {
-                this.idleTime = 600;
-            }
-
             return true;
         }
 
@@ -334,9 +331,9 @@ public abstract class GenericEntity implements AvatarEntity {
 
     }
 
-    // Should call 'resetIdleTime()' instead of this method
     public void unIdle() {
         this.resetIdleTime();
+        this.getRoom().getEntities().broadcastMessage(IdleStatusMessageComposer.compose(this.getVirtualId(), false));
     }
 
     @Override

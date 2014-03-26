@@ -125,15 +125,21 @@ public class EntityComponent {
         }
     }
 
-    public void broadcastMessage(Composer msg) {
+    public void broadcastMessage(Composer msg, boolean usersWithRightsOnly) {
         for (GenericEntity entity : this.entities.values()) {
-            // We only broadcast to player entities
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
+
+                if(usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()))
+                    continue;
 
                 playerEntity.getPlayer().getSession().send(msg);
             }
         }
+    }
+
+    public void broadcastMessage(Composer msg) {
+        broadcastMessage(msg, false);
     }
 
     public GenericEntity getEntity(int id) {

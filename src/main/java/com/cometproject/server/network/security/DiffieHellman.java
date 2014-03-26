@@ -1,7 +1,5 @@
 package com.cometproject.server.network.security;
 
-import sun.security.util.BigInt;
-
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;

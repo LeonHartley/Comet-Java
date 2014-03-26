@@ -31,6 +31,7 @@ public class RoomCycle implements CometTask {
             }
 
             long start = System.currentTimeMillis();
+
             if(GameEngine.getRooms() == null) {
                 // we've tried to cycle through the rooms but we haven't finished setting the environment up yet!
                 return;

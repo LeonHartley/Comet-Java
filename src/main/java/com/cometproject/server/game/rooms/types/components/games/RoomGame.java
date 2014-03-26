@@ -25,6 +25,7 @@ public abstract class RoomGame implements Runnable {
         this.room = room;
     }
 
+
     @Override
     public void run() {
         try {
@@ -42,7 +43,6 @@ public abstract class RoomGame implements Runnable {
     public void dispose() {
         this.teams.clear();
     }
-
 
     public void stop() {
         if(this.started && thread != null) {
