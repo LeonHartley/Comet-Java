@@ -57,6 +57,7 @@ import com.cometproject.server.network.messages.incoming.user.inventory.PetInven
 import com.cometproject.server.network.messages.incoming.user.profile.GetProfileMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.profile.GetRelationshipsMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.profile.SetRelationshipMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.profile.WearBadgeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.ChangeLooksMessageEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -145,6 +146,7 @@ public class  MessageHandler {
         this.getMessages().put(Events.ChangeMottoMessageEvent, new ChangeMottoMessageEvent());
         this.getMessages().put(Events.GetRelationshipsMessageEvent, new GetRelationshipsMessageEvent());
         this.getMessages().put(Events.SetRelationshipMessageEvent, new SetRelationshipMessageEvent());
+        this.getMessages().put(Events.WearBadgeMessageEvent, new WearBadgeMessageEvent());
     }
 
     public void registerBots() {

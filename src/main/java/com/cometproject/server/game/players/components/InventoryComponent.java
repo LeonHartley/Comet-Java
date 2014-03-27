@@ -93,6 +93,17 @@ public class InventoryComponent {
         }
     }
 
+
+    public void resetBadgeSlots() {
+        for(Map.Entry<String, Integer> badge : this.badges.entrySet()) {
+            if(badge.getValue() != 0) {
+                this.badges.replace(badge.getKey(), 0);
+            }
+
+            System.out.println(badge.getKey() + ":" + badge.getValue());
+        }
+    }
+
     public void add(int id, int itemId, String extraData) {
         InventoryItem item = new InventoryItem(id, itemId, extraData);
         if(item.getDefinition().getType().equals("s")) {

@@ -99,6 +99,7 @@ public class Events {
     public static short DropHandItemMessageEvent = 1220;
     public static short SaveBrandingMessageEvent = 559;
     public static short AddUserToRoom2MessageEvent = 329;
+    public static short WearBadgeMessageEvent = 2723;
 
     public static short ManageGroupMessageEvent = 454;
     public static short RemoveRightsMessageEvent = 572;

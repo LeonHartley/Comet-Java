@@ -195,7 +195,7 @@ public class PurchaseItemMessageEvent implements IEvent {
 
                 client.send(UpdateInventoryMessageComposer.compose());
                 //client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
-                //client.send(SendPurchaseAlertMessageComposer.compose(unseenItems));
+                client.send(SendPurchaseAlertMessageComposer.compose(unseenItems));
             }
         } catch (Exception e) {
             GameEngine.getLogger().error("Error while buying catalog item", e);

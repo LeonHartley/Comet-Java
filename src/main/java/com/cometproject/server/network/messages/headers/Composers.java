@@ -25,7 +25,6 @@ public class Composers {
     public static short FollowBuddyMessageComposer = 1959;
     public static short GetPowerListMessageComposer = 2532;
     public static short GetRoomDataMessageComposer = 3367;
-    public static short GetUserBadgesMessageComposer = 833;
     public static short GivePowersMessageComposer = 3158;
     public static short HeightmapMessageComposer = 3942;
     public static short HotelViewMessageComposer = 436;
