@@ -30,7 +30,7 @@ public class UpdatePapersMessageEvent implements IEvent {
         if(isOwner || hasRights) {
             String type = "floor";
             String[] decorations = room.getData().getDecorations();
-            String data = ""; // TODO: get the data & send it!
+            String data = item.getExtraData();
 
             if(item.getDefinition().getItemName().contains("wallpaper")) {
                 type = "wallpaper";

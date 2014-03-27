@@ -39,6 +39,8 @@ public class InventoryMessageComposer {
             msg.writeInt(i.getId());
             msg.writeInt(i.getDefinition().getSpriteId());
 
+            System.out.println(i.getDefinition().getItemName());
+
             if(i.getDefinition().getItemName().contains("a2")) {
                 msg.writeInt(3);
             } else if(i.getDefinition().getItemName().contains("wallpaper")) {
