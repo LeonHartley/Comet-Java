@@ -34,7 +34,6 @@ public class FollowRoomInfoMessageEvent implements IEvent {
                 return;
             }
 
-            //client.send(RoomDataMessageComposer.compose(room));
             Composer composer = new Composer(Composers.RoomDataMessageComposer);
 
             composer.writeBoolean(false);
