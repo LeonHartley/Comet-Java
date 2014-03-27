@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.user.details;
 
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.messenger.FriendRequestsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.LoadFriendsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.UserInfoMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.WelcomeUserMessageComposer;
@@ -31,6 +32,8 @@ public class UserInformationMessageEvent implements IEvent {
         client.send(AllowancesMessageComposer.compose(client.getPlayer().getData().getRank()));
 
         client.send(LoadFriendsMessageComposer.compose(client.getPlayer().getMessenger().getFriends()));
+        client.send(FriendRequestsMessageComposer.compose(client.getPlayer().getMessenger().getRequests()));
+
         client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
     }
 }
