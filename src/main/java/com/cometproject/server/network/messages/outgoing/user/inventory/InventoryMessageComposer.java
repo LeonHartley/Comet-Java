@@ -19,8 +19,8 @@ public class InventoryMessageComposer {
             msg.writeInt(i.getId());
             msg.writeInt(i.getDefinition().getSpriteId());
             msg.writeInt(1);
-            msg.writeString("");
             msg.writeInt(0);
+            msg.writeString(i.getExtraData());
 
             msg.writeBoolean(i.getDefinition().canRecycle);
             msg.writeBoolean(i.getDefinition().canTrade);
@@ -38,8 +38,6 @@ public class InventoryMessageComposer {
             msg.writeString(i.getDefinition().getType().toUpperCase());
             msg.writeInt(i.getId());
             msg.writeInt(i.getDefinition().getSpriteId());
-
-            System.out.println(i.getDefinition().getItemName());
 
             if(i.getDefinition().getItemName().contains("a2")) {
                 msg.writeInt(3);
