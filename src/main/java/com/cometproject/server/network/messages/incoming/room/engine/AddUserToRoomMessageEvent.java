@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
@@ -62,5 +63,7 @@ public class AddUserToRoomMessageEvent implements IEvent {
                 client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(HandItemMessageComposer.compose(av.getVirtualId(), av.getHandItem()));
             }
         }
+
+        room.getWired().trigger(TriggerType.ENTER_ROOM, null, client.getPlayer().getEntity());
     }
 }
