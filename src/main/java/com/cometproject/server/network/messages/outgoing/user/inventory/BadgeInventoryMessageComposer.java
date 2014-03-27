@@ -14,6 +14,8 @@ public class BadgeInventoryMessageComposer {
 
         msg.writeInt(badges.size());
 
+        System.out.println(badges.size());
+
         for(Map.Entry<String, Integer> badge : badges.entrySet()) {
             if(badge.getValue() > 0) {
                 activeBadges.put(badge.getKey(), badge.getValue());
