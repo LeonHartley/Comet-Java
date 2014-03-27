@@ -18,10 +18,7 @@ import com.cometproject.server.network.messages.incoming.handshake.InitCryptoMes
 import com.cometproject.server.network.messages.incoming.handshake.SSOTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
-import com.cometproject.server.network.messages.incoming.messenger.AcceptFriendshipMessageEvent;
-import com.cometproject.server.network.messages.incoming.messenger.PrivateChatMessageEvent;
-import com.cometproject.server.network.messages.incoming.messenger.RequestFriendshipMessageEvent;
-import com.cometproject.server.network.messages.incoming.messenger.SearchFriendsMessageEvent;
+import com.cometproject.server.network.messages.incoming.messenger.*;
 import com.cometproject.server.network.messages.incoming.moderation.ModToolBanUserMessageEvent;
 import com.cometproject.server.network.messages.incoming.moderation.ModToolRoomChatlogMessageEvent;
 import com.cometproject.server.network.messages.incoming.moderation.ModToolUserChatlogMessageEvent;
@@ -124,6 +121,7 @@ public class  MessageHandler {
         this.getMessages().put(Events.RequestFriendshipMessageEvent, new RequestFriendshipMessageEvent());
         this.getMessages().put(Events.AcceptFriendshipMessageEvent, new AcceptFriendshipMessageEvent());
         this.getMessages().put(Events.SearchFriendsMessageEvent, new SearchFriendsMessageEvent());
+        this.getMessages().put(Events.FollowFriendMessageEvent, new FollowFriendMessageEvent());
     }
 
     public void registerNavigator() {
