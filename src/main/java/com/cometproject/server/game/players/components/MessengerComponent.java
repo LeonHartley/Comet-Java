@@ -3,13 +3,18 @@ package com.cometproject.server.game.players.components;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.components.types.MessengerFriend;
 import com.cometproject.server.game.players.components.types.MessengerRequest;
+import com.cometproject.server.game.players.components.types.MessengerSearchResult;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.network.messages.outgoing.messenger.MessengerSearchResultsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +52,30 @@ public class MessengerComponent {
         this.requests = null;
         this.friends = null;
         this.player = null;
+    }
+
+    public Composer search(String query) {
+        List<MessengerSearchResult> currentFriends = new FastList<>();
+        List<MessengerSearchResult> otherPeople = new FastList<>();
+
+        try {
+            PreparedStatement players = Comet.getServer().getStorage().prepare("SELECT * FROM players WHERE username LIKE ?");
+            players.setString(1, query + "%");
+
+            ResultSet results = players.executeQuery();
+
+            while(results.next()) {
+                if(this.getFriendById(results.getInt("id")) != null)
+                    currentFriends.add(new MessengerSearchResult(results.getInt("id"), results.getString("username"), results.getString("figure"), results.getString("motto"), new Date(results.getInt("last_online") * 1000L).toString()));
+                else
+                    otherPeople.add(new MessengerSearchResult(results.getInt("id"), results.getString("username"), results.getString("figure"), results.getString("motto"), new Date(results.getInt("last_online") * 1000L).toString()));
+            }
+
+        } catch(Exception e) {
+            player.getSession().getLogger().error("Error while searching for players", e);
+        }
+
+        return MessengerSearchResultsMessageComposer.compose(currentFriends, otherPeople);
     }
 
     public void addRequest(MessengerRequest request) {

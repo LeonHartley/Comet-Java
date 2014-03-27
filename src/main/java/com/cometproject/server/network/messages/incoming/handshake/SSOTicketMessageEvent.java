@@ -16,6 +16,7 @@ import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
 
 public class SSOTicketMessageEvent implements IEvent {
@@ -39,8 +40,8 @@ public class SSOTicketMessageEvent implements IEvent {
         if (cloneSession != null) {
             cloneSession.disconnect();
         }
-/*
-        if (GameEngine.getBans().hasBan(Integer.toString(player.getId())) || GameEngine.getBans().hasBan(Comet.getServer().getStorage().getString("SELECT `last_ip` FROM players WHERE id = " + player.getId()))) {
+
+        /*if (GameEngine.getBans().hasBan(Integer.toString(player.getId())) || GameEngine.getBans().hasBan(Comet.getServer().getStorage().getString("SELECT `last_ip` FROM players WHERE id = " + player.getId()))) {
             client.send(AdvancedAlertMessageComposer.compose(
                     "You've been banned!",
                     "It seems you've been banned.<br><br><b>Reason:</b><br>" + GameEngine.getBans().get(Integer.toString(player.getId())).getReason() + "<br><br>If you feel you received this in error, please contact the system administrator."
@@ -54,14 +55,16 @@ public class SSOTicketMessageEvent implements IEvent {
                 GameEngine.getLogger().error("Error while sleeping banned client thread.", e);
             }
             return;
-        }
-*/
+        }*/
+
         player.setSession(client);
         client.setPlayer(player);
 
         GameEngine.getRooms().loadRoomsForUser(player);
 
         client.getLogger().info(client.getPlayer().getData().getUsername() + " logged in");
+
+        Comet.getServer().getStorage().execute("UPDATE players SET last_online = " + Comet.getTime() + " WHERE id = " + player.getId());
 
         client.send(LoginMessageComposer.compose());
         client.send(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));

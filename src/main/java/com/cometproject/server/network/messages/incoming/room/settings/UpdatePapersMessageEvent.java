@@ -43,14 +43,12 @@ public class UpdatePapersMessageEvent implements IEvent {
 
             client.getPlayer().getInventory().removeItem(item);
             Comet.getServer().getStorage().execute("DELETE FROM items WHERE id = " + item.getId());
-            client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
+            client.send(UpdateInventoryMessageComposer.compose());
 
             try {
-                // TODO: allow for only partial saving (only decorations, for example)
                 room.getData().save();
                 room.getEntities().broadcastMessage(PapersMessageComposer.compose(type, data));
             } catch(Exception e) {
-                //Logger.getLogger(UpdatePapersMessageEvent.class.getName()).error("Error while saving room data");
                 Logger.getLogger(UpdatePapersMessageEvent.class.getName()).error("Error while saving room data", e);
             }
         }
@@ -61,6 +59,8 @@ public class UpdatePapersMessageEvent implements IEvent {
             if(key.startsWith(key)) {
                 decor[i] = key + "=" + value;
             }
+
+            System.out.println(decor[i]);
         }
 
         return decor;

@@ -21,6 +21,7 @@ import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessag
 import com.cometproject.server.network.messages.incoming.messenger.AcceptFriendshipMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.PrivateChatMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.RequestFriendshipMessageEvent;
+import com.cometproject.server.network.messages.incoming.messenger.SearchFriendsMessageEvent;
 import com.cometproject.server.network.messages.incoming.moderation.ModToolBanUserMessageEvent;
 import com.cometproject.server.network.messages.incoming.moderation.ModToolRoomChatlogMessageEvent;
 import com.cometproject.server.network.messages.incoming.moderation.ModToolUserChatlogMessageEvent;
@@ -122,6 +123,7 @@ public class  MessageHandler {
         this.getMessages().put(Events.PrivateChatMessageEvent, new PrivateChatMessageEvent());
         this.getMessages().put(Events.RequestFriendshipMessageEvent, new RequestFriendshipMessageEvent());
         this.getMessages().put(Events.AcceptFriendshipMessageEvent, new AcceptFriendshipMessageEvent());
+        this.getMessages().put(Events.SearchFriendsMessageEvent, new SearchFriendsMessageEvent());
     }
 
     public void registerNavigator() {
