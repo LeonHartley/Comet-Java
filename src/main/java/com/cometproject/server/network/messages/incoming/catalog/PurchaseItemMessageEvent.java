@@ -123,6 +123,12 @@ public class PurchaseItemMessageEvent implements IEvent {
                     }
 
                     return;
+                } else if(def.isRoomDecor()) {
+                    if(data.isEmpty()) {
+                        extraData += "0";
+                    } else {
+                        extraData += data.replace(",", ".");
+                    }
                 }
 
                 int[] teleportIds = null;

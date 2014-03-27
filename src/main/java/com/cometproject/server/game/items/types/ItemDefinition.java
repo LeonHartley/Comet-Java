@@ -57,6 +57,10 @@ public class ItemDefinition {
         return itemName.equals("ads_mpu_720") || this.itemName.equals("ads_background") || this.itemName.equals("ads_mpu_300") || this.itemName.equals("ads_mpu_160");
     }
 
+    public boolean isRoomDecor() {
+        return itemName.startsWith("wallpaper ") || itemName.startsWith("landscape") || itemName.startsWith("a2 ");
+    }
+
     public int getId() {
         return this.id;
     }
