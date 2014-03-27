@@ -17,17 +17,13 @@ import com.cometproject.server.network.sessions.Session;
 
 public class FollowRoomInfoMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-
         int roomId = msg.readInt();
-        int b = msg.readInt();
-        int c = msg.readInt();
+        boolean isInSameRoom = msg.readInt() == 1;
 
-        if(roomId == 1 && c == 0) {
-            // ???
+        if(client.getPlayer().getEntity() != null && roomId == client.getPlayer().getEntity().getRoom().getId())
             return;
-        }
 
-        if(roomId != 0 || c != 0) {
+        if(roomId != 0 && !isInSameRoom) {
             Room room = GameEngine.getRooms().get(roomId);
 
             if(room == null) {
