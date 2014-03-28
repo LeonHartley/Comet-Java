@@ -104,6 +104,17 @@ public class InventoryComponent {
         }
     }
 
+    public Map<String, Integer> equippedBadges() {
+        Map<String, Integer> badges = new FastMap<>();
+
+        for(Map.Entry<String, Integer> badge : this.getBadges().entrySet()) {
+            if(badge.getValue() > 0)
+                badges.put(badge.getKey(), badge.getValue());
+        }
+
+        return badges;
+    }
+
     public void add(int id, int itemId, String extraData) {
         InventoryItem item = new InventoryItem(id, itemId, extraData);
         if(item.getDefinition().getType().equals("s")) {

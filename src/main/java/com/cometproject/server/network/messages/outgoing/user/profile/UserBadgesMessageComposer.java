@@ -6,6 +6,10 @@ import com.cometproject.server.network.messages.types.Composer;
 import java.util.Map;
 
 public class UserBadgesMessageComposer {
+    public static Composer compose(int userId, Map<String, Integer> badges) {
+        return compose(userId, badges, true);
+    }
+
     public static Composer compose(int userId, Map<String, Integer> badges, boolean inRoom) {
         Composer msg = new Composer(Composers.UserBadgesMessageComposer);
 
@@ -18,13 +22,13 @@ public class UserBadgesMessageComposer {
                 msg.writeString(badge.getKey());
             }
         }
-
+/*
         if(inRoom) {
             msg.writeInt(0);
             msg.writeInt(0);
             msg.writeInt(0);
         }
-
+*/
         return msg;
     }
 }
