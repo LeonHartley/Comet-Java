@@ -20,8 +20,10 @@ public class FollowRoomInfoMessageEvent implements IEvent {
         int roomId = msg.readInt();
         boolean isInSameRoom = msg.readInt() == 1;
 
-        if(client.getPlayer().getEntity() != null && roomId == client.getPlayer().getEntity().getRoom().getId())
+        if(client.getPlayer().getEntity() != null && roomId == client.getPlayer().getEntity().getRoom().getId()) {
+            client.getPlayer().getEntity().getRoom().getWired().trigger(TriggerType.ENTER_ROOM, null, client.getPlayer().getEntity());
             return;
+        }
 
         if(roomId != 0 && !isInSameRoom) {
             Room room = GameEngine.getRooms().get(roomId);

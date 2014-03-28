@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.interactions.InteractionAction;
+import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -180,29 +181,6 @@ public class ProcessComponent implements CometTask {
             entity.markNeedsUpdate();
         }
 
-        // Handle expiring effects
-        if (entity.getCurrentEffect() != null) {
-            entity.getCurrentEffect().decrementDuration();
-
-            if (entity.getCurrentEffect().getDuration() == 0 && entity.getCurrentEffect().expires()) {
-                entity.applyEffect(null);
-            }
-
-            if (entity.getCurrentEffect() != null && entity.getCurrentEffect().isItemEffect()) {
-                boolean needsRemove = true;
-
-                for (FloorItem item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
-                    if(item.getDefinition().getEffectId() == entity.getCurrentEffect().getEffectId()) {
-                        needsRemove = false;
-                    }
-                }
-
-                if(needsRemove) {
-                    entity.applyEffect(null);
-                }
-            }
-        }
-
         if(entity.isIdleAndIncrement()) {
             if(entity.getIdleTime() >= 2400) {
                 // Remove entity
@@ -242,7 +220,7 @@ public class ProcessComponent implements CometTask {
                 item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 0);
 
                 if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
-                    // idk what to do here for this trigger but ya
+
                 }
             }
 
@@ -285,10 +263,6 @@ public class ProcessComponent implements CometTask {
                     entity.addStatus("lay", String.valueOf(height).replace(',', '.'));
                     entity.markNeedsUpdate();
                 }
-
-                /*if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
-                    // idk what to do here for this trigger but ya
-                }*/
             }
 
             entity.updateAndSetPosition(null);
@@ -350,6 +324,29 @@ public class ProcessComponent implements CometTask {
                         entity.getWalkingPath().clear();
 
                     entity.getProcessingPath().clear();
+                }
+            }
+        }
+
+        // Handle expiring effects
+        if (entity.getCurrentEffect() != null) {
+            entity.getCurrentEffect().decrementDuration();
+
+            if (entity.getCurrentEffect().getDuration() == 0 && entity.getCurrentEffect().expires()) {
+                entity.applyEffect(null);
+            }
+
+            if (entity.getCurrentEffect() != null && entity.getCurrentEffect().isItemEffect()) {
+                boolean needsRemove = true;
+
+                for (FloorItem item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
+                    if(item.getDefinition().getEffectId() == entity.getCurrentEffect().getEffectId()) {
+                        needsRemove = false;
+                    }
+                }
+
+                if(needsRemove) {
+                    entity.applyEffect(null);
                 }
             }
         }

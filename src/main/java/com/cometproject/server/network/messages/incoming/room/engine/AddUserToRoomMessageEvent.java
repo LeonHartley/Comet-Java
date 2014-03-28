@@ -64,8 +64,6 @@ public class AddUserToRoomMessageEvent implements IEvent {
             }
         }
 
-        room.getWired().trigger(TriggerType.ENTER_ROOM, null, client.getPlayer().getEntity());
-
         client.getPlayer().getMessenger().sendStatus(true, true);
     }
 }
