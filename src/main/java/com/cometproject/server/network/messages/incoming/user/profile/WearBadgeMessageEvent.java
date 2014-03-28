@@ -27,8 +27,6 @@ public class WearBadgeMessageEvent implements IEvent {
             }
 
             client.getPlayer().getInventory().getBadges().replace(badge, slot);
-
-            System.out.println("Slot: " + slot + ", badge: " + badge);
         }
 
         for(Map.Entry<String, Integer> badgeToUpdate : client.getPlayer().getInventory().getBadges().entrySet()) {

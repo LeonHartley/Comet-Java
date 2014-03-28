@@ -3,10 +3,12 @@ package com.cometproject.server.game.rooms.types;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.navigator.types.Category;
+import javolution.util.FastMap;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 public class RoomData {
     private int id;
@@ -22,7 +24,7 @@ public class RoomData {
     private int score;
 
     private String[] tags;
-    private String[] decorations;
+    private Map<String, String> decorations;
 
     private String model;
 
@@ -44,7 +46,16 @@ public class RoomData {
         this.score = room.getInt("score");
 
         this.tags = room.getString("tags").split(",");
-        this.decorations = room.getString("decorations").split(",");
+        this.decorations = new FastMap<>();
+
+        String[] decorations = room.getString("decorations").split(",");
+
+        for(int i = 0; i < decorations.length; i++) {
+            String[] decoration = decorations[i].split("=");
+
+            if (decoration.length == 2)
+                this.decorations.put(decoration[0], decoration[1]);
+        }
 
         this.model = room.getString("model");
 
@@ -81,15 +92,13 @@ public class RoomData {
 
         String decorString = "";
 
-        for(int i = 0; i < decorations.length; i++) {
-            if(i != 0) {
-                decorString += ",";
-            }
-
-            decorString += decorations[i];
+        for(Map.Entry<String, String> decoration : decorations.entrySet()) {
+            decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
         }
 
-        std.setString(11, decorString);
+        System.out.println(decorString.substring(0, decorString.length() - 1));
+
+        std.setString(11, decorString.substring(0, decorString.length() - 1));
         std.setString(12, model);
         std.setString(13, hideWalls ? "1" : "0");
         std.setInt(14, thicknessWall);
@@ -143,7 +152,7 @@ public class RoomData {
         return this.tags;
     }
 
-    public String[] getDecorations() {
+    public Map<String, String> getDecorations() {
         return this.decorations;
     }
 
@@ -207,7 +216,7 @@ public class RoomData {
         this.tags = tags;
     }
 
-    public void setDecorations(String[] decorations) {
+    public void setDecorations(Map<String, String> decorations) {
         this.decorations = decorations;
     }
 

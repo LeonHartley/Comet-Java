@@ -11,6 +11,8 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import org.apache.log4j.Logger;
 
+import java.util.Map;
+
 public class UpdatePapersMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) {
@@ -29,7 +31,7 @@ public class UpdatePapersMessageEvent implements IEvent {
 
         if(isOwner || hasRights) {
             String type = "floor";
-            String[] decorations = room.getData().getDecorations();
+            Map<String, String> decorations = room.getData().getDecorations();
             String data = item.getExtraData();
 
             if(item.getDefinition().getItemName().contains("wallpaper")) {
@@ -38,8 +40,11 @@ public class UpdatePapersMessageEvent implements IEvent {
                 type = "landscape";
             }
 
-            decorations = replaceDecoration(type, data, decorations);
-            room.getData().setDecorations(decorations);
+            if(decorations.containsKey(type)) {
+                decorations.replace(type, data);
+            } else {
+                decorations.put(type, data);
+            }
 
             client.getPlayer().getInventory().removeItem(item);
             Comet.getServer().getStorage().execute("DELETE FROM items WHERE id = " + item.getId());
@@ -52,17 +57,5 @@ public class UpdatePapersMessageEvent implements IEvent {
                 Logger.getLogger(UpdatePapersMessageEvent.class.getName()).error("Error while saving room data", e);
             }
         }
-    }
-
-    private String[] replaceDecoration(String key, String value, String[] decor) {
-        for(int i = 0; i < decor.length; i++) {
-            if(key.startsWith(key)) {
-                decor[i] = key + "=" + value;
-            }
-
-            System.out.println(decor[i]);
-        }
-
-        return decor;
     }
 }

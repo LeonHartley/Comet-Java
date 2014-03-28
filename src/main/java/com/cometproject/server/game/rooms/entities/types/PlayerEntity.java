@@ -22,6 +22,7 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.OwnerR
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.LinkedList;
+import java.util.Map;
 
 public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     private Player player;
@@ -81,20 +82,14 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     protected void finalizeJoinRoom() {
         this.player.getSession().send(ModelAndIdMessageComposer.compose(this.getRoom().getModel().getId(), this.getVirtualId()));
 
-        // Wallpaper and floor decorations
-        for (String decoration : this.getRoom().getData().getDecorations()) {
-            String[] deco = decoration.split("=");
-
-            if(deco.length < 2)
-                continue;
-
-            if(deco[0].equals("wallpaper") || deco[0].equals("floor")) {
-                if(deco[1].equals("0.0")) {
+        for(Map.Entry<String, String> decoration : this.getRoom().getData().getDecorations().entrySet()) {
+            if(decoration.getKey().equals("wallpaper") || decoration.getKey().equals("floor")) {
+                if(decoration.getValue().equals("0.0")) {
                     continue;
                 }
             }
 
-            this.player.getSession().send(PapersMessageComposer.compose(deco[0], deco[1]));
+            this.player.getSession().send(PapersMessageComposer.compose(decoration.getKey(), decoration.getValue()));
         }
 
         int accessLevel = 0;
