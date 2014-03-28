@@ -76,6 +76,8 @@ public class VendingMachineInteraction extends Interactor {
             case 2:
                 item.setExtraData("0");
                 item.sendUpdate();
+
+                item.saveData();
                 break;
         }
         return false;
