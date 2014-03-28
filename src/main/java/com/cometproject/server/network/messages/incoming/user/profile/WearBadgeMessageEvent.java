@@ -2,7 +2,6 @@ package com.cometproject.server.network.messages.incoming.user.profile;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.profile.UserBadgesMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -43,9 +42,9 @@ public class WearBadgeMessageEvent implements IEvent {
         }
 
         if(client.getPlayer().getEntity() != null) {
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UserBadgesMessageComposer.compose(client.getPlayer().getId(), client.getPlayer().getInventory().getBadges(), false));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UserBadgesMessageComposer.compose(client.getPlayer().getId(), client.getPlayer().getInventory().equippedBadges(), false));
         } else {
-            client.send(UserBadgesMessageComposer.compose(client.getPlayer().getId(), client.getPlayer().getInventory().getBadges(), false));
+            client.send(UserBadgesMessageComposer.compose(client.getPlayer().getId(), client.getPlayer().getInventory().equippedBadges(), false));
         }
     }
 }

@@ -11,7 +11,7 @@ public class UserBadgesMessageEvent implements IEvent {
         int userId = msg.readInt();
 
         if(client.getPlayer().getId() == userId) {
-            client.send(UserBadgesMessageComposer.compose(userId, client.getPlayer().getInventory().getBadges(), true));
+            client.send(UserBadgesMessageComposer.compose(userId, client.getPlayer().getInventory().equippedBadges()));
             return;
         }
 
@@ -21,7 +21,7 @@ public class UserBadgesMessageEvent implements IEvent {
         PlayerEntity playerEntity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPlayerId(userId);
 
         if(playerEntity != null) {
-            client.send(UserBadgesMessageComposer.compose(userId, playerEntity.getPlayer().getInventory().getBadges(), true));
+            client.send(UserBadgesMessageComposer.compose(userId, playerEntity.getPlayer().getInventory().equippedBadges()));
         }
     }
 }
