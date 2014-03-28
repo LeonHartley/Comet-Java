@@ -9,11 +9,9 @@ import com.cometproject.server.game.rooms.types.Room;
 public class DefaultInteraction extends Interactor {
     @Override
     public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
-        if(state) {
-            if(item.getDefinition().getEffectId() != 0) {
-                if(avatar.getCurrentEffect() == null) {
-                    avatar.applyEffect(new UserEffect(item.getDefinition().getEffectId(), true));
-                }
+        if(item.getDefinition().getEffectId() != 0) {
+            if(avatar.getCurrentEffect() == null) {
+                avatar.applyEffect(new UserEffect(item.getDefinition().getEffectId(), true));
             }
         }
         return false;
