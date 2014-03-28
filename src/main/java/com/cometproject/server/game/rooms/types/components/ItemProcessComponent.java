@@ -77,7 +77,7 @@ public class ItemProcessComponent implements CometTask {
                 return;
             }
 
-            if(this.getRoom().getEntities().count() == 0) {
+            if(this.getRoom().getEntities().playerCount() == 0) {
                 this.stop();
             }
 

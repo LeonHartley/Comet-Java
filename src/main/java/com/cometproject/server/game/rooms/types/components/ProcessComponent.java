@@ -102,6 +102,8 @@ public class ProcessComponent implements CometTask {
 
             List<GenericEntity>[][] entityGrid = new ArrayList[this.getRoom().getModel().getSizeX()][this.getRoom().getModel().getSizeY()];
 
+            List<PlayerEntity> playersToRemove = new FastList<>();
+
             for (GenericEntity entity : entities.values()) {
                 // Process each entity as its own
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
@@ -112,7 +114,11 @@ public class ProcessComponent implements CometTask {
                         continue;
                     }
 
-                    processPlayerEntity(playerEntity);
+                    boolean playerNeedsRemove = processPlayerEntity(playerEntity);
+
+                    if(playerNeedsRemove) {
+                        playersToRemove.add(playerEntity);
+                    }
                 } else if (entity.getEntityType() == RoomEntityType.BOT) {
                     processBotEntity((BotEntity) entity);
                 } else if (entity.getEntityType() == RoomEntityType.PET) {
@@ -123,7 +129,7 @@ public class ProcessComponent implements CometTask {
 
                 // Create the new entity grid
                 if (entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] == null) {
-                    entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] = new ArrayList<GenericEntity>();
+                    entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] = new ArrayList<>();
                 }
 
                 entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
@@ -135,6 +141,10 @@ public class ProcessComponent implements CometTask {
 
                     this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
                 }
+            }
+
+            for(PlayerEntity entity : playersToRemove) {
+                entity.leaveRoom(entity.getPlayer() == null, false, true);
             }
 
             // Update the entity grid
@@ -150,7 +160,7 @@ public class ProcessComponent implements CometTask {
         }
     }
 
-    protected void processPlayerEntity(PlayerEntity entity) {
+    protected boolean processPlayerEntity(PlayerEntity entity) {
         // Cleanup if the entity is offline
 
         // Copy the current position before updating
@@ -184,7 +194,7 @@ public class ProcessComponent implements CometTask {
         if(entity.isIdleAndIncrement()) {
             if(entity.getIdleTime() >= 2400) {
                 // Remove entity
-                entity.leaveRoom(false, false, true);
+                return true;
             } else {
                 // Set idle status!
                 this.room.getEntities().broadcastMessage(IdleStatusMessageComposer.compose(entity.getVirtualId(), true));
@@ -206,14 +216,10 @@ public class ProcessComponent implements CometTask {
             entity.setWalkingPath(null);
         }
 
-        // We should store players which need removing from the room here and process it last
-        List<PlayerEntity> leavingRoom = new ArrayList<>();
-
         // Do we have a position to set from previous moves?
         if (entity.getPositionToSet() != null) {
             if ((entity.getPositionToSet().getX() == this.room.getModel().getDoorX()) && (entity.getPositionToSet().getY() == this.room.getModel().getDoorY())) {
-                leavingRoom.add(entity);
-                return;
+                return true;
             }
 
             for (FloorItem item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
@@ -351,10 +357,7 @@ public class ProcessComponent implements CometTask {
             }
         }
 
-        // Remove entities from room
-        for (PlayerEntity entity0 : leavingRoom) {
-            entity0.leaveRoom(false, false, true);
-        }
+        return false;
     }
 
     protected void processBotEntity(BotEntity entity) {
