@@ -306,7 +306,7 @@ public class ProcessComponent implements CometTask {
 
                     //height += item.getHeight();
 
-                    if(!item.getDefinition().canSit)
+                    if(!item.getDefinition().canSit) //&& !item.getDefinition().getInteraction().equals("bed"))
                         height += item.getDefinition().getHeight();
 
                     item.setNeedsUpdate(true, InteractionAction.ON_PRE_WALK, entity, 0);

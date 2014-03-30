@@ -123,6 +123,10 @@ public class PurchaseItemMessageEvent implements IEvent {
                     }
 
                     return;
+                } else if(def.getInteraction().equals("postit")) {
+                    amount = 20; // we want 20 stickies
+
+                    extraData = "";
                 } else if(def.isRoomDecor()) {
                     if(data.isEmpty()) {
                         extraData += "0";

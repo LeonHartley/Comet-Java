@@ -36,7 +36,6 @@ public class DiceInteraction extends Interactor {
                 item.setExtraData("-1");
                 item.sendUpdate();
 
-                //item.setNeedsUpdate(true, InteractionAction.ON_TICK, avatar, 0, InteractionManager.DICE_ROLL_TIME);
                 item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, InteractionManager.DICE_ROLL_TIME));
             }
         } else {

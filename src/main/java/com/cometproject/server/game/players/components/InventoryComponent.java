@@ -99,8 +99,6 @@ public class InventoryComponent {
             if(badge.getValue() != 0) {
                 this.badges.replace(badge.getKey(), 0);
             }
-
-            System.out.println(badge.getKey() + ":" + badge.getValue());
         }
     }
 
