@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.misc;
 
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.rooms.RoomManager;
 import javolution.util.FastMap;
 
 import java.util.Map;
@@ -47,7 +48,7 @@ public class ChatEmotionsManager {
         // hehe
         emotions.put("Leon", ChatEmotion.Smile);
 
-        GameEngine.getRooms().log.info("Loaded " + this.emotions.size() + " chat emotions");
+        RoomManager.log.info("Loaded " + this.emotions.size() + " chat emotions");
     }
 
     public int getEmotion(String message) {
