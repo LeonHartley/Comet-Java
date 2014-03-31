@@ -19,7 +19,7 @@ public class DefaultAI implements BotAI {
             int x = Integer.parseInt(message.split("walk to")[1].split(" ")[0]);
             int y = Integer.parseInt(message.split("walk to")[1].split(" ")[1]);
 
-            entity.moveTo(x, y);
+            this.entity.moveTo(x, y);
             return true;
         }
         return false;

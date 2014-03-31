@@ -101,10 +101,11 @@ public class BotEntity extends GenericEntity {
         msg.writeInt(this.getRoom().getData().getOwnerId());
         msg.writeString(this.getRoom().getData().getOwner());
 
-        msg.writeInt(4);
+        msg.writeInt(5);
         msg.writeShort(1);
         msg.writeShort(2);
         msg.writeShort(5);
+        msg.writeShort(3);
         msg.writeShort(4);
     }
 

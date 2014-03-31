@@ -54,7 +54,7 @@ public class Comet {
                                     Comet.log.error("Invalid command");
                                     break;
                                 case "/":
-                                    Comet.log.info("Commands available: /about, /reload_messages, /gc, /reload_permissions, /changemotd, /reload_catalog, /reload_bans");
+                                    Comet.log.info("Commands available: /about, /reload_messages, /gc, /reload_permissions, /changemotd, /reload_catalog, /reload_bans, /reload_locale");
                                     break;
 
                                 case "/about":
@@ -102,9 +102,9 @@ public class Comet {
                                     Comet.log.info("Navigator was reloaded.");
                                     break;
 
-                                case "/reload_locales":
+                                case "/reload_locale":
                                     Locale.init();
-                                    Comet.log.info("Locales were reloaded.");
+                                    Comet.log.info("Locale configuration was reloaded.");
                                     break;
 
                             }
