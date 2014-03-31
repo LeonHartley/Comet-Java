@@ -15,8 +15,8 @@ public class ModToolUserInfoMessageComposer {
         msg.writeString(user.getString("username"));
         msg.writeString(user.getString("figure"));
 
-        msg.writeInt((int) Math.ceil((double) Comet.getTime() - (Comet.getTime() - 10000L)));
-        msg.writeInt((int) Math.ceil((double) Comet.getTime() - (Comet.getTime() - 10L)));
+        msg.writeInt((int) (Comet.getTime() - user.getInt("reg_timestamp")) / 60);
+        msg.writeInt((int) (Comet.getTime() - user.getInt("last_online")) / 60);
 
         msg.writeBoolean(Comet.getServer().getNetwork().getSessions().isPlayerLogged(user.getInt("id")));
 
@@ -25,9 +25,9 @@ public class ModToolUserInfoMessageComposer {
         msg.writeInt(stats.getInt("cautions"));
         msg.writeInt(stats.getInt("bans"));
 
-        msg.writeString("Test String!");
-        msg.writeInt(0);
-        msg.writeInt(0);
+        msg.writeString("N/A"); // TODO: purchase logging
+        msg.writeInt(0); // ???
+        msg.writeInt(0); // banned accts ???
         msg.writeString(user.getString("email"));
 
         return msg;

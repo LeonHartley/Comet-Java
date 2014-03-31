@@ -62,7 +62,7 @@ public class ModifyBotMessageEvent implements IEvent {
 
             case 3:
                 // Relax
-                // Disabled in-game for some reason
+                // TODO: this
                 break;
 
             case 4:

@@ -9,7 +9,6 @@ public class HelpTicketMessageComposer {
         Composer msg = new Composer(Composers.HelpTicketMessageComposer);
 
 
-
         return msg;
     }
 }

@@ -7,7 +7,7 @@ public class TicketSentMessageComposer {
     public static Composer compose() {
         Composer msg = new Composer(Composers.TicketSentMessageComposer);
 
-        msg.writeInt(0);
+        msg.writeInt(1);
 
         return msg;
     }

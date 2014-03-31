@@ -19,10 +19,7 @@ import com.cometproject.server.network.messages.incoming.handshake.SSOTicketMess
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.*;
-import com.cometproject.server.network.messages.incoming.moderation.ModToolBanUserMessageEvent;
-import com.cometproject.server.network.messages.incoming.moderation.ModToolRoomChatlogMessageEvent;
-import com.cometproject.server.network.messages.incoming.moderation.ModToolUserChatlogMessageEvent;
-import com.cometproject.server.network.messages.incoming.moderation.ModToolUserInfoMessageEvent;
+import com.cometproject.server.network.messages.incoming.moderation.*;
 import com.cometproject.server.network.messages.incoming.navigator.*;
 import com.cometproject.server.network.messages.incoming.room.action.*;
 import com.cometproject.server.network.messages.incoming.room.bots.BotConfigMessageEvent;
@@ -109,6 +106,7 @@ public class  MessageHandler {
         this.getMessages().put(Events.ModToolUserChatlogMessageEvent, new ModToolUserChatlogMessageEvent());
         this.getMessages().put(Events.ModToolRoomChatlogMessageEvent, new ModToolRoomChatlogMessageEvent());
         this.getMessages().put(Events.ModToolBanUserMessageEvent, new ModToolBanUserMessageEvent());
+        this.getMessages().put(Events.ModToolRoomInfoMessageEvent, new ModToolRoomInfoMessageEvent());
     }
 
     public void registerHelpTool() {

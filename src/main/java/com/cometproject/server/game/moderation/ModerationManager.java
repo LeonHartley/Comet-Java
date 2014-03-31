@@ -2,6 +2,7 @@ package com.cometproject.server.game.moderation;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.moderation.types.HelpTicket;
+import com.cometproject.server.network.messages.outgoing.help.HelpTicketMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastList;
 import javolution.util.FastMap;
@@ -77,7 +78,7 @@ public class ModerationManager {
             for (Session session : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
                 if(session.getPlayer() != null) {
                     if(session.getPlayer().getPermissions().hasPermission("mod_tool")) {
-                        //session.send(HelpTicketMessageComposer.compose(ticket));
+                        session.send(HelpTicketMessageComposer.compose(ticket));
                     }
                 }
             }
