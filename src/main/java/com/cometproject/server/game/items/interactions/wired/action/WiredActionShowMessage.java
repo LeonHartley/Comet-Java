@@ -1,7 +1,10 @@
 package com.cometproject.server.game.items.interactions.wired.action;
 
+import com.cometproject.server.game.items.interactions.InteractionAction;
+import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.interactions.Interactor;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.headers.Composers;
@@ -52,6 +55,16 @@ public class WiredActionShowMessage extends Interactor {
 
     @Override
     public boolean onTick(RoomItem item, PlayerEntity avatar, int updateState) {
+        switch(updateState) {
+            case 0:
+                ((FloorItem) item).sendData("1");
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 1, 3));
+                break;
+
+            case 1:
+                ((FloorItem) item).sendData("0");
+                break;
+        }
         return false;
     }
 
