@@ -12,11 +12,12 @@ public class PlayerStatistics {
     private int achievementPoints;
     private int dailyRespects;
     private int respectPoints;
+    private int friendCount = 0;
 
     public PlayerStatistics(ResultSet data) throws SQLException {
         this.userId = data.getInt("player_id");
         this.achievementPoints = data.getInt("achievement_score");
-        this.dailyRespects = data.getInt("daily_respects");
+        this.dailyRespects = data.getInt("daily_respects") > 3 ? 3 : data.getInt("daily_respects");
         this.respectPoints = data.getInt("total_respect_points");
     }
 
@@ -67,5 +68,25 @@ public class PlayerStatistics {
 
     public int getAchievementPoints() {
         return this.achievementPoints;
+    }
+
+    public int getFriendCount() {
+        try {
+            if (this.friendCount == 0) {
+                PreparedStatement statement = Comet.getServer().getStorage().prepare("SELECT COUNT(1) FROM messenger_friendships WHERE user_one_id = ?");
+
+                statement.setInt(1, this.userId);
+
+                ResultSet data = statement.executeQuery();
+
+                while(data.next()) {
+                    this.friendCount = data.getInt(1);
+                }
+            }
+        } catch(Exception e) {
+            GameEngine.getLogger().error("Error while counting friends for PlayerStatistics", e);
+        }
+
+        return this.friendCount;
     }
 }
