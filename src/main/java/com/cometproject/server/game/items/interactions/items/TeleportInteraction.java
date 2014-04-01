@@ -12,6 +12,10 @@ import com.cometproject.server.network.messages.outgoing.messenger.FollowFriendM
 public class TeleportInteraction extends Interactor {
     @Override
     public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
+        if(!item.getDefinition().canWalk)
+            return false;
+
+        item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, 1));
         return false;
     }
 
@@ -22,6 +26,9 @@ public class TeleportInteraction extends Interactor {
 
     @Override
     public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
+        if(item.getDefinition().canWalk)
+            return false;
+
         Position3D posInFront = item.squareInfront();
 
         if((avatar.getPosition().getX() != posInFront.getX() && avatar.getPosition().getY() != posInFront.getY())
@@ -55,7 +62,9 @@ public class TeleportInteraction extends Interactor {
                 // user is initiating the teleport, open door and walk in
                 // lock walking
                 avatar.setIsInTeleporter(true);
-                avatar.moveTo(item.getX(), item.getY());
+
+                if(!item.getDefinition().canWalk)
+                    avatar.moveTo(item.getX(), item.getY());
 
                 this.toggleDoor(item, true);
 

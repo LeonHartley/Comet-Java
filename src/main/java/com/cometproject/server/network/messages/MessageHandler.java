@@ -132,6 +132,7 @@ public class  MessageHandler {
         this.getMessages().put(Events.CreateNewRoomMessageEvent, new CreateRoomMessageEvent());
         this.getMessages().put(Events.LoadCategoriesMessageEvent, new LoadCategoriesMessageEvent());
         this.getMessages().put(Events.FeaturedRoomsMessageEvent, new FeaturedRoomsMessageEvent());
+        this.getMessages().put(Events.AddToStaffPickedRoomsMessageEvent, new AddToStaffPickedRoomsMessageEvent());
     }
 
     public void registerUser() {

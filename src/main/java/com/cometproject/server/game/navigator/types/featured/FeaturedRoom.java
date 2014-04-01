@@ -40,12 +40,29 @@ public class FeaturedRoom {
         if(!isCategory) this.room = GameEngine.getRooms().get(roomId);
     }
 
+    public FeaturedRoom(int id, BannerType bannerType, String caption, String description, String image, ImageType imageType, int roomId, int categoryId, boolean enabled, boolean recommended, boolean isCategory) {
+        this.id = id;
+        this.bannerType = bannerType;
+        this.caption = caption;
+        this.description = description;
+        this.image = image;
+        this.imageType = imageType;
+        this.roomId = roomId;
+        this.categoryId = categoryId;
+        this.enabled = enabled;
+        this.recommended = recommended;
+        this.isCategory = isCategory;
+
+        if(!isCategory) this.room = GameEngine.getRooms().get(roomId);
+    }
+
     public void compose(Composer msg) {
         boolean isActive = (room != null && room.getEntities() != null);
 
         msg.writeInt(id);
-        msg.writeString(caption);
-        msg.writeString(description);
+        msg.writeString((!isCategory) ? room.getData().getName() : caption);
+        msg.writeString((!isCategory) ? room.getData().getDescription() : description);
+
         msg.writeInt(bannerType == BannerType.BIG ? 0 : 1);
         msg.writeString(!isCategory ? caption : "");
         msg.writeString(imageType == ImageType.EXTERNAL ? image : "");
