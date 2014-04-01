@@ -86,7 +86,7 @@ public class EntityComponent {
             FloorItem item = this.room.getItems().getFloorItem(player.getTeleportId());
 
             if(item != null) {
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, entity, 3, 8));
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, entity, 4, 8));
             }
 
             player.setTeleportId(0);
