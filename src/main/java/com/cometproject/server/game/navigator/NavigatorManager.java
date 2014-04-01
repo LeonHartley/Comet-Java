@@ -73,11 +73,29 @@ public class NavigatorManager {
         return null;
     }
 
+    public boolean isFeatured(int roomId) {
+        for(FeaturedRoom room : featuredRooms) {
+            if(room.getRoomId() == roomId)
+                return true;
+        }
+
+        return false;
+    }
+
+    public FeaturedRoom getFeaturedRoomById(int roomId) {
+        for(FeaturedRoom room : featuredRooms) {
+            if(room.getRoomId() == roomId)
+                return room;
+        }
+
+        return null;
+    }
+
     public List<Category> getCategories() {
         return this.categories;
     }
 
-    public List<FeaturedRoom> getFeaturedRooms() {
-        return this.featuredRooms;
+    public java.util.Collection<FeaturedRoom> getFeaturedRooms() {
+        return ((FastList<FeaturedRoom>)featuredRooms).shared();
     }
 }

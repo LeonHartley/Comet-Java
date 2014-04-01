@@ -4,10 +4,11 @@ import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+import java.util.Collection;
 import java.util.List;
 
 public class FeaturedRoomsMessageComposer {
-    public static Composer compose(List<FeaturedRoom> rooms) {
+    public static Composer compose(Collection<FeaturedRoom> rooms) {
         Composer msg = new Composer(Composers.FeaturedRoomsMessageComposer);
 
         msg.writeInt(rooms.size());
