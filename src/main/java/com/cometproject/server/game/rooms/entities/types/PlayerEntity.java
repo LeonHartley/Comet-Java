@@ -120,6 +120,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
         // Sending this user to the hotel view?
         if (!isOffline && toHotelView) {
             this.getPlayer().getSession().send(HotelViewMessageComposer.compose());
+            this.getPlayer().getSession().getPlayer().getMessenger().sendStatus(true, false);
         }
 
         // Also could be useful for bot trading etc

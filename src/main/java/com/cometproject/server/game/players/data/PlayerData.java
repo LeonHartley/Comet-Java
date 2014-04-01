@@ -37,22 +37,6 @@ public class PlayerData implements Serializable {
         this.vip = vip;
     }
 
-    @Override
-    public String toString() {
-        String data = "";
-
-        data += "Id: " + id;
-        data += "\nUsername: " + username;
-        data += "\nMotto: " + motto;
-        data += "\nFigure: " + figure;
-        data += "\nCredits: " + credits;
-        data += "\nPoints: " + points;
-        data += "\nRank: " + rank;
-        data += "\nRegistered: " + lastVisit;
-
-        return data;
-    }
-
     public boolean save() {
         try {
             PreparedStatement std = Comet.getServer().getStorage().prepare("UPDATE players SET id = ?, username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ? WHERE id = ?");
