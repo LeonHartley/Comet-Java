@@ -15,7 +15,7 @@ import java.util.List;
 public class BallInteraction extends Interactor {
     @Override
     public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
-        FloorItem floorItem = (FloorItem) item;
+        /*FloorItem floorItem = (FloorItem) item;
 
         if(((FloorItem) item).isRolling())
             return false;
@@ -30,7 +30,7 @@ public class BallInteraction extends Interactor {
         floorItem.setX(newPosition.getX());
         floorItem.setY(newPosition.getY());
 
-        floorItem.setNeedsUpdate(true);
+        floorItem.setNeedsUpdate(true);*/
         return false;
     }
 
@@ -167,26 +167,32 @@ public class BallInteraction extends Interactor {
             return false;
 
         FloorItem floorItem = (FloorItem) item;
-        List<Position3D> positions = new FastList<>();
 
-        Position3D currentPosition = new Position3D(floorItem.getX(), floorItem.getY(), floorItem.getHeight());
-        Position3D lastPosition = null;
+        floorItem.setRotation(avatar.getBodyRotation());
+
+        List<Position3D> positions = new FastList<>();
+        Position3D currentPosition = new Position3D(floorItem.getX(), floorItem.getY());
+        Position3D nextPosition = currentPosition.squareInFront(avatar.getBodyRotation());
+
+        boolean needsReverse = false;
 
         for(int i = 0; i < KICK_POWER; i++) {
-            Position3D kickPosition;
-
-            if(lastPosition == null) {
-                kickPosition = calculatePosition(currentPosition.getX(), currentPosition.getY(), avatar.getBodyRotation());
-            } else {
-                kickPosition = calculatePosition(lastPosition.getX(), lastPosition.getY(), avatar.getBodyRotation());
+            if(!floorItem.getRoom().getMapping().isValidStep(currentPosition, nextPosition, false) || !floorItem.getRoom().getEntities().isSquareAvailable(nextPosition.getX(), nextPosition.getY())) {
+                needsReverse = true;
+                nextPosition = nextPosition.squareBehind(item.getRotation());
+                continue;
             }
 
-            positions.add(kickPosition);
-            lastPosition = kickPosition;
+            positions.add(nextPosition);
+
+            if(needsReverse) {
+                nextPosition = nextPosition.squareBehind(item.getRotation());
+            } else {
+                nextPosition = nextPosition.squareInFront(item.getRotation());
+            }
         }
 
         floorItem.setRollingPositions(positions);
-
         return false;
     }
 
