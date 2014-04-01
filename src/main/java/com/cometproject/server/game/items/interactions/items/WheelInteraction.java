@@ -1,6 +1,9 @@
 package com.cometproject.server.game.items.interactions.items;
 
 
+import com.cometproject.server.game.items.interactions.InteractionAction;
+import com.cometproject.server.game.items.interactions.InteractionManager;
+import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.interactions.Interactor;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItem;
@@ -21,11 +24,10 @@ public class WheelInteraction extends Interactor {
 
     @Override
     public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
-        int wheelPos = new Random().nextInt(10) + 1;
-
-        item.setExtraData(Integer.toString(wheelPos));
+        item.setExtraData("-1");
         item.sendUpdate();
 
+        item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, 10));
         return false;
     }
 

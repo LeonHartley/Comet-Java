@@ -1,12 +1,15 @@
 package com.cometproject.server.game.rooms.items;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.items.UpdateWallItemMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.lang.ref.WeakReference;
+import java.sql.PreparedStatement;
 
 public class WallItem extends RoomItem {
     private int roomId;
@@ -45,6 +48,24 @@ public class WallItem extends RoomItem {
 
     @Override
     public boolean toggleInteract(boolean state) {
+        String interaction = this.getDefinition().getInteraction();
+
+        if ((interaction.equals("default") && (this.getDefinition().getInteractionCycleCount() > 1))) {
+            if (this.getExtraData().isEmpty() || this.getExtraData().equals(" ")) {
+                this.setExtraData("0");
+            }
+
+            int i = Integer.parseInt(this.getExtraData()) + 1;
+
+            if (i > (this.getDefinition().getInteractionCycleCount() - 1)) { // take one because count starts at 0 (0, 1) = count(2)
+                this.setExtraData("0");
+            } else {
+                this.setExtraData(i + "");
+            }
+
+            return true;
+        }
+
         return false;
     }
 
@@ -60,8 +81,8 @@ public class WallItem extends RoomItem {
     public void sendUpdate() {
         Room r = this.getRoom();
 
-        if (r != null) {
-            r.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
+        if (r != null && r.getEntities() != null) {
+            r.getEntities().broadcastMessage(UpdateWallItemMessageComposer.compose(this, this.ownerId, this.getRoom().getData().getOwner()));
 
             // TODO: Check this..
         }
@@ -69,7 +90,15 @@ public class WallItem extends RoomItem {
 
     @Override
     public void saveData() {
+        try {
+            PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE items SET extra_data = ? WHERE id = ?");
 
+            statement.setString(1, this.getExtraData());
+            statement.setInt(2, this.getId());
+
+            statement.executeUpdate();
+        } catch (Exception e) {
+        }
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.WallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.data.WiredDataInstance;
@@ -146,6 +147,24 @@ public class ItemProcessComponent implements CometTask {
                 if(GameEngine.getWired().isWiredTrigger(item)) {
                     if(!this.getRoom().getWired().isWiredSquare(item.getX(), item.getY())) {
                         this.getRoom().getWired().add(item.getX(), item.getY());
+                    }
+                }
+            }
+
+            for(WallItem item : this.getRoom().getItems().getWallItems()) {
+                if (item.hasInteraction()) {
+                    InteractionQueueItem interactItem = item.getNextInteraction();
+
+                    if (interactItem != null) {
+                        if (interactItem.getAction() == InteractionAction.ON_PLACED) {
+
+                        } else if (interactItem.getAction() == InteractionAction.ON_PICKUP) {
+
+                        } else if (interactItem.getAction() == InteractionAction.ON_USE) {
+                            GameEngine.getItems().getInteractions().onInteract(interactItem.getUpdateState(), item, interactItem.getEntity());
+                        } else if (interactItem.getAction() == InteractionAction.ON_TICK) {
+                            GameEngine.getItems().getInteractions().onTick(item);
+                        }
                     }
                 }
             }

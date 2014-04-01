@@ -123,7 +123,7 @@ public class InteractionManager {
 
     }
 
-    public void onTick(FloorItem item) {
+    public void onTick(RoomItem item) {
         GameEngine.getLogger().debug("GenericRoomItem tick: " + item.getDefinition().getInteraction());
 
         if (!this.isInteraction(item.getDefinition().getInteraction())) {

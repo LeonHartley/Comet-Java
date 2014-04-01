@@ -34,6 +34,7 @@ import com.cometproject.server.network.messages.incoming.room.item.*;
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinNameMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.wired.SaveWiredMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.ChangeWallItemStateMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.GetBannedUsersMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.GiveRightsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.KickUserMessageEvent;
@@ -218,6 +219,7 @@ public class  MessageHandler {
         this.getMessages().put(Events.SaveMannequinNameMessageEvent, new SaveMannequinNameMessageEvent());
         this.getMessages().put(Events.SaveTonerMessageEvent, new SaveTonerMessageEvent());
         this.getMessages().put(Events.SaveBrandingMessageEvent, new SaveBrandingMessageEvent());
+        this.getMessages().put(Events.ChangeWallItemStateMessageEvent, new ChangeWallItemStateMessageEvent());
     }
 
     public void registerCatalog() {
