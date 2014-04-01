@@ -7,7 +7,7 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class LoadProfileMessageComposer {
-    public static Composer compose(PlayerData player, PlayerStatistics stats) {
+    public static Composer compose(PlayerData player, PlayerStatistics stats, boolean isMyFriend, boolean hasSentRequest) {
         Composer msg = new Composer(Composers.LoadProfileMessageComposer);
 
         msg.writeInt(player.getId());
@@ -15,10 +15,10 @@ public class LoadProfileMessageComposer {
         msg.writeString(player.getFigure());
         msg.writeString(player.getMotto());
         msg.writeString(player.getRegDate());
-        msg.writeInt(stats.getAchievementPoints()); // TODO: achievement score
-        msg.writeInt(0); // TODO: friend count
-        msg.writeBoolean(false); // is my friend
-        msg.writeBoolean(false); // has request from me
+        msg.writeInt(0); // TODO: achievement score
+        msg.writeInt(stats.getFriendCount());
+        msg.writeBoolean(isMyFriend);
+        msg.writeBoolean(hasSentRequest);
         msg.writeBoolean(Comet.getServer().getNetwork().getSessions().isPlayerLogged(player.getId()));
         msg.writeInt(0); // groups
 

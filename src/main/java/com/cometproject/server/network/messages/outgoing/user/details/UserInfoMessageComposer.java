@@ -4,6 +4,8 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+import java.util.Date;
+
 public class UserInfoMessageComposer {
     public static Composer compose(Player player) {
         Composer msg = new Composer(Composers.UserInfoMessageComposer);
@@ -17,11 +19,12 @@ public class UserInfoMessageComposer {
         msg.writeBoolean(true);
 
         msg.writeInt(8); // ??? (8)
+
         msg.writeInt(player.getStats().getDailyRespects()); // daily respects!
-        msg.writeInt(1); // (3) pet respects I guess
+        msg.writeInt(3); // (3) pet respects I guess
 
         msg.writeBoolean(true);
-        msg.writeString(player.getData().getLastVisit());
+        msg.writeString(new Date(player.getData().getLastVisit() * 1000L).toString());
 
         msg.writeBoolean(false);
         msg.writeBoolean(false);
