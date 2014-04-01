@@ -8,7 +8,7 @@ import com.cometproject.server.network.sessions.Session;
 
 public class KickUserMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        int virtualEntityId = msg.readInt();
+        int playerId = msg.readInt();
 
         Room room = client.getPlayer().getEntity().getRoom();
 
@@ -16,7 +16,7 @@ public class KickUserMessageEvent implements IEvent {
             return;
         }
 
-        PlayerEntity playerEntity = room.getEntities().tryGetPlayerEntityNullable(virtualEntityId);
+        PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(playerId);
 
         if (playerEntity == null) {
             return;
@@ -24,7 +24,6 @@ public class KickUserMessageEvent implements IEvent {
 
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
         boolean hasRights = room.getRights().hasRights(client.getPlayer().getId());
-
 
         if(isOwner || hasRights) {
             if(room.getData().getOwnerId() == playerEntity.getPlayerId()) {
