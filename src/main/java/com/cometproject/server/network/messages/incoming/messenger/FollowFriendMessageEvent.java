@@ -17,6 +17,8 @@ public class FollowFriendMessageEvent implements IEvent {
 
         MessengerFriend friend = client.getPlayer().getMessenger().getFriendById(friendId);
 
+        friend.updateClient();
+
         if(friend == null || friend.getClient() == null || friend.getClient().getPlayer() == null || friend.getClient().getPlayer().getEntity() == null)
             return;
 

@@ -33,8 +33,6 @@ public class PlaceBotMessageEvent implements IEvent {
             return;
         }
 
-        // TODO: Check square!
-
         Comet.getServer().getStorage().execute("UPDATE bots SET room_id = " + room.getId() + ", x = " + x + ", y = " + y + ", z = '" + height + "' WHERE id = " + botId);
 
         BotEntity botEntity = room.getBots().addBot(bot, x, y);
