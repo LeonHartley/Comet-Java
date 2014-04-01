@@ -62,6 +62,12 @@ public class ItemProcessComponent implements CometTask {
             this.active = false;
             this.myFuture.cancel(false);
 
+            for(FloorItem item : this.getRoom().getItems().getFloorItems()) {
+                if(item.hasInteraction()) {
+                    item.getInteractionQueue().clear();
+                }
+            }
+
             log.debug("Processing stopped");
         }
     }

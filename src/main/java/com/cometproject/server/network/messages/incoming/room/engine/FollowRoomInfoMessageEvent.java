@@ -41,7 +41,7 @@ public class FollowRoomInfoMessageEvent implements IEvent {
             composer.writeInt(room.getData().getOwnerId());
             composer.writeString(room.getData().getOwner());
             composer.writeInt(RoomWriter.roomAccessToNumber(room.getData().getAccess()));
-            composer.writeInt(room.getEntities().playerCount());
+            composer.writeInt(room.getEntities() == null ? 0 : room.getEntities().playerCount());
             composer.writeInt(room.getData().getMaxUsers());
             composer.writeString(room.getData().getDescription());
             composer.writeInt(0);

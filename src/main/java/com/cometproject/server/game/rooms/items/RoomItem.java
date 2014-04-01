@@ -97,6 +97,10 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem 
         this.interactionQueue.add(interaction);
     }
 
+    public Queue<InteractionQueueItem> getInteractionQueue() {
+        return this.interactionQueue;
+    }
+
     public int distance(GenericEntity entity) {
         int avatarX = entity.getPosition().getX();
         int avatarY = entity.getPosition().getY();
