@@ -137,6 +137,28 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem 
         return pos;
     }
 
+    public Position3D squareBehind() {
+        Position3D pos = new Position3D(getX(), getY(), 0);
+
+        int posX = pos.getX();
+        int posY = pos.getY();
+
+        if(getRotation() == 0) {
+            posY++;
+        } else if(getRotation() == 2) {
+            posX--;
+        } else if(getRotation() == 4) {
+            posY--;
+        } else if(getRotation() == 6) {
+            posX++;
+        }
+
+        pos.setX(posX);
+        pos.setY(posY);
+
+        return pos;
+    }
+
     public abstract void serialize(Composer msg, boolean isNew);
     public abstract void serialize(Composer msg);
 

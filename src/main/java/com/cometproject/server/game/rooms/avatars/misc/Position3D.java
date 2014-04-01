@@ -112,11 +112,60 @@ public class Position3D {
         return rotation;
     }
 
+    public Position3D squareInFront(int angle) {
+        Position3D pos = new Position3D(x, y, 0);
+
+        int posX = pos.getX();
+        int posY = pos.getY();
+
+        if(angle == 0) {
+            posY--;
+        } else if(angle == 2) {
+            posX++;
+        } else if(angle == 4) {
+            posY++;
+        } else if(angle == 6) {
+            posX--;
+        }
+
+        pos.setX(posX);
+        pos.setY(posY);
+
+        return pos;
+    }
+
+    public Position3D squareBehind(int angle) {
+        Position3D pos = new Position3D(x, y, 0);
+
+        int posX = pos.getX();
+        int posY = pos.getY();
+
+        if(angle == 0) {
+            posY++;
+        } else if(angle == 2) {
+            posX--;
+        } else if(angle == 4) {
+            posY--;
+        } else if(angle == 6) {
+            posX++;
+        }
+
+        pos.setX(posX);
+        pos.setY(posY);
+
+        return pos;
+    }
+
     public static double distanceBetween(Position3D pos1, Position3D pos2) {
         int xDistance = pos2.getX() - pos1.getX();
         int yDistance = pos2.getY() - pos1.getY();
 
         return Math.sqrt(xDistance * xDistance + yDistance * yDistance);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + this.getX() + ", " + this.getY() + ", " + this.getZ() + ")";
     }
 
     public int getX() {
