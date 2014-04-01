@@ -21,6 +21,9 @@ public class Locale {
     }
 
     public static String get(String key) {
-        return locale.get(key);
+        if(locale.containsKey(key))
+            return locale.get(key);
+        else
+            return key;
     }
 }
