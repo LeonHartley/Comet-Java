@@ -1,8 +1,11 @@
 package com.cometproject.server.game.wired.triggers;
 
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.items.interactions.InteractionAction;
+import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.game.wired.types.WiredTrigger;
 import com.cometproject.server.network.messages.types.Event;
@@ -17,6 +20,7 @@ public class EnterRoomTrigger extends WiredTrigger {
             // TODO: check for condition.
             if(GameEngine.getWired().isWiredEffect(item)) {
                 GameEngine.getWired().getEffect(item.getDefinition().getInteraction()).onActivate(entities, item);
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, null, 0, 0));
             }
         }
     }

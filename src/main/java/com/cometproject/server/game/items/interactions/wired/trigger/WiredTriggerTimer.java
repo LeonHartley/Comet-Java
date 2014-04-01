@@ -1,6 +1,8 @@
 package com.cometproject.server.game.items.interactions.wired.trigger;
 
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.items.interactions.InteractionAction;
+import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.interactions.Interactor;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
@@ -71,6 +73,16 @@ public class WiredTriggerTimer extends Interactor {
 
     @Override
     public boolean onTick(RoomItem item, PlayerEntity avatar, int updateState) {
+        switch(updateState) {
+            case 0:
+                ((FloorItem) item).sendData("1");
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 1, 2));
+                break;
+
+            case 1:
+                ((FloorItem) item).sendData("0");
+                break;
+        }
         return false;
     }
 
