@@ -92,9 +92,15 @@ public class WiredComponent {
             return;
 
         for(WiredSquare square : this.squares) {
+            boolean hasTimer = false;
+
             for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(square.getX(), square.getY())) {
                 if(GameEngine.getWired().isWiredTrigger(item)) {
                     if(item.getDefinition().getInteraction().equals("wf_trg_timer")) {
+                        if(hasTimer)
+                            continue;
+
+                        hasTimer = true;
                         WiredDataInstance data = WiredDataFactory.get(item);
 
                         if(data.cycles >= data.getDelay()) {

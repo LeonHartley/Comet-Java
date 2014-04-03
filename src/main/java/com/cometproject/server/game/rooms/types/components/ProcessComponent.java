@@ -373,7 +373,7 @@ public class ProcessComponent implements CometTask {
                 int x = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeX());
                 int y = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeY());
 
-                if (this.getRoom().getMapping().isValidStep(entity.getPosition(), new Position3D(x, y, 0d), true)) {
+                if (this.getRoom().getMapping().isValidStep(entity.getPosition(), new Position3D(x, y, 0d), true) && x != this.getRoom().getModel().getDoorX() && y != this.getRoom().getModel().getDoorY()) {
                     entity.moveTo(x, y);
                 }
             }

@@ -11,6 +11,10 @@ import com.cometproject.server.tasks.CometThreadManagement;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -32,7 +36,7 @@ public class GameThread implements CometTask {
         this.active = true;
     }
 
-    int cycleCount = 0;
+    private int cycleCount = 0;
 
     @Override
     public void run() {
@@ -63,6 +67,11 @@ public class GameThread implements CometTask {
                     + "server_version = '" + Comet.getBuild() + "'").executeUpdate();
 
             connection.close();
+
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            Date date = new Date();
+
+            System.out.println(dateFormat.format(date));
 
             cycleCount++;
         } catch(Exception e) {

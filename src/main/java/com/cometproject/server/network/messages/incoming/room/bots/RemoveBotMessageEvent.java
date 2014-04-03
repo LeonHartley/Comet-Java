@@ -17,6 +17,10 @@ public class RemoveBotMessageEvent implements IEvent {
             return;
         }
 
+        if(client.getPlayer().getId() != entity.getData().getOwnerId() || !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            return;
+        }
+
         InventoryBot bot = new InventoryBot(entity.getBotId(), entity.getData().getOwnerId(), entity.getData().getOwnerName(), entity.getUsername(), entity.getFigure(), entity.getGender(), entity.getMotto());
         client.getPlayer().getBots().addBot(bot);
 

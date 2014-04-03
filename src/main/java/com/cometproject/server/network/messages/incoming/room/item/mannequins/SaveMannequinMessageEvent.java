@@ -15,7 +15,7 @@ public class SaveMannequinMessageEvent implements IEvent {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null) {
+        if(room == null || !room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;
         }
 
