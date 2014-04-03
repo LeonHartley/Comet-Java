@@ -15,22 +15,7 @@ import java.util.List;
 public class BallInteraction extends Interactor {
     @Override
     public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
-        /*FloorItem floorItem = (FloorItem) item;
 
-        if(((FloorItem) item).isRolling())
-            return false;
-
-        Position3D currentPosition = new Position3D(floorItem.getX(), floorItem.getY(), floorItem.getHeight());
-
-        Position3D newPosition = calculatePosition(floorItem.getX(), floorItem.getY(), avatar.getBodyRotation());
-        newPosition.setZ(floorItem.getHeight());
-
-        roll(floorItem, currentPosition, newPosition, avatar.getRoom());
-
-        floorItem.setX(newPosition.getX());
-        floorItem.setY(newPosition.getY());
-
-        floorItem.setNeedsUpdate(true);*/
         return false;
     }
 
@@ -54,13 +39,16 @@ public class BallInteraction extends Interactor {
             newPosition = calculatePosition(floorItem.getX(), floorItem.getY(), avatar.getBodyRotation(), true);
         }
 
-        newPosition.setZ(floorItem.getHeight());
+        newPosition.setZ((float) floorItem.getRoom().getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()]);
 
         roll(floorItem, currentPosition, newPosition, avatar.getRoom());
 
         floorItem.setRotation(avatar.getBodyRotation());
         floorItem.setX(newPosition.getX());
         floorItem.setY(newPosition.getY());
+
+        floorItem.setHeight((float) newPosition.getZ());
+
 
         floorItem.setNeedsUpdate(true);
         return false;
@@ -149,10 +137,10 @@ public class BallInteraction extends Interactor {
                 break;
         }
 
-        return new Position3D(x, y, 0d);
+        return new Position3D(x, y);
     }
 
-    public static final int KICK_POWER = 6;
+    public static final int KICK_POWER = 100;
 
     @Override
     public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
