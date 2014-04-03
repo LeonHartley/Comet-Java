@@ -2,7 +2,10 @@ package com.cometproject.server.game.wired;
 
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
-import com.cometproject.server.game.wired.effects.*;
+import com.cometproject.server.game.wired.effects.MoveRotateEffect;
+import com.cometproject.server.game.wired.effects.MoveUserEffect;
+import com.cometproject.server.game.wired.effects.SayMessageEffect;
+import com.cometproject.server.game.wired.effects.ToggleFurniEffect;
 import com.cometproject.server.game.wired.triggers.*;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.game.wired.types.WiredCondition;
@@ -30,7 +33,6 @@ public class WiredManager {
         this.effects.put("wf_act_moveuser", new MoveUserEffect());
         this.effects.put("wf_act_togglefurni", new ToggleFurniEffect());
         this.effects.put("wf_act_moverotate", new MoveRotateEffect());
-        this.effects.put("wf_act_kickuser", new KickUser());
 
         WiredDataFactory.init();
     }
