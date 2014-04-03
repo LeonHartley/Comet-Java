@@ -33,14 +33,6 @@ public class WiredManager {
         this.effects.put("wf_act_moveuser", new MoveUserEffect());
         this.effects.put("wf_act_togglefurni", new ToggleFurniEffect());
         this.effects.put("wf_act_moverotate", new MoveRotateEffect());
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-        this.effects.put("wf_act_kickuser", new KickUserEffect());
->>>>>>> d0cdf1b367198e24547f29af2eb23403242c06b4
-=======
-        this.effects.put("wf_act_kickuser", new KickUser());
->>>>>>> parent of d0cdf1b... Better name for leon
 
         WiredDataFactory.init();
     }
