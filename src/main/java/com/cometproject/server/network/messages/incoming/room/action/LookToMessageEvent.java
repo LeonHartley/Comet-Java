@@ -25,11 +25,11 @@ public class LookToMessageEvent implements IEvent {
 
         avatar.unIdle();
 
-        if(!avatar.hasStatus("sit"))
+        if(!avatar.hasStatus("sit")) {
             avatar.setBodyRotation(rotation);
+            avatar.setHeadRotation(rotation);
 
-        avatar.setHeadRotation(rotation);
-
-        avatar.markNeedsUpdate();
+            avatar.markNeedsUpdate();
+        }
     }
 }

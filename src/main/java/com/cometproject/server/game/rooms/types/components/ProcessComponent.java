@@ -331,6 +331,11 @@ public class ProcessComponent implements CometTask {
 
                     entity.getProcessingPath().clear();
                 }
+            } else {
+                if(entity.getWalkingPath() != null)
+                    entity.getWalkingPath().clear();
+
+                entity.getProcessingPath().clear();
             }
         }
 
@@ -490,6 +495,11 @@ public class ProcessComponent implements CometTask {
                     if(entity.getProcessingPath() != null)
                         entity.getProcessingPath().clear();
                 }
+            } else {
+                if(entity.getWalkingPath() != null)
+                    entity.getWalkingPath().clear();
+
+                entity.getProcessingPath().clear();
             }
         }
     }

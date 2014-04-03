@@ -139,8 +139,6 @@ public class ItemProcessComponent implements CometTask {
                 if(needsRoll) {
                     if(item.isRolling()) {
                         doBallRoll(item);
-
-                        System.out.println("ITS ROLLING BRO");
                     }
                 }
 
@@ -190,30 +188,18 @@ public class ItemProcessComponent implements CometTask {
         Position3D nextPos = item.getRollingPositions().get(0);
         Position3D currentPos = new Position3D(item.getX(), item.getY(), item.getHeight());
 
-        //if(this.getRoom().getMapping().isValidStep(currentPos, nextPos, false)) {
+        currentPos.setZ(room.getModel().getSquareHeight()[currentPos.getX()][currentPos.getY()]);
+        nextPos.setZ(room.getModel().getSquareHeight()[nextPos.getX()][nextPos.getY()]);
+
+        if(this.getRoom().getMapping().isValidStep(currentPos, nextPos, false)) {
             BallInteraction.roll(item, currentPos, nextPos, room);
 
             item.setX(nextPos.getX());
             item.setY(nextPos.getY());
+            item.setHeight((float) nextPos.getZ());
 
             item.setNeedsUpdate(true);
-
-            //item.getRollingPositions().remove(0);
-        //}
-        /* else {
-            int length = item.getRollingPositions().size();
-            List<Position3D> newPositions = new FastList<>();
-
-            for(int i = 0; i < length; i++) {
-                Position3D pos = item.getRollingPositions().get(i);
-
-                newPositions.add(BallInteraction.calculatePosition(pos.getX(), pos.getY(), item.getRotation(), true));
-            }
-
-            item.setRollingPositions(newPositions);
-
-            doBallRoll(item);
-        }*/
+        }
 
         item.getRollingPositions().remove(0);
     }
