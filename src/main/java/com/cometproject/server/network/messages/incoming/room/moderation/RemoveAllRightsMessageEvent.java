@@ -21,21 +21,15 @@ public class RemoveAllRightsMessageEvent implements IEvent {
         }
 
         for(Integer id : room.getRights().getAll()) {
-            /*Avatar user = room.getAvatars().get(id);
+            PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(id);
 
-            if(user != null) {
-                user.getPlayer().getSession().send(AccessLevelMessageComposer.compose(0));
-            }*/
-
-            PlayerEntity playerEntity = room.getEntities().tryGetPlayerEntityNullable(id);
-
-            if (playerEntity == null) {
+            if (playerEntity != null) {
                 playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(0));
             }
 
             // Remove rights from the player id
             client.send(RemovePowersMessageComposer.compose(id, room.getId()));
-            room.getRights().removeRights(playerEntity.getPlayerId());
+            room.getRights().removeRights(id);
         }
     }
 }

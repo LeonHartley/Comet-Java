@@ -18,7 +18,7 @@ public class GiveRightsMessageEvent implements IEvent {
 
         //Avatar avatar = room.getAvatars().get(avatarId);
 
-        PlayerEntity playerEntity = room.getEntities().tryGetPlayerEntityNullable(virtualEntityId);
+        PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(virtualEntityId);
 
         if(playerEntity == null) {
             return;

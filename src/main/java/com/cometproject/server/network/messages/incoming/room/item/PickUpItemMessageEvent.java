@@ -14,7 +14,7 @@ public class PickUpItemMessageEvent implements IEvent {
         int id = msg.readInt();
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null || !client.getPlayer().getData().getUsername().equals(client.getPlayer().getEntity().getRoom().getData().getOwner())) {
+        if(room == null || !room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;
         }
 

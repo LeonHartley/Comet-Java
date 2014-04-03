@@ -16,7 +16,7 @@ public class SaveRoomDataMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null || room.getData().getOwnerId() != client.getPlayer().getId()) {
+        if(room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;
         }
 

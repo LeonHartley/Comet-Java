@@ -23,6 +23,10 @@ public class PlacePostitMessageEvent implements IEvent {
             return;
         }
 
+        if(!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            return;
+        }
+
         InventoryItem item = client.getPlayer().getInventory().getWallItem(itemId);
         PreparedStatement query = Comet.getServer().getStorage().prepare("UPDATE items SET room_id = ?, wall_pos = ?, extra_data = ? WHERE id = ?;");
 
