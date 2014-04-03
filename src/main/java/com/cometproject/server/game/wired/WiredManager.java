@@ -30,7 +30,7 @@ public class WiredManager {
         this.effects.put("wf_act_moveuser", new MoveUserEffect());
         this.effects.put("wf_act_togglefurni", new ToggleFurniEffect());
         this.effects.put("wf_act_moverotate", new MoveRotateEffect());
-        this.effects.put("wf_act_kickuser", new KickUser());
+        this.effects.put("wf_act_kickuser", new KickUserEffect());
 
         WiredDataFactory.init();
     }
