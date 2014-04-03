@@ -226,7 +226,7 @@
     <distributionManagement>
         <repository>
             <id>sjovt-linux</id>
-            <url>sftp://37.187.137.100/root/comet-deploy</url>
+            <url>sftp://37.187.140.216/comet</url>
         </repository>
     </distributionManagement>
 
