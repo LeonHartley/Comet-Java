@@ -9,7 +9,7 @@ import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessa
 
 import java.util.List;
 
-public class KickUserEffect extends WiredEffect {
+public class KickUser extends WiredEffect {
     @Override
     public void onActivate(List<PlayerEntity> entities, FloorItem item) {
         for(PlayerEntity entity : entities) {
@@ -17,7 +17,7 @@ public class KickUserEffect extends WiredEffect {
                 return;
             else
                 entity.leaveRoom(false, true, true);
-            entity.getPlayer().getSession().send(AdvancedAlertMessageComposer.compose("Alert", item.getExtraData()));
+                entity.getPlayer().getSession().send(AdvancedAlertMessageComposer.compose("Alert", item.getExtraData()));
 
         }
     }
