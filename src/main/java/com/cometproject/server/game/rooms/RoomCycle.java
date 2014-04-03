@@ -41,7 +41,11 @@ public class RoomCycle implements CometTask {
                 for(Room room : GameEngine.getRooms().getActiveRooms()) {
                     if(room == null) continue;
 
-                    room.tick();
+                    try {
+                        room.tick();
+                    } catch(Exception e) {
+                        log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName());
+                    }
                 }
             }
 
