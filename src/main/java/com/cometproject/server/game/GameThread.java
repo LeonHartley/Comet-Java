@@ -90,8 +90,11 @@ public class GameThread implements CometTask {
 
                 int amountCredits = CometSettings.quartlyCreditsAmount;
                 client.getPlayer().getData().increaseCredits(amountCredits);
-                client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.received.credits.title"), Locale.get("game.received.credits").replace("{$}", amountCredits + "")));
 
+                //client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.received.credits.title"), Locale.get("game.received.credits").replace("{$}", amountCredits + "")));
+
+                client.getPlayer().sendBalance();
+                client.getPlayer().getData().save();
             }
         }
 

@@ -82,8 +82,10 @@ public class PlaceItemMessageEvent implements IEvent {
                     }
                 }
 
-                if(item.getDefinition().getInteraction().equals("mannequin")) {
-                    rot = 2;
+                if(item.getDefinition() != null && item.getDefinition().getInteraction() != null) {
+                    if(item.getDefinition().getInteraction().equals("mannequin")) {
+                        rot = 2;
+                    }
                 }
 
                 PreparedStatement query = Comet.getServer().getStorage().prepare("UPDATE items SET room_id = ?, x = ?, y = ?, z = ?, rot = ?, extra_data = ? WHERE id = ?;");
