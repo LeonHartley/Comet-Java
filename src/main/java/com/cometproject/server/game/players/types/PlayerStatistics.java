@@ -30,12 +30,12 @@ public class PlayerStatistics {
 
     public void save() {
         try {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE player_stats SET achievement_score = ?, total_respect_points = ?, daily_respects = ? WHERE player_id = " + this.userId);
+            PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE player_stats SET achievement_score = ?, total_respect_points = ?, daily_respects = ? WHERE player_id = ?");
 
             statement.setInt(1, achievementPoints);
             statement.setInt(2, respectPoints);
             statement.setInt(3, dailyRespects);
-            statement.setInt(3, userId);
+            statement.setInt(4, userId);
 
             statement.execute();
         } catch(SQLException e) {
