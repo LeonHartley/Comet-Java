@@ -15,26 +15,6 @@ public class BuildCommand extends ChatCommand {
         if(message.length < 1) {
             client.send(AdvancedAlertMessageComposer.compose("Comet Server", "Current build: <b>" + Comet.getBuild() + "</b>"));
         }
-
-        if(!message[0].equals("visualise")) {
-            return;
-        }
-
-        String returnText = "";
-
-        for(int x = 0; x < client.getPlayer().getEntity().getRoom().getModel().getSizeX(); x++) {
-            String line = "";
-            for(int y = 0; y < client.getPlayer().getEntity().getRoom().getModel().getSizeY(); y++) {
-                if(client.getPlayer().getEntity().getRoom().getWired().isWiredSquare(x, y))
-                    line += "__";
-                else
-                    line += "  ";
-            }
-
-            returnText += line + "<br>";
-        }
-
-        client.send(AdvancedAlertMessageComposer.compose("Wired Square Visualiser", returnText));
     }
 
     @Override
