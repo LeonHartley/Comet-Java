@@ -8,6 +8,7 @@ import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessa
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
+import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -34,6 +35,35 @@ public class GameThread implements CometTask {
         int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.thread.interval"));
         this.myFuture = mgr.executePeriodic(this, interval, interval, TimeUnit.MINUTES);
         this.active = true;
+
+        this.configureDailyCycle();
+    }
+
+    private void configureDailyCycle() {
+        Calendar c = Calendar.getInstance();
+        Date now = new Date();
+
+        c.setTime(now);
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+
+        long msTillMidnight = (c.getTimeInMillis() -now.getTime());
+
+        this.myFuture = this.threadManagement.executePeriodic(new CometTask() {
+            @Override
+            public void run() {
+                long start = System.currentTimeMillis();
+
+                Comet.getServer().getStorage().execute("UPDATE player_stats SET daily_respects = 3 WHERE daily_respects < 3");
+
+                TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
+
+                log.info("Daily task has cycled. Took: " + span.toMilliseconds() + "ms to execute.");
+            }
+        }, msTillMidnight, 86400000, TimeUnit.MILLISECONDS);
     }
 
     private int cycleCount = 0;
@@ -67,11 +97,6 @@ public class GameThread implements CometTask {
                     + "server_version = '" + Comet.getBuild() + "'").executeUpdate();
 
             connection.close();
-
-            DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-            Date date = new Date();
-
-            System.out.println(dateFormat.format(date));
 
             cycleCount++;
         } catch(Exception e) {
