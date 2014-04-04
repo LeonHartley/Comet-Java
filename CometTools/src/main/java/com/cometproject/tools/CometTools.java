@@ -8,8 +8,9 @@ public class CometTools {
     private CometWindow cometWindow;
 
     public CometTools() {
-        this.cometWindow = new CometWindow();
         this.packetManager = new PacketManager();
+
+        this.cometWindow = new CometWindow();
     }
 
     private static CometTools instance;

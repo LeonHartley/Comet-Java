@@ -51,6 +51,7 @@ public abstract class GenericEntity implements AvatarEntity {
     private boolean markedNeedsUpdate;
     private boolean isMoonwalking;
     private boolean isInTeleporter;
+    private boolean isVisible;
 
     private Map<String, String> statusses = new FastMap<>();
 
@@ -84,6 +85,7 @@ public abstract class GenericEntity implements AvatarEntity {
         this.markedNeedsUpdate = false;
         this.isMoonwalking = false;
         this.isInTeleporter = false;
+        this.isVisible = true;
     }
 
     @Override
@@ -425,4 +427,20 @@ public abstract class GenericEntity implements AvatarEntity {
     protected abstract void finalizeLeaveRoom();
 
     public abstract boolean onChat(String message);
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean isVisible) {
+        this.isVisible = isVisible;
+    }
+
+    public void updateVisibility(boolean isVisible) {
+        if(isVisible && !this.isVisible) {
+            // Add user to room etc.
+        } else {
+            //remove from room
+        }
+    }
 }
