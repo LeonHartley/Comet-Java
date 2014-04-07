@@ -7,7 +7,7 @@ import com.cometproject.server.network.sessions.Session;
 public class SitCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        // TODO: sit command
+        //client.getPlayer().getEntity().getPosition()
     }
 
     @Override
