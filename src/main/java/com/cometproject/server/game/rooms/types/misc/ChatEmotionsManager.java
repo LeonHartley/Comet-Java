@@ -46,7 +46,18 @@ public class ChatEmotionsManager {
         emotions.put(":L", ChatEmotion.Laugh);
 
         // hehe
-        emotions.put("Leon", ChatEmotion.Smile);
+        emotions.put("leon", ChatEmotion.Smile);
+        emotions.put("comet", ChatEmotion.Smile);
+        emotions.put("java", ChatEmotion.Smile);
+        emotions.put("meesha", ChatEmotion.Smile);
+
+        emotions.put("phoenix", ChatEmotion.Sad);
+        emotions.put("butterfly", ChatEmotion.Sad);
+
+        emotions.put("matou19", ChatEmotion.Angry);
+        emotions.put("mathis", ChatEmotion.Angry);
+
+        emotions.put("minette", ChatEmotion.Shocked); // mathis' cat
 
         RoomManager.log.info("Loaded " + this.emotions.size() + " chat emotions");
     }
