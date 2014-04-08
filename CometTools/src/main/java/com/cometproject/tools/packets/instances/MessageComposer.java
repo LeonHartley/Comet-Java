@@ -23,4 +23,8 @@ public class MessageComposer extends Packet {
     public void setStructure(List<String> structure) {
         this.structure = structure;
     }
+
+    public List<String> getStructure() {
+        return this.structure;
+    }
 }

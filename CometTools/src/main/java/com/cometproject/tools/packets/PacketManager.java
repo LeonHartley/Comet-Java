@@ -33,8 +33,8 @@ public class PacketManager {
             return;
         }
 
-        parseScripts(oldScripts.split("\n"));
-        parseScripts(newScripts.split("\n"));
+        this.oldRevision = parseScripts(oldScripts.split("\n"));
+        this.newRevision = parseScripts(newScripts.split("\n"));
     }
 
     private HabboRevision parseScripts(String[] scriptLines) {
@@ -42,8 +42,8 @@ public class PacketManager {
         String releaseString = "";
 
         Map<String, String> types = new FastMap<>();
-        Map<String, MessageComposer> composers;
-        Map<String, MessageEvent> events;
+        Map<String, MessageComposer> composers = new FastMap<>();
+        Map<String, MessageEvent> events = new FastMap<>();
 
         for(int i = 0; i < scriptLines.length; i++) {
             String line = scriptLines[i];
@@ -134,16 +134,49 @@ public class PacketManager {
                         }
                     }
 
+                    short id = 0;
+                    String packetHeaderName = null;
+
                     for(int k = 0; k < scriptLines.length; k++) {
-                        
+                        if(id != 0)
+                            break;
+
+                        if(scriptLines[k].contains(packetParserName) && scriptLines[k].contains("super")) {
+                            packetHeaderName = scriptLines[k - 1].split("function")[1].split("\\(")[0];
+                            for(int l = 0; l < scriptLines.length; l++) {
+                                if(scriptLines[l].contains(packetHeaderName) && scriptLines[l].contains("] = ") && !scriptLines[l].contains("\"")) {
+                                    try {
+                                        id = Short.parseShort(scriptLines[l].split("\\[")[1].split("]")[0]);
+                                    } catch(Exception e) {
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    try {
+                        MessageComposer cmp = new MessageComposer(id, packetHeaderName, packetParserName);
+                        cmp.setStructure(structure);
+
+                        composers.put(packetHeaderName, cmp);
+                    } catch(Exception e) {
+                        continue;
                     }
                 }
             }
         }
 
-        System.out.println(releaseString);
-
+        HabboRevision revision = new HabboRevision(releaseString, composers, events);
         System.out.println("Parse scripts process took: " + (((double) stopwatch.elapsed(TimeUnit.MILLISECONDS)) / 1000));
-        return null;
+        return revision;
+    }
+
+    public HabboRevision getOldRevision() {
+        return oldRevision;
+    }
+
+    public HabboRevision getNewRevision() {
+        return newRevision;
     }
 }
