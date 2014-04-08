@@ -13,7 +13,7 @@ public class CometTools {
     public CometTools() {
         Stopwatch stopwatch = Stopwatch.createStarted();
         this.packetManager = new PacketManager();
-        //this.cometWindow = new CometWindow();
+        this.cometWindow = new CometWindow(this);
 
         System.out.println("CometTools was active for: " + (((double) stopwatch.elapsed(TimeUnit.MILLISECONDS)) / 1000) + " seconds");
     }
@@ -26,5 +26,9 @@ public class CometTools {
 
     public static CometTools getInstance() {
         return instance;
+    }
+
+    public PacketManager getPacketManager() {
+        return packetManager;
     }
 }
