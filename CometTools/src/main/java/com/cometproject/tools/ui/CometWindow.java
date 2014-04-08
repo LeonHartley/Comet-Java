@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.io.StringWriter;
 
 public class CometWindow extends JFrame {
     public static final String WINDOW_TITLE = "Comet Tools";
@@ -17,7 +16,7 @@ public class CometWindow extends JFrame {
 
     private JPanel panel;
     private JTabbedPane tabbedPane1;
-    private JList list1;
+    private JList<String> list1;
     private JTextArea packetInformation;
 
     public CometWindow(CometTools tools) {
@@ -43,7 +42,7 @@ public class CometWindow extends JFrame {
     }
 
     private void initPacketList() {
-        DefaultListModel model = new DefaultListModel();
+        DefaultListModel<String> model = new DefaultListModel<>();
 
         for(MessageComposer msg : tools.getPacketManager().getNewRevision().getComposers().values()) {
             model.addElement(msg.getId() + " (" + msg.getClassName() + ")");
@@ -51,6 +50,10 @@ public class CometWindow extends JFrame {
 
         this.list1.setModel(model);
         this.list1.addListSelectionListener(new CometPacketSelectionHandler());
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 
     private class CometPacketSelectionHandler implements ListSelectionListener {
@@ -61,7 +64,7 @@ public class CometWindow extends JFrame {
                 StringBuilder info = new StringBuilder();
                 info.append("Packet Structure\n==================================\n");
 
-                String key = ((String) list1.getSelectedValue()).split("\\(")[1].split("\\)")[0];
+                String key = (list1.getSelectedValue()).split("\\(")[1].split("\\)")[0];
 
                 MessageComposer msg = tools.getPacketManager().getNewRevision().getComposers().get(key);
 
@@ -80,11 +83,11 @@ public class CometWindow extends JFrame {
                     } else if(structure.equals("Boolean")) {
                         info.append("msg.writeBoolean(false);\n");
                     } else if(structure.contains("loop")) {
-                        info.append("while(bool) {");
+                        info.append("while(bool) {\n");
                     } else if(structure.contains("}")) {
-                        info.append("}");
+                        info.append("}\n");
                     } else if(structure.equals("ExternalParser")) {
-                        info.append("// TODO: ExternalParser...");
+                        info.append("// TODO: ExternalParser...\n");
                     }
                 }
 
