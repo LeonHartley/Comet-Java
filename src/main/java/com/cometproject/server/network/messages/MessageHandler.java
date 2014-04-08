@@ -2,10 +2,7 @@ package com.cometproject.server.network.messages;
 
 import com.cometproject.server.network.messages.headers.Events;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.incoming.catalog.GetCataIndexMessageEvent;
-import com.cometproject.server.network.messages.incoming.catalog.GetCataPageMessageEvent;
-import com.cometproject.server.network.messages.incoming.catalog.HabboClubPackagesMessageEvent;
-import com.cometproject.server.network.messages.incoming.catalog.PurchaseItemMessageEvent;
+import com.cometproject.server.network.messages.incoming.catalog.*;
 import com.cometproject.server.network.messages.incoming.catalog.data.GetShopData2MessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.data.GetShopDataMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupDialogMessageEvent;
@@ -233,6 +230,7 @@ public class  MessageHandler {
         this.getMessages().put(Events.BuyGroupMessageEvent, new BuyGroupMessageEvent());
         this.getMessages().put(Events.PetRacesMessageEvent, new PetRacesMessageEvent());
         this.getMessages().put(Events.ValidatePetNameMessageEvent, new ValidatePetNameMessageEvent());
+        this.getMessages().put(Events.PurchaseGiftMessageEvent, new PurchaseGiftMessageEvent());
     }
 
 	public void handle(Event message, Session client) {
