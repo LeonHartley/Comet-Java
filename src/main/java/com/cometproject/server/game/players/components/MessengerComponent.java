@@ -109,16 +109,27 @@ public class MessengerComponent {
     }
 
     public void broadcast(Composer msg) {
-        for(MessengerFriend f : this.getFriends().values()) {
-            if(f.getClient() == null || f.getClient().getPlayer() == null) {
+        for(MessengerFriend friend : this.getFriends().values()) {
+            if(friend.getClient() == null || friend.getClient().getPlayer() == null || friend.getUserId() == this.getPlayer().getId()) {
                 continue;
             }
 
-            if(f.getUserId() == this.getPlayer().getId()) {
+            friend.getClient().send(msg);
+        }
+    }
+
+    public void broadcast(List<Integer> friends, Composer msg) {
+        for(int friendId : friends) {
+            if(friendId == this.player.getId() || !this.friends.containsKey(friendId) || this.friends.get(friendId).updateClient() == null)
+                continue;
+
+            MessengerFriend friend = this.friends.get(friendId);
+
+            if(friend.getClient().getPlayer() == null) {
                 continue;
             }
 
-            f.getClient().send(msg);
+            friend.getClient().send(msg);
         }
     }
 
