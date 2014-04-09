@@ -167,11 +167,14 @@ public class InventoryComponent {
     }
 
     public void dispose() {
-        this.getFloorItems().clear();
+        this.floorItems.clear();
         this.floorItems = null;
 
-        this.getWallItems().clear();
+        this.wallItems.clear();
         this.wallItems = null;
+
+        this.badges.clear();
+        this.badges.clear();
     }
 
     public int getTotalSize() {

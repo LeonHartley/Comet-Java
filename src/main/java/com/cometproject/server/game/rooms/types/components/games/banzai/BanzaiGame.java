@@ -9,6 +9,10 @@ import javolution.util.FastMap;
 import java.util.Map;
 
 public class BanzaiGame extends RoomGame {
+
+    //////////////////
+    // TODO: RECODE
+    //////////////////
     private Map<GameTeam, int[][]> capturedTiles;
     private Map<GameTeam, Integer> scores;
 

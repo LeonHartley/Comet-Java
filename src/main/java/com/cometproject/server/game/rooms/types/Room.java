@@ -24,7 +24,7 @@ public class Room {
     private GameComponent game;
     private EntityComponent entities;
 
-    private Group group;
+    private Group group = null; // TODO: Groups
 
     public Logger log;
     public boolean isActive;
@@ -36,7 +36,6 @@ public class Room {
 
         this.log = Logger.getLogger("Room \"" + this.getData().getName() + "\"");
         this.isActive = false;
-        group = null; // TODO: this
     }
 
     public void load() {
@@ -74,6 +73,7 @@ public class Room {
         this.bots.dispose();
         this.game.dispose();
         this.entities.dispose();
+        this.mapping.dispose();
 
         this.itemProcess = null;
         this.process = null;
@@ -84,6 +84,7 @@ public class Room {
         this.trade = null;
         this.bots = null;
         this.entities = null;
+        this.mapping = null;
 
         this.isActive = false;
         this.log.debug("Room disposed");
@@ -152,26 +153,5 @@ public class Room {
 
     public Group getGroup() {
         return this.group;
-    }
-
-    // TODO: make component for misc functionality
-
-    private int price = 0;
-    private boolean forSale = false;
-
-    public void setPrice(int i) {
-        price = i;
-    }
-
-    public void setForSale(boolean f) {
-        this.forSale = f;
-    }
-
-    public boolean isForSale() {
-        return this.forSale;
-    }
-
-    public int getPrice() {
-        return this.price;
     }
 }
