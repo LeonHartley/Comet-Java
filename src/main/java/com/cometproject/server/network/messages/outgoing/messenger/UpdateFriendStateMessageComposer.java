@@ -6,6 +6,17 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class UpdateFriendStateMessageComposer {
+    public static Composer compose(int action, int userId) {
+        Composer msg = new Composer(Composers.UpdateFriendStateMessageComposer);
+
+        msg.writeInt(0);
+        msg.writeInt(1);
+        msg.writeInt(action);
+        msg.writeInt(userId);
+
+        return msg;
+    }
+
     public static Composer compose(MessengerRequest request, boolean online, boolean inRoom) {
         return compose(request.getFromId(), request.getUsername(), request.getLook(), request.getMotto(), online, inRoom);
     }
@@ -28,7 +39,7 @@ public class UpdateFriendStateMessageComposer {
         msg.writeString(figure);
         msg.writeInt(0);
         msg.writeString(motto);
-        msg.writeString(""); // additional name ?
+        msg.writeString(""); // facebook name ?
         msg.writeString("");
         msg.writeBoolean(true);
         msg.writeBoolean(true);

@@ -86,6 +86,18 @@ public class MessengerComponent {
         this.getFriends().put(friend.getUserId(), friend);
     }
 
+
+    public void removeFriend(int userId) {
+        if(!this.friends.containsKey(userId)) {
+            return;
+        }
+
+        this.friends.remove(userId);
+
+        Comet.getServer().getStorage().execute("DELETE from messenger_friendships WHERE user_one_id = " + this.player.getId() + " AND user_two_id = " + userId);
+        this.player.getSession().send(UpdateFriendStateMessageComposer.compose(-1, userId));
+    }
+
     public MessengerRequest getRequestBySender(int sender) {
         for(MessengerRequest request : requests) {
             if(request.getFromId() == sender) {

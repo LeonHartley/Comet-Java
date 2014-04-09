@@ -56,6 +56,7 @@ import com.cometproject.server.network.messages.incoming.user.profile.WearBadgeM
 import com.cometproject.server.network.messages.incoming.user.wardrobe.ChangeLooksMessageEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.sun.deploy.panel.DeleteFilesDialog;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -119,6 +120,7 @@ public class  MessageHandler {
         this.getMessages().put(Events.AcceptFriendshipMessageEvent, new AcceptFriendshipMessageEvent());
         this.getMessages().put(Events.SearchFriendsMessageEvent, new SearchFriendsMessageEvent());
         this.getMessages().put(Events.FollowFriendMessageEvent, new FollowFriendMessageEvent());
+        this.getMessages().put(Events.DeleteFriendMessageEvent, new DeleteFriendMessageEvent());
     }
 
     public void registerNavigator() {
