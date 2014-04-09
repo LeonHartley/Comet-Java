@@ -21,8 +21,7 @@ public class PurchaseGiftMessageEvent implements IEvent {
         boolean showUsername = msg.readBoolean();
 
         GiftData data = new GiftData(pageId, itemId, sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername);
-        System.out.println(spriteId);
-        System.out.println("===");
-        System.out.println(data.toString(client.getPlayer().getId()));
+
+        // TODO: Handle purchase!
     }
 }

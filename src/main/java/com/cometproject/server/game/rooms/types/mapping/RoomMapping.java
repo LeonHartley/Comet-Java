@@ -5,9 +5,11 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomModel;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 
+import java.util.Arrays;
+
 public class RoomMapping {
-    private final Room room;
-    private final RoomModel model;
+    private Room room;
+    private RoomModel model;
 
     private TileInstance[][] tiles;
 
@@ -22,10 +24,10 @@ public class RoomMapping {
 
         this.tiles = new TileInstance[sizeX][sizeY];
 
-        for(int x = 0; x < sizeX; x++) {
+        for (int x = 0; x < sizeX; x++) {
             TileInstance[] xArray = new TileInstance[sizeY];
 
-            for(int y = 0; y < sizeY; y++) {
+            for (int y = 0; y < sizeY; y++) {
                 TileInstance instance = new TileInstance(this, new Position3D(x, y, 0d));
                 instance.reload();
 
@@ -34,6 +36,15 @@ public class RoomMapping {
 
             this.tiles[x] = xArray;
         }
+    }
+
+    public void dispose() {
+        for (TileInstance[] tile : tiles) {
+            Arrays.fill(tile, null);
+        }
+
+        this.room = null;
+        this.model = null;
     }
 
     public void updateTile(int x, int y) {
@@ -53,21 +64,21 @@ public class RoomMapping {
     }
 
     public boolean isValidStep(Position3D from, Position3D to, boolean lastStep) {
-        if(from.getX() == to.getX() && from.getY() == to.getY()) {
+        if (from.getX() == to.getX() && from.getY() == to.getY()) {
             return true;
         }
 
-        if(!isValidPosition(to) || (this.model.getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID) || positionHasUser(to)) {
+        if (!isValidPosition(to) || (this.model.getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID) || positionHasUser(to)) {
             return false;
         }
 
         TileInstance tile = tiles[to.getX()][to.getY()];
 
-        if(tile == null) {
+        if (tile == null) {
             return false;
         }
 
-        if(tile.getMovementNode() == RoomEntityMovementNode.CLOSED || (tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep)) {
+        if (tile.getMovementNode() == RoomEntityMovementNode.CLOSED || (tile.getMovementNode() == RoomEntityMovementNode.END_OF_ROUTE && !lastStep)) {
             return false;
         }
 
