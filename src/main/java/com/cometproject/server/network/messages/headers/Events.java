@@ -103,7 +103,7 @@ public class Events {
     public static short PlacePostitMessageEvent = 361;
     public static short AddToStaffPickedRoomsMessageEvent = 1329;
     public static short PurchaseGiftMessageEvent = 2304;
-    public static short DeleteFriendMessageEvent = 3055;
+    public static short DeleteFriendsMessageEvent = 3055;
     public static short OneWayGateTriggerMessageEvent = 3999;
 
 
