@@ -44,6 +44,10 @@ public class TileInstance {
                 case "gate":
                     movementNode = item.getExtraData().equals("1") ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
                     break;
+
+                case "onewaygate":
+                    movementNode = RoomEntityMovementNode.CLOSED;
+                    break;
             }
 
             if(item.getDefinition().canSit) {
