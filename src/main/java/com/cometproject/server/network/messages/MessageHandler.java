@@ -208,6 +208,7 @@ public class  MessageHandler {
         this.getMessages().put(Events.ChangeWallItemPositionMessageEvent, new ChangeWallItemPositionMessageEvent());
         this.getMessages().put(Events.PickUpItemMessageEvent, new PickUpItemMessageEvent());
         this.getMessages().put(Events.ChangeFloorItemStateMessageEvent, new ChangeFloorItemStateMessageEvent());
+        this.getMessages().put(Events.OneWayGateTriggerMessageEvent, new ChangeFloorItemStateMessageEvent());
         this.getMessages().put(Events.OpenDiceMessageEvent, new OpenDiceMessageEvent());
         this.getMessages().put(Events.RunDiceMessageEvent, new RunDiceMessageEvent());
         this.getMessages().put(Events.SaveWiredTriggerMessageEvent, new SaveWiredMessageEvent());
