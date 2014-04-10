@@ -1,12 +1,15 @@
 package com.cometproject.tools.ui;
 
 import com.cometproject.tools.CometTools;
+import com.cometproject.tools.packets.PacketManager;
 import com.cometproject.tools.packets.instances.MessageComposer;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CometWindow extends JFrame {
     public static final String WINDOW_TITLE = "Comet Tools";
@@ -18,6 +21,9 @@ public class CometWindow extends JFrame {
     private JTabbedPane tabbedPane1;
     private JList<String> list1;
     private JTextArea packetInformation;
+    private JButton packetManagerInit;
+    private JTextPane loggerConsole;
+    private JButton startLogger;
 
     public CometWindow(CometTools tools) {
         this.tools = tools;
@@ -38,10 +44,13 @@ public class CometWindow extends JFrame {
 
         this.pack();
 
-        initPacketList();
+        this.packetManagerInit.addActionListener(new CometPacketInitListener());
+        this.startLogger.addActionListener(new CometPacketLoggerStartListener());
     }
 
     private void initPacketList() {
+        tools.setPacketManager(new PacketManager());
+
         DefaultListModel<String> model = new DefaultListModel<>();
 
         for(MessageComposer msg : tools.getPacketManager().getNewRevision().getComposers().values()) {
@@ -52,8 +61,14 @@ public class CometWindow extends JFrame {
         this.list1.addListSelectionListener(new CometPacketSelectionHandler());
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
+    private void initPacketLogger() {
+        this.loggerConsole.setText(this.loggerConsole.getText() + "Starting packet logger....\n");
+
+        if(this.tools.getPacketLogger().start()) {
+            this.loggerConsole.setText(this.loggerConsole.getText() + "Packet logger started successfully\n");
+        } else {
+            this.loggerConsole.setText(this.loggerConsole.getText() + "Packet logger failed to start\n");
+        }
     }
 
     private class CometPacketSelectionHandler implements ListSelectionListener {
@@ -95,6 +110,24 @@ public class CometWindow extends JFrame {
             } catch(Exception ex) {
                 ex.printStackTrace();
             }
+        }
+    }
+
+    private class CometPacketInitListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            initPacketList();
+
+            packetManagerInit.setVisible(false);
+        }
+    }
+
+    private class CometPacketLoggerStartListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            initPacketLogger();
         }
     }
 }
