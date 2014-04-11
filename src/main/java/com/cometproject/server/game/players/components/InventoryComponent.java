@@ -2,6 +2,7 @@ package com.cometproject.server.game.players.components;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.outgoing.misc.AlertMessageComposer;
@@ -113,8 +114,8 @@ public class InventoryComponent {
         return badges;
     }
 
-    public void add(int id, int itemId, String extraData) {
-        InventoryItem item = new InventoryItem(id, itemId, extraData);
+    public void add(int id, int itemId, String extraData, GiftData giftData) {
+        InventoryItem item = new InventoryItem(id, itemId, extraData, giftData);
         if(item.getDefinition().getType().equals("s")) {
             this.getFloorItems().put(id, item);
         }
@@ -122,6 +123,10 @@ public class InventoryComponent {
         if(item.getDefinition().getType().equals("i")) {
             this.getWallItems().put(id, item);
         }
+    }
+
+    public void add(int id, int itemId, String extraData) {
+        add(id, itemId, extraData, null);
     }
 
     public void addItem(InventoryItem item) {

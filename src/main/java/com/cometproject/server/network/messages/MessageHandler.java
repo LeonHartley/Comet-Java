@@ -45,6 +45,7 @@ import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.ChangeMottoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.UserInformationMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.gifts.OpenGiftMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.BadgeInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.BotInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.OpenInventoryMessageEvent;
@@ -220,6 +221,7 @@ public class  MessageHandler {
         this.getMessages().put(Events.SaveTonerMessageEvent, new SaveTonerMessageEvent());
         this.getMessages().put(Events.SaveBrandingMessageEvent, new SaveBrandingMessageEvent());
         this.getMessages().put(Events.ChangeWallItemStateMessageEvent, new ChangeWallItemStateMessageEvent());
+        this.getMessages().put(Events.OpenGiftMessageEvent, new OpenGiftMessageEvent());
     }
 
     public void registerCatalog() {

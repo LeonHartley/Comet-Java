@@ -1,6 +1,7 @@
 package com.cometproject.server.game.catalog;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.catalog.purchase.CatalogPurchaseHandler;
 import com.cometproject.server.game.catalog.types.CatalogClubOffer;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
@@ -16,6 +17,8 @@ public class CatalogManager {
     private List<CatalogClubOffer> clubOffers;
     private Map<Integer, CatalogPage> pages;
 
+    private CatalogPurchaseHandler purchaseHandler;
+
     private int itemCount = 0;
 
     private Logger log = Logger.getLogger(CatalogManager.class.getName());
@@ -23,6 +26,8 @@ public class CatalogManager {
     public CatalogManager() {
         this.clubOffers = new FastList<>();
         this.pages = new FastMap<>();
+
+        this.purchaseHandler = new CatalogPurchaseHandler(this);
 
         this.loadClubOffers();
         this.loadPages();
@@ -114,5 +119,9 @@ public class CatalogManager {
 
     public Map<Integer, CatalogPage> getPages() {
         return this.pages;
+    }
+
+    public CatalogPurchaseHandler getPurchaseHandler() {
+        return purchaseHandler;
     }
 }

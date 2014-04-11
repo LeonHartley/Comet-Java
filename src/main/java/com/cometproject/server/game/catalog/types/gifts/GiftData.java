@@ -5,17 +5,19 @@ import com.cometproject.server.game.GameEngine;
 public class GiftData {
     private int pageId;
     private int itemId;
-    private String sendingUser;
+    private int senderId;
+    private String receiver;
     private String message;
     private int spriteId;
     private int wrappingPaper;
     private int decorationType;
     private boolean showUsername;
 
-    public GiftData(int pageId, int itemId, String sendingUser, String message, int spriteId, int wrappingPaper, int decorationType, boolean showUsername) {
+    public GiftData(int pageId, int itemId, int senderId, String sendingUser, String message, int spriteId, int wrappingPaper, int decorationType, boolean showUsername) {
         this.pageId = pageId;
         this.itemId = itemId;
-        this.sendingUser = sendingUser;
+        this.senderId = senderId;
+        this.receiver = sendingUser;
         this.message = message;
         this.spriteId = spriteId;
         this.wrappingPaper = wrappingPaper;
@@ -25,7 +27,8 @@ public class GiftData {
 
     private int pos = 0;
 
-    public String toString(int senderId) {
+    @Override
+    public String toString() {
         if (pos != 0)
             pos = 0;
 
@@ -64,8 +67,8 @@ public class GiftData {
         return itemId;
     }
 
-    public String getSendingUser() {
-        return sendingUser;
+    public String getReceiver() {
+        return receiver;
     }
 
     public String getMessage() {
@@ -86,5 +89,9 @@ public class GiftData {
 
     public boolean isShowUsername() {
         return showUsername;
+    }
+
+    public int getSenderId() {
+        return senderId;
     }
 }
