@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.components.types;
 
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.types.Composer;
 
@@ -11,6 +12,7 @@ public class InventoryItem {
     private int id;
     private int baseId;
     private String extraData;
+    private GiftData giftData;
 
     public InventoryItem(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
@@ -18,10 +20,19 @@ public class InventoryItem {
         this.extraData = data.getString("extra_data");
     }
 
+    public InventoryItem(int id, int baseId, String extraData, GiftData giftData) {
+        this.init(id, baseId, extraData, giftData);
+    }
+
     public InventoryItem(int id, int baseId, String extraData) {
+        this.init(id, baseId, extraData, null);
+    }
+
+    private void init(int id, int baseId, String extraData, GiftData giftData) {
         this.id = id;
         this.baseId = baseId;
         this.extraData = extraData;
+        this.giftData = giftData;
     }
 
     public void serializeTrade(Composer msg) {
@@ -56,5 +67,9 @@ public class InventoryItem {
 
     public String getExtraData() {
         return this.extraData;
+    }
+
+    public GiftData getGiftData() {
+        return giftData;
     }
 }

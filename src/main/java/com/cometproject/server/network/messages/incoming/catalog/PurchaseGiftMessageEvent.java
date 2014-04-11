@@ -1,7 +1,10 @@
 package com.cometproject.server.network.messages.incoming.catalog;
 
+import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
+import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -11,7 +14,7 @@ public class PurchaseGiftMessageEvent implements IEvent {
         int pageId = msg.readInt();
         int itemId = msg.readInt();
 
-        msg.readString();
+        String extraData = msg.readString();
 
         String sendingUser = msg.readString();
         String message = msg.readString();
@@ -20,8 +23,8 @@ public class PurchaseGiftMessageEvent implements IEvent {
         int decorationType = msg.readInt();
         boolean showUsername = msg.readBoolean();
 
-        GiftData data = new GiftData(pageId, itemId, sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername);
+        GiftData data = new GiftData(pageId, itemId, client.getPlayer().getId(), sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername);
 
-        // TODO: Handle purchase!
+        GameEngine.getCatalog().getPurchaseHandler().handle(client, pageId, itemId, extraData, 1, data);
     }
 }

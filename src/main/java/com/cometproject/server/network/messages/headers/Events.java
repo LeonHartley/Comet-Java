@@ -105,6 +105,7 @@ public class Events {
     public static short PurchaseGiftMessageEvent = 2304;
     public static short DeleteFriendsMessageEvent = 3055;
     public static short OneWayGateTriggerMessageEvent = 3999;
+    public static short OpenGiftMessageEvent = 2563;
 
 
     public static short ManageGroupMessageEvent = 454;

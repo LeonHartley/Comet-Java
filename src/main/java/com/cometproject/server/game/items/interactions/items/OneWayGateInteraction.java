@@ -36,7 +36,7 @@ public class OneWayGateInteraction extends Interactor {
         item.setExtraData("1");
         item.sendUpdate();
 
-        item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, 10));
+        item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, 14));
         return false;
     }
 

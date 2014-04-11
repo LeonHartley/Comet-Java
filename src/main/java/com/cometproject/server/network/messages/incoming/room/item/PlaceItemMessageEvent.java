@@ -22,10 +22,6 @@ public class PlaceItemMessageEvent implements IEvent {
         String[] parts = msg.readString().split(" ");
         int id = Integer.parseInt(parts[0].replace("-", ""));
 
-        //if(!client.getPlayer().getData().getUsername().equals(client.getPlayer().getEntity().getRoom().getData().getOwner())) {
-        //    return;
-        //}
-
         if(!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;
         }
@@ -106,7 +102,7 @@ public class PlaceItemMessageEvent implements IEvent {
 
                 client.getPlayer().getInventory().removeFloorItem(id);
 
-                FloorItem floorItem = room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
+                FloorItem floorItem = room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getGiftData());
                 List<Position3D> tilesToUpdate = new FastList<>();
 
                 tilesToUpdate.add(new Position3D(floorItem.getX(), floorItem.getY(), 0d));
