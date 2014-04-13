@@ -49,6 +49,7 @@ public class BallInteraction extends Interactor {
 
         floorItem.setHeight((float) newPosition.getZ());
 
+        floorItem.setExtraData("2");
 
         floorItem.setNeedsUpdate(true);
         return false;
@@ -171,7 +172,8 @@ public class BallInteraction extends Interactor {
                 continue;
             }
 
-            positions.add(nextPosition);
+            if(i > 1)
+                positions.add(nextPosition);
 
             if(needsReverse) {
                 nextPosition = nextPosition.squareBehind(item.getRotation());

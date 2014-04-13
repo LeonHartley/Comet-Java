@@ -54,7 +54,7 @@ public class Comet {
                                     Comet.log.error("Invalid command");
                                     break;
                                 case "/":
-                                    Comet.log.info("Commands available: /about, /reload_messages, /gc, /reload_permissions, /changemotd, /reload_catalog, /reload_bans, /reload_locale");
+                                    Comet.log.info("Commands available: /about, /reload_messages, /gc, /reload_permissions, /changemotd, /reload_catalog, /reload_bans, /reload_locale, /reload_permissions");
                                     break;
 
                                 case "/about":
@@ -152,7 +152,7 @@ public class Comet {
         //          b = if there was an update just before letter A was distributed, b will be appended
         //          c = Pre-release  -- must be mostly stable/usable
         //          no letter = release!  -- must be stable
-        return "0.7.0";
+        return "0.7.1a";
     }
 
     public static CometServer getServer() {

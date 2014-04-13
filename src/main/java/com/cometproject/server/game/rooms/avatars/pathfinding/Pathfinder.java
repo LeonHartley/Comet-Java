@@ -57,7 +57,7 @@ public class Pathfinder {
                 tmp = current.getPosition().add(movePoints()[i]);
                 boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
 
-                if (entity.getRoom().getMapping().isValidStep(new Position3D(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove) || entity.isInTeleporter()) {
+                if (entity.getRoom().getMapping().isValidStep(new Position3D(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove) || entity.isOverriden()) {
                     if (map[tmp.getX()][tmp.getY()] == null) {
                         node = new PathfinderNode(tmp);
                         map[tmp.getX()][tmp.getY()] = node;

@@ -13,7 +13,7 @@ import javolution.util.FastList;
 import java.util.List;
 
 public class BuyGroupMessageEvent implements IEvent {
-    public void handle(Session client, Event msg) {
+   public void handle(Session client, Event msg) {
         if(client.getPlayer().getData().getCredits() < CometSettings.groupCost) {
             return;
         }
@@ -28,20 +28,19 @@ public class BuyGroupMessageEvent implements IEvent {
         int roomId = msg.readInt();
         int colour1 = msg.readInt();
         int colour2 = msg.readInt();
-
-        msg.readInt();
+        /*int stateCount = msg.readInt() - 3;
         int groupBase = msg.readInt();
         int groupBaseColour = msg.readInt();
         int groupItemsLength = msg.readInt();
 
         List<Integer> groupItems = new FastList<>();
 
-        for(int i = 0; i < (groupItemsLength * 3); i++) {
+        for(int i = 0; i < (stateCount); i++) {
             groupItems.add(msg.readInt());
         }
 
-        String badge = GameEngine.getGroups().generateBadge(groupBase, groupBaseColour, groupItems);
-       /* int groupBase4 = msg.readInt();
+        String badge = GameEngine.getGroups().generateBadge(groupBase, groupBaseColour, groupItems);*/
+        int groupBase4 = msg.readInt();
         int groupBase5 = msg.readInt();
         int groupBase6 = msg.readInt();
         int groupBase7 = msg.readInt();
@@ -63,9 +62,10 @@ public class BuyGroupMessageEvent implements IEvent {
         String s3 = GameEngine.getGroups().checkSymbol("s" + ((groupBase13 < 10) ? "0" + groupBase13 : groupBase13) + ((groupBase14 < 10) ? "0" + groupBase14 : groupBase14) + groupBase15);
         String s4 = GameEngine.getGroups().checkSymbol("s" + ((groupBase16 < 10) ? "0" + groupBase16 : groupBase16) + ((groupBase17 < 10) ? "0" + groupBase17 : groupBase17) + groupBase18);
 
-        String badge = base + s1 + s2 + s2 + s3 + s4;*/
+        String badge = base + s1 + s2 + s2 + s3 + s4;
 
         client.send(BoughtItemMessageComposer.compose());
         Group group = GameEngine.getGroups().createGroup(name, desc, roomId, badge, client, GameEngine.getGroups().getSymbolColours().containsKey(colour1) ? colour1 : 1, GameEngine.getGroups().getBackgroundColours().containsKey(colour2) ? colour2 : 1);
     }
+
 }

@@ -2,7 +2,6 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.interactions.InteractionAction;
-import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -16,7 +15,6 @@ import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.utilities.RandomInteger;
 import com.cometproject.server.utilities.TimeSpan;
@@ -26,7 +24,6 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -291,7 +288,7 @@ public class ProcessComponent implements CometTask {
 
             boolean isLastStep = (entity.getProcessingPath().size() == 0);
 
-            if (nextSq != null && entity.getRoom().getMapping().isValidStep(entity.getPosition(), new Position3D(nextSq.x, nextSq.y, 0), isLastStep) || entity.isInTeleporter()) {
+            if (nextSq != null && entity.getRoom().getMapping().isValidStep(entity.getPosition(), new Position3D(nextSq.x, nextSq.y, 0), isLastStep) || entity.isOverriden()) {
                 Position3D currentPos = entity.getPosition() != null ? entity.getPosition() : new Position3D(0, 0, 0);
                 entity.setBodyRotation(Position3D.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
                 entity.setHeadRotation(entity.getBodyRotation());

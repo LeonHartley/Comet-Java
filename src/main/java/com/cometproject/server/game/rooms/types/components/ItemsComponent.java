@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -70,8 +71,8 @@ public class ItemsComponent {
         }
     }
 
-    public FloorItem addFloorItem(int id, int baseId, int roomId, int ownerId, int x, int y, int rot, double height, String data) {
-        FloorItem item = new FloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+    public FloorItem addFloorItem(int id, int baseId, int roomId, int ownerId, int x, int y, int rot, double height, String data, GiftData giftData) {
+        FloorItem item = new FloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data, giftData);
         this.getFloorItems().add(item);
 
         return item;

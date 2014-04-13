@@ -86,6 +86,18 @@ public class MessengerComponent {
         this.getFriends().put(friend.getUserId(), friend);
     }
 
+
+    public void removeFriend(int userId) {
+        if(!this.friends.containsKey(userId)) {
+            return;
+        }
+
+        this.friends.remove(userId);
+
+        Comet.getServer().getStorage().execute("DELETE from messenger_friendships WHERE user_one_id = " + this.player.getId() + " AND user_two_id = " + userId);
+        this.player.getSession().send(UpdateFriendStateMessageComposer.compose(-1, userId));
+    }
+
     public MessengerRequest getRequestBySender(int sender) {
         for(MessengerRequest request : requests) {
             if(request.getFromId() == sender) {
@@ -97,16 +109,27 @@ public class MessengerComponent {
     }
 
     public void broadcast(Composer msg) {
-        for(MessengerFriend f : this.getFriends().values()) {
-            if(f.getClient() == null || f.getClient().getPlayer() == null) {
+        for(MessengerFriend friend : this.getFriends().values()) {
+            if(friend.getClient() == null || friend.getClient().getPlayer() == null || friend.getUserId() == this.getPlayer().getId()) {
                 continue;
             }
 
-            if(f.getUserId() == this.getPlayer().getId()) {
+            friend.getClient().send(msg);
+        }
+    }
+
+    public void broadcast(List<Integer> friends, Composer msg) {
+        for(int friendId : friends) {
+            if(friendId == this.player.getId() || !this.friends.containsKey(friendId) || this.friends.get(friendId).updateClient() == null)
+                continue;
+
+            MessengerFriend friend = this.friends.get(friendId);
+
+            if(friend.getClient().getPlayer() == null) {
                 continue;
             }
 
-            f.getClient().send(msg);
+            friend.getClient().send(msg);
         }
     }
 

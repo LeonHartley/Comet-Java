@@ -27,6 +27,9 @@ public class TileInstance {
         this.canStack = true;
 
         for(FloorItem item : mappingInstance.getRoom().getItems().getItemsOnSquare(this.position.getX(), this.position.getY())) {
+            if(item.getDefinition() == null)
+                continue;
+
             boolean isGate = item.getDefinition().getInteraction().equals("gate");
             stackHeight += item.getHeight() + Math.round(item.getDefinition().getHeight());
 
@@ -43,6 +46,10 @@ public class TileInstance {
 
                 case "gate":
                     movementNode = item.getExtraData().equals("1") ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
+                    break;
+
+                case "onewaygate":
+                    movementNode = RoomEntityMovementNode.CLOSED;
                     break;
             }
 
