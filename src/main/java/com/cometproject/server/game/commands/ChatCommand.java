@@ -34,17 +34,17 @@ public abstract class ChatCommand {
 
     public static String merge(String[] params, int Begin) {
 
-        StringBuilder MergedParams = new StringBuilder();
+        StringBuilder mergedParams = new StringBuilder();
         int i = Begin;
         while (i < params.length)
         {
-           MergedParams.append(" ");
-           MergedParams.append(params[i]);
+           mergedParams.append(" ");
+           mergedParams.append(params[i]);
            i++;
         }
 
 
-        return MergedParams.toString();
+        return mergedParams.toString();
     }
 
 }
