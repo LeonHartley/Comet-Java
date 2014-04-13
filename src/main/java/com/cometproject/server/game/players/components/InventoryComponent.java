@@ -79,18 +79,39 @@ public class InventoryComponent {
         if(!badges.containsKey(code)) {
             if(insert) {
                 try {
-                    PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into player_badges (`player_id`, `badge_code`) VALUES(?, ?)");
+                    PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT INTO player_badges (`player_id`, `badge_code`) VALUES (?, ?)");
 
                     statement.setInt(1, this.getPlayer().getId());
                     statement.setString(2, code);
+                    statement.execute();
                 } catch (SQLException e) {
-                   log.error("Error while inserting badge to database");
+                    log.error("Error while inserting badge to database");
                 }
             }
 
             // 0 = slot
             this.badges.put(code, 0);
             this.player.getSession().send(AlertMessageComposer.compose(Locale.get("badge.get")));
+        }
+    }
+
+    public void removeBadge(String code, boolean delete) {
+        if(badges.containsKey(code)) {
+            if(delete) {
+                try {
+                    PreparedStatement statement = Comet.getServer().getStorage().prepare("DELETE FROM player_badges WHERE player_id = ? AND badge_code = ?");
+
+                    statement.setInt(1, this.getPlayer().getId());
+                    statement.setString(2, code);
+                    statement.execute();
+                } catch (SQLException e) {
+                    log.error("Error while deleting badge to database");
+                }
+            }
+
+            // 0 = slot
+            this.badges.remove(code, 0);
+            this.player.getSession().send(AlertMessageComposer.compose(Locale.get("badge.deleted")));
         }
     }
 
