@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.components.games;
 
+import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
@@ -8,12 +9,14 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public abstract class RoomGame implements Runnable {
+    // TODO: recode this to use comet's thread pool
+
     private Map<Integer, GameTeam> teams;
-    private GameType type = GameType.OTHER;
-    private int timer = 0;
-    private int gameLength = 0;
-    private boolean started = false;
-    private Room room = null;
+    private GameType type;
+    protected int timer;
+    protected int gameLength;
+    private boolean started;
+    protected Room room;
 
     private Thread thread;
     private Logger log;
@@ -25,16 +28,19 @@ public abstract class RoomGame implements Runnable {
         this.room = room;
     }
 
-
     @Override
     public void run() {
         try {
+            gameStarts();
+
             while(timer <= gameLength) {
                 tick();
 
                 timer++;
                 TimeUnit.SECONDS.sleep(1);
             }
+
+            gameEnds();
         } catch(Exception e) {
             log.error("Error during game tick", e);
         }
@@ -76,6 +82,8 @@ public abstract class RoomGame implements Runnable {
     }
 
     public abstract void tick();
+    public abstract void gameEnds();
+    public abstract void gameStarts();
 
     public GameType getType() {
         return this.type;

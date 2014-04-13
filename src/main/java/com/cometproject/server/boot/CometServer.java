@@ -8,6 +8,7 @@ import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.GameThread;
 import com.cometproject.server.monitor.SystemMonitor;
 import com.cometproject.server.network.NetworkEngine;
+import com.cometproject.server.plugins.PluginEngine;
 import com.cometproject.server.storage.StorageEngine;
 import com.cometproject.server.tasks.CometThreadManagement;
 
@@ -17,6 +18,7 @@ public class CometServer {
     private CometThreadManagement threadManagement;
 
     private StorageEngine storageEngine;
+    private PluginEngine pluginEngine;
     private NetworkEngine networkEngine;
     private SystemMonitor systemMonitor;
 
@@ -27,6 +29,7 @@ public class CometServer {
 
         threadManagement = new CometThreadManagement();
         storageEngine = new StorageEngine();
+        pluginEngine = new PluginEngine();
         systemMonitor = new SystemMonitor(threadManagement);
 
         Locale.init();
@@ -64,4 +67,8 @@ public class CometServer {
     }
 
     public CometThreadManagement getThreadManagement() { return this.threadManagement; }
+
+    public PluginEngine getPluginEngine() {
+        return pluginEngine;
+    }
 }

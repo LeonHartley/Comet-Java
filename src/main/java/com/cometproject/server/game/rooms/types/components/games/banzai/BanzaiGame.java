@@ -1,5 +1,9 @@
 package com.cometproject.server.game.rooms.types.components.games.banzai;
 
+import com.cometproject.server.game.items.interactions.InteractionAction;
+import com.cometproject.server.game.items.interactions.InteractionQueueItem;
+import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
@@ -9,12 +13,12 @@ import javolution.util.FastMap;
 import java.util.Map;
 
 public class BanzaiGame extends RoomGame {
-
-    //////////////////
-    // TODO: RECODE
-    //////////////////
     private Map<GameTeam, int[][]> capturedTiles;
     private Map<GameTeam, Integer> scores;
+
+    //private Map<Integer, BanzaiTile> tiles;
+
+    private RoomItem timerItem;
 
     public BanzaiGame(Room room) {
         super(room, GameType.BANZAI);
@@ -41,13 +45,32 @@ public class BanzaiGame extends RoomGame {
             if(!scores.containsKey(team))
                 scores.put(team, 0);
         }
+
+        timerItem = room.getItems().getByInteraction("bb_timer").get(0);
     }
 
     @Override
     public void tick() {
-        // TODO: banzai game tick (?)
+        // Update item timer's value ?
+        timerItem.setExtraData((gameLength - timer) + "");
+        timerItem.sendUpdate();
 
         this.getLog().info("Game tick");
+    }
+
+    @Override
+    public void gameEnds() {
+        for(FloorItem item : this.room.getItems().getByInteraction("bb_patch")) {
+            // TODO: this
+        }
+    }
+
+    @Override
+    public void gameStarts() {
+        for(FloorItem item : this.room.getItems().getByInteraction("bb_patch")) {
+            item.setExtraData("1");
+            item.sendUpdate();
+        }
     }
 
     public void captureTile(int x, int y, GameTeam team) {
@@ -67,16 +90,27 @@ public class BanzaiGame extends RoomGame {
         // increase the level of tile
         capturedTiles.get(team)[x][y]++;
 
+        int score = scores.get(team);
+
         if(capturedTiles.get(team)[x][y] > 2) {
-            // maybe increase score idk
-            int score = scores.get(team);
             score++;
 
             scores.remove(team);
             scores.put(team, score);
         }
 
-        // TODO: broadcast score etc.
+        for(FloorItem item : this.room.getItems().getItemsOnSquare(x, y)) {
+            if(item.getDefinition().getInteraction().equals("bb_patch")) {
+                int patchValue = Integer.parseInt(item.getExtraData());
+
+                if(patchValue < 3) {
+                    patchValue = 1;
+                }
+
+                item.setExtraData((patchValue + (team.getTeamId() * 3) - 1) + "");
+                item.sendUpdate();
+            }
+        }
     }
 
     public int getScore(GameTeam team) {

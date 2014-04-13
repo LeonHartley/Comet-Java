@@ -86,7 +86,7 @@ public class ItemsComponent {
     }
 
     public List<FloorItem> getItemsOnSquare(int x, int y) {
-        List<FloorItem> items = new ArrayList<>();
+        List<FloorItem> items = new FastList<>();
 
         for(FloorItem item : this.getFloorItems()) {
             if(item.getX() == x && item.getY() == y) {
@@ -126,6 +126,18 @@ public class ItemsComponent {
         }
 
         return null;
+    }
+
+    public List<FloorItem> getByInteraction(String interaction) {
+        List<FloorItem> items = new FastList<>();
+
+        for(FloorItem floorItem : this.floorItems) {
+            if(floorItem.getDefinition().getInteraction().equals(interaction)) {
+                items.add(floorItem);
+            }
+        }
+
+        return items;
     }
 
     public void removeItem(WallItem item, Session client) {
