@@ -128,7 +128,7 @@ public class GroupManager {
     // author: Carlos D.
     public String generateBadge(int groupBase, int groupBaseColor, List<Integer> list)
     {
-        String str;
+        /*String str;
         int num;
 
         String str2 = "b";
@@ -197,7 +197,34 @@ public class GroupManager {
                     break;
             }
         }
-        return str2;
+        return str2;*/
+
+        /*
+        internal string GenerateGuildImage(int GuildBase, int GuildBaseColor, List<int> states)
+        {
+            StringBuilder image = new StringBuilder(String.Format("b{0:00}{1:00}", GuildBase, GuildBaseColor));
+
+            for (int i = 0; i < 3 * 4; i += 3)
+            {
+                if (i >= states.Count)
+                    image.Append("s");
+                else
+                    image.Append(String.Format("s{0:00}{1:00}{2}", states[i] - 20, states[i + 1], states[i + 2]));
+            }
+
+            return image.ToString();
+        }
+*/
+        StringBuilder image = new StringBuilder("b" + groupBase + groupBaseColor);
+
+        for (int i = 0; i < 3 * 4; i += 3) {
+            if (i >= list.size())
+                image.append("s");
+            else
+                image.append(list.get(i) - 20 + "" + list.get(i + 1) + "" + list.get(i + 2));
+        }
+
+        return image.toString();
     }
 
     public String checkSymbol(String symbol) {
