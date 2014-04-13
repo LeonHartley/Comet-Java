@@ -18,6 +18,7 @@ public class PlacePetMessageEvent implements IEvent {
             return;
         }
 
-        client.getPlayer().getEntity().getRoom().getEntities().addEntity(new PetEntity(pet, client.getPlayer().getEntity().getRoom().getEntities().get new Position3D(msg.readInt(), msg.readInt()), 0, 0, client.getPlayer().getEntity().getRoom()));
+        // TODO: this
+       // client.getPlayer().getEntity().getRoom().getEntities().addEntity(new PetEntity(pet, client.getPlayer().getEntity().getRoom().getEntities().get new Position3D(msg.readInt(), msg.readInt()), 0, 0, client.getPlayer().getEntity().getRoom()));
     }
 }

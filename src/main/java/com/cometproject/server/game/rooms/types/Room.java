@@ -85,6 +85,7 @@ public class Room {
         this.bots = null;
         this.entities = null;
         this.mapping = null;
+        this.model = null;
 
         this.isActive = false;
         this.log.debug("Room disposed");
