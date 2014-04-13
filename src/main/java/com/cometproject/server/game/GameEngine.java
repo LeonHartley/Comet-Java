@@ -32,8 +32,8 @@ public class GameEngine {
 
     public static void init() {
         permissionsManager = new PermissionsManager();
-        catalogManager = new CatalogManager();
         itemManager = new ItemManager();
+        catalogManager = new CatalogManager();
         roomManager = new RoomManager();
         navigatorManager = new NavigatorManager();
         commandManager = new CommandManager();

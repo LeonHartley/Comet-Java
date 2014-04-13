@@ -26,6 +26,7 @@
     <orderEntry type="library" name="Maven: net.sf.ehcache:ehcache:2.8.1" level="project" />
     <orderEntry type="library" name="Maven: net.spy:spymemcached:2.10.6" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:20030203.000129" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:20030203.000550" level="project" />
   </component>
 </module>
 

@@ -4,10 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.items.interactions.banzai.BanzaiPatchInteraction;
 import com.cometproject.server.game.items.interactions.banzai.BanzaiTeleportInteraction;
-import com.cometproject.server.game.items.interactions.banzai.gates.BanzaiGateBlueInteraction;
-import com.cometproject.server.game.items.interactions.banzai.gates.BanzaiGateGreenInteraction;
-import com.cometproject.server.game.items.interactions.banzai.gates.BanzaiGateRedInteraction;
-import com.cometproject.server.game.items.interactions.banzai.gates.BanzaiGateYellowInteraction;
+import com.cometproject.server.game.items.interactions.banzai.gates.BanzaiGateInteraction;
 import com.cometproject.server.game.items.interactions.football.BallInteraction;
 import com.cometproject.server.game.items.interactions.items.*;
 import com.cometproject.server.game.items.interactions.wired.action.WiredActionMoveRotate;
@@ -67,10 +64,10 @@ public class InteractionManager {
 
         // Banzai
         this.interactions.put("bb_patch", new BanzaiPatchInteraction());
-        this.interactions.put("bb_green_gate", new BanzaiGateGreenInteraction());
-        this.interactions.put("bb_yellow_gate", new BanzaiGateYellowInteraction());
-        this.interactions.put("bb_blue_gate", new BanzaiGateBlueInteraction());
-        this.interactions.put("bb_red_gate", new BanzaiGateRedInteraction());
+        this.interactions.put("bb_green_gate", new BanzaiGateInteraction());
+        this.interactions.put("bb_yellow_gate", new BanzaiGateInteraction());
+        this.interactions.put("bb_blue_gate", new BanzaiGateInteraction());
+        this.interactions.put("bb_red_gate", new BanzaiGateInteraction());
         this.interactions.put("bb_teleport", new BanzaiTeleportInteraction());
     }
 

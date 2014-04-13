@@ -1,6 +1,7 @@
 package com.cometproject.server.game.catalog;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.catalog.purchase.CatalogPurchaseHandler;
 import com.cometproject.server.game.catalog.types.CatalogClubOffer;
 import com.cometproject.server.game.catalog.types.CatalogItem;
@@ -62,7 +63,12 @@ public class CatalogManager {
                 itemCount++;
 
                 CatalogItem i = new CatalogItem(item);
-                items.put(i.getId(), i);
+
+                //if(GameEngine.getItems().getDefintion(i.getId()) == null) {
+                //    log.error("Inconsistent item data for catalog item: " + i.getId());
+                //} else {
+                    items.put(i.getId(), i);
+                //}
             }
         } catch(Exception e) {
             log.error("Error while loading items for page: " + pageId, e);

@@ -15,6 +15,7 @@ import com.cometproject.server.network.messages.outgoing.user.permissions.Fuseri
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.plugins.types.PluginPlayer;
 
 import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
@@ -83,5 +84,7 @@ public class SSOTicketMessageEvent implements IEvent {
         if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             client.send(ModToolMessageComposer.compose());
         }
+
+        Comet.getServer().getPluginEngine().invokePlayerCommand("test", PluginPlayer.create(player));
     }
 }
