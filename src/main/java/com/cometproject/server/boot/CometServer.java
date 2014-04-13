@@ -10,6 +10,7 @@ import com.cometproject.server.monitor.SystemMonitor;
 import com.cometproject.server.network.NetworkEngine;
 import com.cometproject.server.storage.StorageEngine;
 import com.cometproject.server.tasks.CometThreadManagement;
+import com.cometproject.server.game.rooms.avatars.misc.FilterManager;
 
 public class CometServer {
     private Configuration config;
@@ -31,7 +32,6 @@ public class CometServer {
 
         Locale.init();
         GameEngine.init();
-
         CometCache.create();
 
         networkEngine = new NetworkEngine(this.getConfig().get("comet.network.host"), Integer.parseInt(this.getConfig().get("comet.network.port")));

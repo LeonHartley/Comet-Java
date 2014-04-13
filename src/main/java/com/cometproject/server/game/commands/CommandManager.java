@@ -49,6 +49,15 @@ public class CommandManager {
         this.commands.put(Locale.get("command.kick.name"), new KickCommand());
         this.commands.put(Locale.get("command.disconnect.name"), new DisconnectCommand());
         this.commands.put(Locale.get("command.ipban.name"), new IpBanCommand());
+        this.commands.put(Locale.get("command.blacklist.name"), new BlacklistCommand());
+        this.commands.put(Locale.get("command.whitelist.name"), new WhitelistCommand());
+        this.commands.put(Locale.get("command.alert.name"), new AlertCommand());
+        this.commands.put(Locale.get("command.roomalert.name"), new RoomAlertCommand());
+        this.commands.put(Locale.get("command.givebadge.name"), new GiveBadgeCommand());
+        this.commands.put(Locale.get("command.removebadge.name"), new RemoveBadgeCommand());
+        this.commands.put(Locale.get("command.roomkick.name"), new RoomKickCommand());
+        this.commands.put(Locale.get("command.coins.name"), new CoinsCommand());
+        this.commands.put(Locale.get("command.points.name"), new PointsCommand());
     }
 
     public boolean isCommand(String message) {
