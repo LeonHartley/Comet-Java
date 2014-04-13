@@ -33,7 +33,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
         this.player = player;
 
         if(this.player.isTeleporting())
-            this.setIsInTeleporter(true);
+            this.setOverriden(true);
     }
 
     @Override

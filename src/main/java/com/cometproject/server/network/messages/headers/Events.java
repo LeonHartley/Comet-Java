@@ -102,13 +102,17 @@ public class Events {
     public static short WearBadgeMessageEvent = 2723;
     public static short PlacePostitMessageEvent = 361;
     public static short AddToStaffPickedRoomsMessageEvent = 1329;
+    public static short PurchaseGiftMessageEvent = 2304;
+    public static short DeleteFriendsMessageEvent = 3055;
+    public static short OneWayGateTriggerMessageEvent = 3999;
+    public static short OpenGiftMessageEvent = 2563;
+
 
     public static short ManageGroupMessageEvent = 454;
     public static short RemoveRightsMessageEvent = 572;
     public static short DeleteRoomMessageEvent = 2830;
     public static short StartQuizMessageEvent = 1337;//2048;
     public static short UnacceptTradeMessageEvent = 478;
-    public static short PurchaseGiftMessageEvent = 553;
     public static short ModRoomChatMessageEvent = 2620;
     public static short ModRoomInfoMessageEvent = 1847;
     public static short ModUserInfoMessageEvent = 3530;

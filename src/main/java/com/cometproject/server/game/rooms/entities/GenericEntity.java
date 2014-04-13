@@ -50,7 +50,7 @@ public abstract class GenericEntity implements AvatarEntity {
 
     private boolean markedNeedsUpdate;
     private boolean isMoonwalking;
-    private boolean isInTeleporter;
+    private boolean overriden;
     private boolean isVisible;
 
     private Map<String, String> statusses = new FastMap<>();
@@ -84,7 +84,7 @@ public abstract class GenericEntity implements AvatarEntity {
 
         this.markedNeedsUpdate = false;
         this.isMoonwalking = false;
-        this.isInTeleporter = false;
+        this.overriden = false;
         this.isVisible = true;
     }
 
@@ -412,12 +412,12 @@ public abstract class GenericEntity implements AvatarEntity {
         this.effect = effect;
     }
 
-    public boolean isInTeleporter() {
-        return this.isInTeleporter;
+    public boolean isOverriden() {
+        return this.overriden;
     }
 
-    public void setIsInTeleporter(boolean isInTeleporter) {
-        this.isInTeleporter = isInTeleporter;
+    public void setOverriden(boolean overriden) {
+        this.overriden = overriden;
     }
 
     public abstract void joinRoom(Room room, String password);

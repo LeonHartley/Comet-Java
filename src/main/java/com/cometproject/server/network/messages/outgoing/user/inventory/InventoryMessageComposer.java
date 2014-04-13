@@ -14,13 +14,19 @@ public class InventoryMessageComposer {
         msg.writeInt(inv.getTotalSize());
 
         for(InventoryItem i : inv.getFloorItems().values()) {
+            boolean isGift = false;
+
+            if(i.getGiftData() != null) {
+                isGift = true;
+            }
+
             msg.writeInt(i.getId());
             msg.writeString(i.getDefinition().getType().toUpperCase());
             msg.writeInt(i.getId());
-            msg.writeInt(i.getDefinition().getSpriteId());
+            msg.writeInt(isGift ? i.getGiftData().getSpriteId() : i.getDefinition().getSpriteId());
             msg.writeInt(1);
             msg.writeInt(0);
-            msg.writeString(i.getExtraData());
+            msg.writeString(isGift ? i.getGiftData().toString() : i.getExtraData());
 
             msg.writeBoolean(i.getDefinition().canRecycle);
             msg.writeBoolean(i.getDefinition().canTrade);

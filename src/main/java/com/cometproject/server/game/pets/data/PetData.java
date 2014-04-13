@@ -73,4 +73,8 @@ public class PetData {
     public int getRaceId() {
         return raceId;
     }
+
+    public String getLook() {
+        return ""; // TODO: this
+    }
 }

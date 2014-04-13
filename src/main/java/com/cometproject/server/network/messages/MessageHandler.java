@@ -2,10 +2,7 @@ package com.cometproject.server.network.messages;
 
 import com.cometproject.server.network.messages.headers.Events;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.incoming.catalog.GetCataIndexMessageEvent;
-import com.cometproject.server.network.messages.incoming.catalog.GetCataPageMessageEvent;
-import com.cometproject.server.network.messages.incoming.catalog.HabboClubPackagesMessageEvent;
-import com.cometproject.server.network.messages.incoming.catalog.PurchaseItemMessageEvent;
+import com.cometproject.server.network.messages.incoming.catalog.*;
 import com.cometproject.server.network.messages.incoming.catalog.data.GetShopData2MessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.data.GetShopDataMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupDialogMessageEvent;
@@ -48,6 +45,7 @@ import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.ChangeMottoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.UserInformationMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.gifts.OpenGiftMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.BadgeInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.BotInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.OpenInventoryMessageEvent;
@@ -122,6 +120,8 @@ public class  MessageHandler {
         this.getMessages().put(Events.AcceptFriendshipMessageEvent, new AcceptFriendshipMessageEvent());
         this.getMessages().put(Events.SearchFriendsMessageEvent, new SearchFriendsMessageEvent());
         this.getMessages().put(Events.FollowFriendMessageEvent, new FollowFriendMessageEvent());
+        this.getMessages().put(Events.DeleteFriendsMessageEvent, new DeleteFriendsMessageEvent());
+        this.getMessages().put(Events.InviteFriendsMessageEvent, new InviteFriendsMessageEvent());
     }
 
     public void registerNavigator() {
@@ -209,6 +209,7 @@ public class  MessageHandler {
         this.getMessages().put(Events.ChangeWallItemPositionMessageEvent, new ChangeWallItemPositionMessageEvent());
         this.getMessages().put(Events.PickUpItemMessageEvent, new PickUpItemMessageEvent());
         this.getMessages().put(Events.ChangeFloorItemStateMessageEvent, new ChangeFloorItemStateMessageEvent());
+        this.getMessages().put(Events.OneWayGateTriggerMessageEvent, new ChangeFloorItemStateMessageEvent());
         this.getMessages().put(Events.OpenDiceMessageEvent, new OpenDiceMessageEvent());
         this.getMessages().put(Events.RunDiceMessageEvent, new RunDiceMessageEvent());
         this.getMessages().put(Events.SaveWiredTriggerMessageEvent, new SaveWiredMessageEvent());
@@ -220,6 +221,7 @@ public class  MessageHandler {
         this.getMessages().put(Events.SaveTonerMessageEvent, new SaveTonerMessageEvent());
         this.getMessages().put(Events.SaveBrandingMessageEvent, new SaveBrandingMessageEvent());
         this.getMessages().put(Events.ChangeWallItemStateMessageEvent, new ChangeWallItemStateMessageEvent());
+        this.getMessages().put(Events.OpenGiftMessageEvent, new OpenGiftMessageEvent());
     }
 
     public void registerCatalog() {
@@ -233,6 +235,7 @@ public class  MessageHandler {
         this.getMessages().put(Events.BuyGroupMessageEvent, new BuyGroupMessageEvent());
         this.getMessages().put(Events.PetRacesMessageEvent, new PetRacesMessageEvent());
         this.getMessages().put(Events.ValidatePetNameMessageEvent, new ValidatePetNameMessageEvent());
+        this.getMessages().put(Events.PurchaseGiftMessageEvent, new PurchaseGiftMessageEvent());
     }
 
 	public void handle(Event message, Session client) {

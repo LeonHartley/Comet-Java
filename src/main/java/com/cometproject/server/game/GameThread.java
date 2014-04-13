@@ -25,7 +25,8 @@ public class GameThread implements CometTask {
 
     private CometThreadManagement threadManagement;
 
-    private ScheduledFuture myFuture;
+    private ScheduledFuture gameFuture;
+    private ScheduledFuture dailyCycleFuture;
 
     private boolean active = false;
 
@@ -33,7 +34,7 @@ public class GameThread implements CometTask {
         this.threadManagement = mgr;
 
         int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.thread.interval"));
-        this.myFuture = mgr.executePeriodic(this, interval, interval, TimeUnit.MINUTES);
+        this.gameFuture = mgr.executePeriodic(this, interval, interval, TimeUnit.MINUTES);
         this.active = true;
 
         this.configureDailyCycle();
@@ -52,7 +53,7 @@ public class GameThread implements CometTask {
 
         long msTillMidnight = (c.getTimeInMillis() -now.getTime());
 
-        this.myFuture = this.threadManagement.executePeriodic(new CometTask() {
+        this.dailyCycleFuture = this.threadManagement.executePeriodic(new CometTask() {
             @Override
             public void run() {
                 long start = System.currentTimeMillis();
@@ -125,8 +126,6 @@ public class GameThread implements CometTask {
                 int amountCredits = CometSettings.quartlyCreditsAmount;
                 client.getPlayer().getData().increaseCredits(amountCredits);
 
-                //client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.received.credits.title"), Locale.get("game.received.credits").replace("{$}", amountCredits + "")));
-
                 client.getPlayer().sendBalance();
                 client.getPlayer().getData().save();
             }
@@ -137,6 +136,7 @@ public class GameThread implements CometTask {
 
     public void stop() {
         this.active = false;
-        this.myFuture.cancel(false);
+        this.gameFuture.cancel(false);
+        this.dailyCycleFuture.cancel(false);
     }
 }

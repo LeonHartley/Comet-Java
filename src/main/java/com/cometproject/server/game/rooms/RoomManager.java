@@ -156,6 +156,10 @@ public class RoomManager {
             System.out.println("Cached for 60 seconds");
         }
 
+        if(rooms.size() == 0 && !query.toLowerCase().startsWith("owner:")) {
+            return this.getRoomByQuery("owner:" + query);
+        }
+
         return rooms;
     }
 

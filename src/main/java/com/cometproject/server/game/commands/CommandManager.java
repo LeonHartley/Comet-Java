@@ -28,12 +28,11 @@ public class CommandManager {
         this.commands.put(Locale.get("command.about.name"), new AboutCommand());
         this.commands.put(Locale.get("command.build.name"), new BuildCommand());
         this.commands.put(Locale.get("command.pickall.name"), new PickAllCommand());
-        this.commands.put(Locale.get("command.sellroom.name"), new SellRoomCommand());
-        this.commands.put(Locale.get("command.buyroom.name"), new BuyRoomCommand());
         this.commands.put(Locale.get("command.push.name"), new PushCommand());
         this.commands.put(Locale.get("command.moonwalk.name"), new MoonwalkCommand());
         this.commands.put(Locale.get("command.enable.name"), new EnableCommand());
         this.commands.put(Locale.get("command.empty.name"), new EmptyCommand());
+        this.commands.put(Locale.get("command.sit.name"), new SitCommand());
     }
 
     public void loadStaffCommands() {

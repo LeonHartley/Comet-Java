@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.items;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
@@ -22,12 +23,21 @@ public class FloorItem extends RoomItem {
     private int roomId;
     private double height;
     private String extraData;
+    private GiftData giftData;
 
     private List<Position3D> rollingPositions;
 
     private WeakReference<Room> room;
 
+    public FloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data, GiftData giftData) {
+        this.init(id, itemId, roomId, owner, x, y, z, rotation, data, giftData);
+    }
+
     public FloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
+        this.init(id, itemId, roomId, owner, x, y, z, rotation, data, null);
+    }
+
+    private void init(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data, GiftData giftData) {
         this.id = id;
         this.itemId = itemId;
         this.roomId = roomId;
@@ -37,6 +47,7 @@ public class FloorItem extends RoomItem {
         this.height = z;
         this.rotation = rotation;
         this.extraData = data;
+        this.giftData = giftData;
 
         this.state = false;
     }
@@ -48,8 +59,14 @@ public class FloorItem extends RoomItem {
 
     @Override
     public void serialize(Composer msg, boolean isNew) {
+        boolean isGift = false;
+
+        if(this.giftData != null) {
+            isGift = true;
+        }
+
         msg.writeInt(this.getId());
-        msg.writeInt(this.getDefinition().getSpriteId());
+        msg.writeInt(isGift ? giftData.getSpriteId() : this.getDefinition().getSpriteId());
         msg.writeInt(this.getX());
         msg.writeInt(this.getY());
         msg.writeInt(this.getRotation());
@@ -130,7 +147,7 @@ public class FloorItem extends RoomItem {
             msg.writeInt(0);
             msg.writeInt(0);
 
-            msg.writeString(this.getExtraData());
+            msg.writeString(isGift ? giftData.toString() : this.getExtraData());
 
             //msg.writeInt(15); // rare id
             //msg.writeInt(100); // amount of limited items in a stack

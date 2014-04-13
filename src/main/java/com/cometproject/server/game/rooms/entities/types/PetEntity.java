@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.entities.types;
 
-import com.cometproject.server.game.bots.BotData;
+import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.ai.BotAI;
@@ -9,13 +9,12 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class PetEntity extends GenericEntity {
-    private BotData data;
+    private PetData data;
     private BotAI ai;
 
-    public PetEntity(BotData data, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
+    public PetEntity(PetData data, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
-        this.data = data;
         this.ai = new DefaultAI(this);
     }
 
@@ -46,27 +45,31 @@ public class PetEntity extends GenericEntity {
 
     @Override
     public String getUsername() {
-        return this.data.getUsername();
+        return null;
     }
 
     @Override
     public String getMotto() {
-        return this.data.getMotto();
+        return null;
     }
 
     @Override
     public String getFigure() {
-        return this.data.getFigure();
+        return null;
     }
 
     @Override
     public String getGender() {
-        return this.data.getGender();
+        return null;
     }
 
     @Override
     public void compose(Composer msg) {
-        msg.writeInt(this.getVirtualId());
+        msg.writeInt(this.data.getId());
+        msg.writeString(this.data.getName());
+        msg.writeString("PET_MOTTO");
+
+    /*    msg.writeInt(this.getVirtualId());
         msg.writeString(this.getUsername());
         msg.writeString(this.getMotto());
         msg.writeString(this.getFigure());
@@ -84,6 +87,6 @@ public class PetEntity extends GenericEntity {
         msg.writeInt(0);
         msg.writeString("");
         msg.writeString("");
-        msg.writeInt(0);
+        msg.writeInt(0);*/
     }
 }

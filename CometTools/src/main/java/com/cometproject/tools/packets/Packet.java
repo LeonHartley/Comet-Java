@@ -19,6 +19,10 @@ public abstract class Packet {
         return type;
     }
 
+    public short getId() {
+        return id;
+    }
+
     public enum PacketType {
         COMPOSER, EVENT
     }

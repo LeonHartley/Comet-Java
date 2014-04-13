@@ -61,7 +61,7 @@ public class TeleportInteraction extends Interactor {
             case 0: // init
                 // user is initiating the teleport, open door and walk in
                 // lock walking
-                avatar.setIsInTeleporter(true);
+                avatar.setOverriden(true);
 
                 if(!item.getDefinition().canWalk)
                     avatar.moveTo(item.getX(), item.getY());
@@ -138,7 +138,7 @@ public class TeleportInteraction extends Interactor {
                 this.toggleDoor(item, false);
                 // We're finished!
 
-                avatar.setIsInTeleporter(false);
+                avatar.setOverriden(false);
                 break;
         }
         return false;

@@ -33,8 +33,10 @@ public class MessengerFriend {
         this.userData = session.getPlayer().getData();
     }
 
-    public void updateClient() {
+    public Session updateClient() {
         this.client = Comet.getServer().getNetwork().getSessions().getByPlayerId(userId);
+
+        return this.client;
     }
 
     public void serialize(Composer msg) {
