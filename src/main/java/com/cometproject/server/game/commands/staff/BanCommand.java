@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class BanCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length != 2) {
+        if (params.length != 2) {
             return;
         }
 
@@ -24,11 +24,11 @@ public class BanCommand extends ChatCommand {
 
         Session user = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
 
-        if(user == null) {
+        if (user == null) {
             return;
         }
 
-        if(user == client && user.getPlayer().getPermissions().hasPermission("user_unbannable")) {
+        if (user == client && user.getPlayer().getPermissions().hasPermission("user_unbannable")) {
             return;
         }
 
@@ -47,7 +47,7 @@ public class BanCommand extends ChatCommand {
 
             ResultSet keys = statement.getGeneratedKeys();
 
-            if(keys.next()) {
+            if (keys.next()) {
                 GameEngine.getBans().add(new Ban(keys.getInt(1), user.getPlayer().getId() + "", expire, BanType.USER, ""));
             }
         } catch (SQLException e) {
