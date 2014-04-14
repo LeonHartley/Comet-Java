@@ -12,9 +12,7 @@ public class BuildCommand extends ChatCommand {
 
     @Override
     public void execute(Session client, String message[]) {
-        if(message.length < 1) {
-            client.send(AdvancedAlertMessageComposer.compose("Comet Server", "Current build: <b>" + Comet.getBuild() + "</b>"));
-        }
+        client.send(AdvancedAlertMessageComposer.compose("Comet Server", "Current build: <b>" + Comet.getBuild() + "</b>"));
     }
 
     @Override

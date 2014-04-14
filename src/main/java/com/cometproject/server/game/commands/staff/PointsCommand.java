@@ -10,6 +10,7 @@ import com.cometproject.server.network.sessions.Session;
 public class PointsCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
+        // TODO: fix your shit!!!!!!!!!!!!!
         if(params.length < 1)
             return;
         String username;

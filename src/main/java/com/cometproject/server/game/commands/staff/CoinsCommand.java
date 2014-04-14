@@ -12,6 +12,9 @@ public class CoinsCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         if(params.length < 1)
             return;
+
+        // TODO: julien - fix this shit or I'm not gonna be happy.
+
         String username;
         username = params[0];
         try {

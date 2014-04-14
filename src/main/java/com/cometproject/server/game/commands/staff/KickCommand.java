@@ -9,6 +9,7 @@ import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessa
 public class KickCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
+        // TODO: GET YOUR SHIT TOGETHER JULIEN
         if (params.length < 1) {
             return;
         }

@@ -9,9 +9,11 @@ import com.cometproject.server.network.sessions.Session;
 public class AlertCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        Session User = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(params[0]);
+        // TODO: FIX YOUR SHIT JULIEN FUCK
 
-        User.send(AdvancedAlertMessageComposer.compose("Alert", this.merge(params, 1)));
+        Session user = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(params[0]);
+
+        user.send(AdvancedAlertMessageComposer.compose("Alert", this.merge(params, 1)));
 
     }
 

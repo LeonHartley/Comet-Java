@@ -8,7 +8,9 @@ import com.cometproject.server.network.sessions.Session;
 
 public abstract class ChatCommand {
     public abstract void execute(Session client, String[] params);
+
     public abstract String getPermission();
+
     public abstract String getDescription();
 
     public final Composer success(String msg) {
@@ -19,32 +21,15 @@ public abstract class ChatCommand {
         c.send(WisperMessageComposer.compose(c.getPlayer().getEntity().getVirtualId(), msg));
     }
 
-/*    public final String merge(String[] params) {
-        String r = "";
-
-        for(String s : params) {
-            if(! params[ params.length - 1].equals(s))
-                r+= s + " ";
-            else
-                r+= s;
-        }
-
-        return r;
-    }*/
-
-    public static String merge(String[] params, int Begin) {
+    public String merge(String[] params, int begin) {
 
         StringBuilder mergedParams = new StringBuilder();
-        int i = Begin;
-        while (i < params.length)
-        {
-           mergedParams.append(" ");
-           mergedParams.append(params[i]);
-           i++;
-        }
 
+        for(int i = 0; i < begin; i++) {
+            mergedParams.append(" ");
+            mergedParams.append(params[i]);
+        }
 
         return mergedParams.toString();
     }
-
 }

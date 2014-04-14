@@ -9,6 +9,7 @@ public class RestartCommand extends ChatCommand {
 
     @Override
     public void execute(Session client, String[] params) {
+        // TODO: Either fix or remove
         client.send(WisperMessageComposer.compose(client.getPlayer().getId(), Locale.get("command.error.disabled")));
         /*try {
             final String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
