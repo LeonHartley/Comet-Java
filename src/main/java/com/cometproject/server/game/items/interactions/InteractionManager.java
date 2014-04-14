@@ -4,7 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.items.interactions.banzai.BanzaiPatchInteraction;
 import com.cometproject.server.game.items.interactions.banzai.BanzaiTeleportInteraction;
-import com.cometproject.server.game.items.interactions.banzai.gates.BanzaiGateInteraction;
+import com.cometproject.server.game.items.interactions.banzai.BanzaiGateInteraction;
 import com.cometproject.server.game.items.interactions.football.BallInteraction;
 import com.cometproject.server.game.items.interactions.items.*;
 import com.cometproject.server.game.items.interactions.wired.action.WiredActionMoveRotate;

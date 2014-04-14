@@ -14,6 +14,7 @@ public class GetCataPageMessageEvent implements IEvent {
         int pageId = msg.readInt();
 
         if(GameEngine.getCatalog().pageExists(pageId) && GameEngine.getCatalog().getPage(pageId).isEnabled()) {
+            // TODO: better caching for other pages + all the other "static" composers
             if(GameEngine.getCatalog().getPage(pageId).getTemplate().equals("spaces_new"))  {
                 if(cachedSpaces != null) {
                     client.send(cachedSpaces);

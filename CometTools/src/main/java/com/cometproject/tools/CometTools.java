@@ -18,7 +18,6 @@ public class CometTools {
         this.packetLogger = new PacketLogger(this);
         this.cometWindow = new CometWindow(this);
 
-
         System.out.println("CometTools was active for: " + (((double) stopwatch.elapsed(TimeUnit.MILLISECONDS)) / 1000) + " seconds");
     }
 
