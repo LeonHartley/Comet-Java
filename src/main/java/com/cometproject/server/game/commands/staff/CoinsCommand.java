@@ -10,10 +10,9 @@ import com.cometproject.server.network.sessions.Session;
 public class CoinsCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length < 1)
+        if(params.length < 2)
             return;
 
-        // TODO: julien - fix this shit or I'm not gonna be happy.
 
         String username;
         username = params[0];
@@ -21,10 +20,10 @@ public class CoinsCommand extends ChatCommand {
             int Credits = Integer.parseInt(params[1]);
             Session Player = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
             Player.getPlayer().getData().increaseCredits(Credits);
-            Player.send(AdvancedAlertMessageComposer.compose("Alert", "You received " + Credits + " credits"));
+            Player.send(AdvancedAlertMessageComposer.compose(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(Credits))));
             client.getPlayer().sendBalance();
         } catch(Exception Ignored) {
-            client.send(AdvancedAlertMessageComposer.compose("Error", "Error in credit format"));
+            client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.coins.errortitle"), Locale.get("command.coins.formaterror")));
         }
 
     }

@@ -9,33 +9,34 @@ import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessa
 public class KickCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        // TODO: GET YOUR SHIT TOGETHER JULIEN
+
         if (params.length < 1) {
             return;
         }
         String username = params[1];
 
         Session playerToKick = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
+        if(playerToKick == null)
+            return;
 
         if (playerToKick.getPlayer().getEntity().getUsername() == client.getPlayer().getEntity().getUsername()) {
-            // TODO: put in locale
-            client.send(AdvancedAlertMessageComposer.compose("Command error", "You can't kick yourself"));
+
+            client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.kick.error"), Locale.get("command.disconnect.himself")));
             return;
         }
 
         if (playerToKick.getPlayer().getPermissions().hasPermission("user_unkickable")) {
-            // TODO: put in locale
-            client.send(AdvancedAlertMessageComposer.compose("Command error", "You can't kicked this user"));
+
+            client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.kick.error"), Locale.get("command.disconnect.undisconnectable")));
             return;
         }
 
         playerToKick.getPlayer().getEntity().leaveRoom(false, true, true);
-        // TOOD: put in locale
-        playerToKick.send(AdvancedAlertMessageComposer.compose("Information", "You have been kicked from the room."));
+        playerToKick.send(AdvancedAlertMessageComposer.compose(Locale.get("command.kick.successtitle"), Locale.get("command.kick.successmessage")));
 
 
-        // TODO: put in locale
-        client.send(AdvancedAlertMessageComposer.compose("Command successful", playerToKick.getPlayer().getData().getUsername() + " was kicked from your room!"));
+
+        client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.kick.successtitle"), Locale.get("command.kick.userkicked").replace("%username%", playerToKick.getPlayer().getData().getUsername())));
     }
 
     @Override

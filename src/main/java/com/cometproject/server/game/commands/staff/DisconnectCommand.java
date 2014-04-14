@@ -18,14 +18,12 @@ public class DisconnectCommand extends ChatCommand {
         }
 
         if (userToDisconnect == client) {
-            // TODO: put in locale
-            client.send(AdvancedAlertMessageComposer.compose("Command error", "You cannot disconnect yourself."));
+            client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.disconnect.errortitle"), Locale.get("command.disconnect.himself")));
             return;
         }
 
         if (userToDisconnect.getPlayer().getPermissions().hasPermission("undisconnectable")) { // Perk to add
-            // TODO: put in locale
-            client.send(AdvancedAlertMessageComposer.compose("Command error", "You cannot disconnect this player."));
+            client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.disconnect.errortitle"), Locale.get("command.disconnect.undisconnectable")));
             return;
         }
 

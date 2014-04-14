@@ -8,9 +8,7 @@ public class ForceGCCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         System.gc();
-
-        // TODO: locale
-        this.sendChat("The garbage collector was successfully forced.", client);
+        this.sendChat(Locale.get("command.force_gc.successful"), client);
     }
 
     @Override
