@@ -8,6 +8,7 @@ import com.cometproject.server.network.sessions.Session;
 public class GiveBadgeCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
+        // TODO: WHAT THE FUCK IS THIS?!
         client.getPlayer().getInventory().addBadge(params[1], true);
     }
 

@@ -8,6 +8,7 @@ import com.cometproject.server.network.sessions.Session;
 public class RemoveBadgeCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
+        // TODO: WHAT THE FUCK
         client.getPlayer().getInventory().removeBadge(params[1], true);
     }
 

@@ -11,6 +11,8 @@ public class WhitelistCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
 
+        // TODO: locale
+
         switch (params[1]) {
             case "add":
                 GameEngine.getFilter().addwhitelistedWord(params[2]);

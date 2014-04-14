@@ -11,6 +11,8 @@ public class BlacklistCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
 
+        // TODO: LOCALE
+
         switch (params[0]) {
             case "add":
                 GameEngine.getFilter().addblacklistedWord(params[1]);
