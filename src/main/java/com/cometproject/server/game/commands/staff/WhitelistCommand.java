@@ -10,18 +10,18 @@ import com.cometproject.server.network.sessions.Session;
 public class WhitelistCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-
-        // TODO: locale
+    if(params.length < 2)
+        return;
 
         switch (params[1]) {
             case "add":
                 GameEngine.getFilter().addwhitelistedWord(params[2]);
-                client.send(AdvancedAlertMessageComposer.compose("Alert", "The word is now whitelisted"));
+                client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.whitelist.title"), Locale.get("command.whitelist.messagewhitelisted")));
                 break;
 
             case "remove":
                 GameEngine.getFilter().removewhitelistedWord(params[2]);
-                client.send(AdvancedAlertMessageComposer.compose("Alert", "The word is now unwhitelisted"));
+                client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.whitelist.title"), Locale.get("command.whitelist.messageunwhitelisted")));
                 break;
         }
     }

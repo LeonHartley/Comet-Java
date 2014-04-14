@@ -11,9 +11,7 @@ public class ReloadConfigCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] message) {
         Comet.getServer().loadConfig();
-
-        // TODO: Locale
-        client.send(AdvancedAlertMessageComposer.compose("Command successful", "Config was successfully reloaded."));
+        client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.reload_config.successtitle"), Locale.get("command.reload_config.successmessage")));
     }
 
     @Override

@@ -12,9 +12,7 @@ public class ReloadPermissionsCommand extends ChatCommand {
         GameEngine.getPermissions().loadPerks();
         GameEngine.getPermissions().loadPermissions();
         GameEngine.getPermissions().loadCommands();
-
-        // TODO: Locale
-        this.sendChat("Permissions successfully reloaded.", client);
+        this.sendChat(Locale.get("command.reload_permissions.success"), client);
     }
 
     @Override

@@ -10,18 +10,18 @@ import com.cometproject.server.network.sessions.Session;
 public class BlacklistCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-
-        // TODO: LOCALE
+    if(params.length < 2)
+        return;
 
         switch (params[0]) {
             case "add":
                 GameEngine.getFilter().addblacklistedWord(params[1]);
-                client.send(AdvancedAlertMessageComposer.compose("Alert", "The word is now blacklisted"));
+                client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.blacklist.title"), Locale.get("command.blacklist.message")));
                 break;
 
             case "remove":
                 GameEngine.getFilter().removeblacklistedWord(params[1]);
-                client.send(AdvancedAlertMessageComposer.compose("Alert", "The word is now unblacklisted"));
+                client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.blacklist.messageblacklisted"), Locale.get("command.blacklist.messageunblacklisted")));
                 break;
         }
     }

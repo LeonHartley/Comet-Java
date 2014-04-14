@@ -16,8 +16,7 @@ public class RoomKickCommand extends ChatCommand {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
                 if (!playerEntity.getPlayer().getPermissions().hasPermission("user_unkickable")) {
-                    // TODO: Put all strings in the fucking locale!!!
-                    playerEntity.getPlayer().getSession().send(AdvancedAlertMessageComposer.compose("Alert", this.merge(params, 0)));
+                    playerEntity.getPlayer().getSession().send(AdvancedAlertMessageComposer.compose(Locale.get("command.roomkick.title"), this.merge(params, 0)));
                     playerEntity.leaveRoom(false, true, true);
                 }
             }
