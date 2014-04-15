@@ -21,6 +21,7 @@ public class BanzaiGame extends RoomGame {
     public static final String SCORE_ATTRIBUTE = "gameScore";
 
     private Map<GameTeam, Integer> scores;
+    private List<FloorItem> scoreBoards;
     private RoomItem timerItem;
 
     public BanzaiGame(Room room) {
@@ -28,12 +29,16 @@ public class BanzaiGame extends RoomGame {
 
         scores = new FastMap<>();
 
+        for(GameTeam team : GameTeam.values()) {
+            this.scores.put(team, 0);
+        }
+
         timerItem = room.getItems().getByInteraction("bb_timer").get(0);
+        scoreBoards = room.getItems().getByInteraction("%_score");
     }
 
     @Override
     public void tick() {
-        // Update item timer's value ?
         timerItem.setExtraData((gameLength - timer) + "");
         timerItem.sendUpdate();
 
@@ -87,29 +92,34 @@ public class BanzaiGame extends RoomGame {
             return;
 
         for(FloorItem item : this.room.getItems().getItemsOnSquare(x, y)) {
-            if(item.getDefinition().getInteraction().equals("bb_patch")) {
+            if (item.getDefinition().getInteraction().equals("bb_patch")) {
                 int itemScore = 1;
 
-                System.out.println(item.getAttribute(TEAM_ATTRIBUTE));
-
-                if(item.hasAttribute(TEAM_ATTRIBUTE) && item.getAttribute(TEAM_ATTRIBUTE).equals(team)) {
+                if (item.hasAttribute(TEAM_ATTRIBUTE) && item.getAttribute(TEAM_ATTRIBUTE).equals(team)) {
                     itemScore = (int) item.getAttribute(SCORE_ATTRIBUTE) + 1;
                 } else {
-                    if(!item.hasAttribute(SCORE_ATTRIBUTE)) {
+                    if (!item.hasAttribute(SCORE_ATTRIBUTE)) {
                         item.setAttribute(TEAM_ATTRIBUTE, team);
                     } else {
-                        if((int) item.getAttribute(SCORE_ATTRIBUTE) == 3)
+                        if ((int) item.getAttribute(SCORE_ATTRIBUTE) == 3)
                             return;
                     }
                 }
 
-                if(itemScore <= 3) { // ??? :S
+                if (itemScore <= 3) {
                     item.setAttribute(SCORE_ATTRIBUTE, itemScore);
                     item.setExtraData((itemScore + (team.getTeamId() * 3) - 1) + "");
 
-                    System.out.println(item.getExtraData());
-
                     item.sendUpdate();
+
+                    this.scores.replace(team, this.scores.get(team) + 1);
+
+                    for(FloorItem scoreboard : this.scoreBoards) {
+                        if(scoreboard.getDefinition().getInteraction().toUpperCase().startsWith(team.name())) {
+                            scoreboard.setExtraData(this.scores.get(team) + "");
+                            scoreboard.sendUpdate();
+                        }
+                    }
                 }
             }
         }
