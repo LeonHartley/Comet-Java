@@ -13,6 +13,8 @@ public class ApplyDanceMessageEvent implements IEvent {
             return;
         }
 
+        client.getPlayer().getEntity().unIdle();
+
         client.getPlayer().getEntity().setDanceId(danceId);
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(DanceMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), danceId));
     }

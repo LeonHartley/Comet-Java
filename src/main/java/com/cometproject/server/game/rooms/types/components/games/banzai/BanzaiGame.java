@@ -1,50 +1,32 @@
 package com.cometproject.server.game.rooms.types.components.games.banzai;
 
-import com.cometproject.server.game.items.interactions.InteractionAction;
-import com.cometproject.server.game.items.interactions.InteractionQueueItem;
+import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.entities.RoomEntityType;
+import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
+import com.cometproject.server.network.messages.incoming.room.action.ApplyActionMessageEvent;
+import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
 import javolution.util.FastMap;
 
+import java.util.List;
 import java.util.Map;
 
 public class BanzaiGame extends RoomGame {
-    private Map<GameTeam, int[][]> capturedTiles;
+    public static final String TEAM_ATTRIBUTE = "gameTeam";
+    public static final String SCORE_ATTRIBUTE = "gameScore";
+
     private Map<GameTeam, Integer> scores;
-
-    //private Map<Integer, BanzaiTile> tiles;
-
     private RoomItem timerItem;
 
     public BanzaiGame(Room room) {
         super(room, GameType.BANZAI);
 
-        capturedTiles = new FastMap<>();
         scores = new FastMap<>();
-
-        int sizeX = room.getModel().getSizeX();
-        int sizeY = room.getModel().getSizeY();
-
-        for(GameTeam team : GameTeam.values()) {
-            if(team == GameTeam.NONE) continue;
-
-            int[][] tiles = new int[sizeX][sizeY];
-
-            for(int x = 0; x < sizeX; x++) {
-                for(int y = 0; y < sizeY; y++) {
-                    tiles[x][y] = 0;
-                }
-            }
-
-            capturedTiles.put(team, tiles);
-
-            if(!scores.containsKey(team))
-                scores.put(team, 0);
-        }
 
         timerItem = room.getItems().getByInteraction("bb_timer").get(0);
     }
@@ -55,14 +37,41 @@ public class BanzaiGame extends RoomGame {
         timerItem.setExtraData((gameLength - timer) + "");
         timerItem.sendUpdate();
 
-        this.getLog().info("Game tick");
+        this.getLog().debug("Game tick");
     }
 
     @Override
     public void gameEnds() {
+
+        GameTeam winningTeam = this.winningTeam();
+
         for(FloorItem item : this.room.getItems().getByInteraction("bb_patch")) {
-            // TODO: this
+            if(item.hasAttribute(TEAM_ATTRIBUTE)) {
+                if(item.getAttribute(TEAM_ATTRIBUTE).equals(winningTeam)) {
+                    // TODO: this
+                } else {
+                    item.setExtraData("0");
+                    item.sendUpdate();
+                }
+            } else {
+                item.setExtraData("0");
+                item.sendUpdate();
+            }
+
+            item.dispose();
         }
+
+        for(GenericEntity entity : this.room.getEntities().getEntitiesCollection().values()) {
+            if(entity.getEntityType().equals(RoomEntityType.PLAYER)) {
+                PlayerEntity playerEntity = (PlayerEntity) entity;
+
+                if(this.getTeam(playerEntity.getPlayerId()).equals(winningTeam)) {
+                    this.room.getEntities().broadcastMessage(ActionMessageComposer.compose(playerEntity.getVirtualId(), 1)); // wave o/
+                }
+            }
+        }
+
+        // TODO: Wired trigger GAME_ENDS
     }
 
     @Override
@@ -74,41 +83,34 @@ public class BanzaiGame extends RoomGame {
     }
 
     public void captureTile(int x, int y, GameTeam team) {
-        for(int[][] tile : capturedTiles.values()) {
-            if(tile[x][y] != 0) {
-                // reset this tile!
-
-                if(tile[x][y] >= 2) {
-                    // tile is locked, why are we trying to capture it??
-                    return;
-                }
-
-                tile[x][y] = 0;
-            }
-        }
-
-        // increase the level of tile
-        capturedTiles.get(team)[x][y]++;
-
-        int score = scores.get(team);
-
-        if(capturedTiles.get(team)[x][y] > 2) {
-            score++;
-
-            scores.remove(team);
-            scores.put(team, score);
-        }
+        if(!this.active)
+            return;
 
         for(FloorItem item : this.room.getItems().getItemsOnSquare(x, y)) {
             if(item.getDefinition().getInteraction().equals("bb_patch")) {
-                int patchValue = Integer.parseInt(item.getExtraData());
+                int itemScore = 1;
 
-                if(patchValue < 3) {
-                    patchValue = 1;
+                System.out.println(item.getAttribute(TEAM_ATTRIBUTE));
+
+                if(item.hasAttribute(TEAM_ATTRIBUTE) && item.getAttribute(TEAM_ATTRIBUTE).equals(team)) {
+                    itemScore = (int) item.getAttribute(SCORE_ATTRIBUTE) + 1;
+                } else {
+                    if(!item.hasAttribute(SCORE_ATTRIBUTE)) {
+                        item.setAttribute(TEAM_ATTRIBUTE, team);
+                    } else {
+                        if((int) item.getAttribute(SCORE_ATTRIBUTE) == 3)
+                            return;
+                    }
                 }
 
-                item.setExtraData((patchValue + (team.getTeamId() * 3) - 1) + "");
-                item.sendUpdate();
+                if(itemScore <= 3) { // ??? :S
+                    item.setAttribute(SCORE_ATTRIBUTE, itemScore);
+                    item.setExtraData((itemScore + (team.getTeamId() * 3) - 1) + "");
+
+                    System.out.println(item.getExtraData());
+
+                    item.sendUpdate();
+                }
             }
         }
     }
@@ -123,5 +125,17 @@ public class BanzaiGame extends RoomGame {
         }
 
         return 0;
+    }
+
+    public GameTeam winningTeam() {
+        Map.Entry<GameTeam, Integer> winningTeam = null;
+
+        for(Map.Entry<GameTeam, Integer> score : this.scores.entrySet()) {
+            if(winningTeam == null || winningTeam.getValue() < score.getValue()) {
+                winningTeam = score;
+            }
+        }
+
+        return winningTeam != null ? winningTeam.getKey() : GameTeam.NONE;
     }
 }

@@ -2,7 +2,9 @@ package com.cometproject.server.game.items.interactions.banzai;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.interactions.Interactor;
+import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
@@ -18,34 +20,42 @@ public class BanzaiGateInteraction extends Interactor {
         Room room = avatar.getRoom();
         GameTeam team = GameTeam.valueOf(item.getDefinition().getInteraction().split("\\_")[1].toUpperCase());
 
-        if(room.getGame().getInstance() == null) {
-            room.getGame().createNew(GameType.BANZAI);
-
-            if(Comet.isDebugging)
-                room.getGame().getInstance().startTimer(120);
-        }
-
         if(room.getGame().getInstance().getType() != GameType.BANZAI) {
             return false;
         }
 
         int id = avatar.getPlayer().getId();
 
-        if(room.getGame().getInstance().isTeamed(id)) {
-            room.getGame().getInstance().removeFromTeam(id);
-        }
+        /*if(room.getGame().getInstance().getTeam(id).equals(team)) {
+            room.getGame().getInstance().removeFromTeam(team, id);
 
-        int teamTotal = Integer.parseInt(item.getExtraData()) + 1;
+            team = GameTeam.NONE;
 
-        item.setExtraData("" + teamTotal);
+            avatar.applyEffect(new UserEffect(team.getBanzaiEffect(), 0));
+        } else {*/
+            room.getGame().getInstance().getTeams().get(team).add(id);
+        //}
+
+        //if(room.getGame().getInstance().isTeamed(id)) {
+        //    room.getGame().getInstance().removeFromTeam(team, id);
+        //}
+
+        item.setExtraData("" + room.getGame().getInstance().getTeams().get(team).size());
         item.sendUpdate();
 
-        room.getGame().getInstance().getTeams().put(id, team);
+        avatar.applyEffect(new UserEffect(team.getBanzaiEffect(), 0));
         return false;
     }
 
     @Override
     public boolean onPreWalk(RoomItem item, PlayerEntity avatar) {
+        if(((FloorItem)item).getRoom().getGame().getInstance() == null) {
+            ((FloorItem)item).getRoom().getGame().createNew(GameType.BANZAI);
+
+            if(Comet.isDebugging)
+                ((FloorItem)item).getRoom().getGame().getInstance().startTimer(30);
+        }
+
         return false;
     }
 

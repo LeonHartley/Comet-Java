@@ -34,8 +34,6 @@ public class KickCommand extends ChatCommand {
         playerToKick.getPlayer().getEntity().leaveRoom(false, true, true);
         playerToKick.send(AdvancedAlertMessageComposer.compose(Locale.get("command.kick.successtitle"), Locale.get("command.kick.successmessage")));
 
-
-
         client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.kick.successtitle"), Locale.get("command.kick.userkicked").replace("%username%", playerToKick.getPlayer().getData().getUsername())));
     }
 

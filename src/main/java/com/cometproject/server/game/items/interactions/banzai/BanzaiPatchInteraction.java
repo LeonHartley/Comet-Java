@@ -12,19 +12,20 @@ public class BanzaiPatchInteraction extends Interactor {
         if(!state)
             return false;
 
-        if(avatar.getRoom().getGame().getInstance().isTeamed(avatar.getPlayerId())) {
-            if(avatar.getRoom().getGame().getInstance() != null) {
-                ((BanzaiGame)avatar.getRoom().getGame().getInstance()).captureTile(item.getX(), item.getY(), avatar.getRoom().getGame().getInstance().getTeams().get(avatar.getPlayerId()));
-
-                avatar.getRoom().log.debug("Tile captured! x: " + item.getX() + ", y: " + item.getY());
-            }
-        }
 
         return false;
     }
 
     @Override
     public boolean onPreWalk(RoomItem item, PlayerEntity avatar) {
+
+        if(avatar.getRoom().getGame().getInstance().isTeamed(avatar.getPlayerId())) {
+            if(avatar.getRoom().getGame().getInstance() != null) {
+                ((BanzaiGame)avatar.getRoom().getGame().getInstance()).captureTile(item.getX(), item.getY(), ((BanzaiGame) avatar.getRoom().getGame().getInstance()).getTeam(avatar.getPlayerId()));
+
+                avatar.getRoom().log.debug("Tile captured! x: " + item.getX() + ", y: " + item.getY());
+            }
+        }
         return false;
     }
 
