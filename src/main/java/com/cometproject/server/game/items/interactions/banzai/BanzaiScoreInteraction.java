@@ -5,7 +5,7 @@ import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 
-public class BanzaiTimerInteraction extends Interactor {
+public class BanzaiScoreInteraction extends Interactor {
     @Override
     public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
         return false;
@@ -18,18 +18,7 @@ public class BanzaiTimerInteraction extends Interactor {
 
     @Override
     public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
-        // TODO: this.
-
-        switch(request) {
-            case 0:
-                item.setExtraData("30");
-                item.sendUpdate();
-                break;
-
-            case 1:
-                break;
-        }
-
+        // TODO: this
         return false;
     }
 
