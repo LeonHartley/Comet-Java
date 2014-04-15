@@ -1,21 +1,23 @@
 package com.cometproject.server.game.rooms.types.components.games;
 
-import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public abstract class RoomGame implements Runnable {
     // TODO: recode this to use comet's thread pool
 
-    private Map<Integer, GameTeam> teams;
+    private Map<GameTeam, List<Integer>> teams;
     private GameType type;
     protected int timer;
     protected int gameLength;
-    private boolean started;
+    protected boolean active;
+    protected boolean finished = false;
     protected Room room;
 
     private Thread thread;
@@ -26,6 +28,10 @@ public abstract class RoomGame implements Runnable {
         this.teams = new FastMap<>();
         this.type = gameType;
         this.room = room;
+
+        for(GameTeam team : GameTeam.values()) {
+            this.teams.put(team, new ArrayList<Integer>());
+        }
     }
 
     @Override
@@ -40,7 +46,9 @@ public abstract class RoomGame implements Runnable {
                 TimeUnit.SECONDS.sleep(1);
             }
 
+            active = false;
             gameEnds();
+
         } catch(Exception e) {
             log.error("Error during game tick", e);
         }
@@ -51,16 +59,16 @@ public abstract class RoomGame implements Runnable {
     }
 
     public void stop() {
-        if(this.started && thread != null) {
+        if(this.active && thread != null) {
             this.thread.interrupt();
-            this.started = false;
+            this.active = false;
             this.gameLength = 0;
             this.timer = 0;
         }
     }
 
     public void startTimer(int amount) {
-        if(this.started && thread != null) {
+        if(this.active && thread != null) {
             this.thread.interrupt();
         }
 
@@ -68,17 +76,28 @@ public abstract class RoomGame implements Runnable {
         this.thread.start();
 
         this.gameLength = amount;
-        this.started = true;
+        this.active = true;
 
-        log.debug("Game started for " + amount + " seconds");
+        log.debug("Game active for " + amount + " seconds");
     }
 
     public boolean isTeamed(int id) {
-        return this.teams.containsKey(id);
+        return this.getTeam(id) != GameTeam.NONE;
     }
 
-    public void removeFromTeam(int id) {
-        this.teams.remove(id);
+    public void removeFromTeam(GameTeam team, int id) {
+        if(this.teams.get(team).contains(id))
+            this.teams.get(team).remove(id);
+    }
+
+    public GameTeam getTeam(int userId) {
+        for(Map.Entry<GameTeam, List<Integer>> entry : this.getTeams().entrySet()) {
+            if(entry.getValue().contains(userId)) {
+                return entry.getKey();
+            }
+        }
+
+        return GameTeam.NONE;
     }
 
     public abstract void tick();
@@ -89,19 +108,7 @@ public abstract class RoomGame implements Runnable {
         return this.type;
     }
 
-    public int getTimer() {
-        return this.timer;
-    }
-
-    public void increaseTimer(int i) {
-        this.timer += i;
-    }
-
-    public void decreaseTimer(int i) {
-        this.timer -= i;
-    }
-
-    public Map<Integer, GameTeam> getTeams() {
+    public Map<GameTeam, List<Integer>> getTeams() {
         return teams;
     }
 

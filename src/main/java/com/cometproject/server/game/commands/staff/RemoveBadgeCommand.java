@@ -11,10 +11,11 @@ public class RemoveBadgeCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         if(params.length < 2)
             return;
-        String username = params[0];
 
-        Session player = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
-        player.getPlayer().getInventory().removeBadge(params[1], true);
+        Session session = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(params[0]);
+
+        if(session != null)
+            session.getPlayer().getInventory().removeBadge(params[1], true);
     }
 
     @Override

@@ -6,12 +6,13 @@ import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.utilities.attributes.Attributable;
 
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
-public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem {
+public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem, Attributable {
     private static final int MAX_INTERACTION_QUEUE = 1;
 
     protected int id;

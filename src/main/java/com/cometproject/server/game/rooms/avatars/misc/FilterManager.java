@@ -14,39 +14,42 @@ import org.apache.log4j.Logger;
 
 public class FilterManager {
     public FilterManager() {
-        init();
+        //init();
     }
+
     public List<String> blacklistedWords = new ArrayList<>();
     public List<String> whitelistedWords = new ArrayList<>();
     private Logger log = Logger.getLogger(FilterManager.class.getName());
+
     public void init() {
-        if(blacklistedWords.size() >= 0) {
+        if (blacklistedWords.size() >= 0) {
             blacklistedWords.clear();
         }
+
         try {
             ResultSet wordResult = Comet.getServer().getStorage().getTable("SELECT word FROM wordfilter WHERE type='blacklist'");
 
-            while(wordResult.next()) {
+            while (wordResult.next()) {
                 blacklistedWords.add(wordResult.getString("word"));
-
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading blacklisted words", e);
         }
 
         log.info("Loaded " + blacklistedWords.size() + " blacklisted words");
 
-        if(whitelistedWords.size() >= 0) {
+        if (whitelistedWords.size() >= 0) {
             whitelistedWords.clear();
         }
+
         try {
             ResultSet wordResult = Comet.getServer().getStorage().getTable("SELECT word FROM wordfilter WHERE type='whitelist'");
 
-            while(wordResult.next()) {
+            while (wordResult.next()) {
                 whitelistedWords.add(wordResult.getString("word"));
 
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading whitelisted words", e);
         }
 
@@ -62,7 +65,7 @@ public class FilterManager {
                 return false;
             }
         }
-        message = message.replaceAll("[^a-zA-Z]+","");
+        message = message.replaceAll("[^a-zA-Z]+", "");
         message = message.replaceAll("(\\w)\\1+", "$1");
 
         for (String BlockedString : blacklistedWords) {
@@ -75,7 +78,7 @@ public class FilterManager {
     }
 
     public String getFilteredString(String message) {
-        message = message.replaceAll("[^a-zA-Z]+","");
+        message = message.replaceAll("[^a-zA-Z]+", "");
         message = message.replaceAll("(\\w)\\1+", "$1");
         return message;
     }
@@ -88,13 +91,13 @@ public class FilterManager {
             statement.setString(1, getFilteredString(word));
             statement.setString(2, "blacklist");
             statement.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             GameEngine.getLogger().error("Error while unblacklisting word: " + word, e);
         }
 
 
     }
+
     public void removewhitelistedWord(String word) {
         whitelistedWords.remove(getFilteredString(word));
         try {
@@ -103,8 +106,7 @@ public class FilterManager {
             statement.setString(1, getFilteredString(word));
             statement.setString(2, "whitelist");
             statement.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             GameEngine.getLogger().error("Error while unwhitelisting word: " + word, e);
         }
     }
@@ -117,8 +119,7 @@ public class FilterManager {
             statement.setString(1, getFilteredString(word));
             statement.setString(2, "whitelist");
             statement.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             GameEngine.getLogger().error("Error while whitelisting word: " + word, e);
         }
     }
@@ -131,8 +132,7 @@ public class FilterManager {
             statement.setString(1, getFilteredString(word));
             statement.setString(2, "blacklist");
             statement.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             GameEngine.getLogger().error("Error while blacklisting word: " + word, e);
         }
     }

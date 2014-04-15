@@ -13,11 +13,12 @@ import com.cometproject.server.game.rooms.items.data.MannequinData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
-import com.cometproject.server.network.sessions.Session;
+import javolution.util.FastMap;
 
 import java.lang.ref.WeakReference;
 import java.sql.PreparedStatement;
 import java.util.List;
+import java.util.Map;
 
 public class FloorItem extends RoomItem {
     private int roomId;
@@ -28,6 +29,7 @@ public class FloorItem extends RoomItem {
     private List<Position3D> rollingPositions;
 
     private WeakReference<Room> room;
+    private Map<String, Object> attributes;
 
     public FloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data, GiftData giftData) {
         this.init(id, itemId, roomId, owner, x, y, z, rotation, data, giftData);
@@ -50,6 +52,12 @@ public class FloorItem extends RoomItem {
         this.giftData = giftData;
 
         this.state = false;
+
+        this.attributes = new FastMap<>();
+    }
+
+    public void dispose() {
+        this.attributes.clear();
     }
 
     @Override
@@ -310,5 +318,29 @@ public class FloorItem extends RoomItem {
 
     public void setExtraData(String data) {
         this.extraData = data;
+    }
+
+    @Override
+    public void setAttribute(String attributeKey, Object attributeValue) {
+        if(this.attributes.containsKey(attributeKey)) {
+            this.attributes.replace(attributeKey, attributeValue);
+        } else {
+            this.attributes.put(attributeKey, attributeValue);
+        }
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+        return this.attributes.get(attributeKey);
+    }
+
+    @Override
+    public boolean hasAttribute(String attributeKey) {
+        return this.attributes.containsKey(attributeKey);
+    }
+
+    @Override
+    public void removeAttribute(String attributeKey) {
+        this.attributes.remove(attributeKey);
     }
 }

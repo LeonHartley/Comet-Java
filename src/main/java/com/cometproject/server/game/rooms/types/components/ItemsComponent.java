@@ -42,6 +42,9 @@ public class ItemsComponent {
     }
 
     public void dispose() {
+        // Clear attributes!
+        for(FloorItem item : this.floorItems) item.dispose();
+
         this.floorItems.clear();
         this.wallItems.clear();
         this.room = null;

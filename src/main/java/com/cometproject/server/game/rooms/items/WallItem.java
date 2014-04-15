@@ -144,4 +144,24 @@ public class WallItem extends RoomItem {
     public boolean getState() {
         return this.state;
     }
+
+    @Override
+    public void setAttribute(String attributeKey, Object attributeValue) {
+
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+        return null;
+    }
+
+    @Override
+    public boolean hasAttribute(String attributeKey) {
+        return false;
+    }
+
+    @Override
+    public void removeAttribute(String attributeKey) {
+
+    }
 }

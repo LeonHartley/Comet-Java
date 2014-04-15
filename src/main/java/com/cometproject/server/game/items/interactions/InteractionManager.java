@@ -5,6 +5,7 @@ import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.items.interactions.banzai.BanzaiPatchInteraction;
 import com.cometproject.server.game.items.interactions.banzai.BanzaiTeleportInteraction;
 import com.cometproject.server.game.items.interactions.banzai.BanzaiGateInteraction;
+import com.cometproject.server.game.items.interactions.banzai.BanzaiTimerInteraction;
 import com.cometproject.server.game.items.interactions.football.BallInteraction;
 import com.cometproject.server.game.items.interactions.items.*;
 import com.cometproject.server.game.items.interactions.wired.action.WiredActionMoveRotate;
@@ -69,6 +70,7 @@ public class InteractionManager {
         this.interactions.put("bb_blue_gate", new BanzaiGateInteraction());
         this.interactions.put("bb_red_gate", new BanzaiGateInteraction());
         this.interactions.put("bb_teleport", new BanzaiTeleportInteraction());
+        this.interactions.put("bb_timer", new BanzaiTimerInteraction());
     }
 
     public void onWalk(boolean state, FloorItem item, PlayerEntity avatar) {
