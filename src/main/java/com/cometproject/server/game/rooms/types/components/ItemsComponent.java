@@ -137,6 +137,12 @@ public class ItemsComponent {
         for(FloorItem floorItem : this.floorItems) {
             if(floorItem.getDefinition().getInteraction().equals(interaction)) {
                 items.add(floorItem);
+            } else if(interaction.contains("%")) {
+                if (interaction.startsWith("%") && floorItem.getDefinition().getInteraction().endsWith(interaction.replace("%", ""))) {
+                    items.add(floorItem);
+                } else if(interaction.endsWith("%") && floorItem.getDefinition().getInteraction().startsWith(interaction.replace("%", ""))) {
+                    items.add(floorItem);
+                }
             }
         }
 
