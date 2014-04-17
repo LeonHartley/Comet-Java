@@ -217,6 +217,7 @@ public class EntityComponent {
         for (GenericEntity entity : entities.values()) {
             entity.leaveRoom(false, false, true);
         }
+        
         entities.clear();
     }
 }

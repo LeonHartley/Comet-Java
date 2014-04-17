@@ -18,7 +18,7 @@ public class TalkMessageEvent implements IEvent {
             colour = 0;
 
         if (client.getPlayer().getData().getRank() < 7) {
-            if (GameEngine.getFilter().filter(message)) {
+            if (GameEngine.getRooms().getFilter().filter(message)) {
                 client.send(AdvancedAlertMessageComposer.compose(Locale.get("filter.alert.title"), Locale.get("filter.alert.message")));
                 return;
             }

@@ -57,6 +57,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.roomkick.name"), new RoomKickCommand());
         this.commands.put(Locale.get("command.coins.name"), new CoinsCommand());
         this.commands.put(Locale.get("command.points.name"), new PointsCommand());
+        this.commands.put(Locale.get("command.unload.name"), new UnloadCommand());
     }
 
     public boolean isCommand(String message) {

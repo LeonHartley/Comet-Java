@@ -26,7 +26,6 @@ public class GameEngine {
     private static ModerationManager moderationManager;
     private static GroupManager groupManager;
     private static PetManager petManager;
-    private static FilterManager filterManager;
 
     public static GameThread gameThread;
 
@@ -44,7 +43,6 @@ public class GameEngine {
         moderationManager = new ModerationManager();
         groupManager = new GroupManager();
         petManager = new PetManager();
-        filterManager = new FilterManager();
     }
 
     public static Logger getLogger() {
@@ -97,9 +95,5 @@ public class GameEngine {
 
     public static GameThread getThread() {
         return gameThread;
-    }
-
-    public static FilterManager getFilter() {
-        return filterManager;
     }
 }

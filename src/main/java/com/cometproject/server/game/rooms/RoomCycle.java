@@ -5,20 +5,25 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
+import javolution.util.FastList;
 import org.apache.log4j.Logger;
 
+import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class RoomCycle implements CometTask {
     private ScheduledFuture myFuture;
-    //private int cycleCount;
     private boolean active;
     private Logger log = Logger.getLogger(RoomCycle.class.getName());
+
+    private List<Integer> roomsToUnload;
 
     public RoomCycle(CometThreadManagement mgr) {
         this.myFuture = mgr.executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
         active = true;
+
+        this.roomsToUnload = new FastList<>();
     }
 
     @Override
@@ -42,12 +47,19 @@ public class RoomCycle implements CometTask {
                     if (room == null) continue;
 
                     try {
+                        if(this.roomsToUnload.contains(room.getId())) {
+                            room.dispose();
+                            continue;
+                        }
+
                         room.tick();
                     } catch (Exception e) {
-                        log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName());
+                        log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
                     }
                 }
             }
+
+            this.roomsToUnload.clear();
 
             TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
 
@@ -62,6 +74,13 @@ public class RoomCycle implements CometTask {
     public void stop() {
         this.setActive(false);
         this.myFuture.cancel(false);
+    }
+
+    public void requestUnload(int roomId) {
+        if(this.roomsToUnload.contains(roomId))
+            return;
+
+        this.roomsToUnload.add(roomId);
     }
 
     public boolean isActive() {
