@@ -65,6 +65,7 @@ public class Room {
 
         this.itemProcess.dispose();
         this.process.dispose();
+        this.entities.dispose();
         this.rights.dispose();
         this.items.dispose();
         this.wired.dispose();
@@ -72,7 +73,6 @@ public class Room {
         this.trade.dispose();
         this.bots.dispose();
         this.game.dispose();
-        this.entities.dispose();
         this.mapping.dispose();
 
         this.itemProcess = null;
@@ -85,7 +85,6 @@ public class Room {
         this.bots = null;
         this.entities = null;
         this.mapping = null;
-        this.model = null;
 
         this.isActive = false;
         this.log.debug("Room disposed");

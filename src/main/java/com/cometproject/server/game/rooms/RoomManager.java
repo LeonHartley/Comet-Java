@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.cache.CometCache;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.game.rooms.avatars.misc.FilterManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomModel;
@@ -20,6 +21,7 @@ import java.util.List;
 public class RoomManager {
     private FastMap<Integer, Room> rooms;
     private FastList<RoomModel> models;
+    private FilterManager filterManager;
 
     private RoomCycle globalProcessor;
     private ChatEmotionsManager emotions;
@@ -30,6 +32,8 @@ public class RoomManager {
         rooms = new FastMap<>();
         models = new FastList<>();
         emotions = new ChatEmotionsManager();
+        filterManager = new FilterManager();
+
         globalProcessor = new RoomCycle(Comet.getServer().getThreadManagement());
 
         loadModels();
@@ -229,5 +233,9 @@ public class RoomManager {
 
     public RoomCycle getGlobalProcessor() {
         return this.globalProcessor;
+    }
+
+    public FilterManager getFilter() {
+        return filterManager;
     }
 }

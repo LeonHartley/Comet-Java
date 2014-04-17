@@ -15,12 +15,12 @@ public class WhitelistCommand extends ChatCommand {
 
         switch (params[1]) {
             case "add":
-                GameEngine.getFilter().addwhitelistedWord(params[2]);
+                GameEngine.getRooms().getFilter().addwhitelistedWord(params[2]);
                 client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.whitelist.title"), Locale.get("command.whitelist.messagewhitelisted")));
                 break;
 
             case "remove":
-                GameEngine.getFilter().removewhitelistedWord(params[2]);
+                GameEngine.getRooms().getFilter().removewhitelistedWord(params[2]);
                 client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.whitelist.title"), Locale.get("command.whitelist.messageunwhitelisted")));
                 break;
         }

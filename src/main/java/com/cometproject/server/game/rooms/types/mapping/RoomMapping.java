@@ -39,9 +39,11 @@ public class RoomMapping {
     }
 
     public void dispose() {
-        for (TileInstance[] tile : tiles) {
+        for (TileInstance[] tile : this.tiles) {
             Arrays.fill(tile, null);
         }
+
+        Arrays.fill(this.tiles, null);
 
         this.room = null;
         this.model = null;

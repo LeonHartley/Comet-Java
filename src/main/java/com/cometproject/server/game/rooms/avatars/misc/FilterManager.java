@@ -12,13 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FilterManager {
-    public FilterManager() {
-        //init();
-    }
-
     public List<String> blacklistedWords = new ArrayList<>();
     public List<String> whitelistedWords = new ArrayList<>();
     private Logger log = Logger.getLogger(FilterManager.class.getName());
+
+    public FilterManager() {
+        // TODO: Get Julien to send the database.. :P
+        //init();
+    }
 
     public void init() {
         if (blacklistedWords.size() >= 0) {
