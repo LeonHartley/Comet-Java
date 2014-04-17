@@ -18,14 +18,14 @@ public class WiredDataFactory {
     }
 
     public static WiredDataInstance get(FloorItem item) {
-        if(instances.containsKey(item.getId())) {
+        if (instances.containsKey(item.getId())) {
             return instances.get(item.getId());
         }
 
         try {
             ResultSet data = Comet.getServer().getStorage().getRow("SELECT * FROM items_wired_data WHERE item_id = " + item.getId());
 
-            if(data == null) {
+            if (data == null) {
                 WiredDataInstance instance = create(item.getDefinition().getInteraction(), item.getId(), "");
                 instances.put(item.getId(), instance);
                 return instance;
@@ -35,7 +35,7 @@ public class WiredDataFactory {
             instances.put(instance.getItemId(), instance);
 
             return instance;
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while attempting to load wired data for item: " + item.getId(), e);
         }
 
@@ -54,7 +54,7 @@ public class WiredDataFactory {
 
             ResultSet keys = statement.getGeneratedKeys();
 
-            if(keys.next()) {
+            if (keys.next()) {
                 int insertedId = keys.getInt(1);
 
                 WiredDataInstance instance = buildInstance(itemId, data, insertedId);
@@ -63,7 +63,7 @@ public class WiredDataFactory {
                 return instance;
             }
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while creating inserting wired data for item: " + itemId, e);
         }
 
@@ -77,11 +77,11 @@ public class WiredDataFactory {
     public static void save(WiredDataInstance data) {
         String saveData = data.getDelay() + ":" + data.getMovement() + ":" + data.getRotation() + ":";
 
-        if(data.getItems().size() != 0) {
+        if (data.getItems().size() != 0) {
             int last = data.getItems().get(data.getItems().size() - 1);
 
-            for(int id : data.getItems()) {
-                if(id != last) {
+            for (int id : data.getItems()) {
+                if (id != last) {
                     saveData += id + ",";
                 } else {
                     saveData += id;
@@ -96,7 +96,7 @@ public class WiredDataFactory {
             statement.setInt(2, data.getId());
 
             statement.executeUpdate();
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while updating wired data", e);
         }
     }

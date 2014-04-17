@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.types.misc;
 
-import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.rooms.RoomManager;
 import javolution.util.FastMap;
 
@@ -8,6 +7,7 @@ import java.util.Map;
 
 public class ChatEmotionsManager {
     private FastMap<String, ChatEmotion> emotions;
+
     public ChatEmotionsManager() {
         emotions = new FastMap<>();
 
@@ -63,8 +63,8 @@ public class ChatEmotionsManager {
     }
 
     public int getEmotion(String message) {
-        for(Map.Entry<String, ChatEmotion> emotion : emotions.entrySet()) {
-            if(message.toLowerCase().contains(emotion.getKey().toLowerCase())) {
+        for (Map.Entry<String, ChatEmotion> emotion : emotions.entrySet()) {
+            if (message.toLowerCase().contains(emotion.getKey().toLowerCase())) {
                 return getPacketForEmotion(emotion.getValue());
             }
         }
@@ -72,19 +72,19 @@ public class ChatEmotionsManager {
     }
 
     private int getPacketForEmotion(ChatEmotion e) {
-        if(e.equals(ChatEmotion.Smile))
+        if (e.equals(ChatEmotion.Smile))
             return 1;
 
-        else if(e.equals(ChatEmotion.Angry))
+        else if (e.equals(ChatEmotion.Angry))
             return 2;
 
-        else if(e.equals(ChatEmotion.Shocked))
+        else if (e.equals(ChatEmotion.Shocked))
             return 3;
 
-        else if(e.equals(ChatEmotion.Sad))
+        else if (e.equals(ChatEmotion.Sad))
             return 4;
 
-        else if(e.equals(ChatEmotion.Laugh))
+        else if (e.equals(ChatEmotion.Laugh))
             return 6;
 
         else

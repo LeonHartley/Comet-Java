@@ -20,7 +20,7 @@ public enum GameTeam {
     }
 
     public int getBanzaiEffect() {
-        switch(teamId) {
+        switch (teamId) {
             case 1:
                 return UserEffectType.BB_RED.getEffectId();
 

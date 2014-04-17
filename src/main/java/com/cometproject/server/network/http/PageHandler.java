@@ -17,27 +17,27 @@ public class PageHandler implements HttpHandler {
         pages = new FastMap<>();
 
         pages.put("/user/?", new UserObjectPage());
-        pages.put("/stats",  new StatsPage());
+        pages.put("/stats", new StatsPage());
     }
 
     @Override
     public void handle(HttpExchange e) throws IOException {
         String request = e.getRequestURI().toString();
 
-        if(request.equals("/favicon.ico")) {
+        if (request.equals("/favicon.ico")) {
             return;
         }
 
         ManagementPage page = null;
 
         for (Map.Entry<String, ManagementPage> entry : this.pages.entrySet()) {
-            if(request.startsWith(entry.getKey().replace("?", ""))) {
+            if (request.startsWith(entry.getKey().replace("?", ""))) {
                 page = entry.getValue();
                 break;
             }
         }
 
-        if(page != null) {
+        if (page != null) {
             page.handle(e, request);
         } else {
             Comet.getServer().getNetwork().getManagement().sendResponse("Invalid request URI", e);

@@ -13,10 +13,10 @@ public class GetCataPageMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int pageId = msg.readInt();
 
-        if(GameEngine.getCatalog().pageExists(pageId) && GameEngine.getCatalog().getPage(pageId).isEnabled()) {
+        if (GameEngine.getCatalog().pageExists(pageId) && GameEngine.getCatalog().getPage(pageId).isEnabled()) {
             // TODO: better caching for other pages + all the other "static" composers
-            if(GameEngine.getCatalog().getPage(pageId).getTemplate().equals("spaces_new"))  {
-                if(cachedSpaces != null) {
+            if (GameEngine.getCatalog().getPage(pageId).getTemplate().equals("spaces_new")) {
+                if (cachedSpaces != null) {
                     client.send(cachedSpaces);
                 } else {
                     cachedSpaces = CataPageMessageComposer.compose(GameEngine.getCatalog().getPage(pageId));

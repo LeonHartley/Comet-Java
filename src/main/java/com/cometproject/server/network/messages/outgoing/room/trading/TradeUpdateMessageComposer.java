@@ -13,14 +13,14 @@ public class TradeUpdateMessageComposer {
         msg.writeInt(user1);
         msg.writeInt(items1.size());
 
-        for(InventoryItem item : items1) {
+        for (InventoryItem item : items1) {
             item.serializeTrade(msg);
         }
 
         msg.writeInt(user2);
         msg.writeInt(items2.size());
 
-        for(InventoryItem item : items2) {
+        for (InventoryItem item : items2) {
             item.serializeTrade(msg);
         }
 

@@ -1,13 +1,9 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
-import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.types.Room;
 import javolution.util.FastMap;
 
@@ -30,14 +26,14 @@ public class PetComponent {
         try {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM pet_data WHERE room_id = " + this.room.getId());
 
-            while(data.next()) {
+            while (data.next()) {
                 PetData petData = new PetData(data);
                 PetEntity botEntity = new PetEntity(petData, room.getEntities().getFreeId(), new Position3D(data.getInt("x"), data.getInt("y")), 1, 1, room);
 
                 this.petDataInstances.put(petData.getId(), petData);
                 this.getRoom().getEntities().addEntity(botEntity);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             room.log.error("Error while deploying bots", e);
         }
     }

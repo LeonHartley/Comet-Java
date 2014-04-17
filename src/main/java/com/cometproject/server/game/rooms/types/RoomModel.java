@@ -35,7 +35,7 @@ public class RoomModel {
         this.doorZ = data.getInt("door_z");
         this.doorRotation = data.getInt("door_dir");
 
-        String[] temp = heightmap.split(Character.toString((char)13));
+        String[] temp = heightmap.split(Character.toString((char) 13));
 
         this.mapSizeX = temp[0].length();
         this.mapSizeY = temp.length;
@@ -51,13 +51,12 @@ public class RoomModel {
             }
 
             for (int x = 0; x < mapSizeX; x++) {
-                String Square = temp[y].substring(x,x + 1).trim().toLowerCase();
+                String Square = temp[y].substring(x, x + 1).trim().toLowerCase();
 
                 if (Square.equals("x")) {
                     squareState[x][y] = RoomTileState.INVALID;
                     squares[x][y] = closed;
-                }
-                else if(isNumeric(Square))  {
+                } else if (isNumeric(Square)) {
                     squareState[x][y] = RoomTileState.VALID;
                     squares[x][y] = open;
                     squareHeight[x][y] = Double.parseDouble(Square);
@@ -66,25 +65,22 @@ public class RoomModel {
 
                 if (doorX == x && doorY == y) {
                     squareState[x][y] = RoomTileState.VALID;
-                    relativeMap += (int)doorZ + "";
-                }
-                else {
-                    if(Square.isEmpty() || Square == null) {
+                    relativeMap += (int) doorZ + "";
+                } else {
+                    if (Square.isEmpty() || Square == null) {
                         continue;
                     }
                     relativeMap += Square;
                 }
             }
-            relativeMap += (char)13;
+            relativeMap += (char) 13;
         }
 
-        for(String MapLine: heightmap.split("\r\n"))
-        {
-            if(MapLine.isEmpty() || MapLine == null)
-            {
+        for (String MapLine : heightmap.split("\r\n")) {
+            if (MapLine.isEmpty() || MapLine == null) {
                 continue;
             }
-            map += MapLine + (char)13;
+            map += MapLine + (char) 13;
         }
     }
 
@@ -140,8 +136,7 @@ public class RoomModel {
         try {
             Integer.parseInt(Input);
             return true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }

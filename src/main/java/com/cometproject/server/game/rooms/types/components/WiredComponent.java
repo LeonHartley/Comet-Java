@@ -33,8 +33,8 @@ public class WiredComponent {
     }
 
     public boolean isWiredSquare(int x, int y) {
-        for(WiredSquare square : this.squares) {
-            if(square.getX() == x && square.getY() == y) {
+        for (WiredSquare square : this.squares) {
+            if (square.getX() == x && square.getY() == y) {
                 return true;
             }
         }
@@ -50,26 +50,26 @@ public class WiredComponent {
     }
 
     public boolean trigger(TriggerType type, Object data, List<PlayerEntity> entities) {
-        if(this.squares.size() == 0) {
+        if (this.squares.size() == 0) {
             return false;
         }
 
         boolean wasTriggered = false;
 
         try {
-            for(WiredSquare s : this.squares) {
-                for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(s.getX(), s.getY())) {
-                    if(GameEngine.getWired().isWiredTrigger(item)) {
-                        if(item.getDefinition().getInteraction().equals(GameEngine.getWired().getString(type))) {
-                            if(type == TriggerType.ON_SAY) {
-                                if(!item.getExtraData().equals(data)) {
+            for (WiredSquare s : this.squares) {
+                for (FloorItem item : this.getRoom().getItems().getItemsOnSquare(s.getX(), s.getY())) {
+                    if (GameEngine.getWired().isWiredTrigger(item)) {
+                        if (item.getDefinition().getInteraction().equals(GameEngine.getWired().getString(type))) {
+                            if (type == TriggerType.ON_SAY) {
+                                if (!item.getExtraData().equals(data)) {
                                     continue;
                                 }
-                            } else if(type == TriggerType.ON_FURNI) {
+                            } else if (type == TriggerType.ON_FURNI) {
                                 WiredDataInstance wiredData = WiredDataFactory.get(item);
                                 int itemId = (int) data;
 
-                                if(!wiredData.getItems().contains(itemId)) {
+                                if (!wiredData.getItems().contains(itemId)) {
                                     continue;
                                 }
                             }
@@ -80,7 +80,7 @@ public class WiredComponent {
                     }
                 }
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             this.room.log.error("Error while processing wired trigger", e);
         }
 
@@ -88,26 +88,26 @@ public class WiredComponent {
     }
 
     public void tick() {
-        if(this.squares == null)
+        if (this.squares == null)
             return;
 
-        for(WiredSquare square : this.squares) {
+        for (WiredSquare square : this.squares) {
             boolean hasTimer = false;
 
-            for(FloorItem item : this.getRoom().getItems().getItemsOnSquare(square.getX(), square.getY())) {
-                if(GameEngine.getWired().isWiredTrigger(item)) {
-                    if(item.getDefinition().getInteraction().equals("wf_trg_timer")) {
-                        if(hasTimer)
+            for (FloorItem item : this.getRoom().getItems().getItemsOnSquare(square.getX(), square.getY())) {
+                if (GameEngine.getWired().isWiredTrigger(item)) {
+                    if (item.getDefinition().getInteraction().equals("wf_trg_timer")) {
+                        if (hasTimer)
                             continue;
 
                         hasTimer = true;
                         WiredDataInstance data = WiredDataFactory.get(item);
 
-                        if(data.cycles >= data.getDelay()) {
+                        if (data.cycles >= data.getDelay()) {
                             List<PlayerEntity> entities = new FastList<>();
 
-                            for(GenericEntity entity : this.getRoom().getEntities().getEntitiesCollection().values()) {
-                                if(entity.getEntityType() == RoomEntityType.PLAYER) {
+                            for (GenericEntity entity : this.getRoom().getEntities().getEntitiesCollection().values()) {
+                                if (entity.getEntityType() == RoomEntityType.PLAYER) {
                                     PlayerEntity playerEntity = (PlayerEntity) entity;
 
                                     entities.add(playerEntity);
@@ -126,10 +126,10 @@ public class WiredComponent {
     }
 
     public void handleSave(FloorItem item, Event msg) {
-        if(item.getDefinition().getInteraction().startsWith("wf_trg_")) {
+        if (item.getDefinition().getInteraction().startsWith("wf_trg_")) {
             GameEngine.getWired().getTrigger(item.getDefinition().getInteraction()).onSave(msg, item);
 
-        } else if(item.getDefinition().getInteraction().startsWith("wf_act_")) {
+        } else if (item.getDefinition().getInteraction().startsWith("wf_act_")) {
             GameEngine.getWired().getEffect(item.getDefinition().getInteraction()).onSave(msg, item);
         }
     }

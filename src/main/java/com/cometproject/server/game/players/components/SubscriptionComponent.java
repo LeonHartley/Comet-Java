@@ -54,7 +54,7 @@ public class SubscriptionComponent {
     }
 
     public boolean isValid() {
-        if(this.getExpire() <= Comet.getTime()) {
+        if (this.getExpire() <= Comet.getTime()) {
             return false;
         }
 

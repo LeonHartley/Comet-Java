@@ -19,7 +19,7 @@ public class PetManager {
     }
 
     public void loadPetRaces() {
-        if(this.petRaces != null) {
+        if (this.petRaces != null) {
             this.petRaces.clear();
         } else {
             this.petRaces = new FastList<>();
@@ -28,7 +28,7 @@ public class PetManager {
         try {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM pet_races");
 
-            while(data.next()) {
+            while (data.next()) {
                 this.petRaces.add(new PetRace(data));
             }
 
@@ -39,17 +39,17 @@ public class PetManager {
     }
 
     public int validatePetName(String petName) {
-        String pattern= "^[a-zA-Z0-9]*$";
+        String pattern = "^[a-zA-Z0-9]*$";
 
-        if(petName.length() <= 0) {
+        if (petName.length() <= 0) {
             return 1;
         }
 
-        if(petName.length() > 16) {
+        if (petName.length() > 16) {
             return 2;
         }
 
-        if(!petName.matches(pattern)){
+        if (!petName.matches(pattern)) {
             return 3;
         }
 
@@ -61,8 +61,8 @@ public class PetManager {
     public List<PetRace> getRacesByRaceId(int raceId) {
         List<PetRace> races = new FastList<>();
 
-        for(PetRace race : this.getPetRaces()) {
-            if(raceId == race.getRaceId())
+        for (PetRace race : this.getPetRaces()) {
+            if (raceId == race.getRaceId())
                 races.add(race);
         }
 

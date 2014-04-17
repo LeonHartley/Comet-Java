@@ -18,15 +18,15 @@ public class LoadFriendsMessageComposer {
 
         int counter = 0;
 
-        for(Map.Entry<Integer, MessengerFriend> friend : friends.entrySet()) {
-            if(friend.getValue() != null && friend.getValue().getData() != null)
+        for (Map.Entry<Integer, MessengerFriend> friend : friends.entrySet()) {
+            if (friend.getValue() != null && friend.getValue().getData() != null)
                 counter++;
         }
 
         msg.writeInt(counter);
 
-        for(Map.Entry<Integer, MessengerFriend> friend : friends.entrySet()) {
-            if(friend.getValue() != null && friend.getValue().getData() != null) {
+        for (Map.Entry<Integer, MessengerFriend> friend : friends.entrySet()) {
+            if (friend.getValue() != null && friend.getValue().getData() != null) {
                 friend.getValue().updateClient();
                 friend.getValue().serialize(msg);
             }

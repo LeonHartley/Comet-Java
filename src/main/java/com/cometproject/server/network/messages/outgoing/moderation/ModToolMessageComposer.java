@@ -12,7 +12,7 @@ public class ModToolMessageComposer {
 
         msg.writeInt(GameEngine.getModeration().getUserPresets().size());
 
-        for(String preset : GameEngine.getModeration().getUserPresets()) {
+        for (String preset : GameEngine.getModeration().getUserPresets()) {
             msg.writeString(preset);
         }
 
@@ -29,7 +29,7 @@ public class ModToolMessageComposer {
 
         msg.writeInt(GameEngine.getModeration().getRoomPresets().size());
 
-        for(String preset : GameEngine.getModeration().getRoomPresets()) {
+        for (String preset : GameEngine.getModeration().getRoomPresets()) {
             msg.writeString(preset);
         }
 

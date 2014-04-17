@@ -35,7 +35,7 @@ public class WiredTriggerTimer extends Interactor {
 
         WiredDataInstance data = WiredDataFactory.get(floorItem);
 
-        if(data == null) {
+        if (data == null) {
             GameEngine.getLogger().debug("Failed to find WiredDataInstance for item: " + item.getId());
             return false;
         }
@@ -73,7 +73,7 @@ public class WiredTriggerTimer extends Interactor {
 
     @Override
     public boolean onTick(RoomItem item, PlayerEntity avatar, int updateState) {
-        switch(updateState) {
+        switch (updateState) {
             case 0:
                 ((FloorItem) item).sendData("1");
                 item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 1, 2));

@@ -122,13 +122,13 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem,
         int posX = pos.getX();
         int posY = pos.getY();
 
-        if(getRotation() == 0) {
+        if (getRotation() == 0) {
             posY--;
-        } else if(getRotation() == 2) {
+        } else if (getRotation() == 2) {
             posX++;
-        } else if(getRotation() == 4) {
+        } else if (getRotation() == 4) {
             posY++;
-        } else if(getRotation() == 6) {
+        } else if (getRotation() == 6) {
             posX--;
         }
 
@@ -144,13 +144,13 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem,
         int posX = pos.getX();
         int posY = pos.getY();
 
-        if(getRotation() == 0) {
+        if (getRotation() == 0) {
             posY++;
-        } else if(getRotation() == 2) {
+        } else if (getRotation() == 2) {
             posX--;
-        } else if(getRotation() == 4) {
+        } else if (getRotation() == 4) {
             posY--;
-        } else if(getRotation() == 6) {
+        } else if (getRotation() == 6) {
             posX++;
         }
 
@@ -161,6 +161,7 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem,
     }
 
     public abstract void serialize(Composer msg, boolean isNew);
+
     public abstract void serialize(Composer msg);
 
     public abstract ItemDefinition getDefinition();
@@ -169,9 +170,12 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem,
     public abstract boolean handleInteraction(boolean state);
 
     public abstract boolean toggleInteract(boolean state);
+
     public abstract void sendUpdate();
+
     public abstract void saveData();
 
     public abstract String getExtraData();
+
     public abstract void setExtraData(String data);
 }

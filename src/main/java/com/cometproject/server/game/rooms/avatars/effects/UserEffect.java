@@ -29,7 +29,7 @@ public class UserEffect {
     }
 
     public void decrementDuration() {
-        if(this.duration > 0)
+        if (this.duration > 0)
             this.duration--;
     }
 

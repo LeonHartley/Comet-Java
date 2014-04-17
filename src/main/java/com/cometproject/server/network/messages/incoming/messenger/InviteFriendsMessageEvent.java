@@ -14,7 +14,7 @@ public class InviteFriendsMessageEvent implements IEvent {
         int friendCount = msg.readInt();
         List<Integer> friends = new FastList<>();
 
-        for(int i = 0; i < friendCount; i++) {
+        for (int i = 0; i < friendCount; i++) {
             friends.add(msg.readInt());
         }
 

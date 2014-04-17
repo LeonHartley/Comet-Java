@@ -6,23 +6,15 @@ import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.interactions.football.BallInteraction;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.RoomEntityType;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.WallItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.wired.data.WiredDataFactory;
-import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.game.wired.misc.WiredSquare;
-import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
-import javolution.util.FastList;
 import org.apache.log4j.Logger;
 
-import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -48,7 +40,7 @@ public class ItemProcessComponent implements CometTask {
     }
 
     public void start() {
-        if(this.myFuture != null && this.active) {
+        if (this.myFuture != null && this.active) {
             stop();
         }
 
@@ -59,12 +51,12 @@ public class ItemProcessComponent implements CometTask {
     }
 
     public void stop() {
-        if(this.myFuture != null) {
+        if (this.myFuture != null) {
             this.active = false;
             this.myFuture.cancel(false);
 
-            for(FloorItem item : this.getRoom().getItems().getFloorItems()) {
-                if(item.hasInteraction()) {
+            for (FloorItem item : this.getRoom().getItems().getFloorItems()) {
+                if (item.hasInteraction()) {
                     item.getInteractionQueue().clear();
                 }
             }
@@ -80,11 +72,11 @@ public class ItemProcessComponent implements CometTask {
     @Override
     public void run() {
         try {
-            if(!this.active) {
+            if (!this.active) {
                 return;
             }
 
-            if(this.getRoom().getEntities().playerCount() == 0) {
+            if (this.getRoom().getEntities().playerCount() == 0) {
                 this.stop();
             }
 
@@ -92,14 +84,14 @@ public class ItemProcessComponent implements CometTask {
 
             this.rollCounter++;
 
-            if(this.rollCounter >= 2) {
+            if (this.rollCounter >= 2) {
                 needsRoll = true;
                 this.rollCounter = 0;
             }
 
             long timeStart = System.currentTimeMillis();
 
-            for(FloorItem item : this.getRoom().getItems().getFloorItems()) {
+            for (FloorItem item : this.getRoom().getItems().getFloorItems()) {
                 if (item.hasInteraction()) {
                     InteractionQueueItem interactItem = item.getNextInteraction();
 
@@ -114,7 +106,7 @@ public class ItemProcessComponent implements CometTask {
                             GameEngine.getItems().getInteractions().onWalk(interactItem.getUpdateState() == 1, item, interactItem.getEntity());
                         } else if (interactItem.getAction() == InteractionAction.ON_TICK) {
                             GameEngine.getItems().getInteractions().onTick(item);
-                        }else if (interactItem.getAction() == InteractionAction.ON_PRE_WALK) {
+                        } else if (interactItem.getAction() == InteractionAction.ON_PRE_WALK) {
                             GameEngine.getItems().getInteractions().onPreWalk(item, interactItem.getEntity());
                         }
                     } else {
@@ -122,34 +114,34 @@ public class ItemProcessComponent implements CometTask {
                     }
                 }
 
-                if(item.getDefinition().getInteraction().equals("roller")) {
+                if (item.getDefinition().getInteraction().equals("roller")) {
                     // make tick
                     boolean needsTick = false;
 
-                    for(FloorItem rollerStack : room.getItems().getItemsOnSquare(item.getX(), item.getY())) {// && !item.hasInteraction()) {
-                        if(!needsTick && !rollerStack.getDefinition().getInteraction().equals("roller")) {
+                    for (FloorItem rollerStack : room.getItems().getItemsOnSquare(item.getX(), item.getY())) {// && !item.hasInteraction()) {
+                        if (!needsTick && !rollerStack.getDefinition().getInteraction().equals("roller")) {
                             needsTick = true;
                         }
                     }
 
-                    if(needsTick)
+                    if (needsTick)
                         item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, null, 0, 10));
                 }
 
-                if(needsRoll) {
-                    if(item.isRolling()) {
+                if (needsRoll) {
+                    if (item.isRolling()) {
                         doBallRoll(item);
                     }
                 }
 
-                if(GameEngine.getWired().isWiredTrigger(item)) {
-                    if(!this.getRoom().getWired().isWiredSquare(item.getX(), item.getY())) {
+                if (GameEngine.getWired().isWiredTrigger(item)) {
+                    if (!this.getRoom().getWired().isWiredSquare(item.getX(), item.getY())) {
                         this.getRoom().getWired().add(item.getX(), item.getY());
                     }
                 }
             }
 
-            for(WallItem item : this.getRoom().getItems().getWallItems()) {
+            for (WallItem item : this.getRoom().getItems().getWallItems()) {
                 if (item.hasInteraction()) {
                     InteractionQueueItem interactItem = item.getNextInteraction();
 
@@ -168,18 +160,18 @@ public class ItemProcessComponent implements CometTask {
             }
 
 
-            for(WiredSquare wiredSquare : this.getRoom().getWired().getSquares()) {
-                if(this.getRoom().getItems().getItemsOnSquare(wiredSquare.getX(), wiredSquare.getY()).size() < 1) {
+            for (WiredSquare wiredSquare : this.getRoom().getWired().getSquares()) {
+                if (this.getRoom().getItems().getItemsOnSquare(wiredSquare.getX(), wiredSquare.getY()).size() < 1) {
                     this.getRoom().getWired().disposeSquare(wiredSquare);
                 }
             }
 
             TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
-            if(span.toMilliseconds() > flag) {
+            if (span.toMilliseconds() > flag) {
                 log.warn("GenericRoomItem process took: " + span.toMilliseconds() + "ms to execute.");
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while processing items", e);
         }
     }
@@ -191,7 +183,7 @@ public class ItemProcessComponent implements CometTask {
         currentPos.setZ(room.getModel().getSquareHeight()[currentPos.getX()][currentPos.getY()]);
         nextPos.setZ(room.getModel().getSquareHeight()[nextPos.getX()][nextPos.getY()]);
 
-        if(this.getRoom().getMapping().isValidStep(currentPos, nextPos, false)) {
+        if (this.getRoom().getMapping().isValidStep(currentPos, nextPos, false)) {
             BallInteraction.roll(item, currentPos, nextPos, room);
 
             item.setX(nextPos.getX());
@@ -205,7 +197,9 @@ public class ItemProcessComponent implements CometTask {
     }
 
     public void dispose() {
-        if (this.myFuture != null) { this.myFuture.cancel(false); }
+        if (this.myFuture != null) {
+            this.myFuture.cancel(false);
+        }
         this.myFuture = null;
     }
 

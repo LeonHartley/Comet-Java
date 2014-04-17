@@ -5,7 +5,7 @@ public enum BannerType {
     SMALL;
 
     public static BannerType get(String t) {
-        if(t.equals("big")) {
+        if (t.equals("big")) {
             return BIG;
         }
         return SMALL;

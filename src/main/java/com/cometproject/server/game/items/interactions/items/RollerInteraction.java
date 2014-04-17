@@ -58,19 +58,19 @@ public class RollerInteraction extends Interactor {
         Position3D sqInfront = item.squareInfront();
         FloorItem floorItem = (FloorItem) item;
 
-        if(!floorItem.getRoom().getMapping().isValidPosition(sqInfront))
+        if (!floorItem.getRoom().getMapping().isValidPosition(sqInfront))
             return false;
 
         List<GenericEntity> entitiesOnSq = floorItem.getRoom().getEntities().getEntitiesAt(floorItem.getX(), floorItem.getY());
 
         for (GenericEntity entity : entitiesOnSq) {
-            if(!entity.getRoom().getMapping().isValidStep(entity.getPosition(), sqInfront, true)) {
+            if (!entity.getRoom().getMapping().isValidStep(entity.getPosition(), sqInfront, true)) {
                 continue;
             }
 
             double toHeight = 0;
 
-            for(FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
+            for (FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
                 toHeight += itemInStack.getDefinition().getHeight();
             }
 
@@ -80,26 +80,26 @@ public class RollerInteraction extends Interactor {
 
         List<FloorItem> itemsOnSq = floorItem.getRoom().getItems().getItemsOnSquare(item.getX(), item.getY());
 
-        for(FloorItem itemOnSq : itemsOnSq) {
-            if(itemOnSq.getId() == item.getId())
+        for (FloorItem itemOnSq : itemsOnSq) {
+            if (itemOnSq.getId() == item.getId())
                 continue;
 
             double toHeight = 0;
             boolean needsSave = true;
             boolean needsCancel = false;
 
-            for(FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
-                if(!itemInStack.getDefinition().canStack) {
+            for (FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
+                if (!itemInStack.getDefinition().canStack) {
                     needsCancel = true;
                 }
 
-                if(needsSave && itemInStack.getDefinition().getInteraction().equals("roller"))
+                if (needsSave && itemInStack.getDefinition().getInteraction().equals("roller"))
                     needsSave = false;
 
                 toHeight += itemInStack.getDefinition().getHeight();
             }
 
-            if(needsCancel)
+            if (needsCancel)
                 continue;
 
             floorItem.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position3D(itemOnSq.getX(), itemOnSq.getY(), itemOnSq.getHeight()), new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight), floorItem.getId(), 0, itemOnSq.getId()));
@@ -108,12 +108,12 @@ public class RollerInteraction extends Interactor {
             itemOnSq.setY(sqInfront.getY());
             itemOnSq.setHeight((float) toHeight);
 
-            if(needsSave) {
+            if (needsSave) {
                 Comet.getServer().getStorage().execute("UPDATE items SET x = " + itemOnSq.getX() + ", y = " + itemOnSq.getY() + ", z = '" + itemOnSq.getHeight() + "' WHERE id = " + itemOnSq.getId());
             }
         }
 
-        if(itemsOnSq.size() > 0) {
+        if (itemsOnSq.size() > 0) {
             floorItem.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY()).reload();
         }
 

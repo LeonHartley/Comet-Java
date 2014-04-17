@@ -15,13 +15,13 @@ public class SaveMannequinMessageEvent implements IEvent {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null || !room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (room == null || !room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;
         }
 
         FloorItem item = room.getItems().getFloorItem(id);
 
-        if(item == null) {
+        if (item == null) {
             return;
         }
 
@@ -30,7 +30,7 @@ public class SaveMannequinMessageEvent implements IEvent {
         String figure = client.getPlayer().getData().getFigure();
         String gender = client.getPlayer().getData().getGender().toLowerCase();
 
-        if(data == null) {
+        if (data == null) {
             data = new MannequinData("New Mannequin", figure, gender);
         } else {
             data.setFigure(figure);

@@ -2,15 +2,14 @@ package com.cometproject.server.game.rooms.avatars.misc;
 
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.GameEngine;
+import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.ArrayList;
-
-import com.cometproject.server.game.GameEngine;
-import org.apache.log4j.Logger;
+import java.util.List;
 
 public class FilterManager {
     public FilterManager() {

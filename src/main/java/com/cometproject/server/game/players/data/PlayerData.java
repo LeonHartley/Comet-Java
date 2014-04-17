@@ -50,7 +50,7 @@ public class PlayerData implements Serializable {
             std.setInt(8, id);
 
             return std.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             GameEngine.getLogger().error("Error while saving player data", e);
         }
 

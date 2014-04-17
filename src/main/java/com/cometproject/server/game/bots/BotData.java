@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
+import java.util.Arrays;
 
 public abstract class BotData implements BotInformation {
     private int id, chatDelay, ownerId;
@@ -42,7 +43,7 @@ public abstract class BotData implements BotInformation {
 
             statement.executeUpdate();
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while saving bot data", e);
         }
     }
@@ -113,6 +114,10 @@ public abstract class BotData implements BotInformation {
 
     public int getOwnerId() {
         return ownerId;
+    }
+
+    public void dispose() {
+        Arrays.fill(messages, null);
     }
 }
 

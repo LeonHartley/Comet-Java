@@ -42,8 +42,8 @@ public class GroupManager {
         try {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM group_items WHERE enabled = '1'");
 
-            while(data.next()) {
-                switch(data.getString("type")) {
+            while (data.next()) {
+                switch (data.getString("type")) {
                     case "base":
                         bases.add(new GroupBase(data));
                         break;
@@ -66,18 +66,18 @@ public class GroupManager {
                 }
             }
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading group items", e);
         }
     }
 
     public Group getGroup(int id) throws SQLException {
         Group instance = null;
-        if(groups.containsKey(id)) {
+        if (groups.containsKey(id)) {
             instance = groups.get(id);
         }
 
-        if(instance != null)
+        if (instance != null)
             return instance;
 
         PreparedStatement statement = Comet.getServer().getStorage().prepare("SELECT * FROM groups WHERE id = ?");
@@ -85,7 +85,7 @@ public class GroupManager {
 
         ResultSet data = statement.executeQuery();
 
-        while(data.next()) {
+        while (data.next()) {
             GroupData group = new GroupData(data);
             List<GroupMember> members = new FastList<>();
 
@@ -94,7 +94,7 @@ public class GroupManager {
 
             ResultSet memberSet = memberStd.executeQuery();
 
-            while(memberSet.next()) {
+            while (memberSet.next()) {
                 members.add(new GroupMember(memberSet));
             }
 
@@ -119,15 +119,14 @@ public class GroupManager {
             std.setInt(8, colour2);
 
             std.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while creating group", e);
         }
         return null;
     }
 
     // author: Carlos D.
-    public String generateBadge(int groupBase, int groupBaseColor, List<Integer> list)
-    {
+    public String generateBadge(int groupBase, int groupBaseColor, List<Integer> list) {
         /*String str;
         int num;
 
@@ -228,7 +227,7 @@ public class GroupManager {
     }
 
     public String checkSymbol(String symbol) {
-        if(symbol.equals("s000") || symbol.equals("s00000")) {
+        if (symbol.equals("s000") || symbol.equals("s00000")) {
             return "";
         }
 

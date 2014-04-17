@@ -10,9 +10,9 @@ public class BeginTradeMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int userId = msg.readInt();
 
-        PlayerEntity entity = (PlayerEntity)client.getPlayer().getEntity().getRoom().getEntities().getEntity(userId);
+        PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntity(userId);
 
-        if(entity == null) {
+        if (entity == null) {
             return;
         }
 

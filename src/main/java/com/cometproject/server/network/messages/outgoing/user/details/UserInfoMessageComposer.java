@@ -4,7 +4,9 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class UserInfoMessageComposer {
     public static Composer compose(Player player) {
@@ -24,10 +26,18 @@ public class UserInfoMessageComposer {
         msg.writeInt(3); // (3) pet respects I guess
 
         msg.writeBoolean(true);
-        msg.writeString(new Date(player.getData().getLastVisit() * 1000L).toString());
+        msg.writeString(getDate(player.getData().getLastVisit()));
 
         msg.writeBoolean(false);
         msg.writeBoolean(false);
         return msg;
+    }
+
+    private static String getDate(int timestamp) {
+        Date d = new Date(timestamp * 1000L);
+        SimpleDateFormat df = new SimpleDateFormat("MMM d 'at' HH:mm");
+        df.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+        return df.format(d);
     }
 }

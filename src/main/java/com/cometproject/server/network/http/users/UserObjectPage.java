@@ -14,20 +14,20 @@ public class UserObjectPage extends ManagementPage {
     public boolean handle(HttpExchange e, String uri) {
 
 
-        for(Session c : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
+        for (Session c : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
             c.send(AdvancedAlertMessageComposer.compose("Message From Hotel Management", uri));
         }
 
         String[] parts = uri.split("/");
 
-        if(parts.length < 2) {
+        if (parts.length < 2) {
             return false;
         }
 
-        int userId = Integer.parseInt(uri.split("/")[parts.length -1]);
+        int userId = Integer.parseInt(uri.split("/")[parts.length - 1]);
         PlayerData data = PlayerLoader.loadDataById(userId);
 
-        if(data == null) {
+        if (data == null) {
             Comet.getServer().getNetwork().getManagement().sendResponse("Invalid parameters (expecting integer)", e);
             return false;
         }

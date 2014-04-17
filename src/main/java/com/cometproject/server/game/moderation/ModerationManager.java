@@ -25,13 +25,13 @@ public class ModerationManager {
     }
 
     public void loadPresets() {
-        if(userPresets == null) {
+        if (userPresets == null) {
             userPresets = new FastList<>();
         } else {
             userPresets.clear();
         }
 
-        if(roomPresets == null) {
+        if (roomPresets == null) {
             roomPresets = new FastList<>();
         } else {
             roomPresets.clear();
@@ -40,18 +40,18 @@ public class ModerationManager {
         try {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM moderation_presets");
 
-            while(data.next()) {
+            while (data.next()) {
                 (data.getString("type").equals("user") ? userPresets : roomPresets).add(data.getString("message"));
             }
 
             logger.info("Loaded " + (this.getRoomPresets().size() + this.getUserPresets().size()) + " moderation presets");
-        } catch(Exception e) {
+        } catch (Exception e) {
             logger.error("Error while loading moderation presets", e);
         }
     }
 
     public void loadActiveTickets() {
-        if(tickets == null) {
+        if (tickets == null) {
             tickets = new FastMap<>();
         } else {
             tickets.clear();
@@ -60,12 +60,12 @@ public class ModerationManager {
         try {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM moderation_help_tickets WHERE state = 'open'");
 
-            while(data.next()) {
+            while (data.next()) {
                 this.tickets.put(data.getInt("id"), new HelpTicket(data));
             }
 
             logger.info("Loaded " + this.tickets.size() + " active help tickets");
-        } catch(Exception e) {
+        } catch (Exception e) {
             logger.error("Error while loading active tickets", e);
         }
     }
@@ -76,8 +76,8 @@ public class ModerationManager {
         // TODO: send ticket to all moderators.
         synchronized (Comet.getServer().getNetwork().getSessions().getSessions()) {
             for (Session session : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
-                if(session.getPlayer() != null) {
-                    if(session.getPlayer().getPermissions().hasPermission("mod_tool")) {
+                if (session.getPlayer() != null) {
+                    if (session.getPlayer().getPermissions().hasPermission("mod_tool")) {
                         session.send(HelpTicketMessageComposer.compose(ticket));
                     }
                 }
@@ -91,7 +91,7 @@ public class ModerationManager {
 
     public HelpTicket getTicketByUserId(int id) {
         for (HelpTicket ticket : tickets.values()) {
-            if(ticket.getPlayerId() == id)
+            if (ticket.getPlayerId() == id)
                 return ticket;
         }
 

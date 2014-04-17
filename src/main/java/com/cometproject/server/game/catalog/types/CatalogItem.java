@@ -39,11 +39,11 @@ public class CatalogItem {
 
         this.items = new FastList<>();
 
-        if(itemId.contains(",")) {
+        if (itemId.contains(",")) {
             String[] split = itemId.split(",");
 
-            for(String str : split) {
-                if(!str.equals("")) {
+            for (String str : split) {
+                if (!str.equals("")) {
                     this.items.add(Integer.valueOf(str));
                 }
             }

@@ -1,11 +1,11 @@
 package com.cometproject.server.monitor;
 
-import java.util.concurrent.ScheduledFuture;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import org.apache.log4j.Logger;
 
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class SystemMonitor implements CometTask {

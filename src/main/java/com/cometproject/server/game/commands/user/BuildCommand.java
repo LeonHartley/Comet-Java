@@ -3,9 +3,7 @@ package com.cometproject.server.game.commands.user;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
 public class BuildCommand extends ChatCommand {

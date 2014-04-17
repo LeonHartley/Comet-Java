@@ -19,18 +19,18 @@ public class MoveRotateEffect extends WiredEffect {
     public void onActivate(List<PlayerEntity> entities, FloorItem item) {
         WiredDataInstance data = WiredDataFactory.get(item);
 
-        if(data.getItems().size() == 0) {
+        if (data.getItems().size() == 0) {
             return;
         }
 
         Room room = entities.get(0).getRoom();
 
-        for(int itemId : data.getItems()) {
+        for (int itemId : data.getItems()) {
             boolean isCancelled = false;
 
             FloorItem itemInstance = room.getItems().getFloorItem(itemId);
 
-            if(itemInstance == null)
+            if (itemInstance == null)
                 continue;
 
             Position3D previousPosition = new Position3D(itemInstance.getX(), itemInstance.getY(), itemInstance.getHeight());
@@ -40,14 +40,14 @@ public class MoveRotateEffect extends WiredEffect {
             float height = 0;
 
             boolean isSameTile = true;
-            if(previousPosition.getX() != newPosition.getX() || previousPosition.getY() != newPosition.getY()) {
+            if (previousPosition.getX() != newPosition.getX() || previousPosition.getY() != newPosition.getY()) {
                 isSameTile = false;
 
                 try {
                     height += (float) room.getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()];
-                    for(FloorItem stackItem : room.getItems().getItemsOnSquare(newPosition.getX(), newPosition.getY())) {
-                        if(item.getId() != stackItem.getId()) {
-                            if(stackItem.getDefinition().canStack) {
+                    for (FloorItem stackItem : room.getItems().getItemsOnSquare(newPosition.getX(), newPosition.getY())) {
+                        if (item.getId() != stackItem.getId()) {
+                            if (stackItem.getDefinition().canStack) {
                                 height += stackItem.getDefinition().getHeight();
                             } else {
                                 isCancelled = true;
@@ -55,27 +55,28 @@ public class MoveRotateEffect extends WiredEffect {
                             }
                         }
                     }
-                } catch(Exception e) {
+                } catch (Exception e) {
                     isCancelled = true;
                 }
             }
 
-            if(!room.getMapping().isValidStep(previousPosition, newPosition, false)) {
+            if (!room.getMapping().isValidStep(previousPosition, newPosition, false)) {
                 // We can't move here!
                 isCancelled = true;
-            };
+            }
+            ;
 
-            if(!isCancelled) {
-                for(AvatarEntity entity : room.getEntities().getEntitiesAt(previousPosition.getX(), previousPosition.getY())) {
-                    if(entity.hasStatus("sit") && !isSameTile) {
+            if (!isCancelled) {
+                for (AvatarEntity entity : room.getEntities().getEntitiesAt(previousPosition.getX(), previousPosition.getY())) {
+                    if (entity.hasStatus("sit") && !isSameTile) {
                         entity.removeStatus("sit");
                     }
 
                     entity.markNeedsUpdate();
                 }
 
-                for(AvatarEntity entity : room.getEntities().getEntitiesAt(newPosition.getX(), newPosition.getY())) {
-                    if(entity.hasStatus("sit") && !isSameTile) {
+                for (AvatarEntity entity : room.getEntities().getEntitiesAt(newPosition.getX(), newPosition.getY())) {
+                    if (entity.hasStatus("sit") && !isSameTile) {
                         entity.removeStatus("sit");
                     }
 
@@ -95,16 +96,16 @@ public class MoveRotateEffect extends WiredEffect {
     private Random random = new Random();
 
     private Position3D handleMovement(Position3D point, int movementType) {
-        switch(movementType) {
+        switch (movementType) {
             case 1:
                 // Random
                 int movement = random.nextInt((4 - 1) + 1 + 1);
 
-                if(movement == 1) {
+                if (movement == 1) {
                     point = handleMovement(point, 4);
-                } else if(movement == 2) {
+                } else if (movement == 2) {
                     point = handleMovement(point, 5);
-                } else if(movement == 3) {
+                } else if (movement == 3) {
                     point = handleMovement(point, 6);
                 } else {
                     point = handleMovement(point, 7);
@@ -115,7 +116,7 @@ public class MoveRotateEffect extends WiredEffect {
                 // Left right
                 int i = random.nextInt((2 - 1) + 1 + 1);
 
-                if(i == 1) {
+                if (i == 1) {
                     point = handleMovement(point, 7);
                 } else {
                     point = handleMovement(point, 5);
@@ -126,7 +127,7 @@ public class MoveRotateEffect extends WiredEffect {
                 // Up down
                 int j = random.nextInt((2 - 1) + 1 + 1);
 
-                if(j == 1) {
+                if (j == 1) {
                     point = handleMovement(point, 4);
                 } else {
                     point = handleMovement(point, 6);
@@ -158,12 +159,12 @@ public class MoveRotateEffect extends WiredEffect {
     }
 
     private int handleRotation(int rotation, int rotationType) {
-        switch(rotationType) {
+        switch (rotationType) {
             case 1:
                 // Clockwise
                 rotation = rotation + 2;
 
-                if(rotation > 6)
+                if (rotation > 6)
                     rotation = 0;
                 break;
 
@@ -171,7 +172,7 @@ public class MoveRotateEffect extends WiredEffect {
                 // Counter clockwise
                 rotation = rotation - 2;
 
-                if(rotation > 6)
+                if (rotation > 6)
                     rotation = 6;
                 break;
 
@@ -179,7 +180,7 @@ public class MoveRotateEffect extends WiredEffect {
                 // Random
                 int i = random.nextInt((2 - 1) + 1 + 1);
 
-                if(i == 1) {
+                if (i == 1) {
                     rotation = handleRotation(rotation, 1);
                 } else {
                     rotation = handleRotation(rotation, 2);
@@ -202,13 +203,13 @@ public class MoveRotateEffect extends WiredEffect {
         int itemCount = event.readInt();
         WiredDataInstance instance = WiredDataFactory.get(item);
 
-        if(instance == null) {
+        if (instance == null) {
             return;
         }
 
         instance.getItems().clear();
 
-        for(int i = 0; i < itemCount; i++) {
+        for (int i = 0; i < itemCount; i++) {
             instance.addItem(event.readInt());
         }
 

@@ -15,13 +15,13 @@ public class Locale {
         Configuration localeFile = new Configuration("./config/locale/locale_" + language + ".properties");
         locale = new FastMap<>();
 
-        for(Map.Entry<Object, Object> prop : localeFile.getProperties().entrySet()) {
+        for (Map.Entry<Object, Object> prop : localeFile.getProperties().entrySet()) {
             locale.put((String) prop.getKey(), (String) prop.getValue());
         }
     }
 
     public static String get(String key) {
-        if(locale.containsKey(key))
+        if (locale.containsKey(key))
             return locale.get(key);
         else
             return key;

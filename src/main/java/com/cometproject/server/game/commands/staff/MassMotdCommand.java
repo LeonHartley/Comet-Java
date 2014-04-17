@@ -9,7 +9,7 @@ import com.cometproject.server.network.sessions.Session;
 public class MassMotdCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] message) {
-        for(Session c : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
+        for (Session c : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
             c.send(MotdNotificationComposer.compose(this.merge(message, 0) + "\n\n- " + client.getPlayer().getData().getUsername()));
         }
     }

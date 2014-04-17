@@ -26,16 +26,16 @@ public class PetComponent {
         try {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM pet_data WHERE owner_id = " + this.player.getId() + " AND room_id = 0");
 
-            while(data.next()) {
+            while (data.next()) {
                 this.pets.put(data.getInt("id"), new PetData(data));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading pets for player: " + player.getId(), e);
         }
     }
 
     public PetData getPet(int id) {
-        if(this.getPets().containsKey(id)) {
+        if (this.getPets().containsKey(id)) {
             return this.getPets().get(id);
         }
 

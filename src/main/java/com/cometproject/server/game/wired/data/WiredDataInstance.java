@@ -20,7 +20,7 @@ public class WiredDataInstance {
 
         this.items = new FastList<>();
 
-        if(!data.isEmpty()) {
+        if (!data.isEmpty()) {
             String[] parse = data.split(":");
             this.delay = Integer.parseInt(parse[0]);
             this.movement = Integer.parseInt(parse[1]);
@@ -28,10 +28,10 @@ public class WiredDataInstance {
 
             String[] items = data.replace(getDelay() + ":" + getMovement() + ":" + getRotation() + ":", "").split(",");
 
-            if(!items[0].equals("")) {
-                if(items.length > 0) {
-                    for(String s : items) {
-                        if(!s.isEmpty())
+            if (!items[0].equals("")) {
+                if (items.length > 0) {
+                    for (String s : items) {
+                        if (!s.isEmpty())
                             this.items.add(Integer.parseInt(s));
                     }
                 }

@@ -13,7 +13,7 @@ public class DisconnectCommand extends ChatCommand {
 
         Session userToDisconnect = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
 
-        if(userToDisconnect == null) {
+        if (userToDisconnect == null) {
             return;
         }
 

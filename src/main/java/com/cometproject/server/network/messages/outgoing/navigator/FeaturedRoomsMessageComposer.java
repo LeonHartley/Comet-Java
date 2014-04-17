@@ -5,7 +5,6 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.Collection;
-import java.util.List;
 
 public class FeaturedRoomsMessageComposer {
     public static Composer compose(Collection<FeaturedRoom> rooms) {
@@ -13,23 +12,23 @@ public class FeaturedRoomsMessageComposer {
 
         msg.writeInt(rooms.size());
 
-        for(FeaturedRoom room : rooms) {
-            if(!room.isCategory()) {
+        for (FeaturedRoom room : rooms) {
+            if (!room.isCategory()) {
                 continue;
             }
 
             room.compose(msg);
 
-            for(FeaturedRoom room1 : rooms) {
-                if(room1.getCategoryId() != room.getId())
+            for (FeaturedRoom room1 : rooms) {
+                if (room1.getCategoryId() != room.getId())
                     continue;
 
                 room1.compose(msg);
             }
         }
 
-        for(FeaturedRoom room : rooms) {
-            if(!room.isCategory() && room.isRecommended()) {
+        for (FeaturedRoom room : rooms) {
+            if (!room.isCategory() && room.isRecommended()) {
                 msg.writeInt(1);
                 room.compose(msg);
                 msg.writeInt(0);

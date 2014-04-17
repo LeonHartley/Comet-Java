@@ -21,7 +21,7 @@ public class MonitorClientHandler extends ChannelInboundHandlerAdapter {
 
         handshakeMessage = Unpooled.buffer(message.getBytes().length);
 
-        for(int i = 0; i < handshakeMessage.capacity(); i++) {
+        for (int i = 0; i < handshakeMessage.capacity(); i++) {
             handshakeMessage.writeByte(message.getBytes()[i]);
         }
     }

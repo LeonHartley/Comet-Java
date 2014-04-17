@@ -99,5 +99,7 @@ public class GameEngine {
         return gameThread;
     }
 
-    public static FilterManager getFilter() { return filterManager; }
+    public static FilterManager getFilter() {
+        return filterManager;
+    }
 }

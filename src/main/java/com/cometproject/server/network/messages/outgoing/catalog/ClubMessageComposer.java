@@ -9,11 +9,11 @@ import org.joda.time.DateTime;
 import java.util.List;
 
 public class ClubMessageComposer {
-    public static Composer compose(List<CatalogClubOffer>offers) {
+    public static Composer compose(List<CatalogClubOffer> offers) {
         Composer msg = new Composer(Composers.ClubMessageComposer);
 
         msg.writeInt(offers.size());
-        for(CatalogClubOffer offer : offers) {
+        for (CatalogClubOffer offer : offers) {
             long total = (Comet.getTime() * 1000L) + (offer.lengthSeconds() * 1000L);
             DateTime time = new DateTime(total);
 

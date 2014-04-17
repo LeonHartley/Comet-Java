@@ -1,7 +1,9 @@
 package com.cometproject.server.game.items.interactions.items;
 
 import com.cometproject.server.game.GameEngine;
-import com.cometproject.server.game.items.interactions.*;
+import com.cometproject.server.game.items.interactions.InteractionAction;
+import com.cometproject.server.game.items.interactions.InteractionQueueItem;
+import com.cometproject.server.game.items.interactions.Interactor;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
@@ -12,7 +14,7 @@ import com.cometproject.server.network.messages.outgoing.messenger.FollowFriendM
 public class TeleportInteraction extends Interactor {
     @Override
     public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
-        if(!item.getDefinition().canWalk)
+        if (!item.getDefinition().canWalk)
             return false;
 
         item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, 1));
@@ -26,12 +28,12 @@ public class TeleportInteraction extends Interactor {
 
     @Override
     public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
-        if(item.getDefinition().canWalk)
+        if (item.getDefinition().canWalk)
             return false;
 
         Position3D posInFront = item.squareInfront();
 
-        if((avatar.getPosition().getX() != posInFront.getX() && avatar.getPosition().getY() != posInFront.getY())
+        if ((avatar.getPosition().getX() != posInFront.getX() && avatar.getPosition().getY() != posInFront.getY())
                 && !(avatar.getPosition().getX() == item.getX() && avatar.getPosition().getY() == item.getY())) {
             avatar.moveTo(posInFront.getX(), posInFront.getY());
 
@@ -57,13 +59,13 @@ public class TeleportInteraction extends Interactor {
         FloorItem pairItem;
         int pairId;
 
-        switch(updateState) {
+        switch (updateState) {
             case 0: // init
                 // user is initiating the teleport, open door and walk in
                 // lock walking
                 avatar.setOverriden(true);
 
-                if(!item.getDefinition().canWalk)
+                if (!item.getDefinition().canWalk)
                     avatar.moveTo(item.getX(), item.getY());
 
                 this.toggleDoor(item, true);
@@ -85,18 +87,18 @@ public class TeleportInteraction extends Interactor {
 
             case 3:
                 pairId = GameEngine.getItems().getTeleportPartner(item.getId());
-                pairItem = ((FloorItem)item).getRoom().getItems().getFloorItem(pairId);
+                pairItem = ((FloorItem) item).getRoom().getItems().getFloorItem(pairId);
 
-                if(pairId == 0) {
+                if (pairId == 0) {
                     item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 5, 5));
                     return false;
                 }
 
-                if(pairItem == null) {
+                if (pairItem == null) {
                     int roomId = GameEngine.getItems().roomIdByItemId(pairId);
 
                     // if room exists, we visit it!
-                    if(GameEngine.getRooms().get(roomId) != null) {
+                    if (GameEngine.getRooms().get(roomId) != null) {
                         avatar.getPlayer().setTeleportId(pairId);
                         avatar.getPlayer().getSession().send(FollowFriendMessageComposer.compose(roomId));
                     }
@@ -110,9 +112,9 @@ public class TeleportInteraction extends Interactor {
 
             case 4: // stop first portal from animating and animate 2nd portal
                 pairId = GameEngine.getItems().getTeleportPartner(item.getId());
-                pairItem = ((FloorItem)item).getRoom().getItems().getFloorItem(pairId);
+                pairItem = ((FloorItem) item).getRoom().getItems().getFloorItem(pairId);
 
-                if(pairItem != null) {
+                if (pairItem != null) {
                     this.toggleAnimation(pairItem, false);
                 }
 
@@ -145,7 +147,7 @@ public class TeleportInteraction extends Interactor {
     }
 
     public void toggleDoor(RoomItem item, boolean state) {
-        if(state)
+        if (state)
             item.setExtraData("1");
         else
             item.setExtraData("0");
@@ -154,7 +156,7 @@ public class TeleportInteraction extends Interactor {
     }
 
     public void toggleAnimation(RoomItem item, boolean state) {
-        if(state)
+        if (state)
             item.setExtraData("2");
         else
             item.setExtraData("0");

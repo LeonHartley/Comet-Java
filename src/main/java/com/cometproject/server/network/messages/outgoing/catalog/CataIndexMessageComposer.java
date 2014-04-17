@@ -21,8 +21,8 @@ public class CataIndexMessageComposer {
         msg.writeString("");
 
         msg.writeInt(count(-1, pages));
-        for(CatalogPage page : pages) {
-            if(page.getParentId() != -1) {
+        for (CatalogPage page : pages) {
+            if (page.getParentId() != -1) {
                 continue;
             }
 
@@ -35,8 +35,8 @@ public class CataIndexMessageComposer {
 
             msg.writeInt(count(page.getId(), pages));
 
-            for(CatalogPage child : pages) {
-                if(child.getParentId() != page.getId()) {
+            for (CatalogPage child : pages) {
+                if (child.getParentId() != page.getId()) {
                     continue;
                 }
 
@@ -58,8 +58,8 @@ public class CataIndexMessageComposer {
     private static int count(int index, List<CatalogPage> pages) {
         int i = 0;
 
-        for(CatalogPage page : pages) {
-            if(page.getParentId() == index) {
+        for (CatalogPage page : pages) {
+            if (page.getParentId() == index) {
                 i++;
             }
         }

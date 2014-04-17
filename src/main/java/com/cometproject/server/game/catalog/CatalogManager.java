@@ -1,7 +1,6 @@
 package com.cometproject.server.game.catalog;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.catalog.purchase.CatalogPurchaseHandler;
 import com.cometproject.server.game.catalog.types.CatalogClubOffer;
 import com.cometproject.server.game.catalog.types.CatalogItem;
@@ -35,17 +34,17 @@ public class CatalogManager {
     }
 
     public void loadPages() {
-        if(this.getPages().size() >= 1) {
+        if (this.getPages().size() >= 1) {
             this.getPages().clear();
         }
 
         try {
             ResultSet page = Comet.getServer().getStorage().getTable("SELECT * FROM catalog_pages WHERE visible = '1' ORDER BY order_num");
 
-            while(page.next()) {
+            while (page.next()) {
                 this.getPages().put(page.getInt("id"), new CatalogPage(page, this.loadItems(page.getInt("id"))));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading catalog pages", e);
         }
 
@@ -59,7 +58,7 @@ public class CatalogManager {
         try {
             ResultSet item = Comet.getServer().getStorage().getTable("SELECT * FROM catalog_items WHERE page_id = " + pageId);
 
-            while(item.next()) {
+            while (item.next()) {
                 itemCount++;
 
                 CatalogItem i = new CatalogItem(item);
@@ -67,10 +66,10 @@ public class CatalogManager {
                 //if(GameEngine.getItems().getDefintion(i.getId()) == null) {
                 //    log.error("Inconsistent item data for catalog item: " + i.getId());
                 //} else {
-                    items.put(i.getId(), i);
+                items.put(i.getId(), i);
                 //}
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading items for page: " + pageId, e);
         }
 
@@ -80,8 +79,8 @@ public class CatalogManager {
     public List<CatalogPage> getPagesForRank(int rank) {
         List<CatalogPage> pages = new FastList<>();
 
-        for(CatalogPage page : this.getPages().values()) {
-            if(rank >= page.getMinRank()) {
+        for (CatalogPage page : this.getPages().values()) {
+            if (rank >= page.getMinRank()) {
                 pages.add(page);
             }
         }
@@ -90,7 +89,7 @@ public class CatalogManager {
     }
 
     public CatalogPage getPage(int id) {
-        if(this.pageExists(id)) {
+        if (this.pageExists(id)) {
             return this.getPages().get(id);
         }
 
@@ -102,17 +101,17 @@ public class CatalogManager {
     }
 
     public void loadClubOffers() {
-        if(this.getClubOffers().size() >= 1) {
+        if (this.getClubOffers().size() >= 1) {
             this.getClubOffers().clear();
         }
 
         try {
             ResultSet offer = Comet.getServer().getStorage().getTable("SELECT * FROM catalog_club_offers");
 
-            while(offer.next()) {
+            while (offer.next()) {
                 this.getClubOffers().add(new CatalogClubOffer(offer));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading catalog club offers", e);
         }
 

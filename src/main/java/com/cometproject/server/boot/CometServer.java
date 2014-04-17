@@ -11,7 +11,6 @@ import com.cometproject.server.network.NetworkEngine;
 import com.cometproject.server.plugins.PluginEngine;
 import com.cometproject.server.storage.StorageEngine;
 import com.cometproject.server.tasks.CometThreadManagement;
-import com.cometproject.server.game.rooms.avatars.misc.FilterManager;
 
 public class CometServer {
     private Configuration config;
@@ -23,7 +22,8 @@ public class CometServer {
     private NetworkEngine networkEngine;
     private SystemMonitor systemMonitor;
 
-    public CometServer() {}
+    public CometServer() {
+    }
 
     public void init() {
         loadConfig();
@@ -40,7 +40,7 @@ public class CometServer {
         networkEngine = new NetworkEngine(this.getConfig().get("comet.network.host"), Integer.parseInt(this.getConfig().get("comet.network.port")));
         GameEngine.gameThread = new GameThread(threadManagement);
 
-        if(Comet.isDebugging) {
+        if (Comet.isDebugging) {
             GameEngine.getLogger().debug("Comet Server is debugging");
         }
     }
@@ -66,7 +66,9 @@ public class CometServer {
         return this.systemMonitor;
     }
 
-    public CometThreadManagement getThreadManagement() { return this.threadManagement; }
+    public CometThreadManagement getThreadManagement() {
+        return this.threadManagement;
+    }
 
     public PluginEngine getPluginEngine() {
         return pluginEngine;

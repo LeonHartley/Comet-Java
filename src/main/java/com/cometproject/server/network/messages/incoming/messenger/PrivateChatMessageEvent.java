@@ -11,21 +11,21 @@ public class PrivateChatMessageEvent implements IEvent {
         int userId = msg.readInt();
         String message = msg.readString();
 
-        if(userId == -1) { // TODO: Staff chat!
+        if (userId == -1) { // TODO: Staff chat!
 
             return;
         }
 
         MessengerFriend friend = client.getPlayer().getMessenger().getFriendById(userId);
 
-        if(friend == null) {
+        if (friend == null) {
             return;
         }
 
         friend.updateClient();
         Session friendClient = friend.getClient();
 
-        if(friendClient == null) {
+        if (friendClient == null) {
             return;
         }
 

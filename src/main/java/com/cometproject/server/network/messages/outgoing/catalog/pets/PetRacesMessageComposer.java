@@ -13,7 +13,7 @@ public class PetRacesMessageComposer {
         msg.writeString(raceString);
         msg.writeInt(races.size());
 
-        for(PetRace race : races) {
+        for (PetRace race : races) {
             msg.writeInt(race.getRaceId());
             msg.writeInt(race.getColour1());
             msg.writeInt(race.getColour2());

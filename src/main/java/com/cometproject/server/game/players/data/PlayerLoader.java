@@ -32,11 +32,10 @@ public class PlayerLoader {
         try {
             ResultSet result = Comet.getServer().getStorage().getRow("SELECT * FROM player_settings WHERE player_id = " + id);
             return new PlayerSettings(result);
-        } catch(Exception e) {
-            if(e instanceof NullPointerException) {
+        } catch (Exception e) {
+            if (e instanceof NullPointerException) {
                 Comet.getServer().getStorage().execute("INSERT into player_settings (`player_id`) VALUES(" + id + ")");
-            }
-            else {
+            } else {
                 log.error("Error while loading player settings", e);
             }
         }
@@ -48,11 +47,10 @@ public class PlayerLoader {
         try {
             ResultSet result = Comet.getServer().getStorage().getRow("SELECT * FROM player_stats WHERE player_id = " + id);
             return new PlayerStatistics(result);
-        } catch(Exception e) {
-            if(e instanceof NullPointerException) {
+        } catch (Exception e) {
+            if (e instanceof NullPointerException) {
                 Comet.getServer().getStorage().execute("INSERT into player_stats (`player_id`) VALUES(" + id + ")");
-            }
-            else {
+            } else {
                 log.error("Error while loading player statistics", e);
             }
         }
@@ -62,11 +60,11 @@ public class PlayerLoader {
 
 
     public static Player resultToPlayer(ResultSet result) throws SQLException {
-        if(result == null) {
+        if (result == null) {
             return null;
         }
 
-        if(!result.next()) {
+        if (!result.next()) {
             return null;
         }
 

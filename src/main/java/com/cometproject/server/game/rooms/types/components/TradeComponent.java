@@ -3,7 +3,6 @@ package com.cometproject.server.game.rooms.types.components;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
-import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastList;
 
 import java.util.List;
@@ -20,8 +19,8 @@ public class TradeComponent {
     }
 
     public void dispose() {
-        for(Trade trade : trades) {
-            if(trade != null)
+        for (Trade trade : trades) {
+            if (trade != null)
                 trade.dispose();
         }
 
@@ -35,8 +34,8 @@ public class TradeComponent {
     }
 
     public Trade get(PlayerEntity client) {
-        for(Trade trade : this.getTrades()) {
-            if(trade.getUser1() == client || trade.getUser2() == client)
+        for (Trade trade : this.getTrades()) {
+            if (trade.getUser1() == client || trade.getUser2() == client)
                 return trade;
         }
 

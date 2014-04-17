@@ -8,13 +8,10 @@ import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessa
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import javolution.util.FastList;
-
-import java.util.List;
 
 public class BuyGroupMessageEvent implements IEvent {
-   public void handle(Session client, Event msg) {
-        if(client.getPlayer().getData().getCredits() < CometSettings.groupCost) {
+    public void handle(Session client, Event msg) {
+        if (client.getPlayer().getData().getCredits() < CometSettings.groupCost) {
             return;
         }
 

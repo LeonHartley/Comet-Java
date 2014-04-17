@@ -9,7 +9,7 @@ public class ConfirmTradeMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         Trade trade = client.getPlayer().getEntity().getRoom().getTrade().get(client.getPlayer().getEntity());
 
-        if(trade == null) {
+        if (trade == null) {
             return;
         }
 

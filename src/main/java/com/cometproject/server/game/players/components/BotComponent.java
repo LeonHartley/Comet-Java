@@ -19,10 +19,10 @@ public class BotComponent {
         try {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM bots WHERE owner_id = " + this.getPlayer().getId() + " AND room_id = 0");
 
-            while(data.next()) {
+            while (data.next()) {
                 this.bots.put(data.getInt("id"), new InventoryBot(data));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             player.getSession().getLogger().error("Error while loading player bots", e);
         }
     }
@@ -38,7 +38,7 @@ public class BotComponent {
     }
 
     public InventoryBot getBot(int id) {
-        if(this.bots.containsKey(id)) {
+        if (this.bots.containsKey(id)) {
             return this.bots.get(id);
         }
 

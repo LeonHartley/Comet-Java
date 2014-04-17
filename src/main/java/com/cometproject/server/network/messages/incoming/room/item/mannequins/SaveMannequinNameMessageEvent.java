@@ -15,19 +15,19 @@ public class SaveMannequinNameMessageEvent implements IEvent {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null || !room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (room == null || !room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;
         }
 
         FloorItem item = room.getItems().getFloorItem(id);
 
-        if(item == null) {
+        if (item == null) {
             return;
         }
 
         MannequinData data = MannequinData.get(item.getExtraData());
 
-        if(data == null) {
+        if (data == null) {
             data = new MannequinData(msg.readString(), client.getPlayer().getData().getFigure(), client.getPlayer().getData().getGender());
         } else {
             data.setName(msg.readString());

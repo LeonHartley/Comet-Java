@@ -21,8 +21,8 @@ public class NavigatorFlatListMessageComposer {
         Collection<Room> rooms = new FastList<>();
 
         int i = 0;
-        for(Room room : activeRooms) {
-            if(i >= 50) break;
+        for (Room room : activeRooms) {
+            if (i >= 50) break;
             rooms.add(room);
 
             i++;
@@ -32,11 +32,11 @@ public class NavigatorFlatListMessageComposer {
             @Override
             public int compare(Room o1, Room o2) {
                 return ((o2.getEntities() == null ? 0 : o2.getEntities().playerCount()) -
-                                (o1.getEntities() == null ? 0 : o1.getEntities().playerCount()));
+                        (o1.getEntities() == null ? 0 : o1.getEntities().playerCount()));
             }
         });
 
-        for(Room room : rooms) {
+        for (Room room : rooms) {
             RoomWriter.write(room, msg);
         }
 

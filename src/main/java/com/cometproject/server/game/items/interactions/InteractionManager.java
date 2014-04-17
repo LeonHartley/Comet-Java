@@ -43,7 +43,9 @@ public class InteractionManager {
         this.interactions.put("vendingmachine", new VendingMachineInteraction());
         this.interactions.put("onewaygate", new OneWayGateInteraction());
 
-        if (InteractionManager.DICE_ENABLED) { this.interactions.put("dice", new DiceInteraction()); }
+        if (InteractionManager.DICE_ENABLED) {
+            this.interactions.put("dice", new DiceInteraction());
+        }
 
         // Wired Actions
         this.interactions.put("wf_act_moverotate", new WiredActionMoveRotate());
@@ -93,14 +95,14 @@ public class InteractionManager {
     public void onInteract(int state, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
         GameEngine.getLogger().debug("Interacted with: " + item.getDefinition().getInteraction());
 
-        if(!this.isInteraction(item.getDefinition().getInteraction())) {
+        if (!this.isInteraction(item.getDefinition().getInteraction())) {
             return;
         }
 
         Interactor action = this.getInteractions().get(item.getDefinition().getInteraction());
 
-        if(!isWiredTriggered) {
-            if(action.requiresRights() && !avatar.getRoom().getRights().hasRights(avatar.getPlayer().getId())) {
+        if (!isWiredTriggered) {
+            if (action.requiresRights() && !avatar.getRoom().getRights().hasRights(avatar.getPlayer().getId())) {
                 return;
             }
         }
@@ -133,7 +135,7 @@ public class InteractionManager {
 
         InteractionQueueItem interactionQueueItem = item.getNextInteraction();
 
-        if(interactionQueueItem == null || interactionQueueItem.needsCycling()) {
+        if (interactionQueueItem == null || interactionQueueItem.needsCycling()) {
             return;
         }
 

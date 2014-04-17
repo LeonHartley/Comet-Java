@@ -14,22 +14,22 @@ public class GiveRightsMessageEvent implements IEvent {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null) return;
+        if (room == null) return;
 
         //Avatar avatar = room.getAvatars().get(avatarId);
 
         PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(virtualEntityId);
 
-        if(playerEntity == null) {
+        if (playerEntity == null) {
             return;
         }
 
-        if(room.getRights().hasRights(playerEntity.getPlayerId())) {
+        if (room.getRights().hasRights(playerEntity.getPlayerId())) {
             return;
         }
 
         room.getRights().addRights(playerEntity.getPlayerId());
-        
+
         playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(1));
         client.send(RemovePowersMessageComposer.compose(virtualEntityId, room.getId()));
     }

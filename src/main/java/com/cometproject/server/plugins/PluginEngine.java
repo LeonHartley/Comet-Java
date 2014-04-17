@@ -1,6 +1,5 @@
 package com.cometproject.server.plugins;
 
-import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.plugins.types.PluginPlayer;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -8,7 +7,6 @@ import org.apache.log4j.Logger;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.io.File;
 
 public class PluginEngine {
@@ -35,7 +33,7 @@ public class PluginEngine {
                     try {
                         scriptEngine.eval(content);
 
-                    } catch(Exception ex) {
+                    } catch (Exception ex) {
                         log.error("Error while parsing scripts", ex);
                     } finally {
                         scriptCount++;
@@ -44,7 +42,7 @@ public class PluginEngine {
             }
 
             log.debug("Loaded " + scriptCount + " scripts");
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading script files", e);
         }
     }

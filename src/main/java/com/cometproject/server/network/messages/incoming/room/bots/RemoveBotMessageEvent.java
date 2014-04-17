@@ -13,11 +13,11 @@ public class RemoveBotMessageEvent implements IEvent {
     public void handle(Session client, Event msg) throws Exception {
         BotEntity entity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByBotId(msg.readInt());
 
-        if(entity == null) {
+        if (entity == null) {
             return;
         }
 
-        if(client.getPlayer().getId() != entity.getData().getOwnerId() || !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (client.getPlayer().getId() != entity.getData().getOwnerId() || !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;
         }
 

@@ -10,7 +10,7 @@ import com.cometproject.server.network.sessions.Session;
 public class PointsCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length < 2)
+        if (params.length < 2)
             return;
         String username;
         username = params[0];
@@ -20,7 +20,7 @@ public class PointsCommand extends ChatCommand {
             Player.getPlayer().getData().increasePoints(points);
             Player.send(AdvancedAlertMessageComposer.compose(Locale.get("command.points.successtitle"), Locale.get("command.points.successmessage").replace("%amount%", String.valueOf(points))));
             client.getPlayer().sendBalance();
-        } catch(Exception Ignored) {
+        } catch (Exception Ignored) {
             client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.points.errortitle"), Locale.get("command.points.errormessage")));
         }
 

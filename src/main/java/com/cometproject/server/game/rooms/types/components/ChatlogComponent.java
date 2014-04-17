@@ -1,13 +1,10 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.ChatMessage;
 import javolution.util.FastList;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -28,13 +25,14 @@ public class ChatlogComponent {
 
     public void add(String msg, int userId) {
         long time = System.currentTimeMillis();
-        if(CometSettings.logChatToMemory) {
+        if (CometSettings.logChatToMemory) {
             this.messages.add(new ChatMessage(userId, msg, time));
         }
     }
 
     public void cycle() throws SQLException {
-        if(!CometSettings.logChatToDatabase) return; // if we don't wanna log to db, we might as well halt right here...
+        if (!CometSettings.logChatToDatabase)
+            return; // if we don't wanna log to db, we might as well halt right here...
 /*
         Connection connection = Comet.getServer().getStorage().getConnections().getConnection();
         PreparedStatement statement;

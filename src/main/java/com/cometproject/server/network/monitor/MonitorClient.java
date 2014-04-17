@@ -14,7 +14,7 @@ import java.net.ConnectException;
 
 public class MonitorClient {
     public final String MONITOR_HOST = "monitor.cometproject.com";
-    public final int    MONITOR_PORT = 1337;
+    public final int MONITOR_PORT = 1337;
 
     private Logger log = Logger.getLogger(MonitorClient.class.getName());
 
@@ -40,8 +40,8 @@ public class MonitorClient {
                     ChannelFuture future = bootstrap.connect(MONITOR_HOST, MONITOR_PORT).sync();
 
                     future.channel().closeFuture().sync();
-                } catch(Exception e) {
-                    if(e instanceof ConnectException) {
+                } catch (Exception e) {
+                    if (e instanceof ConnectException) {
                         log.warn("Could not connect to monitor server. " + e.getMessage());
                         return;
                     }

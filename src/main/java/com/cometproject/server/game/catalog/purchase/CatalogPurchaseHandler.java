@@ -115,19 +115,19 @@ public class CatalogPurchaseHandler {
 
                     ResultSet keys = statement.getGeneratedKeys();
 
-                    if(keys.next()) {
+                    if (keys.next()) {
                         int insertedId = keys.getInt(1);
                         client.getPlayer().getPets().addPet(new PetData(insertedId, petData[0], StaticPetProperties.DEFAULT_LEVEL, StaticPetProperties.DEFAULT_HAPPINESS, StaticPetProperties.DEFAULT_EXPERIENCE, StaticPetProperties.DEFAULT_ENERGY, client.getPlayer().getId(), petData[2], Integer.parseInt(petRace)));
                         client.send(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));
                     }
 
                     return;
-                } else if(def.getInteraction().equals("postit")) {
+                } else if (def.getInteraction().equals("postit")) {
                     amount = 20; // we want 20 stickies
 
                     extraData = "";
-                } else if(def.isRoomDecor()) {
-                    if(data.isEmpty()) {
+                } else if (def.isRoomDecor()) {
+                    if (data.isEmpty()) {
                         extraData += "0";
                     } else {
                         extraData += data.replace(",", ".");

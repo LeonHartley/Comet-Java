@@ -16,14 +16,14 @@ public class OnSayTrigger extends WiredTrigger {
 
     @Override
     public void onTrigger(Object data, List<PlayerEntity> entity, WiredSquare wiredBlock) {
-        if(!(data instanceof String))
+        if (!(data instanceof String))
             return;
 
         Room room = entity.get(0).getRoom();
 
-        for(FloorItem item : room.getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {
+        for (FloorItem item : room.getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {
             // TODO: check for condition
-            if(GameEngine.getWired().isWiredEffect(item)) {
+            if (GameEngine.getWired().isWiredEffect(item)) {
                 GameEngine.getWired().getEffect(item.getDefinition().getInteraction()).onActivate(entity, item);
                 item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, null, 0, 1));
             }
@@ -32,7 +32,8 @@ public class OnSayTrigger extends WiredTrigger {
 
     @Override
     public void onSave(Event msg, FloorItem item) {
-        msg.readInt(); msg.readInt(); // 2nd int = isOwner
+        msg.readInt();
+        msg.readInt(); // 2nd int = isOwner
 
         String chat = msg.readString();
 

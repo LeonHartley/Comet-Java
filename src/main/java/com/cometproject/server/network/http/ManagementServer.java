@@ -29,7 +29,7 @@ public class ManagementServer {
             OutputStream os = e.getResponseBody();
             os.write(response.getBytes());
             os.close();
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             logger.error("Error while writing response", ex);
         }
     }

@@ -18,14 +18,14 @@ public class SetRelationshipMessageEvent implements IEvent {
         RelationshipComponent relationships = client.getPlayer().getRelationships();
 
         try {
-            if(level == 0) {
+            if (level == 0) {
                 Comet.getServer().getStorage().execute("DELETE FROM player_relationships WHERE player_id = " + client.getPlayer().getId() + " AND partner = " + user);
 
-                if(relationships.getRelationships().containsKey(user)) {
+                if (relationships.getRelationships().containsKey(user)) {
                     relationships.getRelationships().remove(user);
                 }
             } else {
-                if(relationships.getRelationships().containsKey(user)) {
+                if (relationships.getRelationships().containsKey(user)) {
                     Comet.getServer().getStorage().execute("DELETE FROM player_relationships WHERE player_id = " + client.getPlayer().getId() + " AND partner = " + user);
                     relationships.getRelationships().remove(user);
                 }
@@ -42,7 +42,7 @@ public class SetRelationshipMessageEvent implements IEvent {
 
                 relationships.getRelationships().put(user, RelationshipLevel.getLevel(levelString));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             GameEngine.getLogger().error("Error while setting relationship", e);
         }
     }

@@ -48,10 +48,10 @@ public class NetworkEngine {
         this.sessions = new SessionManager();
         this.messageHandler = new MessageHandler();
 
-        if(CometSettings.httpEnabled)
+        if (CometSettings.httpEnabled)
             this.managementServer = new ManagementServer();
 
-        if(USE_MONITOR_SERVER)
+        if (USE_MONITOR_SERVER)
             this.monitorClient = new MonitorClient();
 
         if (RESOURCE_LEAK_DETECTOR) {
@@ -70,7 +70,7 @@ public class NetworkEngine {
 
         try {
             this.listenChannel = bootstrap.bind(new InetSocketAddress(ip, port)).channel();
-        } catch(Exception e) {
+        } catch (Exception e) {
             Comet.exit("Failed to initialize sockets on address: " + ip + ":" + port);
             return;
         }

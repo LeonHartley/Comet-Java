@@ -2,9 +2,7 @@ package com.cometproject.server.game;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
@@ -12,8 +10,6 @@ import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.ScheduledFuture;
@@ -51,7 +47,7 @@ public class GameThread implements CometTask {
         c.set(Calendar.SECOND, 0);
         c.set(Calendar.MILLISECOND, 0);
 
-        long msTillMidnight = (c.getTimeInMillis() -now.getTime());
+        long msTillMidnight = (c.getTimeInMillis() - now.getTime());
 
         this.dailyCycleFuture = this.threadManagement.executePeriodic(new CometTask() {
             @Override
@@ -72,11 +68,11 @@ public class GameThread implements CometTask {
     @Override
     public void run() {
         try {
-            if(!this.active) {
+            if (!this.active) {
                 return;
             }
 
-            if(cycleCount >= 15) {
+            if (cycleCount >= 15) {
                 if (MULTITHREADED_CYCLE) {
                     this.threadManagement.executeOnce(new CometTask() {
                         @Override
@@ -100,8 +96,8 @@ public class GameThread implements CometTask {
             connection.close();
 
             cycleCount++;
-        } catch(Exception e) {
-            if(e instanceof InterruptedException) {
+        } catch (Exception e) {
+            if (e instanceof InterruptedException) {
                 return;
             }
 
@@ -111,15 +107,15 @@ public class GameThread implements CometTask {
 
     private void cycle() throws Exception {
         synchronized (GameEngine.getRooms().getActiveRooms()) {
-            for(Room room : GameEngine.getRooms().getActiveRooms()) {
+            for (Room room : GameEngine.getRooms().getActiveRooms()) {
                 room.getChatlog().cycle();
                 room.getRights().cycle();
             }
         }
 
-        if(CometSettings.quartlyCreditsEnabled) {
-            for(Session client : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
-                if(client.getPlayer() == null || client.getPlayer().getData() == null) {
+        if (CometSettings.quartlyCreditsEnabled) {
+            for (Session client : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
+                if (client.getPlayer() == null || client.getPlayer().getData() == null) {
                     continue;
                 }
 

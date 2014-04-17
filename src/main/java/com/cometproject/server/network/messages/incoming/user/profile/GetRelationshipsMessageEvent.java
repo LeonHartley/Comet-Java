@@ -10,12 +10,12 @@ public class GetRelationshipsMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int userId = msg.readInt();
 
-        if(userId == client.getPlayer().getId()) {
+        if (userId == client.getPlayer().getId()) {
             client.send(RelationshipsMessageComposer.compose(client.getPlayer().getRelationships()));
             return;
         }
 
-        if(Comet.getServer().getNetwork().getSessions().getByPlayerId(userId) != null) {
+        if (Comet.getServer().getNetwork().getSessions().getByPlayerId(userId) != null) {
             client.send(RelationshipsMessageComposer.compose(Comet.getServer().getNetwork().getSessions().getByPlayerId(userId).getPlayer().getRelationships()));
             return;
         }

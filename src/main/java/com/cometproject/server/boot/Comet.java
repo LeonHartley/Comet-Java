@@ -3,14 +3,14 @@ package com.cometproject.server.boot;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameEngine;
-import com.cometproject.server.network.security.DiffieHellman;
-import org.apache.log4j.*;
-import com.cometproject.server.*;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
+
 public class Comet {
     private static Logger log = Logger.getLogger(Comet.class.getName());
     private static CometServer server = new CometServer();
@@ -24,15 +24,15 @@ public class Comet {
 
         try {
             PropertyConfigurator.configure(new FileInputStream("./config/log4j.properties"));
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading log4j configuration", e);
             return;
         }
 
         log.info("Comet Server - " + getBuild());
 
-        for(String arg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
-            if(arg.contains("dt_")) {
+        for (String arg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
+            if (arg.contains("dt_")) {
                 isDebugging = true;
                 break;
             }
@@ -43,13 +43,13 @@ public class Comet {
         // Console commands
         Thread cmdThr = new Thread() {
             public void run() {
-                while(isRunning) {
+                while (isRunning) {
                     try {
                         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                         String input = br.readLine();
 
-                        if(input != null && input.startsWith("/")) {
-                            switch(input.split(" ")[0]) {
+                        if (input != null && input.startsWith("/")) {
+                            switch (input.split(" ")[0]) {
                                 default:
                                     Comet.log.error("Invalid command");
                                     break;
@@ -111,7 +111,7 @@ public class Comet {
                         } else {
                             Comet.log.error("Invalid command");
                         }
-                    } catch(Exception e) {
+                    } catch (Exception e) {
                         Comet.log.error("Error while parsing console command");
                     }
                 }

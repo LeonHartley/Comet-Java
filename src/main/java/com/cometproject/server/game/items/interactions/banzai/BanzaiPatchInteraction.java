@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiGa
 public class BanzaiPatchInteraction extends Interactor {
     @Override
     public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
-        if(!state)
+        if (!state)
             return false;
 
 
@@ -18,8 +18,8 @@ public class BanzaiPatchInteraction extends Interactor {
 
     @Override
     public boolean onPreWalk(RoomItem item, PlayerEntity avatar) {
-        if(avatar.getRoom().getGame().getInstance() != null && avatar.getRoom().getGame().getInstance().isTeamed(avatar.getPlayerId())) {
-            ((BanzaiGame)avatar.getRoom().getGame().getInstance()).captureTile(item.getX(), item.getY(), ((BanzaiGame) avatar.getRoom().getGame().getInstance()).getTeam(avatar.getPlayerId()));
+        if (avatar.getRoom().getGame().getInstance() != null && avatar.getRoom().getGame().getInstance().isTeamed(avatar.getPlayerId())) {
+            ((BanzaiGame) avatar.getRoom().getGame().getInstance()).captureTile(item.getX(), item.getY(), ((BanzaiGame) avatar.getRoom().getGame().getInstance()).getTeam(avatar.getPlayerId()));
 
             avatar.getRoom().log.debug("Tile captured! x: " + item.getX() + ", y: " + item.getY());
         }

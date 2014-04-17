@@ -9,7 +9,7 @@ public class SaveWiredMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int itemId = msg.readInt();
 
-        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 

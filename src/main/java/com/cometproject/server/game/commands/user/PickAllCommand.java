@@ -12,15 +12,15 @@ public class PickAllCommand extends ChatCommand {
     public void execute(Session client, String message[]) {
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null || !room.getData().getOwner().equals(client.getPlayer().getData().getUsername())) {
+        if (room == null || !room.getData().getOwner().equals(client.getPlayer().getData().getUsername())) {
             return;
         }
 
-        for(FloorItem item : room.getItems().getFloorItems()) {
+        for (FloorItem item : room.getItems().getFloorItems()) {
             room.getItems().removeItem(item, client);
         }
 
-        for(WallItem item : room.getItems().getWallItems()) {
+        for (WallItem item : room.getItems().getWallItems()) {
             room.getItems().removeItem(item, client);
         }
     }

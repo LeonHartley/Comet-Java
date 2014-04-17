@@ -19,9 +19,9 @@ public class OffFurniTrigger extends WiredTrigger {
     public void onTrigger(Object data, List<PlayerEntity> entities, WiredSquare wiredBlock) {
         Room room = entities.get(0).getRoom();
 
-        for(FloorItem item : room.getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {
+        for (FloorItem item : room.getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {
             // TODO: check for condition.
-            if(GameEngine.getWired().isWiredEffect(item)) {
+            if (GameEngine.getWired().isWiredEffect(item)) {
                 GameEngine.getWired().getEffect(item.getDefinition().getInteraction()).onActivate(entities, item);
                 item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, null, 0, 0));
             }
@@ -36,13 +36,13 @@ public class OffFurniTrigger extends WiredTrigger {
         int itemCount = event.readInt();
         WiredDataInstance instance = WiredDataFactory.get(item);
 
-        if(instance == null) {
+        if (instance == null) {
             return;
         }
 
         instance.getItems().clear();
 
-        for(int i = 0; i < itemCount; i++) {
+        for (int i = 0; i < itemCount; i++) {
             instance.addItem(event.readInt());
         }
 

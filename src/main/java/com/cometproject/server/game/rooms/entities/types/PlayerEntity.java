@@ -4,7 +4,6 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
-import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.PlayerEntityAccess;
 import com.cometproject.server.game.rooms.types.Room;
@@ -21,7 +20,6 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.FloodF
 import com.cometproject.server.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 
-import java.util.LinkedList;
 import java.util.Map;
 
 public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
@@ -32,7 +30,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
 
         this.player = player;
 
-        if(this.player.isTeleporting())
+        if (this.player.isTeleporting())
             this.setOverriden(true);
     }
 
@@ -82,9 +80,9 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     protected void finalizeJoinRoom() {
         this.player.getSession().send(ModelAndIdMessageComposer.compose(this.getRoom().getModel().getId(), this.getVirtualId()));
 
-        for(Map.Entry<String, String> decoration : this.getRoom().getData().getDecorations().entrySet()) {
-            if(decoration.getKey().equals("wallpaper") || decoration.getKey().equals("floor")) {
-                if(decoration.getValue().equals("0.0")) {
+        for (Map.Entry<String, String> decoration : this.getRoom().getData().getDecorations().entrySet()) {
+            if (decoration.getKey().equals("wallpaper") || decoration.getKey().equals("floor")) {
+                if (decoration.getValue().equals("0.0")) {
                     continue;
                 }
             }
@@ -152,7 +150,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
         if (time - this.player.lastMessage < 500) { // TODO: add flood bypass for staff with permission or something
             this.player.floodFlag++;
 
-            if(this.player.floodFlag >= 4) {
+            if (this.player.floodFlag >= 4) {
                 this.player.floodTime = 30;
                 this.player.floodFlag = 0;
 
@@ -166,12 +164,12 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
 
         player.lastMessage = time;
 
-        if(message.isEmpty())
+        if (message.isEmpty())
             return false;
 
         try {
-            if(message.startsWith(":")) {
-                if(GameEngine.getCommands().isCommand(message.substring(1))) {
+            if (message.startsWith(":")) {
+                if (GameEngine.getCommands().isCommand(message.substring(1))) {
                     GameEngine.getCommands().parse(message.substring(1), this.player.getSession());
                     return false;
                 }
@@ -180,17 +178,17 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
             // command error?
         }
 
-        if(this.getRoom().getWired().trigger(TriggerType.ON_SAY, message, this)) {
+        if (this.getRoom().getWired().trigger(TriggerType.ON_SAY, message, this)) {
             return false;
         }
 
-        if(CometSettings.logChatToConsole) {
+        if (CometSettings.logChatToConsole) {
             this.getRoom().log.info(this.getPlayer().getData().getUsername() + ": " + message);
         }
 
-        for(BotEntity entity : this.getRoom().getEntities().getBotEntities()) {
-            if(entity.getUsername().replace(" ", "_").toLowerCase().equals(message.split(" ")[0].toLowerCase())) {
-                if(entity.getAI().onTalk(this, message.replace(message.split(" ")[0] + " ", ""))) {
+        for (BotEntity entity : this.getRoom().getEntities().getBotEntities()) {
+            if (entity.getUsername().replace(" ", "_").toLowerCase().equals(message.split(" ")[0].toLowerCase())) {
+                if (entity.getAI().onTalk(this, message.replace(message.split(" ")[0] + " ", ""))) {
                     return false;
                 }
             }

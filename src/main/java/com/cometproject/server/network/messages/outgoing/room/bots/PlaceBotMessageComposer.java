@@ -21,7 +21,7 @@ public class PlaceBotMessageComposer {
 
         msg.writeInt(bots.size());
 
-        for(Bot bot : bots) {
+        for (Bot bot : bots) {
             msg.writeInt(bot.getId());
             msg.writeString(bot.getName());
             msg.writeString(bot.getMotto());

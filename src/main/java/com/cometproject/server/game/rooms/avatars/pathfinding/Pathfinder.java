@@ -101,7 +101,7 @@ public class Pathfinder {
     }
 
     private Position3D[] movePoints() {
-        return new Position3D[] {
+        return new Position3D[]{
                 new Position3D(0, -1, 0),
                 new Position3D(0, 1, 0),
                 new Position3D(1, 0, 0),

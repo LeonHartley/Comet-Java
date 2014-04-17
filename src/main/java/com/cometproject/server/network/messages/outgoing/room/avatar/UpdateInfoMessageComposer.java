@@ -22,7 +22,7 @@ public class UpdateInfoMessageComposer {
     }
 
     public static Composer compose(boolean isMe, GenericEntity entity) {
-        if(!isMe) {
+        if (!isMe) {
             return compose(entity.getVirtualId(), entity.getFigure(), entity.getGender(), entity.getMotto());
         } else {
             return compose(-1, entity.getFigure(), entity.getGender(), entity.getMotto());

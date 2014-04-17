@@ -25,7 +25,7 @@ public class BallInteraction extends Interactor {
             return false;
         }
 
-        if(((FloorItem) item).isRolling())
+        if (((FloorItem) item).isRolling())
             return false;
 
         FloorItem floorItem = (FloorItem) item;
@@ -33,7 +33,7 @@ public class BallInteraction extends Interactor {
 
         Position3D newPosition;
 
-        if(avatar.getRoom().getMapping().isValidStep(currentPosition, calculatePosition(floorItem.getX(), floorItem.getY(), avatar.getBodyRotation()), false)) {
+        if (avatar.getRoom().getMapping().isValidStep(currentPosition, calculatePosition(floorItem.getX(), floorItem.getY(), avatar.getBodyRotation()), false)) {
             newPosition = calculatePosition(floorItem.getX(), floorItem.getY(), avatar.getBodyRotation());
         } else {
             newPosition = calculatePosition(floorItem.getX(), floorItem.getY(), avatar.getBodyRotation(), true);
@@ -68,16 +68,16 @@ public class BallInteraction extends Interactor {
     }
 
     public static Position3D calculatePosition(int x, int y, int playerRotation, boolean isReversed) {
-        switch(playerRotation) {
+        switch (playerRotation) {
             case 0:
-                if(!isReversed)
+                if (!isReversed)
                     y--;
                 else
                     y++;
                 break;
 
             case 1:
-                if(!isReversed) {
+                if (!isReversed) {
                     x++;
                     y--;
                 } else {
@@ -87,14 +87,14 @@ public class BallInteraction extends Interactor {
                 break;
 
             case 2:
-                if(!isReversed)
+                if (!isReversed)
                     x++;
                 else
                     x--;
                 break;
 
             case 3:
-                if(!isReversed) {
+                if (!isReversed) {
                     x++;
                     y++;
                 } else {
@@ -104,14 +104,14 @@ public class BallInteraction extends Interactor {
                 break;
 
             case 4:
-                if(!isReversed)
+                if (!isReversed)
                     y++;
                 else
                     y--;
                 break;
 
             case 5:
-                if(!isReversed) {
+                if (!isReversed) {
                     x--;
                     y++;
                 } else {
@@ -121,14 +121,14 @@ public class BallInteraction extends Interactor {
                 break;
 
             case 6:
-                if(!isReversed)
+                if (!isReversed)
                     x--;
                 else
                     x++;
                 break;
 
             case 7:
-                if(!isReversed) {
+                if (!isReversed) {
                     x--;
                     y--;
                 } else {
@@ -149,10 +149,10 @@ public class BallInteraction extends Interactor {
             return false;
         }
 
-        if(((FloorItem) item).isRolling())
+        if (((FloorItem) item).isRolling())
             return false;
 
-        if(!DistanceCalculator.tilesTouching(item.getX(), item.getY(), avatar.getPosition().getX(), avatar.getPosition().getY()))
+        if (!DistanceCalculator.tilesTouching(item.getX(), item.getY(), avatar.getPosition().getX(), avatar.getPosition().getY()))
             return false;
 
         FloorItem floorItem = (FloorItem) item;
@@ -165,17 +165,17 @@ public class BallInteraction extends Interactor {
 
         boolean needsReverse = false;
 
-        for(int i = 0; i < KICK_POWER; i++) {
-            if(!floorItem.getRoom().getMapping().isValidStep(currentPosition, nextPosition, false) || !floorItem.getRoom().getEntities().isSquareAvailable(nextPosition.getX(), nextPosition.getY())) {
+        for (int i = 0; i < KICK_POWER; i++) {
+            if (!floorItem.getRoom().getMapping().isValidStep(currentPosition, nextPosition, false) || !floorItem.getRoom().getEntities().isSquareAvailable(nextPosition.getX(), nextPosition.getY())) {
                 needsReverse = true;
                 nextPosition = nextPosition.squareBehind(item.getRotation());
                 continue;
             }
 
-            if(i > 1)
+            if (i > 1)
                 positions.add(nextPosition);
 
-            if(needsReverse) {
+            if (needsReverse) {
                 nextPosition = nextPosition.squareBehind(item.getRotation());
             } else {
                 nextPosition = nextPosition.squareInFront(item.getRotation());

@@ -21,7 +21,7 @@ public class MoveUserEffect extends WiredEffect {
     public void onActivate(List<PlayerEntity> entities, FloorItem item) {
         WiredDataInstance data = WiredDataFactory.get(item);
 
-        if(data.getItems().size() == 0) {
+        if (data.getItems().size() == 0) {
             return;
         }
 
@@ -30,12 +30,12 @@ public class MoveUserEffect extends WiredEffect {
 
         FloorItem itemInstance = room.getItems().getFloorItem(locationItemId);
 
-        if(itemInstance == null)
+        if (itemInstance == null)
             return;
 
         Position3D position = new Position3D(itemInstance.getX(), itemInstance.getY(), itemInstance.getHeight());
 
-        for(PlayerEntity entity : entities) {
+        for (PlayerEntity entity : entities) {
             // Teleport player to position
             entity.applyEffect(new UserEffect(4, 5));
             entity.updateAndSetPosition(position);
@@ -52,13 +52,13 @@ public class MoveUserEffect extends WiredEffect {
         int itemCount = event.readInt();
         WiredDataInstance instance = WiredDataFactory.get(item);
 
-        if(instance == null) {
+        if (instance == null) {
             return;
         }
 
         instance.getItems().clear();
 
-        for(int i = 0; i < itemCount; i++) {
+        for (int i = 0; i < itemCount; i++) {
             instance.addItem(event.readInt());
         }
 

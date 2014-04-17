@@ -38,7 +38,7 @@ public class CommandManager {
     public void loadStaffCommands() {
         this.commands.put(Locale.get("command.restart.name"), new RestartCommand());
         this.commands.put(Locale.get("command.reload_config.name"), new ReloadConfigCommand());
-        this.commands.put(Locale.get("command.teleport.name"),  new TeleportCommand());
+        this.commands.put(Locale.get("command.teleport.name"), new TeleportCommand());
         this.commands.put(Locale.get("command.massmotd.name"), new MassMotdCommand());
         this.commands.put(Locale.get("command.hotelalert.name"), new HotelAlertCommand());
         this.commands.put(Locale.get("command.invisible.name"), new InvisibleCommand());
@@ -69,11 +69,11 @@ public class CommandManager {
         String executor = message.split(" ")[0];
         String commandName = executor.equals(Locale.get("command.commands.name")) ? Locale.get("command.commands.name") : this.commands.get(executor).getPermission();
 
-        if(executor.equals(Locale.get("command.commands.name"))) {
+        if (executor.equals(Locale.get("command.commands.name"))) {
             StringBuilder list = new StringBuilder();
 
-            for(Map.Entry<String, ChatCommand> command : this.commands.entrySet()) {
-                if(client.getPlayer().getPermissions().hasCommand(command.getValue().getPermission()))
+            for (Map.Entry<String, ChatCommand> command : this.commands.entrySet()) {
+                if (client.getPlayer().getPermissions().hasCommand(command.getValue().getPermission()))
                     list.append(":" + command.getKey() + " - " + command.getValue().getDescription() + "\n");
             }
 
@@ -81,7 +81,7 @@ public class CommandManager {
             return;
         }
 
-        if(client.getPlayer().getPermissions().hasCommand(commandName)) {
+        if (client.getPlayer().getPermissions().hasCommand(commandName)) {
             this.commands.get(executor).execute(client, getParams(message.split(" ")));
             GameEngine.getLogger().info(client.getPlayer().getData().getUsername() + " executed command: :" + message);
         } else {
@@ -92,8 +92,8 @@ public class CommandManager {
     private String[] getParams(String[] splitStr) {
         String[] a = new String[splitStr.length - 1];
 
-        for(int i = 0; i < splitStr.length; i++) {
-            if(i == 0) {
+        for (int i = 0; i < splitStr.length; i++) {
+            if (i == 0) {
                 continue;
             }
 

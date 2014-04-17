@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.room.items;
 
 import com.cometproject.server.game.rooms.items.FloorItem;
-import com.cometproject.server.game.rooms.items.WallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
@@ -15,7 +14,7 @@ public class FloorItemsMessageComposer {
         msg.writeString(room.getData().getOwner());
         msg.writeInt(room.getItems().getFloorItems().size());
 
-        for(FloorItem item : room.getItems().getFloorItems()) {
+        for (FloorItem item : room.getItems().getFloorItems()) {
             item.serialize(msg);
         }
 

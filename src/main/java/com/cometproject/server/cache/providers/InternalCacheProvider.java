@@ -58,7 +58,9 @@ public class InternalCacheProvider implements CacheProvider {
     @Override
     public Object get(Object identifier) {
         Element el = this.cacheStore.get(identifier);
-        if (el != null) { return el.getObjectValue(); }
+        if (el != null) {
+            return el.getObjectValue();
+        }
 
         return null;
     }

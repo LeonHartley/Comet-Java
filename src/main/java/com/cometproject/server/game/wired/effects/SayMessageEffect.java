@@ -11,7 +11,7 @@ import java.util.List;
 public class SayMessageEffect extends WiredEffect {
     @Override
     public void onActivate(List<PlayerEntity> entities, FloorItem item) {
-        for(PlayerEntity entity : entities)
+        for (PlayerEntity entity : entities)
             entity.getPlayer().getSession().send(WisperMessageComposer.compose(entity.getVirtualId(), item.getExtraData()));
     }
 

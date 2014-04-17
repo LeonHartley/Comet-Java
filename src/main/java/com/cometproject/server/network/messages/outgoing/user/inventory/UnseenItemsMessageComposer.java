@@ -11,7 +11,7 @@ public class UnseenItemsMessageComposer {
 
         msg.writeInt(items.size());
 
-        for(Map.Entry<Integer, Integer> i : items.entrySet()) {
+        for (Map.Entry<Integer, Integer> i : items.entrySet()) {
             msg.writeInt(i.getKey());
             msg.writeInt(1);
             msg.writeInt(i.getValue());

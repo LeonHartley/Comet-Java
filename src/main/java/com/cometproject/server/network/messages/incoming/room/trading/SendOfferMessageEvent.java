@@ -11,10 +11,10 @@ public class SendOfferMessageEvent implements IEvent {
         int itemId = msg.readInt();
         InventoryItem item = client.getPlayer().getInventory().getFloorItem(itemId);
 
-        if(item == null) {
+        if (item == null) {
             item = client.getPlayer().getInventory().getWallItem(itemId);
 
-            if(item == null) {
+            if (item == null) {
                 return;
             }
         }

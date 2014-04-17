@@ -14,18 +14,18 @@ public class SaveBrandingMessageEvent implements IEvent {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null) {
+        if (room == null) {
             return;
         }
 
-        if(!room.getRights().hasRights(client.getPlayer().getId()))
+        if (!room.getRights().hasRights(client.getPlayer().getId()))
             return; // lol hax
 
         int length = msg.readInt();
-        String data = "state" + (char)9 + "0";
+        String data = "state" + (char) 9 + "0";
 
-        for(int i = 1; i <= length; i++) {
-            data = data + (char)9 + msg.readString();
+        for (int i = 1; i <= length; i++) {
+            data = data + (char) 9 + msg.readString();
         }
 
         FloorItem item = room.getItems().getFloorItem(brandingId);

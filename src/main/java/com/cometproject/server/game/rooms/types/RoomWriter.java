@@ -24,7 +24,7 @@ public class RoomWriter {
         msg.writeString("");
         msg.writeInt(room.getData().getTags().length);
 
-        for(String tag : room.getData().getTags()) {
+        for (String tag : room.getData().getTags()) {
             msg.writeString(tag);
         }
 
@@ -60,7 +60,7 @@ public class RoomWriter {
 
         msg.writeInt(room.getData().getTags().length);
 
-        for(String tag : room.getData().getTags()) {
+        for (String tag : room.getData().getTags()) {
             msg.writeString(tag);
         }
 
@@ -102,7 +102,7 @@ public class RoomWriter {
         msg.writeString("");
         msg.writeInt(room.getData().getTags().length);
 
-        for(String tag : room.getData().getTags()) {
+        for (String tag : room.getData().getTags()) {
             msg.writeString(tag);
         }
 
@@ -116,10 +116,9 @@ public class RoomWriter {
     }
 
     public static int roomAccessToNumber(String access) {
-        if(access.equals("doorbell")) {
+        if (access.equals("doorbell")) {
             return 1;
-        }
-        else if(access.equals("password")) {
+        } else if (access.equals("password")) {
             return 2;
         }
 
@@ -127,10 +126,9 @@ public class RoomWriter {
     }
 
     public static String roomAccessToString(int access) {
-        if(access == 1) {
+        if (access == 1) {
             return "doorbell";
-        }
-        else if(access == 2) {
+        } else if (access == 2) {
             return "password";
         }
 

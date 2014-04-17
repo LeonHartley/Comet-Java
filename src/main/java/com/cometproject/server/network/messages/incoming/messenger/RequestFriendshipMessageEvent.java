@@ -16,7 +16,7 @@ public class RequestFriendshipMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         String username = msg.readString();
 
-        if(username.equals(client.getPlayer().getData().getUsername()))
+        if (username.equals(client.getPlayer().getData().getUsername()))
             return;
 
         Session request = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
@@ -24,7 +24,7 @@ public class RequestFriendshipMessageEvent implements IEvent {
         try {
             MessengerRequest req = new MessengerRequest(client.getPlayer().getId(), client.getPlayer().getData().getUsername(), client.getPlayer().getData().getFigure(), client.getPlayer().getData().getMotto());
 
-            if(request != null) {
+            if (request != null) {
                 request.getPlayer().getMessenger().addRequest(req);
                 request.send(FriendRequestMessageComposer.compose(req));
             }
@@ -35,25 +35,25 @@ public class RequestFriendshipMessageEvent implements IEvent {
 
             int userId = 0;
 
-            if(request == null) {
+            if (request == null) {
                 PreparedStatement std = Comet.getServer().getStorage().prepare("SELECT `id` FROM players WHERE `username` = ?");
 
                 std.setString(1, username);
 
                 ResultSet data = std.executeQuery();
 
-                while(data.next()) {
+                while (data.next()) {
                     userId = data.getInt("id");
                 }
             }
 
-            if(userId == 0)
+            if (userId == 0)
                 return;
 
             statement.setInt(2, userId);
 
             statement.execute();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             GameEngine.getLogger().error("Error while requesting friendship", e);
         }
     }

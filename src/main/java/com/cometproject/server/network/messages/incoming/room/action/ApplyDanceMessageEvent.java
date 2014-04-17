@@ -9,7 +9,7 @@ public class ApplyDanceMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int danceId = msg.readInt();
 
-        if(client.getPlayer().getEntity().getDanceId() == danceId) {
+        if (client.getPlayer().getEntity().getDanceId() == danceId) {
             return;
         }
 

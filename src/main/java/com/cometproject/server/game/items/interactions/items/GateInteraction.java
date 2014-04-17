@@ -19,16 +19,16 @@ public class GateInteraction extends Interactor {
 
     @Override
     public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
-        if(item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) {
+        if (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) {
             item.setExtraData("0");
         }
 
-        if(item.getExtraData().equals("0")) {
+        if (item.getExtraData().equals("0")) {
             item.setExtraData("1");
             item.saveData();
             item.sendUpdate();
 
-        } else if(item.getExtraData().equals("1")) {
+        } else if (item.getExtraData().equals("1")) {
             item.setExtraData("0");
             item.saveData();
             item.sendUpdate();

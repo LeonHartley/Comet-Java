@@ -7,7 +7,7 @@ import com.cometproject.server.utilities.TimeSpan;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 
-public class StatsPage extends ManagementPage{
+public class StatsPage extends ManagementPage {
     @Override
     public boolean handle(HttpExchange e, String uri) {
         Runtime runtime = Runtime.getRuntime();
@@ -18,7 +18,7 @@ public class StatsPage extends ManagementPage{
                 TimeSpan.millisecondsToDate(System.currentTimeMillis() - Comet.start),
                 ((runtime.totalMemory() / 1024) / 1024),
                 ((runtime.totalMemory() / 1024) / 1024) - ((runtime.freeMemory() / 1024) / 1024),
-                System.getProperty("os.name")+ " (" + System.getProperty("os.arch")+ ")",
+                System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ")",
                 runtime.availableProcessors(),
                 Comet.getServer().getStorage().getConnectionCount(),
                 Comet.getServer().getSystemMonitor().getCycleCount()

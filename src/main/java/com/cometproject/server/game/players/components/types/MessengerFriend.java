@@ -20,7 +20,7 @@ public class MessengerFriend {
 
         this.updateClient();
 
-        if(client == null) {
+        if (client == null) {
             userData = PlayerLoader.loadDataById(userId);
         } else {
             userData = client.getPlayer().getData();
@@ -58,11 +58,11 @@ public class MessengerFriend {
     }
 
     private boolean isInRoom() {
-        if(client == null) {
+        if (client == null) {
             return false;
         }
 
-        if(client.getPlayer().getEntity() == null) {
+        if (client.getPlayer().getEntity() == null) {
             return false;
         }
 

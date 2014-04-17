@@ -36,13 +36,13 @@ public class MannequinData {
     }
 
     public static MannequinData get(String extraData) {
-        if(!extraData.contains(";#;")) {
+        if (!extraData.contains(";#;")) {
             return null;
         }
 
         String[] data = extraData.split(";#;");
 
-        if(data.length < 3) {
+        if (data.length < 3) {
             return null;
         }
 

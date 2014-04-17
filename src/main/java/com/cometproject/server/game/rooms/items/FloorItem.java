@@ -69,7 +69,7 @@ public class FloorItem extends RoomItem {
     public void serialize(Composer msg, boolean isNew) {
         boolean isGift = false;
 
-        if(this.giftData != null) {
+        if (this.giftData != null) {
             isGift = true;
         }
 
@@ -80,23 +80,23 @@ public class FloorItem extends RoomItem {
         msg.writeInt(this.getRotation());
         msg.writeString(Double.toString(this.getHeight()));
 
-        if(this.getDefinition().isAdFurni()) {
+        if (this.getDefinition().isAdFurni()) {
             msg.writeInt(0);
             msg.writeInt(1);
 
-            if(!extraData.equals("")) {
-                String[] adsData = extraData.split(String.valueOf((char)9));
+            if (!extraData.equals("")) {
+                String[] adsData = extraData.split(String.valueOf((char) 9));
                 int count = adsData.length;
 
                 msg.writeInt(count / 2);
 
-                for(int i = 0; i <= count - 1; i++) {
+                for (int i = 0; i <= count - 1; i++) {
                     msg.writeString(adsData[i]);
                 }
             } else {
                 msg.writeInt(0);
             }
-        } else if(this.getDefinition().getInteraction().equals("mannequin")) {
+        } else if (this.getDefinition().getInteraction().equals("mannequin")) {
             MannequinData data = MannequinData.get(extraData);
 
             msg.writeInt(0);
@@ -107,7 +107,7 @@ public class FloorItem extends RoomItem {
             String figure = "ch-210-62.lg-270-62";
             String name = "New Mannequin";
 
-            if(data != null) {
+            if (data != null) {
                 gender = data.getGender().toLowerCase();
                 figure = data.getFigure();
                 name = data.getName();
@@ -124,12 +124,12 @@ public class FloorItem extends RoomItem {
             msg.writeInt(0);
             msg.writeInt(this.ownerId);
 
-            if(isNew) {
+            if (isNew) {
                 msg.writeString(this.getRoom().getData().getOwner());
             }
 
             return;
-        } else if(this.getDefinition().getInteraction().equals("roombg")) {
+        } else if (this.getDefinition().getInteraction().equals("roombg")) {
             BackgroundTonerData data = BackgroundTonerData.get(extraData);
 
             boolean enabled = (data != null);
@@ -139,7 +139,7 @@ public class FloorItem extends RoomItem {
             msg.writeInt(4);
             msg.writeInt(enabled ? 1 : 0);
 
-            if(enabled) {
+            if (enabled) {
                 msg.writeInt(data.getHue());
                 msg.writeInt(data.getSaturation());
                 msg.writeInt(data.getLightness());
@@ -166,7 +166,7 @@ public class FloorItem extends RoomItem {
         msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
         msg.writeInt(this.getRoom().getData().getOwnerId());
 
-        if(isNew)
+        if (isNew)
             msg.writeString(this.getRoom().getData().getOwner());
     }
 
@@ -322,7 +322,7 @@ public class FloorItem extends RoomItem {
 
     @Override
     public void setAttribute(String attributeKey, Object attributeValue) {
-        if(this.attributes.containsKey(attributeKey)) {
+        if (this.attributes.containsKey(attributeKey)) {
             this.attributes.replace(attributeKey, attributeValue);
         } else {
             this.attributes.put(attributeKey, attributeValue);

@@ -11,7 +11,7 @@ public class CurrenciesMessageComposer {
 
         msg.writeInt(currencies.size());
 
-        for(Map.Entry<Integer, Integer> currency : currencies.entrySet()) {
+        for (Map.Entry<Integer, Integer> currency : currencies.entrySet()) {
             msg.writeInt(currency.getKey());
             msg.writeInt(currency.getValue());
         }

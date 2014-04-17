@@ -33,7 +33,7 @@ public class MemcachedProvider implements CacheProvider {
     public void put(Object identifier, Object obj) {
         // Identifier must be a string for memcached
         if (identifier instanceof String) {
-            this.memcachedClient.add((String)identifier, (5 * 60), obj);
+            this.memcachedClient.add((String) identifier, (5 * 60), obj);
         }
     }
 
@@ -41,7 +41,7 @@ public class MemcachedProvider implements CacheProvider {
     public void put(Object identifier, Object obj, int expires) {
         // Identifier must be a string for memcached
         if (identifier instanceof String) {
-            this.memcachedClient.add((String)identifier, expires, obj);
+            this.memcachedClient.add((String) identifier, expires, obj);
         }
     }
 
@@ -49,7 +49,7 @@ public class MemcachedProvider implements CacheProvider {
     public void put(Object identifier, Object obj, int expires, TimeUnit unit) {
         // Identifier must be a string for memcached
         if (identifier instanceof String) {
-            this.memcachedClient.add((String)identifier, Math.round(unit.toSeconds(expires)), obj);
+            this.memcachedClient.add((String) identifier, Math.round(unit.toSeconds(expires)), obj);
         }
     }
 
@@ -57,7 +57,7 @@ public class MemcachedProvider implements CacheProvider {
     public Object get(Object identifier) {
         // Identifier must be a string for memcached
         if (identifier instanceof String) {
-            return this.memcachedClient.get((String)identifier);
+            return this.memcachedClient.get((String) identifier);
         }
         return null;
     }
@@ -66,7 +66,7 @@ public class MemcachedProvider implements CacheProvider {
     public boolean exists(Object identifier) {
         // Identifier must be a string for memcached
         if (identifier instanceof String) {
-            return this.memcachedClient.get((String)identifier) != null;
+            return this.memcachedClient.get((String) identifier) != null;
         }
         return false;
     }

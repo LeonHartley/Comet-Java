@@ -26,14 +26,14 @@ public class TileInstance {
         this.status = RoomTileStatusType.NONE;
         this.canStack = true;
 
-        for(FloorItem item : mappingInstance.getRoom().getItems().getItemsOnSquare(this.position.getX(), this.position.getY())) {
-            if(item.getDefinition() == null)
+        for (FloorItem item : mappingInstance.getRoom().getItems().getItemsOnSquare(this.position.getX(), this.position.getY())) {
+            if (item.getDefinition() == null)
                 continue;
 
             boolean isGate = item.getDefinition().getInteraction().equals("gate");
             stackHeight += item.getHeight() + Math.round(item.getDefinition().getHeight());
 
-            if(!item.getDefinition().canWalk && !isGate) {
+            if (!item.getDefinition().canWalk && !isGate) {
                 movementNode = RoomEntityMovementNode.CLOSED;
             }
 
@@ -53,7 +53,7 @@ public class TileInstance {
                     break;
             }
 
-            if(item.getDefinition().canSit) {
+            if (item.getDefinition().canSit) {
                 status = RoomTileStatusType.SIT;
                 movementNode = RoomEntityMovementNode.END_OF_ROUTE;
             }
@@ -63,7 +63,7 @@ public class TileInstance {
                 movementNode = RoomEntityMovementNode.END_OF_ROUTE;
             }
 
-            if(!item.getDefinition().canStack) {
+            if (!item.getDefinition().canStack) {
                 this.canStack = false;
             }
         }

@@ -1,8 +1,8 @@
 package com.cometproject.server.network.sessions;
 
 import com.cometproject.server.network.NetworkEngine;
-import javolution.util.FastMap;
 import io.netty.channel.Channel;
+import javolution.util.FastMap;
 
 import java.util.Map;
 import java.util.UUID;
@@ -22,7 +22,7 @@ public class SessionManager {
     }
 
     public boolean remove(Channel channel) {
-        if(this.sessions.containsKey(channel.attr(NetworkEngine.UNIQUE_ID_KEY).get())) {
+        if (this.sessions.containsKey(channel.attr(NetworkEngine.UNIQUE_ID_KEY).get())) {
             this.sessions.remove(channel.attr(NetworkEngine.UNIQUE_ID_KEY).get());
             return true;
         }
@@ -31,11 +31,11 @@ public class SessionManager {
     }
 
     public boolean isPlayerLogged(int id) {
-        for(Map.Entry<UUID, Session> sessions : this.sessions.entrySet()) {
+        for (Map.Entry<UUID, Session> sessions : this.sessions.entrySet()) {
             Session session = sessions.getValue();
 
-            if(session.getPlayer() != null) {
-                if(session.getPlayer().getId() == id) {
+            if (session.getPlayer() != null) {
+                if (session.getPlayer().getId() == id) {
                     return true;
                 }
             }
@@ -45,9 +45,9 @@ public class SessionManager {
     }
 
     public void disconnectByPlayerId(int id) {
-        for(Map.Entry<UUID, Session> session : this.sessions.entrySet()) {
-            if(session.getValue().getPlayer() != null) {
-                if(session.getValue().getPlayer().getId() == id) {
+        for (Map.Entry<UUID, Session> session : this.sessions.entrySet()) {
+            if (session.getValue().getPlayer() != null) {
+                if (session.getValue().getPlayer().getId() == id) {
                     session.getValue().disconnect();
                 }
             }
@@ -55,9 +55,9 @@ public class SessionManager {
     }
 
     public Session getByPlayerId(int id) {
-        for(Map.Entry<UUID, Session> session : this.sessions.entrySet()) {
-            if(session.getValue().getPlayer() != null) {
-                if(session.getValue().getPlayer().getId() == id) {
+        for (Map.Entry<UUID, Session> session : this.sessions.entrySet()) {
+            if (session.getValue().getPlayer() != null) {
+                if (session.getValue().getPlayer().getId() == id) {
                     return session.getValue();
                 }
             }
@@ -67,9 +67,9 @@ public class SessionManager {
     }
 
     public Session getByPlayerUsername(String username) {
-        for(Map.Entry<UUID, Session> session : this.sessions.entrySet()) {
-            if(session.getValue().getPlayer() != null && session.getValue().getPlayer().getData() != null) {
-                if(session.getValue().getPlayer().getData().getUsername().toLowerCase().equals(username.toLowerCase())) {
+        for (Map.Entry<UUID, Session> session : this.sessions.entrySet()) {
+            if (session.getValue().getPlayer() != null && session.getValue().getPlayer().getData() != null) {
+                if (session.getValue().getPlayer().getData().getUsername().toLowerCase().equals(username.toLowerCase())) {
                     return session.getValue();
                 }
             }
@@ -81,8 +81,8 @@ public class SessionManager {
     public int getUsersOnlineCount() {
         int i = 0;
 
-        for(Map.Entry<UUID, Session> session : this.sessions.entrySet()) {
-            if(session.getValue().getPlayer() != null) {
+        for (Map.Entry<UUID, Session> session : this.sessions.entrySet()) {
+            if (session.getValue().getPlayer() != null) {
                 i++;
             }
         }

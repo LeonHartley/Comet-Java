@@ -28,10 +28,10 @@ import com.cometproject.server.network.messages.incoming.room.engine.FollowRoomI
 import com.cometproject.server.network.messages.incoming.room.engine.InitalizeRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.LoadHeightmapMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.*;
+import com.cometproject.server.network.messages.incoming.room.item.gifts.OpenGiftMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinNameMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.wired.SaveWiredMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.item.ChangeWallItemStateMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.GetBannedUsersMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.GiveRightsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.KickUserMessageEvent;
@@ -45,7 +45,6 @@ import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.ChangeMottoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.UserInformationMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.item.gifts.OpenGiftMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.BadgeInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.BotInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.OpenInventoryMessageEvent;
@@ -60,17 +59,17 @@ import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-public class  MessageHandler {
-	private FastMap<Short, IEvent> messages;
+public class MessageHandler {
+    private FastMap<Short, IEvent> messages;
 
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
-	
-	public MessageHandler() {
-	    this.load();
-	}
+
+    public MessageHandler() {
+        this.load();
+    }
 
     public void load() {
-        if(this.messages == null) {
+        if (this.messages == null) {
             this.messages = new FastMap<>();
         } else {
             this.messages.clear();
@@ -93,12 +92,12 @@ public class  MessageHandler {
         log.info("Loaded " + this.getMessages().size() + " message events");
     }
 
-	public void registerHandshake() {
+    public void registerHandshake() {
         this.getMessages().put(Events.CheckReleaseMessageEvent, new CheckReleaseMessageEvent());
         this.getMessages().put(Events.InitCryptoMessageEvent, new InitCryptoMessageEvent());
         this.getMessages().put(Events.GenerateSecretKeyMessageEvent, new GenerateSecretKeyMessageEvent());
         this.getMessages().put(Events.SSOTicketMessageEvent, new SSOTicketMessageEvent());
-	}
+    }
 
     public void registerModTool() {
         this.getMessages().put(Events.ModToolUserInfoMessageEvent, new ModToolUserInfoMessageEvent());
@@ -238,30 +237,30 @@ public class  MessageHandler {
         this.getMessages().put(Events.PurchaseGiftMessageEvent, new PurchaseGiftMessageEvent());
     }
 
-	public void handle(Event message, Session client) {
-		try {
-			Short header = message.getId();
-			
-			if(this.getMessages().containsKey(header)) {
+    public void handle(Event message, Session client) {
+        try {
+            Short header = message.getId();
+
+            if (this.getMessages().containsKey(header)) {
                 long start = System.currentTimeMillis();
 
                 log.debug("Started packet process for packet: [" + Events.valueOfId(header) + "][" + header + "]");
                 log.debug(message.toString());
 
-				this.getMessages().get(header).handle(client, message);
+                this.getMessages().get(header).handle(client, message);
                 log.debug("Finished packet process for packet: [" + Events.valueOfId(header) + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
-			} else {
-				if(Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != 2906) // 2906 = annoying ping header
+            } else {
+                if (Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != 2906) // 2906 = annoying ping header
                     log.debug("Unknown message ID: " + header);
-                else if(header != 2906)
+                else if (header != 2906)
                     log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
-			}
-		} catch(Exception e) {
-			log.error("Error while handling incoming message", e);
-		}
-	}
-	
-	public FastMap<Short, IEvent> getMessages() {
-		return this.messages;
-	}
+            }
+        } catch (Exception e) {
+            log.error("Error while handling incoming message", e);
+        }
+    }
+
+    public FastMap<Short, IEvent> getMessages() {
+        return this.messages;
+    }
 }

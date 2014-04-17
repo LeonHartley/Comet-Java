@@ -20,10 +20,10 @@ public class RelationshipComponent {
         try {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM player_relationships WHERE player_id = " + this.getPlayer().getId());
 
-            while(data.next()) {
+            while (data.next()) {
                 this.relationships.put(data.getInt("partner"), RelationshipLevel.getLevel(data.getString("level")));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             GameEngine.getLogger().error("Error while loading player relationships", e);
         }
     }
@@ -37,8 +37,8 @@ public class RelationshipComponent {
     public int countByLevel(RelationshipLevel level) {
         int i = 0;
 
-        for(RelationshipLevel l : relationships.values()) {
-            if(l == level)
+        for (RelationshipLevel l : relationships.values()) {
+            if (l == level)
                 i++;
         }
 

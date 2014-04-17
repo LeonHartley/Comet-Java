@@ -72,9 +72,9 @@ public class Position3D {
     }
 
     public static double calculateHeight(FloorItem item) {
-        if(item.getDefinition().getInteraction().equals("gate")) {
+        if (item.getDefinition().getInteraction().equals("gate")) {
             return 0;
-        } else if(item.getDefinition().canSit) {
+        } else if (item.getDefinition().canSit) {
             return 0;
         }
 
@@ -101,8 +101,8 @@ public class Position3D {
         else if (y > newY)
             rotation = 0;
 
-        if(moonwalk) {
-            if(rotation > 3) {
+        if (moonwalk) {
+            if (rotation > 3) {
                 rotation = rotation - 4;
             } else {
                 rotation = rotation + 4;
@@ -118,13 +118,13 @@ public class Position3D {
         int posX = pos.getX();
         int posY = pos.getY();
 
-        if(angle == 0) {
+        if (angle == 0) {
             posY--;
-        } else if(angle == 2) {
+        } else if (angle == 2) {
             posX++;
-        } else if(angle == 4) {
+        } else if (angle == 4) {
             posY++;
-        } else if(angle == 6) {
+        } else if (angle == 6) {
             posX--;
         }
 
@@ -140,13 +140,13 @@ public class Position3D {
         int posX = pos.getX();
         int posY = pos.getY();
 
-        if(angle == 0) {
+        if (angle == 0) {
             posY++;
-        } else if(angle == 2) {
+        } else if (angle == 2) {
             posX--;
-        } else if(angle == 4) {
+        } else if (angle == 4) {
             posY--;
-        } else if(angle == 6) {
+        } else if (angle == 6) {
             posX++;
         }
 

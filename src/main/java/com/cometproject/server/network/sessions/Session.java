@@ -2,8 +2,8 @@ package com.cometproject.server.network.sessions;
 
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.types.Composer;
-import org.apache.log4j.Logger;
 import io.netty.channel.Channel;
+import org.apache.log4j.Logger;
 
 public class Session {
     private Channel channel;
@@ -29,7 +29,7 @@ public class Session {
     }
 
     public void send(Composer msg) {
-        if(msg == null)
+        if (msg == null)
             return;
 
         channel.writeAndFlush(msg);

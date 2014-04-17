@@ -2,7 +2,6 @@ package com.cometproject.server.game.items.interactions.items;
 
 
 import com.cometproject.server.game.items.interactions.InteractionAction;
-import com.cometproject.server.game.items.interactions.InteractionManager;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.interactions.Interactor;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;

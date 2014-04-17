@@ -21,7 +21,7 @@ public class MonitorMessageHandler {
     public boolean handle(MonitorPacket message, ChannelHandlerContext ctx) {
         String messageHeader = message.getName();
 
-        if(!this.messageRegistry.contains(messageHeader)) {
+        if (!this.messageRegistry.contains(messageHeader)) {
             return false;
         }
 

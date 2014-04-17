@@ -11,7 +11,6 @@ import com.cometproject.server.network.messages.outgoing.misc.AlertMessageCompos
 import com.cometproject.server.network.messages.outgoing.room.trading.*;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
-import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastList;
 
 import java.sql.PreparedStatement;
@@ -31,12 +30,12 @@ public class Trade {
         user1Items = new FastList<>();
         user2Items = new FastList<>();
 
-        if(!user1.hasStatus("trd")) {
+        if (!user1.hasStatus("trd")) {
             user1.addStatus("trd", "");
             user1.markNeedsUpdate();
         }
 
-        if(!user2.getPlayer().getEntity().hasStatus("trd")) {
+        if (!user2.getPlayer().getEntity().hasStatus("trd")) {
             user2.addStatus("trd", "");
             user2.markNeedsUpdate();
         }
@@ -65,20 +64,20 @@ public class Trade {
         boolean sendToUser1 = true;
         boolean sendToUser2 = true;
 
-        if(isLeave) {
-            if(user1.getPlayer() == null || user1.getPlayer() == null || userId == user1.getPlayer().getId()) {
+        if (isLeave) {
+            if (user1.getPlayer() == null || user1.getPlayer() == null || userId == user1.getPlayer().getId()) {
                 sendToUser1 = false;
             } else {
                 sendToUser2 = false;
             }
         }
 
-        if(user1 != null && user1.getPlayer() != null &&sendToUser1) {
+        if (user1 != null && user1.getPlayer() != null && sendToUser1) {
             user1.removeStatus("trd");
             user1.markNeedsUpdate();
         }
 
-        if(user2 != null && user2.getPlayer() != null && sendToUser2) {
+        if (user2 != null && user2.getPlayer() != null && sendToUser2) {
             user2.removeStatus("trd");
             user2.markNeedsUpdate();
         }
@@ -87,12 +86,12 @@ public class Trade {
     }
 
     public void addItem(int user, InventoryItem item) {
-        if(user == 1) {
-            if(!this.user1Items.contains(item)) {
+        if (user == 1) {
+            if (!this.user1Items.contains(item)) {
                 this.user1Items.add(item);
             }
         } else {
-            if(!this.user2Items.contains(item)) {
+            if (!this.user2Items.contains(item)) {
                 this.user2Items.add(item);
             }
         }
@@ -105,12 +104,12 @@ public class Trade {
     }
 
     public void removeItem(int user, InventoryItem item) {
-        if(user == 1) {
-            if(this.user1Items.contains(item)) {
+        if (user == 1) {
+            if (this.user1Items.contains(item)) {
                 this.user1Items.remove(item);
             }
         } else {
-            if(this.user2Items.contains(item)) {
+            if (this.user2Items.contains(item)) {
                 this.user2Items.remove(item);
             }
         }
@@ -119,14 +118,14 @@ public class Trade {
     }
 
     public void accept(int user) {
-        if(user == 1)
+        if (user == 1)
             this.user1Accepted = true;
         else
             this.user2Accepted = true;
 
         sendToUsers(TradeAcceptUpdateMessageComposer.compose(((user == 1) ? user1 : user2).getPlayer().getId()));
 
-        if(user1Accepted && user2Accepted) {
+        if (user1Accepted && user2Accepted) {
             this.stage++;
             sendToUsers(TradeCompleteMessageComposer.compose());
             user1Accepted = false;
@@ -135,18 +134,18 @@ public class Trade {
     }
 
     public void confirm(int user, TradeComponent tradeComponent) {
-        if(stage != 2) {
+        if (stage != 2) {
             return;
         }
 
-        if(user == 1)
+        if (user == 1)
             this.user1Accepted = true;
         else
             this.user2Accepted = true;
 
         sendToUsers(TradeAcceptUpdateMessageComposer.compose(((user == 1) ? user1 : user2).getPlayer().getId()));
 
-        if(user1Accepted && user2Accepted) {
+        if (user1Accepted && user2Accepted) {
             complete();
 
             this.user1Items.clear();
@@ -154,12 +153,12 @@ public class Trade {
 
             tradeComponent.remove(this);
 
-            if(user1.getPlayer().getEntity().hasStatus("trd")) {
+            if (user1.getPlayer().getEntity().hasStatus("trd")) {
                 user1.getPlayer().getEntity().removeStatus("trd");
                 user1.getPlayer().getEntity().markNeedsUpdate();
             }
 
-            if(user2.getPlayer().getEntity().hasStatus("trd")) {
+            if (user2.getPlayer().getEntity().hasStatus("trd")) {
                 user2.getPlayer().getEntity().removeStatus("trd");
                 user2.getPlayer().getEntity().markNeedsUpdate();
             }
@@ -168,8 +167,8 @@ public class Trade {
     }
 
     public void complete() {
-        for(InventoryItem item : this.user1Items) {
-            if(user1.getPlayer().getInventory().getItem(item.getId()) == null) {
+        for (InventoryItem item : this.user1Items) {
+            if (user1.getPlayer().getInventory().getItem(item.getId()) == null) {
                 sendToUsers(AlertMessageComposer.compose(Locale.get("game.trade.error")));
                 return;
             } else {
@@ -183,14 +182,14 @@ public class Trade {
                     statement.setInt(2, item.getId());
 
                     statement.execute();
-                }  catch(Exception e) {
+                } catch (Exception e) {
                     GameEngine.getLogger().error("There was an error during trade between " + user1.getPlayer().getId() + " and " + user2.getPlayer().getId(), e);
                 }
             }
         }
 
-        for(InventoryItem item : this.user2Items) {
-            if(user2.getPlayer().getInventory().getItem(item.getId()) == null) {
+        for (InventoryItem item : this.user2Items) {
+            if (user2.getPlayer().getInventory().getItem(item.getId()) == null) {
                 sendToUsers(AlertMessageComposer.compose(Locale.get("game.trade.error")));
                 return;
             } else {
@@ -204,7 +203,7 @@ public class Trade {
                     statement.setInt(2, item.getId());
 
                     statement.execute();
-                }  catch(Exception e) {
+                } catch (Exception e) {
                     GameEngine.getLogger().error("There was an error during trade between " + user1.getPlayer().getId() + " and " + user2.getPlayer().getId(), e);
                 }
             }
@@ -227,10 +226,10 @@ public class Trade {
     }
 
     public void sendToUsers(Composer msg) {
-        if(user1 != null && user1.getPlayer() != null && user1.getPlayer().getSession() != null)
+        if (user1 != null && user1.getPlayer() != null && user1.getPlayer().getSession() != null)
             user1.getPlayer().getSession().send(msg);
 
-        if(user2 != null && user2.getPlayer() != null && user2.getPlayer().getSession() != null)
+        if (user2 != null && user2.getPlayer() != null && user2.getPlayer().getSession() != null)
             user2.getPlayer().getSession().send(msg);
     }
 

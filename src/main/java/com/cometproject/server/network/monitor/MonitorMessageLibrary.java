@@ -32,7 +32,7 @@ public class MonitorMessageLibrary {
                 TimeSpan.millisecondsToDate(System.currentTimeMillis() - Comet.start),
                 ((runtime.totalMemory() / 1024) / 1024),
                 ((runtime.totalMemory() / 1024) / 1024) - ((runtime.freeMemory() / 1024) / 1024),
-                System.getProperty("os.name")+ " (" + System.getProperty("os.arch")+ ")",
+                System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ")",
                 runtime.availableProcessors(),
                 Comet.getServer().getStorage().getConnectionCount(),
                 Comet.getServer().getSystemMonitor().getCycleCount()
@@ -44,7 +44,7 @@ public class MonitorMessageLibrary {
     private static void sendMessage(String json) {
         ByteBuf msg = Unpooled.buffer(json.getBytes().length);
 
-        for(int i = 0; i < msg.capacity(); i++) {
+        for (int i = 0; i < msg.capacity(); i++) {
             msg.writeByte(json.getBytes()[i]);
         }
 

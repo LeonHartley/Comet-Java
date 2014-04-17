@@ -14,20 +14,20 @@ import java.util.List;
 public class BanzaiTeleportInteraction extends Interactor {
     @Override
     public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
-        if(!state) // walk off item
+        if (!state) // walk off item
             return false;
 
         FloorItem floorItem = (FloorItem) item;
         List<FloorItem> teleporters = new FastList<>();
 
-        for(FloorItem tele : floorItem.getRoom().getItems().getFloorItems()) {
-            if(tele.getDefinition().getInteraction().equals(floorItem.getDefinition().getInteraction())) {
-                if(tele.getId() != floorItem.getId())
+        for (FloorItem tele : floorItem.getRoom().getItems().getFloorItems()) {
+            if (tele.getDefinition().getInteraction().equals(floorItem.getDefinition().getInteraction())) {
+                if (tele.getId() != floorItem.getId())
                     teleporters.add(tele);
             }
         }
 
-        if(teleporters.size() < 1)
+        if (teleporters.size() < 1)
             return false;
 
         FloorItem randomTeleporter = teleporters.get(RandomInteger.getRandom(0, teleporters.size() - 1));
