@@ -126,6 +126,7 @@ public abstract class GenericEntity implements AvatarEntity {
         // TODO: Redirection grid here for beds
 
         if (this.getPositionToSet() != null){
+            this.getRoom().getEntities().getEntitiesAt(this.getPosition().getX(), this.getPosition().getY()).remove(this);
             this.setPosition(this.getPositionToSet());
         }
 
