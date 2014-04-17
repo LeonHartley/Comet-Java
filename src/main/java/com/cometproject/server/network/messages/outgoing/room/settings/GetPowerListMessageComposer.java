@@ -13,7 +13,7 @@ public class GetPowerListMessageComposer {
         msg.writeInt(roomId);
         msg.writeInt(usersWithRights.size());
 
-        for(Integer id : usersWithRights) {
+        for (Integer id : usersWithRights) {
             msg.writeInt(id);
 
             String username = Comet.getServer().getStorage().getString("SELECT `username` FROM players WHERE id = " + id);

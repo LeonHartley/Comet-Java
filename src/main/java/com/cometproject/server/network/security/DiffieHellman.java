@@ -1,8 +1,6 @@
 package com.cometproject.server.network.security;
 
 import java.math.BigInteger;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Random;
 
 /**
@@ -89,7 +87,7 @@ public class DiffieHellman {
     public static String generateRandomHexString(int length) {
         Random r = new Random();
         StringBuffer sb = new StringBuffer();
-        while(sb.length() < length){
+        while (sb.length() < length) {
             sb.append(Integer.toHexString(r.nextInt()));
         }
 

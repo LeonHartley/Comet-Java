@@ -13,8 +13,8 @@ public class GroupPartsMessageComposer {
 
         int roomCount = 0;
 
-        for(Room room : rooms.values()) {
-            if(room.getGroup() == null) {
+        for (Room room : rooms.values()) {
+            if (room.getGroup() == null) {
                 roomCount++;
             }
         }
@@ -22,8 +22,8 @@ public class GroupPartsMessageComposer {
         msg.writeInt(CometSettings.groupCost);
         msg.writeInt(roomCount);
 
-        for(Room room : rooms.values()) {
-            if(room.getGroup() == null) {
+        for (Room room : rooms.values()) {
+            if (room.getGroup() == null) {
                 msg.writeInt(room.getId());
                 msg.writeString(room.getData().getName());
                 msg.writeBoolean(false);

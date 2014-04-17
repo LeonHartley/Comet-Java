@@ -22,7 +22,7 @@ public class MannequinInteraction extends Interactor {
     public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
         MannequinData data = MannequinData.get(item.getExtraData());
 
-        if(data == null) {
+        if (data == null) {
             // There's no data to use!!
             return false;
         }

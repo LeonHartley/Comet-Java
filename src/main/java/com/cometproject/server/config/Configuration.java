@@ -17,7 +17,7 @@ public class Configuration {
 
             getProperties().load(stream);
             stream.close();
-        } catch(Exception e) {
+        } catch (Exception e) {
             Comet.exit("Failed to fetch the server configuration (" + file + ")");
         }
     }

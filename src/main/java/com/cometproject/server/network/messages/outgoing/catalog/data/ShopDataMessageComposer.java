@@ -7,7 +7,7 @@ public class ShopDataMessageComposer {
     public static Composer compose(int type) {
         Composer msg;
 
-        if(type == 1) {
+        if (type == 1) {
             msg = new Composer(Composers.ShopData1MessageComposer);
             msg.writeBoolean(true);
             msg.writeInt(1);
@@ -25,7 +25,7 @@ public class ShopDataMessageComposer {
             msg.writeInt(1);
             msg.writeInt(10);
 
-            for(int i = 3372; i < 3382; i++) {
+            for (int i = 3372; i < 3382; i++) {
                 msg.writeInt(i);
             }
 
@@ -51,7 +51,7 @@ public class ShopDataMessageComposer {
             msg.writeInt(10);
             msg.writeInt(7);
 
-            for(int i = 187; i < 194; i++) {
+            for (int i = 187; i < 194; i++) {
                 msg.writeInt(i);
             }
         }

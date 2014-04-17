@@ -36,13 +36,13 @@ public class RightsComponent {
         try {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM room_rights WHERE room_id = " + this.room.getId());
 
-            if(data == null)
+            if (data == null)
                 return;
 
-            while(data.next()) {
+            while (data.next()) {
                 this.rights.add(data.getInt("player_id"));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             this.room.log.error("Error while loading room rights", e);
         }
     }
@@ -66,8 +66,8 @@ public class RightsComponent {
     }
 
     public boolean hasBan(int userId) {
-        for(RoomBan ban : this.bannedUsers) {
-            if(ban.getId() == userId) {
+        for (RoomBan ban : this.bannedUsers) {
+            if (ban.getId() == userId) {
                 return true;
             }
         }
@@ -77,8 +77,8 @@ public class RightsComponent {
 
     public void cycle() {
         synchronized (this.bannedUsers) {
-            for(RoomBan ban : this.bannedUsers) {
-                if(ban.getCycle() >= 1) {
+            for (RoomBan ban : this.bannedUsers) {
+                if (ban.getCycle() >= 1) {
                     this.bannedUsers.remove(ban);
                     continue;
                 }

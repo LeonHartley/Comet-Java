@@ -18,7 +18,7 @@ public class HelpTicketMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         boolean hasActiveTicket = GameEngine.getModeration().getTicketByUserId(client.getPlayer().getId()) != null;
 
-        if(hasActiveTicket) {
+        if (hasActiveTicket) {
             client.send(AdvancedAlertMessageComposer.compose(Locale.get("help.ticket.pending.title"), Locale.get("help.ticket.pending.message")));
             return;
         }
@@ -45,7 +45,7 @@ public class HelpTicketMessageEvent implements IEvent {
 
             ResultSet keys = statement.getGeneratedKeys();
 
-            if(keys.next()) {
+            if (keys.next()) {
                 GameEngine.getModeration().addTicket(new HelpTicket(keys.getInt(1), client.getPlayer().getId(), reportedId, category, message, roomId));
             }
         } catch (SQLException e) {

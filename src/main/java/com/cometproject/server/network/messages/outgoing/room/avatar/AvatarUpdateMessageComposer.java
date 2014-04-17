@@ -15,7 +15,7 @@ public class AvatarUpdateMessageComposer {
 
         msg.writeInt(room.getEntities().count()); // items count
 
-        for(GenericEntity entity : room.getEntities().getEntitiesCollection().values()) {
+        for (GenericEntity entity : room.getEntities().getEntitiesCollection().values()) {
             msg.writeInt(entity.getVirtualId());
 
             msg.writeInt(entity.getPosition().getX());
@@ -28,11 +28,11 @@ public class AvatarUpdateMessageComposer {
             StringBuilder statusString = new StringBuilder();
             statusString.append("/");
 
-            for(Map.Entry<String, String> status : entity.getStatuses().entrySet()) {
+            for (Map.Entry<String, String> status : entity.getStatuses().entrySet()) {
 
                 statusString.append(status.getKey());
 
-                if(!status.getValue().isEmpty()) {
+                if (!status.getValue().isEmpty()) {
                     statusString.append(" ");
                     statusString.append(status.getValue());
                 }
@@ -53,7 +53,7 @@ public class AvatarUpdateMessageComposer {
 
         msg.writeInt(list.size()); // items count
 
-        for(GenericEntity entity : list) {
+        for (GenericEntity entity : list) {
             msg.writeInt(entity.getVirtualId());
 
             msg.writeInt(entity.getPosition().getX());
@@ -66,11 +66,11 @@ public class AvatarUpdateMessageComposer {
             StringBuilder statusString = new StringBuilder();
             statusString.append("/");
 
-            for(Map.Entry<String, String> status : entity.getStatuses().entrySet()) {
+            for (Map.Entry<String, String> status : entity.getStatuses().entrySet()) {
 
                 statusString.append(status.getKey());
 
-                if(!status.getValue().isEmpty()) {
+                if (!status.getValue().isEmpty()) {
                     statusString.append(" ");
                     statusString.append(status.getValue());
                 }
@@ -103,11 +103,11 @@ public class AvatarUpdateMessageComposer {
         StringBuilder statusString = new StringBuilder();
         statusString.append("/");
 
-        for(Map.Entry<String, String> status : entity.getStatuses().entrySet()) {
+        for (Map.Entry<String, String> status : entity.getStatuses().entrySet()) {
 
             statusString.append(status.getKey());
 
-            if(!status.getValue().isEmpty()) {
+            if (!status.getValue().isEmpty()) {
                 statusString.append(" ");
                 statusString.append(status.getValue());
             }
@@ -139,11 +139,11 @@ public class AvatarUpdateMessageComposer {
         StringBuilder statusString = new StringBuilder();
         statusString.append("/");
 
-        for(Map.Entry<String, String> status : avatar.getStatuses().entrySet()) {
+        for (Map.Entry<String, String> status : avatar.getStatuses().entrySet()) {
 
             statusString.append(status.getKey());
 
-            if(!status.getValue().isEmpty()) {
+            if (!status.getValue().isEmpty()) {
                 statusString.append(" ");
                 statusString.append(status.getValue());
             }

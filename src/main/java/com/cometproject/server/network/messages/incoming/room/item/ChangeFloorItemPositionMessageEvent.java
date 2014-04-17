@@ -6,14 +6,12 @@ import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.TileInstance;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastList;
 
-import javax.xml.bind.SchemaOutputResolver;
 import java.util.List;
 
 public class ChangeFloorItemPositionMessageEvent implements IEvent {
@@ -28,16 +26,16 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
         boolean hasRights = room.getRights().hasRights(client.getPlayer().getId());
 
-        if((isOwner || hasRights) || client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if ((isOwner || hasRights) || client.getPlayer().getPermissions().hasPermission("room_full_control")) {
 
             try {
                 FloorItem item = room.getItems().getFloorItem(id);
 
                 float height = (float) client.getPlayer().getEntity().getRoom().getModel().getSquareHeight()[x][y];
 
-                for(FloorItem stackItem : room.getItems().getItemsOnSquare(x, y)) {
-                    if(item.getId() != stackItem.getId()) {
-                        if(stackItem.getDefinition().canStack) {
+                for (FloorItem stackItem : room.getItems().getItemsOnSquare(x, y)) {
+                    if (item.getId() != stackItem.getId()) {
+                        if (stackItem.getDefinition().canStack) {
                             height += stackItem.getDefinition().getHeight();
                             //height += stackItem.getHeight() + stackItem.getDefinition().getHeight();
                         } else {
@@ -61,8 +59,7 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                 tilesToUpdate.add(new Position3D(item.getX(), item.getY(), item.getHeight()));
                 tilesToUpdate.add(new Position3D(x, y, item.getHeight()));
 
-                for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation()))
-                {
+                for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
                     tilesToUpdate.add(new Position3D(affectedTile.x, affectedTile.y, 0d));
                     List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
 
@@ -92,8 +89,7 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                     }
                 }
 
-                for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation()))
-                {
+                for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
                     tilesToUpdate.add(new Position3D(affectedTile.x, affectedTile.y, 0d));
 
                     List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
@@ -115,10 +111,10 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                 room.getItems().getFloorItems().add(item);
                 room.getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(item, room.getData().getOwnerId()));
 
-                for(Position3D tileToUpdate : tilesToUpdate) {
+                for (Position3D tileToUpdate : tilesToUpdate) {
                     room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 room.log.error("Error while changing floor item position", e);
             }
         }

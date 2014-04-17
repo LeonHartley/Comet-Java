@@ -14,16 +14,16 @@ public class PickUpItemMessageEvent implements IEvent {
         int id = msg.readInt();
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null || !room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (room == null || !room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;
         }
 
         FloorItem item = room.getItems().getFloorItem(id);
 
-        if(item == null) {
+        if (item == null) {
             WallItem wItem = room.getItems().getWallItem(id);
 
-            if(wItem == null) {
+            if (wItem == null) {
                 return;
             }
 

@@ -18,7 +18,7 @@ public class BanManager {
     }
 
     public void loadBans() {
-        if(bans != null)
+        if (bans != null)
             bans.clear();
         else
             bans = new FastMap<>();
@@ -26,12 +26,12 @@ public class BanManager {
         try {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM bans WHERE expire = 0 OR expire > " + Comet.getTime());
 
-            while(data.next()) {
+            while (data.next()) {
                 this.bans.put(data.getString("data"), new Ban(data));
             }
 
             logger.info("Loaded " + this.bans.size() + " bans");
-        } catch(Exception e) {
+        } catch (Exception e) {
             logger.error("Error while loading bans", e);
         }
     }

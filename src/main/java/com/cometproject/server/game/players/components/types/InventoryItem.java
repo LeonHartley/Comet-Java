@@ -48,7 +48,7 @@ public class InventoryItem {
         msg.writeInt(0);
         msg.writeInt(0);
 
-        if(this.getDefinition().getType().equals("s")) {
+        if (this.getDefinition().getType().equals("s")) {
             msg.writeInt(0);
         }
     }

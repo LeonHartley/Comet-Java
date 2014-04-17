@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.components.games;
 
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.tasks.CometTask;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public abstract class RoomGame implements Runnable {
+public abstract class RoomGame implements CometTask {
     // TODO: recode this to use comet's thread pool
 
     private Map<GameTeam, List<Integer>> teams;
@@ -29,7 +30,7 @@ public abstract class RoomGame implements Runnable {
         this.type = gameType;
         this.room = room;
 
-        for(GameTeam team : GameTeam.values()) {
+        for (GameTeam team : GameTeam.values()) {
             this.teams.put(team, new ArrayList<Integer>());
         }
     }
@@ -39,7 +40,7 @@ public abstract class RoomGame implements Runnable {
         try {
             gameStarts();
 
-            while(timer <= gameLength) {
+            while (timer <= gameLength) {
                 tick();
 
                 timer++;
@@ -49,7 +50,7 @@ public abstract class RoomGame implements Runnable {
             active = false;
             gameEnds();
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error during game tick", e);
         }
     }
@@ -59,7 +60,7 @@ public abstract class RoomGame implements Runnable {
     }
 
     public void stop() {
-        if(this.active && thread != null) {
+        if (this.active && thread != null) {
             this.thread.interrupt();
             this.active = false;
             this.gameLength = 0;
@@ -68,7 +69,7 @@ public abstract class RoomGame implements Runnable {
     }
 
     public void startTimer(int amount) {
-        if(this.active && thread != null) {
+        if (this.active && thread != null) {
             this.thread.interrupt();
         }
 
@@ -86,13 +87,13 @@ public abstract class RoomGame implements Runnable {
     }
 
     public void removeFromTeam(GameTeam team, int id) {
-        if(this.teams.get(team).contains(id))
+        if (this.teams.get(team).contains(id))
             this.teams.get(team).remove(id);
     }
 
     public GameTeam getTeam(int userId) {
-        for(Map.Entry<GameTeam, List<Integer>> entry : this.getTeams().entrySet()) {
-            if(entry.getValue().contains(userId)) {
+        for (Map.Entry<GameTeam, List<Integer>> entry : this.getTeams().entrySet()) {
+            if (entry.getValue().contains(userId)) {
                 return entry.getKey();
             }
         }
@@ -101,7 +102,9 @@ public abstract class RoomGame implements Runnable {
     }
 
     public abstract void tick();
+
     public abstract void gameEnds();
+
     public abstract void gameStarts();
 
     public GameType getType() {

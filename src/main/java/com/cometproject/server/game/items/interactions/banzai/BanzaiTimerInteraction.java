@@ -20,7 +20,7 @@ public class BanzaiTimerInteraction extends Interactor {
     public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
         // TODO: this.
 
-        switch(request) {
+        switch (request) {
             case 0:
                 item.setExtraData("30");
                 item.sendUpdate();

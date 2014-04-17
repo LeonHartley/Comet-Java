@@ -12,7 +12,7 @@ public class CreateRoomMessageEvent implements IEvent {
         String name = msg.readString();
         String model = msg.readString();
 
-        if(GameEngine.getRooms().getModel(model) == null) {
+        if (GameEngine.getRooms().getModel(model) == null) {
             client.send(MotdNotificationComposer.compose("Invalid room model"));
             return;
         }

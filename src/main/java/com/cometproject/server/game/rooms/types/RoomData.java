@@ -50,7 +50,7 @@ public class RoomData {
 
         String[] decorations = room.getString("decorations").split(",");
 
-        for(int i = 0; i < decorations.length; i++) {
+        for (int i = 0; i < decorations.length; i++) {
             String[] decoration = decorations[i].split("=");
 
             if (decoration.length == 2)
@@ -66,7 +66,7 @@ public class RoomData {
 
     public void save() throws SQLException {
         PreparedStatement std = Comet.getServer().getStorage().prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?, max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, " +
-            "decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?, thickness_floor = ? WHERE id = ?");
+                "decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?, thickness_floor = ? WHERE id = ?");
 
         std.setString(1, name);
         std.setString(2, description);
@@ -80,8 +80,8 @@ public class RoomData {
 
         String tagString = "";
 
-        for(int i = 0; i < tags.length; i++) {
-            if(i != 0) {
+        for (int i = 0; i < tags.length; i++) {
+            if (i != 0) {
                 tagString += ",";
             }
 
@@ -92,7 +92,7 @@ public class RoomData {
 
         String decorString = "";
 
-        for(Map.Entry<String, String> decoration : decorations.entrySet()) {
+        for (Map.Entry<String, String> decoration : decorations.entrySet()) {
             decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
         }
 

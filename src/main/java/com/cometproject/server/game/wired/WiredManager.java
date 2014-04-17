@@ -57,15 +57,15 @@ public class WiredManager {
     }
 
     public String getString(TriggerType type) {
-        if(type == TriggerType.ON_SAY) {
+        if (type == TriggerType.ON_SAY) {
             return "wf_trg_onsay";
-        } else if(type == TriggerType.ENTER_ROOM) {
+        } else if (type == TriggerType.ENTER_ROOM) {
             return "wf_trg_enterroom";
-        } else if(type == TriggerType.ON_FURNI) {
+        } else if (type == TriggerType.ON_FURNI) {
             return "wf_trg_onfurni";
-        } else if(type == TriggerType.OFF_FURNI) {
+        } else if (type == TriggerType.OFF_FURNI) {
             return "wf_trg_offfurni";
-        } else if(type == TriggerType.TIMER) {
+        } else if (type == TriggerType.TIMER) {
             return "wf_trg_timer";
         }
 

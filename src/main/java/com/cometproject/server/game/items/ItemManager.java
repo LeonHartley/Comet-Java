@@ -25,17 +25,17 @@ public class ItemManager {
     }
 
     public void loadItemDefinitions() {
-        if(this.getItemDefinitions().size() >= 1) {
+        if (this.getItemDefinitions().size() >= 1) {
             this.getItemDefinitions().clear();
         }
 
         try {
             ResultSet items = Comet.getServer().getStorage().getTable("SELECT * FROM furniture");
 
-            while(items.next()) {
+            while (items.next()) {
                 this.getItemDefinitions().put(items.getInt("id"), new ItemDefinition(items));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading item definitions", e);
         }
 
@@ -43,19 +43,19 @@ public class ItemManager {
     }
 
     public int getTeleportPartner(int itemId) {
-        if(this.teleportPairs.containsKey(itemId)) {
+        if (this.teleportPairs.containsKey(itemId)) {
             return teleportPairs.get(itemId);
         } else {
             try {
                 ResultSet check = Comet.getServer().getStorage().getRow("SELECT * FROM items_teles WHERE id_one = " + itemId);
 
-                if(check != null) {
+                if (check != null) {
                     this.teleportPairs.put(itemId, check.getInt("id_two"));
                     this.teleportPairs.put(check.getInt("id_two"), itemId);
 
                     return check.getInt("id_two");
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 log.error("Error while searching for teleport partner", e);
             }
         }
@@ -66,13 +66,13 @@ public class ItemManager {
     public int roomIdByItemId(int itemId) {
         try {
             return Integer.parseInt(Comet.getServer().getStorage().getString("SELECT `room_id` FROM items WHERE id = " + itemId));
-        } catch(Exception e) {
+        } catch (Exception e) {
             return 0;
         }
     }
 
     public ItemDefinition getDefintion(int itemId) {
-        if(this.getItemDefinitions().containsKey(itemId)) {
+        if (this.getItemDefinitions().containsKey(itemId)) {
             return this.getItemDefinitions().get(itemId);
         }
 

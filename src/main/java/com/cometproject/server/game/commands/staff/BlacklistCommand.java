@@ -10,8 +10,8 @@ import com.cometproject.server.network.sessions.Session;
 public class BlacklistCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-    if(params.length < 2)
-        return;
+        if (params.length < 2)
+            return;
 
         switch (params[0]) {
             case "add":

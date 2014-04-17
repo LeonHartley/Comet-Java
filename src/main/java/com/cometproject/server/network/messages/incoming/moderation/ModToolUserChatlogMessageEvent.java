@@ -8,7 +8,7 @@ public class ModToolUserChatlogMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int userId = msg.readInt();
 
-        if(!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             return;
         }
 

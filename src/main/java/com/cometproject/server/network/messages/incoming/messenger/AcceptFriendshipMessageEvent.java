@@ -18,12 +18,12 @@ public class AcceptFriendshipMessageEvent implements IEvent {
         int amount = msg.readInt();
         List<MessengerRequest> requests = new FastList<>();
 
-        for(int i = 0; i < amount; i++) {
+        for (int i = 0; i < amount; i++) {
             requests.add(client.getPlayer().getMessenger().getRequestBySender(msg.readInt()));
         }
 
         try {
-            for(MessengerRequest request : requests) {
+            for (MessengerRequest request : requests) {
                 PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into `messenger_friendships` VALUES(?, ?);");
 
                 statement.setInt(1, client.getPlayer().getId());
@@ -43,7 +43,7 @@ public class AcceptFriendshipMessageEvent implements IEvent {
 
                 Session friend = Comet.getServer().getNetwork().getSessions().getByPlayerId(request.getFromId());
 
-                if(friend != null) {
+                if (friend != null) {
                     friend.getPlayer().getMessenger().addFriend(new MessengerFriend(client.getPlayer().getId(), client));
                     friend.getPlayer().getMessenger().sendStatus(true, friend.getPlayer().getEntity() != null);
                 } else {
@@ -53,7 +53,7 @@ public class AcceptFriendshipMessageEvent implements IEvent {
                 client.getPlayer().getMessenger().addFriend(new MessengerFriend(request.getFromId(), client));
                 client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             GameEngine.getLogger().error("Error while accepting messenger request", e);
         }
     }

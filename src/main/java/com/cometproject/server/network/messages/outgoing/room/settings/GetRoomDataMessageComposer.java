@@ -18,7 +18,7 @@ public class GetRoomDataMessageComposer {
         msg.writeInt(room.getData().getMaxUsers());
         msg.writeInt(room.getData().getTags().length);
 
-        for(String tag : room.getData().getTags()) {
+        for (String tag : room.getData().getTags()) {
             msg.writeString(tag);
         }
 

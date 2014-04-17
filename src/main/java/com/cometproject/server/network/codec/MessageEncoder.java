@@ -21,8 +21,8 @@ public class MessageEncoder extends MessageToMessageEncoder<Composer> {
             //buf.release();
             ctx.flush();
             log.debug("Composed message: " + Composers.valueOfId(msg.getId()));
-        } catch(Exception e) {
-        log.error("Failed to encode message: ", e);
+        } catch (Exception e) {
+            log.error("Failed to encode message: ", e);
         }
     }
 }

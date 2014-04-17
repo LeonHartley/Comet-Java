@@ -5,20 +5,14 @@ import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.players.data.PlayerLoader;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.catalog.pets.ValidatePetNameMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.LoginMessageComposer;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.plugins.types.PluginPlayer;
-
-import java.sql.Timestamp;
-import java.util.concurrent.TimeUnit;
 
 public class SSOTicketMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {

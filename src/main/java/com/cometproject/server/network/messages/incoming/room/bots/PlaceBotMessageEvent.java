@@ -6,11 +6,8 @@ import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.bots.PlaceBotMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -23,13 +20,13 @@ public class PlaceBotMessageEvent implements IEvent {
         Room room = client.getPlayer().getEntity().getRoom();
         InventoryBot bot = client.getPlayer().getBots().getBot(botId);
 
-        if(room == null || bot == null || (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
+        if (room == null || bot == null || (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;
         }
 
         double height = room.getModel().getSquareHeight()[x][y];
 
-        if(room.getEntities().getEntitiesAt(x, y).size() >= 1 || !room.getMapping().isValidPosition(new Position3D(x, y, height))) {
+        if (room.getEntities().getEntitiesAt(x, y).size() >= 1 || !room.getMapping().isValidPosition(new Position3D(x, y, height))) {
             return;
         }
 

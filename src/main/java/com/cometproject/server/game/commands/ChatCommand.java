@@ -25,7 +25,7 @@ public abstract class ChatCommand {
 
         StringBuilder mergedParams = new StringBuilder();
 
-        for(int i = 0; i < begin; i++) {
+        for (int i = 0; i < begin; i++) {
             mergedParams.append(" ");
             mergedParams.append(params[i]);
         }

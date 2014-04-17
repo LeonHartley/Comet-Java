@@ -8,13 +8,12 @@ import com.cometproject.server.game.rooms.types.RoomModel;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class PushCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length == 0) {
+        if (params.length == 0) {
             this.sendChat("Invalid username", client);
             return;
         }
@@ -22,20 +21,20 @@ public class PushCommand extends ChatCommand {
         String username = params[0];
         Session user = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
 
-        if(!client.getPlayer().getData().isVip()) {
+        if (!client.getPlayer().getData().isVip()) {
             this.sendChat("You must be VIP to use this command!", client);
             return;
         }
 
-        if(user == null) {
+        if (user == null) {
             return;
         }
 
-        if(user.getPlayer().getEntity() == null) {
+        if (user.getPlayer().getEntity() == null) {
             return;
         }
 
-        if(user == client) {
+        if (user == client) {
             this.sendChat("You can't push yourself!", client);
             return;
         }
@@ -47,7 +46,7 @@ public class PushCommand extends ChatCommand {
         int rot = client.getPlayer().getEntity().getBodyRotation();
 
         if (!((Math.abs((posX - playerX)) >= 2) || (Math.abs(posY - playerY) >= 2))) {
-            switch(rot) {
+            switch (rot) {
                 case 4:
                     posY += 1;
                     break;
@@ -87,7 +86,7 @@ public class PushCommand extends ChatCommand {
 
             RoomModel model = client.getPlayer().getEntity().getRoom().getModel();
 
-            if(model.getDoorX() == posX && model.getDoorY() == posY) {
+            if (model.getDoorX() == posX && model.getDoorY() == posY) {
                 this.sendChat("You can't push a user out of the room!", client);
                 return;
             }
@@ -97,7 +96,7 @@ public class PushCommand extends ChatCommand {
             List<Square> path = user.getPlayer().getEntity().getPathfinder().makePath();
             user.getPlayer().getEntity().unIdle();
 
-            if(user.getPlayer().getEntity().getWalkingPath() != null)
+            if (user.getPlayer().getEntity().getWalkingPath() != null)
                 user.getPlayer().getEntity().getWalkingPath().clear();
 
             user.getPlayer().getEntity().setWalkingPath(path);

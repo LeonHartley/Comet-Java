@@ -12,11 +12,11 @@ import java.util.Map;
 public class EmptyCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        for(Map.Entry<Integer, InventoryItem> floorItem : client.getPlayer().getInventory().getFloorItems().entrySet()) {
+        for (Map.Entry<Integer, InventoryItem> floorItem : client.getPlayer().getInventory().getFloorItems().entrySet()) {
             client.getPlayer().getInventory().removeFloorItem(floorItem.getKey());
         }
 
-        for(Map.Entry<Integer, InventoryItem> wallItem : client.getPlayer().getInventory().getWallItems().entrySet()) {
+        for (Map.Entry<Integer, InventoryItem> wallItem : client.getPlayer().getInventory().getWallItems().entrySet()) {
             client.getPlayer().getInventory().removeWallItem(wallItem.getKey());
         }
 
@@ -33,7 +33,7 @@ public class EmptyCommand extends ChatCommand {
 
     @Override
     public String getDescription() {
-        
+
         return Locale.get("command.empty.description");
     }
 }

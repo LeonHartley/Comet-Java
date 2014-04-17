@@ -13,13 +13,13 @@ public class WalkMessageEvent implements IEvent {
             /*if(client.getPlayer().getEntity().getPathfinder() == null)
                 client.getPlayer().getEntity().setPathfinder();*/
 
-            if(goalX == client.getPlayer().getEntity().getPosition().getX() && goalY == client.getPlayer().getEntity().getPosition().getY()) {
+            if (goalX == client.getPlayer().getEntity().getPosition().getX() && goalY == client.getPlayer().getEntity().getPosition().getY()) {
                 return;
             }
 
-            if(!client.getPlayer().getEntity().isOverriden())
+            if (!client.getPlayer().getEntity().isOverriden())
                 client.getPlayer().getEntity().moveTo(goalX, goalY);
-        } catch(Exception e) {
+        } catch (Exception e) {
             client.getLogger().error("Error while finding path", e);
         }
     }

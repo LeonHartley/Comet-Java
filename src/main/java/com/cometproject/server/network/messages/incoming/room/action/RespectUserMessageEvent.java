@@ -12,18 +12,18 @@ public class RespectUserMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int respect = msg.readInt();
 
-        if(respect == client.getPlayer().getEntity().getVirtualId()) {
+        if (respect == client.getPlayer().getEntity().getVirtualId()) {
             return;
         }
 
         Session user = Comet.getServer().getNetwork().getSessions().getByPlayerId(respect);
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(user == null || user.getPlayer() == null) {
+        if (user == null || user.getPlayer() == null) {
             return;
         }
 
-        if(client.getPlayer().getStats().getDailyRespects() < 1) {
+        if (client.getPlayer().getStats().getDailyRespects() < 1) {
             return;
         }
 

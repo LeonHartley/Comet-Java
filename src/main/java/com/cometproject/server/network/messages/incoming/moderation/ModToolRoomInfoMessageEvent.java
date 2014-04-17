@@ -14,7 +14,7 @@ public class ModToolRoomInfoMessageEvent implements IEvent {
 
         Room room = GameEngine.getRooms().get(roomId);
 
-        if(room == null)
+        if (room == null)
             return;
 
         client.send(ModToolRoomInfoMessageComposer.compose(room));

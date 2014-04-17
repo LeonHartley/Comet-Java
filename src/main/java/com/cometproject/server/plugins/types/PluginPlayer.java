@@ -6,7 +6,7 @@ import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessa
 public class PluginPlayer {
     private Player playerInstance;
 
-    public PluginPlayer(Player playerInstance){
+    public PluginPlayer(Player playerInstance) {
         this.playerInstance = playerInstance;
     }
 

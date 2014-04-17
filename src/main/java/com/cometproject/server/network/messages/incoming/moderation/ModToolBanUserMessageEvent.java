@@ -20,11 +20,11 @@ public class ModToolBanUserMessageEvent implements IEvent {
 
         Session user = Comet.getServer().getNetwork().getSessions().getByPlayerId(userId);
 
-        if(user == null) {
+        if (user == null) {
             return;
         }
 
-        if(user == client && user.getPlayer().getPermissions().hasPermission("user_unbannable")) {
+        if (user == client && user.getPlayer().getPermissions().hasPermission("user_unbannable")) {
             return;
         }
 
@@ -43,7 +43,7 @@ public class ModToolBanUserMessageEvent implements IEvent {
 
             ResultSet keys = statement.getGeneratedKeys();
 
-            if(keys.next()) {
+            if (keys.next()) {
                 GameEngine.getBans().add(new Ban(keys.getInt(1), userId + "", expire, BanType.USER, reason));
             }
         } catch (SQLException e) {

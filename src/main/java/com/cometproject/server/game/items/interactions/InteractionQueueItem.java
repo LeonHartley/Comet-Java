@@ -47,9 +47,15 @@ public class InteractionQueueItem {
         return this.actionToPerform;
     }
 
-    public PlayerEntity getEntity() { return this.entity; }
+    public PlayerEntity getEntity() {
+        return this.entity;
+    }
 
-    public int getUpdateState() { return this.updateState; }
+    public int getUpdateState() {
+        return this.updateState;
+    }
 
-    public int getUpdateCycles() { return this.updateCycles; }
+    public int getUpdateCycles() {
+        return this.updateCycles;
+    }
 }

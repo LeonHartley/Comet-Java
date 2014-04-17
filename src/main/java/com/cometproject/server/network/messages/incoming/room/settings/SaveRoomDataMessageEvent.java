@@ -16,7 +16,7 @@ public class SaveRoomDataMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
+        if (room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;
         }
 
@@ -33,8 +33,8 @@ public class SaveRoomDataMessageEvent implements IEvent {
 
         StringBuilder tagBuilder = new StringBuilder();
 
-        for(int i = 0; i < tagCount; i++) {
-            if(i > 0) {
+        for (int i = 0; i < tagCount; i++) {
+            if (i > 0) {
                 tagBuilder.append(",");
             }
 
@@ -56,37 +56,37 @@ public class SaveRoomDataMessageEvent implements IEvent {
         int whoKick = msg.readInt();
         int whoBan = msg.readInt();
 
-        if(wallThick < -2 || wallThick > 1) {
+        if (wallThick < -2 || wallThick > 1) {
             wallThick = 0;
         }
 
-        if(floorThick < -2 || floorThick > 1) {
+        if (floorThick < -2 || floorThick > 1) {
             floorThick = 0;
         }
 
-        if(name.length() < 1) {
+        if (name.length() < 1) {
             return;
         }
 
-        if(state < 0 || state > 2) {
+        if (state < 0 || state > 2) {
             return;
         }
 
-        if(maxUsers < 0) {
+        if (maxUsers < 0) {
             return;
         }
 
         Category category = GameEngine.getNavigator().getCategory(categoryId);
 
-        if(category == null) {
+        if (category == null) {
             return;
         }
 
-        if(category.getRank() > client.getPlayer().getData().getRank()) {
+        if (category.getRank() > client.getPlayer().getData().getRank()) {
             categoryId = 15; // 15 = the uncategorized category.
         }
 
-        if(tags.length > 2) {
+        if (tags.length > 2) {
             return;
         }
 
@@ -105,7 +105,7 @@ public class SaveRoomDataMessageEvent implements IEvent {
 
             client.send(ConfigureWallAndFloorMessageComposer.compose(hideWall == 1, wallThick, floorThick));
             room.getEntities().broadcastMessage(GetRoomDataMessageComposer.compose(room));
-        } catch(Exception e) {
+        } catch (Exception e) {
             RoomManager.log.error("Error while saving room data", e);
         }
     }

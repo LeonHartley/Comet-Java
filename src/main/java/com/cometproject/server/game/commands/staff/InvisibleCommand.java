@@ -12,7 +12,7 @@ public class InvisibleCommand extends ChatCommand {
 
         boolean isVisible = false;
 
-        if(!client.getPlayer().getEntity().isVisible()) {
+        if (!client.getPlayer().getEntity().isVisible()) {
             isVisible = true;
         }
 

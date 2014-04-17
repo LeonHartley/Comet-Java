@@ -28,16 +28,16 @@ public class PermissionsManager {
 
     public void loadPerks() {
         try {
-            if(this.getPerks().size() != 0) {
+            if (this.getPerks().size() != 0) {
                 this.getPerks().clear();
             }
 
             ResultSet result = Comet.getServer().getStorage().getTable("SELECT * FROM permission_perks");
 
-            while(result.next()) {
+            while (result.next()) {
                 this.getPerks().put(result.getInt("id"), new Perk(result));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading perk permissions", e);
             return;
         }
@@ -47,40 +47,40 @@ public class PermissionsManager {
 
     public void loadPermissions() {
         try {
-            if(this.getPermissions().size() != 0) {
+            if (this.getPermissions().size() != 0) {
                 this.getPermissions().clear();
             }
 
             ResultSet result = Comet.getServer().getStorage().getTable("SELECT * FROM permission_ranks");
 
-            while(result.next()) {
+            while (result.next()) {
                 this.getPermissions().put(result.getString("fuse"), new Permission(result));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading rank permissions", e);
             return;
         }
 
-       log.info("Loaded " + this.getPermissions().size() + " permissions");
+        log.info("Loaded " + this.getPermissions().size() + " permissions");
     }
 
     public void loadCommands() {
         try {
-            if(this.getCommands().size() != 0) {
+            if (this.getCommands().size() != 0) {
                 this.getCommands().clear();
             }
 
             ResultSet result = Comet.getServer().getStorage().getTable("SELECT * FROM permission_commands");
 
-            while(result.next()) {
+            while (result.next()) {
                 this.getCommands().put(result.getString("command_id"), result.getInt("minimum_rank"));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while reloading command permissions", e);
             return;
         }
 
-       log.info("Loaded " + this.getCommands().size() + " command permissions");
+        log.info("Loaded " + this.getCommands().size() + " command permissions");
     }
 
     public Map<String, Permission> getPermissions() {

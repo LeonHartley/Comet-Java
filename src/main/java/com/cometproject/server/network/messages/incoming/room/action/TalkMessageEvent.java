@@ -1,6 +1,5 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -15,8 +14,9 @@ public class TalkMessageEvent implements IEvent {
         String message = msg.readString();
         int colour = msg.readInt();
 
-        if(!TalkMessageEvent.isValidColour(colour, client))
+        if (!TalkMessageEvent.isValidColour(colour, client))
             colour = 0;
+
         if (client.getPlayer().getData().getRank() < 7) {
             if (GameEngine.getFilter().filter(message)) {
                 client.send(AdvancedAlertMessageComposer.compose(Locale.get("filter.alert.title"), Locale.get("filter.alert.message")));
@@ -24,21 +24,21 @@ public class TalkMessageEvent implements IEvent {
             }
         }
 
-        if(client.getPlayer().getEntity().onChat(message)) {
+        if (client.getPlayer().getEntity().onChat(message)) {
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), message, GameEngine.getRooms().getEmotions().getEmotion(message), colour));
         }
     }
 
     public static boolean isValidColour(int colour, Session client) {
-        if(colour >= 24)
+        if (colour >= 24)
             return false;
 
-        if(colour == 1 || colour == 2)
+        if (colour == 1 || colour == 2)
             return false;
 
-        if(colour == 23 && !client.getPlayer().getPermissions().hasPermission("mod_tool"))
+        if (colour == 23 && !client.getPlayer().getPermissions().hasPermission("mod_tool"))
             return false;
 
-            return true;
+        return true;
     }
 }

@@ -5,7 +5,7 @@ public enum TicketState {
     CLOSED;
 
     public static TicketState getState(String state) {
-        if(state.equals("open"))
+        if (state.equals("open"))
             return TicketState.OPEN;
         else
             return TicketState.CLOSED;

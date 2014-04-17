@@ -125,7 +125,7 @@ public abstract class GenericEntity implements AvatarEntity {
     public void moveTo(int x, int y) {
         // TODO: Redirection grid here for beds
 
-        if (this.getPositionToSet() != null){
+        if (this.getPositionToSet() != null) {
             this.getRoom().getEntities().getEntitiesAt(this.getPosition().getX(), this.getPosition().getY()).remove(this);
             this.setPosition(this.getPositionToSet());
         }
@@ -220,7 +220,7 @@ public abstract class GenericEntity implements AvatarEntity {
 
     @Override
     public void setWalkingPath(List<Square> path) {
-        if(this.walkingPath != null) {
+        if (this.walkingPath != null) {
             this.walkingPath.clear();
         }
 
@@ -404,7 +404,7 @@ public abstract class GenericEntity implements AvatarEntity {
 
     @Override
     public void applyEffect(UserEffect effect) {
-        if(effect == null) {
+        if (effect == null) {
             this.getRoom().getEntities().broadcastMessage(ApplyEffectMessageComposer.compose(this.id, 0));
         } else {
             this.getRoom().getEntities().broadcastMessage(ApplyEffectMessageComposer.compose(this.id, effect.getEffectId()));
@@ -422,9 +422,11 @@ public abstract class GenericEntity implements AvatarEntity {
     }
 
     public abstract void joinRoom(Room room, String password);
+
     protected abstract void finalizeJoinRoom();
 
     public abstract void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView);
+
     protected abstract void finalizeLeaveRoom();
 
     public abstract boolean onChat(String message);
@@ -438,7 +440,7 @@ public abstract class GenericEntity implements AvatarEntity {
     }
 
     public void updateVisibility(boolean isVisible) {
-        if(isVisible && !this.isVisible) {
+        if (isVisible && !this.isVisible) {
             // Add user to room etc.
         } else {
             //remove from room

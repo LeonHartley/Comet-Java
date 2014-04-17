@@ -15,7 +15,7 @@ public class PressurePadInteraction extends Interactor {
             item.setExtraData("0");
         }*/
 
-        if(state)
+        if (state)
             item.setExtraData("1");
         else
             item.setExtraData("0");

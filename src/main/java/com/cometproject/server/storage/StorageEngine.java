@@ -31,12 +31,12 @@ public class StorageEngine {
             log.info("Connecting to the MySQL server");
             this.connections = new BoneCP(config);
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             isConnectionFailed = true;
             log.error("Failed to connect to MySQL server", e);
             System.exit(0);
         } finally {
-            if(!isConnectionFailed) {
+            if (!isConnectionFailed) {
                 log.info("Connection to MySQL server was successful");
             }
         }
@@ -60,13 +60,13 @@ public class StorageEngine {
         try {
             conn = this.connections.getConnection();
 
-            if(returnKeys) {
+            if (returnKeys) {
                 return conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             } else {
                 return conn.prepareStatement(query);
             }
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             log.error("Error while creating prepared statement", e);
         } finally {
             conn.close();
@@ -78,7 +78,7 @@ public class StorageEngine {
     public void execute(String query) {
         try {
             this.prepare(query).execute();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             log.error("Error while executing MySQL query", e);
         }
     }
@@ -89,7 +89,7 @@ public class StorageEngine {
         try {
             conn = this.connections.getConnection();
             return conn.createStatement().executeQuery(query).next();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             log.error("Error while executing MySQL query", e);
         } finally {
             conn.close();
@@ -105,7 +105,7 @@ public class StorageEngine {
             conn = this.connections.getConnection();
             PreparedStatement statement = conn.prepareStatement(query);
             return this.count(statement);
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             log.error("Error while creating prepared statement", e);
         } finally {
             conn.close();
@@ -119,12 +119,12 @@ public class StorageEngine {
 
         try {
             ResultSet result = statement.executeQuery();
-            while(result.next()) {
+            while (result.next()) {
                 i++;
             }
 
             return i;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             log.error("Error while counting entries", e);
         }
 
@@ -138,10 +138,10 @@ public class StorageEngine {
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet result = statement.executeQuery();
 
-            while(result.next()) {
+            while (result.next()) {
                 return result;
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             log.error("Error while getting row", e);
         } finally {
             conn.close();
@@ -158,7 +158,7 @@ public class StorageEngine {
             ResultSet result = statement.executeQuery();
 
             return result;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             log.error("Error while getting table", e);
         } finally {
             conn.close();
@@ -174,12 +174,12 @@ public class StorageEngine {
 
             String str = query.split(" ")[1];
 
-            if(str.startsWith("`")) {
+            if (str.startsWith("`")) {
                 str = str.substring(1, str.length() - 1);
             }
 
             return result.getString(str);
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             log.error("Error while getting string", e);
         }
 
@@ -189,7 +189,7 @@ public class StorageEngine {
     public void checkDriver() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-        } catch(Exception e) {
+        } catch (Exception e) {
             Comet.exit("The JDBC driver is missing.");
         }
     }

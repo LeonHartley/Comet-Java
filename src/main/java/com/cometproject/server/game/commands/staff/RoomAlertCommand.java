@@ -3,7 +3,6 @@ package com.cometproject.server.game.commands.staff;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;

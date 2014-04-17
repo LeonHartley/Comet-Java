@@ -11,19 +11,19 @@ public class ExchangeItemMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int itemId = msg.readInt();
 
-        if(client.getPlayer().getEntity() == null) {
+        if (client.getPlayer().getEntity() == null) {
             return;
         }
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null || (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
+        if (room == null || (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;
         }
 
         FloorItem item = room.getItems().getFloorItem(itemId);
 
-        if(item == null) {
+        if (item == null) {
             return;
         }
 

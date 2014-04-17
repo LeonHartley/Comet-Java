@@ -9,7 +9,7 @@ public class UseMoodlightMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null) {
+        if (room == null) {
             return;
         }
 

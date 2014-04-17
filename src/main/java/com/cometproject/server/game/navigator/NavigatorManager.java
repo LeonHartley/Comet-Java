@@ -25,20 +25,20 @@ public class NavigatorManager {
 
     public void loadFeaturedRooms() {
         try {
-            if(this.featuredRooms.size() != 0) {
+            if (this.featuredRooms.size() != 0) {
                 this.featuredRooms.clear();
             }
 
             ResultSet result = Comet.getServer().getStorage().getTable("SELECT * FROM navigator_featured_rooms WHERE enabled = '1'");
 
-            if(result == null) {
+            if (result == null) {
                 return;
             }
 
-            while(result.next()) {
+            while (result.next()) {
                 this.featuredRooms.add(new FeaturedRoom(result));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading featured rooms", e);
         }
 
@@ -47,16 +47,16 @@ public class NavigatorManager {
 
     public void loadCategories() {
         try {
-            if(this.getCategories().size() != 0) {
+            if (this.getCategories().size() != 0) {
                 this.getCategories().clear();
             }
 
             ResultSet result = Comet.getServer().getStorage().getTable("SELECT * FROM navigator_categories WHERE enabled = '1'");
 
-            while(result.next()) {
+            while (result.next()) {
                 this.getCategories().add(new Category(result));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading navigator categories", e);
         }
 
@@ -64,8 +64,8 @@ public class NavigatorManager {
     }
 
     public Category getCategory(int id) {
-        for(Category c : this.getCategories()) {
-            if(c.getId() == id) {
+        for (Category c : this.getCategories()) {
+            if (c.getId() == id) {
                 return c;
             }
         }
@@ -74,8 +74,8 @@ public class NavigatorManager {
     }
 
     public boolean isFeatured(int roomId) {
-        for(FeaturedRoom room : featuredRooms) {
-            if(room.getRoomId() == roomId)
+        for (FeaturedRoom room : featuredRooms) {
+            if (room.getRoomId() == roomId)
                 return true;
         }
 
@@ -83,8 +83,8 @@ public class NavigatorManager {
     }
 
     public FeaturedRoom getFeaturedRoomById(int roomId) {
-        for(FeaturedRoom room : featuredRooms) {
-            if(room.getRoomId() == roomId)
+        for (FeaturedRoom room : featuredRooms) {
+            if (room.getRoomId() == roomId)
                 return room;
         }
 
@@ -96,6 +96,6 @@ public class NavigatorManager {
     }
 
     public java.util.Collection<FeaturedRoom> getFeaturedRooms() {
-        return ((FastList<FeaturedRoom>)featuredRooms).shared();
+        return ((FastList<FeaturedRoom>) featuredRooms).shared();
     }
 }

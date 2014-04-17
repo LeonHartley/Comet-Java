@@ -13,7 +13,7 @@ public class ValidatePetNameMessageEvent implements IEvent {
         int errorCode = GameEngine.getPets().validatePetName(name);
         String data = null;
 
-        switch(errorCode) {
+        switch (errorCode) {
             case 1:
                 // LONG
                 // TODO: put in locale

@@ -7,7 +7,10 @@ public interface Attributable {
         room items, players and room entities.
      */
     public void setAttribute(String attributeKey, Object attributeValue);
+
     public Object getAttribute(String attributeKey);
+
     public boolean hasAttribute(String attributeKey);
+
     public void removeAttribute(String attributeKey);
 }

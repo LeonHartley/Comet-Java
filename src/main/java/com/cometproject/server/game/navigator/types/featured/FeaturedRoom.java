@@ -37,7 +37,7 @@ public class FeaturedRoom {
         this.isCategory = data.getString("type").equals("category");
 
         // cache the room data so we dont have to get it every time we load the nav
-        if(!isCategory) this.room = GameEngine.getRooms().get(roomId);
+        if (!isCategory) this.room = GameEngine.getRooms().get(roomId);
     }
 
     public FeaturedRoom(int id, BannerType bannerType, String caption, String description, String image, ImageType imageType, int roomId, int categoryId, boolean enabled, boolean recommended, boolean isCategory) {
@@ -53,7 +53,7 @@ public class FeaturedRoom {
         this.recommended = recommended;
         this.isCategory = isCategory;
 
-        if(!isCategory) this.room = GameEngine.getRooms().get(roomId);
+        if (!isCategory) this.room = GameEngine.getRooms().get(roomId);
     }
 
     public void compose(Composer msg) {
@@ -70,7 +70,7 @@ public class FeaturedRoom {
         msg.writeInt(isActive ? room.getEntities().count() : 0);
         msg.writeInt(isCategory ? 4 : 2); // is room
 
-        if(isCategory) {
+        if (isCategory) {
             msg.writeBoolean(false);
         } else {
             RoomWriter.writeInfo(this.room, msg);

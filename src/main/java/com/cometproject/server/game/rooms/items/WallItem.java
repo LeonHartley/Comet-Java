@@ -4,7 +4,6 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateWallItemMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 
@@ -119,7 +118,9 @@ public class WallItem extends RoomItem {
         return itemId;
     }
 
-    public int getRoomId() { return roomId; }
+    public int getRoomId() {
+        return roomId;
+    }
 
     public int getOwner() {
         return ownerId;

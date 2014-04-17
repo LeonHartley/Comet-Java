@@ -12,15 +12,15 @@ public class RemoveAllRightsMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null) {
+        if (room == null) {
             return;
         }
 
-        if(room.getData().getOwnerId() != client.getPlayer().getId()) {
+        if (room.getData().getOwnerId() != client.getPlayer().getId()) {
             return;
         }
 
-        for(Integer id : room.getRights().getAll()) {
+        for (Integer id : room.getRights().getAll()) {
             PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(id);
 
             if (playerEntity != null) {

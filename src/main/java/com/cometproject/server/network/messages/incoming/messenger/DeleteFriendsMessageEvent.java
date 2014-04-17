@@ -10,17 +10,17 @@ public class DeleteFriendsMessageEvent implements IEvent {
     public void handle(Session client, Event msg) throws Exception {
         int friendCount = msg.readInt();
 
-        for(int i = 0; i < friendCount; i++) {
+        for (int i = 0; i < friendCount; i++) {
             int userId = msg.readInt();
 
             MessengerFriend friend = client.getPlayer().getMessenger().getFriendById(userId);
 
-            if(friend == null)
+            if (friend == null)
                 continue;
 
             Session friendClient = friend.updateClient();
 
-            if(friendClient != null && friendClient.getPlayer() != null) {
+            if (friendClient != null && friendClient.getPlayer() != null) {
                 friendClient.getPlayer().getMessenger().removeFriend(client.getPlayer().getId());
             }
 

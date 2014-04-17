@@ -13,10 +13,10 @@ public class AllowancesMessageComposer {
 
         msg.writeInt(GameEngine.getPermissions().getPerks().size());
 
-        for(Map.Entry<Integer, Perk> perk : GameEngine.getPermissions().getPerks().entrySet()) {
+        for (Map.Entry<Integer, Perk> perk : GameEngine.getPermissions().getPerks().entrySet()) {
             msg.writeString(perk.getValue().getTitle());
 
-            if(perk.getValue().doesOverride()) {
+            if (perk.getValue().doesOverride()) {
                 msg.writeBoolean(perk.getValue().getDefault());
             } else {
                 msg.writeBoolean(perk.getValue().getRank() <= rank);

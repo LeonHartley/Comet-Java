@@ -10,27 +10,26 @@ import com.cometproject.server.game.wired.types.WiredEffect;
 import com.cometproject.server.network.messages.types.Event;
 
 import java.util.List;
-import java.util.Random;
 
 public class ToggleFurniEffect extends WiredEffect {
     @Override
     public void onActivate(List<PlayerEntity> entities, FloorItem item) {
         WiredDataInstance data = WiredDataFactory.get(item);
 
-        if(data == null || data.getItems().size() == 0) {
+        if (data == null || data.getItems().size() == 0) {
             return;
         }
 
         Room room = entities.get(0).getRoom();
 
-        if(room == null) {
+        if (room == null) {
             return;
         }
 
-        for(int itemId : data.getItems()) {
+        for (int itemId : data.getItems()) {
             FloorItem itemInstance = room.getItems().getFloorItem(itemId);
 
-            if(itemInstance == null)
+            if (itemInstance == null)
                 return;
 
             // Toggle furni state
@@ -46,13 +45,13 @@ public class ToggleFurniEffect extends WiredEffect {
         int itemCount = event.readInt();
         WiredDataInstance instance = WiredDataFactory.get(item);
 
-        if(instance == null) {
+        if (instance == null) {
             return;
         }
 
         instance.getItems().clear();
 
-        for(int i = 0; i < itemCount; i++) {
+        for (int i = 0; i < itemCount; i++) {
             instance.addItem(event.readInt());
         }
 

@@ -12,8 +12,8 @@ public class AvatarWriter {
 
         int playerId = entity.getVirtualId();
 
-        if(!isBot && !isPet) {
-            playerId = ((PlayerEntity)entity).getPlayerId();
+        if (!isBot && !isPet) {
+            playerId = ((PlayerEntity) entity).getPlayerId();
         }
 
         msg.writeInt(playerId);

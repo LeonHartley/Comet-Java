@@ -59,7 +59,7 @@ public class Player {
     }
 
     public void dispose() {
-        if(this.getEntity() != null) {
+        if (this.getEntity() != null) {
             this.getEntity().leaveRoom(true, false, false);
         }
 
@@ -90,14 +90,14 @@ public class Player {
     }
 
     public void loadRoom(int id, String password) {
-        if(avatar != null && avatar.getRoom() != null) {
+        if (avatar != null && avatar.getRoom() != null) {
             avatar.leaveRoom(true, false, false);
             setAvatar(null);
         }
 
         Room room = GameEngine.getRooms().get(id);
 
-        if(room == null) {
+        if (room == null) {
             session.send(HotelViewMessageComposer.compose());
             return;
         }

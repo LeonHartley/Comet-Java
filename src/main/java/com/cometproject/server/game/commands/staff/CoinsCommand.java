@@ -10,7 +10,7 @@ import com.cometproject.server.network.sessions.Session;
 public class CoinsCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length < 2)
+        if (params.length < 2)
             return;
 
 
@@ -22,7 +22,7 @@ public class CoinsCommand extends ChatCommand {
             Player.getPlayer().getData().increaseCredits(Credits);
             Player.send(AdvancedAlertMessageComposer.compose(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(Credits))));
             client.getPlayer().sendBalance();
-        } catch(Exception Ignored) {
+        } catch (Exception Ignored) {
             client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.coins.errortitle"), Locale.get("command.coins.formaterror")));
         }
 

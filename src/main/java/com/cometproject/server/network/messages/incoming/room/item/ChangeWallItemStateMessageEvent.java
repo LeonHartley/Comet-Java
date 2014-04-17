@@ -13,7 +13,7 @@ public class ChangeWallItemStateMessageEvent implements IEvent {
 
         WallItem item = client.getPlayer().getEntity().getRoom().getItems().getWallItem(itemId);
 
-        if(item == null)
+        if (item == null)
             return;
 
         GameEngine.getItems().getInteractions().onInteract(0, item, client.getPlayer().getEntity());

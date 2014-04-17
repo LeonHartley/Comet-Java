@@ -13,7 +13,7 @@ public class FriendRequestsMessageComposer {
         msg.writeInt(requests.size());
         msg.writeInt(requests.size());
 
-        for(MessengerRequest request : requests) {
+        for (MessengerRequest request : requests) {
             msg.writeInt(request.getFromId());
             msg.writeString(request.getUsername());
             msg.writeString(request.getLook());

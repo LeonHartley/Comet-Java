@@ -15,7 +15,7 @@ public class PetInventoryMessageComposer {
 
         msg.writeInt(pets.size());
 
-        for(PetData data : pets.values()) {
+        for (PetData data : pets.values()) {
             msg.writeInt(data.getId());
             msg.writeString(data.getName());
             msg.writeInt(data.getRaceId());

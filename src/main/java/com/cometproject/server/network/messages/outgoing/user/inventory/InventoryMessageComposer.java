@@ -13,10 +13,10 @@ public class InventoryMessageComposer {
         msg.writeInt(1);
         msg.writeInt(inv.getTotalSize());
 
-        for(InventoryItem i : inv.getFloorItems().values()) {
+        for (InventoryItem i : inv.getFloorItems().values()) {
             boolean isGift = false;
 
-            if(i.getGiftData() != null) {
+            if (i.getGiftData() != null) {
                 isGift = true;
             }
 
@@ -39,17 +39,17 @@ public class InventoryMessageComposer {
             msg.writeInt(0);
         }
 
-        for(InventoryItem i : inv.getWallItems().values()) {
+        for (InventoryItem i : inv.getWallItems().values()) {
             msg.writeInt(i.getId());
             msg.writeString(i.getDefinition().getType().toUpperCase());
             msg.writeInt(i.getId());
             msg.writeInt(i.getDefinition().getSpriteId());
 
-            if(i.getDefinition().getItemName().contains("a2")) {
+            if (i.getDefinition().getItemName().contains("a2")) {
                 msg.writeInt(3);
-            } else if(i.getDefinition().getItemName().contains("wallpaper")) {
+            } else if (i.getDefinition().getItemName().contains("wallpaper")) {
                 msg.writeInt(2);
-            } else if(i.getDefinition().getItemName().contains("landscape")) {
+            } else if (i.getDefinition().getItemName().contains("landscape")) {
                 msg.writeInt(4);
             } else {
                 msg.writeInt(1);

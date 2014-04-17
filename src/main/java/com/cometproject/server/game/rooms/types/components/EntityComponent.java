@@ -69,10 +69,10 @@ public class EntityComponent {
     public PlayerEntity createEntity(Player player) {
         Position3D startPosition = new Position3D(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY(), this.getRoom().getModel().getDoorZ());
 
-        if(player.isTeleporting()) {
+        if (player.isTeleporting()) {
             FloorItem item = this.room.getItems().getFloorItem(player.getTeleportId());
 
-            if(item != null) {
+            if (item != null) {
                 startPosition = new Position3D(item.getX(), item.getY(), item.getHeight());
             }
         }
@@ -82,10 +82,10 @@ public class EntityComponent {
         PlayerEntity entity = new PlayerEntity(player, this.getFreeId(), startPosition, doorRotation, doorRotation, this.getRoom());
         this.addEntity(entity);
 
-        if(player.isTeleporting()) {
+        if (player.isTeleporting()) {
             FloorItem item = this.room.getItems().getFloorItem(player.getTeleportId());
 
-            if(item != null) {
+            if (item != null) {
                 item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, entity, 4, 8));
             }
 
@@ -101,7 +101,7 @@ public class EntityComponent {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
             this.playerIdToEntity.put(playerEntity.getPlayerId(), playerEntity.getVirtualId());
-        } else if(entity.getEntityType() == RoomEntityType.BOT) {
+        } else if (entity.getEntityType() == RoomEntityType.BOT) {
             BotEntity botEntity = (BotEntity) entity;
 
             this.botIdToEntity.put(botEntity.getBotId(), botEntity.getVirtualId());
@@ -117,7 +117,7 @@ public class EntityComponent {
 
             this.playerIdToEntity.remove(playerEntity.getPlayerId());
             this.entities.remove(playerEntity.getVirtualId());
-        } else if(entity.getEntityType() == RoomEntityType.BOT) {
+        } else if (entity.getEntityType() == RoomEntityType.BOT) {
             BotEntity botEntity = (BotEntity) entity;
 
             this.botIdToEntity.remove(botEntity.getBotId());
@@ -130,7 +130,7 @@ public class EntityComponent {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 
-                if(usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()))
+                if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()))
                     continue;
 
                 playerEntity.getPlayer().getSession().send(msg);
@@ -144,19 +144,6 @@ public class EntityComponent {
 
     public GenericEntity getEntity(int id) {
         return this.entities.get(id);
-    }
-
-    public PlayerEntity tryGetPlayerEntityNullable(int id) {
-        GenericEntity entity = this.entities.get(id);
-
-        if (entity == null || entity.getEntityType() != RoomEntityType.PLAYER) {
-            return null;
-
-            // Instead of throwing an exception i will return null and add 'Nullable' to this method as a reminder to always check null!
-            //throw new Exception("This entity is not a player.");
-        }
-
-        return (PlayerEntity) entity;
     }
 
     public PlayerEntity getEntityByPlayerId(int id) {
@@ -175,14 +162,14 @@ public class EntityComponent {
     }
 
     public BotEntity getEntityByBotId(int id) {
-        if(!this.botIdToEntity.containsKey(id)) {
+        if (!this.botIdToEntity.containsKey(id)) {
             return null;
         }
 
         int entityId = this.botIdToEntity.get(id);
         GenericEntity genericEntity = this.entities.get(entityId);
 
-        if(genericEntity == null || genericEntity.getEntityType() != RoomEntityType.BOT) {
+        if (genericEntity == null || genericEntity.getEntityType() != RoomEntityType.BOT) {
             return null;
         }
 
@@ -192,9 +179,9 @@ public class EntityComponent {
     public List<BotEntity> getBotEntities() {
         List<BotEntity> entities = new FastList<>();
 
-        for(GenericEntity entity : this.entities.values()) {
-            if(entity.getEntityType() == RoomEntityType.BOT) {
-                entities.add((BotEntity)entity);
+        for (GenericEntity entity : this.entities.values()) {
+            if (entity.getEntityType() == RoomEntityType.BOT) {
+                entities.add((BotEntity) entity);
             }
         }
 
@@ -227,10 +214,9 @@ public class EntityComponent {
     }
 
     public void dispose() {
-        for(GenericEntity entity : entities.values()) {
+        for (GenericEntity entity : entities.values()) {
             entity.leaveRoom(false, false, true);
         }
-
         entities.clear();
     }
 }

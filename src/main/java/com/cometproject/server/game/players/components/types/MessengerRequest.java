@@ -15,7 +15,7 @@ public class MessengerRequest {
 
         ResultSet user = Comet.getServer().getStorage().getRow("SELECT `username`, `figure`, `motto` FROM `players` WHERE `id` = " + fromId);
 
-        if(user != null) {
+        if (user != null) {
             this.username = user.getString("username");
             this.look = user.getString("figure");
             this.motto = user.getString("motto");

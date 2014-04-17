@@ -11,16 +11,16 @@ public class ClubStatusMessageComposer {
         int days = 0;
         int months = 0;
 
-        if(subscription.isValid()) {
+        if (subscription.isValid()) {
             timeLeft = subscription.getExpire() - (int) Comet.getTime();
             days = (int) Math.ceil(timeLeft / 86400);
             months = days / 31;
 
-            if(months >= 1) {
+            if (months >= 1) {
                 months--;
             }
         } else {
-            if(subscription.exists()) {
+            if (subscription.exists()) {
                 subscription.delete();
             }
         }

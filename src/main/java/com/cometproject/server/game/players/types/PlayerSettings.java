@@ -17,7 +17,7 @@ public class PlayerSettings {
         String[] vol = data.getString("volume").split(",");
         this.volumes = new int[vol.length];
 
-        for(int i = 0; i < this.volumes.length; i++) {
+        for (int i = 0; i < this.volumes.length; i++) {
             this.volumes[i] = Integer.parseInt(vol[i]);
         }
 
@@ -30,7 +30,7 @@ public class PlayerSettings {
     }
 
     public PlayerSettings() {
-        this.volumes = new int[] {100, 100, 100};
+        this.volumes = new int[]{100, 100, 100};
         this.hideInRoom = false;
         this.homeRoom = 1;
         this.hideOnline = false;

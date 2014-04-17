@@ -17,19 +17,19 @@ import java.util.List;
 public class TimerTrigger extends WiredTrigger {
     @Override
     public void onTrigger(Object data, List<PlayerEntity> entities, WiredSquare wiredBlock) {
-        if(entities.size() == 0) {
+        if (entities.size() == 0) {
             return;
         }
 
         Room room = entities.get(0).getRoom();
 
-        for(FloorItem item : room.getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {
+        for (FloorItem item : room.getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {
             // TODO: check for condition
-            if(GameEngine.getWired().isWiredEffect(item)) {
+            if (GameEngine.getWired().isWiredEffect(item)) {
                 try {
                     GameEngine.getWired().getEffect(item.getDefinition().getInteraction()).onActivate(entities, item);
                     item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, null, 0, 0));
-                } catch(Exception ignored) {
+                } catch (Exception ignored) {
 
                 }
             }
@@ -42,7 +42,7 @@ public class TimerTrigger extends WiredTrigger {
 
         WiredDataInstance instance = WiredDataFactory.get(item);
 
-        if(instance == null) {
+        if (instance == null) {
             return;
         }
 

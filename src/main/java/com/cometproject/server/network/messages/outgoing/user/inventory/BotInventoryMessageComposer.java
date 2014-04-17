@@ -12,7 +12,7 @@ public class BotInventoryMessageComposer {
 
         msg.writeInt(bots.size());
 
-        for(Map.Entry<Integer, InventoryBot> bot : bots.entrySet()) {
+        for (Map.Entry<Integer, InventoryBot> bot : bots.entrySet()) {
             msg.writeInt(bot.getKey());
             msg.writeString(bot.getValue().getName());
             msg.writeString(bot.getValue().getMotto());

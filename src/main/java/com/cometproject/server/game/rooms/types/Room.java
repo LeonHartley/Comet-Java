@@ -92,7 +92,7 @@ public class Room {
     }
 
     public void tick() {
-        if(wired != null)
+        if (wired != null)
             this.wired.tick();
     }
 

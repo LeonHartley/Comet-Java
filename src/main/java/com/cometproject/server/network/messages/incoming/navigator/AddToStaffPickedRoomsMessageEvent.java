@@ -18,16 +18,16 @@ import java.sql.ResultSet;
 public class AddToStaffPickedRoomsMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        if(!client.getPlayer().getPermissions().hasPermission("room_staff_pick")) {
+        if (!client.getPlayer().getPermissions().hasPermission("room_staff_pick")) {
             return;
         }
 
-        if(client.getPlayer().getEntity() == null)
+        if (client.getPlayer().getEntity() == null)
             return;
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(GameEngine.getNavigator().isFeatured(room.getId())) {
+        if (GameEngine.getNavigator().isFeatured(room.getId())) {
             PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE navigator_featured_rooms SET enabled = '0' WHERE room_id = ?");
             statement.setInt(1, room.getId());
 
@@ -56,7 +56,7 @@ public class AddToStaffPickedRoomsMessageEvent implements IEvent {
         ResultSet keys = statement.getGeneratedKeys();
         int id = 0;
 
-        while(keys.next()) {
+        while (keys.next()) {
             id = keys.getInt(1);
         }
 

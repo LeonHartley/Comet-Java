@@ -14,13 +14,13 @@ public class BanzaiGateInteraction extends Interactor {
 
     @Override
     public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
-        if(!state)
+        if (!state)
             return false;
 
         Room room = avatar.getRoom();
         GameTeam team = GameTeam.valueOf(item.getDefinition().getInteraction().split("\\_")[1].toUpperCase());
 
-        if(room.getGame().getInstance().getType() != GameType.BANZAI) {
+        if (room.getGame().getInstance().getType() != GameType.BANZAI) {
             return false;
         }
 
@@ -33,7 +33,7 @@ public class BanzaiGateInteraction extends Interactor {
 
             avatar.applyEffect(new UserEffect(team.getBanzaiEffect(), 0));
         } else {*/
-            room.getGame().getInstance().getTeams().get(team).add(id);
+        room.getGame().getInstance().getTeams().get(team).add(id);
         //}
 
         //if(room.getGame().getInstance().isTeamed(id)) {
@@ -49,11 +49,11 @@ public class BanzaiGateInteraction extends Interactor {
 
     @Override
     public boolean onPreWalk(RoomItem item, PlayerEntity avatar) {
-        if(((FloorItem)item).getRoom().getGame().getInstance() == null) {
-            ((FloorItem)item).getRoom().getGame().createNew(GameType.BANZAI);
+        if (((FloorItem) item).getRoom().getGame().getInstance() == null) {
+            ((FloorItem) item).getRoom().getGame().createNew(GameType.BANZAI);
 
-            if(Comet.isDebugging)
-                ((FloorItem)item).getRoom().getGame().getInstance().startTimer(30);
+            if (Comet.isDebugging)
+                ((FloorItem) item).getRoom().getGame().getInstance().startTimer(30);
         }
 
         return false;

@@ -5,11 +5,8 @@ import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.entities.types.ai.DefaultAI;
-import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class BotEntity extends GenericEntity {
@@ -44,6 +41,9 @@ public class BotEntity extends GenericEntity {
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
         // Send leave room message to all current entities
         this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
+
+        this.data.dispose();
+        this.data = null;
 
         // Remove entity from the room
         this.getRoom().getEntities().removeEntity(this);

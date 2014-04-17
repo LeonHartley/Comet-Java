@@ -7,7 +7,6 @@ import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
-import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -113,16 +112,14 @@ public class ProcessComponent implements CometTask {
 
                     boolean playerNeedsRemove = processPlayerEntity(playerEntity);
 
-                    if(playerNeedsRemove) {
+                    if (playerNeedsRemove) {
                         playersToRemove.add(playerEntity);
                     }
                 } else if (entity.getEntityType() == RoomEntityType.BOT) {
-                    processBotEntity((BotEntity) entity);
+                    processBotEntity(entity);
                 } else if (entity.getEntityType() == RoomEntityType.PET) {
-                    processPetEntity((PetEntity) entity);
+                    processBotEntity(entity);
                 }
-
-                // TODO: Change the movement handling to do it per entity, not per entity type. (Remove it from the process{EntityType}Entity method and create a new one)
 
                 // Create the new entity grid
                 if (entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] == null) {
@@ -140,7 +137,7 @@ public class ProcessComponent implements CometTask {
                 }
             }
 
-            for(PlayerEntity entity : playersToRemove) {
+            for (PlayerEntity entity : playersToRemove) {
                 entity.leaveRoom(entity.getPlayer() == null, false, true);
             }
 
@@ -150,7 +147,7 @@ public class ProcessComponent implements CometTask {
 
             TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
-            if(span.toMilliseconds() > 250)
+            if (span.toMilliseconds() > 250)
                 log.info("ProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
         } catch (Exception e) {
             log.error("Error during room process", e);
@@ -177,7 +174,7 @@ public class ProcessComponent implements CometTask {
             }
         }
 
-        if(entity.handItemNeedsRemove() && entity.getHandItem() != 0) {
+        if (entity.handItemNeedsRemove() && entity.getHandItem() != 0) {
             entity.carryItem(0);
             entity.setHandItemTimer(0);
         }
@@ -188,8 +185,8 @@ public class ProcessComponent implements CometTask {
             entity.markNeedsUpdate();
         }
 
-        if(entity.isIdleAndIncrement()) {
-            if(entity.getIdleTime() >= 2400) {
+        if (entity.isIdleAndIncrement()) {
+            if (entity.getIdleTime() >= 2400) {
                 // Remove entity
                 return true;
             } else {
@@ -303,7 +300,7 @@ public class ProcessComponent implements CometTask {
 
                     //height += item.getHeight();
 
-                    if(!item.getDefinition().canSit) //&& !item.getDefinition().getInteraction().equals("bed"))
+                    if (!item.getDefinition().canSit) //&& !item.getDefinition().getInteraction().equals("bed"))
                         height += item.getDefinition().getHeight();
 
                     item.setNeedsUpdate(true, InteractionAction.ON_PRE_WALK, entity, 0);
@@ -323,13 +320,13 @@ public class ProcessComponent implements CometTask {
                     entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, height));
                     entity.markNeedsUpdate();
                 } else {
-                    if(entity.getWalkingPath() != null)
+                    if (entity.getWalkingPath() != null)
                         entity.getWalkingPath().clear();
 
                     entity.getProcessingPath().clear();
                 }
             } else {
-                if(entity.getWalkingPath() != null)
+                if (entity.getWalkingPath() != null)
                     entity.getWalkingPath().clear();
 
                 entity.getProcessingPath().clear();
@@ -348,12 +345,12 @@ public class ProcessComponent implements CometTask {
                 boolean needsRemove = true;
 
                 for (FloorItem item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
-                    if(item.getDefinition().getEffectId() == entity.getCurrentEffect().getEffectId()) {
+                    if (item.getDefinition().getEffectId() == entity.getCurrentEffect().getEffectId()) {
                         needsRemove = false;
                     }
                 }
 
-                if(needsRemove) {
+                if (needsRemove) {
                     entity.applyEffect(null);
                 }
             }
@@ -362,7 +359,7 @@ public class ProcessComponent implements CometTask {
         return false;
     }
 
-    protected void processBotEntity(BotEntity entity) {
+    protected void processBotEntity(GenericEntity entity) {
         int chance = RandomInteger.getRandom(1, 6);
 
         if (chance == 1) {
@@ -376,20 +373,22 @@ public class ProcessComponent implements CometTask {
             }
         }
 
-        if (entity.getCycleCount() == entity.getData().getChatDelay() * 2) {
-            if(entity.getData().getMessages().length > 0) {
-                int messageKey = RandomInteger.getRandom(0, entity.getData().getMessages().length - 1);
-                String message = entity.getData().getMessages()[messageKey];
+        if (entity.getEntityType().equals(RoomEntityType.BOT)) {
+            if (((BotEntity) entity).getCycleCount() == ((BotEntity) entity).getData().getChatDelay() * 2) {
+                if (((BotEntity) entity).getData().getMessages().length > 0) {
+                    int messageKey = RandomInteger.getRandom(0, ((BotEntity) entity).getData().getMessages().length - 1);
+                    String message = ((BotEntity) entity).getData().getMessages()[messageKey];
 
-                if (message != null && !message.isEmpty()) {
-                    this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), message, 0, 1));
+                    if (message != null && !message.isEmpty()) {
+                        this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), message, 0, 1));
+                    }
                 }
+
+                ((BotEntity) entity).resetCycleCount();
             }
 
-            entity.resetCycleCount();
+            ((BotEntity) entity).incrementCycleCount();
         }
-
-        entity.incrementCycleCount();
 
         if (entity.hasStatus("mv")) {
             entity.removeStatus("mv");
@@ -487,22 +486,18 @@ public class ProcessComponent implements CometTask {
                     entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, height));
                     entity.markNeedsUpdate();
                 } else {
-                    if(entity.getWalkingPath() != null)
+                    if (entity.getWalkingPath() != null)
                         entity.getWalkingPath().clear();
-                    if(entity.getProcessingPath() != null)
+                    if (entity.getProcessingPath() != null)
                         entity.getProcessingPath().clear();
                 }
             } else {
-                if(entity.getWalkingPath() != null)
+                if (entity.getWalkingPath() != null)
                     entity.getWalkingPath().clear();
 
                 entity.getProcessingPath().clear();
             }
         }
-    }
-
-    protected void processPetEntity(PetEntity entity) {
-
     }
 
     private void removeFromRoom(GenericEntity entity) {

@@ -8,7 +8,7 @@ public class UpdateFloorExtraDataMessageComposer {
     public static Composer compose(int id, String data) {
         Composer msg = new Composer(Composers.UpdateFloorExtraDataMessageComposer);
 
-        if(data.contains(";#;")) {
+        if (data.contains(";#;")) {
             msg.writeString(String.valueOf(id));
 
             msg.writeInt(1);
@@ -28,7 +28,7 @@ public class UpdateFloorExtraDataMessageComposer {
             msg.writeInt(0);
             msg.writeString(data);
         }
-        
+
         return msg;
     }
 }

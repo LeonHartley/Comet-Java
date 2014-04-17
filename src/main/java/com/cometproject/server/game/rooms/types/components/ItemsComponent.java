@@ -20,7 +20,6 @@ import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -43,7 +42,7 @@ public class ItemsComponent {
 
     public void dispose() {
         // Clear attributes!
-        for(FloorItem item : this.floorItems) item.dispose();
+        for (FloorItem item : this.floorItems) item.dispose();
 
         this.floorItems.clear();
         this.wallItems.clear();
@@ -52,7 +51,7 @@ public class ItemsComponent {
     }
 
     private void loadItems() {
-        if(floorItems.size() != 0) {
+        if (floorItems.size() != 0) {
             floorItems.clear();
         }
 
@@ -62,14 +61,14 @@ public class ItemsComponent {
 
             ResultSet data = query.executeQuery();
 
-            while(data.next()) {
-                if(data.getString("wall_pos").equals(""))
+            while (data.next()) {
+                if (data.getString("wall_pos").equals(""))
                     this.getFloorItems().add(new FloorItem(data.getInt("id"), data.getInt("base_item"), this.room.getId(), data.getInt("user_id"), data.getInt("x"), data.getInt("y"), data.getDouble("z"), data.getInt("rot"), data.getString("extra_data")));
                 else
                     this.getWallItems().add(new WallItem(data.getInt("id"), data.getInt("base_item"), this.room.getId(), data.getInt("user_id"), data.getString("wall_pos"), data.getString("extra_data")));
             }
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading items for room", e);
         }
     }
@@ -91,16 +90,16 @@ public class ItemsComponent {
     public List<FloorItem> getItemsOnSquare(int x, int y) {
         List<FloorItem> items = new FastList<>();
 
-        for(FloorItem item : this.getFloorItems()) {
-            if(item.getX() == x && item.getY() == y) {
+        for (FloorItem item : this.getFloorItems()) {
+            if (item.getX() == x && item.getY() == y) {
                 items.add(item);
             } else {
                 List<AffectedTile> AffectedTiles = AffectedTile.getAffectedTilesAt(
                         item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation());
 
-                for(AffectedTile tile : AffectedTiles) {
-                    if(x == tile.x && y == tile.y) {
-                        if(!items.contains(item)) {
+                for (AffectedTile tile : AffectedTiles) {
+                    if (x == tile.x && y == tile.y) {
+                        if (!items.contains(item)) {
                             items.add(item);
                         }
                     }
@@ -112,8 +111,8 @@ public class ItemsComponent {
     }
 
     public FloorItem getFloorItem(int id) {
-        for(FloorItem item : this.getFloorItems()) {
-            if(item.getId() == id) {
+        for (FloorItem item : this.getFloorItems()) {
+            if (item.getId() == id) {
                 return item;
             }
         }
@@ -122,8 +121,8 @@ public class ItemsComponent {
     }
 
     public WallItem getWallItem(int id) {
-        for(WallItem item : this.getWallItems()) {
-            if(item.getId() == id) {
+        for (WallItem item : this.getWallItems()) {
+            if (item.getId() == id) {
                 return item;
             }
         }
@@ -134,13 +133,13 @@ public class ItemsComponent {
     public List<FloorItem> getByInteraction(String interaction) {
         List<FloorItem> items = new FastList<>();
 
-        for(FloorItem floorItem : this.floorItems) {
-            if(floorItem.getDefinition().getInteraction().equals(interaction)) {
+        for (FloorItem floorItem : this.floorItems) {
+            if (floorItem.getDefinition().getInteraction().equals(interaction)) {
                 items.add(floorItem);
-            } else if(interaction.contains("%")) {
+            } else if (interaction.contains("%")) {
                 if (interaction.startsWith("%") && floorItem.getDefinition().getInteraction().endsWith(interaction.replace("%", ""))) {
                     items.add(floorItem);
-                } else if(interaction.endsWith("%") && floorItem.getDefinition().getInteraction().startsWith(interaction.replace("%", ""))) {
+                } else if (interaction.endsWith("%") && floorItem.getDefinition().getInteraction().startsWith(interaction.replace("%", ""))) {
                     items.add(floorItem);
                 }
             }
@@ -192,7 +191,7 @@ public class ItemsComponent {
         room.getEntities().broadcastMessage(RemoveFloorItemMessageComposer.compose(item.getId(), room.getData().getOwnerId()));
         room.getItems().getFloorItems().remove(item);
 
-        if(toInventory) {
+        if (toInventory) {
             Comet.getServer().getStorage().execute("UPDATE items SET x = 0, y = 0, z = 0, rot = 0, room_id = 0, user_id = " + client.getPlayer().getId() + " WHERE id = " + item.getId());
 
             client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
@@ -201,7 +200,7 @@ public class ItemsComponent {
             Comet.getServer().getStorage().execute("DELETE FROM items WHERE id = " + item.getId());
         }
 
-        if(GameEngine.getWired().isWiredItem(item)) {
+        if (GameEngine.getWired().isWiredItem(item)) {
             WiredDataInstance instance = WiredDataFactory.get(item);
             Comet.getServer().getStorage().execute("DELETE FROM items_wired_data WHERE id = " + instance.getId());
             WiredDataFactory.removeInstance(item.getId());
@@ -209,7 +208,7 @@ public class ItemsComponent {
             instance.dispose();
         }
 
-        for(Position3D tileToUpdate : tilesToUpdate) {
+        for (Position3D tileToUpdate : tilesToUpdate) {
             room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
         }
     }

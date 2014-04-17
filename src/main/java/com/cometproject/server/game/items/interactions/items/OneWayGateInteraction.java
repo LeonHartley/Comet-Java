@@ -25,7 +25,7 @@ public class OneWayGateInteraction extends Interactor {
         FloorItem floorItem = (FloorItem) item;
         Position3D doorPosition = new Position3D(floorItem.getX(), floorItem.getY());
 
-        if(doorPosition.squareInFront(item.getRotation()).getX() != avatar.getPosition().getX() && doorPosition.squareInFront(item.getRotation()).getY() != avatar.getPosition().getY()) {
+        if (doorPosition.squareInFront(item.getRotation()).getX() != avatar.getPosition().getX() && doorPosition.squareInFront(item.getRotation()).getY() != avatar.getPosition().getY()) {
             avatar.moveTo(doorPosition.squareInFront(item.getRotation()).getX(), doorPosition.squareInFront(item.getRotation()).getY());
             return false;
         }

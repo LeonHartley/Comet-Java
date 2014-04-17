@@ -4,7 +4,7 @@ import java.util.Properties;
 
 public class CometSettings {
     public static boolean httpEnabled = false;
-    public static String[] httpAllowedIPs = new String[] { };
+    public static String[] httpAllowedIPs = new String[]{};
 
     public static boolean messageOfTheDayEnabled = true;
     public static String messageOfTheDayText = "";

@@ -21,7 +21,7 @@ public class ModToolRoomInfoMessageComposer {
         msg.writeString(room.getData().getDescription());
         msg.writeInt(room.getData().getTags().length);
 
-        for(int i = 0; i < room.getData().getTags().length; i++) {
+        for (int i = 0; i < room.getData().getTags().length; i++) {
             msg.writeString(room.getData().getTags()[i]);
         }
 

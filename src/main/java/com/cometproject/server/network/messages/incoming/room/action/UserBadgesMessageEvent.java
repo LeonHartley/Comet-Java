@@ -10,17 +10,17 @@ public class UserBadgesMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int userId = msg.readInt();
 
-        if(client.getPlayer().getId() == userId) {
+        if (client.getPlayer().getId() == userId) {
             client.send(UserBadgesMessageComposer.compose(userId, client.getPlayer().getInventory().equippedBadges()));
             return;
         }
 
-        if(client.getPlayer().getEntity() == null)
+        if (client.getPlayer().getEntity() == null)
             return;
 
         PlayerEntity playerEntity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPlayerId(userId);
 
-        if(playerEntity != null) {
+        if (playerEntity != null) {
             client.send(UserBadgesMessageComposer.compose(userId, playerEntity.getPlayer().getInventory().equippedBadges()));
         }
     }

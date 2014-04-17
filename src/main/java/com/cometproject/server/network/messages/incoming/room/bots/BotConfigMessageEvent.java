@@ -14,15 +14,15 @@ public class BotConfigMessageEvent implements IEvent {
 
         BotEntity entity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByBotId(botId);
 
-        if(entity == null) {
+        if (entity == null) {
             return;
         }
 
         String message = "";
 
-        switch(skillId) {
+        switch (skillId) {
             case 2:
-                for(int i = 0; i < entity.getData().getMessages().length; i++) {
+                for (int i = 0; i < entity.getData().getMessages().length; i++) {
                     message += entity.getData().getMessages()[i] + "\r";
                 }
 

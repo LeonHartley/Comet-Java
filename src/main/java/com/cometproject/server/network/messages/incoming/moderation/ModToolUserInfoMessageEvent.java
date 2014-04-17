@@ -13,7 +13,7 @@ public class ModToolUserInfoMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int userId = msg.readInt();
 
-        if(!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             client.getLogger().error(
                     ModToolUserInfoMessageEvent.class.getName() + " - tried to gather information on user: " + userId);
             return;
@@ -22,18 +22,18 @@ public class ModToolUserInfoMessageEvent implements IEvent {
         try {
             ResultSet user = Comet.getServer().getStorage().getRow("SELECT * FROM players WHERE id = " + userId);
 
-            if(user == null) {
+            if (user == null) {
                 return;
             }
 
             ResultSet stats = Comet.getServer().getStorage().getRow("SELECT * FROM player_stats WHERE player_id = " + userId);
 
-            if(stats == null) {
+            if (stats == null) {
                 return;
             }
 
             client.send(ModToolUserInfoMessageComposer.compose(user, stats));
-        } catch(Exception e) {
+        } catch (Exception e) {
             GameEngine.getLogger().error("Error while sending user info to mod tool", e);
         }
     }

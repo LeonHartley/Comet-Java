@@ -9,5 +9,6 @@ import java.util.List;
 
 public abstract class WiredTrigger {
     public abstract void onTrigger(Object data, List<PlayerEntity> entities, WiredSquare wiredBlock);
+
     public abstract void onSave(Event event, FloorItem item);
 }

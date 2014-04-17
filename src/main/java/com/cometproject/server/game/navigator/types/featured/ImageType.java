@@ -5,7 +5,7 @@ public enum ImageType {
     EXTERNAL;
 
     public static ImageType get(String t) {
-        if(t.equals("internal")) {
+        if (t.equals("internal")) {
             return INTERNAL;
         }
         return EXTERNAL;

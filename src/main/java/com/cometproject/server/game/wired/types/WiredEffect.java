@@ -8,5 +8,6 @@ import java.util.List;
 
 public abstract class WiredEffect {
     public abstract void onActivate(List<PlayerEntity> entities, FloorItem item);
+
     public abstract void onSave(Event event, FloorItem item);
 }

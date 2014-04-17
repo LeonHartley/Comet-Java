@@ -6,7 +6,6 @@ import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.outgoing.misc.AlertMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
@@ -37,28 +36,28 @@ public class InventoryComponent {
     }
 
     public void loadItems() {
-        if(this.getWallItems().size() >= 1) {
+        if (this.getWallItems().size() >= 1) {
             this.getWallItems().clear();
         }
-        if(this.getFloorItems().size() >= 1) {
+        if (this.getFloorItems().size() >= 1) {
             this.getFloorItems().clear();
         }
 
         try {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM items WHERE user_id = " + this.getPlayer().getId() + " AND room_id = 0");
 
-            while(data.next()) {
+            while (data.next()) {
                 InventoryItem item = new InventoryItem(data);
 
-                if(item.getDefinition().getType().equals("s")) {
+                if (item.getDefinition().getType().equals("s")) {
                     this.getFloorItems().put(item.getId(), item);
                 }
 
-                if(item.getDefinition().getType().equals("i")) {
+                if (item.getDefinition().getType().equals("i")) {
                     this.getWallItems().put(item.getId(), item);
                 }
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading user inventory", e);
         }
     }
@@ -67,18 +66,18 @@ public class InventoryComponent {
         try {
             ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM player_badges WHERE player_id = " + this.getPlayer().getId());
 
-            while(data.next()) {
-                if(!badges.containsKey(data.getString("badge_code")))
+            while (data.next()) {
+                if (!badges.containsKey(data.getString("badge_code")))
                     badges.put(data.getString("badge_code"), data.getInt("slot"));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading user badges");
         }
     }
 
     public void addBadge(String code, boolean insert) {
-        if(!badges.containsKey(code)) {
-            if(insert) {
+        if (!badges.containsKey(code)) {
+            if (insert) {
                 try {
                     PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT INTO player_badges (`player_id`, `badge_code`) VALUES (?, ?)");
 
@@ -99,8 +98,8 @@ public class InventoryComponent {
     }
 
     public void removeBadge(String code, boolean delete) {
-        if(badges.containsKey(code)) {
-            if(delete) {
+        if (badges.containsKey(code)) {
+            if (delete) {
                 try {
                     PreparedStatement statement = Comet.getServer().getStorage().prepare("DELETE FROM player_badges WHERE player_id = ? AND badge_code = ?");
 
@@ -121,8 +120,8 @@ public class InventoryComponent {
 
 
     public void resetBadgeSlots() {
-        for(Map.Entry<String, Integer> badge : this.badges.entrySet()) {
-            if(badge.getValue() != 0) {
+        for (Map.Entry<String, Integer> badge : this.badges.entrySet()) {
+            if (badge.getValue() != 0) {
                 this.badges.replace(badge.getKey(), 0);
             }
         }
@@ -131,8 +130,8 @@ public class InventoryComponent {
     public Map<String, Integer> equippedBadges() {
         Map<String, Integer> badges = new FastMap<>();
 
-        for(Map.Entry<String, Integer> badge : this.getBadges().entrySet()) {
-            if(badge.getValue() > 0)
+        for (Map.Entry<String, Integer> badge : this.getBadges().entrySet()) {
+            if (badge.getValue() > 0)
                 badges.put(badge.getKey(), badge.getValue());
         }
 
@@ -141,11 +140,11 @@ public class InventoryComponent {
 
     public void add(int id, int itemId, String extraData, GiftData giftData) {
         InventoryItem item = new InventoryItem(id, itemId, extraData, giftData);
-        if(item.getDefinition().getType().equals("s")) {
+        if (item.getDefinition().getType().equals("s")) {
             this.getFloorItems().put(id, item);
         }
 
-        if(item.getDefinition().getType().equals("i")) {
+        if (item.getDefinition().getType().equals("i")) {
             this.getWallItems().put(id, item);
         }
     }
@@ -155,16 +154,16 @@ public class InventoryComponent {
     }
 
     public void addItem(InventoryItem item) {
-        if(item.getDefinition().getType().equals("s"))
+        if (item.getDefinition().getType().equals("s"))
             floorItems.put(item.getId(), item);
-        else if(item.getDefinition().getType().equals("i"))
+        else if (item.getDefinition().getType().equals("i"))
             wallItems.put(item.getId(), item);
     }
 
     public void removeItem(InventoryItem item) {
-        if(item.getDefinition().getType().equals("s"))
+        if (item.getDefinition().getType().equals("s"))
             floorItems.remove(item.getId());
-        else if(item.getDefinition().getType().equals("i"))
+        else if (item.getDefinition().getType().equals("i"))
             wallItems.remove(item.getId());
     }
 
@@ -189,7 +188,7 @@ public class InventoryComponent {
     public InventoryItem getItem(int id) {
         InventoryItem item = getFloorItem(id);
 
-        if(item != null) {
+        if (item != null) {
             return item;
         }
 

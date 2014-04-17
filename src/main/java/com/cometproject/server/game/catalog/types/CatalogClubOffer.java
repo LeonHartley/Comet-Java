@@ -34,11 +34,11 @@ public class CatalogClubOffer {
     public int lengthMonths() {
         int correctedLength = this.lengthDays;
 
-        if(this.isUpgrade()) {
+        if (this.isUpgrade()) {
             correctedLength += 31;
         }
 
-        return (int) Math.ceil((double)(correctedLength / 31));
+        return (int) Math.ceil((double) (correctedLength / 31));
     }
 
     public int lengthDays() {

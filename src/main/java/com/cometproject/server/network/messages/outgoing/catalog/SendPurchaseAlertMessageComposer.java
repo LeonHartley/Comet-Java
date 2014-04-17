@@ -12,8 +12,8 @@ public class SendPurchaseAlertMessageComposer {
         Composer msg = new Composer(Composers.SendPurchaseAlertMessageComposer);
 
         int i = 1;
-        for(InventoryItem item : items) {
-            if(!item.getDefinition().getType().equals("s"))
+        for (InventoryItem item : items) {
+            if (!item.getDefinition().getType().equals("s"))
                 i = 2;
         }
 
@@ -21,7 +21,7 @@ public class SendPurchaseAlertMessageComposer {
         msg.writeInt(i);
         msg.writeInt(items.size());
 
-        for(InventoryItem item : items) {
+        for (InventoryItem item : items) {
             msg.writeInt(item.getId());
         }
 
@@ -32,8 +32,8 @@ public class SendPurchaseAlertMessageComposer {
         Composer msg = new Composer(Composers.SendPurchaseAlertMessageComposer);
 
         int i = 1;
-        for(Integer item : items.values()) {
-            if(item == 2)
+        for (Integer item : items.values()) {
+            if (item == 2)
                 i = 2;
         }
 
@@ -41,7 +41,7 @@ public class SendPurchaseAlertMessageComposer {
         msg.writeInt(i);
         msg.writeInt(items.size());
 
-        for(Integer item : items.keySet()) {
+        for (Integer item : items.keySet()) {
             msg.writeInt(item);
         }
 

@@ -38,10 +38,10 @@ public class PlayerStatistics {
             statement.setInt(4, userId);
 
             statement.execute();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             GameEngine.getLogger().error("Error while saving player statistics", e);
         }
-     }
+    }
 
     public void incrementAchievementPoints(int amount) {
         this.achievementPoints += amount;
@@ -79,11 +79,11 @@ public class PlayerStatistics {
 
                 ResultSet data = statement.executeQuery();
 
-                while(data.next()) {
+                while (data.next()) {
                     this.friendCount = data.getInt(1);
                 }
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             GameEngine.getLogger().error("Error while counting friends for PlayerStatistics", e);
         }
 

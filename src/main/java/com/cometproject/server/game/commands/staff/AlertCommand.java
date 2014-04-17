@@ -9,7 +9,7 @@ import com.cometproject.server.network.sessions.Session;
 public class AlertCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length < 2)
+        if (params.length < 2)
             return;
 
         Session user = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(params[0]);

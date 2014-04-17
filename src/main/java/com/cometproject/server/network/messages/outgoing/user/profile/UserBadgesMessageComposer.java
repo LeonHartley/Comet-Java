@@ -12,8 +12,8 @@ public class UserBadgesMessageComposer {
         msg.writeInt(userId);
         msg.writeInt(badges.size());
 
-        for(Map.Entry<String, Integer> badge : badges.entrySet()) {
-            if(badge.getValue() > 0) {
+        for (Map.Entry<String, Integer> badge : badges.entrySet()) {
+            if (badge.getValue() > 0) {
                 msg.writeInt(badge.getValue());
                 msg.writeString(badge.getKey());
             }

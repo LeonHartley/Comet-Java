@@ -12,13 +12,13 @@ public class MessengerSearchResultsMessageComposer {
 
         msg.writeInt(currentFriends.size());
 
-        for(MessengerSearchResult result : currentFriends) {
+        for (MessengerSearchResult result : currentFriends) {
             result.compose(msg);
         }
 
         msg.writeInt(otherPeople.size());
 
-        for(MessengerSearchResult result : otherPeople) {
+        for (MessengerSearchResult result : otherPeople) {
             result.compose(msg);
         }
 

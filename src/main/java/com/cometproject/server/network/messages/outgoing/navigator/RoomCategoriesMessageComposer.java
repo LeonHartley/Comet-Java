@@ -12,7 +12,7 @@ public class RoomCategoriesMessageComposer {
 
         msg.writeInt(categories.size());
 
-        for(Category cat : categories) {
+        for (Category cat : categories) {
             msg.writeInt(cat.getId());
             msg.writeString(cat.getTitle());
             msg.writeBoolean(cat.getRank() <= rank);

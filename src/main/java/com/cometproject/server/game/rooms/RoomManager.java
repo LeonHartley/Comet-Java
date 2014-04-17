@@ -37,16 +37,16 @@ public class RoomManager {
 
     public void loadModels() {
         try {
-            if(this.getModels().size() != 0) {
+            if (this.getModels().size() != 0) {
                 this.getModels().clear();
             }
 
             ResultSet result = Comet.getServer().getStorage().getTable("SELECT * FROM room_models");
 
-            while(result.next()) {
+            while (result.next()) {
                 this.getModels().add(new RoomModel(result));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -54,8 +54,8 @@ public class RoomManager {
     }
 
     public RoomModel getModel(String id) {
-        for(RoomModel model : this.models) {
-            if(model.getId().equals(id)) {
+        for (RoomModel model : this.models) {
+            if (model.getId().equals(id)) {
                 return model;
             }
         }
@@ -66,20 +66,20 @@ public class RoomManager {
     }
 
     public Room get(int id) {
-        if(this.getRooms().containsKey(id)) {
+        if (this.getRooms().containsKey(id)) {
             return this.getRooms().get(id);
         }
 
         try {
             ResultSet room = Comet.getServer().getStorage().getRow("SELECT * FROM rooms WHERE id = " + id);
 
-            if(room != null) {
+            if (room != null) {
                 Room newRoom = new Room(new RoomData(room));
                 this.rooms.put(id, newRoom);
 
                 return newRoom;
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading room", e);
         }
 
@@ -90,19 +90,19 @@ public class RoomManager {
         try {
             ResultSet room = Comet.getServer().getStorage().getTable("SELECT * FROM rooms WHERE owner_id = " + player.getId() + " ORDER by id ASC");
 
-            while(room.next()) {
+            while (room.next()) {
                 RoomData data = new RoomData(room);
 
-                if(this.getRooms().containsKey(data.getId())) {
+                if (this.getRooms().containsKey(data.getId())) {
                     player.getRooms().put(data.getId(), this.getRooms().get(data.getId()));
                     continue;
                 }
 
-                Room r =  new Room(data);
+                Room r = new Room(data);
                 this.getRooms().put(data.getId(), r);
                 player.getRooms().put(r.getId(), r);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading rooms for user", e);
         }
     }
@@ -123,7 +123,7 @@ public class RoomManager {
         try {
             PreparedStatement std;
 
-            if(query.startsWith("owner:")) {
+            if (query.startsWith("owner:")) {
                 std = Comet.getServer().getStorage().prepare("SELECT * FROM rooms WHERE owner = ?");
                 std.setString(1, query.split("owner:")[1]);
             } else {
@@ -133,10 +133,10 @@ public class RoomManager {
 
             ResultSet room = std.executeQuery();
 
-            while(room.next()) {
+            while (room.next()) {
                 RoomData data = new RoomData(room);
 
-                if(this.getRooms().containsKey(data.getId())) {
+                if (this.getRooms().containsKey(data.getId())) {
                     rooms.add(this.getRooms().get(data.getId()));
                     continue;
                 }
@@ -146,7 +146,7 @@ public class RoomManager {
                 this.getRooms().put(data.getId(), r);
                 rooms.add(r);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while loading rooms by query", e);
         }
 
@@ -156,7 +156,7 @@ public class RoomManager {
             System.out.println("Cached for 60 seconds");
         }
 
-        if(rooms.size() == 0 && !query.toLowerCase().startsWith("owner:")) {
+        if (rooms.size() == 0 && !query.toLowerCase().startsWith("owner:")) {
             return this.getRoomByQuery("owner:" + query);
         }
 
@@ -177,12 +177,12 @@ public class RoomManager {
 
             ResultSet result = std.getGeneratedKeys();
 
-            if(result.next()) {
+            if (result.next()) {
                 roomId = result.getInt(1);
 
                 this.loadRoomsForUser(client.getPlayer());
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while creating a room", e);
         }
 
@@ -192,8 +192,8 @@ public class RoomManager {
     public List<Room> listRoomsForUser(int userId) {
         List<Room> rooms = new ArrayList<>();
 
-        for(Room room : this.getRooms().values()) {
-            if(room.getData().getOwnerId() == userId) {
+        for (Room room : this.getRooms().values()) {
+            if (room.getData().getOwnerId() == userId) {
                 rooms.add(room);
             }
         }
@@ -204,8 +204,8 @@ public class RoomManager {
     public List<Room> getActiveRooms() {
         List<Room> rooms = new ArrayList<>();
 
-        for(Room room : this.getRooms().values()) {
-            if(room.getEntities() == null || room.getEntities().count() < 1 || !room.isActive) {
+        for (Room room : this.getRooms().values()) {
+            if (room.getEntities() == null || room.getEntities().count() < 1 || !room.isActive) {
                 continue;
             }
 

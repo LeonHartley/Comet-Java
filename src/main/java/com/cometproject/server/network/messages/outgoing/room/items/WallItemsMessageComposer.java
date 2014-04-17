@@ -11,7 +11,7 @@ public class WallItemsMessageComposer {
 
         int size = room.getItems().getWallItems().size();
 
-        if(size == 0) {
+        if (size == 0) {
             msg.writeInt(1);
             msg.writeInt(room.getData().getOwnerId());
             msg.writeString(room.getData().getOwner());
@@ -21,7 +21,7 @@ public class WallItemsMessageComposer {
 
         msg.writeInt(size);
 
-        for(WallItem item : room.getItems().getWallItems()) {
+        for (WallItem item : room.getItems().getWallItems()) {
             msg.writeString(item.getId());
             msg.writeInt(item.getDefinition().getSpriteId());
             msg.writeString(item.getPosition());

@@ -11,8 +11,8 @@ public class PermissionComponent {
     }
 
     public boolean hasPermission(String key) {
-        if(GameEngine.getPermissions().getPermissions().containsKey(key)) {
-            if(GameEngine.getPermissions().getPermissions().get(key).getRank() <= this.getPlayer().getData().getRank()) {
+        if (GameEngine.getPermissions().getPermissions().containsKey(key)) {
+            if (GameEngine.getPermissions().getPermissions().get(key).getRank() <= this.getPlayer().getData().getRank()) {
                 return true;
             }
         }
@@ -21,8 +21,8 @@ public class PermissionComponent {
     }
 
     public boolean hasCommand(String key) {
-        if(GameEngine.getPermissions().getCommands().containsKey(key)) {
-            if(GameEngine.getPermissions().getCommands().get(key) <= this.getPlayer().getData().getRank()) {
+        if (GameEngine.getPermissions().getCommands().containsKey(key)) {
+            if (GameEngine.getPermissions().getCommands().get(key) <= this.getPlayer().getData().getRank()) {
                 return true;
             }
         }

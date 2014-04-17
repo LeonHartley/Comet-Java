@@ -26,15 +26,15 @@ public class PlayerBot extends Bot {
 
     @Override
     public void tick() {
-        if(walkTimer >= 20) {
+        if (walkTimer >= 20) {
             // Walk!
             walkTimer = 0;
         }
 
-        if(talkTimer >= 15) {
+        if (talkTimer >= 15) {
             int chance = RandomInteger.getRandom(1, 3);
 
-            if(chance == 1) {
+            if (chance == 1) {
                 this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(this.getId(), (tickCount % 2 == 0) ? "Hi!" : "I | Leon", 0, 1));
             }
 

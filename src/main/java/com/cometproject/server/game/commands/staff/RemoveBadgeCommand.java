@@ -9,12 +9,12 @@ import com.cometproject.server.network.sessions.Session;
 public class RemoveBadgeCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length < 2)
+        if (params.length < 2)
             return;
 
         Session session = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(params[0]);
 
-        if(session != null)
+        if (session != null)
             session.getPlayer().getInventory().removeBadge(params[1], true);
     }
 

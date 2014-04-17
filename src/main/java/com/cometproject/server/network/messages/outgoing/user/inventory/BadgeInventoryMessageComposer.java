@@ -16,8 +16,8 @@ public class BadgeInventoryMessageComposer {
 
         System.out.println(badges.size());
 
-        for(Map.Entry<String, Integer> badge : badges.entrySet()) {
-            if(badge.getValue() > 0) {
+        for (Map.Entry<String, Integer> badge : badges.entrySet()) {
+            if (badge.getValue() > 0) {
                 activeBadges.put(badge.getKey(), badge.getValue());
             }
 
@@ -27,7 +27,7 @@ public class BadgeInventoryMessageComposer {
 
         msg.writeInt(activeBadges.size());
 
-        for(Map.Entry<String, Integer> badge : activeBadges.entrySet()) {
+        for (Map.Entry<String, Integer> badge : activeBadges.entrySet()) {
             msg.writeInt(badge.getValue());
             msg.writeString(badge.getKey());
         }

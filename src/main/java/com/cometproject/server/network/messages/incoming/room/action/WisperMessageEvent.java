@@ -14,10 +14,10 @@ public class WisperMessageEvent implements IEvent {
         String message = text.replace(user + " ", "");
         Session userTo = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(user);
 
-        if(userTo == null || userTo == client)
+        if (userTo == null || userTo == client)
             return;
 
-        if(!client.getPlayer().getEntity().onChat(message))
+        if (!client.getPlayer().getEntity().onChat(message))
             return;
 
         client.send(WisperMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), message));

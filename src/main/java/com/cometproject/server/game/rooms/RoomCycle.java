@@ -26,24 +26,24 @@ public class RoomCycle implements CometTask {
         int flag = 250;
 
         try {
-            if(!this.isActive()) {
+            if (!this.isActive()) {
                 return;
             }
 
             long start = System.currentTimeMillis();
 
-            if(GameEngine.getRooms() == null) {
+            if (GameEngine.getRooms() == null) {
                 // we've tried to cycle through the rooms but we haven't finished setting the environment up yet!
                 return;
             }
 
-            synchronized(GameEngine.getRooms().getActiveRooms()) {
-                for(Room room : GameEngine.getRooms().getActiveRooms()) {
-                    if(room == null) continue;
+            synchronized (GameEngine.getRooms().getActiveRooms()) {
+                for (Room room : GameEngine.getRooms().getActiveRooms()) {
+                    if (room == null) continue;
 
                     try {
                         room.tick();
-                    } catch(Exception e) {
+                    } catch (Exception e) {
                         log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName());
                     }
                 }
@@ -51,10 +51,10 @@ public class RoomCycle implements CometTask {
 
             TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
 
-            if(span.toMilliseconds() > flag) {
+            if (span.toMilliseconds() > flag) {
                 log.warn("Global room processing took: " + span.toMilliseconds() + "ms to execute.");
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error while cycling rooms", e);
         }
     }
