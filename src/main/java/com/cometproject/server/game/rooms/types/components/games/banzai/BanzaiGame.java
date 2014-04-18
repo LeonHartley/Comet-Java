@@ -4,7 +4,6 @@ import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
-import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
@@ -12,7 +11,6 @@ import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
 import javolution.util.FastMap;
 
-import java.util.List;
 import java.util.Map;
 
 public class BanzaiGame extends RoomGame {
@@ -20,8 +18,6 @@ public class BanzaiGame extends RoomGame {
     public static final String SCORE_ATTRIBUTE = "gameScore";
 
     private Map<GameTeam, Integer> scores;
-    private List<FloorItem> scoreBoards;
-    private RoomItem timerItem;
 
     public BanzaiGame(Room room) {
         super(room, GameType.BANZAI);
@@ -31,17 +27,16 @@ public class BanzaiGame extends RoomGame {
         for (GameTeam team : GameTeam.values()) {
             this.scores.put(team, 0);
         }
-
-        timerItem = room.getItems().getByInteraction("bb_timer").get(0);
-        scoreBoards = room.getItems().getByInteraction("%_score");
     }
 
     @Override
     public void tick() {
-        timerItem.setExtraData((gameLength - timer) + "");
-        timerItem.sendUpdate();
+        for (FloorItem item : room.getItems().getByInteraction("bb_timer")) {
+            item.setExtraData((gameLength - timer) + "");
+            item.sendUpdate();
+        }
 
-        this.getLog().debug("Game tick");
+        this.getLog().debug("Game tick (" + this.timer + ")");
     }
 
     @Override
@@ -74,6 +69,8 @@ public class BanzaiGame extends RoomGame {
                 }
             }
         }
+
+        this.scores.clear();
 
         // TODO: Wired trigger GAME_ENDS
     }
@@ -113,7 +110,7 @@ public class BanzaiGame extends RoomGame {
 
                     this.scores.replace(team, this.scores.get(team) + 1);
 
-                    for (FloorItem scoreboard : this.scoreBoards) {
+                    for (FloorItem scoreboard : room.getItems().getByInteraction("%_score")) {
                         if (scoreboard.getDefinition().getInteraction().toUpperCase().startsWith(team.name())) {
                             scoreboard.setExtraData(this.scores.get(team) + "");
                             scoreboard.sendUpdate();
@@ -122,18 +119,6 @@ public class BanzaiGame extends RoomGame {
                 }
             }
         }
-    }
-
-    public int getScore(GameTeam team) {
-        if (!scores.containsKey(team)) {
-            return 0; // Not teamed (team = GameTeam.NONE probably)
-        }
-
-        if (scores.get(team) != null) {
-            return scores.get(team);
-        }
-
-        return 0;
     }
 
     public GameTeam winningTeam() {

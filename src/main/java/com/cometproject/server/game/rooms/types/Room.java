@@ -21,6 +21,7 @@ public class Room {
     private ChatlogComponent chatlog;
     private TradeComponent trade;
     private BotComponent bots;
+    private PetComponent pets;
     private GameComponent game;
     private EntityComponent entities;
 
@@ -50,6 +51,7 @@ public class Room {
         this.game = new GameComponent(this);
         this.entities = new EntityComponent(this, this.model);
         this.bots = new BotComponent(this);
+        this.pets = new PetComponent(this);
 
         // Generate the mapping last
         this.mapping.init();
@@ -72,6 +74,7 @@ public class Room {
         this.chatlog.dispose();
         this.trade.dispose();
         this.bots.dispose();
+        this.pets.dispose();
         this.game.dispose();
         this.mapping.dispose();
 
@@ -83,6 +86,7 @@ public class Room {
         this.chatlog = null;
         this.trade = null;
         this.bots = null;
+        this.pets = null;
         this.entities = null;
         this.mapping = null;
 
@@ -125,6 +129,10 @@ public class Room {
 
     public BotComponent getBots() {
         return this.bots;
+    }
+
+    public PetComponent getPets() {
+        return this.pets;
     }
 
     public GameComponent getGame() {

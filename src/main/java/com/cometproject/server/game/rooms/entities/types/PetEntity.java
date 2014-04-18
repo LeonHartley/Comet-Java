@@ -15,6 +15,7 @@ public class PetEntity extends GenericEntity {
     public PetEntity(PetData data, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
+        this.data = data;
         this.ai = new DefaultAI(this);
     }
 
@@ -89,4 +90,13 @@ public class PetEntity extends GenericEntity {
         msg.writeString("");
         msg.writeInt(0);*/
     }
+
+    public PetData getData() {
+        return data;
+    }
+
+    public BotAI getAi() {
+        return ai;
+    }
+
 }

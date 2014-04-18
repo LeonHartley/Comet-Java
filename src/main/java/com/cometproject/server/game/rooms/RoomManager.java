@@ -193,18 +193,6 @@ public class RoomManager {
         return roomId;
     }
 
-    public List<Room> listRoomsForUser(int userId) {
-        List<Room> rooms = new ArrayList<>();
-
-        for (Room room : this.getRooms().values()) {
-            if (room.getData().getOwnerId() == userId) {
-                rooms.add(room);
-            }
-        }
-
-        return rooms;
-    }
-
     public List<Room> getActiveRooms() {
         List<Room> rooms = new ArrayList<>();
 

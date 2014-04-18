@@ -118,13 +118,13 @@ public class Comet {
             }
         };
 
-        // Shutdown hook
-        Runtime.getRuntime().addShutdownHook(new Thread() {
+        // TODO: Graceful shutdown
+        /*Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
                 isRunning = false;
             }
-        });
+        });*/
 
         cmdThr.start();
     }
@@ -152,7 +152,7 @@ public class Comet {
         //          b = if there was an update just before letter A was distributed, b will be appended
         //          c = Pre-release  -- must be mostly stable/usable
         //          no letter = release!  -- must be stable
-        return "0.7.2a";
+        return "0.7.3a";
     }
 
     public static CometServer getServer() {
