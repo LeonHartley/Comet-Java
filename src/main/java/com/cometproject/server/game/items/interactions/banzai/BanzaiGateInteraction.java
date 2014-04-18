@@ -26,19 +26,25 @@ public class BanzaiGateInteraction extends Interactor {
 
         int id = avatar.getPlayer().getId();
 
-        /*if(room.getGame().getInstance().getTeam(id).equals(team)) {
+        if(room.getGame().getInstance().getTeam(id).equals(team)) {
             room.getGame().getInstance().removeFromTeam(team, id);
 
             team = GameTeam.NONE;
 
             avatar.applyEffect(new UserEffect(team.getBanzaiEffect(), 0));
-        } else {*/
-        room.getGame().getInstance().getTeams().get(team).add(id);
-        //}
+        } else {
+            if(room.getGame().getInstance().isTeamed(id)) {
+                GameTeam oldTeam = room.getGame().getInstance().getTeam(id);
+                room.getGame().getInstance().removeFromTeam(oldTeam, id);
 
-        //if(room.getGame().getInstance().isTeamed(id)) {
-        //    room.getGame().getInstance().removeFromTeam(team, id);
-        //}
+                for(FloorItem oldTeamGate : room.getItems().getByInteraction("bb_" + oldTeam.toString().toLowerCase() + "_gate")) {
+                    oldTeamGate.setExtraData("" + room.getGame().getInstance().getTeams().get(oldTeam).size());
+                    oldTeamGate.sendUpdate();
+                }
+            }
+
+            room.getGame().getInstance().getTeams().get(team).add(id);
+        }
 
         item.setExtraData("" + room.getGame().getInstance().getTeams().get(team).size());
         item.sendUpdate();

@@ -6,10 +6,6 @@ import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiGame;
 
 public class GameComponent {
-    //////////////////
-    // TODO: RECODE
-    //////////////////
-
     private Room room;
     private RoomGame instance;
 
@@ -21,6 +17,8 @@ public class GameComponent {
         if (this.instance != null) {
             this.instance.stop();
         }
+
+        this.instance = null;
     }
 
     public void dispose() {

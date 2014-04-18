@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -122,6 +123,11 @@ public class EntityComponent {
 
             this.botIdToEntity.remove(botEntity.getBotId());
             this.entities.remove(botEntity.getVirtualId());
+        } else if(entity.getEntityType() == RoomEntityType.PET) {
+            PetEntity petEntity = (PetEntity) entity;
+
+            //this.petIdToEntity(petEntity.)
+            this.entities.remove(petEntity.getVirtualId());
         }
     }
 
