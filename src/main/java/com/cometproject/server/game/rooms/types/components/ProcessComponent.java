@@ -2,11 +2,14 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.interactions.InteractionAction;
+import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
+import com.cometproject.server.game.rooms.avatars.effects.UserEffectType;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -14,6 +17,7 @@ import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.utilities.RandomInteger;
 import com.cometproject.server.utilities.TimeSpan;
@@ -388,6 +392,19 @@ public class ProcessComponent implements CometTask {
             }
 
             ((BotEntity) entity).incrementCycleCount();
+        } else {
+            // It's a pet.
+            PetEntity petEntity = (PetEntity) entity;
+
+            if(petEntity.getCycleCount() == 14) { // 7 seconds
+                // TODO: Pet AI!
+
+                petEntity.resetCycleCount();
+
+                this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(entity.getVirtualId(), "Nigga nigga nigga nigga!", 0, 0));
+            }
+
+            petEntity.incrementCycleCount();
         }
 
         if (entity.hasStatus("mv")) {
@@ -422,22 +439,29 @@ public class ProcessComponent implements CometTask {
             //entity.getPlayer().getSession().send(TalkMessageComposer.compose(entity.getVirtualId(), "X: " + newPosition.getX() + ", Y: " + newPosition.getY() + ", Rot: " + entity.getBodyRotation(), 0,0));
 
             List<FloorItem> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
-
             // Apply sit
             for (FloorItem item : itemsOnSq) {
-
                 if (item.getDefinition().canSit) {
-                    double height = item.getHeight();
+                    double height = item.getDefinition().getHeight();
 
                     if (height < 1.0) {
-                        height = 1.0;
+                        height = 0.5;
                     } else if (itemsOnSq.size() == 1 && height > 1.0) {
-                        height = 1.0;
+                        height = 0.5;
+                    } else {
+                        height = 0.5;
                     }
 
                     entity.setBodyRotation(item.getRotation());
                     entity.setHeadRotation(item.getRotation());
                     entity.addStatus("sit", String.valueOf(height).replace(',', '.'));
+                    entity.markNeedsUpdate();
+                } else if (item.getDefinition().getInteraction().equals("bed")) {
+                    double height = 0;
+
+                    entity.setBodyRotation(item.getRotation());
+                    entity.setHeadRotation(item.getRotation());
+                    entity.addStatus("lay", String.valueOf(height).replace(',', '.'));
                     entity.markNeedsUpdate();
                 }
             }

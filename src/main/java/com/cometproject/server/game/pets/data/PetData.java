@@ -13,8 +13,12 @@ public class PetData {
     private int ownerId;
     private String colour;
     private int raceId;
+    private int typeId;
 
-    public PetData(int id, String name, int level, int happiness, int experience, int energy, int ownerId, String colour, int raceId) {
+    private int hairDye = 0;
+    private int hair = -1;
+
+    public PetData(int id, String name, int level, int happiness, int experience, int energy, int ownerId, String colour, int raceId, int typeId) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -24,6 +28,7 @@ public class PetData {
         this.ownerId = ownerId;
         this.colour = colour;
         this.raceId = raceId;
+        this.typeId = typeId;
     }
 
     public PetData(ResultSet data) throws SQLException {
@@ -36,6 +41,7 @@ public class PetData {
         this.ownerId = data.getInt("owner_id");
         this.colour = data.getString("colour");
         this.raceId = data.getInt("race_id");
+        this.typeId = data.getInt("type");
     }
 
     public int getId() {
@@ -75,6 +81,18 @@ public class PetData {
     }
 
     public String getLook() {
-        return ""; // TODO: this
+        return this.typeId + " " + this.raceId + " " + this.colour + ""; // TODO: this
+    }
+
+    public int getHairDye() {
+        return hairDye;
+    }
+
+    public int getHair() {
+        return hair;
+    }
+
+    public int getTypeId() {
+        return typeId;
     }
 }

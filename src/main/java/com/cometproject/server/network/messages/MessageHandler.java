@@ -36,6 +36,7 @@ import com.cometproject.server.network.messages.incoming.room.moderation.GetBann
 import com.cometproject.server.network.messages.incoming.room.moderation.GiveRightsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.KickUserMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.RemoveAllRightsMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.pets.PetInformationMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PlacePetMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.settings.LoadRoomInfoMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.settings.SaveRoomDataMessageEvent;
@@ -159,6 +160,7 @@ public class MessageHandler {
     public void registerPets() {
         this.getMessages().put(Events.PetInventoryMessageEvent, new PetInventoryMessageEvent());
         this.getMessages().put(Events.PlacePetMessageEvent, new PlacePetMessageEvent());
+        this.getMessages().put(Events.PetInformationMessageEvent, new PetInformationMessageEvent());
     }
 
     public void registerRoom() {

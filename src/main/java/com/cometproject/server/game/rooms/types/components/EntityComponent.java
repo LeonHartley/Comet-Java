@@ -33,6 +33,7 @@ public class EntityComponent {
 
     private Map<Integer, Integer> playerIdToEntity = new FastMap<Integer, Integer>().shared();
     private Map<Integer, Integer> botIdToEntity = new FastMap<Integer, Integer>().shared();
+    private Map<Integer, Integer> petIdToEntity = new FastMap<Integer, Integer>().shared();
 
     private List<GenericEntity>[][] entityGrid;
 
@@ -97,7 +98,6 @@ public class EntityComponent {
     }
 
     public void addEntity(GenericEntity entity) {
-        // Handle adding players
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
@@ -106,6 +106,10 @@ public class EntityComponent {
             BotEntity botEntity = (BotEntity) entity;
 
             this.botIdToEntity.put(botEntity.getBotId(), botEntity.getVirtualId());
+        } else if(entity.getEntityType() == RoomEntityType.PET) {
+            PetEntity petEntity = (PetEntity) entity;
+
+            this.petIdToEntity.put(petEntity.getData().getId(), petEntity.getVirtualId());
         }
 
         this.entities.put(entity.getVirtualId(), entity);
@@ -117,18 +121,17 @@ public class EntityComponent {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
             this.playerIdToEntity.remove(playerEntity.getPlayerId());
-            this.entities.remove(playerEntity.getVirtualId());
         } else if (entity.getEntityType() == RoomEntityType.BOT) {
             BotEntity botEntity = (BotEntity) entity;
 
             this.botIdToEntity.remove(botEntity.getBotId());
-            this.entities.remove(botEntity.getVirtualId());
         } else if(entity.getEntityType() == RoomEntityType.PET) {
             PetEntity petEntity = (PetEntity) entity;
 
-            //this.petIdToEntity(petEntity.)
-            this.entities.remove(petEntity.getVirtualId());
+            this.petIdToEntity.remove(petEntity.getData().getId());
         }
+
+        this.entities.remove(entity.getVirtualId());
     }
 
     public void broadcastMessage(Composer msg, boolean usersWithRightsOnly) {
@@ -180,6 +183,21 @@ public class EntityComponent {
         }
 
         return (BotEntity) genericEntity;
+    }
+
+    public PetEntity getEntityByPetId(int id) {
+        if(!this.petIdToEntity.containsKey(id)) {
+            return null;
+        }
+
+        int entityId = this.petIdToEntity.get(id);
+        GenericEntity genericEntity = this.entities.get(entityId);
+
+        if(genericEntity == null || genericEntity.getEntityType() != RoomEntityType.PET) {
+            return null;
+        }
+
+        return (PetEntity) genericEntity;
     }
 
     public List<BotEntity> getBotEntities() {

@@ -43,15 +43,14 @@ public class PetComponent {
     }
 
     public PetEntity addPet(PetData pet, int x, int y) {
-        /*int virtualId = room.getEntities().getFreeId();
+        int virtualId = room.getEntities().getFreeId();
 
-        BotData botData = new PlayerBotData(bot.getId(), bot.getName(), bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7);
-        BotEntity botEntity = new BotEntity(botData, virtualId, new Position3D(x, y, 0), 1, 1, room);
+        PetEntity petEntity = new PetEntity(pet, virtualId, new Position3D(x, y, 0), 1, 1, room);
 
-        this.petDataInstances.put(botData.getId(), botData);
-        this.getRoom().getEntities().addEntity(botEntity);
-        return botEntity;*/
-        return null;
+        this.petDataInstances.put(pet.getId(), pet);
+        this.getRoom().getEntities().addEntity(petEntity);
+
+        return petEntity;
     }
 
     public void dispose() {
