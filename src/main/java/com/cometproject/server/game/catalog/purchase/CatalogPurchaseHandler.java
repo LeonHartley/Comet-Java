@@ -95,21 +95,24 @@ public class CatalogPurchaseHandler {
                     String petRace = item.getDisplayName().replace("a0 pet", "");
                     String[] petData = data.split("\n"); // [0:name, 1:race, 2:colour]
 
+                    System.out.println(petRace);
+
                     if (petData.length != 3) {
                         throw new Exception("Invalid pet data length: " + petData.length);
                     }
 
-                    PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT INTO `pet_data` (`owner_id`, `pet_name`, `race_id`, `colour`, `scratches`, `level`, `happiness`, `experience`, `energy`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);", true);
+                    PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT INTO `pet_data` (`owner_id`, `pet_name`, `type`, `race_id`, `colour`, `scratches`, `level`, `happiness`, `experience`, `energy`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", true);
 
                     statement.setInt(1, client.getPlayer().getId());
                     statement.setString(2, petData[0]);
                     statement.setInt(3, Integer.parseInt(petRace));
-                    statement.setString(4, petData[2]);
-                    statement.setInt(5, 0);
-                    statement.setInt(6, StaticPetProperties.DEFAULT_LEVEL);
-                    statement.setInt(7, StaticPetProperties.DEFAULT_HAPPINESS);
-                    statement.setInt(8, StaticPetProperties.DEFAULT_EXPERIENCE);
-                    statement.setInt(9, StaticPetProperties.DEFAULT_ENERGY);
+                    statement.setInt(4, Integer.parseInt(petData[1]));
+                    statement.setString(5, petData[2]);
+                    statement.setInt(6, 0);
+                    statement.setInt(7, StaticPetProperties.DEFAULT_LEVEL);
+                    statement.setInt(8, StaticPetProperties.DEFAULT_HAPPINESS);
+                    statement.setInt(9, StaticPetProperties.DEFAULT_EXPERIENCE);
+                    statement.setInt(10, StaticPetProperties.DEFAULT_ENERGY);
 
                     statement.execute();
 
@@ -117,7 +120,7 @@ public class CatalogPurchaseHandler {
 
                     if (keys.next()) {
                         int insertedId = keys.getInt(1);
-                        client.getPlayer().getPets().addPet(new PetData(insertedId, petData[0], StaticPetProperties.DEFAULT_LEVEL, StaticPetProperties.DEFAULT_HAPPINESS, StaticPetProperties.DEFAULT_EXPERIENCE, StaticPetProperties.DEFAULT_ENERGY, client.getPlayer().getId(), petData[2], Integer.parseInt(petRace)));
+                        client.getPlayer().getPets().addPet(new PetData(insertedId, petData[0], StaticPetProperties.DEFAULT_LEVEL, StaticPetProperties.DEFAULT_HAPPINESS, StaticPetProperties.DEFAULT_EXPERIENCE, StaticPetProperties.DEFAULT_ENERGY, client.getPlayer().getId(), petData[2], Integer.parseInt(petData[1]), Integer.parseInt(petRace)));
                         client.send(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));
                     }
 

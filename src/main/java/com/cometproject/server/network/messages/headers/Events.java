@@ -127,6 +127,7 @@ public class Events {
     public static short LogInMessageEvent = 1461;
     public static short AnswerQuizMessageEvent = 2048;
     public static short ModToolRoomInfoMessageEvent = 3522;
+    public static short PetInformationMessageEvent = 994;
 
     public static String valueOfId(int i) {
         Events e = new Events();
