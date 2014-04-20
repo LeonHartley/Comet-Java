@@ -46,6 +46,10 @@ public class PetComponent {
         this.pets.put(petData.getId(), petData);
     }
 
+    public void removePet(int id) {
+        this.pets.remove(id);
+    }
+
     public void dispose() {
         this.pets.clear();
         this.pets = null;

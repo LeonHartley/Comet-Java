@@ -67,7 +67,7 @@ public class FeaturedRoom {
         msg.writeString(!isCategory ? caption : "");
         msg.writeString(imageType == ImageType.EXTERNAL ? image : "");
         msg.writeInt(categoryId);
-        msg.writeInt(isActive ? room.getEntities().count() : 0);
+        msg.writeInt(isActive ? room.getEntities().playerCount() : 0);
         msg.writeInt(isCategory ? 4 : 2); // is room
 
         if (isCategory) {

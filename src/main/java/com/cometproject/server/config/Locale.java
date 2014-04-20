@@ -26,4 +26,8 @@ public class Locale {
         else
             return key;
     }
+
+    public static Map<String, String> getAll() {
+        return locale;
+    }
 }

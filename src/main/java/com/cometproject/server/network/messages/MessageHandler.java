@@ -38,6 +38,7 @@ import com.cometproject.server.network.messages.incoming.room.moderation.KickUse
 import com.cometproject.server.network.messages.incoming.room.moderation.RemoveAllRightsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PetInformationMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PlacePetMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.pets.RemovePetMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.settings.LoadRoomInfoMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.settings.SaveRoomDataMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.settings.UpdatePapersMessageEvent;
@@ -161,6 +162,7 @@ public class MessageHandler {
         this.getMessages().put(Events.PetInventoryMessageEvent, new PetInventoryMessageEvent());
         this.getMessages().put(Events.PlacePetMessageEvent, new PlacePetMessageEvent());
         this.getMessages().put(Events.PetInformationMessageEvent, new PetInformationMessageEvent());
+        this.getMessages().put(Events.RemovePetMessageEvent, new RemovePetMessageEvent());
     }
 
     public void registerRoom() {

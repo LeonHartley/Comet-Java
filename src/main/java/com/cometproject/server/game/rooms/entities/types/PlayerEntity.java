@@ -186,9 +186,9 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
             this.getRoom().log.info(this.getPlayer().getData().getUsername() + ": " + message);
         }
 
-        for (BotEntity entity : this.getRoom().getEntities().getBotEntities()) {
-            if (entity.getUsername().replace(" ", "_").toLowerCase().equals(message.split(" ")[0].toLowerCase())) {
-                if (entity.getAI().onTalk(this, message.replace(message.split(" ")[0] + " ", ""))) {
+        for (PetEntity entity : this.getRoom().getEntities().getPetEntities()) {
+            if (entity.getData().getName().toLowerCase().equals(message.split(" ")[0].toLowerCase())) {
+                if (entity.getAI().onTalk(this, message)) {
                     return false;
                 }
             }

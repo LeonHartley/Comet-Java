@@ -364,7 +364,7 @@ public class ProcessComponent implements CometTask {
     }
 
     protected void processBotEntity(GenericEntity entity) {
-        int chance = RandomInteger.getRandom(1, 6);
+        int chance = RandomInteger.getRandom(1, (entity.hasStatus("sit") || entity.hasStatus("lay")) ? 20 : 6);
 
         if (chance == 1) {
             if (!entity.isWalking()) {
@@ -396,12 +396,29 @@ public class ProcessComponent implements CometTask {
             // It's a pet.
             PetEntity petEntity = (PetEntity) entity;
 
-            if(petEntity.getCycleCount() == 14) { // 7 seconds
-                // TODO: Pet AI!
+            if(petEntity.getCycleCount() == 20) { // 10 seconds
+                int messageKey = RandomInteger.getRandom(0, ((PetEntity) entity).getData().getSpeech().length - 1);
+                String message = ((PetEntity) entity).getData().getSpeech()[messageKey];
+
+                if (message != null && !message.isEmpty()) {
+                    switch (message) {
+                        case "sit":
+                            entity.addStatus("sit", "" + this.room.getModel().getSquareHeight()[entity.getPosition().getX()][entity.getPosition().getY()]);
+                            entity.markNeedsUpdate();
+                            break;
+
+                        case "lay":
+                            entity.addStatus("lay", "" + this.room.getModel().getSquareHeight()[entity.getPosition().getX()][entity.getPosition().getY()]);
+                            entity.markNeedsUpdate();
+                            break;
+
+                        default:
+                            this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(entity.getVirtualId(), message, 0, 0));
+                            break;
+                    }
+                }
 
                 petEntity.resetCycleCount();
-
-                this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(entity.getVirtualId(), "Nigga nigga nigga nigga!", 0, 0));
             }
 
             petEntity.incrementCycleCount();

@@ -1,23 +1,29 @@
 package com.cometproject.server.game.rooms.entities.types;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.entities.types.ai.DefaultAI;
+import com.cometproject.server.game.rooms.entities.types.ai.PetAI;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+
+import java.sql.PreparedStatement;
 
 public class PetEntity extends GenericEntity {
     private PetData data;
-    private BotAI ai;
+    private PetAI ai;
+
     private int cycleCount = 0;
 
     public PetEntity(PetData data, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.data = data;
-        this.ai = new DefaultAI(this);
+        this.ai = new PetAI(this);
     }
 
     @Override
@@ -32,7 +38,25 @@ public class PetEntity extends GenericEntity {
 
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
+        this.leaveRoom(false);
+    }
 
+    public void leaveRoom(boolean save) {
+        if(save) {
+            try {
+                PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE bot_data SET x = ?, y = ? WHERE id = ?");
+
+                statement.setInt(1, this.getPosition().getX());
+                statement.setInt(2, this.getPosition().getY());
+                statement.setInt(3, this.getData().getId());
+
+                statement.executeUpdate();
+            } catch(Exception e) {
+                this.getRoom().log.error("Error while saving bot");
+            }
+        }
+
+        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
     }
 
     @Override
@@ -96,11 +120,6 @@ public class PetEntity extends GenericEntity {
         return data;
     }
 
-    public BotAI getAi() {
-        return ai;
-    }
-
-
     public int getCycleCount() {
         return this.cycleCount;
     }
@@ -117,4 +136,7 @@ public class PetEntity extends GenericEntity {
         this.cycleCount = 0;
     }
 
+    public BotAI getAI() {
+        return ai;
+    }
 }

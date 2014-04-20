@@ -95,8 +95,6 @@ public class CatalogPurchaseHandler {
                     String petRace = item.getDisplayName().replace("a0 pet", "");
                     String[] petData = data.split("\n"); // [0:name, 1:race, 2:colour]
 
-                    System.out.println(petRace);
-
                     if (petData.length != 3) {
                         throw new Exception("Invalid pet data length: " + petData.length);
                     }
