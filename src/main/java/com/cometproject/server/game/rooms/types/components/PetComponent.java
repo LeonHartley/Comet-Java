@@ -54,7 +54,7 @@ public class PetComponent {
 
             statement.executeUpdate();
         } catch(Exception e) {
-            room.log.error("Error while saving bot to room", e);
+            room.log.error("Error while saving pet to room", e);
             return null;
         }
 
