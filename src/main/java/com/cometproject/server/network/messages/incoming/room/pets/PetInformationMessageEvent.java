@@ -15,7 +15,6 @@ public class PetInformationMessageEvent implements IEvent {
         PetEntity petEntity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPetId(petId);
 
         if(petEntity == null) {
-            GameEngine.getLogger().error("CAN'T FIND PET WITH ID: " + petId);
             return;
         }
 

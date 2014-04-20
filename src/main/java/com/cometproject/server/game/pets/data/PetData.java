@@ -1,5 +1,7 @@
 package com.cometproject.server.game.pets.data;
 
+import com.cometproject.server.game.GameEngine;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -94,5 +96,9 @@ public class PetData {
 
     public int getTypeId() {
         return typeId;
+    }
+
+    public String[] getSpeech() {
+        return GameEngine.getPets().getSpeech(this.typeId);
     }
 }

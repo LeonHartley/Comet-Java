@@ -34,8 +34,6 @@ public class ItemProcessComponent implements CometTask {
         this.mgr = mgr;
         this.room = room;
 
-        this.myFuture = this.mgr.executePeriodic(this, interval, interval, TimeUnit.MILLISECONDS);
-
         log = Logger.getLogger("GenericRoomItem Process [" + room.getData().getName() + "]");
     }
 
@@ -45,7 +43,7 @@ public class ItemProcessComponent implements CometTask {
         }
 
         this.active = true;
-        this.myFuture = this.mgr.executePeriodic(this, interval, interval, TimeUnit.MILLISECONDS);
+        this.myFuture = this.mgr.executePeriodic(this, 0, interval, TimeUnit.MILLISECONDS);
 
         log.debug("Processing started");
     }

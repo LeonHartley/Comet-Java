@@ -3,6 +3,7 @@ package com.cometproject.server.boot;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.rooms.types.Room;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -118,13 +119,16 @@ public class Comet {
             }
         };
 
-        // TODO: Graceful shutdown
-        /*Runtime.getRuntime().addShutdownHook(new Thread() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
                 isRunning = false;
+
+                for(Room room : GameEngine.getRooms().getActiveRooms()) {
+                    room.dispose();
+                }
             }
-        });*/
+        });
 
         cmdThr.start();
     }

@@ -106,7 +106,13 @@ public class Events {
     public static short DeleteFriendsMessageEvent = 3055;
     public static short OneWayGateTriggerMessageEvent = 3999;
     public static short OpenGiftMessageEvent = 2563;
-
+    public static short ModToolRoomInfoMessageEvent = 3522;
+    public static short PetInformationMessageEvent = 994;
+    public static short RemovePetMessageEvent = 428;
+    public static short SearchFriendsMessageEvent = 1903;
+    public static short ChangeWallItemStateMessageEvent = 1441;
+    public static short InviteFriendsMessageEvent = 2849;
+    public static short FollowFriendMessageEvent = 1177;
 
     public static short ManageGroupMessageEvent = 454;
     public static short RemoveRightsMessageEvent = 572;
@@ -116,18 +122,12 @@ public class Events {
     public static short ModRoomChatMessageEvent = 2620;
     public static short ModRoomInfoMessageEvent = 1847;
     public static short ModUserInfoMessageEvent = 3530;
-    public static short SearchFriendsMessageEvent = 1903;
-    public static short ChangeWallItemStateMessageEvent = 1441;
     public static short CloseDiceMessageEvent = 2557;
     public static short DenyFriendshipMessageEvent = 1752;
     public static short ExchangeCoinMessageEvent = 3266;
-    public static short FollowFriendMessageEvent = 1177;
     public static short GroupInfoMessageEvent = 539;
-    public static short InviteFriendsMessageEvent = 2849;
     public static short LogInMessageEvent = 1461;
     public static short AnswerQuizMessageEvent = 2048;
-    public static short ModToolRoomInfoMessageEvent = 3522;
-    public static short PetInformationMessageEvent = 994;
 
     public static String valueOfId(int i) {
         Events e = new Events();

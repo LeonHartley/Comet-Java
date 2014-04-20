@@ -212,6 +212,18 @@ public class EntityComponent {
         return entities;
     }
 
+    public List<PetEntity> getPetEntities() {
+        List<PetEntity> entities = new FastList<>();
+
+        for (GenericEntity entity : this.entities.values()) {
+            if (entity.getEntityType() == RoomEntityType.PET) {
+                entities.add((PetEntity) entity);
+            }
+        }
+
+        return entities;
+    }
+
     protected int getFreeId() {
         return this.entityIdGenerator.incrementAndGet();
     }
@@ -239,9 +251,22 @@ public class EntityComponent {
 
     public void dispose() {
         for (GenericEntity entity : entities.values()) {
-            entity.leaveRoom(false, false, true);
+            if(entity.getEntityType() == RoomEntityType.PET) {
+                ((PetEntity)entity).leaveRoom(true); // save pet data
+            } else {
+                entity.leaveRoom(false, false, true);
+            }
         }
-        
+
+        playerIdToEntity.clear();
+        petIdToEntity.clear();
+        botIdToEntity.clear();
+
+        playerIdToEntity = null;
+        petIdToEntity = null;
+        botIdToEntity = null;
+
         entities.clear();
+        entities = null;
     }
 }
