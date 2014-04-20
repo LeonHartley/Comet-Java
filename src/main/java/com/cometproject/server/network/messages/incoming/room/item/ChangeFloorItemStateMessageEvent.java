@@ -48,7 +48,7 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
             }
         }
 
-        GameEngine.getItems().getInteractions().onInteract(0, item, client.getPlayer().getEntity());
+        GameEngine.getItems().getInteractions().onInteract(msg.readInt(), item, client.getPlayer().getEntity());
 
         List<Position3D> tilesToUpdate = new FastList<>();
         tilesToUpdate.add(new Position3D(item.getX(), item.getY(), 0d));
