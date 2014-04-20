@@ -20,10 +20,6 @@ public class BanzaiGateInteraction extends Interactor {
         Room room = avatar.getRoom();
         GameTeam team = GameTeam.valueOf(item.getDefinition().getInteraction().split("\\_")[1].toUpperCase());
 
-        if (room.getGame().getInstance().getType() != GameType.BANZAI) {
-            return false;
-        }
-
         int id = avatar.getPlayer().getId();
 
         if(room.getGame().getInstance().getTeam(id).equals(team)) {
@@ -55,13 +51,6 @@ public class BanzaiGateInteraction extends Interactor {
 
     @Override
     public boolean onPreWalk(RoomItem item, PlayerEntity avatar) {
-        if (((FloorItem) item).getRoom().getGame().getInstance() == null) {
-            ((FloorItem) item).getRoom().getGame().createNew(GameType.BANZAI);
-
-            if (Comet.isDebugging)
-                ((FloorItem) item).getRoom().getGame().getInstance().startTimer(30);
-        }
-
         return false;
     }
 
