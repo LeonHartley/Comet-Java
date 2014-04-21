@@ -51,7 +51,7 @@ public class RoomManager {
                 this.getModels().add(new RoomModel(result));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error while loading room model", e);
         }
 
         log.info("Loaded " + this.getModels().size() + " room models");
