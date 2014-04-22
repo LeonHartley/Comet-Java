@@ -3,6 +3,8 @@ package com.cometproject.server.network.messages.types;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
+import java.io.Serializable;
+
 public class Composer {
     private int id;
     private ByteBuf body;
