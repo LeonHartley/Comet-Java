@@ -32,10 +32,6 @@ public abstract class RoomGame implements CometTask {
         this.teams = new FastMap<>();
         this.type = gameType;
         this.room = room;
-
-        for (GameTeam team : GameTeam.values()) {
-            this.teams.put(team, new FastList<Integer>());
-        }
     }
 
     @Override
@@ -77,6 +73,10 @@ public abstract class RoomGame implements CometTask {
     public void startTimer(int amount) {
         if (this.active && this.future != null) {
             this.future.cancel(false);
+        }
+
+        for (GameTeam team : GameTeam.values()) {
+            this.teams.put(team, new FastList<Integer>());
         }
 
         this.future = Comet.getServer().getThreadManagement().executePeriodic(this, 0, 1, TimeUnit.SECONDS);
