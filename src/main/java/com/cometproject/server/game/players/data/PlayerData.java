@@ -86,7 +86,11 @@ public class PlayerData implements Serializable {
     public String getUsername() {
         return this.username;
     }
-    public int getAchievementPoints() { return this.achievementPoints; }
+
+    public int getAchievementPoints() {
+        return this.achievementPoints;
+    }
+
     public String getMotto() {
         return this.motto;
     }

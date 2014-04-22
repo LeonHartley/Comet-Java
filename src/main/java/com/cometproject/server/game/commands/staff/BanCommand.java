@@ -39,7 +39,7 @@ public class BanCommand extends ChatCommand {
             PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into bans (`type`, `expire`, `data`, `reason`) VALUES(?, ?, ?, ?);");
 
             statement.setString(1, "user");
-            statement.setLong(2, expire);
+            statement.setLong(2, length == 0 ? 0 : expire);
             statement.setString(3, user.getPlayer().getId() + "");
             statement.setString(4, "");
 
