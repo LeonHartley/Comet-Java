@@ -127,6 +127,8 @@ public class Comet {
                 for(Room room : GameEngine.getRooms().getActiveRooms()) {
                     room.dispose();
                 }
+
+
             }
         });
 
