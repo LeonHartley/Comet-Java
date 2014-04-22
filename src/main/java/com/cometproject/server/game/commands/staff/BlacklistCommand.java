@@ -16,12 +16,12 @@ public class BlacklistCommand extends ChatCommand {
         switch (params[0]) {
             case "add":
                 GameEngine.getRooms().getFilter().addblacklistedWord(params[1]);
-                client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.blacklist.title"), Locale.get("command.blacklist.message")));
+                client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.blacklist.title"), Locale.get("command.blacklist.messageblacklisted")));
                 break;
 
             case "remove":
                 GameEngine.getRooms().getFilter().removeblacklistedWord(params[1]);
-                client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.blacklist.messageblacklisted"), Locale.get("command.blacklist.messageunblacklisted")));
+                client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.blacklist.title"), Locale.get("command.blacklist.messageunblacklisted")));
                 break;
         }
     }
