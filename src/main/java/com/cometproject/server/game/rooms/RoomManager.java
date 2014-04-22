@@ -112,16 +112,6 @@ public class RoomManager {
     }
 
     public List<Room> getRoomByQuery(String query) {
-        // Cache?
-        if (CometCache.getManager().isCacheEnabled()) {
-            ArrayList<Room> cachedRoomList = CometCache.getManager().getNavigatorSearchCacheHandler().get("NAVIGATORCACHE-" + query);
-
-            if (cachedRoomList != null) {
-                System.out.println("Returning from cache!!");
-                return cachedRoomList;
-            }
-        }
-
         ArrayList<Room> rooms = new ArrayList<>();
 
         try {
@@ -152,12 +142,6 @@ public class RoomManager {
             }
         } catch (Exception e) {
             log.error("Error while loading rooms by query", e);
-        }
-
-        // Cache?
-        if (CometCache.getManager().isCacheEnabled()) {
-            CometCache.getManager().getNavigatorSearchCacheHandler().put("NAVIGATORCACHE-" + query, rooms, 60);
-            System.out.println("Cached for 60 seconds");
         }
 
         if (rooms.size() == 0 && !query.toLowerCase().startsWith("owner:")) {

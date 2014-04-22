@@ -10,6 +10,7 @@ import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -28,7 +29,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             ctx.channel().disconnect();
         }
 
-        String ip = ctx.channel().remoteAddress().toString().replace("/", "").split(":")[0];
+        String ip = ((InetSocketAddress)ctx.channel().remoteAddress()).getAddress().getHostAddress();
 
         if (CONNECTIONS_PER_IP != 0) {
             if (this.connectionsPerIp.containsKey(ip)) {

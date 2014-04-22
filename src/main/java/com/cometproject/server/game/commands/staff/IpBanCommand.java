@@ -7,6 +7,7 @@ import com.cometproject.server.game.moderation.types.Ban;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.network.sessions.Session;
 
+import java.net.InetSocketAddress;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,11 +32,14 @@ public class IpBanCommand extends ChatCommand {
             return;
         }
 
-        user.disconnect();
         long expire = Comet.getTime() + (length * 36000);
 
         try {
-            String ipAddress = Comet.getServer().getStorage().getString("SELECT `last_ip` FROM players WHERE id = " + user.getPlayer().getId());
+            //String ipAddress = Comet.getServer().getStorage().getString("SELECT `last_ip` FROM players WHERE id = " + user.getPlayer().getId());
+
+            // retrieve ip directly ??
+
+            String ipAddress = ((InetSocketAddress)user.getChannel().remoteAddress()).getAddress().getHostAddress();
 
             PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into bans (`type`, `expire`, `data`, `reason`) VALUES(?, ?, ?, ?);");
 
@@ -56,6 +60,8 @@ public class IpBanCommand extends ChatCommand {
         } catch (SQLException e) {
             GameEngine.getLogger().error("Error while banning player: " + username, e);
         }
+
+        user.disconnect();
     }
 
     @Override
