@@ -1,6 +1,7 @@
 package com.cometproject.server.cache;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.cache.handlers.ComposerCacheHandler;
 import com.cometproject.server.cache.handlers.NavigatorSearchCacheHandler;
 import com.cometproject.server.cache.handlers.PlayerCacheHandler;
 import com.cometproject.server.cache.providers.InternalCacheProvider;
@@ -12,16 +13,15 @@ public class CometCacheManager {
     private CacheProvider masterProvider;
     private boolean isCacheEnabled;
 
-    private PlayerCacheHandler playerCache;
-    private NavigatorSearchCacheHandler navigatorSearchCacheHandler;
+    private ComposerCacheHandler composerCacheHandler;
 
     public CometCacheManager() {
-        if ("disabled".equals(provider)) {
+        if ("disabled".equals(provider) || "".equals(provider) || "default".equals(provider)) {
             this.isCacheEnabled = false;
         } else {
             this.isCacheEnabled = true;
 
-            if ("default".equals(provider) || "internal".equals(provider) || "".equals(provider)) {
+            if ("internal".equals(provider)) {
                 this.masterProvider = new InternalCacheProvider();
                 this.masterProvider.init();
             } else if ("memcached".equals(provider)) {
@@ -29,8 +29,7 @@ public class CometCacheManager {
                 this.masterProvider.init();
             }
 
-            this.playerCache = new PlayerCacheHandler(this.masterProvider);
-            this.navigatorSearchCacheHandler = new NavigatorSearchCacheHandler(this.masterProvider);
+            this.composerCacheHandler = new ComposerCacheHandler(this.masterProvider);
         }
     }
 
@@ -38,11 +37,7 @@ public class CometCacheManager {
         return this.isCacheEnabled;
     }
 
-    public PlayerCacheHandler getPlayerCache() {
-        return this.playerCache;
-    }
-
-    public NavigatorSearchCacheHandler getNavigatorSearchCacheHandler() {
-        return this.navigatorSearchCacheHandler;
+    public ComposerCacheHandler getComposerCacheHandler() {
+        return this.composerCacheHandler;
     }
 }

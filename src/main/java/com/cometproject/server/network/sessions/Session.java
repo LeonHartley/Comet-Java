@@ -35,6 +35,13 @@ public class Session {
         channel.writeAndFlush(msg);
     }
 
+    public void send(byte[] rawBytes) {
+        if (rawBytes == null)
+            return;
+
+        channel.writeAndFlush(rawBytes);
+    }
+
     public Logger getLogger() {
         return this.logger;
     }

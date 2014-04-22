@@ -12,6 +12,11 @@ public class Composer {
     public Composer() {
     }
 
+    public Composer(byte[] array) {
+        this.body = Unpooled.buffer();
+        this.body.writeBytes(array);
+    }
+
     public Composer(int id) {
         this.init(id);
     }
