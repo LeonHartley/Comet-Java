@@ -3,7 +3,7 @@ package com.cometproject.server.game.pets;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.pets.races.PetRace;
-import javolution.util.FastList;
+import java.util.ArrayList;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -27,7 +27,7 @@ public class PetManager {
         if (this.petRaces != null) {
             this.petRaces.clear();
         } else {
-            this.petRaces = new FastList<>();
+            this.petRaces = new ArrayList<>();
         }
 
         try {
@@ -51,8 +51,8 @@ public class PetManager {
         }
 
         try {
-            for(Map.Entry<String, String> localeEntry : Locale.getAll().entrySet()) {
-                if(localeEntry.getKey().startsWith("game.pet.") && localeEntry.getKey().endsWith(".speech")) {
+            for (Map.Entry<String, String> localeEntry : Locale.getAll().entrySet()) {
+                if (localeEntry.getKey().startsWith("game.pet.") && localeEntry.getKey().endsWith(".speech")) {
                     int petType = Integer.parseInt(localeEntry.getKey().split("\\.")[2]);
                     String[] speeches = localeEntry.getValue().split(",");
 
@@ -87,7 +87,7 @@ public class PetManager {
     }
 
     public List<PetRace> getRacesByRaceId(int raceId) {
-        List<PetRace> races = new FastList<>();
+        List<PetRace> races = new ArrayList<>();
 
         for (PetRace race : this.getPetRaces()) {
             if (raceId == race.getRaceId())

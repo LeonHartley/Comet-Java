@@ -10,7 +10,7 @@ public class LayCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         PlayerEntity playerEntity = client.getPlayer().getEntity();
-        if(playerEntity.hasStatus("lay")) {
+        if (playerEntity.hasStatus("lay")) {
             playerEntity.removeStatus("lay");
             playerEntity.markNeedsUpdate();
         } else {

@@ -4,7 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.moderation.types.HelpTicket;
 import com.cometproject.server.network.messages.outgoing.help.HelpTicketMessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import javolution.util.FastList;
+import java.util.ArrayList;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -26,13 +26,13 @@ public class ModerationManager {
 
     public void loadPresets() {
         if (userPresets == null) {
-            userPresets = new FastList<>();
+            userPresets = new ArrayList<>();
         } else {
             userPresets.clear();
         }
 
         if (roomPresets == null) {
-            roomPresets = new FastList<>();
+            roomPresets = new ArrayList<>();
         } else {
             roomPresets.clear();
         }

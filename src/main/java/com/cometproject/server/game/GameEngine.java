@@ -10,7 +10,6 @@ import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.avatars.misc.FilterManager;
 import com.cometproject.server.game.wired.WiredManager;
 import org.apache.log4j.Logger;
 

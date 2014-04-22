@@ -1,7 +1,7 @@
 package com.cometproject.server.network.monitor;
 
 import io.netty.channel.ChannelHandlerContext;
-import javolution.util.FastList;
+import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import java.lang.reflect.Method;
@@ -12,7 +12,7 @@ public class MonitorMessageHandler {
     private Logger log = Logger.getLogger(MonitorMessageHandler.class.getName());
 
     public MonitorMessageHandler() {
-        this.messageRegistry = new FastList<>();
+        this.messageRegistry = new ArrayList<>();
 
         this.messageRegistry.add("hello");
         this.messageRegistry.add("heartbeat");

@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.types.components;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
-import javolution.util.FastList;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class TradeComponent {
     public TradeComponent(Room room) {
         this.room = room;
 
-        this.trades = new FastList<>();
+        this.trades = new ArrayList<>();
     }
 
     public void dispose() {

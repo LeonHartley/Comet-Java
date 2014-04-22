@@ -1,6 +1,5 @@
 package com.cometproject.server.game.items.interactions.banzai;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.interactions.Interactor;
 import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
@@ -8,7 +7,6 @@ import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
-import com.cometproject.server.game.rooms.types.components.games.GameType;
 
 public class BanzaiGateInteraction extends Interactor {
 
@@ -22,18 +20,18 @@ public class BanzaiGateInteraction extends Interactor {
 
         int id = avatar.getPlayer().getId();
 
-        if(room.getGame().getInstance().getTeam(id).equals(team)) {
+        if (room.getGame().getInstance().getTeam(id).equals(team)) {
             room.getGame().getInstance().removeFromTeam(team, id);
 
             team = GameTeam.NONE;
 
             avatar.applyEffect(new UserEffect(team.getBanzaiEffect(), 0));
         } else {
-            if(room.getGame().getInstance().isTeamed(id)) {
+            if (room.getGame().getInstance().isTeamed(id)) {
                 GameTeam oldTeam = room.getGame().getInstance().getTeam(id);
                 room.getGame().getInstance().removeFromTeam(oldTeam, id);
 
-                for(FloorItem oldTeamGate : room.getItems().getByInteraction("bb_" + oldTeam.toString().toLowerCase() + "_gate")) {
+                for (FloorItem oldTeamGate : room.getItems().getByInteraction("bb_" + oldTeam.toString().toLowerCase() + "_gate")) {
                     oldTeamGate.setExtraData("" + room.getGame().getInstance().getTeams().get(oldTeam).size());
                     oldTeamGate.sendUpdate();
                 }

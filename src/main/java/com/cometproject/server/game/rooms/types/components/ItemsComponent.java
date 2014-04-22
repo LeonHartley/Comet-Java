@@ -15,11 +15,11 @@ import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorI
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import javolution.util.FastList;
 import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -88,7 +88,7 @@ public class ItemsComponent {
     }
 
     public List<FloorItem> getItemsOnSquare(int x, int y) {
-        List<FloorItem> items = new FastList<>();
+        List<FloorItem> items = new ArrayList<>();
 
         for (FloorItem item : this.getFloorItems()) {
             if (item.getX() == x && item.getY() == y) {
@@ -131,7 +131,7 @@ public class ItemsComponent {
     }
 
     public List<FloorItem> getByInteraction(String interaction) {
-        List<FloorItem> items = new FastList<>();
+        List<FloorItem> items = new ArrayList<>();
 
         for (FloorItem floorItem : this.floorItems) {
             if (floorItem.getDefinition().getInteraction().equals(interaction)) {
@@ -165,7 +165,7 @@ public class ItemsComponent {
     public void removeItem(FloorItem item, Session client, boolean toInventory) {
         // the client which is sent here is the removing user (most likely the owner of the room or staff member)
         List<GenericEntity> affectEntities = room.getEntities().getEntitiesAt(item.getX(), item.getY());
-        List<Position3D> tilesToUpdate = new FastList<>();
+        List<Position3D> tilesToUpdate = new ArrayList<>();
 
         tilesToUpdate.add(new Position3D(item.getX(), item.getY(), 0d));
 

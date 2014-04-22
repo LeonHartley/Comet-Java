@@ -1,13 +1,11 @@
 package com.cometproject.server.game.items.interactions.banzai;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.interactions.Interactor;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 
 public class BanzaiTimerInteraction extends Interactor {
     @Override
@@ -26,7 +24,7 @@ public class BanzaiTimerInteraction extends Interactor {
             case 2:
                 int time = Integer.parseInt(item.getExtraData());
 
-                if(time == 0 || time == 30 || time == 60 || time == 120 || time == 180 || time == 300 || time == 600) {
+                if (time == 0 || time == 30 || time == 60 || time == 120 || time == 180 || time == 300 || time == 600) {
                     switch (time) {
                         default:
                             time = 0;
