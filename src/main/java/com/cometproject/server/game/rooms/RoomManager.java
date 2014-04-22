@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomModel;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotionsManager;
 import com.cometproject.server.network.sessions.Session;
-import javolution.util.FastList;
+import java.util.ArrayList;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class RoomManager {
     private FastMap<Integer, Room> rooms;
-    private FastList<RoomModel> models;
+    private ArrayList<RoomModel> models;
     private FilterManager filterManager;
 
     private RoomCycle globalProcessor;
@@ -30,7 +30,7 @@ public class RoomManager {
 
     public RoomManager() {
         rooms = new FastMap<>();
-        models = new FastList<>();
+        models = new ArrayList<>();
         emotions = new ChatEmotionsManager();
         filterManager = new FilterManager();
 

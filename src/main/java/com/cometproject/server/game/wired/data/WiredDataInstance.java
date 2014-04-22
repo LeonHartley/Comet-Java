@@ -1,6 +1,6 @@
 package com.cometproject.server.game.wired.data;
 
-import javolution.util.FastList;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class WiredDataInstance {
         this.id = id;
         this.itemId = itemId;
 
-        this.items = new FastList<>();
+        this.items = new ArrayList<>();
 
         if (!data.isEmpty()) {
             String[] parse = data.split(":");

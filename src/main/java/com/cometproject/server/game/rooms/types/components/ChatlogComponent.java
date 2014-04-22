@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.types.components;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.ChatMessage;
-import javolution.util.FastList;
+import java.util.ArrayList;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,7 +13,7 @@ public class ChatlogComponent {
     private Room room;
 
     public ChatlogComponent(Room room) {
-        this.messages = new FastList<>();
+        this.messages = new ArrayList<>();
         this.room = room;
     }
 

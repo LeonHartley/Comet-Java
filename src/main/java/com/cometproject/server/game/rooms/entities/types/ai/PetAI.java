@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.entities.types.ai;
 
-import com.cometproject.server.game.pets.PetCommands;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;

@@ -109,15 +109,8 @@
     </properties>
     <repositories>
         <repository>
-            <id>oss.sonatype</id>
-            <name>Sonatype repository</name>
-            <url>http://oss.sonatype.org/content/groups/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
+            <id>java.net</id>
+            <url>https://maven.java.net/content/repositories/snapshots/</url>
         </repository>
 
         <repository>
@@ -191,9 +184,9 @@
         </dependency>
 
         <dependency>
-            <groupId>javolution</groupId>
-            <artifactId>javolution</artifactId>
-            <version>5.5.1</version>
+            <groupId>org.javolution</groupId>
+            <artifactId>javolution-core-java</artifactId>
+            <version>6.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>

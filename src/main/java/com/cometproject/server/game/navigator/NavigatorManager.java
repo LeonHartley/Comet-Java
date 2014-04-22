@@ -3,7 +3,7 @@ package com.cometproject.server.game.navigator;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
-import javolution.util.FastList;
+import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
@@ -16,8 +16,8 @@ public class NavigatorManager {
     Logger log = Logger.getLogger(NavigatorManager.class.getName());
 
     public NavigatorManager() {
-        this.categories = new FastList<>();
-        this.featuredRooms = new FastList<>();
+        this.categories = new ArrayList<>();
+        this.featuredRooms = new ArrayList<>();
 
         this.loadCategories();
         this.loadFeaturedRooms();
@@ -95,7 +95,7 @@ public class NavigatorManager {
         return this.categories;
     }
 
-    public java.util.Collection<FeaturedRoom> getFeaturedRooms() {
-        return ((FastList<FeaturedRoom>) featuredRooms).shared();
+    public List<FeaturedRoom> getFeaturedRooms() {
+        return featuredRooms;
     }
 }

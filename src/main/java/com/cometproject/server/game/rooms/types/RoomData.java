@@ -238,7 +238,11 @@ public class RoomData {
         this.thicknessFloor = thicknessFloor;
     }
 
-    public boolean getRoomMute() { return this.isMuted; }
+    public boolean getRoomMute() {
+        return this.isMuted;
+    }
 
-    public void RoomMute(boolean mute) { this.isMuted = mute; }
+    public void RoomMute(boolean mute) {
+        this.isMuted = mute;
+    }
 }
