@@ -72,6 +72,7 @@ public class FilterManager {
             }
         }
         message = removeAccents(message);
+        message = message.toLowerCase();
         message = message.replaceAll("[^a-zA-Z]+", "");
         message = message.replaceAll("(\\w)\\1+", "$1");
 
