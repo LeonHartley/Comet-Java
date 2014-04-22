@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 
 public class FilterManager {
     public List<String> blacklistedWords = new ArrayList<>();
@@ -18,7 +20,7 @@ public class FilterManager {
 
     public FilterManager() {
         // TODO: Get Julien to send the database.. :P
-        //init();
+        init();
     }
 
     public void init() {
@@ -56,7 +58,11 @@ public class FilterManager {
         log.info("Loaded " + whitelistedWords.size() + " whitelisted words");
 
     }
-
+    public static String removeAccents(String text) {
+        return text == null ? null
+                : Normalizer.normalize(text, Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    }
     public boolean filter(String message) {
         if (message.length() < 3)
             return false;
@@ -65,6 +71,9 @@ public class FilterManager {
                 return false;
             }
         }
+        message = message.replace("ß", "b");
+        message = removeAccents(message);
+        message = message.toLowerCase();
         message = message.replaceAll("[^a-zA-Z]+", "");
         message = message.replaceAll("(\\w)\\1+", "$1");
 
@@ -78,6 +87,9 @@ public class FilterManager {
     }
 
     public String getFilteredString(String message) {
+        message = message.replace("ß", "b");
+        message = removeAccents(message);
+        message = message.toLowerCase();
         message = message.replaceAll("[^a-zA-Z]+", "");
         message = message.replaceAll("(\\w)\\1+", "$1");
         return message;

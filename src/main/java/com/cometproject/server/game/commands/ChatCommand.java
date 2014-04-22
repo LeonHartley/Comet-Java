@@ -21,6 +21,19 @@ public abstract class ChatCommand {
         c.send(WisperMessageComposer.compose(c.getPlayer().getEntity().getVirtualId(), msg));
     }
 
+    public final String merge(String[] params) {
+        String r = "";
+
+        for(String s : params) {
+            if(! params[ params.length - 1].equals(s))
+                r+= s + " ";
+            else
+                r+= s;
+        }
+
+        return r;
+    }
+
     public String merge(String[] params, int begin) {
 
         StringBuilder mergedParams = new StringBuilder();
