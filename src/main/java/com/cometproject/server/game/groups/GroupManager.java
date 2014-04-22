@@ -6,7 +6,7 @@ import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.groups.types.items.*;
 import com.cometproject.server.network.sessions.Session;
-import javolution.util.FastList;
+import java.util.ArrayList;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -33,9 +33,9 @@ public class GroupManager {
     }
 
     public void loadItems() {
-        bases = new FastList<>();
-        symbols = new FastList<>();
-        baseColours = new FastList<>();
+        bases = new ArrayList<>();
+        symbols = new ArrayList<>();
+        baseColours = new ArrayList<>();
         symbolColours = new FastMap<>();
         backgroundColours = new FastMap<>();
 
@@ -87,7 +87,7 @@ public class GroupManager {
 
         while (data.next()) {
             GroupData group = new GroupData(data);
-            List<GroupMember> members = new FastList<>();
+            List<GroupMember> members = new ArrayList<>();
 
             PreparedStatement memberStd = Comet.getServer().getStorage().prepare("SELECT * FROM group_memberships WHERE group_id = ?");
             memberStd.setInt(1, id);

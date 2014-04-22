@@ -7,7 +7,7 @@ import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.RandomInteger;
-import javolution.util.FastList;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class BanzaiTeleportInteraction extends Interactor {
             return false;
 
         FloorItem floorItem = (FloorItem) item;
-        List<FloorItem> teleporters = new FastList<>();
+        List<FloorItem> teleporters = new ArrayList<>();
 
         for (FloorItem tele : floorItem.getRoom().getItems().getFloorItems()) {
             if (tele.getDefinition().getInteraction().equals(floorItem.getDefinition().getInteraction())) {

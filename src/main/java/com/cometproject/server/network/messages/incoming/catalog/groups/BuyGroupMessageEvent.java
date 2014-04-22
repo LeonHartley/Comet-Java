@@ -30,7 +30,7 @@ public class BuyGroupMessageEvent implements IEvent {
         int groupBaseColour = msg.readInt();
         int groupItemsLength = msg.readInt();
 
-        List<Integer> groupItems = new FastList<>();
+        List<Integer> groupItems = new ArrayList<>();
 
         for(int i = 0; i < (stateCount); i++) {
             groupItems.add(msg.readInt());

@@ -53,7 +53,7 @@ public class PetComponent {
             statement.setInt(4, pet.getId());
 
             statement.executeUpdate();
-        } catch(Exception e) {
+        } catch (Exception e) {
             room.log.error("Error while saving pet to room", e);
             return null;
         }

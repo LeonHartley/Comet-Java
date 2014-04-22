@@ -5,7 +5,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
-import javolution.util.FastList;
+import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class RoomCycle implements CometTask {
         this.myFuture = mgr.executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
         active = true;
 
-        this.roomsToUnload = new FastList<>();
+        this.roomsToUnload = new ArrayList<>();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class RoomCycle implements CometTask {
                     if (room == null) continue;
 
                     try {
-                        if(this.roomsToUnload.contains(room.getId())) {
+                        if (this.roomsToUnload.contains(room.getId())) {
                             room.dispose();
                             continue;
                         }
@@ -77,7 +77,7 @@ public class RoomCycle implements CometTask {
     }
 
     public void requestUnload(int roomId) {
-        if(this.roomsToUnload.contains(roomId))
+        if (this.roomsToUnload.contains(roomId))
             return;
 
         this.roomsToUnload.add(roomId);

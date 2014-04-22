@@ -17,8 +17,8 @@ public class TalkMessageEvent implements IEvent {
         if (!TalkMessageEvent.isValidColour(colour, client))
             colour = 0;
 
-        if(client.getPlayer().getEntity().getRoom().getData().getRoomMute() && !client.getPlayer().getPermissions().hasPermission("bypass_roommute")) {
-        return;
+        if (client.getPlayer().getEntity().getRoom().getData().getRoomMute() && !client.getPlayer().getPermissions().hasPermission("bypass_roommute")) {
+            return;
         }
 
         if (client.getPlayer().getData().getRank() < 7) {

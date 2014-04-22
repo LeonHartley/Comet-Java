@@ -1,6 +1,6 @@
 package com.cometproject.server.game.catalog.types;
 
-import javolution.util.FastList;
+import java.util.ArrayList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,7 +37,7 @@ public class CatalogItem {
         this.allowOffer = data.getString("offer_active").equals("1");
         this.badgeId = data.getString("badge_id");
 
-        this.items = new FastList<>();
+        this.items = new ArrayList<>();
 
         if (itemId.contains(",")) {
             String[] split = itemId.split(",");

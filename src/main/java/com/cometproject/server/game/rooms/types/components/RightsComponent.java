@@ -3,9 +3,9 @@ package com.cometproject.server.game.rooms.types.components;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.RoomBan;
-import javolution.util.FastList;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RightsComponent {
@@ -17,8 +17,8 @@ public class RightsComponent {
     public RightsComponent(Room room) {
         this.room = room;
 
-        this.rights = new FastList<>();
-        this.bannedUsers = new FastList<>();
+        this.rights = new ArrayList<>();
+        this.bannedUsers = new ArrayList<>();
 
         loadRights();
     }

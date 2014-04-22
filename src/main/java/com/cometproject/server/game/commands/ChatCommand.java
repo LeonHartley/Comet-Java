@@ -24,11 +24,11 @@ public abstract class ChatCommand {
     public final String merge(String[] params) {
         String r = "";
 
-        for(String s : params) {
-            if(! params[ params.length - 1].equals(s))
-                r+= s + " ";
+        for (String s : params) {
+            if (!params[params.length - 1].equals(s))
+                r += s + " ";
             else
-                r+= s;
+                r += s;
         }
 
         return r;

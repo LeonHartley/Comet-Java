@@ -11,7 +11,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.SendFloorIte
 import com.cometproject.server.network.messages.outgoing.room.items.SendWallItemMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import javolution.util.FastList;
+import java.util.ArrayList;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -102,7 +102,7 @@ public class PlaceItemMessageEvent implements IEvent {
                 client.getPlayer().getInventory().removeFloorItem(id);
 
                 FloorItem floorItem = room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getGiftData());
-                List<Position3D> tilesToUpdate = new FastList<>();
+                List<Position3D> tilesToUpdate = new ArrayList<>();
 
                 tilesToUpdate.add(new Position3D(floorItem.getX(), floorItem.getY(), 0d));
 

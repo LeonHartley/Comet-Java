@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import javolution.util.FastList;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
 
         GameEngine.getItems().getInteractions().onInteract(msg.readInt(), item, client.getPlayer().getEntity());
 
-        List<Position3D> tilesToUpdate = new FastList<>();
+        List<Position3D> tilesToUpdate = new ArrayList<>();
         tilesToUpdate.add(new Position3D(item.getX(), item.getY(), 0d));
 
         for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {

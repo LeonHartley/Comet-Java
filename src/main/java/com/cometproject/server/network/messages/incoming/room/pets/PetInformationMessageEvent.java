@@ -1,6 +1,5 @@
 package com.cometproject.server.network.messages.incoming.room.pets;
 
-import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.pets.PetInformationMessageComposer;
@@ -14,7 +13,7 @@ public class PetInformationMessageEvent implements IEvent {
 
         PetEntity petEntity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPetId(petId);
 
-        if(petEntity == null) {
+        if (petEntity == null) {
             return;
         }
 

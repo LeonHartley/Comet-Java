@@ -3,11 +3,10 @@ package com.cometproject.server.game.rooms.types.components.games;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.tasks.CometTask;
-import javolution.util.FastList;
+import java.util.ArrayList;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
@@ -37,13 +36,13 @@ public abstract class RoomGame implements CometTask {
     @Override
     public void run() {
         try {
-            if(timer == 0) {
+            if (timer == 0) {
                 gameStarts();
             }
 
             tick();
 
-            if(timer >= gameLength) {
+            if (timer >= gameLength) {
                 gameEnds();
                 room.getGame().stop();
             }
@@ -76,7 +75,7 @@ public abstract class RoomGame implements CometTask {
         }
 
         for (GameTeam team : GameTeam.values()) {
-            this.teams.put(team, new FastList<Integer>());
+            this.teams.put(team, new ArrayList<Integer>());
         }
 
         this.future = Comet.getServer().getThreadManagement().executePeriodic(this, 0, 1, TimeUnit.SECONDS);
