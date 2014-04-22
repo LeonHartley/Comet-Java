@@ -7,7 +7,7 @@ import com.cometproject.server.game.players.components.types.MessengerRequest;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import javolution.util.FastList;
+import java.util.ArrayList;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -16,7 +16,7 @@ import java.util.List;
 public class AcceptFriendshipMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int amount = msg.readInt();
-        List<MessengerRequest> requests = new FastList<>();
+        List<MessengerRequest> requests = new ArrayList<>();
 
         for (int i = 0; i < amount; i++) {
             requests.add(client.getPlayer().getMessenger().getRequestBySender(msg.readInt()));

@@ -9,7 +9,7 @@ public class SitCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         PlayerEntity playerEntity = client.getPlayer().getEntity();
-        if(playerEntity.hasStatus("sit")) {
+        if (playerEntity.hasStatus("sit")) {
             playerEntity.removeStatus("sit");
             playerEntity.markNeedsUpdate();
         } else {

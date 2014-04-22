@@ -3,14 +3,14 @@ package com.cometproject.server.network.messages.outgoing.room.bots;
 import com.cometproject.server.game.rooms.types.components.bots.Bot;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
-import javolution.util.FastList;
+import java.util.ArrayList;
 
 import java.util.Collection;
 import java.util.List;
 
 public class PlaceBotMessageComposer {
     public static Composer compose(Bot bot) {
-        List<Bot> bots = new FastList<>();
+        List<Bot> bots = new ArrayList<>();
         bots.add(bot);
 
         return compose(bots);

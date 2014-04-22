@@ -11,19 +11,19 @@ import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.types.Event;
-import javolution.util.FastList;
+import java.util.ArrayList;
 
 import java.util.List;
 
 public class WiredComponent {
     private Room room;
 
-    private FastList<WiredSquare> squares;
+    private ArrayList<WiredSquare> squares;
 
     public WiredComponent(Room room) {
         this.room = room;
 
-        this.squares = new FastList<>();
+        this.squares = new ArrayList<>();
     }
 
     public void dispose() {
@@ -43,7 +43,7 @@ public class WiredComponent {
     }
 
     public boolean trigger(TriggerType type, Object data, PlayerEntity entity) {
-        List<PlayerEntity> entities = new FastList<>();
+        List<PlayerEntity> entities = new ArrayList<>();
         entities.add(entity);
 
         return trigger(type, data, entities);
@@ -104,7 +104,7 @@ public class WiredComponent {
                         WiredDataInstance data = WiredDataFactory.get(item);
 
                         if (data.cycles >= data.getDelay()) {
-                            List<PlayerEntity> entities = new FastList<>();
+                            List<PlayerEntity> entities = new ArrayList<>();
 
                             for (GenericEntity entity : this.getRoom().getEntities().getEntitiesCollection().values()) {
                                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
@@ -138,7 +138,7 @@ public class WiredComponent {
         this.squares.remove(square);
     }
 
-    public FastList<WiredSquare> getSquares() {
+    public ArrayList<WiredSquare> getSquares() {
         return this.squares;
     }
 

@@ -5,11 +5,11 @@ import com.cometproject.server.game.catalog.purchase.CatalogPurchaseHandler;
 import com.cometproject.server.game.catalog.types.CatalogClubOffer;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
-import javolution.util.FastList;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +24,7 @@ public class CatalogManager {
     private Logger log = Logger.getLogger(CatalogManager.class.getName());
 
     public CatalogManager() {
-        this.clubOffers = new FastList<>();
+        this.clubOffers = new ArrayList<>();
         this.pages = new FastMap<>();
 
         this.purchaseHandler = new CatalogPurchaseHandler(this);
@@ -77,7 +77,7 @@ public class CatalogManager {
     }
 
     public List<CatalogPage> getPagesForRank(int rank) {
-        List<CatalogPage> pages = new FastList<>();
+        List<CatalogPage> pages = new ArrayList<>();
 
         for (CatalogPage page : this.getPages().values()) {
             if (rank >= page.getMinRank()) {

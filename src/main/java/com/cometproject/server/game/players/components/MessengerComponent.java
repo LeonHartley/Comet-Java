@@ -8,7 +8,7 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerSearchResultsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
-import javolution.util.FastList;
+import java.util.ArrayList;
 import javolution.util.FastMap;
 
 import java.sql.PreparedStatement;
@@ -25,7 +25,7 @@ public class MessengerComponent {
     public MessengerComponent(Player player) {
         this.player = player;
         this.friends = new FastMap<>();
-        this.requests = new FastList<>();
+        this.requests = new ArrayList<>();
 
         try {
             ResultSet friend = Comet.getServer().getStorage().getTable("SELECT * FROM messenger_friendships WHERE user_one_id = " + player.getId());
@@ -54,8 +54,8 @@ public class MessengerComponent {
     }
 
     public Composer search(String query) {
-        List<MessengerSearchResult> currentFriends = new FastList<>();
-        List<MessengerSearchResult> otherPeople = new FastList<>();
+        List<MessengerSearchResult> currentFriends = new ArrayList<>();
+        List<MessengerSearchResult> otherPeople = new ArrayList<>();
 
         try {
             PreparedStatement players = Comet.getServer().getStorage().prepare("SELECT * FROM players WHERE username LIKE ?");

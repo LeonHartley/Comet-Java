@@ -2,8 +2,6 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.interactions.InteractionAction;
-import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
-import com.cometproject.server.game.rooms.avatars.effects.UserEffectType;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -21,7 +19,6 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessage
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.utilities.RandomInteger;
 import com.cometproject.server.utilities.TimeSpan;
-import javolution.util.FastList;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -34,7 +31,7 @@ public class ProcessComponent implements CometTask {
     private final int ROOM_DISPOSE_TIME = Integer.parseInt(Comet.getServer().getConfig().get("comet.room.dispose.cycles"));
     private int disposeCycles = 0;
 
-    private FastList<GenericEntity> usersToUpdate;
+    private ArrayList<GenericEntity> usersToUpdate;
 
     private Room room;
 
@@ -93,7 +90,7 @@ public class ProcessComponent implements CometTask {
 
             // Reset the users to update
             if (this.usersToUpdate == null) {
-                this.usersToUpdate = new FastList<>();
+                this.usersToUpdate = new ArrayList<>();
             } else if (this.usersToUpdate.size() > 0) {
                 this.usersToUpdate.clear();
             }
@@ -102,7 +99,7 @@ public class ProcessComponent implements CometTask {
 
             List<GenericEntity>[][] entityGrid = new ArrayList[this.getRoom().getModel().getSizeX()][this.getRoom().getModel().getSizeY()];
 
-            List<PlayerEntity> playersToRemove = new FastList<>();
+            List<PlayerEntity> playersToRemove = new ArrayList<>();
 
             for (GenericEntity entity : entities.values()) {
                 // Process each entity as its own
@@ -396,7 +393,7 @@ public class ProcessComponent implements CometTask {
             // It's a pet.
             PetEntity petEntity = (PetEntity) entity;
 
-            if(petEntity.getCycleCount() == 20) { // 10 seconds
+            if (petEntity.getCycleCount() == 20) { // 10 seconds
                 int messageKey = RandomInteger.getRandom(0, ((PetEntity) entity).getData().getSpeech().length - 1);
                 String message = ((PetEntity) entity).getData().getSpeech()[messageKey];
 

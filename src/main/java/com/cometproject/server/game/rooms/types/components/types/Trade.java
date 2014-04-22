@@ -11,7 +11,7 @@ import com.cometproject.server.network.messages.outgoing.misc.AlertMessageCompos
 import com.cometproject.server.network.messages.outgoing.room.trading.*;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
-import javolution.util.FastList;
+import java.util.ArrayList;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -27,8 +27,8 @@ public class Trade {
         this.user1 = user1;
         this.user2 = user2;
 
-        user1Items = new FastList<>();
-        user2Items = new FastList<>();
+        user1Items = new ArrayList<>();
+        user2Items = new ArrayList<>();
 
         if (!user1.hasStatus("trd")) {
             user1.addStatus("trd", "");

@@ -13,7 +13,6 @@ import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomModel;
 import com.cometproject.server.network.messages.types.Composer;
-import javolution.util.FastList;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -29,11 +28,11 @@ public class EntityComponent {
 
     private AtomicInteger entityIdGenerator = new AtomicInteger();
 
-    private Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().shared();
+    private Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().atomic();
 
-    private Map<Integer, Integer> playerIdToEntity = new FastMap<Integer, Integer>().shared();
-    private Map<Integer, Integer> botIdToEntity = new FastMap<Integer, Integer>().shared();
-    private Map<Integer, Integer> petIdToEntity = new FastMap<Integer, Integer>().shared();
+    private Map<Integer, Integer> playerIdToEntity = new FastMap<Integer, Integer>().atomic();
+    private Map<Integer, Integer> botIdToEntity = new FastMap<Integer, Integer>().atomic();
+    private Map<Integer, Integer> petIdToEntity = new FastMap<Integer, Integer>().atomic();
 
     private List<GenericEntity>[][] entityGrid;
 
@@ -106,7 +105,7 @@ public class EntityComponent {
             BotEntity botEntity = (BotEntity) entity;
 
             this.botIdToEntity.put(botEntity.getBotId(), botEntity.getVirtualId());
-        } else if(entity.getEntityType() == RoomEntityType.PET) {
+        } else if (entity.getEntityType() == RoomEntityType.PET) {
             PetEntity petEntity = (PetEntity) entity;
 
             this.petIdToEntity.put(petEntity.getData().getId(), petEntity.getVirtualId());
@@ -125,7 +124,7 @@ public class EntityComponent {
             BotEntity botEntity = (BotEntity) entity;
 
             this.botIdToEntity.remove(botEntity.getBotId());
-        } else if(entity.getEntityType() == RoomEntityType.PET) {
+        } else if (entity.getEntityType() == RoomEntityType.PET) {
             PetEntity petEntity = (PetEntity) entity;
 
             this.petIdToEntity.remove(petEntity.getData().getId());
@@ -186,14 +185,14 @@ public class EntityComponent {
     }
 
     public PetEntity getEntityByPetId(int id) {
-        if(!this.petIdToEntity.containsKey(id)) {
+        if (!this.petIdToEntity.containsKey(id)) {
             return null;
         }
 
         int entityId = this.petIdToEntity.get(id);
         GenericEntity genericEntity = this.entities.get(entityId);
 
-        if(genericEntity == null || genericEntity.getEntityType() != RoomEntityType.PET) {
+        if (genericEntity == null || genericEntity.getEntityType() != RoomEntityType.PET) {
             return null;
         }
 
@@ -201,7 +200,7 @@ public class EntityComponent {
     }
 
     public List<BotEntity> getBotEntities() {
-        List<BotEntity> entities = new FastList<>();
+        List<BotEntity> entities = new ArrayList<>();
 
         for (GenericEntity entity : this.entities.values()) {
             if (entity.getEntityType() == RoomEntityType.BOT) {
@@ -213,7 +212,7 @@ public class EntityComponent {
     }
 
     public List<PetEntity> getPetEntities() {
-        List<PetEntity> entities = new FastList<>();
+        List<PetEntity> entities = new ArrayList<>();
 
         for (GenericEntity entity : this.entities.values()) {
             if (entity.getEntityType() == RoomEntityType.PET) {
@@ -251,8 +250,8 @@ public class EntityComponent {
 
     public void dispose() {
         for (GenericEntity entity : entities.values()) {
-            if(entity.getEntityType() == RoomEntityType.PET) {
-                ((PetEntity)entity).leaveRoom(true); // save pet data
+            if (entity.getEntityType() == RoomEntityType.PET) {
+                ((PetEntity) entity).leaveRoom(true); // save pet data
             } else {
                 entity.leaveRoom(false, false, true);
             }

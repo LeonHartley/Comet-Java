@@ -92,6 +92,6 @@ public class Composer {
     }
 
 	/*public ChannelBufferOutputStream getStream() {
-		return this.stream;
+        return this.stream;
 	}*/
 }

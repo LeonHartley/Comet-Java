@@ -6,7 +6,6 @@ import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 
 public class PuzzleBoxInteraction extends Interactor {
@@ -47,7 +46,7 @@ public class PuzzleBoxInteraction extends Interactor {
         //    newPosition = calculatePosition(floorItem.getX(), floorItem.getY(), avatar.getBodyRotation(), true);
         //}
 
-        if(newPosition == null)
+        if (newPosition == null)
             return false;
 
         newPosition.setZ((float) floorItem.getRoom().getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()]);

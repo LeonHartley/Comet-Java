@@ -8,7 +8,7 @@ import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
-import javolution.util.FastList;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -159,7 +159,7 @@ public class BallInteraction extends Interactor {
 
         floorItem.setRotation(avatar.getBodyRotation());
 
-        List<Position3D> positions = new FastList<>();
+        List<Position3D> positions = new ArrayList<>();
         Position3D currentPosition = new Position3D(floorItem.getX(), floorItem.getY());
         Position3D nextPosition = currentPosition.squareInFront(avatar.getBodyRotation());
 

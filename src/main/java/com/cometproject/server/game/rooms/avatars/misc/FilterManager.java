@@ -8,10 +8,10 @@ import org.apache.log4j.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FilterManager {
     public List<String> blacklistedWords = new ArrayList<>();
@@ -58,11 +58,13 @@ public class FilterManager {
         log.info("Loaded " + whitelistedWords.size() + " whitelisted words");
 
     }
+
     public static String removeAccents(String text) {
         return text == null ? null
                 : Normalizer.normalize(text, Form.NFD)
                 .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
     }
+
     public boolean filter(String message) {
         if (message.length() < 3)
             return false;

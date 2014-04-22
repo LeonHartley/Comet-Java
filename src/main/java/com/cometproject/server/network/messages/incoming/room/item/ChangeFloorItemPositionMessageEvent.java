@@ -10,7 +10,7 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import javolution.util.FastList;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                     }
                 }
 
-                List<Position3D> tilesToUpdate = new FastList<>();
+                List<Position3D> tilesToUpdate = new ArrayList<>();
 
                 tilesToUpdate.add(new Position3D(item.getX(), item.getY(), item.getHeight()));
                 tilesToUpdate.add(new Position3D(x, y, item.getHeight()));

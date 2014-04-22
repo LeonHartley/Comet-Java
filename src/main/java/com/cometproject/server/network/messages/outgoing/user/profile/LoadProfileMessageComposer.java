@@ -3,7 +3,6 @@ package com.cometproject.server.network.messages.outgoing.user.profile;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.PlayerStatistics;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
