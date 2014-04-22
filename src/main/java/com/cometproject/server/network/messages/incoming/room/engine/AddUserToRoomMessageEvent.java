@@ -43,7 +43,9 @@ public class AddUserToRoomMessageEvent implements IEvent {
         client.send(RoomPanelMessageComposer.compose(room.getId(), room.getRights().hasRights(client.getPlayer().getId()) || room.getData().getOwnerId() == client.getPlayer().getId()));
         client.send(RoomDataMessageComposer.compose(room));
 
-        room.getEntities().broadcastMessage(AvatarsMessageComposer.compose(room));
+        client.send(AvatarsMessageComposer.compose(room));
+        room.getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity()));
+
         room.getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(room));
 
         for (GenericEntity av : client.getPlayer().getEntity().getRoom().getEntities().getEntitiesCollection().values()) {
