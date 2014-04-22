@@ -33,6 +33,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.enable.name"), new EnableCommand());
         this.commands.put(Locale.get("command.empty.name"), new EmptyCommand());
         this.commands.put(Locale.get("command.sit.name"), new SitCommand());
+        this.commands.put(Locale.get("command.lay.name"), new LayCommand());
     }
 
     public void loadStaffCommands() {
@@ -58,6 +59,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.coins.name"), new CoinsCommand());
         this.commands.put(Locale.get("command.points.name"), new PointsCommand());
         this.commands.put(Locale.get("command.unload.name"), new UnloadCommand());
+        this.commands.put(Locale.get("command.roommute.name"), new RoomMuteCommand());
     }
 
     public boolean isCommand(String message) {
