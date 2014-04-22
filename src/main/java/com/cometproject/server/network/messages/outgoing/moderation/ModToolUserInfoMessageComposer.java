@@ -28,7 +28,7 @@ public class ModToolUserInfoMessageComposer {
         msg.writeString("N/A"); // TODO: purchase logging
         msg.writeInt(0); // ???
         msg.writeInt(0); // banned accts ???
-        msg.writeString(user.getString("email"));
+        msg.writeString(user.getString("mail"));
 
         return msg;
     }

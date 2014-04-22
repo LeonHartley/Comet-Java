@@ -32,6 +32,8 @@ public class RoomData {
     private int thicknessWall;
     private int thicknessFloor;
 
+    private boolean isMuted = false;
+
     public RoomData(ResultSet room) throws SQLException {
         this.id = room.getInt("id");
         this.name = room.getString("name");
@@ -236,4 +238,7 @@ public class RoomData {
         this.thicknessFloor = thicknessFloor;
     }
 
+    public boolean getRoomMute() { return this.isMuted; }
+
+    public void RoomMute(boolean mute) { this.isMuted = mute; }
 }

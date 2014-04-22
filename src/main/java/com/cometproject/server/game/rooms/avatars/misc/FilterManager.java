@@ -71,6 +71,7 @@ public class FilterManager {
                 return false;
             }
         }
+        message = message.replace("ß", "b");
         message = removeAccents(message);
         message = message.toLowerCase();
         message = message.replaceAll("[^a-zA-Z]+", "");
@@ -86,6 +87,9 @@ public class FilterManager {
     }
 
     public String getFilteredString(String message) {
+        message = message.replace("ß", "b");
+        message = removeAccents(message);
+        message = message.toLowerCase();
         message = message.replaceAll("[^a-zA-Z]+", "");
         message = message.replaceAll("(\\w)\\1+", "$1");
         return message;
