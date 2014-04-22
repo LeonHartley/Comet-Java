@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.outgoing.user.profile;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.PlayerStatistics;
+import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
@@ -15,7 +16,7 @@ public class LoadProfileMessageComposer {
         msg.writeString(player.getFigure());
         msg.writeString(player.getMotto());
         msg.writeString(player.getRegDate());
-        msg.writeInt(0); // TODO: achievement score
+        msg.writeInt(player.getAchievementPoints()); // TODO: achievement score
         msg.writeInt(stats.getFriendCount());
         msg.writeBoolean(isMyFriend);
         msg.writeBoolean(hasSentRequest);

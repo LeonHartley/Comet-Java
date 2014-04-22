@@ -131,7 +131,7 @@ public class RoomManager {
                 std = Comet.getServer().getStorage().prepare("SELECT * FROM rooms WHERE owner = ?");
                 std.setString(1, query.split("owner:")[1]);
             } else {
-                std = Comet.getServer().getStorage().prepare("SELECT * FROM rooms WHERE name LIKE ? LIMIT 50");
+                std = Comet.getServer().getStorage().prepare("SELECT * FROM rooms WHERE name LIKE ? LIMIT 150");
                 std.setString(1, "%" + query + "%");
             }
 

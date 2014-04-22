@@ -20,10 +20,11 @@ public class PlayerData implements Serializable {
 
     private String regDate;
     private int lastVisit;
+    private int achievementPoints;
 
     private boolean vip;
 
-    public PlayerData(int id, String username, String motto, String figure, String gender, int rank, int credits, int vipPoints, String reg, int lastVisit, boolean vip) {
+    public PlayerData(int id, String username, String motto, String figure, String gender, int rank, int credits, int vipPoints, String reg, int lastVisit, boolean vip, int achievementPoints) {
         this.id = id;
         this.username = username;
         this.motto = motto;
@@ -35,6 +36,7 @@ public class PlayerData implements Serializable {
         this.regDate = reg;
         this.lastVisit = lastVisit;
         this.vip = vip;
+        this.achievementPoints = achievementPoints;
     }
 
     public boolean save() {
@@ -84,7 +86,7 @@ public class PlayerData implements Serializable {
     public String getUsername() {
         return this.username;
     }
-
+    public int getAchievementPoints() { return this.achievementPoints; }
     public String getMotto() {
         return this.motto;
     }
