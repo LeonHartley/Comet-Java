@@ -12,20 +12,24 @@ import java.util.Comparator;
 import java.util.List;
 
 public class NavigatorFlatListMessageComposer {
-    public static Composer compose(int category, int mode, String query, Collection<Room> activeRooms) {
+    public static Composer compose(int category, int mode, String query, Collection<Room> activeRooms, boolean limit) {
         Composer msg = new Composer(Composers.NavigatorFlatListMessageComposer);
         msg.writeInt(mode);
         msg.writeString(query);
-        msg.writeInt(activeRooms.size() > 50 ? 50 : activeRooms.size());
+        msg.writeInt((limit) ? (activeRooms.size() > 50 ? 50 : activeRooms.size()) : activeRooms.size());
 
         Collection<Room> rooms = new ArrayList<>();
 
-        int i = 0;
-        for (Room room : activeRooms) {
-            if (i >= 50) break;
-            rooms.add(room);
+        if(limit) {
+            int i = 0;
+            for (Room room : activeRooms) {
+                if (i >= 50) break;
+                rooms.add(room);
 
-            i++;
+                i++;
+            }
+        } else {
+            rooms = activeRooms;
         }
 
         Collections.sort((List<Room>) rooms, new Comparator<Room>() {
@@ -45,5 +49,9 @@ public class NavigatorFlatListMessageComposer {
         msg.writeBoolean(false);
 
         return msg;
+    }
+
+    public static Composer compose(int category, int mode, String query, Collection<Room> activeRooms) {
+        return compose(category, mode, query, activeRooms, false);
     }
 }

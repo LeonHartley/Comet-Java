@@ -7,6 +7,6 @@ import com.cometproject.server.network.sessions.Session;
 
 public class OwnRoomsMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        client.send(NavigatorFlatListMessageComposer.compose(0, 5, "", client.getPlayer().getRooms().values()));
+        client.send(NavigatorFlatListMessageComposer.compose(0, 5, "", client.getPlayer().getRooms().values(), true));
     }
 }
