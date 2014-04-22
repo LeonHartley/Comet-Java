@@ -27,7 +27,7 @@ public class IpBanCommand extends ChatCommand {
             return;
         }
 
-        if (user == client && user.getPlayer().getPermissions().hasPermission("user_unbannable")) {
+        if (user == client || user.getPlayer().getPermissions().hasPermission("user_unbannable")) {
             return;
         }
 
@@ -35,11 +35,13 @@ public class IpBanCommand extends ChatCommand {
         long expire = Comet.getTime() + (length * 36000);
 
         try {
+            String ipAddress = Comet.getServer().getStorage().getString("SELECT `last_ip` FROM players WHERE id = " + user.getPlayer().getId());
+
             PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into bans (`type`, `expire`, `data`, `reason`) VALUES(?, ?, ?, ?);");
 
             statement.setString(1, "ip");
-            statement.setLong(2, expire);
-            statement.setString(3, Comet.getServer().getStorage().getString("SELECT `last_ip` FROM players WHERE id = " + user.getPlayer().getId()));
+            statement.setLong(2, length == 0 ? 0 : expire);
+            statement.setString(3, ipAddress);
             statement.setString(4, "");
 
             statement.execute();
@@ -49,6 +51,8 @@ public class IpBanCommand extends ChatCommand {
             if (keys.next()) {
                 GameEngine.getBans().add(new Ban(keys.getInt(1), user.getPlayer().getId() + "", expire, BanType.IP, ""));
             }
+
+            sendChat("User has been IP banned (IP: " + ipAddress + ")", client);
         } catch (SQLException e) {
             GameEngine.getLogger().error("Error while banning player: " + username, e);
         }
