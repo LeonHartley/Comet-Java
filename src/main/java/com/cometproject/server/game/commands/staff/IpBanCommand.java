@@ -41,7 +41,7 @@ public class IpBanCommand extends ChatCommand {
 
             String ipAddress = ((InetSocketAddress)user.getChannel().remoteAddress()).getAddress().getHostAddress();
 
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into bans (`type`, `expire`, `data`, `reason`) VALUES(?, ?, ?, ?);");
+            PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into bans (`type`, `expire`, `data`, `reason`) VALUES(?, ?, ?, ?);", true);
 
             statement.setString(1, "ip");
             statement.setLong(2, length == 0 ? 0 : expire);
