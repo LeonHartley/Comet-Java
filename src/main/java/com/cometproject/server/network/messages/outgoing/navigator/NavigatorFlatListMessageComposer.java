@@ -52,6 +52,6 @@ public class NavigatorFlatListMessageComposer {
     }
 
     public static Composer compose(int category, int mode, String query, Collection<Room> activeRooms) {
-        return compose(category, mode, query, activeRooms, false);
+        return compose(category, mode, query, activeRooms, true);
     }
 }
