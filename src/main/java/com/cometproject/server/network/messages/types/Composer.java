@@ -15,7 +15,7 @@ public class Composer {
     }
 
     public Composer(byte[] array) {
-        this.body = ByteBufAllocator.retrieve();
+        this.body = Unpooled.buffer();
         this.body.writeBytes(array);
     }
 
@@ -25,7 +25,7 @@ public class Composer {
 
     public Composer init(int id) {
         this.id = id;
-        this.body = ByteBufAllocator.retrieve();
+        this.body = Unpooled.buffer();
 
         try {
             this.body.writeInt(0);
