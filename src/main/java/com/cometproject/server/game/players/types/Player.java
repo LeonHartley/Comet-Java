@@ -12,6 +12,7 @@ import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsM
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Player {
