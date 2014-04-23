@@ -29,7 +29,7 @@ public class RoomManager {
     public static Logger log = Logger.getLogger(RoomManager.class.getName());
 
     public RoomManager() {
-        rooms = new FastMap<>();
+        rooms = new FastMap<Integer, Room>().atomic();
         models = new ArrayList<>();
         emotions = new ChatEmotionsManager();
         filterManager = new FilterManager();
