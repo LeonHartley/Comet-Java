@@ -61,9 +61,7 @@ public class NetworkEngine {
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(this.bossGroup, this.workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new NetworkChannelInitializer())
-                .childOption(ChannelOption.TCP_NODELAY, true)
-                .childOption(ChannelOption.AUTO_READ, true);
+                .childHandler(new NetworkChannelInitializer());
 
         this.ip = ip;
         this.port = port;
