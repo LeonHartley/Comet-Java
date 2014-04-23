@@ -29,6 +29,7 @@ public class Room {
 
     public Logger log;
     public boolean isActive;
+    private boolean isRoomMuted = false;
 
     public Room(RoomData data) {
         this.id = data.getId();
@@ -161,5 +162,13 @@ public class Room {
 
     public Group getGroup() {
         return this.group;
+    }
+
+    public boolean hasRoomMute() {
+        return this.isRoomMuted;
+    }
+
+    public void setRoomMute(boolean mute) {
+        this.isRoomMuted = mute;
     }
 }
