@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Matty on 22/04/2014.
  */
-public class ComposerCacheHandler implements CacheHandler<String, Composer> {
+public class ComposerCacheHandler implements CacheHandler<String, byte[]> {
     private final CacheProvider provider;
 
     public ComposerCacheHandler(CacheProvider provider) {
@@ -17,24 +17,24 @@ public class ComposerCacheHandler implements CacheHandler<String, Composer> {
     }
 
     @Override
-    public void put(String key, Composer value) {
+    public void put(String key, byte[] value) {
         this.provider.put(key, value);
     }
 
     @Override
-    public void put(String key, Composer value, int expires) {
+    public void put(String key, byte[] value, int expires) {
         this.provider.put(key, value, expires);
     }
 
     @Override
-    public void put(String key, Composer value, int expires, TimeUnit unit) {
+    public void put(String key, byte[] value, int expires, TimeUnit unit) {
         this.provider.put(key, value, expires, unit);
     }
 
     @Override
-    public Composer get(String key) {
+    public byte[] get(String key) {
         Object o = this.provider.get(key);
-        return (Composer) o;
+        return (byte[]) o;
     }
 
     @Override

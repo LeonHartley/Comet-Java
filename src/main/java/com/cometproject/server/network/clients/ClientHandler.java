@@ -56,7 +56,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
         Comet.getServer().getNetwork().getSessions().remove(ctx.channel());
         log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] disconnected");
 
-        String ip = ctx.channel().remoteAddress().toString().replace("/", "").split(":")[0];
+        String ip = ((InetSocketAddress)ctx.channel().remoteAddress()).getAddress().getHostAddress();
 
         if (CONNECTIONS_PER_IP != 0) {
             if (this.connectionsPerIp.containsKey(ip)) {
