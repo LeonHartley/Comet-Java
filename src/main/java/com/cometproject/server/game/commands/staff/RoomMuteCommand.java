@@ -8,10 +8,10 @@ import com.cometproject.server.network.sessions.Session;
 public class RoomMuteCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-    if (client.getPlayer().getEntity().getRoom().getData().getRoomMute()) {
-        client.getPlayer().getEntity().getRoom().getData().RoomMute(false);
+    if (client.getPlayer().getEntity().getRoom().hasRoomMute()) {
+        client.getPlayer().getEntity().getRoom().setRoomMute(false);
     } else {
-        client.getPlayer().getEntity().getRoom().getData().RoomMute(true);
+        client.getPlayer().getEntity().getRoom().setRoomMute(true);
     }
 
     }
