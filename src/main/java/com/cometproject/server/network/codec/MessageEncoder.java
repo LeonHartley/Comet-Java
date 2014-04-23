@@ -15,11 +15,11 @@ public class MessageEncoder extends MessageToMessageEncoder<Composer> {
     @Override
     protected void encode(ChannelHandlerContext ctx, Composer msg, List<Object> out) throws Exception {
         try {
-            ByteBuf buf = msg.get().duplicate().retain();
+            ByteBuf buf = msg.get();
 
             out.add(buf);
-            //buf.release();
             ctx.flush();
+
             log.debug("Composed message: " + Composers.valueOfId(msg.getId()));
         } catch (Exception e) {
             log.error("Failed to encode message: ", e);
