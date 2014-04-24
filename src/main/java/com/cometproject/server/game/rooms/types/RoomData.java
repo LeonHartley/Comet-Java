@@ -130,7 +130,13 @@ public class RoomData {
     }
 
     public Category getCategory() {
-        return GameEngine.getNavigator().getCategory(this.category);
+        Category category = GameEngine.getNavigator().getCategory(this.category);
+
+        if(category == null) {
+
+        }
+
+        return category;
     }
 
     public int getMaxUsers() {

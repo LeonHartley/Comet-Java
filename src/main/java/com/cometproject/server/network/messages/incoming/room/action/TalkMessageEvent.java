@@ -1,17 +1,11 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
-import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.google.common.primitives.Ints;
-import org.apache.commons.lang.ArrayUtils;
-
-import java.util.Arrays;
-import java.util.List;
 
 
 public class TalkMessageEvent implements IEvent {
@@ -28,7 +22,7 @@ public class TalkMessageEvent implements IEvent {
     }
 
     private static int[] allowedColours = new int[] {
-      0, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 9
+            0, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
     };
 
     public static boolean isValidColour(int colour, Session client) {

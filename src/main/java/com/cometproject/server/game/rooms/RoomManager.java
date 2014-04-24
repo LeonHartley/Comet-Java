@@ -181,7 +181,7 @@ public class RoomManager {
         List<Room> rooms = new ArrayList<>();
 
         for (Room room : this.getRooms().values()) {
-            if (room == null || room.getEntities() == null || room.getEntities().count() < 1 || !room.isActive) {
+            if (room == null || room.getEntities() == null || room.getEntities().playerCount() < 1 || !room.isActive) {
                 continue;
             }
 
