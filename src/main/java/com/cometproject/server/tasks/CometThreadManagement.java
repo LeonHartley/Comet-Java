@@ -8,7 +8,7 @@ public class CometThreadManagement {
 
     public CometThreadManagement() {
         this.executionService = Executors.newCachedThreadPool();
-        this.scheduledExecutorService = Executors.newScheduledThreadPool(0);
+        this.scheduledExecutorService = Executors.newScheduledThreadPool(1);
     }
 
     public Future executeOnce(CometTask task) {
