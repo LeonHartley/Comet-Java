@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.entities.types;
 
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
@@ -9,6 +10,7 @@ import com.cometproject.server.game.rooms.entities.PlayerEntityAccess;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.game.wired.types.TriggerType;
+import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomFullMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
@@ -176,6 +178,18 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
             }
         } catch (Exception e) {
             // command error?
+        }
+
+
+        if (this.getRoom().hasRoomMute() && !this.getPlayer().getPermissions().hasPermission("bypass_roommute")) {
+            return false;
+        }
+
+        if (this.getPlayer().getData().getRank() < 7) { // TODO: Permission...
+            if (GameEngine.getRooms().getFilter().filter(message)) {
+                this.getPlayer().getSession().send(AdvancedAlertMessageComposer.compose(Locale.get("filter.alert.title"), Locale.get("filter.alert.message")));
+                return false;
+            }
         }
 
         if (this.getRoom().getWired().trigger(TriggerType.ON_SAY, message, this)) {
