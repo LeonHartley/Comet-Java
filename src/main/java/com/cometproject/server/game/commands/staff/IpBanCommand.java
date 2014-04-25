@@ -41,6 +41,11 @@ public class IpBanCommand extends ChatCommand {
 
             String ipAddress = ((InetSocketAddress)user.getChannel().remoteAddress()).getAddress().getHostAddress();
 
+            if(GameEngine.getBans().hasBan(ipAddress)) {
+                sendChat("IP: " + ipAddress + " is already banned.", client);
+                return;
+            }
+
             PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into bans (`type`, `expire`, `data`, `reason`) VALUES(?, ?, ?, ?);", true);
 
             statement.setString(1, "ip");
