@@ -104,7 +104,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
 
         this.player.getSession().send(AccessLevelMessageComposer.compose(accessLevel));
 
-        if (this.getRoom().getData().getOwnerId() == this.player.getId()) {
+        if (this.getRoom().getData().getOwnerId() == this.player.getId() || this.player.getPermissions().hasPermission("room_full_control")) {
             this.player.getSession().send(OwnerRightsMessageComposer.compose());
         }
     }
