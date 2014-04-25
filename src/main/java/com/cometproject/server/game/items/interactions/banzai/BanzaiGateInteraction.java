@@ -20,6 +20,9 @@ public class BanzaiGateInteraction extends Interactor {
 
         int id = avatar.getPlayer().getId();
 
+        if(room.getGame().getInstance() == null)
+            return false;
+
         if (room.getGame().getInstance().getTeam(id).equals(team)) {
             room.getGame().getInstance().removeFromTeam(team, id);
 
