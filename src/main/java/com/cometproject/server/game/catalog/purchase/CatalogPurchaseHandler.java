@@ -143,12 +143,17 @@ public class CatalogPurchaseHandler {
 
                 for (int e = 0; e < amount; e++) {
                     for (int i = 0; i != item.getAmount(); i++) {
-                        PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into items (`user_id`, `base_item`, `extra_data`, `wall_pos`) VALUES(?, ?, ?, ?);", true);
+                        PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into items (`user_id`, `room_id`, `base_item`, `extra_data`, `x`, `y`, `z`, `rot`, `wall_pos`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", true);
 
                         statement.setInt(1, client.getPlayer().getId());
-                        statement.setInt(2, newItemId);
-                        statement.setString(3, extraData);
-                        statement.setString(4, "");
+                        statement.setInt(2, 0);
+                        statement.setInt(3, newItemId);
+                        statement.setString(4, extraData);
+                        statement.setInt(5, 0);
+                        statement.setInt(6, 0);
+                        statement.setInt(7, 0);
+                        statement.setInt(8, 0);
+                        statement.setString(9, "");
                         statement.execute();
 
                         ResultSet keys = statement.getGeneratedKeys();
