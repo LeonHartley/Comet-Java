@@ -40,7 +40,7 @@ public class AddUserToRoomMessageEvent implements IEvent {
             client.send(FloodFilterMessageComposer.compose(client.getPlayer().floodTime));
         }
 
-        client.send(RoomPanelMessageComposer.compose(room.getId(), room.getRights().hasRights(client.getPlayer().getId()) || room.getData().getOwnerId() == client.getPlayer().getId()));
+        client.send(RoomPanelMessageComposer.compose(room.getId(), room.getData().getOwnerId() == client.getPlayer().getId() || client.getPlayer().getPermissions().hasPermission("room_full_control")));
         client.send(RoomDataMessageComposer.compose(room));
 
         client.send(AvatarsMessageComposer.compose(room));

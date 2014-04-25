@@ -15,6 +15,7 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.plugins.types.PluginPlayer;
 
+import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
 
 public class SSOTicketMessageEvent implements IEvent {
@@ -39,7 +40,7 @@ public class SSOTicketMessageEvent implements IEvent {
             cloneSession.disconnect();
         }
 
-        if (GameEngine.getBans().hasBan(Integer.toString(player.getId())) || GameEngine.getBans().hasBan(Comet.getServer().getStorage().getString("SELECT `last_ip` FROM players WHERE id = " + player.getId()))) {
+        if (GameEngine.getBans().hasBan(Integer.toString(player.getId())) || GameEngine.getBans().hasBan(((InetSocketAddress)client.getChannel().remoteAddress()).getAddress().getHostAddress())) {
             client.send(AdvancedAlertMessageComposer.compose(
                     "You've been banned!",
                     "If you feel you received this in error, please contact the system administrator."
@@ -84,6 +85,6 @@ public class SSOTicketMessageEvent implements IEvent {
             client.send(ModToolMessageComposer.compose());
         }
 
-        Comet.getServer().getPluginEngine().invokePlayerCommand("test", PluginPlayer.create(player));
+        //Comet.getServer().getPluginEngine().invokePlayerCommand("test", PluginPlayer.create(player));
     }
 }

@@ -69,27 +69,6 @@ public abstract class Bot {
 
     public abstract void tick();
 
-    public void serialize(Composer msg) {
-        msg.writeInt(this.id);
-        msg.writeString(this.name);
-        msg.writeString(this.motto);
-        msg.writeString(this.figure);
-        msg.writeInt(this.virtualId);
-        msg.writeInt(this.x);
-        msg.writeInt(this.y);
-        msg.writeString(Double.toString(this.z));
-        msg.writeInt(0);
-        msg.writeInt(4);
-        msg.writeString(this.gender);
-        msg.writeInt(this.ownerId);
-        msg.writeString(this.owner);
-        msg.writeInt(4); // array length (but wat is array???)
-        msg.writeShort(1);
-        msg.writeShort(2);
-        msg.writeShort(5);
-        msg.writeShort(4);
-    }
-
     public void setNeedsRemove(boolean needsRemove) {
         this.needsRemove = needsRemove;
     }
