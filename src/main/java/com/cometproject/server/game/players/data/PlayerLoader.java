@@ -15,7 +15,7 @@ public class PlayerLoader {
 
     public static Player loadPlayerBySSo(String ticket) {
         try {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("SELECT * FROM players WHERE auth_ticket = ?");
+            PreparedStatement statement = Comet.getServer().getStorage().prepare("SELECT `id` FROM players WHERE auth_ticket = ?");
 
             statement.setString(1, ticket);
             ResultSet data = statement.executeQuery();
