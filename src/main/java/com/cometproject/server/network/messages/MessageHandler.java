@@ -39,10 +39,7 @@ import com.cometproject.server.network.messages.incoming.room.moderation.RemoveA
 import com.cometproject.server.network.messages.incoming.room.pets.PetInformationMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PlacePetMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.RemovePetMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.settings.LoadRoomInfoMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.settings.SaveRoomDataMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.settings.UpdatePapersMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.settings.UsersWithRightsMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.settings.*;
 import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.ChangeMottoMessageEvent;
@@ -188,6 +185,7 @@ public class MessageHandler {
         this.getMessages().put(Events.UserBadgesMessageEvent, new UserBadgesMessageEvent());
         this.getMessages().put(Events.UpdatePapersMessageEvent, new UpdatePapersMessageEvent());
         this.getMessages().put(Events.DropHandItemMessageEvent, new DropHandItemMessageEvent());
+        this.getMessages().put(Events.DeleteRoomMessageEvent, new DeleteRoomMessageEvent());
     }
 
     public void registerRoomTrade() {
