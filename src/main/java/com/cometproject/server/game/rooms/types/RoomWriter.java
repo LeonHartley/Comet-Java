@@ -46,7 +46,7 @@ public class RoomWriter {
         msg.writeInt(room.getData().getOwnerId());
         msg.writeString(room.getData().getOwner());
         msg.writeInt(RoomWriter.roomAccessToNumber(room.getData().getAccess()));
-        msg.writeInt(room.getEntities().count());
+        msg.writeInt(room.getEntities().playerCount());
         msg.writeInt(room.getData().getMaxUsers());
         msg.writeString(room.getData().getDescription());
         msg.writeInt(0);
@@ -89,7 +89,7 @@ public class RoomWriter {
         msg.writeInt(room.getData().getOwnerId());
         msg.writeString(room.getData().getOwner());
         msg.writeInt(RoomWriter.roomAccessToNumber(room.getData().getAccess()));
-        msg.writeInt(room.getEntities() != null ? room.getEntities().count() : 0);
+        msg.writeInt(room.getEntities() != null ? room.getEntities().playerCount() : 0);
         msg.writeInt(room.getData().getMaxUsers());
         msg.writeString(room.getData().getDescription());
         msg.writeInt(0);
