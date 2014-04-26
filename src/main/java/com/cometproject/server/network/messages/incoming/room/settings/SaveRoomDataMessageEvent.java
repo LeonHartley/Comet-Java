@@ -98,12 +98,13 @@ public class SaveRoomDataMessageEvent implements IEvent {
         data.setMaxUsers(maxUsers);
         data.setTags(tags);
         data.setThicknessWall(wallThick);
+        data.setThicknessFloor(floorThick);
         data.setHideWalls(hideWall == 1);
 
         try {
             data.save();
 
-            client.send(ConfigureWallAndFloorMessageComposer.compose(hideWall == 1, wallThick, floorThick));
+            room.getEntities().broadcastMessage(ConfigureWallAndFloorMessageComposer.compose(hideWall == 1, wallThick, floorThick));
             room.getEntities().broadcastMessage(GetRoomDataMessageComposer.compose(room, client.getPlayer().getPermissions().hasPermission("mod_tool")));
         } catch (Exception e) {
             RoomManager.log.error("Error while saving room data", e);
