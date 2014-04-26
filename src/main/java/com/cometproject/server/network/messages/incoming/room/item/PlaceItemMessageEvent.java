@@ -60,6 +60,9 @@ public class PlaceItemMessageEvent implements IEvent {
 
                 InventoryItem item = client.getPlayer().getInventory().getFloorItem(id);
 
+                if(item == null)
+                    return;
+
                 /*TileInstance tile = client.getPlayer().getEntity().getRoom().getMapping().getTile(x, y);
 
                 if(!tile.canStack())
