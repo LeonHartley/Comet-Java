@@ -73,7 +73,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     }
 
     @Override
-    protected void channelRead0(final ChannelHandlerContext ctx, Event msg) throws Exception {
+    protected void messageReceived(final ChannelHandlerContext ctx, Event msg) throws Exception {
         try {
             Session client = ctx.channel().attr(NetworkEngine.SESSION_ATTRIBUTE_KEY).get();
 

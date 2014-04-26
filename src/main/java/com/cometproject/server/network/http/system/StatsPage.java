@@ -20,8 +20,7 @@ public class StatsPage extends ManagementPage {
                 ((runtime.totalMemory() / 1024) / 1024) - ((runtime.freeMemory() / 1024) / 1024),
                 System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ")",
                 runtime.availableProcessors(),
-                Comet.getServer().getStorage().getConnectionCount(),
-                Comet.getServer().getSystemMonitor().getCycleCount()
+                Comet.getServer().getStorage().getConnectionCount()
         );
 
         Comet.getServer().getNetwork().getManagement().sendResponse(new Gson().toJson(status), e);

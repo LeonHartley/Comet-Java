@@ -6,7 +6,6 @@ import com.cometproject.server.config.Configuration;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.GameThread;
-import com.cometproject.server.monitor.SystemMonitor;
 import com.cometproject.server.network.NetworkEngine;
 import com.cometproject.server.plugins.PluginEngine;
 import com.cometproject.server.storage.StorageEngine;

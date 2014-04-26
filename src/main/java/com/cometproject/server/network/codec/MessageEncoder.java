@@ -14,9 +14,9 @@ public class MessageEncoder extends MessageToMessageEncoder<Composer> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, Composer msg, List<Object> out) throws Exception {
-        try {
-            ByteBuf buf = msg.get().copy().retain();
+        ByteBuf buf = msg.get();
 
+        try {
             out.add(buf);
             ctx.flush();
 
