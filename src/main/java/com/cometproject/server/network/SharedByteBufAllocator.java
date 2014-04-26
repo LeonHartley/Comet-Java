@@ -10,7 +10,7 @@ public class SharedByteBufAllocator {
     private static ByteBufAllocator allocator;
 
     static {
-        allocator = new PooledByteBufAllocator();
+        allocator = PooledByteBufAllocator.DEFAULT;
     }
 
     public static ByteBufAllocator getAllocator() {
