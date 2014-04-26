@@ -20,7 +20,6 @@ public class CometServer {
     private StorageEngine storageEngine;
     private PluginEngine pluginEngine;
     private NetworkEngine networkEngine;
-    private SystemMonitor systemMonitor;
 
     public CometServer() {
     }
@@ -31,7 +30,6 @@ public class CometServer {
         threadManagement = new CometThreadManagement();
         storageEngine = new StorageEngine();
         pluginEngine = new PluginEngine();
-        systemMonitor = new SystemMonitor(threadManagement);
 
         Locale.init();
         GameEngine.init();
@@ -60,10 +58,6 @@ public class CometServer {
 
     public NetworkEngine getNetwork() {
         return this.networkEngine;
-    }
-
-    public SystemMonitor getSystemMonitor() {
-        return this.systemMonitor;
     }
 
     public CometThreadManagement getThreadManagement() {
