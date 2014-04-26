@@ -6,7 +6,7 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class GetRoomDataMessageComposer {
-    public static Composer compose(Room room) {
+    public static Composer compose(Room room, boolean staff) {
         Composer msg = new Composer(Composers.GetRoomDataMessageComposer);
 
         msg.writeInt(room.getId());
@@ -15,7 +15,7 @@ public class GetRoomDataMessageComposer {
         msg.writeInt(RoomWriter.roomAccessToNumber(room.getData().getAccess()));
         msg.writeInt(room.getData().getCategory().getId());
         msg.writeInt(room.getData().getMaxUsers());
-        msg.writeInt(room.getData().getMaxUsers());
+        msg.writeInt(staff ? 500 : 50);
         msg.writeInt(room.getData().getTags().length);
 
         for (String tag : room.getData().getTags()) {
