@@ -13,9 +13,7 @@ public class HotelAlertCommand extends ChatCommand {
             return;
         }
 
-        for (Session c : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
-            c.send(AdvancedAlertMessageComposer.compose(Locale.get("command.hotelalert.title"), this.merge(message) + "<br><br><i> " + client.getPlayer().getData().getUsername() + "</i>"));
-        }
+        Comet.getServer().getNetwork().getSessions().broadcast(AdvancedAlertMessageComposer.compose(Locale.get("command.hotelalert.title"), this.merge(message) + "<br><br><i> " + client.getPlayer().getData().getUsername() + "</i>"));
     }
 
     @Override
