@@ -100,12 +100,11 @@ public class Composers {
     public static short WiredEffectMessageComposer = 1843;
     public static short SaveWiredMessageComposer = 2992;
     public static short RoomCategoriesMessageComposer = 224;
-    public static short ConfigureWallAndFloorMessageComposer = 287;
+    public static short ConfigureWallAndFloorMessageComposer = 752;
     public static short GiveRespectMessageComposer = 123;
     public static short RelationshipsMessageComposer = 3570;
     public static short SendPurchaseAlertMessageComposer = 469;
     public static short BotInventoryMessageComposer = 1294;
-    public static short PlaceBotMessageComposer = 610;
 
     public static short ModToolUserInfoMessageComposer = 3282;
     public static short ModToolUserChatlogMessageComposer = 2981;
