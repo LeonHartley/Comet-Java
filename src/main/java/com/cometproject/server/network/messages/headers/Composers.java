@@ -134,6 +134,8 @@ public class Composers {
     public static short ModToolRoomInfoMessageComposer = 2954;
     public static short PetInformationMessageComposer = 2135;
 
+    public static short PingMessageComposer = 2940; // Make sure this is right or users may get disconnected lots..
+
     public static String valueOfId(int i) {
         Composers c = new Composers();
         Field[] fields;
