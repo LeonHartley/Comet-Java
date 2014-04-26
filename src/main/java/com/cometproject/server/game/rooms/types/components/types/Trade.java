@@ -65,7 +65,7 @@ public class Trade {
         boolean sendToUser2 = true;
 
         if (isLeave) {
-            if (user1.getPlayer() == null || user1.getPlayer() == null || userId == user1.getPlayer().getId()) {
+            if (user1.getPlayer() == null || userId == user1.getPlayer().getId()) {
                 sendToUser1 = false;
             } else {
                 sendToUser2 = false;
@@ -227,10 +227,10 @@ public class Trade {
 
     public void sendToUsers(Composer msg) {
         if (user1 != null && user1.getPlayer() != null && user1.getPlayer().getSession() != null)
-            user1.getPlayer().getSession().send(msg);
+            user1.getPlayer().getSession().getChannel().writeAndFlush(msg.get().duplicate().retain());
 
         if (user2 != null && user2.getPlayer() != null && user2.getPlayer().getSession() != null)
-            user2.getPlayer().getSession().send(msg);
+            user2.getPlayer().getSession().getChannel().writeAndFlush(msg.get().duplicate().retain());
     }
 
     public PlayerEntity getUser1() {
