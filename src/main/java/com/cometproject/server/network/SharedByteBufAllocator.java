@@ -1,6 +1,5 @@
 package com.cometproject.server.network;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.PooledByteBufAllocator;
 
@@ -16,9 +15,5 @@ public class SharedByteBufAllocator {
 
     public static ByteBufAllocator getAllocator() {
         return allocator;
-    }
-
-    public static ByteBuf allocate() {
-        return allocator.buffer();
     }
 }

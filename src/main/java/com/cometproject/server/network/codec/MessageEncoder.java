@@ -1,6 +1,5 @@
 package com.cometproject.server.network.codec;
 
-import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -18,9 +17,6 @@ public class MessageEncoder extends MessageToMessageEncoder<Composer> {
 
         try {
             out.add(buf);
-            ctx.flush();
-
-            log.debug("Composed message: " + Composers.valueOfId(msg.getId()));
         } catch (Exception e) {
             log.error("Failed to encode message: ", e);
         }

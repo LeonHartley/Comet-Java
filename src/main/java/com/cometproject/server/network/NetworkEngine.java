@@ -8,9 +8,12 @@ import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.Unpooled;
+import io.netty.buffer.UnpooledByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.RecvByteBufAllocator;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.AttributeKey;
@@ -54,18 +57,16 @@ public class NetworkEngine {
             this.monitorClient = new MonitorClient();
 
         if (RESOURCE_LEAK_DETECTOR) {
-            ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.SIMPLE);
+            ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.PARANOID);
         }
 
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(this.bossGroup, this.workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer())
-                .option(ChannelOption.ALLOCATOR, SharedByteBufAllocator.getAllocator())
+                .option(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)
                 .option(ChannelOption.SO_BACKLOG, 1000)
-                .option(ChannelOption.TCP_NODELAY, true)
-                .option(ChannelOption.SO_SNDBUF, 128)
-                .option(ChannelOption.SO_RCVBUF, 128);
+                .option(ChannelOption.TCP_NODELAY, true);
 
         this.ip = ip;
         this.port = port;
