@@ -26,7 +26,7 @@ public class XMLPolicyDecoder extends ByteToMessageDecoder {
         } else {
             ctx.pipeline().remove(this);
 
-            ByteBuf b = ctx.alloc().buffer(in.readableBytes() + 1);
+            ByteBuf b = ctx.alloc().buffer(in.readableBytes());
             b.writeBytes(in);
 
             out.add(b);
