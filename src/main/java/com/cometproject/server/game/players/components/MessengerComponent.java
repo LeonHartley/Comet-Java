@@ -113,7 +113,7 @@ public class MessengerComponent {
                 continue;
             }
 
-            friend.getClient().send(msg);
+            friend.getClient().getChannel().writeAndFlush(msg.get().duplicate().retain());
         }
     }
 
