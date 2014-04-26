@@ -74,13 +74,15 @@ public class ModerationManager {
         this.tickets.put(ticket.getId(), ticket);
 
         // TODO: send ticket to all moderators.
-        for (Session session : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
-            if (session.getPlayer() != null) {
-                if (session.getPlayer().getPermissions().hasPermission("mod_tool")) {
-                    session.send(HelpTicketMessageComposer.compose(ticket));
+        /*synchronized (Comet.getServer().getNetwork().getSessions().getSessions()) {
+            for (Session session : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
+                if (session.getPlayer() != null) {
+                    if (session.getPlayer().getPermissions().hasPermission("mod_tool")) {
+                        session.send(HelpTicketMessageComposer.compose(ticket));
+                    }
                 }
             }
-        }
+        }*/
     }
 
     public HelpTicket getTicket(int id) {
