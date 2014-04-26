@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.util.ReferenceCountUtil;
 
 import java.util.List;
 
@@ -24,7 +25,11 @@ public class XMLPolicyDecoder extends ByteToMessageDecoder {
             ).addListener(ChannelFutureListener.CLOSE);
         } else {
             ctx.pipeline().remove(this);
-            out.add(ctx.alloc().buffer().writeBytes(in));
+
+            ByteBuf b = ctx.alloc().buffer(in.readableBytes() + 1);
+            b.writeBytes(in);
+
+            out.add(b);
         }
     }
 }
