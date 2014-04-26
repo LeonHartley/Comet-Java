@@ -14,7 +14,6 @@ public class NetworkChannelInitializer extends ChannelInitializer<Channel> {
         ChannelPipeline pipeline = channel.pipeline();
 
         pipeline.addLast("stringEncoder", new StringEncoder());
-        pipeline.addLast("encoder", new MessageEncoder());
         pipeline.addLast("xmlDecoder", new XMLPolicyDecoder());
         pipeline.addLast("decoder", new MessageDecoder());
         pipeline.addLast("idleStateHandler", new IdleStateHandler(60, 30, 0));
