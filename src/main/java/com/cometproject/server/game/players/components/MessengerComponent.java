@@ -58,7 +58,7 @@ public class MessengerComponent {
         List<MessengerSearchResult> otherPeople = new ArrayList<>();
 
         try {
-            PreparedStatement players = Comet.getServer().getStorage().prepare("SELECT * FROM players WHERE username LIKE ?");
+            PreparedStatement players = Comet.getServer().getStorage().prepare("SELECT * FROM players WHERE username LIKE ? LIMIT 50;");
             players.setString(1, query + "%");
 
             ResultSet results = players.executeQuery();
