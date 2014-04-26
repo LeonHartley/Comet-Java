@@ -2,10 +2,13 @@ package com.cometproject.server.network.clients;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.NetworkEngine;
+import com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -20,6 +23,11 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
 
     private final boolean CLOSE_ON_ERROR = false;
     private final int CONNECTIONS_PER_IP = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.connPerIp"));
+
+    public ClientHandler() {
+        // Auto-release
+        super(true);
+    }
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) throws Exception {
@@ -82,6 +90,18 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             }
         } catch (Exception e) {
             log.error("Error while receiving message", e);
+        }
+    }
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        if (evt instanceof IdleStateEvent) {
+            IdleStateEvent e = (IdleStateEvent) evt;
+            if (e.state() == IdleState.READER_IDLE) {
+                ctx.close();
+            } else if (e.state() == IdleState.WRITER_IDLE) {
+                ctx.writeAndFlush(PingMessageComposer.compose());
+            }
         }
     }
 

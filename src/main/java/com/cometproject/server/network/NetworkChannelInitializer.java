@@ -5,6 +5,7 @@ import com.cometproject.server.network.codec.*;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
+import io.netty.handler.timeout.IdleStateHandler;
 
 public class NetworkChannelInitializer extends ChannelInitializer<Channel> {
     @Override
@@ -15,6 +16,7 @@ public class NetworkChannelInitializer extends ChannelInitializer<Channel> {
         pipeline.addLast("encoder", new MessageEncoder());
         pipeline.addLast("xmlDecoder", new XMLPolicyDecoder());
         pipeline.addLast("decoder", new MessageDecoder());
+        pipeline.addLast("idleStateHandler", new IdleStateHandler(60, 30, 0));
         pipeline.addLast("handler", new ClientHandler());
     }
 }
