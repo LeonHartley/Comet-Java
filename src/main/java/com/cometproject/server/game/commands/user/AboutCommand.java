@@ -22,8 +22,9 @@ public class AboutCommand extends ChatCommand {
         about.append("Comet Server is a unique Habbo emulator written in Java.<br><br>");
 
         about.append("<b>Server Status</b><br>");
-        about.append("Loaded rooms: " + format.format(GameEngine.getRooms().getActiveRooms().size()) + "<br>");
+
         about.append("Users online: " + format.format(Comet.getServer().getNetwork().getSessions().getUsersOnlineCount()) + "<br>");
+        about.append("Loaded rooms: " + format.format(GameEngine.getRooms().getActiveRooms().size()) + "<br>");
         about.append("Uptime: " + TimeSpan.millisecondsToDate(System.currentTimeMillis() - Comet.start) + "<br>");
 
         if (client.getPlayer().getPermissions().hasPermission("about_detailed")) {
@@ -32,7 +33,6 @@ public class AboutCommand extends ChatCommand {
             about.append("Used memory: " + format.format(((runtime.totalMemory() / 1024) / 1024) - ((runtime.freeMemory() / 1024) / 1024)) + "MB<br>");
             about.append("OS: " + System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ")<br>");
             about.append("CPU cores:  " + runtime.availableProcessors() + "\n");
-            about.append("Database connections:  " + Comet.getServer().getStorage().getConnectionCount() + "<br>");
         }
 
         client.send(AdvancedAlertMessageComposer.compose(
