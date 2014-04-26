@@ -113,6 +113,7 @@ public class Events {
     public static short ChangeWallItemStateMessageEvent = 1441;
     public static short InviteFriendsMessageEvent = 2849;
     public static short FollowFriendMessageEvent = 1177;
+    public static short MuteRoomMessageEvent = 574;
 
     public static short ManageGroupMessageEvent = 454;
     public static short RemoveRightsMessageEvent = 572;
