@@ -64,7 +64,7 @@ public class NetworkEngine {
         bootstrap.group(this.bossGroup, this.workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer())
-                .option(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)
+                .option(ChannelOption.ALLOCATOR, SharedByteBufAllocator.getAllocator())
                 .option(ChannelOption.SO_BACKLOG, 1000)
                 .option(ChannelOption.TCP_NODELAY, true);
 

@@ -1,6 +1,8 @@
 package com.cometproject.server.network.sessions;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.NetworkEngine;
+import com.cometproject.server.network.messages.types.Composer;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import io.netty.channel.group.ChannelGroup;
@@ -92,5 +94,11 @@ public class SessionManager {
 
     public Map<ChannelId, Session> getSessions() {
         return this.sessions.unmodifiable();
+    }
+
+    public void broadcast(Composer msg) {
+        for (Session client : sessions.values()) {
+            client.getChannel().writeAndFlush(msg.get().duplicate().retain());
+        }
     }
 }

@@ -141,7 +141,7 @@ public class EntityComponent {
                 if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()))
                     continue;
 
-                playerEntity.getPlayer().getSession().send(msg);
+                playerEntity.getPlayer().getSession().getChannel().writeAndFlush(msg.get().duplicate().retain());
             }
         }
     }
