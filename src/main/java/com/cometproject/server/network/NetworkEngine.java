@@ -24,7 +24,7 @@ public class NetworkEngine {
     // If server is offline, disable monitor server
     private static final boolean USE_MONITOR_SERVER = false;
 
-    private static final boolean RESOURCE_LEAK_DETECTOR = true; // for testing with netty 4...
+    private static final boolean RESOURCE_LEAK_DETECTOR = false; // for testing with netty 4...
 
     public static final AttributeKey<Session> SESSION_ATTRIBUTE_KEY = AttributeKey.valueOf("Session.attr");
     public static final AttributeKey<UUID> UNIQUE_ID_KEY = AttributeKey.valueOf("SessionKey.attr");
@@ -61,7 +61,12 @@ public class NetworkEngine {
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(this.bossGroup, this.workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new NetworkChannelInitializer());
+                .childHandler(new NetworkChannelInitializer())
+                .option(ChannelOption.ALLOCATOR, SharedByteBufAllocator.getAllocator())
+                .option(ChannelOption.SO_BACKLOG, 1000)
+                .option(ChannelOption.TCP_NODELAY, true)
+                .option(ChannelOption.SO_SNDBUF, 128)
+                .option(ChannelOption.SO_RCVBUF, 128);
 
         this.ip = ip;
         this.port = port;

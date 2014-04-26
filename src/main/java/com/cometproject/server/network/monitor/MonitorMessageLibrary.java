@@ -34,8 +34,7 @@ public class MonitorMessageLibrary {
                 ((runtime.totalMemory() / 1024) / 1024) - ((runtime.freeMemory() / 1024) / 1024),
                 System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ")",
                 runtime.availableProcessors(),
-                Comet.getServer().getStorage().getConnectionCount(),
-                Comet.getServer().getSystemMonitor().getCycleCount()
+                Comet.getServer().getStorage().getConnectionCount()
         );
 
         sendMessage(new Gson().toJson(status));

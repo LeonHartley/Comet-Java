@@ -129,6 +129,11 @@
             <name>Codehaus Mojo</name>
             <url>http://repo1.maven.org/maven2</url>
         </repository>
+
+        <repository>
+            <id>central</id>
+            <url>http://repo1.maven.org/maven2/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -168,7 +173,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.0.14.Final</version>
+            <version>5.0.0.Alpha1</version>
         </dependency>
 
         <dependency>

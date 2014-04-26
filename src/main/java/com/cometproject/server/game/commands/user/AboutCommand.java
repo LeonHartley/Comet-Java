@@ -33,7 +33,6 @@ public class AboutCommand extends ChatCommand {
             about.append("OS: " + System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ")<br>");
             about.append("CPU cores:  " + runtime.availableProcessors() + "\n");
             about.append("Database connections:  " + Comet.getServer().getStorage().getConnectionCount() + "<br>");
-            about.append("Monitor cycles: " + Comet.getServer().getSystemMonitor().getCycleCount() + "<br>");
         }
 
         client.send(AdvancedAlertMessageComposer.compose(
