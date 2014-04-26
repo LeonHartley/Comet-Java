@@ -25,7 +25,7 @@ public class SaveWardrobeMessageEvent implements IEvent {
         for(WardrobeItem item : wardrobe) {
             if(item.getSlot() == slot) {
                 item.setFigure(figure);
-                item.setFigure(gender);
+                item.setGender(gender);
 
                 wardrobeUpdated = true;
             }
