@@ -42,9 +42,13 @@ public class Comet {
         server.init();
 
         // Console commands
-        Thread cmdThr = new Thread() {
+        final Thread cmdThr = new Thread() {
             public void run() {
                 while (isRunning) {
+                    if (!isRunning) {
+                        break;
+                    }
+
                     try {
                         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                         String input = br.readLine();
@@ -122,13 +126,14 @@ public class Comet {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
+                System.out.println();
+                System.out.println("Comet Shutdown Requested..");
+
                 isRunning = false;
 
                 for (Room room : GameEngine.getRooms().getActiveRooms()) {
                     room.dispose();
                 }
-
-
             }
         });
 
