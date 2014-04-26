@@ -2,7 +2,9 @@ package com.cometproject.server.network.sessions;
 
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.types.Composer;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
+import io.netty.util.ReferenceCountUtil;
 import org.apache.log4j.Logger;
 
 public class Session {
@@ -29,10 +31,11 @@ public class Session {
     }
 
     public void send(Composer msg) {
-        if (msg == null)
+        if (msg == null) {
             return;
+        }
 
-        channel.writeAndFlush(msg.get());
+        channel.writeAndFlush(msg.get().retain());
     }
 
     public Logger getLogger() {

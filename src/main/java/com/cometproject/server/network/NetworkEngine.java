@@ -24,11 +24,6 @@ import java.net.InetSocketAddress;
 import java.util.UUID;
 
 public class NetworkEngine {
-    // If server is offline, disable monitor server
-    private static final boolean USE_MONITOR_SERVER = false;
-
-    private static final boolean RESOURCE_LEAK_DETECTOR = false; // for testing with netty 4...
-
     public static final AttributeKey<Session> SESSION_ATTRIBUTE_KEY = AttributeKey.valueOf("Session.attr");
 
     private final EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -53,12 +48,8 @@ public class NetworkEngine {
         if (CometSettings.httpEnabled)
             this.managementServer = new ManagementServer();
 
-        if (USE_MONITOR_SERVER)
-            this.monitorClient = new MonitorClient();
 
-        if (RESOURCE_LEAK_DETECTOR) {
-            ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.PARANOID);
-        }
+        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.ADVANCED);
 
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(this.bossGroup, this.workerGroup)

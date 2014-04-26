@@ -13,6 +13,7 @@ import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomModel;
 import com.cometproject.server.network.messages.types.Composer;
+import io.netty.buffer.ByteBuf;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
