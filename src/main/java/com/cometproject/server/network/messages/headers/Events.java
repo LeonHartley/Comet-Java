@@ -114,10 +114,12 @@ public class Events {
     public static short InviteFriendsMessageEvent = 2849;
     public static short FollowFriendMessageEvent = 1177;
     public static short MuteRoomMessageEvent = 574;
+    public static short WardrobeMessageEvent = 2656;
+    public static short SaveWardrobeMessageEvent = 2159;
+    public static short DeleteRoomMessageEvent = 2830;
 
     public static short ManageGroupMessageEvent = 454;
     public static short RemoveRightsMessageEvent = 572;
-    public static short DeleteRoomMessageEvent = 2830;
     public static short StartQuizMessageEvent = 1337;//2048;
     public static short UnacceptTradeMessageEvent = 478;
     public static short ModRoomChatMessageEvent = 2620;

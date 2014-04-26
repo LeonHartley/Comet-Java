@@ -123,6 +123,8 @@ public class Composers {
     public static short GroupPartsMessageComposer = 1061;
     public static short GroupElementsMessageComposer = 29;
 
+    public static short WardrobeMessageComposer = 3255;
+
     public static short SlideObjectBundleMessageComposer = 106;
     public static short BotConfigMessageComposer = 20;
     public static short PetRacesMessageComposer = 714;
