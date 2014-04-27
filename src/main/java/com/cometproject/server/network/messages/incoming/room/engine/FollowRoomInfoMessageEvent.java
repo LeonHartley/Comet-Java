@@ -61,12 +61,14 @@ public class FollowRoomInfoMessageEvent implements IEvent {
             composer.writeInt(0);
             composer.writeInt(0);
             composer.writeInt(0);
-            composer.writeBoolean(false);
+            //composer.writeBoolean(false);
+            composer.writeBoolean(true);
             composer.writeBoolean(true);
             composer.writeInt(0);
             composer.writeInt(0);
             composer.writeBoolean(true);
-            composer.writeBoolean(false);
+            //composer.writeBoolean(false);
+            composer.writeBoolean(true);
             composer.writeBoolean(true);
             composer.writeBoolean(true);
             composer.writeInt(0);
