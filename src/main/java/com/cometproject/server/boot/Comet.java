@@ -150,20 +150,7 @@ public class Comet {
     }
 
     public static String getBuild() {
-        // Soon, there will be a connection to the "master server"
-        // which will give warnings on the console
-        // that the version is out of date (if its true)
-        //
-        // Version guide
-        // ===============================
-        // 0.x = Pre-beta version
-        // 0.4.x = Alpha
-        // 1.x = Post-beta (release)
-        // Letters: a = release candidate for point update (0.x, 1.x) - unstable
-        //          b = if there was an update just before letter A was distributed, b will be appended
-        //          c = Pre-release  -- must be mostly stable/usable
-        //          no letter = release!  -- must be stable
-        return "0.7.4a";
+        return "0.7.5-ALPHA";
     }
 
     public static CometServer getServer() {
