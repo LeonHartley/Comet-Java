@@ -46,7 +46,7 @@ public class NetworkEngine {
             this.managementServer = new ManagementServer();
 
 
-        //ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.PARANOID);
+        //ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.ADVANCED);
 
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(this.bossGroup, this.workerGroup)
@@ -58,7 +58,6 @@ public class NetworkEngine {
 
         this.ip = ip;
         this.port = port;
-
 
         try {
             this.listenChannel = bootstrap.bind(new InetSocketAddress(ip, port)).channel();
