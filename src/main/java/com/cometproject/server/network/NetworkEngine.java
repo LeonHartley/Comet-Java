@@ -18,16 +18,9 @@ import io.netty.util.ResourceLeakDetector;
 import org.apache.log4j.Logger;
 
 import java.net.InetSocketAddress;
-import java.util.UUID;
 
 public class NetworkEngine {
-    // If server is offline, disable monitor server
-    private static final boolean USE_MONITOR_SERVER = false;
-
-    private static final boolean RESOURCE_LEAK_DETECTOR = true; // for testing with netty 4...
-
     public static final AttributeKey<Session> SESSION_ATTRIBUTE_KEY = AttributeKey.valueOf("Session.attr");
-    public static final AttributeKey<UUID> UNIQUE_ID_KEY = AttributeKey.valueOf("SessionKey.attr");
 
     private final EventLoopGroup bossGroup = new NioEventLoopGroup();
     private final EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -51,21 +44,18 @@ public class NetworkEngine {
         if (CometSettings.httpEnabled)
             this.managementServer = new ManagementServer();
 
-        if (USE_MONITOR_SERVER)
-            this.monitorClient = new MonitorClient();
 
-        if (RESOURCE_LEAK_DETECTOR) {
-            ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.SIMPLE);
-        }
+        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.ADVANCED);
 
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(this.bossGroup, this.workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new NetworkChannelInitializer());
+                .childHandler(new NetworkChannelInitializer())
+                .option(ChannelOption.SO_BACKLOG, 1000)
+                .option(ChannelOption.TCP_NODELAY, true);
 
         this.ip = ip;
         this.port = port;
-
 
         try {
             this.listenChannel = bootstrap.bind(new InetSocketAddress(ip, port)).channel();

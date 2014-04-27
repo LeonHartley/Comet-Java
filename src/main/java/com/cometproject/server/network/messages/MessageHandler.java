@@ -53,6 +53,8 @@ import com.cometproject.server.network.messages.incoming.user.profile.GetRelatio
 import com.cometproject.server.network.messages.incoming.user.profile.SetRelationshipMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.profile.WearBadgeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.ChangeLooksMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardrobeMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeMessageEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import io.netty.util.ReferenceCountUtil;
@@ -146,6 +148,8 @@ public class MessageHandler {
         this.getMessages().put(Events.GetRelationshipsMessageEvent, new GetRelationshipsMessageEvent());
         this.getMessages().put(Events.SetRelationshipMessageEvent, new SetRelationshipMessageEvent());
         this.getMessages().put(Events.WearBadgeMessageEvent, new WearBadgeMessageEvent());
+        this.getMessages().put(Events.WardrobeMessageEvent, new WardrobeMessageEvent());
+        this.getMessages().put(Events.SaveWardrobeMessageEvent, new SaveWardrobeMessageEvent());
     }
 
     public void registerBots() {
@@ -187,6 +191,7 @@ public class MessageHandler {
         this.getMessages().put(Events.UpdatePapersMessageEvent, new UpdatePapersMessageEvent());
         this.getMessages().put(Events.DropHandItemMessageEvent, new DropHandItemMessageEvent());
         this.getMessages().put(Events.DeleteRoomMessageEvent, new DeleteRoomMessageEvent());
+        this.getMessages().put(Events.MuteRoomMessageEvent, new MuteRoomMessageEvent());
     }
 
     public void registerRoomTrade() {

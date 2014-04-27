@@ -37,10 +37,6 @@ public class Event {
         return new String(data);
     }
 
-    public Event diplicate() {
-        return new Event(this.getId(), this.getBuffer().duplicate());
-    }
-
     public String toString() {
         String body = new String(this.getBuffer().toString((Charset.defaultCharset())));
         String data = body;

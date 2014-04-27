@@ -58,7 +58,7 @@ public class MessengerComponent {
         List<MessengerSearchResult> otherPeople = new ArrayList<>();
 
         try {
-            PreparedStatement players = Comet.getServer().getStorage().prepare("SELECT * FROM players WHERE username LIKE ?");
+            PreparedStatement players = Comet.getServer().getStorage().prepare("SELECT id, username, figure, motto, last_online FROM players WHERE username LIKE ? LIMIT 50;");
             players.setString(1, query + "%");
 
             ResultSet results = players.executeQuery();
@@ -113,7 +113,7 @@ public class MessengerComponent {
                 continue;
             }
 
-            friend.getClient().send(msg);
+            friend.getClient().getChannel().writeAndFlush(msg.get().duplicate().retain());
         }
     }
 
