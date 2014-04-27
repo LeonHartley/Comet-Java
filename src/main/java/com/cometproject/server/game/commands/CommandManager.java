@@ -60,6 +60,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.points.name"), new PointsCommand());
         this.commands.put(Locale.get("command.unload.name"), new UnloadCommand());
         this.commands.put(Locale.get("command.roommute.name"), new RoomMuteCommand());
+        this.commands.put(Locale.get("command.updatecatalog.name"), new UpdateCatalogCommand());
     }
 
     public boolean isCommand(String message) {
