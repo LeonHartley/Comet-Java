@@ -13,19 +13,19 @@ public class CoinsCommand extends ChatCommand {
         if (params.length < 2)
             return;
 
+        String username = params[0];
 
-        String username;
-        username = params[0];
         try {
-            int Credits = Integer.parseInt(params[1]);
-            Session Player = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
-            Player.getPlayer().getData().increaseCredits(Credits);
-            Player.send(AdvancedAlertMessageComposer.compose(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(Credits))));
+            int credits = Integer.parseInt(params[1]);
+            Session player = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
+
+            player.getPlayer().getData().increaseCredits(credits);
+            player.send(AdvancedAlertMessageComposer.compose(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(credits))));
+
             client.getPlayer().sendBalance();
-        } catch (Exception Ignored) {
+        } catch (Exception e) {
             client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.coins.errortitle"), Locale.get("command.coins.formaterror")));
         }
-
     }
 
     @Override

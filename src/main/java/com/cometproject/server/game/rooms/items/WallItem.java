@@ -43,6 +43,7 @@ public class WallItem extends RoomItem {
         msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
         msg.writeInt(-1);
         msg.writeInt(-1);
+        msg.writeInt(this.getRoom().getData().getOwnerId());
     }
 
     @Override

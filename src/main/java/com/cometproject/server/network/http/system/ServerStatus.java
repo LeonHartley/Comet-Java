@@ -9,9 +9,8 @@ public class ServerStatus {
     public String os;
     public int cores;
     private int db_connections;
-    private int monitor_cycles;
 
-    public ServerStatus(int _users, int _rooms, String _uptime, long _allocMemory, long _usedMemory, String _os, int _cores, int _dbConnections, int _monitorCycles) {
+    public ServerStatus(int _users, int _rooms, String _uptime, long _allocMemory, long _usedMemory, String _os, int _cores, int _dbConnections) {
         this.users = _users;
         this.rooms = _rooms;
         this.uptime = _uptime;
@@ -20,6 +19,5 @@ public class ServerStatus {
         this.os = _os;
         this.cores = _cores;
         this.db_connections = _dbConnections;
-        this.monitor_cycles = _monitorCycles;
     }
 }
