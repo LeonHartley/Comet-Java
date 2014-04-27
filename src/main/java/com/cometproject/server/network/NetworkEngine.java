@@ -8,12 +8,10 @@ import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.Unpooled;
-import io.netty.buffer.UnpooledByteBufAllocator;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.RecvByteBufAllocator;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.AttributeKey;
@@ -21,7 +19,6 @@ import io.netty.util.ResourceLeakDetector;
 import org.apache.log4j.Logger;
 
 import java.net.InetSocketAddress;
-import java.util.UUID;
 
 public class NetworkEngine {
     public static final AttributeKey<Session> SESSION_ATTRIBUTE_KEY = AttributeKey.valueOf("Session.attr");
@@ -49,13 +46,13 @@ public class NetworkEngine {
             this.managementServer = new ManagementServer();
 
 
-        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.ADVANCED);
+        //ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.PARANOID);
 
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(this.bossGroup, this.workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer())
-                .option(ChannelOption.ALLOCATOR, SharedByteBufAllocator.getAllocator())
+                //.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 .option(ChannelOption.SO_BACKLOG, 1000)
                 .option(ChannelOption.TCP_NODELAY, true);
 
