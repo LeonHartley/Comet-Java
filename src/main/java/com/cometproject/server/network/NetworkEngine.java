@@ -8,14 +8,12 @@ import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.AttributeKey;
-import io.netty.util.ResourceLeakDetector;
 import org.apache.log4j.Logger;
 
 import java.net.InetSocketAddress;
@@ -52,7 +50,6 @@ public class NetworkEngine {
         bootstrap.group(this.bossGroup, this.workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer())
-                //.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 .option(ChannelOption.SO_BACKLOG, 1000)
                 .option(ChannelOption.TCP_NODELAY, true);
 
