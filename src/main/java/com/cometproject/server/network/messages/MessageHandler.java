@@ -57,6 +57,7 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardr
 import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeMessageEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import io.netty.util.ReferenceCountUtil;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -245,25 +246,27 @@ public class MessageHandler {
     }
 
     public void handle(Event message, Session client) {
-        try {
-            Short header = message.getId();
+        Short header = message.getId();
 
-            if (this.getMessages().containsKey(header)) {
-                long start = System.currentTimeMillis();
+        if (this.getMessages().containsKey(header)) {
+            long start = System.currentTimeMillis();
 
-                log.debug("Started packet process for packet: [" + Events.valueOfId(header) + "][" + header + "]");
-                log.debug(message.toString());
+            log.debug("Started packet process for packet: [" + Events.valueOfId(header) + "][" + header + "]");
+            log.debug(message.toString());
 
+            try {
                 this.getMessages().get(header).handle(client, message);
                 log.debug("Finished packet process for packet: [" + Events.valueOfId(header) + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
-            } else {
-                if (Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != 2906) // 2906 = annoying ping header
-                    log.debug("Unknown message ID: " + header);
-                else if (header != 2906)
-                    log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
+            } catch(Exception e) {
+                log.error("Error while handling incoming message", e);
+            } finally {
+                ReferenceCountUtil.release(message.getBuffer());
             }
-        } catch (Exception e) {
-            log.error("Error while handling incoming message", e);
+        } else {
+            if (Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != 2906) // 2906 = annoying ping header
+                log.debug("Unknown message ID: " + header);
+            else if (header != 2906)
+                log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
         }
     }
 
