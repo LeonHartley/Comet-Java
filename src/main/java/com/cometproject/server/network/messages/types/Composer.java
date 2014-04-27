@@ -1,7 +1,8 @@
 package com.cometproject.server.network.messages.types;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.util.ReferenceCountUtil;
 
 public class Composer {
     private int id;
@@ -13,8 +14,9 @@ public class Composer {
 
     public Composer init(int id) {
         this.id = id;
-        //this.body = PooledByteBufAllocator.DEFAULT.buffer();
-        this.body = Unpooled.buffer();
+        this.body = PooledByteBufAllocator.DEFAULT.buffer();
+
+        ReferenceCountUtil.releaseLater(this.body);
 
         try {
             this.body.writeInt(0);
@@ -82,10 +84,6 @@ public class Composer {
         }
 
         return this.body;
-    }
-
-    private Composer(ByteBuf b) {
-        this.body = b;
     }
 
     public int getId() {
