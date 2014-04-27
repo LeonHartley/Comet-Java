@@ -61,7 +61,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
         }
 
         Comet.getServer().getNetwork().getSessions().remove(ctx.channel());
-        log.debug("Channel [" + ctx.channel().id().asShortText() + "] disconnected");
+        log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] disconnected");
 
         String ip = ((InetSocketAddress)ctx.channel().remoteAddress()).getAddress().getHostAddress();
 
@@ -80,7 +80,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     }
 
     @Override
-    protected void messageReceived(final ChannelHandlerContext ctx, Event msg) throws Exception {
+    protected void channelRead0(final ChannelHandlerContext ctx, Event msg) throws Exception {
         try {
             Session client = ctx.channel().attr(NetworkEngine.SESSION_ATTRIBUTE_KEY).get();
 
