@@ -18,4 +18,8 @@ public class CometThreadManagement {
     public ScheduledFuture executePeriodic(CometTask task, long initialDelay, long period, TimeUnit unit) {
         return this.scheduledExecutorService.scheduleAtFixedRate(task, initialDelay, period, unit);
     }
+
+    public ScheduledFuture executeSchedule(CometTask task, long delay, TimeUnit unit) {
+        return this.scheduledExecutorService.schedule(task, delay, unit);
+    }
 }

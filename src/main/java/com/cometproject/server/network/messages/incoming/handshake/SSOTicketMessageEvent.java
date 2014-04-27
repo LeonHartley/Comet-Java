@@ -41,18 +41,12 @@ public class SSOTicketMessageEvent implements IEvent {
         }
 
         if (GameEngine.getBans().hasBan(Integer.toString(player.getId())) || GameEngine.getBans().hasBan(((InetSocketAddress)client.getChannel().remoteAddress()).getAddress().getHostAddress())) {
-            client.send(AdvancedAlertMessageComposer.compose(
+            /*client.send(AdvancedAlertMessageComposer.compose(
                     "You've been banned!",
                     "If you feel you received this in error, please contact the system administrator."
-            ));
+            ));*/
 
             GameEngine.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
-
-            try {
-                TimeUnit.SECONDS.sleep(30);
-            } catch (Exception ignored) {
-
-            }
 
             client.disconnect();
             return;
@@ -70,7 +64,10 @@ public class SSOTicketMessageEvent implements IEvent {
         client.send(LoginMessageComposer.compose());
         client.send(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));
         client.send(MotdNotificationComposer.compose());
-        client.send(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
+
+        if (player.getSettings().getHomeRoom() > 0) {
+            client.send(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
+        }
 
         /*
             this will be a way of sending the old-style alert notifications

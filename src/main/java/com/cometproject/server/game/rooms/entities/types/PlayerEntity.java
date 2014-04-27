@@ -43,11 +43,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
             return;
         }
 
-        // Is the room loaded
-        // Method has been moved to initialize room packet.
-        /*if (!this.getRoom().isActive) {
-            this.getRoom().load();
-        }*/
 
         // Room full or slot available
         if (this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() && !this.player.getPermissions().hasPermission("room_enter_full")) {
