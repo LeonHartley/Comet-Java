@@ -52,16 +52,13 @@ public class EntityComponent {
     }
 
     public void updateEntityGrid(GenericEntity entity, int prevX, int prevY, int newX, int newY) {
-        // Synchronize access because the grid is not thread safe
-        synchronized (this.entityGrid) {
-            this.entityGrid[prevX][prevY].remove(entity);
+        this.entityGrid[prevX][prevY].remove(entity);
 
-            if (this.entityGrid[newX][newY] == null) {
-                this.entityGrid[newX][newY] = new ArrayList<GenericEntity>();
-            }
-
-            this.entityGrid[newX][newY].add(entity);
+        if (this.entityGrid[newX][newY] == null) {
+            this.entityGrid[newX][newY] = new ArrayList<GenericEntity>();
         }
+
+        this.entityGrid[newX][newY].add(entity);
     }
 
     public boolean isSquareAvailable(int x, int y) {
