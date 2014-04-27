@@ -24,6 +24,10 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     private final boolean CLOSE_ON_ERROR = false;
     private final int CONNECTIONS_PER_IP = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.connPerIp"));
 
+    public ClientHandler() {
+        super(true);
+    }
+
     @Override
     public void channelActive(final ChannelHandlerContext ctx) throws Exception {
         //log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] connected");
