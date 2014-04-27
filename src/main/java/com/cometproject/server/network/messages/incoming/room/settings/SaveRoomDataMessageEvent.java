@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.GetRoomDataMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -105,7 +106,7 @@ public class SaveRoomDataMessageEvent implements IEvent {
             data.save();
 
             room.getEntities().broadcastMessage(ConfigureWallAndFloorMessageComposer.compose(hideWall == 1, wallThick, floorThick));
-            room.getEntities().broadcastMessage(GetRoomDataMessageComposer.compose(room, client.getPlayer().getPermissions().hasPermission("mod_tool")));
+            room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
         } catch (Exception e) {
             RoomManager.log.error("Error while saving room data", e);
         }
