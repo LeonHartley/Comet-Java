@@ -35,7 +35,7 @@ public class Session {
             return;
         }
 
-        channel.writeAndFlush(msg.get().retain());
+        channel.writeAndFlush(msg.get());
     }
 
     public Logger getLogger() {
