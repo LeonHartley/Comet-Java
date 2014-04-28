@@ -8,6 +8,7 @@ import com.cometproject.server.game.commands.vip.EnableCommand;
 import com.cometproject.server.game.commands.vip.MoonwalkCommand;
 import com.cometproject.server.game.commands.vip.PushCommand;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
 
@@ -81,7 +82,7 @@ public class CommandManager {
                     list.append(":" + command.getKey() + " - " + command.getValue().getDescription() + "\n");
             }
 
-            client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.commands.title"), list.toString()));
+            client.send(MotdNotificationComposer.compose(Locale.get("command.commands.title") + "\n================================================\n" + list.toString()));
             return;
         }
 
