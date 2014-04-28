@@ -24,11 +24,9 @@ public class NavigatorFlatListMessageComposer {
 
         List<Room> topRooms = new ArrayList<>();
 
-        if(limit) {
-            for (Room room : activeRooms) {
-                if (topRooms.size() < 50)
-                    topRooms.add(room);
-            }
+        for (Room room : activeRooms) {
+            if (topRooms.size() < 50 || !limit)
+                topRooms.add(room);
         }
 
         for (Room room : topRooms) {
