@@ -1,6 +1,10 @@
 package com.cometproject.server.storage;
 
+import org.jboss.netty.channel.ExceptionEvent;
+
+import java.beans.Statement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -20,6 +24,7 @@ public class SqlHelper {
 
     public static void closeSilently(Connection connection) {
         try {
+            if (connection == null) { return; }
             connection.close();
         } catch (SQLException e) { }
     }
@@ -78,5 +83,17 @@ public class SqlHelper {
         }
 
         return result.getString(str);
+    }
+
+    public static PreparedStatement prepare(String query, Connection con) throws SQLException {
+        return prepare(query, con, false);
+    }
+
+    public static PreparedStatement prepare(String query, Connection con, boolean returnKeys) throws SQLException {
+        return returnKeys ? con.prepareStatement(query, java.sql.Statement.RETURN_GENERATED_KEYS) : con.prepareStatement(query);
+    }
+
+    public static void handleSqlException(SQLException e) {
+
     }
 }
