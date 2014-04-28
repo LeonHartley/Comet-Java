@@ -38,6 +38,7 @@ public class NetworkEngine {
 
         bootstrap.setOption("backlog", 1000);
         bootstrap.setOption("tcpNoDelay", true);
+        bootstrap.setOption("keepAlive", true);
 
         // better to have an receive buffer predictor
         bootstrap.setOption("receiveBufferSizePredictorFactory", new AdaptiveReceiveBufferSizePredictorFactory(128, 1024, 4096));
