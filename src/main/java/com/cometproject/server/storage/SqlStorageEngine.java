@@ -37,10 +37,10 @@ public class SqlStorageEngine {
         } finally {
             if (!isConnectionFailed) {
                 log.info("Connection to MySQL server was successful");
-            } else {
-                SqlHelper.init(this);
             }
         }
+
+        SqlHelper.init(this);
     }
 
     public int getConnectionCount() {

@@ -68,6 +68,16 @@ public class SqlHelper {
         return null;
     }
 
+    public static ResultSet getRow(PreparedStatement statement, Connection con) throws SQLException {
+        ResultSet r = statement.executeQuery();
+
+        while (r.next()) {
+            return r;
+        }
+
+        return null;
+    }
+
     public static ResultSet getTable(String query, Connection con) throws SQLException {
         return con.prepareStatement(query).executeQuery();
     }
