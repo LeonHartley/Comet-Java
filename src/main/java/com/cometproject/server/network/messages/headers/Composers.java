@@ -138,6 +138,8 @@ public class Composers {
     public static short PingMessageComposer = 2940; // Make sure this is right or users may get disconnected lots..
     public static short CatalogPublishedMessageComposer = 2879;
 
+    public static short AchievementPointsMessageComposer = 2657;
+
     public static String valueOfId(int i) {
         Composers c = new Composers();
         Field[] fields;

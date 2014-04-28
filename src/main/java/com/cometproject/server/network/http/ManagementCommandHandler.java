@@ -131,6 +131,22 @@ public class ManagementCommandHandler implements HttpHandler {
                 user.getPlayer().sendBalance();
                 break;
             }
+
+            case "update_vip": {
+                int userId = Integer.parseInt(requestParameters.get("user_id"));
+
+                Session user = Comet.getServer().getNetwork().getSessions().getByPlayerId(userId);
+
+                if (user == null) {
+                    Comet.getServer().getNetwork().getManagement().sendResponse(RequestError.INVALID_USER, e);
+                    return;
+                }
+
+                boolean isVip = Comet.getServer().getStorage().getString("SELECT `vip` FROM players WHERE id = " + userId).equals("1");
+
+                user.getPlayer().getData().setVip(isVip);
+                break;
+            }
         }
 
         log.info("Completed remote command from " + ipAddress + " - Data: " + queryString);
