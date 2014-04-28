@@ -1,13 +1,15 @@
 package com.cometproject.server.network.messages.types;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.UnpooledByteBufAllocator;
+import org.jboss.netty.buffer.ChannelBuffer;
+import org.jboss.netty.buffer.ChannelBuffers;
 
 import java.nio.charset.Charset;
 
 public class Composer {
     private int id;
-    private ByteBuf body;
+    private ChannelBuffer body;
+
+    private boolean finalized = false;
 
     public Composer(int id) {
         this.init(id);
@@ -15,7 +17,7 @@ public class Composer {
 
     public Composer init(int id) {
         this.id = id;
-        this.body = UnpooledByteBufAllocator.DEFAULT.buffer();
+        this.body = ChannelBuffers.dynamicBuffer();
 
         try {
             this.body.writeInt(0);
@@ -29,7 +31,6 @@ public class Composer {
 
     public void writeString(Object obj) {
         try {
-            //this.body.writeUTF(obj.toString());
             String s = "";
             if (obj != null) {
                 s = obj.toString();
@@ -62,7 +63,7 @@ public class Composer {
 
     public void writeBoolean(Boolean b) {
         try {
-            this.body.writeBoolean(b);
+            this.body.writeByte(b ? 1 : 0);
         } catch (Exception e) {
         }
     }
@@ -74,10 +75,8 @@ public class Composer {
         }
     }
 
-    private boolean finalized = false;
-
-    public ByteBuf get() {
-        if (!finalized) {
+    public ChannelBuffer get() {
+        if (!this.finalized) {
             body.setInt(0, body.writerIndex() - 4);
             finalized = true;
         }

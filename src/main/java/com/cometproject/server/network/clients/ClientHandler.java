@@ -1,69 +1,58 @@
 package com.cometproject.server.network.clients;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.network.NetworkEngine;
-import com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.timeout.IdleState;
-import io.netty.handler.timeout.IdleStateEvent;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
+import org.jboss.netty.channel.*;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ClientHandler extends SimpleChannelInboundHandler<Event> {
+public class ClientHandler extends SimpleChannelUpstreamHandler {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
     private Map<String, AtomicInteger> connectionsPerIp = new FastMap<>();
 
     private final boolean CLOSE_ON_ERROR = false;
     private final int CONNECTIONS_PER_IP = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.connPerIp"));
 
-    public ClientHandler() {
-        super(true);
-    }
-
     @Override
-    public void channelActive(final ChannelHandlerContext ctx) throws Exception {
-        //log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] connected");
-
-        if (!Comet.getServer().getNetwork().getSessions().add(ctx.channel())) {
-            ctx.channel().disconnect();
+    public void channelOpen(final ChannelHandlerContext ctx, ChannelStateEvent ev) throws Exception {
+        if (!Comet.getServer().getNetwork().getSessions().add(ctx.getChannel())) {
+            ctx.getChannel().disconnect();
         }
 
-        String ip = ((InetSocketAddress)ctx.channel().remoteAddress()).getAddress().getHostAddress();
+        String ip = ((InetSocketAddress)ctx.getChannel().getRemoteAddress()).getAddress().getHostAddress();
 
         if (CONNECTIONS_PER_IP != 0) {
             if (this.connectionsPerIp.containsKey(ip)) {
                 int connectionCount = connectionsPerIp.get(ip).incrementAndGet();
 
                 if (connectionCount > CONNECTIONS_PER_IP)
-                    ctx.close();
+                    ctx.getChannel().close();
             } else {
                 this.connectionsPerIp.put(ip, new AtomicInteger());
             }
         }
 
-        ctx.fireChannelActive();
+        super.channelOpen(ctx, ev);
     }
 
     @Override
-    public void channelInactive(final ChannelHandlerContext ctx) throws Exception {
+    public void channelClosed(final ChannelHandlerContext ctx, ChannelStateEvent ev) throws Exception {
         try {
-            Session client = ctx.channel().attr(NetworkEngine.SESSION_ATTRIBUTE_KEY).get();
+            Session client = (Session) ctx.getChannel().getAttachment();
             client.onDisconnect();
         } catch (Exception e) {
         }
 
-        Comet.getServer().getNetwork().getSessions().remove(ctx.channel());
-        log.debug("Channel [" + ctx.channel().attr(NetworkEngine.UNIQUE_ID_KEY).get().toString() + "] disconnected");
+        Comet.getServer().getNetwork().getSessions().remove(ctx.getChannel());
+        log.debug("Channel [" + ctx.getChannel().getId() + "] disconnected");
 
-        String ip = ((InetSocketAddress)ctx.channel().remoteAddress()).getAddress().getHostAddress();
+        String ip = ((InetSocketAddress)ctx.getChannel().getRemoteAddress()).getAddress().getHostAddress();
 
         if (CONNECTIONS_PER_IP != 0) {
             if (this.connectionsPerIp.containsKey(ip)) {
@@ -76,16 +65,16 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             }
         }
 
-        ctx.fireChannelInactive();
+        super.channelClosed(ctx, ev);
     }
 
     @Override
-    protected void channelRead0(final ChannelHandlerContext ctx, Event msg) throws Exception {
+    public void messageReceived(final ChannelHandlerContext ctx, MessageEvent ev) throws Exception {
         try {
-            Session client = ctx.channel().attr(NetworkEngine.SESSION_ATTRIBUTE_KEY).get();
+            Session client = (Session) ctx.getChannel().getAttachment();
 
-            if (client != null) {
-                Comet.getServer().getNetwork().getMessages().handle(msg, client);
+            if (client != null && (ev.getMessage() instanceof Event)) {
+                Comet.getServer().getNetwork().getMessages().handle((Event) ev.getMessage(), client);
             }
         } catch (Exception e) {
             log.error("Error while receiving message", e);
@@ -93,31 +82,19 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     }
 
     @Override
-    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        if (evt instanceof IdleStateEvent) {
-            IdleStateEvent e = (IdleStateEvent) evt;
-            if (e.state() == IdleState.READER_IDLE) {
-                ctx.close();
-            } else if (e.state() == IdleState.WRITER_IDLE) {
-                ctx.writeAndFlush(PingMessageComposer.compose());
-            }
-        }
-    }
-
-    @Override
-    public void exceptionCaught(final ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        if (ctx.channel().isActive()) {
-            if (cause instanceof IOException) {
-                ctx.close();
+    public void exceptionCaught(final ChannelHandlerContext ctx, ExceptionEvent ev) throws Exception {
+        if (ctx.getChannel().isConnected()) {
+            if (ev.getCause() instanceof IOException) {
+                ctx.getChannel().close();
                 return;
             }
 
-            log.error("Exception in ClientHandler : " + cause.getMessage());
+            log.error("Exception in ClientHandler : " + ev.getCause().getMessage());
 
-            cause.printStackTrace();
+            ev.getCause().printStackTrace();
 
             if (CLOSE_ON_ERROR) {
-                ctx.close();
+                ctx.getChannel().close();
             }
         }
     }

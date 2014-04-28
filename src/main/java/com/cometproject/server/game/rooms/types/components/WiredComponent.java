@@ -11,8 +11,8 @@ import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.types.Event;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WiredComponent {

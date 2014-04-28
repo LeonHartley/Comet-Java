@@ -9,7 +9,6 @@ import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.settings.GetRoomDataMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 

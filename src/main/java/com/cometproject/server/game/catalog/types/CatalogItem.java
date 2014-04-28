@@ -1,9 +1,8 @@
 package com.cometproject.server.game.catalog.types;
 
-import java.util.ArrayList;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CatalogItem {

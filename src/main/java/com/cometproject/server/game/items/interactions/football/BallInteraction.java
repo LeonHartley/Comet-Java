@@ -8,8 +8,8 @@ import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BallInteraction extends Interactor {
