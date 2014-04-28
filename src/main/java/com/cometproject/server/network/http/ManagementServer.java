@@ -30,6 +30,8 @@ public class ManagementServer {
             os.write(response.getBytes());
             os.close();
         } catch (Exception ex) {
+            if(ex.getMessage().equals("headers already sent")) return;
+
             logger.error("Error while writing response", ex);
         }
     }

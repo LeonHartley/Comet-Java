@@ -25,8 +25,7 @@ public class XMLPolicyDecoder extends FrameDecoder {
         } else {
             ctx.getPipeline().remove(this);
 
-            buffer.discardReadBytes();
-            return buffer;
+            return ChannelBuffers.wrappedBuffer(buffer.readBytes(buffer.readableBytes()));
         }
 
         return null;

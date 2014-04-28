@@ -111,6 +111,10 @@ public class PlayerData implements Serializable {
         return this.credits;
     }
 
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
+
     public int getPoints() {
         return this.points;
     }
