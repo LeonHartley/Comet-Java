@@ -1,33 +1,34 @@
 package com.cometproject.server.network.codec;
 
 import com.cometproject.server.network.messages.types.Event;
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.ByteToMessageDecoder;
+import org.jboss.netty.buffer.ChannelBuffer;
+import org.jboss.netty.channel.Channel;
+import org.jboss.netty.channel.ChannelHandlerContext;
+import org.jboss.netty.handler.codec.frame.FrameDecoder;
 
-import java.util.List;
-
-public class MessageDecoder extends ByteToMessageDecoder {
+public class MessageDecoder extends FrameDecoder {
     @Override
-    protected void decode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out) throws Exception {
+    public Object decode(ChannelHandlerContext ctx, Channel channel, ChannelBuffer buffer) throws Exception {
         try {
-            if (msg.readableBytes() < 6) {
-                return;
+            if (buffer.readableBytes() < 6) {
+                return null;
             }
 
-            msg.markReaderIndex();
-            int length = msg.readInt();
+            buffer.markReaderIndex();
+            int length = buffer.readInt();
 
-            if (!(msg.readableBytes() >= length)) {
-                msg.resetReaderIndex();
-                return;
+            if (!(buffer.readableBytes() >= length)) {
+                buffer.resetReaderIndex();
+                return null;
             }
 
             length -= 2;
 
-            out.add(new Event(msg.readShort(), msg.readBytes(length)));
+            return new Event(buffer.readShort(), buffer.readBytes(length));
         } catch (Exception e) {
             e.printStackTrace(); // for debugging!
         }
+
+        return null;
     }
 }

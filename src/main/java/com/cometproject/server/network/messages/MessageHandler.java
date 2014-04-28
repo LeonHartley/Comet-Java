@@ -57,7 +57,6 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardr
 import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeMessageEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import io.netty.util.ReferenceCountUtil;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -259,8 +258,6 @@ public class MessageHandler {
                 log.debug("Finished packet process for packet: [" + Events.valueOfId(header) + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
             } catch(Exception e) {
                 log.error("Error while handling incoming message", e);
-            } finally {
-                ReferenceCountUtil.release(message.getBuffer());
             }
         } else {
             if (Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != 2906) // 2906 = annoying ping header

@@ -39,7 +39,7 @@ public class IpBanCommand extends ChatCommand {
 
             // retrieve ip directly ??
 
-            String ipAddress = ((InetSocketAddress)user.getChannel().remoteAddress()).getAddress().getHostAddress();
+            String ipAddress = ((InetSocketAddress)user.getChannel().getRemoteAddress()).getAddress().getHostAddress();
 
             if(GameEngine.getBans().hasBan(ipAddress)) {
                 sendChat("IP: " + ipAddress + " is already banned.", client);

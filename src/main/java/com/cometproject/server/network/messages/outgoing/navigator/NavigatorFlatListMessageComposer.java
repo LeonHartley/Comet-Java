@@ -4,14 +4,8 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
-import javolution.util.FastMap;
 
-import java.util.ArrayList;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class NavigatorFlatListMessageComposer {
     public static Composer compose(int category, int mode, String query, Collection<Room> activeRooms, boolean limit) {

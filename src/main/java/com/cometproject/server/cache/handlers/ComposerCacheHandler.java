@@ -2,7 +2,6 @@ package com.cometproject.server.cache.handlers;
 
 import com.cometproject.server.cache.CacheHandler;
 import com.cometproject.server.cache.CacheProvider;
-import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.concurrent.TimeUnit;
 
