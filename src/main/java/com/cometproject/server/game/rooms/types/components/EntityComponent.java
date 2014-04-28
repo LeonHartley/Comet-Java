@@ -94,6 +94,18 @@ public class EntityComponent {
     }
 
     public void addEntity(GenericEntity entity) {
+        if(this.playerIdToEntity == null) {
+            this.playerIdToEntity = new FastMap<>();
+        }
+
+        if(this.botIdToEntity == null) {
+            this.botIdToEntity = new FastMap<>();
+        }
+
+        if(this.petIdToEntity == null) {
+            this.petIdToEntity = new FastMap<>();
+        }
+
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
