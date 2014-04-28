@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
@@ -16,7 +17,7 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaceItemMessageEvent implements IEvent {
+public class  PlaceItemMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         String[] parts = msg.readString().split(" ");
         int id = Integer.parseInt(parts[0].replace("-", ""));
@@ -120,7 +121,7 @@ public class PlaceItemMessageEvent implements IEvent {
                 room.getEntities().broadcastMessage(SendFloorItemMessageComposer.compose(floorItem, room));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            GameEngine.getLogger().error("Error while placing item", e);
         }
     }
 }
