@@ -131,6 +131,10 @@ public class PlayerData implements Serializable {
         return this.vip;
     }
 
+    public void setVip(boolean vip) {
+        this.vip = vip;
+    }
+
     public void setLastVisit(long time) {
         this.lastVisit = (int) time;
     }
