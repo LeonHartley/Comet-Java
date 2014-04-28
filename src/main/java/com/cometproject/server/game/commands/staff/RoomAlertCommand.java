@@ -16,7 +16,7 @@ public class RoomAlertCommand extends ChatCommand {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 
-                playerEntity.getPlayer().getSession().send(AdvancedAlertMessageComposer.compose("Alert", this.merge(params, 0)));
+                playerEntity.getPlayer().getSession().send(AdvancedAlertMessageComposer.compose("Alert", this.merge(params)));
             }
         }
     }
