@@ -22,8 +22,6 @@ public class XMLPolicyDecoder extends FrameDecoder {
                             + "<allow-access-from domain=\"*\" to-ports=\"*\" />\r\n"
                             + "</cross-domain-policy>\0"
             ).addListener(ChannelFutureListener.CLOSE);
-
-            System.out.println("Sent xml");
         } else {
             ctx.getPipeline().remove(this);
         }
