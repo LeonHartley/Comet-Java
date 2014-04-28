@@ -7,16 +7,13 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.LoginMessageComposer;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.plugins.types.PluginPlayer;
 
 import java.net.InetSocketAddress;
-import java.util.concurrent.TimeUnit;
 
 public class SSOTicketMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
@@ -40,7 +37,7 @@ public class SSOTicketMessageEvent implements IEvent {
             cloneSession.disconnect();
         }
 
-        if (GameEngine.getBans().hasBan(Integer.toString(player.getId())) || GameEngine.getBans().hasBan(((InetSocketAddress)client.getChannel().remoteAddress()).getAddress().getHostAddress())) {
+        if (GameEngine.getBans().hasBan(Integer.toString(player.getId())) || GameEngine.getBans().hasBan(((InetSocketAddress)client.getChannel().getRemoteAddress()).getAddress().getHostAddress())) {
             /*client.send(AdvancedAlertMessageComposer.compose(
                     "You've been banned!",
                     "If you feel you received this in error, please contact the system administrator."

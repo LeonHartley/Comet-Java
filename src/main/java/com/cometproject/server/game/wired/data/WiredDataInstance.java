@@ -1,7 +1,6 @@
 package com.cometproject.server.game.wired.data;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 public class WiredDataInstance {

@@ -10,8 +10,8 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChangeFloorItemPositionMessageEvent implements IEvent {
