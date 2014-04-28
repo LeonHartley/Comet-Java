@@ -17,5 +17,9 @@ public class SqlHelper {
         return storage.getConnections().getConnection();
     }
 
-
+    public static void closeSilently(Connection connection) {
+        try {
+            connection.close();
+        } catch (SQLException e) { }
+    }
 }
