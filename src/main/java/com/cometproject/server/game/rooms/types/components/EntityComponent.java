@@ -28,11 +28,11 @@ public class EntityComponent {
 
     private AtomicInteger entityIdGenerator = new AtomicInteger();
 
-    private Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>();//.atomic();
+    private Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().atomic();
 
-    private Map<Integer, Integer> playerIdToEntity = new FastMap<Integer, Integer>();//.atomic();
-    private Map<Integer, Integer> botIdToEntity = new FastMap<Integer, Integer>();//.atomic();
-    private Map<Integer, Integer> petIdToEntity = new FastMap<Integer, Integer>();//.atomic();
+    private Map<Integer, Integer> playerIdToEntity = new FastMap<>();
+    private Map<Integer, Integer> botIdToEntity = new FastMap<>();
+    private Map<Integer, Integer> petIdToEntity = new FastMap<>();
 
     private List<GenericEntity>[][] entityGrid;
 
