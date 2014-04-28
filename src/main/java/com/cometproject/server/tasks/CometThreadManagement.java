@@ -1,5 +1,7 @@
 package com.cometproject.server.tasks;
 
+import org.apache.log4j.Logger;
+
 import java.util.UUID;
 import java.util.concurrent.*;
 
@@ -15,8 +17,17 @@ public class CometThreadManagement {
             public Thread newThread(Runnable r) {
                 UUID randomId = UUID.randomUUID();
 
+                final Logger log = Logger.getLogger("Comet-Worker-Thread-" + randomId);
+
                 Thread workerThread = new Thread(r);
                 workerThread.setName("Comet-Worker-Thread-" + randomId.toString());
+
+                workerThread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                    @Override
+                    public void uncaughtException(Thread t, Throwable e) {
+                        log.error("Exception in Comet Worker Thread", e);
+                    }
+                });
 
                 return workerThread;
             }
@@ -29,6 +40,15 @@ public class CometThreadManagement {
 
                 Thread scheduledThread = new Thread(r);
                 scheduledThread.setName("Comet-Scheduled-Thread-" + randomId.toString());
+
+                final Logger log = Logger.getLogger("Comet-Scheduled-Thread-" + randomId);
+
+                scheduledThread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                    @Override
+                    public void uncaughtException(Thread t, Throwable e) {
+                        log.error("Exception in Comet Worker Thread", e);
+                    }
+                });
 
                 return scheduledThread;
             }
