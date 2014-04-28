@@ -99,8 +99,6 @@ public class RoomData {
             decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
         }
 
-        System.out.println(decorString.substring(0, decorString.length() - 1));
-
         std.setString(11, decorString.substring(0, decorString.length() - 1));
         std.setString(12, model);
         std.setString(13, hideWalls ? "1" : "0");
