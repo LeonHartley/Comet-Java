@@ -42,6 +42,7 @@ import com.cometproject.server.network.messages.incoming.room.pets.RemovePetMess
 import com.cometproject.server.network.messages.incoming.room.settings.*;
 import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.details.ChangeHomeRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.ChangeMottoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.UserInformationMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.BadgeInventoryMessageEvent;
@@ -149,6 +150,7 @@ public class MessageHandler {
         this.getMessages().put(Events.WearBadgeMessageEvent, new WearBadgeMessageEvent());
         this.getMessages().put(Events.WardrobeMessageEvent, new WardrobeMessageEvent());
         this.getMessages().put(Events.SaveWardrobeMessageEvent, new SaveWardrobeMessageEvent());
+        this.getMessages().put(Events.ChangeHomeRoomMessageEvent, new ChangeHomeRoomMessageEvent());
     }
 
     public void registerBots() {

@@ -150,7 +150,7 @@ public class Comet {
     }
 
     public static String getBuild() {
-        return "0.7.5-ALPHA";
+        return "0.7.5-ALPHA3";
     }
 
     public static CometServer getServer() {
