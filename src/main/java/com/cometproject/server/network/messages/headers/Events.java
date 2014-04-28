@@ -117,6 +117,7 @@ public class Events {
     public static short WardrobeMessageEvent = 2656;
     public static short SaveWardrobeMessageEvent = 2159;
     public static short DeleteRoomMessageEvent = 2830;
+    public static short ChangeHomeRoomMessageEvent = 2869;
 
     public static short ManageGroupMessageEvent = 454;
     public static short RemoveRightsMessageEvent = 572;
