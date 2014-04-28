@@ -13,7 +13,7 @@ public class ManagementServer {
     public ManagementServer() {
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
-            server.createContext("/", new PageHandler());
+            server.createContext("/", new ManagementCommandHandler());
             server.setExecutor(null);
             server.start();
 
@@ -32,5 +32,9 @@ public class ManagementServer {
         } catch (Exception ex) {
             logger.error("Error while writing response", ex);
         }
+    }
+
+    public void sendResponse(ManagementCommandHandler.RequestError response, HttpExchange e) {
+        sendResponse(response.toString(), e);
     }
 }
