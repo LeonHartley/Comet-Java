@@ -4,7 +4,6 @@ import java.util.Properties;
 
 public class CometSettings {
     public static boolean httpEnabled = false;
-    public static String[] httpAllowedIPs = new String[]{};
 
     public static boolean messageOfTheDayEnabled = true;
     public static String messageOfTheDayText = "";
@@ -24,7 +23,6 @@ public class CometSettings {
 
     public static void set(Properties properties) {
         httpEnabled = properties.getProperty("comet.network.http.enabled").equals("1");
-        httpAllowedIPs = properties.getProperty("comet.network.http.allowed_ips").split(",");
 
         messageOfTheDayEnabled = properties.getProperty("comet.game.motd.enabled").equals("1");
         messageOfTheDayText = properties.getProperty("comet.game.motd.text");

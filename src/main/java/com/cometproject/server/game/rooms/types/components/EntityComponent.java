@@ -229,7 +229,7 @@ public class EntityComponent {
     }
 
     public int playerCount() {
-        return this.playerIdToEntity.size();
+        return this.playerIdToEntity == null ? 0 : this.playerIdToEntity.size();
     }
 
     public Map<Integer, GenericEntity> getEntitiesCollection() {
