@@ -74,9 +74,11 @@ public class RoomMapping {
             return false;
         }
 
-        if((!room.getData().getAllowWalkthrough() && positionHasUser(to))) {
+        boolean isAtDoor = this.model.getDoorX() == from.getX() && this.model.getDoorY() == from.getY();
+
+        if((!room.getData().getAllowWalkthrough() && positionHasUser(to)) && !isAtDoor) {
             return false;
-        } else if(room.getData().getAllowWalkthrough() && lastStep && positionHasUser(to)) {
+        } else if(room.getData().getAllowWalkthrough() && lastStep && positionHasUser(to) && !isAtDoor) {
             return false;
         }
 

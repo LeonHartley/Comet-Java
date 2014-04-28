@@ -3,6 +3,8 @@ package com.cometproject.server.network.messages.types;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.UnpooledByteBufAllocator;
 
+import java.nio.charset.Charset;
+
 public class Composer {
     private int id;
     private ByteBuf body;
@@ -33,7 +35,7 @@ public class Composer {
                 s = obj.toString();
             }
 
-            byte[] dat = s.getBytes();
+            byte[] dat = s.getBytes(Charset.forName("UTF-8"));
             this.body.writeShort(dat.length);
             this.body.writeBytes(dat);
         } catch (Exception e) {

@@ -237,11 +237,6 @@ public class EntityComponent {
         return this.entities;
     }
 
-    @Deprecated
-    public void broadcast(Composer msg) {
-        this.broadcastMessage(msg);
-    }
-
     private Room getRoom() {
         return this.room;
     }
