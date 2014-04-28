@@ -4,39 +4,21 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.network.http.ManagementServer;
 import com.cometproject.server.network.messages.MessageHandler;
-import com.cometproject.server.network.monitor.MonitorClient;
-import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.UnpooledByteBufAllocator;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.util.AttributeKey;
-import io.netty.util.ResourceLeakDetector;
 import org.apache.log4j.Logger;
+import org.jboss.netty.bootstrap.ServerBootstrap;
+import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 
 import java.net.InetSocketAddress;
-import java.util.UUID;
+import java.util.concurrent.Executors;
 
 public class NetworkEngine {
-    public static final AttributeKey<Session> SESSION_ATTRIBUTE_KEY = AttributeKey.valueOf("Session.attr");
-    public static final AttributeKey<UUID> UNIQUE_ID_KEY = AttributeKey.valueOf("SessionKey.attr");
-
-    private final EventLoopGroup bossGroup = new NioEventLoopGroup();
-    private final EventLoopGroup workerGroup = new NioEventLoopGroup();
-
     private SessionManager sessions;
     private MessageHandler messageHandler;
     private ManagementServer managementServer;
-    private MonitorClient monitorClient;
 
     public String ip;
     public int port;
-
-    private Channel listenChannel;
 
     private static Logger log = Logger.getLogger(NetworkEngine.class.getName());
 
@@ -47,22 +29,20 @@ public class NetworkEngine {
         if (CometSettings.httpEnabled)
             this.managementServer = new ManagementServer();
 
+        ServerBootstrap bootstrap = new ServerBootstrap(
+                new NioServerSocketChannelFactory(
+                        Executors.newCachedThreadPool(),
+                        Executors.newCachedThreadPool()));
 
-        //ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.ADVANCED);
+        bootstrap.setOption("backlog", 1000);
+        bootstrap.setPipelineFactory(new NetworkChannelInitializer());
 
-        ServerBootstrap bootstrap = new ServerBootstrap();
-        bootstrap.group(this.bossGroup, this.workerGroup)
-                .channel(NioServerSocketChannel.class)
-                .childHandler(new NetworkChannelInitializer())
-                .option(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)
-                .option(ChannelOption.SO_BACKLOG, 100)
-                .option(ChannelOption.TCP_NODELAY, true);
 
         this.ip = ip;
         this.port = port;
 
         try {
-            this.listenChannel = bootstrap.bind(new InetSocketAddress(ip, port)).channel();
+            bootstrap.bind(new InetSocketAddress(ip, port));
         } catch (Exception e) {
             Comet.exit("Failed to initialize sockets on address: " + ip + ":" + port);
             return;

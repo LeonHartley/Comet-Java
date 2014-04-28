@@ -1,17 +1,7 @@
 package com.cometproject.server.network.monitor;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
-import com.cometproject.server.network.http.system.ServerStatus;
-import com.cometproject.server.utilities.TimeSpan;
-import com.google.gson.Gson;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelHandlerContext;
-import org.apache.log4j.Logger;
-
 public class MonitorMessageLibrary {
-    private static Logger log = Logger.getLogger(MonitorMessageLibrary.class.getName());
+    /*private static Logger log = Logger.getLogger(MonitorMessageLibrary.class.getName());
 
     public static String request;
     public static ChannelHandlerContext ctx;
@@ -48,5 +38,5 @@ public class MonitorMessageLibrary {
         }
 
         ctx.writeAndFlush(msg);
-    }
+    }*/
 }
