@@ -12,9 +12,6 @@ import org.jboss.netty.channel.SimpleChannelDownstreamHandler;
 
 import java.nio.charset.Charset;
 
-/**
- * Created by Matty on 28/04/2014.
- */
 public class MessageEncoder extends SimpleChannelDownstreamHandler {
     private static Logger log = Logger.getLogger(MessageEncoder.class.getName());
 
