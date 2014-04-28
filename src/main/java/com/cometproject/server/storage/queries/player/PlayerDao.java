@@ -49,6 +49,10 @@ public class PlayerDao {
 
             ResultSet result = SqlHelper.getRow(preparedStatement, sqlConnection);
 
+            if (result == null) {
+                return null;
+            }
+
             return new PlayerData(result.getInt("id"), result.getString("username"), result.getString("motto"), result.getString("figure"), result.getString("gender"), result.getInt("rank"), result.getInt("credits"), result.getInt("vip_points"), result.getString("reg_date"), result.getInt("last_online"), result.getString("vip").equals("1"), result.getInt("achievement_points"));
         } catch (SQLException e) {
             // Central place to handle all sql exceptions (easy for logging them etc)
