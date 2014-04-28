@@ -3,6 +3,8 @@ package com.cometproject.server.network.messages.types;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 
+import java.nio.charset.Charset;
+
 public class Composer {
     private int id;
     private ChannelBuffer body;
@@ -34,7 +36,7 @@ public class Composer {
                 s = obj.toString();
             }
 
-            byte[] dat = s.getBytes();
+            byte[] dat = s.getBytes(Charset.forName("UTF-8"));
             this.body.writeShort(dat.length);
             this.body.writeBytes(dat);
         } catch (Exception e) {
