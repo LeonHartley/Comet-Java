@@ -29,6 +29,24 @@ public class SqlHelper {
         } catch (SQLException e) { }
     }
 
+    public static void closeStatementSilently(PreparedStatement statement) {
+        try {
+            if (statement == null) { return; }
+            statement.close();
+        } catch (SQLException e) { }
+    }
+
+    public static void executeStatementSilently(PreparedStatement statement, boolean autoClose) {
+        try {
+            if (statement == null) { return; }
+            statement.execute();
+
+            if (autoClose) {
+                statement.close();
+            }
+        } catch (SQLException e) { }
+    }
+
     public static boolean exists(String query, Connection con, boolean autoClose) throws SQLException {
         try {
             return con.createStatement().executeQuery(query).next();
