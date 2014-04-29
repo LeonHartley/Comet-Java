@@ -1,6 +1,8 @@
 package com.cometproject.server.storage.queries.player;
 
 import com.cometproject.server.game.players.data.PlayerData;
+import com.cometproject.server.game.players.types.PlayerSettings;
+import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
@@ -50,8 +52,7 @@ public class PlayerDao {
             ResultSet result = SqlHelper.getRow(preparedStatement, sqlConnection);
 
             if (result == null) {
-                //return new DummyPlayerData();
-                return null; // need to re-do login process first...
+                return null;
             }
 
             return new PlayerData(result.getInt("id"), result.getString("username"), result.getString("motto"), result.getString("figure"), result.getString("gender"), result.getInt("rank"), result.getInt("credits"), result.getInt("vip_points"), result.getString("reg_date"), result.getInt("last_online"), result.getString("vip").equals("1"), result.getInt("achievement_points"));
@@ -64,5 +65,67 @@ public class PlayerDao {
         }
 
         return null;
+    }
+
+    public static PlayerSettings getSettingsById(int id) {
+        Connection sqlConnection = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            PreparedStatement preparedStatement = SqlHelper.prepare("SELECT * FROM player_settings WHERE player_id = ?", sqlConnection);
+            preparedStatement.setInt(1, id);
+
+            ResultSet result = SqlHelper.getRow(preparedStatement, sqlConnection);
+
+            if (result == null) {
+                SqlHelper.closeStatementSilently(preparedStatement);
+
+                preparedStatement = SqlHelper.prepare("INSERT into player_settings (`player_id`) VALUES(?)", sqlConnection);
+                preparedStatement.setInt(1, id);
+
+                SqlHelper.executeStatementSilently(preparedStatement, false);
+                return new PlayerSettings();
+            }
+
+            return new PlayerSettings(result);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return new PlayerSettings();
+    }
+
+    public static PlayerStatistics getStatisticsById(int id) {
+        Connection sqlConnection = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            PreparedStatement preparedStatement = SqlHelper.prepare("SELECT * FROM player_stats WHERE player_id = ?", sqlConnection);
+            preparedStatement.setInt(1, id);
+
+            ResultSet result = SqlHelper.getRow(preparedStatement, sqlConnection);
+
+            if (result == null) {
+                SqlHelper.closeStatementSilently(preparedStatement);
+
+                preparedStatement = SqlHelper.prepare("INSERT into player_stats (`player_id`) VALUES(?)", sqlConnection);
+                preparedStatement.setInt(1, id);
+
+                SqlHelper.executeStatementSilently(preparedStatement, false);
+                return new PlayerStatistics(id);
+            }
+
+            return new PlayerStatistics(result);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return new PlayerStatistics(id);
     }
 }
