@@ -14,11 +14,11 @@ public class MotdNotificationComposer {
     }
 
     public static Composer compose(String message) {
-        Composer msg = new Composer(Composers.MotdMessageComposer);
+        /*Composer msg = new Composer(Composers.AdvancedAlertMessageComposer);
 
         msg.writeInt(1);
-        msg.writeString(message);
+        msg.writeString(message);*/
 
-        return msg;
+        return AdvancedAlertMessageComposer.compose("Comet Server", message, "about_img");
     }
 }

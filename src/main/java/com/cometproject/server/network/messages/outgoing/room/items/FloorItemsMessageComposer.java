@@ -9,13 +9,17 @@ public class FloorItemsMessageComposer {
     public static Composer compose(Room room) {
         Composer msg = new Composer(Composers.FloorItemsMessageComposer);
 
-        msg.writeInt(1);
-        msg.writeInt(room.getData().getOwnerId());
-        msg.writeString(room.getData().getOwner());
-        msg.writeInt(room.getItems().getFloorItems().size());
+        if(room.getItems().getFloorItems().size() > 0) {
+            msg.writeInt(1);
+            msg.writeInt(room.getData().getOwnerId());
+            msg.writeString(room.getData().getOwner());
+            msg.writeInt(room.getItems().getFloorItems().size());
 
-        for (FloorItem item : room.getItems().getFloorItems()) {
-            item.serialize(msg);
+            for (FloorItem item : room.getItems().getFloorItems()) {
+                item.serialize(msg);
+            }
+        } else {
+            msg.writeInt(0);
         }
 
 

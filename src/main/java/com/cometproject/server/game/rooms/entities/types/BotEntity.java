@@ -107,6 +107,7 @@ public class BotEntity extends GenericEntity {
         msg.writeShort(5);
         msg.writeShort(3);
         msg.writeShort(4);
+        msg.writeBoolean(false);
     }
 
     public BotData getData() {

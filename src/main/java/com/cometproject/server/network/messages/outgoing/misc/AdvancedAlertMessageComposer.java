@@ -5,22 +5,28 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class AdvancedAlertMessageComposer {
-    public static Composer compose(String title, String redText, String message, String hotelName, String hotelLink, String illustration) {
+    public static Composer compose(String title, String message, String hotelName, String hotelLink, String illustration) {
         Composer msg = new Composer(Composers.AdvancedAlertMessageComposer);
 
-        msg.writeString(title);
-        msg.writeString(redText);
-        msg.writeString(message);
-        msg.writeString(hotelName);
-        msg.writeString(hotelLink);
         msg.writeString(illustration);
+        msg.writeInt(hotelLink.isEmpty() ? 4 : 2);
+        msg.writeString("title");
+        msg.writeString(title);
+        msg.writeString("message");
+        msg.writeString(message);
+
+        if(!hotelLink.isEmpty()) {
+            msg.writeString("linkUrl");
+            msg.writeString(hotelLink);
+            msg.writeString("linkTitle");
+            msg.writeString(hotelName);
+        }
 
         return msg;
     }
 
     public static Composer compose(String header, String message) {
         return compose(
-                CometSettings.hotelName,
                 header,
                 message,
                 CometSettings.hotelName,
@@ -31,7 +37,6 @@ public class AdvancedAlertMessageComposer {
 
     public static Composer compose(String header, String message, String image) {
         return compose(
-                CometSettings.hotelName,
                 header,
                 message,
                 CometSettings.hotelName,

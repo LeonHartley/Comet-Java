@@ -78,6 +78,9 @@ public class FloorItem extends RoomItem {
         msg.writeInt(this.getX());
         msg.writeInt(this.getY());
         msg.writeInt(this.getRotation());
+
+        msg.writeString(this.extraData);
+
         msg.writeString(Double.toString(this.getHeight()));
 
         if (this.getDefinition().isAdFurni()) {

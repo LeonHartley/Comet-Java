@@ -15,6 +15,7 @@ import com.cometproject.server.network.messages.incoming.handshake.InitCryptoMes
 import com.cometproject.server.network.messages.incoming.handshake.SSOTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
+import com.cometproject.server.network.messages.incoming.landing.HotelViewItemMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.*;
 import com.cometproject.server.network.messages.incoming.moderation.*;
 import com.cometproject.server.network.messages.incoming.navigator.*;
@@ -90,6 +91,7 @@ public class MessageHandler {
         this.registerItems();
         this.registerCatalog();
         this.registerPets();
+        this.registerLanding();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
     }
@@ -172,7 +174,7 @@ public class MessageHandler {
         this.getMessages().put(Events.InitalizeRoomMessageEvent, new InitalizeRoomMessageEvent());
         this.getMessages().put(Events.LoadHeightmapMessageEvent, new LoadHeightmapMessageEvent());
         this.getMessages().put(Events.AddUserToRoomMessageEvent, new AddUserToRoomMessageEvent());
-        this.getMessages().put(Events.AddUserToRoom2MessageEvent, new LoadHeightmapMessageEvent());
+        this.getMessages().put(Events.AddUserToRoom2MessageEvent, new AddUserToRoomMessageEvent());
         this.getMessages().put(Events.ExitRoomMessageEvent, new ExitRoomMessageEvent());
         this.getMessages().put(Events.TalkMessageEvent, new TalkMessageEvent());
         this.getMessages().put(Events.ShoutMessageEvent, new ShoutMessageEvent());
@@ -246,14 +248,24 @@ public class MessageHandler {
         this.getMessages().put(Events.PurchaseGiftMessageEvent, new PurchaseGiftMessageEvent());
     }
 
+    public void registerLanding() {
+        this.getMessages().put(Events.HotelViewItemMessageEvent, new HotelViewItemMessageEvent());
+    }
+
+    private static final short PING_HEADER = 3555;
+
     public void handle(Event message, Session client) {
         Short header = message.getId();
+
+        if(header != PING_HEADER) {
+            log.debug("Message received (ID: " + header + ")");
+            log.debug(message.toString());
+        }
 
         if (this.getMessages().containsKey(header)) {
             long start = System.currentTimeMillis();
 
             log.debug("Started packet process for packet: [" + Events.valueOfId(header) + "][" + header + "]");
-            log.debug(message.toString());
 
             try {
                 this.getMessages().get(header).handle(client, message);
@@ -262,9 +274,9 @@ public class MessageHandler {
                 log.error("Error while handling incoming message", e);
             }
         } else {
-            if (Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != 2906) // 2906 = annoying ping header
+            if (Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != PING_HEADER)
                 log.debug("Unknown message ID: " + header);
-            else if (header != 2906)
+            else if (header != PING_HEADER)
                 log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
         }
     }
