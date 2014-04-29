@@ -3,10 +3,10 @@ package com.cometproject.server.game.navigator;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
-import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NavigatorManager {

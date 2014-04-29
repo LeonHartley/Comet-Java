@@ -7,8 +7,8 @@ import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.RandomInteger;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BanzaiTeleportInteraction extends Interactor {

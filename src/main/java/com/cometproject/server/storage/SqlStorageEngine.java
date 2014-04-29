@@ -7,12 +7,11 @@ import org.apache.log4j.Logger;
 
 import java.sql.*;
 
-public class StorageEngine {
-    private static Logger log = Logger.getLogger(StorageEngine.class.getName());
-
+public class SqlStorageEngine {
+    private static Logger log = Logger.getLogger(SqlStorageEngine.class.getName());
     private BoneCP connections = null;
 
-    public StorageEngine() {
+    public SqlStorageEngine() {
         checkDriver();
 
         boolean isConnectionFailed = false;
@@ -40,6 +39,8 @@ public class StorageEngine {
                 log.info("Connection to MySQL server was successful");
             }
         }
+
+        SqlHelper.init(this);
     }
 
     public int getConnectionCount() {

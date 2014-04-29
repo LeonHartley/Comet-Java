@@ -1,7 +1,6 @@
 package com.cometproject.server.game.rooms;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.cache.CometCache;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.FilterManager;
 import com.cometproject.server.game.rooms.types.Room;
@@ -9,7 +8,6 @@ import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomModel;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotionsManager;
 import com.cometproject.server.network.sessions.Session;
-import java.util.ArrayList;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 

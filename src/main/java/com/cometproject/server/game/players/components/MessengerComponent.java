@@ -8,11 +8,11 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerSearchResultsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
-import java.util.ArrayList;
 import javolution.util.FastMap;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -113,7 +113,7 @@ public class MessengerComponent {
                 continue;
             }
 
-            friend.getClient().getChannel().writeAndFlush(msg.get().duplicate().retain());
+            friend.getClient().getChannel().write(msg.get());
         }
     }
 

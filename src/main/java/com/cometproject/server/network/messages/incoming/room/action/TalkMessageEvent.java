@@ -1,17 +1,11 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
-import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.google.common.primitives.Ints;
-import org.apache.commons.lang.ArrayUtils;
-
-import java.util.Arrays;
-import java.util.List;
 
 
 public class TalkMessageEvent implements IEvent {

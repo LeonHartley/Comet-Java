@@ -42,6 +42,7 @@ import com.cometproject.server.network.messages.incoming.room.pets.RemovePetMess
 import com.cometproject.server.network.messages.incoming.room.settings.*;
 import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.details.ChangeHomeRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.ChangeMottoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.UserInformationMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.BadgeInventoryMessageEvent;
@@ -57,7 +58,6 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardr
 import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeMessageEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import io.netty.util.ReferenceCountUtil;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -150,6 +150,7 @@ public class MessageHandler {
         this.getMessages().put(Events.WearBadgeMessageEvent, new WearBadgeMessageEvent());
         this.getMessages().put(Events.WardrobeMessageEvent, new WardrobeMessageEvent());
         this.getMessages().put(Events.SaveWardrobeMessageEvent, new SaveWardrobeMessageEvent());
+        this.getMessages().put(Events.ChangeHomeRoomMessageEvent, new ChangeHomeRoomMessageEvent());
     }
 
     public void registerBots() {
@@ -259,8 +260,6 @@ public class MessageHandler {
                 log.debug("Finished packet process for packet: [" + Events.valueOfId(header) + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
             } catch(Exception e) {
                 log.error("Error while handling incoming message", e);
-            } finally {
-                ReferenceCountUtil.release(message.getBuffer());
             }
         } else {
             if (Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != 2906) // 2906 = annoying ping header

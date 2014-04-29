@@ -70,7 +70,7 @@ public class WallItem extends RoomItem {
     }
 
     public Room getRoom() {
-        if (this.room == null) {
+        if (this.room == null || this.room.get() == null) {
             this.room = new WeakReference<>(GameEngine.getRooms().get(this.roomId));
         }
 
@@ -83,8 +83,6 @@ public class WallItem extends RoomItem {
 
         if (r != null && r.getEntities() != null) {
             r.getEntities().broadcastMessage(UpdateWallItemMessageComposer.compose(this, this.ownerId, this.getRoom().getData().getOwner()));
-
-            // TODO: Check this..
         }
     }
 

@@ -70,7 +70,15 @@ public class RoomMapping {
             return true;
         }
 
-        if (!isValidPosition(to) || (this.model.getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID) || positionHasUser(to)) {
+        if (!isValidPosition(to) || (this.model.getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID)) {
+            return false;
+        }
+
+        boolean isAtDoor = this.model.getDoorX() == from.getX() && this.model.getDoorY() == from.getY();
+
+        if((!room.getData().getAllowWalkthrough() && positionHasUser(to)) && !isAtDoor) {
+            return false;
+        } else if(room.getData().getAllowWalkthrough() && lastStep && positionHasUser(to) && !isAtDoor) {
             return false;
         }
 
@@ -84,10 +92,7 @@ public class RoomMapping {
             return false;
         }
 
-        //if (!canStepUpwards(getStepHeight(to), getStepHeight(from))) {
-        //    return false;
-        //}
-
+        // TODO: Can step upwards
         return true;
     }
 

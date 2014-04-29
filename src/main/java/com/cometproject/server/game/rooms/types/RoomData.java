@@ -31,6 +31,7 @@ public class RoomData {
     private boolean hideWalls;
     private int thicknessWall;
     private int thicknessFloor;
+    private boolean allowWalkthrough;
 
 
     public RoomData(ResultSet room) throws SQLException {
@@ -63,11 +64,12 @@ public class RoomData {
         this.hideWalls = room.getString("hide_walls").equals("1");
         this.thicknessWall = room.getInt("thickness_wall");
         this.thicknessFloor = room.getInt("thickness_floor");
+        this.allowWalkthrough = room.getString("allow_walkthrough").equals("1");
     }
 
     public void save() throws SQLException {
         PreparedStatement std = Comet.getServer().getStorage().prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?, max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, " +
-                "decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?, thickness_floor = ? WHERE id = ?");
+                "decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?, thickness_floor = ?, allow_walkthrough = ? WHERE id = ?");
 
         std.setString(1, name);
         std.setString(2, description);
@@ -97,14 +99,13 @@ public class RoomData {
             decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
         }
 
-        System.out.println(decorString.substring(0, decorString.length() - 1));
-
         std.setString(11, decorString.substring(0, decorString.length() - 1));
         std.setString(12, model);
         std.setString(13, hideWalls ? "1" : "0");
         std.setInt(14, thicknessWall);
         std.setInt(15, thicknessFloor);
-        std.setInt(16, id);
+        std.setString(16, allowWalkthrough ? "1" : "0");
+        std.setInt(17, id);
 
         std.executeUpdate();
     }
@@ -241,6 +242,13 @@ public class RoomData {
 
     public void setThicknessFloor(int thicknessFloor) {
         this.thicknessFloor = thicknessFloor;
+    }
+
+    public boolean getAllowWalkthrough() {
+        return this.allowWalkthrough;
+    }
+    public void setAllowWalkthrough(boolean allowWalkthrough) {
+        this.allowWalkthrough = allowWalkthrough;
     }
 
 }
