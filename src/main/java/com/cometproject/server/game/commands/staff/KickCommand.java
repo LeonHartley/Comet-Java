@@ -16,25 +16,21 @@ public class KickCommand extends ChatCommand {
         String username = params[1];
 
         Session playerToKick = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
+
         if (playerToKick == null)
             return;
 
-        if (playerToKick.getPlayer().getEntity().getUsername() == client.getPlayer().getEntity().getUsername()) {
-
+        if (playerToKick.getPlayer().getEntity().getUsername().equals(client.getPlayer().getEntity().getUsername())) {
             client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.kick.error"), Locale.get("command.disconnect.himself")));
             return;
         }
 
         if (playerToKick.getPlayer().getPermissions().hasPermission("user_unkickable")) {
-
-            client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.kick.error"), Locale.get("command.disconnect.undisconnectable")));
+            client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.kick.error"), Locale.get("command.kick.unkickable")));
             return;
         }
 
         playerToKick.getPlayer().getEntity().leaveRoom(false, true, true);
-        playerToKick.send(AdvancedAlertMessageComposer.compose(Locale.get("command.kick.successtitle"), Locale.get("command.kick.successmessage")));
-
-        client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.kick.successtitle"), Locale.get("command.kick.userkicked").replace("%username%", playerToKick.getPlayer().getData().getUsername())));
     }
 
     @Override
