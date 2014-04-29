@@ -13,28 +13,17 @@ public class CataPageMessageComposer {
         Composer msg = new Composer(Composers.CataPageMessageComposer);
         msg.writeInt(page.getId());
 
-        // TODO: Make better catalog system!!
+        msg.writeString("NORMAL");
 
         if (page.getTemplate().equals("frontpage")) {
-            msg.writeString("frontpage3");
+            msg.writeString("frontpage4");
             msg.writeInt(3);
             msg.writeString(page.getHeadline());
             msg.writeString(page.getTeaser());
             msg.writeString("");
-            msg.writeInt(11);
+            msg.writeInt(2);
             msg.writeString(page.getPageText1());
             msg.writeString(page.getPageText2());
-            msg.writeString("");
-            msg.writeString("How to get " + CometSettings.hotelName.split(" ")[0] + " Credits");
-            msg.writeString("You can get " + CometSettings.hotelName.split(" ")[0] + " Credits via Prepaid Cards, Home Phone, Credit Card, Mobile, completing offers and more! "
-                    + (char) 13 + (char) 10 + (char) 13 + (char) 10 + "To redeem your " + CometSettings.hotelName.split(" ")[0] + " Credits, enter your voucher code below.");
-
-            msg.writeString(page.getPageTextDetails());
-            msg.writeString("");
-            msg.writeString("#FEFEFE");
-            msg.writeString("#FEFEFE");
-            msg.writeString("Other ways to get credits >");
-            msg.writeString("credits");
 
         } else if (page.getTemplate().equals("spaces_new")) {
             msg.writeString("spaces_new");
@@ -85,21 +74,24 @@ public class CataPageMessageComposer {
             msg.writeString(page.getPageText2());
         }
 
-        if (!page.getTemplate().equals("frontpage") && !page.getTemplate().equals("club_buy") && !page.getTemplate().equals("badge_display")) {
+        if (!page.getTemplate().equals("frontpage") && !page.getTemplate().equals("club_buy")) {
             msg.writeInt(page.getItems().size());
 
             for (CatalogItem item : page.getItems().values()) {
                 msg.writeInt(item.getId());
                 msg.writeString(item.getDisplayName());
+                msg.writeBoolean(false); // TODO: find what this is...
                 msg.writeInt(item.getCostCredits());
-                msg.writeInt(item.getCostOther());
 
-                if (item.getCostOther() != 0)
-                    msg.writeInt(105); // currency type :: diamonds
-                else
+                if (item.getCostOther() > 0) {
+                    msg.writeInt(item.getCostOther());
+                    msg.writeInt(0); // currency type :: diamonds
+                } else {
                     msg.writeInt(0);
+                    msg.writeInt(0);
+                }
 
-                msg.writeBoolean(true);
+                msg.writeBoolean(true); // Allow gift!
 
                 if (!item.hasBadge()) {
                     msg.writeInt(item.getItems().size());
@@ -141,6 +133,8 @@ public class CataPageMessageComposer {
         } else {
             msg.writeInt(0);
         }
+
+        msg.writeInt(0);
 
         msg.writeInt(-1);
         msg.writeBoolean(false);

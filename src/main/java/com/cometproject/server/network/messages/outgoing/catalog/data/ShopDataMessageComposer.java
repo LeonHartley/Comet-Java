@@ -14,8 +14,8 @@ public class ShopDataMessageComposer {
             msg.writeInt(0);
             msg.writeInt(0);
             msg.writeInt(1);
-            msg.writeInt(10000);
-            msg.writeInt(48);
+            msg.writeInt(0x2710);
+            msg.writeInt(0x30);
             msg.writeInt(7);
 
         } else {
@@ -25,7 +25,7 @@ public class ShopDataMessageComposer {
             msg.writeInt(1);
             msg.writeInt(10);
 
-            for (int i = 3372; i < 3382; i++) {
+            for (int i = 8882; i < 8892; i++) {
                 msg.writeInt(i);
             }
 
