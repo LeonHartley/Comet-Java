@@ -47,7 +47,7 @@ public class PlayerSettings {
     public PlayerSettings() {
         this.volumes = new int[]{100, 100, 100};
         this.hideInRoom = false;
-        this.homeRoom = 1;
+        this.homeRoom = 0;
         this.hideOnline = false;
         this.allowFriendRequests = true;
         this.allowTrade = true;
@@ -76,6 +76,10 @@ public class PlayerSettings {
 
     public int getHomeRoom() {
         return this.homeRoom;
+    }
+
+    public void setHomeRoom(int homeRoom) {
+        this.homeRoom = homeRoom;
     }
 
     public List<WardrobeItem> getWardrobe() {

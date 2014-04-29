@@ -11,9 +11,9 @@ import com.cometproject.server.network.messages.outgoing.misc.AlertMessageCompos
 import com.cometproject.server.network.messages.outgoing.room.trading.*;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
-import java.util.ArrayList;
 
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Trade {
@@ -227,10 +227,10 @@ public class Trade {
 
     public void sendToUsers(Composer msg) {
         if (user1 != null && user1.getPlayer() != null && user1.getPlayer().getSession() != null)
-            user1.getPlayer().getSession().getChannel().writeAndFlush(msg.get().duplicate().retain());
+            user1.getPlayer().getSession().getChannel().write(msg.get());
 
         if (user2 != null && user2.getPlayer() != null && user2.getPlayer().getSession() != null)
-            user2.getPlayer().getSession().getChannel().writeAndFlush(msg.get().duplicate().retain());
+            user2.getPlayer().getSession().getChannel().write(msg.get());
     }
 
     public PlayerEntity getUser1() {

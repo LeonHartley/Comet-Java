@@ -25,7 +25,7 @@ public class GetRoomDataMessageComposer {
         msg.writeInt(0); // TODO: rights
         msg.writeInt(1); // allow pets
         msg.writeInt(1); // allow pets eat
-        msg.writeInt(1); // allow walk through
+        msg.writeInt(room.getData().getAllowWalkthrough() ? 1 : 0);
         msg.writeInt(room.getData().getHideWalls() ? 1 : 0);
         msg.writeInt(room.getData().getWallThickness());
         msg.writeInt(room.getData().getFloorThickness());

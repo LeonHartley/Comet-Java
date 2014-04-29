@@ -13,7 +13,6 @@ import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomModel;
 import com.cometproject.server.network.messages.types.Composer;
-import io.netty.buffer.ByteBuf;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -29,11 +28,11 @@ public class EntityComponent {
 
     private AtomicInteger entityIdGenerator = new AtomicInteger();
 
-    private Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>();//.atomic();
+    private Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().atomic();
 
-    private Map<Integer, Integer> playerIdToEntity = new FastMap<Integer, Integer>();//.atomic();
-    private Map<Integer, Integer> botIdToEntity = new FastMap<Integer, Integer>();//.atomic();
-    private Map<Integer, Integer> petIdToEntity = new FastMap<Integer, Integer>();//.atomic();
+    private Map<Integer, Integer> playerIdToEntity = new FastMap<>();
+    private Map<Integer, Integer> botIdToEntity = new FastMap<>();
+    private Map<Integer, Integer> petIdToEntity = new FastMap<>();
 
     private List<GenericEntity>[][] entityGrid;
 
@@ -52,16 +51,13 @@ public class EntityComponent {
     }
 
     public void updateEntityGrid(GenericEntity entity, int prevX, int prevY, int newX, int newY) {
-        // Synchronize access because the grid is not thread safe
-        synchronized (this.entityGrid) {
-            this.entityGrid[prevX][prevY].remove(entity);
+        this.entityGrid[prevX][prevY].remove(entity);
 
-            if (this.entityGrid[newX][newY] == null) {
-                this.entityGrid[newX][newY] = new ArrayList<GenericEntity>();
-            }
-
-            this.entityGrid[newX][newY].add(entity);
+        if (this.entityGrid[newX][newY] == null) {
+            this.entityGrid[newX][newY] = new ArrayList<GenericEntity>();
         }
+
+        this.entityGrid[newX][newY].add(entity);
     }
 
     public boolean isSquareAvailable(int x, int y) {
@@ -98,6 +94,18 @@ public class EntityComponent {
     }
 
     public void addEntity(GenericEntity entity) {
+        if(this.playerIdToEntity == null) {
+            this.playerIdToEntity = new FastMap<>();
+        }
+
+        if(this.botIdToEntity == null) {
+            this.botIdToEntity = new FastMap<>();
+        }
+
+        if(this.petIdToEntity == null) {
+            this.petIdToEntity = new FastMap<>();
+        }
+
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
@@ -142,7 +150,7 @@ public class EntityComponent {
                 if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()))
                     continue;
 
-                playerEntity.getPlayer().getSession().getChannel().writeAndFlush(msg.get().duplicate().retain());
+                playerEntity.getPlayer().getSession().getChannel().write(msg.get());
             }
         }
     }
@@ -233,16 +241,11 @@ public class EntityComponent {
     }
 
     public int playerCount() {
-        return this.playerIdToEntity.size();
+        return this.playerIdToEntity == null ? 0 : this.playerIdToEntity.size();
     }
 
     public Map<Integer, GenericEntity> getEntitiesCollection() {
         return this.entities;
-    }
-
-    @Deprecated
-    public void broadcast(Composer msg) {
-        this.broadcastMessage(msg);
     }
 
     private Room getRoom() {

@@ -7,10 +7,10 @@ import com.cometproject.server.game.players.components.types.MessengerRequest;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import java.util.ArrayList;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AcceptFriendshipMessageEvent implements IEvent {

@@ -2,7 +2,6 @@ package com.cometproject.server.cache;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.cache.handlers.ComposerCacheHandler;
-import com.cometproject.server.cache.handlers.PlayerCacheHandler;
 import com.cometproject.server.cache.providers.InternalCacheProvider;
 import com.cometproject.server.cache.providers.MemcachedProvider;
 

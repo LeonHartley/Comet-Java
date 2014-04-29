@@ -3,10 +3,9 @@ package com.cometproject.server.game.players.data;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 
-import java.io.Serializable;
 import java.sql.PreparedStatement;
 
-public class PlayerData implements Serializable {
+public class PlayerData {
     private int id;
     private int rank;
 
@@ -111,6 +110,10 @@ public class PlayerData implements Serializable {
         return this.credits;
     }
 
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
+
     public int getPoints() {
         return this.points;
     }
@@ -125,6 +128,10 @@ public class PlayerData implements Serializable {
 
     public boolean isVip() {
         return this.vip;
+    }
+
+    public void setVip(boolean vip) {
+        this.vip = vip;
     }
 
     public void setLastVisit(long time) {

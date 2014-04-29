@@ -4,14 +4,8 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
-import javolution.util.FastMap;
 
-import java.util.ArrayList;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class NavigatorFlatListMessageComposer {
     public static Composer compose(int category, int mode, String query, Collection<Room> activeRooms, boolean limit) {
@@ -20,21 +14,7 @@ public class NavigatorFlatListMessageComposer {
         msg.writeString(query);
         msg.writeInt(limit ? (activeRooms.size() > 50 ? 50 : activeRooms.size()) : activeRooms.size());
 
-        Collection<Room> rooms = new ArrayList<>();
-
-        if(limit) {
-            int i = 0;
-            for (Room room : activeRooms) {
-                if (i >= 50) break;
-                rooms.add(room);
-
-                i++;
-            }
-        } else {
-            rooms = activeRooms;
-        }
-
-        Collections.sort((List<Room>) rooms, new Comparator<Room>() {
+        Collections.sort((List<Room>) activeRooms, new Comparator<Room>() {
             @Override
             public int compare(Room o1, Room o2) {
                 return ((o2.getEntities() == null ? 0 : o2.getEntities().playerCount()) -
@@ -42,7 +22,14 @@ public class NavigatorFlatListMessageComposer {
             }
         });
 
-        for (Room room : rooms) {
+        List<Room> topRooms = new ArrayList<>();
+
+        for (Room room : activeRooms) {
+            if (topRooms.size() < 50 || !limit)
+                topRooms.add(room);
+        }
+
+        for (Room room : topRooms) {
             RoomWriter.write(room, msg);
         }
 

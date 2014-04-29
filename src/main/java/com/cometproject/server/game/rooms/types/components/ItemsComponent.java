@@ -163,7 +163,6 @@ public class ItemsComponent {
     }
 
     public void removeItem(FloorItem item, Session client, boolean toInventory) {
-        // the client which is sent here is the removing user (most likely the owner of the room or staff member)
         List<GenericEntity> affectEntities = room.getEntities().getEntitiesAt(item.getX(), item.getY());
         List<Position3D> tilesToUpdate = new ArrayList<>();
 

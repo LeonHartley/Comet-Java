@@ -9,7 +9,6 @@ import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.settings.GetRoomDataMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -49,8 +48,8 @@ public class SaveRoomDataMessageEvent implements IEvent {
         int junk = msg.readInt();
         int allowPets = msg.readBoolean() ? 1 : 0;
         int allowPetsEat = msg.readBoolean() ? 1 : 0;
-        int allowWalkthrough = msg.readBoolean() ? 1 : 0;
-        int hideWall = msg.readBoolean() ? 1 : 0;
+        boolean allowWalkthrough = msg.readBoolean();
+        boolean hideWall = msg.readBoolean();
         int wallThick = msg.readInt();
         int floorThick = msg.readInt();
         int whoMute = msg.readInt();
@@ -100,12 +99,13 @@ public class SaveRoomDataMessageEvent implements IEvent {
         data.setTags(tags);
         data.setThicknessWall(wallThick);
         data.setThicknessFloor(floorThick);
-        data.setHideWalls(hideWall == 1);
+        data.setHideWalls(hideWall);
+        data.setAllowWalkthrough(allowWalkthrough);
 
         try {
             data.save();
 
-            room.getEntities().broadcastMessage(ConfigureWallAndFloorMessageComposer.compose(hideWall == 1, wallThick, floorThick));
+            room.getEntities().broadcastMessage(ConfigureWallAndFloorMessageComposer.compose(hideWall, wallThick, floorThick));
             room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
         } catch (Exception e) {
             RoomManager.log.error("Error while saving room data", e);
