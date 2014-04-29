@@ -1,8 +1,5 @@
 package com.cometproject.server.storage;
 
-import org.jboss.netty.channel.ExceptionEvent;
-
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -71,7 +68,7 @@ public class SqlHelper {
     public static ResultSet getRow(PreparedStatement statement, Connection con) throws SQLException {
         ResultSet r = statement.executeQuery();
 
-        while (r.next()) {
+        if (r.next()) {
             return r;
         }
 
