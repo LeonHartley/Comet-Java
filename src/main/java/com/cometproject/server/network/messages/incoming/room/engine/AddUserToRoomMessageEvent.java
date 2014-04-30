@@ -65,12 +65,6 @@ public class AddUserToRoomMessageEvent implements IEvent {
 
         client.send(ConfigureWallAndFloorMessageComposer.compose(client.getPlayer().getEntity().getRoom().getData().getHideWalls(), client.getPlayer().getEntity().getRoom().getData().getWallThickness(), client.getPlayer().getEntity().getRoom().getData().getFloorThickness()));
 
-
-        client.send(FloorItemsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
-        client.send(WallItemsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
-
-        client.getPlayer().getEntity().getRoom().getWired().trigger(TriggerType.ENTER_ROOM, null, client.getPlayer().getEntity());
-
         client.getPlayer().getMessenger().sendStatus(true, true);
     }
 }
