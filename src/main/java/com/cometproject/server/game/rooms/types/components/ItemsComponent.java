@@ -1,7 +1,5 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.collections.FixedAtomicMapImpl;
-import com.cometproject.collections.FixedAtomicTableImpl;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
@@ -15,7 +13,6 @@ import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.inventory.InventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastTable;
