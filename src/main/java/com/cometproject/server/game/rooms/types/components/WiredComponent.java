@@ -11,6 +11,7 @@ import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.types.Event;
+import javolution.util.FastTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +19,12 @@ import java.util.List;
 public class WiredComponent {
     private Room room;
 
-    private ArrayList<WiredSquare> squares;
+    private FastTable<WiredSquare> squares;
 
     public WiredComponent(Room room) {
         this.room = room;
 
-        this.squares = new ArrayList<>();
+        this.squares = new FastTable<WiredSquare>().shared();
     }
 
     public void dispose() {
@@ -138,7 +139,7 @@ public class WiredComponent {
         this.squares.remove(square);
     }
 
-    public ArrayList<WiredSquare> getSquares() {
+    public FastTable<WiredSquare> getSquares() {
         return this.squares;
     }
 

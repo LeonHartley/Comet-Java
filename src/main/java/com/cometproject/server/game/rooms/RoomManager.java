@@ -27,7 +27,7 @@ public class RoomManager {
     public static Logger log = Logger.getLogger(RoomManager.class.getName());
 
     public RoomManager() {
-        rooms = new FastMap<Integer, Room>().atomic();
+        rooms = new FastMap<Integer, Room>().shared();
         models = new ArrayList<>();
         emotions = new ChatEmotionsManager();
         filterManager = new FilterManager();

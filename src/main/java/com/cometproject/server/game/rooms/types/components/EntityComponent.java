@@ -28,7 +28,7 @@ public class EntityComponent {
 
     private AtomicInteger entityIdGenerator = new AtomicInteger();
 
-    private Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().atomic();
+    private Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().shared();
 
     private Map<Integer, Integer> playerIdToEntity = new FastMap<>();
     private Map<Integer, Integer> botIdToEntity = new FastMap<>();

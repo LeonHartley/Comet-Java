@@ -15,6 +15,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorI
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import javolution.util.FastTable;
 import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
@@ -26,15 +27,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ItemsComponent {
     private Room room;
 
-    private ConcurrentLinkedQueue<FloorItem> floorItems;
-    private ConcurrentLinkedQueue<WallItem> wallItems;
+    private FastTable<FloorItem> floorItems;
+    private FastTable<WallItem> wallItems;
 
     private Logger log;
 
     public ItemsComponent(Room room) {
         this.room = room;
-        this.floorItems = new ConcurrentLinkedQueue<>();
-        this.wallItems = new ConcurrentLinkedQueue<>();
+        this.floorItems = new FastTable<FloorItem>().shared();
+        this.wallItems = new FastTable<WallItem>().shared();
 
         log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
         this.loadItems();
@@ -216,11 +217,11 @@ public class ItemsComponent {
         return this.room;
     }
 
-    public ConcurrentLinkedQueue<FloorItem> getFloorItems() {
+    public FastTable<FloorItem> getFloorItems() {
         return this.floorItems;
     }
 
-    public ConcurrentLinkedQueue<WallItem> getWallItems() {
+    public FastTable<WallItem> getWallItems() {
         return this.wallItems;
     }
 }
