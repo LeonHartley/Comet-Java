@@ -15,6 +15,7 @@ import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Logger;
 
+import java.util.Collections;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -157,8 +158,7 @@ public class ItemProcessComponent implements CometTask {
                 }
             }
 
-
-            for (WiredSquare wiredSquare : this.getRoom().getWired().getSquares()) {
+            for (WiredSquare wiredSquare : Collections.synchronizedList(this.getRoom().getWired().getSquares())) {
                 if (this.getRoom().getItems().getItemsOnSquare(wiredSquare.getX(), wiredSquare.getY()).size() < 1) {
                     this.getRoom().getWired().disposeSquare(wiredSquare);
                 }

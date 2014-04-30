@@ -31,19 +31,24 @@ public class SendPurchaseAlertMessageComposer {
     public static Composer compose(Map<Integer, Integer> items) {
         Composer msg = new Composer(Composers.SendPurchaseAlertMessageComposer);
 
-        int i = 1;
-        for (Integer item : items.values()) {
-            if (item == 2)
-                i = 2;
+        // TODO: Fix this
+
+        int id = 0;
+
+        for (Integer item : items.keySet()) {
+            id = item;
+            break;
         }
 
         msg.writeInt(1);
-        msg.writeInt(i);
-        msg.writeInt(items.size());
+        msg.writeInt(1);
+        msg.writeInt(1);
+        msg.writeInt(id);
+        /*msg.writeInt(items.size());
 
         for (Integer item : items.keySet()) {
             msg.writeInt(item);
-        }
+        }*/
 
         return msg;
     }
