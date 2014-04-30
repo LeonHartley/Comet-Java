@@ -32,6 +32,12 @@ public class GetRoomDataMessageComposer {
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeInt(0);
+        msg.writeInt(0);
+        msg.writeInt(1);
+        msg.writeInt(14);
+        msg.writeInt(0);
+        msg.writeInt(1);
+        msg.writeInt(1);
 
         return msg;
     }

@@ -5,8 +5,6 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class UpdateInventoryMessageComposer {
     public static Composer compose() {
-        Composer msg = new Composer(Composers.UpdateInventoryMessageComposer);
-
-        return msg;
+        return new Composer(Composers.UpdateInventoryMessageComposer);
     }
 }

@@ -1,5 +1,6 @@
 package com.cometproject.server.game.players.types;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
@@ -70,6 +71,7 @@ public class Player {
         this.getRelationships().dispose();
 
         this.session.getLogger().info(this.getData().getUsername() + " logged out");
+        Comet.getServer().getStorage().execute("UPDATE players SET online = '0' WHERE id = " + this.id);
 
         this.rooms.clear();
         this.rooms = null;
@@ -83,7 +85,7 @@ public class Player {
         Map<Integer, Integer> currencies = new FastMap<>();
 
         currencies.put(0, 0); // duckets
-        currencies.put(105, session.getPlayer().getData().getPoints());
+        //currencies.put(105, session.getPlayer().getData().getPoints());
 
         session.send(CurrenciesMessageComposer.compose(currencies));
         currencies.clear();

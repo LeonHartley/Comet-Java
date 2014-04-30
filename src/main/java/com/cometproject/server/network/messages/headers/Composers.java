@@ -12,7 +12,7 @@ public class Composers {
     public static short AlertMessageComposer = 0; // TODO: this
     public static short AdvancedAlertMessageComposer = 2664; // TODO: check
     public static short AllowancesMessageComposer = 3899;
-    public static short BoughtItemMessageComposer = 774;
+    public static short BoughtItemMessageComposer = 2408;
     public static short CanCreateRoomMessageComposer = 3353;
     public static short CataIndexMessageComposer = 1319;
     public static short CataPageMessageComposer = 1732;
@@ -21,7 +21,7 @@ public class Composers {
     public static short FloorItemsMessageComposer = 3670;
     public static short FollowBuddyMessageComposer = 3168;
     public static short GetPowerListMessageComposer = 2547;
-    public static short GetRoomDataMessageComposer = 495;
+    public static short GetRoomDataMessageComposer = 329;
     public static short HeightmapMessageComposer = 2749;
     public static short HotelViewMessageComposer = 2919; // TODO: Check this
     public static short InstantChatMessageComposer = 2109;
@@ -84,7 +84,7 @@ public class Composers {
     public static short WiredTriggerMessageComposer = 2550;
     public static short WiredEffectMessageComposer = 1800;
     public static short SaveWiredMessageComposer = 1115;
-    public static short RoomCategoriesMessageComposer = 224;
+    public static short RoomCategoriesMessageComposer = 1535;
     public static short ConfigureWallAndFloorMessageComposer = 3323;
     public static short GiveRespectMessageComposer = 3836;
     public static short RelationshipsMessageComposer = 3754;
