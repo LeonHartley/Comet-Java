@@ -110,9 +110,10 @@ public class CataPageMessageComposer {
                     //if(page.getTemplate().equals("spaces")) {
                     if (item.getDisplayName().contains("wallpaper_single") || item.getDisplayName().contains("floor_single") || item.getDisplayName().contains("landscape_single")) {
                         msg.writeString(item.getDisplayName().split("_")[2]);
+                    } else if(def.getType().equals("r")) {
+                        msg.writeString("hr-3020-34.hd-3091-2.ch-225-92.lg-3058-100.sh-3089-1338.ca-3084-78-108.wa-2005"); // Bot figure!
                     } else {
-                        //msg.writeString(def.getItemName());
-                        msg.writeString(""); // Not sure yet...
+                        msg.writeString(""); // Preset extradata...blank for new special feature!
                     }
 
                     msg.writeInt(item.getAmount());
