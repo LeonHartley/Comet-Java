@@ -26,7 +26,7 @@ public class Events {
     public static short ConfirmTradeMessageEvent = 2049;
     public static short CreateNewRoomMessageEvent = 481;
     public static short FeaturedRoomsMessageEvent = 2791;
-    public static short FollowRoomInfoMessageEvent = 0; // TODO
+    public static short FollowRoomInfoMessageEvent = 2547;
     public static short GetCataIndexMessageEvent = 3324;
     public static short GetCataPageMessageEvent = 711;
     public static short GetProfileMessageEvent = 3369;
@@ -36,7 +36,7 @@ public class Events {
     public static short LoadSearchRoomMessageEvent = 3663;
     public static short LookToMessageEvent = 1562;
     public static short OpenDiceMessageEvent = 2690;
-    public static short OpenInventoryMessageEvent = 2800;
+    public static short OpenInventoryMessageEvent = 1404;
     public static short OwnRoomsMessageEvent = 3428;
     public static short PickUpItemMessageEvent = 3594;
     public static short PlaceItemMessageEvent = 1205;

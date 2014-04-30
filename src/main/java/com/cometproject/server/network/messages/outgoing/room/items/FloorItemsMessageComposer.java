@@ -20,6 +20,7 @@ public class FloorItemsMessageComposer {
             }
         } else {
             msg.writeInt(0);
+            msg.writeInt(0);
         }
 
 
