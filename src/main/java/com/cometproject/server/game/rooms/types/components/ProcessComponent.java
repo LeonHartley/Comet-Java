@@ -381,7 +381,7 @@ public class ProcessComponent implements CometTask {
                     String message = ((BotEntity) entity).getData().getMessages()[messageKey];
 
                     if (message != null && !message.isEmpty()) {
-                        this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), message, 0, 1));
+                        this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), message, 0, 2));
                     }
                 }
 

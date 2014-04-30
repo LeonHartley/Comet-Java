@@ -50,8 +50,8 @@ public class RoomWriter {
         msg.writeInt(room.getEntities().playerCount());
         msg.writeInt(room.getData().getMaxUsers());
         msg.writeString(room.getData().getDescription());
-        msg.writeInt(0);
         msg.writeInt(room.getData().getCategory().canTrade() ? 2 : 0);
+        msg.writeInt(0);
         msg.writeInt(room.getData().getScore());
         msg.writeInt(0);
         msg.writeInt(room.getData().getCategory().getId());
@@ -80,8 +80,16 @@ public class RoomWriter {
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeBoolean(false);
-        msg.writeBoolean(true);
         msg.writeBoolean(false);
+        msg.writeBoolean(true);
+        msg.writeInt(0);
+        msg.writeInt(2);
+        msg.writeInt(0);
+        msg.writeInt(14);
+        msg.writeBoolean(false);
+        msg.writeBoolean(false);
+        msg.writeBoolean(false);
+        msg.writeBoolean(true);
 
     }
 

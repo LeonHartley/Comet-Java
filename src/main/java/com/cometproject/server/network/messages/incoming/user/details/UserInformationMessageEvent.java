@@ -6,9 +6,11 @@ import com.cometproject.server.network.messages.outgoing.messenger.LoadFriendsMe
 import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementPointsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.UserInfoMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.WelcomeUserMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.AllowancesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
+import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
@@ -24,7 +26,7 @@ public class UserInformationMessageEvent implements IEvent {
         Map<Integer, Integer> currencies = new FastMap<>();
 
         currencies.put(0, 0); // duckets
-        currencies.put(105, client.getPlayer().getData().getPoints());
+        //currencies.put(105, client.getPlayer().getData().getPoints());
 
         client.send(CurrenciesMessageComposer.compose(currencies));
         currencies.clear();
@@ -36,6 +38,8 @@ public class UserInformationMessageEvent implements IEvent {
 
         client.send(LoadFriendsMessageComposer.compose(client.getPlayer().getMessenger().getFriends()));
         client.send(FriendRequestsMessageComposer.compose(client.getPlayer().getMessenger().getRequests()));
+
+        client.send(BadgeInventoryMessageComposer.compose(client.getPlayer().getInventory().getBadges()));
 
         client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
     }

@@ -78,6 +78,8 @@ public class FloorItem extends RoomItem {
         msg.writeInt(this.getX());
         msg.writeInt(this.getY());
         msg.writeInt(this.getRotation());
+
+        msg.writeString(Double.toString(this.getHeight())); // TODO: Stack tool
         msg.writeString(Double.toString(this.getHeight()));
 
         if (this.getDefinition().isAdFurni()) {

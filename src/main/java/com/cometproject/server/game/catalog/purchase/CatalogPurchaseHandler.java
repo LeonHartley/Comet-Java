@@ -12,6 +12,7 @@ import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.AlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.InventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;

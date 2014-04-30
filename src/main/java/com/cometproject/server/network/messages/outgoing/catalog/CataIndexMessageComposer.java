@@ -15,10 +15,10 @@ public class CataIndexMessageComposer {
 
         msg.writeBoolean(true);
         msg.writeInt(0);
-        msg.writeInt(0);
         msg.writeInt(-1);
         msg.writeString("root");
         msg.writeString("");
+        msg.writeInt(0);
 
         msg.writeInt(count(-1, pages));
         for (CatalogPage page : pages) {
@@ -27,11 +27,12 @@ public class CataIndexMessageComposer {
             }
 
             msg.writeBoolean(true);
-            msg.writeInt(page.getColour());
+            //msg.writeInt(page.getColour());
             msg.writeInt(page.getIcon());
             msg.writeInt(page.getId());
             msg.writeString(page.getCaption().toLowerCase().replace(" ", "_"));
             msg.writeString(page.getCaption());
+            msg.writeInt(0);
 
             msg.writeInt(count(page.getId(), pages));
 
@@ -41,16 +42,18 @@ public class CataIndexMessageComposer {
                 }
 
                 msg.writeBoolean(true);
-                msg.writeInt(child.getColour());
+                //msg.writeInt(child.getColour());
                 msg.writeInt(child.getIcon());
                 msg.writeInt(child.getId());
                 msg.writeString(child.getCaption().toLowerCase().replace(" ", "_"));
                 msg.writeString(child.getCaption());
                 msg.writeInt(0);
+                msg.writeInt(0); //??
             }
         }
 
-        msg.writeBoolean(true);
+        msg.writeBoolean(false);
+        msg.writeString("NORMAL");
 
         return msg;
     }
