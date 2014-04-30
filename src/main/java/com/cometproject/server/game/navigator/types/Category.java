@@ -20,9 +20,9 @@ public class Category {
         this.allowTrade = result.getString("can_trade").equals("1");
     }
 
-    public Category(int id, String title, int rank, boolean allowTrade) {
-        this.id = id;
-    }
+    //public Category(int id, String title, int rank, boolean allowTrade) {
+        // TODO: Manual constructor
+    //}
 
     public int getId() {
         return id;

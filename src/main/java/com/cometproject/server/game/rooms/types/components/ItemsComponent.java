@@ -13,6 +13,7 @@ import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.InventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastTable;
@@ -157,6 +158,7 @@ public class ItemsComponent {
 
         client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
         client.send(UpdateInventoryMessageComposer.compose());
+        //client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
     }
 
     public void removeItem(FloorItem item, Session client) {
@@ -196,6 +198,8 @@ public class ItemsComponent {
 
             client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
             client.send(UpdateInventoryMessageComposer.compose());
+
+            //client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
         } else {
             Comet.getServer().getStorage().execute("DELETE FROM items WHERE id = " + item.getId());
         }

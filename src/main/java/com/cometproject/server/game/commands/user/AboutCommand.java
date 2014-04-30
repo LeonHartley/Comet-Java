@@ -36,7 +36,6 @@ public class AboutCommand extends ChatCommand {
         }
 
         client.send(AdvancedAlertMessageComposer.compose(
-                "About " + CometSettings.hotelName,
                 "Comet Server - " + Comet.getBuild(),
                 about.toString(),
                 CometSettings.hotelName,

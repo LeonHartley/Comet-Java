@@ -12,16 +12,16 @@ public class BoughtItemMessageComposer {
 
         msg.writeInt(item.getId());
         msg.writeString(def.getItemName());
+        msg.writeBoolean(false);
         msg.writeInt(item.getCostCredits());
         msg.writeInt(item.getCostActivityPoints());
         msg.writeInt(0);
-        msg.writeBoolean(true);
+        msg.writeBoolean(false);
         msg.writeInt(1);
         msg.writeString(def.getType());
         msg.writeInt(def.getSpriteId());
         msg.writeString("");
         msg.writeInt(1);
-        msg.writeInt(0);
         msg.writeString("");
         msg.writeInt(1);
 

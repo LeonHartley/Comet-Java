@@ -34,13 +34,13 @@ public class RelationshipsMessageComposer {
                 msg.writeInt(0);
                 msg.writeInt(0); // id
                 msg.writeString("Placeholder");
-                // msg.writeString("hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62"); // newer versions only apparently.
+                msg.writeString("hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62"); // newer versions only apparently.
             } else {
                 msg.writeInt(RelationshipLevel.getInt(rel.getValue()));
                 msg.writeInt(rel.getValue() == RelationshipLevel.HEART ? hearts : rel.getValue() == RelationshipLevel.SMILE ? smiles : bobbas);
                 msg.writeInt(data.getId());
                 msg.writeString(data.getUsername());
-                //msg.writeString(data.getFigure()); // newer versions only apparently.
+                msg.writeString(data.getFigure()); // newer versions only apparently.
             }
         }
 

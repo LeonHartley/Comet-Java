@@ -144,7 +144,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     public boolean onChat(String message) {
         long time = System.currentTimeMillis();
 
-        if (time - this.player.lastMessage < 500) { // TODO: add flood bypass for staff with permission or something
+        if (time - this.player.lastMessage < 750) { // TODO: add flood bypass for staff with permission or something
             this.player.floodFlag++;
 
             if (this.player.floodFlag >= 4) {
@@ -261,6 +261,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
         msg.writeInt(-1);
         msg.writeInt(0);
         msg.writeInt(this.getPlayer().getData().getAchievementPoints()); //achv points
+        msg.writeBoolean(false);
     }
 
     @Override
