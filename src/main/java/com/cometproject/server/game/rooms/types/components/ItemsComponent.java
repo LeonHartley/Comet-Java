@@ -1,7 +1,5 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.collections.FixedAtomicMapImpl;
-import com.cometproject.collections.FixedAtomicTableImpl;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
