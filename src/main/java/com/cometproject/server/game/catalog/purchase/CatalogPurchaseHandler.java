@@ -204,10 +204,8 @@ public class CatalogPurchaseHandler {
                     client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
                 }
 
-                //client.send(UpdateInventoryMessageComposer.compose());
-                //client.send(SendPurchaseAlertMessageComposer.compose(unseenItems));
-
-                client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
+                client.send(UpdateInventoryMessageComposer.compose());
+                client.send(SendPurchaseAlertMessageComposer.compose(unseenItems));
             }
         } catch (Exception e) {
             GameEngine.getLogger().error("Error while buying catalog item", e);

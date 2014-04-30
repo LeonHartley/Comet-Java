@@ -156,8 +156,8 @@ public class ItemsComponent {
         room.getItems().getWallItems().remove(item);
 
         client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
-        //client.send(UpdateInventoryMessageComposer.compose());
-        client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
+        client.send(UpdateInventoryMessageComposer.compose());
+        //client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
     }
 
     public void removeItem(FloorItem item, Session client) {
@@ -196,9 +196,9 @@ public class ItemsComponent {
             Comet.getServer().getStorage().execute("UPDATE items SET x = 0, y = 0, z = 0, rot = 0, room_id = 0, user_id = " + client.getPlayer().getId() + " WHERE id = " + item.getId());
 
             client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
-            //client.send(UpdateInventoryMessageComposer.compose());
+            client.send(UpdateInventoryMessageComposer.compose());
 
-            client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
+            //client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
         } else {
             Comet.getServer().getStorage().execute("DELETE FROM items WHERE id = " + item.getId());
         }

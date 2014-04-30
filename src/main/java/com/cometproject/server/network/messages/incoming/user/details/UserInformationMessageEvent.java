@@ -26,9 +26,7 @@ public class UserInformationMessageEvent implements IEvent {
         Map<Integer, Integer> currencies = new FastMap<>();
 
         currencies.put(0, 0); // duckets
-        currencies.put(105, client.getPlayer().getData().getPoints());
-        currencies.put(101, 0); // hearts
-        currencies.put(2, 0); // ?
+        //currencies.put(105, client.getPlayer().getData().getPoints());
 
         client.send(CurrenciesMessageComposer.compose(currencies));
         currencies.clear();
@@ -42,12 +40,6 @@ public class UserInformationMessageEvent implements IEvent {
         client.send(FriendRequestsMessageComposer.compose(client.getPlayer().getMessenger().getRequests()));
 
         client.send(BadgeInventoryMessageComposer.compose(client.getPlayer().getInventory().getBadges()));
-
-        Composer testMessage = new Composer(2677);
-        testMessage.writeString("citizenship");
-        testMessage.writeInt(4);
-        testMessage.writeInt(4);
-        client.send(testMessage);
 
         client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
     }

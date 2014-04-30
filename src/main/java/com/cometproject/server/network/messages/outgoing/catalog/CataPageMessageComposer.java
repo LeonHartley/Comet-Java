@@ -80,16 +80,17 @@ public class CataPageMessageComposer {
             for (CatalogItem item : page.getItems().values()) {
                 msg.writeInt(item.getId());
                 msg.writeString(item.getDisplayName());
-                msg.writeBoolean(false); // TODO: find what this is...
+                msg.writeBoolean(false); // Is rentable item
                 msg.writeInt(item.getCostCredits());
-
-                if (item.getCostOther() > 0) {
+                msg.writeInt(0);
+                msg.writeInt(0);
+                /*if (item.getCostOther() > 0) {
                     msg.writeInt(item.getCostOther());
                     msg.writeInt(0); // currency type :: diamonds
                 } else {
                     msg.writeInt(0);
                     msg.writeInt(0);
-                }
+                }*/
 
                 msg.writeBoolean(true); // Allow gift!
 

@@ -8,8 +8,9 @@ public class RemoveFloorItemMessageComposer {
         Composer msg = new Composer(Composers.RemoveFloorItemMessageComposer);
 
         msg.writeString(id);
-        msg.writeInt(0);
+        msg.writeBoolean(false);
         msg.writeInt(ownerId);
+        msg.writeInt(0);
 
         return msg;
     }

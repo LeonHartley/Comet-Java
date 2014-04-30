@@ -63,7 +63,7 @@ public class InventoryMessageComposer {
             msg.writeBoolean(i.getDefinition().canInventoryStack);
             msg.writeBoolean(i.getDefinition().canMarket);
             msg.writeInt(-1);
-            msg.writeBoolean(true);
+            msg.writeBoolean(false);
             msg.writeInt(-1);
         }
 

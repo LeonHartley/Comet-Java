@@ -11,7 +11,7 @@ public class Events {
     public static short AcceptTradeMessageEvent = 2011;
     public static short ApplyActionMessageEvent = 548;
     public static short ApplyDanceMessageEvent = 2488;
-    public static short ApplySignMessageEvent = 2756;
+    public static short ApplySignMessageEvent = 2156;
     public static short BeginTradeMessageEvent = 585;
     public static short CancelTradeMessageEvent = 428;
     public static short CanCreateRoomMessageEvent = 2569;
@@ -32,7 +32,7 @@ public class Events {
     public static short GetProfileMessageEvent = 3369;
     public static short InitalizeRoomMessageEvent = 3010;
     public static short LoadHeightmapMessageEvent = 3791;
-    public static short LoadRoomInfoMessageEvent = 0; // TODO
+    public static short LoadRoomInfoMessageEvent = 3802;
     public static short LoadSearchRoomMessageEvent = 3663;
     public static short LookToMessageEvent = 1562;
     public static short OpenDiceMessageEvent = 2690;
