@@ -11,7 +11,7 @@ public class Events {
     public static short AcceptTradeMessageEvent = 2011;
     public static short ApplyActionMessageEvent = 548;
     public static short ApplyDanceMessageEvent = 2488;
-    public static short ApplySignMessageEvent = 2056;
+    public static short ApplySignMessageEvent = 2756;
     public static short BeginTradeMessageEvent = 585;
     public static short CancelTradeMessageEvent = 428;
     public static short CanCreateRoomMessageEvent = 2569;
