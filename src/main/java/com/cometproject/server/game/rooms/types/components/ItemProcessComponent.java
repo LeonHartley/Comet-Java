@@ -158,7 +158,7 @@ public class ItemProcessComponent implements CometTask {
                 }
             }
 
-            for (WiredSquare wiredSquare : Collections.synchronizedList(this.getRoom().getWired().getSquares())) {
+            for (WiredSquare wiredSquare : this.getRoom().getWired().getSquares()) {
                 if (this.getRoom().getItems().getItemsOnSquare(wiredSquare.getX(), wiredSquare.getY()).size() < 1) {
                     this.getRoom().getWired().disposeSquare(wiredSquare);
                 }
