@@ -3,6 +3,9 @@ package com.cometproject.server;
 import javolution.util.FastMap;
 import junit.framework.TestCase;
 
+import java.util.Iterator;
+import java.util.Map;
+
 public class AtomicCollectionTest extends TestCase {
     private FastMap<String, String> testMap = new FastMap<String, String>().atomic();
 
@@ -18,16 +21,13 @@ public class AtomicCollectionTest extends TestCase {
     }
 
     public void testClear() {
-        Exception exc = null;
+        assertEquals(testMap.size(), 2);
 
-        try {
-            this.testMap.clear();
-        } catch (Exception e) {
-            exc = e;
-        } finally {
-            assertNotNull(exc);
-
-            exc.printStackTrace();
+        Iterator<Map.Entry<String, String>> it = this.testMap.entrySet().iterator();
+        while (it.hasNext()) {
+            this.testMap.remove(it.next().getKey());
         }
+
+        assertEquals(testMap.size(), 0);
     }
 }

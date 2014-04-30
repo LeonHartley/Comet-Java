@@ -15,8 +15,10 @@ import com.cometproject.server.game.rooms.types.RoomModel;
 import com.cometproject.server.network.messages.types.Composer;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
+import sun.net.www.content.text.Generic;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -28,7 +30,7 @@ public class EntityComponent {
 
     private AtomicInteger entityIdGenerator = new AtomicInteger();
 
-    private Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().shared();
+    private Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().atomic();
 
     private Map<Integer, Integer> playerIdToEntity = new FastMap<>();
     private Map<Integer, Integer> botIdToEntity = new FastMap<>();
@@ -269,7 +271,12 @@ public class EntityComponent {
         petIdToEntity = null;
         botIdToEntity = null;
 
-        entities.clear();
+        //entities.clear();
+        Iterator<Map.Entry<Integer, GenericEntity>> it = this.entities.entrySet().iterator();
+        while (it.hasNext()) {
+            this.entities.remove(it.next().getKey());
+        }
+
         entities = null;
     }
 }
