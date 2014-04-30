@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.collections.FixedAtomicMapImpl;
+import com.cometproject.collections.FixedAtomicTableImpl;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
@@ -17,6 +19,7 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.Inventor
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastTable;
+import javolution.util.internal.table.FastTableImpl;
 import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
@@ -28,15 +31,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ItemsComponent {
     private Room room;
 
-    private FastTable<FloorItem> floorItems;
-    private FastTable<WallItem> wallItems;
+    private ConcurrentLinkedQueue<FloorItem> floorItems;
+    private ConcurrentLinkedQueue<WallItem> wallItems;
 
     private Logger log;
 
     public ItemsComponent(Room room) {
         this.room = room;
-        this.floorItems = new FastTable<FloorItem>().shared();
-        this.wallItems = new FastTable<WallItem>().shared();
+        this.floorItems = new ConcurrentLinkedQueue<FloorItem>();
+        this.wallItems = new ConcurrentLinkedQueue<WallItem>();
 
         log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
         this.loadItems();
@@ -221,11 +224,11 @@ public class ItemsComponent {
         return this.room;
     }
 
-    public FastTable<FloorItem> getFloorItems() {
+    public ConcurrentLinkedQueue<FloorItem> getFloorItems() {
         return this.floorItems;
     }
 
-    public FastTable<WallItem> getWallItems() {
+    public ConcurrentLinkedQueue<WallItem> getWallItems() {
         return this.wallItems;
     }
 }
