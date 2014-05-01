@@ -13,9 +13,10 @@ import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.inventory.InventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import javolution.util.FastTable;
+import javolution.util.internal.table.FastTableImpl;
 import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
@@ -34,8 +35,8 @@ public class ItemsComponent {
 
     public ItemsComponent(Room room) {
         this.room = room;
-        this.floorItems = new ConcurrentLinkedQueue<>();
-        this.wallItems = new ConcurrentLinkedQueue<>();
+        this.floorItems = new ConcurrentLinkedQueue<FloorItem>();
+        this.wallItems = new ConcurrentLinkedQueue<WallItem>();
 
         log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
         this.loadItems();
