@@ -3,7 +3,10 @@ package com.cometproject.server.game.items;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.interactions.InteractionManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
+import com.cometproject.server.storage.collections.ImmutableResultReader;
+import com.cometproject.server.storage.queries.items.TeleporterDao;
 import javolution.util.FastMap;
+import jdk.nashorn.internal.ir.annotations.Immutable;
 import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
@@ -47,13 +50,22 @@ public class ItemManager {
             return teleportPairs.get(itemId);
         } else {
             try {
-                ResultSet check = Comet.getServer().getStorage().getRow("SELECT * FROM items_teles WHERE id_one = " + itemId);
+                /*ResultSet check = Comet.getServer().getStorage().getRow("SELECT * FROM items_teles WHERE id_one = " + itemId);
 
                 if (check != null) {
                     this.teleportPairs.put(itemId, check.getInt("id_two"));
                     this.teleportPairs.put(check.getInt("id_two"), itemId);
 
                     return check.getInt("id_two");
+                }*/
+
+                ImmutableResultReader reader = TeleporterDao.getTeleporterPartners(itemId);
+
+                if (reader.size() > 0) {
+                    this.teleportPairs.put(itemId, reader.getInt("id_two"));
+                    this.teleportPairs.put(reader.getInt("id_two"), itemId);
+
+                    return reader.getInt("id_two");
                 }
             } catch (Exception e) {
                 log.error("Error while searching for teleport partner", e);
