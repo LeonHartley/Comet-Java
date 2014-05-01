@@ -12,9 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PlayerLoader {
-    private static Logger log = Logger.getLogger(PlayerLoader.class.getName());
+    //private static Logger log = Logger.getLogger(PlayerLoader.class.getName());
 
-    /*public static Player loadPlayerBySSo(String ticket) {
+    public static Player loadPlayerBySSo(String ticket) {
         return new Player(PlayerDao.getIdBySSO(ticket));
     }
 
@@ -28,9 +28,9 @@ public class PlayerLoader {
 
     public static PlayerData loadDataById(int id) {
         return PlayerDao.getDataById(id);
-    }*/
+    }
 
-    public static Player loadPlayerBySSo(String ticket) {
+    /*public static Player loadPlayerBySSo(String ticket) {
         try {
             PreparedStatement statement = Comet.getServer().getStorage().prepare("SELECT `id` FROM players WHERE auth_ticket = ?");
 
@@ -97,5 +97,5 @@ public class PlayerLoader {
         }
 
         return new Player(result.getInt("id"));
-    }
+    }*/
 }
