@@ -10,9 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by Matty on 28/04/2014.
- */
 public class PlayerDao {
 
     public static int getIdBySSO(String authTicket) {

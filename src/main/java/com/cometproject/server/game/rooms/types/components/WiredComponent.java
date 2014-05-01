@@ -19,12 +19,12 @@ import java.util.List;
 public class WiredComponent {
     private Room room;
 
-    private FastTable<WiredSquare> squares;
+    private List<WiredSquare> squares;
 
     public WiredComponent(Room room) {
         this.room = room;
 
-        this.squares = new FastTable<WiredSquare>().shared();
+        this.squares = new ArrayList<>();
     }
 
     public void dispose() {
@@ -139,7 +139,7 @@ public class WiredComponent {
         this.squares.remove(square);
     }
 
-    public FastTable<WiredSquare> getSquares() {
+    public List<WiredSquare> getSquares() {
         return this.squares;
     }
 
