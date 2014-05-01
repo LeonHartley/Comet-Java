@@ -55,6 +55,7 @@ public class PetEntity extends GenericEntity {
             }
         }
 
+        this.getRoom().getEntities().removeEntity(this);
         this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
     }
 

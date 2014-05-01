@@ -8,7 +8,7 @@ import com.cometproject.server.network.sessions.Session;
 
 public class LoadHeightmapMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        client.send(HeightmapMessageComposer.compose(client.getPlayer().getEntity().getRoom().getModel()));
-        client.send(RelativeHeightmapMessageComposer.compose(client.getPlayer().getEntity().getRoom().getModel()));
+        client.send(client.getPlayer().getEntity().getRoom().getModel().getHeightmapMessage());
+        client.send(client.getPlayer().getEntity().getRoom().getModel().getRelativeHeightmapMessage());
     }
 }
