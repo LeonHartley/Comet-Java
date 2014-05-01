@@ -15,9 +15,25 @@ public class ImmutableResultReader {
     private final ResultSet resultSet;
     private final Map<String, Object> dataStore = new HashMap<>();
 
+    public static ImmutableResultReader build(ResultSet resultSet) {
+        return new ImmutableResultReader(resultSet);
+    }
+
+    public static EmptyImmutableResultReader empty() {
+        return new EmptyImmutableResultReader();
+    }
+
+    public ImmutableResultReader(ResultSet resultSet) {
+        this.resultSet = resultSet;
+        this.init(true);
+    }
+
     public ImmutableResultReader(ResultSet resultSet, boolean shouldCloseRs) {
         this.resultSet = resultSet;
+        this.init(shouldCloseRs);
+    }
 
+    protected void init(boolean shouldCloseRs) {
         try {
             if (resultSet != null && !resultSet.isClosed()) {
                 int curr = 0;
@@ -35,7 +51,7 @@ public class ImmutableResultReader {
             if (shouldCloseRs) {
                 try {
                     this.resultSet.close();
-                } catch (SQLException e) { }
+                } catch (SQLException e) { SqlHelper.handleSqlException(e); }
             }
         }
     }

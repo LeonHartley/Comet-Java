@@ -3,6 +3,8 @@ package com.cometproject.server.storage;
 import com.cometproject.server.boot.Comet;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -10,7 +12,8 @@ import java.util.concurrent.TimeUnit;
 
 public class SqlStorageEngine {
     private static Logger log = Logger.getLogger(SqlStorageEngine.class.getName());
-    private BoneCP connections = null;
+    //private BoneCP connections = null;
+    private HikariDataSource connections = null;
 
     public SqlStorageEngine() {
         checkDriver();
@@ -18,7 +21,7 @@ public class SqlStorageEngine {
         boolean isConnectionFailed = false;
 
         try {
-            BoneCPConfig config = new BoneCPConfig();
+            /*BoneCPConfig config = new BoneCPConfig();
 
             config.setJdbcUrl("jdbc:mysql://" + Comet.getServer().getConfig().get("comet.db.host") + "/" + Comet.getServer().getConfig().get("comet.db.name"));
             config.setUsername(Comet.getServer().getConfig().get("comet.db.username"));
@@ -29,8 +32,19 @@ public class SqlStorageEngine {
             config.setPartitionCount(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.count")));
 
             log.info("Connecting to the MySQL server");
-            this.connections = new BoneCP(config);
+            this.connections = new BoneCP(config);*/
 
+            HikariConfig config = new HikariConfig();
+            config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+            config.addDataSourceProperty("serverName", Comet.getServer().getConfig().get("comet.db.host"));
+            config.addDataSourceProperty("port", 3306);
+            config.addDataSourceProperty("databaseName", Comet.getServer().getConfig().get("comet.db.name"));
+            config.addDataSourceProperty("user", Comet.getServer().getConfig().get("comet.db.username"));
+            config.addDataSourceProperty("password", Comet.getServer().getConfig().get("comet.db.password"));
+            config.setMaximumPoolSize(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
+            config.setLeakDetectionThreshold(10000);
+
+            this.connections = new HikariDataSource(config);
         } catch (Exception e) {
             isConnectionFailed = true;
             log.error("Failed to connect to MySQL server", e);
@@ -45,10 +59,10 @@ public class SqlStorageEngine {
     }
 
     public int getConnectionCount() {
-        return this.connections.getTotalLeased();
+        return 0;
     }
 
-    public BoneCP getConnections() {
+    public HikariDataSource getConnections() {
         return this.connections;
     }
 
@@ -87,7 +101,7 @@ public class SqlStorageEngine {
         } finally {
             try {
                 if (statement != null) {
-                    statement.close();
+                    statement.getConnection().close();
                 }
             } catch (SQLException e) { }
         }
