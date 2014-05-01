@@ -44,7 +44,7 @@ public class Composers {
     public static short RemoveObjectFromInventoryMessageComposer = 2759;
     public static short RemovePowersMessageComposer = 3702;
     public static short RemoveWallItemMessageComposer = 2003;
-    public static short RequestFriendshipMessageComposer = 1964;
+    public static short RequestFriendshipMessageComposer = 1546;
     public static short RoomDataMessageComposer = 495;
     public static short RoomFullMessageComposer = 1819;
     public static short OwnerRightsMessageComposer = 1001;
@@ -116,14 +116,14 @@ public class Composers {
     public static short PetInventoryMessageComposer = 2304;
     public static short HandItemMessageComposer = 2258;
     public static short PopularTagsMessageComposer = 2484;
-    public static short FriendRequestsMessageComposer = 3540;
+    public static short FriendRequestsMessageComposer = 1547;
     public static short ModToolRoomInfoMessageComposer = 2954;
     public static short PetInformationMessageComposer = 2135;
 
-    public static short PingMessageComposer = 2940; // Make sure this is right or users may get disconnected lots..
+    public static short PingMessageComposer = 884; // Make sure this is right or users may get disconnected lots..
     public static short CatalogPublishedMessageComposer = 2879;
 
-    public static short AchievementPointsMessageComposer = 2657;
+    public static short AchievementPointsMessageComposer = 1942;
     public static short HotelViewItemMessageComposer = 360;
 
     public static String valueOfId(int i) {
