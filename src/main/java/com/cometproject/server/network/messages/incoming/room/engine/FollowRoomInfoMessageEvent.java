@@ -37,7 +37,5 @@ public class FollowRoomInfoMessageEvent implements IEvent {
 
             client.send(composer);
         }
-
-        System.out.println("We're here");
     }
 }
