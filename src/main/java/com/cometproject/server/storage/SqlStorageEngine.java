@@ -28,9 +28,6 @@ public class SqlStorageEngine {
             config.setMaxConnectionsPerPartition(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
             config.setPartitionCount(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.count")));
 
-            config.setCloseConnectionWatch(true);
-            config.setCloseConnectionWatchTimeout(10, TimeUnit.SECONDS);
-
             log.info("Connecting to the MySQL server");
             this.connections = new BoneCP(config);
 
