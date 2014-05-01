@@ -1,15 +1,15 @@
 package com.cometproject.server.storage;
 
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by Matty on 28/04/2014.
- */
 public class SqlHelper {
     private static SqlStorageEngine storage;
+    private static Logger log = Logger.getLogger(SqlHelper.class.getName());
 
     public static void init(SqlStorageEngine storageEngine) {
         storage = storageEngine;
@@ -119,6 +119,6 @@ public class SqlHelper {
     }
 
     public static void handleSqlException(SQLException e) {
-
+        log.error("Error while executing query", e);
     }
 }

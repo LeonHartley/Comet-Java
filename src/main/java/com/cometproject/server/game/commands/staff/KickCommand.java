@@ -21,12 +21,11 @@ public class KickCommand extends ChatCommand {
             return;
 
         if (playerToKick.getPlayer().getEntity().getUsername().equals(client.getPlayer().getEntity().getUsername())) {
-            client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.kick.error"), Locale.get("command.disconnect.himself")));
             return;
         }
 
         if (playerToKick.getPlayer().getPermissions().hasPermission("user_unkickable")) {
-            client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.kick.error"), Locale.get("command.kick.unkickable")));
+            sendChat(Locale.get("command.kick.unkickable"), client);
             return;
         }
 

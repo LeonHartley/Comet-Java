@@ -85,9 +85,9 @@ public class Events {
     public static short BuyGroupDialogMessageEvent = 2706; // TODO: Check this!
     public static short PetRacesMessageEvent = 216;
     public static short ExchangeItemMessageEvent = 3440;
-    public static short ModifyBotMessageEvent = 0; // TODO: this
-    public static short BotConfigMessageEvent = 0; // TODO: this
-    public static short RemoveBotMessageEvent = 3624; // TODO: Check this
+    public static short ModifyBotMessageEvent = 2742;
+    public static short BotConfigMessageEvent = 868;
+    public static short RemoveBotMessageEvent = 3624;
     public static short UpdatePapersMessageEvent = 32;
     public static short SaveMannequinMessageEvent = 328; // TODO: check this
     public static short SaveMannequinNameMessageEvent = 2529; // TODO: check this

@@ -38,20 +38,20 @@ public class Composers {
     public static short NavigatorFlatListMessageComposer = 2694;
     public static short OfferMessageComposer = 2235;
     public static short OnCreateRoomInfoMessageComposer = 2897;
-    public static short PapersMessageComposer = 2993;
+    public static short PapersMessageComposer = 3642;
     public static short RelativeHeightmapMessageComposer = 3768;
     public static short RemoveFloorItemMessageComposer = 3386;
     public static short RemoveObjectFromInventoryMessageComposer = 2759;
     public static short RemovePowersMessageComposer = 3702;
     public static short RemoveWallItemMessageComposer = 2003;
-    public static short RequestFriendshipMessageComposer = 1964;
+    public static short RequestFriendshipMessageComposer = 1546;
     public static short RoomDataMessageComposer = 495;
     public static short RoomFullMessageComposer = 1819;
-    public static short OwnerRightsMessageComposer = 1812;
+    public static short OwnerRightsMessageComposer = 1001;
     public static short RoomPanelMessageComposer = 2318;
     public static short RoomStatusesMessageComposer = 3977;
     public static short RoomUsersMessageComposer = 411;
-    public static short SearchFriendsMessageComposer = 1788;
+    public static short SearchFriendsMessageComposer = 171;
     public static short SendCreditsMessageComposer = 2507;
     public static short SendFloorItemMessageComposer = 1013;
     public static short SendWallItemMessageComposer = 1926;
@@ -69,7 +69,7 @@ public class Composers {
     public static short TypingStatusMessageComposer = 1860;
     public static short UpdateFloorExtraDataMessageComposer = 750;
     public static short UpdateFloorItemMessageComposer = 3169;
-    public static short UpdateFriendStateMessageComposer = 1710;
+    public static short UpdateFriendStateMessageComposer = 161;
     public static short UpdateInfoMessageComposer = 1859;
     public static short UpdateInventoryMessageComposer = 345;
     public static short UpdateWallItemMessageComposer = 893;
@@ -89,7 +89,7 @@ public class Composers {
     public static short GiveRespectMessageComposer = 3836;
     public static short RelationshipsMessageComposer = 3754;
     public static short SendPurchaseAlertMessageComposer = 774;
-    public static short BotInventoryMessageComposer = 1294;
+    public static short BotInventoryMessageComposer = 823;
 
     public static short ModToolUserInfoMessageComposer = 3282;
     public static short ModToolUserChatlogMessageComposer = 2981;
@@ -110,20 +110,20 @@ public class Composers {
     public static short WardrobeMessageComposer = 3709;
 
     public static short SlideObjectBundleMessageComposer = 2473;
-    public static short BotConfigMessageComposer = 20;
+    public static short BotConfigMessageComposer = 3945;
     public static short PetRacesMessageComposer = 714;
     public static short ValidatePetNameMessageComposer = 204;
     public static short PetInventoryMessageComposer = 2304;
     public static short HandItemMessageComposer = 2258;
     public static short PopularTagsMessageComposer = 2484;
-    public static short FriendRequestsMessageComposer = 3540;
+    public static short FriendRequestsMessageComposer = 1547;
     public static short ModToolRoomInfoMessageComposer = 2954;
     public static short PetInformationMessageComposer = 2135;
 
-    public static short PingMessageComposer = 2940; // Make sure this is right or users may get disconnected lots..
+    public static short PingMessageComposer = 884; // Make sure this is right or users may get disconnected lots..
     public static short CatalogPublishedMessageComposer = 2879;
 
-    public static short AchievementPointsMessageComposer = 2657;
+    public static short AchievementPointsMessageComposer = 1942;
     public static short HotelViewItemMessageComposer = 360;
 
     public static String valueOfId(int i) {
