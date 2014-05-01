@@ -33,6 +33,8 @@ public class Session {
             return;
         }
 
+        logger.debug("Sent message: " + msg.getId());
+
         channel.write(msg.get());
     }
 

@@ -57,7 +57,7 @@ public class SSOTicketMessageEvent implements IEvent {
 
         client.getLogger().info(client.getPlayer().getData().getUsername() + " logged in");
 
-        Comet.getServer().getStorage().execute("UPDATE players SET last_online = " + Comet.getTime() + " AND online = '1' WHERE id = " + player.getId());
+        Comet.getServer().getStorage().execute("UPDATE players SET last_online = " + Comet.getTime() + " WHERE id = " + player.getId());
 
         client.send(LoginMessageComposer.compose());
         client.send(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));
