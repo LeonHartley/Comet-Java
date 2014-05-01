@@ -1,6 +1,9 @@
 package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
+import com.cometproject.server.network.messages.outgoing.room.engine.HeightmapMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.RelativeHeightmapMessageComposer;
+import com.cometproject.server.network.messages.types.Composer;
 import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
@@ -27,6 +30,9 @@ public class RoomModel {
     private int[][] squares;
     private double[][] squareHeight;
     private RoomTileState[][] squareState;
+
+    private Composer heightmapMessage;
+    private Composer relativeHeightmapMessage;
 
     public RoomModel(ResultSet data) throws SQLException {
         this.name = data.getString("id");
@@ -84,9 +90,16 @@ public class RoomModel {
                 }
                 map += MapLine + (char) 13;
             }
+
+            this.loadMessages();
         } catch (Exception e) {
             Logger.getLogger(this.getClass().getName()).error("Error while parsing room heightmap (Model ID: " + this.name + ")", e);
         }
+    }
+
+    private void loadMessages() {
+        this.heightmapMessage = HeightmapMessageComposer.compose(this);
+        this.relativeHeightmapMessage = RelativeHeightmapMessageComposer.compose(this);
     }
 
     public String getId() {
@@ -144,5 +157,13 @@ public class RoomModel {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public Composer getHeightmapMessage() {
+        return heightmapMessage;
+    }
+
+    public Composer getRelativeHeightmapMessage() {
+        return relativeHeightmapMessage;
     }
 }
