@@ -5,11 +5,11 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
 public class PlayerLoader {
     private static Logger log = Logger.getLogger(PlayerLoader.class.getName());
@@ -39,7 +39,7 @@ public class PlayerLoader {
 
             return PlayerLoader.resultToPlayer(data);
         } catch (SQLException e) {
-            //log.error("Error while loading player data", e);
+            log.error("Error while loading player data", e);
         }
 
         return null;
@@ -50,7 +50,7 @@ public class PlayerLoader {
             ResultSet result = Comet.getServer().getStorage().getRow("SELECT * FROM players WHERE id = " + id + " LIMIT 1;");
             return new PlayerData(result.getInt("id"), result.getString("username"), result.getString("motto"), result.getString("figure"), result.getString("gender"), result.getInt("rank"), result.getInt("credits"), result.getInt("vip_points"), result.getString("reg_date"), result.getInt("last_online"), result.getString("vip").equals("1"), result.getInt("achievement_points"));
         } catch (SQLException e) {
-            //log.error("Error while loading player data", e);
+            log.error("Error while loading player data", e);
         }
 
         return null;
@@ -64,7 +64,7 @@ public class PlayerLoader {
             if (e instanceof NullPointerException) {
                 Comet.getServer().getStorage().execute("INSERT into player_settings (`player_id`) VALUES(" + id + ")");
             } else {
-                //log.error("Error while loading player settings", e);
+                log.error("Error while loading player settings", e);
             }
         }
 
@@ -79,7 +79,7 @@ public class PlayerLoader {
             if (e instanceof NullPointerException) {
                 Comet.getServer().getStorage().execute("INSERT into player_stats (`player_id`) VALUES(" + id + ")");
             } else {
-                //log.error("Error while loading player statistics", e);
+                log.error("Error while loading player statistics", e);
             }
         }
 
