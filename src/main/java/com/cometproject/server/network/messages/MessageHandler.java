@@ -257,11 +257,11 @@ public class MessageHandler {
     public void handle(Event message, Session client) {
         Short header = message.getId();
 
-        if(header != PING_HEADER) {
+        /*if(header != PING_HEADER) {
             log.debug("Message received (ID: " + header + ")");
             log.debug(message.toString());
-        }
-
+        }*/
+        
         if (this.getMessages().containsKey(header)) {
             long start = System.currentTimeMillis();
 
