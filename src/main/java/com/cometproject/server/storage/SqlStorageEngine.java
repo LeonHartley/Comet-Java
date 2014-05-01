@@ -77,10 +77,18 @@ public class SqlStorageEngine {
     }
 
     public void execute(String query) {
+        PreparedStatement statement = null;
         try {
-            this.prepare(query).execute();
+            statement = this.prepare(query);
+            statement.execute();
         } catch (SQLException e) {
             log.error("Error while executing MySQL query", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) { }
         }
     }
 
@@ -124,6 +132,10 @@ public class SqlStorageEngine {
                 i++;
             }
 
+            try {
+                result.close();
+            } catch (SQLException e) { }
+
             return i;
         } catch (SQLException e) {
             log.error("Error while counting entries", e);
@@ -139,7 +151,7 @@ public class SqlStorageEngine {
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet result = statement.executeQuery();
 
-            while (result.next()) {
+            if (result.next()) {
                 return result;
             }
         } catch (SQLException e) {
@@ -169,8 +181,10 @@ public class SqlStorageEngine {
     }
 
     public String getString(String query) {
+        ResultSet result = null;
+
         try {
-            ResultSet result = this.prepare(query).executeQuery();
+            result = this.prepare(query).executeQuery();
             result.first();
 
             String str = query.split(" ")[1];
@@ -182,6 +196,10 @@ public class SqlStorageEngine {
             return result.getString(str);
         } catch (SQLException e) {
             log.error("Error while getting string", e);
+        } finally {
+            try {
+                if (result != null) { result.close(); }
+            } catch (SQLException e) { }
         }
 
         return null;
