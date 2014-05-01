@@ -15,10 +15,8 @@ import com.cometproject.server.game.rooms.types.RoomModel;
 import com.cometproject.server.network.messages.types.Composer;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
-import sun.net.www.content.text.Generic;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -270,8 +268,6 @@ public class EntityComponent {
         playerIdToEntity = null;
         petIdToEntity = null;
         botIdToEntity = null;
-
-        entities.clear();
 
         entities = null;
     }
