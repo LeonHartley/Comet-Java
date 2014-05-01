@@ -6,6 +6,7 @@ import com.jolbox.bonecp.BoneCPConfig;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
+import java.util.concurrent.TimeUnit;
 
 public class SqlStorageEngine {
     private static Logger log = Logger.getLogger(SqlStorageEngine.class.getName());
@@ -26,6 +27,9 @@ public class SqlStorageEngine {
             config.setMinConnectionsPerPartition(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.min")));
             config.setMaxConnectionsPerPartition(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
             config.setPartitionCount(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.count")));
+
+            config.setCloseConnectionWatch(true);
+            config.setCloseConnectionWatchTimeout(10, TimeUnit.SECONDS);
 
             log.info("Connecting to the MySQL server");
             this.connections = new BoneCP(config);
