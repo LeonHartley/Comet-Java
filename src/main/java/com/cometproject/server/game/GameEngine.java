@@ -11,6 +11,7 @@ import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.wired.WiredManager;
+import com.cometproject.server.storage.queries.test.ReaderTestDao;
 import org.apache.log4j.Logger;
 
 public class GameEngine {
@@ -31,6 +32,10 @@ public class GameEngine {
     private static Logger log = Logger.getLogger(GameEngine.class.getName());
 
     public static void init() {
+        // testing dao first + reader
+        ReaderTestDao.loadPermissions();
+
+        /*
         permissionsManager = new PermissionsManager();
         itemManager = new ItemManager();
         catalogManager = new CatalogManager();
@@ -41,7 +46,7 @@ public class GameEngine {
         banManager = new BanManager();
         moderationManager = new ModerationManager();
         groupManager = new GroupManager();
-        petManager = new PetManager();
+        petManager = new PetManager();*/
     }
 
     public static Logger getLogger() {
