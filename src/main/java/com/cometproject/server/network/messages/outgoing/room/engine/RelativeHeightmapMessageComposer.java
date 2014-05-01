@@ -38,7 +38,6 @@ public class RelativeHeightmapMessageComposer {
         }
 
         msg.writeString(builder.toString());
-
         return msg;
     }
 }
