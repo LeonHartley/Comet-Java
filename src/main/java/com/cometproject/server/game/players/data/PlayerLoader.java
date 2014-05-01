@@ -49,7 +49,7 @@ public class PlayerLoader {
         try {
             ResultSet result = Comet.getServer().getStorage().getRow("SELECT * FROM players WHERE id = " + id + " LIMIT 1;");
             return new PlayerData(result.getInt("id"), result.getString("username"), result.getString("motto"), result.getString("figure"), result.getString("gender"), result.getInt("rank"), result.getInt("credits"), result.getInt("vip_points"), result.getString("reg_date"), result.getInt("last_online"), result.getString("vip").equals("1"), result.getInt("achievement_points"));
-        } catch (SQLException e) {
+        } catch (Exception e) {
             log.error("Error while loading player data", e);
         }
 
