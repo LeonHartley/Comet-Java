@@ -5,6 +5,7 @@ import com.cometproject.server.game.catalog.purchase.CatalogPurchaseHandler;
 import com.cometproject.server.game.catalog.types.CatalogClubOffer;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
+import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -18,8 +19,6 @@ public class CatalogManager {
     private Map<Integer, CatalogPage> pages;
 
     private CatalogPurchaseHandler purchaseHandler;
-
-    private int itemCount = 0;
 
     private Logger log = Logger.getLogger(CatalogManager.class.getName());
 
@@ -39,41 +38,12 @@ public class CatalogManager {
         }
 
         try {
-            ResultSet page = Comet.getServer().getStorage().getTable("SELECT * FROM catalog_pages WHERE visible = '1' ORDER BY order_num");
-
-            while (page.next()) {
-                this.getPages().put(page.getInt("id"), new CatalogPage(page, this.loadItems(page.getInt("id"))));
-            }
+            this.pages = CatalogDao.getPages();
         } catch (Exception e) {
             log.error("Error while loading catalog pages", e);
         }
 
         log.info("Loaded " + this.getPages().size() + " catalog pages");
-        log.info("Loaded " + this.itemCount + " catalog items");
-    }
-
-    public Map<Integer, CatalogItem> loadItems(int pageId) {
-        Map<Integer, CatalogItem> items = new FastMap<>();
-
-        try {
-            ResultSet item = Comet.getServer().getStorage().getTable("SELECT * FROM catalog_items WHERE page_id = " + pageId);
-
-            while (item.next()) {
-                itemCount++;
-
-                CatalogItem i = new CatalogItem(item);
-
-                //if(GameEngine.getItems().getDefintion(i.getId()) == null) {
-                //    log.error("Inconsistent item data for catalog item: " + i.getId());
-                //} else {
-                items.put(i.getId(), i);
-                //}
-            }
-        } catch (Exception e) {
-            log.error("Error while loading items for page: " + pageId, e);
-        }
-
-        return items;
     }
 
     public List<CatalogPage> getPagesForRank(int rank) {

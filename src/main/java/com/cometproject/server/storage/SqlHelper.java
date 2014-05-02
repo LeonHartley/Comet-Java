@@ -40,13 +40,6 @@ public class SqlHelper {
         } catch (SQLException e) { }
     }
 
-    public static void closeStatementSilently(PreparedStatement statement) {
-        try {
-            if (statement == null) { return; }
-            statement.close();
-        } catch (SQLException e) { }
-    }
-
     public static void executeStatementSilently(PreparedStatement statement, boolean autoClose) {
         try {
             if (statement == null) { return; }
