@@ -2,9 +2,9 @@ package com.cometproject.server.game.items;
 
 import com.cometproject.server.game.items.interactions.InteractionManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.ItemDefinitionDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -62,7 +62,7 @@ public class ItemManager {
 
     public int roomIdByItemId(int itemId) {
         try {
-            return ItemDao.getRoomIdById(itemId);
+            return RoomItemDao.getRoomIdById(itemId);
         } catch (Exception e) {
             return 0;
         }
