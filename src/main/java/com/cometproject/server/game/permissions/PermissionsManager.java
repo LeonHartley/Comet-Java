@@ -3,6 +3,8 @@ package com.cometproject.server.game.permissions;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.permissions.types.Perk;
 import com.cometproject.server.game.permissions.types.Permission;
+import com.cometproject.server.storage.collections.ImmutableResultReader;
+import com.cometproject.server.storage.queries.permissions.PermissionsDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -32,11 +34,8 @@ public class PermissionsManager {
                 this.getPerks().clear();
             }
 
-            ResultSet result = Comet.getServer().getStorage().getTable("SELECT * FROM permission_perks");
+            this.perks = PermissionsDao.getPerks();
 
-            while (result.next()) {
-                this.getPerks().put(result.getInt("id"), new Perk(result));
-            }
         } catch (Exception e) {
             log.error("Error while loading perk permissions", e);
             return;
@@ -51,11 +50,7 @@ public class PermissionsManager {
                 this.getPermissions().clear();
             }
 
-            ResultSet result = Comet.getServer().getStorage().getTable("SELECT * FROM permission_ranks");
-
-            while (result.next()) {
-                this.getPermissions().put(result.getString("fuse"), new Permission(result));
-            }
+            this.permissions = PermissionsDao.getRankPermissions();
         } catch (Exception e) {
             log.error("Error while loading rank permissions", e);
             return;
@@ -70,11 +65,8 @@ public class PermissionsManager {
                 this.getCommands().clear();
             }
 
-            ResultSet result = Comet.getServer().getStorage().getTable("SELECT * FROM permission_commands");
+            this.commands = PermissionsDao.getCommandPermissions();
 
-            while (result.next()) {
-                this.getCommands().put(result.getString("command_id"), result.getInt("minimum_rank"));
-            }
         } catch (Exception e) {
             log.error("Error while reloading command permissions", e);
             return;

@@ -34,10 +34,12 @@ public class SqlStorageEngine {
             log.info("Connecting to the MySQL server");
             this.connections = new BoneCP(config);*/
 
+            String[] connectionDetails = Comet.getServer().getConfig().get("comet.db.host").split(":");
+
             HikariConfig config = new HikariConfig();
             config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-            config.addDataSourceProperty("serverName", Comet.getServer().getConfig().get("comet.db.host"));
-            config.addDataSourceProperty("port", 3306);
+            config.addDataSourceProperty("serverName", connectionDetails[0]);
+            config.addDataSourceProperty("port", connectionDetails.length > 1 ? Integer.parseInt(connectionDetails[1]) : 3306);
             config.addDataSourceProperty("databaseName", Comet.getServer().getConfig().get("comet.db.name"));
             config.addDataSourceProperty("user", Comet.getServer().getConfig().get("comet.db.username"));
             config.addDataSourceProperty("password", Comet.getServer().getConfig().get("comet.db.password"));
