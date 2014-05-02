@@ -104,31 +104,20 @@ public class RoomManager {
         ArrayList<Room> rooms = new ArrayList<>();
 
         try {
-            PreparedStatement std;
+            List<RoomData> roomSearchResults = RoomDao.getRoomsByQuery(query);
 
-            if (query.startsWith("owner:")) {
-                std = Comet.getServer().getStorage().prepare("SELECT * FROM rooms WHERE owner = ?");
-                std.setString(1, query.split("owner:")[1]);
-            } else {
-                std = Comet.getServer().getStorage().prepare("SELECT * FROM rooms WHERE name LIKE ? LIMIT 150");
-                std.setString(1, "%" + query + "%");
-            }
-
-            ResultSet room = std.executeQuery();
-
-            while (room.next()) {
-                RoomData data = new RoomData(room);
-
+            for(RoomData data : roomSearchResults) {
                 if (this.getRooms().containsKey(data.getId())) {
                     rooms.add(this.getRooms().get(data.getId()));
                     continue;
                 }
 
-                Room r = new Room(data);
+                Room room = new Room(data);
 
-                this.getRooms().put(data.getId(), r);
-                rooms.add(r);
+                this.getRooms().put(data.getId(), room);
+                rooms.add(room);
             }
+
         } catch (Exception e) {
             log.error("Error while loading rooms by query", e);
         }
@@ -143,22 +132,9 @@ public class RoomManager {
     public int createRoom(String name, String model, Session client) {
         int roomId = 0;
         try {
-            PreparedStatement std = Comet.getServer().getStorage().prepare("INSERT into rooms (`owner_id`, `owner`, `name`, `model`) VALUES(?, ?, ?, ?);", true);
+            roomId = RoomDao.createRoom(name, model, client.getPlayer().getId(), client.getPlayer().getData().getUsername());
 
-            std.setInt(1, client.getPlayer().getId());
-            std.setString(2, client.getPlayer().getData().getUsername());
-            std.setString(3, name);
-            std.setString(4, model);
-
-            std.execute();
-
-            ResultSet result = std.getGeneratedKeys();
-
-            if (result.next()) {
-                roomId = result.getInt(1);
-
-                this.loadRoomsForUser(client.getPlayer());
-            }
+            this.loadRoomsForUser(client.getPlayer());
         } catch (Exception e) {
             log.error("Error while creating a room", e);
         }
