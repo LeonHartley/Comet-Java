@@ -11,53 +11,56 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PlayerDao {
-
-    public static int getIdBySSO(String authTicket) {
+    public static int getIdBySSO(String sso) {
         Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            PreparedStatement preparedStatement = SqlHelper.prepare("SELECT `id` FROM players WHERE auth_ticket = ?", sqlConnection);
-            preparedStatement.setString(1, authTicket);
+            preparedStatement = SqlHelper.prepare("SELECT `id` FROM players WHERE auth_ticket = ? LIMIT 1", sqlConnection);
+            preparedStatement.setString(1, sso);
 
-            ResultSet r = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
-            if (r.next()) {
-                return r.getInt("id");
+            while (resultSet.next()) {
+                return resultSet.getInt("id");
             }
+
         } catch (SQLException e) {
-            // Central place to handle all sql exceptions (easy for logging them etc)
             SqlHelper.handleSqlException(e);
         } finally {
-            // Helper handles all the necessary checks automatically
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
 
-        return -1;
+        return 0;
     }
 
     public static PlayerData getDataById(int id) {
         Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            PreparedStatement preparedStatement = SqlHelper.prepare("SELECT * FROM players WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM players WHERE id = ?", sqlConnection);
             preparedStatement.setInt(1, id);
 
-            ResultSet result = SqlHelper.getRow(preparedStatement, sqlConnection);
+            resultSet = preparedStatement.executeQuery();
 
-            if (result == null) {
-                return null;
+            while (resultSet.next()) {
+                return new PlayerData(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("motto"), resultSet.getString("figure"), resultSet.getString("gender"), resultSet.getInt("rank"), resultSet.getInt("credits"), resultSet.getInt("vip_points"), resultSet.getString("reg_date"), resultSet.getInt("last_online"), resultSet.getString("vip").equals("1"), resultSet.getInt("achievement_points"));
             }
 
-            return new PlayerData(result.getInt("id"), result.getString("username"), result.getString("motto"), result.getString("figure"), result.getString("gender"), result.getInt("rank"), result.getInt("credits"), result.getInt("vip_points"), result.getString("reg_date"), result.getInt("last_online"), result.getString("vip").equals("1"), result.getInt("achievement_points"));
         } catch (SQLException e) {
-            // Central place to handle all sql exceptions (easy for logging them etc)
             SqlHelper.handleSqlException(e);
         } finally {
-            // Helper handles all the necessary checks automatically
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
 
@@ -66,29 +69,33 @@ public class PlayerDao {
 
     public static PlayerSettings getSettingsById(int id) {
         Connection sqlConnection = null;
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            PreparedStatement preparedStatement = SqlHelper.prepare("SELECT * FROM player_settings WHERE player_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM player_settings WHERE player_id = ?", sqlConnection);
             preparedStatement.setInt(1, id);
 
-            ResultSet result = SqlHelper.getRow(preparedStatement, sqlConnection);
+            resultSet = preparedStatement.executeQuery();
 
-            if (result == null) {
-                SqlHelper.closeStatementSilently(preparedStatement);
-
-                preparedStatement = SqlHelper.prepare("INSERT into player_settings (`player_id`) VALUES(?)", sqlConnection);
-                preparedStatement.setInt(1, id);
-
-                SqlHelper.executeStatementSilently(preparedStatement, false);
-                return new PlayerSettings();
+            while(resultSet.next()) {
+                return new PlayerSettings(resultSet);
             }
 
-            return new PlayerSettings(result);
+            SqlHelper.closeSilently(preparedStatement);
+
+            preparedStatement = SqlHelper.prepare("INSERT into player_settings (`player_id`) VALUES(?)", sqlConnection);
+            preparedStatement.setInt(1, id);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+            return new PlayerSettings();
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
 
@@ -97,29 +104,33 @@ public class PlayerDao {
 
     public static PlayerStatistics getStatisticsById(int id) {
         Connection sqlConnection = null;
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            PreparedStatement preparedStatement = SqlHelper.prepare("SELECT * FROM player_stats WHERE player_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM player_stats WHERE player_id = ?", sqlConnection);
             preparedStatement.setInt(1, id);
 
-            ResultSet result = SqlHelper.getRow(preparedStatement, sqlConnection);
+            resultSet = preparedStatement.executeQuery();
 
-            if (result == null) {
-                SqlHelper.closeStatementSilently(preparedStatement);
-
-                preparedStatement = SqlHelper.prepare("INSERT into player_stats (`player_id`) VALUES(?)", sqlConnection);
-                preparedStatement.setInt(1, id);
-
-                SqlHelper.executeStatementSilently(preparedStatement, false);
-                return new PlayerStatistics(id);
+            while(resultSet.next()) {
+                return new PlayerStatistics(resultSet);
             }
 
-            return new PlayerStatistics(result);
+            SqlHelper.closeSilently(preparedStatement);
+
+            preparedStatement = SqlHelper.prepare("INSERT into player_stats (`player_id`) VALUES(?)", sqlConnection);
+            preparedStatement.setInt(1, id);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+            return new PlayerStatistics(id);
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
 

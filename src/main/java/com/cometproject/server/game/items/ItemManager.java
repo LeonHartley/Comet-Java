@@ -4,6 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.interactions.InteractionManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.collections.ImmutableResultReader;
+import com.cometproject.server.storage.queries.items.ItemDefinitionDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import javolution.util.FastMap;
 import jdk.nashorn.internal.ir.annotations.Immutable;
@@ -33,11 +34,7 @@ public class ItemManager {
         }
 
         try {
-            ResultSet items = Comet.getServer().getStorage().getTable("SELECT * FROM furniture");
-
-            while (items.next()) {
-                this.getItemDefinitions().put(items.getInt("id"), new ItemDefinition(items));
-            }
+            this.itemDefinitions = ItemDefinitionDao.getDefinitions();
         } catch (Exception e) {
             log.error("Error while loading item definitions", e);
         }
