@@ -47,23 +47,9 @@ public class ItemManager {
             return teleportPairs.get(itemId);
         } else {
             try {
-                ResultSet check = Comet.getServer().getStorage().getRow("SELECT * FROM items_teles WHERE id_one = " + itemId);
-
-                if (check != null) {
-                    this.teleportPairs.put(itemId, check.getInt("id_two"));
-                    this.teleportPairs.put(check.getInt("id_two"), itemId);
-
-                    return check.getInt("id_two");
-                }
-
-                /*ImmutableResultReader reader = TeleporterDao.getTeleporterPartners(itemId);
-
-                if (reader.size() > 0) {
-                    this.teleportPairs.put(itemId, reader.getInt("id_two"));
-                    this.teleportPairs.put(reader.getInt("id_two"), itemId);
-
-                    return reader.getInt("id_two");
-                }*/
+                int pairId = TeleporterDao.getPairId(itemId);
+                this.teleportPairs.put(itemId, )
+                return ;
             } catch (Exception e) {
                 log.error("Error while searching for teleport partner", e);
             }

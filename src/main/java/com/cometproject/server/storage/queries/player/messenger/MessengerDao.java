@@ -144,4 +144,30 @@ public class MessengerDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+    public static void createFriendship(int userId, int userTwoId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into messenger_requests VALUES(?, ?)", sqlConnection);
+
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, userTwoId);
+            preparedStatement.addBatch();
+
+            preparedStatement.setInt(1, userTwoId);
+            preparedStatement.setInt(2, userId);
+            preparedStatement.addBatch();
+
+            preparedStatement.executeBatch();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }
