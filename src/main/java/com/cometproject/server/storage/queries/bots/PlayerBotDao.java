@@ -1,8 +1,6 @@
 package com.cometproject.server.storage.queries.bots;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.components.types.InventoryBot;
-import com.cometproject.server.game.players.components.types.RelationshipLevel;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
 

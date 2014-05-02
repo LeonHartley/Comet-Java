@@ -1,6 +1,9 @@
 package com.cometproject.server.storage.queries.bots;
 
+import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.players.components.types.InventoryBot;
+import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
 
@@ -8,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +21,7 @@ public class RoomBotDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        List<BotData> data = new FastMap<>();
+        List<BotData> data = new ArrayList<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -28,7 +32,10 @@ public class RoomBotDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.add(new PlayerBotDao());
+                PlayerBotData botData = new PlayerBotData(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getString("motto"), resultSet.getString("figure"), resultSet.getString("gender"), resultSet.getString("owner"), resultSet.getInt("owner_id"), resultSet.getString("messages"), resultSet.getString("automatic_chat").equals("1"), resultSet.getInt("chat_delay"));
+                botData.setPosition(new Position3D(resultSet.getInt("x"), resultSet.getInt("y")));
+
+                data.add(botData);
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
