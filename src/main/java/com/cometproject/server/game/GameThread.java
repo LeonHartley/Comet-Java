@@ -85,7 +85,7 @@ public class GameThread implements CometTask {
                 }
             }
 
-            StatisticsDao.saveStatistics(0, 0, "0.1");
+            StatisticsDao.saveStatistics(Comet.getServer().getNetwork().getSessions().getUsersOnlineCount(), GameEngine.getRooms().getActiveRooms().size(), Comet.getBuild());
             cycleCount++;
         } catch (Exception e) {
             if (e instanceof InterruptedException) {
