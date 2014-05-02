@@ -43,4 +43,26 @@ public class RoomPetDao {
 
         return data;
     }
+
+    public static void updatePet(int roomId, int x, int y, int petId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE pet_data SET room_id = 0, x = 0, y = 0 WHERE id = ?", sqlConnection);
+            preparedStatement.setInt(1, roomId);
+            preparedStatement.setInt(2, x);
+            preparedStatement.setInt(3, y);
+            preparedStatement.setInt(4, petId);
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }
