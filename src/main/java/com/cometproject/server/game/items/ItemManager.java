@@ -6,6 +6,7 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.collections.ImmutableResultReader;
 import com.cometproject.server.storage.queries.items.ItemDefinitionDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import javolution.util.FastMap;
 import jdk.nashorn.internal.ir.annotations.Immutable;
 import org.apache.log4j.Logger;
@@ -48,8 +49,10 @@ public class ItemManager {
         } else {
             try {
                 int pairId = TeleporterDao.getPairId(itemId);
-                this.teleportPairs.put(itemId, )
-                return ;
+                this.teleportPairs.put(itemId, pairId);
+                this.teleportPairs.put(pairId, itemId);
+
+                return pairId;
             } catch (Exception e) {
                 log.error("Error while searching for teleport partner", e);
             }
@@ -60,7 +63,7 @@ public class ItemManager {
 
     public int roomIdByItemId(int itemId) {
         try {
-            return Integer.parseInt(Comet.getServer().getStorage().getString("SELECT `room_id` FROM items WHERE id = " + itemId));
+            return RoomItemDao.getRoomIdById(itemId);
         } catch (Exception e) {
             return 0;
         }
