@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.avatars.misc;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.storage.queries.filter.FilterDao;
 import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
@@ -14,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FilterManager {
-    public List<String> blacklistedWords = new ArrayList<>();
-    public List<String> whitelistedWords = new ArrayList<>();
+    public List<String> blacklist = new ArrayList<>();
+    public List<String> whitelist = new ArrayList<>();
     private Logger log = Logger.getLogger(FilterManager.class.getName());
 
     public FilterManager() {
@@ -24,38 +25,21 @@ public class FilterManager {
     }
 
     public void init() {
-        if (blacklistedWords.size() >= 0) {
-            blacklistedWords.clear();
+        if (blacklist.size() >= 0) {
+            blacklist.clear();
         }
 
-        try {
-            ResultSet wordResult = Comet.getServer().getStorage().getTable("SELECT word FROM wordfilter WHERE type='blacklist'");
+        blacklist = FilterDao.getWordfilterByType("blacklist");
 
-            while (wordResult.next()) {
-                blacklistedWords.add(wordResult.getString("word"));
-            }
-        } catch (Exception e) {
-            log.error("Error while loading blacklisted words", e);
+        log.info("Loaded " + blacklist.size() + " blacklisted words");
+
+        if (whitelist.size() >= 0) {
+            whitelist.clear();
         }
 
-        log.info("Loaded " + blacklistedWords.size() + " blacklisted words");
+        whitelist = FilterDao.getWordfilterByType("whitelist");
 
-        if (whitelistedWords.size() >= 0) {
-            whitelistedWords.clear();
-        }
-
-        try {
-            ResultSet wordResult = Comet.getServer().getStorage().getTable("SELECT word FROM wordfilter WHERE type='whitelist'");
-
-            while (wordResult.next()) {
-                whitelistedWords.add(wordResult.getString("word"));
-
-            }
-        } catch (Exception e) {
-            log.error("Error while loading whitelisted words", e);
-        }
-
-        log.info("Loaded " + whitelistedWords.size() + " whitelisted words");
+        log.info("Loaded " + whitelist.size() + " whitelisted words");
 
     }
 
@@ -68,7 +52,7 @@ public class FilterManager {
     public boolean filter(String message) {
         if (message.length() < 3)
             return false;
-        for (String AllowedString : whitelistedWords) {
+        for (String AllowedString : whitelist) {
             if (message.contains(AllowedString)) {
                 return false;
             }
@@ -79,7 +63,7 @@ public class FilterManager {
         message = message.replaceAll("[^a-zA-Z]+", "");
         message = message.replaceAll("(\\w)\\1+", "$1");
 
-        for (String BlockedString : blacklistedWords) {
+        for (String BlockedString : blacklist) {
             if (message.contains(BlockedString)) {
                 return true;
             }
@@ -98,7 +82,7 @@ public class FilterManager {
     }
 
     public void removeblacklistedWord(String word) {
-        blacklistedWords.remove(getFilteredString(word));
+        blacklist.remove(getFilteredString(word));
         try {
             PreparedStatement statement = Comet.getServer().getStorage().prepare("DELETE FROM wordfilter WHERE word = ? AND type = ?");
 
@@ -113,7 +97,7 @@ public class FilterManager {
     }
 
     public void removewhitelistedWord(String word) {
-        whitelistedWords.remove(getFilteredString(word));
+        whitelist.remove(getFilteredString(word));
         try {
             PreparedStatement statement = Comet.getServer().getStorage().prepare("DELETE FROM wordfilter WHERE word = ? AND type = ?");
 
@@ -126,7 +110,7 @@ public class FilterManager {
     }
 
     public void addwhitelistedWord(String word) {
-        whitelistedWords.add(getFilteredString(word));
+        whitelist.add(getFilteredString(word));
         try {
             PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into wordfilter (`word`, `type`) VALUES(?, ?);");
 
@@ -139,7 +123,7 @@ public class FilterManager {
     }
 
     public void addblacklistedWord(String word) {
-        blacklistedWords.add(getFilteredString(word));
+        blacklist.add(getFilteredString(word));
         try {
             PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into wordfilter (`word`, `type`) VALUES(?, ?);");
 

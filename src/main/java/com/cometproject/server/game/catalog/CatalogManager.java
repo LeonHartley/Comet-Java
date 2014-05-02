@@ -28,7 +28,6 @@ public class CatalogManager {
 
         this.purchaseHandler = new CatalogPurchaseHandler(this);
 
-        this.loadClubOffers();
         this.loadPages();
     }
 
@@ -68,24 +67,6 @@ public class CatalogManager {
 
     public boolean pageExists(int id) {
         return this.getPages().containsKey(id);
-    }
-
-    public void loadClubOffers() {
-        if (this.getClubOffers().size() >= 1) {
-            this.getClubOffers().clear();
-        }
-
-        try {
-            ResultSet offer = Comet.getServer().getStorage().getTable("SELECT * FROM catalog_club_offers");
-
-            while (offer.next()) {
-                this.getClubOffers().add(new CatalogClubOffer(offer));
-            }
-        } catch (Exception e) {
-            log.error("Error while loading catalog club offers", e);
-        }
-
-        log.info("Loaded " + this.getClubOffers().size() + " catalog club offers");
     }
 
     public List<CatalogClubOffer> getClubOffers() {
