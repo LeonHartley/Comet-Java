@@ -1,0 +1,43 @@
+package com.cometproject.server.storage.queries.bots;
+
+import com.cometproject.server.game.players.components.types.InventoryBot;
+import com.cometproject.server.storage.SqlHelper;
+import javolution.util.FastMap;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+public class RoomBotDao {
+    public static List<BotData> getBotsByRoomId(int roomId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        List<BotData> data = new FastMap<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT * FROM bots WHERE room_id = ?", sqlConnection);
+            preparedStatement.setInt(1, roomId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                data.add(new PlayerBotDao());
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
+    }
+}

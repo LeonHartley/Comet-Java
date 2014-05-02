@@ -82,9 +82,61 @@ public class MessengerDao {
 
             preparedStatement = SqlHelper.prepare("DELETE from messenger_friendships WHERE user_one_id = ? AND user_two_id = ?", sqlConnection);
             preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(1, userTwoId);
+            preparedStatement.setInt(2, userTwoId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void deleteRequestData(int userId, int userTwoId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM messenger_requests WHERE to_id = ? AND from_id = ?", sqlConnection);
+
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, userTwoId);
+            preparedStatement.addBatch();
+
+            preparedStatement.setInt(1, userTwoId);
+            preparedStatement.setInt(2, userId);
+            preparedStatement.addBatch();
+
+            preparedStatement.executeBatch();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void createFriendship(int userId, int userTwoId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into messenger_friendships VALUES(?, ?)", sqlConnection);
+
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, userTwoId);
+            preparedStatement.addBatch();
+
+            preparedStatement.setInt(1, userTwoId);
+            preparedStatement.setInt(2, userId);
+            preparedStatement.addBatch();
+
+            preparedStatement.executeBatch();
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
