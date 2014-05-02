@@ -108,4 +108,23 @@ public class InventoryDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+    public static void clearInventory(int userId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM items WHERE user_id = ? AND room_id = 0", sqlConnection);
+            preparedStatement.setInt(1, userId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }
