@@ -261,7 +261,7 @@ public class MessageHandler {
             log.debug("Message received (ID: " + header + ")");
             log.debug(message.toString());
         }*/
-        
+
         if (this.getMessages().containsKey(header)) {
             long start = System.currentTimeMillis();
 

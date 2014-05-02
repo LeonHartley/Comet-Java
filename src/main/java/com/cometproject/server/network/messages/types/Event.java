@@ -38,14 +38,13 @@ public class Event {
     }
 
     public String toString() {
-        String body = new String(this.getBuffer().toString((Charset.defaultCharset())));
-        String data = body;
+        String body = this.getBuffer().toString((Charset.defaultCharset()));
 
         for (int i = 0; i < 13; i++) {
-            data = data.replace(Character.toString((char) i), "[" + i + "]");
+            body = body.replace(Character.toString((char) i), "[" + i + "]");
         }
 
-        return data;
+        return body;
     }
 
     public short getId() {
