@@ -146,7 +146,7 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE players SET online = ? " + (setLastOnline ? ", ?" : "") + " WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE players SET online = ?" + (setLastOnline ? ", ?" : "") + " WHERE id = ?", sqlConnection);
             preparedStatement.setString(1, online ? "1" : "0");
 
             if(setLastOnline) {
@@ -236,7 +236,7 @@ public class PlayerDao {
             preparedStatement.setString(7, gender);
             preparedStatement.setInt(8, id);
 
-            return preparedStatement.execute();
+            SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {

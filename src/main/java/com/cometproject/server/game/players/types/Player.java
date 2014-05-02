@@ -14,6 +14,8 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import javolution.util.FastMap;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Player {
@@ -34,7 +36,7 @@ public class Player {
     private BotComponent bots;
     private PetComponent pets;
 
-    private Map<Integer, Room> rooms;
+    private List<Integer> rooms = new ArrayList<>();
 
     public long lastMessage = 0;
     public double floodTime = 0;
@@ -73,7 +75,7 @@ public class Player {
 
         this.session.getLogger().info(this.getData().getUsername() + " logged out");
 
-        PlayerDao.updatePlayerStatus(this, false, false);
+        //PlayerDao.updatePlayerStatus(this, false, false);
 
         this.rooms.clear();
         this.rooms = null;
@@ -116,11 +118,11 @@ public class Player {
         playerEntity.joinRoom(room, password);
     }
 
-    public Map<Integer, Room> getRooms() {
+    public List<Integer> getRooms() {
         return rooms;
     }
 
-    public void setRooms(Map<Integer, Room> rooms) {
+    public void setRooms(List<Integer> rooms) {
         this.rooms = rooms;
     }
 

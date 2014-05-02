@@ -142,7 +142,7 @@ public class ItemsComponent {
     }
 
     public void removeItem(WallItem item, Session client) {
-        RoomItemDao.removeItemFromRoom(item.getItemId(), client.getPlayer().getId());
+        RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
 
         room.getEntities().broadcastMessage(RemoveWallItemMessageComposer.compose(item.getId(), room.getData().getOwnerId()));
         room.getItems().getWallItems().remove(item);

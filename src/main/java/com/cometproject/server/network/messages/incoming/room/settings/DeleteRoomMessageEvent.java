@@ -65,7 +65,7 @@ public class DeleteRoomMessageEvent implements IEvent {
             Session owner = Comet.getServer().getNetwork().getSessions().getByPlayerId(room.getData().getOwnerId());
 
             if(owner.getPlayer() != null && owner.getPlayer().getRooms() != null) {
-                if(owner.getPlayer().getRooms().containsKey(room.getId())) {
+                if(owner.getPlayer().getRooms().contains(room.getId())) {
                     owner.getPlayer().getRooms().remove(room.getId());
                 }
             }

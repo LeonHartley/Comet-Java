@@ -25,7 +25,7 @@ public class MessengerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM messenger_requests WHERE to_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM messenger_friendships WHERE user_one_id = ?", sqlConnection);
             preparedStatement.setInt(1, playerId);
 
             resultSet = preparedStatement.executeQuery();
@@ -152,7 +152,7 @@ public class MessengerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("INSERT into messenger_requests VALUES(?, ?)", sqlConnection);
+            preparedStatement = SqlHelper.prepare("INSERT into messenger_requests (`from_id`, `to_id`) VALUES(?, ?)", sqlConnection);
 
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, userTwoId);
@@ -177,10 +177,10 @@ public class MessengerDao {
             preparedStatement = SqlHelper.prepare("SELECT COUNT(1) FROM messenger_friendships WHERE user_one_id = ?", sqlConnection);
             preparedStatement.setInt(1, userId);
 
-            ResultSet rs = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
-            if (rs.next()) {
-                return rs.getInt(1);
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

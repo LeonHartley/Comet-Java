@@ -20,7 +20,7 @@ public class PresetDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM bans WHERE expire = 0 OR expire > " + Comet.getTime(), sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM moderation_presets", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
