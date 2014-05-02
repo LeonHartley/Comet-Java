@@ -1,6 +1,7 @@
 package com.cometproject.server.game.pets.data;
 
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,6 +20,8 @@ public class PetData {
 
     private int hairDye = 0;
     private int hair = -1;
+
+    private Position3D roomPosition;
 
     public PetData(int id, String name, int level, int happiness, int experience, int energy, int ownerId, String colour, int raceId, int typeId) {
         this.id = id;
@@ -100,5 +103,13 @@ public class PetData {
 
     public String[] getSpeech() {
         return GameEngine.getPets().getSpeech(this.typeId);
+    }
+
+    public Position3D getRoomPosition() {
+        return this.roomPosition;
+    }
+
+    public void setRoomPosition(Position3D position) {
+        this.roomPosition = position;
     }
 }

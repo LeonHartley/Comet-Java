@@ -59,15 +59,13 @@ public class Events {
     public static short KickUserMessageEvent = 3118;
     public static short GiveRightsMessageEvent = 2729;
     public static short RemoveAllRightsMessageEvent = 330;
-    public static short HabboClubPackagesMessageEvent = 0; // TODO
-    public static short LoadCategoriesMessageEvent = 0; // TODO
     public static short SaveWiredTriggerMessageEvent = 795;
     public static short SaveWiredEffectMessageEvent = 81;
     public static short SaveRoomDataMessageEvent = 2618;
     public static short RespectUserMessageEvent = 1001;
     public static short ChangeMottoMessageEvent = 467;
     public static short GetRelationshipsMessageEvent = 3230;
-    public static short SetRelationshipMessageEvent = 3230;
+    public static short SetRelationshipMessageEvent = 1574;
     public static short CancelOfferMessageEvent = 1640;
     public static short BotInventoryMessageEvent = 2195;
     public static short PlaceBotMessageEvent = 2107; // TODO: Check this!
