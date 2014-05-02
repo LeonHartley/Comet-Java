@@ -61,6 +61,7 @@ public class MessengerComponent {
                     otherPeople.add(new MessengerSearchResult(results.getInt("id"), results.getString("username"), results.getString("figure"), results.getString("motto"), new Date(results.getInt("last_online") * 1000L).toString()));
             }*/
 
+            throw new Exception("LEON FORGOT TO RE-IMPLEMENT MESSENGER SEARCH!!!!");
 
 
         } catch (Exception e) {

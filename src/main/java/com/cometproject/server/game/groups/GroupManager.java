@@ -32,7 +32,7 @@ public class GroupManager {
         //loadItems();
     }
 
-    public void loadItems() {
+    /*public void loadItems() {
         bases = new ArrayList<>();
         symbols = new ArrayList<>();
         baseColours = new ArrayList<>();
@@ -103,10 +103,10 @@ public class GroupManager {
         }
 
         return instance;
-    }
+    }*/
 
     public Group createGroup(String name, String description, int roomId, String badge, Session client, int colour1, int colour2) {
-        try {
+       /* try {
             PreparedStatement std = Comet.getServer().getStorage().prepare("INSERT into groups (`name`, `desc`, `badge`, `owner_id`, `created`, `room_id`, `colour1`, `colour2`) VALUES(?, ?, ?, ?, ?, ?, ?, ?);");
 
             std.setString(1, name);
@@ -121,99 +121,12 @@ public class GroupManager {
             std.execute();
         } catch (Exception e) {
             log.error("Error while creating group", e);
-        }
+        }*/
         return null;
-    }
+    }/*
 
     // author: Carlos D.
     public String generateBadge(int groupBase, int groupBaseColor, List<Integer> list) {
-        /*String str;
-        int num;
-
-        String str2 = "b";
-        if (String.valueOf(groupBase).length() >= 2) {
-            str2 = str2 + groupBase;
-        }
-        else {
-            str2 = str2 + "0" + groupBase;
-        }
-        str = String.valueOf(groupBaseColor);
-        if (str.length() >= 2) {
-            str2 = str2 + str;
-        }
-        else if (str.length() <= 1) {
-            str2 = str2 + "0" + str;
-        }
-        int num2 = 0;
-        if (list.get(9) != 0) {
-            num2 = 4;
-        }
-        else if (list.get(6) != 0)
-        {
-            num2 = 3;
-        }
-        else if (list.get(3) != 0) {
-            num2 = 2;
-        }
-        else if (list.get(0) != 0) {
-            num2 = 1;
-        }
-
-        int num3 = 0;
-
-        for (int i = 0; i < num2; i++) {
-            str2 = str2 + "s";
-            num = list.get(num3) - 20;
-
-            if (String.valueOf(num).length() >= 2) {
-                str2 = str2 + num;
-            }
-            else {
-                str2 = str2 + "0" + num;
-            }
-
-            int num5 = list.get(1 + num3);
-            str = String.valueOf(num5);
-
-            if (str.length() >= 2) {
-                str2 = str2 + str;
-            }
-            else if (str.length() <= 1) {
-                str2 = str2 + "0" + str;
-            }
-            str2 = str2 + list.get(2 + num3).toString();
-            switch (num3) {
-                case 0:
-                    num3 = 3;
-                    break;
-
-                case 3:
-                    num3 = 6;
-                    break;
-
-                case 6:
-                    num3 = 9;
-                    break;
-            }
-        }
-        return str2;*/
-
-        /*
-        internal string GenerateGuildImage(int GuildBase, int GuildBaseColor, List<int> states)
-        {
-            StringBuilder image = new StringBuilder(String.Format("b{0:00}{1:00}", GuildBase, GuildBaseColor));
-
-            for (int i = 0; i < 3 * 4; i += 3)
-            {
-                if (i >= states.Count)
-                    image.Append("s");
-                else
-                    image.Append(String.Format("s{0:00}{1:00}{2}", states[i] - 20, states[i + 1], states[i + 2]));
-            }
-
-            return image.ToString();
-        }
-*/
         StringBuilder image = new StringBuilder("b" + groupBase + groupBaseColor);
 
         for (int i = 0; i < 3 * 4; i += 3) {
@@ -256,5 +169,5 @@ public class GroupManager {
 
     public Map<Integer, GroupBackgroundColour> getBackgroundColours() {
         return this.backgroundColours;
-    }
+    }*/
 }

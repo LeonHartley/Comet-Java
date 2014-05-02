@@ -192,10 +192,36 @@ public class PlayerDao {
         return null;
     }
 
-    public static boolean updatePlayerData(int id, String username, String motto, String figure, int credits, int points, String gender) {
+    public static int getIdByUsername(String username) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT `id` FROM players WHERE `username` = ?", sqlConnection);
+            preparedStatement.setString(1, username);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()) {
+                return resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return 0;
+    }
+
+    public static boolean updatePlayerData(int id, String username, String motto, String figure, int credits, int points, String gender) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -214,7 +240,6 @@ public class PlayerDao {
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
-            SqlHelper.closeSilently(resultSet);
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
