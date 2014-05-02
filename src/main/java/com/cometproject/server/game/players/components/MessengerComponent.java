@@ -49,7 +49,7 @@ public class MessengerComponent {
         List<MessengerSearchResult> otherPeople = new ArrayList<>();
 
         try {
-            PreparedStatement players = Comet.getServer().getStorage().prepare("SELECT id, username, figure, motto, last_online FROM players WHERE username LIKE ? LIMIT 50;");
+            /*PreparedStatement players = Comet.getServer().getStorage().prepare("SELECT id, username, figure, motto, last_online FROM players WHERE username LIKE ? LIMIT 50;");
             players.setString(1, query + "%");
 
             ResultSet results = players.executeQuery();
@@ -59,7 +59,9 @@ public class MessengerComponent {
                     currentFriends.add(new MessengerSearchResult(results.getInt("id"), results.getString("username"), results.getString("figure"), results.getString("motto"), new Date(results.getInt("last_online") * 1000L).toString()));
                 else
                     otherPeople.add(new MessengerSearchResult(results.getInt("id"), results.getString("username"), results.getString("figure"), results.getString("motto"), new Date(results.getInt("last_online") * 1000L).toString()));
-            }
+            }*/
+
+
 
         } catch (Exception e) {
             player.getSession().getLogger().error("Error while searching for players", e);

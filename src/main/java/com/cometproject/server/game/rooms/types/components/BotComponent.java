@@ -7,9 +7,11 @@ import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.storage.queries.player.messenger.MessengerSearchDao;
 import javolution.util.FastMap;
 
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Map;
 
 public class BotComponent {
@@ -26,7 +28,7 @@ public class BotComponent {
 
     public void load() {
         try {
-            ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM bots WHERE room_id = " + this.room.getId());
+            /*ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM bots WHERE room_id = " + this.room.getId());
 
             while (data.next()) {
                 BotData botData = new PlayerBotData(data.getInt("id"), data.getString("name"), data.getString("motto"), data.getString("figure"), data.getString("gender"), data.getString("owner"), data.getInt("owner_id"), data.getString("messages"), data.getString("automatic_chat").equals("1"), data.getInt("chat_delay"));
@@ -34,7 +36,10 @@ public class BotComponent {
 
                 this.botDataInstances.put(botData.getId(), botData);
                 this.getRoom().getEntities().addEntity(botEntity);
-            }
+            }*/
+
+            List<BotData> botData = RoomBotDao.
+
         } catch (Exception e) {
             room.log.error("Error while deploying bots", e);
         }

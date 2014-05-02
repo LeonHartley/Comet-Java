@@ -1,4 +1,4 @@
-package com.cometproject.server.storage.queries.rooms;
+package com.cometproject.server.storage.queries.pets;
 
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PetDao {
+public class RoomPetDao {
     public static List<PetData> getPetsByRoomId(int roomId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;

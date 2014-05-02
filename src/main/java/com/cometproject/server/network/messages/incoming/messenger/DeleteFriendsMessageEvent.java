@@ -5,6 +5,7 @@ import com.cometproject.server.game.players.components.types.MessengerFriend;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 
 public class DeleteFriendsMessageEvent implements IEvent {
     @Override
@@ -24,7 +25,7 @@ public class DeleteFriendsMessageEvent implements IEvent {
             if (friendClient != null && friendClient.getPlayer() != null) {
                 friendClient.getPlayer().getMessenger().removeFriend(client.getPlayer().getId());
             } else {
-                Comet.getServer().getStorage().execute("DELETE from messenger_friendships WHERE user_one_id = " + userId + " AND user_two_id = " + client.getPlayer().getId());
+                MessengerDao.deleteFriendship(userId, client.getPlayer().getId());
             }
 
             client.getPlayer().getMessenger().removeFriend(userId);

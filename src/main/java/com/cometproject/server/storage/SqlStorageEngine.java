@@ -68,31 +68,6 @@ public class SqlStorageEngine {
         return this.connections;
     }
 
-    public PreparedStatement prepare(String query) throws SQLException {
-        return prepare(query, false);
-    }
-
-    public PreparedStatement prepare(String query, boolean returnKeys) throws SQLException {
-        Connection conn = null;
-
-        try {
-            conn = this.connections.getConnection();
-
-            if (returnKeys) {
-                return conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            } else {
-                return conn.prepareStatement(query);
-            }
-
-        } catch (SQLException e) {
-            log.error("Error while creating prepared statement", e);
-        } finally {
-            conn.close();
-        }
-
-        return null;
-    }
-
     public void checkDriver() {
         try {
             Class.forName("com.mysql.jdbc.Driver");

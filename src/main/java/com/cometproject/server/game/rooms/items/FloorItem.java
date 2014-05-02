@@ -13,6 +13,7 @@ import com.cometproject.server.game.rooms.items.data.MannequinData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import javolution.util.FastMap;
 
 import java.lang.ref.WeakReference;
@@ -241,15 +242,7 @@ public class FloorItem extends RoomItem {
     }
 
     public void saveData() {
-        try {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE items SET extra_data = ? WHERE id = ?");
-
-            statement.setString(1, this.getExtraData());
-            statement.setInt(2, this.getId());
-
-            statement.executeUpdate();
-        } catch (Exception e) {
-        }
+        RoomItemDao.saveData(id, extraData);
     }
 
     public void setNeedsUpdate(boolean needsUpdate, InteractionAction action, PlayerEntity avatar, int updateState) {
