@@ -145,7 +145,7 @@ public class MessengerDao {
         }
     }
 
-    public static void createFriendship(int userId, int userTwoId) {
+    public static void createRequest(int userId, int userTwoId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -156,13 +156,8 @@ public class MessengerDao {
 
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, userTwoId);
-            preparedStatement.addBatch();
 
-            preparedStatement.setInt(1, userTwoId);
-            preparedStatement.setInt(2, userId);
-            preparedStatement.addBatch();
-
-            preparedStatement.executeBatch();
+            preparedStatement.execute();
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
