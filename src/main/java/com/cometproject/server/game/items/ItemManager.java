@@ -5,6 +5,7 @@ import com.cometproject.server.game.items.interactions.InteractionManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.collections.ImmutableResultReader;
 import com.cometproject.server.storage.queries.items.ItemDefinitionDao;
+import com.cometproject.server.storage.queries.items.RoomItemDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import javolution.util.FastMap;
 import jdk.nashorn.internal.ir.annotations.Immutable;
@@ -65,7 +66,7 @@ public class ItemManager {
 
     public int roomIdByItemId(int itemId) {
         try {
-            return Integer.parseInt(Comet.getServer().getStorage().getString("SELECT `room_id` FROM items WHERE id = " + itemId));
+            return RoomItemDao.getRoomIdById(itemId);
         } catch (Exception e) {
             return 0;
         }

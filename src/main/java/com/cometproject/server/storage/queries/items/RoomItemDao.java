@@ -7,9 +7,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TeleporterDao {
+/**
+ * Created by Matty on 02/05/2014.
+ */
+public class RoomItemDao {
 
-    public static int getPairId(int id) {
+    public static int getRoomIdById(int itemId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -17,13 +20,13 @@ public class TeleporterDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM items_teles WHERE id = ? LIMIT 1;", sqlConnection);
-            preparedStatement.setInt(1, id);
+            preparedStatement = SqlHelper.prepare("SELECT `room_id` FROM items WHERE id = ? LIMIT 1;", sqlConnection);
+            preparedStatement.setInt(1, itemId);
 
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                return resultSet.getInt("id_two");
+                return resultSet.getInt("room_id");
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
