@@ -15,6 +15,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorI
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import javolution.util.FastTable;
 import javolution.util.internal.table.FastTableImpl;
 import org.apache.log4j.Logger;
@@ -57,22 +58,11 @@ public class ItemsComponent {
             floorItems.clear();
         }
 
-        try {
-            PreparedStatement query = Comet.getServer().getStorage().prepare("SELECT * FROM items WHERE room_id = ?");
-            query.setInt(1, room.getId());
-
-            ResultSet data = query.executeQuery();
-
-            while (data.next()) {
-                if (data.getString("wall_pos").equals(""))
-                    this.getFloorItems().add(new FloorItem(data.getInt("id"), data.getInt("base_item"), this.room.getId(), data.getInt("user_id"), data.getInt("x"), data.getInt("y"), data.getDouble("z"), data.getInt("rot"), data.getString("extra_data")));
-                else
-                    this.getWallItems().add(new WallItem(data.getInt("id"), data.getInt("base_item"), this.room.getId(), data.getInt("user_id"), data.getString("wall_pos"), data.getString("extra_data")));
-            }
-
-        } catch (Exception e) {
-            log.error("Error while loading items for room", e);
+        if (wallItems.size() != 0) {
+            wallItems.clear();
         }
+
+        RoomItemDao.getItems(this.room.getId(), floorItems, wallItems);
     }
 
     public FloorItem addFloorItem(int id, int baseId, int roomId, int ownerId, int x, int y, int rot, double height, String data, GiftData giftData) {
