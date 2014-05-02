@@ -4,35 +4,30 @@ import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TeleporterDao {
+/**
+ * Created by Matty on 02/05/2014.
+ */
+public class TradeDao {
 
-    public static int getPairId(int id) {
+    public static void updateTradeItems(int userId, int itemId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM items_teles WHERE id = ? LIMIT 1;", sqlConnection);
-            preparedStatement.setInt(1, id);
+            preparedStatement = SqlHelper.prepare("UPDATE items SET user_id = ? AND room_id = 0 WHERE id = ?", sqlConnection);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, itemId);
 
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                return resultSet.getInt("id_two");
-            }
+            SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
-            SqlHelper.closeSilently(resultSet);
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
-
-        return 0;
     }
 }
