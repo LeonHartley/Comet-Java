@@ -7,6 +7,7 @@ import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.outgoing.misc.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
+import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -44,17 +45,15 @@ public class InventoryComponent {
         }
 
         try {
-            ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM items WHERE user_id = " + this.getPlayer().getId() + " AND room_id = 0");
+            Map<Integer, InventoryItem> inventoryItems = InventoryDao.getInventoryByPlayerId(this.player.getId());
 
-            while (data.next()) {
-                InventoryItem item = new InventoryItem(data);
-
-                if (item.getDefinition().getType().equals("s")) {
-                    this.getFloorItems().put(item.getId(), item);
+            for(Map.Entry<Integer, InventoryItem> item : inventoryItems.entrySet()) {
+                if (item.getValue().getDefinition().getType().equals("s")) {
+                    this.getFloorItems().put(item.getKey(), item.getValue());
                 }
 
-                if (item.getDefinition().getType().equals("i")) {
-                    this.getWallItems().put(item.getId(), item);
+                if (item.getValue().getDefinition().getType().equals("i")) {
+                    this.getWallItems().put(item.getKey(), item.getValue());
                 }
             }
         } catch (Exception e) {
@@ -64,12 +63,7 @@ public class InventoryComponent {
 
     public void loadBadges() {
         try {
-            ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM player_badges WHERE player_id = " + this.getPlayer().getId());
-
-            while (data.next()) {
-                if (!badges.containsKey(data.getString("badge_code")))
-                    badges.put(data.getString("badge_code"), data.getInt("slot"));
-            }
+            this.badges = InventoryDao.getBadgesByPlayerId(player.getId());
         } catch (Exception e) {
             log.error("Error while loading user badges");
         }
@@ -78,15 +72,7 @@ public class InventoryComponent {
     public void addBadge(String code, boolean insert) {
         if (!badges.containsKey(code)) {
             if (insert) {
-                try {
-                    PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT INTO player_badges (`player_id`, `badge_code`) VALUES (?, ?)");
-
-                    statement.setInt(1, this.getPlayer().getId());
-                    statement.setString(2, code);
-                    statement.execute();
-                } catch (SQLException e) {
-                    log.error("Error while inserting badge to database");
-                }
+                InventoryDao.addBadge(code, this.player.getId());
             }
 
             // 0 = slot
@@ -100,15 +86,7 @@ public class InventoryComponent {
     public void removeBadge(String code, boolean delete) {
         if (badges.containsKey(code)) {
             if (delete) {
-                try {
-                    PreparedStatement statement = Comet.getServer().getStorage().prepare("DELETE FROM player_badges WHERE player_id = ? AND badge_code = ?");
-
-                    statement.setInt(1, this.getPlayer().getId());
-                    statement.setString(2, code);
-                    statement.execute();
-                } catch (SQLException e) {
-                    log.error("Error while deleting badge to database");
-                }
+                InventoryDao.removeBadge(code, player.getId());
             }
 
             this.badges.remove(code);

@@ -4,6 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.players.components.types.RelationshipLevel;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.storage.queries.player.relationships.RelationshipDao;
 import javolution.util.FastMap;
 
 import java.sql.ResultSet;
@@ -15,17 +16,8 @@ public class RelationshipComponent {
 
     public RelationshipComponent(Player player) {
         this.player = player;
-        this.relationships = new FastMap<>();
 
-        try {
-            ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM player_relationships WHERE player_id = " + this.getPlayer().getId());
-
-            while (data.next()) {
-                this.relationships.put(data.getInt("partner"), RelationshipLevel.getLevel(data.getString("level")));
-            }
-        } catch (Exception e) {
-            GameEngine.getLogger().error("Error while loading player relationships", e);
-        }
+        this.relationships = RelationshipDao.getRelationshipsByPlayerId(player.getId());
     }
 
     public void dispose() {

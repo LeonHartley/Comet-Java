@@ -8,6 +8,7 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerSearchResultsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 import javolution.util.FastMap;
 
 import java.sql.PreparedStatement;
@@ -24,20 +25,10 @@ public class MessengerComponent {
 
     public MessengerComponent(Player player) {
         this.player = player;
-        this.friends = new FastMap<>();
-        this.requests = new ArrayList<>();
 
         try {
-            ResultSet friend = Comet.getServer().getStorage().getTable("SELECT * FROM messenger_friendships WHERE user_one_id = " + player.getId());
-            ResultSet request = Comet.getServer().getStorage().getTable("SELECT * FROM messenger_requests WHERE to_id = " + player.getId());
-
-            while (friend.next()) {
-                this.friends.put(friend.getInt("user_two_id"), new MessengerFriend(friend));
-            }
-
-            while (request.next()) {
-                this.requests.add(new MessengerRequest(request));
-            }
+            this.friends = MessengerDao.getFriendsByPlayerId(player.getId());
+            this.requests = MessengerDao.getRequestsByPlayerId(player.getId());
         } catch (Exception e) {
             player.getSession().getLogger().error("Error while loading messenger friends", e);
         }
@@ -93,7 +84,7 @@ public class MessengerComponent {
 
         this.friends.remove(userId);
 
-        Comet.getServer().getStorage().execute("DELETE from messenger_friendships WHERE user_one_id = " + this.player.getId() + " AND user_two_id = " + userId);
+        MessengerDao.deleteFriendship(this.player.getId(), userId);
         this.player.getSession().send(UpdateFriendStateMessageComposer.compose(-1, userId));
     }
 
