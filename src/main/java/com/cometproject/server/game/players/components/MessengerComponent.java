@@ -4,11 +4,14 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.components.types.MessengerFriend;
 import com.cometproject.server.game.players.components.types.MessengerRequest;
 import com.cometproject.server.game.players.components.types.MessengerSearchResult;
+import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerSearchResultsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
+import com.cometproject.server.storage.queries.player.messenger.MessengerSearchDao;
 import javolution.util.FastMap;
 
 import java.sql.PreparedStatement;
@@ -49,21 +52,13 @@ public class MessengerComponent {
         List<MessengerSearchResult> otherPeople = new ArrayList<>();
 
         try {
-            /*PreparedStatement players = Comet.getServer().getStorage().prepare("SELECT id, username, figure, motto, last_online FROM players WHERE username LIKE ? LIMIT 50;");
-            players.setString(1, query + "%");
-
-            ResultSet results = players.executeQuery();
-
-            while (results.next()) {
-                if (this.getFriendById(results.getInt("id")) != null)
-                    currentFriends.add(new MessengerSearchResult(results.getInt("id"), results.getString("username"), results.getString("figure"), results.getString("motto"), new Date(results.getInt("last_online") * 1000L).toString()));
-                else
-                    otherPeople.add(new MessengerSearchResult(results.getInt("id"), results.getString("username"), results.getString("figure"), results.getString("motto"), new Date(results.getInt("last_online") * 1000L).toString()));
-            }*/
-
-            throw new Exception("LEON FORGOT TO RE-IMPLEMENT MESSENGER SEARCH!!!!");
-
-
+            for(PlayerData playerData : MessengerSearchDao.performSearch("%" + query + "%")) {
+                if(this.getFriendById(playerData.getId()) != null) {
+                    currentFriends.add(new MessengerSearchResult(playerData.getId(), playerData.getUsername(), playerData.getFigure(), playerData.getMotto(), new Date(playerData.getLastVisit() * 1000L).toString()));
+                } else {
+                    otherPeople.add(new MessengerSearchResult(playerData.getId(), playerData.getUsername(), playerData.getFigure(), playerData.getMotto(), new Date(playerData.getLastVisit() * 1000L).toString()));
+                }
+            }
         } catch (Exception e) {
             player.getSession().getLogger().error("Error while searching for players", e);
         }

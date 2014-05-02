@@ -6,6 +6,7 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.moderation.types.Ban;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.moderation.BanDao;
 
 import java.net.InetSocketAddress;
 import java.sql.PreparedStatement;
@@ -34,37 +35,17 @@ public class IpBanCommand extends ChatCommand {
 
         long expire = Comet.getTime() + (length * 36000);
 
-        try {
-            //String ipAddress = Comet.getServer().getStorage().getString("SELECT `last_ip` FROM players WHERE id = " + user.getPlayer().getId());
+        String ipAddress = ((InetSocketAddress) user.getChannel().getRemoteAddress()).getAddress().getHostAddress();
 
-            // retrieve ip directly ??
-
-            String ipAddress = ((InetSocketAddress)user.getChannel().getRemoteAddress()).getAddress().getHostAddress();
-
-            if(GameEngine.getBans().hasBan(ipAddress)) {
-                sendChat("IP: " + ipAddress + " is already banned.", client);
-                return;
-            }
-
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into bans (`type`, `expire`, `data`, `reason`) VALUES(?, ?, ?, ?);", true);
-
-            statement.setString(1, "ip");
-            statement.setLong(2, length == 0 ? 0 : expire);
-            statement.setString(3, ipAddress);
-            statement.setString(4, "");
-
-            statement.execute();
-
-            ResultSet keys = statement.getGeneratedKeys();
-
-            if (keys.next()) {
-                GameEngine.getBans().add(new Ban(keys.getInt(1), user.getPlayer().getId() + "", expire, BanType.IP, ""));
-            }
-
-            sendChat("User has been IP banned (IP: " + ipAddress + ")", client);
-        } catch (SQLException e) {
-            GameEngine.getLogger().error("Error while banning player: " + username, e);
+        if (GameEngine.getBans().hasBan(ipAddress)) {
+            sendChat("IP: " + ipAddress + " is already banned.", client);
+            return;
         }
+
+        int banId = BanDao.createBan(length, expire, ipAddress);
+        GameEngine.getBans().add(new Ban(banId, user.getPlayer().getId() + "", expire, BanType.IP, ""));
+
+        sendChat("User has been IP banned (IP: " + ipAddress + ")", client);
 
         user.disconnect();
     }
