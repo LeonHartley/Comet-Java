@@ -2,6 +2,8 @@ package com.cometproject.server.game.moderation;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.moderation.types.HelpTicket;
+import com.cometproject.server.storage.queries.moderation.PresetDao;
+import com.cometproject.server.storage.queries.moderation.TicketDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -36,11 +38,7 @@ public class ModerationManager {
         }
 
         try {
-            ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM moderation_presets");
-
-            while (data.next()) {
-                (data.getString("type").equals("user") ? userPresets : roomPresets).add(data.getString("message"));
-            }
+            PresetDao.getPresets(userPresets, roomPresets);
 
             logger.info("Loaded " + (this.getRoomPresets().size() + this.getUserPresets().size()) + " moderation presets");
         } catch (Exception e) {
@@ -56,12 +54,7 @@ public class ModerationManager {
         }
 
         try {
-            ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM moderation_help_tickets WHERE state = 'open'");
-
-            while (data.next()) {
-                this.tickets.put(data.getInt("id"), new HelpTicket(data));
-            }
-
+            this.tickets = TicketDao.getOpenTickets();
             logger.info("Loaded " + this.tickets.size() + " active help tickets");
         } catch (Exception e) {
             logger.error("Error while loading active tickets", e);

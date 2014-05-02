@@ -134,6 +134,8 @@ public class Comet {
                 for (Room room : GameEngine.getRooms().getActiveRooms()) {
                     room.dispose();
                 }
+
+                GameEngine.getRooms().getFilter().save();
             }
         });
 

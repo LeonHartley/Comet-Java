@@ -29,7 +29,7 @@ public class GroupManager {
     public GroupManager() {
         groups = new FastMap<>();
 
-        loadItems();
+        //loadItems();
     }
 
     public void loadItems() {

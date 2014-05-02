@@ -2,6 +2,7 @@ package com.cometproject.server.game.moderation;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.moderation.types.Ban;
+import com.cometproject.server.storage.queries.moderation.BanDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -24,12 +25,7 @@ public class BanManager {
             bans = new FastMap<>();
 
         try {
-            ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM bans WHERE expire = 0 OR expire > " + Comet.getTime());
-
-            while (data.next()) {
-                this.bans.put(data.getString("data"), new Ban(data));
-            }
-
+            bans = BanDao.getActiveBans();
             logger.info("Loaded " + this.bans.size() + " bans");
         } catch (Exception e) {
             logger.error("Error while loading bans", e);

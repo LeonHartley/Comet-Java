@@ -3,6 +3,7 @@ package com.cometproject.server.game.navigator;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
+import com.cometproject.server.storage.queries.navigator.NavigatorDao;
 import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
@@ -29,15 +30,8 @@ public class NavigatorManager {
                 this.featuredRooms.clear();
             }
 
-            ResultSet result = Comet.getServer().getStorage().getTable("SELECT * FROM navigator_featured_rooms WHERE enabled = '1'");
+            this.featuredRooms = NavigatorDao.getFeaturedRooms();
 
-            if (result == null) {
-                return;
-            }
-
-            while (result.next()) {
-                this.featuredRooms.add(new FeaturedRoom(result));
-            }
         } catch (Exception e) {
             log.error("Error while loading featured rooms", e);
         }
@@ -51,11 +45,7 @@ public class NavigatorManager {
                 this.getCategories().clear();
             }
 
-            ResultSet result = Comet.getServer().getStorage().getTable("SELECT * FROM navigator_categories WHERE enabled = '1'");
-
-            while (result.next()) {
-                this.getCategories().add(new Category(result));
-            }
+            this.categories = NavigatorDao.getCategories();
         } catch (Exception e) {
             log.error("Error while loading navigator categories", e);
         }
