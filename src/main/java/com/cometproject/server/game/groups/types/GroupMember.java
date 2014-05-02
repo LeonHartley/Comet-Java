@@ -33,12 +33,12 @@ public class GroupMember {
         this.accessLevel = accessLevel;
     }
 
-    public void save() throws SQLException {
-        PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE group_members SET rank = ? WHERE user_id = ? AND group_id = ?");
+    public void save() {
+        /*PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE group_members SET rank = ? WHERE user_id = ? AND group_id = ?");
         statement.setInt(1, accessLevel);
         statement.setInt(2, userId);
         statement.setInt(3, groupId);
 
-        statement.execute();
+        statement.execute();*/
     }
 }
