@@ -2,9 +2,11 @@ package com.cometproject.server.network.http;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.messages.outgoing.messenger.FollowFriendMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import javolution.util.FastMap;
@@ -125,9 +127,9 @@ public class ManagementCommandHandler implements HttpHandler {
                     return;
                 }
 
-                int userCredits = Integer.parseInt(Comet.getServer().getStorage().getString("SELECT `credits` FROM players WHERE id = " + userId));
+                PlayerData newPlayerData = PlayerDao.getDataById(userId);
 
-                user.getPlayer().getData().setCredits(userCredits);
+                user.getPlayer().getData().setCredits(newPlayerData.getCredits());
                 user.getPlayer().sendBalance();
                 break;
             }
@@ -142,9 +144,11 @@ public class ManagementCommandHandler implements HttpHandler {
                     return;
                 }
 
-                boolean isVip = Comet.getServer().getStorage().getString("SELECT `vip` FROM players WHERE id = " + userId).equals("1");
+                //boolean isVip = Comet.getServer().getStorage().getString("SELECT `vip` FROM players WHERE id = " + userId).equals("1");
 
-                user.getPlayer().getData().setVip(isVip);
+                PlayerData newPlayerData = PlayerDao.getDataById(userId);
+
+                user.getPlayer().getData().setVip(newPlayerData.isVip());
                 break;
             }
         }

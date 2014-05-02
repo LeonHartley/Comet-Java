@@ -15,6 +15,13 @@ public class GroupElementsMessageComposer {
 
         Composer msg = new Composer(Composers.GroupElementsMessageComposer);
 
+        msg.writeInt(0);
+        msg.writeInt(0);
+        msg.writeInt(0);
+        msg.writeInt(0);
+        msg.writeInt(0);
+
+        /*
         GroupManager g = GameEngine.getGroups();
 
         msg.writeInt(g.getBases().size());
@@ -53,7 +60,7 @@ public class GroupElementsMessageComposer {
             msg.writeInt(colour.id);
             msg.writeString(colour.colour);
         }
-
+*/
         comp = msg;
         return msg;
     }

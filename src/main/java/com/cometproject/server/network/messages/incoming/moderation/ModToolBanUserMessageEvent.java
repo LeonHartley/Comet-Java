@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 public class ModToolBanUserMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        int userId = msg.readInt();
+        /*int userId = msg.readInt();
         String reason = msg.readString();
         int length = msg.readInt();
 
@@ -48,6 +48,6 @@ public class ModToolBanUserMessageEvent implements IEvent {
             }
         } catch (SQLException e) {
             GameEngine.getLogger().error("Error while banning player: " + userId, e);
-        }
+        }*/
     }
 }

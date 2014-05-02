@@ -7,6 +7,7 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.bots.RoomBotDao;
 
 public class RemoveBotMessageEvent implements IEvent {
     @Override
@@ -27,6 +28,6 @@ public class RemoveBotMessageEvent implements IEvent {
         entity.leaveRoom();
         client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
 
-        Comet.getServer().getStorage().execute("UPDATE bots SET room_id = 0 WHERE id = " + bot.getId());
+        RoomBotDao.setRoomId(0, entity.getBotId());
     }
 }

@@ -40,4 +40,37 @@ public class BanDao {
 
         return data;
     }
+
+    public static int createBan(long length, long expire, int userId) {
+
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into bans (`type`, `expire`, `data`, `reason`) VALUES(?, ?, ?, ?);", sqlConnection, true);
+
+            preparedStatement.setString(1, "user");
+            preparedStatement.setLong(2, length == 0 ? 0 : expire);
+            preparedStatement.setString(3, userId + "");
+            preparedStatement.setString(4, "");
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            while(resultSet.next()) {
+                return resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return 0;
+    }
 }

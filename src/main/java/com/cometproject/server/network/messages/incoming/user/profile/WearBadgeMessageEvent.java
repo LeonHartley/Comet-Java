@@ -5,6 +5,7 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.user.profile.UserBadgesMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 
 import java.sql.PreparedStatement;
 import java.util.Map;
@@ -30,13 +31,7 @@ public class WearBadgeMessageEvent implements IEvent {
         }
 
         for (Map.Entry<String, Integer> badgeToUpdate : client.getPlayer().getInventory().getBadges().entrySet()) {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE player_badges SET slot = ? WHERE badge_code = ? AND player_id = ?");
-
-            statement.setInt(1, badgeToUpdate.getValue());
-            statement.setString(2, badgeToUpdate.getKey());
-            statement.setInt(3, client.getPlayer().getId());
-
-            statement.executeUpdate();
+            InventoryDao.updateBadge(badgeToUpdate.getKey(), badgeToUpdate.getValue(), client.getPlayer().getId());
         }
 
         if (client.getPlayer().getEntity() != null) {

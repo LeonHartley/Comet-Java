@@ -12,6 +12,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.SendFloorIte
 import com.cometproject.server.network.messages.outgoing.room.items.SendWallItemMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -35,15 +36,8 @@ public class  PlaceItemMessageEvent implements IEvent {
                 }
 
                 InventoryItem item = client.getPlayer().getInventory().getWallItem(id);
-                PreparedStatement query = Comet.getServer().getStorage().prepare("UPDATE items SET room_id = ?, wall_pos = ?, extra_data = ? WHERE id = ?;");
 
-                query.setInt(1, client.getPlayer().getEntity().getRoom().getId());
-                query.setString(2, position);
-                query.setString(3, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
-                query.setInt(4, item.getId());
-
-                query.executeUpdate();
-
+                RoomItemDao.placeWallItem(client.getPlayer().getEntity().getRoom().getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), client.getPlayer().getEntity().getRoom().getId());
                 client.getPlayer().getInventory().removeWallItem(id);
 
                 Room r = client.getPlayer().getEntity().getRoom();
@@ -91,18 +85,7 @@ public class  PlaceItemMessageEvent implements IEvent {
                     }
                 }
 
-                PreparedStatement query = Comet.getServer().getStorage().prepare("UPDATE items SET room_id = ?, x = ?, y = ?, z = ?, rot = ?, extra_data = ? WHERE id = ?;");
-
-                query.setInt(1, client.getPlayer().getEntity().getRoom().getId());
-                query.setInt(2, x);
-                query.setInt(3, y);
-                query.setFloat(4, height);
-                query.setInt(5, rot);
-                query.setString(6, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
-                query.setInt(7, id);
-
-                query.executeUpdate();
-
+                RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), id);
                 client.getPlayer().getInventory().removeFloorItem(id);
 
                 FloorItem floorItem = room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getGiftData());

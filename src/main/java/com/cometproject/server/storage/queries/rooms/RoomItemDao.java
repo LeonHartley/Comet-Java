@@ -42,25 +42,6 @@ public class RoomItemDao {
         }
     }
 
-    public static void saveItemPosition() {
-        Connection sqlConnection = null;
-        PreparedStatement preparedStatement = null;
-
-        try {
-            sqlConnection = SqlHelper.getConnection();
-
-            preparedStatement = SqlHelper.prepare("", sqlConnection);
-
-
-            SqlHelper.executeStatementSilently(preparedStatement, false);
-        } catch (SQLException e) {
-            SqlHelper.handleSqlException(e);
-        } finally {
-            SqlHelper.closeSilently(preparedStatement);
-            SqlHelper.closeSilently(sqlConnection);
-        }
-    }
-
     public static void removeItemFromRoom(int itemId, int userId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -160,6 +141,53 @@ public class RoomItemDao {
             preparedStatement.setDouble(3, height);
             preparedStatement.setInt(4, rotation);
             preparedStatement.setInt(5, id);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void placeFloorItem(int roomId, int x, int y, float height, int rot, String data, int itemId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE items SET x = ?, y = ?, z = ?, rot = ?, room_id = ?, extra_data = ? WHERE id = ?", sqlConnection);
+            preparedStatement.setInt(1, x);
+            preparedStatement.setInt(2, y);
+            preparedStatement.setDouble(3, height);
+            preparedStatement.setInt(4, rot);
+            preparedStatement.setInt(5, roomId);
+            preparedStatement.setString(6, data);
+            preparedStatement.setInt(7, itemId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void placeWallItem(int roomId, String wallPos, String data, int itemId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE items SET room_id = ?, wall_pos = ?, extra_data = ? WHERE id = ?;", sqlConnection);
+            preparedStatement.setInt(1, roomId);
+            preparedStatement.setString(2, wallPos);
+            preparedStatement.setString(3, data);
+            preparedStatement.setInt(4, itemId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {
