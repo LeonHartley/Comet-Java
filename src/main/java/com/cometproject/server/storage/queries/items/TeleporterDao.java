@@ -35,4 +35,31 @@ public class TeleporterDao {
 
         return 0;
     }
+
+    public static void savePair(int item1, int item2) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into items_teles (id_one, id_two) VALUES(?, ?);", sqlConnection);
+            preparedStatement.setInt(1, item1);
+            preparedStatement.setInt(2, item2);
+
+            preparedStatement.addBatch();
+
+            preparedStatement.setInt(1, item2);
+            preparedStatement.setInt(2, item1);
+
+            preparedStatement.addBatch();
+
+            preparedStatement.executeBatch();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }

@@ -16,6 +16,10 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.Inventor
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.catalog.CatalogDao;
+import com.cometproject.server.storage.queries.items.ItemDao;
+import com.cometproject.server.storage.queries.items.TeleporterDao;
+import com.cometproject.server.storage.queries.pets.PetDao;
 import javolution.util.FastMap;
 import org.joda.time.DateTime;
 
@@ -100,29 +104,10 @@ public class CatalogPurchaseHandler {
                         throw new Exception("Invalid pet data length: " + petData.length);
                     }
 
-                    PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT INTO `pet_data` (`owner_id`, `pet_name`, `type`, `race_id`, `colour`, `scratches`, `level`, `happiness`, `experience`, `energy`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", true);
+                    int petId = PetDao.createPet(client.getPlayer().getId(), petData[0], Integer.parseInt(petRace), Integer.parseInt(petData[1]), petData[2]);
 
-                    statement.setInt(1, client.getPlayer().getId());
-                    statement.setString(2, petData[0]);
-                    statement.setInt(3, Integer.parseInt(petRace));
-                    statement.setInt(4, Integer.parseInt(petData[1]));
-                    statement.setString(5, petData[2]);
-                    statement.setInt(6, 0);
-                    statement.setInt(7, StaticPetProperties.DEFAULT_LEVEL);
-                    statement.setInt(8, StaticPetProperties.DEFAULT_HAPPINESS);
-                    statement.setInt(9, StaticPetProperties.DEFAULT_EXPERIENCE);
-                    statement.setInt(10, StaticPetProperties.DEFAULT_ENERGY);
-
-                    statement.execute();
-
-                    ResultSet keys = statement.getGeneratedKeys();
-
-                    if (keys.next()) {
-                        int insertedId = keys.getInt(1);
-                        client.getPlayer().getPets().addPet(new PetData(insertedId, petData[0], StaticPetProperties.DEFAULT_LEVEL, StaticPetProperties.DEFAULT_HAPPINESS, StaticPetProperties.DEFAULT_EXPERIENCE, StaticPetProperties.DEFAULT_ENERGY, client.getPlayer().getId(), petData[2], Integer.parseInt(petData[1]), Integer.parseInt(petRace)));
-                        client.send(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));
-                    }
-
+                    client.getPlayer().getPets().addPet(new PetData(petId, petData[0], StaticPetProperties.DEFAULT_LEVEL, StaticPetProperties.DEFAULT_HAPPINESS, StaticPetProperties.DEFAULT_EXPERIENCE, StaticPetProperties.DEFAULT_ENERGY, client.getPlayer().getId(), petData[2], Integer.parseInt(petData[1]), Integer.parseInt(petRace)));
+                    client.send(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));
                     return;
                 } else if (def.getInteraction().equals("postit")) {
                     amount = 20; // we want 20 stickies
@@ -144,41 +129,21 @@ public class CatalogPurchaseHandler {
 
                 for (int e = 0; e < amount; e++) {
                     for (int i = 0; i != item.getAmount(); i++) {
-                        PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into items (`user_id`, `room_id`, `base_item`, `extra_data`, `x`, `y`, `z`, `rot`, `wall_pos`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", true);
+                        int insertedId = ItemDao.createItem(client.getPlayer().getId(), newItemId, data);
 
-                        statement.setInt(1, client.getPlayer().getId());
-                        statement.setInt(2, 0);
-                        statement.setInt(3, newItemId);
-                        statement.setString(4, extraData);
-                        statement.setInt(5, 0);
-                        statement.setInt(6, 0);
-                        statement.setInt(7, 0);
-                        statement.setInt(8, 0);
-                        statement.setString(9, "");
-                        statement.execute();
-
-                        ResultSet keys = statement.getGeneratedKeys();
-
-                        if (keys.next()) {
-                            int insertedId = keys.getInt(1);
-
-                            if (isTeleport) {
-                                teleportIds[e] = insertedId;
-                            }
-
-                            unseenItems.put(insertedId, def.getType().equalsIgnoreCase("s") ? 1 : 2);
-                            // DELIVER GIFT HERE
-                            client.getPlayer().getInventory().add(insertedId, newItemId, extraData, giftData);
+                        if (isTeleport) {
+                            teleportIds[e] = insertedId;
                         }
+
+                        unseenItems.put(insertedId, def.getType().equalsIgnoreCase("s") ? 1 : 2);
+                        // DELIVER GIFT HERE
+                        client.getPlayer().getInventory().add(insertedId, newItemId, extraData, giftData);
                     }
 
                     if (item.getLimitedTotal() > 0) {
                         item.increaseLimitedSells(1);
 
-                        PreparedStatement s = Comet.getServer().getStorage().prepare("UPDATE catalog_items SET limited_sells = limited_sells + 1 WHERE id = ?");
-                        s.setInt(1, item.getId());
-
-                        s.execute();
+                        CatalogDao.updateLimitSellsForItem(item.getId());
                     }
                 }
 
@@ -195,8 +160,7 @@ public class CatalogPurchaseHandler {
                             continue;
                         }
 
-                        Comet.getServer().getStorage().execute("INSERT into items_teles (id_one, id_two) VALUES(" + lastId + ", " + teleportIds[i] + ");");
-                        Comet.getServer().getStorage().execute("INSERT into items_teles (id_one, id_two) VALUES(" + teleportIds[i] + ", " + lastId + ");");
+                        TeleporterDao.savePair(teleportIds[i], lastId);
                     }
                 }
 
