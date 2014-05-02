@@ -1,6 +1,5 @@
 package com.cometproject.server.storage.collections;
 
-import java.sql.ResultSet;
 
 /**
  * Created by Matty on 01/05/2014.
