@@ -1,12 +1,10 @@
 package com.cometproject.server.game.navigator;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
 import com.cometproject.server.storage.queries.navigator.NavigatorDao;
 import org.apache.log4j.Logger;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 

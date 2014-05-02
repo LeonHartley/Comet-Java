@@ -1,12 +1,10 @@
 package com.cometproject.server.game.moderation;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.moderation.types.Ban;
 import com.cometproject.server.storage.queries.moderation.BanDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.sql.ResultSet;
 import java.util.Map;
 
 public class BanManager {

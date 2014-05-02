@@ -1,17 +1,13 @@
 package com.cometproject.server.storage.queries.items;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.moderation.types.Ban;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 public class WiredDao {
     public static void deleteWiredData(int itemId) {

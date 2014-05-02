@@ -1,13 +1,11 @@
 package com.cometproject.server.game.moderation;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.moderation.types.HelpTicket;
 import com.cometproject.server.storage.queries.moderation.PresetDao;
 import com.cometproject.server.storage.queries.moderation.TicketDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

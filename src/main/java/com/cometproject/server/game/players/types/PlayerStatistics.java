@@ -1,11 +1,9 @@
 package com.cometproject.server.game.players.types;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

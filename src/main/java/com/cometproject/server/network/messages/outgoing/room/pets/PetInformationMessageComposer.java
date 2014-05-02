@@ -1,6 +1,5 @@
 package com.cometproject.server.network.messages.outgoing.room.pets;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;

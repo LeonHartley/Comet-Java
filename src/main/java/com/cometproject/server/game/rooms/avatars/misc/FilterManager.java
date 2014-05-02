@@ -1,14 +1,9 @@
 package com.cometproject.server.game.rooms.avatars.misc;
 
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.storage.queries.filter.FilterDao;
 import org.apache.log4j.Logger;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.ArrayList;

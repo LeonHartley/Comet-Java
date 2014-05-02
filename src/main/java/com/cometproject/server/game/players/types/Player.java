@@ -1,6 +1,5 @@
 package com.cometproject.server.game.players.types;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
@@ -11,7 +10,6 @@ import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMe
 import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.player.PlayerDao;
 import javolution.util.FastMap;
 
 import java.util.ArrayList;

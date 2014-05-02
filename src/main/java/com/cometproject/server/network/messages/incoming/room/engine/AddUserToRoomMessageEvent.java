@@ -3,7 +3,6 @@ package com.cometproject.server.network.messages.incoming.room.engine;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
@@ -11,8 +10,6 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessag
 import com.cometproject.server.network.messages.outgoing.room.avatar.HandItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomPanelMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.items.FloorItemsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.items.WallItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
 import com.cometproject.server.network.messages.types.Event;

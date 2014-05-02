@@ -1,7 +1,5 @@
 package com.cometproject.server.network.messages.incoming.user.wardrobe;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.players.components.types.WardrobeItem;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
@@ -9,7 +7,6 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.google.gson.Gson;
 
-import java.sql.PreparedStatement;
 import java.util.List;
 
 public class SaveWardrobeMessageEvent implements IEvent {

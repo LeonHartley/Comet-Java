@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.misc;
 
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class MotdNotificationComposer {

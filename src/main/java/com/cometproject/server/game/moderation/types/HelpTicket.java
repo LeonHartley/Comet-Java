@@ -1,7 +1,5 @@
 package com.cometproject.server.game.moderation.types;
 
-import com.cometproject.server.boot.Comet;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

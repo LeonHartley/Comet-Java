@@ -9,10 +9,6 @@ import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.moderation.BanDao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 public class BanCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {

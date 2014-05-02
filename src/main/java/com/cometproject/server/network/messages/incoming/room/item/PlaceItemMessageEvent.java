@@ -1,6 +1,5 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
@@ -14,7 +13,6 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 

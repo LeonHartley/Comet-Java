@@ -12,8 +12,6 @@ import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

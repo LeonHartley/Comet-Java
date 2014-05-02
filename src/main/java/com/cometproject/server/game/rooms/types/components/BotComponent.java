@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
@@ -8,10 +7,8 @@ import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
-import com.cometproject.server.storage.queries.player.messenger.MessengerSearchDao;
 import javolution.util.FastMap;
 
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 

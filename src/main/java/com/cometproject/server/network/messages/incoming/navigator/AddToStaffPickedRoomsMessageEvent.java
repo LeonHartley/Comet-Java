@@ -1,6 +1,5 @@
 package com.cometproject.server.network.messages.incoming.navigator;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.navigator.types.featured.BannerType;
@@ -13,9 +12,6 @@ import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMes
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.navigator.NavigatorDao;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class AddToStaffPickedRoomsMessageEvent implements IEvent {
     @Override

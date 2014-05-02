@@ -1,7 +1,6 @@
 package com.cometproject.server.storage.queries.items;
 
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.game.permissions.types.Perk;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
 

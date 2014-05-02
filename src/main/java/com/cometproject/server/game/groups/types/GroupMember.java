@@ -1,8 +1,5 @@
 package com.cometproject.server.game.groups.types;
 
-import com.cometproject.server.boot.Comet;
-
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

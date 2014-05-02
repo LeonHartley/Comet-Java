@@ -1,13 +1,10 @@
 package com.cometproject.server.game.wired.data;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.storage.queries.items.WiredDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Map;
 
 public class WiredDataFactory {

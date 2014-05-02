@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.items;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.types.Room;
@@ -9,7 +8,6 @@ import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 import java.lang.ref.WeakReference;
-import java.sql.PreparedStatement;
 
 public class WallItem extends RoomItem {
     private int roomId;

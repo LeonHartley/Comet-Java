@@ -10,7 +10,6 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInv
 import com.cometproject.server.network.messages.outgoing.user.permissions.AllowancesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;

@@ -1,11 +1,9 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.RoomBan;
 import com.cometproject.server.storage.queries.rooms.RightsDao;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 

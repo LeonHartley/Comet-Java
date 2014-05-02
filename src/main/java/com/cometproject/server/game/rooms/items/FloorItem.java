@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.items;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.interactions.InteractionAction;
@@ -17,7 +16,6 @@ import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import javolution.util.FastMap;
 
 import java.lang.ref.WeakReference;
-import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Map;
 

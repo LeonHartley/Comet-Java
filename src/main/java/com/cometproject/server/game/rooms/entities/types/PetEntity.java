@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.entities.types;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -10,8 +9,6 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.pets.PetDao;
-
-import java.sql.PreparedStatement;
 
 public class PetEntity extends GenericEntity {
     private PetData data;

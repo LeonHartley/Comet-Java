@@ -1,15 +1,9 @@
 package com.cometproject.server.game.players.data;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import org.apache.log4j.Logger;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class PlayerLoader {
     //private static Logger log = Logger.getLogger(PlayerLoader.class.getName());
