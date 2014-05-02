@@ -1,6 +1,8 @@
 package com.cometproject.server.storage.queries.player;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.data.PlayerData;
+import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.storage.SqlHelper;
@@ -135,5 +137,31 @@ public class PlayerDao {
         }
 
         return new PlayerStatistics(id);
+    }
+
+    public static void updatePlayerStatus(Player player, boolean online, boolean setLastOnline) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE players SET online = ? " + (setLastOnline ? ", ?" : "") + " WHERE id = ?", sqlConnection);
+            preparedStatement.setString(1, online ? "1" : "0");
+
+            if(setLastOnline) {
+                preparedStatement.setLong(2, Comet.getTime());
+                preparedStatement.setInt(3, player.getId());
+            } else {
+                preparedStatement.setInt(2, player.getId());
+            }
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
     }
 }

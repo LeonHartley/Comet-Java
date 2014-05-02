@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.types.components;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.RoomBan;
+import com.cometproject.server.storage.queries.rooms.RightsDao;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -34,14 +35,7 @@ public class RightsComponent {
 
     public void loadRights() {
         try {
-            ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM room_rights WHERE room_id = " + this.room.getId());
-
-            if (data == null)
-                return;
-
-            while (data.next()) {
-                this.rights.add(data.getInt("player_id"));
-            }
+            this.rights = RightsDao.getRightsByRoomId(room.getId());
         } catch (Exception e) {
             this.room.log.error("Error while loading room rights", e);
         }
@@ -53,12 +47,12 @@ public class RightsComponent {
 
     public void removeRights(int playerId) {
         this.rights.remove(rights.indexOf(playerId));
-        Comet.getServer().getStorage().execute("DELETE from room_rights WHERE room_id = " + this.room.getId() + " AND player_id = " + playerId);
+        RightsDao.delete(playerId, room.getId());
     }
 
     public void addRights(int playerId) {
         this.rights.add(playerId);
-        Comet.getServer().getStorage().execute("INSERT into room_rights (`room_id`, `player_id`) VALUES(" + this.room.getId() + ", " + playerId + ");");
+        RightsDao.add(playerId, this.room.getId());
     }
 
     public void addBan(int userId) {
