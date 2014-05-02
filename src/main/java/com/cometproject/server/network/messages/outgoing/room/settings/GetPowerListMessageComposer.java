@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.outgoing.room.settings;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class GetPowerListMessageComposer {
         for (Integer id : usersWithRights) {
             msg.writeInt(id);
 
-            String username = Comet.getServer().getStorage().getString("SELECT `username` FROM players WHERE id = " + id);
+            String username = PlayerDao.getUsernameByPlayerId(id);
             msg.writeString(username != null ? username : "Placeholder");
         }
 
