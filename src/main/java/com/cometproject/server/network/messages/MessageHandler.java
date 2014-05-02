@@ -134,7 +134,6 @@ public class MessageHandler {
         this.getMessages().put(Events.SearchRoomMessageEvent, new SearchRoomMessageEvent());
         this.getMessages().put(Events.CanCreateRoomMessageEvent, new CanCreateRoomMessageEvent());
         this.getMessages().put(Events.CreateNewRoomMessageEvent, new CreateRoomMessageEvent());
-        this.getMessages().put(Events.LoadCategoriesMessageEvent, new LoadCategoriesMessageEvent());
         this.getMessages().put(Events.FeaturedRoomsMessageEvent, new FeaturedRoomsMessageEvent());
         this.getMessages().put(Events.AddToStaffPickedRoomsMessageEvent, new AddToStaffPickedRoomsMessageEvent());
     }
@@ -238,7 +237,6 @@ public class MessageHandler {
         this.getMessages().put(Events.GetCataIndexMessageEvent, new GetCataIndexMessageEvent());
         this.getMessages().put(Events.GetCataPageMessageEvent, new GetCataPageMessageEvent());
         this.getMessages().put(Events.PurchaseItemMessageEvent, new PurchaseItemMessageEvent());
-        this.getMessages().put(Events.HabboClubPackagesMessageEvent, new HabboClubPackagesMessageEvent());
         this.getMessages().put(Events.CatalogData1MessageEvent, new GetShopDataMessageEvent());
         this.getMessages().put(Events.CatalogData2MessageEvent, new GetShopData2MessageEvent());
         this.getMessages().put(Events.BuyGroupDialogMessageEvent, new BuyGroupDialogMessageEvent());

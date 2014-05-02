@@ -4,6 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
 public class PetInformationMessageComposer {
     public static Composer compose(PetData data) {
@@ -22,7 +23,7 @@ public class PetInformationMessageComposer {
         msg.writeInt(0); // SCRATCHES
         msg.writeInt(data.getOwnerId());
         msg.writeInt(0); // AGE
-        msg.writeString(Comet.getServer().getStorage().getString("SELECT `username` FROM players WHERE id = " + data.getOwnerId()));
+        msg.writeString(PlayerDao.getUsernameByPlayerId(data.getOwnerId()));
         msg.writeInt(1);
         msg.writeBoolean(false); // HAS_SADDLE
         msg.writeBoolean(false); // HAS_RIDER
