@@ -6,6 +6,7 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateWallItemMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 import java.lang.ref.WeakReference;
 import java.sql.PreparedStatement;
@@ -88,15 +89,7 @@ public class WallItem extends RoomItem {
 
     @Override
     public void saveData() {
-        try {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE items SET extra_data = ? WHERE id = ?");
-
-            statement.setString(1, this.getExtraData());
-            statement.setInt(2, this.getId());
-
-            statement.executeUpdate();
-        } catch (Exception e) {
-        }
+        RoomItemDao.saveData(id, extraData);
     }
 
     @Override
