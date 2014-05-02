@@ -15,6 +15,9 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.PetInven
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.bots.RoomBotDao;
+import com.cometproject.server.storage.queries.pets.RoomPetDao;
+import com.cometproject.server.storage.queries.rooms.RoomDao;
 
 public class DeleteRoomMessageEvent implements IEvent {
 
@@ -44,14 +47,14 @@ public class DeleteRoomMessageEvent implements IEvent {
             client.getPlayer().getBots().addBot(inventoryBot);
 
             bot.leaveRoom();
-            Comet.getServer().getStorage().execute("UPDATE bots SET room_id = 0 WHERE id = " + inventoryBot.getId());
+            RoomBotDao.setRoomId(0, inventoryBot.getId());
         }
 
         for(PetEntity pet : room.getEntities().getPetEntities()) {
             client.getPlayer().getPets().addPet(pet.getData());
 
             pet.leaveRoom(false, false, false);
-            Comet.getServer().getStorage().execute("UPDATE pet_data SET room_id = 0, x = 0, y = 0 WHERE id = " + pet.getData().getId());
+            RoomPetDao.updatePet(0, 0, 0, pet.getData().getId());
         }
 
         room.dispose();
@@ -69,7 +72,7 @@ public class DeleteRoomMessageEvent implements IEvent {
         }
 
         GameEngine.getLogger().info("Room deleted: " + room.getId() + " by " + client.getPlayer().getId() + " / " + client.getPlayer().getData().getUsername());
-        Comet.getServer().getStorage().execute("DELETE FROM rooms WHERE id = " + room.getId());
+        RoomDao.deleteRoom(room.getId());
 
         client.send(UpdateInventoryMessageComposer.compose());
         client.send(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));

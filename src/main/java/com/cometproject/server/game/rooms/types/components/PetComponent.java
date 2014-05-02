@@ -5,6 +5,7 @@ import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import javolution.util.FastMap;
 
 import java.sql.PreparedStatement;
@@ -36,19 +37,7 @@ public class PetComponent {
     }
 
     public PetEntity addPet(PetData pet, int x, int y) {
-        try {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE pet_data SET x = ?, y = ?, room_id = ? WHERE id = ?");
-
-            statement.setInt(1, x);
-            statement.setInt(2, y);
-            statement.setInt(3, this.room.getId());
-            statement.setInt(4, pet.getId());
-
-            statement.executeUpdate();
-        } catch (Exception e) {
-            room.log.error("Error while saving pet to room", e);
-            return null;
-        }
+        RoomPetDao.updatePet(this.room.getId(), x, y, pet.getId());
 
         int virtualId = room.getEntities().getFreeId();
 
