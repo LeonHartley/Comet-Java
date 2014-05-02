@@ -171,7 +171,6 @@ public class RoomDao {
     public static void updateRoom(int roomId, String name, String description, int ownerId, String owner, int category, int maxUsers, String access, String password, int score, String tags, String decor, String model, boolean hideWalls, int thicknessWall, int thicknessFloor, boolean allowWalkthrough) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -198,7 +197,6 @@ public class RoomDao {
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
-            SqlHelper.closeSilently(resultSet);
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }

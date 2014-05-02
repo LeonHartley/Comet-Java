@@ -2,6 +2,7 @@ package com.cometproject.server.game.wired.data;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.storage.queries.items.WiredDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -23,15 +24,12 @@ public class WiredDataFactory {
         }
 
         try {
-            ResultSet data = Comet.getServer().getStorage().getRow("SELECT * FROM items_wired_data WHERE item_id = " + item.getId());
+            WiredDataInstance instance = WiredDao.getDataByItemId(item.getId());
 
-            if (data == null) {
-                WiredDataInstance instance = create(item.getDefinition().getInteraction(), item.getId(), "");
-                instances.put(item.getId(), instance);
-                return instance;
+            if (instance == null) {
+                instance = create(item.getDefinition().getInteraction(), item.getId(), "");
             }
 
-            WiredDataInstance instance = buildInstance(data.getInt("item_id"), data.getString("data"), data.getInt("id"));
             instances.put(instance.getItemId(), instance);
 
             return instance;
@@ -43,34 +41,15 @@ public class WiredDataFactory {
     }
 
     public static WiredDataInstance create(String wiredType, int itemId, String data) {
-        try {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into items_wired_data VALUES(null, ?, ?, ?);", true);
+        int instanceId = WiredDao.createWiredData(wiredType, itemId, data);
 
-            statement.setInt(1, itemId);
-            statement.setString(2, wiredType);
-            statement.setString(3, data);
+        WiredDataInstance instance = buildInstance(itemId, data, instanceId);
+        instances.put(itemId, instance);
 
-            statement.execute();
-
-            ResultSet keys = statement.getGeneratedKeys();
-
-            if (keys.next()) {
-                int insertedId = keys.getInt(1);
-
-                WiredDataInstance instance = buildInstance(itemId, data, insertedId);
-                instances.put(itemId, instance);
-
-                return instance;
-            }
-
-        } catch (Exception e) {
-            log.error("Error while creating inserting wired data for item: " + itemId, e);
-        }
-
-        return null;
+        return instance;
     }
 
-    private static WiredDataInstance buildInstance(int itemId, String data, int instanceId) {
+    public static WiredDataInstance buildInstance(int itemId, String data, int instanceId) {
         return new WiredDataInstance(instanceId, itemId, data);
     }
 
@@ -89,16 +68,7 @@ public class WiredDataFactory {
             }
         }
 
-        try {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE items_wired_data SET data = ? WHERE id = ?");
-
-            statement.setString(1, saveData);
-            statement.setInt(2, data.getId());
-
-            statement.executeUpdate();
-        } catch (Exception e) {
-            log.error("Error while updating wired data", e);
-        }
+        WiredDao.saveWiredData(data.getItemId(), saveData);
     }
 
     public static void removeInstance(int id) {
