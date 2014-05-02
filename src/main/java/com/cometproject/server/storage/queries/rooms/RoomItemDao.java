@@ -80,4 +80,23 @@ public class RoomItemDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+    public static void deleteItem(int itemId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM items WHERE id = ?", sqlConnection);
+            preparedStatement.setInt(1, itemId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }

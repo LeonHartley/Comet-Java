@@ -13,6 +13,7 @@ import com.cometproject.server.network.messages.outgoing.navigator.RoomCategorie
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.net.InetSocketAddress;
 
@@ -57,7 +58,9 @@ public class SSOTicketMessageEvent implements IEvent {
 
         client.getLogger().info(client.getPlayer().getData().getUsername() + " logged in");
 
-        Comet.getServer().getStorage().execute("UPDATE players SET last_online = " + Comet.getTime() + " WHERE id = " + player.getId());
+        //Comet.getServer().getStorage().execute("UPDATE players SET last_online = " + Comet.getTime() + " WHERE id = " + player.getId());
+
+        PlayerDao.updatePlayerStatus(player, true, true);
 
         client.send(LoginMessageComposer.compose());
         client.send(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));

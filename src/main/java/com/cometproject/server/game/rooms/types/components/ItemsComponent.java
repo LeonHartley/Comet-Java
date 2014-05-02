@@ -15,6 +15,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorI
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.items.WiredDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import javolution.util.FastTable;
 import javolution.util.internal.table.FastTableImpl;
@@ -184,19 +185,19 @@ public class ItemsComponent {
         room.getItems().getFloorItems().remove(item);
 
         if (toInventory) {
-            Comet.getServer().getStorage().execute("UPDATE items SET x = 0, y = 0, z = 0, rot = 0, room_id = 0, user_id = " + client.getPlayer().getId() + " WHERE id = " + item.getId());
+            RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
 
             client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
             client.send(UpdateInventoryMessageComposer.compose());
-
-            //client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
         } else {
-            Comet.getServer().getStorage().execute("DELETE FROM items WHERE id = " + item.getId());
+            RoomItemDao.deleteItem(item.getItemId());
         }
 
         if (GameEngine.getWired().isWiredItem(item)) {
             WiredDataInstance instance = WiredDataFactory.get(item);
-            Comet.getServer().getStorage().execute("DELETE FROM items_wired_data WHERE id = " + instance.getId());
+
+            WiredDao.deleteWiredData(item.getId());
+
             WiredDataFactory.removeInstance(item.getId());
 
             instance.dispose();
