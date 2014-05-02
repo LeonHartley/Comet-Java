@@ -1,4 +1,4 @@
-package com.cometproject.server.storage.queries;
+package com.cometproject.server.storage.queries.pets;
 
 import com.cometproject.server.game.moderation.types.HelpTicket;
 import com.cometproject.server.game.pets.races.PetRace;

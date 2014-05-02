@@ -1,14 +1,11 @@
 package com.cometproject.server.game.pets;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.pets.races.PetRace;
-import com.cometproject.server.storage.queries.PetDao;
+import com.cometproject.server.storage.queries.pets.PetDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

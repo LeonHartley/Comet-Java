@@ -4,14 +4,12 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.StatisticsDao;
+import com.cometproject.server.storage.queries.system.StatisticsDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.ScheduledFuture;
@@ -87,7 +85,7 @@ public class GameThread implements CometTask {
                 }
             }
 
-            StatisticsDao.updateStats(0, 0, "0.1");
+            StatisticsDao.saveStatistics(0, 0, "0.1");
             cycleCount++;
         } catch (Exception e) {
             if (e instanceof InterruptedException) {
