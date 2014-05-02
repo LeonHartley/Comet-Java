@@ -41,7 +41,7 @@ public class BanDao {
         return data;
     }
 
-    public static int createBan(long length, long expire, int userId) {
+    public static int createBan(long length, long expire, String data) {
 
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -54,7 +54,7 @@ public class BanDao {
 
             preparedStatement.setString(1, "user");
             preparedStatement.setLong(2, length == 0 ? 0 : expire);
-            preparedStatement.setString(3, userId + "");
+            preparedStatement.setString(3, data);
             preparedStatement.setString(4, "");
 
             SqlHelper.executeStatementSilently(preparedStatement, false);

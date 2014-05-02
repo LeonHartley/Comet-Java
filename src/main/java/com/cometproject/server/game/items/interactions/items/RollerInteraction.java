@@ -11,6 +11,7 @@ import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 import java.util.List;
 
@@ -109,7 +110,7 @@ public class RollerInteraction extends Interactor {
             itemOnSq.setHeight((float) toHeight);
 
             if (needsSave) {
-                Comet.getServer().getStorage().execute("UPDATE items SET x = " + itemOnSq.getX() + ", y = " + itemOnSq.getY() + ", z = '" + itemOnSq.getHeight() + "' WHERE id = " + itemOnSq.getId());
+                RoomItemDao.saveItemPosition(itemOnSq.getX(), itemOnSq.getY(), itemOnSq.getHeight(), itemOnSq.getRotation(), itemOnSq.getId());
             }
         }
 
