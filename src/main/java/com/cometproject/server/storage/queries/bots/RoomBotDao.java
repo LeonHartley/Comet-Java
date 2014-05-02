@@ -5,6 +5,7 @@ import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
 import com.cometproject.server.storage.SqlHelper;
+import com.google.gson.Gson;
 import javolution.util.FastMap;
 
 import java.sql.Connection;
@@ -59,7 +60,35 @@ public class RoomBotDao {
             preparedStatement.setInt(1, roomId);
             preparedStatement.setInt(2, botId);
 
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void saveData(BotData data) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE bots SET room_id = ? WHERE id = ?", sqlConnection);
+
+            preparedStatement.setString(1, data.getFigure());
+            preparedStatement.setString(2, data.getGender());
+            preparedStatement.setString(3, data.getMotto());
+            preparedStatement.setString(4, data.getUsername());
+            preparedStatement.setString(5, new Gson().toJson(data.getMessages()));
+            preparedStatement.setString(6, data.isAutomaticChat() ? "1" : "0");
+            preparedStatement.setInt(7, data.getChatDelay());
+
+            preparedStatement.setInt(8, data.getId());
+
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {

@@ -1,6 +1,7 @@
 package com.cometproject.server.storage.queries.pets;
 
 import com.cometproject.server.game.pets.data.PetData;
+import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
@@ -68,5 +69,63 @@ public class PetDao {
         }
 
         return data;
+    }
+
+    public static int createPet(int ownerId, String petName, int type, int race, String colour) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT INTO `pet_data` (`owner_id`, `pet_name`, `type`, `race_id`, `colour`, `scratches`, `level`, `happiness`, `experience`, `energy`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", sqlConnection, true);
+
+            preparedStatement.setInt(1, ownerId);
+            preparedStatement.setString(2, petName);
+            preparedStatement.setInt(3, type);
+            preparedStatement.setInt(4, race);
+            preparedStatement.setString(5, colour);
+            preparedStatement.setInt(6, 0);
+            preparedStatement.setInt(7, StaticPetProperties.DEFAULT_LEVEL);
+            preparedStatement.setInt(8, StaticPetProperties.DEFAULT_HAPPINESS);
+            preparedStatement.setInt(9, StaticPetProperties.DEFAULT_EXPERIENCE);
+            preparedStatement.setInt(10, StaticPetProperties.DEFAULT_ENERGY);
+
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            while(resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return 0;
+    }
+
+    public static void savePet(int x, int y, int id) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE pet_data SET x = ?, y = ? WHERE id = ?", sqlConnection);
+            preparedStatement.setInt(1, x);
+            preparedStatement.setInt(2, y);
+            preparedStatement.setInt(3, id);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
     }
 }

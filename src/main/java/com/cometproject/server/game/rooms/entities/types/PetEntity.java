@@ -9,6 +9,7 @@ import com.cometproject.server.game.rooms.entities.types.ai.PetAI;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.storage.queries.pets.PetDao;
 
 import java.sql.PreparedStatement;
 
@@ -42,17 +43,7 @@ public class PetEntity extends GenericEntity {
 
     public void leaveRoom(boolean save) {
         if (save) {
-            try {
-                PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE pet_data SET x = ?, y = ? WHERE id = ?");
-
-                statement.setInt(1, this.getPosition().getX());
-                statement.setInt(2, this.getPosition().getY());
-                statement.setInt(3, this.getData().getId());
-
-                statement.executeUpdate();
-            } catch (Exception e) {
-                this.getRoom().log.error("Error while saving pet");
-            }
+            PetDao.savePet(this.getPosition().getX(), this.getPosition().getY(), this.data.getId());
         }
 
         this.getRoom().getEntities().removeEntity(this);

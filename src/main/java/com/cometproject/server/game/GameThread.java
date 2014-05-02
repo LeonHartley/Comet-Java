@@ -54,7 +54,7 @@ public class GameThread implements CometTask {
             public void run() {
                 long start = System.currentTimeMillis();
 
-                Comet.getServer().getStorage().execute("UPDATE player_stats SET daily_respects = 3 WHERE daily_respects < 3");
+                //Comet.getServer().getStorage().execute("UPDATE player_stats SET daily_respects = 3 WHERE daily_respects < 3");
 
                 TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
 
