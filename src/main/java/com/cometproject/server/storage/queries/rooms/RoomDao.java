@@ -168,6 +168,40 @@ public class RoomDao {
         return 0;
     }
 
+    public static void updateRoom(int roomId, String name, String description, int ownerId, String owner, int category, int maxUsers, String access, String password, int score, String tags, String decor, String model, boolean hideWalls, int thicknessWall, int thicknessFloor, boolean allowWalkthrough) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
+        try {
+            sqlConnection = SqlHelper.getConnection();
+            preparedStatement = SqlHelper.prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?, max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?, thickness_floor = ?, allow_walkthrough = ? WHERE id = ?", sqlConnection);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, description);
+            preparedStatement.setInt(3, ownerId);
+            preparedStatement.setString(4, owner);
+            preparedStatement.setInt(5, category);
+            preparedStatement.setInt(6, maxUsers);
+            preparedStatement.setString(7, access);
+            preparedStatement.setString(8, password);
+            preparedStatement.setInt(9, score);
+            preparedStatement.setString(10, tags);
+            preparedStatement.setString(11, decor);
+            preparedStatement.setString(12, model);
+            preparedStatement.setString(13, hideWalls ? "1" : "0");
+            preparedStatement.setInt(14, thicknessWall);
+            preparedStatement.setInt(15, thicknessFloor);
+            preparedStatement.setString(16, allowWalkthrough ? "1" : "0");
+            preparedStatement.setInt(17, roomId);
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 
 }
