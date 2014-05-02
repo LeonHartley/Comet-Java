@@ -10,6 +10,7 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +106,7 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                     }
                 }
 
-                Comet.getServer().getStorage().execute("UPDATE items SET x = " + x + ", y = " + y + ", z = " + height + ", rot = " + rot + " WHERE id = " + id);
+                RoomItemDao.saveItemPosition(x, y, height, rot, id);
 
                 room.getItems().getFloorItems().remove(item);
                 room.getItems().getFloorItems().add(item);

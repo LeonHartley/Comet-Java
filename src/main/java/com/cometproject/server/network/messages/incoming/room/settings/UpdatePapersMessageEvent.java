@@ -8,6 +8,7 @@ import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessa
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
@@ -46,7 +47,7 @@ public class UpdatePapersMessageEvent implements IEvent {
             }
 
             client.getPlayer().getInventory().removeItem(item);
-            Comet.getServer().getStorage().execute("DELETE FROM items WHERE id = " + item.getId());
+            RoomItemDao.deleteItem(itemId);
             client.send(UpdateInventoryMessageComposer.compose());
 
             try {
