@@ -4,16 +4,15 @@ import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Matty on 30/04/2014.
- */
 public class ImmutableResultReader {
 
     private final ResultSet resultSet;
-    private final Map<String, Object> dataStore = new HashMap<>();
+    private final List<HashMap<String, Object>> dataStore = new ArrayList<>();
 
     public static ImmutableResultReader build(ResultSet resultSet) {
         return new ImmutableResultReader(resultSet);
@@ -36,13 +35,18 @@ public class ImmutableResultReader {
     protected void init(boolean shouldCloseRs) {
         try {
             if (resultSet != null && !resultSet.isClosed()) {
-                int curr = 0;
-                while (resultSet.next()) {
-                    curr++;
+                int rowNumber = 0;
 
-                    System.out.println(resultSet.getMetaData().getColumnName(curr));
+                while(resultSet.next()) {
+                    rowNumber++;
 
-                    dataStore.put(resultSet.getMetaData().getColumnName(curr), resultSet.getObject(curr));
+                    if(dataStore.get(rowNumber) == null) {
+                        dataStore.add(new HashMap<String, Object>());
+                    }
+
+                    for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
+                        dataStore.get(rowNumber).put(resultSet.getMetaData().getColumnName(i), resultSet.getObject(i));
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -50,7 +54,8 @@ public class ImmutableResultReader {
         } finally {
             if (shouldCloseRs) {
                 try {
-                    this.resultSet.close();
+                    if(this.resultSet != null)
+                        this.resultSet.close();
                 } catch (SQLException e) { SqlHelper.handleSqlException(e); }
             }
         }
@@ -60,11 +65,35 @@ public class ImmutableResultReader {
         return this.dataStore.size();
     }
 
-    public Object getObject(String columnName) {
-        return this.dataStore.get(columnName);
+    public HashMap<String, Object> getRow(int row) {
+        return this.dataStore.get(row);
     }
 
-    public int getInt(String columnName) {
-        return (int)this.getObject(columnName);
+    public int getInt(String columnName, int row) {
+        if(this.getRow(row).containsKey(columnName)) {
+            return (int) this.getRow(row).get(columnName);
+        }
+
+        return 0;
+    }
+
+    public String getString(String columnName, int row) {
+        if(this.getRow(row).containsKey(columnName)) {
+            return (String) this.getRow(row).get(columnName);
+        }
+
+        return null;
+    }
+
+    public double getDouble(String columnName, int row) {
+        if(this.getRow(row).containsKey(columnName)) {
+            return (double) this.getRow(row).get(columnName);
+        }
+
+        return 0d;
+    }
+
+    public boolean getBoolean(String columnName, int row) {
+        return this.getRow(row).containsKey(columnName) && (this.getRow(row).get(columnName)).equals("1");
     }
 }
