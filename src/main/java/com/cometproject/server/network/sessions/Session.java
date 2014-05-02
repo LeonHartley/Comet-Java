@@ -9,14 +9,13 @@ public class Session {
     private Channel channel;
     private Player player;
 
-    private Logger logger = Logger.getLogger("Unknown session");
+    private Logger logger = Logger.getLogger("Session");
 
     public Session(Channel channel) {
         this.channel = channel;
     }
 
     public void setPlayer(Player player) {
-        this.logger = Logger.getLogger(player.getData().getUsername());
         this.player = player;
     }
 
@@ -32,8 +31,6 @@ public class Session {
         if (msg == null) {
             return;
         }
-
-        logger.debug("Sent message: " + msg.getId());
 
         channel.write(msg.get());
     }

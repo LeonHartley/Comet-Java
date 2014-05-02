@@ -39,13 +39,8 @@ public class PlayerData {
         this.achievementPoints = achievementPoints;
     }
 
-    public boolean save() {
-        if (PlayerDao.updatePlayerData(id, username, motto, figure, credits, points, gender)) {
-            return true;
-        }
-
-        GameEngine.getLogger().error(String.format("Error while saving player data for player id: %s", id));
-        return false;
+    public void save() {
+        PlayerDao.updatePlayerData(id, username, motto, figure, credits, points, gender);
     }
 
     public void decreaseCredits(int amount) {

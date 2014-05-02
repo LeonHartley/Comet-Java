@@ -86,6 +86,8 @@ public class RoomManager {
 
     public void loadRoomsForUser(Player player) {
         try {
+            player.getRooms().clear();
+
             Map<Integer, Room> rooms = RoomDao.getRoomsByPlayerId(player.getId());
 
             for(Map.Entry<Integer, Room> roomEntry : rooms.entrySet()) {

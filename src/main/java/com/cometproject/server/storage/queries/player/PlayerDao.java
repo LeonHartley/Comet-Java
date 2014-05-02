@@ -219,7 +219,7 @@ public class PlayerDao {
         return 0;
     }
 
-    public static boolean updatePlayerData(int id, String username, String motto, String figure, int credits, int points, String gender) {
+    public static void updatePlayerData(int id, String username, String motto, String figure, int credits, int points, String gender) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -243,8 +243,6 @@ public class PlayerDao {
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
-
-        return false;
     }
 
     public static boolean updatePlayerStatistics(int achievementPoints, int respectPoints, int dailyRespects, int userId) {
