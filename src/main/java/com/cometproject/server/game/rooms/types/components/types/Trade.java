@@ -1,8 +1,6 @@
 package com.cometproject.server.game.rooms.types.components.types;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.components.TradeComponent;
@@ -11,8 +9,8 @@ import com.cometproject.server.network.messages.outgoing.misc.AlertMessageCompos
 import com.cometproject.server.network.messages.outgoing.room.trading.*;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.storage.queries.items.TradeDao;
 
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -175,16 +173,7 @@ public class Trade {
                 user1.getPlayer().getInventory().removeItem(item);
                 user2.getPlayer().getInventory().addItem(item);
 
-                try {
-                    PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE items SET user_id = ? AND room_id = 0 WHERE id = ?");
-
-                    statement.setInt(1, user2.getPlayer().getId());
-                    statement.setInt(2, item.getId());
-
-                    statement.execute();
-                } catch (Exception e) {
-                    GameEngine.getLogger().error("There was an error during trade between " + user1.getPlayer().getId() + " and " + user2.getPlayer().getId(), e);
-                }
+                TradeDao.updateTradeItems(user2.getPlayer().getId(), item.getId());
             }
         }
 
@@ -196,16 +185,7 @@ public class Trade {
                 user2.getPlayer().getInventory().removeItem(item);
                 user1.getPlayer().getInventory().addItem(item);
 
-                try {
-                    PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE items SET user_id = ? AND room_id = 0 WHERE id = ?");
-
-                    statement.setInt(1, user1.getPlayer().getId());
-                    statement.setInt(2, item.getId());
-
-                    statement.execute();
-                } catch (Exception e) {
-                    GameEngine.getLogger().error("There was an error during trade between " + user1.getPlayer().getId() + " and " + user2.getPlayer().getId(), e);
-                }
+                TradeDao.updateTradeItems(user1.getPlayer().getId(), item.getId());
             }
         }
 
