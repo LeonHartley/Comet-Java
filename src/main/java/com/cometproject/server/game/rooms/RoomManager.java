@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomModel;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotionsManager;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -15,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RoomManager {
     private FastMap<Integer, Room> rooms;
@@ -43,11 +45,7 @@ public class RoomManager {
                 this.getModels().clear();
             }
 
-            ResultSet result = Comet.getServer().getStorage().getTable("SELECT * FROM room_models");
-
-            while (result.next()) {
-                this.getModels().add(new RoomModel(result));
-            }
+            this.models = RoomDao.getModels();
         } catch (Exception e) {
             log.error("Error while loading room model", e);
         }
@@ -73,13 +71,11 @@ public class RoomManager {
         }
 
         try {
-            ResultSet room = Comet.getServer().getStorage().getRow("SELECT * FROM rooms WHERE id = " + id);
+            Room room = RoomDao.getRoomById(id);
 
             if (room != null) {
-                Room newRoom = new Room(new RoomData(room));
-                this.rooms.put(id, newRoom);
-
-                return newRoom;
+                this.rooms.put(id, room);
+                return room;
             }
         } catch (Exception e) {
             log.error("Error while loading room", e);
@@ -90,20 +86,15 @@ public class RoomManager {
 
     public void loadRoomsForUser(Player player) {
         try {
-            ResultSet room = Comet.getServer().getStorage().getTable("SELECT * FROM rooms WHERE owner_id = " + player.getId() + " ORDER by id ASC");
+            Map<Integer, Room> rooms = RoomDao.getRoomsByPlayerId(player.getId());
 
-            while (room.next()) {
-                RoomData data = new RoomData(room);
+            for(Map.Entry<Integer, Room> roomEntry : rooms.entrySet()) {
+                if(this.rooms.containsKey(roomEntry.getKey())) continue;
 
-                if (this.getRooms().containsKey(data.getId())) {
-                    player.getRooms().put(data.getId(), this.getRooms().get(data.getId()));
-                    continue;
-                }
-
-                Room r = new Room(data);
-                this.getRooms().put(data.getId(), r);
-                player.getRooms().put(r.getId(), r);
+                this.rooms.put(roomEntry.getKey(), roomEntry.getValue());
             }
+
+            player.setRooms(rooms);
         } catch (Exception e) {
             log.error("Error while loading rooms for user", e);
         }

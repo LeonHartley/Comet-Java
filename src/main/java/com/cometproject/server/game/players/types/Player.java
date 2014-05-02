@@ -33,7 +33,7 @@ public class Player {
     private BotComponent bots;
     private PetComponent pets;
 
-    private Map<Integer, Room> rooms = new FastMap<>();
+    private Map<Integer, Room> rooms;
 
     public long lastMessage = 0;
     public double floodTime = 0;
@@ -116,6 +116,10 @@ public class Player {
 
     public Map<Integer, Room> getRooms() {
         return rooms;
+    }
+
+    public void setRooms(Map<Integer, Room> rooms) {
+        this.rooms = rooms;
     }
 
     public void setSession(Session client) {
