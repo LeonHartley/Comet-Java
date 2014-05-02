@@ -1,6 +1,8 @@
 package com.cometproject.server.game.players.components.types;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.players.data.PlayerData;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,12 +15,12 @@ public class MessengerRequest {
     public MessengerRequest(ResultSet data) throws SQLException {
         this.fromId = data.getInt("from_id");
 
-        ResultSet user = Comet.getServer().getStorage().getRow("SELECT `username`, `figure`, `motto` FROM `players` WHERE `id` = " + fromId);
+        PlayerData playerData = PlayerDao.getDataById(this.fromId);
 
-        if (user != null) {
-            this.username = user.getString("username");
-            this.look = user.getString("figure");
-            this.motto = user.getString("motto");
+        if (playerData != null) {
+            this.username = playerData.getUsername();
+            this.look = playerData.getFigure();
+            this.motto = playerData.getMotto();
         }
     }
 
