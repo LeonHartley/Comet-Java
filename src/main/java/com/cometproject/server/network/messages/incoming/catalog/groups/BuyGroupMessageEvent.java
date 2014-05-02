@@ -52,7 +52,7 @@ public class BuyGroupMessageEvent implements IEvent {
         int groupBase16 = msg.readInt();
         int groupBase17 = msg.readInt();
         int groupBase18 = msg.readInt();
-
+    /*
         String base = "b" + ((groupBase4 < 10) ? "0" + groupBase4 : groupBase4) + ((groupBase5 < 10) ? "0" + groupBase5 : groupBase5) + groupBase6;
         String s1 = GameEngine.getGroups().checkSymbol("s" + ((groupBase7 < 10) ? "0" + groupBase7 : groupBase7) + ((groupBase8 < 10) ? "0" + groupBase8 : groupBase8) + groupBase9);
         String s2 = GameEngine.getGroups().checkSymbol("s" + ((groupBase10 < 10) ? "0" + groupBase10 : groupBase10) + ((groupBase11 < 10) ? "0" + groupBase11 : groupBase11) + groupBase12);
@@ -63,6 +63,7 @@ public class BuyGroupMessageEvent implements IEvent {
 
         client.send(BoughtItemMessageComposer.compose());
         Group group = GameEngine.getGroups().createGroup(name, desc, roomId, badge, client, GameEngine.getGroups().getSymbolColours().containsKey(colour1) ? colour1 : 1, GameEngine.getGroups().getBackgroundColours().containsKey(colour2) ? colour2 : 1);
+    */
     }
 
 }

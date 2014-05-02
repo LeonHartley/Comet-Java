@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 
 public class ModToolUserInfoMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        int userId = msg.readInt();
+        /*int userId = msg.readInt();
 
         if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             client.getLogger().error(
@@ -35,6 +35,6 @@ public class ModToolUserInfoMessageEvent implements IEvent {
             client.send(ModToolUserInfoMessageComposer.compose(user, stats));
         } catch (Exception e) {
             GameEngine.getLogger().error("Error while sending user info to mod tool", e);
-        }
+        }*/
     }
 }

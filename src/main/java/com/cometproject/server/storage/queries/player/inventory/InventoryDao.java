@@ -109,6 +109,27 @@ public class InventoryDao {
         }
     }
 
+    public static void updateBadge(String badge, int slot, int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE player_badges SET slot = ? WHERE badge_code = ? AND player_id = ?", sqlConnection);
+            preparedStatement.setInt(1, slot);
+            preparedStatement.setString(2, badge);
+            preparedStatement.setInt(3, playerId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
     public static void clearInventory(int userId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;

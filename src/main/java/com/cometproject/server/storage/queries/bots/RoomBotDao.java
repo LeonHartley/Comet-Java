@@ -96,4 +96,28 @@ public class RoomBotDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+    public static void savePosition(int x, int y, double height, int botId, int roomId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE bots SET x = ?, y = ?, z = ?, room_id = ? WHERE id = ?", sqlConnection);
+
+            preparedStatement.setInt(1, x);
+            preparedStatement.setInt(2, y);
+            preparedStatement.setDouble(3, height);
+            preparedStatement.setInt(4, roomId);
+            preparedStatement.setInt(5, botId);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }

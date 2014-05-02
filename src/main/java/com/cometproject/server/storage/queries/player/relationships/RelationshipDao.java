@@ -40,4 +40,24 @@ public class RelationshipDao {
 
         return data;
     }
+
+    public static void deleteRelationship(int playerId, int partner) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM player_relationships WHERE player_id = ? AND partner = ?", sqlConnection);
+            preparedStatement.setInt(1, playerId);
+            preparedStatement.setInt(2, partner);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }

@@ -7,6 +7,7 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.moderation.types.Ban;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.moderation.BanDao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,26 +34,11 @@ public class BanCommand extends ChatCommand {
         }
 
         user.disconnect();
+
         long expire = Comet.getTime() + (length * 36000);
+        int banId = BanDao.createBan(length, expire, user.getPlayer().getId());
 
-        try {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into bans (`type`, `expire`, `data`, `reason`) VALUES(?, ?, ?, ?);");
-
-            statement.setString(1, "user");
-            statement.setLong(2, length == 0 ? 0 : expire);
-            statement.setString(3, user.getPlayer().getId() + "");
-            statement.setString(4, "");
-
-            statement.execute();
-
-            ResultSet keys = statement.getGeneratedKeys();
-
-            if (keys.next()) {
-                GameEngine.getBans().add(new Ban(keys.getInt(1), user.getPlayer().getId() + "", expire, BanType.USER, ""));
-            }
-        } catch (SQLException e) {
-            GameEngine.getLogger().error("Error while banning player: " + username, e);
-        }
+        GameEngine.getBans().add(new Ban(banId, user.getPlayer().getId() + "", length == 0 ? length : expire, BanType.USER, ""));
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMess
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.bots.RoomBotDao;
 
 public class PlaceBotMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
@@ -30,7 +31,7 @@ public class PlaceBotMessageEvent implements IEvent {
             return;
         }
 
-        Comet.getServer().getStorage().execute("UPDATE bots SET room_id = " + room.getId() + ", x = " + x + ", y = " + y + ", z = '" + height + "' WHERE id = " + botId);
+        RoomBotDao.savePosition(x, y, height, botId, room.getId());
 
         BotEntity botEntity = room.getBots().addBot(bot, x, y);
         client.getPlayer().getBots().remove(botId);

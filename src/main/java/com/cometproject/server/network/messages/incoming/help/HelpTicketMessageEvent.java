@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 public class HelpTicketMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        boolean hasActiveTicket = GameEngine.getModeration().getTicketByUserId(client.getPlayer().getId()) != null;
+        /*boolean hasActiveTicket = GameEngine.getModeration().getTicketByUserId(client.getPlayer().getId()) != null;
 
         if (hasActiveTicket) {
             client.send(AdvancedAlertMessageComposer.compose(Locale.get("help.ticket.pending.title"), Locale.get("help.ticket.pending.message")));
@@ -53,5 +53,6 @@ public class HelpTicketMessageEvent implements IEvent {
         }
 
         client.send(TicketSentMessageComposer.compose());
+        */
     }
 }
