@@ -2,6 +2,7 @@ package com.cometproject.server.game.players.types;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,17 +30,8 @@ public class PlayerStatistics {
     }
 
     public void save() {
-        try {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE player_stats SET achievement_score = ?, total_respect_points = ?, daily_respects = ? WHERE player_id = ?");
-
-            statement.setInt(1, achievementPoints);
-            statement.setInt(2, respectPoints);
-            statement.setInt(3, dailyRespects);
-            statement.setInt(4, userId);
-
-            statement.execute();
-        } catch (SQLException e) {
-            GameEngine.getLogger().error("Error while saving player statistics", e);
+        if (!PlayerDao.updatePlayerStatistics(achievementPoints, respectPoints, dailyRespects, userId)) {
+            GameEngine.getLogger().error(String.format("Error while saving player statistics for id %s", userId));
         }
     }
 

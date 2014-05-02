@@ -246,4 +246,28 @@ public class PlayerDao {
 
         return false;
     }
+
+    public static boolean updatePlayerStatistics(int achievementPoints, int respectPoints, int dailyRespects, int userId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE player_stats SET achievement_score = ?, total_respect_points = ?, daily_respects = ? WHERE player_id = ?", sqlConnection);
+            preparedStatement.setInt(1, achievementPoints);
+            preparedStatement.setInt(2, respectPoints);
+            preparedStatement.setInt(3, dailyRespects);
+            preparedStatement.setInt(4, userId);
+
+            return preparedStatement.execute();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return false;
+    }
 }
