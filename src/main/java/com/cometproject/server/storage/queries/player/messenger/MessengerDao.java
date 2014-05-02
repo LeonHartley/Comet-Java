@@ -165,4 +165,31 @@ public class MessengerDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+    public static int getFriendCount(int userId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT COUNT(1) FROM messenger_friendships WHERE user_one_id = ?", sqlConnection);
+            preparedStatement.setInt(1, userId);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return 0;
+    }
 }

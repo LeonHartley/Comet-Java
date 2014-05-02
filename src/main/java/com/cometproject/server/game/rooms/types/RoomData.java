@@ -1,12 +1,10 @@
 package com.cometproject.server.game.rooms.types;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
@@ -69,7 +67,23 @@ public class RoomData {
     }
 
     public void save() throws SQLException {
-        RoomDao.saveRoomData(this);
+        String tagString = "";
+
+        for (int i = 0; i < tags.length; i++) {
+            if (i != 0) {
+                tagString += ",";
+            }
+
+            tagString += tags[i];
+        }
+
+        String decorString = "";
+
+        for (Map.Entry<String, String> decoration : decorations.entrySet()) {
+            decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
+        }
+
+        RoomDao.updateRoom(id, name, description, ownerId, owner, category, maxUsers, access, password, score, tagString, decorString.substring(0, decorString.length() - 1), model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough);
     }
 
     public int getId() {

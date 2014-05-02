@@ -3,6 +3,7 @@ package com.cometproject.server.game.players.types;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -63,22 +64,6 @@ public class PlayerStatistics {
     }
 
     public int getFriendCount() {
-        try {
-            if (this.friendCount == 0) {
-                PreparedStatement statement = Comet.getServer().getStorage().prepare("SELECT COUNT(1) FROM messenger_friendships WHERE user_one_id = ?");
-
-                statement.setInt(1, this.userId);
-
-                ResultSet data = statement.executeQuery();
-
-                while (data.next()) {
-                    this.friendCount = data.getInt(1);
-                }
-            }
-        } catch (Exception e) {
-            GameEngine.getLogger().error("Error while counting friends for PlayerStatistics", e);
-        }
-
-        return this.friendCount;
+        return MessengerDao.getFriendCount(this.userId);
     }
 }
