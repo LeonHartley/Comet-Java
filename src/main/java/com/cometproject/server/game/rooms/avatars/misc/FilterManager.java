@@ -20,7 +20,6 @@ public class FilterManager {
     private Logger log = Logger.getLogger(FilterManager.class.getName());
 
     public FilterManager() {
-        // TODO: Get Julien to send the database.. :P
         init();
     }
 
@@ -40,10 +39,14 @@ public class FilterManager {
         whitelist = FilterDao.getWordfilterByType("whitelist");
 
         log.info("Loaded " + whitelist.size() + " whitelisted words");
-
     }
 
-    public static String removeAccents(String text) {
+    public void save() {
+        FilterDao.saveByType("blacklist", blacklist);
+        FilterDao.saveByType("whitelist", blacklist);
+    }
+
+    private static String removeAccents(String text) {
         return text == null ? null
                 : Normalizer.normalize(text, Form.NFD)
                 .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
@@ -83,56 +86,18 @@ public class FilterManager {
 
     public void removeblacklistedWord(String word) {
         blacklist.remove(getFilteredString(word));
-        try {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("DELETE FROM wordfilter WHERE word = ? AND type = ?");
-
-            statement.setString(1, getFilteredString(word));
-            statement.setString(2, "blacklist");
-            statement.execute();
-        } catch (SQLException e) {
-            GameEngine.getLogger().error("Error while unblacklisting word: " + word, e);
-        }
-
-
     }
 
     public void removewhitelistedWord(String word) {
         whitelist.remove(getFilteredString(word));
-        try {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("DELETE FROM wordfilter WHERE word = ? AND type = ?");
-
-            statement.setString(1, getFilteredString(word));
-            statement.setString(2, "whitelist");
-            statement.execute();
-        } catch (SQLException e) {
-            GameEngine.getLogger().error("Error while unwhitelisting word: " + word, e);
-        }
     }
 
     public void addwhitelistedWord(String word) {
         whitelist.add(getFilteredString(word));
-        try {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into wordfilter (`word`, `type`) VALUES(?, ?);");
-
-            statement.setString(1, getFilteredString(word));
-            statement.setString(2, "whitelist");
-            statement.execute();
-        } catch (SQLException e) {
-            GameEngine.getLogger().error("Error while whitelisting word: " + word, e);
-        }
     }
 
     public void addblacklistedWord(String word) {
         blacklist.add(getFilteredString(word));
-        try {
-            PreparedStatement statement = Comet.getServer().getStorage().prepare("INSERT into wordfilter (`word`, `type`) VALUES(?, ?);");
-
-            statement.setString(1, getFilteredString(word));
-            statement.setString(2, "blacklist");
-            statement.execute();
-        } catch (SQLException e) {
-            GameEngine.getLogger().error("Error while blacklisting word: " + word, e);
-        }
     }
 
 }

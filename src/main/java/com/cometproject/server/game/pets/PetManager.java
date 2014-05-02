@@ -3,6 +3,7 @@ package com.cometproject.server.game.pets;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.pets.races.PetRace;
+import com.cometproject.server.storage.queries.PetDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -31,14 +32,10 @@ public class PetManager {
         }
 
         try {
-            ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM pet_races");
-
-            while (data.next()) {
-                this.petRaces.add(new PetRace(data));
-            }
+            this.petRaces = PetDao.getRaces();
 
             log.info("Loaded " + this.petRaces.size() + " pet races");
-        } catch (SQLException e) {
+        } catch (Exception e) {
             log.error("Error while loading pet races", e);
         }
     }
