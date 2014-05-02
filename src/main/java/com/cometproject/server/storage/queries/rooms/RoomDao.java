@@ -171,7 +171,6 @@ public class RoomDao {
     public static void saveRoomData(RoomData data) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -220,7 +219,6 @@ public class RoomDao {
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
-            SqlHelper.closeSilently(resultSet);
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
