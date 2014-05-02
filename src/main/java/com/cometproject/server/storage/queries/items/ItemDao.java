@@ -10,7 +10,7 @@ import java.sql.SQLException;
 /**
  * Created by Matty on 02/05/2014.
  */
-public class RoomItemDao {
+public class ItemDao {
 
     public static int getRoomIdById(int itemId) {
         Connection sqlConnection = null;

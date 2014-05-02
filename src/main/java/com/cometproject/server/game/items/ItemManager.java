@@ -1,17 +1,13 @@
 package com.cometproject.server.game.items;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.interactions.InteractionManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.storage.collections.ImmutableResultReader;
+import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.ItemDefinitionDao;
-import com.cometproject.server.storage.queries.items.RoomItemDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import javolution.util.FastMap;
-import jdk.nashorn.internal.ir.annotations.Immutable;
 import org.apache.log4j.Logger;
 
-import java.sql.ResultSet;
 import java.util.Map;
 
 public class ItemManager {
@@ -66,7 +62,7 @@ public class ItemManager {
 
     public int roomIdByItemId(int itemId) {
         try {
-            return RoomItemDao.getRoomIdById(itemId);
+            return ItemDao.getRoomIdById(itemId);
         } catch (Exception e) {
             return 0;
         }
