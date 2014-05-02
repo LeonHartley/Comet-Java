@@ -3,17 +3,12 @@ package com.cometproject.server.storage;
 import com.cometproject.server.boot.Comet;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import org.apache.log4j.Logger;
-
-import java.sql.*;
-import java.util.concurrent.TimeUnit;
 
 public class SqlStorageEngine {
     private static Logger log = Logger.getLogger(SqlStorageEngine.class.getName());
     //private BoneCP connections = null;
-    private HikariDataSource connections = null;
+    private BoneCP connections = null;
 
     public SqlStorageEngine() {
         checkDriver();
@@ -21,7 +16,7 @@ public class SqlStorageEngine {
         boolean isConnectionFailed = false;
 
         try {
-            /*BoneCPConfig config = new BoneCPConfig();
+            BoneCPConfig config = new BoneCPConfig();
 
             config.setJdbcUrl("jdbc:mysql://" + Comet.getServer().getConfig().get("comet.db.host") + "/" + Comet.getServer().getConfig().get("comet.db.name"));
             config.setUsername(Comet.getServer().getConfig().get("comet.db.username"));
@@ -32,9 +27,9 @@ public class SqlStorageEngine {
             config.setPartitionCount(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.count")));
 
             log.info("Connecting to the MySQL server");
-            this.connections = new BoneCP(config);*/
+            this.connections = new BoneCP(config);
 
-            String[] connectionDetails = Comet.getServer().getConfig().get("comet.db.host").split(":");
+            /*String[] connectionDetails = Comet.getServer().getConfig().get("comet.db.host").split(":");
 
             HikariConfig config = new HikariConfig();
             config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
@@ -46,7 +41,7 @@ public class SqlStorageEngine {
             config.setMaximumPoolSize(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
             //config.setLeakDetectionThreshold(10000);
 
-            this.connections = new HikariDataSource(config);
+            this.connections = new HikariDataSource(config);*/
         } catch (Exception e) {
             isConnectionFailed = true;
             log.error("Failed to connect to MySQL server", e);
@@ -64,7 +59,7 @@ public class SqlStorageEngine {
         return 0;
     }
 
-    public HikariDataSource getConnections() {
+    public BoneCP getConnections() {
         return this.connections;
     }
 
