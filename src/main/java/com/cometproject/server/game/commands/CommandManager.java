@@ -7,7 +7,6 @@ import com.cometproject.server.game.commands.user.*;
 import com.cometproject.server.game.commands.vip.EnableCommand;
 import com.cometproject.server.game.commands.vip.MoonwalkCommand;
 import com.cometproject.server.game.commands.vip.PushCommand;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;

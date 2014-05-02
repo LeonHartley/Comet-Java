@@ -1,6 +1,5 @@
 package com.cometproject.server.storage.queries.navigator;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
 import com.cometproject.server.storage.SqlHelper;

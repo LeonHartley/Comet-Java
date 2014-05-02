@@ -2,7 +2,10 @@ package com.cometproject.server.network.messages;
 
 import com.cometproject.server.network.messages.headers.Events;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.incoming.catalog.*;
+import com.cometproject.server.network.messages.incoming.catalog.GetCataIndexMessageEvent;
+import com.cometproject.server.network.messages.incoming.catalog.GetCataPageMessageEvent;
+import com.cometproject.server.network.messages.incoming.catalog.PurchaseGiftMessageEvent;
+import com.cometproject.server.network.messages.incoming.catalog.PurchaseItemMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.data.GetShopData2MessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.data.GetShopDataMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupDialogMessageEvent;

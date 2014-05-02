@@ -1,16 +1,8 @@
 package com.cometproject.server.network.messages.incoming.moderation;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
-import com.cometproject.server.game.moderation.types.Ban;
-import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class ModToolBanUserMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {

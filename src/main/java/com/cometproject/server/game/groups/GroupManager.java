@@ -1,18 +1,11 @@
 package com.cometproject.server.game.groups;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.groups.types.GroupData;
-import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.groups.types.items.*;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

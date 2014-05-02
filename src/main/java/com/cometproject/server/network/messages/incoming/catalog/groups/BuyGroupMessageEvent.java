@@ -1,10 +1,7 @@
 package com.cometproject.server.network.messages.incoming.catalog.groups;
 
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.GameEngine;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;

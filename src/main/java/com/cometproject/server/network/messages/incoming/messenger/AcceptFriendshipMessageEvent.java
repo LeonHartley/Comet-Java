@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.players.components.types.MessengerFriend;
 import com.cometproject.server.game.players.components.types.MessengerRequest;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -9,8 +8,6 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

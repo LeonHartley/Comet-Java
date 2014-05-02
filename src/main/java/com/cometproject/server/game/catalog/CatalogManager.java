@@ -1,15 +1,12 @@
 package com.cometproject.server.game.catalog;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.catalog.purchase.CatalogPurchaseHandler;
 import com.cometproject.server.game.catalog.types.CatalogClubOffer;
-import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

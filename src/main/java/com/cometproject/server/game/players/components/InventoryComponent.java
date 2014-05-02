@@ -1,6 +1,5 @@
 package com.cometproject.server.game.players.components;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.players.components.types.InventoryItem;
@@ -11,9 +10,6 @@ import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Map;
 
 public class InventoryComponent {

@@ -1,12 +1,10 @@
 package com.cometproject.server.storage.queries.bots;
 
 import com.cometproject.server.game.bots.BotData;
-import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
 import com.cometproject.server.storage.SqlHelper;
 import com.google.gson.Gson;
-import javolution.util.FastMap;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class RoomBotDao {
     public static List<BotData> getBotsByRoomId(int roomId) {

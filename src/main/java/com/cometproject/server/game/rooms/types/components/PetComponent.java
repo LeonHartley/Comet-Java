@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
@@ -8,8 +7,6 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import javolution.util.FastMap;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Map;
 
 public class PetComponent {

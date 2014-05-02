@@ -1,7 +1,5 @@
 package com.cometproject.server.storage.queries.player.messenger;
 
-import com.cometproject.server.game.players.components.types.MessengerRequest;
-import com.cometproject.server.game.players.components.types.MessengerSearchResult;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.storage.SqlHelper;
 

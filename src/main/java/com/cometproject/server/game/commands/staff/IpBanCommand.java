@@ -9,9 +9,6 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.moderation.BanDao;
 
 import java.net.InetSocketAddress;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class IpBanCommand extends ChatCommand {
     @Override

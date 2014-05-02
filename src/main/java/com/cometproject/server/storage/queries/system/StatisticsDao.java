@@ -1,12 +1,9 @@
 package com.cometproject.server.storage.queries.system;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class StatisticsDao {

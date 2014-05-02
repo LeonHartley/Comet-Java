@@ -1,13 +1,11 @@
 package com.cometproject.server.network.messages.incoming.user.profile;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.user.profile.UserBadgesMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 
-import java.sql.PreparedStatement;
 import java.util.Map;
 
 public class WearBadgeMessageEvent implements IEvent {

@@ -1,10 +1,6 @@
 package com.cometproject.server.game.players.data;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-
-import java.sql.PreparedStatement;
 
 public class PlayerData {
     private int id;

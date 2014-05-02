@@ -1,14 +1,11 @@
 package com.cometproject.server.game.permissions;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.permissions.types.Perk;
 import com.cometproject.server.game.permissions.types.Permission;
-import com.cometproject.server.storage.collections.ImmutableResultReader;
 import com.cometproject.server.storage.queries.permissions.PermissionsDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.sql.ResultSet;
 import java.util.Map;
 
 public class PermissionsManager {

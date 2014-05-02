@@ -1,13 +1,8 @@
 package com.cometproject.server.network.messages.incoming.moderation;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.moderation.ModToolUserInfoMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-
-import java.sql.ResultSet;
 
 public class ModToolUserInfoMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {

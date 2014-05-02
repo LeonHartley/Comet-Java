@@ -1,11 +1,9 @@
 package com.cometproject.server.game.bots;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
-import java.sql.PreparedStatement;
 import java.util.Arrays;
 
 public abstract class BotData implements BotInformation {

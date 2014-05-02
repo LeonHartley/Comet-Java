@@ -1,13 +1,10 @@
 package com.cometproject.server.game.players.components;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.storage.queries.pets.PetDao;
-import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.sql.ResultSet;
 import java.util.Map;
 
 public class PetComponent {
