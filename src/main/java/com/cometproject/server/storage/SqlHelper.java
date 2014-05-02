@@ -48,7 +48,9 @@ public class SqlHelper {
             if (autoClose) {
                 statement.close();
             }
-        } catch (SQLException e) { }
+        } catch (SQLException e) {
+            handleSqlException(e);
+        }
     }
 
     public static boolean exists(String query, Connection con, boolean autoClose) throws SQLException {

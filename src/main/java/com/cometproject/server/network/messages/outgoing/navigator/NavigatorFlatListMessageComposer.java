@@ -30,6 +30,7 @@ public class NavigatorFlatListMessageComposer {
         }
 
         for (Room room : topRooms) {
+            //System.out.println(room.getEntities().playerCount());
             RoomWriter.write(room, msg);
         }
 
