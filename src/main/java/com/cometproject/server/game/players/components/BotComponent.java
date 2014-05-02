@@ -3,6 +3,7 @@ package com.cometproject.server.game.players.components;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.storage.queries.bots.PlayerBotDao;
 import javolution.util.FastMap;
 
 import java.sql.ResultSet;
@@ -14,17 +15,8 @@ public class BotComponent {
 
     public BotComponent(Player player) {
         this.player = player;
-        this.bots = new FastMap<>();
 
-        try {
-            ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM bots WHERE owner_id = " + this.getPlayer().getId() + " AND room_id = 0");
-
-            while (data.next()) {
-                this.bots.put(data.getInt("id"), new InventoryBot(data));
-            }
-        } catch (Exception e) {
-            player.getSession().getLogger().error("Error while loading player bots", e);
-        }
+        this.bots = PlayerBotDao.getBotsByPlayerId(player.getId());
     }
 
     public void addBot(InventoryBot bot) {
