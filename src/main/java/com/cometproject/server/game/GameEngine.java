@@ -11,7 +11,6 @@ import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.wired.WiredManager;
-import com.cometproject.server.storage.queries.test.ReaderTestDao;
 import org.apache.log4j.Logger;
 
 public class GameEngine {

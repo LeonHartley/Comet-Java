@@ -28,7 +28,7 @@ public class HelpTicket {
     }
 
     public void updateState() {
-        Comet.getServer().getStorage().execute("UPDATE moderation_help_tickets SET state = 'closed' WHERE id = " + this.id);
+        //Comet.getServer().getStorage().execute("UPDATE moderation_help_tickets SET state = 'closed' WHERE id = " + this.id);
     }
 
     public int getId() {

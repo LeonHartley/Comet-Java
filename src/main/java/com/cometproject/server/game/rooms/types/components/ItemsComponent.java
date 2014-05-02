@@ -141,7 +141,7 @@ public class ItemsComponent {
     }
 
     public void removeItem(WallItem item, Session client) {
-        Comet.getServer().getStorage().execute("UPDATE items SET wall_pos = '', room_id = 0, user_id = " + client.getPlayer().getId() + " WHERE id = " + item.getId());
+        RoomItemDao.removeItemFromRoom(item.getItemId(), client.getPlayer().getId());
 
         room.getEntities().broadcastMessage(RemoveWallItemMessageComposer.compose(item.getId(), room.getData().getOwnerId()));
         room.getItems().getWallItems().remove(item);
