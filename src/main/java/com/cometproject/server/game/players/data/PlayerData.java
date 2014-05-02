@@ -2,6 +2,7 @@ package com.cometproject.server.game.players.data;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.sql.PreparedStatement;
 
@@ -39,22 +40,11 @@ public class PlayerData {
     }
 
     public boolean save() {
-        try {
-            PreparedStatement std = Comet.getServer().getStorage().prepare("UPDATE players SET id = ?, username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ? WHERE id = ?");
-            std.setInt(1, id);
-            std.setString(2, username);
-            std.setString(3, motto);
-            std.setString(4, figure);
-            std.setInt(5, credits);
-            std.setInt(6, points);
-            std.setString(7, gender);
-            std.setInt(8, id);
-
-            return std.execute();
-        } catch (Exception e) {
-            GameEngine.getLogger().error("Error while saving player data", e);
+        if (PlayerDao.updatePlayerData(id, username, motto, figure, credits, points, gender)) {
+            return true;
         }
 
+        GameEngine.getLogger().error(String.format("Error while saving player data for player id: %s", id));
         return false;
     }
 

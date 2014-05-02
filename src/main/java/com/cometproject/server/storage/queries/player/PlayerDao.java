@@ -191,4 +191,34 @@ public class PlayerDao {
 
         return null;
     }
+
+    public static boolean updatePlayerData(int id, String username, String motto, String figure, int credits, int points, String gender) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE players SET id = ?, username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ? WHERE id = ?", sqlConnection);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, username);
+            preparedStatement.setString(3, motto);
+            preparedStatement.setString(4, figure);
+            preparedStatement.setInt(5, credits);
+            preparedStatement.setInt(6, points);
+            preparedStatement.setString(7, gender);
+            preparedStatement.setInt(8, id);
+
+            return preparedStatement.execute();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return false;
+    }
 }
