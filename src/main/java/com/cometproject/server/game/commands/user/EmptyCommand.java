@@ -6,6 +6,7 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class EmptyCommand extends ChatCommand {
             client.getPlayer().getInventory().removeWallItem(wallItem.getKey());
         }
 
-        Comet.getServer().getStorage().execute("DELETE FROM items WHERE user_id = " + client.getPlayer().getId() + " AND room_id = 0");
+        InventoryDao.clearInventory(client.getPlayer().getId());
 
         this.sendChat("Your inventory was cleared.", client);
         client.send(UpdateInventoryMessageComposer.compose());
