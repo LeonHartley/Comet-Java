@@ -44,7 +44,7 @@ public class SqlStorageEngine {
             config.addDataSourceProperty("user", Comet.getServer().getConfig().get("comet.db.username"));
             config.addDataSourceProperty("password", Comet.getServer().getConfig().get("comet.db.password"));
             config.setMaximumPoolSize(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
-            config.setLeakDetectionThreshold(10000);
+            //config.setLeakDetectionThreshold(10000);
 
             this.connections = new HikariDataSource(config);
         } catch (Exception e) {

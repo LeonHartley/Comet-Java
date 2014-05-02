@@ -11,9 +11,6 @@ public class RoomWriter {
         msg.writeInt(room.getData().getOwnerId());
         msg.writeString(room.getData().getOwner());
         msg.writeInt(RoomWriter.roomAccessToNumber(room.getData().getAccess()));
-
-        System.out.println(room.getEntities() == null ? 0 : room.getEntities().playerCount());
-
         msg.writeInt(room.getEntities() == null ? 0 : room.getEntities().playerCount());
         msg.writeInt(room.getData().getMaxUsers());
         msg.writeString(room.getData().getDescription());

@@ -6,7 +6,7 @@ public class DummyPlayerData extends PlayerData {
     }
 
     @Override
-    public boolean save() {
-        return false;
+    public void save() {
+
     }
 }
