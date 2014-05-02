@@ -50,7 +50,7 @@ public class SubscriptionComponent {
 
         // TODO: update fuserights
 
-        Comet.getServer().getStorage().execute("DELETE FROM player_subscriptions WHERE user_id = " + getPlayer().getId());
+        //Comet.getServer().getStorage().execute("DELETE FROM player_subscriptions WHERE user_id = " + getPlayer().getId());
     }
 
     public boolean isValid() {

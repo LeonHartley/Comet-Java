@@ -1,21 +1,46 @@
 package com.cometproject.server.storage.queries.rooms;
 
 import com.cometproject.server.game.pets.data.PetData;
+import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.storage.SqlHelper;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PetDao {
-    /*ResultSet data = Comet.getServer().getStorage().getTable("SELECT * FROM pet_data WHERE room_id = " + this.room.getId());
+    public static List<PetData> getPetsByRoomId(int roomId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
-            while (data.next()) {
-                PetData petData = new PetData(data);
-                PetEntity botEntity = new PetEntity(petData, room.getEntities().getFreeId(), new Position3D(data.getInt("x"), data.getInt("y")), 1, 1, room);
+        List<PetData> data = new ArrayList<>();
 
-                this.petDataInstances.put(petData.getId(), petData);
-                this.getRoom().getEntities().addEntity(botEntity);
-            }*/
+        try {
+            sqlConnection = SqlHelper.getConnection();
 
-    //public static List<PetData> getPetsByRoomId(int roomId) {
+            preparedStatement = SqlHelper.prepare("SELECT * FROM room_rights WHERE room_id = ?", sqlConnection);
+            preparedStatement.setInt(1, roomId);
 
-    //}
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                PetData petData = new PetData(resultSet);
+                petData.setRoomPosition(new Position3D(resultSet.getInt("x"), resultSet.getInt("y")));
+
+                data.add(petData);
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
+    }
 }
