@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.types;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.navigator.types.Category;
+import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
 
 import java.sql.PreparedStatement;
@@ -68,46 +69,7 @@ public class RoomData {
     }
 
     public void save() throws SQLException {
-        PreparedStatement std = Comet.getServer().getStorage().prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?, max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, " +
-                "decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?, thickness_floor = ?, allow_walkthrough = ? WHERE id = ?");
-
-        std.setString(1, name);
-        std.setString(2, description);
-        std.setInt(3, ownerId);
-        std.setString(4, owner);
-        std.setInt(5, category);
-        std.setInt(6, maxUsers);
-        std.setString(7, access);
-        std.setString(8, password);
-        std.setInt(9, score);
-
-        String tagString = "";
-
-        for (int i = 0; i < tags.length; i++) {
-            if (i != 0) {
-                tagString += ",";
-            }
-
-            tagString += tags[i];
-        }
-
-        std.setString(10, tagString);
-
-        String decorString = "";
-
-        for (Map.Entry<String, String> decoration : decorations.entrySet()) {
-            decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
-        }
-
-        std.setString(11, decorString.substring(0, decorString.length() - 1));
-        std.setString(12, model);
-        std.setString(13, hideWalls ? "1" : "0");
-        std.setInt(14, thicknessWall);
-        std.setInt(15, thicknessFloor);
-        std.setString(16, allowWalkthrough ? "1" : "0");
-        std.setInt(17, id);
-
-        std.executeUpdate();
+        RoomDao.saveRoomData(this);
     }
 
     public int getId() {
