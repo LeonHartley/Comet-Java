@@ -14,9 +14,11 @@ public class ChangeLooksMessageEvent implements IEvent {
         client.getPlayer().getData().setFigure(figure);
         client.getPlayer().getData().save();
 
-        client.getPlayer().getEntity().unIdle();
+        if(client.getPlayer().getEntity() != null){
+            client.getPlayer().getEntity().unIdle();
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(client.getPlayer().getEntity()));
+        }
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(client.getPlayer().getEntity()));
         client.send(UpdateInfoMessageComposer.compose(true, client.getPlayer().getEntity()));
     }
 }
