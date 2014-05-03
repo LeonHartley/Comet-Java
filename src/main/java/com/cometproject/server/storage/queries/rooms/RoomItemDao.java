@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.rooms;
 
+import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.WallItem;
 import com.cometproject.server.storage.SqlHelper;
@@ -26,7 +27,7 @@ public class RoomItemDao {
             resultSet = preparedStatement.executeQuery();
             
             while (resultSet.next()) {
-                if (resultSet.getString("wall_pos").equals(""))
+                if (GameEngine.getItems().getDefintion(resultSet.getInt("base_id")).getType().equals("s"))
                     floorItems.add(new FloorItem(resultSet.getInt("id"), resultSet.getInt("base_item"), roomId, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data")));
                 else
                     wallItems.add(new WallItem(resultSet.getInt("id"), resultSet.getInt("base_item"), roomId, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data")));
@@ -183,6 +184,9 @@ public class RoomItemDao {
 
             preparedStatement = SqlHelper.prepare("UPDATE items SET room_id = ?, wall_pos = ?, extra_data = ? WHERE id = ?;", sqlConnection);
             preparedStatement.setInt(1, roomId);
+
+            System.out.println(wallPos);
+
             preparedStatement.setString(2, wallPos);
             preparedStatement.setString(3, data);
             preparedStatement.setInt(4, itemId);
