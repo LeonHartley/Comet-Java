@@ -9,7 +9,11 @@ public class PlayerLoader {
     //private static Logger log = Logger.getLogger(PlayerLoader.class.getName());
 
     public static Player loadPlayerBySSo(String ticket) {
-        return new Player(PlayerDao.getIdBySSO(ticket));
+        int id = PlayerDao.getIdBySSO(ticket);
+
+        if(id == 0) return null;
+
+        return new Player(id);
     }
 
     public static PlayerSettings loadSettings(int id) {
