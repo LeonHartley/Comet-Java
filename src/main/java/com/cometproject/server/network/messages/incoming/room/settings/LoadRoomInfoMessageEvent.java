@@ -19,6 +19,6 @@ public class LoadRoomInfoMessageEvent implements IEvent {
         }
 
         client.send(GetRoomDataMessageComposer.compose(room, client.getPlayer().getPermissions().hasPermission("mod_tool")));
-        client.send(GetPowerListMessageComposer.compose(room.getId(), room.getRights().getAll()));
+        // TODO: THIS - client.send(GetPowerListMessageComposer.compose(room.getId(), room.getRights().getAll()));
     }
 }

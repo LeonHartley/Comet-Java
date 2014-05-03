@@ -43,7 +43,13 @@ public class EntityComponent {
     }
 
     public List<GenericEntity> getEntitiesAt(int x, int y) {
-        return this.entityGrid[x][y] != null ? this.entityGrid[x][y] : new ArrayList<GenericEntity>();
+        if(x < entityGrid.length) {
+            if(y < entityGrid[x].length) {
+                return this.entityGrid[x][y] != null ? this.entityGrid[x][y] : new ArrayList<GenericEntity>();
+            }
+        }
+
+        return new ArrayList<>();
     }
 
     public void replaceEntityGrid(List<GenericEntity>[][] entityGrid) {
@@ -144,6 +150,10 @@ public class EntityComponent {
 
     public void broadcastMessage(Composer msg, boolean usersWithRightsOnly) {
         for (GenericEntity entity : this.entities.values()) {
+            if(entity == null) {
+                continue;
+            }
+
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 

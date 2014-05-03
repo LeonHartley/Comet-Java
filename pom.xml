@@ -7,7 +7,7 @@
     <groupId>groupId</groupId>
     <artifactId>Comet</artifactId>
     <packaging>jar</packaging>
-    <version>0.7.5-ALPHA2</version>
+    <version>0.8.1-ALPHA2</version>
 
     <name>Comet</name>
     <url>http://www.comet.im</url>
