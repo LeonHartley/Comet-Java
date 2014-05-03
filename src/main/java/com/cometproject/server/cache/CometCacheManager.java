@@ -2,7 +2,6 @@ package com.cometproject.server.cache;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.cache.handlers.ComposerCacheHandler;
-import com.cometproject.server.cache.providers.InternalCacheProvider;
 import com.cometproject.server.cache.providers.MemcachedProvider;
 
 public class CometCacheManager {
@@ -19,10 +18,7 @@ public class CometCacheManager {
         } else {
             this.isCacheEnabled = true;
 
-            if ("internal".equals(provider)) {
-                this.masterProvider = new InternalCacheProvider();
-                this.masterProvider.init();
-            } else if ("memcached".equals(provider)) {
+            if ("memcached".equals(provider)) {
                 this.masterProvider = new MemcachedProvider();
                 this.masterProvider.init();
             }
