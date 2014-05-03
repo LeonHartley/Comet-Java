@@ -73,7 +73,7 @@ public class Player {
 
         this.session.getLogger().info(this.getData().getUsername() + " logged out");
 
-        //PlayerDao.updatePlayerStatus(this, false, false);
+        PlayerDao.updatePlayerStatus(this, false, false);
 
         this.rooms.clear();
         this.rooms = null;
