@@ -50,7 +50,9 @@ public class NetworkEngine {
         bootstrap.setOption("writeBufferHighWaterMark", 64 * 1024);
 
         int poolSize = (Runtime.getRuntime().availableProcessors() * 2);
-        OrderedMemoryAwareThreadPoolExecutor handlerExecutor = new OrderedMemoryAwareThreadPoolExecutor(poolSize, 0, 0);
+        int channelMemory = 65536;
+        int totalMemory = (poolSize * channelMemory);
+        OrderedMemoryAwareThreadPoolExecutor handlerExecutor = new OrderedMemoryAwareThreadPoolExecutor(poolSize, channelMemory, totalMemory);
 
         bootstrap.setPipelineFactory(new NetworkChannelInitializer(handlerExecutor));
 
