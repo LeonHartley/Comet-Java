@@ -37,7 +37,7 @@ public class Composers {
     public static short MotdMessageComposer = 367;
     public static short NavigatorFlatListMessageComposer = 2694;
     public static short OfferMessageComposer = 2235;
-    public static short OnCreateRoomInfoMessageComposer = 2897;
+    public static short OnCreateRoomInfoMessageComposer = 3379;
     public static short PapersMessageComposer = 3642;
     public static short RelativeHeightmapMessageComposer = 3768;
     public static short RemoveFloorItemMessageComposer = 3386;
