@@ -27,7 +27,7 @@ public class RoomItemDao {
             resultSet = preparedStatement.executeQuery();
             
             while (resultSet.next()) {
-                if (GameEngine.getItems().getDefintion(resultSet.getInt("base_id")).getType().equals("s"))
+                if (GameEngine.getItems().getDefintion(resultSet.getInt("base_item")).getType().equals("s"))
                     floorItems.add(new FloorItem(resultSet.getInt("id"), resultSet.getInt("base_item"), roomId, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data")));
                 else
                     wallItems.add(new WallItem(resultSet.getInt("id"), resultSet.getInt("base_item"), roomId, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data")));
