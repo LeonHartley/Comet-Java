@@ -33,9 +33,13 @@ public class NavigatorFlatListMessageComposer {
             RoomWriter.write(room, msg);
         }
 
+
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeBoolean(false);
+
+        topRooms.clear();
+        activeRooms.clear();
 
         return msg;
     }

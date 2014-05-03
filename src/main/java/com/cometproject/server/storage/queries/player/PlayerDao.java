@@ -146,7 +146,7 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE players SET online = ?" + (setLastOnline ? ", ?" : "") + " WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE players SET online = ?" + (setLastOnline ? ", last_online = ?" : "") + " WHERE id = ?", sqlConnection);
             preparedStatement.setString(1, online ? "1" : "0");
 
             if(setLastOnline) {
