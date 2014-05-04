@@ -10,8 +10,10 @@ public class WalkMessageEvent implements IEvent {
         int goalY = msg.readInt();
 
         try {
-            /*if(client.getPlayer().getEntity().getPathfinder() == null)
-                client.getPlayer().getEntity().setPathfinder();*/
+            if(client.getPlayer().getEntity() == null) {
+                // User not in room!
+                return;
+            }
 
             if (goalX == client.getPlayer().getEntity().getPosition().getX() && goalY == client.getPlayer().getEntity().getPosition().getY()) {
                 return;

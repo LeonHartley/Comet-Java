@@ -35,7 +35,7 @@ public class  PlaceItemMessageEvent implements IEvent {
 
                 InventoryItem item = client.getPlayer().getInventory().getWallItem(id);
 
-                RoomItemDao.placeWallItem(client.getPlayer().getEntity().getRoom().getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), client.getPlayer().getEntity().getRoom().getId());
+                RoomItemDao.placeWallItem(client.getPlayer().getEntity().getRoom().getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getId());
                 client.getPlayer().getInventory().removeWallItem(id);
 
                 Room r = client.getPlayer().getEntity().getRoom();

@@ -7,7 +7,7 @@
     <groupId>groupId</groupId>
     <artifactId>Comet</artifactId>
     <packaging>jar</packaging>
-    <version>0.7.5-ALPHA2</version>
+    <version>0.8.1-ALPHA3</version>
 
     <name>Comet</name>
     <url>http://www.comet.im</url>
@@ -125,6 +125,18 @@
         </repository>
 
         <repository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
             <id>Codehaus Mojo</id>
             <name>Codehaus Mojo</name>
             <url>http://repo1.maven.org/maven2</url>
@@ -224,13 +236,11 @@
             <artifactId>commons-io</artifactId>
             <version>20030203.000550</version>
         </dependency>
+
+        <dependency>
+            <groupId>net.kencochrane.raven</groupId>
+            <artifactId>raven-log4j</artifactId>
+            <version>4.1.2</version>
+        </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>sjovt-linux</id>
-            <url>sftp://37.187.140.216/comet</url>
-        </repository>
-    </distributionManagement>
-
 </project>
