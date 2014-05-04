@@ -33,7 +33,28 @@ public class FollowRoomInfoMessageEvent implements IEvent {
             }
 
             Composer composer = new Composer(Composers.RoomDataMessageComposer);
-            RoomWriter.writeData(room, composer);
+
+            composer.writeBoolean(false);
+
+            RoomWriter.write(room, composer);
+
+            composer.writeBoolean(true);
+            composer.writeBoolean(false);
+            composer.writeBoolean(true);
+            composer.writeInt(0);
+            composer.writeInt(0);
+            composer.writeInt(0);
+            composer.writeBoolean(false);
+            composer.writeBoolean(true);
+            composer.writeBoolean(true);
+            composer.writeInt(1);
+            composer.writeInt(0);
+            composer.writeInt(1);
+            composer.writeInt(14);
+            composer.writeBoolean(false);
+            composer.writeBoolean(false);
+            composer.writeBoolean(false);
+            composer.writeBoolean(true);
 
             client.send(composer);
         }

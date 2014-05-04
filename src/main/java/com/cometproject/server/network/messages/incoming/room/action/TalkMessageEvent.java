@@ -16,13 +16,15 @@ public class TalkMessageEvent implements IEvent {
         if (!TalkMessageEvent.isValidColour(colour, client))
             colour = 0;
 
-        if (client.getPlayer().getEntity().onChat(message)) {
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), message, GameEngine.getRooms().getEmotions().getEmotion(message), colour));
+        String filteredMessage = filterMessage(message);
+
+        if (client.getPlayer().getEntity().onChat(filteredMessage)) {
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), filteredMessage, GameEngine.getRooms().getEmotions().getEmotion(filteredMessage), colour));
         }
     }
 
     private static int[] allowedColours = new int[] {
-      0, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 9
+      0, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29
     };
 
     public static boolean isValidColour(int colour, Session client) {
@@ -34,5 +36,9 @@ public class TalkMessageEvent implements IEvent {
             return false;
 
         return true;
+    }
+
+    public static String filterMessage(String message) {
+        return message.replace((char)13 + "", "");
     }
 }

@@ -9,7 +9,7 @@ public class SendWallItemMessageComposer {
     public static Composer compose(WallItem item, Room room) {
         Composer msg = new Composer(Composers.SendWallItemMessageComposer);
 
-        item.serialize(msg);
+        item.serialize(msg, room.getData().getOwnerId());
         //msg.writeInt(room.getData().getOwnerId());
 
         msg.writeString(room.getData().getOwner());

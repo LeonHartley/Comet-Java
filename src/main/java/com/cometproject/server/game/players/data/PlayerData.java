@@ -55,6 +55,10 @@ public class PlayerData {
         this.points += points;
     }
 
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
     public int getId() {
         return this.id;
     }
