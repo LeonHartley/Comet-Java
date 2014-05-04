@@ -76,6 +76,7 @@ public class ItemProcessComponent implements CometTask {
 
             if (this.getRoom().getEntities().playerCount() == 0) {
                 this.stop();
+                return;
             }
 
             boolean needsRoll = false;
