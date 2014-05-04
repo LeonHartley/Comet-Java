@@ -22,24 +22,24 @@ public class WallItemsMessageComposer {
         msg.writeInt(size);
 
         for (WallItem item : room.getItems().getWallItems()) {
-            /*msg.writeString(item.getId());
+            msg.writeString(item.getId());
             msg.writeInt(item.getDefinition().getSpriteId());
             msg.writeString(item.getPosition());
             msg.writeString(item.getExtraData());
             msg.writeInt(0);
             msg.writeInt(room.getData().getOwnerId());
-            msg.writeInt(0);*/
+            msg.writeInt(0);
 
-            msg.writeString(item.getId());
-            msg.writeInt(item.getDefinition().getSpriteId());
-            msg.writeString(item.getPosition());
+                /*msg.writeString(item.getId());
+                msg.writeInt(item.getDefinition().getSpriteId());
+                msg.writeString(item.getPosition());
 
-            msg.writeString(item.getExtraData());
-            msg.writeInt(!item.getDefinition().getInteraction().equals("default") ? 1 : 0);
-            msg.writeInt(-1);
-            msg.writeInt(-1);
+                msg.writeString(item.getExtraData());
+                msg.writeInt(!item.getDefinition().getInteraction().equals("default") ? 1 : 0);
+                msg.writeInt(-1);
+                msg.writeInt(-1);
 
-            msg.writeInt(room.getData().getOwnerId());
+                msg.writeInt(room.getData().getOwnerId());*/
         }
 
         return msg;
