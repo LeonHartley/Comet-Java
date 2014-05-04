@@ -21,6 +21,8 @@ import com.cometproject.server.storage.queries.pets.PetDao;
 import javolution.util.FastMap;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class CatalogPurchaseHandler {
@@ -31,7 +33,7 @@ public class CatalogPurchaseHandler {
     }
 
     public void handle(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
-        if (amount > 50) {
+        if (amount > 100) {
             client.send(AlertMessageComposer.compose(Locale.get("catalog.error.toomany")));
             return;
         }
@@ -123,7 +125,9 @@ public class CatalogPurchaseHandler {
                     teleportIds = new int[amount];
                 }
 
-                for (int e = 0; e < amount; e++) {
+                List<CatalogPurchase> purchases = new ArrayList<>();
+
+                /*for (int e = 0; e < amount; e++) {
                     for (int i = 0; i != item.getAmount(); i++) {
                         int insertedId = ItemDao.createItem(client.getPlayer().getId(), newItemId, data);
 
@@ -141,6 +145,25 @@ public class CatalogPurchaseHandler {
 
                         CatalogDao.updateLimitSellsForItem(item.getId());
                     }
+                }*/
+
+                for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
+                    for(int itemCount = 0; itemCount != item.getAmount(); itemCount++) {
+                        purchases.add(new CatalogPurchase(client.getPlayer().getId(), newItemId, data));
+                    }
+
+                    if (item.getLimitedTotal() > 0) {
+                        item.increaseLimitedSells(1);
+
+                        CatalogDao.updateLimitSellsForItem(item.getId());
+                    }
+                }
+
+                List<Integer> newItems = ItemDao.createItems(purchases);
+
+                for(Integer newItem : newItems) {
+                    unseenItems.put(newItem, def.getType().equalsIgnoreCase("s") ? 1 : 2);
+                    client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData);
                 }
 
                 if (isTeleport) {
@@ -174,5 +197,29 @@ public class CatalogPurchaseHandler {
 
     private void deliverGift() {
         // TODO: this
+    }
+
+    public class CatalogPurchase {
+        private int playerId;
+        private int itemBaseId;
+        private String data;
+
+        public CatalogPurchase(int playerId, int itemBaseId, String data) {
+            this.playerId = playerId;
+            this.itemBaseId = itemBaseId;
+            this.data = data;
+        }
+
+        public int getPlayerId() {
+            return playerId;
+        }
+
+        public int getItemBaseId() {
+            return itemBaseId;
+        }
+
+        public String getData() {
+            return data;
+        }
     }
 }

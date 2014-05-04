@@ -97,6 +97,17 @@ public class FloorItem extends RoomItem {
             } else {
                 msg.writeInt(0);
             }
+        } else if (this.getDefinition().getInteraction().equals("badge_display")) {
+            msg.writeInt(0);
+            msg.writeInt(2);
+            msg.writeInt(4);
+
+            msg.writeString("0");
+           msg.writeString(extraData);
+           msg.writeString("");
+           msg.writeString("");
+
+
         } else if (this.getDefinition().getInteraction().equals("mannequin")) {
             MannequinData data = MannequinData.get(extraData);
 

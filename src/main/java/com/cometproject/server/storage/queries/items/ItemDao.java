@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.items;
 
+import com.cometproject.server.game.catalog.purchase.CatalogPurchaseHandler;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
@@ -8,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemDao {
     public static FastMap<Integer, ItemDefinition> getDefinitions() {
@@ -74,6 +77,50 @@ public class ItemDao {
         }
 
         return 0;
+    }
+
+    public static List<Integer> createItems(List<CatalogPurchaseHandler.CatalogPurchase> catalogPurchases) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        List<Integer> data = new ArrayList<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into items (`user_id`, `room_id`, `base_item`, `extra_data`, `x`, `y`, `z`, `rot`, `wall_pos`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", sqlConnection, true);
+
+            for(CatalogPurchaseHandler.CatalogPurchase purchase : catalogPurchases) {
+                preparedStatement.setInt(1, purchase.getPlayerId());
+                preparedStatement.setInt(2, 0);
+                preparedStatement.setInt(3, purchase.getItemBaseId());
+                preparedStatement.setString(4, purchase.getData());
+                preparedStatement.setInt(5, 0);
+                preparedStatement.setInt(6, 0);
+                preparedStatement.setInt(7, 0);
+                preparedStatement.setInt(8, 0);
+                preparedStatement.setString(9, "");
+
+                preparedStatement.addBatch();
+            }
+
+            preparedStatement.executeBatch();
+
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            while(resultSet.next()) {
+                data.add(resultSet.getInt(1));
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
     }
 
 }

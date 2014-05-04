@@ -25,7 +25,7 @@ public class UserInformationMessageEvent implements IEvent {
         Map<Integer, Integer> currencies = new FastMap<>();
 
         currencies.put(0, 0); // duckets
-        //currencies.put(105, client.getPlayer().getData().getPoints());
+        currencies.put(105, client.getPlayer().getData().getPoints());
 
         client.send(CurrenciesMessageComposer.compose(currencies));
         currencies.clear();
