@@ -101,7 +101,7 @@ public class Composers {
     public static short BadgeInventoryMessageComposer = 3866;
     public static short FloodFilterMessageComposer = 3728;
 
-    public static short ApplyEffectMessageComposer = 3244;
+    public static short ApplyEffectMessageComposer = 445;
     public static short UserBadgesMessageComposer = 2059;
 
     public static short GroupPartsMessageComposer = 1061;
