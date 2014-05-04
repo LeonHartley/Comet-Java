@@ -33,6 +33,10 @@ public class WallItem extends RoomItem {
         this.serialize(msg, false);
     }
 
+    public void serialize(Composer msg, int userId) {
+        this.serialize(msg, false, userId);
+    }
+
     public void serialize(Composer msg, boolean isNew) {
         msg.writeString(this.getId());
         msg.writeInt(this.getDefinition().getSpriteId());
@@ -42,7 +46,21 @@ public class WallItem extends RoomItem {
         msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
         msg.writeInt(-1);
         msg.writeInt(-1);
+
         msg.writeInt(this.getRoom().getData().getOwnerId());
+    }
+
+    public void serialize(Composer msg, boolean isNew, int userId) {
+        msg.writeString(this.getId());
+        msg.writeInt(this.getDefinition().getSpriteId());
+        msg.writeString(this.getPosition());
+
+        msg.writeString(this.getExtraData());
+        msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
+        msg.writeInt(-1);
+        msg.writeInt(-1);
+
+        msg.writeInt(userId);
     }
 
     @Override

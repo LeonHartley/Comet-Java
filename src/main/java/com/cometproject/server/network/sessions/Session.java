@@ -16,6 +16,10 @@ public class Session {
     }
 
     public void setPlayer(Player player) {
+        if(player.getData() == null)
+            return;
+
+        this.logger = Logger.getLogger(player.getData().getUsername());
         this.player = player;
     }
 

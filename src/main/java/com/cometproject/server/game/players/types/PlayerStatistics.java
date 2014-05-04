@@ -29,9 +29,7 @@ public class PlayerStatistics {
     }
 
     public void save() {
-        if (!PlayerDao.updatePlayerStatistics(achievementPoints, respectPoints, dailyRespects, userId)) {
-            GameEngine.getLogger().error(String.format("Error while saving player statistics for id %s", userId));
-        }
+        PlayerDao.updatePlayerStatistics(achievementPoints, respectPoints, dailyRespects, userId);
     }
 
     public void incrementAchievementPoints(int amount) {
