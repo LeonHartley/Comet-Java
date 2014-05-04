@@ -16,8 +16,10 @@ public class TalkMessageEvent implements IEvent {
         if (!TalkMessageEvent.isValidColour(colour, client))
             colour = 0;
 
-        if (client.getPlayer().getEntity().onChat(message)) {
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), message, GameEngine.getRooms().getEmotions().getEmotion(message), colour));
+        String filteredMessage = filterMessage(message);
+
+        if (client.getPlayer().getEntity().onChat(filteredMessage)) {
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), filteredMessage, GameEngine.getRooms().getEmotions().getEmotion(filteredMessage), colour));
         }
     }
 
@@ -34,5 +36,9 @@ public class TalkMessageEvent implements IEvent {
             return false;
 
         return true;
+    }
+
+    public static String filterMessage(String message) {
+        return message.replace((char)13 + "", "");
     }
 }

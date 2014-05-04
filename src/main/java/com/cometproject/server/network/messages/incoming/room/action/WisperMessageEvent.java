@@ -17,10 +17,12 @@ public class WisperMessageEvent implements IEvent {
         if (userTo == null || userTo == client)
             return;
 
-        if (!client.getPlayer().getEntity().onChat(message))
+        String filteredMessage = TalkMessageEvent.filterMessage(message);
+
+        if (!client.getPlayer().getEntity().onChat(filteredMessage))
             return;
 
-        client.send(WisperMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), message));
-        userTo.send(WisperMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), message));
+        client.send(WisperMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), filteredMessage));
+        userTo.send(WisperMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), filteredMessage));
     }
 }
