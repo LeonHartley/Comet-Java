@@ -15,8 +15,10 @@ public class ShoutMessageEvent implements IEvent {
             colour = 0;
         }
 
-        if (client.getPlayer().getEntity().onChat(message)) {
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), message, GameEngine.getRooms().getEmotions().getEmotion(message), colour));
+        String filteredMessage = TalkMessageEvent.filterMessage(message);
+
+        if (client.getPlayer().getEntity().onChat(filteredMessage)) {
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), filteredMessage, GameEngine.getRooms().getEmotions().getEmotion(filteredMessage), colour));
         }
     }
 }

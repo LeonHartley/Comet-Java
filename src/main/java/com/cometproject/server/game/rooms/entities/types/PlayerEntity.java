@@ -161,7 +161,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
 
         player.lastMessage = time;
 
-        if (message.isEmpty())
+        if (message.isEmpty() || message.length() > 100)
             return false;
 
         try {

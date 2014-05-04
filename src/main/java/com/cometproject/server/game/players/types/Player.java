@@ -10,6 +10,7 @@ import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMe
 import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 import javolution.util.FastMap;
 
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ public class Player {
 
         this.session.getLogger().info(this.getData().getUsername() + " logged out");
 
-        //PlayerDao.updatePlayerStatus(this, false, false);
+        PlayerDao.updatePlayerStatus(this, false, false);
 
         this.rooms.clear();
         this.rooms = null;

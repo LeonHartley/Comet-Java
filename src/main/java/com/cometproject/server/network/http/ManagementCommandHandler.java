@@ -2,10 +2,15 @@ package com.cometproject.server.network.http;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.catalog.types.CatalogItem;
+import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.messages.outgoing.messenger.FollowFriendMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -70,6 +75,78 @@ public class ManagementCommandHandler implements HttpHandler {
         }
 
         switch(requestParameters.get("command")) {
+            case "update_bans": {
+                GameEngine.getBans().loadBans();
+                break;
+            }
+
+            case "update_points": {
+                int userId = Integer.parseInt(requestParameters.get("user_id"));
+
+                Session user = Comet.getServer().getNetwork().getSessions().getByPlayerId(userId);
+
+                if (user == null) {
+                    Comet.getServer().getNetwork().getManagement().sendResponse(RequestError.INVALID_USER, e);
+                    return;
+                }
+
+                PlayerData newPlayerData = PlayerDao.getDataById(userId);
+
+                user.getPlayer().getData().setPoints(newPlayerData.getPoints());
+                user.getPlayer().sendBalance();
+                break;
+            }
+
+            case "givebadge": {
+                int userId = Integer.parseInt(requestParameters.get("user_id"));
+                String badge = requestParameters.get("badge_id");
+
+                Session user = Comet.getServer().getNetwork().getSessions().getByPlayerId(userId);
+
+                if (user == null) {
+                    Comet.getServer().getNetwork().getManagement().sendResponse(RequestError.INVALID_USER, e);
+                    return;
+                }
+
+                user.getPlayer().getInventory().addBadge(badge, true);
+                user.send(BadgeInventoryMessageComposer.compose(user.getPlayer().getInventory().getBadges()));
+                break;
+            }
+
+            case "giveitem": {
+                int userId = Integer.parseInt(requestParameters.get("user_id"));
+                int itemId = Integer.parseInt(requestParameters.get("item_id"));
+                int pageId = Integer.parseInt(requestParameters.get("page_id"));
+                String data = requestParameters.get("data");
+
+                Session user = Comet.getServer().getNetwork().getSessions().getByPlayerId(userId);
+
+                if (user == null) {
+                    Comet.getServer().getNetwork().getManagement().sendResponse(RequestError.INVALID_USER, e);
+                    return;
+                }
+
+                CatalogPage page = GameEngine.getCatalog().getPage(pageId);
+
+                if(page == null) {
+                    Comet.getServer().getNetwork().getManagement().sendResponse(RequestError.INVALID_PAGE, e);
+                    return;
+                }
+
+                CatalogItem item = page.getItems().get(itemId);
+
+                if(item == null) {
+                    Comet.getServer().getNetwork().getManagement().sendResponse(RequestError.INVALID_ITEM, e);
+                    return;
+                }
+
+                int id = ItemDao.createItem(userId, item.getItems().get(0), data);
+
+                user.getPlayer().getInventory().add(id, item.getItems().get(0), data);
+                user.send(UpdateInventoryMessageComposer.compose());
+                break;
+            }
+
             case "senduser": {
                 int userId = Integer.parseInt(requestParameters.get("user_id"));
                 int roomId = Integer.parseInt(requestParameters.get("room_id"));
@@ -144,10 +221,7 @@ public class ManagementCommandHandler implements HttpHandler {
                     return;
                 }
 
-                //boolean isVip = Comet.getServer().getStorage().getString("SELECT `vip` FROM players WHERE id = " + userId).equals("1");
-
                 PlayerData newPlayerData = PlayerDao.getDataById(userId);
-
                 user.getPlayer().getData().setVip(newPlayerData.isVip());
                 break;
             }
@@ -160,6 +234,8 @@ public class ManagementCommandHandler implements HttpHandler {
     public enum RequestError {
         AUTH_FAILED,
         INVALID_USER,
+        INVALID_PAGE,
+        INVALID_ITEM,
         INVALID_ROOM,
         INVALID_COMMAND,
         REQUEST_COMPLETE

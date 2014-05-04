@@ -258,10 +258,10 @@ public class MessageHandler {
     public void handle(Event message, Session client) {
         Short header = message.getId();
 
-        if(header != PING_HEADER) {
+        /*if(header != PING_HEADER) {
             log.debug("Message received (ID: " + header + ")");
             log.debug(message.toString());
-        }
+        }*/
 
         if (this.getMessages().containsKey(header)) {
             long start = System.currentTimeMillis();
@@ -272,7 +272,7 @@ public class MessageHandler {
                 this.getMessages().get(header).handle(client, message);
                 log.debug("Finished packet process for packet: [" + Events.valueOfId(header) + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
             } catch(Exception e) {
-                log.error("Error while handling incoming message", e);
+                log.error("Error while handling event: " + this.getMessages().get(header).getClass(), e);
             }
         } else {
             if (Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != PING_HEADER)
