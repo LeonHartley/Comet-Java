@@ -88,7 +88,7 @@ public class Player {
         Map<Integer, Integer> currencies = new FastMap<>();
 
         currencies.put(0, 0); // duckets
-        //currencies.put(105, session.getPlayer().getData().getPoints());
+        currencies.put(105, getData().getPoints());
 
         session.send(CurrenciesMessageComposer.compose(currencies));
         currencies.clear();

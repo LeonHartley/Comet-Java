@@ -58,12 +58,10 @@ public class SSOTicketMessageEvent implements IEvent {
 
         client.getLogger().info(client.getPlayer().getData().getUsername() + " logged in");
 
-        //Comet.getServer().getStorage().execute("UPDATE players SET last_online = " + Comet.getTime() + " WHERE id = " + player.getId());
-
-
         PlayerDao.updatePlayerStatus(player, true, true);
 
         client.send(LoginMessageComposer.compose());
+        client.getPlayer().sendBalance();
         client.send(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));
         client.send(MotdNotificationComposer.compose());
 
@@ -71,22 +69,10 @@ public class SSOTicketMessageEvent implements IEvent {
             client.send(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
         }
 
-        /*
-            this will be a way of sending the old-style alert notifications
-            if you need more info - ask leon
-
-            Header: 2442 (VOUCHER_ERROR)
-            #################
-            String: AlertId
-        */
-
         if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             client.send(ModToolMessageComposer.compose());
         }
 
         client.send(RoomCategoriesMessageComposer.compose(GameEngine.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
-
-
-        //Comet.getServer().getPluginEngine().invokePlayerCommand("test", PluginPlayer.create(player));
     }
 }

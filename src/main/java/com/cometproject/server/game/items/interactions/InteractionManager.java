@@ -103,7 +103,7 @@ public class InteractionManager {
         Interactor action = this.getInteractions().get(item.getDefinition().getInteraction());
 
         if (!isWiredTriggered) {
-            if (action.requiresRights() && !avatar.getRoom().getRights().hasRights(avatar.getPlayer().getId())) {
+            if (action.requiresRights() && (!avatar.getRoom().getRights().hasRights(avatar.getPlayer().getId()) && !avatar.getPlayer().getPermissions().hasPermission("room_full_control"))) {
                 return;
             }
         }

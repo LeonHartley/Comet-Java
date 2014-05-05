@@ -1,9 +1,13 @@
 package com.cometproject.server.game.commands.staff;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class RestartCommand extends ChatCommand {
 
@@ -11,7 +15,8 @@ public class RestartCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         // TODO: Either fix or remove
         client.send(WisperMessageComposer.compose(client.getPlayer().getId(), Locale.get("command.error.disabled")));
-        /*try {
+
+        try {
             final String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
             final File currentJar = new File(Comet.class.getProtectionDomain().getCodeSource().getLocation().toURI());
 
@@ -27,8 +32,9 @@ public class RestartCommand extends ChatCommand {
             builder.start();
             System.exit(0);
         } catch(Exception e) {
-            client.send(MotdNotificationComposer.compose(Locale.get("command.restart.linux")));
-        }*/
+            e.printStackTrace();
+            //client.send(MotdNotificationComposer.compose(Locale.get("command.restart.linux")));
+        }
     }
 
     @Override

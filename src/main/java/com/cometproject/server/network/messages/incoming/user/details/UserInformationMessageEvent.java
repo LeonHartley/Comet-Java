@@ -18,17 +18,9 @@ import java.util.Map;
 
 public class UserInformationMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
+        client.getPlayer().sendBalance();
+
         client.send(UserInfoMessageComposer.compose(client.getPlayer()));
-
-        client.send(SendCreditsMessageComposer.compose(client.getPlayer().getData().getCredits()));
-
-        Map<Integer, Integer> currencies = new FastMap<>();
-
-        currencies.put(0, 0); // duckets
-        currencies.put(105, client.getPlayer().getData().getPoints());
-
-        client.send(CurrenciesMessageComposer.compose(currencies));
-        currencies.clear();
 
         client.send(WelcomeUserMessageComposer.compose());
         client.send(AllowancesMessageComposer.compose(client.getPlayer().getData().getRank()));
