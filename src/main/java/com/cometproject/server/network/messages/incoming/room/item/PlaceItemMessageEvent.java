@@ -5,6 +5,7 @@ import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.WallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
@@ -38,14 +39,13 @@ public class  PlaceItemMessageEvent implements IEvent {
                 RoomItemDao.placeWallItem(client.getPlayer().getEntity().getRoom().getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getId());
                 client.getPlayer().getInventory().removeWallItem(id);
 
-                Room r = client.getPlayer().getEntity().getRoom();
+                Room room = client.getPlayer().getEntity().getRoom();
+                WallItem wallItem = room.getItems().addWallItem(id, item.getBaseId(), client.getPlayer().getId(), room.getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
 
                 client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(
-                        SendWallItemMessageComposer.compose(
-                                r.getItems().addWallItem(id, item.getBaseId(), client.getPlayer().getId(), r.getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData()),
-                                r
-                        )
+                        SendWallItemMessageComposer.compose(wallItem, room)
                 );
+
             } else {
                 int x = Integer.parseInt(parts[1]);
                 int y = Integer.parseInt(parts[2]);

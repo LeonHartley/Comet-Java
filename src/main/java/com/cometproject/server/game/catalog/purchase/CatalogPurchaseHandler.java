@@ -163,7 +163,7 @@ public class CatalogPurchaseHandler {
 
                 for(Integer newItem : newItems) {
                     unseenItems.put(newItem, def.getType().equalsIgnoreCase("s") ? 1 : 2);
-                    client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData);
+                    client.getPlayer().getInventory().add(newItem, newItemId, data, giftData);
                 }
 
                 if (isTeleport) {

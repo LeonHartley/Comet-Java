@@ -103,9 +103,9 @@ public class FloorItem extends RoomItem {
             msg.writeInt(4);
 
             msg.writeString("0");
-           msg.writeString(extraData);
-           msg.writeString("");
-           msg.writeString("");
+            msg.writeString(extraData);
+            msg.writeString("");
+            msg.writeString("");
 
 
         } else if (this.getDefinition().getInteraction().equals("mannequin")) {
