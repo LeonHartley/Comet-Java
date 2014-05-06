@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>CometTools</artifactId>
+    <artifactId>CometCatalogTool</artifactId>
 
     <repositories>
         <repository>
@@ -43,24 +43,6 @@
     </repositories>
 
     <dependencies>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>16.0.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.3.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javolution</groupId>
-            <artifactId>javolution</artifactId>
-            <version>5.5.1</version>
-        </dependency>
     </dependencies>
-
 
 </project>
