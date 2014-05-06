@@ -4,6 +4,7 @@ import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.landing.LandingManager;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.navigator.NavigatorManager;
@@ -25,6 +26,7 @@ public class GameEngine {
     private static ModerationManager moderationManager;
     private static GroupManager groupManager;
     private static PetManager petManager;
+    private static LandingManager landingManager;
 
     public static GameThread gameThread;
 
@@ -42,6 +44,7 @@ public class GameEngine {
         moderationManager = new ModerationManager();
         groupManager = new GroupManager();
         petManager = new PetManager();
+        landingManager = new LandingManager();
     }
 
     public static Logger getLogger() {
@@ -90,6 +93,10 @@ public class GameEngine {
 
     public static PetManager getPets() {
         return petManager;
+    }
+
+    public static LandingManager getLanding() {
+        return landingManager;
     }
 
     public static GameThread getThread() {

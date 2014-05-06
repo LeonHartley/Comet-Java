@@ -125,6 +125,7 @@ public class Composers {
 
     public static short AchievementPointsMessageComposer = 1942;
     public static short HotelViewItemMessageComposer = 360;
+    public static short PromoArticlesMessageComposer = 3897;
 
     public static String valueOfId(int i) {
         Composers c = new Composers();
