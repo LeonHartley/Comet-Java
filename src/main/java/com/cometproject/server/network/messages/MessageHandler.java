@@ -19,6 +19,7 @@ import com.cometproject.server.network.messages.incoming.handshake.SSOTicketMess
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.HotelViewItemMessageEvent;
+import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArticlesMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.*;
 import com.cometproject.server.network.messages.incoming.moderation.*;
 import com.cometproject.server.network.messages.incoming.navigator.*;
@@ -94,7 +95,7 @@ public class MessageHandler {
         this.registerItems();
         this.registerCatalog();
         this.registerPets();
-        //this.registerLanding();
+        this.registerLanding();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
     }
@@ -250,7 +251,8 @@ public class MessageHandler {
     }
 
     public void registerLanding() {
-        this.getMessages().put(Events.HotelViewItemMessageEvent, new HotelViewItemMessageEvent());
+        //this.getMessages().put(Events.HotelViewItemMessageEvent, new HotelViewItemMessageEvent());
+        this.getMessages().put(Events.RefreshPromoArticlesMessageEvent, new RefreshPromoArticlesMessageEvent());
     }
 
     private static final short PING_HEADER = 3555;
