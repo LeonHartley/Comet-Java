@@ -1,6 +1,11 @@
 package com.cometproject.tools.catalogtool;
 
+import com.google.common.collect.TreeMultiset;
+
 import java.sql.*;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 /**
  * Created by Matty on 06/05/2014.
@@ -11,6 +16,8 @@ public class CatalogTool {
     public static String furnitureTable = "furniture_new";
 
     public static String furnitureTableOld = "furniture";
+    public static String catalogPagesTableOld = "catalog_pages";
+    public static String catalogItemsTableOld = "catalog_items";
 
     public static void main(String[] args) {
         new CatalogTool();
@@ -23,6 +30,10 @@ public class CatalogTool {
             // handle
         }
     }
+
+    private HashSet<FurnitureLayout> furniLayouts = new LinkedHashSet<>();
+    private HashSet<CatalogPagesLayout> catalogPagesLayouts = new LinkedHashSet<>();
+    private HashSet<CatalogItemsLayout> catalogItemsLayouts = new LinkedHashSet<>();
 
     private boolean init() {
         try {
@@ -57,7 +68,7 @@ public class CatalogTool {
                     "  `page_link_description` text NOT NULL,\n" +
                     "  `page_link_pagename` text NOT NULL,\n" +
                     "  PRIMARY KEY (`id`)\n" +
-                    ") ENGINE=InnoDB AUTO_INCREMENT=9053 DEFAULT CHARSET=latin1;").execute();
+                    ") ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;").execute();
 
             System.out.println("Created new catalog pages table");
             System.out.println();
@@ -116,7 +127,7 @@ public class CatalogTool {
                     "  `effectid` int(11) NOT NULL DEFAULT '0',\n" +
                     "  `height_adjustable` varchar(100) NOT NULL DEFAULT '0',\n" +
                     "  PRIMARY KEY (`id`)\n" +
-                    ") ENGINE=InnoDB AUTO_INCREMENT=999888163 DEFAULT CHARSET=latin1;").execute();
+                    ") ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;").execute();
 
             System.out.println("Created new furniture table");
             System.out.println();
@@ -124,13 +135,50 @@ public class CatalogTool {
             System.out.println("Loading furniture data");
             ResultSet fRs = this.sqlConnection.prepareStatement("SELECT * FROM " + furnitureTableOld).executeQuery();
 
+            int furniCount = 0;
+
             while (fRs.next()) {
-                new FurnitureLayout(fRs);
+                furniCount++;
+                this.furniLayouts.add(new FurnitureLayout(fRs));
             }
 
             fRs.close();
 
+            System.out.println("Loaded a total of " + furniCount + " furniture!");
+            System.out.println();
+
+            System.out.println("Loading catalog pages data");
+            ResultSet catalogPagesRs = this.sqlConnection.prepareStatement("SELECT * FROM " + catalogPagesTableOld).executeQuery();
+
+            int cpCount = 0;
+
+            while (catalogPagesRs.next()) {
+                cpCount++;
+                this.catalogPagesLayouts.add(new CatalogPagesLayout(catalogPagesRs));
+            }
+
+            fRs.close();
+
+            System.out.println("Loaded a total of " + cpCount + " catalog pages!");
+            System.out.println();
+
+            System.out.println("Loading catalog items data");
+            ResultSet catalogItemsRs = this.sqlConnection.prepareStatement("SELECT * FROM " + catalogItemsTableOld).executeQuery();
+
+            int ciCount = 0;
+
+            while (catalogItemsRs.next()) {
+                ciCount++;
+                this.catalogItemsLayouts.add(new CatalogItemsLayout(catalogItemsRs));
+            }
+
+            fRs.close();
+
+            System.out.println("Loaded a total of " + ciCount + " items!");
+            System.out.println();
+
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
 
