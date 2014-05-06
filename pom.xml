@@ -6,8 +6,9 @@
 
     <groupId>groupId</groupId>
     <artifactId>Comet</artifactId>
+
     <packaging>pom</packaging>
-    <version>0.8.1-ALPHA3</version>
+    <version>0.8.2-ALPHA1</version>
     <modules>
         <module>CometCatalogTool</module>
     </modules>
