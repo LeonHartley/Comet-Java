@@ -185,7 +185,7 @@ public class ItemsComponent {
             client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
             client.send(UpdateInventoryMessageComposer.compose());
         } else {
-            RoomItemDao.deleteItem(item.getItemId());
+            RoomItemDao.deleteItem(item.getId());
         }
 
         if (GameEngine.getWired().isWiredItem(item)) {
