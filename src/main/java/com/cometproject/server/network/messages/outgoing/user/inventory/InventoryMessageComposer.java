@@ -24,9 +24,21 @@ public class InventoryMessageComposer {
             msg.writeString(i.getDefinition().getType().toUpperCase());
             msg.writeInt(i.getId());
             msg.writeInt(isGift ? i.getGiftData().getSpriteId() : i.getDefinition().getSpriteId());
-            msg.writeInt(1);
-            msg.writeInt(0);
-            msg.writeString(isGift ? i.getGiftData().toString() : i.getExtraData());
+
+            if(i.getDefinition().getInteraction().equals("badge_display") && !isGift) {
+                msg.writeInt(0);
+                msg.writeInt(2);
+                msg.writeInt(4);
+
+                msg.writeString(i.getExtraData());
+                msg.writeString(i.getExtraData());
+                msg.writeString(i.getExtraData());
+                msg.writeString(i.getExtraData());
+            } else {
+                msg.writeInt(1);
+                msg.writeInt(0);
+                msg.writeString(isGift ? i.getGiftData().toString() : i.getExtraData());
+            }
 
             msg.writeBoolean(i.getDefinition().canRecycle);
             msg.writeBoolean(i.getDefinition().canTrade);

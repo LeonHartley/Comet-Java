@@ -13,7 +13,9 @@ public class BadgeInventoryMessageEvent implements IEvent {
         int userId = msg.readInt();
 
         if(userId == client.getPlayer().getId()) {
-            client.send(UserBadgesMessageComposer.compose(userId, client.getPlayer().getInventory().getBadges()));
+            //client.send(UserBadgesMessageComposer.compose(userId, client.getPlayer().getInventory().getBadges()));
+
+            client.send(BadgeInventoryMessageComposer.compose(client.getPlayer().getInventory().getBadges()));
             return;
         }
 
