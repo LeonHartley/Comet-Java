@@ -83,7 +83,7 @@ public class RoomData {
             decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
         }
 
-        RoomDao.updateRoom(id, name, description, ownerId, owner, category, maxUsers, access, password, score, tagString, decorString.substring(0, decorString.length() - 1), model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough);
+        RoomDao.updateRoom(id, name, description, ownerId, owner, category, maxUsers, access, password, score, tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1), model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough);
     }
 
     public int getId() {
