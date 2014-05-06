@@ -36,7 +36,7 @@ public class WiredDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE items_wired_data SET data = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE items_wired_data SET data = ? WHERE item_id = ?", sqlConnection);
             preparedStatement.setString(1, data);
             preparedStatement.setInt(2, itemId);
 
