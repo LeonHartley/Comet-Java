@@ -4,6 +4,10 @@ import com.cometproject.server.boot.Comet;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.Charset;
+import java.util.Map;
 import java.util.Properties;
 
 public class Configuration {
@@ -11,7 +15,7 @@ public class Configuration {
 
     public Configuration(String file) {
         try {
-            InputStream stream = new FileInputStream(file);
+            Reader stream = new InputStreamReader(new FileInputStream(file), "UTF-8");
 
             this.properties = new Properties();
 

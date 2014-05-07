@@ -22,6 +22,8 @@ public class CatalogItem {
     private boolean allowOffer;
     private String badgeId;
 
+    private String presetData;
+
     public CatalogItem(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
         this.itemId = data.getString("item_ids");
@@ -34,6 +36,7 @@ public class CatalogItem {
         this.limitedTotal = data.getInt("limited_stack");
         this.limitedSells = data.getInt("limited_sells");
         this.allowOffer = data.getString("offer_active").equals("1");
+        this.presetData = data.getString("extradata");
         this.badgeId = data.getString("badge_id");
 
         this.items = new ArrayList<>();
@@ -109,5 +112,9 @@ public class CatalogItem {
 
     public String getBadgeId() {
         return this.badgeId;
+    }
+
+    public String getPresetData() {
+        return presetData;
     }
 }
