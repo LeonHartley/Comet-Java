@@ -68,7 +68,7 @@ public class SaveRoomDataMessageEvent implements IEvent {
             return;
         }
 
-        if (state < 0 || state > 2) {
+        if (state < 0 || state > 3) {
             return;
         }
 

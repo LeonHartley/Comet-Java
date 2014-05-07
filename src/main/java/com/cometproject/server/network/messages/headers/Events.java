@@ -58,6 +58,7 @@ public class Events {
     public static short ExitRoomMessageEvent = 1547;
     public static short KickUserMessageEvent = 3118;
     public static short GiveRightsMessageEvent = 2729;
+    public static short RemoveRightsMessageEvent = 3432;
     public static short RemoveAllRightsMessageEvent = 330;
     public static short SaveWiredTriggerMessageEvent = 795;
     public static short SaveWiredEffectMessageEvent = 81;
@@ -81,7 +82,7 @@ public class Events {
     public static short UserBadgesMessageEvent = 1956;
     public static short BuyGroupMessageEvent = 3291;
     public static short BuyGroupDialogMessageEvent = 2706; // TODO: Check this!
-    public static short PetRacesMessageEvent = 216;
+    public static short PetRacesMessageEvent = 276;
     public static short ExchangeItemMessageEvent = 3440;
     public static short ModifyBotMessageEvent = 2742;
     public static short BotConfigMessageEvent = 868;

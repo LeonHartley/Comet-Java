@@ -38,10 +38,7 @@ import com.cometproject.server.network.messages.incoming.room.item.gifts.OpenGif
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinNameMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.wired.SaveWiredMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.moderation.GetBannedUsersMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.moderation.GiveRightsMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.moderation.KickUserMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.moderation.RemoveAllRightsMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.moderation.*;
 import com.cometproject.server.network.messages.incoming.room.pets.PetInformationMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PlacePetMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.RemovePetMessageEvent;
@@ -215,6 +212,7 @@ public class MessageHandler {
     public void registerRoomModeration() {
         this.getMessages().put(Events.KickUserMessageEvent, new KickUserMessageEvent());
         this.getMessages().put(Events.GiveRightsMessageEvent, new GiveRightsMessageEvent());
+        this.getMessages().put(Events.RemoveRightsMessageEvent, new RemoveRightsMessageEvent());
         this.getMessages().put(Events.RemoveAllRightsMessageEvent, new RemoveAllRightsMessageEvent());
         this.getMessages().put(Events.GetBannedUsersMessageEvent, new GetBannedUsersMessageEvent());
     }

@@ -73,7 +73,7 @@ public class RoomBotDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE bots SET room_id = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE bots SET figure = ?, gender = ?, motto = ?, name = ?, messages = ?, automatic_chat = ?, chat_delay = ? WHERE id = ?", sqlConnection);
 
             preparedStatement.setString(1, data.getFigure());
             preparedStatement.setString(2, data.getGender());
