@@ -17,7 +17,7 @@ public class TeleporterDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM items_teles WHERE id = ? LIMIT 1;", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM items_teles WHERE id_one = ? LIMIT 1;", sqlConnection);
             preparedStatement.setInt(1, id);
 
             resultSet = preparedStatement.executeQuery();
