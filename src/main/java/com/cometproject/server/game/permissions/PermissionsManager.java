@@ -1,5 +1,6 @@
 package com.cometproject.server.game.permissions;
 
+import com.cometproject.server.game.permissions.types.CommandPermission;
 import com.cometproject.server.game.permissions.types.Perk;
 import com.cometproject.server.game.permissions.types.Permission;
 import com.cometproject.server.storage.queries.permissions.PermissionsDao;
@@ -11,7 +12,7 @@ import java.util.Map;
 public class PermissionsManager {
     private FastMap<Integer, Perk> perks;
     private FastMap<String, Permission> permissions;
-    private FastMap<String, Integer> commands;
+    private FastMap<String, CommandPermission> commands;
 
     private static Logger log = Logger.getLogger(PermissionsManager.class.getName());
 
@@ -76,7 +77,7 @@ public class PermissionsManager {
         return this.permissions;
     }
 
-    public Map<String, Integer> getCommands() {
+    public Map<String, CommandPermission> getCommands() {
         return this.commands;
     }
 

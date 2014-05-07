@@ -5,6 +5,7 @@ import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.outgoing.misc.AlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 import javolution.util.FastMap;
@@ -75,7 +76,7 @@ public class InventoryComponent {
             this.badges.put(code, 0);
             this.player.getSession().send(AlertMessageComposer.compose(Locale.get("badge.get")));
 
-            // TODO: Send badge inventory update!
+            this.player.getSession().send(BadgeInventoryMessageComposer.compose(this.badges));
         }
     }
 
@@ -88,7 +89,7 @@ public class InventoryComponent {
             this.badges.remove(code);
             this.player.getSession().send(AlertMessageComposer.compose(Locale.get("badge.deleted")));
 
-            // TODO: Send badge inventory update!
+            this.player.getSession().send(BadgeInventoryMessageComposer.compose(this.badges));
         }
     }
 

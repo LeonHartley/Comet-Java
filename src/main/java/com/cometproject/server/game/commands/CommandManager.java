@@ -1,5 +1,6 @@
 package com.cometproject.server.game.commands;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.commands.staff.*;
@@ -44,13 +45,10 @@ public class CommandManager {
         this.commands.put(Locale.get("command.hotelalert.name"), new HotelAlertCommand());
         this.commands.put(Locale.get("command.invisible.name"), new InvisibleCommand());
         this.commands.put(Locale.get("command.force_gc.name"), new ForceGCCommand());
-        this.commands.put(Locale.get("command.reload_permissions.name"), new ReloadPermissionsCommand());
         this.commands.put(Locale.get("command.ban.name"), new BanCommand());
         this.commands.put(Locale.get("command.kick.name"), new KickCommand());
         this.commands.put(Locale.get("command.disconnect.name"), new DisconnectCommand());
         this.commands.put(Locale.get("command.ipban.name"), new IpBanCommand());
-        this.commands.put(Locale.get("command.blacklist.name"), new BlacklistCommand());
-        this.commands.put(Locale.get("command.whitelist.name"), new WhitelistCommand());
         this.commands.put(Locale.get("command.alert.name"), new AlertCommand());
         this.commands.put(Locale.get("command.roomalert.name"), new RoomAlertCommand());
         this.commands.put(Locale.get("command.givebadge.name"), new GiveBadgeCommand());
@@ -60,7 +58,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.points.name"), new PointsCommand());
         this.commands.put(Locale.get("command.unload.name"), new UnloadCommand());
         this.commands.put(Locale.get("command.roommute.name"), new RoomMuteCommand());
-        this.commands.put(Locale.get("command.updatecatalog.name"), new UpdateCatalogCommand());
+        this.commands.put(Locale.get("command.reload.name"), new ReloadCommand());
     }
 
     public boolean isCommand(String message) {
@@ -81,7 +79,7 @@ public class CommandManager {
                     list.append(":" + command.getKey() + " - " + command.getValue().getDescription() + "\n");
             }
 
-            client.send(MotdNotificationComposer.compose(Locale.get("command.commands.title") + "\n================================================\n" + list.toString()));
+            client.send(MotdNotificationComposer.compose(Locale.get("command.commands.title") + " - Comet " + Comet.getBuild() + "\n================================================\n" + list.toString()));
             return;
         }
 
@@ -89,6 +87,9 @@ public class CommandManager {
             this.commands.get(executor).execute(client, getParams(message.split(" ")));
             GameEngine.getLogger().info(client.getPlayer().getData().getUsername() + " executed command: :" + message);
         } else {
+            if(GameEngine.getPermissions().getCommands().get(commandName).isVipOnly() && !client.getPlayer().getData().isVip())
+                ChatCommand.sendChat(Locale.get("command.vip"), client);
+
             GameEngine.getLogger().info(client.getPlayer().getData().getUsername() + " tried executing command: :" + message);
         }
     }

@@ -17,7 +17,7 @@ public abstract class ChatCommand {
         return AdvancedAlertMessageComposer.compose(Locale.get("command.successful"), msg);
     }
 
-    public final void sendChat(String msg, Session c) {
+    public static final void sendChat(String msg, Session c) {
         c.send(WisperMessageComposer.compose(c.getPlayer().getEntity().getVirtualId(), msg));
     }
 
