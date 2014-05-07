@@ -42,7 +42,8 @@ public class Composers {
     public static short RelativeHeightmapMessageComposer = 3768;
     public static short RemoveFloorItemMessageComposer = 3386;
     public static short RemoveObjectFromInventoryMessageComposer = 2759;
-    public static short RemovePowersMessageComposer = 3702;
+    public static short RemovePowersMessageComposer = 3094;
+    public static short GivePowersMessageComposer = 3763;
     public static short RemoveWallItemMessageComposer = 2003;
     public static short RequestFriendshipMessageComposer = 1546;
     public static short RoomDataMessageComposer = 495;
