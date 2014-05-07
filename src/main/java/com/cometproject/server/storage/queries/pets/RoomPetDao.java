@@ -22,7 +22,7 @@ public class RoomPetDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM room_rights WHERE room_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM pet_data WHERE room_id = ?", sqlConnection);
             preparedStatement.setInt(1, roomId);
 
             resultSet = preparedStatement.executeQuery();

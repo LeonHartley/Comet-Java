@@ -92,6 +92,8 @@ public class PetDao {
             preparedStatement.setInt(9, StaticPetProperties.DEFAULT_EXPERIENCE);
             preparedStatement.setInt(10, StaticPetProperties.DEFAULT_ENERGY);
 
+            preparedStatement.execute();
+
             resultSet = preparedStatement.getGeneratedKeys();
 
             while(resultSet.next()) {
