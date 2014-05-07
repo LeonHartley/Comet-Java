@@ -15,7 +15,9 @@ public class GiveRightsMessageEvent implements IEvent {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if (room == null) return;
+        if (room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
+            return;
+        }
 
         PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(playerId);
 
@@ -33,6 +35,7 @@ public class GiveRightsMessageEvent implements IEvent {
 
         playerEntity.removeStatus("flatctrl");
         playerEntity.addStatus("flatctrl", "1");
+
         playerEntity.markNeedsUpdate();
 
     }

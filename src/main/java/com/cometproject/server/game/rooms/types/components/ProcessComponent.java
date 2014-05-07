@@ -106,8 +106,13 @@ public class ProcessComponent implements CometTask {
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
 
-                    if (playerEntity.getPlayer() == null) {
-                        removeFromRoom(playerEntity);
+                    try {
+                        if (playerEntity.getPlayer() == null) {
+                            removeFromRoom(playerEntity);
+                            continue;
+                        }
+                    } catch(Exception e) {
+                        log.warn("Failed to remove null player from room - user data was null");
                         continue;
                     }
 
@@ -393,7 +398,7 @@ public class ProcessComponent implements CometTask {
             // It's a pet.
             PetEntity petEntity = (PetEntity) entity;
 
-            if (petEntity.getCycleCount() == 20) { // 10 seconds
+            if (petEntity.getCycleCount() == 50) { // 25 seconds
                 int messageKey = RandomInteger.getRandom(0, ((PetEntity) entity).getData().getSpeech().length - 1);
                 String message = ((PetEntity) entity).getData().getSpeech()[messageKey];
 

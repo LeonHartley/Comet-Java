@@ -7,6 +7,7 @@ import com.cometproject.server.game.commands.staff.*;
 import com.cometproject.server.game.commands.user.*;
 import com.cometproject.server.game.commands.vip.EnableCommand;
 import com.cometproject.server.game.commands.vip.MoonwalkCommand;
+import com.cometproject.server.game.commands.vip.PullCommand;
 import com.cometproject.server.game.commands.vip.PushCommand;
 import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -29,16 +30,18 @@ public class CommandManager {
         this.commands.put(Locale.get("command.about.name"), new AboutCommand());
         this.commands.put(Locale.get("command.build.name"), new BuildCommand());
         this.commands.put(Locale.get("command.pickall.name"), new PickAllCommand());
-        this.commands.put(Locale.get("command.push.name"), new PushCommand());
-        this.commands.put(Locale.get("command.moonwalk.name"), new MoonwalkCommand());
-        this.commands.put(Locale.get("command.enable.name"), new EnableCommand());
         this.commands.put(Locale.get("command.empty.name"), new EmptyCommand());
         this.commands.put(Locale.get("command.sit.name"), new SitCommand());
         this.commands.put(Locale.get("command.lay.name"), new LayCommand());
+
+        // VIP commands
+        this.commands.put(Locale.get("command.push.name"), new PushCommand());
+        this.commands.put(Locale.get("command.pull.name"), new PullCommand());
+        this.commands.put(Locale.get("command.moonwalk.name"), new MoonwalkCommand());
+        this.commands.put(Locale.get("command.enable.name"), new EnableCommand());
     }
 
     public void loadStaffCommands() {
-        this.commands.put(Locale.get("command.restart.name"), new RestartCommand());
         this.commands.put(Locale.get("command.teleport.name"), new TeleportCommand());
         this.commands.put(Locale.get("command.massmotd.name"), new MassMotdCommand());
         this.commands.put(Locale.get("command.hotelalert.name"), new HotelAlertCommand());

@@ -10,21 +10,6 @@ import com.cometproject.server.network.sessions.Session;
 public class FeaturedRoomsMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) {
-        /*if (CometCache.getManager().isCacheEnabled()) {
-           byte[] cachedBytes = CometCache.getManager().getComposerCacheHandler().get("featured_rooms");
-
-            if (cachedBytes != null) {
-                client.send(new Composer(cachedBytes));
-                return;
-            }
-        }*/
-
-        Composer newComposer = FeaturedRoomsMessageComposer.compose(GameEngine.getNavigator().getFeaturedRooms());
-
-        /*if (CometCache.getManager().isCacheEnabled()) {
-            CometCache.getManager().getComposerCacheHandler().put("featured_rooms", newComposer.get().array(), 5, TimeUnit.MINUTES);
-        }*/
-
-        client.send(newComposer);
+        client.send(FeaturedRoomsMessageComposer.compose(GameEngine.getNavigator().getFeaturedRooms()));
     }
 }
