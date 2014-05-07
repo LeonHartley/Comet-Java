@@ -131,6 +131,8 @@ public class CatalogPurchaseHandler {
                     client.getPlayer().getBots().addBot(new InventoryBot(botId, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), botName, botFigure, botGender, botMotto));
                     client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
                     return;
+                } else if(def.getInteraction().equals("badge_display")) {
+                    extraData = data;
                 }
 
                 int[] teleportIds = null;
@@ -140,26 +142,6 @@ public class CatalogPurchaseHandler {
                 }
 
                 List<CatalogPurchase> purchases = new ArrayList<>();
-
-                /*for (int e = 0; e < amount; e++) {
-                    for (int i = 0; i != item.getAmount(); i++) {
-                        int insertedId = ItemDao.createItem(client.getPlayer().getId(), newItemId, data);
-
-                        if (isTeleport) {
-                            teleportIds[e] = insertedId;
-                        }
-
-                        unseenItems.put(insertedId, def.getType().equalsIgnoreCase("s") ? 1 : 2);
-                        // DELIVER GIFT HERE
-                        client.getPlayer().getInventory().add(insertedId, newItemId, extraData, giftData);
-                    }
-
-                    if (item.getLimitedTotal() > 0) {
-                        item.increaseLimitedSells(1);
-
-                        CatalogDao.updateLimitSellsForItem(item.getId());
-                    }
-                }*/
 
                 for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
                     for(int itemCount = 0; itemCount != item.getAmount(); itemCount++) {
