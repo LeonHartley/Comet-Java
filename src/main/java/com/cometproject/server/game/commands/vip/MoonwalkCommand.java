@@ -7,19 +7,16 @@ import com.cometproject.server.network.sessions.Session;
 public class MoonwalkCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (!client.getPlayer().getData().isVip()) {
-            this.sendChat("You must be VIP to use this command!", client);
-            return;
-        }
-
         if (client.getPlayer().getEntity().isMoonwalking()) {
             client.getPlayer().getEntity().setIsMoonwalking(false);
-            this.sendChat("Moonwalking is now disabled!", client);
+
+            sendChat(Locale.get("command.moonwalk.enabled"), client);
             return;
         }
 
         client.getPlayer().getEntity().setIsMoonwalking(true);
-        this.sendChat("Moonwalking is now enabled!", client);
+
+        sendChat(Locale.get("command.moonwalk.enabled"), client);
     }
 
     @Override
