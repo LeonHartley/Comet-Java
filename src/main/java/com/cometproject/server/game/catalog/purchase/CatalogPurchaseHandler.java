@@ -123,8 +123,8 @@ public class CatalogPurchaseHandler {
                 } else if(def.getType().equals("r")) {
                     // It's a bot!
                     String botName = "New Bot";
-                    String botFigure = client.getPlayer().getData().getFigure();
-                    String botGender = client.getPlayer().getData().getGender();
+                    String botFigure = item.getPresetData();
+                    String botGender = "m";
                     String botMotto = "Beeb beeb boop beep!";
 
                     int botId = PlayerBotDao.createBot(client.getPlayer().getId(), botName, botFigure, botGender, botMotto);
@@ -178,6 +178,9 @@ public class CatalogPurchaseHandler {
                 for(Integer newItem : newItems) {
                     unseenItems.put(newItem, def.getType().equalsIgnoreCase("s") ? 1 : 2);
                     client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData);
+
+                    if(isTeleport)
+                        teleportIds[newItems.indexOf(newItem)] = newItem;
                 }
 
                 if (isTeleport) {

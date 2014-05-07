@@ -82,7 +82,7 @@ public class TeleportInteraction extends Interactor {
             case 2: // animate first portal
                 this.toggleAnimation(item, true);
 
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 3, 8));
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 3, 4));
                 break;
 
             case 3:
@@ -90,7 +90,7 @@ public class TeleportInteraction extends Interactor {
                 pairItem = ((FloorItem) item).getRoom().getItems().getFloorItem(pairId);
 
                 if (pairId == 0) {
-                    item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 5, 5));
+                    item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 5, 3));
                     return false;
                 }
 
@@ -103,11 +103,11 @@ public class TeleportInteraction extends Interactor {
                         avatar.getPlayer().getSession().send(FollowFriendMessageComposer.compose(roomId));
                     }
 
-                    item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 5, 5));
+                    item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 5, 3));
                     return false;
                 }
 
-                pairItem.queueInteraction(new InteractionQueueItem(true, pairItem, InteractionAction.ON_TICK, avatar, 4, 8));
+                pairItem.queueInteraction(new InteractionQueueItem(true, pairItem, InteractionAction.ON_TICK, avatar, 4, 4));
                 break;
 
             case 4: // stop first portal from animating and animate 2nd portal
@@ -122,12 +122,12 @@ public class TeleportInteraction extends Interactor {
 
                 avatar.updateAndSetPosition(new Position3D(item.getX(), item.getY()));
 
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 5, 8));
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 5, 4));
                 break;
 
             case 5: // stop portal animation
                 this.toggleAnimation(item, false);
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 6, 5));
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 6, 3));
                 break;
 
             case 6:
