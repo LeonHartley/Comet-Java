@@ -68,8 +68,7 @@ public class SaveRoomDataMessageEvent implements IEvent {
             return;
         }
 
-        if (state < 0 || state > 2) {
-            System.out.println(state);
+        if (state < 0 || state > 3) {
             return;
         }
 

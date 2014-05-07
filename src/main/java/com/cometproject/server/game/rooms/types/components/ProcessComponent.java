@@ -106,8 +106,13 @@ public class ProcessComponent implements CometTask {
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
 
-                    if (playerEntity.getPlayer() == null) {
-                        removeFromRoom(playerEntity);
+                    try {
+                        if (playerEntity.getPlayer() == null) {
+                            removeFromRoom(playerEntity);
+                            continue;
+                        }
+                    } catch(Exception e) {
+                        log.warn("Failed to remove null player from room - user data was null");
                         continue;
                     }
 

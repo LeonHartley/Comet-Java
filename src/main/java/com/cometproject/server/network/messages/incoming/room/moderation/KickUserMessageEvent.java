@@ -25,7 +25,7 @@ public class KickUserMessageEvent implements IEvent {
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
         boolean hasRights = room.getRights().hasRights(client.getPlayer().getId());
 
-        if (isOwner || hasRights || !client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (isOwner || hasRights || !room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             if (room.getData().getOwnerId() == playerEntity.getPlayerId()) {
                 return;
             }
