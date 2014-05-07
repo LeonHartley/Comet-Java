@@ -3,6 +3,7 @@ package com.cometproject.tools.catalogtool;
 import com.google.common.collect.TreeMultiset;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -175,6 +176,126 @@ public class CatalogTool {
             fRs.close();
 
             System.out.println("Loaded a total of " + ciCount + " items!");
+            System.out.println();
+
+
+            System.out.println("Sorting furniture and corresponding catalog item ids...");
+
+            int newFurnitureLayoutId = 0;
+
+            for (FurnitureLayout furnitureLayout : this.furniLayouts) {
+                newFurnitureLayoutId++; // increase id
+                int oldId = furnitureLayout.getId(); // store old id
+
+                furnitureLayout.setId(newFurnitureLayoutId); // set new id
+
+                // update all corresponding catalog items
+                for (CatalogItemsLayout catalogItemsLayout : this.catalogItemsLayouts) {
+                    // lets sort out ids first...
+                    HashSet<String> itemIds = new LinkedHashSet<>();
+                    if (catalogItemsLayout.getItemId().contains(",")) {
+                        String[] ids = catalogItemsLayout.getItemId().split(",");
+                        for (String id : ids) {
+                            itemIds.add(id);
+                        }
+                    } else {
+                        itemIds.add(catalogItemsLayout.getItemId());
+                    }
+
+                    // check, update and store a new list of updated ids
+                    HashSet<String> updatedItemIds = new LinkedHashSet<>();
+
+                    for (String itemIdl : itemIds) {
+                        if (itemIdl.equals(oldId)) {
+                            updatedItemIds.add(Integer.toString(newFurnitureLayoutId));
+                        } else {
+                            updatedItemIds.add(itemIdl);
+                        }
+                    }
+
+                    // lets put back the new ids
+                    StringBuilder sb = new StringBuilder();
+                    for (String updatedIds : updatedItemIds) {
+                        if (sb.length() > 0) {
+                            sb.append(",");
+                        }
+
+                        sb.append(updatedIds);
+                    }
+
+                    // finally lets store it back!
+                    catalogItemsLayout.setItemId(sb.toString());
+                }
+            }
+
+            System.out.println("Furniture has been re-organised!");
+            System.out.println();
+
+            System.out.println("Sorting catalog page ids");
+
+            int newCatalogPageId = 0;
+
+            for (CatalogPagesLayout catalogPagesLayout : this.catalogPagesLayouts) {
+                newCatalogPageId++;
+                int oldId = catalogPagesLayout.getId();
+
+                catalogPagesLayout.setId(newCatalogPageId);
+
+                // update all corresponding catalog item page ids
+                for (CatalogItemsLayout catalogItemsLayout : this.catalogItemsLayouts) {
+                    int pageId = catalogItemsLayout.getPageId();
+
+                    if (pageId == oldId) {
+                        catalogItemsLayout.setPageId(newCatalogPageId);
+                    }
+                }
+
+                // update all parent page ids
+                for (CatalogPagesLayout catalogPagesLayout1 : this.catalogPagesLayouts) {
+                    int parentPageId = catalogPagesLayout1.getParentId();
+
+                    if (parentPageId == oldId) {
+                        catalogPagesLayout1.setParentId(newCatalogPageId);
+                    }
+                }
+            }
+
+            System.out.println("Catalog pages has been re-organised!");
+            System.out.println();
+
+            System.out.println("Inserting data into new tables..");
+
+            for (FurnitureLayout furnitureLayout : this.furniLayouts) {
+                PreparedStatement statement = this.sqlConnection.prepareStatement("INSERT INTO `" + furnitureTable + "` (id,public_name,item_name,type,width,length,stack_height,can_stack,can_sit,is_walkable,sprite_id,allow_recycle,allow_trade,allow_marketplace_sell,allow_gift,allow_inventory_stack,interaction_type,interaction_modes_count,vending_ids,is_arrow,foot_figure,stack_multiplier,subscriber,effectid,height_adjustable) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+                statement.setInt(1, furnitureLayout.getId());
+                statement.setString(2, furnitureLayout.getPublicName());
+                statement.setString(3, furnitureLayout.getItemName());
+                statement.setString(4, furnitureLayout.getType());
+                statement.setInt(5, furnitureLayout.getWidth());
+                statement.setInt(6, furnitureLayout.getLength());
+                statement.setString(7, furnitureLayout.getStackMultiplier());
+                statement.setString(8, furnitureLayout.getCanStack());
+                statement.setString(9, furnitureLayout.getCanSit());
+                statement.setString(10, furnitureLayout.getCanWalk());
+                statement.setInt(11, furnitureLayout.getSpriteId());
+                statement.setString(12, furnitureLayout.getAllowRecycle());
+                statement.setString(13, furnitureLayout.getCanTrade());
+                statement.setString(14, furnitureLayout.getAllowMarketplaceSell());
+                statement.setString(15, furnitureLayout.getAllowGift());
+                statement.setString(16, furnitureLayout.getCanInventoryStack());
+                statement.setString(17, furnitureLayout.getInteraction());
+                statement.setInt(18, furnitureLayout.getInteractionCycleCount());
+                statement.setString(19, furnitureLayout.getVendingIds());
+                statement.setString(20, furnitureLayout.getIsArrow());
+                statement.setString(21, furnitureLayout.getFootFigure());
+                statement.setString(22, furnitureLayout.getStackMultiplier());
+                statement.setString(23, furnitureLayout.getSubscriber());
+                statement.setInt(24, furnitureLayout.getEffectId());
+                statement.setString(25, furnitureLayout.getHeightAdjustable());
+                statement.execute();
+            }
+
+            System.out.println("Furniture inserted!");
             System.out.println();
 
         } catch (Exception e) {
