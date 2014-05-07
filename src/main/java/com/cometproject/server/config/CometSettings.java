@@ -21,6 +21,10 @@ public class CometSettings {
     public static boolean quartlyCreditsEnabled = false;
     public static int quartlyCreditsAmount = 0;
 
+    public static boolean showUsersOnlineInAbout = true;
+    public static boolean showUptimeInAbout = true;
+    public static boolean showActiveRoomsInAbout = true;
+
     public static void set(Properties properties) {
         httpEnabled = properties.getProperty("comet.network.http.enabled").equals("1");
 
@@ -39,6 +43,10 @@ public class CometSettings {
 
         quartlyCreditsEnabled = properties.getProperty("comet.game.quarterly.credits.enabled").equals("1");
         quartlyCreditsAmount = Integer.parseInt(properties.getProperty("comet.game.quarterly.credits.amount"));
+
+        showUptimeInAbout = properties.getProperty("comet.about.command.uptime").equals("1");
+        showActiveRoomsInAbout = properties.getProperty("comet.about.command.activeRooms").equals("1");
+        showUsersOnlineInAbout = properties.getProperty("comet.about.command.usersOnline").equals("1");
     }
 
     public static void setMotd(String motd) {
