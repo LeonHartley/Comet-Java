@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.permissions;
 
+import com.cometproject.server.game.permissions.types.CommandPermission;
 import com.cometproject.server.game.permissions.types.Perk;
 import com.cometproject.server.game.permissions.types.Permission;
 import com.cometproject.server.storage.SqlHelper;
@@ -67,20 +68,20 @@ public class PermissionsDao {
         return data;
     }
 
-    public static FastMap<String, Integer> getCommandPermissions() {
+    public static FastMap<String, CommandPermission> getCommandPermissions() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        FastMap<String, Integer> data = new FastMap<>();
+        FastMap<String, CommandPermission> data = new FastMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
-            preparedStatement = SqlHelper.prepare("SELECT `command_id`, `minimum_rank` FROM permission_commands", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT `command_id`, `minimum_rank`, `vip_only` FROM permission_commands", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.put(resultSet.getString("command_id"), resultSet.getInt("minimum_rank"));
+                data.put(resultSet.getString("command_id"), new CommandPermission(resultSet));
             }
 
         } catch (SQLException e) {

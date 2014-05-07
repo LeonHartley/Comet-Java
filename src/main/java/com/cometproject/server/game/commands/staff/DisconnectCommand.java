@@ -11,23 +11,23 @@ public class DisconnectCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         String username = params[1];
 
-        Session userToDisconnect = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
+        Session session = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
 
-        if (userToDisconnect == null) {
+        if (session == null) {
             return;
         }
 
-        if (userToDisconnect == client) {
-            client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.disconnect.errortitle"), Locale.get("command.disconnect.himself")));
+        if (session == client) {
+            sendChat(Locale.get("command.disconnect.himself"), client);
             return;
         }
 
-        if (userToDisconnect.getPlayer().getPermissions().hasPermission("undisconnectable")) { // Perk to add
-            client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.disconnect.errortitle"), Locale.get("command.disconnect.undisconnectable")));
+        if (session.getPlayer().getPermissions().hasPermission("undisconnectable")) {
+            sendChat(Locale.get("command.disconnect.undisconnectable"), client);
             return;
         }
 
-        userToDisconnect.disconnect();
+        session.disconnect();
     }
 
     @Override
