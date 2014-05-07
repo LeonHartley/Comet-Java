@@ -116,6 +116,8 @@ public class Events {
     public static short ChangeHomeRoomMessageEvent = 2922;
     public static short HotelViewItemMessageEvent = 2773;
     public static short RefreshPromoArticlesMessageEvent = 2142;
+    public static short AnswerDoorBellMessageEvent = 1093;
+    public static short LoadRoomByDoorBellMessageEvent = 1127;
 
     public static String valueOfId(int i) {
         Events e = new Events();

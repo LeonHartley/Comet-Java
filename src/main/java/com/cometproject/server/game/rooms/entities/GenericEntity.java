@@ -53,6 +53,8 @@ public abstract class GenericEntity implements AvatarEntity {
     private boolean overriden;
     private boolean isVisible;
 
+    private boolean doorbellAnswered;
+
     private Map<String, String> statusses = new FastMap<>();
 
     public GenericEntity(int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
@@ -86,6 +88,8 @@ public abstract class GenericEntity implements AvatarEntity {
         this.isMoonwalking = false;
         this.overriden = false;
         this.isVisible = true;
+
+        this.doorbellAnswered = false;
     }
 
     @Override
@@ -445,5 +449,13 @@ public abstract class GenericEntity implements AvatarEntity {
         } else {
             //remove from room
         }
+    }
+
+    public boolean isDoorbellAnswered() {
+        return this.doorbellAnswered;
+    }
+
+    public void setDoorbellAnswered(boolean b) {
+        this.doorbellAnswered = b;
     }
 }

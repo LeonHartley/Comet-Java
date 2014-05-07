@@ -11,6 +11,10 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.access.DoorbellAcceptedComposer;
+import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
+import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
+import com.cometproject.server.network.messages.outgoing.room.alerts.PasswordIncorrectComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomFullMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
@@ -43,7 +47,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
             return;
         }
 
-
         // Room full or slot available
         if (this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() && !this.player.getPermissions().hasPermission("room_enter_full")) {
             this.player.getSession().send(RoomFullMessageComposer.compose());
@@ -55,21 +58,29 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
         if (this.getRoom().getRights().hasBan(this.player.getId()) && !this.player.getPermissions().hasPermission("room_unkickable")) {
             // TODO: Proper ban message
             this.player.getSession().send(HotelViewMessageComposer.compose());
+            return;
         }
 
-        boolean isOwner = this.getRoom().getData().getOwnerId() == this.player.getId();
+        boolean isOwner = (this.getRoom().getData().getOwnerId() == this.player.getId());
 
-        if (!isOwner && !this.player.getPermissions().hasPermission("room_enter_locked")) {
+        if (!isOwner && !this.player.getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered()) {
             if (this.getRoom().getData().getAccess().equals("password") && !this.getRoom().getData().getPassword().equals(password)) {
-                // TODO: Invalid password message
+                this.player.getSession().send(PasswordIncorrectComposer.compose());
                 this.player.getSession().send(HotelViewMessageComposer.compose());
                 return;
             } else if (this.getRoom().getData().getAccess().equals("doorbell")) {
-
-                return;
+                if (this.getRoom().getEntities().playerCount() < 1) {
+                    this.player.getSession().send(DoorbellNoAnswerComposer.compose());
+                    return;
+                } else {
+                    this.getRoom().getEntities().broadcastMessage(DoorbellRequestComposer.compose(this.getUsername()), true);
+                    this.player.getSession().send(DoorbellRequestComposer.compose(""));
+                    return;
+                }
             }
         }
 
+        this.getRoom().getEntities().addEntity(this);
         this.finalizeJoinRoom();
     }
 
