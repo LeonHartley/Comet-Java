@@ -114,14 +114,14 @@ public class Composers {
 
     public static short SlideObjectBundleMessageComposer = 2473;
     public static short BotConfigMessageComposer = 3945;
-    public static short PetRacesMessageComposer = 714;
-    public static short ValidatePetNameMessageComposer = 204;
-    public static short PetInventoryMessageComposer = 2304;
+    public static short PetRacesMessageComposer = 1261;
+    public static short ValidatePetNameMessageComposer = 1674;
+    public static short PetInventoryMessageComposer = 1074;
     public static short HandItemMessageComposer = 2258;
     public static short PopularTagsMessageComposer = 2484;
     public static short FriendRequestsMessageComposer = 1547;
     public static short ModToolRoomInfoMessageComposer = 2954;
-    public static short PetInformationMessageComposer = 2135;
+    public static short PetInformationMessageComposer = 2307;
 
     public static short PingMessageComposer = 884; // Make sure this is right or users may get disconnected lots..
     public static short CatalogPublishedMessageComposer = 1652;

@@ -47,6 +47,7 @@ public class PetData {
         this.colour = data.getString("colour");
         this.raceId = data.getInt("race_id");
         this.typeId = data.getInt("type");
+        this.roomPosition = new Position3D(data.getInt("x"), data.getInt("y"));
     }
 
     public int getId() {

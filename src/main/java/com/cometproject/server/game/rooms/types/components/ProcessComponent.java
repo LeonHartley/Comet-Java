@@ -393,7 +393,7 @@ public class ProcessComponent implements CometTask {
             // It's a pet.
             PetEntity petEntity = (PetEntity) entity;
 
-            if (petEntity.getCycleCount() == 20) { // 10 seconds
+            if (petEntity.getCycleCount() == 50) { // 25 seconds
                 int messageKey = RandomInteger.getRandom(0, ((PetEntity) entity).getData().getSpeech().length - 1);
                 String message = ((PetEntity) entity).getData().getSpeech()[messageKey];
 
