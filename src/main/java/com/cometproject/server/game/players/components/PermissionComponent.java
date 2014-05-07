@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.components;
 
 import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.permissions.types.CommandPermission;
 import com.cometproject.server.game.players.types.Player;
 
 public class PermissionComponent {
@@ -22,8 +23,11 @@ public class PermissionComponent {
 
     public boolean hasCommand(String key) {
         if (GameEngine.getPermissions().getCommands().containsKey(key)) {
-            if (GameEngine.getPermissions().getCommands().get(key) <= this.getPlayer().getData().getRank()) {
-                return true;
+            CommandPermission permission = GameEngine.getPermissions().getCommands().get(key);
+
+            if (permission.getMinimumRank() <= this.getPlayer().getData().getRank()) {
+                if((permission.isVipOnly() && player.getData().isVip()) || !permission.isVipOnly())
+                    return true;
             }
         }
 

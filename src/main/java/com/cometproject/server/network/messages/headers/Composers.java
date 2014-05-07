@@ -34,7 +34,7 @@ public class Composers {
     public static short LoginMessageComposer = 531;
     public static short ModelAndIdMessageComposer = 1667;
     public static short ModToolMessageComposer = 2578;
-    public static short MotdMessageComposer = 367;
+    public static short MotdMessageComposer = 2291;
     public static short NavigatorFlatListMessageComposer = 2694;
     public static short OfferMessageComposer = 2235;
     public static short OnCreateRoomInfoMessageComposer = 3379;
@@ -124,7 +124,7 @@ public class Composers {
     public static short PetInformationMessageComposer = 2135;
 
     public static short PingMessageComposer = 884; // Make sure this is right or users may get disconnected lots..
-    public static short CatalogPublishedMessageComposer = 2879;
+    public static short CatalogPublishedMessageComposer = 1652;
 
     public static short AchievementPointsMessageComposer = 1942;
     public static short HotelViewItemMessageComposer = 360;
