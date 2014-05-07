@@ -23,6 +23,7 @@ import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArt
 import com.cometproject.server.network.messages.incoming.messenger.*;
 import com.cometproject.server.network.messages.incoming.moderation.*;
 import com.cometproject.server.network.messages.incoming.navigator.*;
+import com.cometproject.server.network.messages.incoming.room.access.AnswerDoorbellMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.action.*;
 import com.cometproject.server.network.messages.incoming.room.bots.BotConfigMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMessageEvent;
@@ -61,6 +62,7 @@ import com.cometproject.server.network.messages.incoming.user.profile.WearBadgeM
 import com.cometproject.server.network.messages.incoming.user.wardrobe.ChangeLooksMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeMessageEvent;
+import com.cometproject.server.network.messages.outgoing.room.access.LoadRoomByDoorBellMessageEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
@@ -92,6 +94,7 @@ public class MessageHandler {
         this.registerRoom();
         this.registerRoomTrade();
         this.registerRoomModeration();
+        this.registerRoomAccess();
         this.registerItems();
         this.registerCatalog();
         this.registerPets();
@@ -214,6 +217,11 @@ public class MessageHandler {
         this.getMessages().put(Events.GiveRightsMessageEvent, new GiveRightsMessageEvent());
         this.getMessages().put(Events.RemoveAllRightsMessageEvent, new RemoveAllRightsMessageEvent());
         this.getMessages().put(Events.GetBannedUsersMessageEvent, new GetBannedUsersMessageEvent());
+    }
+
+    public void registerRoomAccess() {
+        this.getMessages().put(Events.AnswerDoorBellMessageEvent, new AnswerDoorbellMessageEvent());
+        this.getMessages().put(Events.LoadRoomByDoorBellMessageEvent, new LoadRoomByDoorBellMessageEvent());
     }
 
     public void registerItems() {
