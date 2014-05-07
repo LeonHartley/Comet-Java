@@ -70,7 +70,7 @@ public class TeleportInteraction extends Interactor {
 
                 this.toggleDoor(item, true);
 
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 1, 6));
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 1, 3));
                 break;
 
             case 1: // close door
@@ -82,7 +82,7 @@ public class TeleportInteraction extends Interactor {
             case 2: // animate first portal
                 this.toggleAnimation(item, true);
 
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 3, 4));
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 3, 1));
                 break;
 
             case 3:
@@ -127,13 +127,13 @@ public class TeleportInteraction extends Interactor {
 
             case 5: // stop portal animation
                 this.toggleAnimation(item, false);
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 6, 3));
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 6, 1));
                 break;
 
             case 6:
                 this.toggleDoor(item, true);
                 avatar.moveTo(item.squareInfront().getX(), item.squareInfront().getY());
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 7, 6));
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 7, 3));
                 break;
 
             case 7:
