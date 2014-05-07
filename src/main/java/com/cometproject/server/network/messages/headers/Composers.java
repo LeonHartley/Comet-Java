@@ -60,12 +60,14 @@ public class Composers {
     public static short ShopData2MessageComposer = 2642;
     public static short ShoutMessageComposer = 1192;
     public static short TalkMessageComposer = 3372;
-    public static short TradeAcceptUpdateMessageComposer = 299;
-    public static short TradeCloseMessageComposer = 2024;
-    public static short TradeCloseCleanMessageComposer = 387;
-    public static short TradeCompleteMessageComposer = 2557;
-    public static short TradeStartMessageComposer = 2185;
-    public static short TradeUpdateMessageComposer = 1386;
+
+    public static short TradeAcceptUpdateMessageComposer = 1142;
+    public static short TradeCloseMessageComposer = 7;
+    public static short TradeCloseCleanMessageComposer = 1681;
+    public static short TradeCompleteMessageComposer = 3017;
+    public static short TradeStartMessageComposer = 2078;
+    public static short TradeUpdateMessageComposer = 918;
+
     public static short TypingStatusMessageComposer = 1860;
     public static short UpdateFloorExtraDataMessageComposer = 750;
     public static short UpdateFloorItemMessageComposer = 3169;
