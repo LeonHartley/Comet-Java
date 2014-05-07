@@ -39,4 +39,39 @@ public class PlayerBotDao {
 
         return data;
     }
+
+    public static int createBot(int playerId, String name, String figure, String gender, String motto) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into bots (`owner_id`, `room_id`, `name`, `figure`, `gender`, `motto`, `x`, `y`, `z`, `messages`, `automatic_chat`, `chat_delay`) VALUES(" +
+                    "?, 0, ?, ?, ?, ?, 0, 0, 0, '[]', '1', '14');", sqlConnection, true);
+
+            preparedStatement.setInt(1, playerId);
+            preparedStatement.setString(2, name);
+            preparedStatement.setString(3, figure);
+            preparedStatement.setString(4, gender);
+            preparedStatement.setString(5, motto);
+
+            preparedStatement.execute();
+
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            while (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return 0;
+    }
 }

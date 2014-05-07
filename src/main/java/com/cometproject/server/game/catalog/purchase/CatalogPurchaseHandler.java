@@ -8,12 +8,15 @@ import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
+import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.AlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.bots.PlayerBotDao;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
@@ -117,6 +120,17 @@ public class CatalogPurchaseHandler {
                     } else {
                         extraData += data.replace(",", ".");
                     }
+                } else if(def.getType().equals("r")) {
+                    // It's a bot!
+                    String botName = "New Bot";
+                    String botFigure = client.getPlayer().getData().getFigure();
+                    String botGender = client.getPlayer().getData().getGender();
+                    String botMotto = "Beeb beeb boop beep!";
+
+                    int botId = PlayerBotDao.createBot(client.getPlayer().getId(), botName, botFigure, botGender, botMotto);
+                    client.getPlayer().getBots().addBot(new InventoryBot(botId, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), botName, botFigure, botGender, botMotto));
+                    client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
+                    return;
                 }
 
                 int[] teleportIds = null;
@@ -149,7 +163,7 @@ public class CatalogPurchaseHandler {
 
                 for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
                     for(int itemCount = 0; itemCount != item.getAmount(); itemCount++) {
-                        purchases.add(new CatalogPurchase(client.getPlayer().getId(), newItemId, data));
+                        purchases.add(new CatalogPurchase(client.getPlayer().getId(), newItemId, extraData));
                     }
 
                     if (item.getLimitedTotal() > 0) {
@@ -163,7 +177,7 @@ public class CatalogPurchaseHandler {
 
                 for(Integer newItem : newItems) {
                     unseenItems.put(newItem, def.getType().equalsIgnoreCase("s") ? 1 : 2);
-                    client.getPlayer().getInventory().add(newItem, newItemId, data, giftData);
+                    client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData);
                 }
 
                 if (isTeleport) {

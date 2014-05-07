@@ -14,17 +14,12 @@ public class PushCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length == 0) {
-            this.sendChat("Invalid username", client);
+            sendChat(Locale.get("command.push.invalidusername"), client);
             return;
         }
 
         String username = params[0];
         Session user = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
-
-        if (!client.getPlayer().getData().isVip()) {
-            this.sendChat("You must be VIP to use this command!", client);
-            return;
-        }
 
         if (user == null) {
             return;
@@ -35,7 +30,7 @@ public class PushCommand extends ChatCommand {
         }
 
         if (user == client) {
-            this.sendChat("You can't push yourself!", client);
+            sendChat(Locale.get("command.push.playerhimself"), client);
             return;
         }
 
@@ -87,7 +82,7 @@ public class PushCommand extends ChatCommand {
             RoomModel model = client.getPlayer().getEntity().getRoom().getModel();
 
             if (model.getDoorX() == posX && model.getDoorY() == posY) {
-                this.sendChat("You can't push a user out of the room!", client);
+                sendChat(Locale.get(""), client);
                 return;
             }
 
@@ -102,7 +97,7 @@ public class PushCommand extends ChatCommand {
             user.getPlayer().getEntity().setWalkingPath(path);
 
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(
-                    TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), "*pushes " + user.getPlayer().getData().getUsername() + "*", 0, 0)
+                    TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), Locale.get("command.push.message").replace("%playername%", user.getPlayer().getData().getUsername()), 0, 0)
             );
         }
     }
