@@ -45,4 +45,132 @@ public class CatalogItemsLayout {
         this.extraData = data.getString("extradata");
         this.badgeId = data.getString("badge_id");
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getPageId() {
+        return pageId;
+    }
+
+    public void setPageId(int pageId) {
+        this.pageId = pageId;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public String getCatalogName() {
+        return catalogName;
+    }
+
+    public void setCatalogName(String catalogName) {
+        this.catalogName = catalogName;
+    }
+
+    public int getCostCredits() {
+        return costCredits;
+    }
+
+    public void setCostCredits(int costCredits) {
+        this.costCredits = costCredits;
+    }
+
+    public int getCostActivityPoints() {
+        return costActivityPoints;
+    }
+
+    public void setCostActivityPoints(int costActivityPoints) {
+        this.costActivityPoints = costActivityPoints;
+    }
+
+    public int getCostSnow() {
+        return costSnow;
+    }
+
+    public void setCostSnow(int costSnow) {
+        this.costSnow = costSnow;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public String getVip() {
+        return vip;
+    }
+
+    public void setVip(String vip) {
+        this.vip = vip;
+    }
+
+    public int getAchievement() {
+        return achievement;
+    }
+
+    public void setAchievement(int achievement) {
+        this.achievement = achievement;
+    }
+
+    public int getSongId() {
+        return songId;
+    }
+
+    public void setSongId(int songId) {
+        this.songId = songId;
+    }
+
+    public int getLimitedStack() {
+        return limitedStack;
+    }
+
+    public void setLimitedStack(int limitedStack) {
+        this.limitedStack = limitedStack;
+    }
+
+    public int getLimitedSells() {
+        return limitedSells;
+    }
+
+    public void setLimitedSells(int limitedSells) {
+        this.limitedSells = limitedSells;
+    }
+
+    public String getAllowOffer() {
+        return allowOffer;
+    }
+
+    public void setAllowOffer(String allowOffer) {
+        this.allowOffer = allowOffer;
+    }
+
+    public String getExtraData() {
+        return extraData;
+    }
+
+    public void setExtraData(String extraData) {
+        this.extraData = extraData;
+    }
+
+    public String getBadgeId() {
+        return badgeId;
+    }
+
+    public void setBadgeId(String badgeId) {
+        this.badgeId = badgeId;
+    }
 }

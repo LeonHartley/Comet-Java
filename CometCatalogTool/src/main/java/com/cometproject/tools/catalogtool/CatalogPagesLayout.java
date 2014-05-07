@@ -61,4 +61,180 @@ public class CatalogPagesLayout {
         this.pagelinkDesc = data.getString("page_link_description");
         this.pagelinkName = data.getString("page_link_pagename");
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
+    }
+
+    public int getIconImage() {
+        return iconImage;
+    }
+
+    public void setIconImage(int iconImage) {
+        this.iconImage = iconImage;
+    }
+
+    public int getIconColour() {
+        return iconColour;
+    }
+
+    public void setIconColour(int iconColour) {
+        this.iconColour = iconColour;
+    }
+
+    public int getMinRank() {
+        return minRank;
+    }
+
+    public void setMinRank(int minRank) {
+        this.minRank = minRank;
+    }
+
+    public String getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getHeadline() {
+        return headline;
+    }
+
+    public void setHeadline(String headline) {
+        this.headline = headline;
+    }
+
+    public String getTeaser() {
+        return teaser;
+    }
+
+    public void setTeaser(String teaser) {
+        this.teaser = teaser;
+    }
+
+    public String getSpecial() {
+        return special;
+    }
+
+    public void setSpecial(String special) {
+        this.special = special;
+    }
+
+    public String getPageText1() {
+        return pageText1;
+    }
+
+    public void setPageText1(String pageText1) {
+        this.pageText1 = pageText1;
+    }
+
+    public String getPageText2() {
+        return pageText2;
+    }
+
+    public void setPageText2(String pageText2) {
+        this.pageText2 = pageText2;
+    }
+
+    public String getPageTextDetails() {
+        return pageTextDetails;
+    }
+
+    public void setPageTextDetails(String pageTextDetails) {
+        this.pageTextDetails = pageTextDetails;
+    }
+
+    public String getPageTextTeaser() {
+        return pageTextTeaser;
+    }
+
+    public void setPageTextTeaser(String pageTextTeaser) {
+        this.pageTextTeaser = pageTextTeaser;
+    }
+
+    public String getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(String enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getVisible() {
+        return visible;
+    }
+
+    public void setVisible(String visible) {
+        this.visible = visible;
+    }
+
+    public String getClubOnly() {
+        return clubOnly;
+    }
+
+    public void setClubOnly(String clubOnly) {
+        this.clubOnly = clubOnly;
+    }
+
+    public int getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(int orderNum) {
+        this.orderNum = orderNum;
+    }
+
+    public int getMinSub() {
+        return minSub;
+    }
+
+    public void setMinSub(int minSub) {
+        this.minSub = minSub;
+    }
+
+    public String getVipOnly() {
+        return vipOnly;
+    }
+
+    public void setVipOnly(String vipOnly) {
+        this.vipOnly = vipOnly;
+    }
+
+    public String getPagelinkDesc() {
+        return pagelinkDesc;
+    }
+
+    public void setPagelinkDesc(String pagelinkDesc) {
+        this.pagelinkDesc = pagelinkDesc;
+    }
+
+    public String getPagelinkName() {
+        return pagelinkName;
+    }
+
+    public void setPagelinkName(String pagelinkName) {
+        this.pagelinkName = pagelinkName;
+    }
 }
