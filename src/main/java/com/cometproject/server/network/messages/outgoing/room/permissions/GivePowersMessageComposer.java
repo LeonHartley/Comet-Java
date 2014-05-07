@@ -9,6 +9,7 @@ public class GivePowersMessageComposer {
 
         msg.writeInt(roomId);
         msg.writeInt(userId);
+        msg.writeString("Leon"); // test
 
         return msg;
     }
