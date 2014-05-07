@@ -4,6 +4,7 @@ import com.cometproject.server.boot.Comet;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
+import java.nio.charset.Charset;
 import java.util.Map;
 
 public class Locale {
@@ -16,7 +17,7 @@ public class Locale {
         locale = new FastMap<>();
 
         for (Map.Entry<Object, Object> prop : localeFile.getProperties().entrySet()) {
-            locale.put((String) prop.getKey(), (String) prop.getValue());
+            locale.put((String) prop.getKey(), (String)prop.getValue());
         }
     }
 

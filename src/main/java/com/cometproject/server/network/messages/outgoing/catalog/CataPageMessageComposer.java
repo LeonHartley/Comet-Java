@@ -80,19 +80,18 @@ public class CataPageMessageComposer {
             for (CatalogItem item : page.getItems().values()) {
                 msg.writeInt(item.getId());
                 msg.writeString(item.getDisplayName());
-                msg.writeBoolean(false); // Is rentable item
+                msg.writeBoolean(false);
                 msg.writeInt(item.getCostCredits());
-                msg.writeInt(0);
-                msg.writeInt(0);
-                /*if (item.getCostOther() > 0) {
+
+                if (item.getCostOther() > 0) {
                     msg.writeInt(item.getCostOther());
-                    msg.writeInt(0); // currency type :: diamonds
+                    msg.writeInt(105);
                 } else {
                     msg.writeInt(0);
                     msg.writeInt(0);
-                }*/
+                }
 
-                msg.writeBoolean(true); // Allow gift!
+                msg.writeBoolean(false); // Can gift
 
                 if (!item.hasBadge()) {
                     msg.writeInt(item.getItems().size());
@@ -107,13 +106,10 @@ public class CataPageMessageComposer {
                     msg.writeString(def.getType());
                     msg.writeInt(def.getSpriteId());
 
-                    //if(page.getTemplate().equals("spaces")) {
                     if (item.getDisplayName().contains("wallpaper_single") || item.getDisplayName().contains("floor_single") || item.getDisplayName().contains("landscape_single")) {
                         msg.writeString(item.getDisplayName().split("_")[2]);
-                    } else if(def.getType().equals("r")) {
-                        msg.writeString("hr-3020-34.hd-3091-2.ch-225-92.lg-3058-100.sh-3089-1338.ca-3084-78-108.wa-2005"); // Bot figure!
                     } else {
-                        msg.writeString(""); // Preset extradata...blank for new special feature!
+                        msg.writeString(item.getPresetData());
                     }
 
                     msg.writeInt(item.getAmount());
