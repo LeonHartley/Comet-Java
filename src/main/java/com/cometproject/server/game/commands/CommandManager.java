@@ -39,7 +39,6 @@ public class CommandManager {
 
     public void loadStaffCommands() {
         this.commands.put(Locale.get("command.restart.name"), new RestartCommand());
-        this.commands.put(Locale.get("command.reload_config.name"), new ReloadConfigCommand());
         this.commands.put(Locale.get("command.teleport.name"), new TeleportCommand());
         this.commands.put(Locale.get("command.massmotd.name"), new MassMotdCommand());
         this.commands.put(Locale.get("command.hotelalert.name"), new HotelAlertCommand());

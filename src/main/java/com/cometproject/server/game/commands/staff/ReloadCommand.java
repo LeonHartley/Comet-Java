@@ -5,6 +5,7 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
+import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
 
 public class ReloadCommand extends ChatCommand {
@@ -17,6 +18,19 @@ public class ReloadCommand extends ChatCommand {
         String command = params[0];
 
         switch(command) {
+            case "list":
+                client.send(MotdNotificationComposer.compose(
+                        "- bans\n" +
+                        "- catalog\n" +
+                        "- navigator\n" +
+                        "- permissions\n" +
+                        "- catalog\n" +
+                        "- news\n" +
+                        "- config\n" +
+                        "- items\n"
+                ));
+
+                break;
             case "bans":
                 GameEngine.getBans().loadBans();
 
