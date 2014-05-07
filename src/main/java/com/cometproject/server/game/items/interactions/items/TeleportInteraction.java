@@ -76,7 +76,7 @@ public class TeleportInteraction extends Interactor {
             case 1: // close door
                 this.toggleDoor(item, false);
 
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 2, 5));
+                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 2, 3));
                 break;
 
             case 2: // animate first portal

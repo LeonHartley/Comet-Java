@@ -85,7 +85,7 @@ public class CommandManager {
             return;
         }
 
-        if (client.getPlayer().getPermissions().hasCommand(commandName)) {
+        if (client.getPlayer().getPermissions().hasCommand(commandName) || commandName.equals("about_command")) {
             this.commands.get(executor).execute(client, getParams(message.split(" ")));
             GameEngine.getLogger().info(client.getPlayer().getData().getUsername() + " executed command: :" + message);
         } else {
