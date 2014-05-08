@@ -174,7 +174,7 @@ public class RoomDao {
 
         try {
             sqlConnection = SqlHelper.getConnection();
-            preparedStatement = SqlHelper.prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?, max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?, thickness_floor = ?, allow_walkthrough = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?, max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?, thickness_floor = ?, allow_walkthrough = ?, heightmap = ? WHERE id = ?", sqlConnection);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, description);
             preparedStatement.setInt(3, ownerId);
@@ -192,7 +192,7 @@ public class RoomDao {
             preparedStatement.setInt(15, thicknessFloor);
             preparedStatement.setString(16, allowWalkthrough ? "1" : "0");
             preparedStatement.setString(17, heightmap);
-            preparedStatement.setInt(17, roomId);
+            preparedStatement.setInt(18, roomId);
 
             preparedStatement.execute();
         } catch (SQLException e) {

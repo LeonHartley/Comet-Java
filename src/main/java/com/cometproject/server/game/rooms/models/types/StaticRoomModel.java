@@ -1,7 +1,6 @@
 package com.cometproject.server.game.rooms.models.types;
 
 import com.cometproject.server.game.rooms.models.RoomModel;
-import com.cometproject.server.network.messages.types.Composer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

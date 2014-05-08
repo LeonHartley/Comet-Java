@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.models;
 
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
+import com.cometproject.server.game.utilities.ModelUtils;
 import com.cometproject.server.network.messages.outgoing.room.engine.HeightmapMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RelativeHeightmapMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
@@ -22,7 +23,6 @@ public abstract class RoomModel {
 
     private int mapSizeX;
     private int mapSizeY;
-    private int mapSize;
 
     private int open = 0;
     private int closed = 1;
@@ -42,54 +42,52 @@ public abstract class RoomModel {
         this.doorZ = doorZ;
         this.doorRotation = doorRotation;
 
-        String[] temp = heightmap.split("\r");
+        //String[] axes = heightmap.split(String.valueOf((char) 13));
+        String[] axes = heightmap.split("\r");
 
-        this.mapSizeX = temp[0].length();
-        this.mapSizeY = temp.length;
+        this.mapSizeX = axes[0].length();
+        this.mapSizeY = axes.length;
         this.squares = new int[mapSizeX][mapSizeY];
         this.squareHeight = new double[mapSizeX][mapSizeY];
         this.squareState = new RoomTileState[mapSizeX][mapSizeY];
 
-        for (int y = 0; y < mapSizeY; y++) {
-            if (y > 0) {
-                temp[y] = temp[y].substring(1);
-            }
+        System.out.println("[" + this.name + "] Size X " + mapSizeX + ", Size Y: " + mapSizeY);
 
-            for (int x = 0; x < mapSizeX; x++) {
-                String Square = temp[y].substring(x, x + 1).trim().toLowerCase();
+        try {
+            for (int y = 0; y < mapSizeY; y++) {
+                char[] line = axes[y].replace("\r", "").replace("\n", "").toCharArray();
 
-                if (Square.equals("x")) {
-                    squareState[x][y] = RoomTileState.INVALID;
-                    squares[x][y] = closed;
-                } else if (isNumeric(Square)) {
-                    squareState[x][y] = RoomTileState.VALID;
-                    squares[x][y] = open;
-                    squareHeight[x][y] = Double.parseDouble(Square);
-                    mapSize++;
-                }
+                int x = 0;
+                for(char tile : line) {
+                    String tileVal = String.valueOf(tile);
 
-                if (doorX == x && doorY == y) {
-                    squareState[x][y] = RoomTileState.VALID;
-                    relativeMap += doorZ;
-                } else {
-                    if (Square.isEmpty()) {
-                        continue;
+                    if(tileVal.equals("x")) {
+
+                        squareState[x][y] = RoomTileState.INVALID;
+                        squares[x][y] = closed;
+                    } else {
+                        squareState[x][y] = RoomTileState.VALID;
+                        squareHeight[x][y] = (double) ModelUtils.getHeight(tile);
                     }
-                    relativeMap += Square;
+
+                    x++;
                 }
-            }
-            relativeMap += (char) 13;
-        }
 
-        for (String MapLine : heightmap.split("\r\n")) {
-            if (MapLine.isEmpty() || MapLine == null) {
-                continue;
+                relativeMap += (char) 13;
             }
-            map += MapLine + (char) 13;
-        }
 
-        this.heightmapMessage = HeightmapMessageComposer.compose(this);
-        this.relativeHeightmapMessage = RelativeHeightmapMessageComposer.compose(this);
+            for (String mapLine : heightmap.split("\r\n")) {
+                if (mapLine.isEmpty() || mapLine == null) {
+                    continue;
+                }
+                map += mapLine + (char) 13;
+            }
+
+            this.heightmapMessage = HeightmapMessageComposer.compose(this);
+            this.relativeHeightmapMessage = RelativeHeightmapMessageComposer.compose(this);
+        } catch(Exception e) {
+            System.out.println("Failed to load model: " + this.name);
+        }
     }
 
     public String getId() {
@@ -140,9 +138,9 @@ public abstract class RoomModel {
         return this.squareHeight;
     }
 
-    private boolean isNumeric(String Input) {
+    private boolean isNumeric(String input) {
         try {
-            int i = Integer.parseInt(Input);
+            int i = Integer.parseInt(input);
             return true;
         } catch (Exception e) {
             return false;
