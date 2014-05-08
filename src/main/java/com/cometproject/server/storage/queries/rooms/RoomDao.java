@@ -1,8 +1,8 @@
 package com.cometproject.server.storage.queries.rooms;
 
+import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
-import com.cometproject.server.game.rooms.types.RoomModel;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
 
@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 public class RoomDao {
-    public static ArrayList<RoomModel> getModels() {
+    public static ArrayList<StaticRoomModel> getModels() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        ArrayList<RoomModel> data = new ArrayList<>();
+        ArrayList<StaticRoomModel> data = new ArrayList<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -29,7 +29,7 @@ public class RoomDao {
             resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()) {
-                data.add(new RoomModel(resultSet));
+                data.add(new StaticRoomModel(resultSet));
             }
 
         } catch (SQLException e) {
@@ -168,7 +168,7 @@ public class RoomDao {
         return 0;
     }
 
-    public static void updateRoom(int roomId, String name, String description, int ownerId, String owner, int category, int maxUsers, String access, String password, int score, String tags, String decor, String model, boolean hideWalls, int thicknessWall, int thicknessFloor, boolean allowWalkthrough) {
+    public static void updateRoom(int roomId, String name, String description, int ownerId, String owner, int category, int maxUsers, String access, String password, int score, String tags, String decor, String model, boolean hideWalls, int thicknessWall, int thicknessFloor, boolean allowWalkthrough, String heightmap) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -191,6 +191,7 @@ public class RoomDao {
             preparedStatement.setInt(14, thicknessWall);
             preparedStatement.setInt(15, thicknessFloor);
             preparedStatement.setString(16, allowWalkthrough ? "1" : "0");
+            preparedStatement.setString(17, heightmap);
             preparedStatement.setInt(17, roomId);
 
             preparedStatement.execute();

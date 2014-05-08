@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.room.engine;
 
-import com.cometproject.server.game.rooms.types.RoomModel;
+import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
