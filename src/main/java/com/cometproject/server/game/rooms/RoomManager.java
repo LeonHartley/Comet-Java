@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.game.rooms.avatars.misc.FilterManager;
+import com.cometproject.server.game.rooms.filter.WordFilter;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomModel;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class RoomManager {
     private FastMap<Integer, Room> rooms;
     private ArrayList<RoomModel> models;
-    private FilterManager filterManager;
+    private WordFilter filterManager;
 
     private RoomCycle globalProcessor;
     private ChatEmotionsManager emotions;
@@ -30,7 +30,7 @@ public class RoomManager {
         rooms = new FastMap<Integer, Room>().shared();
         models = new ArrayList<>();
         emotions = new ChatEmotionsManager();
-        filterManager = new FilterManager();
+        filterManager = new WordFilter();
 
         globalProcessor = new RoomCycle(Comet.getServer().getThreadManagement());
 
@@ -172,7 +172,7 @@ public class RoomManager {
         return this.globalProcessor;
     }
 
-    public FilterManager getFilter() {
+    public WordFilter getFilter() {
         return filterManager;
     }
 }

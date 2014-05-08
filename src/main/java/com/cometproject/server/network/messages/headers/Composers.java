@@ -135,6 +135,8 @@ public class Composers {
     public static short DoorBellRequestComposer = 1738;
     public static short DoorBellAcceptedComposer = 106;
 
+    public static short ChangeUsernameCheckMessageComposer = 2853;
+
     public static String valueOfId(int i) {
         Composers c = new Composers();
         Field[] fields;

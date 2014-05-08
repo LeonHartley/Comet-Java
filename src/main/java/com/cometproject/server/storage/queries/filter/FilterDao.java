@@ -1,6 +1,7 @@
 package com.cometproject.server.storage.queries.filter;
 
 import com.cometproject.server.storage.SqlHelper;
+import javolution.util.FastMap;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,25 +9,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class FilterDao {
-    public static List<String> getWordfilterByType(String type) {
+    public static Map<String, String> loadWordfilter() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        List<String> data = new ArrayList<>();
+        Map<String, String> data = new FastMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT `word` FROM `wordfilter` WHERE type = ?", sqlConnection);
-            preparedStatement.setString(1, type);
+            preparedStatement = SqlHelper.prepare("SELECT `word`, `replacement` FROM `wordfilter`", sqlConnection);
 
             resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()) {
-                data.add(resultSet.getString("word"));
+                data.put(resultSet.getString("word"), resultSet.getString("replacement"));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
@@ -39,23 +40,24 @@ public class FilterDao {
         return data;
     }
 
-    public static void saveByType(String type, List<String> words) {
+    public static void save(Map<String, String> wordfilter) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("REPLACE INTO wordfilter (`word`, `type`) VALUES(?, ?)", sqlConnection);
+            preparedStatement = SqlHelper.prepare("REPLACE INTO wordfilter (`word`, `replacement`) VALUES(?, ?)", sqlConnection);
 
-            for(String word : words) {
-                preparedStatement.setString(1, word);
-                preparedStatement.setString(2, type);
+            for(Map.Entry<String, String> word : wordfilter.entrySet()) {
+                preparedStatement.setString(1, word.getKey());
+                preparedStatement.setString(2, word.getValue());
 
                 preparedStatement.addBatch();
             }
 
             preparedStatement.executeBatch();
+
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
