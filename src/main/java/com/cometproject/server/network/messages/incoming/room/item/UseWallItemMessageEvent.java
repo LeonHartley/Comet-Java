@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.items.WallItem;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
@@ -23,6 +23,6 @@ public class UseWallItemMessageEvent implements IEvent {
 
         int requestData = msg.readInt();
 
-        GameEngine.getItems().getInteractions().onInteract(requestData, item, client.getPlayer().getEntity());
+        CometManager.getItems().getInteractions().onInteract(requestData, item, client.getPlayer().getEntity());
     }
 }

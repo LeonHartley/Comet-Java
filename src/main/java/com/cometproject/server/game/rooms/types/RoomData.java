@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.types;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
@@ -107,7 +107,7 @@ public class RoomData {
     }
 
     public Category getCategory() {
-        Category category = GameEngine.getNavigator().getCategory(this.category);
+        Category category = CometManager.getNavigator().getCategory(this.category);
 
         if(category == null) {
 

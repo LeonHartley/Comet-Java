@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.items;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
@@ -186,7 +186,7 @@ public class FloorItem extends RoomItem {
 
     public ItemDefinition getDefinition() {
         if (cachedDefinition == null) {
-            cachedDefinition = GameEngine.getItems().getDefintion(this.getItemId());
+            cachedDefinition = CometManager.getItems().getDefintion(this.getItemId());
         }
 
         return cachedDefinition;
@@ -197,7 +197,7 @@ public class FloorItem extends RoomItem {
         String interaction = this.getDefinition().getInteraction();
 
         if (!state) {
-            if (!GameEngine.getWired().isWiredItem(this))
+            if (!CometManager.getWired().isWiredItem(this))
                 this.setExtraData("0");
 
             return true;
@@ -232,7 +232,7 @@ public class FloorItem extends RoomItem {
      */
     public Room getRoom() {
         if (this.room == null) {
-            this.room = new WeakReference<>(GameEngine.getRooms().get(this.roomId));
+            this.room = new WeakReference<>(CometManager.getRooms().get(this.roomId));
         }
 
         return this.room.get();

@@ -1,7 +1,7 @@
 package com.cometproject.server.game.catalog.purchase;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
@@ -65,7 +65,7 @@ public class CatalogPurchaseHandler {
             }
 
             if (client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getPoints() < totalCostPoints) {
-                GameEngine.getLogger().warn("Player with ID: " + client.getPlayer().getId() + " tried to purchase item with ID: " + item.getId() + " with the incorrect amount of credits or points.");
+                CometManager.getLogger().warn("Player with ID: " + client.getPlayer().getId() + " tried to purchase item with ID: " + item.getId() + " with the incorrect amount of credits or points.");
                 client.send(AlertMessageComposer.compose(Locale.get("catalog.error.notenough")));
                 return;
             }
@@ -77,7 +77,7 @@ public class CatalogPurchaseHandler {
             client.getPlayer().getData().save();
 
             for (int newItemId : item.getItems()) {
-                ItemDefinition def = GameEngine.getItems().getDefintion(newItemId);
+                ItemDefinition def = CometManager.getItems().getDefintion(newItemId);
                 client.send(BoughtItemMessageComposer.compose(item, def));
 
                 if (def.getItemName().equals("DEAL_HC_1")) {
@@ -190,7 +190,7 @@ public class CatalogPurchaseHandler {
                 client.send(SendPurchaseAlertMessageComposer.compose(unseenItems));
             }
         } catch (Exception e) {
-            GameEngine.getLogger().error("Error while buying catalog item", e);
+            CometManager.getLogger().error("Error while buying catalog item", e);
         }
     }
 

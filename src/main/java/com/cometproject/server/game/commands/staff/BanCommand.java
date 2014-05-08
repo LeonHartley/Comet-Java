@@ -2,7 +2,7 @@ package com.cometproject.server.game.commands.staff;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.moderation.types.Ban;
 import com.cometproject.server.game.moderation.types.BanType;
@@ -34,7 +34,7 @@ public class BanCommand extends ChatCommand {
         long expire = Comet.getTime() + (length * 36000);
         int banId = BanDao.createBan(length, expire, user.getPlayer().getId() + "");
 
-        GameEngine.getBans().add(new Ban(banId, user.getPlayer().getId() + "", length == 0 ? length : expire, BanType.USER, ""));
+        CometManager.getBans().add(new Ban(banId, user.getPlayer().getId() + "", length == 0 ? length : expire, BanType.USER, ""));
     }
 
     @Override

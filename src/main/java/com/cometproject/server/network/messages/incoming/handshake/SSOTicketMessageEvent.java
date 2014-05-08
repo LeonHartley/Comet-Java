@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.handshake;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.data.PlayerLoader;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -39,13 +39,13 @@ public class SSOTicketMessageEvent implements IEvent {
             cloneSession.disconnect();
         }
 
-        if (GameEngine.getBans().hasBan(Integer.toString(player.getId())) || GameEngine.getBans().hasBan(((InetSocketAddress)client.getChannel().getRemoteAddress()).getAddress().getHostAddress())) {
+        if (CometManager.getBans().hasBan(Integer.toString(player.getId())) || CometManager.getBans().hasBan(((InetSocketAddress)client.getChannel().getRemoteAddress()).getAddress().getHostAddress())) {
             /*client.send(AdvancedAlertMessageComposer.compose(
                     "You've been banned!",
                     "If you feel you received this in error, please contact the system administrator."
             ));*/
 
-            GameEngine.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
+            CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
 
             client.disconnect();
             return;
@@ -54,7 +54,7 @@ public class SSOTicketMessageEvent implements IEvent {
         player.setSession(client);
         client.setPlayer(player);
 
-        GameEngine.getRooms().loadRoomsForUser(player);
+        CometManager.getRooms().loadRoomsForUser(player);
 
         client.getLogger().info(client.getPlayer().getData().getUsername() + " logged in");
 
@@ -73,6 +73,6 @@ public class SSOTicketMessageEvent implements IEvent {
             client.send(ModToolMessageComposer.compose());
         }
 
-        client.send(RoomCategoriesMessageComposer.compose(GameEngine.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
+        client.send(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
     }
 }

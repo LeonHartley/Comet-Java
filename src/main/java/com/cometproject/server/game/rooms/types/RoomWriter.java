@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.types;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class RoomWriter {
@@ -73,7 +73,7 @@ public class RoomWriter {
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeBoolean(false);
-        msg.writeBoolean(GameEngine.getNavigator().isFeatured(room.getId()));
+        msg.writeBoolean(CometManager.getNavigator().isFeatured(room.getId()));
         msg.writeBoolean(false);
 
         msg.writeInt(0);

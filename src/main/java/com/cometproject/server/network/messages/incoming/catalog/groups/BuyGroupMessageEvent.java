@@ -33,7 +33,7 @@ public class BuyGroupMessageEvent implements IEvent {
             groupItems.add(msg.readInt());
         }
 
-        String badge = GameEngine.getGroups().generateBadge(groupBase, groupBaseColour, groupItems);*/
+        String badge = CometManager.getGroups().generateBadge(groupBase, groupBaseColour, groupItems);*/
         int groupBase4 = msg.readInt();
         int groupBase5 = msg.readInt();
         int groupBase6 = msg.readInt();
@@ -51,15 +51,15 @@ public class BuyGroupMessageEvent implements IEvent {
         int groupBase18 = msg.readInt();
     /*
         String base = "b" + ((groupBase4 < 10) ? "0" + groupBase4 : groupBase4) + ((groupBase5 < 10) ? "0" + groupBase5 : groupBase5) + groupBase6;
-        String s1 = GameEngine.getGroups().checkSymbol("s" + ((groupBase7 < 10) ? "0" + groupBase7 : groupBase7) + ((groupBase8 < 10) ? "0" + groupBase8 : groupBase8) + groupBase9);
-        String s2 = GameEngine.getGroups().checkSymbol("s" + ((groupBase10 < 10) ? "0" + groupBase10 : groupBase10) + ((groupBase11 < 10) ? "0" + groupBase11 : groupBase11) + groupBase12);
-        String s3 = GameEngine.getGroups().checkSymbol("s" + ((groupBase13 < 10) ? "0" + groupBase13 : groupBase13) + ((groupBase14 < 10) ? "0" + groupBase14 : groupBase14) + groupBase15);
-        String s4 = GameEngine.getGroups().checkSymbol("s" + ((groupBase16 < 10) ? "0" + groupBase16 : groupBase16) + ((groupBase17 < 10) ? "0" + groupBase17 : groupBase17) + groupBase18);
+        String s1 = CometManager.getGroups().checkSymbol("s" + ((groupBase7 < 10) ? "0" + groupBase7 : groupBase7) + ((groupBase8 < 10) ? "0" + groupBase8 : groupBase8) + groupBase9);
+        String s2 = CometManager.getGroups().checkSymbol("s" + ((groupBase10 < 10) ? "0" + groupBase10 : groupBase10) + ((groupBase11 < 10) ? "0" + groupBase11 : groupBase11) + groupBase12);
+        String s3 = CometManager.getGroups().checkSymbol("s" + ((groupBase13 < 10) ? "0" + groupBase13 : groupBase13) + ((groupBase14 < 10) ? "0" + groupBase14 : groupBase14) + groupBase15);
+        String s4 = CometManager.getGroups().checkSymbol("s" + ((groupBase16 < 10) ? "0" + groupBase16 : groupBase16) + ((groupBase17 < 10) ? "0" + groupBase17 : groupBase17) + groupBase18);
 
         String badge = base + s1 + s2 + s2 + s3 + s4;
 
         client.send(BoughtItemMessageComposer.compose());
-        Group group = GameEngine.getGroups().createGroup(name, desc, roomId, badge, client, GameEngine.getGroups().getSymbolColours().containsKey(colour1) ? colour1 : 1, GameEngine.getGroups().getBackgroundColours().containsKey(colour2) ? colour2 : 1);
+        Group group = CometManager.getGroups().createGroup(name, desc, roomId, badge, client, CometManager.getGroups().getSymbolColours().containsKey(colour1) ? colour1 : 1, CometManager.getGroups().getBackgroundColours().containsKey(colour2) ? colour2 : 1);
     */
     }
 

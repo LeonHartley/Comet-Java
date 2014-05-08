@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -48,7 +48,7 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
             }
         }
 
-        GameEngine.getItems().getInteractions().onInteract(msg.readInt(), item, client.getPlayer().getEntity());
+        CometManager.getItems().getInteractions().onInteract(msg.readInt(), item, client.getPlayer().getEntity());
 
         List<Position3D> tilesToUpdate = new ArrayList<>();
         tilesToUpdate.add(new Position3D(item.getX(), item.getY(), 0d));

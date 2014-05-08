@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.items.WallItem;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
@@ -16,6 +16,6 @@ public class ChangeWallItemStateMessageEvent implements IEvent {
         if (item == null)
             return;
 
-        GameEngine.getItems().getInteractions().onInteract(0, item, client.getPlayer().getEntity());
+        CometManager.getItems().getInteractions().onInteract(0, item, client.getPlayer().getEntity());
     }
 }

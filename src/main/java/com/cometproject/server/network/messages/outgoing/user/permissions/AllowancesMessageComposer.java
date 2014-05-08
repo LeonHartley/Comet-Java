@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.user.permissions;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.permissions.types.Perk;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
@@ -11,9 +11,9 @@ public class AllowancesMessageComposer {
     public static Composer compose(int rank) {
         Composer msg = new Composer(Composers.AllowancesMessageComposer);
 
-        msg.writeInt(GameEngine.getPermissions().getPerks().size());
+        msg.writeInt(CometManager.getPermissions().getPerks().size());
 
-        for (Map.Entry<Integer, Perk> perk : GameEngine.getPermissions().getPerks().entrySet()) {
+        for (Map.Entry<Integer, Perk> perk : CometManager.getPermissions().getPerks().entrySet()) {
             msg.writeString(perk.getValue().getTitle());
             msg.writeString(perk.getValue().getData());
 

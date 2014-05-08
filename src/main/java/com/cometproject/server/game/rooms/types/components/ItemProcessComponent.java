@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.interactions.football.BallInteraction;
@@ -100,13 +100,13 @@ public class ItemProcessComponent implements CometTask {
                         } else if (interactItem.getAction() == InteractionAction.ON_PICKUP) {
 
                         } else if (interactItem.getAction() == InteractionAction.ON_USE) {
-                            GameEngine.getItems().getInteractions().onInteract(interactItem.getUpdateState(), item, interactItem.getEntity());
+                            CometManager.getItems().getInteractions().onInteract(interactItem.getUpdateState(), item, interactItem.getEntity());
                         } else if (interactItem.getAction() == InteractionAction.ON_WALK) {
-                            GameEngine.getItems().getInteractions().onWalk(interactItem.getUpdateState() == 1, item, interactItem.getEntity());
+                            CometManager.getItems().getInteractions().onWalk(interactItem.getUpdateState() == 1, item, interactItem.getEntity());
                         } else if (interactItem.getAction() == InteractionAction.ON_TICK) {
-                            GameEngine.getItems().getInteractions().onTick(item);
+                            CometManager.getItems().getInteractions().onTick(item);
                         } else if (interactItem.getAction() == InteractionAction.ON_PRE_WALK) {
-                            GameEngine.getItems().getInteractions().onPreWalk(item, interactItem.getEntity());
+                            CometManager.getItems().getInteractions().onPreWalk(item, interactItem.getEntity());
                         }
                     } else {
                         item.setNeedsUpdate(false);
@@ -133,7 +133,7 @@ public class ItemProcessComponent implements CometTask {
                     }
                 }
 
-                if (GameEngine.getWired().isWiredTrigger(item)) {
+                if (CometManager.getWired().isWiredTrigger(item)) {
                     if (!this.getRoom().getWired().isWiredSquare(item.getX(), item.getY())) {
                         this.getRoom().getWired().add(item.getX(), item.getY());
                     }
@@ -150,9 +150,9 @@ public class ItemProcessComponent implements CometTask {
                         } else if (interactItem.getAction() == InteractionAction.ON_PICKUP) {
 
                         } else if (interactItem.getAction() == InteractionAction.ON_USE) {
-                            GameEngine.getItems().getInteractions().onInteract(interactItem.getUpdateState(), item, interactItem.getEntity());
+                            CometManager.getItems().getInteractions().onInteract(interactItem.getUpdateState(), item, interactItem.getEntity());
                         } else if (interactItem.getAction() == InteractionAction.ON_TICK) {
-                            GameEngine.getItems().getInteractions().onTick(item);
+                            CometManager.getItems().getInteractions().onTick(item);
                         }
                     }
                 }

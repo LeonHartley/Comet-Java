@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.navigator;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.navigator.types.featured.BannerType;
 import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
 import com.cometproject.server.game.navigator.types.featured.ImageType;
@@ -25,10 +25,10 @@ public class AddToStaffPickedRoomsMessageEvent implements IEvent {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if (GameEngine.getNavigator().isFeatured(room.getId())) {
+        if (CometManager.getNavigator().isFeatured(room.getId())) {
             NavigatorDao.disableFeaturedRoom(room.getId());
 
-            GameEngine.getNavigator().getFeaturedRooms().remove(GameEngine.getNavigator().getFeaturedRoomById(room.getId()));
+            CometManager.getNavigator().getFeaturedRooms().remove(CometManager.getNavigator().getFeaturedRoomById(room.getId()));
             client.send(AdvancedAlertMessageComposer.compose(Locale.get("navigator.staff.picks.removed.title"), Locale.get("navigator.staff.picks.removed.message")));
             room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
             return;
@@ -36,7 +36,7 @@ public class AddToStaffPickedRoomsMessageEvent implements IEvent {
 
         int id = NavigatorDao.staffPick(room.getId(), room.getData().getName(), room.getData().getDescription());
 
-        GameEngine.getNavigator().getFeaturedRooms().add(new FeaturedRoom(id, BannerType.SMALL, room.getData().getName(), room.getData().getDescription(), "", ImageType.INTERNAL, room.getId(), 1, true, false, false));
+        CometManager.getNavigator().getFeaturedRooms().add(new FeaturedRoom(id, BannerType.SMALL, room.getData().getName(), room.getData().getDescription(), "", ImageType.INTERNAL, room.getId(), 1, true, false, false));
         client.send(AdvancedAlertMessageComposer.compose(Locale.get("navigator.staff.picks.added.title"), Locale.get("navigator.staff.picks.added.message")));
         room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
     }

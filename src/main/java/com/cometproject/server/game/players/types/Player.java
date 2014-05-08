@@ -1,6 +1,6 @@
 package com.cometproject.server.game.players.types;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.data.PlayerLoader;
@@ -100,7 +100,7 @@ public class Player {
             setAvatar(null);
         }
 
-        Room room = GameEngine.getRooms().get(id);
+        Room room = CometManager.getRooms().get(id);
 
         if (room == null) {
             session.send(HotelViewMessageComposer.compose());
