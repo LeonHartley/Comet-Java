@@ -37,8 +37,8 @@ public class AddUserToRoomMessageEvent implements IEvent {
             room.getItemProcess().start();
         }
 
-        if (client.getPlayer().floodTime >= 1) {
-            client.send(FloodFilterMessageComposer.compose(client.getPlayer().floodTime));
+        if (client.getPlayer().getFloodTime() >= 1) {
+            client.send(FloodFilterMessageComposer.compose(client.getPlayer().getFloodTime()));
         }
 
         client.send(RoomPanelMessageComposer.compose(room.getId(), room.getData().getOwnerId() == client.getPlayer().getId() || client.getPlayer().getPermissions().hasPermission("room_full_control")));
