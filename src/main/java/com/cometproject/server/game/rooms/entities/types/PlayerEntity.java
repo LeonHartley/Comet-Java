@@ -11,7 +11,6 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.access.DoorbellAcceptedComposer;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.PasswordIncorrectComposer;
@@ -155,22 +154,33 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     public boolean onChat(String message) {
         long time = System.currentTimeMillis();
 
-        if (time - this.player.lastMessage < 750) { // TODO: add flood bypass for staff with permission or something
-            this.player.floodFlag++;
+        if(!this.player.getPermissions().hasCommand("bypass_flood")) {
+            if (time - this.player.getLastMessageTime() < 750) {
+                this.player.setFloodFlag(this.player.getFloodFlag() + 1);
 
-            if (this.player.floodFlag >= 4) {
-                this.player.floodTime = 30;
-                this.player.floodFlag = 0;
+                if (this.player.getFloodFlag() >= 4) {
+                    this.player.setFloodTime(30);
+                    this.player.setFloodFlag(0);
 
-                this.player.getSession().send(FloodFilterMessageComposer.compose(player.floodTime));
+                    this.player.getSession().send(FloodFilterMessageComposer.compose(player.getFloodTime()));
+                }
             }
-        }
 
-        if (player.floodTime >= 1) {
-            return false;
-        }
+            if (player.getFloodTime() >= 1) {
+                return false;
+            }
 
-        player.lastMessage = time;
+            if(player.getLastMessage().equals(message) && message.length() > 15) {
+                this.player.setFloodFlag(0);
+                this.player.setFloodTime(30);
+
+                this.player.getSession().send(FloodFilterMessageComposer.compose(player.getFloodTime()));
+                return false;
+            }
+
+            player.setLastMessageTime(time);
+            player.setLastMessage(message);
+        }
 
         if (message.isEmpty() || message.length() > 100)
             return false;
