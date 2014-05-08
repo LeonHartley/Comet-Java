@@ -4,7 +4,7 @@ import com.cometproject.server.cache.CometCache;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Configuration;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.GameThread;
 import com.cometproject.server.network.NetworkEngine;
 import com.cometproject.server.plugins.PluginEngine;
@@ -31,14 +31,14 @@ public class CometServer {
         pluginEngine = new PluginEngine();
 
         Locale.init();
-        GameEngine.init();
+        CometManager.init();
         CometCache.create();
 
         networkEngine = new NetworkEngine(this.getConfig().get("comet.network.host"), Integer.parseInt(this.getConfig().get("comet.network.port")));
-        GameEngine.gameThread = new GameThread(threadManagement);
+        CometManager.gameThread = new GameThread(threadManagement);
 
         if (Comet.isDebugging) {
-            GameEngine.getLogger().debug("Comet Server is debugging");
+            CometManager.getLogger().debug("Comet Server is debugging");
         }
     }
 

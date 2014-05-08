@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.entities.types;
 
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -187,8 +187,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
 
         try {
             if (message.startsWith(":")) {
-                if (GameEngine.getCommands().isCommand(message.substring(1))) {
-                    GameEngine.getCommands().parse(message.substring(1), this.player.getSession());
+                if (CometManager.getCommands().isCommand(message.substring(1))) {
+                    CometManager.getCommands().parse(message.substring(1), this.player.getSession());
                     return false;
                 }
             }
@@ -202,7 +202,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
         }
 
         if (this.getPlayer().getData().getRank() < 7) { // TODO: Permission...
-            if (GameEngine.getRooms().getFilter().filter(message)) {
+            if (CometManager.getRooms().getFilter().filter(message)) {
                 this.getPlayer().getSession().send(AdvancedAlertMessageComposer.compose(Locale.get("filter.alert.title"), Locale.get("filter.alert.message")));
                 return false;
             }

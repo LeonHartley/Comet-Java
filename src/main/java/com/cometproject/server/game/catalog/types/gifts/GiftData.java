@@ -1,6 +1,6 @@
 package com.cometproject.server.game.catalog.types.gifts;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 
 public class GiftData {
     private int pageId;
@@ -47,7 +47,7 @@ public class GiftData {
         try {
             return new String(data, "UTF-8");
         } catch (Exception e) {
-            GameEngine.getLogger().error("Error while compiling GiftData", e);
+            CometManager.getLogger().error("Error while compiling GiftData", e);
             return "";
         }
     }

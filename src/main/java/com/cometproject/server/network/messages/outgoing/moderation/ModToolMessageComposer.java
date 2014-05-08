@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.moderation;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
@@ -10,9 +10,9 @@ public class ModToolMessageComposer {
 
         msg.writeInt(0);
 
-        msg.writeInt(GameEngine.getModeration().getUserPresets().size());
+        msg.writeInt(CometManager.getModeration().getUserPresets().size());
 
-        for (String preset : GameEngine.getModeration().getUserPresets()) {
+        for (String preset : CometManager.getModeration().getUserPresets()) {
             msg.writeString(preset);
         }
 
@@ -27,9 +27,9 @@ public class ModToolMessageComposer {
 
         msg.writeInt(0);
 
-        msg.writeInt(GameEngine.getModeration().getRoomPresets().size());
+        msg.writeInt(CometManager.getModeration().getRoomPresets().size());
 
-        for (String preset : GameEngine.getModeration().getRoomPresets()) {
+        for (String preset : CometManager.getModeration().getRoomPresets()) {
             msg.writeString(preset);
         }
 

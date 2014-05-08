@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.catalog.pets;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.catalog.pets.PetRacesMessageComposer;
@@ -15,7 +15,7 @@ public class PetRacesMessageEvent implements IEvent {
         String petRace = msg.readString();
         int raceId = Integer.parseInt(petRace.split("a0 pet")[1]);
 
-        List<PetRace> races = GameEngine.getPets().getRacesByRaceId(raceId);
+        List<PetRace> races = CometManager.getPets().getRacesByRaceId(raceId);
 
         client.send(PetRacesMessageComposer.compose(petRace, races));
     }

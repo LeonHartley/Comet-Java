@@ -29,7 +29,7 @@ public class ModToolUserInfoMessageEvent implements IEvent {
 
             client.send(ModToolUserInfoMessageComposer.compose(user, stats));
         } catch (Exception e) {
-            GameEngine.getLogger().error("Error while sending user info to mod tool", e);
+            CometManager.getLogger().error("Error while sending user info to mod tool", e);
         }*/
     }
 }

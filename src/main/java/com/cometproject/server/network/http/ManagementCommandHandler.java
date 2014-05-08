@@ -1,7 +1,7 @@
 package com.cometproject.server.network.http;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.players.data.PlayerData;
@@ -76,7 +76,7 @@ public class ManagementCommandHandler implements HttpHandler {
 
         switch(requestParameters.get("command")) {
             case "update_bans": {
-                GameEngine.getBans().loadBans();
+                CometManager.getBans().loadBans();
                 break;
             }
 
@@ -126,7 +126,7 @@ public class ManagementCommandHandler implements HttpHandler {
                     return;
                 }
 
-                CatalogPage page = GameEngine.getCatalog().getPage(pageId);
+                CatalogPage page = CometManager.getCatalog().getPage(pageId);
 
                 if(page == null) {
                     Comet.getServer().getNetwork().getManagement().sendResponse(RequestError.INVALID_PAGE, e);
@@ -156,7 +156,7 @@ public class ManagementCommandHandler implements HttpHandler {
                 if (user == null) {
                     Comet.getServer().getNetwork().getManagement().sendResponse(RequestError.INVALID_USER, e);
                     return;
-                } else if (GameEngine.getRooms().get(roomId) == null) {
+                } else if (CometManager.getRooms().get(roomId) == null) {
                     Comet.getServer().getNetwork().getManagement().sendResponse(RequestError.INVALID_ROOM, e);
                     return;
                 }

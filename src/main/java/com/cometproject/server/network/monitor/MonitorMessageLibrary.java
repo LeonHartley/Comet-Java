@@ -18,7 +18,7 @@ public class MonitorMessageLibrary {
 
         ServerStatus status = new ServerStatus(
                 Comet.getServer().getNetwork().getSessions().getUsersOnlineCount(),
-                GameEngine.getRooms().getActiveRooms().size(),
+                CometManager.getRooms().getActiveRooms().size(),
                 TimeSpan.millisecondsToDate(System.currentTimeMillis() - Comet.start),
                 ((runtime.totalMemory() / 1024) / 1024),
                 ((runtime.totalMemory() / 1024) / 1024) - ((runtime.freeMemory() / 1024) / 1024),

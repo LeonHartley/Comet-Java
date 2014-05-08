@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.items.types.ItemDefinition;
@@ -102,7 +102,7 @@ public class CataPageMessageComposer {
                 }
 
                 for (int i : item.getItems()) {
-                    ItemDefinition def = GameEngine.getItems().getDefintion(i);
+                    ItemDefinition def = CometManager.getItems().getDefintion(i);
                     msg.writeString(def.getType());
                     msg.writeInt(def.getSpriteId());
 

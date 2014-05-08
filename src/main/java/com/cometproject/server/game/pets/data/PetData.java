@@ -1,6 +1,6 @@
 package com.cometproject.server.game.pets.data;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 
 import java.sql.ResultSet;
@@ -103,7 +103,7 @@ public class PetData {
     }
 
     public String[] getSpeech() {
-        return GameEngine.getPets().getSpeech(this.typeId);
+        return CometManager.getPets().getSpeech(this.typeId);
     }
 
     public Position3D getRoomPosition() {

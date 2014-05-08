@@ -7,6 +7,6 @@ import com.cometproject.server.network.sessions.Session;
 public class LoadCategoriesMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         // Moved this to the login event
-        //client.send(RoomCategoriesMessageComposer.compose(GameEngine.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
+        //client.send(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
     }
 }

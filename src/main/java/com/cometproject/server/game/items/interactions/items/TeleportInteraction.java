@@ -1,6 +1,6 @@
 package com.cometproject.server.game.items.interactions.items;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.interactions.Interactor;
@@ -86,7 +86,7 @@ public class TeleportInteraction extends Interactor {
                 break;
 
             case 3:
-                pairId = GameEngine.getItems().getTeleportPartner(item.getId());
+                pairId = CometManager.getItems().getTeleportPartner(item.getId());
                 pairItem = ((FloorItem) item).getRoom().getItems().getFloorItem(pairId);
 
                 if (pairId == 0) {
@@ -95,10 +95,10 @@ public class TeleportInteraction extends Interactor {
                 }
 
                 if (pairItem == null) {
-                    int roomId = GameEngine.getItems().roomIdByItemId(pairId);
+                    int roomId = CometManager.getItems().roomIdByItemId(pairId);
 
                     // if room exists, we visit it!
-                    if (GameEngine.getRooms().get(roomId) != null) {
+                    if (CometManager.getRooms().get(roomId) != null) {
                         avatar.getPlayer().setTeleportId(pairId);
                         avatar.getPlayer().getSession().send(FollowFriendMessageComposer.compose(roomId));
                     }
@@ -111,7 +111,7 @@ public class TeleportInteraction extends Interactor {
                 break;
 
             case 4: // stop first portal from animating and animate 2nd portal
-                pairId = GameEngine.getItems().getTeleportPartner(item.getId());
+                pairId = CometManager.getItems().getTeleportPartner(item.getId());
                 pairItem = ((FloorItem) item).getRoom().getItems().getFloorItem(pairId);
 
                 if (pairItem != null) {

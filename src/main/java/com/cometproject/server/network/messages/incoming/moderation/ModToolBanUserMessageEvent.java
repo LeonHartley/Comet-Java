@@ -36,10 +36,10 @@ public class ModToolBanUserMessageEvent implements IEvent {
             ResultSet keys = statement.getGeneratedKeys();
 
             if (keys.next()) {
-                GameEngine.getBans().add(new Ban(keys.getInt(1), userId + "", expire, BanType.USER, reason));
+                CometManager.getBans().add(new Ban(keys.getInt(1), userId + "", expire, BanType.USER, reason));
             }
         } catch (SQLException e) {
-            GameEngine.getLogger().error("Error while banning player: " + userId, e);
+            CometManager.getLogger().error("Error while banning player: " + userId, e);
         }*/
     }
 }

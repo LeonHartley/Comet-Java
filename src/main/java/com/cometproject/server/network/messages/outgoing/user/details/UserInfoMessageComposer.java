@@ -28,7 +28,7 @@ public class UserInfoMessageComposer {
         msg.writeBoolean(true);
         msg.writeString(getDate(player.getData().getLastVisit()));
 
-        msg.writeBoolean(false);
+        msg.writeBoolean(true); // Change username?
         msg.writeBoolean(false);
         return msg;
     }

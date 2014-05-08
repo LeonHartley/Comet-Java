@@ -156,6 +156,8 @@ public class MessageHandler {
         this.getMessages().put(Events.WardrobeMessageEvent, new WardrobeMessageEvent());
         this.getMessages().put(Events.SaveWardrobeMessageEvent, new SaveWardrobeMessageEvent());
         this.getMessages().put(Events.ChangeHomeRoomMessageEvent, new ChangeHomeRoomMessageEvent());
+
+        this.getMessages().put(Events.ChangeUsernameCheckMessageEvent, new ChangeUsernameCheckMessageEvent());
     }
 
     public void registerBots() {

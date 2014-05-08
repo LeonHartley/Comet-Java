@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -19,7 +19,7 @@ public class TalkMessageEvent implements IEvent {
         String filteredMessage = filterMessage(message);
 
         if (client.getPlayer().getEntity().onChat(filteredMessage)) {
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), filteredMessage, GameEngine.getRooms().getEmotions().getEmotion(filteredMessage), colour));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), filteredMessage, CometManager.getRooms().getEmotions().getEmotion(filteredMessage), colour));
         }
     }
 

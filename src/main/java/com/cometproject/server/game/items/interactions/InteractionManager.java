@@ -1,7 +1,7 @@
 package com.cometproject.server.game.items.interactions;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.items.interactions.banzai.*;
 import com.cometproject.server.game.items.interactions.football.BallInteraction;
 import com.cometproject.server.game.items.interactions.items.*;
@@ -94,7 +94,7 @@ public class InteractionManager {
     }
 
     public void onInteract(int state, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
-        GameEngine.getLogger().debug("Interacted with: " + item.getDefinition().getInteraction());
+        CometManager.getLogger().debug("Interacted with: " + item.getDefinition().getInteraction());
 
         if (!this.isInteraction(item.getDefinition().getInteraction())) {
             return;
@@ -128,7 +128,7 @@ public class InteractionManager {
     }
 
     public void onTick(RoomItem item) {
-        GameEngine.getLogger().debug("GenericRoomItem tick: " + item.getDefinition().getInteraction());
+        CometManager.getLogger().debug("GenericRoomItem tick: " + item.getDefinition().getInteraction());
 
         if (!this.isInteraction(item.getDefinition().getInteraction())) {
             return;
