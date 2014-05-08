@@ -1,6 +1,5 @@
 package com.cometproject.server.game.players.types;
 
-import com.cometproject.server.game.GameEngine;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 

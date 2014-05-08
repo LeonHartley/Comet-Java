@@ -69,10 +69,10 @@ public class Events {
     public static short SetRelationshipMessageEvent = 1574;
     public static short CancelOfferMessageEvent = 1640;
     public static short BotInventoryMessageEvent = 2195;
-    public static short PlaceBotMessageEvent = 2107; // TODO: Check this!
+    public static short PlaceBotMessageEvent = 2107;
     public static short UsersWithRightsMessageEvent = 0; // TODO
     public static short GetBannedUsersMessageEvent = 0;
-    public static short ModToolUserInfoMessageEvent = 0; // TODO: Check this!
+    public static short ModToolUserInfoMessageEvent = 0; // TODO: this
     public static short ModToolUserChatlogMessageEvent = 0; // TODO
     public static short ModToolRoomChatlogMessageEvent = 1987; // TODO
     public static short ModToolBanUserMessageEvent = 0; // TODO
@@ -81,7 +81,7 @@ public class Events {
     public static short BadgeInventoryMessageEvent = 889;
     public static short UserBadgesMessageEvent = 1956;
     public static short BuyGroupMessageEvent = 3291;
-    public static short BuyGroupDialogMessageEvent = 2706; // TODO: Check this!
+    public static short BuyGroupDialogMessageEvent = 2706;
     public static short PetRacesMessageEvent = 276;
     public static short ExchangeItemMessageEvent = 3440;
     public static short ModifyBotMessageEvent = 2742;
@@ -119,6 +119,8 @@ public class Events {
     public static short RefreshPromoArticlesMessageEvent = 2142;
     public static short AnswerDoorBellMessageEvent = 1093;
     public static short LoadRoomByDoorBellMessageEvent = 1127;
+    public static short ChangeUsernameCheckMessageEvent = 3061;
+    public static short SaveFloorMessageEvent = 2200;
 
     public static String valueOfId(int i) {
         Events e = new Events();

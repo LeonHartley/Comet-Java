@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CataIndexMessageComposer {
     public static Composer compose(int rank) {
-        List<CatalogPage> pages = GameEngine.getCatalog().getPagesForRank(rank);
+        List<CatalogPage> pages = CometManager.getCatalog().getPagesForRank(rank);
 
         Composer msg = new Composer(Composers.CataIndexMessageComposer);
 

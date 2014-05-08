@@ -14,7 +14,7 @@ import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChangeFloorItemPositionMessageEvent implements IEvent {
+public class  ChangeFloorItemPositionMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int id = msg.readInt();
         int x = msg.readInt();
@@ -39,6 +39,8 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                             height += stackItem.getDefinition().getHeight();
                             //height += stackItem.getHeight() + stackItem.getDefinition().getHeight();
                         } else {
+                            // Hacky fix to send feedback to player if they can't move their item to new position :P
+                            client.send(UpdateFloorItemMessageComposer.compose(item, room.getData().getOwnerId()));
                             return;
                         }
                     }

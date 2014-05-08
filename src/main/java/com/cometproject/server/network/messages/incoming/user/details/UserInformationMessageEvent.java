@@ -27,7 +27,7 @@ public class UserInformationMessageEvent implements IEvent {
 
         client.send(AchievementPointsMessageComposer.compose(client.getPlayer().getData().getAchievementPoints()));
 
-        client.send(LoadFriendsMessageComposer.compose(client.getPlayer().getMessenger().getFriends()));
+        client.send(LoadFriendsMessageComposer.compose(client.getPlayer().getMessenger().getFriends(), client.getPlayer().getPermissions().hasPermission("staff_chat")));
         client.send(FriendRequestsMessageComposer.compose(client.getPlayer().getMessenger().getRequests()));
 
         client.send(BadgeInventoryMessageComposer.compose(client.getPlayer().getInventory().getBadges()));

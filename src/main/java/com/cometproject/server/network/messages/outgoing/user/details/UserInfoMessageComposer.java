@@ -28,12 +28,12 @@ public class UserInfoMessageComposer {
         msg.writeBoolean(true);
         msg.writeString(getDate(player.getData().getLastVisit()));
 
-        msg.writeBoolean(false);
+        msg.writeBoolean(false); // can change username
         msg.writeBoolean(false);
         return msg;
     }
 
-    private static String getDate(int timestamp) {
+    public static String getDate(int timestamp) {
         Date d = new Date(timestamp * 1000L);
         SimpleDateFormat df = new SimpleDateFormat("MMM d 'at' HH:mm");
         df.setTimeZone(TimeZone.getTimeZone("GMT"));

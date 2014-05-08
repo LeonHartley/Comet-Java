@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
@@ -188,7 +188,7 @@ public class ItemsComponent {
             RoomItemDao.deleteItem(item.getId());
         }
 
-        if (GameEngine.getWired().isWiredItem(item)) {
+        if (CometManager.getWired().isWiredItem(item)) {
             WiredDataInstance instance = WiredDataFactory.get(item);
 
             WiredDao.deleteWiredData(item.getId());

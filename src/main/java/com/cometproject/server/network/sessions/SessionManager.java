@@ -1,10 +1,13 @@
 package com.cometproject.server.network.sessions;
 
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.network.messages.types.Composer;
 import javolution.util.FastMap;
+import javolution.util.FastSet;
 import org.jboss.netty.channel.Channel;
 
 import java.util.Map;
+import java.util.Set;
 
 public class SessionManager {
 
@@ -60,6 +63,22 @@ public class SessionManager {
         }
 
         return null;
+    }
+
+    public Set<Session> getbyPlayerPermission(String permission) {
+        Set<Session> sessions = new FastSet<>();
+
+        int rank = CometManager.getPermissions().getPermissions().get(permission).getRank();
+
+        for (Map.Entry<Integer, Session> session : this.sessions.entrySet()) {
+            if (session.getValue().getPlayer() != null) {
+                if (session.getValue().getPlayer().getData().getRank() >= rank) {
+                    sessions.add(session.getValue());
+                }
+            }
+        }
+
+        return sessions;
     }
 
     public Session getByPlayerUsername(String username) {

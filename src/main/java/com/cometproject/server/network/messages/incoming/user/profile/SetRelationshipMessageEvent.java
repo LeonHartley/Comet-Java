@@ -38,7 +38,7 @@ public class SetRelationshipMessageEvent implements IEvent {
                 relationships.getRelationships().put(user, RelationshipLevel.getLevel(levelString));
             }
         } catch (Exception e) {
-            GameEngine.getLogger().error("Error while setting relationship", e);
+            CometManager.getLogger().error("Error while setting relationship", e);
         }*/
     }
 }

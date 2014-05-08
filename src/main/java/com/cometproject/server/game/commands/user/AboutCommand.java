@@ -3,7 +3,7 @@ package com.cometproject.server.game.commands.user;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -28,7 +28,7 @@ public class AboutCommand extends ChatCommand {
                 about.append("Users online: " + format.format(Comet.getServer().getNetwork().getSessions().getUsersOnlineCount()) + "<br>");
 
             if (CometSettings.showActiveRoomsInAbout || client.getPlayer().getPermissions().hasPermission("about_detailed"))
-                about.append("Loaded rooms: " + format.format(GameEngine.getRooms().getActiveRooms().size()) + "<br>");
+                about.append("Loaded rooms: " + format.format(CometManager.getRooms().getActiveRooms().size()) + "<br>");
 
             if (CometSettings.showUptimeInAbout || client.getPlayer().getPermissions().hasPermission("about_detailed"))
                 about.append("Uptime: " + TimeSpan.millisecondsToDate(System.currentTimeMillis() - Comet.start) + "<br>");

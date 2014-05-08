@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.items;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateWallItemMessageComposer;
@@ -88,7 +88,7 @@ public class WallItem extends RoomItem {
 
     public Room getRoom() {
         if (this.room == null || this.room.get() == null) {
-            this.room = new WeakReference<>(GameEngine.getRooms().get(this.roomId));
+            this.room = new WeakReference<>(CometManager.getRooms().get(this.roomId));
         }
 
         return this.room.get();
@@ -110,7 +110,7 @@ public class WallItem extends RoomItem {
 
     @Override
     public ItemDefinition getDefinition() {
-        return GameEngine.getItems().getDefintion(this.getItemId());
+        return CometManager.getItems().getDefintion(this.getItemId());
     }
 
     @Override

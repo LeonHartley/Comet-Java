@@ -172,11 +172,11 @@ public class ProcessComponent implements CometTask {
         }
 
         // Handle flood
-        if (entity.getPlayer().floodTime >= 0.5) {
-            entity.getPlayer().floodTime -= 0.5;
+        if (entity.getPlayer().getFloodTime() >= 0.5) {
+            entity.getPlayer().setFloodTime(entity.getPlayer().getFloodTime() - 0.5);
 
-            if (entity.getPlayer().floodTime < 0) {
-                entity.getPlayer().floodTime = 0;
+            if (entity.getPlayer().getFloodTime() < 0) {
+                entity.getPlayer().setFloodTime(0);
             }
         }
 

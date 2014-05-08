@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
@@ -37,12 +37,12 @@ public class RoomCycle implements CometTask {
 
             long start = System.currentTimeMillis();
 
-            if (GameEngine.getRooms() == null) {
+            if (CometManager.getRooms() == null) {
                 // we've tried to cycle through the rooms but we haven't finished setting the environment up yet!
                 return;
             }
 
-            for (Room room : GameEngine.getRooms().getActiveRooms()) {
+            for (Room room : CometManager.getRooms().getActiveRooms()) {
                 if (room == null) continue;
 
                 try {

@@ -6,7 +6,7 @@ import com.cometproject.server.network.sessions.Session;
 
 public class HelpTicketMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        /*boolean hasActiveTicket = GameEngine.getModeration().getTicketByUserId(client.getPlayer().getId()) != null;
+        /*boolean hasActiveTicket = CometManager.getModeration().getTicketByUserId(client.getPlayer().getId()) != null;
 
         if (hasActiveTicket) {
             client.send(AdvancedAlertMessageComposer.compose(Locale.get("help.ticket.pending.title"), Locale.get("help.ticket.pending.message")));
@@ -36,10 +36,10 @@ public class HelpTicketMessageEvent implements IEvent {
             ResultSet keys = statement.getGeneratedKeys();
 
             if (keys.next()) {
-                GameEngine.getModeration().addTicket(new HelpTicket(keys.getInt(1), client.getPlayer().getId(), reportedId, category, message, roomId));
+                CometManager.getModeration().addTicket(new HelpTicket(keys.getInt(1), client.getPlayer().getId(), reportedId, category, message, roomId));
             }
         } catch (SQLException e) {
-            GameEngine.getLogger().error("Error while inserting help ticket", e);
+            CometManager.getLogger().error("Error while inserting help ticket", e);
         }
 
         client.send(TicketSentMessageComposer.compose());

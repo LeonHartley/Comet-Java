@@ -1,6 +1,6 @@
 package com.cometproject.server.game.players.types;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.data.PlayerLoader;
@@ -37,11 +37,11 @@ public class Player {
 
     private List<Integer> rooms = new ArrayList<>();
 
-    public long lastMessage = 0;
-    public double floodTime = 0;
-    public int floodFlag = 0;
+    private long lastMessageTime = 0;
+    private double floodTime = 0;
+    private int floodFlag = 0;
     private int teleportId = 0;
-
+    private String lastMessage = "";
 
     public Player(int id) {
         this.id = id;
@@ -100,7 +100,7 @@ public class Player {
             setAvatar(null);
         }
 
-        Room room = GameEngine.getRooms().get(id);
+        Room room = CometManager.getRooms().get(id);
 
         if (room == null) {
             session.send(HotelViewMessageComposer.compose());
@@ -195,5 +195,37 @@ public class Player {
 
     public void setTeleportId(int teleportId) {
         this.teleportId = teleportId;
+    }
+
+    public long getLastMessageTime() {
+        return lastMessageTime;
+    }
+
+    public void setLastMessageTime(long lastMessageTime) {
+        this.lastMessageTime = lastMessageTime;
+    }
+
+    public double getFloodTime() {
+        return floodTime;
+    }
+
+    public void setFloodTime(double floodTime) {
+        this.floodTime = floodTime;
+    }
+
+    public int getFloodFlag() {
+        return floodFlag;
+    }
+
+    public void setFloodFlag(int floodFlag) {
+        this.floodFlag = floodFlag;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
     }
 }

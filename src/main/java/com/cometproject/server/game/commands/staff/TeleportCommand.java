@@ -8,14 +8,13 @@ public class TeleportCommand extends ChatCommand {
 
     @Override
     public void execute(Session client, String[] message) {
-        // TODO: Teleporting
-        /*if(client.getPlayer().getEntity().getIsTeleporting()) {
-            client.getPlayer().getEntity().setIsTeleporting(false);
-            client.send(WisperMessageComposer.compose(client.getPlayer().getId(), Locale.get("command.teleport.disabled")));
+        if(client.getPlayer().getEntity().hasAttribute("teleport")) {
+            client.getPlayer().getEntity().removeAttribute("teleport");
+            sendChat(Locale.get("command.teleport.disabled"), client);
         } else {
-            client.getPlayer().getEntity().setIsTeleporting(true);
-            client.send(WisperMessageComposer.compose(client.getPlayer().getId(), Locale.get("command.teleport.enabled")));
-        }*/
+            client.getPlayer().getEntity().setAttribute("teleport", true);
+            sendChat(Locale.get("command.teleport.enabled"), client);
+        }
     }
 
     @Override
