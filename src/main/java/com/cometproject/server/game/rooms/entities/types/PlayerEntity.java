@@ -1,7 +1,6 @@
 package com.cometproject.server.game.rooms.entities.types;
 
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
@@ -10,10 +9,9 @@ import com.cometproject.server.game.rooms.entities.PlayerEntityAccess;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.game.wired.types.TriggerType;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
-import com.cometproject.server.network.messages.outgoing.room.alerts.PasswordIncorrectComposer;
+import com.cometproject.server.network.messages.outgoing.room.alerts.RoomErrorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomFullMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
@@ -24,11 +22,15 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.Access
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.utilities.attributes.Attributable;
+import javolution.util.FastMap;
 
 import java.util.Map;
 
-public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
+public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, Attributable {
     private Player player;
+
+    private Map<String, Object> attributes = new FastMap<>();
 
     public PlayerEntity(Player player, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
@@ -64,7 +66,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
 
         if (!isOwner && !this.player.getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered()) {
             if (this.getRoom().getData().getAccess().equals("password") && !this.getRoom().getData().getPassword().equals(password)) {
-                this.player.getSession().send(PasswordIncorrectComposer.compose());
+                this.player.getSession().send(RoomErrorMessageComposer.compose(-100002));
                 this.player.getSession().send(HotelViewMessageComposer.compose());
                 return;
             } else if (this.getRoom().getData().getAccess().equals("doorbell")) {
@@ -126,6 +128,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
         if (!isOffline && toHotelView) {
             this.getPlayer().getSession().send(HotelViewMessageComposer.compose());
             this.getPlayer().getSession().getPlayer().getMessenger().sendStatus(true, false);
+        }
+
+        if(isKick && !isOffline) {
+            this.getPlayer().getSession().send(RoomErrorMessageComposer.compose(4008));
         }
 
         // Also could be useful for bot trading etc
@@ -286,5 +292,30 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     @Deprecated
     public void dispose() {
         this.leaveRoom(true, false, false);
+        this.attributes.clear();
+    }
+
+    @Override
+    public void setAttribute(String attributeKey, Object attributeValue) {
+        if (this.attributes.containsKey(attributeKey)) {
+            this.attributes.replace(attributeKey, attributeValue);
+        } else {
+            this.attributes.put(attributeKey, attributeValue);
+        }
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+        return this.attributes.get(attributeKey);
+    }
+
+    @Override
+    public boolean hasAttribute(String attributeKey) {
+        return this.attributes.containsKey(attributeKey);
+    }
+
+    @Override
+    public void removeAttribute(String attributeKey) {
+        this.attributes.remove(attributeKey);
     }
 }

@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.types;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.components.*;
 import com.cometproject.server.game.rooms.types.mapping.RoomMapping;
 import org.apache.log4j.Logger;
@@ -34,7 +35,12 @@ public class Room {
     public Room(RoomData data) {
         this.id = data.getId();
         this.data = data;
-        this.model = CometManager.getRooms().getModel(data.getModel());
+
+        if(data.getHeightmap() != null) {
+            // Dynamic model!!
+        } else {
+            this.model = CometManager.getRooms().getModel(data.getModel());
+        }
 
         this.log = Logger.getLogger("Room \"" + this.getData().getName() + "\"");
         this.isActive = false;
