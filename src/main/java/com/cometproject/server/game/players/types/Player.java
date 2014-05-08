@@ -41,7 +41,7 @@ public class Player {
     private double floodTime = 0;
     private int floodFlag = 0;
     private int teleportId = 0;
-    private String lastMessage;
+    private String lastMessage = "";
 
     public Player(int id) {
         this.id = id;
