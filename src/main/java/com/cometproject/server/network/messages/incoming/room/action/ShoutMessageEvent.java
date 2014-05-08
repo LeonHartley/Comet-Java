@@ -17,6 +17,10 @@ public class ShoutMessageEvent implements IEvent {
 
         String filteredMessage = TalkMessageEvent.filterMessage(message);
 
+        if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
+            filteredMessage = CometManager.getRooms().getFilter().filter(message);
+        }
+
         if (client.getPlayer().getEntity().onChat(filteredMessage)) {
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), filteredMessage, CometManager.getRooms().getEmotions().getEmotion(filteredMessage), colour));
         }

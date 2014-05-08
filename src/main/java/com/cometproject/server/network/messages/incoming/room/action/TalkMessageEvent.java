@@ -18,6 +18,10 @@ public class TalkMessageEvent implements IEvent {
 
         String filteredMessage = filterMessage(message);
 
+        if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
+            filteredMessage = CometManager.getRooms().getFilter().filter(message);
+        }
+
         if (client.getPlayer().getEntity().onChat(filteredMessage)) {
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), filteredMessage, CometManager.getRooms().getEmotions().getEmotion(filteredMessage), colour));
         }
