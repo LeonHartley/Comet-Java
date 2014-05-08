@@ -36,6 +36,8 @@ public class FurnitureLayout {
     private String subscriber;
     private String heightAdjustable;
 
+    private int revision;
+
     public FurnitureLayout(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
         this.publicName = data.getString("public_name");
@@ -65,6 +67,8 @@ public class FurnitureLayout {
         this.stackMultiplier = data.getString("stack_multiplier");
         this.subscriber = data.getString("subscriber");
         this.heightAdjustable = data.getString("height_adjustable");
+
+        this.revision = data.getInt("revision");
     }
 
     public int getId() {
@@ -140,6 +144,10 @@ public class FurnitureLayout {
     }
 
     public String getCanSit() {
+        if (canSit.equals("")) {
+            return "0";
+        }
+
         return canSit;
     }
 
@@ -148,6 +156,10 @@ public class FurnitureLayout {
     }
 
     public String getCanWalk() {
+        if (canWalk.equals("")) {
+            return "0";
+        }
+
         return canWalk;
     }
 
@@ -156,6 +168,10 @@ public class FurnitureLayout {
     }
 
     public String getCanTrade() {
+        if (canTrade.equals("")) {
+            return "0";
+        }
+
         return canTrade;
     }
 
@@ -164,6 +180,10 @@ public class FurnitureLayout {
     }
 
     public String getCanInventoryStack() {
+        if (canInventoryStack.equals("")) {
+            return "0";
+        }
+
         return canInventoryStack;
     }
 
@@ -180,6 +200,10 @@ public class FurnitureLayout {
     }
 
     public String getInteraction() {
+        if (interaction.equals("")) {
+            return "default";
+        }
+
         return interaction;
     }
 
@@ -188,6 +212,10 @@ public class FurnitureLayout {
     }
 
     public int getInteractionCycleCount() {
+        if (interaction.equals("") || interaction.equals("default")) {
+            return 0;
+        }
+
         return interactionCycleCount;
     }
 
@@ -196,6 +224,10 @@ public class FurnitureLayout {
     }
 
     public String getVendingIds() {
+        if (vendingIds.equals("")) {
+            return "0";
+        }
+
         return vendingIds;
     }
 
@@ -204,6 +236,10 @@ public class FurnitureLayout {
     }
 
     public String getAllowRecycle() {
+        if (allowRecycle.equals("")) {
+            return "0";
+        }
+
         return allowRecycle;
     }
 
@@ -212,6 +248,10 @@ public class FurnitureLayout {
     }
 
     public String getAllowMarketplaceSell() {
+        if (allowMarketplaceSell.equals("")) {
+            return "0";
+        }
+
         return allowMarketplaceSell;
     }
 
@@ -220,6 +260,10 @@ public class FurnitureLayout {
     }
 
     public String getAllowGift() {
+        if (allowGift.equals("")) {
+            return "0";
+        }
+
         return allowGift;
     }
 
@@ -228,6 +272,10 @@ public class FurnitureLayout {
     }
 
     public String getIsArrow() {
+        if (isArrow.equals("")) {
+            return "0";
+        }
+
         return isArrow;
     }
 
@@ -236,6 +284,10 @@ public class FurnitureLayout {
     }
 
     public String getFootFigure() {
+        if (footFigure.equals("")) {
+            return "0";
+        }
+
         return footFigure;
     }
 
@@ -244,6 +296,10 @@ public class FurnitureLayout {
     }
 
     public String getStackMultiplier() {
+        if (stackMultiplier.equals("")) {
+            return "0";
+        }
+
         return stackMultiplier;
     }
 
@@ -252,6 +308,10 @@ public class FurnitureLayout {
     }
 
     public String getSubscriber() {
+        if (subscriber.equals("")) {
+            return "0";
+        }
+
         return subscriber;
     }
 
@@ -260,10 +320,22 @@ public class FurnitureLayout {
     }
 
     public String getHeightAdjustable() {
+        if (heightAdjustable.equals("")) {
+            return "0";
+        }
+
         return heightAdjustable;
     }
 
     public void setHeightAdjustable(String heightAdjustable) {
         this.heightAdjustable = heightAdjustable;
+    }
+
+    public int getRevision() {
+        return revision;
+    }
+
+    public void setRevision(int revision) {
+        this.revision = revision;
     }
 }

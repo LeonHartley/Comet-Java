@@ -36,6 +36,8 @@ public class CatalogTool {
     private HashSet<CatalogPagesLayout> catalogPagesLayouts = new LinkedHashSet<>();
     private HashSet<CatalogItemsLayout> catalogItemsLayouts = new LinkedHashSet<>();
 
+    private static FurnitureLayout curr;
+
     private boolean init() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -121,12 +123,12 @@ public class CatalogTool {
                     "  `interaction_type` enum('default','gate','postit','roomeffect','dimmer','trophy','bed','scoreboard','vendingmachine','alert','onewaygate','loveshuffler','habbowheel','dice','bottle','teleport','rentals','pet','roller','water','ball','bb_red_gate','bb_green_gate','bb_yellow_gate','bb_puck','bb_blue_gate','bb_patch','bb_teleport','blue_score','green_score','red_score','yellow_score','fbgate','tagpole','banzaicounter','red_goal','blue_goal','yellow_goal','green_goal','wired','wf_trg_onsay','wf_act_saymsg','wf_trg_enterroom','wf_act_moveuser','wf_act_togglefurni','wf_trg_furnistate','wf_trg_onfurni','pressure_pad','wf_trg_offfurni','wf_trg_gameend','wf_trg_gamestart','wf_trg_timer','wf_act_givepoints','wf_trg_attime','wf_trg_atscore','wf_act_moverotate','rollerskate','stickiepole','wf_xtra_random','wf_cnd_trggrer_on_frn','wf_cnd_furnis_hv_avtrs','wf_act_matchfurni','wf_cnd_has_furni_on','puzzlebox','switch','wf_act_give_phx','wf_cnd_phx','conditionfurnihasfurni','mannequin','gld_item','pet19','pet18','pet17','pet16','pet15','pet14','pet13','pet12','pet11','pet10','pet9','pet8','pet7','pet6','pet5','pet4','pet3','pet2','pet1','pet0','gift','roombg','hopper','bot1','snowhill') NOT NULL DEFAULT 'default',\n" +
                     "  `interaction_modes_count` int(11) NOT NULL DEFAULT '1',\n" +
                     "  `vending_ids` varchar(100) NOT NULL DEFAULT '0',\n" +
-                    "  `is_arrow` enum('0','1') NOT NULL DEFAULT '0',\n" +
                     "  `foot_figure` enum('0','1') NOT NULL DEFAULT '0',\n" +
                     "  `stack_multiplier` enum('0','1') NOT NULL DEFAULT '0',\n" +
                     "  `subscriber` enum('0','1') NOT NULL DEFAULT '0',\n" +
                     "  `effectid` int(11) NOT NULL DEFAULT '0',\n" +
                     "  `height_adjustable` varchar(100) NOT NULL DEFAULT '0',\n" +
+                    "  `revision` int(11) NOT NULL DEFAULT '1',\n" +
                     "  PRIMARY KEY (`id`)\n" +
                     ") ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;").execute();
 
@@ -191,6 +193,18 @@ public class CatalogTool {
 
                 // update all corresponding catalog items
                 for (CatalogItemsLayout catalogItemsLayout : this.catalogItemsLayouts) {
+
+                    if(catalogItemsLayout.getItemId().contains(",")) {
+                        System.out.println("!!!!! item has , !!!!!!!");
+                    }
+
+                    Integer id = Integer.parseInt(catalogItemsLayout.getItemId());
+
+                    if (id == oldId) {
+                        catalogItemsLayout.setItemId(Integer.toString(newFurnitureLayoutId));
+                    }
+
+                    /*
                     // lets sort out ids first...
                     HashSet<String> itemIds = new LinkedHashSet<>();
                     if (catalogItemsLayout.getItemId().contains(",")) {
@@ -206,7 +220,7 @@ public class CatalogTool {
                     HashSet<String> updatedItemIds = new LinkedHashSet<>();
 
                     for (String itemIdl : itemIds) {
-                        if (itemIdl.equals(oldId)) {
+                        if (Integer.parseInt(itemIdl) == oldId) {
                             updatedItemIds.add(Integer.toString(newFurnitureLayoutId));
                         } else {
                             updatedItemIds.add(itemIdl);
@@ -224,7 +238,7 @@ public class CatalogTool {
                     }
 
                     // finally lets store it back!
-                    catalogItemsLayout.setItemId(sb.toString());
+                    catalogItemsLayout.setItemId(sb.toString());*/
                 }
             }
 
@@ -248,14 +262,12 @@ public class CatalogTool {
                     if (pageId == oldId) {
                         catalogItemsLayout.setPageId(newCatalogPageId);
                     }
-                }
 
-                // update all parent page ids
-                for (CatalogPagesLayout catalogPagesLayout1 : this.catalogPagesLayouts) {
-                    int parentPageId = catalogPagesLayout1.getParentId();
+                    // update parent ids
+                    int parentPageId = catalogPagesLayout.getParentId();
 
                     if (parentPageId == oldId) {
-                        catalogPagesLayout1.setParentId(newCatalogPageId);
+                        catalogPagesLayout.setParentId(newCatalogPageId);
                     }
                 }
             }
@@ -266,7 +278,9 @@ public class CatalogTool {
             System.out.println("Inserting data into new tables..");
 
             for (FurnitureLayout furnitureLayout : this.furniLayouts) {
-                PreparedStatement statement = this.sqlConnection.prepareStatement("INSERT INTO `" + furnitureTable + "` (id,public_name,item_name,type,width,length,stack_height,can_stack,can_sit,is_walkable,sprite_id,allow_recycle,allow_trade,allow_marketplace_sell,allow_gift,allow_inventory_stack,interaction_type,interaction_modes_count,vending_ids,is_arrow,foot_figure,stack_multiplier,subscriber,effectid,height_adjustable) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+                curr = furnitureLayout;
+
+                PreparedStatement statement = this.sqlConnection.prepareStatement("INSERT IGNORE INTO `" + furnitureTable + "` (id,public_name,item_name,type,width,length,stack_height,can_stack,can_sit,is_walkable,sprite_id,allow_recycle,allow_trade,allow_marketplace_sell,allow_gift,allow_inventory_stack,interaction_type,interaction_modes_count,vending_ids,foot_figure,stack_multiplier,subscriber,effectid,height_adjustable,revision) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
                 statement.setInt(1, furnitureLayout.getId());
                 statement.setString(2, furnitureLayout.getPublicName());
                 statement.setString(3, furnitureLayout.getItemName());
@@ -286,20 +300,81 @@ public class CatalogTool {
                 statement.setString(17, furnitureLayout.getInteraction());
                 statement.setInt(18, furnitureLayout.getInteractionCycleCount());
                 statement.setString(19, furnitureLayout.getVendingIds());
-                statement.setString(20, furnitureLayout.getIsArrow());
-                statement.setString(21, furnitureLayout.getFootFigure());
-                statement.setString(22, furnitureLayout.getStackMultiplier());
-                statement.setString(23, furnitureLayout.getSubscriber());
-                statement.setInt(24, furnitureLayout.getEffectId());
-                statement.setString(25, furnitureLayout.getHeightAdjustable());
+                statement.setString(20, furnitureLayout.getFootFigure());
+                statement.setString(21, furnitureLayout.getStackMultiplier());
+                statement.setString(22, furnitureLayout.getSubscriber());
+                statement.setInt(23, furnitureLayout.getEffectId());
+                statement.setString(24, furnitureLayout.getHeightAdjustable());
+                statement.setInt(25, furnitureLayout.getRevision());
                 statement.execute();
             }
 
             System.out.println("Furniture inserted!");
             System.out.println();
 
+            System.out.println("Inserting catalog pages!");
+
+            for (CatalogPagesLayout pagesLayout : this.catalogPagesLayouts) {
+                PreparedStatement statement = this.sqlConnection.prepareStatement("INSERT IGNORE INTO `" + catalogPagesTable + "` (id,parent_id,caption,icon_color,icon_image,visible,enabled,min_rank,club_only,order_num,page_layout,page_headline,page_teaser,page_special,page_text1,page_text2,min_sub,page_text_details,page_text_teaser,vip_only,page_link_description,page_link_pagename) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+                statement.setInt(1, pagesLayout.getId());
+                statement.setInt(2, pagesLayout.getParentId());
+                statement.setString(3, pagesLayout.getCaption());
+                statement.setInt(4, pagesLayout.getIconColour());
+                statement.setInt(5, pagesLayout.getIconImage());
+                statement.setString(6, pagesLayout.getVisible());
+                statement.setString(7, pagesLayout.getEnabled());
+                statement.setInt(8, pagesLayout.getMinRank());
+                statement.setString(9, pagesLayout.getClubOnly());
+                statement.setInt(10, pagesLayout.getOrderNum());
+                statement.setString(11, pagesLayout.getTemplate());
+                statement.setString(12, pagesLayout.getHeadline());
+                statement.setString(13, pagesLayout.getTeaser());
+                statement.setString(14, pagesLayout.getSpecial());
+                statement.setString(15, pagesLayout.getPageText1());
+                statement.setString(16, pagesLayout.getPageText2());
+                statement.setInt(17, pagesLayout.getMinSub());
+                statement.setString(18, pagesLayout.getPageTextDetails());
+                statement.setString(19, pagesLayout.getPageTextTeaser());
+                statement.setString(20, pagesLayout.getVipOnly());
+                statement.setString(21, pagesLayout.getPagelinkDesc());
+                statement.setString(22, pagesLayout.getPagelinkName());
+                statement.execute();
+            }
+
+            System.out.println("Catalog pages inserted!");
+            System.out.println();
+
+            System.out.println("Inserting catalog items!");
+
+            for (CatalogItemsLayout catalogItemsLayout : this.catalogItemsLayouts) {
+                PreparedStatement statement = this.sqlConnection.prepareStatement("INSERT IGNORE INTO `" + catalogItemsTable + "` (id,page_id,item_ids,catalog_name,cost_credits,cost_pixels,cost_snow,amount,vip,achievement,song_id,limited_sells,limited_stack,offer_active,extradata,badge_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+                statement.setInt(1, catalogItemsLayout.getId());
+                statement.setInt(2, catalogItemsLayout.getPageId());
+                statement.setString(3, catalogItemsLayout.getItemId());
+                statement.setString(4, catalogItemsLayout.getCatalogName());
+                statement.setInt(5, catalogItemsLayout.getCostCredits());
+                statement.setInt(6, catalogItemsLayout.getCostActivityPoints());
+                statement.setInt(7, catalogItemsLayout.getCostSnow());
+                statement.setInt(8, catalogItemsLayout.getAmount());
+                statement.setString(9, catalogItemsLayout.getVip());
+                statement.setInt(10, catalogItemsLayout.getAchievement());
+                statement.setInt(11, catalogItemsLayout.getSongId());
+                statement.setInt(12, catalogItemsLayout.getLimitedSells());
+                statement.setInt(13, catalogItemsLayout.getLimitedStack());
+                statement.setString(14, catalogItemsLayout.getAllowOffer());
+                statement.setString(15, catalogItemsLayout.getExtraData());
+                statement.setString(16, catalogItemsLayout.getBadgeId());
+                statement.execute();
+            }
+
+            System.out.println("Catalog items inserted!");
+            System.out.println();
+
+            System.out.println("Catalog items, pages and furniture has been sorted!");
+
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("ID : " + curr.getId() + " INTERACTION : " + curr.getInteraction());
             return false;
         }
 
