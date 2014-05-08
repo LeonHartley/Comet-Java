@@ -1,7 +1,10 @@
 package com.cometproject.server.network.messages.incoming.room.floor;
 
+import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -18,5 +21,8 @@ public class SaveFloorMessageEvent implements IEvent {
         }
 
         room.getData().setHeightmap(model);
+
+        client.send(AdvancedAlertMessageComposer.compose("Model saved", Locale.get("command.floor.complete")));
+        CometManager.getRooms().getGlobalProcessor().requestUnload(room.getId());
     }
 }

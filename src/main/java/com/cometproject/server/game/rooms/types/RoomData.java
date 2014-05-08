@@ -67,7 +67,7 @@ public class RoomData {
         this.heightmap = room.getString("heightmap");
     }
 
-    public void save() throws SQLException {
+    public void save() {
         String tagString = "";
 
         for (int i = 0; i < tags.length; i++) {
