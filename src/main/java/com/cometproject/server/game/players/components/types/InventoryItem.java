@@ -1,6 +1,6 @@
 package com.cometproject.server.game.players.components.types;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.types.Composer;
@@ -58,7 +58,7 @@ public class InventoryItem {
     }
 
     public ItemDefinition getDefinition() {
-        return GameEngine.getItems().getDefintion(this.getBaseId());
+        return CometManager.getItems().getDefintion(this.getBaseId());
     }
 
     public int getBaseId() {

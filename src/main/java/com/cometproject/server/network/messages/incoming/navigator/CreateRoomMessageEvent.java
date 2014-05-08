@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.navigator;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.CreateRoomMessageComposer;
@@ -12,12 +12,12 @@ public class CreateRoomMessageEvent implements IEvent {
         String name = msg.readString();
         String model = msg.readString();
 
-        if (GameEngine.getRooms().getModel(model) == null) {
+        if (CometManager.getRooms().getModel(model) == null) {
             client.send(MotdNotificationComposer.compose("Invalid room model"));
             return;
         }
 
-        int roomId = GameEngine.getRooms().createRoom(name, model, client);
+        int roomId = CometManager.getRooms().createRoom(name, model, client);
 
         client.send(CreateRoomMessageComposer.compose(roomId, name));
     }

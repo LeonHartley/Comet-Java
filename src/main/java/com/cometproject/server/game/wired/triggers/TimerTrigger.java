@@ -1,6 +1,6 @@
 package com.cometproject.server.game.wired.triggers;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
@@ -25,9 +25,9 @@ public class TimerTrigger extends WiredTrigger {
 
         for (FloorItem item : room.getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {
             // TODO: check for condition
-            if (GameEngine.getWired().isWiredEffect(item)) {
+            if (CometManager.getWired().isWiredEffect(item)) {
                 try {
-                    GameEngine.getWired().getEffect(item.getDefinition().getInteraction()).onActivate(entities, item);
+                    CometManager.getWired().getEffect(item.getDefinition().getInteraction()).onActivate(entities, item);
                     item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, null, 0, 0));
                 } catch (Exception ignored) {
 

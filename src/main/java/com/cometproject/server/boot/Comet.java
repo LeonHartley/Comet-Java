@@ -2,7 +2,7 @@ package com.cometproject.server.boot;
 
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -65,7 +65,7 @@ public class Comet {
                                 case "/about":
                                     Comet.log.info("This server is powered by Comet (" + Comet.getBuild() + ")");
                                     Comet.log.info("    Users online: " + Comet.getServer().getNetwork().getSessions().getUsersOnlineCount());
-                                    Comet.log.info("    Rooms online: " + GameEngine.getRooms().getActiveRooms().size());
+                                    Comet.log.info("    Rooms online: " + CometManager.getRooms().getActiveRooms().size());
                                     break;
 
                                 case "/reload_messages":
@@ -85,25 +85,25 @@ public class Comet {
                                     break;
 
                                 case "/reload_permissions":
-                                    GameEngine.getPermissions().loadCommands();
-                                    GameEngine.getPermissions().loadPerks();
-                                    GameEngine.getPermissions().loadPermissions();
+                                    CometManager.getPermissions().loadCommands();
+                                    CometManager.getPermissions().loadPerks();
+                                    CometManager.getPermissions().loadPermissions();
                                     Comet.log.info("Permissions cache was reloaded.");
                                     break;
 
                                 case "/reload_catalog":
-                                    GameEngine.getCatalog().loadPages();
+                                    CometManager.getCatalog().loadPages();
                                     Comet.log.info("Catalog cache was reloaded.");
                                     break;
 
                                 case "/reload_bans":
-                                    GameEngine.getBans().loadBans();
+                                    CometManager.getBans().loadBans();
                                     Comet.log.info("Bans were reloaded.");
                                     break;
 
                                 case "/reload_navigator":
-                                    GameEngine.getNavigator().loadFeaturedRooms();
-                                    GameEngine.getNavigator().loadCategories();
+                                    CometManager.getNavigator().loadFeaturedRooms();
+                                    CometManager.getNavigator().loadCategories();
                                     Comet.log.info("Navigator was reloaded.");
                                     break;
 
@@ -131,11 +131,11 @@ public class Comet {
 
                 isRunning = false;
 
-                for (Room room : GameEngine.getRooms().getActiveRooms()) {
+                for (Room room : CometManager.getRooms().getActiveRooms()) {
                     room.dispose();
                 }
 
-                GameEngine.getRooms().getFilter().save();
+                CometManager.getRooms().getFilter().save();
             }
         });
 
@@ -152,7 +152,7 @@ public class Comet {
     }
 
     public static String getBuild() {
-        return "0.8.3.ALPHA1";
+        return "0.8.4.ALPHA1";
     }
 
     public static CometServer getServer() {

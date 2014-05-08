@@ -33,6 +33,7 @@ import com.cometproject.server.network.messages.incoming.room.engine.AddUserToRo
 import com.cometproject.server.network.messages.incoming.room.engine.FollowRoomInfoMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.InitalizeRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.LoadHeightmapMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.floor.SaveFloorMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.*;
 import com.cometproject.server.network.messages.incoming.room.item.gifts.OpenGiftMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinMessageEvent;
@@ -56,6 +57,7 @@ import com.cometproject.server.network.messages.incoming.user.profile.GetProfile
 import com.cometproject.server.network.messages.incoming.user.profile.GetRelationshipsMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.profile.SetRelationshipMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.profile.WearBadgeMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.username.ChangeUsernameCheckMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.ChangeLooksMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeMessageEvent;
@@ -156,6 +158,8 @@ public class MessageHandler {
         this.getMessages().put(Events.WardrobeMessageEvent, new WardrobeMessageEvent());
         this.getMessages().put(Events.SaveWardrobeMessageEvent, new SaveWardrobeMessageEvent());
         this.getMessages().put(Events.ChangeHomeRoomMessageEvent, new ChangeHomeRoomMessageEvent());
+
+        this.getMessages().put(Events.ChangeUsernameCheckMessageEvent, new ChangeUsernameCheckMessageEvent());
     }
 
     public void registerBots() {
@@ -198,6 +202,7 @@ public class MessageHandler {
         this.getMessages().put(Events.DropHandItemMessageEvent, new DropHandItemMessageEvent());
         this.getMessages().put(Events.DeleteRoomMessageEvent, new DeleteRoomMessageEvent());
         this.getMessages().put(Events.MuteRoomMessageEvent, new MuteRoomMessageEvent());
+        this.getMessages().put(Events.SaveFloorMessageEvent, new SaveFloorMessageEvent());
     }
 
     public void registerRoomTrade() {

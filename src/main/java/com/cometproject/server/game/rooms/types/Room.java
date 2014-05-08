@@ -1,8 +1,11 @@
 package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.game.rooms.models.RoomModel;
+import com.cometproject.server.game.rooms.models.types.DynamicRoomModel;
+import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.components.*;
 import com.cometproject.server.game.rooms.types.mapping.RoomMapping;
 import org.apache.log4j.Logger;
@@ -34,13 +37,22 @@ public class Room {
     public Room(RoomData data) {
         this.id = data.getId();
         this.data = data;
-        this.model = GameEngine.getRooms().getModel(data.getModel());
+
+        if(data.getHeightmap() != null) {
+            this.model = new DynamicRoomModel("dynamic_heightmap", data.getHeightmap(), 1, 1, 0, 0);
+        } else {
+            this.model = CometManager.getRooms().getModel(data.getModel());
+        }
 
         this.log = Logger.getLogger("Room \"" + this.getData().getName() + "\"");
         this.isActive = false;
     }
 
     public void load() {
+        if(data.getHeightmap() != null && this.model instanceof StaticRoomModel) {
+            this.model = new DynamicRoomModel("dynamic_heightmap", data.getHeightmap(), this.model.getDoorX(), this.model.getDoorY(), this.model.getDoorZ(), this.model.getDoorRotation());
+        }
+
         this.mapping = new RoomMapping(this, this.model);
         this.itemProcess = new ItemProcessComponent(Comet.getServer().getThreadManagement(), this);
         this.process = new ProcessComponent(this);
@@ -62,6 +74,8 @@ public class Room {
     }
 
     public void dispose() {
+        this.data.save();
+
         this.process.stop();
         this.itemProcess.stop();
         this.game.stop();
@@ -90,6 +104,10 @@ public class Room {
         this.pets = null;
         this.entities = null;
         this.mapping = null;
+
+        if(this.model instanceof DynamicRoomModel) {
+            this.model = CometManager.getRooms().getModel(this.data.getModel());
+        }
 
         this.isActive = false;
         this.log.debug("Room disposed");

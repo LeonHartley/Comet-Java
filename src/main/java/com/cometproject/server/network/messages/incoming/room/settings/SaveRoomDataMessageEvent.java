@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
@@ -76,7 +76,7 @@ public class SaveRoomDataMessageEvent implements IEvent {
             return;
         }
 
-        Category category = GameEngine.getNavigator().getCategory(categoryId);
+        Category category = CometManager.getNavigator().getCategory(categoryId);
 
         if (category == null) {
             return;

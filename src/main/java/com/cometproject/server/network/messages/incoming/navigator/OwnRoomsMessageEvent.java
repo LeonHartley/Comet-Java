@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.navigator;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.navigator.NavigatorFlatListMessageComposer;
@@ -15,7 +15,7 @@ public class OwnRoomsMessageEvent implements IEvent {
         List<Room> rooms = new ArrayList<>();
 
         for(Integer roomId : client.getPlayer().getRooms()) {
-            rooms.add(GameEngine.getRooms().get(roomId));
+            rooms.add(CometManager.getRooms().get(roomId));
         }
 
         client.send(NavigatorFlatListMessageComposer.compose(0, 5, "", rooms, false));

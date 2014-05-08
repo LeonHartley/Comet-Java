@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.catalog.pets;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.catalog.pets.ValidatePetNameMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -10,7 +10,7 @@ public class ValidatePetNameMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
         String name = msg.readString();
-        int errorCode = GameEngine.getPets().validatePetName(name);
+        int errorCode = CometManager.getPets().validatePetName(name);
         String data = null;
 
         switch (errorCode) {

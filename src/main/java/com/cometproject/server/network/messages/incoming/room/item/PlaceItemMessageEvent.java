@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
@@ -102,7 +102,7 @@ public class  PlaceItemMessageEvent implements IEvent {
                 room.getEntities().broadcastMessage(SendFloorItemMessageComposer.compose(floorItem, room));
             }
         } catch (Exception e) {
-            GameEngine.getLogger().error("Error while placing item", e);
+            CometManager.getLogger().error("Error while placing item", e);
         }
     }
 }

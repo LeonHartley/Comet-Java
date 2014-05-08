@@ -19,7 +19,7 @@ public class GroupElementsMessageComposer {
         msg.writeInt(0);
 
         /*
-        GroupManager g = GameEngine.getGroups();
+        GroupManager g = CometManager.getGroups();
 
         msg.writeInt(g.getBases().size());
 

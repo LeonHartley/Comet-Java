@@ -1,6 +1,6 @@
 package com.cometproject.server.game.items.interactions.wired.trigger;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.interactions.Interactor;
@@ -36,7 +36,7 @@ public class WiredTriggerOffFurni extends Interactor {
         WiredDataInstance data = WiredDataFactory.get(floorItem);
 
         if (data == null) {
-            GameEngine.getLogger().debug("Failed to find WiredDataInstance for item: " + item.getId());
+            CometManager.getLogger().debug("Failed to find WiredDataInstance for item: " + item.getId());
             return false;
         }
 

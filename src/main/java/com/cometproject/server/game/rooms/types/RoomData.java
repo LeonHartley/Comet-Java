@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.types;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
@@ -31,7 +31,7 @@ public class RoomData {
     private int thicknessWall;
     private int thicknessFloor;
     private boolean allowWalkthrough;
-
+    private String heightmap;
 
     public RoomData(ResultSet room) throws SQLException {
         this.id = room.getInt("id");
@@ -64,9 +64,10 @@ public class RoomData {
         this.thicknessWall = room.getInt("thickness_wall");
         this.thicknessFloor = room.getInt("thickness_floor");
         this.allowWalkthrough = room.getString("allow_walkthrough").equals("1");
+        this.heightmap = room.getString("heightmap");
     }
 
-    public void save() throws SQLException {
+    public void save() {
         String tagString = "";
 
         for (int i = 0; i < tags.length; i++) {
@@ -83,7 +84,7 @@ public class RoomData {
             decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
         }
 
-        RoomDao.updateRoom(id, name, description, ownerId, owner, category, maxUsers, access, password, score, tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1), model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough);
+        RoomDao.updateRoom(id, name, description, ownerId, owner, category, maxUsers, access, password, score, tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1), model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, heightmap);
     }
 
     public int getId() {
@@ -107,7 +108,7 @@ public class RoomData {
     }
 
     public Category getCategory() {
-        Category category = GameEngine.getNavigator().getCategory(this.category);
+        Category category = CometManager.getNavigator().getCategory(this.category);
 
         if(category == null) {
 
@@ -227,4 +228,11 @@ public class RoomData {
         this.allowWalkthrough = allowWalkthrough;
     }
 
+    public void setHeightmap(String heightmap) {
+        this.heightmap = heightmap;
+    }
+
+    public String getHeightmap() {
+        return this.heightmap;
+    }
 }

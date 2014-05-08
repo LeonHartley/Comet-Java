@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.catalog;
 
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
@@ -23,6 +23,6 @@ public class PurchaseGiftMessageEvent implements IEvent {
 
         GiftData data = new GiftData(pageId, itemId, client.getPlayer().getId(), sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername);
 
-        GameEngine.getCatalog().getPurchaseHandler().handle(client, pageId, itemId, extraData, 1, data);
+        CometManager.getCatalog().getPurchaseHandler().handle(client, pageId, itemId, extraData, 1, data);
     }
 }

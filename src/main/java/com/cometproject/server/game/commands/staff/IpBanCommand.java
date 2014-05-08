@@ -1,7 +1,7 @@
 package com.cometproject.server.game.commands.staff;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.moderation.types.Ban;
 import com.cometproject.server.game.moderation.types.BanType;
@@ -34,13 +34,13 @@ public class IpBanCommand extends ChatCommand {
 
         String ipAddress = ((InetSocketAddress) user.getChannel().getRemoteAddress()).getAddress().getHostAddress();
 
-        if (GameEngine.getBans().hasBan(ipAddress)) {
+        if (CometManager.getBans().hasBan(ipAddress)) {
             sendChat("IP: " + ipAddress + " is already banned.", client);
             return;
         }
 
         int banId = BanDao.createBan(length, expire, ipAddress);
-        GameEngine.getBans().add(new Ban(banId, user.getPlayer().getId() + "", expire, BanType.IP, ""));
+        CometManager.getBans().add(new Ban(banId, user.getPlayer().getId() + "", expire, BanType.IP, ""));
 
         sendChat("User has been IP banned (IP: " + ipAddress + ")", client);
 

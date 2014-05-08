@@ -1,8 +1,7 @@
 package com.cometproject.server.game.rooms.entities.types;
 
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -10,11 +9,9 @@ import com.cometproject.server.game.rooms.entities.PlayerEntityAccess;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.game.wired.types.TriggerType;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.access.DoorbellAcceptedComposer;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
-import com.cometproject.server.network.messages.outgoing.room.alerts.PasswordIncorrectComposer;
+import com.cometproject.server.network.messages.outgoing.room.alerts.RoomErrorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomFullMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
@@ -25,11 +22,15 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.Access
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.utilities.attributes.Attributable;
+import javolution.util.FastMap;
 
 import java.util.Map;
 
-public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
+public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, Attributable {
     private Player player;
+
+    private Map<String, Object> attributes = new FastMap<>();
 
     public PlayerEntity(Player player, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
@@ -65,7 +66,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
 
         if (!isOwner && !this.player.getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered()) {
             if (this.getRoom().getData().getAccess().equals("password") && !this.getRoom().getData().getPassword().equals(password)) {
-                this.player.getSession().send(PasswordIncorrectComposer.compose());
+                this.player.getSession().send(RoomErrorMessageComposer.compose(-100002));
                 this.player.getSession().send(HotelViewMessageComposer.compose());
                 return;
             } else if (this.getRoom().getData().getAccess().equals("doorbell")) {
@@ -129,6 +130,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
             this.getPlayer().getSession().getPlayer().getMessenger().sendStatus(true, false);
         }
 
+        if(isKick && !isOffline) {
+            this.getPlayer().getSession().send(RoomErrorMessageComposer.compose(4008));
+        }
+
         // Also could be useful for bot trading etc
 
         // Check and cancel any active trades
@@ -155,30 +160,41 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     public boolean onChat(String message) {
         long time = System.currentTimeMillis();
 
-        if (time - this.player.lastMessage < 750) { // TODO: add flood bypass for staff with permission or something
-            this.player.floodFlag++;
+        if(!this.player.getPermissions().hasCommand("bypass_flood")) {
+            if (time - this.player.getLastMessageTime() < 750) {
+                this.player.setFloodFlag(this.player.getFloodFlag() + 1);
 
-            if (this.player.floodFlag >= 4) {
-                this.player.floodTime = 30;
-                this.player.floodFlag = 0;
+                if (this.player.getFloodFlag() >= 4) {
+                    this.player.setFloodTime(30);
+                    this.player.setFloodFlag(0);
 
-                this.player.getSession().send(FloodFilterMessageComposer.compose(player.floodTime));
+                    this.player.getSession().send(FloodFilterMessageComposer.compose(player.getFloodTime()));
+                }
             }
-        }
 
-        if (player.floodTime >= 1) {
-            return false;
-        }
+            if (player.getFloodTime() >= 1) {
+                return false;
+            }
 
-        player.lastMessage = time;
+            if(player.getLastMessage().equals(message) && message.length() > 15) {
+                this.player.setFloodFlag(0);
+                this.player.setFloodTime(30);
+
+                this.player.getSession().send(FloodFilterMessageComposer.compose(player.getFloodTime()));
+                return false;
+            }
+
+            player.setLastMessageTime(time);
+            player.setLastMessage(message);
+        }
 
         if (message.isEmpty() || message.length() > 100)
             return false;
 
         try {
             if (message.startsWith(":")) {
-                if (GameEngine.getCommands().isCommand(message.substring(1))) {
-                    GameEngine.getCommands().parse(message.substring(1), this.player.getSession());
+                if (CometManager.getCommands().isCommand(message.substring(1))) {
+                    CometManager.getCommands().parse(message.substring(1), this.player.getSession());
                     return false;
                 }
             }
@@ -189,13 +205,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
 
         if (this.getRoom().hasRoomMute() && !this.getPlayer().getPermissions().hasPermission("bypass_roommute") && this.getRoom().getData().getOwnerId() != this.player.getId()) {
             return false;
-        }
-
-        if (this.getPlayer().getData().getRank() < 7) { // TODO: Permission...
-            if (GameEngine.getRooms().getFilter().filter(message)) {
-                this.getPlayer().getSession().send(AdvancedAlertMessageComposer.compose(Locale.get("filter.alert.title"), Locale.get("filter.alert.message")));
-                return false;
-            }
         }
 
         if (this.getRoom().getWired().trigger(TriggerType.ON_SAY, message, this)) {
@@ -283,5 +292,30 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
     @Deprecated
     public void dispose() {
         this.leaveRoom(true, false, false);
+        this.attributes.clear();
+    }
+
+    @Override
+    public void setAttribute(String attributeKey, Object attributeValue) {
+        if (this.attributes.containsKey(attributeKey)) {
+            this.attributes.replace(attributeKey, attributeValue);
+        } else {
+            this.attributes.put(attributeKey, attributeValue);
+        }
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+        return this.attributes.get(attributeKey);
+    }
+
+    @Override
+    public boolean hasAttribute(String attributeKey) {
+        return this.attributes.containsKey(attributeKey);
+    }
+
+    @Override
+    public void removeAttribute(String attributeKey) {
+        this.attributes.remove(attributeKey);
     }
 }

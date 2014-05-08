@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.GameEngine;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
@@ -59,7 +59,7 @@ public class DeleteRoomMessageEvent implements IEvent {
 
         room.dispose();
 
-        GameEngine.getRooms().getRooms().remove(room.getId());
+        CometManager.getRooms().getRooms().remove(room.getId());
 
         if(Comet.getServer().getNetwork().getSessions().isPlayerLogged(room.getData().getOwnerId())) {
             Session owner = Comet.getServer().getNetwork().getSessions().getByPlayerId(room.getData().getOwnerId());
@@ -71,7 +71,7 @@ public class DeleteRoomMessageEvent implements IEvent {
             }
         }
 
-        GameEngine.getLogger().info("Room deleted: " + room.getId() + " by " + client.getPlayer().getId() + " / " + client.getPlayer().getData().getUsername());
+        CometManager.getLogger().info("Room deleted: " + room.getId() + " by " + client.getPlayer().getId() + " / " + client.getPlayer().getData().getUsername());
         RoomDao.deleteRoom(room.getId());
 
         client.send(UpdateInventoryMessageComposer.compose());

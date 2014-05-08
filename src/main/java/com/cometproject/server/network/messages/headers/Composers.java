@@ -130,10 +130,12 @@ public class Composers {
     public static short HotelViewItemMessageComposer = 360;
     public static short PromoArticlesMessageComposer = 3897;
 
-    public static short PasswordIncorrectComposer = 1273;
+    public static short RoomErrorMessageComposer = 1273;
     public static short DoorBellNoAnswerComposer = 371;
     public static short DoorBellRequestComposer = 1738;
     public static short DoorBellAcceptedComposer = 106;
+
+    public static short ChangeUsernameCheckMessageComposer = 2853;
 
     public static String valueOfId(int i) {
         Composers c = new Composers();
