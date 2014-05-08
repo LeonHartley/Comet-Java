@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 public abstract class RoomModel {
     private String name;
@@ -42,7 +43,6 @@ public abstract class RoomModel {
         this.doorZ = doorZ;
         this.doorRotation = doorRotation;
 
-        //String[] axes = heightmap.split(String.valueOf((char) 13));
         String[] axes = heightmap.split("\r");
 
         this.mapSizeX = axes[0].length();
@@ -50,8 +50,6 @@ public abstract class RoomModel {
         this.squares = new int[mapSizeX][mapSizeY];
         this.squareHeight = new double[mapSizeX][mapSizeY];
         this.squareState = new RoomTileState[mapSizeX][mapSizeY];
-
-        System.out.println("[" + this.name + "] Size X " + mapSizeX + ", Size Y: " + mapSizeY);
 
         try {
             for (int y = 0; y < mapSizeY; y++) {
@@ -86,24 +84,22 @@ public abstract class RoomModel {
             this.heightmapMessage = HeightmapMessageComposer.compose(this);
             this.relativeHeightmapMessage = RelativeHeightmapMessageComposer.compose(this);
         } catch(Exception e) {
-            System.out.println("Failed to load model: " + this.name);
+            Logger.getLogger(RoomModel.class.getName()).error("Failed to parse heightmap for model: " + this.name, e);
         }
+    }
+
+    public void dispose() {
+        Arrays.fill(this.squareHeight, null);
+        Arrays.fill(this.squares, null);
+        Arrays.fill(this.squareState, null);
     }
 
     public String getId() {
         return this.name;
     }
 
-    public String getHeightmap() {
-        return this.heightmap;
-    }
-
     public String getMap() {
         return this.map;
-    }
-
-    public String getRelativeMap() {
-        return this.relativeMap;
     }
 
     public int getDoorX() {
@@ -136,15 +132,6 @@ public abstract class RoomModel {
 
     public double[][] getSquareHeight() {
         return this.squareHeight;
-    }
-
-    private boolean isNumeric(String input) {
-        try {
-            int i = Integer.parseInt(input);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     public Composer getHeightmapMessage() {
