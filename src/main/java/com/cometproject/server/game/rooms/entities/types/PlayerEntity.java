@@ -201,11 +201,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess {
             return false;
         }
 
-        if (this.getPlayer().getData().getRank() < 7) { // TODO: Permission...
-            if (CometManager.getRooms().getFilter().filter(message)) {
-                this.getPlayer().getSession().send(AdvancedAlertMessageComposer.compose(Locale.get("filter.alert.title"), Locale.get("filter.alert.message")));
-                return false;
-            }
+        if (!this.getPlayer().getPermissions().hasPermission("bypass_filter")) {
+            message = CometManager.getRooms().getFilter().filter(message);
         }
 
         if (this.getRoom().getWired().trigger(TriggerType.ON_SAY, message, this)) {

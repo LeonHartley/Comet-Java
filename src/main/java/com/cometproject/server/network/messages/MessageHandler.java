@@ -56,6 +56,7 @@ import com.cometproject.server.network.messages.incoming.user.profile.GetProfile
 import com.cometproject.server.network.messages.incoming.user.profile.GetRelationshipsMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.profile.SetRelationshipMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.profile.WearBadgeMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.username.ChangeUsernameCheckMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.ChangeLooksMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeMessageEvent;
