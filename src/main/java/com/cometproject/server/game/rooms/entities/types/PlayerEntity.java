@@ -64,7 +64,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         boolean isOwner = (this.getRoom().getData().getOwnerId() == this.player.getId());
 
-        if (!isOwner && !this.player.getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered() && this.getPlayer().isTeleporting()) {
+        if (!isOwner && !this.player.getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered() && !this.getPlayer().isTeleporting()) {
             if (this.getRoom().getData().getAccess().equals("password") && !this.getRoom().getData().getPassword().equals(password)) {
                 this.player.getSession().send(RoomErrorMessageComposer.compose(-100002));
                 this.player.getSession().send(HotelViewMessageComposer.compose());
