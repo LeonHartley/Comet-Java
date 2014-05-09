@@ -49,7 +49,9 @@ public class NetworkEngine {
         bootstrap.setOption("writeBufferLowWaterMark", 32 * 1024);
         bootstrap.setOption("writeBufferHighWaterMark", 64 * 1024);
 
-        int poolSize = (Runtime.getRuntime().availableProcessors() * 2);
+        int poolSize = Integer.parseInt(Comet.getServer().getConfig().get("comet.threading.pool.size"));
+        if (poolSize < 1) { poolSize = (Runtime.getRuntime().availableProcessors() * 2); }
+
         int channelMemory = 65536;
         int totalMemory = (poolSize * channelMemory);
         OrderedMemoryAwareThreadPoolExecutor handlerExecutor = new OrderedMemoryAwareThreadPoolExecutor(poolSize, channelMemory, totalMemory);
