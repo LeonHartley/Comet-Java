@@ -160,7 +160,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     public boolean onChat(String message) {
         long time = System.currentTimeMillis();
 
-        if(!this.player.getPermissions().hasCommand("bypass_flood")) {
+        if(!this.player.getPermissions().hasPermission("bypass_flood")) {
             if (time - this.player.getLastMessageTime() < 750) {
                 this.player.setFloodFlag(this.player.getFloodFlag() + 1);
 

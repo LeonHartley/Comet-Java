@@ -21,9 +21,30 @@ public class SaveFloorMessageEvent implements IEvent {
             return;
         }
 
+        String[] modelData = model.split(String.valueOf((char) 13));
+
+        int lastLineLength = 0;
+        boolean isValid = true;
+
+        for (int i = 0; i < modelData.length; i++) {
+            if (lastLineLength == 0) {
+                lastLineLength = modelData[i].length();
+                continue;
+            }
+
+            if (lastLineLength != modelData[i].length()) {
+                isValid = false;
+            }
+        }
+
+        if (!isValid) {
+            client.send(AdvancedAlertMessageComposer.compose("Illegal Model", Locale.get("command.floor.invalid")));
+            return;
+        }
+
         room.getData().setHeightmap(model);
 
-        client.send(AdvancedAlertMessageComposer.compose("Model saved", Locale.get("command.floor.complete")));
+        client.send(AdvancedAlertMessageComposer.compose("Model Saved", Locale.get("command.floor.complete")));
         CometManager.getRooms().getGlobalProcessor().requestUnload(room.getId());
     }
 }
