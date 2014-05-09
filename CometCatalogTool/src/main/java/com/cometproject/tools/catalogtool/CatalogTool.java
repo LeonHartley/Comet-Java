@@ -3,10 +3,7 @@ package com.cometproject.tools.catalogtool;
 import com.google.common.collect.TreeMultiset;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Matty on 06/05/2014.
@@ -203,42 +200,6 @@ public class CatalogTool {
                     if (id == oldId) {
                         catalogItemsLayout.setItemId(Integer.toString(newFurnitureLayoutId));
                     }
-
-                    /*
-                    // lets sort out ids first...
-                    HashSet<String> itemIds = new LinkedHashSet<>();
-                    if (catalogItemsLayout.getItemId().contains(",")) {
-                        String[] ids = catalogItemsLayout.getItemId().split(",");
-                        for (String id : ids) {
-                            itemIds.add(id);
-                        }
-                    } else {
-                        itemIds.add(catalogItemsLayout.getItemId());
-                    }
-
-                    // check, update and store a new list of updated ids
-                    HashSet<String> updatedItemIds = new LinkedHashSet<>();
-
-                    for (String itemIdl : itemIds) {
-                        if (Integer.parseInt(itemIdl) == oldId) {
-                            updatedItemIds.add(Integer.toString(newFurnitureLayoutId));
-                        } else {
-                            updatedItemIds.add(itemIdl);
-                        }
-                    }
-
-                    // lets put back the new ids
-                    StringBuilder sb = new StringBuilder();
-                    for (String updatedIds : updatedItemIds) {
-                        if (sb.length() > 0) {
-                            sb.append(",");
-                        }
-
-                        sb.append(updatedIds);
-                    }
-
-                    // finally lets store it back!
-                    catalogItemsLayout.setItemId(sb.toString());*/
                 }
             }
 
@@ -246,6 +207,8 @@ public class CatalogTool {
             System.out.println();
 
             System.out.println("Sorting catalog page ids");
+
+            Map<Integer, Integer> parentIds = new HashMap<>();
 
             int newCatalogPageId = 0;
 
@@ -262,13 +225,18 @@ public class CatalogTool {
                     if (pageId == oldId) {
                         catalogItemsLayout.setPageId(newCatalogPageId);
                     }
+                }
 
-                    // update parent ids
-                    int parentPageId = catalogPagesLayout.getParentId();
+                // save old id to new for parent updates
+                parentIds.put(oldId, newCatalogPageId);
+            }
 
-                    if (parentPageId == oldId) {
-                        catalogPagesLayout.setParentId(newCatalogPageId);
-                    }
+            // Update parents
+
+            for (CatalogPagesLayout catalogPagesLayout : this.catalogPagesLayouts) {
+                if (parentIds.containsKey(catalogPagesLayout.getParentId())) { // do we need update parent ids?
+                    int newId = parentIds.get(catalogPagesLayout.getParentId());
+                    catalogPagesLayout.setParentId(newId);
                 }
             }
 
