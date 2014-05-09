@@ -38,11 +38,7 @@ public class Room {
         this.id = data.getId();
         this.data = data;
 
-        if(data.getHeightmap() != null) {
-            this.model = new DynamicRoomModel("dynamic_heightmap", data.getHeightmap(), 1, 1, 0, 0);
-        } else {
-            this.model = CometManager.getRooms().getModel(data.getModel());
-        }
+        this.model = CometManager.getRooms().getModel(data.getModel());
 
         this.log = Logger.getLogger("Room \"" + this.getData().getName() + "\"");
         this.isActive = false;
@@ -106,6 +102,8 @@ public class Room {
         this.mapping = null;
 
         if(this.model instanceof DynamicRoomModel) {
+            this.model.dispose();
+
             this.model = CometManager.getRooms().getModel(this.data.getModel());
         }
 
