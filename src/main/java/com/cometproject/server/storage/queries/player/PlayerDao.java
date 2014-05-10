@@ -226,15 +226,14 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE players SET id = ?, username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ? WHERE id = ?", sqlConnection);
-            preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, username);
-            preparedStatement.setString(3, motto);
-            preparedStatement.setString(4, figure);
-            preparedStatement.setInt(5, credits);
-            preparedStatement.setInt(6, points);
-            preparedStatement.setString(7, gender);
-            preparedStatement.setInt(8, id);
+            preparedStatement = SqlHelper.prepare("UPDATE players SET username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ? WHERE id = ?", sqlConnection);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, motto);
+            preparedStatement.setString(3, figure);
+            preparedStatement.setInt(4, credits);
+            preparedStatement.setInt(5, points);
+            preparedStatement.setString(6, gender);
+            preparedStatement.setInt(7, id);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {
