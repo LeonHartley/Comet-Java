@@ -31,6 +31,7 @@ public class RoomData {
     private int thicknessWall;
     private int thicknessFloor;
     private boolean allowWalkthrough;
+    private boolean allowPets;
     private String heightmap;
 
     public RoomData(ResultSet room) throws SQLException {
@@ -64,6 +65,7 @@ public class RoomData {
         this.thicknessWall = room.getInt("thickness_wall");
         this.thicknessFloor = room.getInt("thickness_floor");
         this.allowWalkthrough = room.getString("allow_walkthrough").equals("1");
+        this.allowPets = room.getString("allow_pets").equals("1");
         this.heightmap = room.getString("heightmap");
     }
 
@@ -84,7 +86,7 @@ public class RoomData {
             decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
         }
 
-        RoomDao.updateRoom(id, name, description, ownerId, owner, category, maxUsers, access, password, score, tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1), model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, heightmap);
+        RoomDao.updateRoom(id, name, description, ownerId, owner, category, maxUsers, access, password, score, tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1), model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, allowPets, heightmap);
     }
 
     public int getId() {
@@ -234,5 +236,13 @@ public class RoomData {
 
     public String getHeightmap() {
         return this.heightmap;
+    }
+
+    public boolean isAllowPets() {
+        return allowPets;
+    }
+
+    public void setAllowPets(boolean allowPets) {
+        this.allowPets = allowPets;
     }
 }

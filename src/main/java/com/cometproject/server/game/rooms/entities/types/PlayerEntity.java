@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.entities.types;
 
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -21,6 +22,7 @@ import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessa
 import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.attributes.Attributable;
 import javolution.util.FastMap;
@@ -118,6 +120,23 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
+        // Remove player's pets from room if they aren't owner
+        if(this.getPlayer().getId() != this.getRoom().getData().getOwnerId()) {
+            for(PetEntity pet : this.getRoom().getEntities().getPetEntities()) {
+                if(pet.getData().getOwnerId() == this.player.getId()) {
+                    pet.leaveRoom(true);
+
+                    if(!isOffline) {
+                        this.player.getPets().addPet(pet.getData());
+                    }
+                }
+            }
+
+            if(!isOffline) {
+                this.player.getSession().send(PetInventoryMessageComposer.compose(this.player.getPets().getPets()));
+            }
+        }
+
         // Clear all  statuses
         this.getStatuses().clear();
 

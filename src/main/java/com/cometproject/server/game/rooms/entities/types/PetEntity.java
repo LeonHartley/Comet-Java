@@ -40,7 +40,7 @@ public class PetEntity extends GenericEntity {
 
     public void leaveRoom(boolean save) {
         if (save) {
-            PetDao.savePet(this.getPosition().getX(), this.getPosition().getY(), this.data.getId());
+            PetDao.savePet(this.getPosition().getX(), this.getPosition().getY(), 0, this.data.getId());
         }
 
         this.getRoom().getEntities().removeEntity(this);

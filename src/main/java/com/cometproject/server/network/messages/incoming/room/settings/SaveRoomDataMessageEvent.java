@@ -46,12 +46,15 @@ public class SaveRoomDataMessageEvent implements IEvent {
         String[] tags = tagString.split(",");
 
         int junk = msg.readInt();
-        int allowPets = msg.readBoolean() ? 1 : 0;
-        int allowPetsEat = msg.readBoolean() ? 1 : 0;
+
+        boolean allowPets = msg.readBoolean();
+        boolean allowPetsEat = msg.readBoolean();
+
         boolean allowWalkthrough = msg.readBoolean();
         boolean hideWall = msg.readBoolean();
         int wallThick = msg.readInt();
         int floorThick = msg.readInt();
+
         int whoMute = msg.readInt();
         int whoKick = msg.readInt();
         int whoBan = msg.readInt();
@@ -101,6 +104,7 @@ public class SaveRoomDataMessageEvent implements IEvent {
         data.setThicknessFloor(floorThick);
         data.setHideWalls(hideWall);
         data.setAllowWalkthrough(allowWalkthrough);
+        data.setAllowPets(allowPets);
 
         try {
             data.save();

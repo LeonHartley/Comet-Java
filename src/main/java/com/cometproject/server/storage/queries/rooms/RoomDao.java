@@ -168,13 +168,13 @@ public class RoomDao {
         return 0;
     }
 
-    public static void updateRoom(int roomId, String name, String description, int ownerId, String owner, int category, int maxUsers, String access, String password, int score, String tags, String decor, String model, boolean hideWalls, int thicknessWall, int thicknessFloor, boolean allowWalkthrough, String heightmap) {
+    public static void updateRoom(int roomId, String name, String description, int ownerId, String owner, int category, int maxUsers, String access, String password, int score, String tags, String decor, String model, boolean hideWalls, int thicknessWall, int thicknessFloor, boolean allowWalkthrough, boolean allowPets, String heightmap) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
-            preparedStatement = SqlHelper.prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?, max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?, thickness_floor = ?, allow_walkthrough = ?, heightmap = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?, max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?, thickness_floor = ?, allow_walkthrough = ?, allow_pets = ?, heightmap = ? WHERE id = ?", sqlConnection);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, description);
             preparedStatement.setInt(3, ownerId);
@@ -191,8 +191,9 @@ public class RoomDao {
             preparedStatement.setInt(14, thicknessWall);
             preparedStatement.setInt(15, thicknessFloor);
             preparedStatement.setString(16, allowWalkthrough ? "1" : "0");
-            preparedStatement.setString(17, heightmap);
-            preparedStatement.setInt(18, roomId);
+            preparedStatement.setString(17, allowPets ? "1" : "0");
+            preparedStatement.setString(18, heightmap);
+            preparedStatement.setInt(19, roomId);
 
             preparedStatement.execute();
         } catch (SQLException e) {
