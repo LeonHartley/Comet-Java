@@ -11,8 +11,6 @@ public class PetComponent {
     private Player player;
     private Map<Integer, PetData> pets;
 
-    private Logger log = Logger.getLogger(PetComponent.class.getName());
-
     public PetComponent(Player player) {
         this.player = player;
 

@@ -23,7 +23,7 @@ public class GetRoomDataMessageComposer {
         }
 
         msg.writeInt(0); // TODO: rights
-        msg.writeInt(1); // allow pets
+        msg.writeInt(room.getData().isAllowPets() ? 1 : 0); // allow pets
         msg.writeInt(1); // allow pets eat
         msg.writeInt(room.getData().getAllowWalkthrough() ? 1 : 0);
         msg.writeInt(room.getData().getHideWalls() ? 1 : 0);
