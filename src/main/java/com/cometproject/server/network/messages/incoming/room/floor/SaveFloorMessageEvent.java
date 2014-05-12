@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.floor;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
@@ -23,6 +24,14 @@ public class SaveFloorMessageEvent implements IEvent {
 
         String[] modelData = model.split(String.valueOf((char) 13));
 
+        int sizeY = modelData.length;
+        int sizeX = modelData[0].length();
+
+        if(sizeY > CometSettings.floorMaxY || sizeX > CometSettings.floorMaxY || CometSettings.floorMaxTotal > (sizeX * sizeY)) {
+            client.send(AdvancedAlertMessageComposer.compose("Invalid Model", Locale.get("command.floor.size")));
+            return;
+        }
+
         int lastLineLength = 0;
         boolean isValid = true;
 
@@ -38,7 +47,7 @@ public class SaveFloorMessageEvent implements IEvent {
         }
 
         if (!isValid) {
-            client.send(AdvancedAlertMessageComposer.compose("Illegal Model", Locale.get("command.floor.invalid")));
+            client.send(AdvancedAlertMessageComposer.compose("Invalid Model", Locale.get("command.floor.invalid")));
             return;
         }
 

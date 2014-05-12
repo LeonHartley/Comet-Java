@@ -99,6 +99,13 @@ public class RollerInteraction extends Interactor {
                 toHeight += itemInStack.getDefinition().getHeight();
             }
 
+            if(toHeight > 0 && needsSave)
+                toHeight = 0;
+
+            if(itemOnSq.getHeight() < ((FloorItem) item).getHeight()) {
+                continue;
+            }
+
             if (needsCancel)
                 continue;
 
