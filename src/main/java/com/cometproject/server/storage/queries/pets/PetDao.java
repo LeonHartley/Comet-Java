@@ -110,18 +110,17 @@ public class PetDao {
         return 0;
     }
 
-    public static void savePet(int x, int y, int roomId, int id) {
+    public static void savePet(int x, int y, int id) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE pet_data SET x = ?, y = ?, room_id = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE pet_data SET x = ?, y = ? WHERE id = ?", sqlConnection);
             preparedStatement.setInt(1, x);
             preparedStatement.setInt(2, y);
-            preparedStatement.setInt(3, roomId);
-            preparedStatement.setInt(4, id);
+            preparedStatement.setInt(3, id);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {

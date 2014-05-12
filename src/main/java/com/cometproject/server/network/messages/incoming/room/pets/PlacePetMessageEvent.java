@@ -17,6 +17,15 @@ public class PlacePetMessageEvent implements IEvent {
         int x = msg.readInt();
         int y = msg.readInt();
 
+        boolean atDoor = false;
+
+        if(x == 0 && y == 0) {
+            x = client.getPlayer().getEntity().getRoom().getModel().getDoorX();
+            y = client.getPlayer().getEntity().getRoom().getModel().getDoorY();
+
+            atDoor = true;
+        }
+
         Room room = client.getPlayer().getEntity().getRoom();
 
         PetData pet = client.getPlayer().getPets().getPet(petId);
@@ -28,7 +37,7 @@ public class PlacePetMessageEvent implements IEvent {
                 return;
             }
 
-            if (client.getPlayer().getEntity().getRoom().getEntities().getEntitiesAt(x, y).size() >= 1 || !room.getMapping().isValidPosition(new Position3D(x, y, room.getModel().getSquareHeight()[x][y]))) {
+            if ((!atDoor && client.getPlayer().getEntity().getRoom().getEntities().getEntitiesAt(x, y).size() >= 1) || !room.getMapping().isValidPosition(new Position3D(x, y, room.getModel().getSquareHeight()[x][y]))) {
                 return;
             }
 
