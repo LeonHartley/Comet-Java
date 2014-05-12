@@ -17,23 +17,27 @@ public class PlacePetMessageEvent implements IEvent {
         int x = msg.readInt();
         int y = msg.readInt();
 
-        PetData pet = client.getPlayer().getPets().getPet(petId);
-
-        if (pet == null) {
-            return;
-        }
-
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if (client.getPlayer().getEntity().getRoom().getEntities().getEntitiesAt(x, y).size() >= 1 || !room.getMapping().isValidPosition(new Position3D(x, y, room.getModel().getSquareHeight()[x][y]))) {
-            return;
+        PetData pet = client.getPlayer().getPets().getPet(petId);
+
+        boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
+
+        if ((isOwner || client.getPlayer().getPermissions().hasPermission("room_full_control") || room.getData().isAllowPets())) {
+            if (pet == null) {
+                return;
+            }
+
+            if (client.getPlayer().getEntity().getRoom().getEntities().getEntitiesAt(x, y).size() >= 1 || !room.getMapping().isValidPosition(new Position3D(x, y, room.getModel().getSquareHeight()[x][y]))) {
+                return;
+            }
+
+            PetEntity petEntity = client.getPlayer().getEntity().getRoom().getPets().addPet(pet, x, y);
+
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(petEntity));
+
+            client.getPlayer().getPets().removePet(pet.getId());
+            client.send(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));
         }
-
-        PetEntity petEntity = client.getPlayer().getEntity().getRoom().getPets().addPet(pet, x, y);
-
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(petEntity));
-
-        client.getPlayer().getPets().removePet(pet.getId());
-        client.send(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));
     }
 }
