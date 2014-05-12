@@ -22,7 +22,7 @@ public class RollerInteraction extends Interactor {
         }
 
         if (state) {
-            item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, 10));
+            item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, 13));
             return true;
         }
 
@@ -64,7 +64,7 @@ public class RollerInteraction extends Interactor {
         List<GenericEntity> entitiesOnSq = floorItem.getRoom().getEntities().getEntitiesAt(floorItem.getX(), floorItem.getY());
 
         for (GenericEntity entity : entitiesOnSq) {
-            if (!entity.getRoom().getMapping().isValidStep(entity.getPosition(), sqInfront, true)) {
+            if (!entity.getRoom().getMapping().isValidStep(entity.getPosition(), sqInfront, true) || !entity.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
                 continue;
             }
 
