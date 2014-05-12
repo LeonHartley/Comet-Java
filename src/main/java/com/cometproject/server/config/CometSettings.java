@@ -25,6 +25,10 @@ public class CometSettings {
     public static boolean showUptimeInAbout = true;
     public static boolean showActiveRoomsInAbout = true;
 
+    public static int floorMaxX = 0;
+    public static int floorMaxY = 0;
+    public static int floorMaxTotal = 0;
+
     public static void set(Properties properties) {
         httpEnabled = properties.getProperty("comet.network.http.enabled").equals("1");
 
@@ -47,6 +51,10 @@ public class CometSettings {
         showUptimeInAbout = properties.getProperty("comet.about.command.uptime").equals("1");
         showActiveRoomsInAbout = properties.getProperty("comet.about.command.activeRooms").equals("1");
         showUsersOnlineInAbout = properties.getProperty("comet.about.command.usersOnline").equals("1");
+
+        floorMaxX = Integer.parseInt(properties.getProperty("comet.floor.command.max.x"));
+        floorMaxY = Integer.parseInt(properties.getProperty("comet.floor.command.max.y"));
+        floorMaxTotal = Integer.parseInt(properties.getProperty("comet.floor.command.max.total"));
     }
 
     public static void setMotd(String motd) {
