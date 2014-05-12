@@ -40,7 +40,7 @@ public class PetEntity extends GenericEntity {
 
     public void leaveRoom(boolean save) {
         if (save) {
-            PetDao.savePet(this.getPosition().getX(), this.getPosition().getY(), 0, this.data.getId());
+            PetDao.savePet(this.getPosition().getX(), this.getPosition().getY(), this.data.getId());
         }
 
         this.getRoom().getEntities().removeEntity(this);
@@ -96,8 +96,8 @@ public class PetEntity extends GenericEntity {
         msg.writeInt(this.data.getOwnerId());
         msg.writeString("Leon"); // TODO: this :P
         msg.writeInt(1);
-        msg.writeBoolean(false); // has saddle
-        msg.writeBoolean(false); // shit knows nigga
+        msg.writeBoolean(true); // has saddle
+        msg.writeBoolean(false); // has rider?
 
         msg.writeInt(0);
         msg.writeInt(0);

@@ -24,6 +24,7 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.FloodF
 import com.cometproject.server.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.utilities.attributes.Attributable;
 import javolution.util.FastMap;
 
@@ -124,7 +125,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         if(this.getPlayer().getId() != this.getRoom().getData().getOwnerId()) {
             for(PetEntity pet : this.getRoom().getEntities().getPetEntities()) {
                 if(pet.getData().getOwnerId() == this.player.getId()) {
-                    pet.leaveRoom(true);
+                    pet.leaveRoom(false);
+                    RoomPetDao.updatePet(0, 0, 0, pet.getData().getId());
 
                     if(!isOffline) {
                         this.player.getPets().addPet(pet.getData());
