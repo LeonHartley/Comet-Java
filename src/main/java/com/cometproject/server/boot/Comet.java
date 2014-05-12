@@ -20,7 +20,7 @@ public class Comet {
     public static boolean isDebugging = false;
     public static volatile boolean isRunning = true;
 
-    public static void main(String[] args) {
+    public static void run(String[] args) {
         start = System.currentTimeMillis();
 
         try {
