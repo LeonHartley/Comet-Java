@@ -15,8 +15,6 @@ public class WallItem extends RoomItem {
     private String extraData;
     private boolean state;
 
-    private WeakReference<Room> room;
-
     public WallItem(int id, int itemId, int roomId, int owner, String position, String data) {
         this.id = id;
         this.itemId = itemId;
@@ -49,14 +47,14 @@ public class WallItem extends RoomItem {
 
     @Override
     public boolean toggleInteract(boolean state) {
-        String interaction = this.getDefinition().getInteraction();
-
-        if ((interaction.equals("default") && (this.getDefinition().getInteractionCycleCount() > 1))) {
+        if (this.getDefinition().getInteractionCycleCount() > 1) {
             if (this.getExtraData().isEmpty() || this.getExtraData().equals(" ")) {
                 this.setExtraData("0");
             }
 
             int i = Integer.parseInt(this.getExtraData()) + 1;
+
+            System.out.println("Old: " + this.getExtraData() + ", " + i);
 
             if (i > (this.getDefinition().getInteractionCycleCount() - 1)) { // take one because count starts at 0 (0, 1) = count(2)
                 this.setExtraData("0");
@@ -65,17 +63,13 @@ public class WallItem extends RoomItem {
             }
 
             return true;
+        } else {
+            return false;
         }
-
-        return false;
     }
 
     public Room getRoom() {
-        if (this.room == null || this.room.get() == null) {
-            this.room = new WeakReference<>(CometManager.getRooms().get(this.roomId));
-        }
-
-        return this.room.get();
+        return CometManager.getRooms().get(this.roomId);
     }
 
     @Override
