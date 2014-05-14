@@ -24,9 +24,9 @@ public class RemoveBotMessageEvent implements IEvent {
         InventoryBot bot = new InventoryBot(entity.getBotId(), entity.getData().getOwnerId(), entity.getData().getOwnerName(), entity.getUsername(), entity.getFigure(), entity.getGender(), entity.getMotto());
         client.getPlayer().getBots().addBot(bot);
 
+        RoomBotDao.setRoomId(0, entity.getBotId());
+
         entity.leaveRoom();
         client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
-
-        RoomBotDao.setRoomId(0, entity.getBotId());
     }
 }

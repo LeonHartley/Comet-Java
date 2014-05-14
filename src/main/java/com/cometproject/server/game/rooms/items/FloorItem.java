@@ -59,12 +59,6 @@ public class FloorItem extends RoomItem {
         this.attributes.clear();
     }
 
-    @Override
-    public void serialize(Composer msg) {
-        this.serialize(msg, false);
-    }
-
-    @Override
     public void serialize(Composer msg, boolean isNew) {
         boolean isGift = false;
 
@@ -183,6 +177,11 @@ public class FloorItem extends RoomItem {
     }
 
     private ItemDefinition cachedDefinition;
+
+    @Override
+    public void serialize(Composer msg) {
+        this.serialize(msg, false);
+    }
 
     public ItemDefinition getDefinition() {
         if (cachedDefinition == null) {
