@@ -74,8 +74,8 @@ public class Composers {
     public static short UpdateFloorItemMessageComposer = 3169;
     public static short UpdateFriendStateMessageComposer = 161;
     public static short UpdateInfoMessageComposer = 1859;
+    public static short UpdateWallItemMessageComposer = 1640;
     public static short UpdateInventoryMessageComposer = 345;
-    public static short UpdateWallItemMessageComposer = 893;
     public static short UserInfoMessageComposer = 2895;
     public static short WallItemsMessageComposer = 1563;
     public static short WelcomeUserMessageComposer = 2933;
