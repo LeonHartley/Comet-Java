@@ -2,7 +2,6 @@ package com.cometproject.server.game;
 
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.CommandManager;
-import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.landing.LandingManager;
 import com.cometproject.server.game.moderation.BanManager;
@@ -24,7 +23,6 @@ public class CometManager {
     private static WiredManager wiredManager;
     private static BanManager banManager;
     private static ModerationManager moderationManager;
-    private static GroupManager groupManager;
     private static PetManager petManager;
     private static LandingManager landingManager;
 
@@ -42,7 +40,6 @@ public class CometManager {
         wiredManager = new WiredManager();
         banManager = new BanManager();
         moderationManager = new ModerationManager();
-        groupManager = new GroupManager();
         petManager = new PetManager();
         landingManager = new LandingManager();
     }
@@ -85,10 +82,6 @@ public class CometManager {
 
     public static ModerationManager getModeration() {
         return moderationManager;
-    }
-
-    public static GroupManager getGroups() {
-        return groupManager;
     }
 
     public static PetManager getPets() {

@@ -2,7 +2,6 @@ package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.models.types.DynamicRoomModel;
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
@@ -27,8 +26,6 @@ public class Room {
     private PetComponent pets;
     private GameComponent game;
     private EntityComponent entities;
-
-    private Group group = null; // TODO: Groups
 
     public Logger log;
     public boolean isActive;
@@ -174,10 +171,6 @@ public class Room {
 
     public RoomModel getModel() {
         return this.model;
-    }
-
-    public Group getGroup() {
-        return this.group;
     }
 
     public boolean hasRoomMute() {
