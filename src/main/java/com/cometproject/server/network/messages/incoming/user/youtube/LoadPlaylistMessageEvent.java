@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.incoming.user.youtube;
 import com.cometproject.server.game.players.components.types.PlaylistItem;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.youtube.PlayVideoMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.youtube.PlaylistMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -30,7 +31,8 @@ public class LoadPlaylistMessageEvent implements IEvent{
             FloorItem item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(itemId);
 
             item.setAttribute("video", video.getVideoId());
-            item.sendUpdate();
+
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(item, client.getPlayer().getEntity().getRoom().getData().getOwnerId()));
         }
     }
 }
