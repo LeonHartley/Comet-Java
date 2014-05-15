@@ -19,7 +19,7 @@ public class GroupManager {
     Logger log = Logger.getLogger(GroupManager.class.getName());
 
     public GroupManager() {
-        loadItems();
+        //loadItems();
     }
 
     public void loadItems() {
