@@ -188,6 +188,16 @@ public class EntityComponent {
         return (PlayerEntity) genericEntity;
     }
 
+    public GenericEntity getEntityByName(String name, RoomEntityType type) {
+        for(GenericEntity entity : this.getEntitiesCollection().values()) {
+            if(entity.getUsername().equals(name) && entity.getEntityType() == type) {
+                return entity;
+            }
+        }
+
+        return null;
+    }
+
     public BotEntity getEntityByBotId(int id) {
         if (!this.botIdToEntity.containsKey(id)) {
             return null;
