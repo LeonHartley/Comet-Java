@@ -1,15 +1,20 @@
 package com.cometproject.server.game.rooms.types;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
 public class RoomData {
+    public static final boolean ENCRYPT_PASSWORDS = Boolean.parseBoolean(Comet.getServer().getConfig().get("comet.game.rooms.hashpasswords"));
+    public static final int ENCRYPT_ROUNDS = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.rooms.hashrounds"));
+
     private int id;
     private String name;
     private String description;
@@ -19,6 +24,7 @@ public class RoomData {
     private int maxUsers;
     private String access;
     private String password;
+    private String originalPassword;
 
     private int score;
 
@@ -44,6 +50,7 @@ public class RoomData {
         this.maxUsers = room.getInt("max_users");
         this.access = room.getString("access_type");
         this.password = room.getString("password");
+        this.originalPassword = this.password;
 
         this.score = room.getInt("score");
 
@@ -84,6 +91,12 @@ public class RoomData {
 
         for (Map.Entry<String, String> decoration : decorations.entrySet()) {
             decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
+        }
+
+        if (ENCRYPT_PASSWORDS) {
+            if (!this.password.equals(this.originalPassword)) {
+                this.password = BCrypt.hashpw(this.password, BCrypt.gensalt(ENCRYPT_ROUNDS));
+            }
         }
 
         RoomDao.updateRoom(id, name, description, ownerId, owner, category, maxUsers, access, password, score, tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1), model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, allowPets, heightmap);
