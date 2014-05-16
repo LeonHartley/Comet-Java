@@ -31,12 +31,14 @@ public class Composer {
 
     public void writeString(Object obj) {
         try {
-            String s = "";
-            if (obj != null) {
-                s = obj.toString();
+
+            String string = "";
+
+            if(obj != null) {
+                string = String.valueOf(obj);
             }
 
-            byte[] dat = s.getBytes(Charset.forName("UTF-8"));
+            byte[] dat = string.getBytes(Charset.forName("UTF-8"));
             this.body.writeShort(dat.length);
             this.body.writeBytes(dat);
         } catch (Exception e) {
