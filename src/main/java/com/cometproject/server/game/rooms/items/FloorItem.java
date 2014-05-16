@@ -157,6 +157,12 @@ public class FloorItem extends RoomItem {
                 msg.writeInt(0);
                 msg.writeInt(0);
             }
+        } else if(this.getDefinition().getItemName().contains("yttv") && this.hasAttribute("video")) {
+            msg.writeInt(0);
+            msg.writeInt(1);
+            msg.writeInt(1);
+            msg.writeString("THUMBNAIL_URL");
+            msg.writeString("/deliver/" + this.getAttribute("video"));
         } else {
             msg.writeInt(0);
             msg.writeInt(0);

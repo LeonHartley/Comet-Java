@@ -121,6 +121,8 @@ public class Events {
     public static short LoadRoomByDoorBellMessageEvent = 1127;
     public static short ChangeUsernameCheckMessageEvent = 3061;
     public static short SaveFloorMessageEvent = 2200;
+    public static short LoadPlaylistMessageEvent = 3835;
+    public static short PlayVideoMessageEvent = 517;
 
     public static String valueOfId(int i) {
         Events e = new Events();
