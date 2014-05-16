@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.PlayerEntityAccess;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
@@ -27,6 +28,7 @@ import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.utilities.attributes.Attributable;
 import javolution.util.FastMap;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Map;
 
@@ -68,10 +70,20 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         boolean isOwner = (this.getRoom().getData().getOwnerId() == this.player.getId());
 
         if (!isOwner && !this.player.getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered() && !this.getPlayer().isTeleporting()) {
-            if (this.getRoom().getData().getAccess().equals("password") && !this.getRoom().getData().getPassword().equals(password)) {
-                this.player.getSession().send(RoomErrorMessageComposer.compose(-100002));
-                this.player.getSession().send(HotelViewMessageComposer.compose());
-                return;
+            if (this.getRoom().getData().getAccess().equals("password")) {
+                boolean matched = false;
+
+                if (RoomData.ENCRYPT_PASSWORDS) {
+                    matched = BCrypt.checkpw(password, this.getRoom().getData().getPassword());
+                } else {
+                    matched = this.getRoom().getData().getPassword().equals(password);
+                }
+
+                if (!matched) {
+                    this.player.getSession().send(RoomErrorMessageComposer.compose(-100002));
+                    this.player.getSession().send(HotelViewMessageComposer.compose());
+                    return;
+                }
             } else if (this.getRoom().getData().getAccess().equals("doorbell")) {
                 if (this.getRoom().getEntities().playerCount() < 1) {
                     this.player.getSession().send(DoorbellNoAnswerComposer.compose());

@@ -39,6 +39,7 @@
     <orderEntry type="library" name="Maven: net.kencochrane.raven:raven-log4j:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: net.kencochrane.raven:raven:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.mindrot:jbcrypt:0.3m" level="project" />
   </component>
 </module>
 

@@ -1,5 +1,6 @@
 package com.cometproject.server.game.players.types;
 
+import com.cometproject.server.game.players.components.types.PlaylistItem;
 import com.cometproject.server.game.players.components.types.WardrobeItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -11,7 +12,9 @@ import java.util.List;
 
 public class PlayerSettings {
     private int[] volumes;
+
     private List<WardrobeItem> wardrobe;
+    private List<PlaylistItem> playlist;
 
     private boolean hideOnline;
     private boolean hideInRoom;
@@ -42,6 +45,14 @@ public class PlayerSettings {
         } else {
             wardrobe = new Gson().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>(){}.getType());
         }
+
+        String playlistText = data.getString("playlist");
+
+        if(playlistText == null || playlistText.isEmpty()) {
+            playlist = new ArrayList<>();
+        } else {
+            playlist = new Gson().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>(){}.getType());
+        }
     }
 
     public PlayerSettings() {
@@ -52,6 +63,7 @@ public class PlayerSettings {
         this.allowFriendRequests = true;
         this.allowTrade = true;
         this.wardrobe = new ArrayList<>();
+        this.playlist = new ArrayList<>();
     }
 
     public int[] getVolumes() {
@@ -88,5 +100,9 @@ public class PlayerSettings {
 
     public void setWardrobe(List<WardrobeItem> wardrobe) {
         this.wardrobe = wardrobe;
+    }
+
+    public List<PlaylistItem> getPlaylist() {
+        return playlist;
     }
 }
