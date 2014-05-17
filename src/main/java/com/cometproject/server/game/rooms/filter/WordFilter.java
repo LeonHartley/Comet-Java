@@ -10,9 +10,17 @@ public class WordFilter {
     private Map<String, String> wordfilter;
 
     public WordFilter() {
-        this.wordfilter = FilterDao.loadWordfilter();
+        this.loadFilter();
 
         Logger.getLogger(WordFilter.class.getName()).info("Loaded " + wordfilter.size() + " filtered words");
+    }
+
+    public void loadFilter() {
+        if(this.wordfilter != null) {
+            this.wordfilter.clear();
+        }
+
+        this.wordfilter = FilterDao.loadWordfilter();
     }
 
     public String filter(String message) {
