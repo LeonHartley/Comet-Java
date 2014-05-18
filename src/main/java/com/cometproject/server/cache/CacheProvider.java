@@ -7,13 +7,13 @@ public interface CacheProvider {
 
     public void deinitialize();
 
-    public void put(Object identifier, Object obj);
+    public void put(String identifier, String obj);
 
-    public void put(Object identifer, Object obj, int expires);
+    public void put(String identifer, String obj, int expires);
 
-    public void put(Object identifier, Object obj, int expires, TimeUnit unit);
+    public void put(String identifier, String obj, int expires, TimeUnit unit);
 
-    public Object get(Object identifier);
+    public Object get(String identifier);
 
-    public boolean exists(Object identifier);
+    public boolean exists(String identifier);
 }
