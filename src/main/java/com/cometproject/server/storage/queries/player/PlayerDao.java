@@ -41,6 +41,34 @@ public class PlayerDao {
         return 0;
     }
 
+    public static String getAuthTicketById(int id) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT `auth_ticket` FROM players WHERE id = ? LIMIT 1", sqlConnection);
+            preparedStatement.setInt(1, id);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return resultSet.getString("auth_ticket");
+            }
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return "";
+    }
+
     public static PlayerData getDataById(int id) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;

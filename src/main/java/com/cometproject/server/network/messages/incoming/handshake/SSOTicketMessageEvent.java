@@ -18,15 +18,37 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import java.net.InetSocketAddress;
 
 public class SSOTicketMessageEvent implements IEvent {
+    public static String TICKET_DELIMITER = ":";
+
     public void handle(Session client, Event msg) {
         String ticket = msg.readString();
 
-        if (ticket.length() < 10 || ticket.length() > 30) {
+        if (ticket.length() < 10 || ticket.length() > 64) {
             client.disconnect();
             return;
         }
 
-        Player player = PlayerLoader.loadPlayerBySSo(ticket);
+        Player player = null;
+        boolean normalPlayerLoad = false;
+
+        if(ticket.contains(TICKET_DELIMITER)) {
+            String[] ticketData = ticket.split(TICKET_DELIMITER);
+
+            if(ticketData.length == 2) {
+                int playerId = Integer.parseInt(ticket.split(TICKET_DELIMITER)[0]);
+                String authTicket = ticketData[1];
+
+                player = PlayerLoader.loadPlayerByIdAndTicket(playerId, authTicket);
+            } else {
+                normalPlayerLoad = true;
+            }
+        } else {
+            normalPlayerLoad = true;
+        }
+
+        if(normalPlayerLoad) {
+            player = PlayerLoader.loadPlayerBySSo(ticket);
+        }
 
         if (player == null) {
             client.disconnect();
