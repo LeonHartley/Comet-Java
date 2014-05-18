@@ -6,7 +6,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class PlayerLoginQueueManager {
-    private static final int WAIT_TIME = 2;
+    private static final int WAIT_TIME = 500;
 
     private final PlayerLoginQueue loginQueue;
     private ScheduledFuture future;
@@ -18,7 +18,7 @@ public class PlayerLoginQueueManager {
 
     private void start(CometThreadManagement threadMgr) {
         if (this.future != null) { return; }
-        this.future = threadMgr.executePeriodic(this.loginQueue, 5, WAIT_TIME, TimeUnit.SECONDS);
+        this.future = threadMgr.executePeriodic(this.loginQueue, 500, WAIT_TIME, TimeUnit.MILLISECONDS);
     }
 
     public boolean queue(PlayerLoginQueueEntry entry) {
