@@ -7,7 +7,7 @@
     <groupId>Comet</groupId>
     <artifactId>Comet</artifactId>
 
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <version>0.8.4-ALPHA3</version>
 
     <name>Comet</name>

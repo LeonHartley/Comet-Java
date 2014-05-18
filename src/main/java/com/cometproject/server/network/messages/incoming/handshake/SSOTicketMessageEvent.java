@@ -24,6 +24,7 @@ public class SSOTicketMessageEvent implements IEvent {
         String ticket = msg.readString();
 
         if (ticket.length() < 10 || ticket.length() > 64) {
+            CometManager.getLogger().warn("Session was disconnected because ticket was too long or too short. Length: " + ticket.length());
             client.disconnect();
             return;
         }
