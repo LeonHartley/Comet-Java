@@ -4,11 +4,18 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import javolution.util.FastMap;
 
 import java.util.List;
 
 public class CataIndexMessageComposer {
+    private static FastMap<Integer, Composer> cataIndexCache = new FastMap<>();
+
     public static Composer compose(int rank) {
+        if (cataIndexCache.containsKey(rank)) {
+            return cataIndexCache.get(rank);
+        }
+
         List<CatalogPage> pages = CometManager.getCatalog().getPagesForRank(rank);
 
         Composer msg = new Composer(Composers.CataIndexMessageComposer);
@@ -55,6 +62,7 @@ public class CataIndexMessageComposer {
         msg.writeBoolean(false);
         msg.writeString("NORMAL");
 
+        cataIndexCache.add(rank, msg);
         return msg;
     }
 
@@ -68,5 +76,9 @@ public class CataIndexMessageComposer {
         }
 
         return i;
+    }
+
+    public static void clearCataIndexCache() {
+        cataIndexCache.clear();
     }
 }
