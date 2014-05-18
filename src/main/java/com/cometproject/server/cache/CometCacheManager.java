@@ -2,7 +2,7 @@ package com.cometproject.server.cache;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.cache.handlers.ComposerCacheHandler;
-import com.cometproject.server.cache.providers.MemcachedProvider;
+import com.cometproject.server.cache.providers.RedisProvider;
 
 public class CometCacheManager {
     private String provider = Comet.getServer().getConfig().get("comet.cache.provider");
@@ -18,8 +18,8 @@ public class CometCacheManager {
         } else {
             this.isCacheEnabled = true;
 
-            if ("memcached".equals(provider)) {
-                this.masterProvider = new MemcachedProvider();
+            if ("redis".equals(provider)) {
+                this.masterProvider = new RedisProvider();
                 this.masterProvider.init();
             }
 
