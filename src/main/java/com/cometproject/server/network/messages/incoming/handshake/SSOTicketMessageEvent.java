@@ -3,6 +3,8 @@ package com.cometproject.server.network.messages.incoming.handshake;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.data.PlayerLoader;
+import com.cometproject.server.game.players.queue.PlayerLoginQueueEntry;
+import com.cometproject.server.game.players.queue.StaticPlayerQueue;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
@@ -29,7 +31,28 @@ public class SSOTicketMessageEvent implements IEvent {
             return;
         }
 
-        Player player = null;
+        boolean normalPlayerLoad = false;
+
+        if(ticket.contains(TICKET_DELIMITER)) {
+            String[] ticketData = ticket.split(TICKET_DELIMITER);
+
+            if(ticketData.length == 2) {
+                int playerId = Integer.parseInt(ticket.split(TICKET_DELIMITER)[0]);
+                String authTicket = ticketData[1];
+
+                StaticPlayerQueue.getQueueManager().queue(new PlayerLoginQueueEntry(client, playerId, authTicket));
+            } else {
+                normalPlayerLoad = true;
+            }
+        } else {
+            normalPlayerLoad = true;
+        }
+
+        if (normalPlayerLoad) {
+            StaticPlayerQueue.getQueueManager().queue(new PlayerLoginQueueEntry(client, -1, ticket));
+        }
+
+        /*Player player = null;
         boolean normalPlayerLoad = false;
 
         if(ticket.contains(TICKET_DELIMITER)) {
@@ -47,6 +70,8 @@ public class SSOTicketMessageEvent implements IEvent {
             normalPlayerLoad = true;
         }
 
+
+
         if(normalPlayerLoad) {
             player = PlayerLoader.loadPlayerBySSo(ticket);
         }
@@ -63,11 +88,6 @@ public class SSOTicketMessageEvent implements IEvent {
         }
 
         if (CometManager.getBans().hasBan(Integer.toString(player.getId())) || CometManager.getBans().hasBan(((InetSocketAddress)client.getChannel().getRemoteAddress()).getAddress().getHostAddress())) {
-            /*client.send(AdvancedAlertMessageComposer.compose(
-                    "You've been banned!",
-                    "If you feel you received this in error, please contact the system administrator."
-            ));*/
-
             CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
 
             client.disconnect();
@@ -96,6 +116,6 @@ public class SSOTicketMessageEvent implements IEvent {
             client.send(ModToolMessageComposer.compose());
         }
 
-        client.send(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
+        client.send(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));*/
     }
 }
