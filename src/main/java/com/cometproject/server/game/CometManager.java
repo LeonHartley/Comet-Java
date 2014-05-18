@@ -1,5 +1,6 @@
 package com.cometproject.server.game;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.groups.GroupManager;
@@ -10,6 +11,7 @@ import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.pets.PetManager;
+import com.cometproject.server.game.players.queue.StaticPlayerQueue;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.wired.WiredManager;
 import org.apache.log4j.Logger;
@@ -45,6 +47,8 @@ public class CometManager {
         petManager = new PetManager();
         landingManager = new LandingManager();
         groupManager = new GroupManager();
+
+        StaticPlayerQueue.init(Comet.getServer().getThreadManagement());
     }
 
     public static Logger getLogger() {

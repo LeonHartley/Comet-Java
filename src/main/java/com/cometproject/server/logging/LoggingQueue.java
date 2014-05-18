@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import javolution.util.FastTable;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -98,6 +99,6 @@ public class LoggingQueue implements CometTask {
     }
 
     private void saveChatlog(AbstractLogEntry entry) {
-
+        HttpPost postRequest = new HttpPost(BASE_URL + "/v1/log/chat");
     }
 }
