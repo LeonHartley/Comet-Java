@@ -71,7 +71,8 @@ public class RollerInteraction extends Interactor {
             double toHeight = 0;
 
             for (FloorItem itemInStack : floorItem.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
-                toHeight += itemInStack.getDefinition().getHeight();
+                if(!itemInStack.getDefinition().canSit)
+                    toHeight += itemInStack.getDefinition().getHeight();
             }
 
             entity.updateAndSetPosition(new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight));
