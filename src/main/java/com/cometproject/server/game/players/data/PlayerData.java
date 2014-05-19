@@ -10,17 +10,19 @@ public class PlayerData {
     private String motto;
     private String figure;
     private String gender;
+    private String email;
 
     private int credits;
     private int points;
 
     private String regDate;
     private int lastVisit;
+    private int regTimestamp;
     private int achievementPoints;
 
     private boolean vip;
 
-    public PlayerData(int id, String username, String motto, String figure, String gender, int rank, int credits, int vipPoints, String reg, int lastVisit, boolean vip, int achievementPoints) {
+    public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints, String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp) {
         this.id = id;
         this.username = username;
         this.motto = motto;
@@ -29,10 +31,13 @@ public class PlayerData {
         this.credits = credits;
         this.points = vipPoints;
         this.gender = gender;
-        this.regDate = reg;
-        this.lastVisit = lastVisit;
         this.vip = vip;
         this.achievementPoints = achievementPoints;
+        this.email = email;
+
+        this.regDate = reg;
+        this.lastVisit = lastVisit;
+        this.regTimestamp = regTimestamp;
     }
 
     public void save() {
@@ -129,5 +134,21 @@ public class PlayerData {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public int getRegTimestamp() {
+        return regTimestamp;
+    }
+
+    public void setRegTimestamp(int regTimestamp) {
+        this.regTimestamp = regTimestamp;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

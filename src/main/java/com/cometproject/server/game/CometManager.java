@@ -48,7 +48,7 @@ public class CometManager {
         landingManager = new LandingManager();
         groupManager = new GroupManager();
 
-        StaticPlayerQueue.init(Comet.getServer().getThreadManagement());
+        //StaticPlayerQueue.init(Comet.getServer().getThreadManagement());
     }
 
     public static Logger getLogger() {
