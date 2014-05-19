@@ -24,6 +24,7 @@ public class RollerInteraction extends Interactor {
         if (state) {
             Room r = ((FloorItem) item).getRoom();
             int speed = r.hasAttribute("setspeed") ? (int)r.getAttribute("setspeed") : 13;
+
             item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, speed));
             return true;
         }
@@ -125,6 +126,7 @@ public class RollerInteraction extends Interactor {
 
         if (itemsOnSq.size() > 0) {
             floorItem.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY()).reload();
+            floorItem.getRoom().getMapping().getTile(floorItem.getX(), floorItem.getY()).reload();
         }
 
         return false;
