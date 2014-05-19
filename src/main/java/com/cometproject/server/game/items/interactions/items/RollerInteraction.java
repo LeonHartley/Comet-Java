@@ -22,7 +22,9 @@ public class RollerInteraction extends Interactor {
         }
 
         if (state) {
-            item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, 13));
+            Room r = ((FloorItem) item).getRoom();
+            int speed = r.hasAttribute("setspeed") ? (int)r.getAttribute("setspeed") : 13;
+            item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, speed));
             return true;
         }
 
