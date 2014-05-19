@@ -91,6 +91,7 @@ public class Room implements Attributable {
         this.pets.dispose();
         this.game.dispose();
         this.mapping.dispose();
+        this.attributes.clear();
 
         this.itemProcess = null;
         this.process = null;
@@ -121,7 +122,10 @@ public class Room implements Attributable {
 
     @Override
     public void setAttribute(String attributeKey, Object attributeValue) {
-        if (this.attributes.containsKey(attributeKey)) { return; }
+        if (this.attributes.containsKey(attributeKey)) {
+            this.removeAttribute(attributeKey);
+        }
+        
         this.attributes.put(attributeKey, attributeValue);
     }
 
