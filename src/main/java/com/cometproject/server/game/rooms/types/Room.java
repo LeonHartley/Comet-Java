@@ -125,7 +125,7 @@ public class Room implements Attributable {
         if (this.attributes.containsKey(attributeKey)) {
             this.removeAttribute(attributeKey);
         }
-        
+
         this.attributes.put(attributeKey, attributeValue);
     }
 
