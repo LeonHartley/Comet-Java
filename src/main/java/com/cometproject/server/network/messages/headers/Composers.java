@@ -94,7 +94,7 @@ public class Composers {
     public static short SendPurchaseAlertMessageComposer = 774;
     public static short BotInventoryMessageComposer = 823;
 
-    public static short ModToolUserInfoMessageComposer = 3282;
+    public static short ModToolUserInfoMessageComposer = 3872;
     public static short ModToolUserChatlogMessageComposer = 2981;
 
     public static short InitHelpToolMessageComposer = 3466;

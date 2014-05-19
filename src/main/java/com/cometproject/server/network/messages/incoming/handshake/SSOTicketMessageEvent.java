@@ -31,7 +31,7 @@ public class SSOTicketMessageEvent implements IEvent {
             return;
         }
 
-        boolean normalPlayerLoad = false;
+        /*boolean normalPlayerLoad = false;
 
         if(ticket.contains(TICKET_DELIMITER)) {
             String[] ticketData = ticket.split(TICKET_DELIMITER);
@@ -50,9 +50,9 @@ public class SSOTicketMessageEvent implements IEvent {
 
         if (normalPlayerLoad) {
             StaticPlayerQueue.getQueueManager().queue(new PlayerLoginQueueEntry(client, -1, ticket));
-        }
+        }*/
 
-        /*Player player = null;
+        Player player = null;
         boolean normalPlayerLoad = false;
 
         if(ticket.contains(TICKET_DELIMITER)) {
@@ -116,6 +116,6 @@ public class SSOTicketMessageEvent implements IEvent {
             client.send(ModToolMessageComposer.compose());
         }
 
-        client.send(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));*/
+        client.send(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
     }
 }
