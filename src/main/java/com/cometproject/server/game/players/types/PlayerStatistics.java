@@ -11,13 +11,21 @@ public class PlayerStatistics {
     private int achievementPoints;
     private int dailyRespects;
     private int respectPoints;
-    private int friendCount = 0;
+
+    private int helpTickets;
+    private int abusiveHelpTickets;
+    private int cautions;
+    private int bans;
 
     public PlayerStatistics(ResultSet data) throws SQLException {
         this.userId = data.getInt("player_id");
         this.achievementPoints = data.getInt("achievement_score");
         this.dailyRespects = data.getInt("daily_respects") > 3 ? 3 : data.getInt("daily_respects");
         this.respectPoints = data.getInt("total_respect_points");
+        this.helpTickets = data.getInt("help_tickets");
+        this.abusiveHelpTickets = data.getInt("help_tickets_abusive");
+        this.cautions = data.getInt("cautions");
+        this.bans = data.getInt("bans");
     }
 
     public PlayerStatistics(int userId) {
@@ -25,6 +33,10 @@ public class PlayerStatistics {
         this.achievementPoints = 0;
         this.respectPoints = 0;
         this.dailyRespects = 3;
+        this.helpTickets = 0;
+        this.abusiveHelpTickets = 0;
+        this.cautions = 0;
+        this.bans = 0;
     }
 
     public void save() {
@@ -60,5 +72,37 @@ public class PlayerStatistics {
 
     public int getFriendCount() {
         return MessengerDao.getFriendCount(this.userId);
+    }
+
+    public int getHelpTickets() {
+        return helpTickets;
+    }
+
+    public void setHelpTickets(int helpTickets) {
+        this.helpTickets = helpTickets;
+    }
+
+    public int getAbusiveHelpTickets() {
+        return abusiveHelpTickets;
+    }
+
+    public void setAbusiveHelpTickets(int abusiveHelpTickets) {
+        this.abusiveHelpTickets = abusiveHelpTickets;
+    }
+
+    public int getCautions() {
+        return cautions;
+    }
+
+    public void setCautions(int cautions) {
+        this.cautions = cautions;
+    }
+
+    public int getBans() {
+        return bans;
+    }
+
+    public void setBans(int bans) {
+        this.bans = bans;
     }
 }
