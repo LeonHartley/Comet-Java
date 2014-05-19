@@ -23,7 +23,7 @@ public class SetSpeedCommand extends ChatCommand {
             if (speed > 20) { speed = 20; }
 
             client.getPlayer().getEntity().getRoom().setAttribute("setspeed", speed);
-            sendChat("Roller speed set", client);
+            sendChat(Locale.get("command.setspeed.set").replace("%s", "" + speed), client);
         }
     }
 
