@@ -39,6 +39,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.pull.name"), new PullCommand());
         this.commands.put(Locale.get("command.moonwalk.name"), new MoonwalkCommand());
         this.commands.put(Locale.get("command.enable.name"), new EnableCommand());
+        this.commands.put(Locale.get("command.setspeed.name"), new SetSpeedCommand());
     }
 
     public void loadStaffCommands() {

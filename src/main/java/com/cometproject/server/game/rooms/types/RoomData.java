@@ -4,6 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
+import com.cometproject.server.utilities.attributes.Attributable;
 import javolution.util.FastMap;
 import org.mindrot.jbcrypt.BCrypt;
 

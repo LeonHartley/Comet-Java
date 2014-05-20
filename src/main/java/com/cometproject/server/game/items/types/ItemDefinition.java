@@ -58,7 +58,7 @@ public class ItemDefinition {
     }
 
     public boolean isRoomDecor() {
-        return itemName.startsWith("wallpaper ") || itemName.startsWith("landscape") || itemName.startsWith("a2 ");
+        return itemName.startsWith("wallpaper") || itemName.startsWith("landscape") || itemName.startsWith("a2 ");
     }
 
     public int getId() {
