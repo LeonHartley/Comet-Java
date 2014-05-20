@@ -12,6 +12,7 @@ import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
@@ -250,6 +251,24 @@ public class EntityComponent {
         }
 
         return entities;
+    }
+
+    public List<PlayerEntity> getPlayerEntities() {
+        List<PlayerEntity> entities = new ArrayList<>();
+
+        for (GenericEntity entity : this.entities.values()) {
+            if (entity.getEntityType() == RoomEntityType.PLAYER) {
+                entities.add((PlayerEntity) entity);
+            }
+        }
+
+        return entities;
+    }
+
+    public void refreshScore() {
+        for(PlayerEntity entity : getPlayerEntities()) {
+            entity.getPlayer().getSession().send(RoomRatingMessageComposer.compose(room.getData().getScore(), entity.canRateRoom()));
+        }
     }
 
     protected int getFreeId() {
