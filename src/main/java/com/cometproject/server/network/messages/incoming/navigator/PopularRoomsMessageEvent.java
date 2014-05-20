@@ -8,6 +8,8 @@ import com.cometproject.server.network.sessions.Session;
 
 public class PopularRoomsMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        client.send(NavigatorFlatListMessageComposer.compose(0, 2, "", CometManager.getRooms().getActiveRooms()));
+        int categoryId = Integer.parseInt(msg.readString());
+
+        client.send(NavigatorFlatListMessageComposer.compose(categoryId, 2, "", CometManager.getRooms().getActiveRoomsByCategory(categoryId)));
     }
 }

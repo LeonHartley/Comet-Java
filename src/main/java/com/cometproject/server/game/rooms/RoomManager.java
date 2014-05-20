@@ -156,6 +156,20 @@ public class RoomManager {
         return rooms;
     }
 
+    public List<Room> getActiveRoomsByCategory(int category) {
+        List<Room> rooms = new ArrayList<>();
+
+        for (Room room : this.getRooms().values()) {
+            if (room == null || room.getEntities() == null || room.getEntities().playerCount() < 1 || !room.isActive || (category != -1 && room.getData().getCategory().getId() != category)) {
+                continue;
+            }
+
+            rooms.add(room);
+        }
+
+        return rooms;
+    }
+
     public ChatEmotionsManager getEmotions() {
         return this.emotions;
     }
