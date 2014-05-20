@@ -107,7 +107,7 @@ public class Events {
     public static short PetInformationMessageEvent = 2604;
     public static short RemovePetMessageEvent = 3961;
     public static short SearchFriendsMessageEvent = 658;
-    public static short ChangeWallItemStateMessageEvent = 40;
+    public static short ChangeWallItemStateMessageEvent = 579;
     public static short InviteFriendsMessageEvent = 436;
     public static short FollowFriendMessageEvent = 3250;
     public static short MuteRoomMessageEvent = 2835;
