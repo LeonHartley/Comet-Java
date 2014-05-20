@@ -7,9 +7,13 @@ import com.cometproject.server.game.rooms.models.types.DynamicRoomModel;
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.components.*;
 import com.cometproject.server.game.rooms.types.mapping.RoomMapping;
+import com.cometproject.server.utilities.attributes.Attributable;
 import org.apache.log4j.Logger;
 
-public class Room {
+import java.util.HashMap;
+import java.util.Map;
+
+public class Room implements Attributable {
     private int id;
     private RoomData data;
     private RoomModel model;
@@ -30,6 +34,8 @@ public class Room {
     public Logger log;
     public boolean isActive;
     private boolean isRoomMuted = false;
+
+    private Map<String, Object> attributes = new HashMap<>();
 
     public Room(RoomData data) {
         this.id = data.getId();
@@ -85,6 +91,7 @@ public class Room {
         this.pets.dispose();
         this.game.dispose();
         this.mapping.dispose();
+        this.attributes.clear();
 
         this.itemProcess = null;
         this.process = null;
@@ -111,6 +118,30 @@ public class Room {
     public void tick() {
         if (wired != null)
             this.wired.tick();
+    }
+
+    @Override
+    public void setAttribute(String attributeKey, Object attributeValue) {
+        if (this.attributes.containsKey(attributeKey)) {
+            this.removeAttribute(attributeKey);
+        }
+
+        this.attributes.put(attributeKey, attributeValue);
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+        return this.attributes.get(attributeKey);
+    }
+
+    @Override
+    public boolean hasAttribute(String attributeKey) {
+        return this.attributes.containsKey(attributeKey);
+    }
+
+    @Override
+    public void removeAttribute(String attributeKey) {
+        this.attributes.remove(attributeKey);
     }
 
     public ProcessComponent getProcess() {

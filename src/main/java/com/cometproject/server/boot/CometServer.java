@@ -9,6 +9,7 @@ import com.cometproject.server.game.GameThread;
 import com.cometproject.server.network.NetworkEngine;
 import com.cometproject.server.plugins.PluginEngine;
 import com.cometproject.server.storage.SqlStorageEngine;
+import com.cometproject.server.storage.helpers.SqlIndexChecker;
 import com.cometproject.server.tasks.CometThreadManagement;
 
 public class CometServer {
@@ -29,6 +30,8 @@ public class CometServer {
         threadManagement = new CometThreadManagement();
         storageEngine = new SqlStorageEngine();
         pluginEngine = new PluginEngine();
+
+        SqlIndexChecker.checkIndexes(storageEngine);
 
         Locale.init();
         CometManager.init();
