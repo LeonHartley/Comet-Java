@@ -123,6 +123,7 @@ public class Events {
     public static short SaveFloorMessageEvent = 2200;
     public static short LoadPlaylistMessageEvent = 3835;
     public static short PlayVideoMessageEvent = 517;
+    public static short RateRoomMessageEvent = 1662;
 
     public static String valueOfId(int i) {
         Events e = new Events();

@@ -23,6 +23,7 @@ import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessa
 import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
@@ -31,6 +32,7 @@ import javolution.util.FastMap;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Map;
+import java.util.Set;
 
 public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, Attributable {
     private Player player;
@@ -129,6 +131,19 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         if (this.getRoom().getData().getOwnerId() == this.player.getId() || this.player.getPermissions().hasPermission("room_full_control")) {
             this.player.getSession().send(OwnerRightsMessageComposer.compose());
         }
+
+        this.player.getSession().send(RoomRatingMessageComposer.compose(this.getRoom().getData().getScore(), canRateRoom()));
+    }
+
+    public boolean canRateRoom() {
+        if(!this.getRoom().hasAttribute("ratings") || !(this.getRoom().getAttribute("ratings") instanceof Set)) {
+            return true;
+        }
+
+        Set<Integer> ratings = (Set<Integer>) this.getRoom().getAttribute("ratings");
+
+        return !ratings.contains(this.getPlayerId());
+
     }
 
     @Override
