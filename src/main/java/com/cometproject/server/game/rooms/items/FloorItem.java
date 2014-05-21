@@ -2,23 +2,17 @@ package com.cometproject.server.game.rooms.items;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
-import com.cometproject.server.game.items.interactions.InteractionAction;
-import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.data.BackgroundTonerData;
 import com.cometproject.server.game.rooms.items.data.MannequinData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
-import javolution.util.FastMap;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
-import java.util.Map;
 
 public class FloorItem extends RoomItem {
     private int roomId;
@@ -29,7 +23,8 @@ public class FloorItem extends RoomItem {
     private List<Position3D> rollingPositions;
 
     private WeakReference<Room> room;
-    private Map<String, Object> attributes;
+
+    private ItemDefinition tmpItemDefiniton;
 
     public FloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data, GiftData giftData) {
         this.init(id, itemId, roomId, owner, x, y, z, rotation, data, giftData);
@@ -50,12 +45,6 @@ public class FloorItem extends RoomItem {
         this.rotation = rotation;
         this.extraData = data;
         this.giftData = giftData;
-
-        this.attributes = new FastMap<>();
-    }
-
-    public void dispose() {
-        this.attributes.clear();
     }
 
     public void serialize(Composer msg, boolean isNew) {
@@ -181,19 +170,17 @@ public class FloorItem extends RoomItem {
             msg.writeString(this.getRoom().getData().getOwner());
     }
 
-    private ItemDefinition cachedDefinition;
-
     @Override
     public void serialize(Composer msg) {
         this.serialize(msg, false);
     }
 
     public ItemDefinition getDefinition() {
-        if (cachedDefinition == null) {
-            cachedDefinition = CometManager.getItems().getDefintion(this.getItemId());
+        if (this.tmpItemDefiniton == null) {
+            this.tmpItemDefiniton = CometManager.getItems().getDefintion(this.getItemId());
         }
 
-        return cachedDefinition;
+        return this.tmpItemDefiniton;
     }
 
     @Override
@@ -253,32 +240,6 @@ public class FloorItem extends RoomItem {
         RoomItemDao.saveData(id, extraData);
     }
 
-    public void setNeedsUpdate(boolean needsUpdate, InteractionAction action, GenericEntity avatar, int updateState) {
-        if (needsUpdate) {
-            this.queueInteraction(new InteractionQueueItem(needsUpdate, this, action, avatar, updateState));
-        } else {
-            this.setNeedsUpdate(false);
-        }
-    }
-
-    public void setNeedsUpdate(boolean needsUpdate, InteractionAction action, PlayerEntity avatar, int updateState, int updateCycles) {
-        if (needsUpdate) {
-            this.queueInteraction(new InteractionQueueItem(needsUpdate, this, action, avatar, updateState, updateCycles));
-        } else {
-            this.setNeedsUpdate(false);
-        }
-    }
-
-    public void setNeedsUpdate(boolean needsUpdate) {
-        /*this.updateNeeded = needsUpdate;
-        this.updateType = null;
-        this.updateAvatar = null;
-        this.updateState = 0;
-        this.updateCycles = 0;*/
-
-        this.curInteractionItem = null;
-    }
-
     public void sendUpdate() {
         Room r = this.getRoom();
 
@@ -321,29 +282,5 @@ public class FloorItem extends RoomItem {
 
     public void setExtraData(String data) {
         this.extraData = data;
-    }
-
-    @Override
-    public void setAttribute(String attributeKey, Object attributeValue) {
-        if (this.attributes.containsKey(attributeKey)) {
-            this.attributes.replace(attributeKey, attributeValue);
-        } else {
-            this.attributes.put(attributeKey, attributeValue);
-        }
-    }
-
-    @Override
-    public Object getAttribute(String attributeKey) {
-        return this.attributes.get(attributeKey);
-    }
-
-    @Override
-    public boolean hasAttribute(String attributeKey) {
-        return this.attributes.containsKey(attributeKey);
-    }
-
-    @Override
-    public void removeAttribute(String attributeKey) {
-        this.attributes.remove(attributeKey);
     }
 }

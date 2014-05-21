@@ -131,7 +131,7 @@ public class InteractionManager {
     }
 
     public void onTick(RoomItem item) {
-        CometManager.getLogger().debug("GenericRoomItem tick: " + item.getDefinition().getInteraction());
+        /*CometManager.getLogger().debug("GenericRoomItem tick: " + item.getDefinition().getInteraction());
 
         if (!this.isInteraction(item.getDefinition().getInteraction())) {
             return;
@@ -147,7 +147,7 @@ public class InteractionManager {
 
         if (action.onTick(item, interactionQueueItem.getEntity(), interactionQueueItem.getUpdateState())) {
             // ??
-        }
+        }*/
     }
 
     private boolean isInteraction(String interaction) {
