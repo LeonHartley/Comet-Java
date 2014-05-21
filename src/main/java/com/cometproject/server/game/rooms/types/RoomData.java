@@ -127,7 +127,7 @@ public class RoomData {
         Category category = CometManager.getNavigator().getCategory(this.category);
 
         if(category == null) {
-
+            // TODO: Dummy category :p
         }
 
         return category;

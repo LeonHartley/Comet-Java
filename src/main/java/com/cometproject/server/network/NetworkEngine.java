@@ -12,6 +12,8 @@ import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.jboss.netty.handler.execution.OrderedMemoryAwareThreadPoolExecutor;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 public class NetworkEngine {
@@ -19,12 +21,10 @@ public class NetworkEngine {
     private MessageHandler messageHandler;
     private ManagementServer managementServer;
 
-    public String ip;
-    public int port;
 
     private static Logger log = Logger.getLogger(NetworkEngine.class.getName());
 
-    public NetworkEngine(String ip, int port) {
+    public NetworkEngine(String ip, String ports) {
         this.sessions = new SessionManager();
         this.messageHandler = new MessageHandler();
 
@@ -58,18 +58,22 @@ public class NetworkEngine {
 
         bootstrap.setPipelineFactory(new NetworkChannelInitializer(handlerExecutor));
 
+        if (ports.contains(",")) {
+            for (String s : ports.split(",")) {
+                this.bind(bootstrap, ip, Integer.parseInt(s));
+            }
+        } else {
+            this.bind(bootstrap, ip, Integer.parseInt(ports));
+        }
+    }
 
-        this.ip = ip;
-        this.port = port;
-
+    private void bind(ServerBootstrap bootstrap, String ip, int port) {
         try {
             bootstrap.bind(new InetSocketAddress(ip, port));
-        } catch (Exception e) {
+            log.info("CometServer listening on port: " + port);
+        } catch (Exception e ) {
             Comet.exit("Failed to initialize sockets on address: " + ip + ":" + port);
-            return;
         }
-
-        log.info("CometServer listening on port: " + port);
     }
 
     public SessionManager getSessions() {

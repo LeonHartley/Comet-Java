@@ -18,7 +18,6 @@ import com.cometproject.server.network.messages.incoming.handshake.InitCryptoMes
 import com.cometproject.server.network.messages.incoming.handshake.SSOTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
-import com.cometproject.server.network.messages.incoming.landing.HotelViewItemMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArticlesMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.*;
 import com.cometproject.server.network.messages.incoming.moderation.*;
@@ -206,6 +205,7 @@ public class MessageHandler {
         this.getMessages().put(Events.DeleteRoomMessageEvent, new DeleteRoomMessageEvent());
         this.getMessages().put(Events.MuteRoomMessageEvent, new MuteRoomMessageEvent());
         this.getMessages().put(Events.SaveFloorMessageEvent, new SaveFloorMessageEvent());
+        this.getMessages().put(Events.RateRoomMessageEvent, new RateRoomMessageEvent());
     }
 
     public void registerRoomTrade() {
@@ -265,16 +265,15 @@ public class MessageHandler {
     }
 
     public void registerLanding() {
-        //this.getMessages().put(Events.HotelViewItemMessageEvent, new HotelViewItemMessageEvent());
         this.getMessages().put(Events.RefreshPromoArticlesMessageEvent, new RefreshPromoArticlesMessageEvent());
     }
 
-    private static final short PING_HEADER = 3555;
+    private static final short PING_EVENT = 3555;
 
     public void handle(Event message, Session client) {
         Short header = message.getId();
 
-        /*if(header != PING_HEADER) {
+        /*if(header != PING_EVENT) {
             log.debug("Message received (ID: " + header + ")");
             log.debug(message.toString());
         }*/
@@ -291,9 +290,9 @@ public class MessageHandler {
                 log.error("Error while handling event: " + this.getMessages().get(header).getClass(), e);
             }
         } else {
-            if (Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != PING_HEADER)
+            if (Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != PING_EVENT)
                 log.debug("Unknown message ID: " + header);
-            else if (header != PING_HEADER)
+            else if (header != PING_EVENT)
                 log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
         }
     }

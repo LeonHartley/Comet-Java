@@ -11,8 +11,7 @@ import com.cometproject.server.utilities.attributes.Attributable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Room implements Attributable {
     private int id;
@@ -94,6 +93,13 @@ public class Room implements Attributable {
         this.pets.dispose();
         this.game.dispose();
         this.mapping.dispose();
+
+        for(Map.Entry<String, Object> attribute : this.attributes.entrySet()) {
+            if(attribute.getValue() instanceof Collection) {
+                ((Collection) attribute.getValue()).clear();
+            }
+        }
+
         this.attributes.clear();
 
         this.attributes = null;

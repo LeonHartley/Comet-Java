@@ -2,6 +2,7 @@ package com.cometproject.server.game.wired.effects;
 
 import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -18,7 +19,7 @@ public class MoveUserEffect extends WiredEffect {
     private Random randomGenerator = new Random();
 
     @Override
-    public void onActivate(List<PlayerEntity> entities, FloorItem item) {
+    public void onActivate(List<GenericEntity> entities, FloorItem item) {
         WiredDataInstance data = WiredDataFactory.get(item);
 
         if (data.getItems().size() == 0) {
@@ -35,7 +36,7 @@ public class MoveUserEffect extends WiredEffect {
 
         Position3D position = new Position3D(itemInstance.getX(), itemInstance.getY(), itemInstance.getHeight());
 
-        for (PlayerEntity entity : entities) {
+        for (GenericEntity entity : entities) {
             // Teleport player to position
             entity.applyEffect(new UserEffect(4, 5));
             entity.updateAndSetPosition(position);

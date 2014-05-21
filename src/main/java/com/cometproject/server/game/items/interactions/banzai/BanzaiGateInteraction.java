@@ -2,6 +2,7 @@ package com.cometproject.server.game.items.interactions.banzai;
 
 import com.cometproject.server.game.items.interactions.Interactor;
 import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
@@ -11,14 +12,14 @@ import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 public class BanzaiGateInteraction extends Interactor {
 
     @Override
-    public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
-        if (!state)
+    public boolean onWalk(boolean state, RoomItem item, GenericEntity avatar) {
+        if (!state || !(avatar instanceof PlayerEntity))
             return false;
 
         Room room = avatar.getRoom();
         GameTeam team = GameTeam.valueOf(item.getDefinition().getInteraction().split("\\_")[1].toUpperCase());
 
-        int id = avatar.getPlayer().getId();
+        int id = ((PlayerEntity) avatar).getPlayer().getId();
 
         if(room.getGame().getInstance() == null)
             return false;
@@ -51,12 +52,12 @@ public class BanzaiGateInteraction extends Interactor {
     }
 
     @Override
-    public boolean onPreWalk(RoomItem item, PlayerEntity avatar) {
+    public boolean onPreWalk(RoomItem item, GenericEntity avatar) {
         return false;
     }
 
     @Override
-    public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
+    public boolean onInteract(int request, RoomItem item, GenericEntity avatar, boolean isWiredTriggered) {
         return false;
     }
 
@@ -71,7 +72,7 @@ public class BanzaiGateInteraction extends Interactor {
     }
 
     @Override
-    public boolean onTick(RoomItem item, PlayerEntity avatar, int updateState) {
+    public boolean onTick(RoomItem item, GenericEntity avatar, int updateState) {
         return false;
     }
 
