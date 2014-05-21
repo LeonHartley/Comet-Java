@@ -43,7 +43,7 @@ public class  PlaceItemMessageEvent implements IEvent {
                 WallItem wallItem = room.getItems().addWallItem(id, item.getBaseId(), client.getPlayer().getId(), room.getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
 
                 client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(
-                        SendWallItemMessageComposer.compose(wallItem, room)
+                        SendWallItemMessageComposer.compose(wallItem)
                 );
 
             } else {

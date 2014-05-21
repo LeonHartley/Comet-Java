@@ -1,5 +1,6 @@
 package com.cometproject.server.game.items.interactions;
 
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItem;
 
@@ -7,11 +8,11 @@ public class InteractionQueueItem {
     private boolean needsUpdate;
     private RoomItem item;
     private InteractionAction actionToPerform;
-    private PlayerEntity entity;
+    private GenericEntity entity;
     private int updateState;
     private int updateCycles;
 
-    public InteractionQueueItem(boolean needsUpdate, RoomItem item, InteractionAction action, PlayerEntity avatar, int updateState) {
+    public InteractionQueueItem(boolean needsUpdate, RoomItem item, InteractionAction action, GenericEntity avatar, int updateState) {
         this.needsUpdate = needsUpdate;
         this.item = item;
         this.actionToPerform = action;
@@ -20,7 +21,7 @@ public class InteractionQueueItem {
         this.updateCycles = 0;
     }
 
-    public InteractionQueueItem(boolean needsUpdate, RoomItem item, InteractionAction action, PlayerEntity avatar, int updateState, int updateCycles) {
+    public InteractionQueueItem(boolean needsUpdate, RoomItem item, InteractionAction action, GenericEntity avatar, int updateState, int updateCycles) {
         this.needsUpdate = needsUpdate;
         this.item = item;
         this.actionToPerform = action;
@@ -47,7 +48,7 @@ public class InteractionQueueItem {
         return this.actionToPerform;
     }
 
-    public PlayerEntity getEntity() {
+    public GenericEntity getEntity() {
         return this.entity;
     }
 

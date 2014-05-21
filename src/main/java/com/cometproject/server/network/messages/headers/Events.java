@@ -107,7 +107,7 @@ public class Events {
     public static short PetInformationMessageEvent = 2604;
     public static short RemovePetMessageEvent = 3961;
     public static short SearchFriendsMessageEvent = 658;
-    public static short ChangeWallItemStateMessageEvent = 40;
+    public static short ChangeWallItemStateMessageEvent = 579;
     public static short InviteFriendsMessageEvent = 436;
     public static short FollowFriendMessageEvent = 3250;
     public static short MuteRoomMessageEvent = 2835;
@@ -123,6 +123,7 @@ public class Events {
     public static short SaveFloorMessageEvent = 2200;
     public static short LoadPlaylistMessageEvent = 3835;
     public static short PlayVideoMessageEvent = 517;
+    public static short RateRoomMessageEvent = 1662;
 
     public static String valueOfId(int i) {
         Events e = new Events();

@@ -10,6 +10,7 @@ import com.cometproject.server.game.items.interactions.wired.action.WiredActionM
 import com.cometproject.server.game.items.interactions.wired.action.WiredActionShowMessage;
 import com.cometproject.server.game.items.interactions.wired.action.WiredActionToggleFurni;
 import com.cometproject.server.game.items.interactions.wired.trigger.*;
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
@@ -77,7 +78,7 @@ public class InteractionManager {
         this.interactions.put("bb_score_y", new BanzaiScoreInteraction());
     }
 
-    public void onWalk(boolean state, FloorItem item, PlayerEntity avatar) {
+    public void onWalk(boolean state, FloorItem item, GenericEntity avatar) {
         if (this.isInteraction(item.getDefinition().getInteraction())) {
             if (this.getInteractions().get(item.getDefinition().getInteraction()).onWalk(state, item, avatar)) {
                 // ??
@@ -85,7 +86,7 @@ public class InteractionManager {
         }
     }
 
-    public void onPreWalk(FloorItem item, PlayerEntity avatar) {
+    public void onPreWalk(FloorItem item, GenericEntity avatar) {
         if (this.isInteraction(item.getDefinition().getInteraction())) {
             if (this.getInteractions().get(item.getDefinition().getInteraction()).onPreWalk(item, avatar)) {
                 // ??
@@ -93,7 +94,7 @@ public class InteractionManager {
         }
     }
 
-    public void onInteract(int state, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
+    public void onInteract(int state, RoomItem item, GenericEntity avatar, boolean isWiredTriggered) {
         CometManager.getLogger().debug("Interacted with: " + item.getDefinition().getInteraction());
 
         if (!this.isInteraction(item.getDefinition().getInteraction())) {
@@ -103,8 +104,10 @@ public class InteractionManager {
         Interactor action = this.getInteractions().get(item.getDefinition().getInteraction());
 
         if (!isWiredTriggered) {
-            if (action.requiresRights() && (!avatar.getRoom().getRights().hasRights(avatar.getPlayer().getId()) && !avatar.getPlayer().getPermissions().hasPermission("room_full_control"))) {
-                return;
+            if(avatar instanceof PlayerEntity) {
+                if (action.requiresRights() && (!avatar.getRoom().getRights().hasRights(((PlayerEntity) avatar).getPlayer().getId()) && !((PlayerEntity) avatar).getPlayer().getPermissions().hasPermission("room_full_control"))) {
+                    return;
+                }
             }
         }
 
@@ -113,7 +116,7 @@ public class InteractionManager {
         }
     }
 
-    public void onInteract(int state, RoomItem item, PlayerEntity entity) {
+    public void onInteract(int state, RoomItem item, GenericEntity entity) {
         this.onInteract(state, item, entity, false);
     }
 

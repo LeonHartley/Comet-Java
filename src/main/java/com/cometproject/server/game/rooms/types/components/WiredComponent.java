@@ -2,8 +2,6 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.RoomEntityType;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
@@ -11,19 +9,21 @@ import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.types.Event;
+import javolution.util.FastSet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WiredComponent {
     private Room room;
 
-    private List<WiredSquare> squares;
+    private FastSet<WiredSquare> squares;
 
     public WiredComponent(Room room) {
         this.room = room;
 
-        this.squares = new ArrayList<>();
+        this.squares = new FastSet<>();
     }
 
     public void dispose() {
@@ -42,14 +42,14 @@ public class WiredComponent {
         return false;
     }
 
-    public boolean trigger(TriggerType type, Object data, PlayerEntity entity) {
-        List<PlayerEntity> entities = new ArrayList<>();
+    public boolean trigger(TriggerType type, Object data, GenericEntity entity) {
+        List<GenericEntity> entities = new ArrayList<>();
         entities.add(entity);
 
         return trigger(type, data, entities);
     }
 
-    public boolean trigger(TriggerType type, Object data, List<PlayerEntity> entities) {
+    public boolean trigger(TriggerType type, Object data, List<GenericEntity> entities) {
         if (this.squares.size() == 0) {
             return false;
         }
@@ -104,15 +104,7 @@ public class WiredComponent {
                         WiredDataInstance data = WiredDataFactory.get(item);
 
                         if (data.cycles >= data.getDelay()) {
-                            List<PlayerEntity> entities = new ArrayList<>();
-
-                            for (GenericEntity entity : this.getRoom().getEntities().getEntitiesCollection().values()) {
-                                if (entity.getEntityType() == RoomEntityType.PLAYER) {
-                                    PlayerEntity playerEntity = (PlayerEntity) entity;
-
-                                    entities.add(playerEntity);
-                                }
-                            }
+                            List<GenericEntity> entities = this.getRoom().getEntities().getEntitiesCollection().values().stream().collect(Collectors.toList());
 
                             this.getRoom().getWired().trigger(TriggerType.TIMER, null, entities);
                             data.cycles = 0;
@@ -138,8 +130,8 @@ public class WiredComponent {
         this.squares.remove(square);
     }
 
-    public List<WiredSquare> getSquares() {
-        return this.squares;
+    public FastSet<WiredSquare> getSquares() {
+        return this.squares.shared();
     }
 
     public void add(int x, int y) {

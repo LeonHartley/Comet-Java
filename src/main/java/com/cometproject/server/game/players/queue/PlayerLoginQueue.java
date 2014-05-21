@@ -13,6 +13,7 @@ import com.cometproject.server.network.messages.outgoing.user.permissions.Fuseri
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.tasks.CometTask;
+import org.apache.log4j.Logger;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayDeque;
@@ -20,6 +21,8 @@ import java.util.ArrayDeque;
 public class PlayerLoginQueue implements CometTask {
     private final int MAX_QUEUE_SIZE = 1000;
     private final ArrayDeque<PlayerLoginQueueEntry> queue = new ArrayDeque<>();
+
+    private Logger log = Logger.getLogger(PlayerLoginQueue.class.getName());
 
     @Override
     public void run() {
@@ -87,6 +90,7 @@ public class PlayerLoginQueue implements CometTask {
 
     public boolean queue(PlayerLoginQueueEntry entry) {
         if (this.queue.size() >= MAX_QUEUE_SIZE) {
+            log.warn("PlayerLoginQueue size reached max size of " + MAX_QUEUE_SIZE);
             return false;
         }
 

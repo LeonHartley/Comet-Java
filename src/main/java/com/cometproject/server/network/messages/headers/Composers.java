@@ -138,7 +138,9 @@ public class Composers {
     public static short ChangeUsernameCheckMessageComposer = 2853;
 
     public static short PlaylistMessageComposer = 2928;
-    public static short PlayVideoMessageComposer = 0x0E0E;
+    public static short PlayVideoMessageComposer = 3598;
+    public static short RoomRatingMessageComposer = 3533;
+
 
     public static String valueOfId(int i) {
         Composers c = new Composers();

@@ -6,6 +6,7 @@ import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.data.BackgroundTonerData;
 import com.cometproject.server.game.rooms.items.data.MannequinData;
@@ -49,8 +50,6 @@ public class FloorItem extends RoomItem {
         this.rotation = rotation;
         this.extraData = data;
         this.giftData = giftData;
-
-        this.state = false;
 
         this.attributes = new FastMap<>();
     }
@@ -227,17 +226,12 @@ public class FloorItem extends RoomItem {
         }
     }
 
-    @Deprecated
-    public boolean handleInteraction(boolean state) {
-        return this.toggleInteract(state);
-    }
-
-    /*
-     * Provides a weak referenced access to the Room this item is placed in
-     */
     public Room getRoom() {
         if (this.room == null) {
-            this.room = new WeakReference<>(CometManager.getRooms().get(this.roomId));
+            Room r = CometManager.getRooms().get(this.roomId);
+            if (r == null) { return null; }
+
+            this.room = new WeakReference<>(r);
         }
 
         return this.room.get();
@@ -259,7 +253,7 @@ public class FloorItem extends RoomItem {
         RoomItemDao.saveData(id, extraData);
     }
 
-    public void setNeedsUpdate(boolean needsUpdate, InteractionAction action, PlayerEntity avatar, int updateState) {
+    public void setNeedsUpdate(boolean needsUpdate, InteractionAction action, GenericEntity avatar, int updateState) {
         if (needsUpdate) {
             this.queueInteraction(new InteractionQueueItem(needsUpdate, this, action, avatar, updateState));
         } else {

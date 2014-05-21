@@ -6,10 +6,10 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class SendWallItemMessageComposer {
-    public static Composer compose(WallItem item, Room room) {
+    public static Composer compose(WallItem item) {
         Composer msg = new Composer(Composers.SendWallItemMessageComposer);
 
-        item.serialize(msg, room);
+        item.serialize(msg);
 
         return msg;
     }
