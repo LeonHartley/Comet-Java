@@ -28,7 +28,7 @@ public class AboutCommand extends ChatCommand {
                 about.append("Users online: " + format.format(Comet.getServer().getNetwork().getSessions().getUsersOnlineCount()) + "<br>");
 
             if (CometSettings.showActiveRoomsInAbout || client.getPlayer().getPermissions().hasPermission("about_detailed"))
-                about.append("Loaded rooms: " + format.format(CometManager.getRooms().getActiveRooms().size()) + "<br>");
+                about.append("Active rooms: " + format.format(CometManager.getRooms().getActiveRooms().size()) + "<br>");
 
             if (CometSettings.showUptimeInAbout || client.getPlayer().getPermissions().hasPermission("about_detailed"))
                 about.append("Uptime: " + TimeSpan.millisecondsToDate(System.currentTimeMillis() - Comet.start) + "<br>");
@@ -39,7 +39,11 @@ public class AboutCommand extends ChatCommand {
             about.append("Allocated memory: " + format.format(((runtime.totalMemory() / 1024) / 1024)) + "MB<br>");
             about.append("Used memory: " + format.format(((runtime.totalMemory() / 1024) / 1024) - ((runtime.freeMemory() / 1024) / 1024)) + "MB<br>");
             about.append("OS: " + System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ")<br>");
-            about.append("CPU cores:  " + runtime.availableProcessors() + "\n");
+            about.append("CPU cores:  " + runtime.availableProcessors() + "<br>");
+
+            about.append("<br><b>Hotel Stats</b><br>");
+            about.append("Total rooms loaded: " + CometManager.getRooms().getRooms().size() + "<br>");
+            about.append("Current online record: " + CometManager.getThread().getOnlineRecord());
         }
 
         client.send(AdvancedAlertMessageComposer.compose(
