@@ -16,14 +16,14 @@ import java.util.List;
 
 public class RollerInteraction extends Interactor {
     @Override
-    public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
+    public boolean onWalk(boolean state, RoomItem item, GenericEntity avatar) {
         if (!(item instanceof FloorItem)) { // Rollers are always floor items
             return false;
         }
 
         if (state) {
             Room r = ((FloorItem) item).getRoom();
-            int speed = r.hasAttribute("setspeed") ? (int)r.getAttribute("setspeed") : 13;
+            int speed = r.hasAttribute("setspeed") ? (int)r.getAttribute("setspeed") : 9;
 
             item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, speed));
             return true;
@@ -33,12 +33,12 @@ public class RollerInteraction extends Interactor {
     }
 
     @Override
-    public boolean onPreWalk(RoomItem item, PlayerEntity avatar) {
+    public boolean onPreWalk(RoomItem item, GenericEntity avatar) {
         return false;
     }
 
     @Override
-    public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
+    public boolean onInteract(int request, RoomItem item, GenericEntity avatar, boolean isWiredTriggered) {
         return false;
     }
 
@@ -53,7 +53,7 @@ public class RollerInteraction extends Interactor {
     }
 
     @Override
-    public boolean onTick(RoomItem item, PlayerEntity avatar, int updateState) {
+    public boolean onTick(RoomItem item, GenericEntity avatar, int updateState) {
         if (!(item instanceof FloorItem)) {
             return false;
         }

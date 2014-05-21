@@ -3,7 +3,7 @@ package com.cometproject.server.game.wired.triggers;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class OffFurniTrigger extends WiredTrigger {
     @Override
-    public void onTrigger(Object data, List<PlayerEntity> entities, WiredSquare wiredBlock) {
+    public void onTrigger(Object data, List<GenericEntity> entities, WiredSquare wiredBlock) {
         Room room = entities.get(0).getRoom();
 
         for (FloorItem item : room.getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {

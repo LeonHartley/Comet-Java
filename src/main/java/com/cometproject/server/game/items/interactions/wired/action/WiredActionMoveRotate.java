@@ -4,6 +4,7 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.interactions.Interactor;
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
@@ -17,18 +18,18 @@ import com.cometproject.server.network.messages.types.Composer;
 public class WiredActionMoveRotate extends Interactor {
 
     @Override
-    public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
+    public boolean onWalk(boolean state, RoomItem item, GenericEntity avatar) {
         return false;
     }
 
     @Override
-    public boolean onPreWalk(RoomItem item, PlayerEntity avatar) {
+    public boolean onPreWalk(RoomItem item, GenericEntity avatar) {
         return false;
     }
 
     @Override
-    public boolean onInteract(int state, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
-        if (!(item instanceof FloorItem)) {
+    public boolean onInteract(int state, RoomItem item, GenericEntity avatar, boolean isWiredTriggered) {
+        if (!(item instanceof FloorItem) || !(avatar instanceof PlayerEntity)) {
             return false;
         }
 
@@ -65,7 +66,7 @@ public class WiredActionMoveRotate extends Interactor {
         msg.writeInt(0);
         msg.writeString("");
 
-        avatar.getPlayer().getSession().send(msg);
+        ((PlayerEntity) avatar).getPlayer().getSession().send(msg);
         return false;
     }
 
@@ -80,7 +81,7 @@ public class WiredActionMoveRotate extends Interactor {
     }
 
     @Override
-    public boolean onTick(RoomItem item, PlayerEntity avatar, int updateState) {
+    public boolean onTick(RoomItem item, GenericEntity avatar, int updateState) {
         switch (updateState) {
             case 0:
                 ((FloorItem) item).sendData("1");
