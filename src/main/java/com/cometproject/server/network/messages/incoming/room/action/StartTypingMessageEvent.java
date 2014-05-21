@@ -7,6 +7,9 @@ import com.cometproject.server.network.sessions.Session;
 
 public class StartTypingMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
+        if(client.getPlayer() == null || client.getPlayer().getEntity() == null)
+            return;
+
         client.getPlayer().getEntity().unIdle();
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(TypingStatusMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), 1));
     }
