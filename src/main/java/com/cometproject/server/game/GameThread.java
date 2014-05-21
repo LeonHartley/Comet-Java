@@ -26,6 +26,8 @@ public class GameThread implements CometTask {
 
     private boolean active = false;
 
+    private int onlineRecord = 0;
+
     public GameThread(CometThreadManagement mgr) {
         this.threadManagement = mgr;
 
@@ -72,6 +74,11 @@ public class GameThread implements CometTask {
                 return;
             }
 
+            int usersOnline = Comet.getServer().getNetwork().getSessions().getUsersOnlineCount();
+
+            if(usersOnline > this.onlineRecord)
+                onlineRecord = usersOnline;
+
             if (cycleCount >= 15) {
                 if (MULTITHREADED_CYCLE) {
                     this.threadManagement.executeOnce(new CometTask() {
@@ -85,7 +92,7 @@ public class GameThread implements CometTask {
                 }
             }
 
-            StatisticsDao.saveStatistics(Comet.getServer().getNetwork().getSessions().getUsersOnlineCount(), CometManager.getRooms().getActiveRooms().size(), Comet.getBuild());
+            StatisticsDao.saveStatistics(usersOnline, CometManager.getRooms().getActiveRooms().size(), Comet.getBuild());
             cycleCount++;
         } catch (Exception e) {
             if (e instanceof InterruptedException) {
@@ -125,5 +132,9 @@ public class GameThread implements CometTask {
         this.active = false;
         this.gameFuture.cancel(false);
         this.dailyCycleFuture.cancel(false);
+    }
+
+    public int getOnlineRecord() {
+        return this.onlineRecord;
     }
 }
