@@ -12,6 +12,4 @@ public interface GenericRoomItem {
     public int getY();
 
     public int getRotation();
-
-    public boolean getState();
 }

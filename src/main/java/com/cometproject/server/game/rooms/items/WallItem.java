@@ -7,13 +7,10 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateWallIt
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
-import java.lang.ref.WeakReference;
-
 public class WallItem extends RoomItem {
     private int roomId;
     private String position;
     private String extraData;
-    private boolean state;
 
     public WallItem(int id, int itemId, int roomId, int owner, String position, String data) {
         this.id = id;
@@ -22,16 +19,10 @@ public class WallItem extends RoomItem {
         this.ownerId = owner;
         this.position = position;
         this.extraData = data;
-
-        state = false;
     }
 
     @Override
     public void serialize(Composer msg) {
-        this.serialize(msg, this.getRoom());
-    }
-
-    public void serialize(Composer msg, Room room) {
         msg.writeString(this.getId());
         msg.writeInt(this.getDefinition().getSpriteId());
         msg.writeString(this.getPosition());
@@ -121,10 +112,6 @@ public class WallItem extends RoomItem {
 
     public void setExtraData(String data) {
         this.extraData = data;
-    }
-
-    public boolean getState() {
-        return this.state;
     }
 
     @Override
