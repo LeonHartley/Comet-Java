@@ -227,17 +227,12 @@ public class FloorItem extends RoomItem {
         }
     }
 
-    @Deprecated
-    public boolean handleInteraction(boolean state) {
-        return this.toggleInteract(state);
-    }
-
-    /*
-     * Provides a weak referenced access to the Room this item is placed in
-     */
     public Room getRoom() {
         if (this.room == null) {
-            this.room = new WeakReference<>(CometManager.getRooms().get(this.roomId));
+            Room r = CometManager.getRooms().get(this.roomId);
+            if (r == null) { return null; }
+
+            this.room = new WeakReference<>(r);
         }
 
         return this.room.get();

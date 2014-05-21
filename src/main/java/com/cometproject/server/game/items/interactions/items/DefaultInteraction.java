@@ -27,7 +27,7 @@ public class DefaultInteraction extends Interactor {
         if (!isWiredTriggered && !avatar.getRoom().getRights().hasRights(avatar.getPlayerId()))
             return false;
 
-        item.handleInteraction(true);
+        item.toggleInteract(true);
         item.sendUpdate();
         item.saveData();
 

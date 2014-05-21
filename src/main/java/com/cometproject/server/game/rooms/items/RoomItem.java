@@ -164,9 +164,6 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem,
 
     public abstract ItemDefinition getDefinition();
 
-    @Deprecated
-    public abstract boolean handleInteraction(boolean state);
-
     public abstract boolean toggleInteract(boolean state);
 
     public abstract void sendUpdate();
