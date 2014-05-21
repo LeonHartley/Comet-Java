@@ -51,8 +51,6 @@ public class FloorItem extends RoomItem {
         this.extraData = data;
         this.giftData = giftData;
 
-        this.state = false;
-
         this.attributes = new FastMap<>();
     }
 

@@ -13,8 +13,6 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 
 public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem, Attributable {
-    private static final int MAX_INTERACTION_QUEUE = 1;
-
     protected int id;
     protected int itemId;
     protected int ownerId;
@@ -23,8 +21,6 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem,
     protected int y;
 
     protected int rotation;
-
-    protected boolean state;
 
     private Queue<InteractionQueueItem> interactionQueue = new LinkedList<>();
     protected InteractionQueueItem curInteractionItem;
@@ -57,11 +53,6 @@ public abstract class RoomItem implements GenericRoomItem, InteractableRoomItem,
     @Override
     public int getRotation() {
         return this.rotation;
-    }
-
-    @Override
-    public boolean getState() {
-        return this.state;
     }
 
     @Override
