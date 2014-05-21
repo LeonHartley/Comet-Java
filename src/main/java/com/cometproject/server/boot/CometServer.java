@@ -37,7 +37,7 @@ public class CometServer {
         CometManager.init();
         CometCache.create();
 
-        networkEngine = new NetworkEngine(this.getConfig().get("comet.network.host"), Integer.parseInt(this.getConfig().get("comet.network.port")));
+        networkEngine = new NetworkEngine(this.getConfig().get("comet.network.host"), this.getConfig().get("comet.network.port"));
         CometManager.gameThread = new GameThread(threadManagement);
 
         if (Comet.isDebugging) {
