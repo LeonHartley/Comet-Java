@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.components.*;
 import com.cometproject.server.game.rooms.types.mapping.RoomMapping;
 import com.cometproject.server.utilities.attributes.Attributable;
+import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -35,7 +36,7 @@ public class Room implements Attributable {
     public boolean isActive;
     private boolean isRoomMuted = false;
 
-    private Map<String, Object> attributes = new HashMap<>();
+    private Map<String, Object> attributes;
 
     public Room(RoomData data) {
         this.id = data.getId();
@@ -51,6 +52,8 @@ public class Room implements Attributable {
         if(data.getHeightmap() != null && this.model instanceof StaticRoomModel) {
             this.model = new DynamicRoomModel("dynamic_heightmap", data.getHeightmap(), this.model.getDoorX(), this.model.getDoorY(), this.model.getDoorZ(), this.model.getDoorRotation());
         }
+
+        this.attributes = new FastMap<>();
 
         this.mapping = new RoomMapping(this, this.model);
         this.itemProcess = new ItemProcessComponent(Comet.getServer().getThreadManagement(), this);
@@ -93,6 +96,7 @@ public class Room implements Attributable {
         this.mapping.dispose();
         this.attributes.clear();
 
+        this.attributes = null;
         this.itemProcess = null;
         this.process = null;
         this.rights = null;
