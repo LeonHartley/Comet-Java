@@ -2,7 +2,7 @@ package com.cometproject.server.game.wired.effects;
 
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.AvatarEntity;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class MoveRotateEffect extends WiredEffect {
     @Override
-    public void onActivate(List<PlayerEntity> entities, FloorItem item) {
+    public void onActivate(List<GenericEntity> entities, FloorItem item) {
         WiredDataInstance data = WiredDataFactory.get(item);
 
         if (data.getItems().size() == 0) {

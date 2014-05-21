@@ -5,6 +5,7 @@ import com.cometproject.server.game.items.interactions.InteractionAction;
 import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.interactions.Interactor;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.rooms.items.RoomItem;
@@ -13,8 +14,8 @@ import com.cometproject.server.network.messages.outgoing.messenger.FollowFriendM
 
 public class TeleportInteraction extends Interactor {
     @Override
-    public boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar) {
-        if (!item.getDefinition().canWalk)
+    public boolean onWalk(boolean state, RoomItem item, GenericEntity avatar) {
+        if (!item.getDefinition().canWalk || !(avatar instanceof PlayerEntity))
             return false;
 
         item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 0, 1));
@@ -22,12 +23,12 @@ public class TeleportInteraction extends Interactor {
     }
 
     @Override
-    public boolean onPreWalk(RoomItem item, PlayerEntity avatar) {
+    public boolean onPreWalk(RoomItem item, GenericEntity avatar) {
         return false;
     }
 
     @Override
-    public boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered) {
+    public boolean onInteract(int request, RoomItem item, GenericEntity avatar, boolean isWiredTriggered) {
         if (item.getDefinition().canWalk)
             return false;
 
@@ -55,7 +56,10 @@ public class TeleportInteraction extends Interactor {
     }
 
     @Override
-    public boolean onTick(RoomItem item, PlayerEntity avatar, int updateState) {
+    public boolean onTick(RoomItem item, GenericEntity avatar, int updateState) {
+        if(!(avatar instanceof PlayerEntity))
+            return false;
+
         FloorItem pairItem;
         int pairId;
 
@@ -99,8 +103,8 @@ public class TeleportInteraction extends Interactor {
 
                     // if room exists, we visit it!
                     if (CometManager.getRooms().get(roomId) != null) {
-                        avatar.getPlayer().setTeleportId(pairId);
-                        avatar.getPlayer().getSession().send(FollowFriendMessageComposer.compose(roomId));
+                        ((PlayerEntity) avatar).getPlayer().setTeleportId(pairId);
+                        ((PlayerEntity) avatar).getPlayer().getSession().send(FollowFriendMessageComposer.compose(roomId));
                     }
 
                     item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, avatar, 5, 3));

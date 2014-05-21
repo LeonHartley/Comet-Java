@@ -1,5 +1,6 @@
 package com.cometproject.server.game.items.interactions;
 
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -10,20 +11,20 @@ public abstract class Interactor {
      * GenericRoomItem: the interacting item
      * Avatar: the interacting avatar
      */
-    public abstract boolean onWalk(boolean state, RoomItem item, PlayerEntity avatar);
+    public abstract boolean onWalk(boolean state, RoomItem item, GenericEntity avatar);
 
     /*
      * RoomItem: the interacting item (most likely a football.. :P)
      * Avatar: the interacting avatar
      */
-    public abstract boolean onPreWalk(RoomItem item, PlayerEntity avatar);
+    public abstract boolean onPreWalk(RoomItem item, GenericEntity avatar);
 
     /*
      * State: ???
      * GenericRoomItem: the interacting item
      * Avatar: the interacting avatar
      */
-    public abstract boolean onInteract(int request, RoomItem item, PlayerEntity avatar, boolean isWiredTriggered);
+    public abstract boolean onInteract(int request, RoomItem item, GenericEntity avatar, boolean isWiredTriggered);
 
     /*
      * GenericRoomItem: the item placed
@@ -42,7 +43,7 @@ public abstract class Interactor {
     /*
      * GenericRoomItem: the item which is ticking
      */
-    public abstract boolean onTick(RoomItem item, PlayerEntity avatar, int updateState);
+    public abstract boolean onTick(RoomItem item, GenericEntity avatar, int updateState);
 
     public abstract boolean requiresRights();
 }

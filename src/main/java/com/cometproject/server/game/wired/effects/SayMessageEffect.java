@@ -1,5 +1,6 @@
 package com.cometproject.server.game.wired.effects;
 
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.FloorItem;
 import com.cometproject.server.game.wired.types.WiredEffect;
@@ -10,9 +11,11 @@ import java.util.List;
 
 public class SayMessageEffect extends WiredEffect {
     @Override
-    public void onActivate(List<PlayerEntity> entities, FloorItem item) {
-        for (PlayerEntity entity : entities)
-            entity.getPlayer().getSession().send(WisperMessageComposer.compose(entity.getVirtualId(), item.getExtraData()));
+    public void onActivate(List<GenericEntity> entities, FloorItem item) {
+        for (GenericEntity entity : entities) {
+            if(entity instanceof PlayerEntity)
+                ((PlayerEntity) entities).getPlayer().getSession().send(WisperMessageComposer.compose(entity.getVirtualId(), item.getExtraData()));
+        }
     }
 
     @Override

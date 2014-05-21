@@ -116,15 +116,16 @@ public class ProcessComponent implements CometTask {
                         continue;
                     }
 
-                    boolean playerNeedsRemove = processPlayerEntity(playerEntity);
+                    boolean playerNeedsRemove = processEntity(playerEntity);
 
                     if (playerNeedsRemove) {
                         playersToRemove.add(playerEntity);
                     }
                 } else if (entity.getEntityType() == RoomEntityType.BOT) {
-                    processBotEntity(entity);
+                    //processBotEntity(entity);
+                    processEntity(entity);
                 } else if (entity.getEntityType() == RoomEntityType.PET) {
-                    processBotEntity(entity);
+                    processEntity(entity);
                 }
 
                 // Create the new entity grid
@@ -160,23 +161,88 @@ public class ProcessComponent implements CometTask {
         }
     }
 
-    protected boolean processPlayerEntity(PlayerEntity entity) {
-        // Cleanup if the entity is offline
+    protected boolean processEntity(GenericEntity entity) {
 
         // Copy the current position before updating
         Position3D currentPosition = new Position3D(entity.getPosition());
 
-        if (entity.getPlayer() == null || entity.getRoom() == null) {
+        boolean isPlayer = entity instanceof PlayerEntity;
+        boolean isBot = entity instanceof BotEntity;
+        boolean isPet = entity instanceof PetEntity;
+
+        if (isPlayer && ((PlayerEntity) entity).getPlayer() == null || entity.getRoom() == null) {
             this.room.getEntities().removeEntity(entity);
             this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
         }
 
-        // Handle flood
-        if (entity.getPlayer().getFloodTime() >= 0.5) {
-            entity.getPlayer().setFloodTime(entity.getPlayer().getFloodTime() - 0.5);
+        if(isPlayer) {
+            // Handle flood
+            if (((PlayerEntity) entity).getPlayer().getFloodTime() >= 0.5) {
+                ((PlayerEntity) entity).getPlayer().setFloodTime(((PlayerEntity) entity).getPlayer().getFloodTime() - 0.5);
 
-            if (entity.getPlayer().getFloodTime() < 0) {
-                entity.getPlayer().setFloodTime(0);
+                if (((PlayerEntity) entity).getPlayer().getFloodTime() < 0) {
+                    ((PlayerEntity) entity).getPlayer().setFloodTime(0);
+                }
+            }
+        } else if(isBot || isPet) {
+            int chance = RandomInteger.getRandom(1, (entity.hasStatus("sit") || entity.hasStatus("lay")) ? 20 : 6);
+
+            if (chance == 1) {
+                if (!entity.isWalking()) {
+                    int x = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeX());
+                    int y = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeY());
+
+                    if (this.getRoom().getMapping().isValidStep(entity.getPosition(), new Position3D(x, y, 0d), true) && x != this.getRoom().getModel().getDoorX() && y != this.getRoom().getModel().getDoorY()) {
+                        entity.moveTo(x, y);
+                    }
+                }
+            }
+
+            if (entity instanceof BotEntity) {
+                if (((BotEntity) entity).getCycleCount() == ((BotEntity) entity).getData().getChatDelay() * 2) {
+                    if (((BotEntity) entity).getData().getMessages().length > 0) {
+                        int messageKey = RandomInteger.getRandom(0, ((BotEntity) entity).getData().getMessages().length - 1);
+                        String message = ((BotEntity) entity).getData().getMessages()[messageKey];
+
+                        if (message != null && !message.isEmpty()) {
+                            this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), message, 0, 2));
+                        }
+                    }
+
+                    ((BotEntity) entity).resetCycleCount();
+                }
+
+                ((BotEntity) entity).incrementCycleCount();
+            } else {
+                // It's a pet.
+                PetEntity petEntity = (PetEntity) entity;
+
+                if (petEntity.getCycleCount() == 50) { // 25 seconds
+                    int messageKey = RandomInteger.getRandom(0, ((PetEntity) entity).getData().getSpeech().length - 1);
+                    String message = ((PetEntity) entity).getData().getSpeech()[messageKey];
+
+                    if (message != null && !message.isEmpty()) {
+                        switch (message) {
+                            case "sit":
+                                entity.addStatus("sit", "" + this.room.getModel().getSquareHeight()[entity.getPosition().getX()][entity.getPosition().getY()]);
+                                entity.markNeedsUpdate();
+                                break;
+
+                            case "lay":
+                                entity.addStatus("lay", "" + this.room.getModel().getSquareHeight()[entity.getPosition().getX()][entity.getPosition().getY()]);
+                                entity.markNeedsUpdate();
+                                break;
+
+                            default:
+                                this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(entity.getVirtualId(), message, 0, 0));
+                                break;
+                        }
+                    }
+
+                    petEntity.resetCycleCount();
+                }
+
+                petEntity.incrementCycleCount();
             }
         }
 

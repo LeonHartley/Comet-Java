@@ -124,7 +124,7 @@ public class ItemProcessComponent implements CometTask {
                     }
 
                     if (needsTick) {
-                        int speed = this.room.hasAttribute("setspeed") ? (int)this.room.getAttribute("setspeed") : 13;
+                        int speed = this.room.hasAttribute("setspeed") ? (int)this.room.getAttribute("setspeed") : 9;
 
                        item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, null, 0, speed));
                     }
