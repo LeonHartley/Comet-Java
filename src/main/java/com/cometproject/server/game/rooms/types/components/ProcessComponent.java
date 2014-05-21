@@ -122,7 +122,6 @@ public class ProcessComponent implements CometTask {
                         playersToRemove.add(playerEntity);
                     }
                 } else if (entity.getEntityType() == RoomEntityType.BOT) {
-                    //processBotEntity(entity);
                     processEntity(entity);
                 } else if (entity.getEntityType() == RoomEntityType.PET) {
                     processEntity(entity);
