@@ -91,11 +91,6 @@ public class WallItem extends RoomItem {
         return CometManager.getItems().getDefintion(this.getItemId());
     }
 
-    @Override
-    public boolean handleInteraction(boolean state) {
-        return this.toggleInteract(state);
-    }
-
     public int getId() {
         return id;
     }
