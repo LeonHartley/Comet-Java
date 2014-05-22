@@ -6,8 +6,8 @@ import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.items.FloorItem;
-import com.cometproject.server.game.rooms.items.WallItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
@@ -34,11 +34,11 @@ public class DeleteRoomMessageEvent implements IEvent {
             return;
         }
 
-        for (FloorItem item : room.getItems().getFloorItems()) {
+        for (RoomItemFloor item : room.getItems().getFloorItems()) {
             room.getItems().removeItem(item, client);
         }
 
-        for (WallItem item : room.getItems().getWallItems()) {
+        for (RoomItemWall item : room.getItems().getWallItems()) {
             room.getItems().removeItem(item, client);
         }
 

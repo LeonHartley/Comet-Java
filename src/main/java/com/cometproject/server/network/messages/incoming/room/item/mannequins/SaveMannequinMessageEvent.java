@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item.mannequins;
 
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.data.MannequinData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -19,7 +19,7 @@ public class SaveMannequinMessageEvent implements IEvent {
             return;
         }
 
-        FloorItem item = room.getItems().getFloorItem(id);
+        RoomItemFloor item = room.getItems().getFloorItem(id);
 
         if (item == null) {
             return;

@@ -1,9 +1,8 @@
 package com.cometproject.server.game.rooms.items;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.data.BackgroundTonerData;
 import com.cometproject.server.game.rooms.items.data.MannequinData;
 import com.cometproject.server.game.rooms.types.Room;
@@ -12,29 +11,20 @@ import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
-public class FloorItem extends RoomItem {
+public abstract class RoomItemFloor extends RoomItem {
     private int roomId;
     private double height;
     private String extraData;
-    private GiftData giftData;
-
-    private List<Position3D> rollingPositions;
 
     private WeakReference<Room> room;
-
     private ItemDefinition tmpItemDefiniton;
 
-    public FloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data, GiftData giftData) {
-        this.init(id, itemId, roomId, owner, x, y, z, rotation, data, giftData);
+    public RoomItemFloor(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
+        this.init(id, itemId, roomId, owner, x, y, z, rotation, data);
     }
 
-    public FloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        this.init(id, itemId, roomId, owner, x, y, z, rotation, data, null);
-    }
-
-    private void init(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data, GiftData giftData) {
+    private void init(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         this.id = id;
         this.itemId = itemId;
         this.roomId = roomId;
@@ -44,18 +34,18 @@ public class FloorItem extends RoomItem {
         this.height = z;
         this.rotation = rotation;
         this.extraData = data;
-        this.giftData = giftData;
     }
 
     public void serialize(Composer msg, boolean isNew) {
         boolean isGift = false;
 
-        if (this.giftData != null) {
+        /*if (this.giftData != null) {
             isGift = true;
-        }
+        }*/
 
         msg.writeInt(this.getId());
-        msg.writeInt(isGift ? giftData.getSpriteId() : this.getDefinition().getSpriteId());
+        //msg.writeInt(isGift ? giftData.getSpriteId() : this.getDefinition().getSpriteId());
+        msg.writeInt(this.getDefinition().getSpriteId());
         msg.writeInt(this.getX());
         msg.writeInt(this.getY());
         msg.writeInt(this.getRotation());
@@ -155,7 +145,8 @@ public class FloorItem extends RoomItem {
             msg.writeInt(0);
             msg.writeInt(0);
 
-            msg.writeString(isGift ? giftData.toString() : this.getExtraData());
+            //msg.writeString(isGift ? giftData.toString() : this.getExtraData());
+            msg.writeString(this.getExtraData());
 
             //msg.writeInt(15); // rare id
             //msg.writeInt(100); // amount of limited items in a stack
@@ -181,6 +172,14 @@ public class FloorItem extends RoomItem {
         }
 
         return this.tmpItemDefiniton;
+    }
+
+    public void onEntityStepOn(GenericEntity entity) {
+
+    }
+
+    public void onEntityStepOff(GenericEntity entity) {
+
     }
 
     @Override
@@ -224,22 +223,12 @@ public class FloorItem extends RoomItem {
         return this.room.get();
     }
 
-    public boolean isRolling() {
-        return (this.rollingPositions != null && this.rollingPositions.size() > 0);
-    }
-
-    public List<Position3D> getRollingPositions() {
-        return this.rollingPositions;
-    }
-
-    public void setRollingPositions(List<Position3D> positions) {
-        this.rollingPositions = positions;
-    }
-
+    @Override
     public void saveData() {
         RoomItemDao.saveData(id, extraData);
     }
 
+    @Override
     public void sendUpdate() {
         Room r = this.getRoom();
 
@@ -248,13 +237,13 @@ public class FloorItem extends RoomItem {
         }
     }
 
-    public void sendData(String data) {
+    /*public void sendData(String data) {
         Room r = this.getRoom();
 
         if (r != null) {
             r.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(this.getId(), data));
         }
-    }
+    }*/
 
     public double getHeight() {
         return this.height;

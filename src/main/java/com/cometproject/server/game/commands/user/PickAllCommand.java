@@ -2,8 +2,8 @@ package com.cometproject.server.game.commands.user;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.rooms.items.FloorItem;
-import com.cometproject.server.game.rooms.items.WallItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.sessions.Session;
 
@@ -16,11 +16,11 @@ public class PickAllCommand extends ChatCommand {
             return;
         }
 
-        for (FloorItem item : room.getItems().getFloorItems()) {
+        for (RoomItemFloor item : room.getItems().getFloorItems()) {
             room.getItems().removeItem(item, client);
         }
 
-        for (WallItem item : room.getItems().getWallItems()) {
+        for (RoomItemWall item : room.getItems().getWallItems()) {
             room.getItems().removeItem(item, client);
         }
     }

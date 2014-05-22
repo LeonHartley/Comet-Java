@@ -1,6 +1,5 @@
 package com.cometproject.server.game.items;
 
-import com.cometproject.server.game.items.interactions.InteractionManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
@@ -11,15 +10,13 @@ import org.apache.log4j.Logger;
 import java.util.Map;
 
 public class ItemManager {
+    private Logger log = Logger.getLogger(ItemManager.class.getName());
+
     private FastMap<Integer, ItemDefinition> itemDefinitions;
     private Map<Integer, Integer> teleportPairs;
-    private InteractionManager interactions;
-
-    private Logger log = Logger.getLogger(ItemManager.class.getName());
 
     public ItemManager() {
         this.itemDefinitions = new FastMap<>();
-        this.interactions = new InteractionManager();
         this.teleportPairs = new FastMap<>();
 
         this.loadItemDefinitions();
@@ -73,10 +70,6 @@ public class ItemManager {
         log.error("Couldn't find item definition for item: " + itemId + ", make sure the database is complete! (`furniture` table)");
 
         return null;
-    }
-
-    public InteractionManager getInteractions() {
-        return this.interactions;
     }
 
     public FastMap<Integer, ItemDefinition> getItemDefinitions() {

@@ -10,7 +10,7 @@ import com.cometproject.server.utilities.attributes.Attributable;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class RoomItem implements GenericRoomItem, Attributable {
+public abstract class RoomItem implements RoomItemAttributes, Attributable {
     protected int id;
     protected int itemId;
     protected int ownerId;
@@ -20,7 +20,9 @@ public abstract class RoomItem implements GenericRoomItem, Attributable {
 
     protected int rotation;
 
-    private Map<String, Object> attributes = new HashMap<>();
+    protected int ticksTimer;
+
+    private final Map<String, Object> attributes = new HashMap<>();
 
     @Override
     public int getId() {
@@ -50,6 +52,56 @@ public abstract class RoomItem implements GenericRoomItem, Attributable {
     @Override
     public int getRotation() {
         return this.rotation;
+    }
+
+    public RoomItem() {
+        this.ticksTimer = 0;
+    }
+
+    public final boolean requiresTick() {
+        return this.hasTicks();
+    }
+
+    protected final boolean hasTicks() {
+        return (this.ticksTimer > 0);
+    }
+
+    protected final void setTicks(int time) {
+        this.ticksTimer = time;
+    }
+
+    protected final void cancelTicks() {
+        this.ticksTimer = 0;
+    }
+
+
+    public final void tick() {
+        this.onTick();
+
+        if (this.ticksTimer > 0) {
+            this.ticksTimer--;
+        }
+
+        if (this.ticksTimer == 0) {
+            this.cancelTicks();
+            this.onTickComplete();
+        }
+    }
+
+    protected void onTick() {
+        // Override this
+    }
+
+    protected void onTickComplete() {
+        // Override this
+    }
+
+    public void onPlaced() {
+        // Override this
+    }
+
+    public void onPickup() {
+        // Override this
     }
 
     public int distance(GenericEntity entity) {
@@ -147,4 +199,8 @@ public abstract class RoomItem implements GenericRoomItem, Attributable {
     public abstract String getExtraData();
 
     public abstract void setExtraData(String data);
+
+    public void dispose() {
+
+    }
 }

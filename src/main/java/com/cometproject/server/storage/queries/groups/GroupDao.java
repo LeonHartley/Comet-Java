@@ -1,9 +1,6 @@
 package com.cometproject.server.storage.queries.groups;
 
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.items.*;
-import com.cometproject.server.game.rooms.items.FloorItem;
-import com.cometproject.server.game.rooms.items.WallItem;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;

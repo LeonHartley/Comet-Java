@@ -1,18 +1,9 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.items.interactions.InteractionAction;
-import com.cometproject.server.game.items.interactions.InteractionQueueItem;
-import com.cometproject.server.game.items.interactions.football.BallInteraction;
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
-import com.cometproject.server.game.rooms.items.FloorItem;
-import com.cometproject.server.game.rooms.items.WallItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
-import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.ScheduledFuture;
@@ -53,11 +44,11 @@ public class ItemProcessComponent implements CometTask {
             this.active = false;
             this.myFuture.cancel(false);
 
-            for (FloorItem item : this.getRoom().getItems().getFloorItems()) {
+            /*for (FloorItem item : this.getRoom().getItems().getFloorItems()) {
                 if (item.hasInteraction()) {
                     item.getInteractionQueue().clear();
                 }
-            }
+            }*/
 
             log.debug("Processing stopped");
         }
@@ -67,7 +58,11 @@ public class ItemProcessComponent implements CometTask {
         return this.active;
     }
 
-    @Override
+    public void run() {
+
+    }
+
+    /*@Override
     public void run() {
         try {
             if (!this.active) {
@@ -197,7 +192,7 @@ public class ItemProcessComponent implements CometTask {
         }
 
         item.getRollingPositions().remove(0);
-    }
+    }*/
 
     public void dispose() {
         if (this.myFuture != null) {
