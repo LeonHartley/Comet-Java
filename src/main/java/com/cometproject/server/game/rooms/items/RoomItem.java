@@ -55,7 +55,7 @@ public abstract class RoomItem implements RoomItemAttributes, Attributable {
     }
 
     public RoomItem() {
-        this.ticksTimer = 0;
+        this.ticksTimer = -1;
     }
 
     public final boolean requiresTick() {
@@ -71,7 +71,7 @@ public abstract class RoomItem implements RoomItemAttributes, Attributable {
     }
 
     protected final void cancelTicks() {
-        this.ticksTimer = 0;
+        this.ticksTimer = -1;
     }
 
 
@@ -101,6 +101,10 @@ public abstract class RoomItem implements RoomItemAttributes, Attributable {
     }
 
     public void onPickup() {
+        // Override this
+    }
+
+    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         // Override this
     }
 

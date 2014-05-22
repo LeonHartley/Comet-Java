@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
@@ -58,8 +59,13 @@ public class ItemProcessComponent implements CometTask {
         return this.active;
     }
 
+    @Override
     public void run() {
-
+        this.getRoom().getItems().getFloorItems().parallelStream().forEach((item) -> {
+            if (item.requiresTick()) {
+                item.tick();
+            }
+        });
     }
 
     /*@Override
