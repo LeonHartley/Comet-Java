@@ -22,8 +22,10 @@ public class OpenDiceMessageEvent implements IEvent {
             return;
         }
 
-        if (item.getDefinition().getInteraction().equals("dice")) {
+        //if (item.getDefinition().getInteraction().equals("dice")) {
             //CometManager.getItems().getInteractions().onInteract(0, item, client.getPlayer().getEntity());
-        }
+        //}
+
+        item.onInteract(client.getPlayer().getEntity(), 0, false);
     }
 }

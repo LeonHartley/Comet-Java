@@ -10,11 +10,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RoomItemDao {
 
-    public static void getItems(int roomId, ConcurrentLinkedQueue<RoomItemFloor> floorItems, ConcurrentLinkedQueue<RoomItemWall> wallItems) {
+    public static void getItems(int roomId, Collection<RoomItemFloor> floorItems, Collection<RoomItemWall> wallItems) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

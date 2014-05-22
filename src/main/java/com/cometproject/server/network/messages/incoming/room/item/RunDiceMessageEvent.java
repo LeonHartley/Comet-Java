@@ -22,8 +22,6 @@ public class RunDiceMessageEvent implements IEvent {
             return;
         }
 
-        if (item.getDefinition().getInteraction().equals("dice")) {
-            //CometManager.getItems().getInteractions().onInteract(-1, item, client.getPlayer().getEntity());
-        }
+        item.onInteract(client.getPlayer().getEntity(), -1, false);
     }
 }

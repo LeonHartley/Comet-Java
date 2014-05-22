@@ -18,9 +18,11 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.items.WiredDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import javolution.util.FastTable;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -28,39 +30,22 @@ public class ItemsComponent {
     private Room room;
     private final Logger log;
 
-    private ConcurrentLinkedQueue<RoomItemFloor> floorItems;
-    private ConcurrentLinkedQueue<RoomItemWall> wallItems;
+    private final FastTable<RoomItemFloor> floorItems = new FastTable<RoomItemFloor>().shared();
+    private final FastTable<RoomItemWall> wallItems = new FastTable<RoomItemWall>().shared();
 
     public ItemsComponent(Room room) {
         this.room = room;
 
         this.log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
 
-        this.floorItems = new ConcurrentLinkedQueue<RoomItemFloor>();
-        this.wallItems = new ConcurrentLinkedQueue<RoomItemWall>();
-
-        this.loadItems();
+        RoomItemDao.getItems(this.room.getId(), this.floorItems, this.wallItems);
     }
 
     public void dispose() {
-        // Clear attributes!
-        //for (RoomItemFloor item : this.floorItems) item.dispose();
-
         this.floorItems.clear();
         this.wallItems.clear();
+
         this.room = null;
-    }
-
-    private void loadItems() {
-        if (floorItems.size() != 0) {
-            floorItems.clear();
-        }
-
-        if (wallItems.size() != 0) {
-            wallItems.clear();
-        }
-
-        RoomItemDao.getItems(this.room.getId(), floorItems, wallItems);
     }
 
     public RoomItemFloor addFloorItem(int id, int baseId, int roomId, int ownerId, int x, int y, int rot, double height, String data) {
@@ -209,11 +194,11 @@ public class ItemsComponent {
         return this.room;
     }
 
-    public ConcurrentLinkedQueue<RoomItemFloor> getFloorItems() {
+    public Collection<RoomItemFloor> getFloorItems() {
         return this.floorItems;
     }
 
-    public ConcurrentLinkedQueue<RoomItemWall> getWallItems() {
+    public Collection<RoomItemWall> getWallItems() {
         return this.wallItems;
     }
 }

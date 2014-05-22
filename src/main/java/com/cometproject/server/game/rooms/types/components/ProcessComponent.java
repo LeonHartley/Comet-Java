@@ -283,16 +283,16 @@ public class ProcessComponent implements CometTask {
 
         // Do we have a position to set from previous moves?
         if (entity.getPositionToSet() != null) {
-            if ((entity.getPositionToSet().getX() == this.room.getModel().getDoorX()) && (entity.getPositionToSet().getY() == this.room.getModel().getDoorY())) {
-                return true;
-            }
-
-            for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
-                //item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 0);
+            /*for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
+                item.onEntityStepOff(entity);
 
                 if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
 
                 }
+            }*/
+
+            if ((entity.getPositionToSet().getX() == this.room.getModel().getDoorX()) && (entity.getPositionToSet().getY() == this.room.getModel().getDoorY())) {
+                return true;
             }
 
             if (entity.hasStatus("sit")) {
@@ -310,12 +310,10 @@ public class ProcessComponent implements CometTask {
             List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
 
             // Apply sit
-            for (RoomItemFloor item : itemsOnSq) {
-                //item.setNeedsUpdate(true, InteractionAction.ON_WALK, entity, 1);
+            //for (RoomItemFloor item : itemsOnSq) {
+            //    item.onEntityStepOn(entity);
 
-                item.onEntityStepOn(entity);
-
-                if (item.getDefinition().canSit) {
+                /*if (item.getDefinition().canSit) {
                     double height = item.getDefinition().getHeight();
 
                     if (height < 1.0) {
@@ -335,13 +333,15 @@ public class ProcessComponent implements CometTask {
                     entity.setHeadRotation(item.getRotation());
                     entity.addStatus("lay", String.valueOf(height).replace(',', '.'));
                     entity.markNeedsUpdate();
-                }
-            }
+                }*/
+            //}
 
             entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
 
             for (RoomItemFloor item : itemsOnSq) {
+                item.onEntityStepOn(entity);
+
                 if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
                     // idk what to do here for this trigger but ya
                 }
@@ -375,8 +375,6 @@ public class ProcessComponent implements CometTask {
 
                     if (!item.getDefinition().canSit) //&& !item.getDefinition().getInteraction().equals("bed"))
                         height += item.getDefinition().getHeight();
-
-                    //item.setNeedsUpdate(true, InteractionAction.ON_PRE_WALK, entity, 0);
                 }
 
                 if (!isCancelled) {
@@ -388,6 +386,16 @@ public class ProcessComponent implements CometTask {
 
                     if (entity.hasStatus("lay")) {
                         entity.removeStatus("lay");
+                    }
+
+                    for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
+                        System.out.println("call step off");
+                        System.out.println(item.getId());
+                        item.onEntityStepOff(entity);
+
+                        if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
+
+                        }
                     }
 
                     entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, height));
