@@ -2,11 +2,13 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
+import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.items.FloorItem;
-import com.cometproject.server.game.rooms.items.WallItem;
+import com.cometproject.server.game.rooms.items.RoomItemFactory;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.data.WiredDataInstance;
@@ -24,29 +26,29 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ItemsComponent {
     private Room room;
+    private final Logger log;
 
-    private ConcurrentLinkedQueue<FloorItem> floorItems;
-    private ConcurrentLinkedQueue<WallItem> wallItems;
-
-    private Logger log;
+    private ConcurrentLinkedQueue<RoomItemFloor> floorItems;
+    private ConcurrentLinkedQueue<RoomItemWall> wallItems;
 
     public ItemsComponent(Room room) {
         this.room = room;
-        this.floorItems = new ConcurrentLinkedQueue<FloorItem>();
-        this.wallItems = new ConcurrentLinkedQueue<WallItem>();
 
-        log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
+        this.log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
+
+        this.floorItems = new ConcurrentLinkedQueue<RoomItemFloor>();
+        this.wallItems = new ConcurrentLinkedQueue<RoomItemWall>();
+
         this.loadItems();
     }
 
     public void dispose() {
         // Clear attributes!
-        for (FloorItem item : this.floorItems) item.dispose();
+        //for (RoomItemFloor item : this.floorItems) item.dispose();
 
         this.floorItems.clear();
         this.wallItems.clear();
         this.room = null;
-        this.log = null;
     }
 
     private void loadItems() {
@@ -61,24 +63,24 @@ public class ItemsComponent {
         RoomItemDao.getItems(this.room.getId(), floorItems, wallItems);
     }
 
-    public FloorItem addFloorItem(int id, int baseId, int roomId, int ownerId, int x, int y, int rot, double height, String data, GiftData giftData) {
-        FloorItem item = new FloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data, giftData);
-        this.getFloorItems().add(item);
+    public RoomItemFloor addFloorItem(int id, int baseId, int roomId, int ownerId, int x, int y, int rot, double height, String data) {
+        RoomItemFloor floor = RoomItemFactory.createFloor(id, baseId, roomId, ownerId, x, y, height, rot, data);
+        this.getFloorItems().add(floor);
 
-        return item;
+        return floor;
     }
 
-    public WallItem addWallItem(int id, int baseId, int roomId, int ownerId, String position, String data) {
-        WallItem item = new WallItem(id, baseId, roomId, ownerId, position, data);
-        this.getWallItems().add(item);
+    public RoomItemWall addWallItem(int id, int baseId, int roomId, int ownerId, String position, String data) {
+        RoomItemWall wall = RoomItemFactory.createWall(id, baseId, roomId, ownerId, position, data);
+        this.getWallItems().add(wall);
 
-        return item;
+        return wall;
     }
 
-    public List<FloorItem> getItemsOnSquare(int x, int y) {
-        List<FloorItem> items = new ArrayList<>();
+    public List<RoomItemFloor> getItemsOnSquare(int x, int y) {
+        List<RoomItemFloor> items = new ArrayList<>();
 
-        for (FloorItem item : this.getFloorItems()) {
+        for (RoomItemFloor item : this.getFloorItems()) {
             if (item.getX() == x && item.getY() == y) {
                 items.add(item);
             } else {
@@ -98,8 +100,8 @@ public class ItemsComponent {
         return items;
     }
 
-    public FloorItem getFloorItem(int id) {
-        for (FloorItem item : this.getFloorItems()) {
+    public RoomItemFloor getFloorItem(int id) {
+        for (RoomItemFloor item : this.getFloorItems()) {
             if (item.getId() == id) {
                 return item;
             }
@@ -108,8 +110,8 @@ public class ItemsComponent {
         return null;
     }
 
-    public WallItem getWallItem(int id) {
-        for (WallItem item : this.getWallItems()) {
+    public RoomItemWall getWallItem(int id) {
+        for (RoomItemWall item : this.getWallItems()) {
             if (item.getId() == id) {
                 return item;
             }
@@ -118,10 +120,10 @@ public class ItemsComponent {
         return null;
     }
 
-    public List<FloorItem> getByInteraction(String interaction) {
-        List<FloorItem> items = new ArrayList<>();
+    public List<RoomItemFloor> getByInteraction(String interaction) {
+        List<RoomItemFloor> items = new ArrayList<>();
 
-        for (FloorItem floorItem : this.floorItems) {
+        for (RoomItemFloor floorItem : this.floorItems) {
             if (floorItem.getDefinition().getInteraction().equals(interaction)) {
                 items.add(floorItem);
             } else if (interaction.contains("%")) {
@@ -136,7 +138,7 @@ public class ItemsComponent {
         return items;
     }
 
-    public void removeItem(WallItem item, Session client) {
+    public void removeItem(RoomItemWall item, Session client) {
         RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
 
         room.getEntities().broadcastMessage(RemoveWallItemMessageComposer.compose(item.getId(), room.getData().getOwnerId()));
@@ -147,11 +149,11 @@ public class ItemsComponent {
         //client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
     }
 
-    public void removeItem(FloorItem item, Session client) {
+    public void removeItem(RoomItemFloor item, Session client) {
         removeItem(item, client, true);
     }
 
-    public void removeItem(FloorItem item, Session client, boolean toInventory) {
+    public void removeItem(RoomItemFloor item, Session client, boolean toInventory) {
         List<GenericEntity> affectEntities = room.getEntities().getEntitiesAt(item.getX(), item.getY());
         List<Position3D> tilesToUpdate = new ArrayList<>();
 
@@ -207,11 +209,11 @@ public class ItemsComponent {
         return this.room;
     }
 
-    public ConcurrentLinkedQueue<FloorItem> getFloorItems() {
+    public ConcurrentLinkedQueue<RoomItemFloor> getFloorItems() {
         return this.floorItems;
     }
 
-    public ConcurrentLinkedQueue<WallItem> getWallItems() {
+    public ConcurrentLinkedQueue<RoomItemWall> getWallItems() {
         return this.wallItems;
     }
 }

@@ -3,8 +3,7 @@ package com.cometproject.server.game.wired.effects;
 import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.data.WiredDataInstance;
@@ -19,7 +18,7 @@ public class MoveUserEffect extends WiredEffect {
     private Random randomGenerator = new Random();
 
     @Override
-    public void onActivate(List<GenericEntity> entities, FloorItem item) {
+    public void onActivate(List<GenericEntity> entities, RoomItemFloor item) {
         WiredDataInstance data = WiredDataFactory.get(item);
 
         if (data.getItems().size() == 0) {
@@ -29,7 +28,7 @@ public class MoveUserEffect extends WiredEffect {
         int locationItemId = data.getItems().get(randomGenerator.nextInt(data.getItems().size()));
         Room room = entities.get(0).getRoom();
 
-        FloorItem itemInstance = room.getItems().getFloorItem(locationItemId);
+        RoomItemFloor itemInstance = room.getItems().getFloorItem(locationItemId);
 
         if (itemInstance == null)
             return;
@@ -46,7 +45,7 @@ public class MoveUserEffect extends WiredEffect {
     }
 
     @Override
-    public void onSave(Event event, FloorItem item) {
+    public void onSave(Event event, RoomItemFloor item) {
         event.readInt(); // don't need this
         event.readString(); // don't need this
 

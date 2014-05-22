@@ -4,8 +4,8 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
-import com.cometproject.server.game.rooms.items.FloorItem;
-import com.cometproject.server.game.rooms.items.WallItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
@@ -40,7 +40,7 @@ public class  PlaceItemMessageEvent implements IEvent {
                 client.getPlayer().getInventory().removeWallItem(id);
 
                 Room room = client.getPlayer().getEntity().getRoom();
-                WallItem wallItem = room.getItems().addWallItem(id, item.getBaseId(), client.getPlayer().getId(), room.getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
+                RoomItemWall wallItem = room.getItems().addWallItem(id, item.getBaseId(), client.getPlayer().getId(), room.getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
 
                 client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(
                         SendWallItemMessageComposer.compose(wallItem)
@@ -67,7 +67,7 @@ public class  PlaceItemMessageEvent implements IEvent {
 
                 float height = (float) client.getPlayer().getEntity().getRoom().getModel().getSquareHeight()[x][y];
 
-                for (FloorItem stackItem : room.getItems().getItemsOnSquare(x, y)) {
+                for (RoomItemFloor stackItem : room.getItems().getItemsOnSquare(x, y)) {
                     if (item.getId() != stackItem.getId()) {
                         if (stackItem.getDefinition().canStack) {
                             height += stackItem.getDefinition().getHeight();
@@ -86,7 +86,7 @@ public class  PlaceItemMessageEvent implements IEvent {
                 RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), id);
                 client.getPlayer().getInventory().removeFloorItem(id);
 
-                FloorItem floorItem = room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getGiftData());
+                RoomItemFloor floorItem = room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
                 List<Position3D> tilesToUpdate = new ArrayList<>();
 
                 tilesToUpdate.add(new Position3D(floorItem.getX(), floorItem.getY(), 0d));

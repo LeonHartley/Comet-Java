@@ -3,7 +3,7 @@ package com.cometproject.server.network.messages.incoming.room.item;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
@@ -29,11 +29,11 @@ public class  ChangeFloorItemPositionMessageEvent implements IEvent {
         if ((isOwner || hasRights) || client.getPlayer().getPermissions().hasPermission("room_full_control")) {
 
             try {
-                FloorItem item = room.getItems().getFloorItem(id);
+                RoomItemFloor item = room.getItems().getFloorItem(id);
 
                 float height = (float) client.getPlayer().getEntity().getRoom().getModel().getSquareHeight()[x][y];
 
-                for (FloorItem stackItem : room.getItems().getItemsOnSquare(x, y)) {
+                for (RoomItemFloor stackItem : room.getItems().getItemsOnSquare(x, y)) {
                     if (item.getId() != stackItem.getId()) {
                         if (stackItem.getDefinition().canStack) {
                             height += stackItem.getDefinition().getHeight();

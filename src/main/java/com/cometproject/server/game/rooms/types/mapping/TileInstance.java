@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 
 public class TileInstance {
     private RoomMapping mappingInstance;
@@ -26,7 +26,7 @@ public class TileInstance {
         this.status = RoomTileStatusType.NONE;
         this.canStack = true;
 
-        for (FloorItem item : mappingInstance.getRoom().getItems().getItemsOnSquare(this.position.getX(), this.position.getY())) {
+        for (RoomItemFloor item : mappingInstance.getRoom().getItems().getItemsOnSquare(this.position.getX(), this.position.getY())) {
             if (item.getDefinition() == null)
                 continue;
 

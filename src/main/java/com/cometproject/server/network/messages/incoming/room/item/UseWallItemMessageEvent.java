@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.items.WallItem;
+import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -15,7 +15,7 @@ public class UseWallItemMessageEvent implements IEvent {
             return;
         }
 
-        WallItem item = client.getPlayer().getEntity().getRoom().getItems().getWallItem(itemId);
+        RoomItemWall item = client.getPlayer().getEntity().getRoom().getItems().getWallItem(itemId);
 
         if (item == null) {
             return;
@@ -23,6 +23,6 @@ public class UseWallItemMessageEvent implements IEvent {
 
         int requestData = msg.readInt();
 
-        CometManager.getItems().getInteractions().onInteract(requestData, item, client.getPlayer().getEntity());
+        //CometManager.getItems().getInteractions().onInteract(requestData, item, client.getPlayer().getEntity());
     }
 }

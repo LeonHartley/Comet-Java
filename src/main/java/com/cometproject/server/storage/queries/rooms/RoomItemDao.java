@@ -1,8 +1,9 @@
 package com.cometproject.server.storage.queries.rooms;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.items.FloorItem;
-import com.cometproject.server.game.rooms.items.WallItem;
+import com.cometproject.server.game.rooms.items.RoomItemFactory;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
@@ -13,7 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RoomItemDao {
 
-    public static void getItems(int roomId, ConcurrentLinkedQueue<FloorItem> floorItems, ConcurrentLinkedQueue<WallItem> wallItems) {
+    public static void getItems(int roomId, ConcurrentLinkedQueue<RoomItemFloor> floorItems, ConcurrentLinkedQueue<RoomItemWall> wallItems) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -25,12 +26,12 @@ public class RoomItemDao {
             preparedStatement.setInt(1, roomId);
 
             resultSet = preparedStatement.executeQuery();
-            
+
             while (resultSet.next()) {
                 if (CometManager.getItems().getDefintion(resultSet.getInt("base_item")).getType().equals("s"))
-                    floorItems.add(new FloorItem(resultSet.getInt("id"), resultSet.getInt("base_item"), roomId, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data")));
+                    floorItems.add(RoomItemFactory.createFloor(resultSet.getInt("id"), resultSet.getInt("base_item"), roomId, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data")));
                 else
-                    wallItems.add(new WallItem(resultSet.getInt("id"), resultSet.getInt("base_item"), roomId, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data")));
+                    wallItems.add(RoomItemFactory.createWall(resultSet.getInt("id"), resultSet.getInt("base_item"), roomId, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data")));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

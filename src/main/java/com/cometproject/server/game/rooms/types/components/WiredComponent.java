@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.data.WiredDataInstance;
@@ -58,7 +58,7 @@ public class WiredComponent {
 
         try {
             for (WiredSquare s : this.squares) {
-                for (FloorItem item : this.getRoom().getItems().getItemsOnSquare(s.getX(), s.getY())) {
+                for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(s.getX(), s.getY())) {
                     if (CometManager.getWired().isWiredTrigger(item)) {
                         if (item.getDefinition().getInteraction().equals(CometManager.getWired().getString(type))) {
                             if (type == TriggerType.ON_SAY) {
@@ -94,7 +94,7 @@ public class WiredComponent {
         for (WiredSquare square : this.squares) {
             boolean hasTimer = false;
 
-            for (FloorItem item : this.getRoom().getItems().getItemsOnSquare(square.getX(), square.getY())) {
+            for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(square.getX(), square.getY())) {
                 if (CometManager.getWired().isWiredTrigger(item)) {
                     if (item.getDefinition().getInteraction().equals("wf_trg_timer")) {
                         if (hasTimer)
@@ -117,7 +117,7 @@ public class WiredComponent {
         }
     }
 
-    public void handleSave(FloorItem item, Event msg) {
+    public void handleSave(RoomItemFloor item, Event msg) {
         if (item.getDefinition().getInteraction().startsWith("wf_trg_")) {
             CometManager.getWired().getTrigger(item.getDefinition().getInteraction()).onSave(msg, item);
 

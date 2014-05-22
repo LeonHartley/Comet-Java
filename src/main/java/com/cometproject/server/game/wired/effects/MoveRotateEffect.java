@@ -3,7 +3,7 @@ package com.cometproject.server.game.wired.effects;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.AvatarEntity;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.data.WiredDataInstance;
@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class MoveRotateEffect extends WiredEffect {
     @Override
-    public void onActivate(List<GenericEntity> entities, FloorItem item) {
+    public void onActivate(List<GenericEntity> entities, RoomItemFloor item) {
         WiredDataInstance data = WiredDataFactory.get(item);
 
         if (data.getItems().size() == 0) {
@@ -28,7 +28,7 @@ public class MoveRotateEffect extends WiredEffect {
         for (int itemId : data.getItems()) {
             boolean isCancelled = false;
 
-            FloorItem itemInstance = room.getItems().getFloorItem(itemId);
+            RoomItemFloor itemInstance = room.getItems().getFloorItem(itemId);
 
             if (itemInstance == null)
                 continue;
@@ -45,7 +45,7 @@ public class MoveRotateEffect extends WiredEffect {
 
                 try {
                     height += (float) room.getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()];
-                    for (FloorItem stackItem : room.getItems().getItemsOnSquare(newPosition.getX(), newPosition.getY())) {
+                    for (RoomItemFloor stackItem : room.getItems().getItemsOnSquare(newPosition.getX(), newPosition.getY())) {
                         if (item.getId() != stackItem.getId()) {
                             if (stackItem.getDefinition().canStack) {
                                 height += stackItem.getDefinition().getHeight();
@@ -193,7 +193,7 @@ public class MoveRotateEffect extends WiredEffect {
     }
 
     @Override
-    public void onSave(Event event, FloorItem item) {
+    public void onSave(Event event, RoomItemFloor item) {
         event.readInt(); // don't need this
         int movement = event.readInt();
         int rotation = event.readInt();

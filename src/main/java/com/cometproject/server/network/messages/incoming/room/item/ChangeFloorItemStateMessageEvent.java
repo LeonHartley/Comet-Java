@@ -4,7 +4,7 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
@@ -23,7 +23,7 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        FloorItem item = room.getItems().getFloorItem(itemId);
+        RoomItemFloor item = room.getItems().getFloorItem(itemId);
 
         if (item == null) {
             return;
@@ -48,7 +48,7 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
             }
         }
 
-        CometManager.getItems().getInteractions().onInteract(msg.readInt(), item, client.getPlayer().getEntity());
+        //CometManager.getItems().getInteractions().onInteract(msg.readInt(), item, client.getPlayer().getEntity());
 
         List<Position3D> tilesToUpdate = new ArrayList<>();
         tilesToUpdate.add(new Position3D(item.getX(), item.getY(), 0d));

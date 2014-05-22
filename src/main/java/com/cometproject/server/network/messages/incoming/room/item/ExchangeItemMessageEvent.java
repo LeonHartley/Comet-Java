@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
@@ -21,7 +21,7 @@ public class ExchangeItemMessageEvent implements IEvent {
             return;
         }
 
-        FloorItem item = room.getItems().getFloorItem(itemId);
+        RoomItemFloor item = room.getItems().getFloorItem(itemId);
 
         if (item == null) {
             return;
