@@ -48,7 +48,7 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
             }
         }
 
-        //CometManager.getItems().getInteractions().onInteract(msg.readInt(), item, client.getPlayer().getEntity());
+        item.onInteract(client.getPlayer().getEntity(), msg.readInt(), false);
 
         List<Position3D> tilesToUpdate = new ArrayList<>();
         tilesToUpdate.add(new Position3D(item.getX(), item.getY(), 0d));

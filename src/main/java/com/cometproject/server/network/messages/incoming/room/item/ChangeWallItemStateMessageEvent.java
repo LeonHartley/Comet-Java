@@ -16,6 +16,6 @@ public class ChangeWallItemStateMessageEvent implements IEvent {
         if (item == null)
             return;
 
-        //CometManager.getItems().getInteractions().onInteract(0, item, client.getPlayer().getEntity());
+        item.onInteract(client.getPlayer().getEntity(), 0, false);
     }
 }
