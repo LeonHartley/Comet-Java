@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.moderation;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
@@ -12,7 +13,7 @@ public class ModToolRoomInfoMessageComposer {
         msg.writeInt(room.getId());
         msg.writeInt(room.isActive ? room.getEntities().playerCount() : 0);
 
-        msg.writeBoolean(Comet.getServer().getNetwork().getSessions().isPlayerLogged(room.getData().getOwnerId()));
+        msg.writeBoolean(CometManager.getPlayers().isOnline(room.getData().getOwnerId()));
         msg.writeInt(room.getData().getOwnerId());
         msg.writeString(room.getData().getOwner());
         msg.writeBoolean(room.isActive);
