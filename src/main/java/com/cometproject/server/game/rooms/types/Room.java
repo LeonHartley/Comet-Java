@@ -102,6 +102,7 @@ public class Room implements Attributable {
 
         this.attributes.clear();
 
+        this.attributes = null;
         this.itemProcess = null;
         this.process = null;
         this.rights = null;
