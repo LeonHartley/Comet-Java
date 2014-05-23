@@ -307,8 +307,6 @@ public class ProcessComponent implements CometTask {
 
             //entity.getPlayer().getSession().send(TalkMessageComposer.compose(entity.getVirtualId(), "X: " + newPosition.getX() + ", Y: " + newPosition.getY() + ", Rot: " + entity.getBodyRotation(), 0, 0));
 
-            List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
-
             // Apply sit
             //for (RoomItemFloor item : itemsOnSq) {
             //    item.onEntityStepOn(entity);
@@ -336,9 +334,9 @@ public class ProcessComponent implements CometTask {
                 }*/
             //}
 
-            entity.updateAndSetPosition(null);
-            entity.setPosition(newPosition);
+            List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
 
+            // Step-on
             for (RoomItemFloor item : itemsOnSq) {
                 item.onEntityStepOn(entity);
 
@@ -346,6 +344,9 @@ public class ProcessComponent implements CometTask {
                     // idk what to do here for this trigger but ya
                 }
             }
+
+            entity.updateAndSetPosition(null);
+            entity.setPosition(newPosition);
         }
 
         if (entity.isWalking()) {
@@ -388,14 +389,18 @@ public class ProcessComponent implements CometTask {
                         entity.removeStatus("lay");
                     }
 
+                    // Instant step-off
                     for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
-                        System.out.println("call step off");
-                        System.out.println(item.getId());
                         item.onEntityStepOff(entity);
 
                         if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
 
                         }
+                    }
+
+                    // Pre-step on
+                    for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
+                        item.onEntityPreStepOn(entity);
                     }
 
                     entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, height));

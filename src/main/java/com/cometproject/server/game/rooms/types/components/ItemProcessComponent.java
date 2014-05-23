@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
+import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.ScheduledFuture;
@@ -61,11 +62,32 @@ public class ItemProcessComponent implements CometTask {
 
     @Override
     public void run() {
+        if (!this.active) { return; }
+
+        if (this.getRoom().getEntities().playerCount() == 0) {
+            this.stop();
+            return;
+        }
+
+        long timeStart = System.currentTimeMillis();
+
         this.getRoom().getItems().getFloorItems().parallelStream().forEach((item) -> {
             if (item.requiresTick()) {
                 item.tick();
             }
         });
+
+        this.getRoom().getItems().getWallItems().parallelStream().forEach((item) -> {
+            if (item.requiresTick()) {
+                item.tick();
+            }
+        });
+
+        TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
+
+        if (span.toMilliseconds() > flag) {
+            log.warn("ItemProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
+        }
     }
 
     /*@Override

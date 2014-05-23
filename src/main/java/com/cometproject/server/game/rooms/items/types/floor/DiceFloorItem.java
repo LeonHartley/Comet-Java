@@ -15,7 +15,7 @@ public class DiceFloorItem extends RoomItemFloor {
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         if (!this.touching(entity)) {
-            entity.moveTo(this.getX(), this.getY());
+            entity.moveTo(this.squareInfront().getX(), this.squareInfront().getY());
             return;
         }
 
@@ -41,6 +41,11 @@ public class DiceFloorItem extends RoomItemFloor {
             this.setExtraData("0");
             this.sendUpdate();
         }
+    }
+
+    @Override
+    public void onPickup() {
+        this.cancelTicks();
     }
 
     @Override
