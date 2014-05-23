@@ -23,6 +23,6 @@ public class UseWallItemMessageEvent implements IEvent {
 
         int requestData = msg.readInt();
 
-        //CometManager.getItems().getInteractions().onInteract(requestData, item, client.getPlayer().getEntity());
+        item.onInteract(client.getPlayer().getEntity(), requestData, false);
     }
 }
