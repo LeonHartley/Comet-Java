@@ -71,6 +71,9 @@ public class Room implements Attributable {
         this.mapping.init();
 
         this.isActive = true;
+
+        CometManager.getRooms().getActiveRoomIds().add(this.id);
+
         this.log.debug("Room loaded");
     }
 
@@ -122,6 +125,9 @@ public class Room implements Attributable {
         }
 
         this.isActive = false;
+
+        CometManager.getRooms().getActiveRoomIds().remove(this.id);
+
         this.log.debug("Room disposed");
     }
 
@@ -214,6 +220,7 @@ public class Room implements Attributable {
         return this.model;
     }
 
+    // TODO: remove below to attributes
     public boolean hasRoomMute() {
         return this.isRoomMuted;
     }
