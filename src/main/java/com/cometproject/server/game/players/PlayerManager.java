@@ -34,7 +34,15 @@ public class PlayerManager {
             return this.playerUsernameToPlayerId.get(username);
         }
 
-        return 0;
+        return -1;
+    }
+
+    public int getSessionIdByPlayerId(int playerId) {
+        if(this.playerIdToSessionId.containsKey(playerId)) {
+            return this.playerIdToSessionId.get(playerId);
+        }
+
+        return -1;
     }
 
     public boolean isOnline(int playerId) {
@@ -43,5 +51,9 @@ public class PlayerManager {
 
     public boolean isOnline(String username) {
         return this.playerUsernameToPlayerId.containsKey(username);
+    }
+
+    public int size() {
+        return this.playerIdToSessionId.size();
     }
 }

@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.user.profile;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.network.messages.headers.Composers;
@@ -29,7 +30,7 @@ public class LoadProfileMessageComposer {
         msg.writeInt(stats.getFriendCount());
         msg.writeBoolean(isMyFriend);
         msg.writeBoolean(hasSentRequest);
-        msg.writeBoolean(Comet.getServer().getNetwork().getSessions().isPlayerLogged(player.getId()));
+        msg.writeBoolean(CometManager.getPlayers().isOnline(player.getId()));
         msg.writeInt(0); // groups
 
         msg.writeInt((int) Comet.getTime() - player.getLastVisit());
