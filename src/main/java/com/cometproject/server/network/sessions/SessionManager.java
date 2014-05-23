@@ -12,6 +12,7 @@ import java.util.Set;
 public class SessionManager {
 
     private FastMap<Integer, Session> sessions = new FastMap<Integer, Session>().atomic();
+    private FastMap<Integer, Integer> playerIdToSessionId = new FastMap<Integer, Integer>().atomic();
 
     public boolean add(Channel channel) {
         Session session = new Session(channel);
@@ -29,43 +30,41 @@ public class SessionManager {
         return false;
     }
 
-    public boolean isPlayerLogged(int id) {
-        for (Map.Entry<Integer, Session> sessions : this.sessions.entrySet()) {
-            Session session = sessions.getValue();
+    public boolean disconnectByPlayerId(int id) {
+        if(!this.playerIdToSessionId.containsKey(id)) {
+            return false;
+        }
 
-            if (session.getPlayer() != null) {
-                if (session.getPlayer().getId() == id) {
-                    return true;
-                }
-            }
+        int sessionId = playerIdToSessionId.get(id);
+        Session session = sessions.get(sessionId);
+
+        if(session != null) {
+            session.disconnect();
+            return true;
         }
 
         return false;
     }
 
-    public void disconnectByPlayerId(int id) {
-        for (Map.Entry<Integer, Session> session : this.sessions.entrySet()) {
-            if (session.getValue().getPlayer() != null) {
-                if (session.getValue().getPlayer().getId() == id) {
-                    session.getValue().disconnect();
-                }
-            }
-        }
-    }
-
     public Session getByPlayerId(int id) {
-        for (Map.Entry<Integer, Session> session : this.sessions.entrySet()) {
+        /*for (Map.Entry<Integer, Session> session : this.sessions.entrySet()) {
             if (session.getValue().getPlayer() != null) {
                 if (session.getValue().getPlayer().getId() == id) {
                     return session.getValue();
                 }
             }
+        }*/
+
+        if(this.playerIdToSessionId.containsKey(id)) {
+            int sessionId = this.playerIdToSessionId.get(id);
+
+            return sessions.get(sessionId);
         }
 
         return null;
     }
 
-    public Set<Session> getbyPlayerPermission(String permission) {
+    public Set<Session> getByPlayerPermission(String permission) {
         Set<Session> sessions = new FastSet<>();
 
         int rank = CometManager.getPermissions().getPermissions().get(permission).getRank();
@@ -82,13 +81,15 @@ public class SessionManager {
     }
 
     public Session getByPlayerUsername(String username) {
-        for (Map.Entry<Integer, Session> session : this.sessions.entrySet()) {
+        /*for (Map.Entry<Integer, Session> session : this.sessions.entrySet()) {
             if (session.getValue().getPlayer() != null && session.getValue().getPlayer().getData() != null) {
                 if (session.getValue().getPlayer().getData().getUsername().toLowerCase().equals(username.toLowerCase())) {
                     return session.getValue();
                 }
             }
-        }
+        }*/
+
+        int playerId = CometManager.getPlayers().getPlayerIdByUsername(username);
 
         return null;
     }

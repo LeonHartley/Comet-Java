@@ -11,6 +11,7 @@ import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.pets.PetManager;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.queue.StaticPlayerQueue;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.wired.WiredManager;
@@ -29,6 +30,7 @@ public class CometManager {
     private static PetManager petManager;
     private static LandingManager landingManager;
     private static GroupManager groupManager;
+    private static PlayerManager playerManager;
 
     public static GameThread gameThread;
 
@@ -47,6 +49,7 @@ public class CometManager {
         petManager = new PetManager();
         landingManager = new LandingManager();
         groupManager = new GroupManager();
+        playerManager = new PlayerManager();
 
         //StaticPlayerQueue.init(Comet.getServer().getThreadManagement());
     }
@@ -105,5 +108,9 @@ public class CometManager {
 
     public static GameThread getThread() {
         return gameThread;
+    }
+
+    public static PlayerManager getPlayers() {
+        return playerManager;
     }
 }
