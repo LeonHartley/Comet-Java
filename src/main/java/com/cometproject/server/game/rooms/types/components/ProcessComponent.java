@@ -121,7 +121,6 @@ public class ProcessComponent implements CometTask {
                         playersToRemove.add(playerEntity);
                     }
                 } else if (entity.getEntityType() == RoomEntityType.BOT) {
-                    //processBotEntity(entity);
                     processEntity(entity);
                 } else if (entity.getEntityType() == RoomEntityType.PET) {
                     processEntity(entity);
@@ -166,8 +165,6 @@ public class ProcessComponent implements CometTask {
         Position3D currentPosition = new Position3D(entity.getPosition());
 
         boolean isPlayer = entity instanceof PlayerEntity;
-        boolean isBot = entity instanceof BotEntity;
-        boolean isPet = entity instanceof PetEntity;
 
         if (isPlayer && ((PlayerEntity) entity).getPlayer() == null || entity.getRoom() == null) {
             this.room.getEntities().removeEntity(entity);
@@ -183,7 +180,7 @@ public class ProcessComponent implements CometTask {
                     ((PlayerEntity) entity).getPlayer().setFloodTime(0);
                 }
             }
-        } else if(isBot || isPet) {
+        } else {
             int chance = RandomInteger.getRandom(1, (entity.hasStatus("sit") || entity.hasStatus("lay")) ? 20 : 6);
 
             if (chance == 1) {

@@ -45,8 +45,6 @@ public abstract class RoomItemWall extends RoomItem {
 
             int i = Integer.parseInt(this.getExtraData()) + 1;
 
-            System.out.println("Old: " + this.getExtraData() + ", " + i);
-
             if (i > (this.getDefinition().getInteractionCycleCount() - 1)) { // take one because count starts at 0 (0, 1) = count(2)
                 this.setExtraData("0");
             } else {
