@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.items.types.floor;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 
 import java.util.Random;
@@ -27,7 +28,7 @@ public class DiceFloorItem extends RoomItemFloor {
                 this.setExtraData("-1");
                 this.sendUpdate();
 
-                this.setTicks(8);
+                this.setTicks(RoomItemFactory.getProcessTime(3));
             }
         } else {
             this.setExtraData("0");

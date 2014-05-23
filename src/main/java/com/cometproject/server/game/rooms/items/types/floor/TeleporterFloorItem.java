@@ -4,6 +4,7 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.network.messages.outgoing.messenger.FollowFriendMessageComposer;
 
@@ -37,7 +38,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
         this.outgoingEntity = entity;
 
         this.state = 0;
-        this.setTicks(1);
+        this.setTicks(RoomItemFactory.getProcessTime(1));
     }
 
     @Override
@@ -52,7 +53,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 this.toggleDoor(true);
 
                 this.state = 1;
-                this.setTicks(3);
+                this.setTicks(RoomItemFactory.getProcessTime(2));
                 break;
             }
 
@@ -60,7 +61,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 this.toggleDoor(false);
 
                 this.state = 2;
-                this.setTicks(3);
+                this.setTicks(RoomItemFactory.getProcessTime(1));
                 break;
             }
 
@@ -68,7 +69,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 this.toggleAnimation(true);
 
                 this.state = 3;
-                this.setTicks(1);
+                this.setTicks(RoomItemFactory.getProcessTime(2));
                 break;
             }
 
@@ -78,7 +79,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
                 if (pairId == 0 || !(pairItem instanceof TeleporterFloorItem)) {
                     this.state = 5;
-                    this.setTicks(3);
+                    this.setTicks(RoomItemFactory.getProcessTime(2));
                     return;
                 }
 
@@ -94,7 +95,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                     }
 
                     this.state = 5;
-                    this.setTicks(3);
+                    this.setTicks(RoomItemFactory.getProcessTime(2));
                     return;
                 }
 
@@ -107,7 +108,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
             case 5: {
                 this.toggleAnimation(false);
                 this.state = 6;
-                this.setTicks(1);
+                this.setTicks(RoomItemFactory.getProcessTime(1));
                 break;
             }
 
@@ -118,7 +119,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 this.incomingEntity.moveTo(this.squareInfront().getX(), this.squareInfront().getY());
 
                 this.state = 7;
-                this.setTicks(3);
+                this.setTicks(RoomItemFactory.getProcessTime(1));
                 break;
             }
 
@@ -148,7 +149,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
         this.incomingEntity = entity;
 
         this.state = 5;
-        this.setTicks(4);
+        this.setTicks(RoomItemFactory.getProcessTime(2));
     }
 
     protected void toggleDoor(boolean state) {

@@ -100,7 +100,7 @@ public class ProcessComponent implements CometTask {
 
             List<PlayerEntity> playersToRemove = new ArrayList<>();
 
-            for (GenericEntity entity : entities.values()) {
+            entities.values().parallelStream().forEach((entity) -> {
                 // Process each entity as its own
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
@@ -108,11 +108,11 @@ public class ProcessComponent implements CometTask {
                     try {
                         if (playerEntity.getPlayer() == null) {
                             removeFromRoom(playerEntity);
-                            continue;
+                            return;
                         }
                     } catch(Exception e) {
                         log.warn("Failed to remove null player from room - user data was null");
-                        continue;
+                        return;
                     }
 
                     boolean playerNeedsRemove = processEntity(playerEntity);
@@ -140,7 +140,7 @@ public class ProcessComponent implements CometTask {
 
                     this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
                 }
-            }
+            });
 
             for (PlayerEntity entity : playersToRemove) {
                 entity.leaveRoom(entity.getPlayer() == null, false, true);
