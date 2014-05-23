@@ -10,14 +10,18 @@ import com.cometproject.server.game.rooms.types.misc.ChatEmotionsManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
+import javolution.util.FastSet;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class RoomManager {
     private FastMap<Integer, Room> rooms;
+    private Set<Integer> activeRoomIds;
+
     private ArrayList<StaticRoomModel> models;
     private WordFilter filterManager;
 
@@ -28,6 +32,8 @@ public class RoomManager {
 
     public RoomManager() {
         rooms = new FastMap<Integer, Room>().shared();
+        activeRoomIds = new FastSet<Integer>().shared();
+
         models = new ArrayList<>();
         emotions = new ChatEmotionsManager();
         filterManager = new WordFilter();
@@ -145,7 +151,9 @@ public class RoomManager {
     public List<Room> getActiveRooms() {
         List<Room> rooms = new ArrayList<>();
 
-        for (Room room : this.getRooms().values()) {
+        for (Integer roomId : this.activeRoomIds) {
+            Room room = this.get(roomId);
+
             if (room == null || room.getEntities() == null || room.getEntities().playerCount() < 1 || !room.isActive) {
                 continue;
             }
@@ -159,7 +167,9 @@ public class RoomManager {
     public List<Room> getActiveRoomsByCategory(int category) {
         List<Room> rooms = new ArrayList<>();
 
-        for (Room room : this.getRooms().values()) {
+        for (Integer roomId : this.activeRoomIds) {
+            Room room = this.get(roomId);
+
             if (room == null || room.getEntities() == null || room.getEntities().playerCount() < 1 || !room.isActive || (category != -1 && room.getData().getCategory().getId() != category)) {
                 continue;
             }
@@ -188,5 +198,9 @@ public class RoomManager {
 
     public WordFilter getFilter() {
         return filterManager;
+    }
+
+    public Set<Integer> getActiveRoomIds() {
+        return activeRoomIds;
     }
 }
