@@ -24,6 +24,7 @@ public class RoomItemFactory {
             case "onewaygate": { return new OneWayGateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
             case "ball": { return new BallFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
             case "roombg": { return new BackgroundTonerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+            case "bed": { return new BedFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
             default: { return new GenericFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
         }
     }
