@@ -7,12 +7,12 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateWallIt
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
-public class WallItem extends RoomItem {
+public abstract class RoomItemWall extends RoomItem {
     private int roomId;
     private String position;
     private String extraData;
 
-    public WallItem(int id, int itemId, int roomId, int owner, String position, String data) {
+    public RoomItemWall(int id, int itemId, int roomId, int owner, String position, String data) {
         this.id = id;
         this.itemId = itemId;
         this.roomId = roomId;
@@ -80,10 +80,12 @@ public class WallItem extends RoomItem {
         return CometManager.getItems().getDefintion(this.getItemId());
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public int getItemId() {
         return itemId;
     }
@@ -92,9 +94,12 @@ public class WallItem extends RoomItem {
         return roomId;
     }
 
+    @Override
     public int getOwner() {
         return ownerId;
     }
+
+
 
     public void setPosition(String position) {
         this.position = position;
@@ -110,25 +115,5 @@ public class WallItem extends RoomItem {
 
     public void setExtraData(String data) {
         this.extraData = data;
-    }
-
-    @Override
-    public void setAttribute(String attributeKey, Object attributeValue) {
-
-    }
-
-    @Override
-    public Object getAttribute(String attributeKey) {
-        return null;
-    }
-
-    @Override
-    public boolean hasAttribute(String attributeKey) {
-        return false;
-    }
-
-    @Override
-    public void removeAttribute(String attributeKey) {
-
     }
 }

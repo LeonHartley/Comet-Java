@@ -1,10 +1,8 @@
 package com.cometproject.server.game.wired.triggers;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.items.interactions.InteractionAction;
-import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.data.WiredDataInstance;
@@ -19,17 +17,17 @@ public class OffFurniTrigger extends WiredTrigger {
     public void onTrigger(Object data, List<GenericEntity> entities, WiredSquare wiredBlock) {
         Room room = entities.get(0).getRoom();
 
-        for (FloorItem item : room.getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {
+        for (RoomItemFloor item : room.getItems().getItemsOnSquare(wiredBlock.getX(), wiredBlock.getY())) {
             // TODO: check for condition.
             if (CometManager.getWired().isWiredEffect(item)) {
                 CometManager.getWired().getEffect(item.getDefinition().getInteraction()).onActivate(entities, item);
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, null, 0, 0));
+                //item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, null, 0, 0));
             }
         }
     }
 
     @Override
-    public void onSave(Event event, FloorItem item) {
+    public void onSave(Event event, RoomItemFloor item) {
         event.readInt(); // don't need this
         event.readString(); // don't need this
 

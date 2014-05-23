@@ -38,6 +38,7 @@ public abstract class GenericEntity implements AvatarEntity {
     private Square futureSquare;
 
     private Pathfinder pathfinder;
+    private int stepsToGoal;
 
     private int idleTime;
     private int signTime;
@@ -90,6 +91,8 @@ public abstract class GenericEntity implements AvatarEntity {
         this.isVisible = true;
 
         this.doorbellAnswered = false;
+
+        this.stepsToGoal = 0;
     }
 
     @Override
@@ -125,6 +128,10 @@ public abstract class GenericEntity implements AvatarEntity {
         }
     }
 
+    public int getStepsToGoal() {
+        return this.stepsToGoal;
+    }
+
     @Override
     public void moveTo(int x, int y) {
         // TODO: Redirection grid here for beds
@@ -146,6 +153,8 @@ public abstract class GenericEntity implements AvatarEntity {
             this.setWalkingGoal(this.getPosition().getX(), this.getPosition().getY());
             return;
         }
+
+        this.stepsToGoal = path.size();
 
         // UnIdle the user and set the path (if the path has nodes it will mean the user is walking)
         this.unIdle();

@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.items;
 
-public interface GenericRoomItem {
+public interface RoomItemAttributes {
     public int getId();
 
     public int getItemId();

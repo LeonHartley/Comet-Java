@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -16,14 +16,16 @@ public class OpenDiceMessageEvent implements IEvent {
             return;
         }
 
-        FloorItem item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(itemId);
+        RoomItemFloor item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(itemId);
 
         if (item == null) {
             return;
         }
 
-        if (item.getDefinition().getInteraction().equals("dice")) {
-            CometManager.getItems().getInteractions().onInteract(0, item, client.getPlayer().getEntity());
-        }
+        //if (item.getDefinition().getInteraction().equals("dice")) {
+            //CometManager.getItems().getInteractions().onInteract(0, item, client.getPlayer().getEntity());
+        //}
+
+        item.onInteract(client.getPlayer().getEntity(), 0, false);
     }
 }

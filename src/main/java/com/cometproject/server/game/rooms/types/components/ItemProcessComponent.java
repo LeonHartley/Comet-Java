@@ -1,15 +1,8 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.items.interactions.InteractionAction;
-import com.cometproject.server.game.items.interactions.InteractionQueueItem;
-import com.cometproject.server.game.items.interactions.football.BallInteraction;
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
-import com.cometproject.server.game.rooms.items.FloorItem;
-import com.cometproject.server.game.rooms.items.WallItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
@@ -53,11 +46,11 @@ public class ItemProcessComponent implements CometTask {
             this.active = false;
             this.myFuture.cancel(false);
 
-            for (FloorItem item : this.getRoom().getItems().getFloorItems()) {
+            /*for (FloorItem item : this.getRoom().getItems().getFloorItems()) {
                 if (item.hasInteraction()) {
                     item.getInteractionQueue().clear();
                 }
-            }
+            }*/
 
             log.debug("Processing stopped");
         }
@@ -68,6 +61,36 @@ public class ItemProcessComponent implements CometTask {
     }
 
     @Override
+    public void run() {
+        if (!this.active) { return; }
+
+        if (this.getRoom().getEntities().playerCount() == 0) {
+            this.stop();
+            return;
+        }
+
+        long timeStart = System.currentTimeMillis();
+
+        this.getRoom().getItems().getFloorItems().parallelStream().forEach((item) -> {
+            if (item.requiresTick()) {
+                item.tick();
+            }
+        });
+
+        this.getRoom().getItems().getWallItems().parallelStream().forEach((item) -> {
+            if (item.requiresTick()) {
+                item.tick();
+            }
+        });
+
+        TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
+
+        if (span.toMilliseconds() > flag) {
+            log.warn("ItemProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
+        }
+    }
+
+    /*@Override
     public void run() {
         try {
             if (!this.active) {
@@ -197,7 +220,7 @@ public class ItemProcessComponent implements CometTask {
         }
 
         item.getRollingPositions().remove(0);
-    }
+    }*/
 
     public void dispose() {
         if (this.myFuture != null) {

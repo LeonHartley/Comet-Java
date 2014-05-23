@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
@@ -28,7 +28,7 @@ public class SaveBrandingMessageEvent implements IEvent {
             data = data + (char) 9 + msg.readString();
         }
 
-        FloorItem item = room.getItems().getFloorItem(brandingId);
+        RoomItemFloor item = room.getItems().getFloorItem(brandingId);
         item.setExtraData(data);
 
         item.getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(item, item.getOwner()));

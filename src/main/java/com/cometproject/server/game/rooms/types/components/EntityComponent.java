@@ -1,7 +1,5 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.server.game.items.interactions.InteractionAction;
-import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -9,7 +7,7 @@ import com.cometproject.server.game.rooms.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
@@ -75,7 +73,7 @@ public class EntityComponent {
         Position3D startPosition = new Position3D(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY(), this.getRoom().getModel().getDoorZ());
 
         if (player.isTeleporting()) {
-            FloorItem item = this.room.getItems().getFloorItem(player.getTeleportId());
+            RoomItemFloor item = this.room.getItems().getFloorItem(player.getTeleportId());
 
             if (item != null) {
                 startPosition = new Position3D(item.getX(), item.getY(), item.getHeight());
@@ -88,10 +86,10 @@ public class EntityComponent {
         //this.addEntity(entity); // moved this to the 'PlayerEntity' class
 
         if (player.isTeleporting()) {
-            FloorItem item = this.room.getItems().getFloorItem(player.getTeleportId());
+            RoomItemFloor item = this.room.getItems().getFloorItem(player.getTeleportId());
 
             if (item != null) {
-                item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, entity, 4, 8));
+                //item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, entity, 4, 8));
             }
 
             player.setTeleportId(0);

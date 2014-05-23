@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.data.BackgroundTonerData;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
@@ -16,7 +16,7 @@ public class SaveTonerMessageEvent implements IEvent {
         int saturation = msg.readInt();
         int lightness = msg.readInt();
 
-        FloorItem item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(tonerId);
+        RoomItemFloor item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(tonerId);
 
         if (item == null || !client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             // Item doesn't exist, gtfo (or doesnt have rights....
