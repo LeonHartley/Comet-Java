@@ -47,15 +47,7 @@ public class SessionManager {
     }
 
     public Session getByPlayerId(int id) {
-        /*for (Map.Entry<Integer, Session> session : this.sessions.entrySet()) {
-            if (session.getValue().getPlayer() != null) {
-                if (session.getValue().getPlayer().getId() == id) {
-                    return session.getValue();
-                }
-            }
-        }*/
-
-        if(this.playerIdToSessionId.containsKey(id)) {
+         if(this.playerIdToSessionId.containsKey(id)) {
             int sessionId = this.playerIdToSessionId.get(id);
 
             return sessions.get(sessionId);
@@ -65,6 +57,7 @@ public class SessionManager {
     }
 
     public Set<Session> getByPlayerPermission(String permission) {
+        // TODO: Optimize this
         Set<Session> sessions = new FastSet<>();
 
         int rank = CometManager.getPermissions().getPermissions().get(permission).getRank();
@@ -81,29 +74,24 @@ public class SessionManager {
     }
 
     public Session getByPlayerUsername(String username) {
-        /*for (Map.Entry<Integer, Session> session : this.sessions.entrySet()) {
-            if (session.getValue().getPlayer() != null && session.getValue().getPlayer().getData() != null) {
-                if (session.getValue().getPlayer().getData().getUsername().toLowerCase().equals(username.toLowerCase())) {
-                    return session.getValue();
-                }
-            }
-        }*/
-
         int playerId = CometManager.getPlayers().getPlayerIdByUsername(username);
+
+        if(playerId == -1)
+            return null;
+
+        int sessionId = CometManager.getPlayers().getSessionIdByPlayerId(playerId);
+
+        if(sessionId == -1)
+            return null;
+
+        if(this.sessions.containsKey(sessionId))
+            return this.sessions.get(sessionId);
 
         return null;
     }
 
     public int getUsersOnlineCount() {
-        int i = 0;
-
-        for (Map.Entry<Integer, Session> session : this.sessions.entrySet()) {
-            if (session.getValue().getPlayer() != null) {
-                i++;
-            }
-        }
-
-        return i;
+        return CometManager.getPlayers().size();
     }
 
     public Map<Integer, Session> getSessions() {

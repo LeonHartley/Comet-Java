@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.components.types;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class MessengerSearchResult {
@@ -22,7 +23,7 @@ public class MessengerSearchResult {
         msg.writeInt(id);
         msg.writeString(username);
         msg.writeString(motto);
-        msg.writeBoolean(Comet.getServer().getNetwork().getSessions().isPlayerLogged(id)); // is online
+        msg.writeBoolean(CometManager.getPlayers().isOnline(id)); // is online
         msg.writeBoolean(false);
         msg.writeString("");
         msg.writeInt(0);

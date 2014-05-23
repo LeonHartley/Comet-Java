@@ -287,7 +287,7 @@ public class MessageHandler {
                 this.getMessages().get(header).handle(client, message);
                 log.debug("Finished packet process for packet: [" + Events.valueOfId(header) + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
             } catch(Exception e) {
-                log.error("Error while handling event: " + this.getMessages().get(header).getClass(), e);
+                log.error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
             }
         } else {
             if (Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != PING_EVENT)
