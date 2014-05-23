@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.types.components.games.banzai;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
@@ -31,7 +31,7 @@ public class BanzaiGame extends RoomGame {
 
     @Override
     public void tick() {
-        for (FloorItem item : room.getItems().getByInteraction("bb_timer")) {
+        for (RoomItemFloor item : room.getItems().getByInteraction("bb_timer")) {
             item.setExtraData((gameLength - timer) + "");
             item.sendUpdate();
         }
@@ -44,7 +44,7 @@ public class BanzaiGame extends RoomGame {
 
         GameTeam winningTeam = this.winningTeam();
 
-        for (FloorItem item : this.room.getItems().getByInteraction("bb_patch")) {
+        for (RoomItemFloor item : this.room.getItems().getByInteraction("bb_patch")) {
             if (item.hasAttribute(TEAM_ATTRIBUTE)) {
                 if (item.getAttribute(TEAM_ATTRIBUTE).equals(winningTeam)) {
                     // TODO: this
@@ -77,7 +77,7 @@ public class BanzaiGame extends RoomGame {
 
     @Override
     public void gameStarts() {
-        for (FloorItem item : this.room.getItems().getByInteraction("bb_patch")) {
+        for (RoomItemFloor item : this.room.getItems().getByInteraction("bb_patch")) {
             item.setExtraData("1");
             item.sendUpdate();
         }
@@ -87,7 +87,7 @@ public class BanzaiGame extends RoomGame {
         if (!this.active)
             return;
 
-        for (FloorItem item : this.room.getItems().getItemsOnSquare(x, y)) {
+        for (RoomItemFloor item : this.room.getItems().getItemsOnSquare(x, y)) {
             if (item.getDefinition().getInteraction().equals("bb_patch")) {
                 int itemScore = 1;
 
@@ -110,7 +110,7 @@ public class BanzaiGame extends RoomGame {
 
                     this.scores.replace(team, this.scores.get(team) + 1);
 
-                    for (FloorItem scoreboard : room.getItems().getByInteraction("%_score")) {
+                    for (RoomItemFloor scoreboard : room.getItems().getByInteraction("%_score")) {
                         if (scoreboard.getDefinition().getInteraction().toUpperCase().startsWith(team.name())) {
                             scoreboard.setExtraData(this.scores.get(team) + "");
                             scoreboard.sendUpdate();

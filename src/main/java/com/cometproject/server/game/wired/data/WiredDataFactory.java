@@ -1,6 +1,6 @@
 package com.cometproject.server.game.wired.data;
 
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.storage.queries.items.WiredDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
@@ -15,7 +15,7 @@ public class WiredDataFactory {
         instances = new FastMap<>();
     }
 
-    public static WiredDataInstance get(FloorItem item) {
+    public static WiredDataInstance get(RoomItemFloor item) {
         if (instances.containsKey(item.getId())) {
             return instances.get(item.getId());
         }

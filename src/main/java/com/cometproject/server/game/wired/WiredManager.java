@@ -1,6 +1,6 @@
 package com.cometproject.server.game.wired;
 
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.effects.MoveRotateEffect;
 import com.cometproject.server.game.wired.effects.MoveUserEffect;
@@ -37,22 +37,22 @@ public class WiredManager {
         WiredDataFactory.init();
     }
 
-    public boolean isWiredTrigger(FloorItem item) {
+    public boolean isWiredTrigger(RoomItemFloor item) {
         //return (item.getDefinition().getInteraction().startsWith("wf_trg"));
         return this.triggers.containsKey(item.getDefinition().getInteraction());
     }
 
-    public boolean isWiredEffect(FloorItem item) {
+    public boolean isWiredEffect(RoomItemFloor item) {
         //return (item.getDefinition().getInteraction().startsWith("wf_act"));
         return this.effects.containsKey(item.getDefinition().getInteraction());
     }
 
-    public boolean isWiredCondition(FloorItem item) {
+    public boolean isWiredCondition(RoomItemFloor item) {
         //return (item.getDefinition().getInteraction().startsWith("wf_cnd"));
         return this.conditions.containsKey(item.getDefinition().getInteraction());
     }
 
-    public boolean isWiredItem(FloorItem item) {
+    public boolean isWiredItem(RoomItemFloor item) {
         return (isWiredTrigger(item) || isWiredEffect(item) || isWiredCondition(item));
     }
 

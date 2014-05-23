@@ -1,45 +1,30 @@
 package com.cometproject.server.game.rooms.items;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.catalog.types.gifts.GiftData;
-import com.cometproject.server.game.items.interactions.InteractionAction;
-import com.cometproject.server.game.items.interactions.InteractionQueueItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.data.BackgroundTonerData;
 import com.cometproject.server.game.rooms.items.data.MannequinData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
-import javolution.util.FastMap;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
-import java.util.Map;
 
-public class FloorItem extends RoomItem {
+public abstract class RoomItemFloor extends RoomItem {
     private int roomId;
     private double height;
     private String extraData;
-    private GiftData giftData;
-
-    private List<Position3D> rollingPositions;
 
     private WeakReference<Room> room;
-    private Map<String, Object> attributes;
+    private ItemDefinition tmpItemDefiniton;
 
-    public FloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data, GiftData giftData) {
-        this.init(id, itemId, roomId, owner, x, y, z, rotation, data, giftData);
+    public RoomItemFloor(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
+        this.init(id, itemId, roomId, owner, x, y, z, rotation, data);
     }
 
-    public FloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        this.init(id, itemId, roomId, owner, x, y, z, rotation, data, null);
-    }
-
-    private void init(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data, GiftData giftData) {
+    private void init(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         this.id = id;
         this.itemId = itemId;
         this.roomId = roomId;
@@ -49,24 +34,18 @@ public class FloorItem extends RoomItem {
         this.height = z;
         this.rotation = rotation;
         this.extraData = data;
-        this.giftData = giftData;
-
-        this.attributes = new FastMap<>();
-    }
-
-    public void dispose() {
-        this.attributes.clear();
     }
 
     public void serialize(Composer msg, boolean isNew) {
         boolean isGift = false;
 
-        if (this.giftData != null) {
+        /*if (this.giftData != null) {
             isGift = true;
-        }
+        }*/
 
         msg.writeInt(this.getId());
-        msg.writeInt(isGift ? giftData.getSpriteId() : this.getDefinition().getSpriteId());
+        //msg.writeInt(isGift ? giftData.getSpriteId() : this.getDefinition().getSpriteId());
+        msg.writeInt(this.getDefinition().getSpriteId());
         msg.writeInt(this.getX());
         msg.writeInt(this.getY());
         msg.writeInt(this.getRotation());
@@ -166,7 +145,8 @@ public class FloorItem extends RoomItem {
             msg.writeInt(0);
             msg.writeInt(0);
 
-            msg.writeString(isGift ? giftData.toString() : this.getExtraData());
+            //msg.writeString(isGift ? giftData.toString() : this.getExtraData());
+            msg.writeString(this.getExtraData());
 
             //msg.writeInt(15); // rare id
             //msg.writeInt(100); // amount of limited items in a stack
@@ -181,19 +161,29 @@ public class FloorItem extends RoomItem {
             msg.writeString(this.getRoom().getData().getOwner());
     }
 
-    private ItemDefinition cachedDefinition;
-
     @Override
     public void serialize(Composer msg) {
         this.serialize(msg, false);
     }
 
     public ItemDefinition getDefinition() {
-        if (cachedDefinition == null) {
-            cachedDefinition = CometManager.getItems().getDefintion(this.getItemId());
+        if (this.tmpItemDefiniton == null) {
+            this.tmpItemDefiniton = CometManager.getItems().getDefintion(this.getItemId());
         }
 
-        return cachedDefinition;
+        return this.tmpItemDefiniton;
+    }
+
+    public void onEntityPreStepOn(GenericEntity entity) {
+
+    }
+
+    public void onEntityStepOn(GenericEntity entity) {
+
+    }
+
+    public void onEntityStepOff(GenericEntity entity) {
+
     }
 
     @Override
@@ -237,48 +227,12 @@ public class FloorItem extends RoomItem {
         return this.room.get();
     }
 
-    public boolean isRolling() {
-        return (this.rollingPositions != null && this.rollingPositions.size() > 0);
-    }
-
-    public List<Position3D> getRollingPositions() {
-        return this.rollingPositions;
-    }
-
-    public void setRollingPositions(List<Position3D> positions) {
-        this.rollingPositions = positions;
-    }
-
+    @Override
     public void saveData() {
         RoomItemDao.saveData(id, extraData);
     }
 
-    public void setNeedsUpdate(boolean needsUpdate, InteractionAction action, GenericEntity avatar, int updateState) {
-        if (needsUpdate) {
-            this.queueInteraction(new InteractionQueueItem(needsUpdate, this, action, avatar, updateState));
-        } else {
-            this.setNeedsUpdate(false);
-        }
-    }
-
-    public void setNeedsUpdate(boolean needsUpdate, InteractionAction action, PlayerEntity avatar, int updateState, int updateCycles) {
-        if (needsUpdate) {
-            this.queueInteraction(new InteractionQueueItem(needsUpdate, this, action, avatar, updateState, updateCycles));
-        } else {
-            this.setNeedsUpdate(false);
-        }
-    }
-
-    public void setNeedsUpdate(boolean needsUpdate) {
-        /*this.updateNeeded = needsUpdate;
-        this.updateType = null;
-        this.updateAvatar = null;
-        this.updateState = 0;
-        this.updateCycles = 0;*/
-
-        this.curInteractionItem = null;
-    }
-
+    @Override
     public void sendUpdate() {
         Room r = this.getRoom();
 
@@ -287,13 +241,13 @@ public class FloorItem extends RoomItem {
         }
     }
 
-    public void sendData(String data) {
+    /*public void sendData(String data) {
         Room r = this.getRoom();
 
         if (r != null) {
             r.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(this.getId(), data));
         }
-    }
+    }*/
 
     public double getHeight() {
         return this.height;
@@ -321,29 +275,5 @@ public class FloorItem extends RoomItem {
 
     public void setExtraData(String data) {
         this.extraData = data;
-    }
-
-    @Override
-    public void setAttribute(String attributeKey, Object attributeValue) {
-        if (this.attributes.containsKey(attributeKey)) {
-            this.attributes.replace(attributeKey, attributeValue);
-        } else {
-            this.attributes.put(attributeKey, attributeValue);
-        }
-    }
-
-    @Override
-    public Object getAttribute(String attributeKey) {
-        return this.attributes.get(attributeKey);
-    }
-
-    @Override
-    public boolean hasAttribute(String attributeKey) {
-        return this.attributes.containsKey(attributeKey);
-    }
-
-    @Override
-    public void removeAttribute(String attributeKey) {
-        this.attributes.remove(attributeKey);
     }
 }

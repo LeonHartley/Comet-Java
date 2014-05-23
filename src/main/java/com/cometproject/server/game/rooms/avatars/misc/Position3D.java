@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.avatars.misc;
 
-import com.cometproject.server.game.rooms.items.FloorItem;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 
 public class Position3D {
     private int x;
@@ -71,7 +71,7 @@ public class Position3D {
         return null;
     }
 
-    public static double calculateHeight(FloorItem item) {
+    public static double calculateHeight(RoomItemFloor item) {
         if (item.getDefinition().getInteraction().equals("gate")) {
             return 0;
         } else if (item.getDefinition().canSit) {
