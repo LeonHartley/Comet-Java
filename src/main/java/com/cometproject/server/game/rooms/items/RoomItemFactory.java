@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.items;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.items.types.GenericFloorItem;
@@ -8,6 +9,7 @@ import com.cometproject.server.game.rooms.items.types.floor.*;
 import com.cometproject.server.game.rooms.items.types.wall.WheelWallItem;
 
 public class RoomItemFactory {
+    private static final int processMs = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
 
     public static RoomItemFloor createFloor(int id, int baseId, int roomId, int ownerId, int x, int y, double height, int rot, String data) {
         ItemDefinition def = CometManager.getItems().getDefintion(baseId);
@@ -37,5 +39,12 @@ public class RoomItemFactory {
             case "habbowheel": { return new WheelWallItem(id, baseId, roomId, owner, position, data); }
             default: { return new GenericWallItem(id, baseId, roomId, owner, position, data); }
         }
+    }
+
+    public static int getProcessTime(int time) {
+        int realTime = Math.round(time * 1000 / processMs);
+        if (realTime < 1) { realTime = 1; }
+
+        return realTime;
     }
 }

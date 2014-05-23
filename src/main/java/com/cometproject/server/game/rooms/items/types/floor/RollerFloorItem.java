@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.items.types.floor;
 
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 
@@ -26,7 +27,7 @@ public class RollerFloorItem extends RoomItemFloor {
         this.isInUse = true;
         this.interactingEntities.add(entity);
 
-        this.setTicks(12);
+        this.setTicks(RoomItemFactory.getProcessTime(3));
     }
 
     @Override

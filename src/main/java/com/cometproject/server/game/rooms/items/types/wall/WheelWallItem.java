@@ -1,12 +1,14 @@
 package com.cometproject.server.game.rooms.items.types.wall;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemWall;
 
 import java.util.Random;
 
 public class WheelWallItem extends RoomItemWall {
-    private boolean isInUse = true;
+    private boolean isInUse = false;
 
     private final Random r = new Random();
 
@@ -17,12 +19,20 @@ public class WheelWallItem extends RoomItemWall {
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         if (this.isInUse) { return; }
+
+        if (entity instanceof PlayerEntity) {
+            PlayerEntity pEntity = (PlayerEntity) entity;
+            if (!this.getRoom().getRights().hasRights(pEntity.getPlayerId())) {
+                return;
+            }
+        }
+
         this.isInUse = true;
 
         this.setExtraData("-1");
         this.sendUpdate();
 
-        this.setTicks(10);
+        this.setTicks(RoomItemFactory.getProcessTime(4));
     }
 
     @Override
