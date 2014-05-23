@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.moderation;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.network.messages.headers.Composers;
@@ -21,7 +22,7 @@ public class ModToolUserInfoMessageComposer {
         msg.writeInt((int) (Comet.getTime() - user.getRegTimestamp()) / 60);
         msg.writeInt((int) (Comet.getTime() - user.getLastVisit()) / 60);
 
-        msg.writeBoolean(Comet.getServer().getNetwork().getSessions().isPlayerLogged(user.getId()));
+        msg.writeBoolean(CometManager.getPlayers().isOnline(user.getId()));
 
         msg.writeInt(stats.getHelpTickets());
         msg.writeInt(stats.getAbusiveHelpTickets());
