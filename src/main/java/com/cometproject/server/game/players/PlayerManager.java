@@ -7,8 +7,8 @@ public class PlayerManager {
     private FastMap<String, Integer> playerUsernameToPlayerId;
 
     public PlayerManager() {
-        this.playerIdToSessionId = new FastMap<>().atomic();
-        this.playerUsernameToPlayerId = new FastMap<>().atomic();
+        this.playerIdToSessionId = new FastMap<>();
+        this.playerUsernameToPlayerId = new FastMap<>();
     }
 
     public void put(int playerId, int sessionId, String username) {
@@ -17,7 +17,7 @@ public class PlayerManager {
         }
 
         if (this.playerUsernameToPlayerId.containsKey(username)) {
-            this.playerIdToSessionId.remove(username);
+            this.playerUsernameToPlayerId.remove(username);
         }
 
         this.playerIdToSessionId.put(playerId, sessionId);
