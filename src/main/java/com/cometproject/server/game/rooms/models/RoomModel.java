@@ -135,10 +135,10 @@ public abstract class RoomModel {
     }
 
     public Composer getHeightmapMessage() {
-        return heightmapMessage;
+        return heightmapMessage.duplicate();
     }
 
     public Composer getRelativeHeightmapMessage() {
-        return relativeHeightmapMessage;
+        return relativeHeightmapMessage.duplicate();
     }
 }
