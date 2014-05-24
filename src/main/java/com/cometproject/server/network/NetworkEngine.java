@@ -15,11 +15,14 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.AttributeKey;
 import io.netty.util.ResourceLeakDetector;
+import io.netty.util.internal.logging.InternalLoggerFactory;
+import io.netty.util.internal.logging.Log4JLoggerFactory;
 import org.apache.log4j.Logger;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class NetworkEngine {
     private SessionManager sessions;
@@ -41,6 +44,13 @@ public class NetworkEngine {
     public NetworkEngine(String ip, String ports) {
         this.sessions = new SessionManager();
         this.messageHandler = new MessageHandler();
+
+        // set the logger to our logger
+        InternalLoggerFactory.setDefaultFactory(new Log4JLoggerFactory());
+
+        // set a few settings
+        Properties prop = System.getProperties();
+        prop.setProperty("io.netty.allocator.type", "pooled");
 
         if (CometSettings.httpEnabled) { this.managementServer = new ManagementServer(); }
 
@@ -69,7 +79,8 @@ public class NetworkEngine {
                 .option(ChannelOption.SO_BACKLOG, 500)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
                 .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)
-                .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
+                .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+                .option(ChannelOption.TCP_NODELAY, true);
 
         if (ports.contains(",")) {
             for (String s : ports.split(",")) {

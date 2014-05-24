@@ -40,6 +40,7 @@ public class Session {
 
     public void send(Composer msg) {
         channel.writeAndFlush(msg);
+        logger.debug("Data has been written");
     }
 
     public Logger getLogger() {
