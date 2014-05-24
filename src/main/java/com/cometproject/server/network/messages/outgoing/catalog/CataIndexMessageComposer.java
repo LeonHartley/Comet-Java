@@ -13,7 +13,7 @@ public class CataIndexMessageComposer {
 
     public static Composer compose(int rank) {
         if (cataIndexCache.containsKey(rank)) {
-            return cataIndexCache.get(rank);
+            return cataIndexCache.get(rank).duplicate();
         }
 
         List<CatalogPage> pages = CometManager.getCatalog().getPagesForRank(rank);
