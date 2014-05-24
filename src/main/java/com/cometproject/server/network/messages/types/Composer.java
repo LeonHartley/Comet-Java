@@ -1,37 +1,53 @@
 package com.cometproject.server.network.messages.types;
 
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBuffers;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.PooledByteBufAllocator;
+import org.apache.log4j.Logger;
 
 import java.nio.charset.Charset;
 
-public class Composer {
-    private int id;
-    private ChannelBuffer body;
+public final class Composer {
+    private final static int DEFAULT_BUF_SIZE = 16;
+    private final static Logger log = Logger.getLogger(Composer.class);
 
-    private boolean finalized = false;
+    private final int id;
+    private final ByteBuf body;
 
     public Composer(int id) {
-        this.init(id);
-    }
-
-    public Composer init(int id) {
         this.id = id;
-        this.body = ChannelBuffers.dynamicBuffer();
+        this.body = PooledByteBufAllocator.DEFAULT.buffer(DEFAULT_BUF_SIZE);
 
         try {
-            this.body.writeInt(0);
+            this.body.writeInt(-1); // reserve this space for message length
             this.body.writeShort(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            exceptionCaught(e);
         }
+    }
 
-        return this;
+    public Composer(int id, ByteBuf buf) {
+        this.id = id;
+        this.body = buf;
+    }
+
+    public Composer duplicate() {
+        return new Composer(this.id, this.body.duplicate().retain());
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void clear() {
+        this.body.clear();
+    }
+
+    public boolean hasLength() {
+        return (this.body.getInt(0) > -1);
     }
 
     public void writeString(Object obj) {
         try {
-
             String string = "";
 
             if(obj != null) {
@@ -42,6 +58,7 @@ public class Composer {
             this.body.writeShort(dat.length);
             this.body.writeBytes(dat);
         } catch (Exception e) {
+            exceptionCaught(e);
         }
     }
 
@@ -53,6 +70,7 @@ public class Composer {
         try {
             this.body.writeInt(i);
         } catch (Exception e) {
+            exceptionCaught(e);
         }
     }
 
@@ -60,6 +78,7 @@ public class Composer {
         try {
             this.body.writeLong(i);
         } catch (Exception e) {
+            exceptionCaught(e);
         }
     }
 
@@ -67,6 +86,7 @@ public class Composer {
         try {
             this.body.writeByte(b ? 1 : 0);
         } catch (Exception e) {
+            exceptionCaught(e);
         }
     }
 
@@ -74,19 +94,19 @@ public class Composer {
         try {
             this.body.writeShort((short) s);
         } catch (Exception e) {
+            exceptionCaught(e);
         }
     }
 
-    public ChannelBuffer get() {
-        if (!this.finalized) {
+    public ByteBuf get() {
+        if (!this.hasLength()) {
             body.setInt(0, body.writerIndex() - 4);
-            finalized = true;
         }
 
         return this.body;
     }
 
-    public int getId() {
-        return this.id;
+    protected static void exceptionCaught(Throwable t) {
+        log.error("Error whilst writing data to a composer", t);
     }
 }
