@@ -14,7 +14,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class SessionManager {
 
     private final FastMap<Integer, Session> sessions = new FastMap<Integer, Session>().shared();
-    private final FastMap<Integer, Integer> playerIdToSessionId = new FastMap<Integer, Integer>().shared();
 
     private final AtomicInteger idGenerator = new AtomicInteger();
 
@@ -41,11 +40,11 @@ public final class SessionManager {
     }
 
     public boolean disconnectByPlayerId(int id) {
-        if(!this.playerIdToSessionId.containsKey(id)) {
+        if(CometManager.getPlayers().getSessionIdByPlayerId(id) == -1) {
             return false;
         }
 
-        int sessionId = playerIdToSessionId.get(id);
+        int sessionId = CometManager.getPlayers().getSessionIdByPlayerId(id);
         Session session = sessions.get(sessionId);
 
         if(session != null) {
@@ -57,8 +56,8 @@ public final class SessionManager {
     }
 
     public Session getByPlayerId(int id) {
-         if(this.playerIdToSessionId.containsKey(id)) {
-            int sessionId = this.playerIdToSessionId.get(id);
+         if(CometManager.getPlayers().getSessionIdByPlayerId(id) != -1) {
+            int sessionId = CometManager.getPlayers().getSessionIdByPlayerId(id);
 
             return sessions.get(sessionId);
         }
