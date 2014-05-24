@@ -106,17 +106,22 @@ public class MessengerComponent {
     }
 
     public void broadcast(List<Integer> friends, Composer msg) {
-        for (int friendId : friends) {
-            if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || this.friends.get(friendId).updateClient() == null)
-                continue;
+        try {
+            for (int friendId : friends) {
+                if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || this.friends.get(friendId).updateClient() == null) {
+                    continue;
+                }
 
-            MessengerFriend friend = this.friends.get(friendId);
+                MessengerFriend friend = this.friends.get(friendId);
 
-            if (friend.getClient().getPlayer() == null) {
-                continue;
+                if (friend.getClient().getPlayer() == null) {
+                    continue;
+                }
+
+                friend.getClient().send(msg.duplicate());
             }
-
-            friend.getClient().send(msg);
+        } finally {
+            msg.get().release();
         }
     }
 
