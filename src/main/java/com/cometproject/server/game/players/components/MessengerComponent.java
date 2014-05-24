@@ -92,12 +92,16 @@ public class MessengerComponent {
     }
 
     public void broadcast(Composer msg) {
-        for (MessengerFriend friend : this.getFriends().values()) {
-            if (friend.getClient() == null || friend.getClient().getPlayer() == null || friend.getUserId() == this.getPlayer().getId()) {
-                continue;
-            }
+        try {
+            for (MessengerFriend friend : this.getFriends().values()) {
+                if (friend.getClient() == null || friend.getClient().getPlayer() == null || friend.getUserId() == this.getPlayer().getId()) {
+                    continue;
+                }
 
-            friend.getClient().getChannel().write(msg.get());
+                friend.getClient().getChannel().writeAndFlush(msg.duplicate());
+            }
+        } finally {
+            msg.get().release();
         }
     }
 

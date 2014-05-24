@@ -56,7 +56,7 @@ public class PlayerLoginQueue implements CometTask {
             cloneSession.disconnect();
         }
 
-        if (CometManager.getBans().hasBan(Integer.toString(player.getId())) || CometManager.getBans().hasBan(((InetSocketAddress)client.getChannel().getRemoteAddress()).getAddress().getHostAddress())) {
+        if (CometManager.getBans().hasBan(Integer.toString(player.getId())) || CometManager.getBans().hasBan(((InetSocketAddress)client.getChannel().remoteAddress()).getAddress().getHostAddress())) {
             CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
 
             client.disconnect();

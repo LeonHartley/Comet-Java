@@ -206,11 +206,17 @@ public class Trade {
     }
 
     public void sendToUsers(Composer msg) {
-        if (user1 != null && user1.getPlayer() != null && user1.getPlayer().getSession() != null)
-            user1.getPlayer().getSession().getChannel().write(msg.get());
+        try {
+            if (user1 != null && user1.getPlayer() != null && user1.getPlayer().getSession() != null) {
+                user1.getPlayer().getSession().getChannel().writeAndFlush(msg.duplicate());
+            }
 
-        if (user2 != null && user2.getPlayer() != null && user2.getPlayer().getSession() != null)
-            user2.getPlayer().getSession().getChannel().write(msg.get());
+            if (user2 != null && user2.getPlayer() != null && user2.getPlayer().getSession() != null) {
+                user2.getPlayer().getSession().getChannel().writeAndFlush(msg.duplicate());
+            }
+        } finally {
+            msg.get().release();
+        }
     }
 
     public PlayerEntity getUser1() {

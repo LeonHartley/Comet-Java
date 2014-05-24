@@ -148,19 +148,23 @@ public class EntityComponent {
     }
 
     public void broadcastMessage(Composer msg, boolean usersWithRightsOnly) {
-        for (GenericEntity entity : this.entities.values()) {
-            if(entity == null) {
-                continue;
-            }
-
-            if (entity.getEntityType() == RoomEntityType.PLAYER) {
-                PlayerEntity playerEntity = (PlayerEntity) entity;
-
-                if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()))
+        try {
+            for (GenericEntity entity : this.entities.values()) {
+                if (entity == null) {
                     continue;
+                }
 
-                playerEntity.getPlayer().getSession().getChannel().write(msg.get());
+                if (entity.getEntityType() == RoomEntityType.PLAYER) {
+                    PlayerEntity playerEntity = (PlayerEntity) entity;
+
+                    if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()))
+                        continue;
+
+                    playerEntity.getPlayer().getSession().getChannel().writeAndFlush(msg.duplicate());
+                }
             }
+        } finally {
+            msg.get().release();
         }
     }
 
