@@ -29,6 +29,6 @@ public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel>
         socketChannel.pipeline().addLast("messageEncoder", new MessageEncoder());
 
         socketChannel.pipeline().addLast("idleHandler", new IdleStateHandler(60, 30, 0, TimeUnit.SECONDS));
-        socketChannel.pipeline().addLast("mainHandler", new ClientHandler());
+        socketChannel.pipeline().addLast(this.eventExecutor, "mainHandler", new ClientHandler());
     }
 }
