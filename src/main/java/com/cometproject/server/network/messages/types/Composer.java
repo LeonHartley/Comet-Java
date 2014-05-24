@@ -1,13 +1,13 @@
 package com.cometproject.server.network.messages.types;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.PooledByteBufAllocator;
 import org.apache.log4j.Logger;
 
 import java.nio.charset.Charset;
 
 public final class Composer {
-    private final static int DEFAULT_BUF_SIZE = 16;
     private final static Logger log = Logger.getLogger(Composer.class);
 
     private final int id;
@@ -15,7 +15,7 @@ public final class Composer {
 
     public Composer(int id) {
         this.id = id;
-        this.body = PooledByteBufAllocator.DEFAULT.buffer(DEFAULT_BUF_SIZE);
+        this.body = ByteBufAllocator.DEFAULT.buffer();
 
         try {
             this.body.writeInt(-1); // reserve this space for message length
