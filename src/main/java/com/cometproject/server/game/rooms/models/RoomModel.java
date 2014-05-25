@@ -32,9 +32,6 @@ public abstract class RoomModel {
     private double[][] squareHeight;
     private RoomTileState[][] squareState;
 
-    private Composer heightmapMessage;
-    private Composer relativeHeightmapMessage;
-
     public RoomModel(String name, String heightmap, int doorX, int doorY, int doorZ, int doorRotation) {
         this.name = name;
         this.heightmap = heightmap;
@@ -80,9 +77,6 @@ public abstract class RoomModel {
                 }
                 map += mapLine + (char) 13;
             }
-
-            this.heightmapMessage = HeightmapMessageComposer.compose(this);
-            this.relativeHeightmapMessage = RelativeHeightmapMessageComposer.compose(this);
         } catch(Exception e) {
             Logger.getLogger(RoomModel.class.getName()).error("Failed to parse heightmap for model: " + this.name, e);
         }
@@ -135,10 +129,10 @@ public abstract class RoomModel {
     }
 
     public Composer getHeightmapMessage() {
-        return heightmapMessage.duplicate();
+        return HeightmapMessageComposer.compose(this);
     }
 
     public Composer getRelativeHeightmapMessage() {
-        return relativeHeightmapMessage.duplicate();
+        return RelativeHeightmapMessageComposer.compose(this);
     }
 }

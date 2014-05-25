@@ -23,6 +23,10 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
 
     private final int CONNECTIONS_PER_IP = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.connPerIp"));
 
+    public ClientHandler() {
+        super(true); // auto release byte bufs
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Event event) throws Exception {
         try {

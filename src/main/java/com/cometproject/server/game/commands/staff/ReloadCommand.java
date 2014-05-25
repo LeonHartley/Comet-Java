@@ -41,7 +41,6 @@ public class ReloadCommand extends ChatCommand {
 
             case "catalog":
                 CometManager.getCatalog().loadPages();
-                CataIndexMessageComposer.clearCataIndexCache();
 
                 Comet.getServer().getNetwork().getSessions().broadcast(CatalogPublishMessageComposer.compose(true));
                 sendChat(Locale.get("command.reload.catalog"), client);
