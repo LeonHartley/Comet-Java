@@ -3,15 +3,16 @@ package com.cometproject.server.network.messages.types;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.buffer.Unpooled;
 import org.apache.log4j.Logger;
 
 import java.nio.charset.Charset;
 
-public final class Composer {
+public class Composer {
     private final static Logger log = Logger.getLogger(Composer.class);
 
-    private final int id;
-    private final ByteBuf body;
+    protected final int id;
+    protected final ByteBuf body;
 
     public Composer(int id) {
         this.id = id;
@@ -31,7 +32,11 @@ public final class Composer {
     }
 
     public Composer duplicate() {
-        return new Composer(this.id, this.body.duplicate().retain());
+        return new DuplicatedComposer(this);
+    }
+
+    public Composer unpool() {
+        return new UnpooledComposer(this);
     }
 
     public int getId() {
