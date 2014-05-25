@@ -7,7 +7,6 @@ import java.util.UUID;
 import java.util.concurrent.*;
 
 public class CometThreadManagement {
-    //private final ExecutorService executionService;
     private final ScheduledExecutorService scheduledExecutorService;
 
     private final int initialpoolSize;
@@ -20,27 +19,6 @@ public class CometThreadManagement {
         } else {
             initialpoolSize = poolSize;
         }
-
-        /*this.executionService = Executors.newCachedThreadPool(new ThreadFactory() {
-            @Override
-            public Thread newThread(Runnable r) {
-                UUID randomId = UUID.randomUUID();
-
-                final Logger log = Logger.getLogger("Comet-Worker-Thread-" + randomId);
-
-                Thread workerThread = new Thread(r);
-                workerThread.setName("Comet-Worker-Thread-" + randomId.toString());
-
-                workerThread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-                    @Override
-                    public void uncaughtException(Thread t, Throwable e) {
-                        log.error("Exception in Comet Worker Thread", e);
-                    }
-                });
-
-                return workerThread;
-            }
-        });*/
 
         this.scheduledExecutorService = Executors.newScheduledThreadPool(this.initialpoolSize, new ThreadFactory() {
             @Override
