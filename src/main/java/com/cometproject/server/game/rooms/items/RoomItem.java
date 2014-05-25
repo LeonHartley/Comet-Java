@@ -74,7 +74,6 @@ public abstract class RoomItem implements RoomItemAttributes, Attributable {
         this.ticksTimer = -1;
     }
 
-
     public final void tick() {
         this.onTick();
 
