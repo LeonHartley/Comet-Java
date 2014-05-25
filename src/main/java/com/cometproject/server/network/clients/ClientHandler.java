@@ -47,7 +47,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             return;
         }
 
-        String ip = ((InetSocketAddress)channelHandlerContext.channel().remoteAddress()).getAddress().getHostAddress();
+        /*String ip = ((InetSocketAddress)channelHandlerContext.channel().remoteAddress()).getAddress().getHostAddress();
 
         if (CONNECTIONS_PER_IP != 0) {
             if (this.connectionsPerIp.containsKey(ip)) {
@@ -56,7 +56,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             } else {
                 this.connectionsPerIp.put(ip, new AtomicInteger());
             }
-        }
+        }*/
 
         super.channelActive(channelHandlerContext);
     }
@@ -70,7 +70,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
 
         Comet.getServer().getNetwork().getSessions().remove(channelHandlerContext.channel());
 
-        String ip = ((InetSocketAddress)channelHandlerContext.channel().remoteAddress()).getAddress().getHostAddress();
+        /*String ip = ((InetSocketAddress)channelHandlerContext.channel().remoteAddress()).getAddress().getHostAddress();
 
         if (CONNECTIONS_PER_IP != 0) {
             if (this.connectionsPerIp.containsKey(ip)) {
@@ -81,7 +81,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             } else {
                 this.connectionsPerIp.get(ip).decrementAndGet();
             }
-        }
+        }*/
 
         super.channelInactive(channelHandlerContext);
     }
