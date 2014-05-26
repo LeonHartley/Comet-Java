@@ -72,25 +72,41 @@ public class ItemProcessComponent implements CometTask {
         long timeStart = System.currentTimeMillis();
 
         this.getRoom().getItems().getFloorItems().parallelStream().forEach((item) -> {
-            if (item.requiresTick()) {
-                item.tick();
+            try {
+                if (item.requiresTick()) {
+                    item.tick();
+                }
+            } catch (NullPointerException | IndexOutOfBoundsException e) {
+                this.handleSupressedExceptions(e);
             }
         });
 
         this.getRoom().getItems().getWallItems().parallelStream().forEach((item) -> {
-            if (item.requiresTick()) {
-                item.tick();
+            try {
+                if (item.requiresTick()) {
+                    item.tick();
+                }
+            } catch (NullPointerException | IndexOutOfBoundsException e) {
+                this.handleSupressedExceptions(e);
             }
         });
 
         // Now lets process any queued events last
-        this.eventQueue.cycle();
+        try {
+            this.eventQueue.cycle();
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            this.handleSupressedExceptions(e);
+        }
 
         TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
         if (span.toMilliseconds() > FLAG) {
             log.warn("ItemProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
         }
+    }
+
+    protected void handleSupressedExceptions(Throwable t) {
+        // TO-DO: we need log these somewhere separately so we can 'fix' these kind of errors easily..
     }
 
     /*@Override

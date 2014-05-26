@@ -70,7 +70,6 @@ public class ProcessComponent implements CometTask {
         }
 
         try {
-
             // Dispose the room if it has been idle for a certain amount of time
             if (this.getRoom().getEntities().playerCount() == 0) {
                 if (this.disposeCycles >= ROOM_DISPOSE_TIME) {
@@ -154,6 +153,8 @@ public class ProcessComponent implements CometTask {
 
             if (span.toMilliseconds() > 250)
                 log.info("ProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            this.handleSupressedExceptions(e);
         } catch (Exception e) {
             log.error("Error during room process", e);
         }
@@ -280,14 +281,6 @@ public class ProcessComponent implements CometTask {
 
         // Do we have a position to set from previous moves?
         if (entity.getPositionToSet() != null) {
-            /*for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
-                item.onEntityStepOff(entity);
-
-                if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
-
-                }
-            }*/
-
             if ((entity.getPositionToSet().getX() == this.room.getModel().getDoorX()) && (entity.getPositionToSet().getY() == this.room.getModel().getDoorY())) {
                 return true;
             }
@@ -303,33 +296,6 @@ public class ProcessComponent implements CometTask {
             newPosition.setZ(entity.getPositionToSet().getZ());
 
             //entity.getPlayer().getSession().send(TalkMessageComposer.compose(entity.getVirtualId(), "X: " + newPosition.getX() + ", Y: " + newPosition.getY() + ", Rot: " + entity.getBodyRotation(), 0, 0));
-
-            // Apply sit
-            //for (RoomItemFloor item : itemsOnSq) {
-            //    item.onEntityStepOn(entity);
-
-                /*if (item.getDefinition().canSit) {
-                    double height = item.getDefinition().getHeight();
-
-                    if (height < 1.0) {
-                        height = 1.0;
-                    } else if (itemsOnSq.size() == 1 && height > 1.0) {
-                        height = 1.0;
-                    }
-
-                    entity.setBodyRotation(item.getRotation());
-                    entity.setHeadRotation(item.getRotation());
-                    entity.addStatus("sit", String.valueOf(height).replace(',', '.'));
-                    entity.markNeedsUpdate();
-                } else if (item.getDefinition().getInteraction().equals("bed")) {
-                    double height = 0;
-
-                    entity.setBodyRotation(item.getRotation());
-                    entity.setHeadRotation(item.getRotation());
-                    entity.addStatus("lay", String.valueOf(height).replace(',', '.'));
-                    entity.markNeedsUpdate();
-                }*/
-            //}
 
             List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
 
@@ -445,6 +411,10 @@ public class ProcessComponent implements CometTask {
     private void removeFromRoom(GenericEntity entity) {
         this.room.getEntities().removeEntity(entity);
         this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
+    }
+
+    protected void handleSupressedExceptions(Throwable t) {
+        // TO-DO: we need log these somewhere separately so we can 'fix' these kind of errors easily..
     }
 
     public void dispose() {
