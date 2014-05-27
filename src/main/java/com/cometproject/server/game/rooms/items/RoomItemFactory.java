@@ -27,6 +27,7 @@ public class RoomItemFactory {
             case "ball": { return new BallFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
             case "roombg": { return new BackgroundTonerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
             case "bed": { return new BedFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+            case "vendingmachine": { return new VendingMachineFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
             default: { return new GenericFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
         }
     }
@@ -41,10 +42,10 @@ public class RoomItemFactory {
         }
     }
 
-    public static int getProcessTime(int time) {
-        int realTime = Math.round(time * 1000 / processMs);
+    public static int getProcessTime(double time) {
+        long realTime = Math.round(time * 1000 / processMs);
         if (realTime < 1) { realTime = 1; }
 
-        return realTime;
+        return (int) realTime;
     }
 }

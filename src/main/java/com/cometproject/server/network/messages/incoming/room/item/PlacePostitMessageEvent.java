@@ -8,6 +8,7 @@ public class PlacePostitMessageEvent implements IEvent {
 
     @Override
     public void handle(Session client, Event msg) throws Exception {
+        // TODO: Postit
         /*int itemId = msg.readInt();
         String[] positionData = msg.readString().split(":");
         String position = Position3D.validateWallPosition();

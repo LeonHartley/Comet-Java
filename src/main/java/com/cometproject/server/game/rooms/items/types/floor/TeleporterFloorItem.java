@@ -53,7 +53,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 this.toggleDoor(true);
 
                 this.state = 1;
-                this.setTicks(RoomItemFactory.getProcessTime(2));
+                this.setTicks(RoomItemFactory.getProcessTime(1));
                 break;
             }
 
@@ -61,7 +61,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 this.toggleDoor(false);
 
                 this.state = 2;
-                this.setTicks(RoomItemFactory.getProcessTime(1));
+                this.setTicks(RoomItemFactory.getProcessTime(0.5));
                 break;
             }
 
@@ -77,7 +77,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 int pairId = CometManager.getItems().getTeleportPartner(this.getId());
                 RoomItemFloor pairItem = this.getRoom().getItems().getFloorItem(pairId);
 
-                if (pairId == 0 || !(pairItem instanceof TeleporterFloorItem)) {
+                if (pairId == 0) {
                     this.state = 5;
                     this.setTicks(RoomItemFactory.getProcessTime(2));
                     return;
@@ -100,7 +100,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 }
 
                 TeleporterFloorItem teleItem = (TeleporterFloorItem)pairItem;
-                teleItem.handleIncomingEntity(this.outgoingEntity, this, 4);
+                teleItem.handleIncomingEntity(this.outgoingEntity, this);
 
                 break;
             }
@@ -108,7 +108,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
             case 5: {
                 this.toggleAnimation(false);
                 this.state = 6;
-                this.setTicks(RoomItemFactory.getProcessTime(1));
+                this.setTicks(RoomItemFactory.getProcessTime(0.5));
                 break;
             }
 
@@ -132,6 +132,11 @@ public class TeleporterFloorItem extends RoomItemFloor {
         }
     }
 
+    @Override
+    public void onPlaced() {
+        this.setExtraData("0");
+    }
+
     public void endTeleporting() {
         this.toggleAnimation(false);
 
@@ -140,8 +145,9 @@ public class TeleporterFloorItem extends RoomItemFloor {
         this.inUse = false;
     }
 
-    public void handleIncomingEntity(GenericEntity entity, TeleporterFloorItem otherItem, int state) {
-        otherItem.endTeleporting();
+    public void handleIncomingEntity(GenericEntity entity, TeleporterFloorItem otherItem) {
+        if(otherItem != null)
+            otherItem.endTeleporting();
 
         this.toggleAnimation(true);
         entity.updateAndSetPosition(new Position3D(this.getX(), this.getY()));
