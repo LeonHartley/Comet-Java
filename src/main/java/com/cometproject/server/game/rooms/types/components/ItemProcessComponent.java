@@ -1,8 +1,10 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.items.queue.RoomItemEventQueue;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
@@ -73,6 +75,12 @@ public class ItemProcessComponent implements CometTask {
 
         this.getRoom().getItems().getFloorItems().parallelStream().forEach((item) -> {
             try {
+                if (CometManager.getWired().isWiredTrigger(item)) {
+                    if (!this.getRoom().getWired().isWiredSquare(item.getX(), item.getY())) {
+                        this.getRoom().getWired().add(item.getX(), item.getY());
+                    }
+                }
+
                 if (item.requiresTick()) {
                     item.tick();
                 }
@@ -90,6 +98,13 @@ public class ItemProcessComponent implements CometTask {
                 this.handleSupressedExceptions(e);
             }
         });
+
+        for (WiredSquare wiredSquare : this.getRoom().getWired().getSquares()) {
+            if (this.getRoom().getItems().getItemsOnSquare(wiredSquare.getX(), wiredSquare.getY()).size() < 1) {
+                this.getRoom().getWired().disposeSquare(wiredSquare);
+            }
+        }
+
 
         // Now lets process any queued events last
         try {
