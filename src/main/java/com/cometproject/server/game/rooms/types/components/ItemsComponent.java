@@ -70,10 +70,10 @@ public class ItemsComponent {
             if (item.getX() == x && item.getY() == y) {
                 items.add(item);
             } else {
-                List<AffectedTile> AffectedTiles = AffectedTile.getAffectedTilesAt(
+                List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(
                         item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation());
 
-                for (AffectedTile tile : AffectedTiles) {
+                for (AffectedTile tile : affectedTiles) {
                     if (x == tile.x && y == tile.y) {
                         if (!items.contains(item)) {
                             items.add(item);
