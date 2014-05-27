@@ -19,7 +19,7 @@ public class SaveTonerMessageEvent implements IEvent {
         RoomItemFloor item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(tonerId);
 
         if (item == null || !client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
-            // Item doesn't exist, gtfo (or doesnt have rights....
+            // Item doesn't exist, gtfo (or doesnt have rights....)
             return;
         }
 
