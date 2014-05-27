@@ -46,8 +46,6 @@ public class RoomItemFactory {
         long realTime = Math.round(time * 1000 / processMs);
         if (realTime < 1) { realTime = 1; }
 
-        System.out.println("Realtime = " + realTime);
-
         return (int) realTime;
     }
 }
