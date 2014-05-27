@@ -53,7 +53,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 this.toggleDoor(true);
 
                 this.state = 1;
-                this.setTicks(RoomItemFactory.getProcessTime(2));
+                this.setTicks(RoomItemFactory.getProcessTime(1));
                 break;
             }
 
@@ -61,7 +61,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 this.toggleDoor(false);
 
                 this.state = 2;
-                this.setTicks(RoomItemFactory.getProcessTime(1));
+                this.setTicks(RoomItemFactory.getProcessTime(0.5));
                 break;
             }
 
@@ -108,7 +108,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
             case 5: {
                 this.toggleAnimation(false);
                 this.state = 6;
-                this.setTicks(RoomItemFactory.getProcessTime(1));
+                this.setTicks(RoomItemFactory.getProcessTime(0.5));
                 break;
             }
 
