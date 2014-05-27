@@ -175,8 +175,4 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
         this.sendUpdate();
     }
-
-    public void setState(int state) {
-        this.state = state;
-    }
 }
