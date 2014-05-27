@@ -180,7 +180,6 @@ public class ItemsComponent {
             WiredDataInstance instance = WiredDataFactory.get(item);
 
             WiredDao.deleteWiredData(item.getId());
-
             WiredDataFactory.removeInstance(item.getId());
 
             instance.dispose();
