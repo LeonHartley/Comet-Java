@@ -5,6 +5,7 @@ import com.cometproject.server.network.clients.ClientIdleHandler;
 import com.cometproject.server.network.codec.MessageDecoder;
 import com.cometproject.server.network.codec.MessageEncoder;
 import com.cometproject.server.network.codec.XMLPolicyDecoder;
+import org.jboss.netty.channel.ChannelHandler;
 import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.jboss.netty.channel.Channels;
