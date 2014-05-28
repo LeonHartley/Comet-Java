@@ -39,6 +39,8 @@ public class Session {
     }
 
     public void send(Composer msg) {
+        if(msg == null) return;
+
         channel.writeAndFlush(msg);
 
         logger.trace("Data was written to channel");
