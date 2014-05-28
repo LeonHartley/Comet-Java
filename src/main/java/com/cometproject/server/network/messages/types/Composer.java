@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.types;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.Unpooled;
 import org.apache.log4j.Logger;
 
 import java.nio.charset.Charset;
@@ -14,7 +15,7 @@ public class Composer {
 
     public Composer(int id) {
         this.id = id;
-        this.body = ByteBufAllocator.DEFAULT.heapBuffer();
+        this.body = ByteBufAllocator.DEFAULT.buffer(4096);
 
         try {
             this.body.writeInt(-1); // reserve this space for message length
@@ -46,6 +47,11 @@ public class Composer {
     }
 
     public void writeString(Object obj) {
+        if (!this.body.isWritable()) {
+            log.debug("ByteBuf is no longer writable, max bytes reached?");
+            return;
+        }
+
         try {
             String string = "";
 
@@ -66,6 +72,11 @@ public class Composer {
     }
 
     public void writeInt(int i) {
+        if (!this.body.isWritable()) {
+            log.debug("ByteBuf is no longer writable, max bytes reached?");
+            return;
+        }
+
         try {
             this.body.writeInt(i);
         } catch (Exception e) {
@@ -74,6 +85,11 @@ public class Composer {
     }
 
     public void writeLong(long i) {
+        if (!this.body.isWritable()) {
+            log.debug("ByteBuf is no longer writable, max bytes reached?");
+            return;
+        }
+
         try {
             this.body.writeLong(i);
         } catch (Exception e) {
@@ -82,6 +98,11 @@ public class Composer {
     }
 
     public void writeBoolean(Boolean b) {
+        if (!this.body.isWritable()) {
+            log.debug("ByteBuf is no longer writable, max bytes reached?");
+            return;
+        }
+
         try {
             this.body.writeByte(b ? 1 : 0);
         } catch (Exception e) {
@@ -90,6 +111,11 @@ public class Composer {
     }
 
     public void writeShort(int s) {
+        if (!this.body.isWritable()) {
+            log.debug("ByteBuf is no longer writable, max bytes reached?");
+            return;
+        }
+
         try {
             this.body.writeShort((short) s);
         } catch (Exception e) {
