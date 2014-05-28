@@ -9,20 +9,13 @@ public final class Event {
     private final short id;
     private final ByteBuf buffer;
 
-    public Event(int length, ByteBuf buf) {
-        try {
-            this.buffer =
-                    (length > 0) && (buf.readableBytes() > 0) ?
-                            buf.alloc().buffer(length).writeBytes(buf) :
-                            Unpooled.EMPTY_BUFFER;
+    public Event(ByteBuf buf) {
+        this.buffer = (buf != null) && (buf.readableBytes() > 0) ? buf : Unpooled.EMPTY_BUFFER;
 
-            if (this.buffer.readableBytes() >= 2) {
-                this.id = this.readShort();
-            } else {
-                this.id = 0;
-            }
-        } finally {
-            buf.release();
+        if (this.buffer.readableBytes() >= 2) {
+            this.id = this.readShort();
+        } else {
+            this.id = 0;
         }
     }
 

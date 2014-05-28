@@ -12,7 +12,12 @@ public final class MessageEncoder extends MessageToByteEncoder<Composer> {
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Composer composer, ByteBuf byteBuf) throws Exception {
-        byteBuf.writeBytes(composer.get());
-        byteBuf.release();
+        try {
+            if (composer.get().isReadable() && composer.get().readableBytes() > 0) {
+                byteBuf.writeBytes(composer.get());
+            }
+        } finally {
+            composer.get().release();
+        }
     }
 }

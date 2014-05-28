@@ -6,7 +6,7 @@ public class DuplicatedComposer extends Composer {
     private static Logger log = Logger.getLogger(DuplicatedComposer.class);
 
     public DuplicatedComposer(Composer c) {
-        super(c.id, c.body.duplicate().retain());
+        super(c.id, c.body.copy());
 
         log.trace("Composer [ " + c.id + " ] was duplicated");
     }

@@ -9,7 +9,9 @@ import org.apache.log4j.Logger;
 import java.util.List;
 
 public final class MessageDecoder extends ByteToMessageDecoder {
-    private static Logger log = Logger.getLogger(ByteToMessageDecoder.class);
+    public MessageDecoder() {
+        super();
+    }
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> objects) throws Exception {
@@ -25,6 +27,6 @@ public final class MessageDecoder extends ByteToMessageDecoder {
             return;
         }
 
-        objects.add(new Event(length, byteBuf));
+        objects.add(new Event(byteBuf.readBytes(length)));
     }
 }

@@ -5,6 +5,7 @@ import com.cometproject.server.network.NetworkEngine;
 import com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
@@ -15,6 +16,21 @@ import java.io.IOException;
 
 public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        super.channelRead(ctx, msg);
+
+        log.trace("Channel read called");
+
+        if (msg instanceof ByteBuf) {
+            ByteBuf buf = (ByteBuf) msg;
+
+            if (buf.refCnt() != 0) {
+                throw new Exception("Buffer was not released");
+            }
+        }
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Event event) throws Exception {
