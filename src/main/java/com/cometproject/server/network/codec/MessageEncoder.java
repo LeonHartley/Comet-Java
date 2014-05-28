@@ -6,6 +6,10 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
 public final class MessageEncoder extends MessageToByteEncoder<Composer> {
+    public MessageEncoder() {
+        super(false);
+    }
+
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Composer composer, ByteBuf byteBuf) throws Exception {
         byteBuf.writeBytes(composer.get());
