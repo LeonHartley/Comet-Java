@@ -8,10 +8,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 public final class MessageEncoder extends MessageToByteEncoder<Composer> {
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Composer composer, ByteBuf byteBuf) throws Exception {
-        try {
-            byteBuf.writeBytes(composer.get());
-        } finally {
-            composer.get().release();
-        }
+        byteBuf.writeBytes(composer.get());
+        byteBuf.release();
     }
 }

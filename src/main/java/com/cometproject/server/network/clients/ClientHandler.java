@@ -9,23 +9,12 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
-import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
-    private Map<String, AtomicInteger> connectionsPerIp = new FastMap<>();
-
-    private final int CONNECTIONS_PER_IP = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.connPerIp"));
-
-    public ClientHandler() {
-        super(true); // auto release byte bufs
-    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Event event) throws Exception {
@@ -47,17 +36,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             return;
         }
 
-        /*String ip = ((InetSocketAddress)channelHandlerContext.channel().remoteAddress()).getAddress().getHostAddress();
-
-        if (CONNECTIONS_PER_IP != 0) {
-            if (this.connectionsPerIp.containsKey(ip)) {
-                int connectionCount = connectionsPerIp.get(ip).incrementAndGet();
-                if (connectionCount > CONNECTIONS_PER_IP) { channelHandlerContext.channel().disconnect(); }
-            } else {
-                this.connectionsPerIp.put(ip, new AtomicInteger());
-            }
-        }*/
-
         super.channelActive(channelHandlerContext);
     }
 
@@ -69,19 +47,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
         } catch (Exception e) { }
 
         Comet.getServer().getNetwork().getSessions().remove(channelHandlerContext.channel());
-
-        /*String ip = ((InetSocketAddress)channelHandlerContext.channel().remoteAddress()).getAddress().getHostAddress();
-
-        if (CONNECTIONS_PER_IP != 0) {
-            if (this.connectionsPerIp.containsKey(ip)) {
-                int connectionCount = connectionsPerIp.get(ip).get();
-
-                if (connectionCount == 1)
-                    this.connectionsPerIp.remove(ip);
-            } else {
-                this.connectionsPerIp.get(ip).decrementAndGet();
-            }
-        }*/
 
         super.channelInactive(channelHandlerContext);
     }

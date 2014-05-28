@@ -2,8 +2,6 @@ package com.cometproject.server.network.messages.types;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
-import io.netty.buffer.PooledByteBufAllocator;
-import io.netty.buffer.Unpooled;
 import org.apache.log4j.Logger;
 
 import java.nio.charset.Charset;
@@ -16,7 +14,7 @@ public class Composer {
 
     public Composer(int id) {
         this.id = id;
-        this.body = ByteBufAllocator.DEFAULT.buffer();
+        this.body = ByteBufAllocator.DEFAULT.heapBuffer();
 
         try {
             this.body.writeInt(-1); // reserve this space for message length
@@ -33,10 +31,6 @@ public class Composer {
 
     public Composer duplicate() {
         return new DuplicatedComposer(this);
-    }
-
-    public Composer unpool() {
-        return new UnpooledComposer(this);
     }
 
     public int getId() {

@@ -14,7 +14,6 @@ public final class MessageDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> objects) throws Exception {
         if (byteBuf.readableBytes() < 6) {
-            log.trace("Incoming data request but length was less than 6 bytes, waiting for more data");
             return;
         }
 
@@ -23,11 +22,9 @@ public final class MessageDecoder extends ByteToMessageDecoder {
 
         if (!(byteBuf.readableBytes() >= length)) {
             byteBuf.resetReaderIndex();
-            log.trace("Incoming data request but length doesn't match the data length expected, waiting for more data");
             return;
         }
 
-        log.trace("Incoming data request success, passing it to handler");
-        objects.add(new Event(byteBuf.readBytes(length)));
+        objects.add(new Event(length, byteBuf));
     }
 }
