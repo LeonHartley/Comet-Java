@@ -1,16 +1,16 @@
 package com.cometproject.server.network.messages.types;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+import org.jboss.netty.buffer.ChannelBuffer;
+import org.jboss.netty.buffer.ChannelBuffers;
 
 import java.nio.charset.Charset;
 
 public final class Event {
     private final short id;
-    private final ByteBuf buffer;
+    private final ChannelBuffer buffer;
 
-    public Event(ByteBuf buf) {
-        this.buffer = (buf != null) && (buf.readableBytes() > 0) ? buf : Unpooled.EMPTY_BUFFER;
+    public Event(ChannelBuffer buf) {
+        this.buffer = (buf != null) && (buf.readableBytes() > 0) ? buf : ChannelBuffers.EMPTY_BUFFER;
 
         if (this.buffer.readableBytes() >= 2) {
             this.id = this.readShort();
@@ -56,7 +56,7 @@ public final class Event {
         return this.id;
     }
 
-    public ByteBuf getBuffer() {
+    public ChannelBuffer getBuffer() {
         return this.buffer;
     }
 }

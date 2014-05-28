@@ -92,36 +92,28 @@ public class MessengerComponent {
     }
 
     public void broadcast(Composer msg) {
-        try {
-            for (MessengerFriend friend : this.getFriends().values()) {
-                if (friend.getClient() == null || friend.getClient().getPlayer() == null || friend.getUserId() == this.getPlayer().getId()) {
-                    continue;
-                }
-
-                friend.getClient().getChannel().writeAndFlush(msg.duplicate());
+        for (MessengerFriend friend : this.getFriends().values()) {
+            if (friend.getClient() == null || friend.getClient().getPlayer() == null || friend.getUserId() == this.getPlayer().getId()) {
+                continue;
             }
-        } finally {
-            msg.get().release();
+
+            friend.getClient().getChannel().write(msg);
         }
     }
 
     public void broadcast(List<Integer> friends, Composer msg) {
-        try {
-            for (int friendId : friends) {
-                if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || this.friends.get(friendId).updateClient() == null) {
-                    continue;
-                }
-
-                MessengerFriend friend = this.friends.get(friendId);
-
-                if (friend.getClient().getPlayer() == null) {
-                    continue;
-                }
-
-                friend.getClient().send(msg.duplicate());
+        for (int friendId : friends) {
+            if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || this.friends.get(friendId).updateClient() == null) {
+                continue;
             }
-        } finally {
-            msg.get().release();
+
+            MessengerFriend friend = this.friends.get(friendId);
+
+            if (friend.getClient().getPlayer() == null) {
+                continue;
+            }
+
+            friend.getClient().send(msg);
         }
     }
 

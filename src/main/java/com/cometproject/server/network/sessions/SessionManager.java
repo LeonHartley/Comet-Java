@@ -1,38 +1,27 @@
 package com.cometproject.server.network.sessions;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.network.NetworkEngine;
 import com.cometproject.server.network.messages.types.Composer;
-import io.netty.channel.Channel;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
+import org.jboss.netty.channel.Channel;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public final class SessionManager {
-
     private final FastMap<Integer, Session> sessions = new FastMap<Integer, Session>().shared();
-
-    private final AtomicInteger idGenerator = new AtomicInteger();
 
     public boolean add(Channel channel) {
         Session session = new Session(channel);
 
-        int uniqueId = idGenerator.incrementAndGet();
-
-        channel.attr(NetworkEngine.SESSION_ATTR).set(session);
-        channel.attr(NetworkEngine.CHANNEL_ID).set(uniqueId);
-
-        return (this.sessions.putIfAbsent(uniqueId, session) == null);
+        channel.setAttachment(session);
+        return (this.sessions.putIfAbsent(channel.getId(), session) == null);
     }
 
     public boolean remove(Channel channel) {
-        int channelId = channel.attr(NetworkEngine.CHANNEL_ID).get();
-
-        if (this.sessions.containsKey(channelId)) {
-            this.sessions.remove(channelId);
+        if (this.sessions.containsKey(channel.getId())) {
+            this.sessions.remove(channel.getId());
             return true;
         }
 
@@ -108,12 +97,8 @@ public final class SessionManager {
     }
 
     public void broadcast(Composer msg) {
-        try {
-            for (Session client : sessions.values()) {
-                client.getChannel().writeAndFlush(msg.duplicate());
-            }
-        } finally {
-            msg.get().release();
+        for (Session client : sessions.values()) {
+            client.getChannel().write(msg);
         }
     }
 }

@@ -243,8 +243,8 @@
 
         <dependency>
             <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.0.19.Final</version>
+            <artifactId>netty</artifactId>
+            <version>3.9.1.Final</version>
         </dependency>
 
         <dependency>
