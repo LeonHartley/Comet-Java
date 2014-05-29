@@ -89,7 +89,7 @@ public class Events {
     public static short RemoveBotMessageEvent = 3624;
     public static short UpdatePapersMessageEvent = 32;
     public static short SaveMannequinMessageEvent = 328; // TODO: check this
-    public static short SaveMannequinNameMessageEvent = 2529; // TODO: check this
+    public static short SaveMannequinNameMessageEvent = 740;
     public static short SaveTonerMessageEvent = 2303; // TODO: check this
     public static short ValidatePetNameMessageEvent = 3114;
     public static short PetInventoryMessageEvent = 2830;
