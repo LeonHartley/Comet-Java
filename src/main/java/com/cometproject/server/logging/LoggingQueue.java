@@ -5,23 +5,37 @@ import com.cometproject.server.logging.objects.TestJSON;
 import com.cometproject.server.tasks.CometTask;
 import com.google.gson.Gson;
 import javolution.util.FastTable;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.HttpClientUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LoggingQueue implements CometTask {
+    private final static Logger log = Logger.getLogger(LoggingQueue.class);
+
     private final String BASE_URL = Comet.getServer().getConfig().get("comet.game.logging.baseurl");
 
     private FastTable<AbstractLogEntry> loggingEntries = new FastTable<>();
     private FastTable<AbstractLogEntry> pendingLogEntries = new FastTable<>();
 
     private AtomicBoolean isWriting = new AtomicBoolean(false);
-    private CloseableHttpClient httpClient = HttpClients.createDefault();
+    private CloseableHttpClient httpClient = HttpClients.custom()
+            .disableAutomaticRetries()
+            .disableCookieManagement()
+            .disableRedirectHandling()
+            .
 
     private AtomicBoolean isLoggingActive = new AtomicBoolean(true);
     private String token;
@@ -61,14 +75,20 @@ public class LoggingQueue implements CometTask {
         // check if the logging service is responding
         if (!this.isLoggingOnline()) {
             this.isLoggingActive.set(false);
+            log.trace("Log server is offline, will retry soon");
             return;
+        } else {
+            if (!this.isLoggingActive.get()) {
+                this.isLoggingActive.set(true);
+                log.trace("Log server is back online");
+            }
         }
 
         this.isWriting.set(true);
 
         for (AbstractLogEntry entry : this.loggingEntries) {
             if (entry.getType() != null) {
-                if (entry.getType() == LogType.CHATLOGS) {
+                if (entry.getType() == LogType.ROOM_CHATLOGS) {
                     this.saveChatlog(entry);
                 }
             }
@@ -87,6 +107,8 @@ public class LoggingQueue implements CometTask {
     }
 
     private boolean isLoggingOnline() {
+        log.debug("Testing if logging server is online");
+
         HttpGet getRequest = new HttpGet(BASE_URL + "/v1/test");
 
         try (CloseableHttpResponse res = this.httpClient.execute(getRequest)) {
@@ -94,11 +116,30 @@ public class LoggingQueue implements CometTask {
             TestJSON testJSON = new Gson().fromJson(s, TestJSON.class);
             return testJSON.status;
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
 
     private void saveChatlog(AbstractLogEntry entry) {
-        HttpPost postRequest = new HttpPost(BASE_URL + "/v1/log/chat");
+        log.debug("Sending chat log entries to logging server");
+
+        try {
+            HttpPost postRequest = new HttpPost(BASE_URL + "/v1/chatlogs/room/add");
+            int roomId = entry.getRoomId();
+            int userId = entry.getUserId();
+            String message = entry.getString();
+
+            List<NameValuePair> postParameters = new ArrayList<>();
+            postParameters.add(new BasicNameValuePair("room_id", String.valueOf(roomId)));
+            postParameters.add(new BasicNameValuePair("user_id", String.valueOf(userId)));
+            postParameters.add(new BasicNameValuePair("message", message));
+
+            postRequest.setEntity(new UrlEncodedFormEntity(postParameters));
+
+            try (CloseableHttpResponse res = this.httpClient.execute(postRequest)) {
+                HttpClientUtils.closeQuietly(res);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
     }
 }

@@ -11,6 +11,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.game.wired.types.TriggerType;
+import com.cometproject.server.logging.types.RoomChatLogEntry;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomErrorMessageComposer;
@@ -270,6 +271,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 }
             }
         }
+
+        CometManager.getLoggingManager().queue(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
 
         this.getRoom().getChatlog().add(message, this.getPlayer().getId());
 
