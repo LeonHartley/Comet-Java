@@ -97,14 +97,15 @@ public class MessengerComponent {
                 continue;
             }
 
-            friend.getClient().getChannel().write(msg.get());
+            friend.getClient().getChannel().write(msg);
         }
     }
 
     public void broadcast(List<Integer> friends, Composer msg) {
         for (int friendId : friends) {
-            if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || this.friends.get(friendId).updateClient() == null)
+            if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || this.friends.get(friendId).updateClient() == null) {
                 continue;
+            }
 
             MessengerFriend friend = this.friends.get(friendId);
 

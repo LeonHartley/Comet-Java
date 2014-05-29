@@ -9,6 +9,7 @@ import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.RoomItemWall;
+import com.cometproject.server.game.rooms.items.queue.RoomItemEventQueue;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.data.WiredDataInstance;
@@ -69,10 +70,10 @@ public class ItemsComponent {
             if (item.getX() == x && item.getY() == y) {
                 items.add(item);
             } else {
-                List<AffectedTile> AffectedTiles = AffectedTile.getAffectedTilesAt(
+                List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(
                         item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation());
 
-                for (AffectedTile tile : AffectedTiles) {
+                for (AffectedTile tile : affectedTiles) {
                     if (x == tile.x && y == tile.y) {
                         if (!items.contains(item)) {
                             items.add(item);
@@ -179,7 +180,6 @@ public class ItemsComponent {
             WiredDataInstance instance = WiredDataFactory.get(item);
 
             WiredDao.deleteWiredData(item.getId());
-
             WiredDataFactory.removeInstance(item.getId());
 
             instance.dispose();

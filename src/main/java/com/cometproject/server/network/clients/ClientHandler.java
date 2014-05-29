@@ -14,59 +14,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClientHandler extends SimpleChannelUpstreamHandler {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
-    private Map<String, AtomicInteger> connectionsPerIp = new FastMap<>();
-
-    private final boolean CLOSE_ON_ERROR = false;
-    private final int CONNECTIONS_PER_IP = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.connPerIp"));
-
-    @Override
-    public void channelOpen(final ChannelHandlerContext ctx, ChannelStateEvent ev) throws Exception {
-        if (!Comet.getServer().getNetwork().getSessions().add(ctx.getChannel())) {
-            ctx.getChannel().disconnect();
-        }
-
-        String ip = ((InetSocketAddress)ctx.getChannel().getRemoteAddress()).getAddress().getHostAddress();
-
-        if (CONNECTIONS_PER_IP != 0) {
-            if (this.connectionsPerIp.containsKey(ip)) {
-                int connectionCount = connectionsPerIp.get(ip).incrementAndGet();
-
-                if (connectionCount > CONNECTIONS_PER_IP)
-                    ctx.getChannel().close();
-            } else {
-                this.connectionsPerIp.put(ip, new AtomicInteger());
-            }
-        }
-
-        super.channelOpen(ctx, ev);
-    }
-
-    @Override
-    public void channelClosed(final ChannelHandlerContext ctx, ChannelStateEvent ev) throws Exception {
-        try {
-            Session client = (Session) ctx.getChannel().getAttachment();
-            client.onDisconnect();
-        } catch (Exception e) {
-        }
-
-        Comet.getServer().getNetwork().getSessions().remove(ctx.getChannel());
-        log.debug("Channel [" + ctx.getChannel().getId() + "] disconnected");
-
-        String ip = ((InetSocketAddress)ctx.getChannel().getRemoteAddress()).getAddress().getHostAddress();
-
-        if (CONNECTIONS_PER_IP != 0) {
-            if (this.connectionsPerIp.containsKey(ip)) {
-                int connectionCount = connectionsPerIp.get(ip).get();
-
-                if (connectionCount == 1)
-                    this.connectionsPerIp.remove(ip);
-            } else {
-                this.connectionsPerIp.get(ip).decrementAndGet();
-            }
-        }
-
-        super.channelClosed(ctx, ev);
-    }
 
     @Override
     public void messageReceived(final ChannelHandlerContext ctx, MessageEvent ev) throws Exception {
@@ -82,20 +29,39 @@ public class ClientHandler extends SimpleChannelUpstreamHandler {
     }
 
     @Override
+    public void channelOpen(final ChannelHandlerContext ctx, ChannelStateEvent ev) throws Exception {
+        if (!Comet.getServer().getNetwork().getSessions().add(ctx.getChannel())) {
+            ctx.getChannel().disconnect();
+            return;
+        }
+
+        super.channelOpen(ctx, ev);
+    }
+
+    @Override
+    public void channelClosed(final ChannelHandlerContext ctx, ChannelStateEvent ev) throws Exception {
+        try {
+            Session session = (Session) ctx.getChannel().getAttachment();
+            session.onDisconnect();
+        } catch (Exception e) { }
+
+        Comet.getServer().getNetwork().getSessions().remove(ctx.getChannel());
+
+        super.channelClosed(ctx, ev);
+    }
+
+    @Override
     public void exceptionCaught(final ChannelHandlerContext ctx, ExceptionEvent ev) throws Exception {
         if (ctx.getChannel().isConnected()) {
             if (ev.getCause() instanceof IOException) {
-                ctx.getChannel().close();
+                ctx.getChannel().disconnect();
                 return;
             }
 
             log.error("Exception in ClientHandler : " + ev.getCause().getMessage());
 
             ev.getCause().printStackTrace();
-
-            if (CLOSE_ON_ERROR) {
-                ctx.getChannel().close();
-            }
+            ctx.getChannel().close();
         }
     }
 }

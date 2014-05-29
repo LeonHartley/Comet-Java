@@ -9,8 +9,6 @@ import org.jboss.netty.channel.Channels;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelDownstreamHandler;
 
-import java.nio.charset.Charset;
-
 public class MessageEncoder extends SimpleChannelDownstreamHandler {
     private static Logger log = Logger.getLogger(MessageEncoder.class.getName());
 
@@ -19,8 +17,6 @@ public class MessageEncoder extends SimpleChannelDownstreamHandler {
         if (ev.getMessage() instanceof Composer) {
             Composer msg = (Composer) ev.getMessage();
             Channels.write(ctx, ev.getFuture(), msg.get());
-        } else if (ev.getMessage() instanceof String) {
-            Channels.write(ctx, ev.getFuture(), ChannelBuffers.copiedBuffer((String) ev.getMessage(), Charset.forName("UTF-8")));
         } else if (ev.getMessage() instanceof ChannelBuffer) {
             Channels.write(ctx, ev.getFuture(), ev.getMessage());
         } else {

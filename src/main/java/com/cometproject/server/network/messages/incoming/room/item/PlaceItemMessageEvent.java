@@ -6,6 +6,8 @@ import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.RoomItemWall;
+import com.cometproject.server.game.rooms.items.queue.RoomItemEventQueueEntry;
+import com.cometproject.server.game.rooms.items.queue.RoomItemEventType;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
@@ -45,6 +47,9 @@ public class  PlaceItemMessageEvent implements IEvent {
                 client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(
                         SendWallItemMessageComposer.compose(wallItem)
                 );
+
+
+                room.getItemProcess().getEventQueue().queue(new RoomItemEventQueueEntry(wallItem, RoomItemEventType.Placed));
 
             } else {
                 int x = Integer.parseInt(parts[1]);
@@ -99,6 +104,7 @@ public class  PlaceItemMessageEvent implements IEvent {
                     room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
                 }
 
+                floorItem.onPlaced();
                 room.getEntities().broadcastMessage(SendFloorItemMessageComposer.compose(floorItem, room));
             }
         } catch (Exception e) {

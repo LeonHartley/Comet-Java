@@ -4,12 +4,7 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class GroupElementsMessageComposer {
-    private static Composer comp;
-
     public static Composer compose() {
-        if (comp != null)
-            return comp;
-
         Composer msg = new Composer(Composers.GroupElementsMessageComposer);
 
         msg.writeInt(0);
@@ -58,7 +53,6 @@ public class GroupElementsMessageComposer {
             msg.writeString(colour.colour);
         }
 */
-        comp = msg;
         return msg;
     }
 }

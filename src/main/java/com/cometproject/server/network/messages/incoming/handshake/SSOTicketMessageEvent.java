@@ -70,8 +70,6 @@ public class SSOTicketMessageEvent implements IEvent {
             normalPlayerLoad = true;
         }
 
-
-
         if(normalPlayerLoad) {
             player = PlayerLoader.loadPlayerBySSo(ticket);
         }

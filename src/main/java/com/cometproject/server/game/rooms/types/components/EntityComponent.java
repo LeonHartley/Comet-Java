@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.types.floor.TeleporterFloorItem;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
@@ -86,9 +87,10 @@ public class EntityComponent {
         //this.addEntity(entity); // moved this to the 'PlayerEntity' class
 
         if (player.isTeleporting()) {
-            RoomItemFloor item = this.room.getItems().getFloorItem(player.getTeleportId());
+            TeleporterFloorItem item = (TeleporterFloorItem) this.room.getItems().getFloorItem(player.getTeleportId());
 
             if (item != null) {
+                item.handleIncomingEntity(entity, null);
                 //item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, entity, 4, 8));
             }
 
@@ -149,7 +151,7 @@ public class EntityComponent {
 
     public void broadcastMessage(Composer msg, boolean usersWithRightsOnly) {
         for (GenericEntity entity : this.entities.values()) {
-            if(entity == null) {
+            if (entity == null) {
                 continue;
             }
 
@@ -159,7 +161,7 @@ public class EntityComponent {
                 if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()))
                     continue;
 
-                playerEntity.getPlayer().getSession().getChannel().write(msg.get());
+                playerEntity.getPlayer().getSession().getChannel().write(msg);
             }
         }
     }

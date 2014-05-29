@@ -5,16 +5,21 @@ import org.jboss.netty.buffer.ChannelBuffers;
 
 import java.nio.charset.Charset;
 
-public class Event {
-    private short id;
-    private ChannelBuffer buffer;
+public final class Event {
+    private final short id;
+    private final ChannelBuffer buffer;
 
-    public Event(short id, ChannelBuffer buffer) {
-        this.id = id;
-        this.buffer = (buffer == null || buffer.readableBytes() == 0) ? ChannelBuffers.EMPTY_BUFFER : buffer;
+    public Event(ChannelBuffer buf) {
+        this.buffer = (buf != null) && (buf.readableBytes() > 0) ? buf : ChannelBuffers.EMPTY_BUFFER;
+
+        if (this.buffer.readableBytes() >= 2) {
+            this.id = this.readShort();
+        } else {
+            this.id = 0;
+        }
     }
 
-    public int readShort() {
+    public short readShort() {
         return this.getBuffer().readShort();
     }
 

@@ -10,10 +10,10 @@ import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.AdaptiveReceiveBufferSizePredictorFactory;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.jboss.netty.handler.execution.OrderedMemoryAwareThreadPoolExecutor;
+import org.jboss.netty.logging.InternalLoggerFactory;
+import org.jboss.netty.logging.Log4JLoggerFactory;
 
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executors;
 
 public class NetworkEngine {
@@ -21,15 +21,19 @@ public class NetworkEngine {
     private MessageHandler messageHandler;
     private ManagementServer managementServer;
 
-
     private static Logger log = Logger.getLogger(NetworkEngine.class.getName());
 
     public NetworkEngine(String ip, String ports) {
         this.sessions = new SessionManager();
         this.messageHandler = new MessageHandler();
 
-        if (CometSettings.httpEnabled)
-            this.managementServer = new ManagementServer();
+        // set the logger to our logger
+        InternalLoggerFactory.setDefaultFactory(new Log4JLoggerFactory());
+
+        if (CometSettings.httpEnabled) { this.managementServer = new ManagementServer(); }
+
+        int poolSize = Integer.parseInt(Comet.getServer().getConfig().get("comet.threading.pool.size"));
+        if (poolSize < 1) { poolSize = (Runtime.getRuntime().availableProcessors() * 2); }
 
         ServerBootstrap bootstrap = new ServerBootstrap(
                 new NioServerSocketChannelFactory(
@@ -48,9 +52,6 @@ public class NetworkEngine {
         //prevent unnecessary throttling, Check NioSocketChannelConfig doc
         bootstrap.setOption("writeBufferLowWaterMark", 32 * 1024);
         bootstrap.setOption("writeBufferHighWaterMark", 64 * 1024);
-
-        int poolSize = Integer.parseInt(Comet.getServer().getConfig().get("comet.threading.pool.size"));
-        if (poolSize < 1) { poolSize = (Runtime.getRuntime().availableProcessors() * 2); }
 
         int channelMemory = 65536;
         int totalMemory = (poolSize * channelMemory);

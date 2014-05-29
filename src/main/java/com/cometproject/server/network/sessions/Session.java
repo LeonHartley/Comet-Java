@@ -17,15 +17,13 @@ public class Session {
     }
 
     public void setPlayer(Player player) {
-        if(player.getData() == null)
-            return;
-
+        if(player.getData() == null) { return; }
         String username = player.getData().getUsername();
 
         this.logger = Logger.getLogger(username);
         this.player = player;
 
-        CometManager.getPlayers().put(player.getId(), channel.getId(), username);
+        CometManager.getPlayers().put(player.getId(), this.channel.getId(), username);
     }
 
     public void onDisconnect() {
@@ -39,11 +37,9 @@ public class Session {
     }
 
     public void send(Composer msg) {
-        if (msg == null) {
-            return;
-        }
+        if(msg == null) return;
 
-        channel.write(msg.get());
+        channel.write(msg);
     }
 
     public Logger getLogger() {

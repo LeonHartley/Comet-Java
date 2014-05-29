@@ -68,22 +68,15 @@ import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-public class MessageHandler {
-    private FastMap<Short, IEvent> messages;
-
+public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
+    private final FastMap<Short, IEvent> messages = new FastMap<>();
 
     public MessageHandler() {
         this.load();
     }
 
     public void load() {
-        if (this.messages == null) {
-            this.messages = new FastMap<>();
-        } else {
-            this.messages.clear();
-        }
-
         this.registerHandshake();
         this.registerModTool();
         this.registerHelpTool();
@@ -272,11 +265,6 @@ public class MessageHandler {
 
     public void handle(Event message, Session client) {
         Short header = message.getId();
-
-        /*if(header != PING_EVENT) {
-            log.debug("Message received (ID: " + header + ")");
-            log.debug(message.toString());
-        }*/
 
         if (this.getMessages().containsKey(header)) {
             long start = System.currentTimeMillis();

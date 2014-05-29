@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.items.types.floor;
 
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.utilities.DistanceCalculator;
@@ -43,8 +44,6 @@ public final class BallFloorItem extends RoomItemFloor {
         this.setY(newPosition.getY());
 
         this.setHeight((float) newPosition.getZ());
-
-        this.setExtraData("2");
 
         this.isRolling = false;
     }
@@ -171,6 +170,38 @@ public final class BallFloorItem extends RoomItemFloor {
         }
 
         this.setRollingPositions(positions);
+
+        System.out.println(rollingPositions.size());
+        this.setTicks(RoomItemFactory.getProcessTime(0.5));
+    }
+
+    @Override
+    public void onTick() {
+        if(this.rollingPositions.size() < 1)
+            return;
+
+        Position3D newPosition = this.rollingPositions.get(0);
+        Position3D currentPosition = new Position3D(this.x, this.y);
+
+        currentPosition.setZ(this.getRoom().getModel().getSquareHeight()[currentPosition.getX()][currentPosition.getY()]);
+        newPosition.setZ(this.getRoom().getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()]);
+
+        if (!this.getRoom().getMapping().isValidStep(currentPosition, newPosition, false) || !this.getRoom().getEntities().isSquareAvailable(newPosition.getX(), newPosition.getY())) {
+            newPosition = currentPosition.squareBehind(this.rotation);
+        }
+
+        if (this.getRoom().getMapping().isValidStep(currentPosition, newPosition, false)) {
+            BallFloorItem.roll(this, currentPosition, newPosition, this.getRoom());
+
+            this.setX(newPosition.getX());
+            this.setY(newPosition.getY());
+            this.setHeight((float) newPosition.getZ());
+        }
+
+        this.rollingPositions.remove(newPosition);
+
+        if(this.rollingPositions.size() != 0)
+            this.setTicks(RoomItemFactory.getProcessTime(0.5));
     }
 
     public boolean isRolling() {
