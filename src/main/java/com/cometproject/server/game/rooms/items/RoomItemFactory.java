@@ -33,6 +33,7 @@ public class RoomItemFactory {
             case "roombg": { return new BackgroundTonerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
             case "bed": { return new BedFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
             case "vendingmachine": { return new VendingMachineFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+            case "mannequin": { return new MannequinFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
 
             // Wired
             case "wf_act_moverotate": { return new WiredActionMoveRotate(id, baseId, roomId, ownerId, x, y, height, rot, data); }
