@@ -16,6 +16,7 @@ public class LoggingManager {
 
     public LoggingManager() {
         this.queue = new LoggingQueue(this.TOKEN);
+        this.start();
     }
 
     public void start() {

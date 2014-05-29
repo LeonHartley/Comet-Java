@@ -15,6 +15,7 @@ import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.queue.StaticPlayerQueue;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.wired.WiredManager;
+import com.cometproject.server.logging.LoggingManager;
 import org.apache.log4j.Logger;
 
 public class CometManager {
@@ -31,6 +32,8 @@ public class CometManager {
     private static LandingManager landingManager;
     private static GroupManager groupManager;
     private static PlayerManager playerManager;
+
+    private static LoggingManager loggingManager;
 
     public static GameThread gameThread;
 
@@ -50,6 +53,8 @@ public class CometManager {
         landingManager = new LandingManager();
         groupManager = new GroupManager();
         playerManager = new PlayerManager();
+
+        loggingManager = new LoggingManager();
 
         //StaticPlayerQueue.init(Comet.getServer().getThreadManagement());
     }
@@ -113,4 +118,6 @@ public class CometManager {
     public static PlayerManager getPlayers() {
         return playerManager;
     }
+
+    public static LoggingManager getLoggingManager() { return loggingManager; }
 }
