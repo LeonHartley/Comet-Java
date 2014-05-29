@@ -12,6 +12,7 @@ public class RoomMapping {
     private RoomModel model;
 
     private TileInstance[][] tiles;
+    private Position3D[][] redirectionGrid;
 
     public RoomMapping(Room roomInstance, RoomModel roomModel) {
         this.room = roomInstance;
@@ -22,6 +23,7 @@ public class RoomMapping {
         int sizeX = this.model.getSizeX();
         int sizeY = this.model.getSizeY();
 
+        this.redirectionGrid = new Position3D[sizeX][sizeY];
         this.tiles = new TileInstance[sizeX][sizeY];
 
         for (int x = 0; x < sizeX; x++) {
@@ -126,5 +128,9 @@ public class RoomMapping {
 
     public final RoomModel getModel() {
         return this.model;
+    }
+
+    public Position3D[][] getRedirectionGrid() {
+        return redirectionGrid;
     }
 }
