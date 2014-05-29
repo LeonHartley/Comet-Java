@@ -44,4 +44,16 @@ public class WheelWallItem extends RoomItemWall {
 
         this.isInUse = false;
     }
+
+    @Override
+    public void onPickup() {
+        this.cancelTicks();
+    }
+
+    @Override
+    public void onPlaced() {
+        if (!"0".equals(this.getExtraData())) {
+            this.setExtraData("0");
+        }
+    }
 }
