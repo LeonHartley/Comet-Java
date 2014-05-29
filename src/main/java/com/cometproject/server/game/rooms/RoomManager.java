@@ -19,8 +19,12 @@ import java.util.Map;
 import java.util.Set;
 
 public class RoomManager {
-    private FastMap<Integer, Room> rooms;
-    private Set<Integer> activeRoomIds;
+    public static final Logger log = Logger.getLogger(RoomManager.class.getName());
+
+    private final FastMap<Integer, Room> rooms = new FastMap<Integer, Room>().shared();
+    private final Set<Integer> activeRoomIds = new FastSet<Integer>().shared();
+
+    private final RoomLRUManager roomLRU = new RoomLRUManager();
 
     private ArrayList<StaticRoomModel> models;
     private WordFilter filterManager;
@@ -28,12 +32,7 @@ public class RoomManager {
     private RoomCycle globalProcessor;
     private ChatEmotionsManager emotions;
 
-    public static Logger log = Logger.getLogger(RoomManager.class.getName());
-
     public RoomManager() {
-        rooms = new FastMap<Integer, Room>().shared();
-        activeRoomIds = new FastSet<Integer>().shared();
-
         models = new ArrayList<>();
         emotions = new ChatEmotionsManager();
         filterManager = new WordFilter();

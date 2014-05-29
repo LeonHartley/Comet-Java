@@ -12,6 +12,7 @@ import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsM
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import javolution.util.FastMap;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +110,11 @@ public class Player {
 
         if (!room.isActive) {
             room.load();
+        }
+
+        if(room.getEntities() == null) {
+            Logger.getLogger("InitializeRoom").error("EntityComponent is null!");
+            return;
         }
 
         PlayerEntity playerEntity = room.getEntities().createEntity(this);

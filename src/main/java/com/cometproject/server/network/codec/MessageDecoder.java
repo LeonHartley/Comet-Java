@@ -22,9 +22,7 @@ public class MessageDecoder extends FrameDecoder {
                 return null;
             }
 
-            length -= 2;
-
-            return new Event(buffer.readShort(), buffer.readBytes(length));
+            return new Event(buffer.readBytes(length));
         } catch (Exception e) {
             e.printStackTrace(); // for debugging!
         }

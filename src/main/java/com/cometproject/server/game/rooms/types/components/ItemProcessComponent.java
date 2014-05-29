@@ -1,8 +1,10 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.rooms.items.queue.RoomItemEventQueue;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
@@ -12,16 +14,18 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class ItemProcessComponent implements CometTask {
-    private Room room;
+    private final int INTERVAL = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
+    private final int FLAG = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.flag"));
 
+    private Room room;
     private Logger log;
+
     private ScheduledFuture myFuture;
     private CometThreadManagement mgr;
-    private boolean active = false;
-    private int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
-    private int rollCounter = 0;
 
-    private int flag = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.flag"));
+    private boolean active = false;
+
+    private final RoomItemEventQueue eventQueue = new RoomItemEventQueue();
 
     public ItemProcessComponent(CometThreadManagement mgr, Room room) {
         this.mgr = mgr;
@@ -30,13 +34,17 @@ public class ItemProcessComponent implements CometTask {
         log = Logger.getLogger("GenericRoomItem Process [" + room.getData().getName() + "]");
     }
 
+    public RoomItemEventQueue getEventQueue() {
+        return this.eventQueue;
+    }
+
     public void start() {
         if (this.myFuture != null && this.active) {
             stop();
         }
 
         this.active = true;
-        this.myFuture = this.mgr.executePeriodic(this, 0, interval, TimeUnit.MILLISECONDS);
+        this.myFuture = this.mgr.executePeriodic(this, 0, INTERVAL, TimeUnit.MILLISECONDS);
 
         log.debug("Processing started");
     }
@@ -45,12 +53,6 @@ public class ItemProcessComponent implements CometTask {
         if (this.myFuture != null) {
             this.active = false;
             this.myFuture.cancel(false);
-
-            /*for (FloorItem item : this.getRoom().getItems().getFloorItems()) {
-                if (item.hasInteraction()) {
-                    item.getInteractionQueue().clear();
-                }
-            }*/
 
             log.debug("Processing stopped");
         }
@@ -72,22 +74,54 @@ public class ItemProcessComponent implements CometTask {
         long timeStart = System.currentTimeMillis();
 
         this.getRoom().getItems().getFloorItems().parallelStream().forEach((item) -> {
-            if (item.requiresTick()) {
-                item.tick();
+            try {
+                if (CometManager.getWired().isWiredTrigger(item)) {
+                    if (!this.getRoom().getWired().isWiredSquare(item.getX(), item.getY())) {
+                        this.getRoom().getWired().add(item.getX(), item.getY());
+                    }
+                }
+
+                if (item.requiresTick()) {
+                    item.tick();
+                }
+            } catch (NullPointerException | IndexOutOfBoundsException e) {
+                this.handleSupressedExceptions(e);
             }
         });
 
         this.getRoom().getItems().getWallItems().parallelStream().forEach((item) -> {
-            if (item.requiresTick()) {
-                item.tick();
+            try {
+                if (item.requiresTick()) {
+                    item.tick();
+                }
+            } catch (NullPointerException | IndexOutOfBoundsException e) {
+                this.handleSupressedExceptions(e);
             }
         });
 
+        for (WiredSquare wiredSquare : this.getRoom().getWired().getSquares()) {
+            if (this.getRoom().getItems().getItemsOnSquare(wiredSquare.getX(), wiredSquare.getY()).size() < 1) {
+                this.getRoom().getWired().disposeSquare(wiredSquare);
+            }
+        }
+
+
+        // Now lets process any queued events last
+        try {
+            this.eventQueue.cycle();
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            this.handleSupressedExceptions(e);
+        }
+
         TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
-        if (span.toMilliseconds() > flag) {
+        if (span.toMilliseconds() > FLAG) {
             log.warn("ItemProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
         }
+    }
+
+    protected void handleSupressedExceptions(Throwable t) {
+        // TO-DO: we need log these somewhere separately so we can 'fix' these kind of errors easily..
     }
 
     /*@Override
@@ -194,7 +228,7 @@ public class ItemProcessComponent implements CometTask {
 
             TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
-            if (span.toMilliseconds() > flag) {
+            if (span.toMilliseconds() > FLAG) {
                 log.warn("GenericRoomItem process took: " + span.toMilliseconds() + "ms to execute.");
             }
         } catch (Exception e) {

@@ -131,7 +131,7 @@ public class WiredComponent {
     }
 
     public FastSet<WiredSquare> getSquares() {
-        return this.squares.shared();
+        return this.squares.unmodifiable();
     }
 
     public void add(int x, int y) {

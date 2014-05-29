@@ -9,15 +9,13 @@ import org.jboss.netty.channel.Channel;
 import java.util.Map;
 import java.util.Set;
 
-public class SessionManager {
-
-    private FastMap<Integer, Session> sessions = new FastMap<Integer, Session>().atomic();
-    private FastMap<Integer, Integer> playerIdToSessionId = new FastMap<Integer, Integer>().atomic();
+public final class SessionManager {
+    private final FastMap<Integer, Session> sessions = new FastMap<Integer, Session>().shared();
 
     public boolean add(Channel channel) {
         Session session = new Session(channel);
-        channel.setAttachment(session);
 
+        channel.setAttachment(session);
         return (this.sessions.putIfAbsent(channel.getId(), session) == null);
     }
 
@@ -31,11 +29,11 @@ public class SessionManager {
     }
 
     public boolean disconnectByPlayerId(int id) {
-        if(!this.playerIdToSessionId.containsKey(id)) {
+        if(CometManager.getPlayers().getSessionIdByPlayerId(id) == -1) {
             return false;
         }
 
-        int sessionId = playerIdToSessionId.get(id);
+        int sessionId = CometManager.getPlayers().getSessionIdByPlayerId(id);
         Session session = sessions.get(sessionId);
 
         if(session != null) {
@@ -47,8 +45,8 @@ public class SessionManager {
     }
 
     public Session getByPlayerId(int id) {
-         if(this.playerIdToSessionId.containsKey(id)) {
-            int sessionId = this.playerIdToSessionId.get(id);
+         if(CometManager.getPlayers().getSessionIdByPlayerId(id) != -1) {
+            int sessionId = CometManager.getPlayers().getSessionIdByPlayerId(id);
 
             return sessions.get(sessionId);
         }
@@ -100,7 +98,7 @@ public class SessionManager {
 
     public void broadcast(Composer msg) {
         for (Session client : sessions.values()) {
-            client.getChannel().write(msg.get());
+            client.getChannel().write(msg);
         }
     }
 }

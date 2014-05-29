@@ -7,6 +7,11 @@ import com.cometproject.server.game.rooms.items.types.GenericFloorItem;
 import com.cometproject.server.game.rooms.items.types.GenericWallItem;
 import com.cometproject.server.game.rooms.items.types.floor.*;
 import com.cometproject.server.game.rooms.items.types.wall.WheelWallItem;
+import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionMoveRotate;
+import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionMoveUser;
+import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionShowMessage;
+import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionToggleFurni;
+import com.cometproject.server.game.rooms.items.types.wired.trigger.*;
 
 public class RoomItemFactory {
     private static final int processMs = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
@@ -27,6 +32,20 @@ public class RoomItemFactory {
             case "ball": { return new BallFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
             case "roombg": { return new BackgroundTonerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
             case "bed": { return new BedFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+            case "vendingmachine": { return new VendingMachineFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+
+            // Wired
+            case "wf_act_moverotate": { return new WiredActionMoveRotate(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+            case "wf_act_moveuser": { return new WiredActionMoveUser(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+            case "wf_act_saymsg": { return new WiredActionShowMessage(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+            case "wf_act_togglefurni": { return new WiredActionToggleFurni(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+
+            case "wf_trg_onsay": { return new WiredTriggerOnSay(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+            case "wf_trg_enterroom": { return new WiredTriggerEnterRoom(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+            case "wf_trg_onfurni": { return new WiredTriggerOnFurni(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+            case "wf_trg_offfurni": { return new WiredTriggerOffFurni(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+            case "wf_trg_timer": { return new WiredTriggerTimer(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+
             default: { return new GenericFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
         }
     }
@@ -41,10 +60,10 @@ public class RoomItemFactory {
         }
     }
 
-    public static int getProcessTime(int time) {
-        int realTime = Math.round(time * 1000 / processMs);
+    public static int getProcessTime(double time) {
+        long realTime = Math.round(time * 1000 / processMs);
         if (realTime < 1) { realTime = 1; }
 
-        return realTime;
+        return (int) realTime;
     }
 }
