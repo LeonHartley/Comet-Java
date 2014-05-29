@@ -13,7 +13,6 @@ public class BackgroundTonerFloorItem extends RoomItemFloor {
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         this.setExtraData("");
         this.saveData();
-
         this.getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(this, this.getOwner()));
     }
 }
