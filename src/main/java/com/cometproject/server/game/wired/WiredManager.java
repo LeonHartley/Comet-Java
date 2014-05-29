@@ -34,21 +34,20 @@ public class WiredManager {
         this.effects.put("wf_act_togglefurni", new ToggleFurniEffect());
         this.effects.put("wf_act_moverotate", new MoveRotateEffect());
 
+        // TODO: conditions!!
+
         WiredDataFactory.init();
     }
 
     public boolean isWiredTrigger(RoomItemFloor item) {
-        //return (item.getDefinition().getInteraction().startsWith("wf_trg"));
         return this.triggers.containsKey(item.getDefinition().getInteraction());
     }
 
     public boolean isWiredEffect(RoomItemFloor item) {
-        //return (item.getDefinition().getInteraction().startsWith("wf_act"));
         return this.effects.containsKey(item.getDefinition().getInteraction());
     }
 
     public boolean isWiredCondition(RoomItemFloor item) {
-        //return (item.getDefinition().getInteraction().startsWith("wf_cnd"));
         return this.conditions.containsKey(item.getDefinition().getInteraction());
     }
 
