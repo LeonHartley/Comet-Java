@@ -17,7 +17,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -35,7 +34,7 @@ public class LoggingQueue implements CometTask {
             .disableAutomaticRetries()
             .disableCookieManagement()
             .disableRedirectHandling()
-            .
+            .build();
 
     private AtomicBoolean isLoggingActive = new AtomicBoolean(true);
     private String token;
