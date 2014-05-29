@@ -107,6 +107,14 @@ public abstract class RoomItem implements RoomItemAttributes, Attributable {
         // Override this
     }
 
+    public void onLoad() {
+        // Override this
+    }
+
+    public void onUnload() {
+        // Override this
+    }
+
     public int distance(GenericEntity entity) {
         int avatarX = entity.getPosition().getX();
         int avatarY = entity.getPosition().getY();
