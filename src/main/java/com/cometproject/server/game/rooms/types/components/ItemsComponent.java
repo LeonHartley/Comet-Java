@@ -40,9 +40,25 @@ public class ItemsComponent {
         this.log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
 
         RoomItemDao.getItems(this.room.getId(), this.floorItems, this.wallItems);
+
+        for(RoomItemFloor floorItem : floorItems) {
+            floorItem.onLoad();
+        }
+
+        for(RoomItemWall wallItem : wallItems) {
+            wallItem.onLoad();
+        }
     }
 
     public void dispose() {
+        for(RoomItemFloor floorItem : floorItems) {
+            floorItem.onUnload();
+        }
+
+        for(RoomItemWall wallItem : wallItems) {
+            wallItem.onUnload();
+        }
+
         this.floorItems.clear();
         this.wallItems.clear();
 
