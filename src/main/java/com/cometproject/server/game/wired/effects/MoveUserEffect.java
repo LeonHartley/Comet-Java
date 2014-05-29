@@ -46,6 +46,7 @@ public class MoveUserEffect extends WiredEffect {
 
     @Override
     public void onSave(Event event, RoomItemFloor item) {
+        // We do need the stuff but I'm just being lazy so yeah ;-)
         event.readInt(); // don't need this
         event.readString(); // don't need this
 

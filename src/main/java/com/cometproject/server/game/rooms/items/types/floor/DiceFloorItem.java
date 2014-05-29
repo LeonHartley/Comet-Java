@@ -40,7 +40,6 @@ public class DiceFloorItem extends RoomItemFloor {
     public void onPlaced() {
         if (!"0".equals(this.getExtraData())) {
             this.setExtraData("0");
-            this.sendUpdate();
         }
     }
 
