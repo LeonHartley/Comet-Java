@@ -37,11 +37,17 @@ public class TileInstance {
                 movementNode = RoomEntityMovementNode.CLOSED;
             }
 
-
             switch (item.getDefinition().getInteraction().toLowerCase()) {
                 case "bed":
                     status = RoomTileStatusType.LAY;
                     movementNode = RoomEntityMovementNode.END_OF_ROUTE;
+
+                    if(item.getRotation() == 2 || item.getRotation() == 6) {
+                        this.mappingInstance.getRedirectionGrid()[this.position.getX()][this.position.getY()] = new Position3D(item.getX(), this.position.getY());
+                    } else if(item.getRotation() == 0 || item.getRotation() == 4) {
+                        this.mappingInstance.getRedirectionGrid()[this.position.getX()][this.position.getY()] = new Position3D(this.position.getX(), item.getY());
+                    }
+
                     break;
 
                 case "gate":
