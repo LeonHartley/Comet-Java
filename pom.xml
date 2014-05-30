@@ -7,11 +7,8 @@
     <groupId>Comet</groupId>
     <artifactId>Comet</artifactId>
 
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>0.8.5.ALPHA1</version>
-    <modules>
-        <module>CometLogger</module>
-    </modules>
 
     <name>Comet</name>
     <url>http://www.comet.im</url>
