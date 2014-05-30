@@ -1,48 +1,33 @@
 package com.cometproject.server.network;
 
 import com.cometproject.server.network.clients.ClientHandler;
-import com.cometproject.server.network.clients.ClientIdleHandler;
 import com.cometproject.server.network.codec.MessageDecoder;
 import com.cometproject.server.network.codec.MessageEncoder;
 import com.cometproject.server.network.codec.XMLPolicyDecoder;
-import org.jboss.netty.channel.ChannelHandler;
-import org.jboss.netty.channel.ChannelPipeline;
-import org.jboss.netty.channel.ChannelPipelineFactory;
-import org.jboss.netty.channel.Channels;
-import org.jboss.netty.handler.codec.string.StringEncoder;
-import org.jboss.netty.handler.execution.ExecutionHandler;
-import org.jboss.netty.handler.execution.OrderedMemoryAwareThreadPoolExecutor;
-import org.jboss.netty.handler.timeout.IdleStateHandler;
-import org.jboss.netty.util.CharsetUtil;
-import org.jboss.netty.util.HashedWheelTimer;
-import org.jboss.netty.util.Timer;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelInitializer;
+import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.timeout.IdleStateHandler;
+import io.netty.util.CharsetUtil;
+import io.netty.util.concurrent.DefaultEventExecutorGroup;
+import io.netty.util.concurrent.EventExecutorGroup;
 
-public class NetworkChannelInitializer implements ChannelPipelineFactory {
-    private final Timer idleTimer;
-    private final ClientIdleHandler idleHandler;
+import java.util.concurrent.TimeUnit;
 
-    private final OrderedMemoryAwareThreadPoolExecutor executor;
+public class NetworkChannelInitializer extends ChannelInitializer<Channel> {
+    private final EventExecutorGroup executor;
 
-    public NetworkChannelInitializer(OrderedMemoryAwareThreadPoolExecutor executionExecutor) {
-        this.idleTimer = new HashedWheelTimer();
-        this.idleHandler = new ClientIdleHandler();
-
-        this.executor = executionExecutor;
+    public NetworkChannelInitializer(int threadSize) {
+        this.executor = new DefaultEventExecutorGroup(threadSize);
     }
 
     @Override
-    public ChannelPipeline getPipeline() throws Exception {
-        ChannelPipeline pipeline = Channels.pipeline();
-
-        pipeline.addLast("xmlDecoder", new XMLPolicyDecoder());
-        pipeline.addLast("messageDecoder", new MessageDecoder());
-        pipeline.addLast("messageEncoder", new MessageEncoder());
-        pipeline.addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8));
-        pipeline.addLast("idleStateHandler", new IdleStateHandler(this.idleTimer, 60, 30, 0));
-        pipeline.addLast("clientIdleHandler", this.idleHandler);
-        pipeline.addLast("executionHandler", new ExecutionHandler(this.executor));
-        pipeline.addLast("handler", new ClientHandler());
-
-        return pipeline;
+    protected void initChannel(Channel ch) throws Exception {
+        ch.pipeline().addLast("xmlDecoder", new XMLPolicyDecoder());
+        ch.pipeline().addLast("messageDecoder", new MessageDecoder());
+        ch.pipeline().addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8));
+        ch.pipeline().addLast("messageEncoder", new MessageEncoder());
+        ch.pipeline().addLast("idleHandler",  new IdleStateHandler(60, 30, 0, TimeUnit.SECONDS));
+        ch.pipeline().addLast(this.executor, "mainHandler", new ClientHandler());
     }
 }
