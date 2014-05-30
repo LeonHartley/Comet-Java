@@ -2,9 +2,10 @@ package com.cometproject.server.network.sessions;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.network.NetworkEngine;
 import com.cometproject.server.network.messages.types.Composer;
+import io.netty.channel.Channel;
 import org.apache.log4j.Logger;
-import org.jboss.netty.channel.Channel;
 
 public class Session {
     private Channel channel;
@@ -23,7 +24,8 @@ public class Session {
         this.logger = Logger.getLogger(username);
         this.player = player;
 
-        CometManager.getPlayers().put(player.getId(), this.channel.getId(), username);
+        int channelId = this.channel.attr(NetworkEngine.CHANNEL_ID).get();
+        CometManager.getPlayers().put(player.getId(), channelId, username);
     }
 
     public void onDisconnect() {
@@ -37,9 +39,9 @@ public class Session {
     }
 
     public void send(Composer msg) {
-        if(msg == null) return;
+        if(msg == null) { return; }
 
-        channel.write(msg);
+        this.channel.writeAndFlush(msg);
     }
 
     public Logger getLogger() {
