@@ -42,8 +42,8 @@ public class NetworkEngine {
         int poolSize = Integer.parseInt(Comet.getServer().getConfig().get("comet.threading.pool.size"));
         if (poolSize < 1) { poolSize = (Runtime.getRuntime().availableProcessors() * 2); }
 
-        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-        EventLoopGroup workerGroup = new NioEventLoopGroup(poolSize);
+        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
 
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(bossGroup, workerGroup)
