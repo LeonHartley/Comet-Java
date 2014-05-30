@@ -3,10 +3,13 @@ package com.cometproject.server.network.messages.types;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufHolder;
 import io.netty.buffer.Unpooled;
+import org.apache.log4j.Logger;
 
 import java.nio.charset.Charset;
 
 public final class Event implements ByteBufHolder {
+    private final static Logger log = Logger.getLogger(Event.class);
+
     private final short id;
     private final ByteBuf buffer;
 
@@ -52,6 +55,7 @@ public final class Event implements ByteBufHolder {
 
     @Override
     public boolean release() {
+        log.debug("Releasing buffer, ref count will be " + (this.refCnt() - 1));
         return this.buffer.release();
     }
 

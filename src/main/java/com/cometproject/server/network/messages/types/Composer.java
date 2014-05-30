@@ -60,6 +60,7 @@ public class Composer implements ByteBufHolder {
 
     @Override
     public boolean release() {
+        log.debug("Releasing buffer, ref count will be " + (this.refCnt() - 1));
         return this.body.release();
     }
 
