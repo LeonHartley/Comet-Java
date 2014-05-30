@@ -49,7 +49,7 @@ public class NetworkEngine {
                 .group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer(poolSize))
-                .option(ChannelOption.SO_BACKLOG, 500)
+                .option(ChannelOption.SO_BACKLOG, 5000)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
                 .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)
                 .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
