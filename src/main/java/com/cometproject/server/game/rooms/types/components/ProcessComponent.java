@@ -99,7 +99,7 @@ public class ProcessComponent implements CometTask {
 
             List<PlayerEntity> playersToRemove = new ArrayList<>();
 
-            entities.values().parallelStream().forEach((entity) -> {
+            for (GenericEntity entity : entities.values()) {
                 // Process each entity as its own
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
@@ -139,7 +139,7 @@ public class ProcessComponent implements CometTask {
 
                     this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
                 }
-            });
+            }
 
             for (PlayerEntity entity : playersToRemove) {
                 entity.leaveRoom(entity.getPlayer() == null, false, true);

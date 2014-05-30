@@ -34,8 +34,6 @@ public class NetworkEngine {
         this.sessions = new SessionManager();
         this.messageHandler = new MessageHandler();
 
-        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.PARANOID);
-
         // set the logger to our logger
         InternalLoggerFactory.setDefaultFactory(new Log4JLoggerFactory());
 
@@ -44,8 +42,8 @@ public class NetworkEngine {
         int poolSize = Integer.parseInt(Comet.getServer().getConfig().get("comet.threading.pool.size"));
         if (poolSize < 1) { poolSize = (Runtime.getRuntime().availableProcessors() * 2); }
 
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        EventLoopGroup workerGroup = new NioEventLoopGroup(poolSize);
 
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(bossGroup, workerGroup)
