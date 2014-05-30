@@ -40,22 +40,22 @@ public class NetworkEngine {
                         Executors.newCachedThreadPool(),
                         Executors.newCachedThreadPool()));
 
-        bootstrap.setOption("backlog", 1000);
+        bootstrap.setOption("backlog", 100);
         bootstrap.setOption("tcpNoDelay", true);
         bootstrap.setOption("child.tcpNoDelay", true);
         bootstrap.setOption("keepAlive", true);
 
         // better to have an receive buffer predictor
-        bootstrap.setOption("receiveBufferSizePredictorFactory", new AdaptiveReceiveBufferSizePredictorFactory(128, 1024, 4096));
+        bootstrap.setOption("receiveBufferSizePredictorFactory", new AdaptiveReceiveBufferSizePredictorFactory(128, 1024, 8192));
 
         //if the server is sending 1000 messages per sec, optimum write buffer water marks will
         //prevent unnecessary throttling, Check NioSocketChannelConfig doc
         bootstrap.setOption("writeBufferLowWaterMark", 32 * 1024);
         bootstrap.setOption("writeBufferHighWaterMark", 64 * 1024);
 
-        int channelMemory = 65536;
-        int totalMemory = (poolSize * channelMemory);
-        OrderedMemoryAwareThreadPoolExecutor handlerExecutor = new OrderedMemoryAwareThreadPoolExecutor(poolSize, channelMemory, totalMemory);
+        //int channelMemory = 65536;
+        //int totalMemory = (poolSize * channelMemory);
+        OrderedMemoryAwareThreadPoolExecutor handlerExecutor = new OrderedMemoryAwareThreadPoolExecutor(poolSize, 0, 0);
 
         bootstrap.setPipelineFactory(new NetworkChannelInitializer(handlerExecutor));
 
