@@ -17,6 +17,7 @@ import io.netty.util.ReferenceCountUtil;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
+import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -168,7 +169,7 @@ public class EntityComponent {
                 }
             }
         } finally {
-            msg.release();
+            ReferenceCountUtil.release(msg);
         }
     }
 
