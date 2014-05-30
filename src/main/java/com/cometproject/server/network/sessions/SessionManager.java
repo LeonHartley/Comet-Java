@@ -4,6 +4,7 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.network.NetworkEngine;
 import com.cometproject.server.network.messages.types.Composer;
 import io.netty.channel.Channel;
+import io.netty.util.ReferenceCountUtil;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
 
@@ -111,7 +112,7 @@ public final class SessionManager {
                 client.getChannel().writeAndFlush(msg.duplicate().retain());
             }
         } finally {
-            msg.release();
+            ReferenceCountUtil.release(msg);
         }
     }
 }
