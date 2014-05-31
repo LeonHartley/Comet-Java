@@ -10,6 +10,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.DefaultMessageSizeEstimator;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -40,23 +41,22 @@ public class NetworkEngine {
 
         if (CometSettings.httpEnabled) { this.managementServer = new ManagementServer(); }
 
-        int poolSize = Integer.parseInt(Comet.getServer().getConfig().get("comet.threading.pool.size"));
-        if (poolSize < 1) { poolSize = (Runtime.getRuntime().availableProcessors() * 2); }
-
         System.setProperty( "java.net.preferIPv4Stack", "true" );
         System.setProperty( "io.netty.selectorAutoRebuildThreshold", "0" );
         ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED);
 
-        EventLoopGroup eventLoopGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat( "Netty IO Thread #%1$d" ).build());
+        EventLoopGroup acceptGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat( "Netty Accept Thread #%1$d" ).build());
+        EventLoopGroup ioGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat( "Netty IO Thread #%1$d" ).build());
 
         ServerBootstrap bootstrap = new ServerBootstrap()
-                .group(eventLoopGroup)
+                .group(acceptGroup, ioGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new NetworkChannelInitializer(poolSize))
-                .option(ChannelOption.SO_BACKLOG, 100)
+                .childHandler(new NetworkChannelInitializer(0))
+                .option(ChannelOption.SO_BACKLOG, 500)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
                 .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)
                 .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+                .option(ChannelOption.MESSAGE_SIZE_ESTIMATOR, new DefaultMessageSizeEstimator(256))
                 .option(ChannelOption.TCP_NODELAY, true);
 
         if (ports.contains(",")) {
