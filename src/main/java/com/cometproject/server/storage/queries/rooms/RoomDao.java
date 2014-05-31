@@ -116,7 +116,7 @@ public class RoomDao {
                 preparedStatement.setString(1, query.split("owner:")[1]);
             } else {
                 preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE name LIKE ? LIMIT 150", sqlConnection);
-                preparedStatement.setString(1, "%" + query + "%");
+                preparedStatement.setString(1, query + "%");
             }
 
             resultSet = preparedStatement.executeQuery();

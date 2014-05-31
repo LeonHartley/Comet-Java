@@ -4,6 +4,7 @@ import com.cometproject.server.network.clients.ClientHandler;
 import com.cometproject.server.network.codec.MessageDecoder;
 import com.cometproject.server.network.codec.MessageEncoder;
 import com.cometproject.server.network.codec.XMLPolicyDecoder;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.handler.codec.string.StringEncoder;
@@ -18,7 +19,7 @@ public class NetworkChannelInitializer extends ChannelInitializer<Channel> {
     private final EventExecutorGroup executor;
 
     public NetworkChannelInitializer(int threadSize) {
-        this.executor = new DefaultEventExecutorGroup(threadSize);
+        this.executor = new DefaultEventExecutorGroup(threadSize, new ThreadFactoryBuilder().setNameFormat( "Netty Event Thread #%1$d" ).build());
     }
 
     @Override
