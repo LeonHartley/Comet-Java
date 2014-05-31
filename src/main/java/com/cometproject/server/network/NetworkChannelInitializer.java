@@ -31,7 +31,7 @@ public class NetworkChannelInitializer extends ChannelInitializer<Channel> {
                 .addLast("messageDecoder", new MessageDecoder())
                 .addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8))
                 .addLast("messageEncoder", new MessageEncoder())
-                .addLast("idleHandler",  new IdleStateHandler(60, 60, 0, TimeUnit.SECONDS))
+                .addLast("idleHandler",  new IdleStateHandler(60, 30, 0, TimeUnit.SECONDS))
                 .addLast(this.executor, "clientHandler", new ClientHandler());
     }
 }

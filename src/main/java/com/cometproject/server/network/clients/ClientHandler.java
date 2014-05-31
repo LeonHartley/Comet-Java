@@ -36,8 +36,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             ctx.channel().disconnect();
             return;
         }
-
-        super.channelActive(ctx);
     }
 
     @Override
@@ -48,8 +46,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
         } catch (Exception e) { }
 
         Comet.getServer().getNetwork().getSessions().remove(ctx.channel());
-
-        super.channelInactive(ctx);
     }
 
     @Override
@@ -57,28 +53,23 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
         if (evt instanceof IdleStateEvent) {
             IdleStateEvent e = (IdleStateEvent) evt;
             if (e.state() == IdleState.READER_IDLE) {
+                log.info("Client disconnected for being idle");
                 ctx.channel().disconnect();
             } else if (e.state() == IdleState.WRITER_IDLE) {
                 ctx.channel().writeAndFlush(PingMessageComposer.compose());
             }
         }
-
-        super.userEventTriggered(ctx, evt);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         if (ctx.channel().isActive()) {
             if (cause instanceof IOException) {
-                ctx.channel().disconnect();
                 return;
             }
 
             log.error("Exception in ClientHandler : " + cause.getMessage());
-
             cause.printStackTrace();
-            ctx.channel().close();
         }
-        super.exceptionCaught(ctx, cause);
     }
 }
