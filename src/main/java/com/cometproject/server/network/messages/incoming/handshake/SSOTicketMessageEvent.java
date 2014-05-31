@@ -18,6 +18,8 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.nio.channels.SocketChannel;
 
 public class SSOTicketMessageEvent implements IEvent {
     public static String TICKET_DELIMITER = ":";
@@ -85,7 +87,21 @@ public class SSOTicketMessageEvent implements IEvent {
             cloneSession.disconnect();
         }
 
-        if (CometManager.getBans().hasBan(Integer.toString(player.getId())) /*|| CometManager.getBans().hasBan(((InetSocketAddress)client.getChannel().remoteAddress()).getAddress().getHostAddress())*/) {
+        // to-do: clean this up!
+        if (client.getChannel().remoteAddress() instanceof InetSocketAddress) {
+            InetSocketAddress socketAddress = (InetSocketAddress)client.getChannel().remoteAddress();
+
+            if (socketAddress.getAddress() != null) { // idk read the docs
+                if (CometManager.getBans().hasBan(socketAddress.getAddress().getHostAddress())) {
+                    CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
+
+                    client.disconnect();
+                    return;
+                }
+            }
+        }
+
+        if (CometManager.getBans().hasBan(Integer.toString(player.getId()))) {
             CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
 
             client.disconnect();

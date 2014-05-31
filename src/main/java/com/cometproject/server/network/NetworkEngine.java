@@ -6,6 +6,7 @@ import com.cometproject.server.network.http.ManagementServer;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
@@ -42,14 +43,17 @@ public class NetworkEngine {
         int poolSize = Integer.parseInt(Comet.getServer().getConfig().get("comet.threading.pool.size"));
         if (poolSize < 1) { poolSize = (Runtime.getRuntime().availableProcessors() * 2); }
 
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        System.setProperty( "java.net.preferIPv4Stack", "true" );
+        System.setProperty( "io.netty.selectorAutoRebuildThreshold", "0" );
+        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED);
+
+        EventLoopGroup eventLoopGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat( "Netty IO Thread #%1$d" ).build());
 
         ServerBootstrap bootstrap = new ServerBootstrap()
-                .group(bossGroup, workerGroup)
+                .group(eventLoopGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer(poolSize))
-                .option(ChannelOption.SO_BACKLOG, 5000)
+                .option(ChannelOption.SO_BACKLOG, 100)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
                 .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)
                 .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
