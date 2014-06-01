@@ -197,13 +197,10 @@ public class ProcessComponent implements CometTask {
 
             if (entity instanceof BotEntity) {
                 if (((BotEntity) entity).getCycleCount() == ((BotEntity) entity).getData().getChatDelay() * 2) {
-                    if (((BotEntity) entity).getData().getMessages().length > 0) {
-                        int messageKey = RandomInteger.getRandom(0, ((BotEntity) entity).getData().getMessages().length - 1);
-                        String message = ((BotEntity) entity).getData().getMessages()[messageKey];
+                    String message = ((BotEntity) entity).getData().getRandomMessage();
 
-                        if (message != null && !message.isEmpty()) {
-                            this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), message, 0, 2));
-                        }
+                    if (message != null && !message.isEmpty()) {
+                        this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), message, 0, 2));
                     }
 
                     ((BotEntity) entity).resetCycleCount();
