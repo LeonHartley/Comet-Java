@@ -99,8 +99,6 @@ public abstract class RoomItemWall extends RoomItem {
         return ownerId;
     }
 
-
-
     public void setPosition(String position) {
         this.position = position;
     }

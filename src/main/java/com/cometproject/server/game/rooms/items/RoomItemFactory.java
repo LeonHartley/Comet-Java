@@ -6,6 +6,7 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.items.types.GenericFloorItem;
 import com.cometproject.server.game.rooms.items.types.GenericWallItem;
 import com.cometproject.server.game.rooms.items.types.floor.*;
+import com.cometproject.server.game.rooms.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionMoveRotate;
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionMoveUser;
@@ -58,6 +59,7 @@ public class RoomItemFactory {
 
         switch (def.getInteraction()) {
             case "habbowheel": { return new WheelWallItem(id, baseId, roomId, owner, position, data); }
+            case "dimmer": { return new MoodlightWallItem(id, baseId, roomId, owner, position, data); }
             default: { return new GenericWallItem(id, baseId, roomId, owner, position, data); }
         }
     }

@@ -124,6 +124,8 @@ public class Events {
     public static short LoadPlaylistMessageEvent = 3835;
     public static short PlayVideoMessageEvent = 517;
     public static short RateRoomMessageEvent = 1662;
+    public static short UseMoodlightMessageEvent = 3841;
+    public static short ToggleMoodlightMessageEvent = 1609;
 
     public static String valueOfId(int i) {
         Events e = new Events();
