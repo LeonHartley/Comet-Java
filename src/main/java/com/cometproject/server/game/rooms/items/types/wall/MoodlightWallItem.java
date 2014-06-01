@@ -61,7 +61,7 @@ public class MoodlightWallItem extends RoomItemWall {
     public String generateExtraData() {
         MoodlightPresetData preset = (this.getMoodlightData().getPresets().size() >= this.getMoodlightData().getActivePreset())
                 ? this.getMoodlightData().getPresets().get(this.getMoodlightData().getActivePreset())
-                : new MoodlightPresetData(false, "#F2F851", 1);
+                : new MoodlightPresetData(true, "#F2F851", 255);
 
         StringBuilder sb = new StringBuilder();
         if (this.getMoodlightData().isEnabled()) {

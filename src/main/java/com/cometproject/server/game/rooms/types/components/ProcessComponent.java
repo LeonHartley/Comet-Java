@@ -296,6 +296,15 @@ public class ProcessComponent implements CometTask {
 
             List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
 
+            // Step off
+            for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY())) {
+                item.onEntityStepOff(entity);
+
+                if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
+
+                }
+            }
+
             // Step-on
             for (RoomItemFloor item : itemsOnSq) {
                 item.onEntityStepOn(entity);
@@ -332,19 +341,8 @@ public class ProcessComponent implements CometTask {
                     if (item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0")) {
                         isCancelled = true;
                     }
-
-                    //height += item.getHeight();
-
-                    if (!item.getDefinition().canSit) //&& !item.getDefinition().getInteraction().equals("bed"))
+                    if (!item.getDefinition().canSit){
                         height += item.getDefinition().getHeight();
-                }
-
-                // Instant step-off
-                for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
-                    item.onEntityStepOff(entity);
-
-                    if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
-
                     }
                 }
 

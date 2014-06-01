@@ -75,7 +75,7 @@ public class RoomMapping {
             return true;
         }
 
-        if (this.model.getSquareState()[to.getX()][to.getY()] == null) {
+        if (!(to.getX() < this.model.getSquareState().length)) {
             return false;
         }
 

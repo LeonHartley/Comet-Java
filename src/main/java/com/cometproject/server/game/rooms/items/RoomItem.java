@@ -130,10 +130,10 @@ public abstract class RoomItem implements RoomItemAttributes, Attributable {
     }
 
     public Position3D squareInfront() {
-        Position3D pos = new Position3D(getX(), getY(), 0);
+        Position3D pos = new Position3D(0, 0, 0);
 
-        int posX = pos.getX();
-        int posY = pos.getY();
+        int posX = this.getX();
+        int posY = this.getY();
 
         if (getRotation() == 0) {
             posY--;
@@ -152,10 +152,10 @@ public abstract class RoomItem implements RoomItemAttributes, Attributable {
     }
 
     public Position3D squareBehind() {
-        Position3D pos = new Position3D(getX(), getY(), 0);
+        Position3D pos = new Position3D(0, 0, 0);
 
-        int posX = pos.getX();
-        int posY = pos.getY();
+        int posX = this.getX();
+        int posY = this.getY();
 
         if (getRotation() == 0) {
             posY++;
