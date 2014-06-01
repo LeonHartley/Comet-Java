@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.types.components;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.RoomBan;
 import com.cometproject.server.storage.queries.rooms.RightsDao;
+import javolution.util.FastTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,33 +11,27 @@ import java.util.List;
 public class RightsComponent {
     private Room room;
 
-    private List<Integer> rights;
-    private List<RoomBan> bannedUsers;
+    private FastTable<Integer> rights;
+    private FastTable<RoomBan> bannedUsers;
 
     public RightsComponent(Room room) {
         this.room = room;
 
-        this.rights = new ArrayList<>();
-        this.bannedUsers = new ArrayList<>();
+        try {
+            this.rights = RightsDao.getRightsByRoomId(room.getId());
+        } catch (Exception e) {
+            this.rights = new FastTable<Integer>().shared();
+            this.room.log.error("Error while loading room rights", e);
+        }
 
-        loadRights();
+        this.bannedUsers = new FastTable<RoomBan>().shared();
     }
 
     public void dispose() {
         this.rights.clear();
         this.bannedUsers.clear();
 
-        rights = null;
-        bannedUsers = null;
         this.room = null;
-    }
-
-    public void loadRights() {
-        try {
-            this.rights = RightsDao.getRightsByRoomId(room.getId());
-        } catch (Exception e) {
-            this.room.log.error("Error while loading room rights", e);
-        }
     }
 
     public boolean hasRights(int playerId) {
@@ -70,15 +65,13 @@ public class RightsComponent {
     }
 
     public void cycle() {
-        synchronized (this.bannedUsers) {
-            for (RoomBan ban : this.bannedUsers) {
-                if (ban.getCycle() >= 1) {
-                    this.bannedUsers.remove(ban);
-                    continue;
-                }
-
-                ban.increaseCycle();
+        for (RoomBan ban : this.bannedUsers) {
+            if (ban.getCycle() >= 1) {
+                this.bannedUsers.remove(ban);
+                continue;
             }
+
+            ban.increaseCycle();
         }
     }
 

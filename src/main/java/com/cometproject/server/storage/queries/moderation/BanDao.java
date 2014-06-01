@@ -60,7 +60,7 @@ public class BanDao {
             resultSet = preparedStatement.getGeneratedKeys();
 
             while(resultSet.next()) {
-                return resultSet.getInt("id");
+                return resultSet.getInt(1);
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

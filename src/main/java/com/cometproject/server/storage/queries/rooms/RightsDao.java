@@ -1,6 +1,7 @@
 package com.cometproject.server.storage.queries.rooms;
 
 import com.cometproject.server.storage.SqlHelper;
+import javolution.util.FastTable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RightsDao {
-    public static List<Integer> getRightsByRoomId(int roomId) {
+    public static FastTable<Integer> getRightsByRoomId(int roomId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        List<Integer> data = new ArrayList<>();
+        FastTable<Integer> data = new FastTable<Integer>().shared();
 
         try {
             sqlConnection = SqlHelper.getConnection();

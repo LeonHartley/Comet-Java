@@ -8,11 +8,13 @@ public class RoomChatLogEntry extends AbstractLogEntry {
     private int roomId;
     private int userId;
     private String message;
+    private String timestamp;
 
     public RoomChatLogEntry(int roomId, int userId, String message) {
         this.roomId = roomId;
         this.userId = userId;
         this.message = message;
+        this.timestamp = String.valueOf((int) (System.currentTimeMillis() / 1000L));
     }
 
     @Override
@@ -23,6 +25,11 @@ public class RoomChatLogEntry extends AbstractLogEntry {
     @Override
     public String getString() {
         return this.message;
+    }
+
+    @Override
+    public String getTimestamp() {
+        return this.timestamp;
     }
 
     @Override

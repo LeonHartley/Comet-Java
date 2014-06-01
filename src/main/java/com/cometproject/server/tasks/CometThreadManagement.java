@@ -11,21 +11,11 @@ import java.util.concurrent.*;
 public class CometThreadManagement {
     private final ScheduledExecutorService scheduledExecutorService;
 
-    private final int initialpoolSize;
-
     private final FastTable<WeakReference<Thread>> threadMonitoring = new FastTable<>();
     private Future<?> monitorThread;
 
     public CometThreadManagement() {
-        int poolSize = Integer.parseInt(Comet.getServer().getConfig().get("comet.threading.pool.size"));
-
-        if (poolSize < 1) {
-            initialpoolSize = (Runtime.getRuntime().availableProcessors() * 2);
-        } else {
-            initialpoolSize = poolSize;
-        }
-
-        this.scheduledExecutorService = Executors.newScheduledThreadPool(this.initialpoolSize, new ThreadFactory() {
+        this.scheduledExecutorService = Executors.newScheduledThreadPool(2, new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
                 UUID randomId = UUID.randomUUID();

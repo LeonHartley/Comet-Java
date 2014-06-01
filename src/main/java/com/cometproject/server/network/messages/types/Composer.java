@@ -1,32 +1,72 @@
 package com.cometproject.server.network.messages.types;
 
+import io.netty.buffer.*;
 import org.apache.log4j.Logger;
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBuffers;
 
 import java.nio.charset.Charset;
 
-public class Composer {
+public class Composer implements ByteBufHolder {
     private final static Logger log = Logger.getLogger(Composer.class);
 
     protected final int id;
-    protected ChannelBuffer body;
+    protected final ByteBuf body;
 
-    public Composer(int id) {
+    public Composer(short id) {
         this.id = id;
-        this.body = ChannelBuffers.dynamicBuffer(8192);
+        this.body = Unpooled.buffer();
 
         try {
-            this.body.writeInt(-1); // reserve this space for message length
+            this.body.writeInt(-1);
             this.body.writeShort(id);
         } catch (Exception e) {
             exceptionCaught(e);
         }
     }
 
-    public Composer(int id, ChannelBuffer buf) {
+    public Composer(int id, ByteBuf body) {
         this.id = id;
-        this.body = buf;
+        this.body = body;
+    }
+
+    @Override
+    public ByteBuf content() {
+        return this.body;
+    }
+
+    @Override
+    public ByteBufHolder copy() {
+        return new Composer(this.id, this.body.copy());
+    }
+
+    @Override
+    public ByteBufHolder duplicate() {
+        return new Composer(this.id, this.body.duplicate());
+    }
+
+    @Override
+    public int refCnt() {
+        return this.body.refCnt();
+    }
+
+    @Override
+    public ByteBufHolder retain() {
+        return new Composer(this.id, this.body.retain());
+    }
+
+    @Override
+    public ByteBufHolder retain(int increment) {
+        return new Composer(this.id, this.body.retain(increment));
+    }
+
+    @Override
+    public boolean release() {
+        log.debug("Releasing buffer, ref count will be " + (this.refCnt() - 1));
+        return this.body.release();
+    }
+
+    @Override
+    public boolean release(int decrement) {
+        return this.body.release(decrement);
     }
 
     public int getId() {
@@ -91,14 +131,6 @@ public class Composer {
         } catch (Exception e) {
             exceptionCaught(e);
         }
-    }
-
-    public ChannelBuffer get() {
-        if (!this.hasLength()) {
-            body.setInt(0, body.writerIndex() - 4);
-        }
-
-        return this.body;
     }
 
     protected static void exceptionCaught(Throwable t) {
