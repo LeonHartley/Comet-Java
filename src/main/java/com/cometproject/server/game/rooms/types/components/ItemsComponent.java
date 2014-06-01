@@ -6,10 +6,12 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.game.rooms.items.queue.RoomItemEventQueue;
+import com.cometproject.server.game.rooms.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.data.WiredDataInstance;
@@ -19,6 +21,7 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.items.WiredDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import javolution.util.FastMap;
 import javolution.util.FastTable;
 import org.apache.log4j.Logger;
 
@@ -34,13 +37,15 @@ public class ItemsComponent {
     private final FastTable<RoomItemFloor> floorItems = new FastTable<RoomItemFloor>().shared();
     private final FastTable<RoomItemWall> wallItems = new FastTable<RoomItemWall>().shared();
 
+    private MoodlightWallItem moodlightWallItem = null;
+
     public ItemsComponent(Room room) {
         this.room = room;
-
         this.log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
-
         RoomItemDao.getItems(this.room.getId(), this.floorItems, this.wallItems);
+    }
 
+    public void callOnLoad() {
         for(RoomItemFloor floorItem : floorItems) {
             floorItem.onLoad();
         }
@@ -63,6 +68,29 @@ public class ItemsComponent {
         this.wallItems.clear();
 
         this.room = null;
+    }
+
+    public boolean setMoodlight(MoodlightWallItem moodlight) {
+        if (this.moodlightWallItem != null) { return false; }
+        this.moodlightWallItem = moodlight;
+
+        return true;
+    }
+
+    public boolean removeMoodlight() {
+        if (this.moodlightWallItem == null) { return false; }
+        this.moodlightWallItem = null;
+
+        return true;
+    }
+
+    public boolean isMoodlightMatches(RoomItem item) {
+        if (this.moodlightWallItem == null) { return false; }
+        return (this.moodlightWallItem.getId() == item.getId());
+    }
+
+    public MoodlightWallItem getMoodlight() {
+        return this.moodlightWallItem;
     }
 
     public RoomItemFloor addFloorItem(int id, int baseId, int roomId, int ownerId, int x, int y, int rot, double height, String data) {

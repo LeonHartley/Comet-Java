@@ -67,6 +67,9 @@ public class Room implements Attributable {
         this.bots = new BotComponent(this);
         this.pets = new PetComponent(this);
 
+        // LOAD ALL LE ITEMZ!!!!!!
+        this.items.callOnLoad();
+
         // Generate the mapping last
         this.mapping.init();
 

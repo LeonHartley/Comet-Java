@@ -141,6 +141,8 @@ public class Composers {
     public static short PlayVideoMessageComposer = 3598;
     public static short RoomRatingMessageComposer = 3533;
 
+    public static short MoodlightMessageComposer = 3496;
+
 
     public static String valueOfId(int i) {
         Composers c = new Composers();
