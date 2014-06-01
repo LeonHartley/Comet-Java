@@ -75,6 +75,10 @@ public class RoomMapping {
             return true;
         }
 
+        if (this.model.getSquareState()[to.getX()][to.getY()] == null) {
+            return false;
+        }
+
         if (!isValidPosition(to) || (this.model.getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID)) {
             return false;
         }
