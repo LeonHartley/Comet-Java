@@ -7,6 +7,7 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.socket.ChannelInputShutdownEvent;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
@@ -58,6 +59,10 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             } else if (e.state() == IdleState.WRITER_IDLE) {
                 ctx.channel().writeAndFlush(PingMessageComposer.compose());
             }
+        }
+
+        if (evt instanceof ChannelInputShutdownEvent) {
+            ctx.channel().close();
         }
     }
 

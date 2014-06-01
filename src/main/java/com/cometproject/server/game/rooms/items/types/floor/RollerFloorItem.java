@@ -32,6 +32,7 @@ public class RollerFloorItem extends RoomItemFloor {
 
     @Override
     public void onTickComplete() {
+        System.out.println(this.interactingEntities.size());
         if (this.interactingEntities.size() == 0) { return; }
 
         Position3D sqInfront = this.squareInfront();

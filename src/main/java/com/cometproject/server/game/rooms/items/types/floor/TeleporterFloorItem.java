@@ -27,8 +27,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
         Position3D posInFront = this.squareInfront();
 
-        if ((entity.getPosition().getX() != posInFront.getX() && entity.getPosition().getY() != posInFront.getY())
-                && !(entity.getPosition().getX() == this.getX() && entity.getPosition().getY() == this.getY())) {
+        if (entity.getPosition().getX() != posInFront.getX() || entity.getPosition().getY() != posInFront.getY()) {
             entity.moveTo(posInFront.getX(), posInFront.getY());
             return;
         }
@@ -101,7 +100,6 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
                 TeleporterFloorItem teleItem = (TeleporterFloorItem)pairItem;
                 teleItem.handleIncomingEntity(this.outgoingEntity, this);
-
                 break;
             }
 
@@ -128,6 +126,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 this.toggleDoor(false);
                 this.outgoingEntity.setOverriden(false);
                 this.outgoingEntity = null;
+                this.inUse = false;
                 break;
             }
         }
