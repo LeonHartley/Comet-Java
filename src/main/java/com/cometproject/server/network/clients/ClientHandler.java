@@ -56,14 +56,14 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             IdleStateEvent e = (IdleStateEvent) evt;
             if (e.state() == IdleState.READER_IDLE) {
                 log.error("Client disconnected for being idle");
-                ctx.channel().disconnect();
+                ctx.disconnect();
             } else if (e.state() == IdleState.WRITER_IDLE) {
-                ctx.channel().writeAndFlush(PingMessageComposer.compose());
+                ctx.writeAndFlush(PingMessageComposer.compose());
             }
         }
 
         if (evt instanceof ChannelInputShutdownEvent) {
-            ctx.channel().close();
+            ctx.close();
         }
     }
 
