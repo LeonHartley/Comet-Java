@@ -1,5 +1,7 @@
 package com.cometproject.server.game.catalog.types;
 
+import com.cometproject.server.game.CometManager;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -52,6 +54,10 @@ public class CatalogItem {
         } else {
             this.items.add(Integer.valueOf(this.itemId));
         }
+
+        items.stream().filter(id -> CometManager.getItems().getDefintionNullable(id) == null).forEach(id -> {
+            // do something like delete or w/e idk, no need to output cos the getDefinition will output if its null ;P
+        });
     }
 
     public int getId() {
