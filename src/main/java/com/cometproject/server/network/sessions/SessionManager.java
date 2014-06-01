@@ -4,6 +4,7 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.network.NetworkEngine;
 import com.cometproject.server.network.messages.types.Composer;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.ReferenceCountUtil;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
@@ -16,13 +17,13 @@ public final class SessionManager {
     private final FastMap<Integer, Session> sessions = new FastMap<Integer, Session>().shared();
     private final AtomicInteger idGenerator = new AtomicInteger();
 
-    public boolean add(Channel channel) {
-        Session session = new Session(channel);
+    public boolean add(ChannelHandlerContext ctx) {
+        Session session = new Session(ctx);
 
         int uniqueId = idGenerator.incrementAndGet();
 
-        channel.attr(NetworkEngine.SESSION_ATTR).set(session);
-        channel.attr(NetworkEngine.CHANNEL_ID).set(uniqueId);
+        ctx.attr(NetworkEngine.SESSION_ATTR).set(session);
+        ctx.attr(NetworkEngine.CHANNEL_ID).set(uniqueId);
 
         return (this.sessions.putIfAbsent(uniqueId, session) == null);
     }
