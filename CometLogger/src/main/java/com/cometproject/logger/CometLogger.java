@@ -1,12 +1,15 @@
 package com.cometproject.logger;
 
 import com.cometproject.logger.routes.Routes;
+import com.cometproject.logger.tasks.CometThreadManagement;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import spark.ResponseTransformer;
 
 public class CometLogger {
     public static JSONTransformer JSON_TRANSFORMER = new JSONTransformer();
+
+    private static CometThreadManagement threadManagement;
 
     private static final class JSONTransformer implements ResponseTransformer {
         private final Gson gson = new GsonBuilder().create();
@@ -23,6 +26,12 @@ public class CometLogger {
     }
 
     public static void main(String[] args) {
+        threadManagement = new CometThreadManagement();
+
         Routes.init();
+    }
+
+    public static CometThreadManagement getThreadManagement() {
+        return threadManagement;
     }
 }
