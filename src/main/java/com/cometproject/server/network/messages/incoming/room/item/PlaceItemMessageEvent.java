@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class  PlaceItemMessageEvent implements IEvent {
+    @Override
     public void handle(Session client, Event msg) {
         String[] parts = msg.readString().split(" ");
         int id = Integer.parseInt(parts[0].replace("-", ""));
@@ -38,7 +39,9 @@ public class  PlaceItemMessageEvent implements IEvent {
 
                 InventoryItem item = client.getPlayer().getInventory().getWallItem(id);
 
-                RoomItemDao.placeWallItem(client.getPlayer().getEntity().getRoom().getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getId());
+                int roomId = client.getPlayer().getEntity().getRoom().getId();
+
+                RoomItemDao.placeWallItem(roomId, position, item.getExtraData().trim().isEmpty() ? "0" : item.getExtraData(), item.getId());
                 client.getPlayer().getInventory().removeWallItem(id);
 
                 Room room = client.getPlayer().getEntity().getRoom();

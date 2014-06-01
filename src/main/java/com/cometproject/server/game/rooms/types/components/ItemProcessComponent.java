@@ -2,6 +2,8 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.game.rooms.items.queue.RoomItemEventQueue;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.misc.WiredSquare;
@@ -73,7 +75,7 @@ public class ItemProcessComponent implements CometTask {
 
         long timeStart = System.currentTimeMillis();
 
-        this.getRoom().getItems().getFloorItems().parallelStream().forEach((item) -> {
+        for (RoomItemFloor item : this.getRoom().getItems().getFloorItems()) {
             try {
                 if (CometManager.getWired().isWiredTrigger(item)) {
                     if (!this.getRoom().getWired().isWiredSquare(item.getX(), item.getY())) {
@@ -87,9 +89,9 @@ public class ItemProcessComponent implements CometTask {
             } catch (NullPointerException | IndexOutOfBoundsException e) {
                 this.handleSupressedExceptions(e);
             }
-        });
+        }
 
-        this.getRoom().getItems().getWallItems().parallelStream().forEach((item) -> {
+        for (RoomItemWall item : this.getRoom().getItems().getWallItems()) {
             try {
                 if (item.requiresTick()) {
                     item.tick();
@@ -97,7 +99,7 @@ public class ItemProcessComponent implements CometTask {
             } catch (NullPointerException | IndexOutOfBoundsException e) {
                 this.handleSupressedExceptions(e);
             }
-        });
+        }
 
         for (WiredSquare wiredSquare : this.getRoom().getWired().getSquares()) {
             if (this.getRoom().getItems().getItemsOnSquare(wiredSquare.getX(), wiredSquare.getY()).size() < 1) {

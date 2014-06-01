@@ -10,7 +10,7 @@ public class FeaturedRoomsMessageComposer {
     public static Composer compose(Collection<FeaturedRoom> rooms) {
         Composer msg = new Composer(Composers.FeaturedRoomsMessageComposer);
 
-        try {
+        //try {
             msg.writeInt(rooms.size());
 
             for (FeaturedRoom room : rooms) {
@@ -41,9 +41,9 @@ public class FeaturedRoomsMessageComposer {
 
             msg.writeInt(0);
             msg.writeInt(0);
-        } catch (Exception e) {
+        /*} catch (Exception e) {
             msg.clear();
-        }
+        }*/
 
         return msg;
     }

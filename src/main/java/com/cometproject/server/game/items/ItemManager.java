@@ -62,7 +62,7 @@ public class ItemManager {
         }
     }
 
-    public ItemDefinition getDefintion(int itemId) {
+    public ItemDefinition getDefintionNullable(int itemId) {
         if (this.getItemDefinitions().containsKey(itemId)) {
             return this.getItemDefinitions().get(itemId);
         }

@@ -8,6 +8,9 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.Remove
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RemoveAllRightsMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         Room room = client.getPlayer().getEntity().getRoom();
@@ -20,18 +23,22 @@ public class RemoveAllRightsMessageEvent implements IEvent {
             return;
         }
 
-        synchronized (room.getRights().getAll()) {
-            for (Integer id : room.getRights().getAll()) {
-                PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(id);
+        List<Integer> toRemove = new ArrayList<>();
 
-                if (playerEntity != null) {
-                    playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(0));
-                }
+        for (Integer id : room.getRights().getAll()) {
+            PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(id);
 
-                // Remove rights from the player id
-                client.send(RemovePowersMessageComposer.compose(id, room.getId()));
-                room.getRights().removeRights(id);
+            if (playerEntity != null) {
+                playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(0));
             }
+
+            // Remove rights from the player id
+            client.send(RemovePowersMessageComposer.compose(id, room.getId()));
+            toRemove.add(id);
+        }
+
+        for (Integer id : toRemove) {
+            room.getRights().removeRights(id);
         }
     }
 }

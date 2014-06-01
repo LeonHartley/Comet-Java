@@ -13,9 +13,11 @@ import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import io.netty.util.ReferenceCountUtil;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
+import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -150,19 +152,24 @@ public class EntityComponent {
     }
 
     public void broadcastMessage(Composer msg, boolean usersWithRightsOnly) {
-        for (GenericEntity entity : this.entities.values()) {
-            if (entity == null) {
-                continue;
-            }
-
-            if (entity.getEntityType() == RoomEntityType.PLAYER) {
-                PlayerEntity playerEntity = (PlayerEntity) entity;
-
-                if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()))
+        try {
+            for (GenericEntity entity : this.entities.values()) {
+                if (entity == null) {
                     continue;
+                }
 
-                playerEntity.getPlayer().getSession().getChannel().write(msg);
+                if (entity.getEntityType() == RoomEntityType.PLAYER) {
+                    PlayerEntity playerEntity = (PlayerEntity) entity;
+
+                    if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()))
+                        continue;
+
+                    playerEntity.getPlayer().getSession().getChannel().writeAndFlush(msg.duplicate().retain());
+
+                }
             }
+        } finally {
+            ReferenceCountUtil.release(msg);
         }
     }
 

@@ -7,11 +7,8 @@
     <groupId>Comet</groupId>
     <artifactId>Comet</artifactId>
 
-    <packaging>pom</packaging>
-    <version>0.8.5.ALPHA1</version>
-    <modules>
-        <module>CometLogger</module>
-    </modules>
+    <packaging>jar</packaging>
+    <version>0.8.5.ALPHA2-PATCH1</version>
 
     <name>Comet</name>
     <url>http://www.comet.im</url>
@@ -26,43 +23,6 @@
 
     <build>
         <plugins>
-            <!--<plugin>
-                <groupId>com.github.wvengen</groupId>
-                <artifactId>proguard-maven-plugin</artifactId>
-                <version>2.0.7</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>net.sf.proguard</groupId>
-                        <artifactId>proguard-base</artifactId>
-                        <version>4.9</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
-
-                <executions>
-                    <execution>
-                        <id>process-classes-with-proguard</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>proguard</goal>
-                        </goals>
-                        <configuration>
-                            <maxMemory>256m</maxMemory>
-
-                            <injar>classes</injar>
-                            <libs>
-                                <lib>${rt.jar.path}</lib>
-                                <lib>${jsse.jar.path}</lib>
-                            </libs>
-                            <obfuscate>true</obfuscate>
-                            <attach>true</attach>
-                            <addMavenDescriptor>false</addMavenDescriptor>
-                            <proguardInclude>${project.basedir}/proguard.conf</proguardInclude>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -147,27 +107,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <rt.jar.path>${java.home}/lib/rt.jar</rt.jar.path>
-        <jce.jar.path>${java.home}/lib/jce.jar</jce.jar.path>
-        <jsse.jar.path>${java.home}/lib/jsse.jar</jsse.jar.path>
     </properties>
-
-    <profiles>
-        <profile>
-            <id>mac</id>
-            <activation>
-                <os>
-                    <family>mac</family>
-                </os>
-            </activation>
-            <properties>
-                <!-- path for OS X -->
-                <rt.jar.path>/Library/Java/JavaVirtualMachines/jdk1.8.0.jdk/Contents/Home/jre/lib/rt.jar</rt.jar.path>
-                <jce.jar.path>/Library/Java/JavaVirtualMachines/jdk1.8.0.jdk/Contents/Home/jre/lib/jce.jar</jce.jar.path>
-                <jsse.jar.path>/Library/Java/JavaVirtualMachines/jdk1.8.0.jdk/Contents/Home/jre/lib/jsse.jar</jsse.jar.path>
-            </properties>
-        </profile>
-    </profiles>
 
     <repositories>
         <repository>
@@ -237,7 +177,6 @@
             <version>1.7.6</version>
         </dependency>
 
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -246,8 +185,8 @@
 
         <dependency>
             <groupId>io.netty</groupId>
-            <artifactId>netty</artifactId>
-            <version>3.9.1.Final</version>
+            <artifactId>netty-all</artifactId>
+            <version>4.0.19.Final</version>
         </dependency>
 
         <dependency>
