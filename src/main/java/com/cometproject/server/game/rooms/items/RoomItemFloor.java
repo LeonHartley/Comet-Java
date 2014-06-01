@@ -168,7 +168,7 @@ public abstract class RoomItemFloor extends RoomItem {
 
     public ItemDefinition getDefinition() {
         if (this.tmpItemDefiniton == null) {
-            this.tmpItemDefiniton = CometManager.getItems().getDefintion(this.getItemId());
+            this.tmpItemDefiniton = CometManager.getItems().getDefintionNullable(this.getItemId());
         }
 
         return this.tmpItemDefiniton;
