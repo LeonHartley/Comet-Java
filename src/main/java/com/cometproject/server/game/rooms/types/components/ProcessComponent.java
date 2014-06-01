@@ -329,13 +329,28 @@ public class ProcessComponent implements CometTask {
                 boolean isCancelled = false;
 
                 for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
-                    if (item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0"))
+                    if (item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0")) {
                         isCancelled = true;
+                    }
 
                     //height += item.getHeight();
 
                     if (!item.getDefinition().canSit) //&& !item.getDefinition().getInteraction().equals("bed"))
                         height += item.getDefinition().getHeight();
+                }
+
+                // Instant step-off
+                for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
+                    item.onEntityStepOff(entity);
+
+                    if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
+
+                    }
+                }
+
+                // Pre-step on
+                for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
+                    item.onEntityPreStepOn(entity);
                 }
 
                 if (!isCancelled) {
@@ -349,31 +364,14 @@ public class ProcessComponent implements CometTask {
                         entity.removeStatus("lay");
                     }
 
-                    // Instant step-off
-                    for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
-                        item.onEntityStepOff(entity);
-
-                        if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
-
-                        }
-                    }
-
-                    // Pre-step on
-                    for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
-                        item.onEntityPreStepOn(entity);
-                    }
-
                     entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, height));
                     entity.markNeedsUpdate();
                 } else {
-                    if (entity.getWalkingPath() != null)
-                        entity.getWalkingPath().clear();
-
+                    if (entity.getWalkingPath() != null){ entity.getWalkingPath().clear(); }
                     entity.getProcessingPath().clear();
                 }
             } else {
-                if (entity.getWalkingPath() != null)
-                    entity.getWalkingPath().clear();
+                if (entity.getWalkingPath() != null) { entity.getWalkingPath().clear(); }
 
                 entity.getProcessingPath().clear();
             }
