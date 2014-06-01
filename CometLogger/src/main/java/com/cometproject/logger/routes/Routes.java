@@ -38,8 +38,7 @@ public class Routes {
             String userId = request.queryParams("user_id");
             String roomId = request.queryParams("room_id");
             String message = request.queryParams("message");
-
-            System.out.println("Chatlog adding USER ID: " + userId + " , ROOM ID: " + roomId + " , MESSAGE: " + message);
+            String timestamp = request.queryParams("timestamp");
 
             return ResponseBuilder.builder()
                     .add("status", true)
