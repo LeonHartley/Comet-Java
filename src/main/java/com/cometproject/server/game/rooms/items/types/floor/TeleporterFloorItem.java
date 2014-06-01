@@ -92,11 +92,11 @@ public class TeleporterFloorItem extends RoomItemFloor {
                             pEntity.getPlayer().setTeleportId(pairId);
                             pEntity.getPlayer().getSession().send(FollowFriendMessageComposer.compose(roomId));
                         }
+                    } else {
+                        this.state = 5;
+                        this.setTicks(RoomItemFactory.getProcessTime(0.5));
+                        return;
                     }
-
-                    this.state = 5;
-                    this.setTicks(RoomItemFactory.getProcessTime(2));
-                    return;
                 }
 
                 TeleporterFloorItem teleItem = (TeleporterFloorItem)pairItem;
@@ -115,8 +115,9 @@ public class TeleporterFloorItem extends RoomItemFloor {
             case 6: {
                 this.toggleDoor(true);
 
-                if (this.incomingEntity == null) { return; }
-                this.incomingEntity.moveTo(this.squareInfront().getX(), this.squareInfront().getY());
+                if (this.outgoingEntity != null) {
+                    this.outgoingEntity.moveTo(this.squareInfront().getX(), this.squareInfront().getY());
+                }
 
                 this.state = 7;
                 this.setTicks(RoomItemFactory.getProcessTime(1));
@@ -125,8 +126,8 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
             case 7: {
                 this.toggleDoor(false);
-                this.incomingEntity.setOverriden(false);
-                this.incomingEntity = null;
+                this.outgoingEntity.setOverriden(false);
+                this.outgoingEntity = null;
                 break;
             }
         }

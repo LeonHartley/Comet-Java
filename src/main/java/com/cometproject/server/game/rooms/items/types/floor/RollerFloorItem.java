@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RollerFloorItem extends RoomItemFloor {
-    private boolean isInUse = false;
     private List<GenericEntity> interactingEntities = new ArrayList<>();
 
     public RollerFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
@@ -19,30 +18,22 @@ public class RollerFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
-        if (this.isInUse) {
-            this.interactingEntities.add(entity);
-            return;
-        }
-
-        this.isInUse = true;
         this.interactingEntities.add(entity);
 
-        this.setTicks(RoomItemFactory.getProcessTime(3));
+        if (this.ticksTimer < 1) {
+            this.setTicks(RoomItemFactory.getProcessTime(3));
+        }
     }
 
     @Override
     public void onEntityStepOff(GenericEntity entity) {
         this.interactingEntities.remove(entity);
-
-        if (this.interactingEntities.size() == 0) {
-            this.cancelTicks();
-            this.isInUse = false;
-        }
     }
 
     @Override
     public void onTickComplete() {
-        if (!this.isInUse) { return; }
+        if (this.interactingEntities.size() == 0) { return; }
+
         Position3D sqInfront = this.squareInfront();
 
         if (!this.getRoom().getMapping().isValidPosition(sqInfront)) {
@@ -69,7 +60,5 @@ public class RollerFloorItem extends RoomItemFloor {
             entity.updateAndSetPosition(new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight));
             this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight), this.getId(), entity.getVirtualId(), 0));
         }
-
-        this.isInUse = false;
     }
 }
