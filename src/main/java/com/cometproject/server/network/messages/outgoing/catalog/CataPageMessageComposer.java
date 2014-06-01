@@ -102,7 +102,7 @@ public class CataPageMessageComposer {
                 }
 
                 for (int i : item.getItems()) {
-                    ItemDefinition def = CometManager.getItems().getDefintion(i);
+                    ItemDefinition def = CometManager.getItems().getDefintionNullable(i);
                     msg.writeString(def.getType());
                     msg.writeInt(def.getSpriteId());
 

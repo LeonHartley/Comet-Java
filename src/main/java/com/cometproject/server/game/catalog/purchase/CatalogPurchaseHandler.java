@@ -70,6 +70,7 @@ public class CatalogPurchaseHandler {
                 return;
             }
 
+            // to-do: decrease credit cost last? (make sure item was actually purchased??)
             client.getPlayer().getData().decreaseCredits(totalCostCredits);
             client.getPlayer().getData().decreasePoints(totalCostPoints);
 
@@ -77,7 +78,9 @@ public class CatalogPurchaseHandler {
             client.getPlayer().getData().save();
 
             for (int newItemId : item.getItems()) {
-                ItemDefinition def = CometManager.getItems().getDefintion(newItemId);
+                ItemDefinition def = CometManager.getItems().getDefintionNullable(newItemId);
+                if (def == null) { continue; }
+
                 client.send(BoughtItemMessageComposer.compose(item, def));
 
                 if (def.getItemName().equals("DEAL_HC_1")) {

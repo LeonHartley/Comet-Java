@@ -77,7 +77,7 @@ public abstract class RoomItemWall extends RoomItem {
 
     @Override
     public ItemDefinition getDefinition() {
-        return CometManager.getItems().getDefintion(this.getItemId());
+        return CometManager.getItems().getDefintionNullable(this.getItemId());
     }
 
     @Override
