@@ -86,14 +86,12 @@ public class EntityComponent {
         int doorRotation = this.getRoom().getModel().getDoorRotation();
 
         PlayerEntity entity = new PlayerEntity(player, this.getFreeId(), startPosition, doorRotation, doorRotation, this.getRoom());
-        //this.addEntity(entity); // moved this to the 'PlayerEntity' class
 
         if (player.isTeleporting()) {
             TeleporterFloorItem item = (TeleporterFloorItem) this.room.getItems().getFloorItem(player.getTeleportId());
 
             if (item != null) {
                 item.handleIncomingEntity(entity, null);
-                //item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, entity, 4, 8));
             }
 
             player.setTeleportId(0);
