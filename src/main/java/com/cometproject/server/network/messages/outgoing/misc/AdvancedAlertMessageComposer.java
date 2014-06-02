@@ -9,7 +9,7 @@ public class AdvancedAlertMessageComposer {
         Composer msg = new Composer(Composers.AdvancedAlertMessageComposer);
 
         msg.writeString(illustration);
-        msg.writeInt(hotelLink.isEmpty() ? 4 : 2);
+        msg.writeInt(hotelLink.isEmpty() ? 2 : 4);
         msg.writeString("title");
         msg.writeString(title);
         msg.writeString("message");
