@@ -5,23 +5,24 @@ import com.cometproject.server.network.NetworkEngine;
 import com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.ChannelInputShutdownEvent;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
-import io.netty.util.ReferenceCountUtil;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
+@ChannelHandler.Sharable
 public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Event msg) throws Exception {
         try {
-            Session session = ctx.channel().attr(NetworkEngine.SESSION_ATTR).get();
+            Session session = ctx.attr(NetworkEngine.SESSION_ATTR).get();
 
             if (session != null) {
                 Comet.getServer().getNetwork().getMessages().handle(msg, session);
@@ -33,7 +34,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        if (!Comet.getServer().getNetwork().getSessions().add(ctx.channel())) {
+        if (!Comet.getServer().getNetwork().getSessions().add(ctx)) {
             ctx.channel().disconnect();
             return;
         }
@@ -42,7 +43,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         try {
-            Session session = ctx.channel().attr(NetworkEngine.SESSION_ATTR).get();
+            Session session = ctx.attr(NetworkEngine.SESSION_ATTR).get();
             session.onDisconnect();
         } catch (Exception e) { }
 
@@ -55,14 +56,14 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             IdleStateEvent e = (IdleStateEvent) evt;
             if (e.state() == IdleState.READER_IDLE) {
                 log.error("Client disconnected for being idle");
-                ctx.channel().disconnect();
+                ctx.disconnect();
             } else if (e.state() == IdleState.WRITER_IDLE) {
-                ctx.channel().writeAndFlush(PingMessageComposer.compose());
+                ctx.writeAndFlush(PingMessageComposer.compose());
             }
         }
 
         if (evt instanceof ChannelInputShutdownEvent) {
-            ctx.channel().close();
+            ctx.close();
         }
     }
 
