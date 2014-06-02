@@ -58,16 +58,6 @@ public class EntityComponent {
         this.entityGrid = entityGrid;
     }
 
-    public void updateEntityGrid(GenericEntity entity, int prevX, int prevY, int newX, int newY) {
-        this.entityGrid[prevX][prevY].remove(entity);
-
-        if (this.entityGrid[newX][newY] == null) {
-            this.entityGrid[newX][newY] = new ArrayList<GenericEntity>();
-        }
-
-        this.entityGrid[newX][newY].add(entity);
-    }
-
     public boolean isSquareAvailable(int x, int y) {
         return this.entityGrid[x][y] == null || this.entityGrid[x][y].isEmpty();
     }
@@ -86,14 +76,13 @@ public class EntityComponent {
         int doorRotation = this.getRoom().getModel().getDoorRotation();
 
         PlayerEntity entity = new PlayerEntity(player, this.getFreeId(), startPosition, doorRotation, doorRotation, this.getRoom());
-        //this.addEntity(entity); // moved this to the 'PlayerEntity' class
 
         if (player.isTeleporting()) {
-            TeleporterFloorItem item = (TeleporterFloorItem) this.room.getItems().getFloorItem(player.getTeleportId());
+            RoomItemFloor flItem = this.room.getItems().getFloorItem(player.getTeleportId());
 
-            if (item != null) {
+            if (flItem != null && flItem instanceof TeleporterFloorItem) {
+                TeleporterFloorItem item = (TeleporterFloorItem) flItem;
                 item.handleIncomingEntity(entity, null);
-                //item.queueInteraction(new InteractionQueueItem(true, item, InteractionAction.ON_TICK, entity, 4, 8));
             }
 
             player.setTeleportId(0);

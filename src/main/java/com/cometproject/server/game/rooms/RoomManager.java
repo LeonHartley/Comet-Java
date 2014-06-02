@@ -24,8 +24,6 @@ public class RoomManager {
     private final FastMap<Integer, Room> rooms = new FastMap<Integer, Room>().shared();
     private final Set<Integer> activeRoomIds = new FastSet<Integer>().shared();
 
-    private final RoomLRUManager roomLRU = new RoomLRUManager();
-
     private ArrayList<StaticRoomModel> models;
     private WordFilter filterManager;
 

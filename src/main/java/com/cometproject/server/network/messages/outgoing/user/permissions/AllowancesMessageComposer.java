@@ -11,6 +11,12 @@ public class AllowancesMessageComposer {
     public static Composer compose(int rank) {
         Composer msg = new Composer(Composers.AllowancesMessageComposer);
 
+        if(rank == -1) {
+            msg.writeInt(0);
+
+            return msg;
+        }
+
         msg.writeInt(CometManager.getPermissions().getPerks().size());
 
         for (Map.Entry<Integer, Perk> perk : CometManager.getPermissions().getPerks().entrySet()) {

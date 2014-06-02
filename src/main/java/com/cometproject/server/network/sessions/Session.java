@@ -5,16 +5,17 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.NetworkEngine;
 import com.cometproject.server.network.messages.types.Composer;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
 
 public class Session {
-    private Channel channel;
+    private ChannelHandlerContext ctx;
     private Player player;
 
     private Logger logger = Logger.getLogger("Session");
 
-    public Session(Channel channel) {
-        this.channel = channel;
+    public Session(ChannelHandlerContext ctx) {
+        this.ctx = ctx;
     }
 
     public void setPlayer(Player player) {
@@ -24,7 +25,7 @@ public class Session {
         this.logger = Logger.getLogger(username);
         this.player = player;
 
-        int channelId = this.channel.attr(NetworkEngine.CHANNEL_ID).get();
+        int channelId = this.ctx.attr(NetworkEngine.CHANNEL_ID).get();
         CometManager.getPlayers().put(player.getId(), channelId, username);
     }
 
@@ -41,7 +42,7 @@ public class Session {
     public void send(Composer msg) {
         if(msg == null) { return; }
 
-        this.channel.writeAndFlush(msg);
+        this.ctx.writeAndFlush(msg);
     }
 
     public Logger getLogger() {
@@ -53,6 +54,6 @@ public class Session {
     }
 
     public Channel getChannel() {
-        return this.channel;
+        return this.ctx.channel();
     }
 }

@@ -2,6 +2,7 @@ package com.cometproject.server.network.codec;
 
 import com.cometproject.server.network.messages.types.Event;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
