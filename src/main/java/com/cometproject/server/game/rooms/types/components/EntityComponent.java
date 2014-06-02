@@ -17,7 +17,6 @@ import io.netty.util.ReferenceCountUtil;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -251,6 +250,10 @@ public class EntityComponent {
 
     public List<PlayerEntity> getPlayerEntities() {
         List<PlayerEntity> entities = new ArrayList<>();
+
+        if(this.entities == null || this.entities.size() < 1) {
+            return entities;
+        }
 
         for (GenericEntity entity : this.entities.values()) {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
