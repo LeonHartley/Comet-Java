@@ -73,7 +73,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         if (!isOwner && !this.player.getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered() && !this.getPlayer().isTeleporting()) {
             if (this.getRoom().getData().getAccess().equals("password")) {
-                boolean matched = false;
+                boolean matched;
 
                 if (RoomData.ENCRYPT_PASSWORDS) {
                     matched = BCrypt.checkpw(password, this.getRoom().getData().getPassword());

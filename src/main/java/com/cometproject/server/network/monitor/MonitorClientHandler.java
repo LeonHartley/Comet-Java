@@ -1,7 +1,17 @@
 package com.cometproject.server.network.monitor;
 
-public class MonitorClientHandler {
-    /*private Logger log = Logger.getLogger(MonitorClientHandler.class.getName());
+import com.cometproject.server.boot.Comet;
+import com.google.gson.Gson;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import org.apache.log4j.Logger;
+
+import java.nio.charset.Charset;
+
+public class MonitorClientHandler extends SimpleChannelInboundHandler {
+    private Logger log = Logger.getLogger(MonitorClientHandler.class.getName());
     private ByteBuf handshakeMessage;
     private MonitorMessageHandler messageHandler;
     private Gson gson = new Gson();
@@ -24,12 +34,12 @@ public class MonitorClientHandler {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
         ByteBuf buffer = (ByteBuf) msg;
         String messageJson = buffer.toString(Charset.defaultCharset());
         MonitorPacket message = gson.fromJson(messageJson, MonitorPacket.class);
 
-        this.messageHandler.handle(message, ctx);
+        this.messageHandler.handle(message, channelHandlerContext);
     }
 
     @Override
@@ -41,5 +51,5 @@ public class MonitorClientHandler {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         log.error("Exception caught from MonitorClient", cause);
         ctx.close();
-    }*/
+    }
 }
