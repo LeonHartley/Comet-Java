@@ -2,7 +2,6 @@ package com.cometproject.server.game.rooms.entities.types;
 
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -150,7 +149,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
         // Remove player's pets from room if they aren't owner
-        if(this.getPlayer().getId() != this.getRoom().getData().getOwnerId()) {
+        if(this.getPlayer().getId() != this.getRoom().getData().getOwnerId() && this.getRoom().isActive) {
             for(PetEntity pet : this.getRoom().getEntities().getPetEntities()) {
                 if(pet.getData().getOwnerId() == this.player.getId()) {
                     pet.leaveRoom(false);
