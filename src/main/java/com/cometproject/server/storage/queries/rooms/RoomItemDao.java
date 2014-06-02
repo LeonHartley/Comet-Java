@@ -183,7 +183,7 @@ public class RoomItemDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE items SET room_id = ?, wall_pos = ?, extra_data = ? WHERE id = ?;", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE items SET room_id = ?, wall_pos = ?, extra_data = ? WHERE id = ?", sqlConnection);
             preparedStatement.setInt(1, roomId);
 
             preparedStatement.setString(2, wallPos);
