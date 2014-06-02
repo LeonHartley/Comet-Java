@@ -6,11 +6,12 @@ import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class RollerFloorItem extends RoomItemFloor {
-    private List<GenericEntity> interactingEntities = new ArrayList<>();
+    private Map<Integer, GenericEntity> interactingEntities = new HashMap<>();
 
     public RollerFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
@@ -18,7 +19,8 @@ public class RollerFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
-        this.interactingEntities.add(entity);
+        if (this.interactingEntities.containsKey(entity.getVirtualId())) { return; }
+        this.interactingEntities.put(entity.getVirtualId(), entity);
 
         if (this.ticksTimer < 1) {
             this.setTicks(RoomItemFactory.getProcessTime(3));
@@ -27,12 +29,15 @@ public class RollerFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOff(GenericEntity entity) {
-        this.interactingEntities.remove(entity);
+        this.interactingEntities.remove(entity.getVirtualId());
+
+        if (this.interactingEntities.size() == 0) {
+            this.cancelTicks();
+        }
     }
 
     @Override
     public void onTickComplete() {
-        System.out.println(this.interactingEntities.size());
         if (this.interactingEntities.size() == 0) { return; }
 
         Position3D sqInfront = this.squareInfront();
@@ -41,12 +46,16 @@ public class RollerFloorItem extends RoomItemFloor {
             return;
         }
 
-        for (GenericEntity entity : this.interactingEntities) {
+        List<Integer> processedEntities = new ArrayList<>();
+
+        for (GenericEntity entity : this.interactingEntities.values()) {
+            processedEntities.add(entity.getVirtualId());
+
             if (!this.getRoom().getMapping().isValidStep(entity.getPosition(), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
                 break;
             }
 
-            if (entity.getPosition().getX() != this.getX() && entity.getPosition().getY() != this.getY()) {
+            if (entity.isWalking()) {
                 continue;
             }
 
@@ -60,6 +69,10 @@ public class RollerFloorItem extends RoomItemFloor {
 
             entity.updateAndSetPosition(new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight));
             this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight), this.getId(), entity.getVirtualId(), 0));
+        }
+
+        for (Integer virtualId : processedEntities) {
+            this.interactingEntities.remove(virtualId);
         }
     }
 }
