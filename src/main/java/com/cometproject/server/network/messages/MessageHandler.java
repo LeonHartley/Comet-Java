@@ -18,6 +18,7 @@ import com.cometproject.server.network.messages.incoming.handshake.InitCryptoMes
 import com.cometproject.server.network.messages.incoming.handshake.SSOTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
+import com.cometproject.server.network.messages.incoming.landing.HotelViewItemMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArticlesMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.*;
 import com.cometproject.server.network.messages.incoming.moderation.*;
@@ -261,6 +262,7 @@ public final class MessageHandler {
 
     public void registerLanding() {
         this.getMessages().put(Events.RefreshPromoArticlesMessageEvent, new RefreshPromoArticlesMessageEvent());
+        this.getMessages().put(Events.HotelViewItemMessageEvent, new HotelViewItemMessageEvent());
     }
 
     private static final short PING_EVENT = 3555;
