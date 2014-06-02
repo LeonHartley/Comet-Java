@@ -88,9 +88,10 @@ public class EntityComponent {
         PlayerEntity entity = new PlayerEntity(player, this.getFreeId(), startPosition, doorRotation, doorRotation, this.getRoom());
 
         if (player.isTeleporting()) {
-            TeleporterFloorItem item = (TeleporterFloorItem) this.room.getItems().getFloorItem(player.getTeleportId());
+            RoomItemFloor flItem = this.room.getItems().getFloorItem(player.getTeleportId());
 
-            if (item != null) {
+            if (flItem != null && flItem instanceof TeleporterFloorItem) {
+                TeleporterFloorItem item = (TeleporterFloorItem) flItem;
                 item.handleIncomingEntity(entity, null);
             }
 
