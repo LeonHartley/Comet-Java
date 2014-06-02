@@ -58,16 +58,6 @@ public class EntityComponent {
         this.entityGrid = entityGrid;
     }
 
-    public void updateEntityGrid(GenericEntity entity, int prevX, int prevY, int newX, int newY) {
-        this.entityGrid[prevX][prevY].remove(entity);
-
-        if (this.entityGrid[newX][newY] == null) {
-            this.entityGrid[newX][newY] = new ArrayList<GenericEntity>();
-        }
-
-        this.entityGrid[newX][newY].add(entity);
-    }
-
     public boolean isSquareAvailable(int x, int y) {
         return this.entityGrid[x][y] == null || this.entityGrid[x][y].isEmpty();
     }
