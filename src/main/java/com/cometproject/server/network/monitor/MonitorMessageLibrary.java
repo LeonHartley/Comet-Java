@@ -1,7 +1,12 @@
 package com.cometproject.server.network.monitor;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandlerContext;
+import org.apache.log4j.Logger;
+
 public class MonitorMessageLibrary {
-    /*private static Logger log = Logger.getLogger(MonitorMessageLibrary.class.getName());
+    private static Logger log = Logger.getLogger(MonitorMessageLibrary.class.getName());
 
     public static String request;
     public static ChannelHandlerContext ctx;
@@ -16,7 +21,7 @@ public class MonitorMessageLibrary {
     public static void heartbeat() {
         Runtime runtime = Runtime.getRuntime();
 
-        ServerStatus status = new ServerStatus(
+        /*ServerStatus status = new ServerStatus(
                 Comet.getServer().getNetwork().getSessions().getUsersOnlineCount(),
                 CometManager.getRooms().getActiveRooms().size(),
                 TimeSpan.millisecondsToDate(System.currentTimeMillis() - Comet.start),
@@ -27,7 +32,7 @@ public class MonitorMessageLibrary {
                 Comet.getServer().getStorage().getConnectionCount()
         );
 
-        sendMessage(new Gson().toJson(status));
+        sendMessage(new Gson().toJson(status));*/
     }
 
     private static void sendMessage(String json) {
@@ -38,5 +43,5 @@ public class MonitorMessageLibrary {
         }
 
         ctx.writeAndFlush(msg);
-    }*/
+    }
 }
