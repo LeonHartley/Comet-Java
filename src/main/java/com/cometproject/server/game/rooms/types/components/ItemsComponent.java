@@ -190,10 +190,12 @@ public class ItemsComponent {
         tilesToUpdate.add(new Position3D(item.getX(), item.getY(), 0d));
 
         for (GenericEntity entity : affectEntities) {
-            if (entity.hasStatus("sit")) {
+            /*if (entity.hasStatus("sit")) {
                 entity.removeStatus("sit");
                 entity.markNeedsUpdate();
-            }
+            }*/
+
+            item.onEntityStepOff(entity);
         }
 
         for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
@@ -201,10 +203,12 @@ public class ItemsComponent {
             tilesToUpdate.add(new Position3D(tile.x, tile.y, 0d));
 
             for (GenericEntity entity0 : affectEntities0) {
-                if (entity0.hasStatus("sit")) {
+                /*if (entity0.hasStatus("sit")) {
                     entity0.removeStatus("sit");
                     entity0.markNeedsUpdate();
-                }
+                }*/
+
+                item.onEntityStepOff(entity0);
             }
         }
 
