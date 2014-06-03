@@ -34,12 +34,12 @@ public class Composer implements ByteBufHolder {
     }
 
     @Override
-    public ByteBufHolder copy() {
+    public Composer copy() {
         return new Composer(this.id, this.body.copy());
     }
 
     @Override
-    public ByteBufHolder duplicate() {
+    public Composer duplicate() {
         return new Composer(this.id, this.body.duplicate());
     }
 
@@ -49,18 +49,17 @@ public class Composer implements ByteBufHolder {
     }
 
     @Override
-    public ByteBufHolder retain() {
+    public Composer retain() {
         return new Composer(this.id, this.body.retain());
     }
 
     @Override
-    public ByteBufHolder retain(int increment) {
+    public Composer retain(int increment) {
         return new Composer(this.id, this.body.retain(increment));
     }
 
     @Override
     public boolean release() {
-        log.debug("Releasing buffer, ref count will be " + (this.refCnt() - 1));
         return this.body.release();
     }
 

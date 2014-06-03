@@ -6,6 +6,7 @@ import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
@@ -18,6 +19,9 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeleteRoomMessageEvent implements IEvent {
 
@@ -34,12 +38,16 @@ public class DeleteRoomMessageEvent implements IEvent {
             return;
         }
 
-        for (RoomItemFloor item : room.getItems().getFloorItems()) {
-            room.getItems().removeItem(item, client);
-        }
+        List<RoomItem> itemsToRemove = new ArrayList<>();
+        itemsToRemove.addAll(room.getItems().getFloorItems());
+        itemsToRemove.addAll(room.getItems().getWallItems());
 
-        for (RoomItemWall item : room.getItems().getWallItems()) {
-            room.getItems().removeItem(item, client);
+        for (RoomItem item : itemsToRemove) {
+            if (item instanceof RoomItemFloor) {
+                room.getItems().removeItem((RoomItemFloor)item, client);
+            } else if (item instanceof RoomItemWall) {
+                room.getItems().removeItem((RoomItemWall)item, client);
+            }
         }
 
         for(BotEntity bot : room.getEntities().getBotEntities()) {
