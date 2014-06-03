@@ -10,11 +10,14 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorI
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class  ChangeFloorItemPositionMessageEvent implements IEvent {
+    private static Logger log = Logger.getLogger(ChangeFloorItemPositionMessageEvent.class);
+
     public void handle(Session client, Event msg) {
         int id = msg.readInt();
         int x = msg.readInt();
@@ -27,7 +30,6 @@ public class  ChangeFloorItemPositionMessageEvent implements IEvent {
         boolean hasRights = room.getRights().hasRights(client.getPlayer().getId());
 
         if ((isOwner || hasRights) || client.getPlayer().getPermissions().hasPermission("room_full_control")) {
-
             try {
                 RoomItemFloor item = room.getItems().getFloorItem(id);
 
@@ -37,42 +39,15 @@ public class  ChangeFloorItemPositionMessageEvent implements IEvent {
                     if (item.getId() != stackItem.getId()) {
                         if (stackItem.getDefinition().canStack) {
                             height += stackItem.getDefinition().getHeight();
-                            //height += stackItem.getHeight() + stackItem.getDefinition().getHeight();
                         } else {
-                            // Hacky fix to send feedback to player if they can't move their item to new position :P
                             client.send(UpdateFloorItemMessageComposer.compose(item, room.getData().getOwnerId()));
                             return;
                         }
                     }
                 }
 
-                List<GenericEntity> affectEntities = room.getEntities().getEntitiesAt(item.getX(), item.getY());
-
-                for (GenericEntity entity : affectEntities) {
-                    if (entity.hasStatus("sit")) {
-                        entity.removeStatus("sit");
-
-                        entity.markNeedsUpdate();
-                    }
-                }
-
-                List<Position3D> tilesToUpdate = new ArrayList<>();
-
-                tilesToUpdate.add(new Position3D(item.getX(), item.getY(), item.getHeight()));
-                tilesToUpdate.add(new Position3D(x, y, item.getHeight()));
-
-                for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
-                    tilesToUpdate.add(new Position3D(affectedTile.x, affectedTile.y, 0d));
-                    List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
-
-                    for (GenericEntity entity0 : affectEntities0) {
-                        if (entity0.hasStatus("sit")) {
-                            entity0.removeStatus("sit");
-
-                            entity0.markNeedsUpdate();
-                        }
-                    }
-                }
+                int itemOldX = item.getX();
+                int itemOldY = item.getY();
 
                 item.setX(x);
                 item.setY(y);
@@ -80,44 +55,47 @@ public class  ChangeFloorItemPositionMessageEvent implements IEvent {
                 item.setRotation(rot);
                 item.setHeight(height);
 
-                List<GenericEntity> newAffectEntities0 = room.getEntities().getEntitiesAt(item.getX(), item.getY());
+                List<Position3D> tilesToUpdate = new ArrayList<>();
 
-                for (GenericEntity entity0 : newAffectEntities0) {
-                    if (!entity0.hasStatus("sit") && item.getDefinition().canSit) {
-                        entity0.addStatus("sit", String.valueOf(item.getDefinition().getHeight()));
-                        entity0.setBodyRotation(rot);
-                        entity0.setHeadRotation(rot);
-                        entity0.markNeedsUpdate();
-                    }
-                }
+                tilesToUpdate.add(new Position3D(item.getX(), item.getY(), item.getHeight()));
+                tilesToUpdate.add(new Position3D(x, y, item.getHeight()));
 
-                for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
-                    tilesToUpdate.add(new Position3D(affectedTile.x, affectedTile.y, 0d));
+                // Catch this so the item still updates!
+                try {
+                    for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), itemOldX, itemOldY, item.getRotation())) {
+                        tilesToUpdate.add(new Position3D(affectedTile.x, affectedTile.y, 0d));
+                        List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
 
-                    List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
-
-                    for (GenericEntity entity0 : affectEntities0) {
-                        if (!entity0.hasStatus("sit") && item.getDefinition().canSit) {
-                            entity0.addStatus("sit", String.valueOf(item.getDefinition().getHeight()));
-                            entity0.setBodyRotation(rot);
-                            entity0.setHeadRotation(rot);
-
-                            entity0.markNeedsUpdate();
+                        for (GenericEntity entity0 : affectEntities0) {
+                            item.onEntityStepOff(entity0);
                         }
                     }
+
+                    for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), x, y, item.getRotation())) {
+                        tilesToUpdate.add(new Position3D(affectedTile.x, affectedTile.y, 0d));
+
+                        List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
+
+                        for (GenericEntity entity0 : affectEntities0) {
+                            item.onEntityStepOn(entity0);
+                        }
+                    }
+                } catch (Exception e) {
+                    log.error("Failed to update entity positions for changing item position", e);
                 }
 
                 RoomItemDao.saveItemPosition(x, y, height, rot, id);
 
                 room.getItems().getFloorItems().remove(item);
                 room.getItems().getFloorItems().add(item);
+
                 room.getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(item, room.getData().getOwnerId()));
 
                 for (Position3D tileToUpdate : tilesToUpdate) {
                     room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
                 }
             } catch (Exception e) {
-                room.log.error("Error while changing floor item position", e);
+                log.fatal("Error whilst changing floor item position!", e);
             }
         }
     }

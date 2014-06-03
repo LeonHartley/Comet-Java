@@ -38,16 +38,16 @@ public class AddUserToRoomMessageEvent implements IEvent {
         }
 
         if (client.getPlayer().getFloodTime() >= 1) {
-            client.send(FloodFilterMessageComposer.compose(client.getPlayer().getFloodTime()));
+            client.sendQueue(FloodFilterMessageComposer.compose(client.getPlayer().getFloodTime()));
         }
 
-        client.send(RoomPanelMessageComposer.compose(room.getId(), room.getData().getOwnerId() == client.getPlayer().getId() || client.getPlayer().getPermissions().hasPermission("room_full_control")));
-        client.send(RoomDataMessageComposer.compose(room));
+        client.sendQueue(RoomPanelMessageComposer.compose(room.getId(), room.getData().getOwnerId() == client.getPlayer().getId() || client.getPlayer().getPermissions().hasPermission("room_full_control")));
+        client.sendQueue(RoomDataMessageComposer.compose(room));
 
-        client.send(AvatarsMessageComposer.compose(room));
+        client.sendQueue(AvatarsMessageComposer.compose(room));
         room.getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity()));
 
-        client.send(AvatarUpdateMessageComposer.compose(room));
+        client.sendQueue(AvatarUpdateMessageComposer.compose(room));
         avatar.markNeedsUpdate();
 
         for (GenericEntity av : client.getPlayer().getEntity().getRoom().getEntities().getEntitiesCollection().values()) {
@@ -60,7 +60,9 @@ public class AddUserToRoomMessageEvent implements IEvent {
             }
         }
 
-        client.send(ConfigureWallAndFloorMessageComposer.compose(client.getPlayer().getEntity().getRoom().getData().getHideWalls(), client.getPlayer().getEntity().getRoom().getData().getWallThickness(), client.getPlayer().getEntity().getRoom().getData().getFloorThickness()));
+        client.sendQueue(ConfigureWallAndFloorMessageComposer.compose(client.getPlayer().getEntity().getRoom().getData().getHideWalls(), client.getPlayer().getEntity().getRoom().getData().getWallThickness(), client.getPlayer().getEntity().getRoom().getData().getFloorThickness()));
+
+        client.flush();
 
         client.getPlayer().getMessenger().sendStatus(true, true);
     }

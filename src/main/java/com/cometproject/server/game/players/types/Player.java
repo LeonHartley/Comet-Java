@@ -9,6 +9,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
+import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import javolution.util.FastMap;
@@ -93,6 +94,23 @@ public class Player {
 
         session.send(CurrenciesMessageComposer.compose(currencies));
         currencies.clear();
+    }
+
+    public Composer composeCreditBalance() {
+        return SendCreditsMessageComposer.compose(session.getPlayer().getData().getCredits());
+    }
+
+    public Composer composeCurrenciesBalance() {
+        Map<Integer, Integer> currencies = new FastMap<>();
+
+        currencies.put(0, 0); // duckets
+        currencies.put(105, getData().getPoints());
+
+        try {
+            return CurrenciesMessageComposer.compose(currencies);
+        } finally {
+            currencies.clear();
+        }
     }
 
     public void loadRoom(int id, String password) {
