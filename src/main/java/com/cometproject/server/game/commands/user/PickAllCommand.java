@@ -2,10 +2,14 @@ package com.cometproject.server.game.commands.user;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.sessions.Session;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PickAllCommand extends ChatCommand {
     @Override
@@ -16,12 +20,16 @@ public class PickAllCommand extends ChatCommand {
             return;
         }
 
-        for (RoomItemFloor item : room.getItems().getFloorItems()) {
-            room.getItems().removeItem(item, client);
-        }
+        List<RoomItem> itemsToRemove = new ArrayList<>();
+        itemsToRemove.addAll(room.getItems().getFloorItems());
+        itemsToRemove.addAll(room.getItems().getWallItems());
 
-        for (RoomItemWall item : room.getItems().getWallItems()) {
-            room.getItems().removeItem(item, client);
+        for (RoomItem item : itemsToRemove) {
+            if (item instanceof RoomItemFloor) {
+                room.getItems().removeItem((RoomItemFloor)item, client);
+            } else if (item instanceof RoomItemWall) {
+                room.getItems().removeItem((RoomItemWall)item, client);
+            }
         }
     }
 

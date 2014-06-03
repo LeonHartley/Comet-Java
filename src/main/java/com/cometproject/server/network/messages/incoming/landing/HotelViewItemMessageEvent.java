@@ -13,10 +13,11 @@ public class HotelViewItemMessageEvent implements IEvent {
 
         for(int i = 0; i < data.length; i++) {
             if(data[i].contains(",")) {
-                client.send(HotelViewItemMessageComposer.compose(data[i].split(",")[0], data[i].split(",")[1]));
+                client.sendQueue(HotelViewItemMessageComposer.compose(data[i].split(",")[0], data[i].split(",")[1]));
             }
         }
 
-        client.send(AllowancesMessageComposer.compose(-1));
+        client.sendQueue(AllowancesMessageComposer.compose(-1));
+        client.flush();
     }
 }
