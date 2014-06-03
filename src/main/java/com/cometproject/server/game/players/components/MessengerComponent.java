@@ -10,6 +10,7 @@ import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendS
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerSearchDao;
+import io.netty.util.ReferenceCountUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -92,28 +93,36 @@ public class MessengerComponent {
     }
 
     public void broadcast(Composer msg) {
-        for (MessengerFriend friend : this.getFriends().values()) {
-            if (friend.getClient() == null || friend.getClient().getPlayer() == null || friend.getUserId() == this.getPlayer().getId()) {
-                continue;
-            }
+        try {
+            for (MessengerFriend friend : this.getFriends().values()) {
+                if (friend.getClient() == null || friend.getClient().getPlayer() == null || friend.getUserId() == this.getPlayer().getId()) {
+                    continue;
+                }
 
-            friend.getClient().getChannel().write(msg);
+                friend.getClient().getChannel().writeAndFlush(msg.duplicate().retain());
+            }
+        } finally {
+            ReferenceCountUtil.release(msg);
         }
     }
 
     public void broadcast(List<Integer> friends, Composer msg) {
-        for (int friendId : friends) {
-            if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || this.friends.get(friendId).updateClient() == null) {
-                continue;
+        try {
+            for (int friendId : friends) {
+                if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || this.friends.get(friendId).updateClient() == null) {
+                    continue;
+                }
+
+                MessengerFriend friend = this.friends.get(friendId);
+
+                if (friend.getClient().getPlayer() == null) {
+                    continue;
+                }
+
+                friend.getClient().getChannel().writeAndFlush(msg.duplicate().retain());
             }
-
-            MessengerFriend friend = this.friends.get(friendId);
-
-            if (friend.getClient().getPlayer() == null) {
-                continue;
-            }
-
-            friend.getClient().send(msg);
+        } finally {
+            ReferenceCountUtil.release(msg);
         }
     }
 

@@ -21,5 +21,10 @@ public class SeatFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOff(GenericEntity entity) {
+        if (entity.hasStatus("sit")) {
+            entity.removeStatus("sit");
+        }
+
+        entity.markNeedsUpdate();
     }
 }

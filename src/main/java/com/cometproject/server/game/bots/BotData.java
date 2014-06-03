@@ -1,13 +1,12 @@
 package com.cometproject.server.game.bots;
 
-import com.cometproject.server.game.rooms.entities.types.BotEntity;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.cometproject.server.utilities.RandomInteger;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
 import java.util.Arrays;
-import java.util.regex.Pattern;
 
 public abstract class BotData implements BotInformation {
     private int id, chatDelay, ownerId;
@@ -33,14 +32,14 @@ public abstract class BotData implements BotInformation {
     public String getRandomMessage() {
         if (this.getMessages().length > 0) {
             int index = RandomInteger.getRandom(0, (this.getMessages().length - 1));
-            return this.filterMessage(this.getMessages()[index]);
+            return CometManager.getRooms().getFilter().filter(this.stripNonAlphanumeric(this.getMessages()[index]));
         } else {
             return "";
         }
     }
 
-    private String filterMessage(String msg) {
-        return msg.replace("[^A-Za-z0-9]", "");
+    private String stripNonAlphanumeric(String msg) {
+        return msg.replaceAll("[^A-Za-z0-9]", "");
     }
 
     public void save() {

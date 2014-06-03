@@ -45,6 +45,17 @@ public class Session {
         this.ctx.writeAndFlush(msg);
     }
 
+    public Session sendQueue(Composer msg) {
+        if (msg == null) { return this; }
+
+        this.ctx.write(msg);
+        return this;
+    }
+
+    public void flush() {
+        this.ctx.flush();
+    }
+
     public Logger getLogger() {
         return this.logger;
     }

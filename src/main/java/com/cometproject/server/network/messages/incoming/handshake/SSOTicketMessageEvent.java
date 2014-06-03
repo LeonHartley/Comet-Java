@@ -13,6 +13,7 @@ import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationCo
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.RoomCategoriesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -94,7 +95,6 @@ public class SSOTicketMessageEvent implements IEvent {
             if (socketAddress.getAddress() != null) { // idk read the docs
                 if (CometManager.getBans().hasBan(socketAddress.getAddress().getHostAddress())) {
                     CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
-
                     client.disconnect();
                     return;
                 }
@@ -103,7 +103,6 @@ public class SSOTicketMessageEvent implements IEvent {
 
         if (CometManager.getBans().hasBan(Integer.toString(player.getId()))) {
             CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
-
             client.disconnect();
             return;
         }
@@ -117,19 +116,21 @@ public class SSOTicketMessageEvent implements IEvent {
 
         PlayerDao.updatePlayerStatus(player, true, true);
 
-        client.send(LoginMessageComposer.compose());
-        client.getPlayer().sendBalance();
-        client.send(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));
-        client.send(MotdNotificationComposer.compose());
+        client.sendQueue(LoginMessageComposer.compose()).
+                sendQueue(client.getPlayer().composeCreditBalance()).
+                sendQueue(client.getPlayer().composeCurrenciesBalance()).
+                sendQueue(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank())).
+                sendQueue(MotdNotificationComposer.compose());
 
         if (player.getSettings().getHomeRoom() > 0) {
-            client.send(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
+            client.sendQueue(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
         }
 
         if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
-            client.send(ModToolMessageComposer.compose());
+            client.sendQueue(ModToolMessageComposer.compose());
         }
 
-        client.send(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
+        client.sendQueue(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
+        client.flush();
     }
 }

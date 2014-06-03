@@ -4,6 +4,7 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.game.rooms.items.queue.RoomItemEventQueueEntry;
@@ -51,9 +52,8 @@ public class  PlaceItemMessageEvent implements IEvent {
                         SendWallItemMessageComposer.compose(wallItem)
                 );
 
-
-                room.getItemProcess().getEventQueue().queue(new RoomItemEventQueueEntry(wallItem, RoomItemEventType.Placed));
-
+                //room.getItemProcess().getEventQueue().queue(new RoomItemEventQueueEntry(wallItem, RoomItemEventType.Placed));
+                wallItem.onPlaced(); // ^ above needs more testing first
             } else {
                 int x = Integer.parseInt(parts[1]);
                 int y = Integer.parseInt(parts[2]);
