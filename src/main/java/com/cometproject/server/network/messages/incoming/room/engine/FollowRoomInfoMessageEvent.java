@@ -20,7 +20,8 @@ public class FollowRoomInfoMessageEvent implements IEvent {
         if (client.getPlayer().getEntity() != null && roomId == client.getPlayer().getEntity().getRoom().getId()) {
             client.sendQueue(FloorItemsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
             client.sendQueue(WallItemsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
-
+            client.flush();
+            
             client.getPlayer().getEntity().getRoom().getWired().trigger(TriggerType.ENTER_ROOM, null, client.getPlayer().getEntity());
             return;
         }
