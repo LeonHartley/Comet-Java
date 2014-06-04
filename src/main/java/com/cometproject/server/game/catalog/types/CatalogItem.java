@@ -55,9 +55,9 @@ public class CatalogItem {
             this.items.add(Integer.valueOf(this.itemId));
         }
 
-        items.stream().filter(id -> CometManager.getItems().getDefintionNullable(id) == null).forEach(id -> {
+        /*items.stream().filter(id -> CometManager.getItems().getDefintionNullable(id) == null).forEach(id -> {
             // do something like delete or w/e idk, no need to output cos the getDefinition will output if its null ;P
-        });
+        });*/
     }
 
     public int getId() {
