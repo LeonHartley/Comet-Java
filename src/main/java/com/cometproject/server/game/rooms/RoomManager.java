@@ -93,10 +93,10 @@ public class RoomManager {
 
             for(Map.Entry<Integer, Room> roomEntry : rooms.entrySet()) {
                 player.getRooms().add(roomEntry.getKey());
-                if(this.rooms.containsKey(roomEntry.getKey())) continue;
 
-                this.rooms.put(roomEntry.getKey(), roomEntry.getValue());
-
+                if(!this.rooms.containsKey(roomEntry.getKey())) {
+                    this.rooms.put(roomEntry.getKey(), roomEntry.getValue());
+                }
             }
         } catch (Exception e) {
             log.error("Error while loading rooms for user", e);

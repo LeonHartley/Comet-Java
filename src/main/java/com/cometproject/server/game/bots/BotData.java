@@ -39,7 +39,7 @@ public abstract class BotData implements BotInformation {
     }
 
     private String stripNonAlphanumeric(String msg) {
-        return msg.replaceAll("[^A-Za-z0-9]", "");
+        return msg.replaceAll("[^A-Za-z0-9\\s]", "");
     }
 
     public void save() {

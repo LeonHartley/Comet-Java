@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.wired.misc.WiredSquare;
 import com.cometproject.server.network.messages.types.Event;
 
+import java.util.Collection;
 import java.util.List;
 
 public abstract class WiredTrigger {
