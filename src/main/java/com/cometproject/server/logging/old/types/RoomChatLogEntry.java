@@ -1,7 +1,7 @@
-package com.cometproject.server.logging.types;
+package com.cometproject.server.logging.old.types;
 
-import com.cometproject.server.logging.AbstractLogEntry;
-import com.cometproject.server.logging.LogType;
+import com.cometproject.server.logging.old.AbstractLogEntry;
+import com.cometproject.server.logging.old.LogType;
 
 public class RoomChatLogEntry extends AbstractLogEntry {
 

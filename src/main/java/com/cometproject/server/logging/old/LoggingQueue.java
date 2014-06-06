@@ -1,7 +1,7 @@
-package com.cometproject.server.logging;
+package com.cometproject.server.logging.old;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.logging.objects.TestJSON;
+import com.cometproject.server.logging.old.objects.TestJSON;
 import com.cometproject.server.tasks.CometTask;
 import com.google.gson.Gson;
 import javolution.util.FastTable;
