@@ -143,6 +143,8 @@ public class Composers {
 
     public static short MoodlightMessageComposer = 3496;
 
+    public static short ShowRoomPollMessageComposer = 3762;
+
 
     public static String valueOfId(int i) {
         Composers c = new Composers();
