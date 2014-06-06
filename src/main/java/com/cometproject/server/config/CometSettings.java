@@ -8,9 +8,16 @@ public class CometSettings {
     public static boolean messageOfTheDayEnabled = true;
     public static String messageOfTheDayText = "";
 
+    @Deprecated
     public static boolean logChatToConsole = true;
+
+    @Deprecated
     public static boolean logChatToMemory = true;
+
+    @Deprecated
     public static boolean logChatToDatabase = true;
+
+    public static String logStore = "disabled";
 
     public static String hotelName = "";
     public static String hotelUrl = "";
@@ -36,8 +43,10 @@ public class CometSettings {
         messageOfTheDayText = properties.getProperty("comet.game.motd.text");
 
         logChatToConsole = properties.getProperty("comet.game.chat.logToConsole").equals("1");
-        logChatToConsole = properties.getProperty("comet.game.chat.logToMemory").equals("1");
-        logChatToConsole = properties.getProperty("comet.game.chat.logToDatabase").equals("1");
+        logChatToMemory = properties.getProperty("comet.game.chat.logToMemory").equals("1");
+        logChatToDatabase = properties.getProperty("comet.game.chat.logToDatabase").equals("1");
+
+        logStore = properties.getProperty("comet.game.logging.store");
 
         hotelName = properties.getProperty("comet.game.hotel.name");
         hotelUrl = properties.getProperty("comet.game.hotel.url");

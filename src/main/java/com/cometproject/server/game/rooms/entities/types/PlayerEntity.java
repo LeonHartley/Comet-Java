@@ -151,24 +151,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
-        // Remove player's pets from room if they aren't owner
-        if(this.getPlayer().getId() != this.getRoom().getData().getOwnerId() && this.getRoom().isActive) {
-            for(PetEntity pet : this.getRoom().getEntities().getPetEntities()) {
-                if(pet.getData().getOwnerId() == this.player.getId()) {
-                    pet.leaveRoom(false);
-                    RoomPetDao.updatePet(0, 0, 0, pet.getData().getId());
-
-                    if(!isOffline) {
-                        this.player.getPets().addPet(pet.getData());
-                    }
-                }
-            }
-
-            if(!isOffline) {
-                this.player.getSession().send(PetInventoryMessageComposer.compose(this.player.getPets().getPets()));
-            }
-        }
-
         // Clear all  statuses
         this.getStatuses().clear();
 
