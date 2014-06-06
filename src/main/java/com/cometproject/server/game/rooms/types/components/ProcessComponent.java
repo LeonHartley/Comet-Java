@@ -15,6 +15,8 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdat
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
+import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.utilities.RandomInteger;
 import com.cometproject.server.utilities.TimeSpan;
