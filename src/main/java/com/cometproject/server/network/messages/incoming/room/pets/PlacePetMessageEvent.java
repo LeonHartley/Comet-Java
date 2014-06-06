@@ -32,7 +32,7 @@ public class PlacePetMessageEvent implements IEvent {
 
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
 
-        if ((isOwner || client.getPlayer().getPermissions().hasPermission("room_full_control") || room.getData().isAllowPets())) {
+        if ((isOwner || client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             if (pet == null) {
                 return;
             }

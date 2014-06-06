@@ -29,16 +29,22 @@ public class EntityComponent {
 
     private AtomicInteger entityIdGenerator = new AtomicInteger();
 
-    private Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().shared();
+    private Map<Integer, GenericEntity> entities;
 
-    private Map<Integer, Integer> playerIdToEntity = new FastMap<>();
-    private Map<Integer, Integer> botIdToEntity = new FastMap<>();
-    private Map<Integer, Integer> petIdToEntity = new FastMap<>();
+    private Map<Integer, Integer> playerIdToEntity;
+    private Map<Integer, Integer> botIdToEntity;
+    private Map<Integer, Integer> petIdToEntity;
 
     private List<GenericEntity>[][] entityGrid;
 
     public EntityComponent(Room room, RoomModel model) {
         this.room = room;
+
+        this.entities = new FastMap<>();
+
+        this.playerIdToEntity = new FastMap<>();
+        this.botIdToEntity = new FastMap<>();
+        this.petIdToEntity = new FastMap<>();
 
         this.entityGrid = new ArrayList[model.getSizeX()][model.getSizeY()];
     }
@@ -91,6 +97,10 @@ public class EntityComponent {
     }
 
     public void addEntity(GenericEntity entity) {
+        if(this.entities == null) {
+            this.entities = new FastMap<Integer, GenericEntity>().shared();
+        }
+
         if(this.playerIdToEntity == null) {
             this.playerIdToEntity = new FastMap<>();
         }
