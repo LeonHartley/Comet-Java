@@ -106,7 +106,7 @@ public class ProcessComponent implements CometTask {
 
                     try {
                         if (playerEntity.getPlayer() == null) {
-                            removeFromRoom(playerEntity);
+                            playersToRemove.add(playerEntity);
                             return;
                         }
                     } catch(Exception e) {
@@ -168,8 +168,9 @@ public class ProcessComponent implements CometTask {
         boolean isPlayer = entity instanceof PlayerEntity;
 
         if (isPlayer && ((PlayerEntity) entity).getPlayer() == null || entity.getRoom() == null) {
-            this.room.getEntities().removeEntity(entity);
-            this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
+            //this.room.getEntities().removeEntity(entity);
+            //this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
+            return true;
         }
 
         if(isPlayer) {
@@ -399,11 +400,6 @@ public class ProcessComponent implements CometTask {
         }
 
         return false;
-    }
-
-    private void removeFromRoom(GenericEntity entity) {
-        this.room.getEntities().removeEntity(entity);
-        this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
     }
 
     protected void handleSupressedExceptions(Throwable t) {
