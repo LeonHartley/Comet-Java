@@ -103,7 +103,7 @@ public class Events {
     public static short DeleteFriendsMessageEvent = 997;
     public static short OneWayGateTriggerMessageEvent = 0; // TODO: this
     public static short OpenGiftMessageEvent = 446;
-    public static short ModToolRoomInfoMessageEvent = 0; // TODO: this
+    public static short ModToolRoomInfoMessageEvent = 3425; // TODO: this
     public static short PetInformationMessageEvent = 2604;
     public static short RemovePetMessageEvent = 3961;
     public static short SearchFriendsMessageEvent = 658;
