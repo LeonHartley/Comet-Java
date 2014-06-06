@@ -1,4 +1,4 @@
-package com.cometproject.server.logging;
+package com.cometproject.server.logging.old;
 
 public enum LogType {
     ROOM_VISITS,
