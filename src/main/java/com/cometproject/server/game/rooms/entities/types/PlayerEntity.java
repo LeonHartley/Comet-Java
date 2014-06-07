@@ -23,6 +23,7 @@ import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessa
 import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.poll.ShowRoomPollMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
