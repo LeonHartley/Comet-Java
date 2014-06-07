@@ -126,6 +126,7 @@ public class Events {
     public static short RateRoomMessageEvent = 1662;
     public static short UseMoodlightMessageEvent = 3841;
     public static short ToggleMoodlightMessageEvent = 1609;
+    public static short GiveHandItemMessageEvent = 2108;
 
     public static String valueOfId(int i) {
         Events e = new Events();

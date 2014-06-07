@@ -200,6 +200,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.MuteRoomMessageEvent, new MuteRoomMessageEvent());
         this.getMessages().put(Events.SaveFloorMessageEvent, new SaveFloorMessageEvent());
         this.getMessages().put(Events.RateRoomMessageEvent, new RateRoomMessageEvent());
+        this.getMessages().put(Events.GiveHandItemMessageEvent, new GiveHandItemMessageEvent());
     }
 
     public void registerRoomTrade() {
