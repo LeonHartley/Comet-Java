@@ -11,8 +11,6 @@ public class WordFilter {
 
     public WordFilter() {
         this.loadFilter();
-
-        Logger.getLogger(WordFilter.class.getName()).info("Loaded " + wordfilter.size() + " filtered words");
     }
 
     public void loadFilter() {
@@ -21,6 +19,8 @@ public class WordFilter {
         }
 
         this.wordfilter = FilterDao.loadWordfilter();
+
+        Logger.getLogger(WordFilter.class.getName()).info("Loaded " + wordfilter.size() + " filtered words");
     }
 
     public String filter(String message) {
