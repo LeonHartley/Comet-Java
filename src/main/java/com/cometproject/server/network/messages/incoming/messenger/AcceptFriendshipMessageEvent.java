@@ -37,5 +37,7 @@ public class AcceptFriendshipMessageEvent implements IEvent {
             client.getPlayer().getMessenger().addFriend(new MessengerFriend(request.getFromId(), client));
             client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
         }
+
+        requests.clear();
     }
 }
