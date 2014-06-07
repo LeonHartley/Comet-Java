@@ -1,12 +1,14 @@
 package com.cometproject.server.network.messages.incoming.user.youtube;
 
 import com.cometproject.server.game.players.components.types.PlaylistItem;
+import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.youtube.PlayVideoMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
 public class PlayVideoMessageEvent implements IEvent {
 
@@ -15,10 +17,37 @@ public class PlayVideoMessageEvent implements IEvent {
         int itemId = msg.readInt();
         int videoId = msg.readInt();
 
-        PlaylistItem playlistItem = client.getPlayer().getSettings().getPlaylist().get(videoId);
+        System.out.println(videoId);
 
-        client.send(PlayVideoMessageComposer.compose(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
         RoomItemFloor item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(itemId);
+
+        PlayerSettings playerSettings;
+
+        playerSettings = PlayerDao.getSettingsById(item.getOwner());
+
+        if(playerSettings == null) {
+            playerSettings = client.getPlayer().getSettings();
+        }
+
+
+        if(client.getPlayer().getId() != item.getOwner()) {
+            if(item.hasAttribute("video")) {
+                System.out.println("YES");
+                for(int i = 0; i < playerSettings.getPlaylist().size(); i++) {
+                    if(playerSettings.getPlaylist().get(i).getVideoId().equals(item.getAttribute("video"))) {
+                        PlaylistItem playlistItem = playerSettings.getPlaylist().get(i);
+
+                        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(PlayVideoMessageComposer.compose(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
+                    }
+                }
+            }
+
+            return;
+        }
+
+        PlaylistItem playlistItem = playerSettings.getPlaylist().get(videoId);
+
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(PlayVideoMessageComposer.compose(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
 
         item.setAttribute("video", playlistItem.getVideoId());
 
