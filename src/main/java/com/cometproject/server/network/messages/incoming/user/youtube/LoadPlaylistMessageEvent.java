@@ -27,9 +27,9 @@ public class LoadPlaylistMessageEvent implements IEvent{
 
         PlayerSettings playerSettings;
 
-        if(client.getPlayer().getId() != item.getOwner()) {
-            return;
-        }
+        //if(client.getPlayer().getId() != item.getOwner()) {
+        //    return;
+        //}
 
         playerSettings = PlayerDao.getSettingsById(item.getOwner());
 
