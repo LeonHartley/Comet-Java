@@ -39,7 +39,7 @@ public class NextVideoMessageEvent implements IEvent {
 
             for(int i = 0; i < playlistSize; i++) {
                 if(playerSettings.getPlaylist().get(i).getVideoId().equals(videoAttribute)) {
-                    if(direction == 0 && currentVideoIndex != 0) {
+                    if(direction == 0 && i != 0) {
                         currentVideoIndex = i - 1;
                     } else if(direction == 1 && (playlistSize - 1) > i) {
                         currentVideoIndex = i + 1;
