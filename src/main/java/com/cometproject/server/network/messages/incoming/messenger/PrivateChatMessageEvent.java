@@ -37,7 +37,7 @@ public class PrivateChatMessageEvent implements IEvent {
         long time = System.currentTimeMillis();
 
         if(!client.getPlayer().getPermissions().hasCommand("bypass_flood")) {
-            if (time - client.getPlayer().getLastMessageTime() < 750) { // TODO: add flood bypass for staff with permission or something
+            if (time - client.getPlayer().getLastMessageTime() < 750) {
                 client.getPlayer().setFloodFlag(client.getPlayer().getFloodFlag() + 1);
 
                 if (client.getPlayer().getFloodFlag() >= 4) {
