@@ -25,7 +25,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             Session session = ctx.attr(NetworkEngine.SESSION_ATTR).get();
 
             if (session != null) {
-                Comet.getServer().getNetwork().getMessages().handle(msg, session);
+                session.handleMessageEvent(msg);
             }
         } catch (Exception e) {
             log.error("Error while receiving message", e);
