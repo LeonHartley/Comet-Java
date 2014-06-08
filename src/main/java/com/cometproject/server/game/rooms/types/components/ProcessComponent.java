@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -310,6 +311,10 @@ public class ProcessComponent implements CometTask {
 
             // Step-on
             for (RoomItemFloor item : itemsOnSq) {
+                if(item.getDefinition().getEffectId() != 0) {
+                    entity.applyEffect(new UserEffect(item.getDefinition().getEffectId(), true));
+                }
+
                 item.onEntityStepOn(entity);
 
                 if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
@@ -340,13 +345,23 @@ public class ProcessComponent implements CometTask {
 
                 boolean isCancelled = false;
 
+                boolean effectNeedsRemove = true;
+
                 for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
+                    if(entity.getCurrentEffect() != null && entity.getCurrentEffect().getEffectId() == item.getDefinition().getEffectId()) {
+                        effectNeedsRemove = false;
+                    }
+
                     if (item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0")) {
                         isCancelled = true;
                     }
                     if (!item.getDefinition().canSit){
                         height += item.getDefinition().getHeight();
                     }
+                }
+
+                if(effectNeedsRemove) {
+                    entity.applyEffect(null);
                 }
 
                 // Pre-step on
@@ -389,15 +404,15 @@ public class ProcessComponent implements CometTask {
             if (entity.getCurrentEffect() != null && entity.getCurrentEffect().isItemEffect()) {
                 boolean needsRemove = true;
 
-                for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
-                    if (item.getDefinition().getEffectId() == entity.getCurrentEffect().getEffectId()) {
-                        needsRemove = false;
-                    }
-                }
+                //for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
+                //    if (item.getDefinition().getEffectId() == entity.getCurrentEffect().getEffectId()) {
+                //        needsRemove = false;
+                //    }
+                //}
 
-                if (needsRemove) {
-                    entity.applyEffect(null);
-                }
+                //if (needsRemove) {
+                //    entity.applyEffect(null);
+                //}
             }
         }
 

@@ -62,6 +62,7 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.ChangeLoo
 import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlaylistMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.youtube.NextVideoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoMessageEvent;
 import com.cometproject.server.network.messages.outgoing.room.access.LoadRoomByDoorBellMessageEvent;
 import com.cometproject.server.network.messages.types.Event;
@@ -156,6 +157,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.ChangeUsernameCheckMessageEvent, new ChangeUsernameCheckMessageEvent());
         this.getMessages().put(Events.LoadPlaylistMessageEvent, new LoadPlaylistMessageEvent());
         this.getMessages().put(Events.PlayVideoMessageEvent, new PlayVideoMessageEvent());
+        this.getMessages().put(Events.NextVideoMessageEvent, new NextVideoMessageEvent());
     }
 
     public void registerBots() {
@@ -200,6 +202,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.MuteRoomMessageEvent, new MuteRoomMessageEvent());
         this.getMessages().put(Events.SaveFloorMessageEvent, new SaveFloorMessageEvent());
         this.getMessages().put(Events.RateRoomMessageEvent, new RateRoomMessageEvent());
+        this.getMessages().put(Events.GiveHandItemMessageEvent, new GiveHandItemMessageEvent());
     }
 
     public void registerRoomTrade() {

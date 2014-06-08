@@ -11,16 +11,19 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
-public class PlayVideoMessageEvent implements IEvent {
-
+public class NextVideoMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
         int itemId = msg.readInt();
-        int videoId = msg.readInt();
+        int direction = msg.readInt(); // 0 = previous, 1 = next
 
         RoomItemFloor item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(itemId);
 
         PlayerSettings playerSettings;
+
+        if(client.getPlayer().getId() != item.getOwner()) {
+            return;
+        }
 
         playerSettings = PlayerDao.getSettingsById(item.getOwner());
 
@@ -28,23 +31,25 @@ public class PlayVideoMessageEvent implements IEvent {
             playerSettings = client.getPlayer().getSettings();
         }
 
-        if(client.getPlayer().getId() != item.getOwner()) {
-            if(item.hasAttribute("video")) {
-                for(int i = 0; i < playerSettings.getPlaylist().size(); i++) {
-                    if(playerSettings.getPlaylist().get(i).getVideoId().equals(item.getAttribute("video"))) {
-                        PlaylistItem playlistItem = playerSettings.getPlaylist().get(i);
+        int currentVideoIndex = 0;
 
-                        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(PlayVideoMessageComposer.compose(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
+        if(item.hasAttribute("video")) {
+            String videoAttribute = (String) item.getAttribute("video");
+            int playlistSize = playerSettings.getPlaylist().size();
+
+            for(int i = 0; i < playlistSize; i++) {
+                if(playerSettings.getPlaylist().get(i).getVideoId().equals(videoAttribute)) {
+                    if(direction == 0 && i != 0) {
+                        currentVideoIndex = i - 1;
+                    } else if(direction == 1 && (playlistSize - 1) > i) {
+                        currentVideoIndex = i + 1;
                     }
                 }
             }
-
-            return;
         }
 
-        PlaylistItem playlistItem = playerSettings.getPlaylist().get(videoId);
-        client.send(PlaylistMessageComposer.compose(itemId, playerSettings.getPlaylist(), videoId));
-
+        PlaylistItem playlistItem = playerSettings.getPlaylist().get(currentVideoIndex);
+        client.send(PlaylistMessageComposer.compose(itemId, playerSettings.getPlaylist(), currentVideoIndex));
 
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(PlayVideoMessageComposer.compose(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
 

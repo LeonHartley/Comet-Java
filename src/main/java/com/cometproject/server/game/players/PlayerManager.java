@@ -16,12 +16,12 @@ public class PlayerManager {
             this.playerIdToSessionId.remove(playerId);
         }
 
-        if (this.playerUsernameToPlayerId.containsKey(username)) {
-            this.playerUsernameToPlayerId.remove(username);
+        if (this.playerUsernameToPlayerId.containsKey(username.toLowerCase())) {
+            this.playerUsernameToPlayerId.remove(username.toLowerCase());
         }
 
         this.playerIdToSessionId.put(playerId, sessionId);
-        this.playerUsernameToPlayerId.put(username, playerId);
+        this.playerUsernameToPlayerId.put(username.toLowerCase(), playerId);
     }
 
     public void remove(int playerId, String username) {
@@ -30,8 +30,8 @@ public class PlayerManager {
     }
 
     public int getPlayerIdByUsername(String username) {
-        if(this.playerUsernameToPlayerId.containsKey(username)) {
-            return this.playerUsernameToPlayerId.get(username);
+        if(this.playerUsernameToPlayerId.containsKey(username.toLowerCase())) {
+            return this.playerUsernameToPlayerId.get(username.toLowerCase());
         }
 
         return -1;

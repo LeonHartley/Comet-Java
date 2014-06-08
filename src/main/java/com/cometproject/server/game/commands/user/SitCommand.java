@@ -11,11 +11,11 @@ public class SitCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         PlayerEntity playerEntity = client.getPlayer().getEntity();
         if (!playerEntity.hasStatus("sit")) {
-            double height = 0;
+            double height = 0.5;
 
-            for (RoomItemFloor roomItemFloor : playerEntity.getRoom().getItems().getItemsOnSquare(playerEntity.getPosition().getX(), playerEntity.getPosition().getY())) {
-                height += roomItemFloor.getHeight();
-            }
+            //for (RoomItemFloor roomItemFloor : playerEntity.getRoom().getItems().getItemsOnSquare(playerEntity.getPosition().getX(), playerEntity.getPosition().getY())) {
+            //    height += roomItemFloor.getHeight();
+            //}
 
             int rotation = playerEntity.getBodyRotation();
 
