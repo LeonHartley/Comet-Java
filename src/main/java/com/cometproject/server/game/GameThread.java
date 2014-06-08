@@ -16,7 +16,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class GameThread implements CometTask {
-    private static final boolean MULTITHREADED_CYCLE = false;
     private static Logger log = Logger.getLogger(GameThread.class.getName());
 
     private CometThreadManagement threadManagement;
@@ -80,16 +79,7 @@ public class GameThread implements CometTask {
                 onlineRecord = usersOnline;
 
             if (cycleCount >= 15) {
-                if (MULTITHREADED_CYCLE) {
-                    this.threadManagement.executeOnce(new CometTask() {
-                        @Override
-                        public void run() {
-                            // Need to do some changes here to allow cycling to run multi threaded...
-                        }
-                    });
-                } else {
-                    this.cycle();
-                }
+                this.cycle();
             }
 
             StatisticsDao.saveStatistics(usersOnline, CometManager.getRooms().getActiveRooms().size(), Comet.getBuild());

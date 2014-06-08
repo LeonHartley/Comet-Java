@@ -11,6 +11,7 @@ import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 public abstract class RoomItemFloor extends RoomItem {
     private int roomId;
@@ -172,6 +173,10 @@ public abstract class RoomItemFloor extends RoomItem {
         }
 
         return this.tmpItemDefiniton;
+    }
+
+    public void onItemStacked(List<RoomItemFloor> itemsInStack) {
+
     }
 
     public void onEntityPreStepOn(GenericEntity entity) {
