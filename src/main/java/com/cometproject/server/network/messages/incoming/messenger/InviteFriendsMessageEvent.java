@@ -21,5 +21,6 @@ public class InviteFriendsMessageEvent implements IEvent {
         String message = msg.readString();
 
         client.getPlayer().getMessenger().broadcast(friends, InviteFriendMessageComposer.compose(client.getPlayer().getId(), message));
+        friends.clear();
     }
 }

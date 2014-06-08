@@ -12,18 +12,21 @@ public class PointsCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         if (params.length < 2)
             return;
-        String username;
-        username = params[0];
+        String username = params[0];
+        int points;
+
         try {
-            int points = Integer.parseInt(params[1]);
-            Session Player = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
-            Player.getPlayer().getData().increasePoints(points);
-            Player.send(AdvancedAlertMessageComposer.compose(Locale.get("command.points.successtitle"), Locale.get("command.points.successmessage").replace("%amount%", String.valueOf(points))));
-            client.getPlayer().sendBalance();
-        } catch (Exception Ignored) {
-            client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.points.errortitle"), Locale.get("command.points.errormessage")));
+            points = Integer.parseInt(params[1]);
+        } catch(Exception e) {
+            return;
         }
 
+        Session player = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
+
+        player.getPlayer().getData().increasePoints(points);
+
+        player.send(AdvancedAlertMessageComposer.compose(Locale.get("command.points.successtitle"), Locale.get("command.points.successmessage").replace("%amount%", String.valueOf(points))));
+        player.getPlayer().sendBalance();
     }
 
     @Override

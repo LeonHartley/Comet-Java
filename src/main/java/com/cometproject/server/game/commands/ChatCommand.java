@@ -35,12 +35,12 @@ public abstract class ChatCommand {
     }
 
     public String merge(String[] params, int begin) {
-
         StringBuilder mergedParams = new StringBuilder();
 
-        for (int i = 0; i < begin; i++) {
-            mergedParams.append(" ");
-            mergedParams.append(params[i]);
+        for(int i = 0; i < params.length; i++) {
+            if(i >= begin) {
+                mergedParams.append(params[i] + " ");
+            }
         }
 
         return mergedParams.toString();
