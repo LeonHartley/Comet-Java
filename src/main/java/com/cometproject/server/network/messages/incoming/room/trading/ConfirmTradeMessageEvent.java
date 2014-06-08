@@ -13,6 +13,6 @@ public class ConfirmTradeMessageEvent implements IEvent {
             return;
         }
 
-        trade.confirm(trade.getUserNumber(client.getPlayer().getEntity()), client.getPlayer().getEntity().getRoom().getTrade());
+        trade.confirm(trade.getUserNumber(client.getPlayer().getEntity()));
     }
 }

@@ -30,6 +30,8 @@ public class TradeComponent {
     }
 
     public void add(Trade trade) {
+        trade.setTradeComponent(this);
+
         this.trades.add(trade);
     }
 
@@ -43,6 +45,7 @@ public class TradeComponent {
     }
 
     public void remove(Trade trade) {
+        trade.dispose();
         this.trades.remove(trade);
     }
 

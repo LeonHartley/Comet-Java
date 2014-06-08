@@ -22,6 +22,8 @@ public class Trade {
 
     private boolean user1Accepted = false, user2Accepted = false;
 
+    private TradeComponent tradeComponent;
+
     public Trade(PlayerEntity user1, PlayerEntity user2) {
         this.user1 = user1;
         this.user2 = user2;
@@ -42,7 +44,7 @@ public class Trade {
         sendToUsers(TradeStartMessageComposer.compose(user1.getPlayer().getId(), user2.getPlayer().getId()));
     }
 
-    public void dispose() {
+    public void     dispose() {
         user1Items.clear();
         user2Items.clear();
         stage = 0;
@@ -82,6 +84,7 @@ public class Trade {
         }
 
         sendToUsers(TradeCloseMessageComposer.compose(userId));
+        tradeComponent.remove(this);
     }
 
     public void addItem(int user, InventoryItem item) {
@@ -132,7 +135,7 @@ public class Trade {
         }
     }
 
-    public void confirm(int user, TradeComponent tradeComponent) {
+    public void confirm(int user) {
         if (stage != 2) {
             return;
         }
@@ -150,8 +153,6 @@ public class Trade {
             this.user1Items.clear();
             this.user2Items.clear();
 
-            tradeComponent.remove(this);
-
             if (user1.getPlayer().getEntity().hasStatus("trd")) {
                 user1.getPlayer().getEntity().removeStatus("trd");
                 user1.getPlayer().getEntity().markNeedsUpdate();
@@ -163,6 +164,8 @@ public class Trade {
             }
 
         }
+
+        tradeComponent.remove(this);
     }
 
     public void complete() {
@@ -226,5 +229,13 @@ public class Trade {
 
     public PlayerEntity getUser2() {
         return this.user2;
+    }
+
+    public TradeComponent getTradeComponent() {
+        return tradeComponent;
+    }
+
+    public void setTradeComponent(TradeComponent tradeComponent) {
+        this.tradeComponent = tradeComponent;
     }
 }

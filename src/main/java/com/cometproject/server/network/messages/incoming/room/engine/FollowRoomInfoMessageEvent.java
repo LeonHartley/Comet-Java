@@ -18,8 +18,8 @@ public class FollowRoomInfoMessageEvent implements IEvent {
         boolean isInSameRoom = msg.readInt() == 1;
 
         if (client.getPlayer().getEntity() != null && roomId == client.getPlayer().getEntity().getRoom().getId()) {
-            client.sendQueue(FloorItemsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
-            client.sendQueue(WallItemsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
+            client.send(FloorItemsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
+            client.send(WallItemsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
             client.flush();
 
             client.getPlayer().getEntity().getRoom().getWired().trigger(TriggerType.ENTER_ROOM, null, client.getPlayer().getEntity());
@@ -57,7 +57,7 @@ public class FollowRoomInfoMessageEvent implements IEvent {
             composer.writeBoolean(false);
             composer.writeBoolean(true);
 
-            client.sendQueue(composer);
+            client.send(composer);
         }
 
         client.flush();
