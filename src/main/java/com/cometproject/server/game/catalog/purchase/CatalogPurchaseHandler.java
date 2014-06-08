@@ -56,6 +56,9 @@ public class CatalogPurchaseHandler {
             int totalCostCredits;
             int totalCostPoints;
 
+            if(item.getLimitedSells() >= item.getLimitedTotal() && item.getLimitedTotal() != 0)
+                return;
+
             if (item.allowOffer()) {
                 totalCostCredits = amount > 1 ? ((item.getCostCredits() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostCredits())) : item.getCostCredits();
                 totalCostPoints = amount > 1 ? ((item.getCostOther() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostOther())) : item.getCostOther();
@@ -189,8 +192,8 @@ public class CatalogPurchaseHandler {
                     client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
                 }
 
-                client.sendQueue(UpdateInventoryMessageComposer.compose())
-                        .sendQueue(SendPurchaseAlertMessageComposer.compose(unseenItems));
+                client.send(UpdateInventoryMessageComposer.compose())
+                        .send(SendPurchaseAlertMessageComposer.compose(unseenItems));
                 client.flush();
             }
         } catch (Exception e) {
