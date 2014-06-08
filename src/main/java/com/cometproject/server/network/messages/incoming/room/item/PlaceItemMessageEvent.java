@@ -99,8 +99,14 @@ public class  PlaceItemMessageEvent implements IEvent {
 
                 tilesToUpdate.add(new Position3D(floorItem.getX(), floorItem.getY(), 0d));
 
-                for (AffectedTile affTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), floorItem.getX(), floorItem.getY(), floorItem.getRotation())) {
+                for (AffectedTile affTile : AffectedTile.getAffectedBothTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), floorItem.getX(), floorItem.getY(), floorItem.getRotation())) {
                     tilesToUpdate.add(new Position3D(affTile.x, affTile.y, 0d));
+
+                    List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(affTile.x, affTile.y);
+
+                    for (GenericEntity entity0 : affectEntities0) {
+                        floorItem.onEntityStepOn(entity0);
+                    }
                 }
 
                 for (Position3D tileToUpdate : tilesToUpdate) {

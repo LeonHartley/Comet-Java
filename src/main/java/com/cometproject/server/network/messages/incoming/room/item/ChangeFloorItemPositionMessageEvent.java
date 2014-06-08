@@ -46,14 +46,11 @@ public class  ChangeFloorItemPositionMessageEvent implements IEvent {
                     }
                 }
 
-                int itemOldX = item.getX();
-                int itemOldY = item.getY();
+                List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(item.getX(), item.getY());
 
-                item.setX(x);
-                item.setY(y);
-
-                item.setRotation(rot);
-                item.setHeight(height);
+                for (GenericEntity entity0 : affectEntities0) {
+                    item.onEntityStepOff(entity0);
+                }
 
                 List<Position3D> tilesToUpdate = new ArrayList<>();
 
@@ -62,27 +59,39 @@ public class  ChangeFloorItemPositionMessageEvent implements IEvent {
 
                 // Catch this so the item still updates!
                 try {
-                    for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), itemOldX, itemOldY, item.getRotation())) {
+                    for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
                         tilesToUpdate.add(new Position3D(affectedTile.x, affectedTile.y, 0d));
-                        List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
+                        List<GenericEntity> affectEntities1 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
 
-                        for (GenericEntity entity0 : affectEntities0) {
-                            item.onEntityStepOff(entity0);
+                        for (GenericEntity entity1 : affectEntities1) {
+                            item.onEntityStepOff(entity1);
                         }
                     }
 
                     for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), x, y, item.getRotation())) {
                         tilesToUpdate.add(new Position3D(affectedTile.x, affectedTile.y, 0d));
 
-                        List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
+                        List<GenericEntity> affectEntities2 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
 
-                        for (GenericEntity entity0 : affectEntities0) {
-                            item.onEntityStepOn(entity0);
+                        for (GenericEntity entity2 : affectEntities2) {
+                            item.onEntityStepOn(entity2);
                         }
                     }
                 } catch (Exception e) {
                     log.error("Failed to update entity positions for changing item position", e);
                 }
+
+                List<GenericEntity> affectEntities3 = room.getEntities().getEntitiesAt(x, y);
+
+                for (GenericEntity entity3 : affectEntities3) {
+                    item.onEntityStepOn(entity3);
+                }
+
+                item.setX(x);
+                item.setY(y);
+
+                item.setRotation(rot);
+                item.setHeight(height);
 
                 RoomItemDao.saveItemPosition(x, y, height, rot, id);
 

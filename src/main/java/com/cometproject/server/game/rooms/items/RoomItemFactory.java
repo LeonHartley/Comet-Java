@@ -59,7 +59,7 @@ public class RoomItemFactory {
 
         switch (def.getInteraction()) {
             case "habbowheel": { return new WheelWallItem(id, baseId, roomId, owner, position, data); }
-            case "dimmer": { return new MoodlightWallItem(id, baseId, roomId, owner, position, data); }
+            //case "dimmer": { return new MoodlightWallItem(id, baseId, roomId, owner, position, data); }
             default: { return new GenericWallItem(id, baseId, roomId, owner, position, data); }
         }
     }
