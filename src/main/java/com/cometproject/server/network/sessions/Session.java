@@ -47,21 +47,16 @@ public class Session {
         this.eventHandler.handle(msg);
     }
 
-    public void send(Composer msg) {
-        if(msg == null) { return; }
+    public Session send(Composer msg) {
+        if(msg == null) { return this; }
 
         this.ctx.writeAndFlush(msg);
-    }
-
-    public Session sendQueue(Composer msg) {
-        if (msg == null) { return this; }
-
-        this.ctx.write(msg);
         return this;
     }
 
+    @Deprecated
     public void flush() {
-        this.ctx.flush();
+
     }
 
     public Logger getLogger() {

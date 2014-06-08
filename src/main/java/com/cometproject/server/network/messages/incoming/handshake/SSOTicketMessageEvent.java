@@ -116,21 +116,21 @@ public class SSOTicketMessageEvent implements IEvent {
 
         PlayerDao.updatePlayerStatus(player, true, true);
 
-        client.sendQueue(LoginMessageComposer.compose()).
-                sendQueue(client.getPlayer().composeCreditBalance()).
-                sendQueue(client.getPlayer().composeCurrenciesBalance()).
-                sendQueue(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank())).
-                sendQueue(MotdNotificationComposer.compose());
+        client.send(LoginMessageComposer.compose()).
+                send(client.getPlayer().composeCreditBalance()).
+                send(client.getPlayer().composeCurrenciesBalance()).
+                send(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank())).
+                send(MotdNotificationComposer.compose());
 
         if (player.getSettings().getHomeRoom() > 0) {
-            client.sendQueue(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
+            client.send(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
         }
 
         if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
-            client.sendQueue(ModToolMessageComposer.compose());
+            client.send(ModToolMessageComposer.compose());
         }
 
-        client.sendQueue(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
+        client.send(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
         client.flush();
     }
 }
