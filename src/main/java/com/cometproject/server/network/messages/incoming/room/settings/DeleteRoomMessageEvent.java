@@ -82,9 +82,9 @@ public class DeleteRoomMessageEvent implements IEvent {
         CometManager.getLogger().info("Room deleted: " + room.getId() + " by " + client.getPlayer().getId() + " / " + client.getPlayer().getData().getUsername());
         RoomDao.deleteRoom(room.getId());
 
-        client.sendQueue(UpdateInventoryMessageComposer.compose());
-        client.sendQueue(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));
-        client.sendQueue(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
+        client.send(UpdateInventoryMessageComposer.compose());
+        client.send(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));
+        client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
         client.flush();
     }
 }

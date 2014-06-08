@@ -75,8 +75,8 @@ public class InventoryComponent {
             // 0 = slot
             this.badges.put(code, 0);
 
-            this.player.getSession().sendQueue(AlertMessageComposer.compose(Locale.get("badge.get")))
-                    .sendQueue(BadgeInventoryMessageComposer.compose(this.badges))
+            this.player.getSession().send(AlertMessageComposer.compose(Locale.get("badge.get")))
+                    .send(BadgeInventoryMessageComposer.compose(this.badges))
                     .flush();
         }
     }
@@ -89,8 +89,8 @@ public class InventoryComponent {
 
             this.badges.remove(code);
 
-            this.player.getSession().sendQueue(AlertMessageComposer.compose(Locale.get("badge.deleted")))
-                    .sendQueue(BadgeInventoryMessageComposer.compose(this.badges))
+            this.player.getSession().send(AlertMessageComposer.compose(Locale.get("badge.deleted")))
+                    .send(BadgeInventoryMessageComposer.compose(this.badges))
                     .flush();
         }
     }
