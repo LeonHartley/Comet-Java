@@ -3,32 +3,34 @@ package com.cometproject.server.game.commands.staff;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.rooms.entities.RoomEntityType;
+import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.network.sessions.Session;
 
 public class KickCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-
         if (params.length < 1) {
             return;
         }
-        String username = params[1];
+        String username = params[0];
 
-        Session playerToKick = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
+        PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER); //Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
 
-        if (playerToKick == null)
+        if (entity == null)
             return;
 
-        if (playerToKick.getPlayer().getEntity().getUsername().equals(client.getPlayer().getEntity().getUsername())) {
+        if(entity.getUsername().equals(client.getPlayer().getData().getUsername())) {
             return;
         }
 
-        if (playerToKick.getPlayer().getPermissions().hasPermission("user_unkickable")) {
+        if (entity.getPlayer().getPermissions().hasPermission("user_unkickable")) {
+
             sendChat(Locale.get("command.kick.unkickable"), client);
             return;
         }
 
-        playerToKick.getPlayer().getEntity().leaveRoom(false, true, true);
+        entity.leaveRoom(false, true, true);
     }
 
     @Override

@@ -233,7 +233,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 }
             }
         } catch (Exception e) {
-            // command error?
+            // Error, what do?
+            return false;
         }
 
 
