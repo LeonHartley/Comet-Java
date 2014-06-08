@@ -75,7 +75,9 @@ public class  PlaceItemMessageEvent implements IEvent {
 
                 float height = (float) client.getPlayer().getEntity().getRoom().getModel().getSquareHeight()[x][y];
 
-                for (RoomItemFloor stackItem : room.getItems().getItemsOnSquare(x, y)) {
+                List<RoomItemFloor> floorItems = room.getItems().getItemsOnSquare(x, y);
+
+                for (RoomItemFloor stackItem : floorItems) {
                     if (item.getId() != stackItem.getId()) {
                         if (stackItem.getDefinition().canStack) {
                             height += stackItem.getDefinition().getHeight();
@@ -111,6 +113,21 @@ public class  PlaceItemMessageEvent implements IEvent {
 
                 for (Position3D tileToUpdate : tilesToUpdate) {
                     room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
+                }
+
+                List<RoomItemFloor> allFloorItems = new ArrayList<>(floorItems);
+                allFloorItems.add(floorItem);
+
+                for (RoomItemFloor stackItem : allFloorItems) {
+                    List<RoomItemFloor> itemsAboveAndBelow = new ArrayList<>();
+
+                    for (RoomItemFloor stackItem0 : allFloorItems) {
+                        if (stackItem.getId() != stackItem0.getId()) {
+                            itemsAboveAndBelow.add(stackItem0);
+                        }
+                    }
+
+                    stackItem.onItemStacked(itemsAboveAndBelow);
                 }
 
                 floorItem.onPlaced();

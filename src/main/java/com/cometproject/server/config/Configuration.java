@@ -30,6 +30,10 @@ public class Configuration {
         return this.getProperties().getProperty(key);
     }
 
+    public String getWithDefault(String key, String def) {
+        return this.getProperties().getProperty(key, def);
+    }
+
     public Properties getProperties() {
         return this.properties;
     }

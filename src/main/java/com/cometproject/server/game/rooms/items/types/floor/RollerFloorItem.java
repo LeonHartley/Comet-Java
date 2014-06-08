@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
+import org.apache.log4j.varia.Roller;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -12,9 +13,25 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class RollerFloorItem extends RoomItemFloor {
     private Map<Integer, GenericEntity> interactingEntities = new HashMap<>();
+    private List<RoomItemFloor> interactingItems = new ArrayList<>();
 
     public RollerFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    }
+
+    @Override
+    public void onItemStacked(List<RoomItemFloor> itemsInStack) {
+        for (RoomItemFloor fl : itemsInStack) {
+            if (!(fl instanceof RollerFloorItem)) {
+                if (!interactingItems.contains(fl)) {
+                    interactingItems.add(fl);
+                }
+            }
+        }
+
+        if (this.ticksTimer < 1) {
+            this.setTicks(RoomItemFactory.getProcessTime(3));
+        }
     }
 
     @Override
@@ -38,8 +55,79 @@ public class RollerFloorItem extends RoomItemFloor {
 
     @Override
     public void onTickComplete() {
-        if (this.interactingEntities.size() == 0) { return; }
+        if (this.interactingEntities.size() > 0) {
+            this.handleEntities();
+        }
 
+        if (this.interactingItems.size() > 0) {
+            this.handleItems();
+        }
+    }
+
+    private void handleItems() {
+        Position3D sqInfront = this.squareInfront();
+
+        if (!this.getRoom().getMapping().isValidPosition(sqInfront)) {
+            return;
+        }
+
+        List<RoomItemFloor> processedItems = new ArrayList<>();
+
+        for (RoomItemFloor item : this.interactingItems) {
+            processedItems.add(item);
+
+            if (!this.getRoom().getMapping().isValidStep(new Position3D(item.getX(), item.getY()), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
+                break;
+            }
+
+            if (item.getX() != this.getX() && item.getY() != this.getY()) {
+                continue;
+            }
+
+            float toHeight = 0f;
+            boolean cancel = false;
+
+            for (RoomItemFloor nextItem : this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
+                if (!nextItem.getDefinition().canStack) {
+                    cancel = true;
+                    break;
+                }
+
+                toHeight += nextItem.getDefinition().getHeight();
+            }
+
+            if (cancel) { break; }
+
+            this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position3D(item.getX(), item.getY(), item.getHeight()), new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight), this.getId(), 0, item.getId()));
+
+            item.setX(sqInfront.getX());
+            item.setY(sqInfront.getY());
+            item.setHeight(toHeight);
+        }
+
+        List<RoomItemFloor> floorItems = this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY());
+
+        List<RoomItemFloor> allFloorItems = new ArrayList<>(floorItems);
+        allFloorItems.add(this);
+
+        for (RoomItemFloor stackItem : allFloorItems) {
+            List<RoomItemFloor> itemsAboveAndBelow = new ArrayList<>();
+
+            for (RoomItemFloor stackItem0 : allFloorItems) {
+                if (stackItem.getId() != stackItem0.getId()) {
+                    itemsAboveAndBelow.add(stackItem0);
+                }
+            }
+
+            stackItem.onItemStacked(itemsAboveAndBelow);
+        }
+
+        for (RoomItemFloor item : processedItems) {
+            this.interactingItems.remove(item);
+        }
+    }
+
+    private void handleEntities() {
         Position3D sqInfront = this.squareInfront();
 
         if (!this.getRoom().getMapping().isValidPosition(sqInfront)) {
