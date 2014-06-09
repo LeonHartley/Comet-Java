@@ -124,6 +124,8 @@ public class RollerFloorItem extends RoomItemFloor {
         for (RoomItemFloor item : processedItems) {
             this.interactingItems.remove(item);
         }
+
+        this.getRoom().getMapping().updateTile(this.x, this.y);
     }
 
     private void handleEntities() {
