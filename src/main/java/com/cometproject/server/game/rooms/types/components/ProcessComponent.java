@@ -299,27 +299,44 @@ public class ProcessComponent implements CometTask {
             //entity.getPlayer().getSession().send(TalkMessageComposer.compose(entity.getVirtualId(), "X: " + newPosition.getX() + ", Y: " + newPosition.getY() + ", Rot: " + entity.getBodyRotation(), 0, 0));
 
             List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
+            List<RoomItemFloor> itemsOnOldSq = this.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY());
 
             // Step off
-            for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY())) {
+            //RoomItemFloor newItem = null;
+            //int index = 0;
+
+            for (RoomItemFloor item : itemsOnOldSq) {
+                /*if (itemsOnSq.size() > index) { newItem = itemsOnSq.get(index); }
+                index++;
+
+                if (newItem != null && newItem.getId() == item.getId()) { continue; }*/
+
                 item.onEntityStepOff(entity);
-
-                if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
-
-                }
+                if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) { }
             }
 
             // Step-on
+            RoomItemFloor oldItem = null;
+            int index0 = 0;
+
             for (RoomItemFloor item : itemsOnSq) {
-                if(item.getDefinition().getEffectId() != 0) {
-                    entity.applyEffect(new UserEffect(item.getDefinition().getEffectId(), true));
+                if (itemsOnOldSq.size() > index0) { oldItem = itemsOnOldSq.get(index0); }
+                index0++;
+
+                //if (oldItem != null && oldItem.getId() == item.getId()) { continue; }
+
+                if (item.getDefinition().getEffectId() != 0) {
+                    if (oldItem != null) {
+                        if (oldItem.getDefinition().getEffectId() != item.getDefinition().getEffectId()) {
+                            entity.applyEffect(new UserEffect(item.getDefinition().getEffectId(), true));
+                        }
+                    } else {
+                        entity.applyEffect(new UserEffect(item.getDefinition().getEffectId(), true));
+                    }
                 }
 
                 item.onEntityStepOn(entity);
-
-                if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
-                    // idk what to do here for this trigger but ya
-                }
+                if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) { }
             }
 
             entity.updateAndSetPosition(null);

@@ -145,6 +145,7 @@ public class RollerFloorItem extends RoomItemFloor {
             }
 
             if (!this.getRoom().getMapping().isValidStep(entity.getPosition(), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
+                this.setTicks(3);
                 break;
             }
 

@@ -1,0 +1,7 @@
+Summer Furni
+------
+Beach Shower - 'beach_shower'
+
+Hollywood
+------
+Halo tile - 'halo_tile'
