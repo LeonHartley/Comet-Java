@@ -6,7 +6,8 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.items.types.GenericFloorItem;
 import com.cometproject.server.game.rooms.items.types.GenericWallItem;
 import com.cometproject.server.game.rooms.items.types.floor.*;
-import com.cometproject.server.game.rooms.items.types.wall.MoodlightWallItem;
+import com.cometproject.server.game.rooms.items.types.floor.hollywood.HaloTileFloorItem;
+import com.cometproject.server.game.rooms.items.types.floor.summer.SummerShowerFloorItem;
 import com.cometproject.server.game.rooms.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionMoveRotate;
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionMoveUser;
@@ -35,7 +36,8 @@ public class RoomItemFactory {
             case "bed": { return new BedFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
             case "vendingmachine": { return new VendingMachineFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
             case "mannequin": { return new MannequinFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
-            case "water": { return new SummerWaterFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+            case "beach_shower": { return new SummerShowerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
+            case "halo_tile": { return new HaloTileFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data); }
 
             // Wired
             case "wf_act_moverotate": { return new WiredActionMoveRotate(id, baseId, roomId, ownerId, x, y, height, rot, data); }
