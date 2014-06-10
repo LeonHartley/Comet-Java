@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.items.types.floor.hollywood;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 
 public class HaloTileFloorItem extends RoomItemFloor {
@@ -9,24 +10,21 @@ public class HaloTileFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityPreStepOn(GenericEntity entity) {
         this.setExtraData("1");
         this.sendUpdate();
     }
 
     @Override
     public void onEntityStepOff(GenericEntity entity) {
-        //if (this.ticksTimer < 1) {
-        //    this.setTicks(1);
-        //}
-
-        this.setExtraData("0");
-        this.sendUpdate();
+        if (this.ticksTimer < 1) {
+            this.setTicks(RoomItemFactory.getProcessTime(1));
+        }
     }
 
     @Override
     public void onTickComplete() {
-        //this.setExtraData("0");
-        //this.sendUpdate();
+        this.setExtraData("0");
+        this.sendUpdate();
     }
 }
