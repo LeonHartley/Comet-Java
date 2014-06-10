@@ -61,7 +61,7 @@ public class RoomItemEventQueue {
                         break;
 
                     case StepOn:
-                        floor.onEntityPreStepOn(e.getEntity());
+                        floor.onEntityStepOn(e.getEntity());
                         break;
 
                     case StepOff:

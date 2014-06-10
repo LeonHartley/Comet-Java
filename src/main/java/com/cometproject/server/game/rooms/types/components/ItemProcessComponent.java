@@ -124,6 +124,9 @@ public class ItemProcessComponent implements CometTask {
 
     protected void handleSupressedExceptions(Throwable t) {
         // TO-DO: we need log these somewhere separately so we can 'fix' these kind of errors easily..
+        if (Comet.isDebugging) {
+            t.printStackTrace();
+        }
     }
 
     /*@Override

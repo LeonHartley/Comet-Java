@@ -5,7 +5,9 @@ import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.types.components.ItemProcessComponent;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import org.apache.log4j.varia.Roller;
 
 import java.util.*;
@@ -13,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RollerFloorItem extends RoomItemFloor {
-    private List<RoomItemFloor> interactingItems = new ArrayList<>();
+    //private List<RoomItemFloor> interactionFloorItems = new ArrayList<>();
 
     public RollerFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
@@ -21,26 +23,23 @@ public class RollerFloorItem extends RoomItemFloor {
 
     @Override
     public void onItemStacked(List<RoomItemFloor> itemsInStack) {
-        for (RoomItemFloor fl : itemsInStack) {
-            if (!(fl instanceof RollerFloorItem)) {
-                if (!interactingItems.contains(fl)) {
-                    interactingItems.add(fl);
+        /*for (RoomItemFloor f : itemsInStack) {
+            if (!interactionFloorItems.contains(f)) {
+                if (!(f instanceof RollerFloorItem)) {
+                    this.interactionFloorItems.add(f);
                 }
             }
-        }
+        }*/
 
         if (this.ticksTimer < 1) {
-            this.setTicks(RoomItemFactory.getProcessTime(3));
+            this.setTicks(RoomItemFactory.getProcessTime(2));
         }
     }
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
-        /*if (this.interactingEntities.containsKey(entity.getVirtualId())) { return; }
-        this.interactingEntities.put(entity.getVirtualId(), entity);*/
-
         if (this.ticksTimer < 1) {
-            this.setTicks(RoomItemFactory.getProcessTime(3));
+            this.setTicks(RoomItemFactory.getProcessTime(2));
         }
     }
 
@@ -52,10 +51,7 @@ public class RollerFloorItem extends RoomItemFloor {
     @Override
     public void onTickComplete() {
         this.handleEntities();
-
-        if (this.interactingItems.size() > 0) {
-            this.handleItems();
-        }
+        this.handleItems();
     }
 
     private void handleItems() {
@@ -65,12 +61,20 @@ public class RollerFloorItem extends RoomItemFloor {
             return;
         }
 
-        List<RoomItemFloor> processedItems = new ArrayList<>();
+        List<AffectedTile> tilesToUpdate = new ArrayList<>();
+        //List<RoomItemFloor> processedItems = new ArrayList<>();
 
-        for (RoomItemFloor item : this.interactingItems) {
-            processedItems.add(item);
+        List<RoomItemFloor> items = this.getRoom().getItems().getItemsOnSquare(this.getX(), this.getY());
+
+        for (RoomItemFloor item : items) {
+            //processedItems.add(item);
+
+            if (item instanceof RollerFloorItem || item.getHeight() < this.getHeight()) {
+                continue;
+            }
 
             if (!this.getRoom().getMapping().isValidStep(new Position3D(item.getX(), item.getY()), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
+                this.setTicks(RoomItemFactory.getProcessTime(2));
                 break;
             }
 
@@ -98,32 +102,46 @@ public class RollerFloorItem extends RoomItemFloor {
             item.setY(sqInfront.getY());
             item.setHeight(toHeight);
 
+            RoomItemDao.saveItemPosition(item.getX(), item.getY(), item.getHeight(), item.getRotation(), item.getId());
+
             for (AffectedTile affTile : AffectedTile.getAffectedBothTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(),
                     item.getX(), item.getY(), item.getRotation())) {
-                this.getRoom().getMapping().updateTile(affTile.x, affTile.y);
+                tilesToUpdate.add(affTile);
             }
+        }
+
+        for (AffectedTile affTile : tilesToUpdate) {
+            this.getRoom().getMapping().updateTile(affTile.x, affTile.y);
         }
 
         List<RoomItemFloor> floorItems = this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY());
 
-        List<RoomItemFloor> allFloorItems = new ArrayList<>(floorItems);
-        allFloorItems.add(this);
+        if (floorItems.size() > 0) {
+            RoomItemFloor next = floorItems.get(0);
 
-        for (RoomItemFloor stackItem : allFloorItems) {
-            List<RoomItemFloor> itemsAboveAndBelow = new ArrayList<>();
+            if (next instanceof RollerFloorItem) {
+                /*List<RoomItemFloor> allFloorItems = new ArrayList<>(floorItems);
+                //allFloorItems.add(next);
 
-            for (RoomItemFloor stackItem0 : allFloorItems) {
-                if (stackItem.getId() != stackItem0.getId()) {
-                    itemsAboveAndBelow.add(stackItem0);
-                }
+                for (RoomItemFloor stackItem : allFloorItems) {
+                    List<RoomItemFloor> itemsAboveAndBelow = new ArrayList<>();
+
+                    for (RoomItemFloor stackItem0 : allFloorItems) {
+                        if (stackItem.getId() != stackItem0.getId()) {
+                            itemsAboveAndBelow.add(stackItem0);
+                        }
+                    }
+
+                    stackItem.onItemStacked(itemsAboveAndBelow);
+                }*/
+
+                next.onItemStacked(null);
             }
-
-            stackItem.onItemStacked(itemsAboveAndBelow);
         }
 
-        for (RoomItemFloor item : processedItems) {
-            this.interactingItems.remove(item);
-        }
+        //for (RoomItemFloor f : processedItems) {
+        //    this.interactionFloorItems.remove(f);
+        //}
 
         this.getRoom().getMapping().updateTile(this.x, this.y);
     }

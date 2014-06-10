@@ -10,6 +10,8 @@ import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.queue.RoomItemEventQueueEntry;
+import com.cometproject.server.game.rooms.items.queue.RoomItemEventType;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
@@ -364,7 +366,9 @@ public class ProcessComponent implements CometTask {
 
                 boolean effectNeedsRemove = true;
 
-                for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
+                List<RoomItemFloor> preItems = this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y);
+
+                for (RoomItemFloor item : preItems) {
                     if(entity.getCurrentEffect() != null && entity.getCurrentEffect().getEffectId() == item.getDefinition().getEffectId()) {
                         effectNeedsRemove = false;
                     }
@@ -382,7 +386,7 @@ public class ProcessComponent implements CometTask {
                 }
 
                 // Pre-step on
-                for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y)) {
+                for (RoomItemFloor item : preItems) {
                     item.onEntityPreStepOn(entity);
                 }
 
@@ -402,10 +406,13 @@ public class ProcessComponent implements CometTask {
                 } else {
                     if (entity.getWalkingPath() != null){ entity.getWalkingPath().clear(); }
                     entity.getProcessingPath().clear();
+
+                    for (RoomItemFloor item : preItems) {
+                        item.onEntityStepOff(entity);
+                    }
                 }
             } else {
                 if (entity.getWalkingPath() != null) { entity.getWalkingPath().clear(); }
-
                 entity.getProcessingPath().clear();
             }
         }
