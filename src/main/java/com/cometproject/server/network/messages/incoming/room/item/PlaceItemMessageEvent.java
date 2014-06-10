@@ -52,8 +52,7 @@ public class  PlaceItemMessageEvent implements IEvent {
                         SendWallItemMessageComposer.compose(wallItem)
                 );
 
-                //room.getItemProcess().getEventQueue().queue(new RoomItemEventQueueEntry(wallItem, RoomItemEventType.Placed));
-                wallItem.onPlaced(); // ^ above needs more testing first
+                wallItem.onPlaced();
             } else {
                 int x = Integer.parseInt(parts[1]);
                 int y = Integer.parseInt(parts[2]);
@@ -113,21 +112,6 @@ public class  PlaceItemMessageEvent implements IEvent {
 
                 for (Position3D tileToUpdate : tilesToUpdate) {
                     room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
-                }
-
-                List<RoomItemFloor> allFloorItems = new ArrayList<>(floorItems);
-                allFloorItems.add(floorItem);
-
-                for (RoomItemFloor stackItem : allFloorItems) {
-                    List<RoomItemFloor> itemsAboveAndBelow = new ArrayList<>();
-
-                    for (RoomItemFloor stackItem0 : allFloorItems) {
-                        if (stackItem.getId() != stackItem0.getId()) {
-                            itemsAboveAndBelow.add(stackItem0);
-                        }
-                    }
-
-                    stackItem.onItemStacked(itemsAboveAndBelow);
                 }
 
                 floorItem.onPlaced();

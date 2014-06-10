@@ -138,10 +138,8 @@ public class ProcessComponent implements CometTask {
                 entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
 
                 // Process anything generic for all entities below this line
-
                 if (entity.needsUpdate()) {
                     entity.markNeedsUpdateComplete();
-
                     this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
                 }
             }
@@ -153,10 +151,9 @@ public class ProcessComponent implements CometTask {
             // Update the entity grid
             this.getRoom().getEntities().replaceEntityGrid(entityGrid);
 
-
             TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
-            if (span.toMilliseconds() > 250)
+            if (span.toMilliseconds() > 400)
                 log.info("ProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             this.handleSupressedExceptions(e);
@@ -166,16 +163,10 @@ public class ProcessComponent implements CometTask {
     }
 
     protected boolean processEntity(GenericEntity entity) {
-
-        // Copy the current position before updating
-        Position3D currentPosition = new Position3D(entity.getPosition());
-
         boolean isPlayer = entity instanceof PlayerEntity;
 
         if (isPlayer && ((PlayerEntity) entity).getPlayer() == null || entity.getRoom() == null) {
-            //this.room.getEntities().removeEntity(entity);
-            //this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
-            return true;
+            return true; // adds it to the to remove list automatically..
         }
 
         if(isPlayer) {
@@ -298,21 +289,11 @@ public class ProcessComponent implements CometTask {
             newPosition.setY(entity.getPositionToSet().getY());
             newPosition.setZ(entity.getPositionToSet().getZ());
 
-            //entity.getPlayer().getSession().send(TalkMessageComposer.compose(entity.getVirtualId(), "X: " + newPosition.getX() + ", Y: " + newPosition.getY() + ", Rot: " + entity.getBodyRotation(), 0, 0));
-
             List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
             List<RoomItemFloor> itemsOnOldSq = this.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY());
 
             // Step off
-            //RoomItemFloor newItem = null;
-            //int index = 0;
-
             for (RoomItemFloor item : itemsOnOldSq) {
-                /*if (itemsOnSq.size() > index) { newItem = itemsOnSq.get(index); }
-                index++;
-
-                if (newItem != null && newItem.getId() == item.getId()) { continue; }*/
-
                 item.onEntityStepOff(entity);
                 if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) { }
             }
@@ -385,11 +366,6 @@ public class ProcessComponent implements CometTask {
                     entity.applyEffect(null);
                 }
 
-                // Pre-step on
-                for (RoomItemFloor item : preItems) {
-                    item.onEntityPreStepOn(entity);
-                }
-
                 if (!isCancelled) {
                     entity.addStatus("mv", String.valueOf(nextSq.x).concat(",").concat(String.valueOf(nextSq.y)).concat(",").concat(String.valueOf(height)));
 
@@ -406,10 +382,6 @@ public class ProcessComponent implements CometTask {
                 } else {
                     if (entity.getWalkingPath() != null){ entity.getWalkingPath().clear(); }
                     entity.getProcessingPath().clear();
-
-                    for (RoomItemFloor item : preItems) {
-                        item.onEntityStepOff(entity);
-                    }
                 }
             } else {
                 if (entity.getWalkingPath() != null) { entity.getWalkingPath().clear(); }
@@ -423,20 +395,6 @@ public class ProcessComponent implements CometTask {
 
             if (entity.getCurrentEffect().getDuration() == 0 && entity.getCurrentEffect().expires()) {
                 entity.applyEffect(null);
-            }
-
-            if (entity.getCurrentEffect() != null && entity.getCurrentEffect().isItemEffect()) {
-                boolean needsRemove = true;
-
-                //for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(currentPosition.getX(), currentPosition.getY())) {
-                //    if (item.getDefinition().getEffectId() == entity.getCurrentEffect().getEffectId()) {
-                //        needsRemove = false;
-                //    }
-                //}
-
-                //if (needsRemove) {
-                //    entity.applyEffect(null);
-                //}
             }
         }
 
