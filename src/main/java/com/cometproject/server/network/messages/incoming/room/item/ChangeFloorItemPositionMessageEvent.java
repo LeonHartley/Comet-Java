@@ -95,24 +95,6 @@ public class  ChangeFloorItemPositionMessageEvent implements IEvent {
                     item.onEntityStepOn(entity3);
                 }
 
-                List<RoomItemFloor> allFloorItems = new ArrayList<>(floorItemsAt);
-                allFloorItems.add(item);
-
-                for (RoomItemFloor stackItem : allFloorItems) {
-                    List<RoomItemFloor> itemsAboveAndBelow = new ArrayList<>();
-
-                    for (RoomItemFloor stackItem0 : allFloorItems) {
-                        if (stackItem.getId() != stackItem0.getId()) {
-                            itemsAboveAndBelow.add(stackItem0);
-                        }
-                    }
-
-                    stackItem.onItemStacked(itemsAboveAndBelow);
-                }
-
-                //room.getItems().getFloorItems().remove(item);
-                //room.getItems().getFloorItems().add(item);
-
                 room.getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(item, room.getData().getOwnerId()));
 
                 for (Position3D tileToUpdate : tilesToUpdate) {

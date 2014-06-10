@@ -10,7 +10,7 @@ public class HaloTileFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityPreStepOn(GenericEntity entity) {
+    public void onEntityStepOn(GenericEntity entity) {
         this.setExtraData("1");
         this.sendUpdate();
     }

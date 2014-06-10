@@ -175,10 +175,6 @@ public abstract class RoomItemFloor extends RoomItem {
         return this.tmpItemDefiniton;
     }
 
-    public void onItemStacked(List<RoomItemFloor> itemsInStack) {
-
-    }
-
     public void onEntityPreStepOn(GenericEntity entity) {
 
     }
