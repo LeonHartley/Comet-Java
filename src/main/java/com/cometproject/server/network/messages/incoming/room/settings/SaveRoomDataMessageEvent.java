@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -76,6 +77,10 @@ public class SaveRoomDataMessageEvent implements IEvent {
         }
 
         if (maxUsers < 0) {
+            return;
+        }
+
+        if(!client.getPlayer().getPermissions().hasPermission("mod_tool") && maxUsers > CometSettings.maxPlayersInRoom) {
             return;
         }
 

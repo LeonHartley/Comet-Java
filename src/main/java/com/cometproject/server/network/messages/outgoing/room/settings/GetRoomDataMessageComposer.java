@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.room.settings;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.headers.Composers;
@@ -15,7 +16,7 @@ public class GetRoomDataMessageComposer {
         msg.writeInt(RoomWriter.roomAccessToNumber(room.getData().getAccess()));
         msg.writeInt(room.getData().getCategory().getId());
         msg.writeInt(room.getData().getMaxUsers());
-        msg.writeInt(staff ? 500 : 150);
+        msg.writeInt(staff ? 500 : CometSettings.maxPlayersInRoom);
         msg.writeInt(room.getData().getTags().length);
 
         for (String tag : room.getData().getTags()) {
