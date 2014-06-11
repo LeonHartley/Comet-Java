@@ -55,6 +55,7 @@ public class RoomCycle implements CometTask {
                     room.tick();
                 } catch (Exception e) {
                     log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
+                    Thread.dumpStack();
                 }
             }
 
