@@ -7,7 +7,7 @@ import com.cometproject.server.network.messages.types.Composer;
 public class MotdNotificationComposer {
     public static Composer compose() {
         if (CometSettings.messageOfTheDayEnabled) {
-            return compose(CometSettings.messageOfTheDayText);
+            return AlertMessageComposer.compose(CometSettings.messageOfTheDayText);//compose(CometSettings.messageOfTheDayText);
         }
 
         return null;

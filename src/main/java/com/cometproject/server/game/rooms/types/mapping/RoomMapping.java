@@ -46,9 +46,6 @@ public class RoomMapping {
         }
 
         Arrays.fill(this.tiles, null);
-
-        this.room = null;
-        this.model = null;
     }
 
     public void updateTile(int x, int y) {

@@ -9,8 +9,7 @@ public class Composers {
     public static short FuserightsMessageComposer = 1723;
     public static short ActionMessageComposer = 2439;
     public static short IdleStatusMessageComposer = 908;
-    public static short AlertMessageComposer = 0; // TODO: this
-    public static short AdvancedAlertMessageComposer = 2664; // TODO: check
+    public static short AdvancedAlertMessageComposer = 2664;
     public static short AllowancesMessageComposer = 3899;
     public static short BoughtItemMessageComposer = 2408;
     public static short CanCreateRoomMessageComposer = 3353;
@@ -23,7 +22,7 @@ public class Composers {
     public static short GetPowerListMessageComposer = 2547;
     public static short GetRoomDataMessageComposer = 329;
     public static short HeightmapMessageComposer = 2749;
-    public static short HotelViewMessageComposer = 2919; // TODO: Check this
+    public static short HotelViewMessageComposer = 2919;
     public static short InstantChatMessageComposer = 2109;
     public static short InstantInviteMessageComposer = 258;
     public static short InventoryMessageComposer = 1293;
@@ -144,6 +143,8 @@ public class Composers {
     public static short MoodlightMessageComposer = 3496;
 
     public static short ShowRoomPollMessageComposer = 3762;
+
+    public static short AlertMessageComposer = 656;
 
 
     public static String valueOfId(int i) {

@@ -78,6 +78,9 @@ public class Room implements Attributable {
     }
 
     public void dispose() {
+        if(this.isDisposed)
+            return;
+
         this.getData().save();
 
         this.process.stop();
@@ -104,19 +107,6 @@ public class Room implements Attributable {
         }
 
         this.attributes.clear();
-
-        this.attributes = null;
-        this.itemProcess = null;
-        this.process = null;
-        this.rights = null;
-        this.items = null;
-        this.wired = null;
-        this.chatlog = null;
-        this.trade = null;
-        this.bots = null;
-        this.pets = null;
-        this.entities = null;
-        this.mapping = null;
 
         if(this.model instanceof DynamicRoomModel) {
             this.model.dispose();
