@@ -6,6 +6,7 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.items.types.GenericFloorItem;
 import com.cometproject.server.game.rooms.items.types.GenericWallItem;
 import com.cometproject.server.game.rooms.items.types.floor.*;
+import com.cometproject.server.game.rooms.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.hollywood.HaloTileFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.summer.SummerShowerFloorItem;
 import com.cometproject.server.game.rooms.items.types.wall.WheelWallItem;
