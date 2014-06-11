@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
@@ -32,7 +33,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class ProcessComponent implements CometTask {
-    private final int ROOM_DISPOSE_TIME = Integer.parseInt(Comet.getServer().getConfig().get("comet.room.dispose.cycles"));
     private int disposeCycles = 0;
 
     private ArrayList<GenericEntity> usersToUpdate;
@@ -75,18 +75,9 @@ public class ProcessComponent implements CometTask {
         }
 
         try {
-            // Dispose the room if it has been idle for a certain amount of time
             if (this.getRoom().getEntities().playerCount() == 0) {
-                if (this.disposeCycles >= ROOM_DISPOSE_TIME) {
-                    this.getRoom().dispose();
-                    return;
-                }
-
-                this.disposeCycles++;
-            } else {
-                if (this.disposeCycles >= 0) {
-                    this.disposeCycles = 0;
-                }
+                CometManager.getRooms().getGlobalCycle().requestUnload(this.room.getId());
+                return;
             }
 
             long timeStart = System.currentTimeMillis();

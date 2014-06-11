@@ -2,6 +2,7 @@ package com.cometproject.server.game.navigator.types.featured;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.types.Composer;
 
@@ -21,7 +22,7 @@ public class FeaturedRoom {
     private boolean enabled;
     private boolean recommended;
 
-    private Room room;
+    private RoomData room;
 
     public FeaturedRoom(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
@@ -37,7 +38,7 @@ public class FeaturedRoom {
         this.isCategory = data.getString("type").equals("category");
 
         // cache the room data so we dont have to get it every time we load the nav
-        if (!isCategory) this.room = CometManager.getRooms().get(roomId);
+        if (!isCategory) this.room = CometManager.getRooms().getRoomData(roomId);
     }
 
     public FeaturedRoom(int id, BannerType bannerType, String caption, String description, String image, ImageType imageType, int roomId, int categoryId, boolean enabled, boolean recommended, boolean isCategory) {
@@ -53,27 +54,28 @@ public class FeaturedRoom {
         this.recommended = recommended;
         this.isCategory = isCategory;
 
-        if (!isCategory) this.room = CometManager.getRooms().get(roomId);
+        if (!isCategory) this.room = CometManager.getRooms().getRoomData(roomId);
     }
 
     public void compose(Composer msg) {
-        boolean isActive = (room != null && room.getEntities() != null);
+        boolean isActive = !isCategory && CometManager.getRooms().isActive(room.getId());
 
         msg.writeInt(id);
-        msg.writeString((!isCategory) ? room.getData().getName() : caption);
-        msg.writeString((!isCategory) ? room.getData().getDescription() : description);
+        msg.writeString((!isCategory) ? room.getName() : caption);
+        msg.writeString((!isCategory) ? room.getDescription() : description);
 
         msg.writeInt(bannerType == BannerType.BIG ? 0 : 1);
         msg.writeString(!isCategory ? caption : "");
         msg.writeString(imageType == ImageType.EXTERNAL ? image : "");
         msg.writeInt(categoryId);
-        msg.writeInt(isActive ? room.getEntities().playerCount() : 0);
+
+        msg.writeInt(isActive ? CometManager.getRooms().get(roomId).getEntities().playerCount() : 0);
         msg.writeInt(isCategory ? 4 : 2); // is room
 
         if (isCategory) {
             msg.writeBoolean(false);
         } else {
-            RoomWriter.writeInfo(this.room, msg);
+            RoomWriter.writeInfo(room, msg);
         }
     }
 

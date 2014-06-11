@@ -10,7 +10,6 @@ import com.cometproject.server.game.rooms.types.misc.ChatEmotionsManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
-import javolution.util.FastSet;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -21,28 +20,58 @@ import java.util.Set;
 public class RoomManager {
     public static final Logger log = Logger.getLogger(RoomManager.class.getName());
 
-    private final FastMap<Integer, Room> rooms = new FastMap<Integer, Room>().shared();
-    private final Set<Integer> activeRoomIds = new FastSet<Integer>().shared();
+    private FastMap<Integer, RoomData> roomDataInstances;
+    private FastMap<Integer, Room> roomInstances;
 
-    private ArrayList<StaticRoomModel> models;
+    private Set<StaticRoomModel> models;
     private WordFilter filterManager;
 
-    private RoomCycle globalProcessor;
+    private RoomCycle globalCycle;
     private ChatEmotionsManager emotions;
 
     public RoomManager() {
-        models = new ArrayList<>();
-        emotions = new ChatEmotionsManager();
-        filterManager = new WordFilter();
+        this.emotions = new ChatEmotionsManager();
+        this.filterManager = new WordFilter();
 
-        globalProcessor = new RoomCycle(Comet.getServer().getThreadManagement());
+        this.roomDataInstances = new FastMap<Integer, RoomData>().shared();
+        this.roomInstances = new FastMap<Integer, Room>().shared();
 
-        loadModels();
+        this.globalCycle = new RoomCycle(Comet.getServer().getThreadManagement());
+
+        this.loadModels();
+    }
+
+    private Room createRoomInstance(RoomData data) {
+        if(data == null) {
+            return null;
+        }
+
+        Room instance = new Room(data);
+
+        // attributes
+        instance.setAttribute("loadTime", System.currentTimeMillis());
+
+        return instance;
+    }
+
+
+    public void removeInstance(int roomId) {
+        if(!this.getRoomInstances().containsKey(roomId)) {
+            return;
+        }
+
+        Room room = this.getRoomInstances().get(roomId);
+
+        if(!room.isDisposed()) {
+            room.dispose();
+        }
+
+        this.getRoomInstances().remove(roomId);
     }
 
     public void loadModels() {
         try {
-            if (this.getModels().size() != 0) {
+            if (this.models != null && this.getModels().size() != 0) {
                 this.getModels().clear();
             }
 
@@ -67,62 +96,61 @@ public class RoomManager {
     }
 
     public Room get(int id) {
-        if (this.getRooms().containsKey(id)) {
-            return this.getRooms().get(id);
+        if (this.getRoomInstances().containsKey(id)) {
+            return this.getRoomInstances().get(id);
         }
 
-        try {
-            Room room = RoomDao.getRoomById(id);
+        Room room = createRoomInstance(this.getRoomData(id));
 
-            if (room != null) {
-                this.rooms.put(id, room);
-                return room;
-            }
-        } catch (Exception e) {
-            log.error("Error while loading room", e);
+        if(room == null) {
+            log.warn("There was a problem loading room: " + id + ", data was null");
         }
 
-        return null;
+        if(room != null)
+            this.roomInstances.put(room.getId(), room);
+
+        return room;
+    }
+
+    public RoomData getRoomData(int id) {
+        if(this.getRoomDataInstances().containsKey(id)){
+            return this.getRoomDataInstances().get(id);
+        }
+
+        RoomData roomData = RoomDao.getRoomDataById(id);
+
+        if (roomData != null) {
+            this.getRoomDataInstances().put(id, roomData);
+        }
+
+        return roomData;
     }
 
     public void loadRoomsForUser(Player player) {
-        try {
-            player.getRooms().clear();
+        player.getRooms().clear();
 
-            Map<Integer, Room> rooms = RoomDao.getRoomsByPlayerId(player.getId());
+        Map<Integer, RoomData> rooms = RoomDao.getRoomsByPlayerId(player.getId());
 
-            for(Map.Entry<Integer, Room> roomEntry : rooms.entrySet()) {
-                player.getRooms().add(roomEntry.getKey());
+        for(Map.Entry<Integer, RoomData> roomEntry : rooms.entrySet()) {
+            player.getRooms().add(roomEntry.getKey());
 
-                if(!this.rooms.containsKey(roomEntry.getKey())) {
-                    this.rooms.put(roomEntry.getKey(), roomEntry.getValue());
-                }
+            if(!this.roomDataInstances.containsKey(roomEntry.getKey())) {
+                this.roomDataInstances.put(roomEntry.getKey(), roomEntry.getValue());
             }
-        } catch (Exception e) {
-            log.error("Error while loading rooms for user", e);
         }
     }
 
-    public List<Room> getRoomByQuery(String query) {
-        ArrayList<Room> rooms = new ArrayList<>();
+    public List<RoomData> getRoomByQuery(String query) {
+        ArrayList<RoomData> rooms = new ArrayList<>();
 
-        try {
-            List<RoomData> roomSearchResults = RoomDao.getRoomsByQuery(query);
+        List<RoomData> roomSearchResults = RoomDao.getRoomsByQuery(query);
 
-            for(RoomData data : roomSearchResults) {
-                if (this.getRooms().containsKey(data.getId())) {
-                    rooms.add(this.getRooms().get(data.getId()));
-                    continue;
-                }
-
-                Room room = new Room(data);
-
-                this.getRooms().put(data.getId(), room);
-                rooms.add(room);
+        for(RoomData data : roomSearchResults) {
+            if (!this.getRoomDataInstances().containsKey(data.getId())) {
+                this.getRoomDataInstances().put(data.getId(), data);
             }
 
-        } catch (Exception e) {
-            log.error("Error while loading rooms by query", e);
+            rooms.add(data);
         }
 
         if (rooms.size() == 0 && !query.toLowerCase().startsWith("owner:")) {
@@ -132,46 +160,27 @@ public class RoomManager {
         return rooms;
     }
 
-    public int createRoom(String name, String model, Session client) {
-        int roomId = 0;
-        try {
-            roomId = RoomDao.createRoom(name, model, client.getPlayer().getId(), client.getPlayer().getData().getUsername());
+    public boolean isActive(int roomId) {
+        return this.roomInstances.containsKey(roomId);
+    }
 
-            this.loadRoomsForUser(client.getPlayer());
-        } catch (Exception e) {
-            log.error("Error while creating a room", e);
-        }
+    public int createRoom(String name, String model, Session client) {
+        int roomId = RoomDao.createRoom(name, model, client.getPlayer().getId(), client.getPlayer().getData().getUsername());
+
+        this.loadRoomsForUser(client.getPlayer());
 
         return roomId;
     }
 
-    public List<Room> getActiveRooms() {
-        List<Room> rooms = new ArrayList<>();
+    public List<RoomData> getRoomsByCategory(int category) {
+        List<RoomData> rooms = new ArrayList<>();
 
-        for (Integer roomId : this.activeRoomIds) {
-            Room room = this.get(roomId);
-
-            if (room == null || room.getEntities() == null || room.getEntities().playerCount() < 1 || !room.isActive) {
+        for (Room room : this.roomInstances.values()) {
+            if ((category != -1 && room.getData().getCategory().getId() != category)) {
                 continue;
             }
 
-            rooms.add(room);
-        }
-
-        return rooms;
-    }
-
-    public List<Room> getActiveRoomsByCategory(int category) {
-        List<Room> rooms = new ArrayList<>();
-
-        for (Integer roomId : this.activeRoomIds) {
-            Room room = this.get(roomId);
-
-            if (room == null || room.getEntities() == null || room.getEntities().playerCount() < 1 || !room.isActive || (category != -1 && room.getData().getCategory().getId() != category)) {
-                continue;
-            }
-
-            rooms.add(room);
+            rooms.add(room.getData());
         }
 
         return rooms;
@@ -181,23 +190,23 @@ public class RoomManager {
         return this.emotions;
     }
 
-    public FastMap<Integer, Room> getRooms() {
-        return this.rooms;
+    public FastMap<Integer, Room> getRoomInstances() {
+        return this.roomInstances;
     }
 
-    public List<StaticRoomModel> getModels() {
+    public FastMap<Integer, RoomData> getRoomDataInstances() {
+        return this.roomDataInstances;
+    }
+
+    public Set<StaticRoomModel> getModels() {
         return this.models;
     }
 
-    public RoomCycle getGlobalProcessor() {
-        return this.globalProcessor;
+    public RoomCycle getGlobalCycle() {
+        return this.globalCycle;
     }
 
     public WordFilter getFilter() {
         return filterManager;
-    }
-
-    public Set<Integer> getActiveRoomIds() {
-        return activeRoomIds;
     }
 }

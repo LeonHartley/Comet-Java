@@ -126,10 +126,6 @@ public class Player {
             return;
         }
 
-        if (!room.isActive) {
-            room.load();
-        }
-
         if(room.getEntities() == null) {
             Logger.getLogger("InitializeRoom").error("EntityComponent is null!");
             return;

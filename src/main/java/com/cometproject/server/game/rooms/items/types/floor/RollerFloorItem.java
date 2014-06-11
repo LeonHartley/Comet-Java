@@ -39,9 +39,9 @@ public class RollerFloorItem extends RoomItemFloor {
 
         List<Integer> processedEntities = new ArrayList<>();
 
-        List<GenericEntity> entites = this.getRoom().getEntities().getEntitiesAt(this.getX(), this.getY());
+        List<GenericEntity> entities = this.getRoom().getEntities().getEntitiesAt(this.getX(), this.getY());
 
-        for (GenericEntity entity : entites) {
+        for (GenericEntity entity : entities) {
             processedEntities.add(entity.getVirtualId());
 
             if (entity.getPosition().getX() != this.getX() && entity.getPosition().getY() != this.getY()) {

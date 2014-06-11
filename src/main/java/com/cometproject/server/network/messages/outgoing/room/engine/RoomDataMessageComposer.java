@@ -10,7 +10,7 @@ public class RoomDataMessageComposer {
         Composer msg = new Composer(Composers.RoomDataMessageComposer);
 
 
-        RoomWriter.writeData(room, msg);
+        RoomWriter.writeData(room.getData(), msg);
 
         return msg;
     }

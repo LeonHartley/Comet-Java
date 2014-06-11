@@ -445,6 +445,8 @@ public abstract class GenericEntity implements AvatarEntity {
 
     public abstract boolean onChat(String message);
 
+    public abstract boolean onRoomDispose();
+
     public boolean isVisible() {
         return isVisible;
     }
