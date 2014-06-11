@@ -212,7 +212,7 @@ public class ItemsComponent {
             }
         }
 
-        room.getEntities().broadcastMessage(RemoveFloorItemMessageComposer.compose(item.getId(), room.getData().getOwnerId()));
+        room.getEntities().broadcastMessage(RemoveFloorItemMessageComposer.compose(item.getId(), client.getPlayer().getId()));
         room.getItems().getFloorItems().remove(item);
 
         if (toInventory) {
