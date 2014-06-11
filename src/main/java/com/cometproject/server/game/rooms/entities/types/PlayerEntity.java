@@ -269,6 +269,33 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     }
 
     @Override
+    public boolean onRoomDispose() {
+        // Clear all  statuses
+        this.getStatuses().clear();
+
+        // Send leave room message to all current entities
+        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
+
+        // Sending this user to the hotel view?
+        this.getPlayer().getSession().send(HotelViewMessageComposer.compose());
+        this.getPlayer().getSession().getPlayer().getMessenger().sendStatus(true, false);
+
+        // Also could be useful for bot trading etc
+
+        // Check and cancel any active trades
+        Trade trade = this.getRoom().getTrade().get(this.getPlayer().getEntity());
+
+        if (trade != null) {
+            trade.cancel(this.getPlayer().getId());
+        }
+
+        // De-reference things
+        this.getPlayer().setAvatar(null);
+        this.player = null;
+        return false;
+    }
+
+    @Override
     public void setIdle() {
         super.setIdle();
 

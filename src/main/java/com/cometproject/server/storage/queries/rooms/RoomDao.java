@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
+import javolution.util.FastSet;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,14 +14,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class RoomDao {
-    public static ArrayList<StaticRoomModel> getModels() {
+    public static Set<StaticRoomModel> getModels() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        ArrayList<StaticRoomModel> data = new ArrayList<>();
+        Set<StaticRoomModel> data = new FastSet<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -43,7 +45,7 @@ public class RoomDao {
         return data;
     }
 
-    public static Room getRoomById(int id) {
+    public static RoomData getRoomDataById(int id) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -57,7 +59,7 @@ public class RoomDao {
             resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()) {
-                return new Room(new RoomData(resultSet));
+                return new RoomData(resultSet);
             }
 
         } catch (SQLException e) {
@@ -71,12 +73,12 @@ public class RoomDao {
         return null;
     }
 
-    public static Map<Integer, Room> getRoomsByPlayerId(int playerId) {
+    public static Map<Integer, RoomData> getRoomsByPlayerId(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, Room> rooms = new FastMap<>();
+        Map<Integer, RoomData> rooms = new FastMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -87,7 +89,7 @@ public class RoomDao {
             resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()) {
-                rooms.put(resultSet.getInt("id"), new Room(new RoomData(resultSet)));
+                rooms.put(resultSet.getInt("id"), new RoomData(resultSet));
             }
 
         } catch (SQLException e) {
