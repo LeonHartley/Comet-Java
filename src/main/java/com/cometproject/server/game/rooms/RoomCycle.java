@@ -47,10 +47,10 @@ public class RoomCycle implements CometTask {
                 if (room == null) continue;
 
                 try {
-                    if (this.roomsToUnload.contains(room.getId())) {
-                        room.dispose();
-                        continue;
-                    }
+//                    if (this.roomsToUnload.contains(room.getId())) {
+//                        room.dispose();
+//                        continue;
+//                    }
 
                     room.tick();
                 } catch (Exception e) {
@@ -94,10 +94,12 @@ public class RoomCycle implements CometTask {
     }
 
     public void requestUnload(int roomId) {
-        if (this.roomsToUnload.contains(roomId))
-            return;
+//        if (this.roomsToUnload.contains(roomId))
+//            return;
+//
+//        this.roomsToUnload.add(roomId);
 
-        this.roomsToUnload.add(roomId);
+        CometManager.getRooms().removeInstance(roomId);
     }
 
     public boolean isActive() {
