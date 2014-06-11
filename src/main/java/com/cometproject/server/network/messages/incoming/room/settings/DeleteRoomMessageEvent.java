@@ -54,14 +54,12 @@ public class DeleteRoomMessageEvent implements IEvent {
             InventoryBot inventoryBot = new InventoryBot(bot.getBotId(), bot.getData().getOwnerId(), bot.getData().getOwnerName(), bot.getUsername(), bot.getFigure(), bot.getGender(), bot.getMotto());
             client.getPlayer().getBots().addBot(inventoryBot);
 
-            bot.leaveRoom();
             RoomBotDao.setRoomId(0, inventoryBot.getId());
         }
 
         for(PetEntity pet : room.getEntities().getPetEntities()) {
             client.getPlayer().getPets().addPet(pet.getData());
 
-            pet.leaveRoom(false, false, false);
             RoomPetDao.updatePet(0, 0, 0, pet.getData().getId());
         }
 
