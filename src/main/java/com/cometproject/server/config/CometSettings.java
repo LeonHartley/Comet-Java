@@ -36,6 +36,8 @@ public class CometSettings {
     public static int floorMaxY = 0;
     public static int floorMaxTotal = 0;
 
+    public static int maxPlayersInRoom = 150;
+
     public static void set(Properties properties) {
         httpEnabled = properties.getProperty("comet.network.http.enabled").equals("1");
 
@@ -64,6 +66,12 @@ public class CometSettings {
         floorMaxX = Integer.parseInt(properties.getProperty("comet.floor.command.max.x"));
         floorMaxY = Integer.parseInt(properties.getProperty("comet.floor.command.max.y"));
         floorMaxTotal = Integer.parseInt(properties.getProperty("comet.floor.command.max.total"));
+
+        try {
+            maxPlayersInRoom = Integer.parseInt(properties.getProperty("comet.game.rooms.maxPlayers"));
+        } catch(Exception e) {
+            // fall back to 150
+        }
     }
 
     public static void setMotd(String motd) {

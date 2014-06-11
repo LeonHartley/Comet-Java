@@ -171,7 +171,6 @@ public final class BallFloorItem extends RoomItemFloor {
 
         this.setRollingPositions(positions);
 
-        System.out.println(rollingPositions.size());
         this.setTicks(RoomItemFactory.getProcessTime(0.5));
     }
 
