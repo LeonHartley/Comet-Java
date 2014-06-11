@@ -11,12 +11,12 @@ public class ModToolRoomInfoMessageComposer {
         Composer msg = new Composer(Composers.ModToolRoomInfoMessageComposer);
 
         msg.writeInt(room.getId());
-        msg.writeInt(room.isActive ? room.getEntities().playerCount() : 0);
+        msg.writeInt(room.getEntities().playerCount());
 
         msg.writeBoolean(CometManager.getPlayers().isOnline(room.getData().getOwnerId()));
         msg.writeInt(room.getData().getOwnerId());
         msg.writeString(room.getData().getOwner());
-        msg.writeBoolean(room.isActive);
+        msg.writeBoolean(true); // TODO: Allow for rooms that aren't active to show here ;-)
 
         msg.writeString(room.getData().getName());
         msg.writeString(room.getData().getDescription());

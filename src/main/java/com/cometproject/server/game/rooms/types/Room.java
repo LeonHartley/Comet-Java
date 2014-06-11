@@ -15,7 +15,6 @@ import java.util.*;
 
 public class Room implements Attributable {
     private int id;
-    private RoomData data;
     private RoomModel model;
     private RoomMapping mapping;
 
@@ -32,24 +31,26 @@ public class Room implements Attributable {
     private EntityComponent entities;
 
     public Logger log;
-    public boolean isActive;
+
+    private boolean isDisposed = false;
     private boolean isRoomMuted = false;
 
     private Map<String, Object> attributes;
 
     public Room(RoomData data) {
         this.id = data.getId();
-        this.data = data;
 
         this.model = CometManager.getRooms().getModel(data.getModel());
 
         this.log = Logger.getLogger("Room \"" + this.getData().getName() + "\"");
-        this.isActive = false;
+
+        // Now we auto load the room data instead of calling it manually!
+        this.load();
     }
 
-    public void load() {
-        if(data.getHeightmap() != null && this.model instanceof StaticRoomModel) {
-            this.model = new DynamicRoomModel("dynamic_heightmap", data.getHeightmap(), this.model.getDoorX(), this.model.getDoorY(), this.model.getDoorZ(), this.model.getDoorRotation());
+    private void load() {
+        if(this.getData().getHeightmap() != null && this.model instanceof StaticRoomModel) {
+            this.model = new DynamicRoomModel("dynamic_heightmap", this.getData().getHeightmap(), this.model.getDoorX(), this.model.getDoorY(), this.model.getDoorZ(), this.model.getDoorRotation());
         }
 
         this.attributes = new FastMap<>();
@@ -73,15 +74,11 @@ public class Room implements Attributable {
         // Generate the mapping last
         this.mapping.init();
 
-        this.isActive = true;
-
-        CometManager.getRooms().getActiveRoomIds().add(this.id);
-
         this.log.debug("Room loaded");
     }
 
     public void dispose() {
-        this.data.save();
+        this.getData().save();
 
         this.process.stop();
         this.itemProcess.stop();
@@ -123,13 +120,9 @@ public class Room implements Attributable {
 
         if(this.model instanceof DynamicRoomModel) {
             this.model.dispose();
-
-            this.model = CometManager.getRooms().getModel(this.data.getModel());
         }
 
-        this.isActive = false;
-
-        CometManager.getRooms().getActiveRoomIds().remove(this.id);
+        this.isDisposed = true;
 
         this.log.debug("Room disposed");
     }
@@ -216,7 +209,7 @@ public class Room implements Attributable {
     }
 
     public RoomData getData() {
-        return this.data;
+        return CometManager.getRooms().getRoomData(this.id);
     }
 
     public RoomModel getModel() {
@@ -230,5 +223,9 @@ public class Room implements Attributable {
 
     public void setRoomMute(boolean mute) {
         this.isRoomMuted = mute;
+    }
+
+    public boolean isDisposed() {
+        return isDisposed;
     }
 }

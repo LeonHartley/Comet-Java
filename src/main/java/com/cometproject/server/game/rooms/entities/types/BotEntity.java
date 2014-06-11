@@ -60,6 +60,17 @@ public class BotEntity extends GenericEntity {
     }
 
     @Override
+    public boolean onRoomDispose() {
+        // Send leave room message to all current entities
+        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
+
+        this.data.dispose();
+        this.data = null;
+
+        return true;
+    }
+
+    @Override
     public String getUsername() {
         return this.data.getUsername();
     }

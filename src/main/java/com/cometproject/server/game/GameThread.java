@@ -82,7 +82,7 @@ public class GameThread implements CometTask {
                 this.cycle();
             }
 
-            StatisticsDao.saveStatistics(usersOnline, CometManager.getRooms().getActiveRooms().size(), Comet.getBuild());
+            StatisticsDao.saveStatistics(usersOnline, CometManager.getRooms().getRoomInstances().size(), Comet.getBuild());
             cycleCount++;
         } catch (Exception e) {
             if (e instanceof InterruptedException) {
@@ -94,8 +94,8 @@ public class GameThread implements CometTask {
     }
 
     private void cycle() throws Exception {
-        synchronized (CometManager.getRooms().getActiveRooms()) {
-            for (Room room : CometManager.getRooms().getActiveRooms()) {
+        synchronized (CometManager.getRooms().getRoomInstances()) {
+            for (Room room : CometManager.getRooms().getRoomInstances().values()) {
                 room.getChatlog().cycle();
                 room.getRights().cycle();
             }

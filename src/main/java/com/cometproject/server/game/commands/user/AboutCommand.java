@@ -5,6 +5,7 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.TimeSpan;
@@ -28,7 +29,7 @@ public class AboutCommand extends ChatCommand {
                 about.append("Users online: " + format.format(Comet.getServer().getNetwork().getSessions().getUsersOnlineCount()) + "<br>");
 
             if (CometSettings.showActiveRoomsInAbout || client.getPlayer().getPermissions().hasPermission("about_detailed"))
-                about.append("Active rooms: " + format.format(CometManager.getRooms().getActiveRooms().size()) + "<br>");
+                about.append("Active rooms: " + format.format(CometManager.getRooms().getRoomInstances().size()) + "<br>");
 
             if (CometSettings.showUptimeInAbout || client.getPlayer().getPermissions().hasPermission("about_detailed"))
                 about.append("Uptime: " + TimeSpan.millisecondsToDate(System.currentTimeMillis() - Comet.start) + "<br>");
@@ -41,9 +42,33 @@ public class AboutCommand extends ChatCommand {
             about.append("OS: " + System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ")<br>");
             about.append("CPU cores:  " + runtime.availableProcessors() + "<br>");
 
-            about.append("<br><b>Hotel Stats</b><br>");
-            about.append("Total rooms loaded: " + CometManager.getRooms().getRooms().size() + "<br>");
+            about.append("<br><br><b>Hotel Stats</b><br>");
             about.append("Current online record: " + CometManager.getThread().getOnlineRecord());
+        }
+
+        if(message.length != 0) {
+            String param = message[0];
+
+            about.append("<br><br>");
+
+            switch(param) {
+                case "room": {
+                    if(client.getPlayer().getEntity() != null) {
+                        Room room = client.getPlayer().getEntity().getRoom();
+
+                        about.append("<b>Room Info</b><br>");
+                        about.append("Loaded time: " + TimeSpan.millisecondsToDate((long) room.getAttribute("loadTime") - Comet.start));
+                    }
+
+                    break;
+                }
+
+                case "rooms":
+                    about.append("<b>Room Manager Info</b><br>");
+                    about.append("Room data count: " + CometManager.getRooms().getRoomDataInstances().size() + "<br>");
+                    about.append("Room instance count: " + CometManager.getRooms().getRoomInstances().size() + "<br>");
+                    break;
+            }
         }
 
         client.send(AdvancedAlertMessageComposer.compose(
