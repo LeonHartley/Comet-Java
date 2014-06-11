@@ -60,7 +60,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         if (this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() && !this.player.getPermissions().hasPermission("room_enter_full")) {
             this.player.getSession().send(RoomFullMessageComposer.compose());
             this.player.getSession().send(HotelViewMessageComposer.compose());
-            this.player.getSession().flush();
             return;
         }
 
@@ -86,7 +85,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 if (!matched) {
                     this.player.getSession().send(RoomErrorMessageComposer.compose(-100002));
                     this.player.getSession().send(HotelViewMessageComposer.compose());
-                    this.player.getSession().flush();
                     return;
                 }
             } else if (this.getRoom().getData().getAccess().equals("doorbell")) {
@@ -136,7 +134,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         this.player.getSession().send(RoomRatingMessageComposer.compose(this.getRoom().getData().getScore(), canRateRoom()));
-        this.player.getSession().flush();
     }
 
     public boolean canRateRoom() {

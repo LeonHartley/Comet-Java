@@ -192,9 +192,8 @@ public class CatalogPurchaseHandler {
                     client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
                 }
 
-                client.send(UpdateInventoryMessageComposer.compose())
-                        .send(SendPurchaseAlertMessageComposer.compose(unseenItems));
-                client.flush();
+                client.send(UpdateInventoryMessageComposer.compose());
+                client.send(SendPurchaseAlertMessageComposer.compose(unseenItems));
             }
         } catch (Exception e) {
             CometManager.getLogger().error("Error while buying catalog item", e);
