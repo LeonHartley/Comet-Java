@@ -69,6 +69,19 @@ public class RoomManager {
         this.getRoomInstances().remove(roomId);
     }
 
+    public void removeData(int roomId) {
+        if(!this.getRoomDataInstances().containsKey(roomId)) {
+            return;
+        }
+
+        RoomData data = this.getRoomDataInstances().get(roomId);
+
+        //clear the maps n shit
+        data.dispose();
+
+        this.roomDataInstances.remove(roomId);
+    }
+
     public void loadModels() {
         try {
             if (this.models != null && this.getModels().size() != 0) {
@@ -114,7 +127,7 @@ public class RoomManager {
 
     public RoomData getRoomData(int id) {
         if(this.getRoomDataInstances().containsKey(id)){
-            return this.getRoomDataInstances().get(id);
+            return this.getRoomDataInstances().get(id).setLastReferenced(Comet.getTime());
         }
 
         RoomData roomData = RoomDao.getRoomDataById(id);

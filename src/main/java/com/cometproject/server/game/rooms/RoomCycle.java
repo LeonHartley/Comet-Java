@@ -1,7 +1,9 @@
 package com.cometproject.server.game.rooms;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
@@ -56,11 +58,24 @@ public class RoomCycle implements CometTask {
                 }
             }
 
+            List<Integer> unusedRoomData = new ArrayList<>();
+
+            for(RoomData data : CometManager.getRooms().getRoomDataInstances().values()) {
+                if(Comet.getTime() - data.getLastReferenced() >= 6000) {
+                    unusedRoomData.add(data.getId());
+                }
+            }
+
             for(int roomId : roomsToUnload) {
                 CometManager.getRooms().removeInstance(roomId);
             }
 
+            for(int roomDataId : unusedRoomData) {
+                CometManager.getRooms().removeData(roomDataId);
+            }
+
             this.roomsToUnload.clear();
+            unusedRoomData.clear();
 
             TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
 

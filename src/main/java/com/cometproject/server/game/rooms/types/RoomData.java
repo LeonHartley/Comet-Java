@@ -10,6 +10,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Map;
 
 public class RoomData {
@@ -40,6 +41,8 @@ public class RoomData {
     private boolean allowWalkthrough;
     private boolean allowPets;
     private String heightmap;
+
+    private long lastReferenced = Comet.getTime();
 
     public RoomData(ResultSet room) throws SQLException {
         this.id = room.getInt("id");
@@ -101,6 +104,11 @@ public class RoomData {
         }
 
         RoomDao.updateRoom(id, name, description, ownerId, owner, category, maxUsers, access, password, score, tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1), model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, allowPets, heightmap);
+    }
+
+    public void dispose() {
+        Arrays.fill(this.tags, null);
+        this.decorations.clear();
     }
 
     public int getId() {
@@ -258,5 +266,15 @@ public class RoomData {
 
     public void setAllowPets(boolean allowPets) {
         this.allowPets = allowPets;
+    }
+
+    public long getLastReferenced() {
+        return lastReferenced;
+    }
+
+    public RoomData setLastReferenced(long lastReferenced) {
+        this.lastReferenced = lastReferenced;
+
+        return this;
     }
 }
