@@ -159,6 +159,9 @@ public class EntityComponent {
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
 
+                    if(playerEntity.getPlayer() == null)
+                        continue;
+
                     if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()))
                         continue;
 
@@ -196,6 +199,8 @@ public class EntityComponent {
 
     public GenericEntity getEntityByName(String name, RoomEntityType type) {
         for(GenericEntity entity : this.getEntitiesCollection().values()) {
+            if(entity.getUsername() == null) continue;
+
             if(entity.getUsername().equals(name) && entity.getEntityType() == type) {
                 return entity;
             }

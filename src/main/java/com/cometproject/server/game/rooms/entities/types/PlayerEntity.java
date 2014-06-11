@@ -277,8 +277,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.getPlayer().getSession().send(HotelViewMessageComposer.compose());
         this.getPlayer().getSession().getPlayer().getMessenger().sendStatus(true, false);
 
-        // Also could be useful for bot trading etc
-
         // Check and cancel any active trades
         Trade trade = this.getRoom().getTrade().get(this.getPlayer().getEntity());
 
