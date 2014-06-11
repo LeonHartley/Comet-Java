@@ -315,6 +315,8 @@ public class EntityComponent {
         petIdToEntity.clear();
         botIdToEntity.clear();
 
+        entities.clear();
+
         this.room = null;
     }
 }
