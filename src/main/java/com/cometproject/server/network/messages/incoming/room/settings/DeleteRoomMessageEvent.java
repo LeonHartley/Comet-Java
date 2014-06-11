@@ -85,6 +85,5 @@ public class DeleteRoomMessageEvent implements IEvent {
         client.send(UpdateInventoryMessageComposer.compose());
         client.send(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));
         client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
-        client.flush();
     }
 }
