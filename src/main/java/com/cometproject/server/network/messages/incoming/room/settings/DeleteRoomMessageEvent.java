@@ -65,9 +65,7 @@ public class DeleteRoomMessageEvent implements IEvent {
             RoomPetDao.updatePet(0, 0, 0, pet.getData().getId());
         }
 
-        room.dispose();
-
-        CometManager.getRooms().getRoomInstances().remove(room.getId());
+        CometManager.getRooms().getGlobalCycle().requestUnload(room.getId());
 
         if (CometManager.getPlayers().isOnline(room.getData().getOwnerId())) {
             Session owner = Comet.getServer().getNetwork().getSessions().getByPlayerId(room.getData().getOwnerId());

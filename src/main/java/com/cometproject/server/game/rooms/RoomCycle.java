@@ -61,7 +61,7 @@ public class RoomCycle implements CometTask {
             List<Integer> unusedRoomData = new ArrayList<>();
 
             for(RoomData data : CometManager.getRooms().getRoomDataInstances().values()) {
-                if(Comet.getTime() - data.getLastReferenced() >= 6000) {
+                if(Comet.getTime() - data.getLastReferenced() >= 3600) {
                     unusedRoomData.add(data.getId());
                 }
             }
