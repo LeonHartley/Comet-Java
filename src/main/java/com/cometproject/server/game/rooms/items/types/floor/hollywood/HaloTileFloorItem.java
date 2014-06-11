@@ -18,7 +18,7 @@ public class HaloTileFloorItem extends RoomItemFloor {
     @Override
     public void onEntityStepOff(GenericEntity entity) {
         if (this.ticksTimer < 1) {
-            this.setTicks(RoomItemFactory.getProcessTime(1));
+            this.setTicks(RoomItemFactory.getProcessTime(0.5));
         }
     }
 

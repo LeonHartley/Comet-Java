@@ -179,10 +179,6 @@ public abstract class RoomItemFloor extends RoomItem {
 
     }
 
-    public void onEntityPreStepOff(GenericEntity entity) {
-        // NEED TO DO SOME ADJUSTING BEFORE USING THIS
-    }
-
     public void onEntityStepOn(GenericEntity entity) {
 
     }

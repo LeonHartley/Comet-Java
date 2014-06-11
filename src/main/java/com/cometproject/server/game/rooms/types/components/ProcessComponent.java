@@ -142,6 +142,10 @@ public class ProcessComponent implements CometTask {
                     entity.markNeedsUpdateComplete();
                     this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
                 }
+
+                // THE ORDER MATTERS HERE, KEEP THIS AFTER !!!! 'ENTITY.NEEDSUPDATE'
+
+                this.updateEntityStuff(entity);
             }
 
             for (PlayerEntity entity : playersToRemove) {
@@ -159,6 +163,61 @@ public class ProcessComponent implements CometTask {
             this.handleSupressedExceptions(e);
         } catch (Exception e) {
             log.error("Error during room process", e);
+        }
+    }
+
+    private void updateEntityStuff(GenericEntity entity) {
+        if (entity.getPositionToSet() != null) {
+            if ((entity.getPositionToSet().getX() == this.room.getModel().getDoorX()) && (entity.getPositionToSet().getY() == this.room.getModel().getDoorY())) {
+                entity.updateAndSetPosition(null);
+                return;
+            }
+
+            if (entity.hasStatus("sit")) {
+                entity.removeStatus("sit");
+            }
+
+            // Create the new position
+            Position3D newPosition = new Position3D();
+            newPosition.setX(entity.getPositionToSet().getX());
+            newPosition.setY(entity.getPositionToSet().getY());
+            newPosition.setZ(entity.getPositionToSet().getZ());
+
+            List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
+            List<RoomItemFloor> itemsOnOldSq = this.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY());
+
+            // Step off
+            for (RoomItemFloor item : itemsOnOldSq) {
+                item.onEntityStepOff(entity);
+                if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) { }
+            }
+
+            // Step-on
+            RoomItemFloor oldItem = null;
+            int index0 = 0;
+
+            for (RoomItemFloor item : itemsOnSq) {
+                if (itemsOnOldSq.size() > index0) { oldItem = itemsOnOldSq.get(index0); }
+                index0++;
+
+                //if (oldItem != null && oldItem.getId() == item.getId()) { continue; }
+
+                if (item.getDefinition().getEffectId() != 0) {
+                    if (oldItem != null) {
+                        if (oldItem.getDefinition().getEffectId() != item.getDefinition().getEffectId()) {
+                            entity.applyEffect(new UserEffect(item.getDefinition().getEffectId(), true));
+                        }
+                    } else {
+                        entity.applyEffect(new UserEffect(item.getDefinition().getEffectId(), true));
+                    }
+                }
+
+                item.onEntityStepOn(entity);
+                if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) { }
+            }
+
+            entity.updateAndSetPosition(null);
+            entity.setPosition(newPosition);
         }
     }
 
@@ -274,7 +333,7 @@ public class ProcessComponent implements CometTask {
         }
 
         // Do we have a position to set from previous moves?
-        if (entity.getPositionToSet() != null) {
+        /*if (entity.getPositionToSet() != null) {
             if ((entity.getPositionToSet().getX() == this.room.getModel().getDoorX()) && (entity.getPositionToSet().getY() == this.room.getModel().getDoorY())) {
                 return true;
             }
@@ -324,7 +383,7 @@ public class ProcessComponent implements CometTask {
 
             entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
-        }
+        }*/
 
         if (entity.isWalking()) {
             Square nextSq = entity.getProcessingPath().get(0);
@@ -360,6 +419,8 @@ public class ProcessComponent implements CometTask {
                     if (!item.getDefinition().canSit){
                         height += item.getDefinition().getHeight();
                     }
+
+                    item.onEntityPreStepOn(entity);
                 }
 
                 if(effectNeedsRemove) {
