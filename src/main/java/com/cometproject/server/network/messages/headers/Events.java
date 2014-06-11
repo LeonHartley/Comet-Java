@@ -73,7 +73,7 @@ public class Events {
     public static short UsersWithRightsMessageEvent = 0; // TODO
     public static short GetBannedUsersMessageEvent = 0;
     public static short ModToolUserInfoMessageEvent = 3083;
-    public static short ModToolUserChatlogMessageEvent = 0; // TODO
+    public static short ModToolUserChatlogMessageEvent = 1989;
     public static short ModToolRoomChatlogMessageEvent = 1987; // TODO
     public static short ModToolBanUserMessageEvent = 0; // TODO
     public static short InitHelpToolMessageEvent = 3198;

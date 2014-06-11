@@ -16,7 +16,7 @@ public class LoggingDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("INSERT into logs (`type`, `room_id`, `user_id`, `data`, `timestamp`) (?, ?, ?, ?, ?);", sqlConnection, true);
+            preparedStatement = SqlHelper.prepare("INSERT into logs (`type`, `room_id`, `user_id`, `data`, `timestamp`) VALUES(?, ?, ?, ?, ?);", sqlConnection, true);
 
             preparedStatement.setString(1, entry.getType().toString());
             preparedStatement.setInt(2, entry.getRoomId());

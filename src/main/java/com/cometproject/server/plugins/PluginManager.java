@@ -9,17 +9,17 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.io.File;
 
-public class PluginEngine {
+public class PluginManager {
     public static final String ENGINE_NAME = "JavaScript";
 
     private ScriptEngineManager scriptEngineManager;
     private ScriptEngine scriptEngine;
 
-    private static Logger log = Logger.getLogger(PluginEngine.class.getName());
+    private static Logger log = Logger.getLogger(PluginManager.class.getName());
 
-    public PluginEngine() {
+    public PluginManager() {
         scriptEngineManager = new ScriptEngineManager();
-        scriptEngine = scriptEngineManager.getEngineByName(PluginEngine.ENGINE_NAME);
+        scriptEngine = scriptEngineManager.getEngineByName(PluginManager.ENGINE_NAME);
 
         try {
             File folder = new File("./scripts/");

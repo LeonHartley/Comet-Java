@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.entities.types;
 
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.boot.CometServer;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
@@ -10,7 +12,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.game.wired.types.TriggerType;
-import com.cometproject.server.logging.old.types.RoomChatLogEntry;
+import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomErrorMessageComposer;
@@ -247,6 +249,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             this.getRoom().log.info(this.getPlayer().getData().getUsername() + ": " + message);
         }
 
+        Comet.getServer().getLoggingManager().getStore().put(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
+
         for (PetEntity entity : this.getRoom().getEntities().getPetEntities()) {
             if (message.split(" ").length > 0) {
                 if (entity.getData().getName().toLowerCase().equals(message.split(" ")[0].toLowerCase())) {
@@ -256,8 +260,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 }
             }
         }
-
-        CometManager.getLoggingManager().queue(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
 
         this.getRoom().getChatlog().add(message, this.getPlayer().getId());
 

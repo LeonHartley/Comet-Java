@@ -1,4 +1,4 @@
-package com.cometproject.server.game.rooms.items.types.floor;
+package com.cometproject.server.game.rooms.items.types.floor.boutique;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
@@ -32,6 +32,7 @@ public class MannequinFloorItem extends RoomItemFloor {
         playerEntity.getPlayer().getData().save();
 
         entity.getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(playerEntity));
+        ((PlayerEntity) entity).getPlayer().getSession().send(UpdateInfoMessageComposer.compose(true, playerEntity));
     }
 }
 
