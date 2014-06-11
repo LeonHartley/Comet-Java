@@ -38,11 +38,10 @@ public class RoomCycle implements CometTask {
             long start = System.currentTimeMillis();
 
             if (CometManager.getRooms() == null) {
-                // we've tried to cycle through the rooms but we haven't finished setting the environment up yet!
                 return;
             }
 
-            for (Room room : CometManager.getRooms().getActiveRooms()) {
+            for (Room room : CometManager.getRooms().getRoomInstances().values()) {
                 if (room == null) continue;
 
                 try {
@@ -55,6 +54,10 @@ public class RoomCycle implements CometTask {
                 } catch (Exception e) {
                     log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
                 }
+            }
+
+            for(int roomId : roomsToUnload) {
+                CometManager.getRooms().removeInstance(roomId);
             }
 
             this.roomsToUnload.clear();

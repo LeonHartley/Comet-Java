@@ -4,28 +4,30 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class RoomWriter {
-    public static void write(Room room, Composer msg) {
-        msg.writeInt(room.getId());
-        msg.writeString(room.getData().getName());
-        msg.writeBoolean(true);
-        msg.writeInt(room.getData().getOwnerId());
-        msg.writeString(room.getData().getOwner());
-        msg.writeInt(RoomWriter.roomAccessToNumber(room.getData().getAccess()));
-        msg.writeInt(room.getEntities() == null ? 0 : room.getEntities().playerCount());
-        msg.writeInt(room.getData().getMaxUsers());
-        msg.writeString(room.getData().getDescription());
-        msg.writeInt(0);
-        msg.writeInt(room.getData().getCategory().canTrade() ? 2 : 0);
-        msg.writeInt(room.getData().getScore());
-        msg.writeInt(0);
-        msg.writeInt(room.getData().getCategory().getId());
-        msg.writeInt(0);
-        msg.writeString("");
-        msg.writeString("");
-        msg.writeString("");
-        msg.writeInt(room.getData().getTags().length);
+    public static void write(RoomData room, Composer msg) {
+        boolean isActive = CometManager.getRooms().isActive(room.getId());
 
-        for (String tag : room.getData().getTags()) {
+        msg.writeInt(room.getId());
+        msg.writeString(room.getName());
+        msg.writeBoolean(true);
+        msg.writeInt(room.getOwnerId());
+        msg.writeString(room.getOwner());
+        msg.writeInt(RoomWriter.roomAccessToNumber(room.getAccess()));
+        msg.writeInt(!isActive ? 0 : CometManager.getRooms().get(room.getId()).getEntities().playerCount());
+        msg.writeInt(room.getMaxUsers());
+        msg.writeString(room.getDescription());
+        msg.writeInt(0);
+        msg.writeInt(room.getCategory().canTrade() ? 2 : 0);
+        msg.writeInt(room.getScore());
+        msg.writeInt(0);
+        msg.writeInt(room.getCategory().getId());
+        msg.writeInt(0);
+        msg.writeString("");
+        msg.writeString("");
+        msg.writeString("");
+        msg.writeInt(room.getTags().length);
+
+        for (String tag : room.getTags()) {
             msg.writeString(tag);
         }
 
@@ -39,29 +41,31 @@ public class RoomWriter {
         msg.writeInt(0); // promo minutes left
     }
 
-    public static void writeData(Room room, Composer msg) {
+    public static void writeData(RoomData room, Composer msg) {
+        boolean isActive = CometManager.getRooms().isActive(room.getId());
+
         msg.writeBoolean(true);
         msg.writeInt(room.getId());
-        msg.writeString(room.getData().getName());
+        msg.writeString(room.getName());
         msg.writeBoolean(true);
-        msg.writeInt(room.getData().getOwnerId());
-        msg.writeString(room.getData().getOwner());
-        msg.writeInt(RoomWriter.roomAccessToNumber(room.getData().getAccess()));
-        msg.writeInt(room.getEntities() == null ? 0 : room.getEntities().playerCount());
-        msg.writeInt(room.getData().getMaxUsers());
-        msg.writeString(room.getData().getDescription());
-        msg.writeInt(room.getData().getCategory().canTrade() ? 2 : 0);
+        msg.writeInt(room.getOwnerId());
+        msg.writeString(room.getOwner());
+        msg.writeInt(RoomWriter.roomAccessToNumber(room.getAccess()));
+        msg.writeInt(!isActive ? 0 : CometManager.getRooms().get(room.getId()).getEntities().playerCount());
+        msg.writeInt(room.getMaxUsers());
+        msg.writeString(room.getDescription());
+        msg.writeInt(room.getCategory().canTrade() ? 2 : 0);
         msg.writeInt(0);
-        msg.writeInt(room.getData().getScore());
+        msg.writeInt(room.getScore());
         msg.writeInt(0);
-        msg.writeInt(room.getData().getCategory().getId());
+        msg.writeInt(room.getCategory().getId());
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeString("");
 
-        msg.writeInt(room.getData().getTags().length);
+        msg.writeInt(room.getTags().length);
 
-        for (String tag : room.getData().getTags()) {
+        for (String tag : room.getTags()) {
             msg.writeString(tag);
         }
 
@@ -93,27 +97,29 @@ public class RoomWriter {
 
     }
 
-    public static void writeInfo(Room room, Composer msg) {
+    public static void writeInfo(RoomData room, Composer msg) {
+        boolean isActive = CometManager.getRooms().isActive(room.getId());
+
         msg.writeInt(room.getId());
-        msg.writeString(room.getData().getName());
+        msg.writeString(room.getName());
         msg.writeBoolean(true);
-        msg.writeInt(room.getData().getOwnerId());
-        msg.writeString(room.getData().getOwner());
-        msg.writeInt(RoomWriter.roomAccessToNumber(room.getData().getAccess()));
-        msg.writeInt(room.getEntities() != null ? room.getEntities().playerCount() : 0);
-        msg.writeInt(room.getData().getMaxUsers());
-        msg.writeString(room.getData().getDescription());
+        msg.writeInt(room.getOwnerId());
+        msg.writeString(room.getOwner());
+        msg.writeInt(RoomWriter.roomAccessToNumber(room.getAccess()));
+        msg.writeInt(isActive ? CometManager.getRooms().get(room.getId()).getEntities().playerCount() : 0);
+        msg.writeInt(room.getMaxUsers());
+        msg.writeString(room.getDescription());
         msg.writeInt(0);
-        msg.writeInt(room.getData().getCategory().canTrade() ? 2 : 0);
-        msg.writeInt(room.getData().getScore());
+        msg.writeInt(room.getCategory().canTrade() ? 2 : 0);
+        msg.writeInt(room.getScore());
         msg.writeInt(0);
-        msg.writeInt(room.getData().getCategory().getId());
+        msg.writeInt(room.getCategory().getId());
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeString("");
-        msg.writeInt(room.getData().getTags().length);
+        msg.writeInt(room.getTags().length);
 
-        for (String tag : room.getData().getTags()) {
+        for (String tag : room.getTags()) {
             msg.writeString(tag);
         }
 

@@ -302,11 +302,13 @@ public class EntityComponent {
 
     public void dispose() {
         for (GenericEntity entity : entities.values()) {
-            if (entity.getEntityType() == RoomEntityType.PET) {
-                ((PetEntity) entity).leaveRoom(true); // save pet data
-            } else {
-                entity.leaveRoom(false, false, true);
-            }
+//            if (entity.getEntityType() == RoomEntityType.PET) {
+//                ((PetEntity) entity).leaveRoom(true); // save pet data
+//            } else {
+//                entity.leaveRoom(false, false, true);
+//            }
+
+            entity.onRoomDispose();
         }
 
         playerIdToEntity.clear();

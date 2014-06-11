@@ -65,7 +65,7 @@ public class Comet {
                                 case "/about":
                                     Comet.log.info("This server is powered by Comet (" + Comet.getBuild() + ")");
                                     Comet.log.info("    Users online: " + Comet.getServer().getNetwork().getSessions().getUsersOnlineCount());
-                                    Comet.log.info("    Rooms online: " + CometManager.getRooms().getActiveRooms().size());
+                                    Comet.log.info("    Rooms online: " + CometManager.getRooms().getRoomInstances().size());
                                     break;
 
                                 case "/reload_messages":
@@ -131,7 +131,7 @@ public class Comet {
 
                 isRunning = false;
 
-                for (Room room : CometManager.getRooms().getActiveRooms()) {
+                for (Room room : CometManager.getRooms().getRoomInstances().values()) {
                     room.dispose();
                 }
 

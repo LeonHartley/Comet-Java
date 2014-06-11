@@ -58,6 +58,14 @@ public class PetEntity extends GenericEntity {
     }
 
     @Override
+    public boolean onRoomDispose() {
+        PetDao.savePet(this.getPosition().getX(), this.getPosition().getY(), this.data.getId());
+
+        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
+        return true;
+    }
+
+    @Override
     public String getUsername() {
         return null;
     }

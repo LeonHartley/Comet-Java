@@ -37,7 +37,7 @@ public class FollowRoomInfoMessageEvent implements IEvent {
 
             composer.writeBoolean(false);
 
-            RoomWriter.write(room, composer);
+            RoomWriter.write(room.getData(), composer);
 
             composer.writeBoolean(true);
             composer.writeBoolean(false);
