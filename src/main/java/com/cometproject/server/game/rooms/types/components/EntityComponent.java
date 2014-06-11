@@ -315,10 +315,6 @@ public class EntityComponent {
         petIdToEntity.clear();
         botIdToEntity.clear();
 
-        playerIdToEntity = null;
-        petIdToEntity = null;
-        botIdToEntity = null;
-
-        entities = null;
+        this.room = null;
     }
 }

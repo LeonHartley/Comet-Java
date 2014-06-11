@@ -30,8 +30,6 @@ public class RightsComponent {
     public void dispose() {
         this.rights.clear();
         this.bannedUsers.clear();
-
-        this.room = null;
     }
 
     public boolean hasRights(int playerId) {

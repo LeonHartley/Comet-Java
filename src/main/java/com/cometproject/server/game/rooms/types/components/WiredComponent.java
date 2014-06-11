@@ -28,8 +28,6 @@ public class WiredComponent {
 
     public void dispose() {
         this.squares.clear();
-        this.squares = null;
-        this.room = null;
     }
 
     public boolean isWiredSquare(int x, int y) {

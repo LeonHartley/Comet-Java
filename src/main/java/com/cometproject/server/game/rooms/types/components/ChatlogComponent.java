@@ -19,8 +19,6 @@ public class ChatlogComponent {
 
     public void dispose() {
         this.messages.clear();
-        this.messages = null;
-        this.room = null;
     }
 
     public void add(String msg, int userId) {

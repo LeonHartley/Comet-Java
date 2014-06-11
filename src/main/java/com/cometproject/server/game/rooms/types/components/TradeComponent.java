@@ -25,8 +25,6 @@ public class TradeComponent {
         }
 
         this.trades.clear();
-        this.trades = null;
-        this.room = null;
     }
 
     public void add(Trade trade) {
