@@ -189,7 +189,7 @@ public class RoomManager {
         List<RoomData> rooms = new ArrayList<>();
 
         for (Room room : this.roomInstances.values()) {
-            if ((category != -1 && room.getData().getCategory().getId() != category)) {
+            if (room == null || room.isDisposed() || (category != -1 && room.getData().getCategory().getId() != category)) {
                 continue;
             }
 

@@ -75,6 +75,9 @@ public class ProcessComponent implements CometTask {
         }
 
         try {
+            if(this.getRoom().isDisposed())
+                return;
+
             if (this.getRoom().getEntities().playerCount() == 0 && this.disposeCycles >= 10) {
                 CometManager.getRooms().getGlobalCycle().requestUnload(this.room.getId());
                 return;
