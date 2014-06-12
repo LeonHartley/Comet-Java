@@ -13,6 +13,7 @@ import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
+import com.cometproject.server.logging.entries.RoomVisitLogEntry;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomErrorMessageComposer;
@@ -41,6 +42,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     private Player player;
 
     private Map<String, Object> attributes = new FastMap<>();
+    private RoomVisitLogEntry visitLogEntry;
 
     public PlayerEntity(Player player, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
@@ -49,6 +51,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         if (this.player.isTeleporting())
             this.setOverriden(true);
+
+        this.visitLogEntry = Comet.getServer().getLoggingManager().getStore().getRoomVisitContainer().put(player.getId(), roomInstance.getId(), Comet.getTime());
     }
 
     @Override
@@ -179,6 +183,11 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         // Remove entity from the room
         this.getRoom().getEntities().removeEntity(this);
 
+        if(this.visitLogEntry != null)
+            this.visitLogEntry.setExitTime((int) Comet.getTime());
+
+        Comet.getServer().getLoggingManager().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
+
         // De-reference things
         this.getPlayer().setAvatar(null);
         this.player = null;
@@ -249,7 +258,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             this.getRoom().log.info(this.getPlayer().getData().getUsername() + ": " + message);
         }
 
-        Comet.getServer().getLoggingManager().getStore().put(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
+        //Comet.getServer().getLoggingManager().getStore().put(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
+
 
         for (PetEntity entity : this.getRoom().getEntities().getPetEntities()) {
             if (message.split(" ").length > 0) {

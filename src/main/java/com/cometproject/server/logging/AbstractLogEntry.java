@@ -1,7 +1,5 @@
 package com.cometproject.server.logging;
 
-import com.cometproject.server.logging.old.LogType;
-
 public abstract class AbstractLogEntry {
     public abstract LogEntryType getType();
     public abstract String getString();
