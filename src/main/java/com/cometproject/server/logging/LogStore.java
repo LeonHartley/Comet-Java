@@ -1,5 +1,6 @@
 package com.cometproject.server.logging;
 
+import com.cometproject.server.logging.containers.LogEntryContainer;
 import com.cometproject.server.logging.containers.RoomVisitContainer;
 import com.cometproject.server.logging.database.LogDatabaseManager;
 import com.cometproject.server.tasks.CometTask;
@@ -10,6 +11,7 @@ public class LogStore implements CometTask {
 
     // Containers
     private RoomVisitContainer roomVisitContainer;
+    private LogEntryContainer logEntryContainer;
 
     private LogDatabaseManager logDatabaseManager;
 
@@ -17,7 +19,8 @@ public class LogStore implements CometTask {
         logDatabaseManager = new LogDatabaseManager();
 
         // Register the containers
-        roomVisitContainer = new RoomVisitContainer(this);
+        roomVisitContainer = new RoomVisitContainer();
+        logEntryContainer = new LogEntryContainer();
     }
 
     @Override
@@ -27,5 +30,9 @@ public class LogStore implements CometTask {
 
     public RoomVisitContainer getRoomVisitContainer() {
         return roomVisitContainer;
+    }
+
+    public LogEntryContainer getLogEntryContainer() {
+        return logEntryContainer;
     }
 }

@@ -183,10 +183,11 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         // Remove entity from the room
         this.getRoom().getEntities().removeEntity(this);
 
-        if(this.visitLogEntry != null)
+        if(this.visitLogEntry != null) {
             this.visitLogEntry.setExitTime((int) Comet.getTime());
 
-        Comet.getServer().getLoggingManager().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
+            Comet.getServer().getLoggingManager().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
+        }
 
         // De-reference things
         this.getPlayer().setAvatar(null);
@@ -258,8 +259,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             this.getRoom().log.info(this.getPlayer().getData().getUsername() + ": " + message);
         }
 
-        //Comet.getServer().getLoggingManager().getStore().put(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
-
+        Comet.getServer().getLoggingManager().getStore().getLogEntryContainer().put(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
 
         for (PetEntity entity : this.getRoom().getEntities().getPetEntities()) {
             if (message.split(" ").length > 0) {
@@ -294,6 +294,12 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         if (trade != null) {
             trade.cancel(this.getPlayer().getId());
+        }
+
+        if(this.visitLogEntry != null) {
+            this.visitLogEntry.setExitTime((int) Comet.getTime());
+
+            Comet.getServer().getLoggingManager().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
         }
 
         // De-reference things

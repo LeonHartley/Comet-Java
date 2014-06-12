@@ -10,6 +10,6 @@ public class HotelViewItemMessageComposer {
         msg.writeString(key);
         msg.writeString(value);
 
-        return null;
+        return msg;
     }
 }

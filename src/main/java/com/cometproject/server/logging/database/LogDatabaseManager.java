@@ -1,7 +1,6 @@
 package com.cometproject.server.logging.database;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.storage.SqlHelper;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.log4j.Logger;
