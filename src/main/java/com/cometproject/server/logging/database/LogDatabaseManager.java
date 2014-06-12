@@ -30,7 +30,7 @@ public class LogDatabaseManager {
         } catch (Exception e) {
             isConnectionFailed = true;
             log.error("Failed to connect to MySQL server", e);
-            System.exit(0);
+            // TODO: Disable logging...
         } finally {
             if (!isConnectionFailed) {
                 log.info("Connection to MySQL server was successful");

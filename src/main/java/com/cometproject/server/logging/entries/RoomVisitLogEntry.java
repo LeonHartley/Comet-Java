@@ -1,5 +1,7 @@
 package com.cometproject.server.logging.entries;
 
+import com.cometproject.server.boot.Comet;
+
 public class RoomVisitLogEntry {
     private int id;
     private int playerId;
@@ -13,6 +15,14 @@ public class RoomVisitLogEntry {
         this.roomId = roomId;
         this.entryTime = time;
         this.exitTime = 0;
+    }
+
+    public RoomVisitLogEntry(int id, int playerId, int roomId, int timeEnter, int timeExit) {
+        this.id = id;
+        this.playerId = playerId;
+        this.roomId = roomId;
+        this.entryTime = timeEnter;
+        this.exitTime = timeExit == 0 ? (int) Comet.getTime() : timeExit;
     }
 
     public int getPlayerId() {
