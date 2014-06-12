@@ -265,7 +265,7 @@ public final class MessageHandler {
 
     public void registerLanding() {
         this.getMessages().put(Events.RefreshPromoArticlesMessageEvent, new RefreshPromoArticlesMessageEvent());
-        //this.getMessages().put(Events.HotelViewItemMessageEvent, new HotelViewItemMessageEvent());
+        this.getMessages().put(Events.HotelViewItemMessageEvent, new HotelViewItemMessageEvent());
     }
 
     private static final short PING_EVENT = 3555;

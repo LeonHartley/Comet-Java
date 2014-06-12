@@ -9,15 +9,14 @@ import com.cometproject.server.network.sessions.Session;
 public class HotelViewItemMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        String[] data = msg.readString().split(":");
+        String[] data = msg.readString().split(";");
 
         for(int i = 0; i < data.length; i++) {
             if(data[i].contains(",")) {
-                client.sendQueue(HotelViewItemMessageComposer.compose(data[i].split(",")[0], data[i].split(",")[1]));
+                client.sendQueue(HotelViewItemMessageComposer.compose(data[i], data[i].split(",")[1]));
             }
         }
 
-        client.sendQueue(AllowancesMessageComposer.compose(-1));
         client.flush();
     }
 }
