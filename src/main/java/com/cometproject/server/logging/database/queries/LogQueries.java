@@ -125,7 +125,7 @@ public class LogQueries {
             preparedStatement = LogDatabaseHelper.prepare("SELECT `data` FROM `logs` WHERE `timestamp` > ? AND `timestamp` < ? AND `type` = 'ROOM_CHATLOG' AND `user_id` = ? AND `room_id` = ? ORDER BY `timestamp` DESC LIMIT ?", sqlConnection);
 
             preparedStatement.setInt(1, entryTime);
-            preparedStatement.setInt(2, exitTime);
+            preparedStatement.setInt(2, exitTime == 0 ? (int) Comet.getTime() : exitTime);
             preparedStatement.setInt(3, playerId);
             preparedStatement.setInt(4, roomId);
             preparedStatement.setInt(5, 150); // Limit...
