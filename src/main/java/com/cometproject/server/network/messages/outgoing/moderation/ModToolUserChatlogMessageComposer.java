@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.moderation;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.moderation.chatlog.UserChatlogContainer;
 import com.cometproject.server.game.rooms.types.RoomData;
@@ -9,6 +10,8 @@ import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import org.joda.time.DateTime;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +25,8 @@ public class ModToolUserChatlogMessageComposer {
         msg.writeString(username);
         msg.writeInt(logContainer.size());
 
-        for(Map.Entry<Integer, List<RoomChatLogEntry>> log : logContainer.getLogs().entrySet()) {
-            RoomData roomData = CometManager.getRooms().getRoomData(log.getKey());
+        for(UserChatlogContainer.LogSet logSet : logContainer.getLogs()) {
+            RoomData roomData = CometManager.getRooms().getRoomData(logSet.getRoomId());
 
             msg.writeByte(1);
             msg.writeShort(2);
@@ -34,10 +37,11 @@ public class ModToolUserChatlogMessageComposer {
             msg.writeByte(1); //type of following data i guess (int = 1)
             msg.writeInt(roomData.getId());
 
-            msg.writeShort(log.getValue().size());
+            msg.writeShort(logSet.getLogs().size());
 
-            for(RoomChatLogEntry chatLogEntry : log.getValue()) {
-                msg.writeInt((int) (System.currentTimeMillis() - (chatLogEntry.getTimestamp() * 1000L)));
+            for(RoomChatLogEntry chatLogEntry : logSet.getLogs()) {
+                msg.writeInt((int) System.currentTimeMillis() - (chatLogEntry.getTimestamp() * 1000)); // TODO: Fix the timestamps
+
                 msg.writeInt(chatLogEntry.getUserId());
                 msg.writeString(username);
                 msg.writeString(chatLogEntry.getString());

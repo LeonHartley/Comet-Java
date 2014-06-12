@@ -1,5 +1,6 @@
 package com.cometproject.server.game.moderation.chatlog;
 
+import com.cometproject.server.logging.LogStore;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
@@ -10,48 +11,49 @@ import java.util.Map;
 import java.util.Set;
 
 public class UserChatlogContainer {
-    private Map<Integer, List<RoomChatLogEntry>> logs;
+    //private Map<Integer, List<RoomChatLogEntry>> logs;
+    private List<LogSet> logs;
 
     public UserChatlogContainer() {
-        this.logs = new FastMap<>();
+        this.logs = new ArrayList<>();
     }
 
     public void addAll(int roomId, List<RoomChatLogEntry> chatlogs) {
-        this.logs.put(roomId, chatlogs);
-    }
-
-    public void add(RoomChatLogEntry logEntry) {
-        if(!this.logs.containsKey(logEntry.getRoomId())) {
-            this.logs.put(logEntry.getRoomId(), new ArrayList<>());
-        }
-
-        this.logs.get(logEntry.getRoomId()).add(logEntry);
+        this.logs.add(new LogSet(roomId, chatlogs));
     }
 
     public void dispose() {
-        for(List<RoomChatLogEntry> entries : logs.values()) {
-            entries.clear();
+        for(LogSet logSet : logs) {
+            logSet.getLogs().clear();
         }
 
         this.logs.clear();
-    }
-
-    public List<RoomChatLogEntry> getRoom(int id) {
-        return this.logs.get(id);
     }
 
     public int size() {
         return logs.size();
     }
 
-    public int size(int roomId) {
-        if(!this.logs.containsKey(roomId))
-            return 0;
-
-        return logs.get(roomId).size();
+    public List<LogSet> getLogs() {
+        return this.logs;
     }
 
-    public Map<Integer, List<RoomChatLogEntry>> getLogs() {
-        return this.logs;
+    public class LogSet {
+        private int roomId;
+
+        private List<RoomChatLogEntry> logs;
+
+        public LogSet(int roomId, List<RoomChatLogEntry> logs) {
+            this.roomId = roomId;
+            this.logs = logs;
+        }
+
+        public int getRoomId() {
+            return roomId;
+        }
+
+        public List<RoomChatLogEntry> getLogs() {
+            return logs;
+        }
     }
 }
