@@ -4,6 +4,7 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.logging.database.queries.LogQueries;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -136,6 +137,7 @@ public class Comet {
                 }
 
                 CometManager.getRooms().getFilter().save();
+                LogQueries.updateRoomEntries();
             }
         });
 
@@ -152,7 +154,7 @@ public class Comet {
     }
 
     public static String getBuild() {
-        return "0.8.9-ALPHA3";
+        return "0.8.9-ALPHA4";
     }
 
     public static CometServer getServer() {

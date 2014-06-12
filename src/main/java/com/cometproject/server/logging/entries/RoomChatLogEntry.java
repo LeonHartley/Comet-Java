@@ -4,6 +4,8 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.logging.AbstractLogEntry;
 import com.cometproject.server.logging.LogEntryType;
 
+import java.sql.ResultSet;
+
 public class RoomChatLogEntry extends AbstractLogEntry {
     private int roomId;
     private int userId;
@@ -15,6 +17,13 @@ public class RoomChatLogEntry extends AbstractLogEntry {
         this.userId = userId;
         this.message = message;
         this.timestamp = (int) Comet.getTime();
+    }
+
+    public RoomChatLogEntry(int roomId, int userId, String message, int timestamp) {
+        this.roomId = roomId;
+        this.userId = userId;
+        this.message = message;
+        this.timestamp = timestamp;
     }
 
     @Override

@@ -124,6 +124,15 @@ public class Composer implements ByteBufHolder {
         }
     }
 
+    public void writeByte(int b) {
+        try {
+            this.body.writeByte(b);
+        } catch (Exception e) {
+            exceptionCaught(e);
+        }
+    }
+
+
     public void writeShort(int s) {
         try {
             this.body.writeShort((short) s);
