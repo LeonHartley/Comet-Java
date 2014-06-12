@@ -6,7 +6,7 @@ import com.cometproject.server.config.Configuration;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.GameThread;
-import com.cometproject.server.logging.LoggingManager;
+import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.network.NetworkEngine;
 import com.cometproject.server.plugins.PluginManager;
 import com.cometproject.server.storage.SqlStorageEngine;
@@ -22,7 +22,7 @@ public class CometServer {
     private PluginManager pluginEngine;
     private NetworkEngine networkEngine;
 
-    private LoggingManager loggingManager;
+    private LogManager loggingManager;
 
     public CometServer() {
     }
@@ -34,7 +34,7 @@ public class CometServer {
         storageEngine = new SqlStorageEngine();
         pluginEngine = new PluginManager();
 
-        loggingManager = new LoggingManager();
+        loggingManager = new LogManager();
 
         SqlIndexChecker.checkIndexes(storageEngine);
 
@@ -75,7 +75,7 @@ public class CometServer {
         return pluginEngine;
     }
 
-    public LoggingManager getLoggingManager() {
+    public LogManager getLoggingManager() {
         return loggingManager;
     }
 }

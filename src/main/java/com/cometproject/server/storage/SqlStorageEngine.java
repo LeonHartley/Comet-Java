@@ -10,8 +10,6 @@ public class SqlStorageEngine {
     private HikariDataSource connections = null;
 
     public SqlStorageEngine() {
-        checkDriver();
-
         boolean isConnectionFailed = false;
 
         try {
@@ -44,13 +42,5 @@ public class SqlStorageEngine {
 
     public HikariDataSource getConnections() {
         return this.connections;
-    }
-
-    public void checkDriver() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (Exception e) {
-            Comet.exit("The JDBC driver is missing.");
-        }
     }
 }
