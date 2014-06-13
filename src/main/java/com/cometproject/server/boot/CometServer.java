@@ -7,9 +7,9 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.GameThread;
 import com.cometproject.server.logging.LogManager;
-import com.cometproject.server.network.NetworkEngine;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.plugins.PluginManager;
-import com.cometproject.server.storage.SqlStorageEngine;
+import com.cometproject.server.storage.StorageManager;
 import com.cometproject.server.storage.helpers.SqlIndexChecker;
 import com.cometproject.server.tasks.CometThreadManagement;
 
@@ -18,9 +18,9 @@ public class CometServer {
 
     private CometThreadManagement threadManagement;
 
-    private SqlStorageEngine storageEngine;
-    private PluginManager pluginEngine;
-    private NetworkEngine networkEngine;
+    private StorageManager storageManager;
+    private PluginManager pluginManager;
+    private NetworkManager networkManager;
 
     private LogManager loggingManager;
 
@@ -28,21 +28,24 @@ public class CometServer {
     }
 
     public void init() {
+        /*
+            could probs move all this stuff to singleton and get rid of this object completely
+         */
+
         loadConfig();
 
         threadManagement = new CometThreadManagement();
-        storageEngine = new SqlStorageEngine();
-        pluginEngine = new PluginManager();
+        storageManager = new StorageManager();
+        pluginManager = new PluginManager();
 
         loggingManager = new LogManager();
 
-        SqlIndexChecker.checkIndexes(storageEngine);
-
+        SqlIndexChecker.checkIndexes(storageManager);
         Locale.init();
         CometManager.init();
         CometCache.create();
 
-        networkEngine = new NetworkEngine(this.getConfig().get("comet.network.host"), this.getConfig().get("comet.network.port"));
+        networkManager = new NetworkManager(this.getConfig().get("comet.network.host"), this.getConfig().get("comet.network.port"));
         CometManager.gameThread = new GameThread(threadManagement);
 
         if (Comet.isDebugging) {
@@ -59,20 +62,20 @@ public class CometServer {
         return this.config;
     }
 
-    public SqlStorageEngine getStorage() {
-        return this.storageEngine;
+    public StorageManager getStorage() {
+        return this.storageManager;
     }
 
-    public NetworkEngine getNetwork() {
-        return this.networkEngine;
+    public NetworkManager getNetwork() {
+        return this.networkManager;
     }
 
     public CometThreadManagement getThreadManagement() {
         return this.threadManagement;
     }
 
-    public PluginManager getPluginEngine() {
-        return pluginEngine;
+    public PluginManager getPlugins() {
+        return pluginManager;
     }
 
     public LogManager getLoggingManager() {

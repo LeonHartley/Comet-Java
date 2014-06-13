@@ -19,7 +19,7 @@ public class SubscriptionComponent {
 
     public void load() {
         this.hasSub = true;
-        this.expire = 1408980390;
+        this.expire = (int) Comet.getTime() + 315569260;
 
         // TODO: buy HC!!
         /*

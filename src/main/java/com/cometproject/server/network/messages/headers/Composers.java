@@ -145,6 +145,7 @@ public class Composers {
     public static short ShowRoomPollMessageComposer = 3762;
 
     public static short AlertMessageComposer = 656;
+    public static short ModToolRoomVisitsMessageComposer = 1586;
 
 
     public static String valueOfId(int i) {

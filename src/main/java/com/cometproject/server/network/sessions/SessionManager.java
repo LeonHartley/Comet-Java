@@ -1,7 +1,7 @@
 package com.cometproject.server.network.sessions;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.network.NetworkEngine;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.types.Composer;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -22,14 +22,14 @@ public final class SessionManager {
 
         int uniqueId = idGenerator.incrementAndGet();
 
-        ctx.attr(NetworkEngine.SESSION_ATTR).set(session);
-        ctx.attr(NetworkEngine.CHANNEL_ID).set(uniqueId);
+        ctx.attr(NetworkManager.SESSION_ATTR).set(session);
+        ctx.attr(NetworkManager.CHANNEL_ID).set(uniqueId);
 
         return (this.sessions.putIfAbsent(uniqueId, session) == null);
     }
 
     public boolean remove(Channel channel) {
-        int channelId = channel.attr(NetworkEngine.CHANNEL_ID).get();
+        int channelId = channel.attr(NetworkManager.CHANNEL_ID).get();
 
         if (this.sessions.containsKey(channelId)) {
             this.sessions.remove(channelId);
