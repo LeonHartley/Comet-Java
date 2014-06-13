@@ -35,6 +35,16 @@ public class AdvancedAlertMessageComposer {
         );
     }
 
+    public static Composer compose(String message) {
+        return compose(
+                "Message from Hotel Management",
+                message,
+                "",
+                "",
+                ""
+        );
+    }
+
     public static Composer compose(String header, String message, String image) {
         return compose(
                 header,
