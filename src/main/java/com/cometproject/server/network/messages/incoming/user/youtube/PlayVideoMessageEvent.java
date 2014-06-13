@@ -34,7 +34,8 @@ public class PlayVideoMessageEvent implements IEvent {
                     if(playerSettings.getPlaylist().get(i).getVideoId().equals(item.getAttribute("video"))) {
                         PlaylistItem playlistItem = playerSettings.getPlaylist().get(i);
 
-                        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(PlayVideoMessageComposer.compose(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
+                        //client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(PlayVideoMessageComposer.compose(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
+                        client.send(PlayVideoMessageComposer.compose(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
                     }
                 }
             }

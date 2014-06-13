@@ -122,7 +122,7 @@ public class LogQueries {
         try {
             sqlConnection = LogDatabaseHelper.getConnection();
 
-            preparedStatement = LogDatabaseHelper.prepare("SELECT `data` FROM `logs` WHERE `timestamp` > ? AND `timestamp` < ? AND `type` = 'ROOM_CHATLOG' AND `user_id` = ? AND `room_id` = ? ORDER BY `timestamp` DESC LIMIT ?", sqlConnection);
+            preparedStatement = LogDatabaseHelper.prepare("SELECT `data`,`timestamp` FROM `logs` WHERE `timestamp` > ? AND `timestamp` < ? AND `type` = 'ROOM_CHATLOG' AND `user_id` = ? AND `room_id` = ? ORDER BY `timestamp` DESC LIMIT ?", sqlConnection);
 
             preparedStatement.setInt(1, entryTime);
             preparedStatement.setInt(2, exitTime == 0 ? (int) Comet.getTime() : exitTime);
@@ -133,7 +133,7 @@ public class LogQueries {
             resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()) {
-                chatlogs.add(new RoomChatLogEntry(playerId, roomId, resultSet.getString("data")));
+                chatlogs.add(new RoomChatLogEntry(playerId, roomId, resultSet.getString("data"), resultSet.getInt("timestamp")));
             }
         } catch (SQLException e) {
             LogDatabaseHelper.handleSqlException(e);

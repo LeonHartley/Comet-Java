@@ -19,6 +19,9 @@ public class UserChatlogContainer {
     }
 
     public void addAll(int roomId, List<RoomChatLogEntry> chatlogs) {
+        if(chatlogs.size() < 1)
+            return;
+
         this.logs.add(new LogSet(roomId, chatlogs));
     }
 

@@ -8,10 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SqlHelper {
-    private static SqlStorageEngine storage;
+    private static StorageManager storage;
     private static Logger log = Logger.getLogger(SqlHelper.class.getName());
 
-    public static void init(SqlStorageEngine storageEngine) {
+    public static void init(StorageManager storageEngine) {
         storage = storageEngine;
     }
 

@@ -1,6 +1,7 @@
 package com.cometproject.server.storage.queries.player;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerSettings;
@@ -70,6 +71,8 @@ public class PlayerDao {
     }
 
     public static PlayerData getDataById(int id) {
+        // TODO: Cache, cache, cache!
+
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -98,6 +101,8 @@ public class PlayerDao {
     }
 
     public static PlayerSettings getSettingsById(int id) {
+        // TODO: Cache, cache, cache!
+
         Connection sqlConnection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
@@ -133,6 +138,8 @@ public class PlayerDao {
     }
 
     public static PlayerStatistics getStatisticsById(int id) {
+        // TODO: Cache, cache, cache!
+
         Connection sqlConnection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
@@ -194,6 +201,8 @@ public class PlayerDao {
     }
 
     public static String getUsernameByPlayerId(int playerId) {
+        // TODO: Cache, cache chache!
+
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -221,6 +230,9 @@ public class PlayerDao {
     }
 
     public static int getIdByUsername(String username) {
+        if(CometManager.getPlayers().getPlayerIdByUsername(username) != -1)
+            return CometManager.getPlayers().getPlayerIdByUsername(username);
+
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

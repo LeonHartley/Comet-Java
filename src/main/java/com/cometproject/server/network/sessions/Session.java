@@ -2,7 +2,7 @@ package com.cometproject.server.network.sessions;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.network.NetworkEngine;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import io.netty.channel.Channel;
@@ -29,7 +29,7 @@ public class Session {
         this.logger = Logger.getLogger(username);
         this.player = player;
 
-        int channelId = this.ctx.attr(NetworkEngine.CHANNEL_ID).get();
+        int channelId = this.ctx.attr(NetworkManager.CHANNEL_ID).get();
         CometManager.getPlayers().put(player.getId(), channelId, username);
     }
 

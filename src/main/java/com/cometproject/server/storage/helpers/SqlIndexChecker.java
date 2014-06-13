@@ -1,6 +1,6 @@
 package com.cometproject.server.storage.helpers;
 
-import com.cometproject.server.storage.SqlStorageEngine;
+import com.cometproject.server.storage.StorageManager;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class SqlIndexChecker {
     private static Logger log = Logger.getLogger(SqlIndexChecker.class);
 
-    public static void checkIndexes(SqlStorageEngine engine) {
+    public static void checkIndexes(StorageManager engine) {
         log.info("Checking for valid database indexes..");
 
         checkPlayersTable(engine);
@@ -19,7 +19,7 @@ public class SqlIndexChecker {
         log.info("Index check complete");
     }
 
-    private static void checkPlayersTable(SqlStorageEngine engine) {
+    private static void checkPlayersTable(StorageManager engine) {
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;

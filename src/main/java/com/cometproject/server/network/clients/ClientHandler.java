@@ -1,7 +1,7 @@
 package com.cometproject.server.network.clients;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.network.NetworkEngine;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -22,7 +22,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Event msg) throws Exception {
         try {
-            Session session = ctx.attr(NetworkEngine.SESSION_ATTR).get();
+            Session session = ctx.attr(NetworkManager.SESSION_ATTR).get();
 
             if (session != null) {
                 session.handleMessageEvent(msg);
@@ -43,7 +43,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         try {
-            Session session = ctx.attr(NetworkEngine.SESSION_ATTR).get();
+            Session session = ctx.attr(NetworkManager.SESSION_ATTR).get();
             session.onDisconnect();
         } catch (Exception e) { }
 
