@@ -48,6 +48,11 @@ public class PlayerStatistics {
         this.save();
     }
 
+    public void incrementCautions(int amount) {
+        this.cautions += amount;
+        this.save();
+    }
+
     public void incrementRespectPoints(int amount) {
         this.respectPoints += amount;
         this.save();
