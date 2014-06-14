@@ -162,6 +162,8 @@ public class PlayerDao {
             preparedStatement.setInt(1, id);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
+
+            // TODO: Cache result ;-)
             return new PlayerStatistics(id);
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

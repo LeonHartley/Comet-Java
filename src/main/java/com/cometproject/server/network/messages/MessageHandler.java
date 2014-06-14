@@ -114,6 +114,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.ModToolRoomVisitsMessageEvent, new ModToolRoomVisitsMessageEvent());
         this.getMessages().put(Events.ModToolUserAlertMessageEvent, new ModToolUserAlertMessageEvent());
         this.getMessages().put(Events.ModToolUserCautionMessageEvent, new ModToolUserCautionMessageEvent());
+        this.getMessages().put(Events.ModToolUserKickMessageEvent, new ModToolUserKickMessageEvent());
     }
 
     public void registerHelpTool() {
@@ -288,7 +289,6 @@ public final class MessageHandler {
                 log.error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
                 // TO-DO: adding the exception to log.error does not actually show the "stack trace" so it pretty much is useless
                 // Need to print the stack trace out or log it properly, for now i'll print it to help fix bugs
-                e.printStackTrace();
             }
         } else {
             if (Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != PING_EVENT)

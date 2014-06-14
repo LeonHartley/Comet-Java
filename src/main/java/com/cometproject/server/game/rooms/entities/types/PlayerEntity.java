@@ -8,6 +8,7 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.PlayerEntityAccess;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
@@ -178,6 +179,11 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         if (trade != null) {
             trade.cancel(this.getPlayer().getId());
+        }
+
+        // Step off
+        for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(this.getPosition().getX(), this.getPosition().getY())) {
+            item.onEntityStepOff(this);
         }
 
         // Remove entity from the room
