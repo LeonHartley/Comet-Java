@@ -68,7 +68,7 @@ public class PlayerLoginQueue implements CometTask {
 
         CometManager.getRooms().loadRoomsForUser(player);
 
-        client.getLogger().info(client.getPlayer().getData().getUsername() + " logged in");
+        //client.getLogger().info(client.getPlayer().getData().getUsername() + " logged in");
 
         PlayerDao.updatePlayerStatus(player, true, true);
 

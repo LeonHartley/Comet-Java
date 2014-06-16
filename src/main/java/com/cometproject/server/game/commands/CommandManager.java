@@ -19,6 +19,9 @@ public class CommandManager {
 
     private FastMap<String, ChatCommand> commands;
 
+    /**
+     * Initialize the commands map and load all commands
+     */
     public CommandManager() {
         commands = new FastMap<>();
 
@@ -26,6 +29,9 @@ public class CommandManager {
         this.loadStaffCommands();
     }
 
+    /**
+     * Loads all user commands
+     */
     public void loadUserCommands() {
         this.commands.put(Locale.get("command.about.name"), new AboutCommand());
         this.commands.put(Locale.get("command.build.name"), new BuildCommand());
@@ -43,6 +49,9 @@ public class CommandManager {
         this.commands.put(Locale.get("command.mimic.name"), new MimicCommand());
     }
 
+    /**
+     * Loads all staff commands
+     */
     public void loadStaffCommands() {
         this.commands.put(Locale.get("command.teleport.name"), new TeleportCommand());
         this.commands.put(Locale.get("command.massmotd.name"), new MassMotdCommand());
@@ -65,12 +74,23 @@ public class CommandManager {
         this.commands.put(Locale.get("command.reload.name"), new ReloadCommand());
     }
 
+    /**
+     * Checks whether the request is a valid command alias
+     * @param message The requested command alias
+     * @return The result of the check
+     */
     public boolean isCommand(String message) {
         String executor = message.split(" ")[0];
 
         return executor.equals(Locale.get("command.commands.name")) || commands.containsKey(executor);
     }
 
+    /**
+     * Attempts to execute the given command
+     * @param message The alias of the command and the parameters
+     * @param client The player who is attempting to execute the command
+     * @throws Exception
+     */
     public void parse(String message, Session client) throws Exception {
         String executor = message.split(" ")[0];
         String commandName = executor.equals(Locale.get("command.commands.name")) ? Locale.get("command.commands.name") : this.commands.get(executor).getPermission();
@@ -98,6 +118,11 @@ public class CommandManager {
         }
     }
 
+    /**
+     * Gets the parameters from the command that was executed (removing the first record of this array)
+     * @param splitStr The executed command, split by " "
+     * @return The parameters for the command
+     */
     private String[] getParams(String[] splitStr) {
         String[] a = new String[splitStr.length - 1];
 

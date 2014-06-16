@@ -13,7 +13,7 @@ public class Locale {
         Configuration localeFile = new Configuration("./config/locale.properties");
         locale = new FastMap<>();
 
-        for (Map.Entry<Object, Object> prop : localeFile.getProperties().entrySet()) {
+        for (Map.Entry<Object, Object> prop : localeFile.entrySet()) {
             locale.put((String) prop.getKey(), (String)prop.getValue());
         }
     }

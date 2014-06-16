@@ -23,7 +23,6 @@ public class Room implements Attributable {
     private ItemsComponent items;
     private ItemProcessComponent itemProcess;
     private WiredComponent wired;
-    private ChatlogComponent chatlog;
     private TradeComponent trade;
     private BotComponent bots;
     private PetComponent pets;
@@ -61,7 +60,6 @@ public class Room implements Attributable {
         this.rights = new RightsComponent(this);
         this.items = new ItemsComponent(this);
         this.wired = new WiredComponent(this);
-        this.chatlog = new ChatlogComponent(this);
         this.trade = new TradeComponent(this);
         this.game = new GameComponent(this);
         this.entities = new EntityComponent(this, this.model);
@@ -93,7 +91,6 @@ public class Room implements Attributable {
         this.rights.dispose();
         this.items.dispose();
         this.wired.dispose();
-        this.chatlog.dispose();
         this.trade.dispose();
         this.bots.dispose();
         this.pets.dispose();
@@ -160,10 +157,6 @@ public class Room implements Attributable {
 
     public WiredComponent getWired() {
         return this.wired;
-    }
-
-    public ChatlogComponent getChatlog() {
-        return this.chatlog;
     }
 
     public TradeComponent getTrade() {

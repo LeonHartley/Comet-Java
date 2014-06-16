@@ -57,7 +57,6 @@ public abstract class RoomModel {
                     String tileVal = String.valueOf(tile);
 
                     if(tileVal.equals("x")) {
-
                         squareState[x][y] = RoomTileState.INVALID;
                         squares[x][y] = closed;
                     } else {

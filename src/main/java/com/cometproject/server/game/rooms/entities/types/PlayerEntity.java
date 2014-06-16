@@ -261,10 +261,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             return false;
         }
 
-        if (CometSettings.logChatToConsole) {
-            this.getRoom().log.info(this.getPlayer().getData().getUsername() + ": " + message);
-        }
-
         Comet.getServer().getLoggingManager().getStore().getLogEntryContainer().put(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
 
         for (PetEntity entity : this.getRoom().getEntities().getPetEntities()) {
@@ -276,8 +272,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 }
             }
         }
-
-        this.getRoom().getChatlog().add(message, this.getPlayer().getId());
 
         this.unIdle();
         return true;

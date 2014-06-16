@@ -32,8 +32,10 @@ public class ModToolUserInfoMessageComposer {
 
         msg.writeString("N/A"); // TODO: purchase logging
         msg.writeInt(0); // ???
-        msg.writeInt(0); // banned accts ???
-        msg.writeString(user.getEmail());
+
+        // TODO: Find banned accounts using this IP address or linked to this e-mail address (for hotels that use the Habbo ID system)
+        msg.writeInt(0); // banned accts
+        msg.writeString(user.getEmail() + "; 127.0.0.1");
 
         return msg;
     }

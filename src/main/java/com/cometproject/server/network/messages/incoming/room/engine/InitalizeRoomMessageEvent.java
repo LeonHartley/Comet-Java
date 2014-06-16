@@ -10,17 +10,6 @@ public class InitalizeRoomMessageEvent implements IEvent {
         int id = msg.readInt();
         String password = msg.readString();
 
-        if(password == null) {
-            Logger.getLogger("InitializeRoom").error("Password is null!");
-            return;
-        } else if(client == null) {
-            Logger.getLogger("InitializeRoom").error("Client is null!");
-            return;
-        } else if(client.getPlayer() == null) {
-            Logger.getLogger("InitializeRoom").error("Player is null!");
-            return;
-        }
-
         client.getPlayer().loadRoom(id, password);
     }
 }
