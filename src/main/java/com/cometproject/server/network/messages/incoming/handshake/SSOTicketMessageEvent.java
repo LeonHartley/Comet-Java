@@ -112,7 +112,7 @@ public class SSOTicketMessageEvent implements IEvent {
 
         CometManager.getRooms().loadRoomsForUser(player);
 
-        client.getLogger().info(client.getPlayer().getData().getUsername() + " logged in");
+        client.getLogger().debug(client.getPlayer().getData().getUsername() + " logged in");
 
         PlayerDao.updatePlayerStatus(player, true, true);
 

@@ -34,7 +34,7 @@ public class GameThread implements CometTask {
         this.gameFuture = mgr.executePeriodic(this, interval, interval, TimeUnit.MINUTES);
         this.active = true;
 
-        this.configureDailyCycle();
+        //this.configureDailyCycle();
     }
 
     private void configureDailyCycle() {
@@ -56,6 +56,8 @@ public class GameThread implements CometTask {
                 long start = System.currentTimeMillis();
 
                 //Comet.getServer().getStorage().execute("UPDATE player_stats SET daily_respects = 3 WHERE daily_respects < 3");
+
+
 
                 TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
 
@@ -94,11 +96,8 @@ public class GameThread implements CometTask {
     }
 
     private void cycle() throws Exception {
-        synchronized (CometManager.getRooms().getRoomInstances()) {
-            for (Room room : CometManager.getRooms().getRoomInstances().values()) {
-                room.getChatlog().cycle();
-                room.getRights().cycle();
-            }
+        for (Room room : CometManager.getRooms().getRoomInstances().values()) {
+            room.getRights().cycle();
         }
 
         if (CometSettings.quartlyCreditsEnabled) {

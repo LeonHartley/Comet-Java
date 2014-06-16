@@ -15,9 +15,13 @@ public class SaveFloorMessageEvent implements IEvent {
     public void handle(Session client, Event msg) throws Exception {
         String model = msg.readString();
 
+        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+            return;
+        }
+
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if (room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
+        if ((room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;
         }
 

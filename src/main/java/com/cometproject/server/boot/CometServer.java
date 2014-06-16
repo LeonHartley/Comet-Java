@@ -13,6 +13,8 @@ import com.cometproject.server.storage.StorageManager;
 import com.cometproject.server.storage.helpers.SqlIndexChecker;
 import com.cometproject.server.tasks.CometThreadManagement;
 
+import java.util.Map;
+
 public class CometServer {
     private Configuration config;
 
@@ -28,34 +30,36 @@ public class CometServer {
     }
 
     public void init() {
-        /*
-            could probs move all this stuff to singleton and get rid of this object completely
-         */
+        this.init(null);
+    }
 
-        loadConfig();
+    public void init(Map<String, String> overridenConfig) {
+        this.config = new Configuration("./config/comet.properties");
 
-        threadManagement = new CometThreadManagement();
-        storageManager = new StorageManager();
-        pluginManager = new PluginManager();
+        if(overridenConfig != null) {
+            this.config.override(overridenConfig);
+        }
 
-        loggingManager = new LogManager();
+        CometSettings.set(this.config);
+
+        this.threadManagement = new CometThreadManagement();
+        this.storageManager = new StorageManager();
+        this.pluginManager = new PluginManager();
+
+        this.loggingManager = new LogManager();
 
         SqlIndexChecker.checkIndexes(storageManager);
         Locale.init();
         CometManager.init();
         CometCache.create();
 
-        networkManager = new NetworkManager(this.getConfig().get("comet.network.host"), this.getConfig().get("comet.network.port"));
-        CometManager.gameThread = new GameThread(threadManagement);
+        this.networkManager = new NetworkManager(this.getConfig().get("comet.network.host"), this.getConfig().get("comet.network.port"));
+
+        CometManager.startCycle();
 
         if (Comet.isDebugging) {
             CometManager.getLogger().debug("Comet Server is debugging");
         }
-    }
-
-    public void loadConfig() {
-        config = new Configuration("./config/comet.properties");
-        CometSettings.set(config.getProperties());
     }
 
     public Configuration getConfig() {
