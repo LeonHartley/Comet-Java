@@ -13,6 +13,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.game.wired.types.TriggerType;
+import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
@@ -53,7 +54,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         if (this.player.isTeleporting())
             this.setOverriden(true);
 
-        this.visitLogEntry = Comet.getServer().getLoggingManager().getStore().getRoomVisitContainer().put(player.getId(), roomInstance.getId(), Comet.getTime());
+        if(LogManager.ENABLED)
+            this.visitLogEntry = Comet.getServer().getLoggingManager().getStore().getRoomVisitContainer().put(player.getId(), roomInstance.getId(), Comet.getTime());
     }
 
     @Override
@@ -261,7 +263,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             return false;
         }
 
-        Comet.getServer().getLoggingManager().getStore().getLogEntryContainer().put(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
+        if(LogManager.ENABLED)
+            Comet.getServer().getLoggingManager().getStore().getLogEntryContainer().put(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
 
         for (PetEntity entity : this.getRoom().getEntities().getPetEntities()) {
             if (message.split(" ").length > 0) {
@@ -299,7 +302,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         if(this.visitLogEntry != null) {
             this.visitLogEntry.setExitTime((int) Comet.getTime());
 
-            Comet.getServer().getLoggingManager().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
+            if(LogManager.ENABLED)
+                Comet.getServer().getLoggingManager().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
         }
 
         // De-reference things
