@@ -247,10 +247,10 @@
         </dependency>
 
         <dependency>
-        <groupId>org.mindrot</groupId>
-        <artifactId>jbcrypt</artifactId>
-        <version>0.3m</version>
-    </dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.3m</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -262,6 +262,12 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-core</artifactId>
+            <version>4.8.1</version>
         </dependency>
     </dependencies>
 </project>

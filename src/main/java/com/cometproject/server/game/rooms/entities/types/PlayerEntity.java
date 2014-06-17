@@ -248,7 +248,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 }
             }
         } catch (Exception e) {
-            // Error, what do?
+            e.printStackTrace();
             return false;
         }
 

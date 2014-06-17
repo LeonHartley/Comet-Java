@@ -57,7 +57,7 @@ public class AboutCommand extends ChatCommand {
                         Room room = client.getPlayer().getEntity().getRoom();
 
                         about.append("<b>Room Info</b><br>");
-                        about.append("Loaded time: " + TimeSpan.millisecondsToDate((long) room.getAttribute("loadTime") - Comet.start));
+                        about.append("Loaded time: " + TimeSpan.millisecondsToDate(System.currentTimeMillis() - (long) room.getAttribute("loadTime")));
                     }
 
                     break;

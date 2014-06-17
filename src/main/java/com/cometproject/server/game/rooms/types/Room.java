@@ -32,6 +32,7 @@ public class Room implements Attributable {
     public Logger log;
 
     private boolean isDisposed = false;
+    private boolean needsDispose = false;
     private boolean isRoomMuted = false;
 
     private Map<String, Object> attributes;
@@ -110,7 +111,6 @@ public class Room implements Attributable {
         }
 
         this.isDisposed = true;
-
         this.log.debug("Room disposed");
     }
 
@@ -210,5 +210,13 @@ public class Room implements Attributable {
 
     public boolean isDisposed() {
         return isDisposed;
+    }
+
+    public boolean needsDispose() {
+        return needsDispose;
+    }
+
+    public void setNeedsDispose(boolean needsDispose) {
+        this.needsDispose = needsDispose;
     }
 }

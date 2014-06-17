@@ -57,6 +57,6 @@ public class SaveFloorMessageEvent implements IEvent {
         room.getData().setHeightmap(model);
 
         client.send(AdvancedAlertMessageComposer.compose("Model Saved", Locale.get("command.floor.complete")));
-        CometManager.getRooms().getGlobalCycle().requestUnload(room.getId());
+        room.setNeedsDispose(true);
     }
 }

@@ -10,7 +10,7 @@ public class UnloadCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         int roomId = client.getPlayer().getEntity().getRoom().getId();
 
-        CometManager.getRooms().getGlobalCycle().requestUnload(roomId);
+        client.getPlayer().getEntity().getRoom().setNeedsDispose(true);
     }
 
     @Override

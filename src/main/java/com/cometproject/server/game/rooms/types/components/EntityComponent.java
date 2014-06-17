@@ -301,7 +301,7 @@ public class EntityComponent {
         return this.entities;
     }
 
-    private Room getRoom() {
+    public Room getRoom() {
         return this.room;
     }
 
@@ -321,7 +321,5 @@ public class EntityComponent {
         botIdToEntity.clear();
 
         entities.clear();
-
-        this.room = null;
     }
 }
