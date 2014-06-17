@@ -77,4 +77,8 @@ public class CometThreadManagement {
             }
         }
     }
+
+    public ScheduledExecutorService getScheduledExecutorService() {
+        return scheduledExecutorService;
+    }
 }
