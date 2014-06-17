@@ -84,7 +84,7 @@ public class Composer implements ByteBufHolder {
         try {
             String string = "";
 
-            if(obj != null) {
+            if (obj != null) {
                 string = String.valueOf(obj);
             }
 

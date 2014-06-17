@@ -14,7 +14,7 @@ public class WalkMessageEvent implements IEvent {
         int goalY = msg.readInt();
 
         try {
-            if(client.getPlayer().getEntity() == null) {
+            if (client.getPlayer().getEntity() == null) {
                 // User not in room!
                 return;
             }
@@ -23,7 +23,7 @@ public class WalkMessageEvent implements IEvent {
                 return;
             }
 
-            if(client.getPlayer().getEntity().hasAttribute("teleport")) {
+            if (client.getPlayer().getEntity().hasAttribute("teleport")) {
                 List<Square> squares = new ArrayList<>();
                 squares.add(new Square(goalX, goalY));
 

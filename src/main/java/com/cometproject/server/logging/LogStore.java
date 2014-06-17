@@ -16,7 +16,7 @@ public class LogStore implements CometTask {
     private LogDatabaseManager logDatabaseManager;
 
     public LogStore() {
-        if(!LogManager.ENABLED)
+        if (!LogManager.ENABLED)
             return;
 
         logDatabaseManager = new LogDatabaseManager();

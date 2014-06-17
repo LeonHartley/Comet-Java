@@ -37,7 +37,7 @@ public class RightsComponent {
     }
 
     public void removeRights(int playerId) {
-        if(this.rights.contains(playerId)) {
+        if (this.rights.contains(playerId)) {
             this.rights.remove(rights.indexOf(playerId));
             RightsDao.delete(playerId, room.getId());
         }

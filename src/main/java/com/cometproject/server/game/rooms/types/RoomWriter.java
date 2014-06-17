@@ -137,7 +137,7 @@ public class RoomWriter {
             return 1;
         } else if (access.equals("password")) {
             return 2;
-        } else if(access.equals("invisible")) {
+        } else if (access.equals("invisible")) {
             // return 3; - TODO: this
             return 1;
         }
@@ -150,7 +150,7 @@ public class RoomWriter {
             return "doorbell";
         } else if (access == 2) {
             return "password";
-        } else if(access == 3) {
+        } else if (access == 3) {
             // TODO: this
             return "open";
         }

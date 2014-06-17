@@ -13,11 +13,15 @@ public class PlayerLoginQueueManager {
 
     public PlayerLoginQueueManager(boolean autoStart, CometThreadManagement threadMgr) {
         this.loginQueue = new PlayerLoginQueue();
-        if (autoStart) { this.start(threadMgr); }
+        if (autoStart) {
+            this.start(threadMgr);
+        }
     }
 
     private void start(CometThreadManagement threadMgr) {
-        if (this.future != null) { return; }
+        if (this.future != null) {
+            return;
+        }
         this.future = threadMgr.executePeriodic(this.loginQueue, WAIT_TIME, WAIT_TIME, TimeUnit.MILLISECONDS);
     }
 

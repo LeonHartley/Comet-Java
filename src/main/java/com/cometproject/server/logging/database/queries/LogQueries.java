@@ -57,7 +57,7 @@ public class LogQueries {
 
             resultSet = preparedStatement.getGeneratedKeys();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 return new RoomVisitLogEntry(resultSet.getInt(1), playerId, roomId, entryTime);
             }
         } catch (SQLException e) {
@@ -132,7 +132,7 @@ public class LogQueries {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 chatlogs.add(new RoomChatLogEntry(playerId, roomId, resultSet.getString("data"), resultSet.getInt("timestamp")));
             }
         } catch (SQLException e) {
@@ -163,7 +163,7 @@ public class LogQueries {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 roomVisits.add(new RoomVisitLogEntry(resultSet.getInt("id"), playerId, resultSet.getInt("room_id"), resultSet.getInt("time_enter"), resultSet.getInt("time_exit")));
             }
         } catch (SQLException e) {

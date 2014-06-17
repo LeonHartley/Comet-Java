@@ -29,7 +29,7 @@ public class DeleteRoomMessageEvent implements IEvent {
     public void handle(Session client, Event msg) throws Exception {
         PlayerEntity entity = client.getPlayer().getEntity();
 
-        if(entity == null)
+        if (entity == null)
             return;
 
         Room room = entity.getRoom();
@@ -44,20 +44,20 @@ public class DeleteRoomMessageEvent implements IEvent {
 
         for (RoomItem item : itemsToRemove) {
             if (item instanceof RoomItemFloor) {
-                room.getItems().removeItem((RoomItemFloor)item, client);
+                room.getItems().removeItem((RoomItemFloor) item, client);
             } else if (item instanceof RoomItemWall) {
-                room.getItems().removeItem((RoomItemWall)item, client);
+                room.getItems().removeItem((RoomItemWall) item, client);
             }
         }
 
-        for(BotEntity bot : room.getEntities().getBotEntities()) {
+        for (BotEntity bot : room.getEntities().getBotEntities()) {
             InventoryBot inventoryBot = new InventoryBot(bot.getBotId(), bot.getData().getOwnerId(), bot.getData().getOwnerName(), bot.getUsername(), bot.getFigure(), bot.getGender(), bot.getMotto());
             client.getPlayer().getBots().addBot(inventoryBot);
 
             RoomBotDao.setRoomId(0, inventoryBot.getId());
         }
 
-        for(PetEntity pet : room.getEntities().getPetEntities()) {
+        for (PetEntity pet : room.getEntities().getPetEntities()) {
             client.getPlayer().getPets().addPet(pet.getData());
 
             RoomPetDao.updatePet(0, 0, 0, pet.getData().getId());
@@ -70,7 +70,7 @@ public class DeleteRoomMessageEvent implements IEvent {
             Session owner = Comet.getServer().getNetwork().getSessions().getByPlayerId(room.getData().getOwnerId());
 
             if (owner.getPlayer() != null && owner.getPlayer().getRooms() != null) {
-                if(owner.getPlayer().getRooms().contains(room.getId())) {
+                if (owner.getPlayer().getRooms().contains(room.getId())) {
                     owner.getPlayer().getRooms().remove(owner.getPlayer().getRooms().indexOf(room.getId()));
                 }
             }

@@ -45,7 +45,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
         try {
             Session session = ctx.attr(NetworkManager.SESSION_ATTR).get();
             session.onDisconnect();
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
 
         Comet.getServer().getNetwork().getSessions().remove(ctx.channel());
     }

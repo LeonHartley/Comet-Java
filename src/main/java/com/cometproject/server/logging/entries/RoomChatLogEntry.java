@@ -49,4 +49,5 @@ public class RoomChatLogEntry extends AbstractLogEntry {
     @Override
     public int getUserId() {
         return this.userId;
-    }}
+    }
+}

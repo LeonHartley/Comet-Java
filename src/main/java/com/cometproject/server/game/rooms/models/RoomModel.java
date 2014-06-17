@@ -53,10 +53,10 @@ public abstract class RoomModel {
                 char[] line = axes[y].replace("\r", "").replace("\n", "").toCharArray();
 
                 int x = 0;
-                for(char tile : line) {
+                for (char tile : line) {
                     String tileVal = String.valueOf(tile);
 
-                    if(tileVal.equals("x")) {
+                    if (tileVal.equals("x")) {
                         squareState[x][y] = RoomTileState.INVALID;
                         squares[x][y] = closed;
                     } else {
@@ -76,7 +76,7 @@ public abstract class RoomModel {
                 }
                 map += mapLine + (char) 13;
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             Logger.getLogger(RoomModel.class.getName()).error("Failed to parse heightmap for model: " + this.name, e);
         }
     }

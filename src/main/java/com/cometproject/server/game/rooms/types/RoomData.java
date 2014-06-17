@@ -134,7 +134,7 @@ public class RoomData {
     public Category getCategory() {
         Category category = CometManager.getNavigator().getCategory(this.category);
 
-        if(category == null) {
+        if (category == null) {
             // TODO: Dummy category :p
         }
 
@@ -248,6 +248,7 @@ public class RoomData {
     public boolean getAllowWalkthrough() {
         return this.allowWalkthrough;
     }
+
     public void setAllowWalkthrough(boolean allowWalkthrough) {
         this.allowWalkthrough = allowWalkthrough;
     }

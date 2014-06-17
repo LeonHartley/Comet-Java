@@ -54,7 +54,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         if (this.player.isTeleporting())
             this.setOverriden(true);
 
-        if(LogManager.ENABLED)
+        if (LogManager.ENABLED)
             this.visitLogEntry = Comet.getServer().getLoggingManager().getStore().getRoomVisitContainer().put(player.getId(), roomInstance.getId(), Comet.getTime());
     }
 
@@ -146,7 +146,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     }
 
     public boolean canRateRoom() {
-        if(!this.getRoom().hasAttribute("ratings") || !(this.getRoom().getAttribute("ratings") instanceof Set)) {
+        if (!this.getRoom().hasAttribute("ratings") || !(this.getRoom().getAttribute("ratings") instanceof Set)) {
             return true;
         }
 
@@ -170,7 +170,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             this.getPlayer().getSession().getPlayer().getMessenger().sendStatus(true, false);
         }
 
-        if(isKick && !isOffline) {
+        if (isKick && !isOffline) {
             this.getPlayer().getSession().send(RoomErrorMessageComposer.compose(4008));
         }
 
@@ -191,7 +191,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         // Remove entity from the room
         this.getRoom().getEntities().removeEntity(this);
 
-        if(this.visitLogEntry != null) {
+        if (this.visitLogEntry != null) {
             this.visitLogEntry.setExitTime((int) Comet.getTime());
 
             Comet.getServer().getLoggingManager().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
@@ -211,7 +211,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     public boolean onChat(String message) {
         long time = System.currentTimeMillis();
 
-        if(!this.player.getPermissions().hasPermission("bypass_flood")) {
+        if (!this.player.getPermissions().hasPermission("bypass_flood")) {
             if (time - this.player.getLastMessageTime() < 750) {
                 this.player.setFloodFlag(this.player.getFloodFlag() + 1);
 
@@ -227,7 +227,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 return false;
             }
 
-            if(player.getLastMessage().equals(message) && message.length() > 15) {
+            if (player.getLastMessage().equals(message) && message.length() > 15) {
                 this.player.setFloodFlag(0);
                 this.player.setFloodTime(30);
 
@@ -263,7 +263,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             return false;
         }
 
-        if(LogManager.ENABLED)
+        if (LogManager.ENABLED)
             Comet.getServer().getLoggingManager().getStore().getLogEntryContainer().put(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
 
         for (PetEntity entity : this.getRoom().getEntities().getPetEntities()) {
@@ -299,10 +299,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             trade.cancel(this.getPlayer().getId());
         }
 
-        if(this.visitLogEntry != null) {
+        if (this.visitLogEntry != null) {
             this.visitLogEntry.setExitTime((int) Comet.getTime());
 
-            if(LogManager.ENABLED)
+            if (LogManager.ENABLED)
                 Comet.getServer().getLoggingManager().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
         }
 

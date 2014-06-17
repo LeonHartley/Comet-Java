@@ -27,12 +27,12 @@ public class TalkMessageEvent implements IEvent {
         }
     }
 
-    private static int[] allowedColours = new int[] {
-      0, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29
+    private static int[] allowedColours = new int[]{
+            0, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29
     };
 
     public static boolean isValidColour(int colour, Session client) {
-        if(!Ints.contains(allowedColours, colour)) {
+        if (!Ints.contains(allowedColours, colour)) {
             return false;
         }
 
@@ -43,6 +43,6 @@ public class TalkMessageEvent implements IEvent {
     }
 
     public static String filterMessage(String message) {
-        return message.replace((char)13 + "", "");
+        return message.replace((char) 13 + "", "");
     }
 }

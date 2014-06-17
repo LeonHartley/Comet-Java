@@ -11,7 +11,7 @@ public class PlayerLoader {
     public static Player loadPlayerBySSo(String ticket) {
         int id = PlayerDao.getIdBySSO(ticket);
 
-        if(id == 0) return null;
+        if (id == 0) return null;
 
         return new Player(id);
     }
@@ -19,7 +19,7 @@ public class PlayerLoader {
     public static Player loadPlayerByIdAndTicket(int id, String ticket) {
         String databaseTicket = PlayerDao.getAuthTicketById(id);
 
-        if(!databaseTicket.equals(ticket)) {
+        if (!databaseTicket.equals(ticket)) {
             return null;
         }
 

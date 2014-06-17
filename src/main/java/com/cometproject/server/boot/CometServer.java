@@ -1,11 +1,11 @@
 package com.cometproject.server.boot;
 
+import com.cometproject.server.api.APIManager;
 import com.cometproject.server.cache.CometCache;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Configuration;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.GameThread;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.plugins.PluginManager;
@@ -19,6 +19,8 @@ public class CometServer {
     private Configuration config;
 
     private CometThreadManagement threadManagement;
+
+    private APIManager apiManager;
 
     private StorageManager storageManager;
     private PluginManager pluginManager;
@@ -36,11 +38,13 @@ public class CometServer {
     public void init(Map<String, String> overridenConfig) {
         this.config = new Configuration("./config/comet.properties");
 
-        if(overridenConfig != null) {
+        if (overridenConfig != null) {
             this.config.override(overridenConfig);
         }
 
         CometSettings.set(this.config);
+
+        this.apiManager = new APIManager();
 
         this.threadManagement = new CometThreadManagement();
         this.storageManager = new StorageManager();

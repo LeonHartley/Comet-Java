@@ -24,7 +24,9 @@ public class LogDatabaseHelper {
 
     public static void closeSilently(Connection connection) {
         try {
-            if (connection == null) { return; }
+            if (connection == null) {
+                return;
+            }
             connection.close();
         } catch (SQLException e) {
             handleSqlException(e);
@@ -33,7 +35,9 @@ public class LogDatabaseHelper {
 
     public static void closeSilently(ResultSet resultSet) {
         try {
-            if (resultSet == null) { return; }
+            if (resultSet == null) {
+                return;
+            }
             resultSet.close();
         } catch (SQLException e) {
             handleSqlException(e);
@@ -42,7 +46,9 @@ public class LogDatabaseHelper {
 
     public static void closeSilently(PreparedStatement statement) {
         try {
-            if (statement == null) { return; }
+            if (statement == null) {
+                return;
+            }
             statement.close();
         } catch (SQLException e) {
             handleSqlException(e);
@@ -51,7 +57,9 @@ public class LogDatabaseHelper {
 
     public static void executeStatementSilently(PreparedStatement statement, boolean autoClose) {
         try {
-            if (statement == null) { return; }
+            if (statement == null) {
+                return;
+            }
             statement.execute();
 
             if (autoClose) {

@@ -26,7 +26,7 @@ public class FilterDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 data.put(resultSet.getString("word"), resultSet.getString("replacement"));
             }
         } catch (SQLException e) {
@@ -49,7 +49,7 @@ public class FilterDao {
 
             preparedStatement = SqlHelper.prepare("REPLACE INTO wordfilter (`word`, `replacement`) VALUES(?, ?)", sqlConnection);
 
-            for(Map.Entry<String, String> word : wordfilter.entrySet()) {
+            for (Map.Entry<String, String> word : wordfilter.entrySet()) {
                 preparedStatement.setString(1, word.getKey());
                 preparedStatement.setString(2, word.getValue());
 

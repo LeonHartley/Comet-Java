@@ -15,7 +15,7 @@ public class GroupPartsMessageComposer {
 
         for (Room room : rooms.values()) {
             //if (room.getGroup() == null) {
-                roomCount++;
+            roomCount++;
             //}
         }
 
@@ -24,9 +24,9 @@ public class GroupPartsMessageComposer {
 
         for (Room room : rooms.values()) {
             //if (room.getGroup() == null) {
-                msg.writeInt(room.getId());
-                msg.writeString(room.getData().getName());
-                msg.writeBoolean(false);
+            msg.writeInt(room.getId());
+            msg.writeString(room.getData().getName());
+            msg.writeBoolean(false);
             //}
         }
 

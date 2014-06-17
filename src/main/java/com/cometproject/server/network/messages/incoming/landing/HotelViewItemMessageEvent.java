@@ -11,8 +11,8 @@ public class HotelViewItemMessageEvent implements IEvent {
     public void handle(Session client, Event msg) throws Exception {
         String[] data = msg.readString().split(";");
 
-        for(int i = 0; i < data.length; i++) {
-            if(data[i].contains(",")) {
+        for (int i = 0; i < data.length; i++) {
+            if (data[i].contains(",")) {
                 client.sendQueue(HotelViewItemMessageComposer.compose(data[i], data[i].split(",")[1]));
             }
         }

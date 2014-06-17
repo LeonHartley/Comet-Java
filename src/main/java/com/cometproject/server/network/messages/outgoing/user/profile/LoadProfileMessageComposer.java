@@ -23,7 +23,8 @@ public class LoadProfileMessageComposer {
         try {
             timestamp = Integer.parseInt(player.getRegDate());
             isTimestamp = true;
-        } catch(Exception ignored) { }
+        } catch (Exception ignored) {
+        }
 
         msg.writeString(isTimestamp ? UserInfoMessageComposer.getDate(timestamp) : player.getRegDate());
         msg.writeInt(player.getAchievementPoints());

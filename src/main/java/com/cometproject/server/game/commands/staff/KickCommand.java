@@ -20,7 +20,7 @@ public class KickCommand extends ChatCommand {
         if (entity == null)
             return;
 
-        if(entity.getUsername().equals(client.getPlayer().getData().getUsername())) {
+        if (entity.getUsername().equals(client.getPlayer().getData().getUsername())) {
             return;
         }
 

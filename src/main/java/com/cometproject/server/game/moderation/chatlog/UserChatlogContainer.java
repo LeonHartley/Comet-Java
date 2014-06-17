@@ -19,14 +19,14 @@ public class UserChatlogContainer {
     }
 
     public void addAll(int roomId, List<RoomChatLogEntry> chatlogs) {
-        if(chatlogs.size() < 1)
+        if (chatlogs.size() < 1)
             return;
 
         this.logs.add(new LogSet(roomId, chatlogs));
     }
 
     public void dispose() {
-        for(LogSet logSet : logs) {
+        for (LogSet logSet : logs) {
             logSet.getLogs().clear();
         }
 

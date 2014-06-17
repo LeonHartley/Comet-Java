@@ -136,7 +136,7 @@ public abstract class RoomItemFloor extends RoomItem {
                 msg.writeInt(0);
                 msg.writeInt(0);
             }
-        } else if(this.getDefinition().getItemName().contains("yttv") && this.hasAttribute("video")) {
+        } else if (this.getDefinition().getItemName().contains("yttv") && this.hasAttribute("video")) {
             msg.writeInt(0);
             msg.writeInt(1);
             msg.writeInt(1);
@@ -220,7 +220,9 @@ public abstract class RoomItemFloor extends RoomItem {
     public Room getRoom() {
         if (this.room == null) {
             Room r = CometManager.getRooms().get(this.roomId);
-            if (r == null) { return null; }
+            if (r == null) {
+                return null;
+            }
 
             this.room = new WeakReference<>(r);
         }

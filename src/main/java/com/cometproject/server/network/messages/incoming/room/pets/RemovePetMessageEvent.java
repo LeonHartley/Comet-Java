@@ -24,11 +24,11 @@ public class RemovePetMessageEvent implements IEvent {
 
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
 
-        if ((isOwner)  || client.getPlayer().getPermissions().hasPermission("room_full_control") || (room.getData().isAllowPets() && entity.getData().getOwnerId() == client.getPlayer().getId())) {
+        if ((isOwner) || client.getPlayer().getPermissions().hasPermission("room_full_control") || (room.getData().isAllowPets() && entity.getData().getOwnerId() == client.getPlayer().getId())) {
             int ownerId = entity.getData().getOwnerId();
 
-            if(room.getData().isAllowPets() || client.getPlayer().getId() != ownerId) {
-                if(Comet.getServer().getNetwork().getSessions().getByPlayerId(ownerId) != null) {
+            if (room.getData().isAllowPets() || client.getPlayer().getId() != ownerId) {
+                if (Comet.getServer().getNetwork().getSessions().getByPlayerId(ownerId) != null) {
                     Session petOwner = Comet.getServer().getNetwork().getSessions().getByPlayerId(ownerId);
 
                     givePetToPlayer(petOwner, entity.getData());

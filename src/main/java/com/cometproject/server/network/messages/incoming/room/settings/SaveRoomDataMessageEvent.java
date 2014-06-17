@@ -80,7 +80,7 @@ public class SaveRoomDataMessageEvent implements IEvent {
             return;
         }
 
-        if(!client.getPlayer().getPermissions().hasPermission("mod_tool") && maxUsers > CometSettings.maxPlayersInRoom) {
+        if (!client.getPlayer().getPermissions().hasPermission("mod_tool") && maxUsers > CometSettings.maxPlayersInRoom) {
             return;
         }
 

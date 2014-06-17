@@ -44,7 +44,7 @@ public class InventoryComponent {
         try {
             Map<Integer, InventoryItem> inventoryItems = InventoryDao.getInventoryByPlayerId(this.player.getId());
 
-            for(Map.Entry<Integer, InventoryItem> item : inventoryItems.entrySet()) {
+            for (Map.Entry<Integer, InventoryItem> item : inventoryItems.entrySet()) {
                 if (item.getValue().getDefinition().getType().equals("s")) {
                     this.getFloorItems().put(item.getKey(), item.getValue());
                 }

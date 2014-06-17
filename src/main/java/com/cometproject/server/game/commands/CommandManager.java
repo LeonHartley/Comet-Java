@@ -76,6 +76,7 @@ public class CommandManager {
 
     /**
      * Checks whether the request is a valid command alias
+     *
      * @param message The requested command alias
      * @return The result of the check
      */
@@ -87,8 +88,9 @@ public class CommandManager {
 
     /**
      * Attempts to execute the given command
+     *
      * @param message The alias of the command and the parameters
-     * @param client The player who is attempting to execute the command
+     * @param client  The player who is attempting to execute the command
      * @throws Exception
      */
     public void parse(String message, Session client) throws Exception {
@@ -111,7 +113,7 @@ public class CommandManager {
             this.commands.get(executor).execute(client, getParams(message.split(" ")));
             CometManager.getLogger().info(client.getPlayer().getData().getUsername() + " executed command: :" + message);
         } else {
-            if(CometManager.getPermissions().getCommands().get(commandName).isVipOnly() && !client.getPlayer().getData().isVip())
+            if (CometManager.getPermissions().getCommands().get(commandName).isVipOnly() && !client.getPlayer().getData().isVip())
                 ChatCommand.sendChat(Locale.get("command.vip"), client);
 
             CometManager.getLogger().info(client.getPlayer().getData().getUsername() + " tried executing command: :" + message);
@@ -120,6 +122,7 @@ public class CommandManager {
 
     /**
      * Gets the parameters from the command that was executed (removing the first record of this array)
+     *
      * @param splitStr The executed command, split by " "
      * @return The parameters for the command
      */

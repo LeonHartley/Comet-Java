@@ -17,14 +17,14 @@ public class VendingMachineFloorItem extends RoomItemFloor {
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-        if(!this.touching(entity)) {
+        if (!this.touching(entity)) {
             entity.moveTo(this.x, this.y);
             return;
         }
 
-       // if(this.vendingEntity != null) {
-       //     return;
-       // }
+        // if(this.vendingEntity != null) {
+        //     return;
+        // }
 
         int rotation = Position3D.calculateRotation(entity.getPosition().getX(), entity.getPosition().getY(), this.getX(), this.getY(), false);
 

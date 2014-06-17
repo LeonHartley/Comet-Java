@@ -13,23 +13,23 @@ public class ReloadCommand extends ChatCommand {
 
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length < 1)
+        if (params.length < 1)
             return;
 
         String command = params[0];
 
-        switch(command) {
+        switch (command) {
             case "list":
                 client.send(MotdNotificationComposer.compose(
                         "- bans\n" +
-                        "- catalog\n" +
-                        "- navigator\n" +
-                        "- permissions\n" +
-                        "- catalog\n" +
-                        "- news\n" +
-                        "- config\n" +
-                        "- items\n" +
-                        "- filter\n"
+                                "- catalog\n" +
+                                "- navigator\n" +
+                                "- permissions\n" +
+                                "- catalog\n" +
+                                "- news\n" +
+                                "- config\n" +
+                                "- items\n" +
+                                "- filter\n"
                 ));
 
                 break;

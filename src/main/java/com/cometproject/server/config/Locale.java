@@ -14,7 +14,7 @@ public class Locale {
         locale = new FastMap<>();
 
         for (Map.Entry<Object, Object> prop : localeFile.entrySet()) {
-            locale.put((String) prop.getKey(), (String)prop.getValue());
+            locale.put((String) prop.getKey(), (String) prop.getValue());
         }
     }
 

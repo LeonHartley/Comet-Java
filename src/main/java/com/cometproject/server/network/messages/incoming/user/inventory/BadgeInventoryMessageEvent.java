@@ -12,7 +12,7 @@ public class BadgeInventoryMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int userId = msg.readInt();
 
-        if(userId == client.getPlayer().getId()) {
+        if (userId == client.getPlayer().getId()) {
             client.send(BadgeInventoryMessageComposer.compose(client.getPlayer().getInventory().getBadges()));
             return;
         }

@@ -96,7 +96,7 @@ public class PetDao {
 
             resultSet = preparedStatement.getGeneratedKeys();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 return resultSet.getInt(1);
             }
         } catch (SQLException e) {

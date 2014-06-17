@@ -14,7 +14,7 @@ public class LandingManager {
     }
 
     public void loadArticles() {
-        if(this.articles != null) {
+        if (this.articles != null) {
             this.articles.clear();
         }
 

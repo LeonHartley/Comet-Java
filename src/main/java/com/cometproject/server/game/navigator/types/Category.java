@@ -21,7 +21,7 @@ public class Category {
     }
 
     //public Category(int id, String title, int rank, boolean allowTrade) {
-        // TODO: Manual constructor
+    // TODO: Manual constructor
     //}
 
     public int getId() {

@@ -1,17 +1,11 @@
 package com.cometproject.server.game.rooms;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
-import com.sun.deploy.cache.CacheEntry;
-import org.apache.hadoop.ipc.RetryCache;
 import org.apache.log4j.Logger;
-import org.apache.solr.search.LRUCache;
-import org.apache.solr.util.ConcurrentLRUCache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +44,9 @@ public class RoomCycle implements CometTask {
                 if (room == null) continue;
 
                 try {
-                    if(room.isDisposed()) continue;
+                    if (room.isDisposed()) continue;
 
-                    if(room.needsDispose()) {
+                    if (room.needsDispose()) {
                         roomsToDispose.add(room.getId());
                         continue;
                     }
@@ -63,11 +57,11 @@ public class RoomCycle implements CometTask {
                 }
             }
 
-            for(int roomId : roomsToDispose) {
+            for (int roomId : roomsToDispose) {
                 CometManager.getRooms().removeInstance(roomId);
             }
 
-            for(int roomDataId : unusedRoomData) {
+            for (int roomDataId : unusedRoomData) {
                 CometManager.getRooms().removeData(roomDataId);
             }
 

@@ -10,7 +10,9 @@ public class AlertFloorItem extends RoomItemFloor {
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-        if (this.ticksTimer > 0) { return; }
+        if (this.ticksTimer > 0) {
+            return;
+        }
 
         this.setExtraData("1");
         this.sendUpdate();

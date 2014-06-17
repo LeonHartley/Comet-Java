@@ -21,8 +21,10 @@ public class NetworkChannelInitializer extends ChannelInitializer<Channel> {
     private final EventExecutorGroup executor;
 
     public NetworkChannelInitializer(int threadSize) {
-        if (threadSize == 0) { threadSize = (Runtime.getRuntime().availableProcessors() * 2); }
-        this.executor = new DefaultEventExecutorGroup(threadSize, new ThreadFactoryBuilder().setNameFormat( "Netty Event Thread #%1$d" ).build());
+        if (threadSize == 0) {
+            threadSize = (Runtime.getRuntime().availableProcessors() * 2);
+        }
+        this.executor = new DefaultEventExecutorGroup(threadSize, new ThreadFactoryBuilder().setNameFormat("Netty Event Thread #%1$d").build());
     }
 
     @Override
@@ -31,7 +33,7 @@ public class NetworkChannelInitializer extends ChannelInitializer<Channel> {
                 .addLast("messageDecoder", new MessageDecoder())
                 .addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8))
                 .addLast("messageEncoder", new MessageEncoder())
-                .addLast("idleHandler",  new IdleStateHandler(300, 60, 0, TimeUnit.SECONDS))
+                .addLast("idleHandler", new IdleStateHandler(300, 60, 0, TimeUnit.SECONDS))
                 .addLast(this.executor, "clientHandler", new ClientHandler());
     }
 }

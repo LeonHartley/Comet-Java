@@ -66,7 +66,9 @@ public class ItemProcessComponent implements CometTask {
 
     @Override
     public void run() {
-        if (!this.active) { return; }
+        if (!this.active) {
+            return;
+        }
 
         if (this.getRoom().getEntities().playerCount() == 0) {
             this.stop();

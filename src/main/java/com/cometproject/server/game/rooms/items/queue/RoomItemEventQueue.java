@@ -12,7 +12,9 @@ public class RoomItemEventQueue {
     private final Object lock = new Object();
 
     public void cycle() {
-        if (this.eventQueue.size() == 0) { return; }
+        if (this.eventQueue.size() == 0) {
+            return;
+        }
         final FastTable<RoomItemEventQueueEntry> eventQueueCopy = new FastTable<>();
 
         synchronized (this.lock) { // reduce lock time by copying (events happen outside lock)

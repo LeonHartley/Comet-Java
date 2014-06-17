@@ -49,7 +49,7 @@ public class Room implements Attributable {
     }
 
     private void load() {
-        if(this.getData().getHeightmap() != null && this.model instanceof StaticRoomModel) {
+        if (this.getData().getHeightmap() != null && this.model instanceof StaticRoomModel) {
             this.model = new DynamicRoomModel("dynamic_heightmap", this.getData().getHeightmap(), this.model.getDoorX(), this.model.getDoorY(), this.model.getDoorZ(), this.model.getDoorRotation());
         }
 
@@ -77,7 +77,7 @@ public class Room implements Attributable {
     }
 
     public void dispose() {
-        if(this.isDisposed)
+        if (this.isDisposed)
             return;
 
         this.getData().save();
@@ -98,15 +98,15 @@ public class Room implements Attributable {
         this.game.dispose();
         this.mapping.dispose();
 
-        for(Map.Entry<String, Object> attribute : this.attributes.entrySet()) {
-            if(attribute.getValue() instanceof Collection) {
+        for (Map.Entry<String, Object> attribute : this.attributes.entrySet()) {
+            if (attribute.getValue() instanceof Collection) {
                 ((Collection) attribute.getValue()).clear();
             }
         }
 
         this.attributes.clear();
 
-        if(this.model instanceof DynamicRoomModel) {
+        if (this.model instanceof DynamicRoomModel) {
             this.model.dispose();
         }
 

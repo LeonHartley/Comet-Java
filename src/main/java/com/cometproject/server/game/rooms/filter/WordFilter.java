@@ -14,7 +14,7 @@ public class WordFilter {
     }
 
     public void loadFilter() {
-        if(this.wordfilter != null) {
+        if (this.wordfilter != null) {
             this.wordfilter.clear();
         }
 
@@ -24,8 +24,8 @@ public class WordFilter {
     }
 
     public String filter(String message) {
-        for(Map.Entry<String, String> word : wordfilter.entrySet()) {
-            if(message.contains(word.getKey())) {
+        for (Map.Entry<String, String> word : wordfilter.entrySet()) {
+            if (message.contains(word.getKey())) {
                 message = message.replace(word.getKey(), word.getValue());
             }
         }

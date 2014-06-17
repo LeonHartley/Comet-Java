@@ -58,7 +58,6 @@ public class GameThread implements CometTask {
                 //Comet.getServer().getStorage().execute("UPDATE player_stats SET daily_respects = 3 WHERE daily_respects < 3");
 
 
-
                 TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
 
                 log.info("Daily task has cycled. Took: " + span.toMilliseconds() + "ms to execute.");
@@ -77,7 +76,7 @@ public class GameThread implements CometTask {
 
             int usersOnline = Comet.getServer().getNetwork().getSessions().getUsersOnlineCount();
 
-            if(usersOnline > this.onlineRecord)
+            if (usersOnline > this.onlineRecord)
                 onlineRecord = usersOnline;
 
             if (cycleCount >= 15) {
