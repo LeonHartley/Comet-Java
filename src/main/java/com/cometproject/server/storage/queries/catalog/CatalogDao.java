@@ -24,7 +24,7 @@ public class CatalogDao {
             preparedStatement = SqlHelper.prepare("SELECT * FROM catalog_pages WHERE visible = '1' ORDER BY order_num", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 data.put(resultSet.getInt("id"), new CatalogPage(resultSet, getItemsByPage(resultSet.getInt("id"))));
             }
         } catch (SQLException e) {
@@ -53,7 +53,7 @@ public class CatalogDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 data.put(resultSet.getInt("id"), new CatalogItem(resultSet));
             }
 

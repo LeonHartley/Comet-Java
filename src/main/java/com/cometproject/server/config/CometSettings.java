@@ -56,7 +56,7 @@ public class CometSettings {
 
         try {
             maxPlayersInRoom = Integer.parseInt(properties.getProperty("comet.game.rooms.maxPlayers"));
-        } catch(Exception e) {
+        } catch (Exception e) {
             // fall back to 150
         }
     }

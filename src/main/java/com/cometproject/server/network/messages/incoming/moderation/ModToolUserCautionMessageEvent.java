@@ -16,7 +16,7 @@ public class ModToolUserCautionMessageEvent implements IEvent {
         int playerId = msg.readInt();
         String message = msg.readString();
 
-        if(CometManager.getPlayers().isOnline(playerId)) {
+        if (CometManager.getPlayers().isOnline(playerId)) {
             Session session = Comet.getServer().getNetwork().getSessions().getByPlayerId(playerId);
 
             if (session != null) {
@@ -26,7 +26,7 @@ public class ModToolUserCautionMessageEvent implements IEvent {
 
         PlayerStatistics playerStatistics = PlayerDao.getStatisticsById(playerId);
 
-        if(playerStatistics != null) {
+        if (playerStatistics != null) {
             playerStatistics.incrementCautions(1);
         }
     }

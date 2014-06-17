@@ -20,7 +20,7 @@ public class PetComponent {
     }
 
     public void load() {
-        for(PetData data : RoomPetDao.getPetsByRoomId(this.room.getId())) {
+        for (PetData data : RoomPetDao.getPetsByRoomId(this.room.getId())) {
             PetEntity petEntity = new PetEntity(data, room.getEntities().getFreeId(), data.getRoomPosition(), 3, 3, room);
             this.getRoom().getEntities().addEntity(petEntity);
         }

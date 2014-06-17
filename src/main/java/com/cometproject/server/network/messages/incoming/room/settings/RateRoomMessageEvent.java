@@ -33,7 +33,7 @@ public class RateRoomMessageEvent implements IEvent {
         int direction = msg.readInt();
         int score = room.getData().getScore();
 
-        if(direction == 1)
+        if (direction == 1)
             score++;
         else
             score--;

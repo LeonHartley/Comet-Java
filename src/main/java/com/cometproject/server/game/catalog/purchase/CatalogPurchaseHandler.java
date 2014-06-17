@@ -56,7 +56,7 @@ public class CatalogPurchaseHandler {
             int totalCostCredits;
             int totalCostPoints;
 
-            if(item.getLimitedSells() >= item.getLimitedTotal() && item.getLimitedTotal() != 0)
+            if (item.getLimitedSells() >= item.getLimitedTotal() && item.getLimitedTotal() != 0)
                 return;
 
             if (item.allowOffer()) {
@@ -82,7 +82,9 @@ public class CatalogPurchaseHandler {
 
             for (int newItemId : item.getItems()) {
                 ItemDefinition def = CometManager.getItems().getDefintionNullable(newItemId);
-                if (def == null) { continue; }
+                if (def == null) {
+                    continue;
+                }
 
                 client.send(BoughtItemMessageComposer.compose(item, def));
 
@@ -126,7 +128,7 @@ public class CatalogPurchaseHandler {
                     } else {
                         extraData += data.replace(",", ".");
                     }
-                } else if(def.getType().equals("r")) {
+                } else if (def.getType().equals("r")) {
                     // It's a bot!
                     String botName = "New Bot";
                     String botFigure = item.getPresetData();
@@ -137,7 +139,7 @@ public class CatalogPurchaseHandler {
                     client.getPlayer().getBots().addBot(new InventoryBot(botId, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), botName, botFigure, botGender, botMotto));
                     client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
                     return;
-                } else if(def.getInteraction().equals("badge_display")) {
+                } else if (def.getInteraction().equals("badge_display")) {
                     extraData = data;
                 }
 
@@ -150,7 +152,7 @@ public class CatalogPurchaseHandler {
                 List<CatalogPurchase> purchases = new ArrayList<>();
 
                 for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
-                    for(int itemCount = 0; itemCount != item.getAmount(); itemCount++) {
+                    for (int itemCount = 0; itemCount != item.getAmount(); itemCount++) {
                         purchases.add(new CatalogPurchase(client.getPlayer().getId(), newItemId, extraData));
                     }
 
@@ -163,11 +165,11 @@ public class CatalogPurchaseHandler {
 
                 List<Integer> newItems = ItemDao.createItems(purchases);
 
-                for(Integer newItem : newItems) {
+                for (Integer newItem : newItems) {
                     unseenItems.put(newItem, def.getType().equalsIgnoreCase("s") ? 1 : 2);
                     client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData);
 
-                    if(isTeleport)
+                    if (isTeleport)
                         teleportIds[newItems.indexOf(newItem)] = newItem;
                 }
 

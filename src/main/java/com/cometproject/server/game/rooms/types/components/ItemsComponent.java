@@ -46,21 +46,21 @@ public class ItemsComponent {
     }
 
     public void callOnLoad() {
-        for(RoomItemFloor floorItem : floorItems) {
+        for (RoomItemFloor floorItem : floorItems) {
             floorItem.onLoad();
         }
 
-        for(RoomItemWall wallItem : wallItems) {
+        for (RoomItemWall wallItem : wallItems) {
             wallItem.onLoad();
         }
     }
 
     public void dispose() {
-        for(RoomItemFloor floorItem : floorItems) {
+        for (RoomItemFloor floorItem : floorItems) {
             floorItem.onUnload();
         }
 
-        for(RoomItemWall wallItem : wallItems) {
+        for (RoomItemWall wallItem : wallItems) {
             wallItem.onUnload();
         }
 
@@ -71,21 +71,27 @@ public class ItemsComponent {
     }
 
     public boolean setMoodlight(MoodlightWallItem moodlight) {
-        if (this.moodlightWallItem != null) { return false; }
+        if (this.moodlightWallItem != null) {
+            return false;
+        }
         this.moodlightWallItem = moodlight;
 
         return true;
     }
 
     public boolean removeMoodlight() {
-        if (this.moodlightWallItem == null) { return false; }
+        if (this.moodlightWallItem == null) {
+            return false;
+        }
         this.moodlightWallItem = null;
 
         return true;
     }
 
     public boolean isMoodlightMatches(RoomItem item) {
-        if (this.moodlightWallItem == null) { return false; }
+        if (this.moodlightWallItem == null) {
+            return false;
+        }
         return (this.moodlightWallItem.getId() == item.getId());
     }
 

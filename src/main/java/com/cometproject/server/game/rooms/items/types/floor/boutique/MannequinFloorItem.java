@@ -13,7 +13,7 @@ public class MannequinFloorItem extends RoomItemFloor {
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-        if(!(entity instanceof PlayerEntity))
+        if (!(entity instanceof PlayerEntity))
             return;
 
         PlayerEntity playerEntity = (PlayerEntity) entity;

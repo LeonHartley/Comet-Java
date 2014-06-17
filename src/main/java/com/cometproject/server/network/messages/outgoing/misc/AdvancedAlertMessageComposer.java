@@ -15,7 +15,7 @@ public class AdvancedAlertMessageComposer {
         msg.writeString("message");
         msg.writeString(message);
 
-        if(!hotelLink.isEmpty()) {
+        if (!hotelLink.isEmpty()) {
             msg.writeString("linkUrl");
             msg.writeString(hotelLink);
             msg.writeString("linkTitle");

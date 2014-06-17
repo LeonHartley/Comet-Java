@@ -18,7 +18,9 @@ public class WheelWallItem extends RoomItemWall {
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-        if (this.isInUse) { return; }
+        if (this.isInUse) {
+            return;
+        }
 
         if (entity instanceof PlayerEntity) {
             PlayerEntity pEntity = (PlayerEntity) entity;

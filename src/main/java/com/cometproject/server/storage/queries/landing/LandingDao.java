@@ -24,7 +24,7 @@ public class LandingDao {
             preparedStatement = SqlHelper.prepare("SELECT * FROM server_articles WHERE visible = '1'", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 data.put(resultSet.getInt("id"), new PromoArticle(resultSet));
             }
 

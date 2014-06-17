@@ -26,7 +26,7 @@ public class PermissionComponent {
             CommandPermission permission = CometManager.getPermissions().getCommands().get(key);
 
             if (permission.getMinimumRank() <= this.getPlayer().getData().getRank()) {
-                if((permission.isVipOnly() && player.getData().isVip()) || !permission.isVipOnly())
+                if ((permission.isVipOnly() && player.getData().isVip()) || !permission.isVipOnly())
                     return true;
             }
         }

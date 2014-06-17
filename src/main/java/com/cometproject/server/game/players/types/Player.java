@@ -126,7 +126,7 @@ public class Player {
             return;
         }
 
-        if(room.getEntities() == null) {
+        if (room.getEntities() == null) {
             return;
         }
 

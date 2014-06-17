@@ -13,7 +13,7 @@ public class WardrobeMessageComposer {
         msg.writeInt(1);
         msg.writeInt(wardrobe.size());
 
-        for(WardrobeItem item : wardrobe) {
+        for (WardrobeItem item : wardrobe) {
             msg.writeInt(item.getSlot());
             msg.writeString(item.getFigure());
             msg.writeString(item.getGender().toUpperCase());

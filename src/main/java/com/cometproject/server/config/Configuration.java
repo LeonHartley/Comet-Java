@@ -28,8 +28,8 @@ public class Configuration extends Properties {
     }
 
     public void override(Map<String, String> config) {
-        for(Map.Entry<String, String> configOverride : config.entrySet()) {
-            if(this.containsKey(configOverride.getKey())) {
+        for (Map.Entry<String, String> configOverride : config.entrySet()) {
+            if (this.containsKey(configOverride.getKey())) {
                 this.remove(configOverride.getKey());
                 this.put(configOverride.getKey(), configOverride.getValue());
 

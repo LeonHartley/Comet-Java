@@ -58,10 +58,10 @@ public class SSOTicketMessageEvent implements IEvent {
         Player player = null;
         boolean normalPlayerLoad = false;
 
-        if(ticket.contains(TICKET_DELIMITER)) {
+        if (ticket.contains(TICKET_DELIMITER)) {
             String[] ticketData = ticket.split(TICKET_DELIMITER);
 
-            if(ticketData.length == 2) {
+            if (ticketData.length == 2) {
                 int playerId = Integer.parseInt(ticket.split(TICKET_DELIMITER)[0]);
                 String authTicket = ticketData[1];
 
@@ -73,7 +73,7 @@ public class SSOTicketMessageEvent implements IEvent {
             normalPlayerLoad = true;
         }
 
-        if(normalPlayerLoad) {
+        if (normalPlayerLoad) {
             player = PlayerLoader.loadPlayerBySSo(ticket);
         }
 
@@ -90,7 +90,7 @@ public class SSOTicketMessageEvent implements IEvent {
 
         // to-do: clean this up!
         if (client.getChannel().remoteAddress() instanceof InetSocketAddress) {
-            InetSocketAddress socketAddress = (InetSocketAddress)client.getChannel().remoteAddress();
+            InetSocketAddress socketAddress = (InetSocketAddress) client.getChannel().remoteAddress();
 
             if (socketAddress.getAddress() != null) { // idk read the docs
                 if (CometManager.getBans().hasBan(socketAddress.getAddress().getHostAddress())) {

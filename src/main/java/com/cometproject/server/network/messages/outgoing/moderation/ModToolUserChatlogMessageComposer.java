@@ -25,7 +25,7 @@ public class ModToolUserChatlogMessageComposer {
         msg.writeString(username);
         msg.writeInt(logContainer.size());
 
-        for(UserChatlogContainer.LogSet logSet : logContainer.getLogs()) {
+        for (UserChatlogContainer.LogSet logSet : logContainer.getLogs()) {
             RoomData roomData = CometManager.getRooms().getRoomData(logSet.getRoomId());
 
             msg.writeByte(1);
@@ -39,7 +39,7 @@ public class ModToolUserChatlogMessageComposer {
 
             msg.writeShort(logSet.getLogs().size());
 
-            for(RoomChatLogEntry chatLogEntry : logSet.getLogs()) {
+            for (RoomChatLogEntry chatLogEntry : logSet.getLogs()) {
                 msg.writeInt((int) (Comet.getTime() - chatLogEntry.getTimestamp()) * 1000);
 
                 msg.writeInt(chatLogEntry.getUserId());

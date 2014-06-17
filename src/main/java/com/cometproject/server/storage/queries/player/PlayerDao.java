@@ -115,7 +115,7 @@ public class PlayerDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 return new PlayerSettings(resultSet);
             }
 
@@ -152,7 +152,7 @@ public class PlayerDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 return new PlayerStatistics(resultSet);
             }
 
@@ -186,7 +186,7 @@ public class PlayerDao {
             preparedStatement = SqlHelper.prepare("UPDATE players SET online = ?" + (setLastOnline ? ", last_online = ?" : "") + " WHERE id = ?", sqlConnection);
             preparedStatement.setString(1, online ? "1" : "0");
 
-            if(setLastOnline) {
+            if (setLastOnline) {
                 preparedStatement.setLong(2, Comet.getTime());
                 preparedStatement.setInt(3, player.getId());
             } else {
@@ -217,7 +217,7 @@ public class PlayerDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 return resultSet.getString("username");
             }
         } catch (SQLException e) {
@@ -232,7 +232,7 @@ public class PlayerDao {
     }
 
     public static int getIdByUsername(String username) {
-        if(CometManager.getPlayers().getPlayerIdByUsername(username) != -1)
+        if (CometManager.getPlayers().getPlayerIdByUsername(username) != -1)
             return CometManager.getPlayers().getPlayerIdByUsername(username);
 
         Connection sqlConnection = null;
@@ -247,7 +247,7 @@ public class PlayerDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 return resultSet.getInt("id");
             }
         } catch (SQLException e) {

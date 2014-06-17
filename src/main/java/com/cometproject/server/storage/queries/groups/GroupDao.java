@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class GroupDao {
     public static int loadGroupItems(List<GroupBase> bases, List<GroupSymbol> symbols, List<GroupBaseColour> baseColours,
-                                      Map<Integer, GroupSymbolColour> symbolColours, Map<Integer, GroupBackgroundColour> backgroundColours) {
+                                     Map<Integer, GroupSymbolColour> symbolColours, Map<Integer, GroupBackgroundColour> backgroundColours) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -29,7 +29,7 @@ public class GroupDao {
             while (resultSet.next()) {
                 count++;
 
-                switch(resultSet.getString("type")) {
+                switch (resultSet.getString("type")) {
                     case "base":
                         bases.add(new GroupBase(resultSet));
                         break;

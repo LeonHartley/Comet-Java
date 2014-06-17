@@ -24,14 +24,14 @@ public class PlayVideoMessageEvent implements IEvent {
 
         playerSettings = PlayerDao.getSettingsById(item.getOwner());
 
-        if(playerSettings == null) {
+        if (playerSettings == null) {
             playerSettings = client.getPlayer().getSettings();
         }
 
-        if(client.getPlayer().getId() != item.getOwner()) {
-            if(item.hasAttribute("video")) {
-                for(int i = 0; i < playerSettings.getPlaylist().size(); i++) {
-                    if(playerSettings.getPlaylist().get(i).getVideoId().equals(item.getAttribute("video"))) {
+        if (client.getPlayer().getId() != item.getOwner()) {
+            if (item.hasAttribute("video")) {
+                for (int i = 0; i < playerSettings.getPlaylist().size(); i++) {
+                    if (playerSettings.getPlaylist().get(i).getVideoId().equals(item.getAttribute("video"))) {
                         PlaylistItem playlistItem = playerSettings.getPlaylist().get(i);
 
                         //client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(PlayVideoMessageComposer.compose(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));

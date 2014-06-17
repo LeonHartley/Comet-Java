@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class  ChangeFloorItemPositionMessageEvent implements IEvent {
+public class ChangeFloorItemPositionMessageEvent implements IEvent {
     private static Logger log = Logger.getLogger(ChangeFloorItemPositionMessageEvent.class);
 
     public void handle(Session client, Event msg) {

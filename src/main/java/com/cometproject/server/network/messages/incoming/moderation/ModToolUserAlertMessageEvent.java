@@ -13,10 +13,10 @@ public class ModToolUserAlertMessageEvent implements IEvent {
         int playerId = msg.readInt();
         String message = msg.readString();
 
-        if(CometManager.getPlayers().isOnline(playerId)) {
+        if (CometManager.getPlayers().isOnline(playerId)) {
             Session session = Comet.getServer().getNetwork().getSessions().getByPlayerId(playerId);
 
-            if(session != null) {
+            if (session != null) {
                 session.send(AdvancedAlertMessageComposer.compose(message));
             }
         }

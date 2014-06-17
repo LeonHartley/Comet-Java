@@ -21,7 +21,7 @@ public class ModToolUserInfoMessageEvent implements IEvent {
         PlayerData playerData = PlayerDao.getDataById(userId);
         PlayerStatistics playerStatistics = PlayerDao.getStatisticsById(userId);
 
-        if(playerData == null || playerStatistics == null) {
+        if (playerData == null || playerStatistics == null) {
             return;
         }
 

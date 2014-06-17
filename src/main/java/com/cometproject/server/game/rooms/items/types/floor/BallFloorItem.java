@@ -22,7 +22,9 @@ public final class BallFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityPreStepOn(GenericEntity entity) {
-        if (this.isRolling) { return; }
+        if (this.isRolling) {
+            return;
+        }
         this.isRolling = true;
 
         Position3D currentPosition = new Position3D(this.getX(), this.getY(), this.getHeight());
@@ -138,7 +140,9 @@ public final class BallFloorItem extends RoomItemFloor {
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTriggered) {
-        if (this.isRolling) { return; }
+        if (this.isRolling) {
+            return;
+        }
 
         if (!DistanceCalculator.tilesTouching(this.getX(), this.getY(), entity.getPosition().getX(), entity.getPosition().getY())) {
             return;
@@ -176,7 +180,7 @@ public final class BallFloorItem extends RoomItemFloor {
 
     @Override
     public void onTick() {
-        if(this.rollingPositions.size() < 1)
+        if (this.rollingPositions.size() < 1)
             return;
 
         Position3D newPosition = this.rollingPositions.get(0);
@@ -199,7 +203,7 @@ public final class BallFloorItem extends RoomItemFloor {
 
         this.rollingPositions.remove(newPosition);
 
-        if(this.rollingPositions.size() != 0)
+        if (this.rollingPositions.size() != 0)
             this.setTicks(RoomItemFactory.getProcessTime(0.5));
     }
 

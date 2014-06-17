@@ -12,7 +12,7 @@ public class PromoArticlesMessageComposer {
 
         msg.writeInt(articles.size());
 
-        for(PromoArticle article : articles.values()) {
+        for (PromoArticle article : articles.values()) {
             msg.writeInt(article.getId());
             msg.writeString(article.getTitle());
             msg.writeString(article.getMessage());

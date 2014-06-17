@@ -9,7 +9,7 @@ public class FloorItemsMessageComposer {
     public static Composer compose(Room room) {
         Composer msg = new Composer(Composers.FloorItemsMessageComposer);
 
-        if(room.getItems().getFloorItems().size() > 0) {
+        if (room.getItems().getFloorItems().size() > 0) {
             msg.writeInt(1);
             msg.writeInt(room.getData().getOwnerId());
             msg.writeString(room.getData().getOwner());

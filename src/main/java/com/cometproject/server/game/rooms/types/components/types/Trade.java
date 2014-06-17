@@ -44,7 +44,7 @@ public class Trade {
         sendToUsers(TradeStartMessageComposer.compose(user1.getPlayer().getId(), user2.getPlayer().getId()));
     }
 
-    public void     dispose() {
+    public void dispose() {
         user1Items.clear();
         user2Items.clear();
         stage = 0;
