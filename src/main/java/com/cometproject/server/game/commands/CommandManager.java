@@ -107,7 +107,7 @@ public class CommandManager {
             return;
         }
 
-        if (client.getPlayer().getPermissions().hasCommand(commandName) || commandName.equals("about_command")) {
+        if (client.getPlayer().getPermissions().hasCommand(commandName)) {
             this.commands.get(executor).execute(client, getParams(message.split(" ")));
             CometManager.getLogger().info(client.getPlayer().getData().getUsername() + " executed command: :" + message);
         } else {

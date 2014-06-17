@@ -7,7 +7,11 @@ import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
+import com.sun.deploy.cache.CacheEntry;
+import org.apache.hadoop.ipc.RetryCache;
 import org.apache.log4j.Logger;
+import org.apache.solr.search.LRUCache;
+import org.apache.solr.util.ConcurrentLRUCache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +23,9 @@ public class RoomCycle implements CometTask {
     private boolean active;
     private Logger log = Logger.getLogger(RoomCycle.class.getName());
 
-    private List<Integer> roomsToUnload;
-
     public RoomCycle(CometThreadManagement mgr) {
         this.myFuture = mgr.executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
         active = true;
-
-        this.roomsToUnload = new ArrayList<>();
     }
 
     @Override
@@ -43,33 +43,27 @@ public class RoomCycle implements CometTask {
                 return;
             }
 
+            List<Integer> unusedRoomData = new ArrayList<>();
+            List<Integer> roomsToDispose = new ArrayList<>();
+
             for (Room room : CometManager.getRooms().getRoomInstances().values()) {
                 if (room == null) continue;
 
                 try {
-//                    if (this.roomsToUnload.contains(room.getId())) {
-//                        room.dispose();
-//                        continue;
-//                    }
-
                     if(room.isDisposed()) continue;
+
+                    if(room.needsDispose()) {
+                        roomsToDispose.add(room.getId());
+                        continue;
+                    }
 
                     room.tick();
                 } catch (Exception e) {
                     log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
-                    Thread.dumpStack();
                 }
             }
 
-            List<Integer> unusedRoomData = new ArrayList<>();
-
-            for(RoomData data : CometManager.getRooms().getRoomDataInstances().values()) {
-                if((Comet.getTime() - data.getLastReferenced()) >= 300) {
-                    unusedRoomData.add(data.getId());
-                }
-            }
-
-            for(int roomId : roomsToUnload) {
+            for(int roomId : roomsToDispose) {
                 CometManager.getRooms().removeInstance(roomId);
             }
 
@@ -77,7 +71,7 @@ public class RoomCycle implements CometTask {
                 CometManager.getRooms().removeData(roomDataId);
             }
 
-            this.roomsToUnload.clear();
+            roomsToDispose.clear();
             unusedRoomData.clear();
 
             TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
@@ -93,15 +87,6 @@ public class RoomCycle implements CometTask {
     public void stop() {
         this.setActive(false);
         this.myFuture.cancel(false);
-    }
-
-    public void requestUnload(int roomId) {
-//        if (this.roomsToUnload.contains(roomId))
-//            return;
-//
-//        this.roomsToUnload.add(roomId);
-
-        CometManager.getRooms().removeInstance(roomId);
     }
 
     public boolean isActive() {

@@ -60,7 +60,8 @@ public class ReloadCommand extends ChatCommand {
                 break;
 
             case "config":
-                Comet.getServer().loadConfig();
+                // TODO: Finish config rewrite.. ;p
+//                Comet.getServer().loadConfig();
                 sendChat(Locale.get("command.reload.config"), client);
                 break;
 

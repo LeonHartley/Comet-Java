@@ -44,13 +44,13 @@ public class Comet {
 
         server = new CometServer();
 
-        if(args.length < 1) {
+        if (args.length < 1) {
             log.warn("No config args found, falling back to default configuration!");
             server.init();
         } else {
             Map<String, String> cometConfiguration = new FastMap<>();
 
-            for(int i = 0; i < args.length; i++) {
+            for (int i = 0; i < args.length; i++) {
                 cometConfiguration.put(args[i].split("=")[0], args[i].split("=")[1]);
             }
 
@@ -147,8 +147,12 @@ public class Comet {
 
                 isRunning = false;
 
-                for (Room room : CometManager.getRooms().getRoomInstances().values()) {
-                    room.dispose();
+                try {
+                    for (Room room : CometManager.getRooms().getRoomInstances().values()) {
+                        room.dispose();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
                 CometManager.getRooms().getFilter().save();
