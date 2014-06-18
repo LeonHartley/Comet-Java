@@ -14,8 +14,8 @@ public class PrivateChatMessageEvent implements IEvent {
         String message = msg.readString();
 
         if (userId == -1) {
-            for(Session user : Comet.getServer().getNetwork().getSessions().getByPlayerPermission("staff_chat")) {
-                if(user == client) continue;
+            for (Session user : Comet.getServer().getNetwork().getSessions().getByPlayerPermission("staff_chat")) {
+                if (user == client) continue;
                 user.send(InstantChatMessageComposer.compose(client.getPlayer().getData().getUsername() + ": " + message, -1));
             }
             return;
@@ -36,7 +36,7 @@ public class PrivateChatMessageEvent implements IEvent {
 
         long time = System.currentTimeMillis();
 
-        if(!client.getPlayer().getPermissions().hasCommand("bypass_flood")) {
+        if (!client.getPlayer().getPermissions().hasCommand("bypass_flood")) {
             if (time - client.getPlayer().getLastMessageTime() < 750) {
                 client.getPlayer().setFloodFlag(client.getPlayer().getFloodFlag() + 1);
 

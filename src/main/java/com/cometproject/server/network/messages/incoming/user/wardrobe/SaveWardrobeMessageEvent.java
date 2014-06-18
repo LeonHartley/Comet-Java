@@ -20,8 +20,8 @@ public class SaveWardrobeMessageEvent implements IEvent {
 
         boolean wardrobeUpdated = false;
 
-        for(WardrobeItem item : wardrobe) {
-            if(item.getSlot() == slot) {
+        for (WardrobeItem item : wardrobe) {
+            if (item.getSlot() == slot) {
                 item.setFigure(figure);
                 item.setGender(gender);
 
@@ -29,7 +29,7 @@ public class SaveWardrobeMessageEvent implements IEvent {
             }
         }
 
-        if(!wardrobeUpdated) {
+        if (!wardrobeUpdated) {
             wardrobe.add(new WardrobeItem(slot, gender, figure));
         }
 

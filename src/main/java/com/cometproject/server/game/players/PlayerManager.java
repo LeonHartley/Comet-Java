@@ -30,7 +30,7 @@ public class PlayerManager {
     }
 
     public int getPlayerIdByUsername(String username) {
-        if(this.playerUsernameToPlayerId.containsKey(username.toLowerCase())) {
+        if (this.playerUsernameToPlayerId.containsKey(username.toLowerCase())) {
             return this.playerUsernameToPlayerId.get(username.toLowerCase());
         }
 
@@ -38,7 +38,7 @@ public class PlayerManager {
     }
 
     public int getSessionIdByPlayerId(int playerId) {
-        if(this.playerIdToSessionId.containsKey(playerId)) {
+        if (this.playerIdToSessionId.containsKey(playerId)) {
             return this.playerIdToSessionId.get(playerId);
         }
 

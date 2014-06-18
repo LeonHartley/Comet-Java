@@ -40,14 +40,14 @@ public final class SessionManager {
     }
 
     public boolean disconnectByPlayerId(int id) {
-        if(CometManager.getPlayers().getSessionIdByPlayerId(id) == -1) {
+        if (CometManager.getPlayers().getSessionIdByPlayerId(id) == -1) {
             return false;
         }
 
         int sessionId = CometManager.getPlayers().getSessionIdByPlayerId(id);
         Session session = sessions.get(sessionId);
 
-        if(session != null) {
+        if (session != null) {
             session.disconnect();
             return true;
         }
@@ -56,7 +56,7 @@ public final class SessionManager {
     }
 
     public Session getByPlayerId(int id) {
-         if(CometManager.getPlayers().getSessionIdByPlayerId(id) != -1) {
+        if (CometManager.getPlayers().getSessionIdByPlayerId(id) != -1) {
             int sessionId = CometManager.getPlayers().getSessionIdByPlayerId(id);
 
             return sessions.get(sessionId);
@@ -85,15 +85,15 @@ public final class SessionManager {
     public Session getByPlayerUsername(String username) {
         int playerId = CometManager.getPlayers().getPlayerIdByUsername(username);
 
-        if(playerId == -1)
+        if (playerId == -1)
             return null;
 
         int sessionId = CometManager.getPlayers().getSessionIdByPlayerId(playerId);
 
-        if(sessionId == -1)
+        if (sessionId == -1)
             return null;
 
-        if(this.sessions.containsKey(sessionId))
+        if (this.sessions.containsKey(sessionId))
             return this.sessions.get(sessionId);
 
         return null;

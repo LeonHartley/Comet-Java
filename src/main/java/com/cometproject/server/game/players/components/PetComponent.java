@@ -3,7 +3,6 @@ package com.cometproject.server.game.players.components;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.storage.queries.pets.PetDao;
-import org.apache.log4j.Logger;
 
 import java.util.Map;
 

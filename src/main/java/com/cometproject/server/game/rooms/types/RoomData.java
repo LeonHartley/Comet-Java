@@ -4,7 +4,6 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
-import com.cometproject.server.utilities.attributes.Attributable;
 import javolution.util.FastMap;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -134,7 +133,7 @@ public class RoomData {
     public Category getCategory() {
         Category category = CometManager.getNavigator().getCategory(this.category);
 
-        if(category == null) {
+        if (category == null) {
             // TODO: Dummy category :p
         }
 
@@ -248,6 +247,7 @@ public class RoomData {
     public boolean getAllowWalkthrough() {
         return this.allowWalkthrough;
     }
+
     public void setAllowWalkthrough(boolean allowWalkthrough) {
         this.allowWalkthrough = allowWalkthrough;
     }

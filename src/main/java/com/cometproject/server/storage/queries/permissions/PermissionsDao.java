@@ -26,7 +26,7 @@ public class PermissionsDao {
             preparedStatement = SqlHelper.prepare("SELECT `id`, `title`, `data`, `override_rank`, `override_default`, `min_rank` FROM permission_perks", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 data.put(resultSet.getInt("id"), new Perk(resultSet));
             }
 

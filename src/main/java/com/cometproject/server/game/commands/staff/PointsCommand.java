@@ -17,7 +17,7 @@ public class PointsCommand extends ChatCommand {
 
         try {
             points = Integer.parseInt(params[1]);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return;
         }
 

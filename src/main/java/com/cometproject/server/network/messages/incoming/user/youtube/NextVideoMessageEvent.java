@@ -21,27 +21,27 @@ public class NextVideoMessageEvent implements IEvent {
 
         PlayerSettings playerSettings;
 
-        if(client.getPlayer().getId() != item.getOwner()) {
+        if (client.getPlayer().getId() != item.getOwner()) {
             return;
         }
 
         playerSettings = PlayerDao.getSettingsById(item.getOwner());
 
-        if(playerSettings == null) {
+        if (playerSettings == null) {
             playerSettings = client.getPlayer().getSettings();
         }
 
         int currentVideoIndex = 0;
 
-        if(item.hasAttribute("video")) {
+        if (item.hasAttribute("video")) {
             String videoAttribute = (String) item.getAttribute("video");
             int playlistSize = playerSettings.getPlaylist().size();
 
-            for(int i = 0; i < playlistSize; i++) {
-                if(playerSettings.getPlaylist().get(i).getVideoId().equals(videoAttribute)) {
-                    if(direction == 0 && i != 0) {
+            for (int i = 0; i < playlistSize; i++) {
+                if (playerSettings.getPlaylist().get(i).getVideoId().equals(videoAttribute)) {
+                    if (direction == 0 && i != 0) {
                         currentVideoIndex = i - 1;
-                    } else if(direction == 1 && (playlistSize - 1) > i) {
+                    } else if (direction == 1 && (playlistSize - 1) > i) {
                         currentVideoIndex = i + 1;
                     }
                 }

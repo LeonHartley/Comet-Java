@@ -18,7 +18,7 @@ public class ModToolUserChatlogMessageEvent implements IEvent {
 
         UserChatlogContainer chatlogContainer = new UserChatlogContainer();
 
-        for(RoomVisitLogEntry visit : LogQueries.getLastRoomVisits(userId, 50)) {
+        for (RoomVisitLogEntry visit : LogQueries.getLastRoomVisits(userId, 50)) {
             chatlogContainer.addAll(visit.getRoomId(), LogQueries.getChatlogsByCriteria(visit.getPlayerId(), visit.getRoomId(), visit.getEntryTime(), visit.getExitTime()));
         }
 

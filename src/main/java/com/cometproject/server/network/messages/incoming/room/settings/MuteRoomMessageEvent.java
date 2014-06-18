@@ -8,16 +8,16 @@ import com.cometproject.server.network.sessions.Session;
 public class MuteRoomMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        if(client.getPlayer().getEntity() == null)
+        if (client.getPlayer().getEntity() == null)
             return;
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;
         }
 
-        if(room.hasRoomMute()) {
+        if (room.hasRoomMute()) {
             room.setRoomMute(false);
         } else {
             room.setRoomMute(true);

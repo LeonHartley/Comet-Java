@@ -1,5 +1,6 @@
 package com.cometproject.server.game;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.groups.GroupManager;
@@ -30,7 +31,7 @@ public class CometManager {
     private static GroupManager groupManager;
     private static PlayerManager playerManager;
 
-    public static GameThread gameThread;
+    private static GameThread gameThread;
 
     private static Logger log = Logger.getLogger(CometManager.class.getName());
 
@@ -50,6 +51,10 @@ public class CometManager {
         playerManager = new PlayerManager();
 
         //StaticPlayerQueue.init(Comet.getServer().getThreadManagement());
+    }
+
+    public static void startCycle() {
+        gameThread = new GameThread(Comet.getServer().getThreadManagement());
     }
 
     public static Logger getLogger() {

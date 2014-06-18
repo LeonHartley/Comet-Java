@@ -10,14 +10,14 @@ public class GiveHandItemMessageEvent implements IEvent {
     public void handle(Session client, Event msg) throws Exception {
         int userId = msg.readInt();
 
-        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
         PlayerEntity providerEntity = client.getPlayer().getEntity();
         PlayerEntity receivingEntity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPlayerId(userId);
 
-        if(receivingEntity == null) {
+        if (receivingEntity == null) {
             return;
         }
 

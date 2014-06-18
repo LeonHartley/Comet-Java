@@ -1,6 +1,5 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;

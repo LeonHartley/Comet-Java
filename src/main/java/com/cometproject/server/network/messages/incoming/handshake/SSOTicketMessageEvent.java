@@ -3,8 +3,6 @@ package com.cometproject.server.network.messages.incoming.handshake;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.data.PlayerLoader;
-import com.cometproject.server.game.players.queue.PlayerLoginQueueEntry;
-import com.cometproject.server.game.players.queue.StaticPlayerQueue;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
@@ -13,14 +11,11 @@ import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationCo
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.RoomCategoriesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.nio.channels.SocketChannel;
 
 public class SSOTicketMessageEvent implements IEvent {
     public static String TICKET_DELIMITER = ":";
@@ -58,10 +53,10 @@ public class SSOTicketMessageEvent implements IEvent {
         Player player = null;
         boolean normalPlayerLoad = false;
 
-        if(ticket.contains(TICKET_DELIMITER)) {
+        if (ticket.contains(TICKET_DELIMITER)) {
             String[] ticketData = ticket.split(TICKET_DELIMITER);
 
-            if(ticketData.length == 2) {
+            if (ticketData.length == 2) {
                 int playerId = Integer.parseInt(ticket.split(TICKET_DELIMITER)[0]);
                 String authTicket = ticketData[1];
 
@@ -73,7 +68,7 @@ public class SSOTicketMessageEvent implements IEvent {
             normalPlayerLoad = true;
         }
 
-        if(normalPlayerLoad) {
+        if (normalPlayerLoad) {
             player = PlayerLoader.loadPlayerBySSo(ticket);
         }
 
@@ -90,7 +85,7 @@ public class SSOTicketMessageEvent implements IEvent {
 
         // to-do: clean this up!
         if (client.getChannel().remoteAddress() instanceof InetSocketAddress) {
-            InetSocketAddress socketAddress = (InetSocketAddress)client.getChannel().remoteAddress();
+            InetSocketAddress socketAddress = (InetSocketAddress) client.getChannel().remoteAddress();
 
             if (socketAddress.getAddress() != null) { // idk read the docs
                 if (CometManager.getBans().hasBan(socketAddress.getAddress().getHostAddress())) {
@@ -112,7 +107,7 @@ public class SSOTicketMessageEvent implements IEvent {
 
         CometManager.getRooms().loadRoomsForUser(player);
 
-        client.getLogger().info(client.getPlayer().getData().getUsername() + " logged in");
+        client.getLogger().debug(client.getPlayer().getData().getUsername() + " logged in");
 
         PlayerDao.updatePlayerStatus(player, true, true);
 

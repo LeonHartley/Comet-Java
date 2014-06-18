@@ -27,7 +27,7 @@ public class RequestFriendshipMessageEvent implements IEvent {
 
         int userId = PlayerDao.getIdByUsername(username);
 
-        if(userId == 0)
+        if (userId == 0)
             return;
 
         MessengerDao.createRequest(client.getPlayer().getId(), userId);

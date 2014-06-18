@@ -13,14 +13,14 @@ public class ModToolUserKickMessageEvent implements IEvent {
         int playerId = msg.readInt();
         String message = msg.readString();
 
-        if(CometManager.getPlayers().isOnline(playerId)) {
+        if (CometManager.getPlayers().isOnline(playerId)) {
             Session session = Comet.getServer().getNetwork().getSessions().getByPlayerId(playerId);
 
-            if(session != null) {
-                if(!message.isEmpty())
+            if (session != null) {
+                if (!message.isEmpty())
                     session.send(AdvancedAlertMessageComposer.compose(message));
 
-                if(session.getPlayer().getEntity() != null) {
+                if (session.getPlayer().getEntity() != null) {
                     session.getPlayer().getEntity().leaveRoom(false, true, true);
                 }
             }

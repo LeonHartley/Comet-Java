@@ -1,5 +1,6 @@
 package com.cometproject.server.network.http;
 
+import com.cometproject.server.boot.Comet;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 import org.apache.log4j.Logger;
@@ -11,10 +12,13 @@ public class ManagementServer {
     private static Logger logger = Logger.getLogger(ManagementServer.class.getName());
 
     public ManagementServer() {
+        // TODO: Move to a Netty HTTP server ;-)
         try {
-            HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+            HttpServer server = HttpServer.create(new InetSocketAddress(Integer.parseInt(Comet.getServer().getConfig().getProperty("comet.network.http.port"))), 0);
+
             server.createContext("/", new ManagementCommandHandler());
-            server.setExecutor(null);
+            server.setExecutor(Comet.getServer().getThreadManagement().getScheduledExecutorService());
+
             server.start();
 
         } catch (Exception e) {
@@ -30,7 +34,7 @@ public class ManagementServer {
             os.write(response.getBytes());
             os.close();
         } catch (Exception ex) {
-            if(ex.getMessage().equals("headers already sent")) return;
+            if (ex.getMessage().equals("headers already sent")) return;
 
             logger.error("Error while writing response", ex);
         }

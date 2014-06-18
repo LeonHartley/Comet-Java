@@ -4,7 +4,6 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.network.messages.outgoing.catalog.CataIndexMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -13,23 +12,23 @@ public class ReloadCommand extends ChatCommand {
 
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length < 1)
+        if (params.length < 1)
             return;
 
         String command = params[0];
 
-        switch(command) {
+        switch (command) {
             case "list":
                 client.send(MotdNotificationComposer.compose(
                         "- bans\n" +
-                        "- catalog\n" +
-                        "- navigator\n" +
-                        "- permissions\n" +
-                        "- catalog\n" +
-                        "- news\n" +
-                        "- config\n" +
-                        "- items\n" +
-                        "- filter\n"
+                                "- catalog\n" +
+                                "- navigator\n" +
+                                "- permissions\n" +
+                                "- catalog\n" +
+                                "- news\n" +
+                                "- config\n" +
+                                "- items\n" +
+                                "- filter\n"
                 ));
 
                 break;
@@ -60,7 +59,8 @@ public class ReloadCommand extends ChatCommand {
                 break;
 
             case "config":
-                Comet.getServer().loadConfig();
+                // TODO: Finish config rewrite.. ;p
+//                Comet.getServer().loadConfig();
                 sendChat(Locale.get("command.reload.config"), client);
                 break;
 

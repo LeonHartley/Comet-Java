@@ -50,8 +50,8 @@ public class EntityComponent {
     }
 
     public List<GenericEntity> getEntitiesAt(int x, int y) {
-        if(x < entityGrid.length) {
-            if(y < entityGrid[x].length) {
+        if (x < entityGrid.length) {
+            if (y < entityGrid[x].length) {
                 return this.entityGrid[x][y] != null ? this.entityGrid[x][y] : new ArrayList<GenericEntity>();
             }
         }
@@ -97,19 +97,19 @@ public class EntityComponent {
     }
 
     public void addEntity(GenericEntity entity) {
-        if(this.entities == null) {
+        if (this.entities == null) {
             this.entities = new FastMap<Integer, GenericEntity>().shared();
         }
 
-        if(this.playerIdToEntity == null) {
+        if (this.playerIdToEntity == null) {
             this.playerIdToEntity = new FastMap<>();
         }
 
-        if(this.botIdToEntity == null) {
+        if (this.botIdToEntity == null) {
             this.botIdToEntity = new FastMap<>();
         }
 
-        if(this.petIdToEntity == null) {
+        if (this.petIdToEntity == null) {
             this.petIdToEntity = new FastMap<>();
         }
 
@@ -159,7 +159,7 @@ public class EntityComponent {
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
 
-                    if(playerEntity.getPlayer() == null)
+                    if (playerEntity.getPlayer() == null)
                         continue;
 
                     if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()))
@@ -198,10 +198,10 @@ public class EntityComponent {
     }
 
     public GenericEntity getEntityByName(String name, RoomEntityType type) {
-        for(GenericEntity entity : this.getEntitiesCollection().values()) {
-            if(entity.getUsername() == null) continue;
+        for (GenericEntity entity : this.getEntitiesCollection().values()) {
+            if (entity.getUsername() == null) continue;
 
-            if(entity.getUsername().equals(name) && entity.getEntityType() == type) {
+            if (entity.getUsername().equals(name) && entity.getEntityType() == type) {
                 return entity;
             }
         }
@@ -266,7 +266,7 @@ public class EntityComponent {
     public List<PlayerEntity> getPlayerEntities() {
         List<PlayerEntity> entities = new ArrayList<>();
 
-        if(this.entities == null || this.entities.size() < 1) {
+        if (this.entities == null || this.entities.size() < 1) {
             return entities;
         }
 
@@ -280,7 +280,7 @@ public class EntityComponent {
     }
 
     public void refreshScore() {
-        for(PlayerEntity entity : getPlayerEntities()) {
+        for (PlayerEntity entity : getPlayerEntities()) {
             entity.getPlayer().getSession().send(RoomRatingMessageComposer.compose(room.getData().getScore(), entity.canRateRoom()));
         }
     }
@@ -301,7 +301,7 @@ public class EntityComponent {
         return this.entities;
     }
 
-    private Room getRoom() {
+    public Room getRoom() {
         return this.room;
     }
 
@@ -321,7 +321,5 @@ public class EntityComponent {
         botIdToEntity.clear();
 
         entities.clear();
-
-        this.room = null;
     }
 }

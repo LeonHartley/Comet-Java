@@ -2,7 +2,6 @@ package com.cometproject.server.network.messages.incoming.moderation;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
@@ -16,7 +15,7 @@ public class ModToolUserCautionMessageEvent implements IEvent {
         int playerId = msg.readInt();
         String message = msg.readString();
 
-        if(CometManager.getPlayers().isOnline(playerId)) {
+        if (CometManager.getPlayers().isOnline(playerId)) {
             Session session = Comet.getServer().getNetwork().getSessions().getByPlayerId(playerId);
 
             if (session != null) {
@@ -26,7 +25,7 @@ public class ModToolUserCautionMessageEvent implements IEvent {
 
         PlayerStatistics playerStatistics = PlayerDao.getStatisticsById(playerId);
 
-        if(playerStatistics != null) {
+        if (playerStatistics != null) {
             playerStatistics.incrementCautions(1);
         }
     }

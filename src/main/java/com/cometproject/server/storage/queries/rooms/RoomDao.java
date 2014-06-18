@@ -1,7 +1,6 @@
 package com.cometproject.server.storage.queries.rooms;
 
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
-import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
@@ -30,7 +29,7 @@ public class RoomDao {
             preparedStatement = SqlHelper.prepare("SELECT * FROM room_models", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 data.add(new StaticRoomModel(resultSet));
             }
 
@@ -58,7 +57,7 @@ public class RoomDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 return new RoomData(resultSet);
             }
 
@@ -88,7 +87,7 @@ public class RoomDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 rooms.put(resultSet.getInt("id"), new RoomData(resultSet));
             }
 
@@ -123,7 +122,7 @@ public class RoomDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 rooms.add(new RoomData(resultSet));
             }
 
@@ -156,7 +155,7 @@ public class RoomDao {
 
             resultSet = preparedStatement.getGeneratedKeys();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 return resultSet.getInt(1);
             }
         } catch (SQLException e) {

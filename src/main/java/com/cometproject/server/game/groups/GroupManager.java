@@ -23,7 +23,7 @@ public class GroupManager {
     }
 
     public void loadItems() {
-        if(bases == null) {
+        if (bases == null) {
             // If bases is null, gotta assume all the others are...
             bases = new ArrayList<>();
             symbols = new ArrayList<>();

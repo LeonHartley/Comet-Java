@@ -1,6 +1,5 @@
 package com.cometproject.server.tasks;
 
-import com.cometproject.server.boot.Comet;
 import javolution.util.FastTable;
 import org.apache.log4j.Logger;
 
@@ -52,7 +51,9 @@ public class CometThreadManagement {
     }
 
     public void startMonitoring() {
-        if (this.monitorThread != null) { return; }
+        if (this.monitorThread != null) {
+            return;
+        }
     }
 
     private final class ThreadMonitorCycle implements CometTask {
@@ -76,5 +77,9 @@ public class CometThreadManagement {
                 }
             }
         }
+    }
+
+    public ScheduledExecutorService getScheduledExecutorService() {
+        return scheduledExecutorService;
     }
 }

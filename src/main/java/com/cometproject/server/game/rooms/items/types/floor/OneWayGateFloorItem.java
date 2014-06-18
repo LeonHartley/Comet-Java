@@ -14,7 +14,9 @@ public class OneWayGateFloorItem extends RoomItemFloor {
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-        if (this.isInUse) { return; }
+        if (this.isInUse) {
+            return;
+        }
         this.isInUse = true;
 
         Position3D doorPosition = new Position3D(this.getX(), this.getY());

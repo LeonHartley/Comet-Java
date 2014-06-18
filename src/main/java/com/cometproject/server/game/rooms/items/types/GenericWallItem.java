@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.items.types;
 
-import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItemWall;

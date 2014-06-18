@@ -46,7 +46,8 @@ public class SqlIndexChecker {
                 con.close();
                 stmt.close();
                 rs.close();
-            } catch (Exception e) { }
+            } catch (Exception e) {
+            }
         }
 
         if (!hasIdIndex) {

@@ -16,7 +16,9 @@ public class ToggleMoodlightMessageEvent implements IEvent {
         }
 
         MoodlightWallItem moodlight = room.getItems().getMoodlight();
-        if (moodlight == null) { return; }
+        if (moodlight == null) {
+            return;
+        }
 
         if (!moodlight.getMoodlightData().isEnabled()) {
             moodlight.getMoodlightData().setEnabled(true);

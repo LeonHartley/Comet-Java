@@ -13,7 +13,7 @@ public class SayMessageEffect extends WiredEffect {
     @Override
     public void onActivate(List<GenericEntity> entities, RoomItemFloor item) {
         for (GenericEntity entity : entities) {
-            if(entity instanceof PlayerEntity)
+            if (entity instanceof PlayerEntity)
                 ((PlayerEntity) entity).getPlayer().getSession().send(WisperMessageComposer.compose(entity.getVirtualId(), item.getExtraData()));
         }
     }

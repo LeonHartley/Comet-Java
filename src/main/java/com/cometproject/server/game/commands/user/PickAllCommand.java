@@ -26,9 +26,9 @@ public class PickAllCommand extends ChatCommand {
 
         for (RoomItem item : itemsToRemove) {
             if (item instanceof RoomItemFloor) {
-                room.getItems().removeItem((RoomItemFloor)item, client);
+                room.getItems().removeItem((RoomItemFloor) item, client);
             } else if (item instanceof RoomItemWall) {
-                room.getItems().removeItem((RoomItemWall)item, client);
+                room.getItems().removeItem((RoomItemWall) item, client);
             }
         }
     }

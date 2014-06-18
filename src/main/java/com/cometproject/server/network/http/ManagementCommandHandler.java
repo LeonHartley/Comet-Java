@@ -48,33 +48,33 @@ public class ManagementCommandHandler implements HttpHandler {
             queryString = new String(out.toByteArray(), Charset.defaultCharset());
         }
 
-        if(!e.getRequestMethod().equals("POST")) {
+        if (!e.getRequestMethod().equals("POST")) {
             Comet.getServer().getNetwork().getManagement().sendResponse("Invalid request", e);
             return;
         }
 
         Map<String, String> requestParameters = new FastMap<>();
 
-        for(int i = 0; i < queryString.split("&").length; i++) {
+        for (int i = 0; i < queryString.split("&").length; i++) {
             requestParameters.put(queryString.split("&")[i].split("=")[0], java.net.URLDecoder.decode(queryString.split("&")[i].split("=")[1], "UTF-8"));
         }
 
-        if(!requestParameters.containsKey("auth")) {
+        if (!requestParameters.containsKey("auth")) {
             Comet.getServer().getNetwork().getManagement().sendResponse(RequestError.AUTH_FAILED, e);
             return;
         }
 
-        if(!requestParameters.get("auth").equals(authKey)) {
+        if (!requestParameters.get("auth").equals(authKey)) {
             log.error("Failed authentication from: " + ipAddress + " - Data: " + queryString);
             return;
         }
 
-        if(!requestParameters.containsKey("command")) {
+        if (!requestParameters.containsKey("command")) {
             Comet.getServer().getNetwork().getManagement().sendResponse(RequestError.INVALID_COMMAND, e);
             return;
         }
 
-        switch(requestParameters.get("command")) {
+        switch (requestParameters.get("command")) {
             case "update_bans": {
                 CometManager.getBans().loadBans();
                 break;
@@ -128,14 +128,14 @@ public class ManagementCommandHandler implements HttpHandler {
 
                 CatalogPage page = CometManager.getCatalog().getPage(pageId);
 
-                if(page == null) {
+                if (page == null) {
                     Comet.getServer().getNetwork().getManagement().sendResponse(RequestError.INVALID_PAGE, e);
                     return;
                 }
 
                 CatalogItem item = page.getItems().get(itemId);
 
-                if(item == null) {
+                if (item == null) {
                     Comet.getServer().getNetwork().getManagement().sendResponse(RequestError.INVALID_ITEM, e);
                     return;
                 }

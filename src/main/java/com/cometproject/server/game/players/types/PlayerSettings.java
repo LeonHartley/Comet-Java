@@ -40,18 +40,20 @@ public class PlayerSettings {
 
         String wardrobeText = data.getString("wardrobe");
 
-        if(wardrobeText == null || wardrobeText.isEmpty()) {
+        if (wardrobeText == null || wardrobeText.isEmpty()) {
             wardrobe = new ArrayList<>();
         } else {
-            wardrobe = new Gson().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>(){}.getType());
+            wardrobe = new Gson().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
+            }.getType());
         }
 
         String playlistText = data.getString("playlist");
 
-        if(playlistText == null || playlistText.isEmpty()) {
+        if (playlistText == null || playlistText.isEmpty()) {
             playlist = new ArrayList<>();
         } else {
-            playlist = new Gson().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>(){}.getType());
+            playlist = new Gson().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
+            }.getType());
         }
     }
 

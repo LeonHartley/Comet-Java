@@ -14,13 +14,13 @@ public class PlaylistMessageComposer {
 
         msg.writeInt(playlist.size());
 
-        for(PlaylistItem playListItem : playlist) {
+        for (PlaylistItem playListItem : playlist) {
             msg.writeString(playlist.indexOf(playListItem)); // not sure if can do this...
             msg.writeString(playListItem.getTitle());
             msg.writeString(playListItem.getDescription());
         }
 
-        if(playlist.size() > 0) {
+        if (playlist.size() > 0) {
             msg.writeString(videoId);
         }
 

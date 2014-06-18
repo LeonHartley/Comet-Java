@@ -26,7 +26,7 @@ public class NavigatorDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 data.add(new FeaturedRoom(resultSet));
             }
         } catch (SQLException e) {
@@ -54,7 +54,7 @@ public class NavigatorDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 data.add(new Category(resultSet));
             }
         } catch (SQLException e) {
@@ -111,7 +111,7 @@ public class NavigatorDao {
 
             resultSet = preparedStatement.getGeneratedKeys();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 return resultSet.getInt(1);
             }
         } catch (SQLException e) {

@@ -26,7 +26,7 @@ public class ItemDao {
             preparedStatement = SqlHelper.prepare("SELECT * FROM furniture", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 data.put(resultSet.getInt("id"), new ItemDefinition(resultSet));
             }
 
@@ -65,7 +65,7 @@ public class ItemDao {
 
             resultSet = preparedStatement.getGeneratedKeys();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 return resultSet.getInt(1);
             }
         } catch (SQLException e) {
@@ -91,7 +91,7 @@ public class ItemDao {
 
             preparedStatement = SqlHelper.prepare("INSERT into items (`user_id`, `room_id`, `base_item`, `extra_data`, `x`, `y`, `z`, `rot`, `wall_pos`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", sqlConnection, true);
 
-            for(CatalogPurchaseHandler.CatalogPurchase purchase : catalogPurchases) {
+            for (CatalogPurchaseHandler.CatalogPurchase purchase : catalogPurchases) {
                 preparedStatement.setInt(1, purchase.getPlayerId());
                 preparedStatement.setInt(2, 0);
                 preparedStatement.setInt(3, purchase.getItemBaseId());
@@ -109,7 +109,7 @@ public class ItemDao {
 
             resultSet = preparedStatement.getGeneratedKeys();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 data.add(resultSet.getInt(1));
             }
         } catch (SQLException e) {

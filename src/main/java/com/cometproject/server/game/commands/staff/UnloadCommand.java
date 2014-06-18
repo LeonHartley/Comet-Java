@@ -1,7 +1,6 @@
 package com.cometproject.server.game.commands.staff;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.sessions.Session;
 
@@ -10,7 +9,7 @@ public class UnloadCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         int roomId = client.getPlayer().getEntity().getRoom().getId();
 
-        CometManager.getRooms().getGlobalCycle().requestUnload(roomId);
+        client.getPlayer().getEntity().getRoom().setNeedsDispose(true);
     }
 
     @Override

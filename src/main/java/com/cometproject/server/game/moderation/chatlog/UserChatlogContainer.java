@@ -1,14 +1,9 @@
 package com.cometproject.server.game.moderation.chatlog;
 
-import com.cometproject.server.logging.LogStore;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
-import javolution.util.FastMap;
-import javolution.util.FastSet;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class UserChatlogContainer {
     //private Map<Integer, List<RoomChatLogEntry>> logs;
@@ -19,14 +14,14 @@ public class UserChatlogContainer {
     }
 
     public void addAll(int roomId, List<RoomChatLogEntry> chatlogs) {
-        if(chatlogs.size() < 1)
+        if (chatlogs.size() < 1)
             return;
 
         this.logs.add(new LogSet(roomId, chatlogs));
     }
 
     public void dispose() {
-        for(LogSet logSet : logs) {
+        for (LogSet logSet : logs) {
             logSet.getLogs().clear();
         }
 

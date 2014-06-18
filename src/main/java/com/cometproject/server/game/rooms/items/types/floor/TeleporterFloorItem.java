@@ -32,7 +32,9 @@ public class TeleporterFloorItem extends RoomItemFloor {
             return;
         }
 
-        if (this.inUse) { return; }
+        if (this.inUse) {
+            return;
+        }
         this.inUse = true;
         this.outgoingEntity = entity;
 
@@ -87,7 +89,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
                     if (CometManager.getRooms().get(roomId) != null) {
                         if (this.outgoingEntity instanceof PlayerEntity) {
-                            PlayerEntity pEntity = (PlayerEntity)this.outgoingEntity;
+                            PlayerEntity pEntity = (PlayerEntity) this.outgoingEntity;
                             pEntity.getPlayer().setTeleportId(pairId);
                             pEntity.getPlayer().getSession().send(FollowFriendMessageComposer.compose(roomId));
                         }
@@ -98,7 +100,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                     }
                 }
 
-                TeleporterFloorItem teleItem = (TeleporterFloorItem)pairItem;
+                TeleporterFloorItem teleItem = (TeleporterFloorItem) pairItem;
                 teleItem.handleIncomingEntity(this.outgoingEntity, this);
                 break;
             }
@@ -166,7 +168,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
     }
 
     public void handleIncomingEntity(GenericEntity entity, TeleporterFloorItem otherItem) {
-        if(otherItem != null)
+        if (otherItem != null)
             otherItem.endTeleporting();
 
         this.toggleAnimation(true);
