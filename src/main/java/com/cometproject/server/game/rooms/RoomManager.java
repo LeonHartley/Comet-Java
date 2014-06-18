@@ -195,7 +195,7 @@ public class RoomManager {
     public boolean isActive(int roomId) {
         Room room = this.roomInstances.get(roomId);
 
-        return room != null && !room.isDisposed();
+        return room != null && !room.isDisposed() && !room.needsRemoving();
     }
 
     public int createRoom(String name, String model, Session client) {
@@ -210,7 +210,7 @@ public class RoomManager {
         List<RoomData> rooms = new ArrayList<>();
 
         for (Room room : this.roomInstances.values()) {
-            if (room == null || room.isDisposed() || (category != -1 && room.getData().getCategory().getId() != category)) {
+            if (room == null || room.isDisposed() || room.needsRemoving() || (category != -1 && room.getData().getCategory().getId() != category)) {
                 continue;
             }
 
