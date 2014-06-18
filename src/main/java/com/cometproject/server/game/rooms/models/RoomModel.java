@@ -7,8 +7,6 @@ import com.cometproject.server.network.messages.outgoing.room.engine.RelativeHei
 import com.cometproject.server.network.messages.types.Composer;
 import org.apache.log4j.Logger;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 
 public abstract class RoomModel {

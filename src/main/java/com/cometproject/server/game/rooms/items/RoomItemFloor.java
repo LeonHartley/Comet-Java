@@ -11,7 +11,6 @@ import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
 public abstract class RoomItemFloor extends RoomItem {
     private int roomId;

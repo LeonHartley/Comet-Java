@@ -1,8 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.catalog.types.gifts.GiftData;
-import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -10,7 +8,6 @@ import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.RoomItemWall;
-import com.cometproject.server.game.rooms.items.queue.RoomItemEventQueue;
 import com.cometproject.server.game.rooms.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
@@ -21,14 +18,12 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.items.WiredDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
-import javolution.util.FastMap;
 import javolution.util.FastTable;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ItemsComponent {
     private Room room;

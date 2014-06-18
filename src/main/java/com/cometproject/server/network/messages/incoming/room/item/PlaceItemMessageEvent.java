@@ -7,8 +7,6 @@ import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.RoomItemWall;
-import com.cometproject.server.game.rooms.items.queue.RoomItemEventQueueEntry;
-import com.cometproject.server.game.rooms.items.queue.RoomItemEventType;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;

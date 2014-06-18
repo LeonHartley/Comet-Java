@@ -13,7 +13,6 @@ import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import javolution.util.FastMap;
-import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,13 +8,8 @@ import com.cometproject.server.network.messages.outgoing.user.details.UserInfoMe
 import com.cometproject.server.network.messages.outgoing.user.details.WelcomeUserMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.AllowancesMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import javolution.util.FastMap;
-
-import java.util.Map;
 
 public class UserInformationMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {

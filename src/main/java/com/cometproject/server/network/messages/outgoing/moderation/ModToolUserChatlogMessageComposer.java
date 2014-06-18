@@ -8,12 +8,6 @@ import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import org.joda.time.DateTime;
-
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 public class ModToolUserChatlogMessageComposer {
     public static Composer compose(int userId, UserChatlogContainer logContainer) {

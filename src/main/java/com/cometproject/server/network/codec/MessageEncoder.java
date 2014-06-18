@@ -2,11 +2,8 @@ package com.cometproject.server.network.codec;
 
 import com.cometproject.server.network.messages.types.Composer;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-import io.netty.util.ReferenceCountUtil;
-import org.apache.log4j.Logger;
 
 public class MessageEncoder extends MessageToByteEncoder<Composer> {
     @Override

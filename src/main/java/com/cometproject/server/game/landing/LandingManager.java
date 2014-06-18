@@ -2,7 +2,6 @@ package com.cometproject.server.game.landing;
 
 import com.cometproject.server.game.landing.types.PromoArticle;
 import com.cometproject.server.storage.queries.landing.LandingDao;
-import javolution.util.FastMap;
 
 import java.util.Map;
 

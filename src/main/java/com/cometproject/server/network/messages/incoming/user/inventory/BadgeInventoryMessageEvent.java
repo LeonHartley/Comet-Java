@@ -5,7 +5,6 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInv
 import com.cometproject.server.network.messages.outgoing.user.profile.UserBadgesMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 
 public class BadgeInventoryMessageEvent implements IEvent {

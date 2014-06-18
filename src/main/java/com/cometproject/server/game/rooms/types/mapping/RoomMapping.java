@@ -1,8 +1,8 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
-import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.models.RoomModel;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 
 import java.util.Arrays;

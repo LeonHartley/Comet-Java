@@ -1,7 +1,6 @@
 package com.cometproject.server.storage.queries.rooms;
 
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
-import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;

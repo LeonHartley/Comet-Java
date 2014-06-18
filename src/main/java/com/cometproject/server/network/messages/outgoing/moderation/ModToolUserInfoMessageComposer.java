@@ -6,10 +6,6 @@ import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
-import com.cometproject.server.storage.queries.player.PlayerDao;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class ModToolUserInfoMessageComposer {
     public static Composer compose(PlayerData user, PlayerStatistics stats) {

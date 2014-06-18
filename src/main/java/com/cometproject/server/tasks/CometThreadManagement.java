@@ -1,6 +1,5 @@
 package com.cometproject.server.tasks;
 
-import com.cometproject.server.boot.Comet;
 import javolution.util.FastTable;
 import org.apache.log4j.Logger;
 
