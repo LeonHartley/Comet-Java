@@ -97,7 +97,7 @@ public class APIManager {
             List<RoomStats> activeRooms = new ArrayList<>();
 
             for(Room room : CometManager.getRooms().getRoomInstances().values()) {
-                if(!room.isDisposed() && !room.needsDispose()) {
+                if (!room.needsRemoving()) {
                     activeRooms.add(new RoomStats(room));
                 }
             }

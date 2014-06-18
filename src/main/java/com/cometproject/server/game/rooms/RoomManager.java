@@ -67,6 +67,11 @@ public class RoomManager {
 
         Room room = this.getRoomInstances().get(roomId);
 
+        // Needs to check here also
+        if (!room.needsRemoving()) {
+            return;
+        }
+
         if (!room.isDisposed()) {
             room.dispose();
         }
@@ -115,7 +120,15 @@ public class RoomManager {
 
     public Room get(int id) {
         if (this.getRoomInstances().containsKey(id)) {
-            return this.getRoomInstances().get(id);
+           Room r = this.getRoomInstances().get(id);
+
+            if (r.needsRemoving()) {
+                this.getRoomInstances().remove(id);
+                r.dispose();
+            } else {
+                r.unIdleIfRequired();
+                return r;
+            }
         }
 
         Room room = createRoomInstance(this.getRoomData(id));
@@ -124,8 +137,9 @@ public class RoomManager {
             log.warn("There was a problem loading room: " + id + ", data was null");
         }
 
-        if (room != null)
+        if (room != null) {
             this.roomInstances.put(room.getId(), room);
+        }
 
         return room;
     }

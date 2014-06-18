@@ -297,6 +297,22 @@ public class EntityComponent {
         return this.playerIdToEntity == null ? 0 : this.playerIdToEntity.size();
     }
 
+    public int reliablePlayerCountTest() {
+        int count = 0;
+
+        for (GenericEntity entity : this.entities.values()) {
+            if (entity instanceof PlayerEntity) {
+                PlayerEntity pE = (PlayerEntity)entity;
+
+                if (pE.getPlayer() != null && pE.getPlayer().getSession() != null && pE.getPlayer().getSession().getChannel().isActive()) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
     public Map<Integer, GenericEntity> getEntitiesCollection() {
         return this.entities;
     }

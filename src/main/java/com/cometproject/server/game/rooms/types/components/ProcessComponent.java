@@ -70,21 +70,6 @@ public class ProcessComponent implements CometTask {
         }
 
         try {
-            if (this.getRoom().isDisposed())
-                return;
-
-            if (this.getRoom().getEntities().playerCount() == 0 && this.disposeCycles >= 10) {
-                this.getRoom().setNeedsDispose(true);
-                return;
-            } else if (this.getRoom().getEntities().playerCount() == 0) {
-                this.disposeCycles++;
-                return;
-            }
-
-            if (this.disposeCycles != 0) {
-                this.disposeCycles = 0;
-            }
-
             long timeStart = System.currentTimeMillis();
 
             // Reset the users to update
