@@ -468,6 +468,9 @@ public class ProcessComponent implements CometTask {
 
     protected void handleSupressedExceptions(Throwable t) {
         // TO-DO: we need log these somewhere separately so we can 'fix' these kind of errors easily..
+        if(t instanceof NullPointerException) {
+            log.error("Error during room process", t);
+        }
     }
 
     public void dispose() {

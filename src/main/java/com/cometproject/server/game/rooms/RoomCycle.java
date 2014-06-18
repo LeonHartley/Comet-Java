@@ -44,9 +44,12 @@ public class RoomCycle implements CometTask {
                 if (room == null) continue;
 
                 try {
-                    if (room.isDisposed()) continue;
+                    if (room.needsDispose() || room.isDisposed()) {
+                        roomsToDispose.add(room.getId());
+                        continue;
+                    }
 
-                    if (room.needsDispose()) {
+                    if(room.getEntities() != null && room.getEntities().playerCount() < 1 && room.getProcess().isActive()) {
                         roomsToDispose.add(room.getId());
                         continue;
                     }
