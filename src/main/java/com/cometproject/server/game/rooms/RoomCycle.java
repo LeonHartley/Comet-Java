@@ -37,21 +37,18 @@ public class RoomCycle implements CometTask {
                 return;
             }
 
-            List<Integer> unusedRoomData = new ArrayList<>();
+            //List<Integer> unusedRoomData = new ArrayList<>();
             List<Integer> roomsToDispose = new ArrayList<>();
 
             for (Room room : CometManager.getRooms().getRoomInstances().values()) {
-                if (room == null) continue;
-
                 try {
-                    if (room.needsDispose() || room.isDisposed()) {
+                    if (room.needsRemoving()) {
                         roomsToDispose.add(room.getId());
                         continue;
                     }
 
-                    if(room.getEntities() != null && room.getEntities().playerCount() < 1 && room.getProcess().isActive()) {
-                        roomsToDispose.add(room.getId());
-                        continue;
+                    if (room.isIdle()) {
+                        room.setNeedsRemoving();
                     }
 
                     room.tick();
@@ -64,12 +61,12 @@ public class RoomCycle implements CometTask {
                 CometManager.getRooms().removeInstance(roomId);
             }
 
-            for (int roomDataId : unusedRoomData) {
-                CometManager.getRooms().removeData(roomDataId);
-            }
+            //for (int roomDataId : unusedRoomData) {
+           //     CometManager.getRooms().removeData(roomDataId);
+            //}
 
             roomsToDispose.clear();
-            unusedRoomData.clear();
+            //unusedRoomData.clear();
 
             TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
 

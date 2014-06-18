@@ -13,9 +13,14 @@ import org.apache.log4j.Logger;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Room implements Attributable {
+    public Logger log;
+
     private int id;
+
     private RoomModel model;
     private RoomMapping mapping;
 
@@ -30,11 +35,11 @@ public class Room implements Attributable {
     private GameComponent game;
     private EntityComponent entities;
 
-    public Logger log;
-
-    private boolean isDisposed = false;
-    private boolean needsDispose = false;
     private boolean isRoomMuted = false;
+    private boolean isDisposed = false;
+
+    private AtomicBoolean needsRemoving = new AtomicBoolean(false);
+    private AtomicInteger idleTicks = new AtomicInteger(0);
 
     private Map<String, Object> attributes;
 
@@ -47,6 +52,41 @@ public class Room implements Attributable {
 
         // Now we auto load the room data instead of calling it manually!
         this.load();
+    }
+
+    public boolean needsRemoving() {
+        return this.needsRemoving.get();
+    }
+
+    public void setNeedsRemoving() {
+        this.needsRemoving.set(true);
+    }
+
+    public void unIdleIfRequired() {
+        if (this.entities.playerCount() > 0) {
+            if (this.idleTicks.get() > 0) {
+                this.idleTicks.set(0);
+            }
+
+            if (this.needsRemoving.get()) {
+                this.needsRemoving.set(false);
+            }
+        }
+    }
+
+    public boolean isIdle() {
+        if (this.needsRemoving.get()) { return true; }
+
+        if (this.idleTicks.get() < 10 && this.entities.reliablePlayerCountTest() == 0) {
+            this.idleTicks.incrementAndGet();
+        } else if (this.idleTicks.get() > 0 && this.entities.reliablePlayerCountTest() > 0) {
+            this.idleTicks.set(0);
+        } else if (this.idleTicks.get() >= 10) {
+            this.needsRemoving.set(true);
+            return true;
+        }
+
+        return false;
     }
 
     private void load() {
@@ -78,8 +118,11 @@ public class Room implements Attributable {
     }
 
     public void dispose() {
-        if (this.isDisposed)
+        if (this.isDisposed) {
             return;
+        }
+
+        this.isDisposed = true;
 
         this.getData().save();
 
@@ -99,19 +142,12 @@ public class Room implements Attributable {
         this.game.dispose();
         this.mapping.dispose();
 
-        for (Map.Entry<String, Object> attribute : this.attributes.entrySet()) {
-            if (attribute.getValue() instanceof Collection) {
-                ((Collection) attribute.getValue()).clear();
-            }
-        }
-
         this.attributes.clear();
 
         if (this.model instanceof DynamicRoomModel) {
             this.model.dispose();
         }
 
-        this.isDisposed = true;
         this.log.debug("Room disposed");
     }
 
@@ -211,13 +247,5 @@ public class Room implements Attributable {
 
     public boolean isDisposed() {
         return isDisposed;
-    }
-
-    public boolean needsDispose() {
-        return needsDispose;
-    }
-
-    public void setNeedsDispose(boolean needsDispose) {
-        this.needsDispose = needsDispose;
     }
 }
