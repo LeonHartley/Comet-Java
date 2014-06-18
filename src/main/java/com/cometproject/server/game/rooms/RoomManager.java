@@ -193,7 +193,9 @@ public class RoomManager {
     }
 
     public boolean isActive(int roomId) {
-        return this.roomInstances.containsKey(roomId);
+        Room room = this.roomInstances.get(roomId);
+
+        return room != null && !room.isDisposed();
     }
 
     public int createRoom(String name, String model, Session client) {
