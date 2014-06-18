@@ -19,7 +19,7 @@ public class PlacePetMessageEvent implements IEvent {
 
         boolean atDoor = false;
 
-        if(x == 0 && y == 0) {
+        if (x == 0 && y == 0) {
             x = client.getPlayer().getEntity().getRoom().getModel().getDoorX();
             y = client.getPlayer().getEntity().getRoom().getModel().getDoorY();
 

@@ -4,8 +4,6 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.logging.AbstractLogEntry;
 import com.cometproject.server.logging.LogEntryType;
 
-import java.sql.ResultSet;
-
 public class RoomChatLogEntry extends AbstractLogEntry {
     private int roomId;
     private int userId;
@@ -49,4 +47,5 @@ public class RoomChatLogEntry extends AbstractLogEntry {
     @Override
     public int getUserId() {
         return this.userId;
-    }}
+    }
+}

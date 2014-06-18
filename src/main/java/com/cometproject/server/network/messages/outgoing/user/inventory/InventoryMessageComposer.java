@@ -25,7 +25,7 @@ public class InventoryMessageComposer {
             msg.writeInt(i.getId());
             msg.writeInt(isGift ? i.getGiftData().getSpriteId() : i.getDefinition().getSpriteId());
 
-            if(i.getDefinition().getInteraction().equals("badge_display") && !isGift) {
+            if (i.getDefinition().getInteraction().equals("badge_display") && !isGift) {
                 msg.writeInt(0);
                 msg.writeInt(2);
                 msg.writeInt(4);

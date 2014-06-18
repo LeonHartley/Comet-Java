@@ -8,15 +8,6 @@ public class CometSettings {
     public static boolean messageOfTheDayEnabled = true;
     public static String messageOfTheDayText = "";
 
-    @Deprecated
-    public static boolean logChatToConsole = true;
-
-    @Deprecated
-    public static boolean logChatToMemory = true;
-
-    @Deprecated
-    public static boolean logChatToDatabase = true;
-
     public static String logStore = "disabled";
 
     public static String hotelName = "";
@@ -44,10 +35,6 @@ public class CometSettings {
         messageOfTheDayEnabled = properties.getProperty("comet.game.motd.enabled").equals("1");
         messageOfTheDayText = properties.getProperty("comet.game.motd.text");
 
-        logChatToConsole = properties.getProperty("comet.game.chat.logToConsole").equals("1");
-        logChatToMemory = properties.getProperty("comet.game.chat.logToMemory").equals("1");
-        logChatToDatabase = properties.getProperty("comet.game.chat.logToDatabase").equals("1");
-
         logStore = properties.getProperty("comet.game.logging.store");
 
         hotelName = properties.getProperty("comet.game.hotel.name");
@@ -69,7 +56,7 @@ public class CometSettings {
 
         try {
             maxPlayersInRoom = Integer.parseInt(properties.getProperty("comet.game.rooms.maxPlayers"));
-        } catch(Exception e) {
+        } catch (Exception e) {
             // fall back to 150
         }
     }

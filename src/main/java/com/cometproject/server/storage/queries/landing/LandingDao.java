@@ -1,6 +1,5 @@
 package com.cometproject.server.storage.queries.landing;
 
-import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.landing.types.PromoArticle;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
@@ -24,7 +23,7 @@ public class LandingDao {
             preparedStatement = SqlHelper.prepare("SELECT * FROM server_articles WHERE visible = '1'", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 data.put(resultSet.getInt("id"), new PromoArticle(resultSet));
             }
 

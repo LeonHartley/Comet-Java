@@ -8,12 +8,6 @@ import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import org.joda.time.DateTime;
-
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 public class ModToolUserChatlogMessageComposer {
     public static Composer compose(int userId, UserChatlogContainer logContainer) {
@@ -25,7 +19,7 @@ public class ModToolUserChatlogMessageComposer {
         msg.writeString(username);
         msg.writeInt(logContainer.size());
 
-        for(UserChatlogContainer.LogSet logSet : logContainer.getLogs()) {
+        for (UserChatlogContainer.LogSet logSet : logContainer.getLogs()) {
             RoomData roomData = CometManager.getRooms().getRoomData(logSet.getRoomId());
 
             msg.writeByte(1);
@@ -39,7 +33,7 @@ public class ModToolUserChatlogMessageComposer {
 
             msg.writeShort(logSet.getLogs().size());
 
-            for(RoomChatLogEntry chatLogEntry : logSet.getLogs()) {
+            for (RoomChatLogEntry chatLogEntry : logSet.getLogs()) {
                 msg.writeInt((int) (Comet.getTime() - chatLogEntry.getTimestamp()) * 1000);
 
                 msg.writeInt(chatLogEntry.getUserId());

@@ -7,8 +7,6 @@ import com.cometproject.server.network.messages.outgoing.room.engine.RelativeHei
 import com.cometproject.server.network.messages.types.Composer;
 import org.apache.log4j.Logger;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 
 public abstract class RoomModel {
@@ -53,11 +51,10 @@ public abstract class RoomModel {
                 char[] line = axes[y].replace("\r", "").replace("\n", "").toCharArray();
 
                 int x = 0;
-                for(char tile : line) {
+                for (char tile : line) {
                     String tileVal = String.valueOf(tile);
 
-                    if(tileVal.equals("x")) {
-
+                    if (tileVal.equals("x")) {
                         squareState[x][y] = RoomTileState.INVALID;
                         squares[x][y] = closed;
                     } else {
@@ -77,7 +74,7 @@ public abstract class RoomModel {
                 }
                 map += mapLine + (char) 13;
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             Logger.getLogger(RoomModel.class.getName()).error("Failed to parse heightmap for model: " + this.name, e);
         }
     }

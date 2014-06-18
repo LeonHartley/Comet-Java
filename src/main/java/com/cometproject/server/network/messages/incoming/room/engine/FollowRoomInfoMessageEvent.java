@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.engine;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.game.wired.types.TriggerType;

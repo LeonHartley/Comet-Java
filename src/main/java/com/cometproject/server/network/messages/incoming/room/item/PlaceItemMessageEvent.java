@@ -7,8 +7,6 @@ import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.RoomItemWall;
-import com.cometproject.server.game.rooms.items.queue.RoomItemEventQueueEntry;
-import com.cometproject.server.game.rooms.items.queue.RoomItemEventType;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
@@ -20,7 +18,7 @@ import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import java.util.ArrayList;
 import java.util.List;
 
-public class  PlaceItemMessageEvent implements IEvent {
+public class PlaceItemMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) {
         String[] parts = msg.readString().split(" ");
@@ -60,7 +58,7 @@ public class  PlaceItemMessageEvent implements IEvent {
 
                 InventoryItem item = client.getPlayer().getInventory().getFloorItem(id);
 
-                if(item == null)
+                if (item == null)
                     return;
 
                 /*TileInstance tile = client.getPlayer().getEntity().getRoom().getMapping().getTile(x, y);

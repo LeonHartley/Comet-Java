@@ -5,7 +5,6 @@ import com.cometproject.server.game.rooms.types.components.types.RoomBan;
 import com.cometproject.server.storage.queries.rooms.RightsDao;
 import javolution.util.FastTable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RightsComponent {
@@ -37,7 +36,7 @@ public class RightsComponent {
     }
 
     public void removeRights(int playerId) {
-        if(this.rights.contains(playerId)) {
+        if (this.rights.contains(playerId)) {
             this.rights.remove(rights.indexOf(playerId));
             RightsDao.delete(playerId, room.getId());
         }

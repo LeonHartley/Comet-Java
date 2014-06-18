@@ -23,7 +23,9 @@ public class Session {
     }
 
     public void setPlayer(Player player) {
-        if(player.getData() == null) { return; }
+        if (player.getData() == null) {
+            return;
+        }
         String username = player.getData().getUsername();
 
         this.logger = Logger.getLogger(username);
@@ -48,14 +50,18 @@ public class Session {
     }
 
     public Session sendQueue(Composer msg) {
-        if (msg == null) { return this; }
+        if (msg == null) {
+            return this;
+        }
 
         this.ctx.write(msg);
         return this;
     }
 
     public void send(Composer msg) {
-        if(msg == null) { return; }
+        if (msg == null) {
+            return;
+        }
         this.ctx.writeAndFlush(msg);
     }
 

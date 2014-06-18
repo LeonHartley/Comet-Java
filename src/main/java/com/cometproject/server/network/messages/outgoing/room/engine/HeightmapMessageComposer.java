@@ -14,9 +14,9 @@ public class HeightmapMessageComposer {
 
         for (int y = 0; y < roomModel.getSizeY(); y++) {
             for (int x = 0; x < roomModel.getSizeX(); x++) {
-                if(roomModel.getSquareState()[x][y] == RoomTileState.INVALID) {
+                if (roomModel.getSquareState()[x][y] == RoomTileState.INVALID) {
                     msg.writeShort(16191);
-                } else if(roomModel.getDoorY() == y && roomModel.getDoorX() == x) {
+                } else if (roomModel.getDoorY() == y && roomModel.getDoorX() == x) {
                     msg.writeShort(0);
                 } else {
                     msg.writeShort((short) roomModel.getSquareHeight()[x][y]);

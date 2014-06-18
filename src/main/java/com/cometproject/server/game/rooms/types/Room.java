@@ -11,7 +11,8 @@ import com.cometproject.server.utilities.attributes.Attributable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
 
 public class Room implements Attributable {
     private int id;
@@ -23,7 +24,6 @@ public class Room implements Attributable {
     private ItemsComponent items;
     private ItemProcessComponent itemProcess;
     private WiredComponent wired;
-    private ChatlogComponent chatlog;
     private TradeComponent trade;
     private BotComponent bots;
     private PetComponent pets;
@@ -33,6 +33,7 @@ public class Room implements Attributable {
     public Logger log;
 
     private boolean isDisposed = false;
+    private boolean needsDispose = false;
     private boolean isRoomMuted = false;
 
     private Map<String, Object> attributes;
@@ -49,7 +50,7 @@ public class Room implements Attributable {
     }
 
     private void load() {
-        if(this.getData().getHeightmap() != null && this.model instanceof StaticRoomModel) {
+        if (this.getData().getHeightmap() != null && this.model instanceof StaticRoomModel) {
             this.model = new DynamicRoomModel("dynamic_heightmap", this.getData().getHeightmap(), this.model.getDoorX(), this.model.getDoorY(), this.model.getDoorZ(), this.model.getDoorRotation());
         }
 
@@ -61,7 +62,6 @@ public class Room implements Attributable {
         this.rights = new RightsComponent(this);
         this.items = new ItemsComponent(this);
         this.wired = new WiredComponent(this);
-        this.chatlog = new ChatlogComponent(this);
         this.trade = new TradeComponent(this);
         this.game = new GameComponent(this);
         this.entities = new EntityComponent(this, this.model);
@@ -78,7 +78,7 @@ public class Room implements Attributable {
     }
 
     public void dispose() {
-        if(this.isDisposed)
+        if (this.isDisposed)
             return;
 
         this.getData().save();
@@ -93,27 +93,25 @@ public class Room implements Attributable {
         this.rights.dispose();
         this.items.dispose();
         this.wired.dispose();
-        this.chatlog.dispose();
         this.trade.dispose();
         this.bots.dispose();
         this.pets.dispose();
         this.game.dispose();
         this.mapping.dispose();
 
-        for(Map.Entry<String, Object> attribute : this.attributes.entrySet()) {
-            if(attribute.getValue() instanceof Collection) {
+        for (Map.Entry<String, Object> attribute : this.attributes.entrySet()) {
+            if (attribute.getValue() instanceof Collection) {
                 ((Collection) attribute.getValue()).clear();
             }
         }
 
         this.attributes.clear();
 
-        if(this.model instanceof DynamicRoomModel) {
+        if (this.model instanceof DynamicRoomModel) {
             this.model.dispose();
         }
 
         this.isDisposed = true;
-
         this.log.debug("Room disposed");
     }
 
@@ -160,10 +158,6 @@ public class Room implements Attributable {
 
     public WiredComponent getWired() {
         return this.wired;
-    }
-
-    public ChatlogComponent getChatlog() {
-        return this.chatlog;
     }
 
     public TradeComponent getTrade() {
@@ -217,5 +211,13 @@ public class Room implements Attributable {
 
     public boolean isDisposed() {
         return isDisposed;
+    }
+
+    public boolean needsDispose() {
+        return needsDispose;
+    }
+
+    public void setNeedsDispose(boolean needsDispose) {
+        this.needsDispose = needsDispose;
     }
 }

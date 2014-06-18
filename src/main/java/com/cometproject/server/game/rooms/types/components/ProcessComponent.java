@@ -1,7 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
@@ -11,16 +10,12 @@ import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.items.queue.RoomItemEventQueueEntry;
-import com.cometproject.server.game.rooms.items.queue.RoomItemEventType;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
-import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.utilities.RandomInteger;
 import com.cometproject.server.utilities.TimeSpan;
@@ -75,18 +70,18 @@ public class ProcessComponent implements CometTask {
         }
 
         try {
-            if(this.getRoom().isDisposed())
+            if (this.getRoom().isDisposed())
                 return;
 
             if (this.getRoom().getEntities().playerCount() == 0 && this.disposeCycles >= 10) {
-                CometManager.getRooms().getGlobalCycle().requestUnload(this.room.getId());
+                this.getRoom().setNeedsDispose(true);
                 return;
-            } else if(this.getRoom().getEntities().playerCount() == 0) {
+            } else if (this.getRoom().getEntities().playerCount() == 0) {
                 this.disposeCycles++;
                 return;
             }
 
-            if(this.disposeCycles != 0) {
+            if (this.disposeCycles != 0) {
                 this.disposeCycles = 0;
             }
 
@@ -115,7 +110,7 @@ public class ProcessComponent implements CometTask {
                             playersToRemove.add(playerEntity);
                             return;
                         }
-                    } catch(Exception e) {
+                    } catch (Exception e) {
                         log.warn("Failed to remove null player from room - user data was null");
                         return;
                     }
@@ -190,7 +185,8 @@ public class ProcessComponent implements CometTask {
             // Step off
             for (RoomItemFloor item : itemsOnOldSq) {
                 item.onEntityStepOff(entity);
-                if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) { }
+                if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
+                }
             }
 
             // Step-on
@@ -198,7 +194,9 @@ public class ProcessComponent implements CometTask {
             int index0 = 0;
 
             for (RoomItemFloor item : itemsOnSq) {
-                if (itemsOnOldSq.size() > index0) { oldItem = itemsOnOldSq.get(index0); }
+                if (itemsOnOldSq.size() > index0) {
+                    oldItem = itemsOnOldSq.get(index0);
+                }
                 index0++;
 
                 //if (oldItem != null && oldItem.getId() == item.getId()) { continue; }
@@ -214,7 +212,8 @@ public class ProcessComponent implements CometTask {
                 }
 
                 item.onEntityStepOn(entity);
-                if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) { }
+                if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
+                }
             }
 
             entity.updateAndSetPosition(null);
@@ -229,7 +228,7 @@ public class ProcessComponent implements CometTask {
             return true; // adds it to the to remove list automatically..
         }
 
-        if(isPlayer) {
+        if (isPlayer) {
             // Handle flood
             if (((PlayerEntity) entity).getPlayer().getFloodTime() >= 0.5) {
                 ((PlayerEntity) entity).getPlayer().setFloodTime(((PlayerEntity) entity).getPlayer().getFloodTime() - 0.5);
@@ -410,21 +409,21 @@ public class ProcessComponent implements CometTask {
                 List<RoomItemFloor> preItems = this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y);
 
                 for (RoomItemFloor item : preItems) {
-                    if(entity.getCurrentEffect() != null && entity.getCurrentEffect().getEffectId() == item.getDefinition().getEffectId()) {
+                    if (entity.getCurrentEffect() != null && entity.getCurrentEffect().getEffectId() == item.getDefinition().getEffectId()) {
                         effectNeedsRemove = false;
                     }
 
                     if (item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0")) {
                         isCancelled = true;
                     }
-                    if (!item.getDefinition().canSit){
+                    if (!item.getDefinition().canSit) {
                         height += item.getDefinition().getHeight();
                     }
 
                     item.onEntityPreStepOn(entity);
                 }
 
-                if(effectNeedsRemove) {
+                if (effectNeedsRemove) {
                     entity.applyEffect(null);
                 }
 
@@ -442,11 +441,15 @@ public class ProcessComponent implements CometTask {
                     entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, height));
                     entity.markNeedsUpdate();
                 } else {
-                    if (entity.getWalkingPath() != null){ entity.getWalkingPath().clear(); }
+                    if (entity.getWalkingPath() != null) {
+                        entity.getWalkingPath().clear();
+                    }
                     entity.getProcessingPath().clear();
                 }
             } else {
-                if (entity.getWalkingPath() != null) { entity.getWalkingPath().clear(); }
+                if (entity.getWalkingPath() != null) {
+                    entity.getWalkingPath().clear();
+                }
                 entity.getProcessingPath().clear();
             }
         }
@@ -465,6 +468,9 @@ public class ProcessComponent implements CometTask {
 
     protected void handleSupressedExceptions(Throwable t) {
         // TO-DO: we need log these somewhere separately so we can 'fix' these kind of errors easily..
+        if(t instanceof NullPointerException) {
+            log.error("Error during room process", t);
+        }
     }
 
     public void dispose() {

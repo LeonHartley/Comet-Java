@@ -59,7 +59,7 @@ public class BanDao {
             SqlHelper.executeStatementSilently(preparedStatement, false);
             resultSet = preparedStatement.getGeneratedKeys();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 return resultSet.getInt(1);
             }
         } catch (SQLException e) {

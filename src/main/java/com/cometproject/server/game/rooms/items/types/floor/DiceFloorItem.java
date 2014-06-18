@@ -20,7 +20,9 @@ public class DiceFloorItem extends RoomItemFloor {
             return;
         }
 
-        if (this.isInUse) { return; }
+        if (this.isInUse) {
+            return;
+        }
         this.isInUse = true;
 
         if (requestData >= 0) {

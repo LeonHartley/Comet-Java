@@ -2,7 +2,6 @@ package com.cometproject.server.network.messages.incoming.room.floor;
 
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
@@ -15,9 +14,13 @@ public class SaveFloorMessageEvent implements IEvent {
     public void handle(Session client, Event msg) throws Exception {
         String model = msg.readString();
 
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+            return;
+        }
+
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if (room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
+        if ((room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;
         }
 
@@ -26,7 +29,7 @@ public class SaveFloorMessageEvent implements IEvent {
         int sizeY = modelData.length;
         int sizeX = modelData[0].length();
 
-        if(sizeY > CometSettings.floorMaxY || sizeX > CometSettings.floorMaxX || CometSettings.floorMaxTotal < (sizeX * sizeY)) {
+        if (sizeY > CometSettings.floorMaxY || sizeX > CometSettings.floorMaxX || CometSettings.floorMaxTotal < (sizeX * sizeY)) {
             client.send(AdvancedAlertMessageComposer.compose("Invalid Model", Locale.get("command.floor.size")));
             return;
         }
@@ -53,6 +56,6 @@ public class SaveFloorMessageEvent implements IEvent {
         room.getData().setHeightmap(model);
 
         client.send(AdvancedAlertMessageComposer.compose("Model Saved", Locale.get("command.floor.complete")));
-        CometManager.getRooms().getGlobalCycle().requestUnload(room.getId());
+        room.setNeedsDispose(true);
     }
 }

@@ -32,7 +32,7 @@ public class LoadFriendsMessageComposer {
             }
         }
 
-        if(hasStaffChat) {
+        if (hasStaffChat) {
             msg.writeInt(-1);
             msg.writeString("Staff chat");
             msg.writeInt(1);

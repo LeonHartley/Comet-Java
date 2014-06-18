@@ -1,11 +1,11 @@
 package com.cometproject.server.boot;
 
+import com.cometproject.server.api.APIManager;
 import com.cometproject.server.cache.CometCache;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Configuration;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.GameThread;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.plugins.PluginManager;
@@ -13,10 +13,14 @@ import com.cometproject.server.storage.StorageManager;
 import com.cometproject.server.storage.helpers.SqlIndexChecker;
 import com.cometproject.server.tasks.CometThreadManagement;
 
+import java.util.Map;
+
 public class CometServer {
     private Configuration config;
 
     private CometThreadManagement threadManagement;
+
+    private APIManager apiManager;
 
     private StorageManager storageManager;
     private PluginManager pluginManager;
@@ -28,34 +32,38 @@ public class CometServer {
     }
 
     public void init() {
-        /*
-            could probs move all this stuff to singleton and get rid of this object completely
-         */
+        this.init(null);
+    }
 
-        loadConfig();
+    public void init(Map<String, String> overridenConfig) {
+        this.config = new Configuration("./config/comet.properties");
 
-        threadManagement = new CometThreadManagement();
-        storageManager = new StorageManager();
-        pluginManager = new PluginManager();
+        if (overridenConfig != null) {
+            this.config.override(overridenConfig);
+        }
 
-        loggingManager = new LogManager();
+        CometSettings.set(this.config);
+
+        this.apiManager = new APIManager();
+
+        this.threadManagement = new CometThreadManagement();
+        this.storageManager = new StorageManager();
+        this.pluginManager = new PluginManager();
+
+        this.loggingManager = new LogManager();
 
         SqlIndexChecker.checkIndexes(storageManager);
         Locale.init();
         CometManager.init();
         CometCache.create();
 
-        networkManager = new NetworkManager(this.getConfig().get("comet.network.host"), this.getConfig().get("comet.network.port"));
-        CometManager.gameThread = new GameThread(threadManagement);
+        this.networkManager = new NetworkManager(this.getConfig().get("comet.network.host"), this.getConfig().get("comet.network.port"));
+
+        CometManager.startCycle();
 
         if (Comet.isDebugging) {
             CometManager.getLogger().debug("Comet Server is debugging");
         }
-    }
-
-    public void loadConfig() {
-        config = new Configuration("./config/comet.properties");
-        CometSettings.set(config.getProperties());
     }
 
     public Configuration getConfig() {

@@ -6,7 +6,8 @@ import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RollerFloorItem extends RoomItemFloor {
     public RollerFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {

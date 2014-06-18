@@ -5,10 +5,6 @@ import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
-import javolution.util.FastMap;
-
-import java.util.List;
-import java.util.Map;
 
 public class PetComponent {
     private Room room;
@@ -20,7 +16,7 @@ public class PetComponent {
     }
 
     public void load() {
-        for(PetData data : RoomPetDao.getPetsByRoomId(this.room.getId())) {
+        for (PetData data : RoomPetDao.getPetsByRoomId(this.room.getId())) {
             PetEntity petEntity = new PetEntity(data, room.getEntities().getFreeId(), data.getRoomPosition(), 3, 3, room);
             this.getRoom().getEntities().addEntity(petEntity);
         }

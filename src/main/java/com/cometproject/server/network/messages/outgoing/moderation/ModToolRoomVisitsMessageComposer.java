@@ -18,7 +18,7 @@ public class ModToolRoomVisitsMessageComposer {
 
         msg.writeInt(roomVisits.size());
 
-        for(RoomVisitLogEntry roomVisit : roomVisits) {
+        for (RoomVisitLogEntry roomVisit : roomVisits) {
             RoomData roomData = CometManager.getRooms().getRoomData(roomVisit.getRoomId());
             DateTime dateTime = new DateTime(roomVisit.getEntryTime() * 1000L);
 

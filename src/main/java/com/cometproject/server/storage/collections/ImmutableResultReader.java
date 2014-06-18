@@ -36,14 +36,14 @@ public class ImmutableResultReader {
             if (resultSet != null && !resultSet.isClosed()) {
                 int rowNumber = 0;
 
-                while(resultSet.next()) {
+                while (resultSet.next()) {
                     rowNumber++;
 
-                    if(dataStore.get(rowNumber) == null) {
+                    if (dataStore.get(rowNumber) == null) {
                         dataStore.add(new HashMap<String, Object>());
                     }
 
-                    for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
+                    for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
                         dataStore.get(rowNumber).put(resultSet.getMetaData().getColumnName(i), resultSet.getObject(i));
                     }
                 }
@@ -53,9 +53,11 @@ public class ImmutableResultReader {
         } finally {
             if (shouldCloseRs) {
                 try {
-                    if(this.resultSet != null)
+                    if (this.resultSet != null)
                         this.resultSet.close();
-                } catch (SQLException e) { SqlHelper.handleSqlException(e); }
+                } catch (SQLException e) {
+                    SqlHelper.handleSqlException(e);
+                }
             }
         }
     }
@@ -69,7 +71,7 @@ public class ImmutableResultReader {
     }
 
     public int getInt(String columnName, int row) {
-        if(this.getRow(row).containsKey(columnName)) {
+        if (this.getRow(row).containsKey(columnName)) {
             return (int) this.getRow(row).get(columnName);
         }
 
@@ -77,7 +79,7 @@ public class ImmutableResultReader {
     }
 
     public String getString(String columnName, int row) {
-        if(this.getRow(row).containsKey(columnName)) {
+        if (this.getRow(row).containsKey(columnName)) {
             return (String) this.getRow(row).get(columnName);
         }
 
@@ -85,7 +87,7 @@ public class ImmutableResultReader {
     }
 
     public double getDouble(String columnName, int row) {
-        if(this.getRow(row).containsKey(columnName)) {
+        if (this.getRow(row).containsKey(columnName)) {
             return (double) this.getRow(row).get(columnName);
         }
 

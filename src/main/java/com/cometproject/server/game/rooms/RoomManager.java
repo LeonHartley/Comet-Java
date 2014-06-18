@@ -11,6 +11,7 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
+import org.apache.solr.util.ConcurrentLRUCache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,11 @@ import java.util.Set;
 public class RoomManager {
     public static final Logger log = Logger.getLogger(RoomManager.class.getName());
 
-    private FastMap<Integer, RoomData> roomDataInstances;
+    public static final int LRU_MAX_ENTRIES = Integer.parseInt(Comet.getServer().getConfig().getProperty("comet.game.rooms.data.max"));
+    public static final int LRU_MAX_LOWER_WATERMARK = Integer.parseInt(Comet.getServer().getConfig().getProperty("comet.game.rooms.data.lowerWatermark"));
+
+    private ConcurrentLRUCache<Integer, RoomData> roomDataInstances;
+
     private FastMap<Integer, Room> roomInstances;
 
     private Set<StaticRoomModel> models;
@@ -33,7 +38,7 @@ public class RoomManager {
         this.emotions = new ChatEmotionsManager();
         this.filterManager = new WordFilter();
 
-        this.roomDataInstances = new FastMap<Integer, RoomData>().shared();
+        this.roomDataInstances = new ConcurrentLRUCache<>(LRU_MAX_ENTRIES, LRU_MAX_LOWER_WATERMARK);
         this.roomInstances = new FastMap<Integer, Room>().shared();
 
         this.globalCycle = new RoomCycle(Comet.getServer().getThreadManagement());
@@ -42,7 +47,7 @@ public class RoomManager {
     }
 
     private Room createRoomInstance(RoomData data) {
-        if(data == null) {
+        if (data == null) {
             return null;
         }
 
@@ -56,13 +61,13 @@ public class RoomManager {
 
 
     public void removeInstance(int roomId) {
-        if(!this.getRoomInstances().containsKey(roomId)) {
+        if (!this.getRoomInstances().containsKey(roomId)) {
             return;
         }
 
         Room room = this.getRoomInstances().get(roomId);
 
-        if(!room.isDisposed()) {
+        if (!room.isDisposed()) {
             room.dispose();
         }
 
@@ -70,7 +75,7 @@ public class RoomManager {
     }
 
     public void removeData(int roomId) {
-        if(!this.getRoomDataInstances().containsKey(roomId)) {
+        if (!this.getRoomDataInstances().getMap().containsKey(roomId)) {
             return;
         }
 
@@ -115,18 +120,18 @@ public class RoomManager {
 
         Room room = createRoomInstance(this.getRoomData(id));
 
-        if(room == null) {
+        if (room == null) {
             log.warn("There was a problem loading room: " + id + ", data was null");
         }
 
-        if(room != null)
+        if (room != null)
             this.roomInstances.put(room.getId(), room);
 
         return room;
     }
 
     public RoomData getRoomData(int id) {
-        if(this.getRoomDataInstances().containsKey(id)){
+        if (this.getRoomDataInstances().getMap().containsKey(id)) {
             return this.getRoomDataInstances().get(id).setLastReferenced(Comet.getTime());
         }
 
@@ -144,10 +149,10 @@ public class RoomManager {
 
         Map<Integer, RoomData> rooms = RoomDao.getRoomsByPlayerId(player.getId());
 
-        for(Map.Entry<Integer, RoomData> roomEntry : rooms.entrySet()) {
+        for (Map.Entry<Integer, RoomData> roomEntry : rooms.entrySet()) {
             player.getRooms().add(roomEntry.getKey());
 
-            if(!this.roomDataInstances.containsKey(roomEntry.getKey())) {
+            if (!this.roomDataInstances.getMap().containsKey(roomEntry.getKey())) {
                 this.roomDataInstances.put(roomEntry.getKey(), roomEntry.getValue());
             }
         }
@@ -158,8 +163,8 @@ public class RoomManager {
 
         List<RoomData> roomSearchResults = RoomDao.getRoomsByQuery(query);
 
-        for(RoomData data : roomSearchResults) {
-            if (!this.getRoomDataInstances().containsKey(data.getId())) {
+        for (RoomData data : roomSearchResults) {
+            if (!this.getRoomDataInstances().getMap().containsKey(data.getId())) {
                 this.getRoomDataInstances().put(data.getId(), data);
             }
 
@@ -207,7 +212,7 @@ public class RoomManager {
         return this.roomInstances;
     }
 
-    public FastMap<Integer, RoomData> getRoomDataInstances() {
+    public ConcurrentLRUCache<Integer, RoomData> getRoomDataInstances() {
         return this.roomDataInstances;
     }
 

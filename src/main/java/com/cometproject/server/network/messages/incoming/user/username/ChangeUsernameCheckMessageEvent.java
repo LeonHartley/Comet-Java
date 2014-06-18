@@ -11,7 +11,7 @@ public class ChangeUsernameCheckMessageEvent implements IEvent {
     public void handle(Session client, Event msg) throws Exception {
         String username = msg.readString();
 
-        if(client.getPlayer().getData().getUsername().equals(username)) {
+        if (client.getPlayer().getData().getUsername().equals(username)) {
             client.send(ChangeUsernameCheckMessageComposer.compose(false, username));
             return;
         }

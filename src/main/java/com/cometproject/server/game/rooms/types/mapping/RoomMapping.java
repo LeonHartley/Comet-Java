@@ -1,8 +1,8 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
-import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.models.RoomModel;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 
 import java.util.Arrays;
@@ -49,8 +49,8 @@ public class RoomMapping {
     }
 
     public void updateTile(int x, int y) {
-        if(this.tiles.length > x) {
-            if(tiles[x].length > y)
+        if (this.tiles.length > x) {
+            if (tiles[x].length > y)
                 this.tiles[x][y].reload();
         }
     }
@@ -82,9 +82,9 @@ public class RoomMapping {
 
         boolean isAtDoor = this.model.getDoorX() == from.getX() && this.model.getDoorY() == from.getY();
 
-        if((!room.getData().getAllowWalkthrough() && positionHasUser(to)) && !isAtDoor) {
+        if ((!room.getData().getAllowWalkthrough() && positionHasUser(to)) && !isAtDoor) {
             return false;
-        } else if(room.getData().getAllowWalkthrough() && lastStep && positionHasUser(to) && !isAtDoor) {
+        } else if (room.getData().getAllowWalkthrough() && lastStep && positionHasUser(to) && !isAtDoor) {
             return false;
         }
 

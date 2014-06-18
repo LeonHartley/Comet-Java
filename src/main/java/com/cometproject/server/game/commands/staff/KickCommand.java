@@ -1,6 +1,5 @@
 package com.cometproject.server.game.commands.staff;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.entities.RoomEntityType;
@@ -20,7 +19,7 @@ public class KickCommand extends ChatCommand {
         if (entity == null)
             return;
 
-        if(entity.getUsername().equals(client.getPlayer().getData().getUsername())) {
+        if (entity.getUsername().equals(client.getPlayer().getData().getUsername())) {
             return;
         }
 

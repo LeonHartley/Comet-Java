@@ -28,7 +28,7 @@ public class BotComponent {
         try {
             List<BotData> botData = RoomBotDao.getBotsByRoomId(this.room.getId());
 
-            for(BotData data : botData) {
+            for (BotData data : botData) {
                 BotEntity botEntity = new BotEntity(data, room.getEntities().getFreeId(), ((PlayerBotData) data).getPosition(), 2, 2, room);
 
                 this.botDataInstances.put(data.getId(), data);

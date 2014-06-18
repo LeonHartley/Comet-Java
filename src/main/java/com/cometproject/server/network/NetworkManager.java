@@ -39,14 +39,16 @@ public class NetworkManager {
         // set the logger to our logger
         InternalLoggerFactory.setDefaultFactory(new Log4JLoggerFactory());
 
-        if (CometSettings.httpEnabled) { this.managementServer = new ManagementServer(); }
+        if (CometSettings.httpEnabled) {
+            this.managementServer = new ManagementServer();
+        }
 
         System.setProperty("java.net.preferIPv4Stack", "true");
         System.setProperty("io.netty.selectorAutoRebuildThreshold", "0");
         ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED);
 
-        EventLoopGroup acceptGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat( "Netty Accept Thread #%1$d" ).build());
-        EventLoopGroup ioGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat( "Netty IO Thread #%1$d" ).build());
+        EventLoopGroup acceptGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Accept Thread #%1$d").build());
+        EventLoopGroup ioGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty IO Thread #%1$d").build());
 
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(acceptGroup, ioGroup)
@@ -72,7 +74,7 @@ public class NetworkManager {
         try {
             bootstrap.bind(new InetSocketAddress(ip, port));
             log.info("CometServer listening on port: " + port);
-        } catch (Exception e ) {
+        } catch (Exception e) {
             Comet.exit("Failed to initialize sockets on address: " + ip + ":" + port);
         }
     }

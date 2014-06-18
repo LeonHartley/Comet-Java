@@ -2,7 +2,7 @@ package com.cometproject.server.game.utilities;
 
 public class ModelUtils {
     public static int getHeight(char c) {
-        switch(String.valueOf(c)) {
+        switch (String.valueOf(c)) {
             case "0":
                 return 0;
             case "1":
