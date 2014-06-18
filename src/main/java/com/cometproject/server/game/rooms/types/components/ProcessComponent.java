@@ -35,7 +35,7 @@ public class ProcessComponent implements CometTask {
     private Room room;
 
     private Logger log;
-    private ScheduledFuture myFuture;
+    private ScheduledFuture processFuture;
     private boolean active = false;
 
     public ProcessComponent(Room room) {
@@ -49,15 +49,15 @@ public class ProcessComponent implements CometTask {
         }
 
         this.active = true;
-        this.myFuture = Comet.getServer().getThreadManagement().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
+        this.processFuture = Comet.getServer().getThreadManagement().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
 
         log.debug("Processing started");
     }
 
     public void stop() {
-        if (this.myFuture != null) {
+        if (this.processFuture != null) {
             this.active = false;
-            this.myFuture.cancel(false);
+            this.processFuture.cancel(false);
 
             log.debug("Processing stopped");
         }
@@ -460,7 +460,9 @@ public class ProcessComponent implements CometTask {
 
     public void dispose() {
         this.active = false;
-        this.myFuture.cancel(false);
+
+        if(this.processFuture != null)
+            this.processFuture.cancel(false);
     }
 
     public boolean isActive() {
