@@ -1,8 +1,6 @@
 package com.cometproject.server.game.rooms.entities.types;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.boot.CometServer;
-import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
@@ -28,11 +26,8 @@ import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessa
 import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.poll.ShowRoomPollMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
-import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.utilities.attributes.Attributable;
 import javolution.util.FastMap;
 import org.mindrot.jbcrypt.BCrypt;

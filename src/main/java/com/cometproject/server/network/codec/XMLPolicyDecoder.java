@@ -2,7 +2,6 @@ package com.cometproject.server.network.codec;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 

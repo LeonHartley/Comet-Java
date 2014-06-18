@@ -2,7 +2,6 @@ package com.cometproject.server.network.messages.incoming.moderation;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;

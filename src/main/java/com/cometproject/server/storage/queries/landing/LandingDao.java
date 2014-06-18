@@ -1,6 +1,5 @@
 package com.cometproject.server.storage.queries.landing;
 
-import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.landing.types.PromoArticle;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;

@@ -5,7 +5,6 @@ import com.cometproject.server.logging.AbstractLogEntry;
 import com.cometproject.server.logging.database.LogDatabaseHelper;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
-import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

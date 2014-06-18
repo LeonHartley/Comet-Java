@@ -1,6 +1,5 @@
 package com.cometproject.server.game.players.components.types;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.network.messages.types.Composer;
 

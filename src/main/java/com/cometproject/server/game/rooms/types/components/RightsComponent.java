@@ -5,7 +5,6 @@ import com.cometproject.server.game.rooms.types.components.types.RoomBan;
 import com.cometproject.server.storage.queries.rooms.RightsDao;
 import javolution.util.FastTable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RightsComponent {

@@ -1,7 +1,5 @@
 package com.cometproject.server.game.catalog.types;
 
-import com.cometproject.server.game.CometManager;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

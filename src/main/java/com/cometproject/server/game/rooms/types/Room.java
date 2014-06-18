@@ -11,7 +11,8 @@ import com.cometproject.server.utilities.attributes.Attributable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
 
 public class Room implements Attributable {
     private int id;

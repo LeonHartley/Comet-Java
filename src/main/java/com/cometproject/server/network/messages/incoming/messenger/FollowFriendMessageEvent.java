@@ -3,10 +3,8 @@ package com.cometproject.server.network.messages.incoming.messenger;
 import com.cometproject.server.game.players.components.types.MessengerFriend;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.landing.HotelViewItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.FollowFriendMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 

@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.items.data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MoodlightData {

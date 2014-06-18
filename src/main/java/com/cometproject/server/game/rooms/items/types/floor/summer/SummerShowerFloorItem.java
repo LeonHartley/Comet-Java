@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.items.types.floor.summer;
 
-import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 
