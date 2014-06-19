@@ -21,8 +21,8 @@ public class NavigatorFlatListMessageComposer {
                 boolean is1Active = CometManager.getRooms().isActive(o1.getId());
                 boolean is2Active = CometManager.getRooms().isActive(o2.getId());
 
-                return ((!is2Active ? 0 : CometManager.getRooms().get(o2.getId()).getEntities().playerCount()) -
-                        (!is1Active ? 0 : CometManager.getRooms().get(o1.getId()).getEntities().playerCount()));
+                return ((!is2Active ? 0 : CometManager.getRooms().get(o2.getId()).getEntities().reliablePlayerCountTest()) -
+                        (!is1Active ? 0 : CometManager.getRooms().get(o1.getId()).getEntities().reliablePlayerCountTest()));
             }
         });
 
