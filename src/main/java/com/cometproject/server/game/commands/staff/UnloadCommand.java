@@ -7,9 +7,9 @@ import com.cometproject.server.network.sessions.Session;
 public class UnloadCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        int roomId = client.getPlayer().getEntity().getRoom().getId();
+        //int roomId = client.getPlayer().getEntity().getRoom().getId();
 
-        client.getPlayer().getEntity().getRoom().setNeedsDispose(true);
+        client.getPlayer().getEntity().getRoom().setNeedsRemoving();
     }
 
     @Override

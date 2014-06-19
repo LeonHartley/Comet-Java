@@ -67,6 +67,11 @@ public class RoomManager {
 
         Room room = this.getRoomInstances().get(roomId);
 
+        // Needs to check here also
+        if (!room.needsRemoving()) {
+            return;
+        }
+
         if (!room.isDisposed()) {
             room.dispose();
         }
@@ -115,7 +120,15 @@ public class RoomManager {
 
     public Room get(int id) {
         if (this.getRoomInstances().containsKey(id)) {
-            return this.getRoomInstances().get(id);
+           Room r = this.getRoomInstances().get(id);
+
+            if (r.needsRemoving()) {
+                this.getRoomInstances().remove(id);
+                r.dispose();
+            } else {
+                r.unIdleIfRequired();
+                return r;
+            }
         }
 
         Room room = createRoomInstance(this.getRoomData(id));
@@ -124,8 +137,9 @@ public class RoomManager {
             log.warn("There was a problem loading room: " + id + ", data was null");
         }
 
-        if (room != null)
+        if (room != null) {
             this.roomInstances.put(room.getId(), room);
+        }
 
         return room;
     }
@@ -179,7 +193,9 @@ public class RoomManager {
     }
 
     public boolean isActive(int roomId) {
-        return this.roomInstances.containsKey(roomId);
+        Room room = this.roomInstances.get(roomId);
+
+        return room != null && !room.isDisposed() && !room.needsRemoving();
     }
 
     public int createRoom(String name, String model, Session client) {
@@ -194,7 +210,7 @@ public class RoomManager {
         List<RoomData> rooms = new ArrayList<>();
 
         for (Room room : this.roomInstances.values()) {
-            if (room == null || room.isDisposed() || (category != -1 && room.getData().getCategory().getId() != category)) {
+            if (room == null || room.isDisposed() || room.needsRemoving() || (category != -1 && room.getData().getCategory().getId() != category)) {
                 continue;
             }
 

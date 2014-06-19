@@ -173,7 +173,7 @@ public class Comet {
     }
 
     public static String getBuild() {
-        return "0.8.10-SNAPSHOT2";
+        return "0.8.10-SNAPSHOT3";
     }
 
     public static CometServer getServer() {
