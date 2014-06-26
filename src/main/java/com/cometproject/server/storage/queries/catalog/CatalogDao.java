@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.catalog;
 
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.storage.SqlHelper;
@@ -54,6 +55,11 @@ public class CatalogDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
+                if(!CometManager.getItems().getItemDefinitions().containsKey(Integer.parseInt(resultSet.getString("item_ids")))) {
+                    System.out.println("Ignoring catalog item: " + resultSet.getInt("id"));
+                    continue;
+                }
+
                 data.put(resultSet.getInt("id"), new CatalogItem(resultSet));
             }
 
