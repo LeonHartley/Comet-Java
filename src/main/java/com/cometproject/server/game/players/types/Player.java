@@ -129,6 +129,11 @@ public class Player {
             return;
         }
 
+        if(room.getEntities().getEntityByPlayerId(this.id) != null) {
+            // Remove them from the room hack lulz poop a doopa doo
+            room.getEntities().getEntityByPlayerId(this.id).leaveRoom(true, false, false);
+        }
+
         PlayerEntity playerEntity = room.getEntities().createEntity(this);
         setAvatar(playerEntity);
 
