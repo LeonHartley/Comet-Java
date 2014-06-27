@@ -57,7 +57,7 @@ public class SSOTicketMessageEvent implements IEvent {
             String[] ticketData = ticket.split(TICKET_DELIMITER);
 
             if (ticketData.length == 2) {
-                int playerId = Integer.parseInt(ticket.split(TICKET_DELIMITER)[0]);
+                int playerId = Integer.parseInt(ticketData[0]);
                 String authTicket = ticketData[1];
 
                 player = PlayerLoader.loadPlayerByIdAndTicket(playerId, authTicket);
