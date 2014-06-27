@@ -48,12 +48,6 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                     }
                 }
 
-                item.setX(x);
-                item.setY(y);
-
-                item.setRotation(rot);
-                item.setHeight(height);
-
                 List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(item.getX(), item.getY());
 
                 for (GenericEntity entity0 : affectEntities0) {
@@ -95,13 +89,25 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                     item.onEntityStepOn(entity3);
                 }
 
+                List<RoomItemFloor> allFloorItems = new ArrayList<>(floorItemsAt);
+                allFloorItems.add(item);
+
+                item.setX(x);
+                item.setY(y);
+
+                item.setRotation(rot);
+                item.setHeight(height);
+
+                RoomItemDao.saveItemPosition(x, y, height, rot, id);
+
+                room.getItems().getFloorItems().remove(item);
+                room.getItems().getFloorItems().add(item);
+
                 room.getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(item, room.getData().getOwnerId()));
 
                 for (Position3D tileToUpdate : tilesToUpdate) {
                     room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
                 }
-
-                RoomItemDao.saveItemPosition(x, y, height, rot, id);
             } catch (Exception e) {
                 log.fatal("Error whilst changing floor item position!", e);
             }
