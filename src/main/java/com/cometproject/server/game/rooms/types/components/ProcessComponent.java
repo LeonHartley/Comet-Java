@@ -408,7 +408,7 @@ public class ProcessComponent implements CometTask {
                     item.onEntityPreStepOn(entity);
                 }
 
-                if (effectNeedsRemove) {
+                if (effectNeedsRemove && entity.getCurrentEffect() != null && entity.getCurrentEffect().isItemEffect()) {
                     entity.applyEffect(null);
                 }
 
