@@ -89,9 +89,6 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                     item.onEntityStepOn(entity3);
                 }
 
-                List<RoomItemFloor> allFloorItems = new ArrayList<>(floorItemsAt);
-                allFloorItems.add(item);
-
                 item.setX(x);
                 item.setY(y);
 
@@ -99,9 +96,6 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                 item.setHeight(height);
 
                 RoomItemDao.saveItemPosition(x, y, height, rot, id);
-
-                room.getItems().getFloorItems().remove(item);
-                room.getItems().getFloorItems().add(item);
 
                 room.getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(item, room.getData().getOwnerId()));
 
