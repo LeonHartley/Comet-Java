@@ -9,7 +9,6 @@ import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.types.floor.TeleporterFloorItem;
-import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
@@ -37,7 +36,7 @@ public class EntityComponent {
 
     private List<GenericEntity>[][] entityGrid;
 
-    public EntityComponent(Room room, RoomModel model) {
+    public EntityComponent(Room room) {
         this.room = room;
 
         this.entities = new FastMap<>();
@@ -46,7 +45,7 @@ public class EntityComponent {
         this.botIdToEntity = new FastMap<>();
         this.petIdToEntity = new FastMap<>();
 
-        this.entityGrid = new ArrayList[model.getSizeX()][model.getSizeY()];
+        this.entityGrid = new ArrayList[room.getModel().getSizeX()][room.getModel().getSizeY()];
     }
 
     public List<GenericEntity> getEntitiesAt(int x, int y) {
