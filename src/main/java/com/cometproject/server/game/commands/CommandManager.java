@@ -57,7 +57,6 @@ public class CommandManager {
         this.commands.put(Locale.get("command.massmotd.name"), new MassMotdCommand());
         this.commands.put(Locale.get("command.hotelalert.name"), new HotelAlertCommand());
         this.commands.put(Locale.get("command.invisible.name"), new InvisibleCommand());
-        this.commands.put(Locale.get("command.force_gc.name"), new ForceGCCommand());
         this.commands.put(Locale.get("command.ban.name"), new BanCommand());
         this.commands.put(Locale.get("command.kick.name"), new KickCommand());
         this.commands.put(Locale.get("command.disconnect.name"), new DisconnectCommand());
