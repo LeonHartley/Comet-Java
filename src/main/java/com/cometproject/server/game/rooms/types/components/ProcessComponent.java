@@ -126,7 +126,7 @@ public class ProcessComponent implements CometTask {
 
                 // THE ORDER MATTERS HERE, KEEP THIS AFTER !!!! 'ENTITY.NEEDSUPDATE'
 
-                if(this.updateEntityStuff(entity)) {
+                if(this.updateEntityStuff(entity) && entity instanceof PlayerEntity) {
                     playersToRemove.add((PlayerEntity) entity);
                 }
             }
