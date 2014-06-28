@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDao {
-    public static FastMap<Integer, ItemDefinition> getDefinitions() {
+    public static FastMap<Long, ItemDefinition> getDefinitions() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        FastMap<Integer, ItemDefinition> data = new FastMap<>();
+        FastMap<Long, ItemDefinition> data = new FastMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -27,7 +27,7 @@ public class ItemDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.put(resultSet.getInt("id"), new ItemDefinition(resultSet));
+                data.put(resultSet.getLong("id"), new ItemDefinition(resultSet));
             }
 
         } catch (SQLException e) {
