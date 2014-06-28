@@ -12,7 +12,6 @@ public class TransformCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         TransformationType type = TransformationType.HUMAN;
-        String transformationData = "";
 
         if(params.length == 1)
             type = TransformationType.valueOf(params[0].toUpperCase());
@@ -20,8 +19,7 @@ public class TransformCommand extends ChatCommand {
         if(type == TransformationType.HUMAN) {
             client.getPlayer().getEntity().removeAttribute("transformation");
         } else {
-            transformationData = type.getData();
-            client.getPlayer().getEntity().setAttribute("transformation", transformationData);
+            client.getPlayer().getEntity().setAttribute("transformation", type.getData());
         }
 
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(client.getPlayer().getEntity().getVirtualId()));
