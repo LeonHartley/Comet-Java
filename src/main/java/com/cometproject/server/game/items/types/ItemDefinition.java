@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ItemDefinition {
-    private long id;
+    private int id;
     private String publicName;
     private String itemName;
     private String type;
@@ -28,7 +28,7 @@ public class ItemDefinition {
     private String[] vendingIds;
 
     public ItemDefinition(ResultSet data) throws SQLException {
-        this.id = data.getLong("id");
+        this.id = data.getInt("id");
         this.publicName = data.getString("public_name");
         this.itemName = data.getString("item_name");
         this.type = data.getString("type");
@@ -61,7 +61,7 @@ public class ItemDefinition {
         return itemName.startsWith("wallpaper") || itemName.startsWith("landscape") || itemName.startsWith("a2 ");
     }
 
-    public long getId() {
+    public int getId() {
         return this.id;
     }
 
