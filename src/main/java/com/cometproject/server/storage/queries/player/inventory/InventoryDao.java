@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class InventoryDao {
+    public static String ITEMS_USERID_INDEX = "";
+
     public static Map<Integer, InventoryItem> getInventoryByPlayerId(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -21,7 +23,10 @@ public class InventoryDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM items WHERE room_id = 0 AND user_id = ?", sqlConnection);
+            preparedStatement = ITEMS_USERID_INDEX.equals("") ?
+                      SqlHelper.prepare("SELECT * FROM items WHERE room_id = 0 AND user_id = ?", sqlConnection)
+                    : SqlHelper.prepare("SELECT * FROM items USE INDEX (" + ITEMS_USERID_INDEX + ") WHERE room_id = 0 AND user_id = ?", sqlConnection);
+
             preparedStatement.setInt(1, playerId);
 
             resultSet = preparedStatement.executeQuery();
