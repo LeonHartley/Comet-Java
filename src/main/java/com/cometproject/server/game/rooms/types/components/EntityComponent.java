@@ -64,7 +64,12 @@ public class EntityComponent {
     }
 
     public boolean isSquareAvailable(int x, int y) {
-        return this.entityGrid[x][y] == null || this.entityGrid[x][y].isEmpty();
+        if(x < entityGrid.length) {
+            if(y < entityGrid[x].length)
+                return this.entityGrid[x][y] == null || this.entityGrid[x][y].isEmpty();
+        }
+
+        return false;
     }
 
     public PlayerEntity createEntity(Player player) {

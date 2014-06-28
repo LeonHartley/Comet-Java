@@ -11,9 +11,7 @@ import java.util.Arrays;
 
 public abstract class RoomModel {
     private String name;
-    private String heightmap;
     private String map = "";
-    private String relativeMap = "";
 
     private int doorX;
     private int doorY;
@@ -23,16 +21,11 @@ public abstract class RoomModel {
     private int mapSizeX;
     private int mapSizeY;
 
-    private int open = 0;
-    private int closed = 1;
-
-    private int[][] squares;
     private double[][] squareHeight;
     private RoomTileState[][] squareState;
 
     public RoomModel(String name, String heightmap, int doorX, int doorY, int doorZ, int doorRotation) {
         this.name = name;
-        this.heightmap = heightmap;
         this.doorX = doorX;
         this.doorY = doorY;
         this.doorZ = doorZ;
@@ -42,7 +35,6 @@ public abstract class RoomModel {
 
         this.mapSizeX = axes[0].length();
         this.mapSizeY = axes.length;
-        this.squares = new int[mapSizeX][mapSizeY];
         this.squareHeight = new double[mapSizeX][mapSizeY];
         this.squareState = new RoomTileState[mapSizeX][mapSizeY];
 
@@ -55,8 +47,7 @@ public abstract class RoomModel {
                     String tileVal = String.valueOf(tile);
 
                     if (tileVal.equals("x")) {
-                        squareState[x][y] = RoomTileState.INVALID;
-                        squares[x][y] = closed;
+                        squareState[x][y] = (x == doorX && y == doorY) ? RoomTileState.VALID : RoomTileState.INVALID;
                     } else {
                         squareState[x][y] = RoomTileState.VALID;
                         squareHeight[x][y] = (double) ModelUtils.getHeight(tile);
@@ -64,8 +55,6 @@ public abstract class RoomModel {
 
                     x++;
                 }
-
-                relativeMap += (char) 13;
             }
 
             for (String mapLine : heightmap.split("\r\n")) {
@@ -81,7 +70,6 @@ public abstract class RoomModel {
 
     public void dispose() {
         Arrays.fill(this.squareHeight, null);
-        Arrays.fill(this.squares, null);
         Arrays.fill(this.squareState, null);
     }
 
