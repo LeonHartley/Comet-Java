@@ -31,7 +31,7 @@ public class Configuration extends Properties {
                 this.remove(configOverride.getKey());
                 this.put(configOverride.getKey(), configOverride.getValue());
 
-                System.out.println(configOverride.getValue());
+                // TODO: Finish this stuff...
             } else {
                 log.warn("Invalid override config key: " + configOverride.getKey());
             }

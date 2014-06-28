@@ -91,7 +91,6 @@ public class PetEntity extends GenericEntity {
         msg.writeString(this.data.getName());
         msg.writeString("PET_MOTTO");
         msg.writeString(data.getLook() + " 2 2 " + data.getHair() + " " + data.getHairDye() + " 3 " + data.getHair() + " " + data.getHairDye());
-        System.out.println(data.getLook() + " 2 2 " + data.getHair() + " " + data.getHairDye() + " 3 " + data.getHair() + " " + data.getHairDye());
         msg.writeInt(this.getVirtualId());
 
         msg.writeInt(this.getPosition().getX());
@@ -102,7 +101,6 @@ public class PetEntity extends GenericEntity {
         msg.writeInt(2); // 1 = user 2 = pet 3 = bot ??????
 
         msg.writeInt(this.data.getRaceId());
-        System.out.println(this.data.getRaceId());
 
         msg.writeInt(this.data.getOwnerId());
         msg.writeString("Leon"); // TODO: this :P

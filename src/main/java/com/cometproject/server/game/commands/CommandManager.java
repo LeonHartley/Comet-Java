@@ -46,6 +46,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.mimic.name"), new MimicCommand());
         this.commands.put(Locale.get("command.transform.name"), new TransformCommand());
         this.commands.put(Locale.get("command.noface.name"), new NoFaceCommand());
+        this.commands.put(Locale.get("command.follow.name"), new FollowCommand());
     }
 
     /**
