@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,28 +83,58 @@ public class RollerFloorItem extends RoomItemFloor {
             return;
         }
 
+        // quick check illegal use of rollers
+        int rollerCount = 0;
+        for (RoomItemFloor f : floorItems) {
+            if (f instanceof RollerFloorItem) {
+                rollerCount++;
+            }
+        }
+
+        if (rollerCount > 1) {
+            this.setTicks(3);
+            return;
+        }
+
         Position3D sqInfront = this.squareInfront();
+
+        boolean noItemsOnNext = false;
 
         for (RoomItemFloor floor : floorItems) {
             if (floor.getX() != this.getX() && floor.getY() != this.getY()) {
                 continue;
             }
 
+            //System.out.println(floor.getHeight() + " - " + floor.getDefinition().getInteraction());
+            if (floor.getHeight() < 0.5) { continue; }
+
             double height = floor.getHeight();
 
-            for (RoomItemFloor nextItem : this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
-                if (nextItem.getHeight() > height) {
-                    height += nextItem.getHeight();
-                } else if (nextItem.getHeight() < height) {
-                    height -= nextItem.getHeight();
-                }
+            List<RoomItemFloor> itemsSq = this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY());
+
+            if (itemsSq.size() == 0 || noItemsOnNext) {
+                System.out.println("HEIGHT SHSASHDA");
+                height -= 0.5;
+                noItemsOnNext = true;
             }
 
-            this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position3D(floor.getX(), floor.getY(), floor.getHeight()), new Position3D(sqInfront.getX(), sqInfront.getY(), floor.getHeight()), this.getId(), 0, floor.getId()));
+            if (!this.getRoom().getMapping().isValidStep(new Position3D(floor.getX(), floor.getY(), floor.getHeight()), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
+                this.setTicks(3);
+                break;
+            }
+
+            this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position3D(floor.getX(), floor.getY(), floor.getHeight()), new Position3D(sqInfront.getX(), sqInfront.getY(), height), this.getId(), 0, floor.getId()));
 
             floor.setX(sqInfront.getX());
             floor.setY(sqInfront.getY());
+            floor.setHeight((float)height);
+
+            RoomItemDao.saveItemPosition(floor.getX(), floor.getY(), floor.getHeight(), floor.getRotation(), floor.getId());
         }
+
+        this.getRoom().getMapping().updateTile(this.getX(), this.getY());
+        this.getRoom().getMapping().updateTile(sqInfront.getX(), sqInfront.getY());
+
 
         for (RoomItemFloor nextItem : this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
             for (RoomItemFloor floor : floorItems) {

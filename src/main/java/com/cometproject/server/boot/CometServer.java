@@ -53,6 +53,7 @@ public class CometServer {
         this.loggingManager = new LogManager();
 
         SqlIndexChecker.checkIndexes(storageManager);
+        SqlIndexChecker.setIndexes(storageManager);
         Locale.init();
         CometManager.init();
         CometCache.create();

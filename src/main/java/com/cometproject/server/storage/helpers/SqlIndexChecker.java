@@ -1,6 +1,7 @@
 package com.cometproject.server.storage.helpers;
 
 import com.cometproject.server.storage.StorageManager;
+import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -17,6 +18,35 @@ public class SqlIndexChecker {
         checkPlayersTable(engine);
 
         log.info("Index check complete");
+    }
+
+    public static void setIndexes(StorageManager engine) {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = engine.getConnections().getConnection();
+            stmt = con.prepareStatement("SHOW INDEX FROM `items`;");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                if (rs.getString("Column_name").equals("user_id")) {
+                    System.out.println("Setting Items Index Column Successfully!");
+                    InventoryDao.ITEMS_USERID_INDEX = rs.getString("Key_name");
+                    break;
+                }
+            }
+        } catch (SQLException e) {
+
+        } finally {
+            try {
+                con.close();
+                stmt.close();
+                rs.close();
+            } catch (Exception e) {
+            }
+        }
     }
 
     private static void checkPlayersTable(StorageManager engine) {
