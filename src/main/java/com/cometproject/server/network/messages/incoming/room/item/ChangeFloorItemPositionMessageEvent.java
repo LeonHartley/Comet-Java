@@ -45,6 +45,8 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                             client.send(UpdateFloorItemMessageComposer.compose(item, room.getData().getOwnerId()));
                             return;
                         }
+
+                        stackItem.onItemAddedToStack(item);
                     }
                 }
 

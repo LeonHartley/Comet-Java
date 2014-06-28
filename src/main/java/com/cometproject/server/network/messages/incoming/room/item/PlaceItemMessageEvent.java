@@ -96,6 +96,12 @@ public class PlaceItemMessageEvent implements IEvent {
                 RoomItemFloor floorItem = room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
                 List<Position3D> tilesToUpdate = new ArrayList<>();
 
+                for (RoomItemFloor stackItem : floorItems) {
+                    if (item.getId() != stackItem.getId()) {
+                        stackItem.onItemAddedToStack(floorItem);
+                    }
+                }
+
                 tilesToUpdate.add(new Position3D(floorItem.getX(), floorItem.getY(), 0d));
 
                 for (AffectedTile affTile : AffectedTile.getAffectedBothTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), floorItem.getX(), floorItem.getY(), floorItem.getRotation())) {

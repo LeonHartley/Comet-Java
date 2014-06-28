@@ -27,8 +27,16 @@ public class RollerFloorItem extends RoomItemFloor {
     }
 
     @Override
+    public void onItemAddedToStack(RoomItemFloor floorItem) {
+        if (this.ticksTimer < 1) {
+            this.setTicks(RoomItemFactory.getProcessTime(2));
+        }
+    }
+
+    @Override
     public void onTickComplete() {
         this.handleEntities();
+        this.handleItems();
     }
 
     private void handleEntities() {
@@ -38,13 +46,9 @@ public class RollerFloorItem extends RoomItemFloor {
             return;
         }
 
-        List<Integer> processedEntities = new ArrayList<>();
-
         List<GenericEntity> entities = this.getRoom().getEntities().getEntitiesAt(this.getX(), this.getY());
 
         for (GenericEntity entity : entities) {
-            processedEntities.add(entity.getVirtualId());
-
             if (entity.getPosition().getX() != this.getX() && entity.getPosition().getY() != this.getY()) {
                 continue;
             }
@@ -68,6 +72,43 @@ public class RollerFloorItem extends RoomItemFloor {
 
             entity.updateAndSetPosition(new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight));
             this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight), this.getId(), entity.getVirtualId(), 0));
+        }
+    }
+
+    private void handleItems() {
+        List<RoomItemFloor> floorItems = this.getRoom().getItems().getItemsOnSquare(this.getX(), this.getY());
+
+        if (floorItems.size() == 0) {
+            return;
+        }
+
+        Position3D sqInfront = this.squareInfront();
+
+        for (RoomItemFloor floor : floorItems) {
+            if (floor.getX() != this.getX() && floor.getY() != this.getY()) {
+                continue;
+            }
+
+            double height = floor.getHeight();
+
+            for (RoomItemFloor nextItem : this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
+                if (nextItem.getHeight() > height) {
+                    height += nextItem.getHeight();
+                } else if (nextItem.getHeight() < height) {
+                    height -= nextItem.getHeight();
+                }
+            }
+
+            this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position3D(floor.getX(), floor.getY(), floor.getHeight()), new Position3D(sqInfront.getX(), sqInfront.getY(), floor.getHeight()), this.getId(), 0, floor.getId()));
+
+            floor.setX(sqInfront.getX());
+            floor.setY(sqInfront.getY());
+        }
+
+        for (RoomItemFloor nextItem : this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
+            for (RoomItemFloor floor : floorItems) {
+                nextItem.onItemAddedToStack(floor);
+            }
         }
     }
 }
