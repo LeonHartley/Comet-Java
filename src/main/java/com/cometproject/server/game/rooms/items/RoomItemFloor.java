@@ -174,6 +174,10 @@ public abstract class RoomItemFloor extends RoomItem {
         return this.tmpItemDefiniton;
     }
 
+    public void onItemAddedToStack(RoomItemFloor floorItem) {
+
+    }
+
     public void onEntityPreStepOn(GenericEntity entity) {
 
     }

@@ -12,7 +12,7 @@ import java.util.Map;
 public class ItemManager {
     private Logger log = Logger.getLogger(ItemManager.class.getName());
 
-    private FastMap<Integer, ItemDefinition> itemDefinitions;
+    private FastMap<Long, ItemDefinition> itemDefinitions;
     private Map<Integer, Integer> teleportPairs;
 
     public ItemManager() {
@@ -62,7 +62,7 @@ public class ItemManager {
         }
     }
 
-    public ItemDefinition getDefintionNullable(int itemId) {
+    public ItemDefinition getDefintionNullable(long itemId) {
         if (this.getItemDefinitions().containsKey(itemId)) {
             return this.getItemDefinitions().get(itemId);
         }
@@ -72,7 +72,7 @@ public class ItemManager {
         return null;
     }
 
-    public FastMap<Integer, ItemDefinition> getItemDefinitions() {
+    public FastMap<Long, ItemDefinition> getItemDefinitions() {
         return this.itemDefinitions;
     }
 }
