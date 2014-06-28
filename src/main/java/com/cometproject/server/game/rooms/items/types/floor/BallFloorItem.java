@@ -157,7 +157,7 @@ public final class BallFloorItem extends RoomItemFloor {
         boolean needsReverse = false;
 
         for (int i = 0; i < KICK_POWER; i++) {
-            if (!this.getRoom().getMapping().isValidStep(currentPosition, nextPosition, false) || !this.getRoom().getEntities().isSquareAvailable(nextPosition.getX(), nextPosition.getY())) {
+            if (!this.getRoom().getMapping().isValidStep(currentPosition, nextPosition, false, true) || !this.getRoom().getEntities().isSquareAvailable(nextPosition.getX(), nextPosition.getY())) {
                 needsReverse = true;
                 nextPosition = nextPosition.squareBehind(this.getRotation());
                 continue;
@@ -189,11 +189,11 @@ public final class BallFloorItem extends RoomItemFloor {
         currentPosition.setZ(this.getRoom().getModel().getSquareHeight()[currentPosition.getX()][currentPosition.getY()]);
         newPosition.setZ(this.getRoom().getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()]);
 
-        if (!this.getRoom().getMapping().isValidStep(currentPosition, newPosition, false) || !this.getRoom().getEntities().isSquareAvailable(newPosition.getX(), newPosition.getY())) {
+        if (!this.getRoom().getMapping().isValidStep(currentPosition, newPosition, false, true) || !this.getRoom().getEntities().isSquareAvailable(newPosition.getX(), newPosition.getY())) {
             newPosition = currentPosition.squareBehind(this.rotation);
         }
 
-        if (this.getRoom().getMapping().isValidStep(currentPosition, newPosition, false)) {
+        if (this.getRoom().getMapping().isValidStep(currentPosition, newPosition, false, true)) {
             BallFloorItem.roll(this, currentPosition, newPosition, this.getRoom());
 
             this.setX(newPosition.getX());

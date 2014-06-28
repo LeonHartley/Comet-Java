@@ -68,6 +68,10 @@ public class RoomMapping {
     }
 
     public boolean isValidStep(Position3D from, Position3D to, boolean lastStep) {
+        return isValidStep(from, to, lastStep, false);
+    }
+
+    public boolean isValidStep(Position3D from, Position3D to, boolean lastStep, boolean isFloorItem) {
         if (from.getX() == to.getX() && from.getY() == to.getY()) {
             return true;
         }
@@ -82,9 +86,10 @@ public class RoomMapping {
 
         boolean isAtDoor = this.model.getDoorX() == from.getX() && this.model.getDoorY() == from.getY();
 
-        if ((!room.getData().getAllowWalkthrough() && positionHasUser(to)) && !isAtDoor) {
+        if (((!room.getData().getAllowWalkthrough() || isFloorItem) && positionHasUser(to)) && !isAtDoor) {
             return false;
-        } else if (room.getData().getAllowWalkthrough() && lastStep && positionHasUser(to) && !isAtDoor) {
+
+        } else if ((room.getData().getAllowWalkthrough()) && lastStep && positionHasUser(to) && !isAtDoor) {
             return false;
         }
 
