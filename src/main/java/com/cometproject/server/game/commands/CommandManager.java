@@ -45,6 +45,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.setspeed.name"), new SetSpeedCommand());
         this.commands.put(Locale.get("command.mimic.name"), new MimicCommand());
         this.commands.put(Locale.get("command.transform.name"), new TransformCommand());
+        this.commands.put(Locale.get("command.noface.name"), new NoFaceCommand());
     }
 
     /**
