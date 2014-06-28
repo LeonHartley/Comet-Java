@@ -7,19 +7,14 @@ import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
-import javolution.util.FastMap;
 
 import java.util.List;
-import java.util.Map;
 
 public class BotComponent {
     private Room room;
 
-    private Map<Integer, BotData> botDataInstances;
-
     public BotComponent(Room room) {
         this.room = room;
-        this.botDataInstances = new FastMap<>();
 
         this.load();
     }
@@ -31,7 +26,6 @@ public class BotComponent {
             for (BotData data : botData) {
                 BotEntity botEntity = new BotEntity(data, room.getEntities().getFreeId(), ((PlayerBotData) data).getPosition(), 2, 2, room);
 
-                this.botDataInstances.put(data.getId(), data);
                 this.getRoom().getEntities().addEntity(botEntity);
             }
 
@@ -40,17 +34,12 @@ public class BotComponent {
         }
     }
 
-    public BotData getBotData(int id) {
-        return this.botDataInstances.get(id);
-    }
-
     public BotEntity addBot(InventoryBot bot, int x, int y) {
         int virtualId = room.getEntities().getFreeId();
 
         BotData botData = new PlayerBotData(bot.getId(), bot.getName(), bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7);
         BotEntity botEntity = new BotEntity(botData, virtualId, new Position3D(x, y, 0), 1, 1, room);
 
-        this.botDataInstances.put(botData.getId(), botData);
         this.getRoom().getEntities().addEntity(botEntity);
         return botEntity;
     }
