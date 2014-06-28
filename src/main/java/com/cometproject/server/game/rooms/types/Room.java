@@ -4,14 +4,12 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.models.types.DynamicRoomModel;
-import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.components.*;
 import com.cometproject.server.game.rooms.types.mapping.RoomMapping;
 import com.cometproject.server.utilities.attributes.Attributable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -45,8 +43,6 @@ public class Room implements Attributable {
 
     public Room(RoomData data) {
         this.id = data.getId();
-
-        this.model = CometManager.getRooms().getModel(data.getModel());
 
         this.log = Logger.getLogger("Room \"" + this.getData().getName() + "\"");
 
@@ -90,13 +86,13 @@ public class Room implements Attributable {
     }
 
     private void load() {
-        if (this.getData().getHeightmap() != null && this.model instanceof StaticRoomModel) {
-            this.model = new DynamicRoomModel("dynamic_heightmap", this.getData().getHeightmap(), this.model.getDoorX(), this.model.getDoorY(), this.model.getDoorZ(), this.model.getDoorRotation());
+        if (this.getData().getHeightmap() != null) {
+            this.model = new DynamicRoomModel("dynamic_heightmap", this.getData().getHeightmap(), this.getModel().getDoorX(), this.getModel().getDoorY(), this.getModel().getDoorZ(), this.getModel().getDoorRotation());
         }
 
         this.attributes = new FastMap<>();
 
-        this.mapping = new RoomMapping(this, this.model);
+        this.mapping = new RoomMapping(this);
         this.itemProcess = new ItemProcessComponent(Comet.getServer().getThreadManagement(), this);
         this.process = new ProcessComponent(this);
         this.rights = new RightsComponent(this);
@@ -104,7 +100,7 @@ public class Room implements Attributable {
         this.wired = new WiredComponent(this);
         this.trade = new TradeComponent(this);
         this.game = new GameComponent(this);
-        this.entities = new EntityComponent(this, this.model);
+        this.entities = new EntityComponent(this);
         this.bots = new BotComponent(this);
         this.pets = new PetComponent(this);
 
@@ -233,6 +229,9 @@ public class Room implements Attributable {
     }
 
     public RoomModel getModel() {
+        if(this.model == null)
+            return CometManager.getRooms().getModel(this.getData().getModel());
+
         return this.model;
     }
 

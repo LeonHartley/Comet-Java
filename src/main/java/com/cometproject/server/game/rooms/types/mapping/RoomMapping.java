@@ -9,19 +9,17 @@ import java.util.Arrays;
 
 public class RoomMapping {
     private Room room;
-    private RoomModel model;
 
     private TileInstance[][] tiles;
     private Position3D[][] redirectionGrid;
 
-    public RoomMapping(Room roomInstance, RoomModel roomModel) {
+    public RoomMapping(Room roomInstance) {
         this.room = roomInstance;
-        this.model = roomModel;
     }
 
     public void init() {
-        int sizeX = this.model.getSizeX();
-        int sizeY = this.model.getSizeY();
+        int sizeX = this.getModel().getSizeX();
+        int sizeY = this.getModel().getSizeY();
 
         this.redirectionGrid = new Position3D[sizeX][sizeY];
         this.tiles = new TileInstance[sizeX][sizeY];
@@ -68,23 +66,28 @@ public class RoomMapping {
     }
 
     public boolean isValidStep(Position3D from, Position3D to, boolean lastStep) {
+        return isValidStep(from, to, lastStep, false);
+    }
+
+    public boolean isValidStep(Position3D from, Position3D to, boolean lastStep, boolean isFloorItem) {
         if (from.getX() == to.getX() && from.getY() == to.getY()) {
             return true;
         }
 
-        if (!(to.getX() < this.model.getSquareState().length)) {
+        if (!(to.getX() < this.getModel().getSquareState().length)) {
             return false;
         }
 
-        if (!isValidPosition(to) || (this.model.getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID)) {
+        if (!isValidPosition(to) || (this.getModel().getSquareState()[to.getX()][to.getY()] == RoomTileState.INVALID)) {
             return false;
         }
 
-        boolean isAtDoor = this.model.getDoorX() == from.getX() && this.model.getDoorY() == from.getY();
+        boolean isAtDoor = this.getModel().getDoorX() == from.getX() && this.getModel().getDoorY() == from.getY();
 
-        if ((!room.getData().getAllowWalkthrough() && positionHasUser(to)) && !isAtDoor) {
+        if (((!room.getData().getAllowWalkthrough() || isFloorItem) && positionHasUser(to)) && !isAtDoor) {
             return false;
-        } else if (room.getData().getAllowWalkthrough() && lastStep && positionHasUser(to) && !isAtDoor) {
+
+        } else if ((room.getData().getAllowWalkthrough()) && lastStep && positionHasUser(to) && !isAtDoor) {
             return false;
         }
 
@@ -120,15 +123,15 @@ public class RoomMapping {
     }
 
     public boolean isValidPosition(Position3D position) {
-        return ((position.getX() >= 0) && (position.getY() >= 0) && (position.getX() < this.model.getSizeX()) && (position.getY() < this.model.getSizeY()));
+        return ((position.getX() >= 0) && (position.getY() >= 0) && (position.getX() < this.getModel().getSizeX()) && (position.getY() < this.getModel().getSizeY()));
     }
 
     public final Room getRoom() {
         return this.room;
     }
 
-    public final RoomModel getModel() {
-        return this.model;
+    public RoomModel getModel() {
+        return this.room.getModel();
     }
 
     public Position3D[][] getRedirectionGrid() {
