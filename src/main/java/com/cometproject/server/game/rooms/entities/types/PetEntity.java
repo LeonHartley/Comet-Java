@@ -101,6 +101,7 @@ public class PetEntity extends GenericEntity {
         msg.writeInt(2); // 1 = user 2 = pet 3 = bot ??????
 
         msg.writeInt(this.data.getRaceId());
+
         msg.writeInt(this.data.getOwnerId());
         msg.writeString("Leon"); // TODO: this :P
         msg.writeInt(1);

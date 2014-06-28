@@ -126,7 +126,9 @@ public class ProcessComponent implements CometTask {
 
                 // THE ORDER MATTERS HERE, KEEP THIS AFTER !!!! 'ENTITY.NEEDSUPDATE'
 
-                this.updateEntityStuff(entity);
+                if(this.updateEntityStuff(entity)) {
+                    playersToRemove.add((PlayerEntity) entity);
+                }
             }
 
             for (PlayerEntity entity : playersToRemove) {
@@ -147,11 +149,11 @@ public class ProcessComponent implements CometTask {
         }
     }
 
-    private void updateEntityStuff(GenericEntity entity) {
+    private boolean updateEntityStuff(GenericEntity entity) {
         if (entity.getPositionToSet() != null) {
             if ((entity.getPositionToSet().getX() == this.room.getModel().getDoorX()) && (entity.getPositionToSet().getY() == this.room.getModel().getDoorY())) {
                 entity.updateAndSetPosition(null);
-                return;
+                return true;
             }
 
             if (entity.hasStatus("sit")) {
@@ -204,6 +206,9 @@ public class ProcessComponent implements CometTask {
             entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
         }
+
+        // Needs remove...
+        return false;
     }
 
     protected boolean processEntity(GenericEntity entity) {

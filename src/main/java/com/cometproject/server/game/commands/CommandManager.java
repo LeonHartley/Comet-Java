@@ -5,10 +5,7 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.staff.*;
 import com.cometproject.server.game.commands.user.*;
-import com.cometproject.server.game.commands.vip.EnableCommand;
-import com.cometproject.server.game.commands.vip.MoonwalkCommand;
-import com.cometproject.server.game.commands.vip.PullCommand;
-import com.cometproject.server.game.commands.vip.PushCommand;
+import com.cometproject.server.game.commands.vip.*;
 import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
@@ -47,6 +44,9 @@ public class CommandManager {
         this.commands.put(Locale.get("command.enable.name"), new EnableCommand());
         this.commands.put(Locale.get("command.setspeed.name"), new SetSpeedCommand());
         this.commands.put(Locale.get("command.mimic.name"), new MimicCommand());
+        this.commands.put(Locale.get("command.transform.name"), new TransformCommand());
+        this.commands.put(Locale.get("command.noface.name"), new NoFaceCommand());
+        this.commands.put(Locale.get("command.follow.name"), new FollowCommand());
     }
 
     /**

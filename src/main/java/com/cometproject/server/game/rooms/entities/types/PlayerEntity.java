@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.entities.types;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -340,8 +341,14 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void compose(Composer msg) {
+        if(this.hasAttribute("transformation")) {
+            String[] transformationData = ((String) this.getAttribute("transformation")).split("#");
+
+            TransformCommand.composeTransformation(msg, transformationData, this);
+            return;
+        }
+
         msg.writeInt(this.getPlayerId());
-        //msg.writeInt(this.getVirtualId());
         msg.writeString(this.getUsername());
         msg.writeString(this.getMotto());
         msg.writeString(this.getFigure());
