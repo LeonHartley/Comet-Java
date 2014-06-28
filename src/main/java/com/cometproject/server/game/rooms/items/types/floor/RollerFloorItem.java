@@ -113,7 +113,6 @@ public class RollerFloorItem extends RoomItemFloor {
             List<RoomItemFloor> itemsSq = this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY());
 
             if (itemsSq.size() == 0 || noItemsOnNext) {
-                System.out.println("HEIGHT SHSASHDA");
                 height -= 0.5;
                 noItemsOnNext = true;
             }

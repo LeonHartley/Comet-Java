@@ -56,7 +56,7 @@ public class CatalogDao {
 
             while (resultSet.next()) {
                 try {
-                    if (!CometManager.getItems().getItemDefinitions().containsKey(Long.parseLong(resultSet.getString("item_ids")))) {
+                    if (!CometManager.getItems().getItemDefinitions().containsKey(Integer.parseInt(resultSet.getString("item_ids")))) {
                         System.out.println("Ignoring catalog item: " + resultSet.getInt("id"));
                         continue;
                     }

@@ -28,7 +28,7 @@ public class RoomItemDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                if (CometManager.getItems().getDefintionNullable(resultSet.getLong("base_item")).getType().equals("s"))
+                if (CometManager.getItems().getDefintionNullable(resultSet.getInt("base_item")).getType().equals("s"))
                     floorItems.add(RoomItemFactory.createFloor(resultSet.getInt("id"), resultSet.getInt("base_item"), roomId, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data")));
                 else
                     wallItems.add(RoomItemFactory.createWall(resultSet.getInt("id"), resultSet.getInt("base_item"), roomId, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data")));
