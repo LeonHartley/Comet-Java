@@ -68,7 +68,7 @@ public class CometSettings {
             }
         }
 
-        if(properties.containsKey("config.system.entity_process.type")) {
+        if(properties.containsKey("comet.system.entity_process.type")) {
             if(properties.get("comet.system.entity_process.type").equals("global")) {
                 Room.useCycleForEntities = true;
             }
