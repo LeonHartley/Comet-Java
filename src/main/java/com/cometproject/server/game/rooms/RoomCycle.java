@@ -13,9 +13,10 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class RoomCycle implements CometTask {
+    private Logger log = Logger.getLogger(RoomCycle.class.getName());
+
     private ScheduledFuture myFuture;
     private boolean active;
-    private Logger log = Logger.getLogger(RoomCycle.class.getName());
 
     public RoomCycle(CometThreadManagement mgr) {
         this.myFuture = mgr.executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
@@ -37,7 +38,6 @@ public class RoomCycle implements CometTask {
                 return;
             }
 
-            //List<Integer> unusedRoomData = new ArrayList<>();
             List<Integer> roomsToDispose = new ArrayList<>();
 
             for (Room room : CometManager.getRooms().getRoomInstances().values()) {
@@ -61,12 +61,7 @@ public class RoomCycle implements CometTask {
                 CometManager.getRooms().removeInstance(roomId);
             }
 
-            //for (int roomDataId : unusedRoomData) {
-           //     CometManager.getRooms().removeData(roomDataId);
-            //}
-
             roomsToDispose.clear();
-            //unusedRoomData.clear();
 
             TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
 
