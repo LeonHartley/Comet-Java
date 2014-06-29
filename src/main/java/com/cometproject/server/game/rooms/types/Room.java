@@ -36,6 +36,9 @@ public class Room implements Attributable {
     private boolean isRoomMuted = false;
     private boolean isDisposed = false;
 
+    public static boolean useCycleForItems = false;
+    public static boolean useCycleForEntities = false;
+
     private AtomicBoolean needsRemoving = new AtomicBoolean(false);
     private AtomicInteger idleTicks = new AtomicInteger(0);
 
@@ -148,8 +151,13 @@ public class Room implements Attributable {
     }
 
     public void tick() {
-        if (wired != null)
             this.wired.tick();
+
+        if(useCycleForEntities && this.process != null)
+            this.process.tick();
+
+        if(useCycleForItems && this.itemProcess != null)
+            this.itemProcess.tick();
     }
 
     @Override

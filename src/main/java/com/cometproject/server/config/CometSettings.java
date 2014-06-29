@@ -1,5 +1,7 @@
 package com.cometproject.server.config;
 
+import com.cometproject.server.game.rooms.types.Room;
+
 import java.util.Properties;
 
 public class CometSettings {
@@ -59,6 +61,19 @@ public class CometSettings {
         } catch (Exception e) {
             // fall back to 150
         }
+
+        if(properties.containsKey("comet.system.item_process.type")) {
+            if(properties.get("comet.system.item_process.type").equals("global")) {
+                Room.useCycleForItems = true;
+            }
+        }
+
+        if(properties.containsKey("config.system.entity_process.type")) {
+            if(properties.get("comet.system.entity_process.type").equals("global")) {
+                Room.useCycleForEntities = true;
+            }
+        }
+
     }
 
     public static void setMotd(String motd) {

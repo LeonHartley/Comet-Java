@@ -41,6 +41,9 @@ public class ItemProcessComponent implements CometTask {
     }
 
     public void start() {
+        if(Room.useCycleForItems)
+            return;
+
         if (this.myFuture != null && this.active) {
             stop();
         }
@@ -52,6 +55,9 @@ public class ItemProcessComponent implements CometTask {
     }
 
     public void stop() {
+        if(Room.useCycleForItems)
+            return;
+
         if (this.myFuture != null) {
             this.active = false;
             this.myFuture.cancel(false);
@@ -64,8 +70,7 @@ public class ItemProcessComponent implements CometTask {
         return this.active;
     }
 
-    @Override
-    public void run() {
+    public void tick() {
         if (!this.active) {
             return;
         }
@@ -122,6 +127,11 @@ public class ItemProcessComponent implements CometTask {
         if (span.toMilliseconds() > FLAG) {
             log.warn("ItemProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
         }
+    }
+
+    @Override
+    public void run() {
+        this.tick();
     }
 
     protected void handleSupressedExceptions(Throwable t) {
