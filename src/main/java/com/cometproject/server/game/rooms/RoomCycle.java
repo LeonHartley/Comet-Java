@@ -16,7 +16,7 @@ public class RoomCycle implements CometTask {
     private ScheduledFuture myFuture;
     private boolean active;
     private Logger log = Logger.getLogger(RoomCycle.class.getName());
-
+    
     public RoomCycle(CometThreadManagement mgr) {
         this.myFuture = mgr.executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
         active = true;

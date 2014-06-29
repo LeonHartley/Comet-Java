@@ -43,28 +43,7 @@ public class ProcessComponent implements CometTask {
         this.log = Logger.getLogger("Room Process [" + room.getData().getName() + "]");
     }
 
-    public void start() {
-        if (this.active) {
-            stop();
-        }
-
-        this.active = true;
-        this.processFuture = Comet.getServer().getThreadManagement().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
-
-        log.debug("Processing started");
-    }
-
-    public void stop() {
-        if (this.processFuture != null) {
-            this.active = false;
-            this.processFuture.cancel(false);
-
-            log.debug("Processing stopped");
-        }
-    }
-
-    @Override
-    public void run() {
+    public void tick() {
         if (!this.active) {
             return;
         }
@@ -147,6 +126,37 @@ public class ProcessComponent implements CometTask {
         } catch (Exception e) {
             log.error("Error during room process", e);
         }
+    }
+
+    public void start() {
+        if(Room.useCycleForEntities)
+            return;
+
+        if (this.active) {
+            stop();
+        }
+
+        this.active = true;
+        this.processFuture = Comet.getServer().getThreadManagement().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
+
+        log.debug("Processing started");
+    }
+
+    public void stop() {
+        if(Room.useCycleForEntities)
+            return;
+
+        if (this.processFuture != null) {
+            this.active = false;
+            this.processFuture.cancel(false);
+
+            log.debug("Processing stopped");
+        }
+    }
+
+    @Override
+    public void run() {
+        this.tick();
     }
 
     private boolean updateEntityStuff(GenericEntity entity) {
