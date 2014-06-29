@@ -129,22 +129,25 @@ public class ProcessComponent implements CometTask {
     }
 
     public void start() {
-        if(Room.useCycleForEntities)
+        if(Room.useCycleForEntities) {
+            this.active = true;
             return;
+        }
 
         if (this.active) {
             stop();
         }
 
-        this.active = true;
         this.processFuture = Comet.getServer().getThreadManagement().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
 
         log.debug("Processing started");
     }
 
     public void stop() {
-        if(Room.useCycleForEntities)
+        if(Room.useCycleForEntities) {
+            this.active = false;
             return;
+        }
 
         if (this.processFuture != null) {
             this.active = false;
@@ -183,6 +186,7 @@ public class ProcessComponent implements CometTask {
             for (RoomItemFloor item : itemsOnOldSq) {
                 item.onEntityStepOff(entity);
                 if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
+                    
                 }
             }
 
