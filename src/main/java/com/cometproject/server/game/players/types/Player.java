@@ -115,7 +115,7 @@ public class Player {
     public void loadRoom(int id, String password) {
         if (avatar != null && avatar.getRoom() != null) {
             avatar.leaveRoom(true, false, false);
-            setAvatar(null);
+            setEntity(null);
         }
 
         Room room = CometManager.getRooms().get(id);
@@ -135,7 +135,7 @@ public class Player {
         }
 
         PlayerEntity playerEntity = room.getEntities().createEntity(this);
-        setAvatar(playerEntity);
+        setEntity(playerEntity);
 
         playerEntity.joinRoom(room, password);
     }
@@ -152,7 +152,7 @@ public class Player {
         this.session = client;
     }
 
-    public void setAvatar(PlayerEntity avatar) {
+    public void setEntity(PlayerEntity avatar) {
         this.avatar = avatar;
     }
 

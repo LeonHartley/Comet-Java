@@ -76,9 +76,9 @@ public class Room implements Attributable {
     public boolean isIdle() {
         if (this.needsRemoving.get()) { return true; }
 
-        if (this.idleTicks.get() < 10 && this.entities.reliablePlayerCountTest() == 0) {
+        if (this.idleTicks.get() < 10 && this.entities.playerCount() == 0) {
             this.idleTicks.incrementAndGet();
-        } else if (this.idleTicks.get() > 0 && this.entities.reliablePlayerCountTest() > 0) {
+        } else if (this.idleTicks.get() > 0 && this.entities.playerCount() > 0) {
             this.idleTicks.set(0);
         } else if (this.idleTicks.get() >= 10) {
             this.needsRemoving.set(true);
