@@ -15,6 +15,7 @@ import com.cometproject.server.network.messages.types.Composer;
 import io.netty.util.ReferenceCountUtil;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
+import sun.net.www.content.text.Generic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,23 +28,16 @@ public class EntityComponent {
     private Room room;
 
     private AtomicInteger entityIdGenerator = new AtomicInteger();
+    private final Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().shared();
 
-    private Map<Integer, GenericEntity> entities;
-
-    private Map<Integer, Integer> playerIdToEntity;
-    private Map<Integer, Integer> botIdToEntity;
-    private Map<Integer, Integer> petIdToEntity;
+    private final Map<Integer, Integer> playerIdToEntity = new FastMap<>();
+    private final Map<Integer, Integer> botIdToEntity = new FastMap<>();
+    private final Map<Integer, Integer> petIdToEntity = new FastMap<>();
 
     private List<GenericEntity>[][] entityGrid;
 
     public EntityComponent(Room room) {
         this.room = room;
-
-        this.entities = new FastMap<>();
-
-        this.playerIdToEntity = new FastMap<>();
-        this.botIdToEntity = new FastMap<>();
-        this.petIdToEntity = new FastMap<>();
 
         this.entityGrid = new ArrayList[room.getModel().getSizeX()][room.getModel().getSizeY()];
     }
@@ -51,7 +45,7 @@ public class EntityComponent {
     public List<GenericEntity> getEntitiesAt(int x, int y) {
         if (x < entityGrid.length) {
             if (y < entityGrid[x].length) {
-                return this.entityGrid[x][y] != null ? this.entityGrid[x][y] : new ArrayList<GenericEntity>();
+                return this.entityGrid[x][y] != null ? this.entityGrid[x][y] : new ArrayList<>();
             }
         }
 
@@ -101,22 +95,6 @@ public class EntityComponent {
     }
 
     public void addEntity(GenericEntity entity) {
-        if (this.entities == null) {
-            this.entities = new FastMap<Integer, GenericEntity>().shared();
-        }
-
-        if (this.playerIdToEntity == null) {
-            this.playerIdToEntity = new FastMap<>();
-        }
-
-        if (this.botIdToEntity == null) {
-            this.botIdToEntity = new FastMap<>();
-        }
-
-        if (this.petIdToEntity == null) {
-            this.petIdToEntity = new FastMap<>();
-        }
-
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
@@ -156,21 +134,17 @@ public class EntityComponent {
     public void broadcastMessage(Composer msg, boolean usersWithRightsOnly) {
         try {
             for (GenericEntity entity : this.entities.values()) {
-                if (entity == null) {
-                    continue;
-                }
-
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
 
                     if (playerEntity.getPlayer() == null)
                         continue;
 
-                    if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()))
+                    if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId())) {
                         continue;
+                    }
 
                     playerEntity.getPlayer().getSession().getChannel().writeAndFlush(msg.duplicate().retain());
-
                 }
             }
         } finally {
@@ -301,22 +275,6 @@ public class EntityComponent {
         return this.playerIdToEntity == null ? 0 : this.playerIdToEntity.size();
     }
 
-    public int reliablePlayerCountTest() {
-        int count = 0;
-
-        for (GenericEntity entity : this.entities.values()) {
-            if (entity instanceof PlayerEntity) {
-                PlayerEntity pE = (PlayerEntity)entity;
-
-                if (pE.getPlayer() != null && pE.getPlayer().getSession() != null && pE.getPlayer().getSession().getChannel().isActive()) {
-                    count++;
-                }
-            }
-        }
-
-        return count;
-    }
-
     public Map<Integer, GenericEntity> getEntitiesCollection() {
         return this.entities;
     }
@@ -327,19 +285,7 @@ public class EntityComponent {
 
     public void dispose() {
         for (GenericEntity entity : entities.values()) {
-//            if (entity.getEntityType() == RoomEntityType.PET) {
-//                ((PetEntity) entity).leaveRoom(true); // save pet data
-//            } else {
-//                entity.leaveRoom(false, false, true);
-//            }
-
             entity.onRoomDispose();
         }
-
-        playerIdToEntity.clear();
-        petIdToEntity.clear();
-        botIdToEntity.clear();
-
-        entities.clear();
     }
 }

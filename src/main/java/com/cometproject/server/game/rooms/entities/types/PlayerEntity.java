@@ -154,8 +154,17 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
-        // Clear all  statuses
-        this.getStatuses().clear();
+        // Remove entity from the room
+        this.getRoom().getEntities().removeEntity(this);
+        this.getPlayer().setEntity(null);
+
+        // Clear all statuses
+        //this.getStatuses().clear();
+
+        // Step off
+        for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(this.getPosition().getX(), this.getPosition().getY())) {
+            item.onEntityStepOff(this);
+        }
 
         // Send leave room message to all current entities
         this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
@@ -170,22 +179,12 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             this.getPlayer().getSession().send(RoomErrorMessageComposer.compose(4008));
         }
 
-        // Also could be useful for bot trading etc
-
         // Check and cancel any active trades
         Trade trade = this.getRoom().getTrade().get(this.getPlayer().getEntity());
 
         if (trade != null) {
             trade.cancel(this.getPlayer().getId());
         }
-
-        // Step off
-        for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(this.getPosition().getX(), this.getPosition().getY())) {
-            item.onEntityStepOff(this);
-        }
-
-        // Remove entity from the room
-        this.getRoom().getEntities().removeEntity(this);
 
         if (this.visitLogEntry != null) {
             this.visitLogEntry.setExitTime((int) Comet.getTime());
@@ -194,7 +193,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         // De-reference things
-        this.getPlayer().setAvatar(null);
         this.player = null;
     }
 
@@ -303,7 +301,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         // De-reference things
-        this.getPlayer().setAvatar(null);
+        this.getPlayer().setEntity(null);
         this.player = null;
         return false;
     }

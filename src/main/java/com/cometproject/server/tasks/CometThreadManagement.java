@@ -10,9 +10,6 @@ import java.util.concurrent.*;
 public class CometThreadManagement {
     private final ScheduledExecutorService scheduledExecutorService;
 
-    private final FastTable<WeakReference<Thread>> threadMonitoring = new FastTable<>();
-    private Future<?> monitorThread;
-
     public CometThreadManagement() {
         this.scheduledExecutorService = Executors.newScheduledThreadPool(2, new ThreadFactory() {
             @Override
@@ -32,7 +29,6 @@ public class CometThreadManagement {
                     }
                 });
 
-                threadMonitoring.add(new WeakReference<Thread>(scheduledThread));
                 return scheduledThread;
             }
         });
@@ -48,35 +44,6 @@ public class CometThreadManagement {
 
     public ScheduledFuture executeSchedule(CometTask task, long delay, TimeUnit unit) {
         return this.scheduledExecutorService.schedule(task, delay, unit);
-    }
-
-    public void startMonitoring() {
-        if (this.monitorThread != null) {
-            return;
-        }
-    }
-
-    private final class ThreadMonitorCycle implements CometTask {
-        private final FastTable<WeakReference<Thread>> threads;
-
-        public ThreadMonitorCycle(FastTable<WeakReference<Thread>> threads) {
-            this.threads = threads;
-        }
-
-        @Override
-        public void run() {
-            for (int i = 0; i < threads.size(); i++) {
-                WeakReference<Thread> threadWeakReference = threads.get(i);
-
-                if (threadWeakReference != null) {
-                    if (threadWeakReference.isEnqueued() || threadWeakReference.get() == null) {
-                        threads.remove(i);
-                    } else {
-
-                    }
-                }
-            }
-        }
     }
 
     public ScheduledExecutorService getScheduledExecutorService() {

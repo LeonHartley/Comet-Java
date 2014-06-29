@@ -26,7 +26,7 @@ public class PlayerManager {
 
     public void remove(int playerId, String username) {
         this.playerIdToSessionId.remove(playerId);
-        this.playerUsernameToPlayerId.remove(username);
+        this.playerUsernameToPlayerId.remove(username.toLowerCase());
     }
 
     public int getPlayerIdByUsername(String username) {
@@ -50,7 +50,7 @@ public class PlayerManager {
     }
 
     public boolean isOnline(String username) {
-        return this.playerUsernameToPlayerId.containsKey(username);
+        return this.playerUsernameToPlayerId.containsKey(username.toLowerCase());
     }
 
     public int size() {
