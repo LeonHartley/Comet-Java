@@ -28,6 +28,11 @@ public class RollerFloorItem extends RoomItemFloor {
     }
 
     @Override
+    public void onLoad() {
+        this.setTicks(RoomItemFactory.getProcessTime(2));
+    }
+
+    @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
         if (this.ticksTimer < 1) {
             this.setTicks(RoomItemFactory.getProcessTime(2));
@@ -105,21 +110,39 @@ public class RollerFloorItem extends RoomItemFloor {
                 continue;
             }
 
-            //System.out.println(floor.getHeight() + " - " + floor.getDefinition().getInteraction());
             if (floor.getHeight() < 0.5) { continue; }
 
             double height = floor.getHeight();
 
             List<RoomItemFloor> itemsSq = this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY());
 
-            if (itemsSq.size() == 0 || noItemsOnNext) {
+            boolean hasRoller = false;
+
+            for (RoomItemFloor iq : itemsSq) {
+                if (iq instanceof RollerFloorItem) {
+                    hasRoller = true;
+                }
+            }
+
+            if (!hasRoller || noItemsOnNext) {
                 height -= 0.5;
                 noItemsOnNext = true;
             }
 
-            if (!this.getRoom().getMapping().isValidStep(new Position3D(floor.getX(), floor.getY(), floor.getHeight()), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
-                this.setTicks(3);
-                break;
+            double heightDiff = 0;
+
+            if (itemsSq.size() > 1) {
+                RoomItemFloor item1 = itemsSq.get(0);
+                RoomItemFloor item2 = itemsSq.get(1);
+
+                heightDiff = item1.getHeight() - item2.getHeight();
+            }
+
+            if (heightDiff > -2) {
+                if (!this.getRoom().getMapping().isValidStep(new Position3D(floor.getX(), floor.getY(), floor.getHeight()), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
+                    this.setTicks(3);
+                    break;
+                }
             }
 
             this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position3D(floor.getX(), floor.getY(), floor.getHeight()), new Position3D(sqInfront.getX(), sqInfront.getY(), height), this.getId(), 0, floor.getId()));
