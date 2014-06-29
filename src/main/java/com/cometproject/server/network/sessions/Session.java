@@ -37,7 +37,6 @@ public class Session {
 
     public void onDisconnect() {
         CometManager.getPlayers().remove(player.getId(), player.getData().getUsername());
-
         this.getPlayer().dispose();
     }
 
