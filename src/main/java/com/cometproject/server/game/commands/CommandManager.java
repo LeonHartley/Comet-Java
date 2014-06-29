@@ -113,7 +113,9 @@ public class CommandManager {
             this.commands.get(executor).execute(client, getParams(message.split(" ")));
             CometManager.getLogger().info(client.getPlayer().getData().getUsername() + " executed command: :" + message);
         } else {
-            if (CometManager.getPermissions().getCommands().get(commandName).isVipOnly() && !client.getPlayer().getData().isVip())
+            if (CometManager.getPermissions().getCommands().containsKey(commandName) &&
+                    CometManager.getPermissions().getCommands().get(commandName).isVipOnly() &&
+                    !client.getPlayer().getData().isVip())
                 ChatCommand.sendChat(Locale.get("command.vip"), client);
 
             CometManager.getLogger().info(client.getPlayer().getData().getUsername() + " tried executing command: :" + message);
