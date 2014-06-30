@@ -78,4 +78,8 @@ public class SqlHelper {
     public static void handleSqlException(SQLException e) {
         log.error("Error while executing query", e);
     }
+
+    public static String escapeWildcards(String s) {
+        return s.replaceAll("_", "\\\\_").replaceAll("%", "\\\\%");
+    }
 }

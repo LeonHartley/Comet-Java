@@ -21,8 +21,11 @@ public class MessengerSearchDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
+            // escape wildcard strings
+            query = SqlHelper.escapeWildcards(query);
+
             preparedStatement = SqlHelper.prepare("SELECT * FROM players WHERE username LIKE ? LIMIT 50;", sqlConnection);
-            preparedStatement.setString(1, query);
+            preparedStatement.setString(1, query + "%");
 
             resultSet = preparedStatement.executeQuery();
 
