@@ -48,7 +48,7 @@ public class MessengerComponent {
         List<MessengerSearchResult> otherPeople = new ArrayList<>();
 
         try {
-            for (PlayerData playerData : MessengerSearchDao.performSearch(query + "%")) {
+            for (PlayerData playerData : MessengerSearchDao.performSearch(query)) {
                 if (this.getFriendById(playerData.getId()) != null) {
                     currentFriends.add(new MessengerSearchResult(playerData.getId(), playerData.getUsername(), playerData.getFigure(), playerData.getMotto(), new Date(playerData.getLastVisit() * 1000L).toString()));
                 } else {
