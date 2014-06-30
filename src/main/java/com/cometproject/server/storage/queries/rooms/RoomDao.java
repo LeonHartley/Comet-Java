@@ -116,6 +116,9 @@ public class RoomDao {
                 preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE owner = ?", sqlConnection);
                 preparedStatement.setString(1, query.split("owner:")[1]);
             } else {
+                // escape wildcard characters
+                query = SqlHelper.escapeWildcards(query);
+
                 preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE name LIKE ? LIMIT 50", sqlConnection);
                 preparedStatement.setString(1, query + "%");
             }
