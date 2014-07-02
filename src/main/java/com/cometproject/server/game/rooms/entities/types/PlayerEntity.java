@@ -192,6 +192,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             Comet.getServer().getLoggingManager().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
         }
 
+        this.attributes.clear();
+
         // De-reference things
         this.player = null;
     }
