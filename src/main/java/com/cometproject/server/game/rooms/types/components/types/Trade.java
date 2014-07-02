@@ -231,10 +231,7 @@ public class Trade {
                 user2.getPlayer().getEntity().removeStatus("trd");
                 user2.getPlayer().getEntity().markNeedsUpdate();
             }
-
         }
-
-        //tradeComponent.remove(this);
     }
 
     /**
