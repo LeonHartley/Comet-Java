@@ -270,6 +270,8 @@ public class Trade {
 
         sendToUsers(UpdateInventoryMessageComposer.compose());
         sendToUsers(TradeCloseCleanMessageComposer.compose());
+
+        this.tradeComponent.remove(this);
     }
 
     /**
