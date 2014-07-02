@@ -8,12 +8,9 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.handler.codec.string.StringEncoder;
-import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.DefaultEventExecutorGroup;
 import io.netty.util.concurrent.EventExecutorGroup;
-
-import java.util.concurrent.TimeUnit;
 
 public class NetworkChannelInitializer extends ChannelInitializer<Channel> {
     private final EventExecutorGroup executor;
@@ -31,7 +28,7 @@ public class NetworkChannelInitializer extends ChannelInitializer<Channel> {
                 .addLast("messageDecoder", new MessageDecoder())
                 .addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8))
                 .addLast("messageEncoder", new MessageEncoder())
-                .addLast("idleHandler", new IdleStateHandler(60, 30, 0, TimeUnit.SECONDS))
+//                .addLast("idleHandler", new IdleStateHandler(60, 30, 0, TimeUnit.SECONDS))
                 .addLast(this.executor, "clientHandler", new ClientHandler());
     }
 }
