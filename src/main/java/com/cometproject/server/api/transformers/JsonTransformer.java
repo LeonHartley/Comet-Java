@@ -18,6 +18,12 @@ public class JsonTransformer implements ResponseTransformer {
      */
     @Override
     public String render(Object o) throws Exception {
-        return gsonInstance.toJson(o);
+        try {
+            return gsonInstance.toJson(o);
+        } catch (Exception e) {
+            return gsonInstance.toJson(e);
+        } finally {
+            // Dispose object..
+        }
     }
 }
