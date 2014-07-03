@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.types.components.types.RoomBan;
 import com.cometproject.server.storage.queries.rooms.RightsDao;
 import javolution.util.FastTable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RightsComponent {
@@ -32,7 +33,7 @@ public class RightsComponent {
     }
 
     public boolean hasRights(int playerId) {
-        return this.room.getData().getOwnerId() == playerId || this.rights.contains(playerId);
+        return (this.room.getData().getOwnerId() == playerId) || (this.rights.contains(playerId));
     }
 
     public void removeRights(int playerId) {
@@ -62,13 +63,19 @@ public class RightsComponent {
     }
 
     public void cycle() {
+        List<RoomBan> bansToRemove = new ArrayList<>();
+
         for (RoomBan ban : this.bannedUsers) {
             if (ban.getCycle() >= 1) {
-                this.bannedUsers.remove(ban);
+                bansToRemove.add(ban);
                 continue;
             }
 
             ban.increaseCycle();
+        }
+
+        for (RoomBan ban : bansToRemove) {
+            this.bannedUsers.remove(ban);
         }
     }
 
