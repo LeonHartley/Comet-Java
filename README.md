@@ -1,20 +1,10 @@
 Comet
 ==========
-Comet is a Habbo Hotel emulation software.
+Comet is a super secret project that no one should ever know about.
 
 Current To-do List
 -------
-*   Limited Edition (DONE)
-*   Achieved Badge (DONE)
-*   Achievement Score (DONE)
-*   Badge Catalog (DONE)
-*   Multiple Quantity (DONE)
-*   Bots (DONE)
-*   Manequins (DONE)
-*   Black Hole (DONE)
-*   Background Toner (DONE)
-*   Rollers (DONE)
-*   Update to RELEASE63-201403031114-177390006   
+*   Update to RELEASE63-201403031114-177390006   ??? WAS THIS DONE??  
 *   Finish Wired
 *   Finish Groups (NO FOR THE MOMENT)
 *   Battle Banzai, Freeze, Football, Snow (NO FOR THE MOMENT), Skateboard (NO FOR THE MOMENT)
@@ -33,7 +23,3 @@ Current To-do List
 *   TV
 *   ADS MPU
 *   Gift
-
-Official Server
---------------------
-<http://www.comet.im/>
