@@ -5,11 +5,14 @@ import com.cometproject.server.api.transformers.JsonTransformer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
+import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 import spark.Spark;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class APIManager {
     /**
@@ -24,6 +27,7 @@ public class APIManager {
     private static final String[] configProperties = new String[]{
             "comet.api.enabled",
             "comet.api.port",
+            "comet.api.token"
     };
 
     /**
@@ -35,6 +39,12 @@ public class APIManager {
      * The port the API server will listen on
      */
     private int port;
+
+    /**
+     * The token used for authentication
+     */
+    private String authToken;
+
 
     /**
      * The transformer to convert objects into JSON formatted strings
@@ -65,6 +75,7 @@ public class APIManager {
 
         this.enabled = Comet.getServer().getConfig().getProperty("comet.api.enabled").equals("true");
         this.port = Integer.parseInt(Comet.getServer().getConfig().getProperty("comet.api.port"));
+        this.authToken = Comet.getServer().getConfig().getProperty("comet.api.token");
     }
 
     /**
@@ -86,6 +97,15 @@ public class APIManager {
         if(!this.enabled)
             return;
 
+        Spark.before((request, response) -> {
+            boolean authenticated = request.headers("authToken") != null && request.headers("authToken").equals(this.authToken);
+
+            if(!authenticated) {
+                log.error("Unauthenticated request from: " + request.ip() + "; " + request.contextPath());
+                Spark.halt(401, "Invalid authentication");
+            }
+        });
+
         Spark.get("/", (request, response) -> {
             Spark.halt(404);
             return "Invalid request, if you believe you received this in error, please contact the server administrator!";
@@ -103,6 +123,63 @@ public class APIManager {
             }
 
             return activeRooms;
+        }, jsonTransformer);
+
+        Spark.get("/room/:id/:action", (request, response) -> {
+            Map<String, Object> result = new FastMap<>();
+
+            int roomId = Integer.parseInt(request.params("id"));
+            String action = request.params("action");
+
+            if(!CometManager.getRooms().getRoomInstances().containsKey(roomId)) {
+                result.put("active", false);
+                return result;
+            }
+
+            Room room = CometManager.getRooms().get(roomId);
+
+            result.put("id", roomId);
+
+            switch(action) {
+                default: {
+                    result.put("active", false);
+                    break;
+                }
+
+                case "alert": {
+                    String message = request.headers("message");
+                    if (message == null || message.isEmpty()) {
+                        result.put("success", false);
+                    } else {
+                        room.getEntities().broadcastMessage(AdvancedAlertMessageComposer.compose(message));
+                        result.put("success", true);
+                    }
+                    break;
+                }
+
+                case "dispose": {
+                    String message = request.headers("message");
+
+                    if (message != null && !message.isEmpty()) {
+                        room.getEntities().broadcastMessage(AdvancedAlertMessageComposer.compose(message));
+                    }
+
+                    room.setNeedsRemoving();
+                    result.put("success", true);
+                    break;
+                }
+
+                case "data": {
+                    result.put("data", room.getData());
+                    break;
+                }
+
+                case "delete":
+                    result.put("message", "Feature not completed");
+                    break;
+            }
+
+            return result;
         }, jsonTransformer);
     }
 }
