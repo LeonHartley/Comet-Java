@@ -8,11 +8,16 @@ import com.cometproject.server.game.rooms.entities.types.ai.DefaultAI;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import javolution.util.FastMap;
+
+import java.util.Map;
 
 public class BotEntity extends GenericEntity {
     private BotData data;
     private int cycleCount = 0;
     private BotAI ai;
+
+    private Map<String, Object> attributes = new FastMap<>();
 
     public BotEntity(BotData data, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
@@ -47,6 +52,8 @@ public class BotEntity extends GenericEntity {
 
         this.data.dispose();
         this.data = null;
+
+        this.attributes.clear();
     }
 
     @Override
@@ -66,6 +73,8 @@ public class BotEntity extends GenericEntity {
 
         this.data.dispose();
         this.data = null;
+
+        this.attributes.clear();
 
         return true;
     }
@@ -141,5 +150,29 @@ public class BotEntity extends GenericEntity {
 
     public BotAI getAI() {
         return ai;
+    }
+
+    @Override
+    public void setAttribute(String attributeKey, Object attributeValue) {
+        if (this.attributes.containsKey(attributeKey)) {
+            this.attributes.replace(attributeKey, attributeValue);
+        } else {
+            this.attributes.put(attributeKey, attributeValue);
+        }
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+        return this.attributes.get(attributeKey);
+    }
+
+    @Override
+    public boolean hasAttribute(String attributeKey) {
+        return this.attributes.containsKey(attributeKey);
+    }
+
+    @Override
+    public void removeAttribute(String attributeKey) {
+        this.attributes.remove(attributeKey);
     }
 }

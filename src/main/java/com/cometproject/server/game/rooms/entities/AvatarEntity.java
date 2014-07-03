@@ -6,11 +6,12 @@ import com.cometproject.server.game.rooms.avatars.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.utilities.attributes.Attributable;
 
 import java.util.List;
 import java.util.Map;
 
-public interface AvatarEntity {
+public interface AvatarEntity extends Attributable {
     public int getVirtualId();
 
     public Position3D getPosition();

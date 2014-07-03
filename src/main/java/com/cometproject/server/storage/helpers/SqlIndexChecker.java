@@ -32,7 +32,7 @@ public class SqlIndexChecker {
 
             while (rs.next()) {
                 if (rs.getString("Column_name").equals("user_id")) {
-                    System.out.println("Setting Items Index Column Successfully!");
+                    log.info("Setting Items Index Column Successfully!");
                     InventoryDao.ITEMS_USERID_INDEX = rs.getString("Key_name");
                     break;
                 }
