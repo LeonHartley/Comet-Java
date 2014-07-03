@@ -55,12 +55,12 @@ public class NetworkManager {
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer(0))
                 .option(ChannelOption.SO_BACKLOG, 50)
+                .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
                 .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)
                 .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 .option(ChannelOption.MESSAGE_SIZE_ESTIMATOR, new DefaultMessageSizeEstimator(256))
-                .option(ChannelOption.TCP_NODELAY, true)
-                .option(ChannelOption.SO_KEEPALIVE, true);
+                .option(ChannelOption.TCP_NODELAY, true);
 
         if (ports.contains(",")) {
             for (String s : ports.split(",")) {
