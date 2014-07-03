@@ -9,9 +9,8 @@ Current To-do List
 +   Finish Wired
 +   Groups
 +   Battle Banzai, Freeze, Football, Skateboard
-+   Finish Pets (& Horses
++   Finish Pets (& Horses)
 +   Trax
-*   Horse
 +   Report
 +   Promoted
 +   Mod-Tools
