@@ -1,4 +1,4 @@
-![](http://i.imgur.com/Pu05U2K.png)
+![](http://i.imgur.com/Pu05U2K.png =100x)
 
 Comet
 ==========
