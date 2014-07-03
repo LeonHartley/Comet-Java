@@ -12,10 +12,14 @@ public class GenericFloorItem extends RoomItemFloor {
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         if (!isWiredTrigger) {
-            if (!(entity instanceof PlayerEntity))
+            if (!(entity instanceof PlayerEntity)) {
                 return;
+            }
 
-            if (!entity.getRoom().getRights().hasRights(((PlayerEntity) entity).getPlayerId())) {
+            PlayerEntity pEntity = (PlayerEntity)entity;
+
+            if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
+                    || !pEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
                 return;
             }
         }

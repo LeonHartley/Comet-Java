@@ -29,7 +29,7 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
         }
 
         // Can't close gate when a user is on same tile?
-        if (item.getDefinition().getInteraction().equals("gate")) {
+        /*if (item.getDefinition().getInteraction().equals("gate")) {
             for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
                 if (room.getEntities().getEntitiesAt(tile.x, tile.y).size() > 0) {
                     return;
@@ -45,9 +45,11 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
                     return;
                 }
             }
-        }
+        }*/
 
         item.onInteract(client.getPlayer().getEntity(), msg.readInt(), false);
+
+        // to-do: move below into each onInteract or turn onInteract into a boolean (i prefer the latter) no biggie for now
 
         List<Position3D> tilesToUpdate = new ArrayList<>();
         tilesToUpdate.add(new Position3D(item.getX(), item.getY(), 0d));
