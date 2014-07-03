@@ -19,7 +19,7 @@ public class FollowFriendMessageEvent implements IEvent {
 
         Room room = friend.getClient().getPlayer().getEntity().getRoom();
 
-        if (!room.getData().getAccess().equals("open") && room.getData().getOwnerId() != client.getPlayer().getId()) {
+        if (room.getData() == null || !room.getData().getAccess().equals("open") && room.getData().getOwnerId() != client.getPlayer().getId()) {
             //fuck it yolo
             client.send(HotelViewMessageComposer.compose());
             return;

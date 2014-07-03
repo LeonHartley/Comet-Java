@@ -6,6 +6,7 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.items.types.GenericFloorItem;
 import com.cometproject.server.game.rooms.items.types.GenericWallItem;
 import com.cometproject.server.game.rooms.items.types.floor.*;
+import com.cometproject.server.game.rooms.items.types.floor.banzai.BanzaiTeleporterFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.hollywood.HaloTileFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.summer.SummerShowerFloorItem;
@@ -33,33 +34,43 @@ public class RoomItemFactory {
             case "roller": {
                 return new RollerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "dice": {
                 return new DiceFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "teleport": {
                 return new TeleporterFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "onewaygate": {
                 return new OneWayGateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "ball": {
                 return new BallFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "roombg": {
                 return new BackgroundTonerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "bed": {
                 return new BedFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "vendingmachine": {
                 return new VendingMachineFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "mannequin": {
                 return new MannequinFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "beach_shower": {
                 return new SummerShowerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "halo_tile": {
                 return new HaloTileFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
@@ -68,12 +79,15 @@ public class RoomItemFactory {
             case "wf_act_moverotate": {
                 return new WiredActionMoveRotate(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "wf_act_moveuser": {
                 return new WiredActionMoveUser(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "wf_act_saymsg": {
                 return new WiredActionShowMessage(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "wf_act_togglefurni": {
                 return new WiredActionToggleFurni(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
@@ -81,17 +95,25 @@ public class RoomItemFactory {
             case "wf_trg_onsay": {
                 return new WiredTriggerOnSay(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "wf_trg_enterroom": {
                 return new WiredTriggerEnterRoom(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "wf_trg_onfurni": {
                 return new WiredTriggerOnFurni(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
+
             case "wf_trg_offfurni": {
                 return new WiredTriggerOffFurni(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
             case "wf_trg_timer": {
                 return new WiredTriggerTimer(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            }
+
+            // Banzai
+            case "bb_teleport": {
+                return new BanzaiTeleporterFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
 
             default: {

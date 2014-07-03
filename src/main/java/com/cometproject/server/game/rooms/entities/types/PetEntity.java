@@ -9,12 +9,17 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.pets.PetDao;
+import javolution.util.FastMap;
+
+import java.util.Map;
 
 public class PetEntity extends GenericEntity {
     private PetData data;
     private PetAI ai;
 
     private int cycleCount = 0;
+
+    private Map<String, Object> attributes = new FastMap<>();
 
     public PetEntity(PetData data, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
@@ -45,6 +50,7 @@ public class PetEntity extends GenericEntity {
 
         this.getRoom().getEntities().removeEntity(this);
         this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
+        this.attributes.clear();
     }
 
     @Override
@@ -62,6 +68,8 @@ public class PetEntity extends GenericEntity {
         PetDao.savePet(this.getPosition().getX(), this.getPosition().getY(), this.data.getId());
 
         this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
+
+        this.attributes.clear();
         return true;
     }
 
@@ -135,5 +143,29 @@ public class PetEntity extends GenericEntity {
 
     public BotAI getAI() {
         return ai;
+    }
+
+    @Override
+    public void setAttribute(String attributeKey, Object attributeValue) {
+        if (this.attributes.containsKey(attributeKey)) {
+            this.attributes.replace(attributeKey, attributeValue);
+        } else {
+            this.attributes.put(attributeKey, attributeValue);
+        }
+    }
+
+    @Override
+    public Object getAttribute(String attributeKey) {
+        return this.attributes.get(attributeKey);
+    }
+
+    @Override
+    public boolean hasAttribute(String attributeKey) {
+        return this.attributes.containsKey(attributeKey);
+    }
+
+    @Override
+    public void removeAttribute(String attributeKey) {
+        this.attributes.remove(attributeKey);
     }
 }

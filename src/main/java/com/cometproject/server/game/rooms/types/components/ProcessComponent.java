@@ -139,6 +139,7 @@ public class ProcessComponent implements CometTask {
         }
 
         this.processFuture = Comet.getServer().getThreadManagement().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
+        this.active = true;
 
         log.debug("Processing started");
     }
@@ -190,6 +191,9 @@ public class ProcessComponent implements CometTask {
                 }
             }
 
+            entity.updateAndSetPosition(null);
+            entity.setPosition(newPosition);
+
             // Step-on
             RoomItemFloor oldItem = null;
             int index0 = 0;
@@ -216,9 +220,6 @@ public class ProcessComponent implements CometTask {
                 if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
                 }
             }
-
-            entity.updateAndSetPosition(null);
-            entity.setPosition(newPosition);
         }
 
         // Needs remove...

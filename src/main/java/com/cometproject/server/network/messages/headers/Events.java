@@ -14,6 +14,7 @@ public class Events {
     public static short ApplySignMessageEvent = 2156;
     public static short BeginTradeMessageEvent = 585;
     public static short CancelTradeMessageEvent = 428;
+    public static short CancelTradeButtonMessageEvent = 780;
     public static short CanCreateRoomMessageEvent = 2569;
     public static short CatalogData1MessageEvent = 3219;
     public static short CatalogData2MessageEvent = 3774;
