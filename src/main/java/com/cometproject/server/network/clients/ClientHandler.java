@@ -53,15 +53,14 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        /*if (evt instanceof IdleStateEvent) {
+        if (evt instanceof IdleStateEvent) {
             IdleStateEvent e = (IdleStateEvent) evt;
             if (e.state() == IdleState.READER_IDLE) {
-                log.error("Client disconnected for being idle");
                 ctx.disconnect();
             } else if (e.state() == IdleState.WRITER_IDLE) {
                 ctx.writeAndFlush(PingMessageComposer.compose());
             }
-        }*/
+        }
 
         if (evt instanceof ChannelInputShutdownEvent) {
             ctx.close();

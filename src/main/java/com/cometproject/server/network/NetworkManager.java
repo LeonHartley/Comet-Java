@@ -54,7 +54,7 @@ public class NetworkManager {
                 .group(acceptGroup, ioGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer(0))
-                .option(ChannelOption.SO_BACKLOG, 500)
+                .option(ChannelOption.SO_BACKLOG, 50)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
                 .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)
                 .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
