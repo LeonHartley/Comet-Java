@@ -37,7 +37,7 @@ public class MoveRotateEffect extends WiredEffect {
             Position3D newPosition = handleMovement(new Position3D(itemInstance.getX(), itemInstance.getY(), itemInstance.getHeight()), data.getMovement());
             int rotation = handleRotation(itemInstance.getRotation(), data.getRotation());
 
-            float height = 0;
+            double height = 0;
 
             boolean isSameTile = true;
             if (previousPosition.getX() != newPosition.getX() || previousPosition.getY() != newPosition.getY()) {

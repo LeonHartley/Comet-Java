@@ -33,7 +33,7 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
             try {
                 RoomItemFloor item = room.getItems().getFloorItem(id);
 
-                float height = (float) client.getPlayer().getEntity().getRoom().getModel().getSquareHeight()[x][y];
+                double height = client.getPlayer().getEntity().getRoom().getModel().getSquareHeight()[x][y];
 
                 List<RoomItemFloor> floorItemsAt = room.getItems().getItemsOnSquare(x, y);
 

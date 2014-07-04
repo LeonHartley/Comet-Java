@@ -247,14 +247,6 @@ public abstract class RoomItemFloor extends RoomItem {
         }
     }
 
-    /*public void sendData(String data) {
-        Room r = this.getRoom();
-
-        if (r != null) {
-            r.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(this.getId(), data));
-        }
-    }*/
-
     public double getHeight() {
         return this.height;
     }
@@ -275,7 +267,7 @@ public abstract class RoomItemFloor extends RoomItem {
         this.rotation = rot;
     }
 
-    public void setHeight(float height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
