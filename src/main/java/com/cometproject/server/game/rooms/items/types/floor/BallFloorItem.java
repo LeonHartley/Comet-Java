@@ -37,7 +37,7 @@ public final class BallFloorItem extends RoomItemFloor {
             newPosition = calculatePosition(this.getX(), this.getY(), entity.getBodyRotation(), true);
         }
 
-        newPosition.setZ((float) this.getRoom().getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()]);
+        newPosition.setZ(this.getRoom().getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()]);
 
         roll(this, currentPosition, newPosition, entity.getRoom());
 
@@ -45,7 +45,7 @@ public final class BallFloorItem extends RoomItemFloor {
         this.setX(newPosition.getX());
         this.setY(newPosition.getY());
 
-        this.setHeight((float) newPosition.getZ());
+        this.setHeight(newPosition.getZ());
 
         this.isRolling = false;
     }
@@ -198,7 +198,7 @@ public final class BallFloorItem extends RoomItemFloor {
 
             this.setX(newPosition.getX());
             this.setY(newPosition.getY());
-            this.setHeight((float) newPosition.getZ());
+            this.setHeight(newPosition.getZ());
         }
 
         this.rollingPositions.remove(newPosition);
