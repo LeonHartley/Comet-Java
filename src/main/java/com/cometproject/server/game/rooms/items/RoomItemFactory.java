@@ -47,6 +47,10 @@ public class RoomItemFactory {
                 return new OneWayGateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
 
+            case "gate": {
+                return new GateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            }
+
             case "ball": {
                 return new BallFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
