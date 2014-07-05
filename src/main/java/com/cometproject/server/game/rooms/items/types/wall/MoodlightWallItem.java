@@ -42,7 +42,7 @@ public class MoodlightWallItem extends RoomItemWall {
         }
     }
 
-    public boolean isValidColour(String colour) {
+    public static boolean isValidColour(String colour) {
         switch (colour) {
             case "#000000":
             case "#0053F7":
@@ -60,8 +60,8 @@ public class MoodlightWallItem extends RoomItemWall {
 
     public String generateExtraData() {
         MoodlightPresetData preset = (this.getMoodlightData().getPresets().size() >= this.getMoodlightData().getActivePreset())
-                ? this.getMoodlightData().getPresets().get(this.getMoodlightData().getActivePreset())
-                : new MoodlightPresetData(true, "#F2F851", 255);
+                ? this.getMoodlightData().getPresets().get(this.getMoodlightData().getActivePreset() - 1)
+                : new MoodlightPresetData(true, "#000000", 255);
 
         StringBuilder sb = new StringBuilder();
         if (this.getMoodlightData().isEnabled()) {

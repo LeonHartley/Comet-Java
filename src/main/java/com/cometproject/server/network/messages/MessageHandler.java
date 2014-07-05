@@ -252,8 +252,9 @@ public final class MessageHandler {
         this.getMessages().put(Events.SaveBrandingMessageEvent, new SaveBrandingMessageEvent());
         this.getMessages().put(Events.ChangeWallItemStateMessageEvent, new ChangeWallItemStateMessageEvent());
         this.getMessages().put(Events.OpenGiftMessageEvent, new OpenGiftMessageEvent());
-        //this.getMessages().put(Events.UseMoodlightMessageEvent, new UseMoodlightMessageEvent());
-        //this.getMessages().put(Events.ToggleMoodlightMessageEvent, new ToggleMoodlightMessageEvent());
+        this.getMessages().put(Events.UseMoodlightMessageEvent, new UseMoodlightMessageEvent());
+        this.getMessages().put(Events.ToggleMoodlightMessageEvent, new ToggleMoodlightMessageEvent());
+        this.getMessages().put(Events.UpdateMoodlightMessageEvent, new UpdateMoodlightMessageEvent());
     }
 
     public void registerCatalog() {

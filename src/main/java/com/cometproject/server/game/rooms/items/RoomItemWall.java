@@ -7,10 +7,14 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateWallIt
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
+import java.lang.ref.WeakReference;
+
 public abstract class RoomItemWall extends RoomItem {
     private int roomId;
     private String position;
     private String extraData;
+
+    private WeakReference<Room> room;
 
     public RoomItemWall(int id, int itemId, int roomId, int owner, String position, String data) {
         this.id = id;
@@ -58,7 +62,17 @@ public abstract class RoomItemWall extends RoomItem {
     }
 
     public Room getRoom() {
-        return CometManager.getRooms().get(this.roomId);
+        if (this.room == null) {
+            Room r = CometManager.getRooms().retrieve(this.roomId);
+
+            if (r == null) {
+                return null;
+            }
+
+            this.room = new WeakReference<>(r);
+        }
+
+        return this.room.get();
     }
 
     @Override

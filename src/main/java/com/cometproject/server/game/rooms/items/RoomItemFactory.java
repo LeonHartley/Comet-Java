@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.items.types.floor.banzai.BanzaiTelepor
 import com.cometproject.server.game.rooms.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.hollywood.HaloTileFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.summer.SummerShowerFloorItem;
+import com.cometproject.server.game.rooms.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionMoveRotate;
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionMoveUser;
@@ -136,7 +137,9 @@ public class RoomItemFactory {
             case "habbowheel": {
                 return new WheelWallItem(id, baseId, roomId, owner, position, data);
             }
-            //case "dimmer": { return new MoodlightWallItem(id, baseId, roomId, owner, position, data); }
+            case "dimmer": {
+                return new MoodlightWallItem(id, baseId, roomId, owner, position, data);
+            }
             default: {
                 return new GenericWallItem(id, baseId, roomId, owner, position, data);
             }

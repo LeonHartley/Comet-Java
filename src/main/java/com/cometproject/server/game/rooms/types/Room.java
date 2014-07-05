@@ -35,6 +35,7 @@ public class Room implements Attributable {
 
     private boolean isRoomMuted = false;
     private boolean isDisposed = false;
+    private boolean isLoaded = false;
 
     public static boolean useCycleForItems = false;
     public static boolean useCycleForEntities = false;
@@ -46,11 +47,7 @@ public class Room implements Attributable {
 
     public Room(RoomData data) {
         this.id = data.getId();
-
         this.log = Logger.getLogger("Room \"" + this.getData().getName() + "\"");
-
-        // Now we auto load the room data instead of calling it manually!
-        this.load();
     }
 
     public boolean needsRemoving() {
@@ -86,6 +83,13 @@ public class Room implements Attributable {
         }
 
         return false;
+    }
+
+    public void loadRoom() {
+        if (this.isLoaded) { return; }
+        this.isLoaded = true;
+
+        this.load();
     }
 
     private void load() {
