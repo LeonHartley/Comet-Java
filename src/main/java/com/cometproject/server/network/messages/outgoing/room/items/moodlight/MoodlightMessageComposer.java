@@ -12,11 +12,11 @@ public class MoodlightMessageComposer {
         msg.writeInt(moodlight.getMoodlightData().getPresets().size());
         msg.writeInt(moodlight.getMoodlightData().getActivePreset());
 
-        int id = 0;
+        int id = 1;
 
         for (MoodlightPresetData data : moodlight.getMoodlightData().getPresets()) {
             msg.writeInt(id++);
-            msg.writeInt(data.backgroundOnly ? 1 : 2);
+            msg.writeInt(data.backgroundOnly ? 2 : 1);
             msg.writeString(data.colour);
             msg.writeInt(data.intensity);
         }

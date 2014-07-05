@@ -26,7 +26,7 @@
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.6" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.31" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.20.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.21.Final" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.3" level="project" />
     <orderEntry type="library" name="Maven: org.javolution:javolution-core-java:6.1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.osgi:org.osgi.core:4.3.1" level="project" />

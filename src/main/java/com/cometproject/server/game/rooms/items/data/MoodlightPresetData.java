@@ -5,9 +5,6 @@ public class MoodlightPresetData {
     public String colour;
     public int intensity;
 
-    public MoodlightPresetData() {
-    }
-
     public MoodlightPresetData(boolean backgroundOnly, String colour, int intensity) {
         this.backgroundOnly = backgroundOnly;
         this.colour = colour;

@@ -52,10 +52,6 @@ public class RoomManager {
         }
 
         Room instance = new Room(data);
-
-        // attributes
-        instance.setAttribute("loadTime", System.currentTimeMillis());
-
         return instance;
     }
 
@@ -118,6 +114,12 @@ public class RoomManager {
         return null;
     }
 
+    public Room retrieve(int id) {
+        return this.getRoomInstances().containsKey(id)
+                ? this.getRoomInstances().get(id)
+                : null;
+    }
+
     public Room get(int id) {
         if (this.getRoomInstances().containsKey(id)) {
            Room r = this.getRoomInstances().get(id);
@@ -135,11 +137,14 @@ public class RoomManager {
 
         if (room == null) {
             log.warn("There was a problem loading room: " + id + ", data was null");
+            return null;
         }
 
-        if (room != null) {
-            this.roomInstances.put(room.getId(), room);
-        }
+        this.roomInstances.put(room.getId(), room);
+        room.loadRoom();
+
+        // attributes
+        room.setAttribute("loadTime", System.currentTimeMillis());
 
         return room;
     }

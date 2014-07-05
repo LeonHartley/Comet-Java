@@ -13,6 +13,15 @@ public class MoodlightData {
         this.presets = presets;
     }
 
+    public void updatePreset(int presetIndex, boolean bgOnly, String color, int intensity) {
+        if (presets.get(presetIndex) == null) { return; }
+        MoodlightPresetData data = presets.get(presetIndex);
+
+        data.backgroundOnly = bgOnly;
+        data.colour = color;
+        data.intensity = intensity;
+    }
+
     public List<MoodlightPresetData> getPresets() {
         return presets;
     }
