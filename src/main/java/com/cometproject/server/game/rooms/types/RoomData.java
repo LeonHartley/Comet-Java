@@ -106,7 +106,6 @@ public class RoomData {
     }
 
     public void dispose() {
-        Arrays.fill(this.tags, null);
         this.decorations.clear();
     }
 
