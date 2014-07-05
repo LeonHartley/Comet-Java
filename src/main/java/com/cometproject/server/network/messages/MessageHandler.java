@@ -23,6 +23,7 @@ import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArt
 import com.cometproject.server.network.messages.incoming.messenger.*;
 import com.cometproject.server.network.messages.incoming.moderation.*;
 import com.cometproject.server.network.messages.incoming.navigator.*;
+import com.cometproject.server.network.messages.incoming.quests.OpenQuestsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.AnswerDoorbellMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.action.*;
 import com.cometproject.server.network.messages.incoming.room.bots.BotConfigMessageEvent;
@@ -94,6 +95,7 @@ public final class MessageHandler {
         this.registerCatalog();
         this.registerPets();
         this.registerLanding();
+        this.registerQuests();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
     }
@@ -273,6 +275,10 @@ public final class MessageHandler {
     public void registerLanding() {
         this.getMessages().put(Events.RefreshPromoArticlesMessageEvent, new RefreshPromoArticlesMessageEvent());
         this.getMessages().put(Events.HotelViewItemMessageEvent, new HotelViewItemMessageEvent());
+    }
+
+    public void registerQuests() {
+        //this.getMessages().put(Events.OpenQuestsMessageEvent, new OpenQuestsMessageEvent());
     }
 
     private static final short PING_EVENT = 3555;
