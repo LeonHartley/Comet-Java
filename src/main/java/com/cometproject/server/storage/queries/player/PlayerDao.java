@@ -110,22 +110,24 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM player_settings WHERE player_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM player_settings WHERE player_id = ? LIMIT 1;", sqlConnection);
             preparedStatement.setInt(1, id);
 
             resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 return new PlayerSettings(resultSet);
+            } else {
+                // close old statement
+                SqlHelper.closeSilently(preparedStatement);
+
+                preparedStatement = SqlHelper.prepare("INSERT into player_settings (`player_id`) VALUES(?)", sqlConnection);
+                preparedStatement.setInt(1, id);
+
+                SqlHelper.executeStatementSilently(preparedStatement, false);
+
+                return new PlayerSettings();
             }
-
-            SqlHelper.closeSilently(preparedStatement);
-
-            preparedStatement = SqlHelper.prepare("INSERT into player_settings (`player_id`) VALUES(?)", sqlConnection);
-            preparedStatement.setInt(1, id);
-
-            SqlHelper.executeStatementSilently(preparedStatement, false);
-            return new PlayerSettings();
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
@@ -138,8 +140,6 @@ public class PlayerDao {
     }
 
     public static PlayerStatistics getStatisticsById(int id) {
-        // TODO: Cache, cache, cache!
-
         Connection sqlConnection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
@@ -147,24 +147,24 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM player_stats WHERE player_id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM player_stats WHERE player_id = ? LIMIT 1;", sqlConnection);
             preparedStatement.setInt(1, id);
 
             resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 return new PlayerStatistics(resultSet);
+            } else {
+                // close old statement
+                SqlHelper.closeSilently(preparedStatement);
+
+                preparedStatement = SqlHelper.prepare("INSERT into player_stats (`player_id`) VALUES(?)", sqlConnection);
+                preparedStatement.setInt(1, id);
+
+                SqlHelper.executeStatementSilently(preparedStatement, false);
+
+                return new PlayerStatistics(id);
             }
-
-            SqlHelper.closeSilently(preparedStatement);
-
-            preparedStatement = SqlHelper.prepare("INSERT into player_stats (`player_id`) VALUES(?)", sqlConnection);
-            preparedStatement.setInt(1, id);
-
-            SqlHelper.executeStatementSilently(preparedStatement, false);
-
-            // TODO: Cache result ;-)
-            return new PlayerStatistics(id);
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
@@ -339,6 +339,46 @@ public class PlayerDao {
 
             preparedStatement = SqlHelper.prepare("UPDATE player_settings SET wardrobe = ? WHERE player_id = ?", sqlConnection);
             preparedStatement.setString(1, wardrobeData);
+            preparedStatement.setInt(2, userId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void saveVolume(String volumeData, int userId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE player_settings SET volume = ? WHERE player_id = ?", sqlConnection);
+            preparedStatement.setString(1, volumeData);
+            preparedStatement.setInt(2, userId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void saveChatStyle(boolean useOldChat, int userId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE player_settings SET chat_oldstyle = ? WHERE player_id = ?", sqlConnection);
+            preparedStatement.setString(1, useOldChat ? "1" : "0");
             preparedStatement.setInt(2, userId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);

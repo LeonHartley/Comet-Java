@@ -47,9 +47,7 @@ import com.cometproject.server.network.messages.incoming.room.pets.RemovePetMess
 import com.cometproject.server.network.messages.incoming.room.settings.*;
 import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.details.ChangeHomeRoomMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.details.ChangeMottoMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.details.UserInformationMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.details.*;
 import com.cometproject.server.network.messages.incoming.user.inventory.BadgeInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.BotInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.OpenInventoryMessageEvent;
@@ -165,6 +163,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.LoadPlaylistMessageEvent, new LoadPlaylistMessageEvent());
         this.getMessages().put(Events.PlayVideoMessageEvent, new PlayVideoMessageEvent());
         this.getMessages().put(Events.NextVideoMessageEvent, new NextVideoMessageEvent());
+        this.getMessages().put(Events.UpdateAudioSettingsMessageEvent, new UpdateAudioSettingsMessageEvent());
+        this.getMessages().put(Events.UpdateChatStyleMessageEvent, new UpdateChatStyleMessageEvent());
     }
 
     public void registerBots() {

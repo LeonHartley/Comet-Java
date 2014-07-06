@@ -136,6 +136,8 @@ public class Events {
     public static short ModToolUserKickMessageEvent = 1725;
     public static short PromotedRoomsMessageEvent = 1372;
     public static short OpenQuestsMessageEvent = 251;
+    public static short UpdateAudioSettingsMessageEvent = 2625;
+    public static short UpdateChatStyleMessageEvent = 2784;
 
     public static String valueOfId(int i) {
         Events e = new Events();
