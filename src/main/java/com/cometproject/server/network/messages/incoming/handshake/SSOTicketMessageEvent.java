@@ -10,6 +10,7 @@ import com.cometproject.server.network.messages.outgoing.handshake.LoginMessageC
 import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.RoomCategoriesMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.details.LoadVolumeSettingsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -115,7 +116,8 @@ public class SSOTicketMessageEvent implements IEvent {
                 sendQueue(client.getPlayer().composeCreditBalance()).
                 sendQueue(client.getPlayer().composeCurrenciesBalance()).
                 sendQueue(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank())).
-                sendQueue(MotdNotificationComposer.compose());
+                sendQueue(MotdNotificationComposer.compose())
+                .sendQueue(LoadVolumeSettingsMessageComposer.compose(player));
 
         if (player.getSettings().getHomeRoom() > 0) {
             client.sendQueue(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));

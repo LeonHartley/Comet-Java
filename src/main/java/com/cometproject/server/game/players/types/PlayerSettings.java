@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.types;
 
 import com.cometproject.server.game.players.components.types.PlaylistItem;
+import com.cometproject.server.game.players.components.types.VolumeData;
 import com.cometproject.server.game.players.components.types.WardrobeItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerSettings {
-    private int[] volumes;
+    private VolumeData volumes;
 
     private List<WardrobeItem> wardrobe;
     private List<PlaylistItem> playlist;
@@ -22,13 +23,15 @@ public class PlayerSettings {
     private boolean allowTrade;
 
     private int homeRoom;
+    private boolean useOldChat;
 
     public PlayerSettings(ResultSet data) throws SQLException {
-        String[] vol = data.getString("volume").split(",");
-        this.volumes = new int[vol.length];
+        String volumeData = data.getString("volume");
 
-        for (int i = 0; i < this.volumes.length; i++) {
-            this.volumes[i] = Integer.parseInt(vol[i]);
+        if (volumeData.startsWith("{")) {
+            volumes = new Gson().fromJson(volumeData, VolumeData.class);
+        } else {
+            volumes = new VolumeData(100, 100, 100);
         }
 
         this.hideOnline = data.getString("hide_online").equals("1");
@@ -55,10 +58,12 @@ public class PlayerSettings {
             playlist = new Gson().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
             }.getType());
         }
+
+        this.useOldChat = data.getString("chat_oldstyle").equals("1");
     }
 
     public PlayerSettings() {
-        this.volumes = new int[]{100, 100, 100};
+        this.volumes = new VolumeData(100, 100, 100);
         this.hideInRoom = false;
         this.homeRoom = 0;
         this.hideOnline = false;
@@ -66,9 +71,10 @@ public class PlayerSettings {
         this.allowTrade = true;
         this.wardrobe = new ArrayList<>();
         this.playlist = new ArrayList<>();
+        this.useOldChat = false;
     }
 
-    public int[] getVolumes() {
+    public VolumeData getVolumes() {
         return this.volumes;
     }
 
@@ -106,5 +112,13 @@ public class PlayerSettings {
 
     public List<PlaylistItem> getPlaylist() {
         return playlist;
+    }
+
+    public boolean isUseOldChat() {
+        return this.useOldChat;
+    }
+
+    public void setUseOldChat(boolean useOldChat) {
+        this.useOldChat = useOldChat;
     }
 }
