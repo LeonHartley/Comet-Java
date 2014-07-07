@@ -147,13 +147,13 @@ public class Comet {
 
                 isRunning = false;
 
-                try {
+                /*try {
                     for (Room room : CometManager.getRooms().getRoomInstances().values()) {
                         room.dispose();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
 
                 CometManager.getRooms().getFilter().save();
                 LogQueries.updateRoomEntries();

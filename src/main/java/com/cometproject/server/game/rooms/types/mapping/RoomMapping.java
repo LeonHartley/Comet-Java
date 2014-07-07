@@ -38,14 +38,6 @@ public class RoomMapping {
         }
     }
 
-    public void dispose() {
-        for (TileInstance[] tile : this.tiles) {
-            Arrays.fill(tile, null);
-        }
-
-        Arrays.fill(this.tiles, null);
-    }
-
     public void updateTile(int x, int y) {
         if (this.tiles.length > x) {
             if (tiles[x].length > y)

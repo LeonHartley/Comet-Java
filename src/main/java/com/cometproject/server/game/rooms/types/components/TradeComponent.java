@@ -8,23 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TradeComponent {
-    private Room room;
-
     private List<Trade> trades;
 
     public TradeComponent(Room room) {
-        this.room = room;
-
         this.trades = new ArrayList<>();
-    }
-
-    public void dispose() {
-        for (Trade trade : trades) {
-            if (trade != null)
-                trade.dispose();
-        }
-
-        this.trades.clear();
     }
 
     public void add(Trade trade) {
@@ -43,7 +30,6 @@ public class TradeComponent {
     }
 
     public void remove(Trade trade) {
-        trade.dispose();
         this.trades.remove(trade);
     }
 

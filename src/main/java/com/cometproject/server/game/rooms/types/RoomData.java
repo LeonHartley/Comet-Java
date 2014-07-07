@@ -105,10 +105,6 @@ public class RoomData {
         RoomDao.updateRoom(id, name, description, ownerId, owner, category, maxUsers, access, password, score, tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1), model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, allowPets, heightmap);
     }
 
-    public void dispose() {
-        this.decorations.clear();
-    }
-
     public int getId() {
         return this.id;
     }

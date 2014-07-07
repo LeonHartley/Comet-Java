@@ -40,7 +40,7 @@ public class ItemsComponent {
         RoomItemDao.getItems(this.room.getId(), this.floorItems, this.wallItems);
     }
 
-    public void callOnLoad() {
+    public void onLoaded() {
         for (RoomItemFloor floorItem : floorItems) {
             floorItem.onLoad();
         }
@@ -58,11 +58,6 @@ public class ItemsComponent {
         for (RoomItemWall wallItem : wallItems) {
             wallItem.onUnload();
         }
-
-        this.floorItems.clear();
-        this.wallItems.clear();
-
-        this.room = null;
     }
 
     public boolean setMoodlight(MoodlightWallItem moodlight) {

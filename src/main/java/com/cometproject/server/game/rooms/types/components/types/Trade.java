@@ -67,19 +67,6 @@ public class Trade {
     }
 
     /**
-     * Dispose all objects related with the trade
-     */
-    public void dispose() {
-        user1Items.clear();
-        user2Items.clear();
-        stage = 0;
-        user1 = null;
-        user2 = null;
-        user1Items = null;
-        user2Items = null;
-    }
-
-    /**
      * Cancel the trade
      * @param userId The user which is cancelling the trade
      */

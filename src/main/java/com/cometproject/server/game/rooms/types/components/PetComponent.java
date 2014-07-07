@@ -32,10 +32,6 @@ public class PetComponent {
         return petEntity;
     }
 
-    public void dispose() {
-        this.room = null;
-    }
-
     public Room getRoom() {
         return this.room;
     }

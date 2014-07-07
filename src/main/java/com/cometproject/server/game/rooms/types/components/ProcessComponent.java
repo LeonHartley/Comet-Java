@@ -425,13 +425,6 @@ public class ProcessComponent implements CometTask {
         }
     }
 
-    public void dispose() {
-        this.active = false;
-
-        if(this.processFuture != null)
-            this.processFuture.cancel(false);
-    }
-
     public boolean isActive() {
         return this.active;
     }
