@@ -21,12 +21,6 @@ public class GameComponent {
         this.instance = null;
     }
 
-    public void dispose() {
-        if (this.instance != null) {
-            this.instance.dispose();
-        }
-    }
-
     public void createNew(GameType game) {
         if (game == GameType.BANZAI) {
             this.instance = new BanzaiGame(this.room);

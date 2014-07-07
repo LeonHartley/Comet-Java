@@ -53,10 +53,6 @@ public abstract class RoomGame implements CometTask {
         }
     }
 
-    public void dispose() {
-        this.teams.clear();
-    }
-
     public void stop() {
         if (this.active && this.future != null) {
             this.future.cancel(false);
@@ -64,8 +60,6 @@ public abstract class RoomGame implements CometTask {
             this.active = false;
             this.gameLength = 0;
             this.timer = 0;
-
-            this.dispose();
         }
     }
 

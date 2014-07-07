@@ -11,14 +11,14 @@ import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Room implements Attributable {
+    public static final boolean useCycleForItems = false;
+    public static final boolean useCycleForEntities = false;
+
     public Logger log;
 
-    private int id;
-
+    private RoomData data;
     private RoomModel model;
     private RoomMapping mapping;
 
@@ -33,62 +33,21 @@ public class Room implements Attributable {
     private GameComponent game;
     private EntityComponent entities;
 
-    private boolean isRoomMuted = false;
-    private boolean isDisposed = false;
-
-    public static boolean useCycleForItems = false;
-    public static boolean useCycleForEntities = false;
-
-    private AtomicBoolean needsRemoving = new AtomicBoolean(false);
-    private AtomicInteger idleTicks = new AtomicInteger(0);
-
     private Map<String, Object> attributes;
 
+    private boolean isDisposed = false;
+    private int idleTicks = 0;
+
     public Room(RoomData data) {
-        this.id = data.getId();
+        this.data = data;
         this.log = Logger.getLogger("Room \"" + this.getData().getName() + "\"");
-
-        this.load();
     }
 
-    public boolean needsRemoving() {
-        return this.needsRemoving.get();
-    }
-
-    public void setNeedsRemoving() {
-        this.needsRemoving.set(true);
-    }
-
-    public void unIdleIfRequired() {
-        if (this.entities.playerCount() > 0) {
-            if (this.idleTicks.get() > 0) {
-                this.idleTicks.set(0);
-            }
-
-            if (this.needsRemoving.get()) {
-                this.needsRemoving.set(false);
-            }
-        }
-    }
-
-    public boolean isIdle() {
-        if (this.needsRemoving.get()) { return true; }
-
-        if (this.idleTicks.get() < 10 && this.entities.playerCount() == 0) {
-            this.idleTicks.incrementAndGet();
-        } else if (this.idleTicks.get() > 0 && this.entities.playerCount() > 0) {
-            this.idleTicks.set(0);
-        } else if (this.idleTicks.get() >= 10) {
-            this.needsRemoving.set(true);
-            return true;
-        }
-
-        return false;
-    }
-
-    private void load() {
+    public Room load() {
         if (this.getData().getHeightmap() != null) {
             this.model = new DynamicRoomModel("dynamic_heightmap", this.getData().getHeightmap(), this.getModel().getDoorX(), this.getModel().getDoorY(), this.getModel().getDoorZ(), this.getModel().getDoorRotation());
+        } else {
+            this.model = CometManager.getRooms().getModel(this.getData().getModel());
         }
 
         this.attributes = new FastMap<>();
@@ -105,54 +64,56 @@ public class Room implements Attributable {
         this.bots = new BotComponent(this);
         this.pets = new PetComponent(this);
 
-        // Generate the mapping last
         this.mapping.init();
 
+        this.setAttribute("loadTime", System.currentTimeMillis());
+
         this.log.debug("Room loaded");
+        return this;
+    }
+
+    public boolean isIdle() {
+        if (this.idleTicks < 600 && this.getEntities().playerCount() > 0) {
+            this.idleTicks = 0;
+        } else {
+            if (this.idleTicks >= 600) {
+                return true;
+            } else {
+                this.idleTicks++;
+            }
+        }
+
+        return false;
+    }
+
+    public void setIdleNow() {
+        this.idleTicks = 600;
     }
 
     public void dispose() {
-        if (this.isDisposed) {
-            return;
-        }
-
+        if (this.isDisposed) { return; }
         this.isDisposed = true;
-
-        this.getData().save();
 
         this.process.stop();
         this.itemProcess.stop();
         this.game.stop();
 
-        this.itemProcess.dispose();
-        this.process.dispose();
         this.entities.dispose();
-        this.rights.dispose();
         this.items.dispose();
-        this.wired.dispose();
-        this.trade.dispose();
-        this.bots.dispose();
-        this.pets.dispose();
-        this.game.dispose();
-        this.mapping.dispose();
 
-        this.attributes.clear();
-
-        if (this.model instanceof DynamicRoomModel) {
-            this.model.dispose();
-        }
-
-        this.log.debug("Room disposed");
+        this.log.debug("Room has been disposed");
     }
 
     public void tick() {
-            this.wired.tick();
+        this.wired.tick();
 
-        if(useCycleForEntities && this.process != null)
+        if (useCycleForEntities && this.process != null) {
             this.process.tick();
+        }
 
-        if(useCycleForItems && this.itemProcess != null)
+        if (useCycleForItems && this.itemProcess != null) {
             this.itemProcess.tick();
+        }
     }
 
     @Override
@@ -177,6 +138,18 @@ public class Room implements Attributable {
     @Override
     public void removeAttribute(String attributeKey) {
         this.attributes.remove(attributeKey);
+    }
+
+    public int getId() {
+        return this.data.getId();
+    }
+
+    public RoomData getData() {
+        return this.data;
+    }
+
+    public RoomModel getModel() {
+        return this.model;
     }
 
     public ProcessComponent getProcess() {
@@ -223,31 +196,15 @@ public class Room implements Attributable {
         return this.mapping;
     }
 
-    public int getId() {
-        return this.id;
-    }
-
-    public RoomData getData() {
-        return CometManager.getRooms().getRoomData(this.id);
-    }
-
-    public RoomModel getModel() {
-        if(this.model == null)
-            return CometManager.getRooms().getModel(this.getData().getModel());
-
-        return this.model;
-    }
-
-    // TODO: remove below to attributes
     public boolean hasRoomMute() {
-        return this.isRoomMuted;
+        return this.attributes.containsKey("room_muted") && (boolean)this.attributes.get("room_muted");
     }
 
     public void setRoomMute(boolean mute) {
-        this.isRoomMuted = mute;
-    }
-
-    public boolean isDisposed() {
-        return isDisposed;
+        if (this.attributes.containsKey("room_muted")) {
+            this.attributes.replace("room_muted", mute);
+        } else {
+            this.attributes.put("room_muted", mute);
+        }
     }
 }

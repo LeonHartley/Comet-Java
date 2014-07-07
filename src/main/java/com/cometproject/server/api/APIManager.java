@@ -117,9 +117,7 @@ public class APIManager {
             List<RoomStats> activeRooms = new ArrayList<>();
 
             for(Room room : CometManager.getRooms().getRoomInstances().values()) {
-                if (!room.needsRemoving()) {
-                    activeRooms.add(new RoomStats(room));
-                }
+                activeRooms.add(new RoomStats(room));
             }
 
             return activeRooms;
@@ -164,7 +162,7 @@ public class APIManager {
                         room.getEntities().broadcastMessage(AdvancedAlertMessageComposer.compose(message));
                     }
 
-                    room.setNeedsRemoving();
+                    room.setIdleNow();
                     result.put("success", true);
                     break;
                 }

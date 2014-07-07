@@ -26,10 +26,6 @@ public class WiredComponent {
         this.squares = new FastSet<>();
     }
 
-    public void dispose() {
-        this.squares.clear();
-    }
-
     public boolean isWiredSquare(int x, int y) {
         for (WiredSquare square : this.squares) {
             if (square.getX() == x && square.getY() == y) {

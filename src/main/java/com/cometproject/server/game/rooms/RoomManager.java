@@ -26,7 +26,10 @@ public class RoomManager {
 
     private ConcurrentLRUCache<Integer, RoomData> roomDataInstances;
 
-    private FastMap<Integer, Room> roomInstances;
+    private FastMap<Integer, Room> loadedRoomInstances;
+    private FastMap<Integer, Room> unloadingRoomInstances;
+
+    private final Object syncObj = new Object();
 
     private Set<StaticRoomModel> models;
     private WordFilter filterManager;
@@ -35,61 +38,18 @@ public class RoomManager {
     private ChatEmotionsManager emotions;
 
     public RoomManager() {
+        this.roomDataInstances = new ConcurrentLRUCache<>(LRU_MAX_ENTRIES, LRU_MAX_LOWER_WATERMARK);
+
+        this.loadedRoomInstances = new FastMap<Integer, Room>().shared();
+        this.unloadingRoomInstances = new FastMap<Integer, Room>().shared();
+
         this.emotions = new ChatEmotionsManager();
         this.filterManager = new WordFilter();
-
-        this.roomDataInstances = new ConcurrentLRUCache<>(LRU_MAX_ENTRIES, LRU_MAX_LOWER_WATERMARK);
-        this.roomInstances = new FastMap<Integer, Room>().shared();
 
         this.globalCycle = new RoomCycle(Comet.getServer().getThreadManagement());
 
         this.loadModels();
-    }
-
-    private Room createRoomInstance(RoomData data) {
-        if (data == null) {
-            return null;
-        }
-
-        Room instance = new Room(data);
-
-        // attributes
-        instance.setAttribute("loadTime", System.currentTimeMillis());
-
-        return instance;
-    }
-
-
-    public void removeInstance(int roomId) {
-        if (!this.getRoomInstances().containsKey(roomId)) {
-            return;
-        }
-
-        Room room = this.getRoomInstances().get(roomId);
-
-        // Needs to check here also
-        if (!room.needsRemoving()) {
-            return;
-        }
-
-        if (!room.isDisposed()) {
-            room.dispose();
-        }
-
-        this.getRoomInstances().remove(roomId);
-    }
-
-    public void removeData(int roomId) {
-        if (!this.getRoomDataInstances().getMap().containsKey(roomId)) {
-            return;
-        }
-
-        RoomData data = this.getRoomDataInstances().get(roomId);
-
-        //clear the maps n shit
-        data.dispose();
-
-        this.roomDataInstances.remove(roomId);
+        this.globalCycle.start();
     }
 
     public void loadModels() {
@@ -118,15 +78,20 @@ public class RoomManager {
         return null;
     }
 
-    public Room retrieve(int id) {
-        return this.getRoomInstances().containsKey(id)
-                ? this.getRoomInstances().get(id)
-                : null;
-    }
+    /*private Room createRoomInstance(RoomData data) {
+        if (data == null) { return null; }
 
-    public Room get(int id) {
+        Room instance = new Room(data);
+
+        // attributes
+        instance.setAttribute("loadTime", System.currentTimeMillis());
+
+        return instance;
+    }*/
+
+    /*public Room get(int id) {
         if (this.getRoomInstances().containsKey(id)) {
-           Room r = this.getRoomInstances().get(id);
+            Room r = this.getRoomInstances().get(id);
 
             if (r.needsRemoving()) {
                 this.getRoomInstances().remove(id);
@@ -149,6 +114,39 @@ public class RoomManager {
         room.getItems().callOnLoad();
 
         return room;
+    }*/
+
+    public Room get(int id) {
+        if (this.getRoomInstances().containsKey(id)) {
+            return this.getRoomInstances().get(id);
+        }
+
+        synchronized (this.syncObj) {
+            if (this.getRoomInstances().containsKey(id)) {
+                return this.getRoomInstances().get(id);
+            }
+
+            RoomData data = this.getRoomData(id);
+
+            if (data == null) {
+                log.warn("There was a problem loading room: " + id + ", data was null");
+                return null;
+            }
+
+            try {
+                Room room = new Room(data).load();
+                this.loadedRoomInstances.put(id, room);
+
+                return room;
+            } finally {
+                this.finalizeRoomLoad(this.getRoomInstances().get(id));
+            }
+        }
+    }
+
+    private void finalizeRoomLoad(Room room) {
+        if (room == null) { return; }
+        room.getItems().onLoaded();
     }
 
     public RoomData getRoomData(int id) {
@@ -165,6 +163,57 @@ public class RoomManager {
         return roomData;
     }
 
+    public void unloadIdleRooms() {
+        for (Room room : this.unloadingRoomInstances.values()) {
+            room.dispose();
+        }
+
+        this.unloadingRoomInstances.clear();
+
+        synchronized (this.syncObj) {
+            List<Room> idleRooms = new ArrayList<>();
+
+            for (Room room : this.loadedRoomInstances.values()) {
+                if (room.isIdle()) {
+                    idleRooms.add(room);
+                }
+            }
+
+            for (Room room : idleRooms) {
+                this.loadedRoomInstances.remove(room.getId());
+                this.unloadingRoomInstances.put(room.getId(), room);
+            }
+        }
+    }
+
+    public void forceUnload(int id) {
+        if (this.loadedRoomInstances.containsKey(id)) {
+            this.loadedRoomInstances.remove(id).dispose();
+        }
+    }
+
+    /*public void removeInstance(int roomId) {
+        if (!this.getRoomInstances().containsKey(roomId)) {
+            return;
+        }
+
+        Room room = this.getRoomInstances().get(roomId);
+
+        if (!room.isDisposed()) {
+            room.dispose();
+        }
+
+        this.getRoomInstances().remove(roomId);
+    }*/
+
+    public void removeData(int roomId) {
+        if (!this.getRoomDataInstances().getMap().containsKey(roomId)) {
+            return;
+        }
+
+        this.getRoomInstances().remove(roomId);
+    }
+
     public void loadRoomsForUser(Player player) {
         player.getRooms().clear();
 
@@ -173,8 +222,8 @@ public class RoomManager {
         for (Map.Entry<Integer, RoomData> roomEntry : rooms.entrySet()) {
             player.getRooms().add(roomEntry.getKey());
 
-            if (!this.roomDataInstances.getMap().containsKey(roomEntry.getKey())) {
-                this.roomDataInstances.put(roomEntry.getKey(), roomEntry.getValue());
+            if (!this.getRoomDataInstances().getMap().containsKey(roomEntry.getKey())) {
+                this.getRoomDataInstances().put(roomEntry.getKey(), roomEntry.getValue());
             }
         }
     }
@@ -199,10 +248,8 @@ public class RoomManager {
         return rooms;
     }
 
-    public boolean isActive(int roomId) {
-        Room room = this.roomInstances.get(roomId);
-
-        return room != null && !room.isDisposed() && !room.needsRemoving();
+    public boolean isActive(int id) {
+        return this.getRoomInstances().containsKey(id);
     }
 
     public int createRoom(String name, String model, Session client) {
@@ -216,8 +263,8 @@ public class RoomManager {
     public List<RoomData> getRoomsByCategory(int category) {
         List<RoomData> rooms = new ArrayList<>();
 
-        for (Room room : this.roomInstances.values()) {
-            if (room == null || room.isDisposed() || room.needsRemoving() || (category != -1 && room.getData().getCategory().getId() != category)) {
+        for (Room room : this.getRoomInstances().values()) {
+            if (category != -1 && room.getData().getCategory().getId() != category) {
                 continue;
             }
 
@@ -227,27 +274,27 @@ public class RoomManager {
         return rooms;
     }
 
-    public ChatEmotionsManager getEmotions() {
+    public final ChatEmotionsManager getEmotions() {
         return this.emotions;
     }
 
-    public FastMap<Integer, Room> getRoomInstances() {
-        return this.roomInstances;
+    public final FastMap<Integer, Room> getRoomInstances() {
+        return this.loadedRoomInstances;
     }
 
-    public ConcurrentLRUCache<Integer, RoomData> getRoomDataInstances() {
+    public final ConcurrentLRUCache<Integer, RoomData> getRoomDataInstances() {
         return this.roomDataInstances;
     }
 
-    public Set<StaticRoomModel> getModels() {
+    public final Set<StaticRoomModel> getModels() {
         return this.models;
     }
 
-    public RoomCycle getGlobalCycle() {
+    public final RoomCycle getGlobalCycle() {
         return this.globalCycle;
     }
 
-    public WordFilter getFilter() {
+    public final WordFilter getFilter() {
         return filterManager;
     }
 }

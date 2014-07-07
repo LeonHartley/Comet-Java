@@ -222,7 +222,7 @@ public abstract class RoomItemFloor extends RoomItem {
 
     public Room getRoom() {
         if (this.room == null) {
-            Room r = CometManager.getRooms().retrieve(this.roomId);
+            Room r = CometManager.getRooms().get(this.roomId);
 
             if (r == null) {
                 return null;

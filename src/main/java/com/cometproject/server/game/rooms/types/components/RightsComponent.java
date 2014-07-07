@@ -27,11 +27,6 @@ public class RightsComponent {
         this.bannedUsers = new FastTable<RoomBan>().shared();
     }
 
-    public void dispose() {
-        this.rights.clear();
-        this.bannedUsers.clear();
-    }
-
     public boolean hasRights(int playerId) {
         return (this.room.getData().getOwnerId() == playerId) || (this.rights.contains(playerId));
     }

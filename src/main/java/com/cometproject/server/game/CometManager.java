@@ -49,8 +49,6 @@ public class CometManager {
         landingManager = new LandingManager();
         groupManager = new GroupManager();
         playerManager = new PlayerManager();
-
-        //StaticPlayerQueue.init(Comet.getServer().getThreadManagement());
     }
 
     public static void startCycle() {

@@ -68,11 +68,6 @@ public abstract class RoomModel {
         }
     }
 
-    public void dispose() {
-        Arrays.fill(this.squareHeight, null);
-        Arrays.fill(this.squareState, null);
-    }
-
     public String getId() {
         return this.name;
     }

@@ -7,20 +7,31 @@ import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class RoomCycle implements CometTask {
     private Logger log = Logger.getLogger(RoomCycle.class.getName());
 
+    private final static int PERIOD = 500;
+
+    private final CometThreadManagement threadManagement;
     private ScheduledFuture myFuture;
-    private boolean active;
 
     public RoomCycle(CometThreadManagement mgr) {
-        this.myFuture = mgr.executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
-        active = true;
+        this.threadManagement = mgr;
+    }
+
+    public void start() {
+        this.myFuture = this.threadManagement.executePeriodic(this, PERIOD, PERIOD, TimeUnit.MILLISECONDS);
+    }
+
+    public void stop() {
+        this.myFuture.cancel(false);
+    }
+
+    public boolean isActive() {
+        return (!this.myFuture.isCancelled());
     }
 
     @Override
@@ -28,41 +39,18 @@ public class RoomCycle implements CometTask {
         int flag = 450;
 
         try {
-            if (!this.isActive()) {
-                return;
-            }
-
             long start = System.currentTimeMillis();
 
-            if (CometManager.getRooms() == null) {
-                return;
-            }
-
-            List<Integer> roomsToDispose = new ArrayList<>();
+            // run this before ticking
+            CometManager.getRooms().unloadIdleRooms();
 
             for (Room room : CometManager.getRooms().getRoomInstances().values()) {
                 try {
-                    if (room.needsRemoving()) {
-                        roomsToDispose.add(room.getId());
-                        continue;
-                    }
-
-                    if (room.isIdle()) {
-                        room.setNeedsRemoving();
-                        continue;
-                    }
-
                     room.tick();
                 } catch (Exception e) {
                     log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
                 }
             }
-
-            for (int roomId : roomsToDispose) {
-                CometManager.getRooms().removeInstance(roomId);
-            }
-
-            roomsToDispose.clear();
 
             TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
 
@@ -72,18 +60,5 @@ public class RoomCycle implements CometTask {
         } catch (Exception e) {
             log.error("Error while cycling rooms", e);
         }
-    }
-
-    public void stop() {
-        this.setActive(false);
-        this.myFuture.cancel(false);
-    }
-
-    public boolean isActive() {
-        return this.active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 }
