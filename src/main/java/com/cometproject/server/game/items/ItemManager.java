@@ -13,12 +13,9 @@ public class ItemManager {
     private Logger log = Logger.getLogger(ItemManager.class.getName());
 
     private FastMap<Integer, ItemDefinition> itemDefinitions;
-    private Map<Integer, Integer> teleportPairs;
 
     public ItemManager() {
         this.itemDefinitions = new FastMap<>();
-        this.teleportPairs = new FastMap<>();
-
         this.loadItemDefinitions();
     }
 
@@ -37,29 +34,11 @@ public class ItemManager {
     }
 
     public int getTeleportPartner(int itemId) {
-        if (this.teleportPairs.containsKey(itemId)) {
-            return teleportPairs.get(itemId);
-        } else {
-            try {
-                int pairId = TeleporterDao.getPairId(itemId);
-                this.teleportPairs.put(itemId, pairId);
-                this.teleportPairs.put(pairId, itemId);
-
-                return pairId;
-            } catch (Exception e) {
-                log.error("Error while searching for teleport partner", e);
-            }
-        }
-
-        return 0;
+        return TeleporterDao.getPairId(itemId);
     }
 
     public int roomIdByItemId(int itemId) {
-        try {
-            return RoomItemDao.getRoomIdById(itemId);
-        } catch (Exception e) {
-            return 0;
-        }
+        return RoomItemDao.getRoomIdById(itemId);
     }
 
     public ItemDefinition getDefintionNullable(int itemId) {

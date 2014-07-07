@@ -21,15 +21,20 @@ import java.util.List;
 public class PlaceItemMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) {
+        if (client.getPlayer() == null || client.getPlayer().getEntity() == null) {
+            return;
+        }
+
         String[] parts = msg.readString().split(" ");
         int id = Integer.parseInt(parts[0].replace("-", ""));
 
-        if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId())
+                && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;
         }
 
         try {
-            if (parts[1].startsWith(":")) {
+            if (parts.length > 1 && parts[1].startsWith(":")) {
                 String position = Position3D.validateWallPosition(parts[1] + " " + parts[2] + " " + parts[3]);
 
                 if (position == null) {
@@ -37,6 +42,10 @@ public class PlaceItemMessageEvent implements IEvent {
                 }
 
                 InventoryItem item = client.getPlayer().getInventory().getWallItem(id);
+
+                if (item == null) {
+                    return;
+                }
 
                 int roomId = client.getPlayer().getEntity().getRoom().getId();
 
@@ -58,15 +67,9 @@ public class PlaceItemMessageEvent implements IEvent {
 
                 InventoryItem item = client.getPlayer().getInventory().getFloorItem(id);
 
-                if (item == null)
+                if (item == null) {
                     return;
-
-                /*TileInstance tile = client.getPlayer().getEntity().getRoom().getMapping().getTile(x, y);
-
-                if(!tile.canStack())
-                    return;
-
-                float height = (float) tile.getStackHeight();*/
+                }
 
                 Room room = client.getPlayer().getEntity().getRoom();
 
