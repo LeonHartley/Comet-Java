@@ -35,7 +35,6 @@ public class Room implements Attributable {
 
     private boolean isRoomMuted = false;
     private boolean isDisposed = false;
-    private boolean isLoaded = false;
 
     public static boolean useCycleForItems = false;
     public static boolean useCycleForEntities = false;
@@ -48,6 +47,8 @@ public class Room implements Attributable {
     public Room(RoomData data) {
         this.id = data.getId();
         this.log = Logger.getLogger("Room \"" + this.getData().getName() + "\"");
+
+        this.load();
     }
 
     public boolean needsRemoving() {
@@ -85,13 +86,6 @@ public class Room implements Attributable {
         return false;
     }
 
-    public void loadRoom() {
-        if (this.isLoaded) { return; }
-        this.isLoaded = true;
-
-        this.load();
-    }
-
     private void load() {
         if (this.getData().getHeightmap() != null) {
             this.model = new DynamicRoomModel("dynamic_heightmap", this.getData().getHeightmap(), this.getModel().getDoorX(), this.getModel().getDoorY(), this.getModel().getDoorZ(), this.getModel().getDoorRotation());
@@ -110,8 +104,6 @@ public class Room implements Attributable {
         this.entities = new EntityComponent(this);
         this.bots = new BotComponent(this);
         this.pets = new PetComponent(this);
-
-        this.items.callOnLoad();
 
         // Generate the mapping last
         this.mapping.init();

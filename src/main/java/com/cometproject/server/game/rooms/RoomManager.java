@@ -52,6 +52,10 @@ public class RoomManager {
         }
 
         Room instance = new Room(data);
+
+        // attributes
+        instance.setAttribute("loadTime", System.currentTimeMillis());
+
         return instance;
     }
 
@@ -141,10 +145,8 @@ public class RoomManager {
         }
 
         this.roomInstances.put(room.getId(), room);
-        room.loadRoom();
 
-        // attributes
-        room.setAttribute("loadTime", System.currentTimeMillis());
+        room.getItems().callOnLoad();
 
         return room;
     }
