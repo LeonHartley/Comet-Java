@@ -28,7 +28,7 @@ public class PlayerSettings {
     public PlayerSettings(ResultSet data) throws SQLException {
         String volumeData = data.getString("volume");
 
-        if (volumeData.startsWith("{")) {
+        if (volumeData != null && volumeData.startsWith("{")) {
             volumes = new Gson().fromJson(volumeData, VolumeData.class);
         } else {
             volumes = new VolumeData(100, 100, 100);
