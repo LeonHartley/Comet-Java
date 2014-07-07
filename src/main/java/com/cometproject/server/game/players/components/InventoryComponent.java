@@ -152,11 +152,21 @@ public class InventoryComponent {
         this.getPlayer().getSession().send(RemoveObjectFromInventoryMessageComposer.compose(itemId));
     }
 
+    public boolean hasFloorItem(int id) {
+        return this.getFloorItems().containsKey(id);
+    }
+
     public InventoryItem getFloorItem(int id) {
+        if (!this.hasFloorItem(id)) { return null; }
         return this.getFloorItems().get(id);
     }
 
+    public boolean hasWallItem(int id) {
+        return this.getFloorItems().containsKey(id);
+    }
+
     public InventoryItem getWallItem(int id) {
+        if (!this.hasWallItem(id)) { return null; }
         return this.getWallItems().get(id);
     }
 

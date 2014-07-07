@@ -11,7 +11,11 @@ import com.cometproject.server.network.sessions.Session;
 public class AnswerDoorbellMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+        if (client.getPlayer().getEntity() == null) {
+            return;
+        }
+
+        if (client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
