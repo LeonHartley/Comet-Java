@@ -193,9 +193,6 @@ public class Trade {
             return;
         }
 
-        System.out.println(user1Accepted);
-        System.out.println(user2Accepted);
-
         if (user == 1)
             this.user1Accepted = true;
         else

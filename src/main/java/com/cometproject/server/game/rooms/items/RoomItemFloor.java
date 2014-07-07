@@ -17,7 +17,7 @@ public abstract class RoomItemFloor extends RoomItem {
     private double height;
     private String extraData;
 
-    private WeakReference<Room> room;
+    private Room room;
     private ItemDefinition tmpItemDefiniton;
 
     public RoomItemFloor(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
@@ -222,16 +222,10 @@ public abstract class RoomItemFloor extends RoomItem {
 
     public Room getRoom() {
         if (this.room == null) {
-            Room r = CometManager.getRooms().get(this.roomId);
-
-            if (r == null) {
-                return null;
-            }
-
-            this.room = new WeakReference<>(r);
+            this.room = CometManager.getRooms().get(this.roomId);
         }
 
-        return this.room.get();
+        return this.room;
     }
 
     @Override

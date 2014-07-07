@@ -44,10 +44,10 @@ public class Room implements Attributable {
     }
 
     public Room load() {
+        this.model = CometManager.getRooms().getModel(this.getData().getModel());
+
         if (this.getData().getHeightmap() != null) {
             this.model = new DynamicRoomModel("dynamic_heightmap", this.getData().getHeightmap(), this.getModel().getDoorX(), this.getModel().getDoorY(), this.getModel().getDoorZ(), this.getModel().getDoorRotation());
-        } else {
-            this.model = CometManager.getRooms().getModel(this.getData().getModel());
         }
 
         this.attributes = new FastMap<>();
