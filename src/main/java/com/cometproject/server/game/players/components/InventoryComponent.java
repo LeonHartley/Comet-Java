@@ -162,7 +162,7 @@ public class InventoryComponent {
     }
 
     public boolean hasWallItem(int id) {
-        return this.getFloorItems().containsKey(id);
+        return this.getWallItems().containsKey(id);
     }
 
     public InventoryItem getWallItem(int id) {
