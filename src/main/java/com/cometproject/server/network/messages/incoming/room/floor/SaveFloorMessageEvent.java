@@ -54,6 +54,8 @@ public class SaveFloorMessageEvent implements IEvent {
         }
 
         room.getData().setHeightmap(model);
+        room.getData().save();
+
         client.send(AdvancedAlertMessageComposer.compose("Model Saved", Locale.get("command.floor.complete")));
 
         room.setIdleNow();
