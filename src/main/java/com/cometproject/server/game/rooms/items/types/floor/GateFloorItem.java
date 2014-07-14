@@ -6,9 +6,6 @@ import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 
-/**
- * Created by Matty on 03/07/2014.
- */
 public class GateFloorItem extends RoomItemFloor {
     public GateFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
