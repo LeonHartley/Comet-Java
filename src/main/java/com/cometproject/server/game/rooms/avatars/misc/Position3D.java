@@ -163,6 +163,10 @@ public class Position3D {
         return Math.sqrt(xDistance * xDistance + yDistance * yDistance);
     }
 
+    public Position3D copy() {
+        return new Position3D(this.x, this.y, this.z);
+    }
+
     @Override
     public String toString() {
         return "(" + this.getX() + ", " + this.getY() + ", " + this.getZ() + ")";

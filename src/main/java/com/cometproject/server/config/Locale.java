@@ -1,5 +1,6 @@
 package com.cometproject.server.config;
 
+import com.cometproject.server.storage.queries.locale.LocaleDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -10,12 +11,22 @@ public class Locale {
     private static Map<String, String> locale;
 
     public static void init() {
-        Configuration localeFile = new Configuration("./config/locale.properties");
+        /*Configuration localeFile = new Configuration("./config/locale.properties");
         locale = new FastMap<>();
 
         for (Map.Entry<Object, Object> prop : localeFile.entrySet()) {
             locale.put((String) prop.getKey(), (String) prop.getValue());
-        }
+        }*/
+
+        reload();
+    }
+
+    public static void reload() {
+        if(locale != null)
+            locale.clear();
+
+        locale = LocaleDao.getAll();
+        log.info("Loaded " + locale.size() + " locale strings");
     }
 
     public static String get(String key) {

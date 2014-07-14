@@ -9,8 +9,6 @@ public class SubscriptionComponent {
     private boolean hasSub;
     private int expire;
 
-    //private static Logger log = Logger.getLogger(SubscriptionComponent.class.getName());
-
     public SubscriptionComponent(Player player) {
         this.player = player;
 
@@ -21,23 +19,7 @@ public class SubscriptionComponent {
         this.hasSub = true;
         this.expire = (int) Comet.getTime() + 315569260;
 
-        // TODO: buy HC!!
-        /*
-        try {
-            ResultSet sub = Comet.getServer().getStorage().getRow("SELECT * FROM player_subscriptions WHERE user_id = " + getPlayer().getId() + " LIMIT 1");
-
-            if(sub == null) {
-                this.hasSub = false;
-                this.expire = 0;
-
-                return;
-            }
-
-            this.hasSub = true;
-            this.expire = sub.getInt("expire");
-        } catch(Exception e) {
-            log.error("Error while loading user subscription", e);
-        }*/
+        // TODO: Subscriptions
     }
 
     public void add(int days) {
@@ -47,10 +29,6 @@ public class SubscriptionComponent {
     public void delete() {
         this.hasSub = false;
         this.expire = 0;
-
-        // TODO: update fuserights
-
-        //Comet.getServer().getStorage().execute("DELETE FROM player_subscriptions WHERE user_id = " + getPlayer().getId());
     }
 
     public boolean isValid() {
