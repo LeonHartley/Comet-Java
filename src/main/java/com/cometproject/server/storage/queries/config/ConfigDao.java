@@ -1,4 +1,4 @@
-package com.cometproject.server.storage.queries.locale;
+package com.cometproject.server.storage.queries.config;
 
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
@@ -7,11 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-public class LocaleDao {
+public class ConfigDao {
     public static Map<String, String> getAll() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -22,7 +20,7 @@ public class LocaleDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM server_locale", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM server_config", sqlConnection);
 
             resultSet = preparedStatement.executeQuery();
 

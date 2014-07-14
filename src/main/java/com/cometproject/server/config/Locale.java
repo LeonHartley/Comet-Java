@@ -1,7 +1,6 @@
 package com.cometproject.server.config;
 
-import com.cometproject.server.storage.queries.locale.LocaleDao;
-import javolution.util.FastMap;
+import com.cometproject.server.storage.queries.config.LocaleDao;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
@@ -19,7 +18,7 @@ public class Locale {
             locale.clear();
 
         locale = LocaleDao.getAll();
-        log.info("Loaded " + locale.size() + " locale strings");
+        log.info("Loaded " + locale.size() + " config strings");
     }
 
     public static String get(String key) {

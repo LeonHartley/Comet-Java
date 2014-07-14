@@ -1,6 +1,7 @@
 package com.cometproject.server.game.commands.staff;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.ChatCommand;
@@ -29,7 +30,7 @@ public class ReloadCommand extends ChatCommand {
                                 "- config\n" +
                                 "- items\n" +
                                 "- filter\n" +
-                                "- locale\n"
+                                "- config\n"
                 ));
 
                 break;
@@ -61,7 +62,8 @@ public class ReloadCommand extends ChatCommand {
 
             case "config":
                 // TODO: Finish config rewrite.. ;p
-//                Comet.getServer().loadConfig();
+                CometSettings.init();
+
                 sendChat(Locale.get("command.reload.config"), client);
                 break;
 
@@ -86,7 +88,7 @@ public class ReloadCommand extends ChatCommand {
             case "locale":
                 Locale.reload();
 
-                sendChat(Locale.get("command.reload.locale"), client);
+                sendChat(Locale.get("command.reload.config"), client);
                 break;
         }
     }

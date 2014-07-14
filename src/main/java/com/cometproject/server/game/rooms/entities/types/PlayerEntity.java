@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.entities.types;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.players.types.Player;
@@ -81,7 +82,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             if (this.getRoom().getData().getAccess().equals("password")) {
                 boolean matched;
 
-                if (RoomData.ENCRYPT_PASSWORDS) {
+                if (CometSettings.roomPasswordEncryptionEnabled) {
                     matched = BCrypt.checkpw(password, this.getRoom().getData().getPassword());
                 } else {
                     matched = this.getRoom().getData().getPassword().equals(password);
