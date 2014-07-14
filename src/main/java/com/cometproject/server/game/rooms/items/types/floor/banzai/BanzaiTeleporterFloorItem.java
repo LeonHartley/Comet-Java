@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.items.types.floor.banzai;
 
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.utilities.RandomInteger;
 import javolution.util.FastSet;
@@ -38,10 +39,20 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
         // Move to position!
 
         entity.updateAndSetPosition(teleportPosition);
-        entity.markNeedsUpdate();
 
         entity.setAttribute("banzaiTeleport", true);
 
+        this.setExtraData("1");
+        this.sendUpdate();
+
+        this.setTicks(RoomItemFactory.getProcessTime(0.5));
+
         teleporters.clear();
+    }
+
+    @Override
+    public void onTickComplete() {
+        this.setExtraData("0");
+        this.sendUpdate();
     }
 }

@@ -175,10 +175,7 @@ public class ProcessComponent implements CometTask {
             }
 
             // Create the new position
-            Position3D newPosition = new Position3D();
-            newPosition.setX(entity.getPositionToSet().getX());
-            newPosition.setY(entity.getPositionToSet().getY());
-            newPosition.setZ(entity.getPositionToSet().getZ());
+            Position3D newPosition = entity.getPositionToSet().copy();
 
             List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
             List<RoomItemFloor> itemsOnOldSq = this.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY());
