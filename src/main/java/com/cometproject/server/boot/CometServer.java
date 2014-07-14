@@ -42,21 +42,24 @@ public class CometServer {
             this.config.override(overridenConfig);
         }
 
-        CometSettings.set(this.config);
-
         this.apiManager = new APIManager();
 
         this.threadManagement = new CometThreadManagement();
         this.storageManager = new StorageManager();
         this.pluginManager = new PluginManager();
 
+
+
         this.loggingManager = new LogManager();
 
         SqlIndexChecker.checkIndexes(storageManager);
         SqlIndexChecker.setIndexes(storageManager);
+
+        CometSettings.init();
         Locale.init();
         CometManager.init();
-        CometCache.create();
+
+//        CometCache.create();
 
         this.networkManager = new NetworkManager(this.getConfig().get("comet.network.host"), this.getConfig().get("comet.network.port"));
 

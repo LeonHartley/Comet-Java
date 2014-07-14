@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
@@ -13,9 +14,6 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class RoomData {
-    public static final boolean ENCRYPT_PASSWORDS = Boolean.parseBoolean(Comet.getServer().getConfig().get("comet.game.rooms.hashpasswords"));
-    public static final int ENCRYPT_ROUNDS = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.rooms.hashrounds"));
-
     private int id;
     private String name;
     private String description;
@@ -96,9 +94,9 @@ public class RoomData {
             decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
         }
 
-        if (ENCRYPT_PASSWORDS) {
+        if (CometSettings.roomPasswordEncryptionEnabled) {
             if (!this.password.equals(this.originalPassword)) {
-                this.password = BCrypt.hashpw(this.password, BCrypt.gensalt(ENCRYPT_ROUNDS));
+                this.password = BCrypt.hashpw(this.password, BCrypt.gensalt(CometSettings.roomPasswordEncryptionRounds));
             }
         }
 

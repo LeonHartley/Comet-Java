@@ -1,6 +1,8 @@
 package com.cometproject.server.config;
 
-import java.util.Properties;
+import com.cometproject.server.storage.queries.config.ConfigDao;
+
+import java.util.Map;
 
 public class CometSettings {
     public static boolean httpEnabled = false;
@@ -29,49 +31,40 @@ public class CometSettings {
 
     public static int maxPlayersInRoom = 150;
 
-    public static void set(Properties properties) {
-        httpEnabled = properties.getProperty("comet.network.http.enabled").equals("1");
+    public static boolean roomPasswordEncryptionEnabled = false;
+    public static int roomPasswordEncryptionRounds = 10;
 
-        messageOfTheDayEnabled = properties.getProperty("comet.game.motd.enabled").equals("1");
-        messageOfTheDayText = properties.getProperty("comet.game.motd.text");
+    public static void init() {
+        Map<String, String> config = ConfigDao.getAll();
 
-        logStore = properties.getProperty("comet.game.logging.store");
+        messageOfTheDayEnabled = Boolean.parseBoolean(config.get("comet.game.motd.enabled"));
+        messageOfTheDayText = config.get("comet.game.motd.text");
 
-        hotelName = properties.getProperty("comet.game.hotel.name");
-        hotelUrl = properties.getProperty("comet.game.hotel.url");
-        aboutImg = properties.getProperty("comet.game.about.img");
+        hotelName = config.get("comet.game.hotel.name");
+        hotelUrl = config.get("comet.game.hotel.url");
+        aboutImg = config.get("comet.game.about.img");
 
-        groupCost = Integer.parseInt(properties.getProperty("comet.game.groups.cost"));
+        groupCost = Integer.parseInt(config.get("comet.game.groups.cost"));
 
-        quartlyCreditsEnabled = properties.getProperty("comet.game.quarterly.credits.enabled").equals("1");
-        quartlyCreditsAmount = Integer.parseInt(properties.getProperty("comet.game.quarterly.credits.amount"));
+        quartlyCreditsEnabled = Boolean.parseBoolean(config.get("comet.game.quarterly.credits.enabled"));
+        quartlyCreditsAmount = Integer.parseInt(config.get("comet.game.quarterly.credits.amount"));
 
-        showUptimeInAbout = properties.getProperty("comet.about.command.uptime").equals("1");
-        showActiveRoomsInAbout = properties.getProperty("comet.about.command.activeRooms").equals("1");
-        showUsersOnlineInAbout = properties.getProperty("comet.about.command.usersOnline").equals("1");
+        showUptimeInAbout = Boolean.parseBoolean(config.get("comet.about.command.uptime"));
+        showActiveRoomsInAbout = Boolean.parseBoolean(config.get("comet.about.command.activeRooms"));
+        showUsersOnlineInAbout = Boolean.parseBoolean(config.get("comet.about.command.usersOnline"));
 
-        floorMaxX = Integer.parseInt(properties.getProperty("comet.floor.command.max.x"));
-        floorMaxY = Integer.parseInt(properties.getProperty("comet.floor.command.max.y"));
-        floorMaxTotal = Integer.parseInt(properties.getProperty("comet.floor.command.max.total"));
+        floorMaxX = Integer.parseInt(config.get("comet.floor.command.max.x"));
+        floorMaxY = Integer.parseInt(config.get("comet.floor.command.max.y"));
+        floorMaxTotal = Integer.parseInt(config.get("comet.floor.command.max.total"));
 
         try {
-            maxPlayersInRoom = Integer.parseInt(properties.getProperty("comet.game.rooms.maxPlayers"));
+            maxPlayersInRoom = Integer.parseInt(config.get("comet.game.rooms.maxPlayers"));
         } catch (Exception e) {
             // fall back to 150
         }
 
-        /*if(properties.containsKey("comet.system.item_process.type")) {
-            if(properties.get("comet.system.item_process.type").equals("global")) {
-                Room.useCycleForItems = true;
-            }
-        }
-
-        if(properties.containsKey("comet.system.entity_process.type")) {
-            if(properties.get("comet.system.entity_process.type").equals("global")) {
-                Room.useCycleForEntities = true;
-            }
-        }*/
-
+        roomPasswordEncryptionEnabled = Boolean.parseBoolean(config.get("comet.game.rooms.hashpasswords"));
+        roomPasswordEncryptionRounds = Integer.parseInt(config.get("comet.game.rooms.hashrounds"));
     }
 
     public static void setMotd(String motd) {
