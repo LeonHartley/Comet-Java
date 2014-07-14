@@ -11,13 +11,6 @@ public class Locale {
     private static Map<String, String> locale;
 
     public static void init() {
-        /*Configuration localeFile = new Configuration("./config/locale.properties");
-        locale = new FastMap<>();
-
-        for (Map.Entry<Object, Object> prop : localeFile.entrySet()) {
-            locale.put((String) prop.getKey(), (String) prop.getValue());
-        }*/
-
         reload();
     }
 

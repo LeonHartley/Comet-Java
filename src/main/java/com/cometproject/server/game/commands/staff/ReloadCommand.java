@@ -28,7 +28,8 @@ public class ReloadCommand extends ChatCommand {
                                 "- news\n" +
                                 "- config\n" +
                                 "- items\n" +
-                                "- filter\n"
+                                "- filter\n" +
+                                "- locale\n"
                 ));
 
                 break;
@@ -80,6 +81,12 @@ public class ReloadCommand extends ChatCommand {
                 CometManager.getRooms().getFilter().loadFilter();
 
                 sendChat(Locale.get("command.reload.filter"), client);
+                break;
+
+            case "locale":
+                Locale.reload();
+
+                sendChat(Locale.get("command.reload.locale"), client);
                 break;
         }
     }
