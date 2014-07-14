@@ -33,6 +33,10 @@ public class AnswerDoorbellMessageEvent implements IEvent {
             return;
         }
 
+        if(requestingClient.getPlayer() == null || requestingClient.getPlayer().getEntity() == null) {
+            return;
+        }
+
         // already answered ?
         if (requestingClient.getPlayer().getEntity().isDoorbellAnswered()) {
             return;

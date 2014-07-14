@@ -13,8 +13,13 @@ public class TransformCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         TransformationType type = TransformationType.HUMAN;
 
-        if(params.length == 1)
-            type = TransformationType.valueOf(params[0].toUpperCase());
+        if(params.length == 1) {
+            try {
+                type = TransformationType.valueOf(params[0].toUpperCase());
+            } catch(Exception e) {
+                return;
+            }
+        }
 
         if(type == TransformationType.HUMAN) {
             client.getPlayer().getEntity().removeAttribute("transformation");
