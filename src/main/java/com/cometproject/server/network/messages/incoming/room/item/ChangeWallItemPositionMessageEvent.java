@@ -16,7 +16,7 @@ public class ChangeWallItemPositionMessageEvent implements IEvent {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if (room == null) {
+        if (room == null || position == null) {
             return;
         }
 
