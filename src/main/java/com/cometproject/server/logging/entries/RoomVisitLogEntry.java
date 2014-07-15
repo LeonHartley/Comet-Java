@@ -58,7 +58,6 @@ public class RoomVisitLogEntry {
     }
 
     public int getId() {
-
         return id;
     }
 
