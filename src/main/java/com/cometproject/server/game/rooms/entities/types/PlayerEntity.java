@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.entities.types;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.players.types.Player;
@@ -16,6 +17,7 @@ import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
+import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomErrorMessageComposer;
@@ -64,7 +66,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         // Room full or slot available
         if (this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() && !this.player.getPermissions().hasPermission("room_enter_full")) {
-            this.player.getSession().send(RoomFullMessageComposer.compose());
+            this.player.getSession().send(AdvancedAlertMessageComposer.compose(Locale.get("game.room.full")));
             this.player.getSession().send(HotelViewMessageComposer.compose());
             return;
         }
