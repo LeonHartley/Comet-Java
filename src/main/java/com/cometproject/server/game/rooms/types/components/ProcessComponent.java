@@ -63,6 +63,7 @@ public class ProcessComponent implements CometTask {
             List<GenericEntity>[][] entityGrid = new ArrayList[this.getRoom().getModel().getSizeX()][this.getRoom().getModel().getSizeY()];
 
             List<PlayerEntity> playersToRemove = new ArrayList<>();
+            List<GenericEntity> entitiesToUpdate = new ArrayList<>();
 
             for (GenericEntity entity : entities.values()) {
                 // Process each entity as its own
@@ -97,22 +98,25 @@ public class ProcessComponent implements CometTask {
 
                 entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
 
-                // Process anything generic for all entities below this line
-                if (entity.needsUpdate()) {
-                    entity.markNeedsUpdateComplete();
-                    this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
-                }
-
                 // THE ORDER MATTERS HERE, KEEP THIS AFTER !!!! 'ENTITY.NEEDSUPDATE'
 
                 if(this.updateEntityStuff(entity) && entity instanceof PlayerEntity) {
                     playersToRemove.add((PlayerEntity) entity);
+                }
+
+                // Process anything generic for all entities below this line
+                if (entity.needsUpdate()) {
+                    entity.markNeedsUpdateComplete();
+                    entitiesToUpdate.add(entity);
                 }
             }
 
             for (PlayerEntity entity : playersToRemove) {
                 entity.leaveRoom(entity.getPlayer() == null, false, true);
             }
+
+            // Send update of all entities
+            this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entitiesToUpdate));
 
             // Update the entity grid
             this.getRoom().getEntities().replaceEntityGrid(entityGrid);
