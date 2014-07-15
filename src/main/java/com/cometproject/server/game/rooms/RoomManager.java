@@ -133,14 +133,16 @@ public class RoomManager {
                 return null;
             }
 
-            try {
+//            try {
                 Room room = new Room(data).load();
                 this.loadedRoomInstances.put(id, room);
 
+                this.finalizeRoomLoad(room);
+
                 return room;
-            } finally {
-                this.finalizeRoomLoad(this.getRoomInstances().get(id));
-            }
+//            } finally {
+//                this.finalizeRoomLoad(this.getRoomInstances().get(id));
+//            }
         }
     }
 

@@ -63,7 +63,6 @@ public class ProcessComponent implements CometTask {
             List<GenericEntity>[][] entityGrid = new ArrayList[this.getRoom().getModel().getSizeX()][this.getRoom().getModel().getSizeY()];
 
             List<PlayerEntity> playersToRemove = new ArrayList<>();
-            List<GenericEntity> entitiesToUpdate = new ArrayList<>();
 
             for (GenericEntity entity : entities.values()) {
                 // Process each entity as its own
@@ -100,14 +99,14 @@ public class ProcessComponent implements CometTask {
 
                 // THE ORDER MATTERS HERE, KEEP THIS AFTER !!!! 'ENTITY.NEEDSUPDATE'
 
-                if(this.updateEntityStuff(entity) && entity instanceof PlayerEntity) {
-                    playersToRemove.add((PlayerEntity) entity);
-                }
-
                 // Process anything generic for all entities below this line
                 if (entity.needsUpdate()) {
                     entity.markNeedsUpdateComplete();
-                    entitiesToUpdate.add(entity);
+                    this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
+                }
+
+                if(this.updateEntityStuff(entity) && entity instanceof PlayerEntity) {
+                    playersToRemove.add((PlayerEntity) entity);
                 }
             }
 
@@ -115,11 +114,10 @@ public class ProcessComponent implements CometTask {
                 entity.leaveRoom(entity.getPlayer() == null, false, true);
             }
 
-            // Send update of all entities
-            this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entitiesToUpdate));
-
             // Update the entity grid
             this.getRoom().getEntities().replaceEntityGrid(entityGrid);
+
+            playersToRemove.clear();
 
             TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
