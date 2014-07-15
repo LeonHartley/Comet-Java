@@ -20,9 +20,9 @@ public class PlaylistMessageComposer {
             msg.writeString(playListItem.getDescription());
         }
 
-        if (playlist.size() > 0) {
+//        if (playlist.size() > 0) {
             msg.writeString(videoId);
-        }
+//        }
 
         return msg;
     }
