@@ -29,7 +29,7 @@ public class RemoveRightsMessageEvent implements IEvent {
             return;
         }
 
-        room.getRights().addRights(playerEntity.getPlayerId());
+        room.getRights().removeRights(playerEntity.getPlayerId());
         playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(0));
         client.send(RemovePowersMessageComposer.compose(room.getId(), playerId));
 
