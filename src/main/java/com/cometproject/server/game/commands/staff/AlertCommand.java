@@ -14,8 +14,10 @@ public class AlertCommand extends ChatCommand {
 
         Session user = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(params[0]);
 
-        user.send(AdvancedAlertMessageComposer.compose(Locale.get("command.alert.title"), this.merge(params, 1)));
+        if(user == null)
+            return;
 
+        user.send(AdvancedAlertMessageComposer.compose(Locale.get("command.alert.title"), this.merge(params, 1)));
     }
 
     @Override
