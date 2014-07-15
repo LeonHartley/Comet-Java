@@ -40,5 +40,7 @@ public class RemoveAllRightsMessageEvent implements IEvent {
         for (Integer id : toRemove) {
             room.getRights().removeRights(id);
         }
+
+        toRemove.clear();
     }
 }
