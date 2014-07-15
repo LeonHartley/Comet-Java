@@ -13,8 +13,16 @@ public class GateFloorItem extends RoomItemFloor {
 
     @Override
     public void onInteract(GenericEntity entity0, int requestData, boolean isWiredTrigger) {
-        if (!(entity0 instanceof PlayerEntity)) { return; }
+        if ( !(entity0 instanceof PlayerEntity)) { return; /* TODO: Allow for this to be triggered by wired ;P */ }
+
         PlayerEntity pEntity = (PlayerEntity)entity0;
+
+        if (!isWiredTrigger) {
+            if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
+                    && !pEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
+                return;
+            }
+        }
 
         for (AffectedTile tile : AffectedTile.getAffectedTilesAt(this.getDefinition().getLength(), this.getDefinition().getWidth(), this.getX(), this.getY(), this.getRotation())) {
             if (this.getRoom().getEntities().getEntitiesAt(tile.x, tile.y).size() > 0) {
