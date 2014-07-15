@@ -16,6 +16,7 @@ public class UseMoodlightMessageEvent implements IEvent {
         }
 
         MoodlightWallItem moodlight = room.getItems().getMoodlight();
+
         if (moodlight == null) {
             return;
         }

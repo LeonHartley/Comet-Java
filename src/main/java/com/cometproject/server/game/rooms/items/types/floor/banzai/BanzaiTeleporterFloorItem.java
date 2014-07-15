@@ -39,6 +39,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
         // Move to position!
 
         entity.updateAndSetPosition(teleportPosition);
+        entity.markNeedsUpdate();
 
         entity.setAttribute("banzaiTeleport", true);
 

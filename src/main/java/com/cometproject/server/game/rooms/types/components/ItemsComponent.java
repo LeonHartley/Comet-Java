@@ -32,7 +32,7 @@ public class ItemsComponent {
     private final FastTable<RoomItemFloor> floorItems = new FastTable<RoomItemFloor>().shared();
     private final FastTable<RoomItemWall> wallItems = new FastTable<RoomItemWall>().shared();
 
-    private MoodlightWallItem moodlightWallItem = null;
+    private int moodlightId;
 
     public ItemsComponent(Room room) {
         this.room = room;
@@ -60,33 +60,33 @@ public class ItemsComponent {
         }
     }
 
-    public boolean setMoodlight(MoodlightWallItem moodlight) {
-        if (this.moodlightWallItem != null) {
+    public boolean setMoodlight(int moodlight) {
+        if(this.moodlightId != 0)
             return false;
-        }
-        this.moodlightWallItem = moodlight;
 
+        this.moodlightId = moodlight;
         return true;
     }
 
     public boolean removeMoodlight() {
-        if (this.moodlightWallItem == null) {
+        if (this.moodlightId == 0) {
             return false;
         }
-        this.moodlightWallItem = null;
 
+        this.moodlightId = 0;
         return true;
     }
 
     public boolean isMoodlightMatches(RoomItem item) {
-        if (this.moodlightWallItem == null) {
+        if (this.moodlightId == 0) {
             return false;
         }
-        return (this.moodlightWallItem.getId() == item.getId());
+        return (this.moodlightId == item.getId());
     }
 
     public MoodlightWallItem getMoodlight() {
-        return this.moodlightWallItem;
+        System.out.println(this.moodlightId);
+        return (MoodlightWallItem) this.getWallItem(this.moodlightId);
     }
 
     public RoomItemFloor addFloorItem(int id, int baseId, int roomId, int ownerId, int x, int y, int rot, double height, String data) {
