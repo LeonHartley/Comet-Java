@@ -14,6 +14,9 @@ public class NoFaceCommand extends ChatCommand {
         if(figure.contains("hd-")) {
             String[] head = ("hd-" + figure.split("hd-")[1].split("\\.")[0]).split("-");
 
+            if(head.length < 2)
+                return;
+
             client.getPlayer().getData().setFigure(figure.replace(StringUtils.join(head, "-"), "hd-" + 99999 + "-" + head[2]));
 
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(client.getPlayer().getEntity()));
