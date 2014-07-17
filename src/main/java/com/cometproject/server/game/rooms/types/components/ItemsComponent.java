@@ -85,7 +85,6 @@ public class ItemsComponent {
     }
 
     public MoodlightWallItem getMoodlight() {
-        System.out.println(this.moodlightId);
         return (MoodlightWallItem) this.getWallItem(this.moodlightId);
     }
 
