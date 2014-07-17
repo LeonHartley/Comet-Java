@@ -93,7 +93,6 @@ public class InventoryComponent {
         }
     }
 
-
     public void resetBadgeSlots() {
         for (Map.Entry<String, Integer> badge : this.badges.entrySet()) {
             if (badge.getValue() != 0) {
