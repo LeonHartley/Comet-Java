@@ -40,7 +40,7 @@ public class BanDao {
         return data;
     }
 
-    public static int createBan(long length, long expire, String data) {
+    public static int createBan(long length, long expire, String data, int addedBy) {
 
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -49,12 +49,13 @@ public class BanDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("INSERT into bans (`type`, `expire`, `data`, `reason`) VALUES(?, ?, ?, ?);", sqlConnection, true);
+            preparedStatement = SqlHelper.prepare("INSERT into bans (`type`, `expire`, `data`, `reason`, `added_by`) VALUES(?, ?, ?, ?, ?);", sqlConnection, true);
 
             preparedStatement.setString(1, "user");
             preparedStatement.setLong(2, length == 0 ? 0 : expire);
             preparedStatement.setString(3, data);
             preparedStatement.setString(4, "");
+            preparedStatement.setInt(5, addedBy);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
             resultSet = preparedStatement.getGeneratedKeys();
