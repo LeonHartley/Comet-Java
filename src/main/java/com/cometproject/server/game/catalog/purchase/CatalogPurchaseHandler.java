@@ -36,6 +36,7 @@ public class CatalogPurchaseHandler {
     }
 
     public void handle(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
+        // TODO: redo all of this, it sucks so bad ;P
         if (amount > 100) {
             client.send(AlertMessageComposer.compose(Locale.get("catalog.error.toomany")));
             return;
@@ -81,7 +82,7 @@ public class CatalogPurchaseHandler {
             client.getPlayer().getData().save();
 
             for (int newItemId : item.getItems()) {
-                ItemDefinition def = CometManager.getItems().getDefintionNullable(newItemId);
+                ItemDefinition def = CometManager.getItems().getDefinition(newItemId);
                 if (def == null) {
                     continue;
                 }

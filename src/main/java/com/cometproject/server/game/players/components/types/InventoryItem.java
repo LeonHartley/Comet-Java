@@ -58,7 +58,7 @@ public class InventoryItem {
     }
 
     public ItemDefinition getDefinition() {
-        return CometManager.getItems().getDefintionNullable(this.getBaseId());
+        return CometManager.getItems().getDefinition(this.getBaseId());
     }
 
     public int getBaseId() {
