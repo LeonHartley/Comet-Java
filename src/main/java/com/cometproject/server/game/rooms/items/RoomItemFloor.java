@@ -10,8 +10,6 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorE
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
-import java.lang.ref.WeakReference;
-
 public abstract class RoomItemFloor extends RoomItem {
     private int roomId;
     private double height;
@@ -168,7 +166,7 @@ public abstract class RoomItemFloor extends RoomItem {
 
     public ItemDefinition getDefinition() {
         if (this.tmpItemDefiniton == null) {
-            this.tmpItemDefiniton = CometManager.getItems().getDefintionNullable(this.getItemId());
+            this.tmpItemDefiniton = CometManager.getItems().getDefinition(this.getItemId());
         }
 
         return this.tmpItemDefiniton;

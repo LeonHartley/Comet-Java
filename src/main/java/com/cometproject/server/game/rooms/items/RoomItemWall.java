@@ -7,8 +7,6 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateWallIt
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
-import java.lang.ref.WeakReference;
-
 public abstract class RoomItemWall extends RoomItem {
     private int roomId;
     private String position;
@@ -85,7 +83,7 @@ public abstract class RoomItemWall extends RoomItem {
 
     @Override
     public ItemDefinition getDefinition() {
-        return CometManager.getItems().getDefintionNullable(this.getItemId());
+        return CometManager.getItems().getDefinition(this.getItemId());
     }
 
     @Override

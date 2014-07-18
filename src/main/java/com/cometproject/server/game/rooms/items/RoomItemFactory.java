@@ -22,7 +22,7 @@ public class RoomItemFactory {
     private static final int processMs = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
 
     public static RoomItemFloor createFloor(int id, int baseId, int roomId, int ownerId, int x, int y, double height, int rot, String data) {
-        ItemDefinition def = CometManager.getItems().getDefintionNullable(baseId);
+        ItemDefinition def = CometManager.getItems().getDefinition(baseId);
         if (def == null) {
             return null;
         }
@@ -128,7 +128,7 @@ public class RoomItemFactory {
     }
 
     public static RoomItemWall createWall(int id, int baseId, int roomId, int owner, String position, String data) {
-        ItemDefinition def = CometManager.getItems().getDefintionNullable(baseId);
+        ItemDefinition def = CometManager.getItems().getDefinition(baseId);
         if (def == null) {
             return null;
         }

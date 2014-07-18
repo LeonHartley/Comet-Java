@@ -1,21 +1,26 @@
 package com.cometproject.server.game.items;
 
+import com.cometproject.server.game.items.rares.LimitedEditionManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
+import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.storage.queries.items.ItemDao;
+import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
-
-import java.util.Map;
 
 public class ItemManager {
     private Logger log = Logger.getLogger(ItemManager.class.getName());
 
     private FastMap<Integer, ItemDefinition> itemDefinitions;
 
+    private LimitedEditionManager limitedEditionManager;
+
     public ItemManager() {
         this.itemDefinitions = new FastMap<>();
+        this.limitedEditionManager = new LimitedEditionManager();
+
         this.loadItemDefinitions();
     }
 
@@ -41,7 +46,7 @@ public class ItemManager {
         return RoomItemDao.getRoomIdById(itemId);
     }
 
-    public ItemDefinition getDefintionNullable(int itemId) {
+    public ItemDefinition getDefinition(int itemId) {
         if (this.getItemDefinitions().containsKey(itemId)) {
             return this.getItemDefinitions().get(itemId);
         }
@@ -53,5 +58,9 @@ public class ItemManager {
 
     public FastMap<Integer, ItemDefinition> getItemDefinitions() {
         return this.itemDefinitions;
+    }
+
+    public LimitedEditionManager getLimitedEditionManager() {
+        return limitedEditionManager;
     }
 }
