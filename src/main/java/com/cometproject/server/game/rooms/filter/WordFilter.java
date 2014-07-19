@@ -27,11 +27,8 @@ public class WordFilter {
     }
 
     public FilterResult filter(String message) {
-        if(CometSettings.wordFilterMode == FilterMode.STRICT) { // || CometSettings.wordFilterMode == FilterMode.SMART) {
-            //message = Normalizer.normalize(message, Normalizer.Form.NFD);
+        if(CometSettings.wordFilterMode == FilterMode.STRICT) {
             message = FilterUtil.normalize(message.toLowerCase());
-
-            System.out.println(message);
         }
 
         for (Map.Entry<String, String> word : wordfilter.entrySet()) {
