@@ -1,6 +1,6 @@
 package com.cometproject.server.storage.queries.groups;
 
-import com.cometproject.server.game.groups.types.items.*;
+import com.cometproject.server.game.groups.items.types.*;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
