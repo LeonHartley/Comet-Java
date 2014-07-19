@@ -1,10 +1,13 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -24,8 +27,16 @@ public class WisperMessageEvent implements IEvent {
         String filteredMessage = TalkMessageEvent.filterMessage(message);
 
         if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
-            filteredMessage = CometManager.getRooms().getFilter().filter(message);
+            FilterResult filterResult = CometManager.getRooms().getFilter().filter(message);
+
+            if(filterResult.isBlocked()) {
+                client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
+                return;
+            } else if(filterResult.wasModified()) {
+                filteredMessage = filterResult.getChatMessage();
+            }
         }
+
 
         if (!client.getPlayer().getEntity().onChat(filteredMessage))
             return;

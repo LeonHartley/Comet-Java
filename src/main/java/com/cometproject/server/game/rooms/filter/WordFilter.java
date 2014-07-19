@@ -1,9 +1,12 @@
 package com.cometproject.server.game.rooms.filter;
 
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.storage.queries.filter.FilterDao;
+import com.cometproject.server.utilities.FilterUtil;
 import org.apache.log4j.Logger;
 
+import java.text.Normalizer;
 import java.util.Map;
 
 public class WordFilter {
@@ -23,14 +26,24 @@ public class WordFilter {
         Logger.getLogger(WordFilter.class.getName()).info("Loaded " + wordfilter.size() + " filtered words");
     }
 
-    public String filter(String message) {
+    public FilterResult filter(String message) {
+        if(CometSettings.wordFilterMode == FilterMode.STRICT) { // || CometSettings.wordFilterMode == FilterMode.SMART) {
+            //message = Normalizer.normalize(message, Normalizer.Form.NFD);
+            message = FilterUtil.normalize(message.toLowerCase());
+
+            System.out.println(message);
+        }
+
         for (Map.Entry<String, String> word : wordfilter.entrySet()) {
-            if (message.contains(word.getKey())) {
+            if (message.toLowerCase().contains(word.getKey())) {
+                if(CometSettings.wordFilterMode == FilterMode.STRICT)
+                    return new FilterResult(true, word.getKey());
+
                 message = message.replace(word.getKey(), word.getValue());
             }
         }
 
-        return message;
+        return new FilterResult(message);
     }
 
     public void save() {

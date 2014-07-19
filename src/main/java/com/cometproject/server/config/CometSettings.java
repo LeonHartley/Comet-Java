@@ -1,7 +1,10 @@
 package com.cometproject.server.config;
 
+import com.cometproject.server.game.rooms.filter.FilterMode;
 import com.cometproject.server.storage.queries.config.ConfigDao;
+import com.google.gson.Gson;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class CometSettings {
@@ -34,6 +37,9 @@ public class CometSettings {
     public static boolean roomPasswordEncryptionEnabled = false;
     public static int roomPasswordEncryptionRounds = 10;
 
+    public static FilterMode wordFilterMode = FilterMode.DEFAULT;
+
+    // TODO: Catch missing-config exceptions and fallback to the defaults...
     public static void init() {
         Map<String, String> config = ConfigDao.getAll();
 
@@ -57,14 +63,12 @@ public class CometSettings {
         floorMaxY = Integer.parseInt(config.get("comet.floor.command.max.y"));
         floorMaxTotal = Integer.parseInt(config.get("comet.floor.command.max.total"));
 
-        try {
-            maxPlayersInRoom = Integer.parseInt(config.get("comet.game.rooms.maxPlayers"));
-        } catch (Exception e) {
-            // fall back to 150
-        }
+        maxPlayersInRoom = Integer.parseInt(config.get("comet.game.rooms.maxPlayers"));
 
         roomPasswordEncryptionEnabled = Boolean.parseBoolean(config.get("comet.game.rooms.hashpasswords"));
         roomPasswordEncryptionRounds = Integer.parseInt(config.get("comet.game.rooms.hashrounds"));
+
+        wordFilterMode = FilterMode.valueOf(config.get("comet.game.filter.mode").toUpperCase());
     }
 
     public static void setMotd(String motd) {
