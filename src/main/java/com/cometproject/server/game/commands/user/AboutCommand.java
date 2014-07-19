@@ -8,6 +8,7 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.utilities.CometRuntime;
 import com.cometproject.server.utilities.TimeSpan;
 
 import java.text.NumberFormat;
@@ -37,9 +38,10 @@ public class AboutCommand extends ChatCommand {
 
         if (client.getPlayer().getPermissions().hasPermission("about_detailed")) {
             about.append("<br><b>Server Info</b><br>");
+            about.append("Process ID: " + CometRuntime.processId + "<br>");
             about.append("Allocated memory: " + format.format(((runtime.totalMemory() / 1024) / 1024)) + "MB<br>");
             about.append("Used memory: " + format.format(((runtime.totalMemory() / 1024) / 1024) - ((runtime.freeMemory() / 1024) / 1024)) + "MB<br>");
-            about.append("OS: " + System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ")<br>");
+            about.append("OS: " + CometRuntime.operatingSystem + " (" + CometRuntime.operatingSystemArchitecture + ")<br>");
             about.append("CPU cores:  " + runtime.availableProcessors() + "<br>");
 
             about.append("<br><br><b>Hotel Stats</b><br>");
@@ -69,7 +71,7 @@ public class AboutCommand extends ChatCommand {
                     about.append("Current size: " + CometManager.getRooms().getRoomDataInstances().getStats().getCurrentSize() + "<br>");
                     about.append("Cumulative evictions: " + CometManager.getRooms().getRoomDataInstances().getStats().getCumulativeEvictions() + "<br>");
                     about.append("Cumulative hits: " + CometManager.getRooms().getRoomDataInstances().getStats().getCumulativeHits() + "<br>");
-                    about.append("Cumulative lookups: " + CometManager.getRooms().getRoomDataInstances().getStats().getCumulativeLookups() + "<br>");
+                    about.append("Cumulative look-ups: " + CometManager.getRooms().getRoomDataInstances().getStats().getCumulativeLookups() + "<br>");
                     about.append("Cumulative misses: " + CometManager.getRooms().getRoomDataInstances().getStats().getCumulativeMisses() + "<br>");
                     about.append("Cumulative non-live-puts: " + CometManager.getRooms().getRoomDataInstances().getStats().getCumulativeNonLivePuts() + "<br>");
                     about.append("Cumulative puts: " + CometManager.getRooms().getRoomDataInstances().getStats().getCumulativePuts() + "<br><br>");
