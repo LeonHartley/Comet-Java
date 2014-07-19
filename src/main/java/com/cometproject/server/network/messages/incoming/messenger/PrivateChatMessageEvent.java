@@ -1,9 +1,13 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.components.types.MessengerFriend;
+import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.messenger.InstantChatMessageComposer;
+import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -55,6 +59,16 @@ public class PrivateChatMessageEvent implements IEvent {
             client.getPlayer().setLastMessageTime(time);
         }
 
+        if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
+            FilterResult filterResult = CometManager.getRooms().getFilter().filter(message);
+
+            if(filterResult.isBlocked()) {
+                client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
+                return;
+            } else if(filterResult.wasModified()) {
+                message = filterResult.getChatMessage();
+            }
+        }
 
         friendClient.send(InstantChatMessageComposer.compose(message, client.getPlayer().getId()));
     }

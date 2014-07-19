@@ -1,15 +1,22 @@
 package com.cometproject.server.network.messages.incoming.room.bots;
 
+import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.RandomInteger;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ModifyBotMessageEvent implements IEvent {
     @Override
@@ -45,7 +52,9 @@ public class ModifyBotMessageEvent implements IEvent {
 
             case 2:
                 String[] data1 = data.split(";");
-                String[] messages = data1[0].split("\r");
+
+                List<String> messages = Arrays.asList(data1[0].split("\\r*,\\r*"));
+
                 String automaticChat = data1[2];
                 String speakingInterval = data1[4];
 
@@ -53,7 +62,19 @@ public class ModifyBotMessageEvent implements IEvent {
                     speakingInterval = "7";
                 }
 
-                botEntity.getData().setMessages(messages);
+                for(String message : messages) {
+                    FilterResult filterResult = CometManager.getRooms().getFilter().filter(message);
+
+                    if(filterResult.isBlocked()) {
+                        client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
+                        return;
+                    } else if(filterResult.wasModified()) {
+                        messages.remove(message);
+                        messages.add(filterResult.getChatMessage());
+                    }
+                }
+
+                botEntity.getData().setMessages((String[]) messages.toArray());
                 botEntity.getData().setChatDelay(Integer.parseInt(speakingInterval));
                 botEntity.getData().setAutomaticChat(Boolean.parseBoolean(automaticChat));
                 break;

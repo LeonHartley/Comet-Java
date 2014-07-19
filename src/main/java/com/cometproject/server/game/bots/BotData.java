@@ -1,10 +1,8 @@
 package com.cometproject.server.game.bots;
 
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.cometproject.server.utilities.RandomInteger;
 import com.google.gson.Gson;
-import org.apache.log4j.Logger;
 
 import java.util.Arrays;
 
@@ -13,8 +11,6 @@ public abstract class BotData implements BotInformation {
     private String username, motto, figure, gender, ownerName;
     private boolean isAutomaticChat;
     private String[] messages;
-
-    private Logger log = Logger.getLogger(BotData.class.getName());
 
     public BotData(int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages, boolean automaticChat, int chatDelay) {
         this.id = id;
@@ -32,10 +28,11 @@ public abstract class BotData implements BotInformation {
     public String getRandomMessage() {
         if (this.getMessages().length > 0) {
             int index = RandomInteger.getRandom(0, (this.getMessages().length - 1));
-            return CometManager.getRooms().getFilter().filter(this.stripNonAlphanumeric(this.getMessages()[index]));
-        } else {
-            return "";
+
+            return this.stripNonAlphanumeric(this.getMessages()[index]);
         }
+
+        return "";
     }
 
     private String stripNonAlphanumeric(String msg) {
