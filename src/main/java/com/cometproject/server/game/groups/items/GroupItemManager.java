@@ -1,7 +1,7 @@
 package com.cometproject.server.game.groups.items;
 
 import com.cometproject.server.game.groups.items.types.*;
-import com.cometproject.server.storage.queries.groups.GroupDao;
+import com.cometproject.server.storage.queries.groups.GroupItemDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -34,7 +34,7 @@ public class GroupItemManager {
             backgroundColours.clear();
         }
 
-        int itemCount = GroupDao.loadGroupItems(bases, symbols, baseColours, symbolColours, backgroundColours);
+        int itemCount = GroupItemDao.loadGroupItems(bases, symbols, baseColours, symbolColours, backgroundColours);
 
         log.info("Loaded " + itemCount + " group items");
     }

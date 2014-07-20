@@ -1,16 +1,16 @@
 package com.cometproject.server.game.groups.types;
 
+import com.cometproject.server.game.CometManager;
+
 import java.util.List;
 
 public class Group {
     private int id;
-    private GroupData data;
-    private List<GroupMember> members;
+    private List<GroupMember> groupMembers;
 
-    public Group(GroupData data, List<GroupMember> members) {
-        this.id = data.getId();
-        this.data = data;
-        this.members = members;
+    public Group(int id, List<GroupMember> members) {
+        this.id = id;
+        this.groupMembers = members;
     }
 
     public int getId() {
@@ -18,6 +18,6 @@ public class Group {
     }
 
     public GroupData getData() {
-        return this.data;
+        return CometManager.getGroups().getData(this.id);
     }
 }
