@@ -30,6 +30,10 @@ public class GroupData {
         this.adminDeco = data.getString("admindeco").equals("1");
     }
 
+    public void save() {
+
+    }
+
     public int getId() {
         return this.id;
     }
@@ -60,10 +64,6 @@ public class GroupData {
 
     public void setOwnerId(int id) {
         this.ownerId = id;
-    }
-
-    public void save() throws SQLException {
-
     }
 
     public String getBadge() {
