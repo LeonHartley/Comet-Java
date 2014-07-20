@@ -16,7 +16,7 @@ public class GroupPartsMessageComposer {
         for (Room room : rooms.values()) {
             //if (room.getGroup() == null) {
             roomCount++;
-            //}
+           //}
         }
 
         msg.writeInt(CometSettings.groupCost);
