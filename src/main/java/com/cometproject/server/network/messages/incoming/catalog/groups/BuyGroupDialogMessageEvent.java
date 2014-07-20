@@ -10,7 +10,7 @@ import javolution.util.FastMap;
 
 public class BuyGroupDialogMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        client.send(GroupPartsMessageComposer.compose(new FastMap<Integer, Room>()));
+        client.send(GroupPartsMessageComposer.compose(new FastMap<>()));
         client.send(GroupElementsMessageComposer.compose());
     }
 }
