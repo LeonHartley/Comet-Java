@@ -33,37 +33,14 @@ public class BuyGroupMessageEvent implements IEvent {
         int groupBase = msg.readInt();
         int groupBaseColour = msg.readInt();
         int groupItemsLength = msg.readInt() * 3;
-/*
+
         List<Integer> groupItems = new ArrayList<>();
 
         for (int i = 0; i < (groupItemsLength); i++) {
             groupItems.add(msg.readInt());
-        }*/
+        }
 
-        //String badge = this.generateGuildImage(groupBase, groupBaseColour, groupItems);
-        int groupBase4 = msg.readInt();
-        int groupBase5 = msg.readInt();
-        int groupBase6 = msg.readInt();
-        int groupBase7 = msg.readInt();
-        int groupBase8 = msg.readInt();
-        int groupBase9 = msg.readInt();
-        int groupBase10 = msg.readInt();
-        int groupBase11 = msg.readInt();
-        int groupBase12 = msg.readInt();
-        int groupBase13 = msg.readInt();
-        int groupBase14 = msg.readInt();
-        int groupBase15 = msg.readInt();
-        int groupBase16 = msg.readInt();
-        int groupBase17 = msg.readInt();
-        int groupBase18 = msg.readInt();
-
-        String base = "b" + ((groupBase4 < 10) ? "0" + groupBase4 : groupBase4) + ((groupBase5 < 10) ? "0" + groupBase5 : groupBase5) + groupBase6;
-        String s1 = CometManager.getGroups().getGroupItems().checkSymbol("s" + ((groupBase7 < 10) ? "0" + groupBase7 : groupBase7) + ((groupBase8 < 10) ? "0" + groupBase8 : groupBase8) + groupBase9);
-        String s2 = CometManager.getGroups().getGroupItems().checkSymbol("s" + ((groupBase10 < 10) ? "0" + groupBase10 : groupBase10) + ((groupBase11 < 10) ? "0" + groupBase11 : groupBase11) + groupBase12);
-        String s3 = CometManager.getGroups().getGroupItems().checkSymbol("s" + ((groupBase13 < 10) ? "0" + groupBase13 : groupBase13) + ((groupBase14 < 10) ? "0" + groupBase14 : groupBase14) + groupBase15);
-        String s4 = CometManager.getGroups().getGroupItems().checkSymbol("s" + ((groupBase16 < 10) ? "0" + groupBase16 : groupBase16) + ((groupBase17 < 10) ? "0" + groupBase17 : groupBase17) + groupBase18);
-
-        String badge = base + s1 + s2 + s2 + s3 + s4;
+        String badge = this.generateGuildImage(groupBase, groupBaseColour, groupItems);
 
         //client.send(BoughtItemMessageComposer.compose());
         //Group group = CometManager.getGroups().createGroup(name, desc, roomId, badge, client, CometManager.getGroups().getSymbolColours().containsKey(colour1) ? colour1 : 1, CometManager.getGroups().getBackgroundColours().containsKey(colour2) ? colour2 : 1);
