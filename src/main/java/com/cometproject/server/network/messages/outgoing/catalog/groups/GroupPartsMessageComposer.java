@@ -1,19 +1,22 @@
 package com.cometproject.server.network.messages.outgoing.catalog.groups;
 
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+import java.util.List;
 import java.util.Map;
 
 public class GroupPartsMessageComposer {
-    public static Composer compose(Map<Integer, Room> rooms) {
+    public static Composer compose(List<Integer> rooms) {
         Composer msg = new Composer(Composers.GroupPartsMessageComposer);
 
         int roomCount = 0;
 
-        for (Room room : rooms.values()) {
+        for (Integer room : rooms) {
             //if (room.getGroup() == null) {
             roomCount++;
            //}
@@ -22,10 +25,11 @@ public class GroupPartsMessageComposer {
         msg.writeInt(CometSettings.groupCost);
         msg.writeInt(roomCount);
 
-        for (Room room : rooms.values()) {
+        for (Integer room : rooms) {
+            RoomData roomData = CometManager.getRooms().getRoomData(room);
             //if (room.getGroup() == null) {
-            msg.writeInt(room.getId());
-            msg.writeString(room.getData().getName());
+            msg.writeInt(roomData.getId());
+            msg.writeString(roomData.getName());
             msg.writeBoolean(false);
             //}
         }

@@ -39,6 +39,14 @@ public class GroupItemManager {
         log.info("Loaded " + itemCount + " group items");
     }
 
+    public String checkSymbol(String symbol) {
+        if(symbol.equals("s000") || symbol.equals("s00000")) {
+            return "";
+        }
+
+        return symbol;
+    }
+
     public List<GroupBase> getBases() {
         return this.bases;
     }

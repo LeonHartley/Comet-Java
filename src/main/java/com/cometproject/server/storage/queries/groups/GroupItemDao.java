@@ -22,7 +22,7 @@ public class GroupItemDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM group_items", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM group_items_2", sqlConnection);
 
             resultSet = preparedStatement.executeQuery();
 

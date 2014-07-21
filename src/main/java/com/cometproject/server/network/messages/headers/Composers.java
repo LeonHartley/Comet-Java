@@ -106,8 +106,8 @@ public class Composers {
     public static short ApplyEffectMessageComposer = 445;
     public static short UserBadgesMessageComposer = 2059;
 
-    public static short GroupPartsMessageComposer = 1061;
-    public static short GroupElementsMessageComposer = 29;
+    public static short GroupPartsMessageComposer = 3696;
+    public static short GroupElementsMessageComposer = 2081;
 
     public static short WardrobeMessageComposer = 3709;
 
