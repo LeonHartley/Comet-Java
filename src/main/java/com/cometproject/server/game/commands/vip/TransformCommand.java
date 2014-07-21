@@ -72,6 +72,7 @@ public class TransformCommand extends ChatCommand {
         HUMAN(""),
         DOG("0 15 FEE4B2 2 2 -1 0 3 -1 0" + "#" + 15),
         CAT("1 0 F5E759 2 2 -1 0 3 -1 0" + "#" + 0),
+
         HORSE("15 3 FFFFFF 2 2 -1 0 3 -1 0" + "#" + 3),
         LION("6 0 FFFFFF 2 2 -1 0 3 -1 0" + "#" + 0),
         CROCODILE("2 4 96E75A 2 2 -1 0 3 -1 0" + "#" + 4),
