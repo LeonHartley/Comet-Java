@@ -118,7 +118,7 @@ public class GroupManager {
         int groupId = GroupDao.create(groupData);
         this.groupData.put(groupId, groupData);
 
-        Group groupInstance = new Group(groupId, new ArrayList<>());
+        Group groupInstance = new Group(groupId);
         this.groupInstances.put(groupId, groupInstance);
 
         return groupInstance;
@@ -130,7 +130,7 @@ public class GroupManager {
      * @return Group instance
      */
     private Group load(int id) {
-        return new Group(id, new ArrayList<>());
+        return new Group(id);
     }
 
     /**
