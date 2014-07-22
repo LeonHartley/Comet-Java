@@ -115,7 +115,13 @@ public class GroupManager {
      * @return Group instance
      */
     public Group createGroup(GroupData groupData) {
-        return null;
+        int groupId = GroupDao.create(groupData);
+        this.groupData.put(groupId, groupData);
+
+        Group groupInstance = new Group(groupId, new ArrayList<>());
+        this.groupInstances.put(groupId, groupInstance);
+
+        return groupInstance;
     }
 
     /**
