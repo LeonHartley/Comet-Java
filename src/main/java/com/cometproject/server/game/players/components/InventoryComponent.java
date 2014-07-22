@@ -112,8 +112,9 @@ public class InventoryComponent {
         return badges;
     }
 
-    public void add(int id, int itemId, String extraData, GiftData giftData) {
+    public InventoryItem add(int id, int itemId, String extraData, GiftData giftData) {
         InventoryItem item = new InventoryItem(id, itemId, extraData, giftData);
+
         if (item.getDefinition().getType().equals("s")) {
             this.getFloorItems().put(id, item);
         }
@@ -121,6 +122,8 @@ public class InventoryComponent {
         if (item.getDefinition().getType().equals("i")) {
             this.getWallItems().put(id, item);
         }
+
+        return item;
     }
 
     public void add(int id, int itemId, String extraData) {

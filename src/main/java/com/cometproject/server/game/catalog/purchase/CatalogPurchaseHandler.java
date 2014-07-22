@@ -9,6 +9,7 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.players.components.types.InventoryBot;
+import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.misc.AlertMessageComposer;
@@ -21,12 +22,10 @@ import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.pets.PetDao;
-import javolution.util.FastMap;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class CatalogPurchaseHandler {
     private CatalogManager catalogManager;
@@ -41,6 +40,8 @@ public class CatalogPurchaseHandler {
             client.send(AlertMessageComposer.compose(Locale.get("catalog.error.toomany")));
             return;
         }
+
+        List<InventoryItem> unseenItems = new ArrayList<>();
 
         try {
             CatalogItem item = this.catalogManager.getPage(pageId).getItems().get(itemId);
@@ -74,7 +75,6 @@ public class CatalogPurchaseHandler {
                 return;
             }
 
-            // to-do: decrease credit cost last? (make sure item was actually purchased??)
             client.getPlayer().getData().decreaseCredits(totalCostCredits);
             client.getPlayer().getData().decreasePoints(totalCostPoints);
 
@@ -93,8 +93,6 @@ public class CatalogPurchaseHandler {
                     // TODO: HC buying
                     throw new Exception("HC purchasing is not implemented");
                 }
-
-                Map<Integer, Integer> unseenItems = new FastMap<>();
 
                 String extraData = "";
 
@@ -167,8 +165,7 @@ public class CatalogPurchaseHandler {
                 List<Integer> newItems = ItemDao.createItems(purchases);
 
                 for (Integer newItem : newItems) {
-                    unseenItems.put(newItem, def.getType().equalsIgnoreCase("s") ? 1 : 2);
-                    client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData);
+                    unseenItems.add(client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData));
 
                     if (isTeleport)
                         teleportIds[newItems.indexOf(newItem)] = newItem;
@@ -200,6 +197,10 @@ public class CatalogPurchaseHandler {
             }
         } catch (Exception e) {
             CometManager.getLogger().error("Error while buying catalog item", e);
+        } finally {
+            // Clean up the purchase - even if there was an exception!!
+
+            unseenItems.clear();
         }
     }
 
