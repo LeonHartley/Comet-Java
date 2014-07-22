@@ -15,13 +15,35 @@ import java.lang.management.ManagementFactory;
 import java.util.Map;
 
 public class Comet {
+    /**
+     * Logging during start-up & console commands
+     */
     private static Logger log = Logger.getLogger(Comet.class.getName());
+
+    /**
+     * The main server instance
+     */
     private static CometServer server;
+
+    /**
+     * The time the server was started
+     */
     public static long start;
 
+    /**
+     * Is a debugger attache?
+     */
     public static volatile boolean isDebugging = false;
+
+    /**
+     * Is Comet running?
+     */
     public static volatile boolean isRunning = true;
 
+    /**
+     * Start the emulator!
+     * @param args The arguments passed from the run command
+     */
     public static void run(String[] args) {
         start = System.currentTimeMillis();
 
@@ -162,19 +184,35 @@ public class Comet {
         cmdThr.start();
     }
 
+    /**
+     * Exit the comet server
+     * @param message The message to display to the console
+     */
     public static void exit(String message) {
         log.error("Comet has shutdown. Reason: \"" + message + "\"");
         System.exit(0);
     }
 
+    /**
+     * Get the current time in seconds
+     * @return The time in seconds
+     */
     public static long getTime() {
         return (System.currentTimeMillis() / 1000L);
     }
 
+    /**
+     * Get the current build of Comet
+     * @return The current build of Comet
+     */
     public static String getBuild() {
         return "0.9.1-ALPHA1";
     }
 
+    /**
+     * Get the main server instance
+     * @return The main server instance
+     */
     public static CometServer getServer() {
         return server;
     }

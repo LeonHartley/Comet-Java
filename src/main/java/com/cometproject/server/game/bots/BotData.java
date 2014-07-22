@@ -7,8 +7,14 @@ import com.google.gson.Gson;
 import java.util.Arrays;
 
 public abstract class BotData implements BotInformation {
-    private int id, chatDelay, ownerId;
-    private String username, motto, figure, gender, ownerName;
+    private int id;
+    private int chatDelay;
+    private int ownerId;
+    private String username;
+    private String motto;
+    private String figure;
+    private String gender;
+    private String ownerName;
     private boolean isAutomaticChat;
     private String[] messages;
 
