@@ -8,38 +8,128 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CometSettings {
+    /**
+     * Is the built-in basic HTTP server enabled?
+     * This is not used and will be removed soon - it has been
+     * replaced with a much better server with many more
+     * features!
+     */
     public static boolean httpEnabled = false;
 
-    public static boolean messageOfTheDayEnabled = true;
+    /**
+     * Is the login message enabled?
+     */
+    public static boolean messageOfTheDayEnabled = false;
+
+    /**
+     * If the login message is enabled, this message
+     * will be shown.
+     */
     public static String messageOfTheDayText = "";
 
+    /**
+     * The log store type - default is disabled
+     */
     public static String logStore = "disabled";
 
+    /**
+     * The name of the hotel... Will be shown in the
+     * footer of alerts etc.
+     */
     public static String hotelName = "";
+
+    /**
+     * The URL to the hotel... If you click the hotel name in
+     * an alert, it will take you to this link.
+     */
     public static String hotelUrl = "";
+
+    /**
+     * The image which will be displayed in the about command
+     */
     public static String aboutImg = "";
 
+    /**
+     * The cost of groups (currently only credits.. will be changed in the future...)
+     */
     public static int groupCost = 0;
 
+    /**
+     * Do users get credits every 15 minutes?
+     */
     public static boolean quartlyCreditsEnabled = false;
+
+    /**
+     * If enabled, the players will get x amount of credits
+     * every 15 minutes
+     */
     public static int quartlyCreditsAmount = 0;
 
+    /**
+     * Do you want to show how many players are online in the
+     * about command window?
+     */
     public static boolean showUsersOnlineInAbout = true;
+
+    /**
+     * Do you want to show the server uptime in the about
+     * command window?
+     */
     public static boolean showUptimeInAbout = true;
+
+    /**
+     * Do you want to show how many active rooms there are
+     * in the about command window?
+     */
     public static boolean showActiveRoomsInAbout = true;
 
+    /**
+     * The max amount of tiles on the X axis a player can use in their
+     * custom floor plan (:floor)
+     */
     public static int floorMaxX = 0;
+
+    /**
+     * The max amount of tiles on the Y axis a player can use in their
+     * custom floor plan (:floor)
+     */
     public static int floorMaxY = 0;
+
+    /**
+     * The max amount of tiles (X*Y) a player can use in their custom floor
+     * plan (:floor)
+     */
     public static int floorMaxTotal = 0;
 
+    /**
+     * The max amount of players allowed to non-staff members in a room (the
+     * limit that shows in the room settings window)
+     */
     public static int maxPlayersInRoom = 150;
 
+    /**
+     * Is room password encryption enabled?
+     */
     public static boolean roomPasswordEncryptionEnabled = false;
+
+    /**
+     * How many rounds of encryption do you want to use for
+     * room password encryption (if enabled)
+     */
     public static int roomPasswordEncryptionRounds = 10;
 
+    /**
+     * The mode in which the word filter will be in. If the
+     * mode is in strict, it will filter out accents and also
+     * block messages which match against the trigger words
+     */
     public static FilterMode wordFilterMode = FilterMode.DEFAULT;
 
     // TODO: Catch missing-config exceptions and fallback to the defaults...
+
+    /**
+     * Initialize the configuration
+     */
     public static void init() {
         Map<String, String> config = ConfigDao.getAll();
 
@@ -71,6 +161,10 @@ public class CometSettings {
         wordFilterMode = FilterMode.valueOf(config.get("comet.game.filter.mode").toUpperCase());
     }
 
+    /**
+     * Enable & set the Message Of The Day text
+     * @param motd The message to display to the user on-login
+     */
     public static void setMotd(String motd) {
         messageOfTheDayEnabled = true;
         messageOfTheDayText = motd;

@@ -16,25 +16,58 @@ import com.cometproject.server.tasks.CometThreadManagement;
 import java.util.Map;
 
 public class CometServer {
+    /**
+     * Comet's configuration
+     */
     private Configuration config;
 
+    /**
+     * The main Comet Server thread manager
+     */
     private CometThreadManagement threadManagement;
 
+    /**
+     * The API manager
+     */
     private APIManager apiManager;
 
+    /**
+     * MySQL Storage manager
+     */
     private StorageManager storageManager;
+
+    /**
+     * JavaScript plugin manager
+     */
     private PluginManager pluginManager;
+
+    /**
+     * Networking manager
+     */
     private NetworkManager networkManager;
 
+    /**
+     * Logging manager
+     */
     private LogManager loggingManager;
 
+    /**
+     * Empty constructor
+     */
     public CometServer() {
     }
 
+    /**
+     * Initialize Comet without any overridden configuration
+     */
     public void init() {
         this.init(null);
     }
 
+    /**
+     * Initialize Comet Server
+     * @param overridenConfig Override configuration via the run command arguments
+     */
     public void init(Map<String, String> overridenConfig) {
         this.config = new Configuration("./config/comet.properties");
 
@@ -47,8 +80,6 @@ public class CometServer {
         this.threadManagement = new CometThreadManagement();
         this.storageManager = new StorageManager();
         this.pluginManager = new PluginManager();
-
-
 
         this.loggingManager = new LogManager();
 
@@ -70,26 +101,50 @@ public class CometServer {
         }
     }
 
+    /**
+     * Get the Comet configuration
+     * @return Comet configuration
+     */
     public Configuration getConfig() {
         return this.config;
     }
 
+    /**
+     * Get the MySQL storage manager
+     * @return MySQL Storage manager
+     */
     public StorageManager getStorage() {
         return this.storageManager;
     }
 
+    /**
+     * Get the networking manager
+     * @return The networking manager
+     */
     public NetworkManager getNetwork() {
         return this.networkManager;
     }
 
+    /**
+     * Get the threading manager
+     * @return The thrreading manager
+     */
     public CometThreadManagement getThreadManagement() {
         return this.threadManagement;
     }
 
+    /**
+     * Get the plugin manager
+     * @return The plugin manager
+     */
     public PluginManager getPlugins() {
         return pluginManager;
     }
 
+    /**
+     * Get the logging manager
+     * @return The logging manager
+     */
     public LogManager getLoggingManager() {
         return loggingManager;
     }
