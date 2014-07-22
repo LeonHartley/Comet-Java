@@ -11,13 +11,6 @@ public class GetCataPageMessageEvent implements IEvent {
         int pageId = msg.readInt();
 
         if (CometManager.getCatalog().pageExists(pageId) && CometManager.getCatalog().getPage(pageId).isEnabled()) {
-            // TODO: better caching for other pages + all the other "static" composers
-            if (CometManager.getCatalog().getPage(pageId).getTemplate().equals("spaces_new")) {
-                client.send(CataPageMessageComposer.compose(CometManager.getCatalog().getPage(pageId)));
-
-                return;
-            }
-
             client.send(CataPageMessageComposer.compose(CometManager.getCatalog().getPage(pageId)));
         }
     }

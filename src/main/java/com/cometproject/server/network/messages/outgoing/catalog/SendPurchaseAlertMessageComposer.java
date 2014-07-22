@@ -5,7 +5,6 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
-import java.util.Map;
 
 public class SendPurchaseAlertMessageComposer {
     public static Composer compose(List<InventoryItem> items) {
@@ -28,27 +27,13 @@ public class SendPurchaseAlertMessageComposer {
         return msg;
     }
 
-    public static Composer compose(Map<Integer, Integer> items) {
+    public static Composer compose() {
         Composer msg = new Composer(Composers.SendPurchaseAlertMessageComposer);
 
-        // TODO: Fix this
-
-        int id = 0;
-
-        for (Integer item : items.keySet()) {
-            id = item;
-            break;
-        }
 
         msg.writeInt(1);
-        msg.writeInt(1);
-        msg.writeInt(1);
-        msg.writeInt(id);
-        /*msg.writeInt(items.size());
-
-        for (Integer item : items.keySet()) {
-            msg.writeInt(item);
-        }*/
+        msg.writeInt(0);
+        msg.writeInt(0);
 
         return msg;
     }

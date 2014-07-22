@@ -3,7 +3,6 @@ package com.cometproject.server.boot;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.logging.database.queries.LogQueries;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
@@ -173,7 +172,7 @@ public class Comet {
     }
 
     public static String getBuild() {
-        return "0.8.12-SNAPSHOT6";
+        return "0.9.1-ALPHA1";
     }
 
     public static CometServer getServer() {
