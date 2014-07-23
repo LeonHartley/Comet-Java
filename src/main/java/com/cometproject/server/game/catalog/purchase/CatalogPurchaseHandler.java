@@ -34,6 +34,15 @@ public class CatalogPurchaseHandler {
         this.catalogManager = catalogManager;
     }
 
+    /**
+     * Handle the catalog purchase
+     * @param client The session assigned to the player who's purchasing the item
+     * @param pageId The catalog page the purchased item is on
+     * @param itemId The ID of the item that was purchased
+     * @param data The data sent by the client
+     * @param amount The amount of items we're purchasing
+     * @param giftData Gift data (if-any)
+     */
     public void handle(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
         // TODO: redo all of this, it sucks so bad ;P
         if (amount > 100) {
@@ -204,10 +213,16 @@ public class CatalogPurchaseHandler {
         }
     }
 
+    /**
+     * Deliver the gift (if it was gifted
+     */
     private void deliverGift() {
         // TODO: this
     }
 
+    /**
+     * Catalo purchase object used for batching multiple purchases together
+     */
     public class CatalogPurchase {
         private int playerId;
         private int itemBaseId;
