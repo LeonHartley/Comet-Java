@@ -6,24 +6,81 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CatalogItem {
+    /**
+     * The ID of the catalog item
+     */
     private int id;
+
+    /**
+     * The ID of the item definition
+     */
     private String itemId;
+
+    /**
+     * The name of item which will be displayed in the catalog
+     */
     private String displayName;
+
+    /**
+     * The coin cost of the item
+     */
     private int costCredits;
+
+    /**
+     * The duckets cost of the item -- not currently used.. :p
+     */
     private int costActivityPoints;
+
+    /**
+     * The seasonal currency cost of the items (usually diamonds)
+     */
     private int costOther;
 
+    /**
+     * The amount of items you get if you purchase this
+     */
     private int amount;
+
+    /**
+     * Is this item only available to VIP members?
+     */
     private boolean vip;
+
+    /**
+     * The items (if this is a bundle)
+     */
     private List<Integer> items;
 
+    /**
+     * If this item is limited edition, how many items are available
+     */
     private int limitedTotal;
+
+    /**
+     * If this item is limited edition, how many items have been sold
+     */
     private int limitedSells;
+
+    /**
+     * Allow this item to be sold
+     */
     private boolean allowOffer;
+
+    /**
+     * Badge ID that's bundled with this item (if any)
+     */
     private String badgeId;
 
+    /**
+     * Item extra-data presets (once purchased, this preset will be applied to the item)
+     */
     private String presetData;
 
+    /**
+     * Initialize the catalog item with data from the database
+     * @param data Data from the database
+     * @throws SQLException
+     */
     public CatalogItem(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
         this.itemId = data.getString("item_ids");
@@ -52,10 +109,6 @@ public class CatalogItem {
         } else {
             this.items.add(Integer.valueOf(this.itemId));
         }
-
-        /*items.stream().filter(id -> CometManager.getItems().getDefinition(id) == null).forEach(id -> {
-            // do something like delete or w/e idk, no need to output cos the getDefinition will output if its null ;P
-        });*/
     }
 
     public int getId() {
