@@ -3,21 +3,68 @@ package com.cometproject.server.game.catalog.types.gifts;
 import com.cometproject.server.game.CometManager;
 
 public class GiftData {
+    /**
+     * The page ID of the item
+     */
     private int pageId;
+
+    /**
+     * The item ID of the item
+     */
     private int itemId;
+
+    /**
+     * The ID of the player who sent the item
+     */
     private int senderId;
+
+    /**
+     * The username of the player who will recieve the item
+     */
     private String receiver;
+
+    /**
+     * The message shown in the gift
+     */
     private String message;
+
+    /**
+     * The ID of the item in furnidata
+     */
     private int spriteId;
+
+    /**
+     * The wrapping paper
+     */
     private int wrappingPaper;
+
+    /**
+     * The box decoration type
+     */
     private int decorationType;
+
+    /**
+     * Do you want to show the username in the gift?
+     */
     private boolean showUsername;
 
-    public GiftData(int pageId, int itemId, int senderId, String sendingUser, String message, int spriteId, int wrappingPaper, int decorationType, boolean showUsername) {
+    /**
+     * Initilalize the gift data
+     * @param pageId The page ID of the item
+     * @param itemId The item ID
+     * @param senderId The ID of the player who sent the item
+     * @param receiver The name of the user will recieve the gift
+     * @param message The message that will appear in the gift
+     * @param spriteId The ID of the item in furnidata
+     * @param wrappingPaper
+     * @param decorationType
+     * @param showUsername
+     */
+    public GiftData(int pageId, int itemId, int senderId, String receiver, String message, int spriteId, int wrappingPaper, int decorationType, boolean showUsername) {
         this.pageId = pageId;
         this.itemId = itemId;
         this.senderId = senderId;
-        this.receiver = sendingUser;
+        this.receiver = receiver;
         this.message = message;
         this.spriteId = spriteId;
         this.wrappingPaper = wrappingPaper;
