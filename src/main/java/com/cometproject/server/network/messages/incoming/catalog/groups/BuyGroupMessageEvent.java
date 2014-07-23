@@ -1,7 +1,11 @@
 package com.cometproject.server.network.messages.incoming.catalog.groups;
 
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -41,9 +45,7 @@ public class BuyGroupMessageEvent implements IEvent {
 
         String badge = BadgeUtil.generate(groupBase, groupBaseColour, groupItems);
 
-        //client.send(BoughtItemMessageComposer.compose());
-        //Group group = CometManager.getGroups().createGroup(name, desc, roomId, badge, client, CometManager.getGroups().getSymbolColours().containsKey(colour1) ? colour1 : 1, CometManager.getGroups().getBackgroundColours().containsKey(colour2) ? colour2 : 1);
-
-        System.out.println(badge);
+        client.send(SendPurchaseAlertMessageComposer.compose());
+        Group group = CometManager.getGroups().createGroup(new GroupData(name, desc, roomId, badge, client, CometManager.getGroups().getSymbolColours().containsKey(colour1) ? colour1 : 1, CometManager.getGroups().getBackgroundColours().containsKey(colour2) ? colour2 : 1));
     }
 }
