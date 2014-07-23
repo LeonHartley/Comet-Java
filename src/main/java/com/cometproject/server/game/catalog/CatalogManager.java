@@ -1,7 +1,6 @@
 package com.cometproject.server.game.catalog;
 
 import com.cometproject.server.game.catalog.purchase.CatalogPurchaseHandler;
-import com.cometproject.server.game.catalog.types.CatalogClubOffer;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import javolution.util.FastMap;
@@ -81,7 +80,7 @@ public class CatalogManager {
         if (this.pageExists(id)) {
             return this.getPages().get(id);
         }
-/
+
         return null;
     }
 
