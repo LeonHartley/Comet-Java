@@ -25,10 +25,10 @@ public class BanCommand extends ChatCommand {
             return;
         }
 
-        if (user == client && user.getPlayer().getPermissions().hasPermission("user_unbannable")) {
+        if (user == client || user.getPlayer().getPermissions().hasPermission("user_unbannable")) {
             return;
         }
-
+        
         user.disconnect();
 
         long expire = Comet.getTime() + (length * 36000);
