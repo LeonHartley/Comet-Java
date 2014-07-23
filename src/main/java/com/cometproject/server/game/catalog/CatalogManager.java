@@ -12,15 +12,25 @@ import java.util.List;
 import java.util.Map;
 
 public class CatalogManager {
-    private List<CatalogClubOffer> clubOffers;
+    /**
+     * The pages within the catalog
+     */
     private Map<Integer, CatalogPage> pages;
 
+    /**
+     * The handler of everything catalog-purchase related
+     */
     private CatalogPurchaseHandler purchaseHandler;
 
+    /**
+     * The logger for the catalog manager
+     */
     private Logger log = Logger.getLogger(CatalogManager.class.getName());
 
+    /**
+     * Initialize the catalog
+     */
     public CatalogManager() {
-        this.clubOffers = new ArrayList<>();
         this.pages = new FastMap<>();
 
         this.purchaseHandler = new CatalogPurchaseHandler(this);
@@ -28,6 +38,9 @@ public class CatalogManager {
         this.loadPages();
     }
 
+    /**
+     * Load all catalog pages
+     */
     public void loadPages() {
         if (this.getPages().size() >= 1) {
             this.getPages().clear();
@@ -42,6 +55,11 @@ public class CatalogManager {
         log.info("Loaded " + this.getPages().size() + " catalog pages");
     }
 
+    /**
+     * Get pages for a specific player rank
+     * @param rank Player rank
+     * @return A list of pages that are accessible by the specified rank
+     */
     public List<CatalogPage> getPagesForRank(int rank) {
         List<CatalogPage> pages = new ArrayList<>();
 
@@ -54,26 +72,40 @@ public class CatalogManager {
         return pages;
     }
 
+    /**
+     * Get a catalog page by it's ID
+     * @param id Catalog Page ID
+     * @return Catalog Page object with the specified ID
+     */
     public CatalogPage getPage(int id) {
         if (this.pageExists(id)) {
             return this.getPages().get(id);
         }
-
+/
         return null;
     }
 
+    /**
+     * Does a page with a specific ID exist?
+     * @param id The ID of the page we want to check that exists
+     * @return Whether or not the page with the specified ID exists
+     */
     public boolean pageExists(int id) {
         return this.getPages().containsKey(id);
     }
 
-    public List<CatalogClubOffer> getClubOffers() {
-        return this.clubOffers;
-    }
-
+    /**
+     * Get all catalog pages
+     * @return All catalog pages in-memory
+     */
     public Map<Integer, CatalogPage> getPages() {
         return this.pages;
     }
 
+    /**
+     * Get the catalog page handler
+     * @return The catalog page handler
+     */
     public CatalogPurchaseHandler getPurchaseHandler() {
         return purchaseHandler;
     }
