@@ -152,6 +152,7 @@ public class Composers {
     public static short ForwardRoomMessageComposer = 2674;
 
     public static short NewGroupMessageComposer = 2684;
+    public static short GroupDataMessageComposer = 3113;
 
 
     public static String valueOfId(int i) {
