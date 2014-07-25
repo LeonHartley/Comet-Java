@@ -1,41 +1,104 @@
 package com.cometproject.server.game.groups.types;
 
+import com.cometproject.server.storage.queries.groups.GroupMemberDao;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class GroupMember {
-    private int userId;
-    private int groupId;
-    private int accessLevel;
+    /**
+     * The ID of the membership
+     */
+    private int membershipId;
 
+    /**
+     * The ID of the player
+     */
+    private int playerId;
+
+    /**
+     * The ID of the group
+     */
+    private int groupId;
+
+    /**
+     * The level of the user
+     */
+    private GroupAccessLevel accessLevel;
+
+    /**
+     * Initialize the member object with data from the database
+     * @param data Data from the database
+     * @throws SQLException
+     */
     public GroupMember(ResultSet data) throws SQLException {
-        this.userId = data.getInt("user_id");
-        this.accessLevel = data.getInt("rank"); // 0, 1, 2
+        this.membershipId = data.getInt("id");
+        this.playerId = data.getInt("player_id");
+        this.accessLevel = GroupAccessLevel.valueOf(data.getString("access_level").toLowerCase());
         this.groupId = data.getInt("group_id");
     }
 
-    public int getUserId() {
-        return this.userId;
+    /**
+     * Initialize the member object before it's saved to the database
+     * @param playerId ID of the player
+     * @param groupId ID of the group
+     * @param accessLevel The level of access the member has
+     */
+    public GroupMember(int playerId, int groupId, GroupAccessLevel accessLevel) {
+        this.membershipId = 0;
+        this.playerId = playerId;
+        this.groupId = groupId;
+        this.accessLevel = accessLevel;
+    }
+
+    /**
+     * Get the ID of the membership
+     * @return The ID of the membership
+     */
+    public int getMembershipId() {
+        return membershipId;
+    }
+
+    /**
+     * Set the ID of the membership
+     * @param membershipId The ID of the membership1
+     */
+    public void setMembershipId(int membershipId) {
+        this.membershipId = membershipId;
+    }
+
+    /**
+     * Get the ID of the member
+     * @return Get the ID of the member
+     */
+    public int getPlayerId() {
+        return this.playerId;
     }
 
     public int getGroupId() {
         return groupId;
     }
 
-    public int getAccessLevel() {
+    /**
+     * Get the level of access the member has
+     * @return The level of access the member has
+     */
+    public GroupAccessLevel getAccessLevel() {
         return this.accessLevel;
     }
 
-    public void setAccessLevel(int accessLevel) {
+    /**
+     * Set the level of access the member has
+     * @param accessLevel The level of access the member has
+     */
+    public void setAccessLevel(GroupAccessLevel accessLevel) {
         this.accessLevel = accessLevel;
     }
 
+    /**
+     * Save this membership object to the database
+     */
     public void save() {
-        /*PreparedStatement statement = Comet.getServer().getStorage().prepare("UPDATE group_members SET rank = ? WHERE user_id = ? AND group_id = ?");
-        statement.setInt(1, accessLevel);
-        statement.setInt(2, userId);
-        statement.setInt(3, groupId);
-
-        statement.execute();*/
+        GroupMemberDao.save(this);
     }
 }

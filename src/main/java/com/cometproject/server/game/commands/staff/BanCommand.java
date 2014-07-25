@@ -28,10 +28,10 @@ public class BanCommand extends ChatCommand {
         if (user == client || user.getPlayer().getPermissions().hasPermission("user_unbannable")) {
             return;
         }
-        
+
         user.disconnect();
 
-        long expire = Comet.getTime() + (length * 36000);
+        long expire = Comet.getTime() + (length * 3600);
         int banId = BanDao.createBan(length, expire, user.getPlayer().getId() + "", client.getPlayer().getId());
 
         CometManager.getBans().add(new Ban(banId, user.getPlayer().getId() + "", length == 0 ? length : expire, BanType.USER, ""));

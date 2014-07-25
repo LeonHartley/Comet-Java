@@ -104,6 +104,10 @@ public class Room implements Attributable {
         this.log.debug("Room has been disposed");
     }
 
+    public boolean hasGroup() {
+        return CometManager.getGroups().get(this.getId()) == null;
+    }
+
     public void tick() {
         this.wired.tick();
 

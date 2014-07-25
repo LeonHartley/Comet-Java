@@ -3,6 +3,11 @@ package com.cometproject.server.utilities;
 import java.util.List;
 
 public class BadgeUtil {
+    /**
+     * Generate a badge image string by data provided by the client
+     * This code was found in the original BcStorm release, most likely
+     * written by Carlos D.
+     */
     public static String generate(int guildBase, int guildBaseColor, List<Integer> guildStates) {
         String str = "";
         int num = 0;

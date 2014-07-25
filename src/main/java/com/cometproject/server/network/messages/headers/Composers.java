@@ -149,6 +149,10 @@ public class Composers {
 
     public static short LoadVolumeSettingsMessageComposer = 2440;
 
+    public static short ForwardRoomMessageComposer = 2674;
+
+    public static short NewGroupMessageComposer = 2684;
+
 
     public static String valueOfId(int i) {
         Composers c = new Composers();
