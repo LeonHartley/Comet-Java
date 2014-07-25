@@ -18,7 +18,7 @@ public class GroupDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM group_data WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM groups WHERE id = ?", sqlConnection);
             preparedStatement.setInt(1, id);
 
             resultSet = preparedStatement.executeQuery();
@@ -65,6 +65,33 @@ public class GroupDao {
 
             while (resultSet.next()) {
                 return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return 0;
+    }
+
+    public static int getIdByRoomId(int roomId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT `id` FROM `groups` WHERE `room_id` = ?", sqlConnection, true);
+            preparedStatement.setInt(1, roomId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return resultSet.getInt("id");
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

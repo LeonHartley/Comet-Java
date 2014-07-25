@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class RoomWriter {
@@ -21,9 +22,9 @@ public class RoomWriter {
         msg.writeInt(room.getScore());
         msg.writeInt(0);
         msg.writeInt(room.getCategory().getId());
-        msg.writeInt(0);
-        msg.writeString("");
-        msg.writeString("");
+
+        composeGroup(msg, room);
+
         msg.writeString("");
         msg.writeInt(room.getTags().length);
 
@@ -59,8 +60,9 @@ public class RoomWriter {
         msg.writeInt(room.getScore());
         msg.writeInt(0);
         msg.writeInt(room.getCategory().getId());
-        msg.writeInt(0);
-        msg.writeInt(0);
+
+        composeGroup(msg, room);
+
         msg.writeString("");
 
         msg.writeInt(room.getTags().length);
@@ -114,9 +116,8 @@ public class RoomWriter {
         msg.writeInt(0);
         msg.writeInt(room.getCategory().getId());
 
-        if()
-        msg.writeInt(0);
-        msg.writeInt(0);
+        composeGroup(msg, room);
+
         msg.writeString("");
         msg.writeInt(room.getTags().length);
 
@@ -144,6 +145,24 @@ public class RoomWriter {
         }
 
         return 0;
+    }
+
+    private static void composeGroup(Composer msg, RoomData roomData) {
+        if(CometManager.getGroups().getGroupByRoomId(roomData.getId()) == null) {
+            msg.writeInt(0);
+            msg.writeInt(0);
+        } else {
+            Group group = CometManager.getGroups().getGroupByRoomId(roomData.getId());
+
+            if(group == null) {
+                msg.writeInt(0);
+                msg.writeInt(0);
+            } else {
+                msg.writeInt(group.getId());
+                msg.writeString(group.getData().getTitle());
+                msg.writeString(group.getData().getBadge());
+            }
+        }
     }
 
     public static String roomAccessToString(int access) {

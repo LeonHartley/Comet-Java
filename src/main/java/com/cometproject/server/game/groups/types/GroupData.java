@@ -72,7 +72,7 @@ public class GroupData {
     public GroupData(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
         this.title = data.getString("name");
-        this.description = data.getString("desc");
+        this.description = data.getString("description");
         this.badge = data.getString("badge");
         this.ownerId = data.getInt("owner_id");
         this.created = data.getInt("created");

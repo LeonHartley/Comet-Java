@@ -144,7 +144,12 @@ public class GroupManager {
         if(this.roomIdToGroupId.containsKey(roomId))
             return this.get(roomIdToGroupId.get(roomId));
 
-        int groupId = GroupDao.getIdByRoomId()
+        int groupId = GroupDao.getIdByRoomId(roomId);
+
+        if(groupId != 0)
+            this.roomIdToGroupId.put(roomId, groupId);
+
+        return this.get(groupId);
     }
 
     /**

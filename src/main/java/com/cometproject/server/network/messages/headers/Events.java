@@ -138,6 +138,7 @@ public class Events {
     public static short OpenQuestsMessageEvent = 251;
     public static short UpdateAudioSettingsMessageEvent = 2625;
     public static short UpdateChatStyleMessageEvent = 2784;
+    public static short GroupInformationMessageEvent = 1751;
 
     public static String valueOfId(int i) {
         Events e = new Events();
