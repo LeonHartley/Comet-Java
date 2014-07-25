@@ -3,6 +3,7 @@ package com.cometproject.server.game.groups.types.components;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupMember;
+import com.cometproject.server.storage.queries.groups.GroupMemberDao;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
 
@@ -40,6 +41,34 @@ public class MembershipComponent {
         this.groupMembers = new FastMap<>();
         this.groupAdministrators = new FastSet<>();
         this.groupMembershipRequests = new FastSet<>();
+
+        this.loadMemberships();
+    }
+
+    /**
+     * Load members of this group from the database
+     */
+    private void loadMemberships() {
+        for(GroupMember groupMember : GroupMemberDao.getAllByGroupId(this.groupId)) {
+            this.createMembership(groupMember);
+        }
+    }
+
+    /**
+     * Add a new member to the group
+     * @param groupMember The new member
+     */
+    public void createMembership(GroupMember groupMember) {
+        if(groupMember.getMembershipId() == 0)
+            groupMember.setMembershipId(GroupMemberDao.create(groupMember));
+
+        if(groupMembers.containsKey(groupMember.getPlayerId()))
+            groupMembers.remove(groupMember.getPlayerId());
+
+        if(groupMember.getAccessLevel().isAdmin())
+            this.groupAdministrators.add(groupMember.getPlayerId());
+
+        groupMembers.put(groupMember.getPlayerId(), groupMember);
     }
 
     /**

@@ -1,16 +1,10 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.catalog.types.CatalogClubOffer;
-import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
-import org.joda.time.DateTime;
-
-import java.util.List;
 
 public class ClubMessageComposer {
-    public static Composer compose(List<CatalogClubOffer> offers) {
-        Composer msg = new Composer(Composers.ClubMessageComposer);
+    public static Composer compose() {//List<CatalogClubOffer> offers) {
+        /*Composer msg = new Composer(Composers.ClubMessageComposer);
 
         msg.writeInt(offers.size());
         for (CatalogClubOffer offer : offers) {
@@ -31,8 +25,8 @@ public class ClubMessageComposer {
             msg.writeInt(time.getMonthOfYear()); // expire month
         }
 
-        msg.writeInt(1);
+        msg.writeInt(1);*/
 
-        return msg;
+        return null;
     }
 }

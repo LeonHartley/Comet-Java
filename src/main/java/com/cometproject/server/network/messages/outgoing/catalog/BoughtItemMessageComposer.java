@@ -28,11 +28,12 @@ public class BoughtItemMessageComposer {
         return msg;
     }
 
-    public static Composer compose() {
+    public static Composer group() {
         Composer msg = new Composer(Composers.BoughtItemMessageComposer);
 
         msg.writeInt(6165);
         msg.writeString("CREATE_GUILD");
+        msg.writeBoolean(false);
         msg.writeInt(CometSettings.groupCost);
         msg.writeInt(0);
         msg.writeInt(0);

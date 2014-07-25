@@ -41,4 +41,12 @@ public class Group {
     public GroupData getData() {
         return CometManager.getGroups().getData(this.id);
     }
+
+    /**
+     * Get the membership component
+     * @return The component which will handle everything member-related
+     */
+    public MembershipComponent getMembershipComponent() {
+        return membershipComponent;
+    }
 }

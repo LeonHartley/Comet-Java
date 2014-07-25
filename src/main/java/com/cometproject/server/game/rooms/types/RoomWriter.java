@@ -94,7 +94,6 @@ public class RoomWriter {
         msg.writeBoolean(false);
         msg.writeBoolean(false);
         msg.writeBoolean(true);
-
     }
 
     public static void writeInfo(RoomData room, Composer msg) {
@@ -114,6 +113,8 @@ public class RoomWriter {
         msg.writeInt(room.getScore());
         msg.writeInt(0);
         msg.writeInt(room.getCategory().getId());
+
+        if()
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeString("");

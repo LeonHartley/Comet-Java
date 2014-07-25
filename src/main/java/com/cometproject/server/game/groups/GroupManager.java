@@ -4,11 +4,13 @@ import com.cometproject.server.game.groups.items.GroupItemManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.storage.queries.groups.GroupDao;
+import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 import org.apache.solr.search.LRUCache;
 import org.apache.solr.util.ConcurrentLRUCache;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class GroupManager {
     /**
@@ -53,6 +55,11 @@ public class GroupManager {
     private ConcurrentLRUCache<Integer, Group> groupInstances;
 
     /**
+     * Stores room ID by group ID, so we can retrieve groups faster
+     */
+    private Map<Integer, Integer> roomIdToGroupId;
+
+    /**
      * Used for logging
      */
     private Logger log = Logger.getLogger(GroupManager.class.getName());
@@ -65,6 +72,8 @@ public class GroupManager {
 
         this.groupData = new ConcurrentLRUCache<>(DATA_LRU_MAX_ENTRIES, DATA_LRU_LOWER_WATERMARK);
         this.groupInstances = new ConcurrentLRUCache<>(INSTANCE_LRU_MAX_ENTRIES, INSTANCE_LRU_LOWER_WATERMARK);
+
+        this.roomIdToGroupId = new FastMap<>();
     }
 
     /**
@@ -116,12 +125,26 @@ public class GroupManager {
      */
     public Group createGroup(GroupData groupData) {
         int groupId = GroupDao.create(groupData);
+
+        groupData.setId(groupId);
         this.groupData.put(groupId, groupData);
 
         Group groupInstance = new Group(groupId);
         this.groupInstances.put(groupId, groupInstance);
 
         return groupInstance;
+    }
+
+    /**
+     * Get a group by a room ID
+     * @param roomId The ID of the room we want to use to fetch a group
+     * @return The group instance
+     */
+    public Group getGroupByRoomId(int roomId) {
+        if(this.roomIdToGroupId.containsKey(roomId))
+            return this.get(roomIdToGroupId.get(roomId));
+
+        int groupId = GroupDao.getIdByRoomId()
     }
 
     /**

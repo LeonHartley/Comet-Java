@@ -3,10 +3,17 @@ package com.cometproject.server.network.messages.incoming.catalog.groups;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupData;
+import com.cometproject.server.game.groups.types.GroupMember;
+import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.group.NewGroupMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.ForwardRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
+import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.BadgeUtil;
@@ -45,7 +52,14 @@ public class BuyGroupMessageEvent implements IEvent {
 
         String badge = BadgeUtil.generate(groupBase, groupBaseColour, groupItems);
 
-        client.send(SendPurchaseAlertMessageComposer.compose());
-        Group group = CometManager.getGroups().createGroup(new GroupData(name, desc, roomId, badge, client, CometManager.getGroups().getSymbolColours().containsKey(colour1) ? colour1 : 1, CometManager.getGroups().getBackgroundColours().containsKey(colour2) ? colour2 : 1));
+        client.send(BoughtItemMessageComposer.group());
+
+        Group group = CometManager.getGroups().createGroup(new GroupData(name, desc, badge, client.getPlayer().getId(), roomId, CometManager.getGroups().getGroupItems().getSymbolColours().containsKey(colour1) ? colour1 : 1,
+                CometManager.getGroups().getGroupItems().getBackgroundColours().containsKey(colour2) ? colour2 : 1));
+
+        group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.OWNER));
+
+        client.send(ForwardRoomMessageComposer.compose(roomId));
+        client.send(NewGroupMessageComposer.compose(roomId, group.getId()));
     }
 }
