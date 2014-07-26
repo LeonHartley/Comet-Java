@@ -26,6 +26,7 @@ public class Session {
         if (player.getData() == null) {
             return;
         }
+
         String username = player.getData().getUsername();
 
         this.logger = Logger.getLogger(username);
@@ -37,6 +38,8 @@ public class Session {
 
     public void onDisconnect() {
         CometManager.getPlayers().remove(player.getId(), player.getData().getUsername());
+
+        this.eventHandler.dispose();
         this.getPlayer().dispose();
     }
 
