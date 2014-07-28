@@ -9,55 +9,55 @@ public class ChatEmotionsManager {
     private FastMap<String, ChatEmotion> emotions;
 
     public ChatEmotionsManager() {
-        emotions = new FastMap<>();
+        emotions = new FastMap<String, ChatEmotion>() {{
+            put(":)", ChatEmotion.Smile);
+            put(";)", ChatEmotion.Smile);
+            put(":]", ChatEmotion.Smile);
+            put(";]", ChatEmotion.Smile);
+            put("=)", ChatEmotion.Smile);
+            put("=]", ChatEmotion.Smile);
+            put(":-)", ChatEmotion.Smile);
 
-        emotions.put(":)", ChatEmotion.Smile);
-        emotions.put(";)", ChatEmotion.Smile);
-        emotions.put(":]", ChatEmotion.Smile);
-        emotions.put(";]", ChatEmotion.Smile);
-        emotions.put("=)", ChatEmotion.Smile);
-        emotions.put("=]", ChatEmotion.Smile);
-        emotions.put(":-)", ChatEmotion.Smile);
+            put(">:(", ChatEmotion.Angry);
+            put(">:[", ChatEmotion.Angry);
+            put(">;[", ChatEmotion.Angry);
+            put(">;(", ChatEmotion.Angry);
+            put(">=(", ChatEmotion.Angry);
 
-        emotions.put(">:(", ChatEmotion.Angry);
-        emotions.put(">:[", ChatEmotion.Angry);
-        emotions.put(">;[", ChatEmotion.Angry);
-        emotions.put(">;(", ChatEmotion.Angry);
-        emotions.put(">=(", ChatEmotion.Angry);
+            put(":o", ChatEmotion.Shocked);
+            put(";o", ChatEmotion.Shocked);
+            put(">;o", ChatEmotion.Shocked);
+            put(">:o", ChatEmotion.Shocked);
+            put(">=o", ChatEmotion.Shocked);
+            put("=o", ChatEmotion.Shocked);
 
-        emotions.put(":o", ChatEmotion.Shocked);
-        emotions.put(";o", ChatEmotion.Shocked);
-        emotions.put(">;o", ChatEmotion.Shocked);
-        emotions.put(">:o", ChatEmotion.Shocked);
-        emotions.put(">=o", ChatEmotion.Shocked);
-        emotions.put("=o", ChatEmotion.Shocked);
+            put(";'(", ChatEmotion.Sad);
+            put(";[", ChatEmotion.Sad);
+            put(":[", ChatEmotion.Sad);
+            put(";(", ChatEmotion.Sad);
+            put("=(", ChatEmotion.Sad);
+            put("='(", ChatEmotion.Sad);
+            put(":(", ChatEmotion.Sad);
+            put(":-(", ChatEmotion.Sad);
 
-        emotions.put(";'(", ChatEmotion.Sad);
-        emotions.put(";[", ChatEmotion.Sad);
-        emotions.put(":[", ChatEmotion.Sad);
-        emotions.put(";(", ChatEmotion.Sad);
-        emotions.put("=(", ChatEmotion.Sad);
-        emotions.put("='(", ChatEmotion.Sad);
-        emotions.put(":(", ChatEmotion.Sad);
-        emotions.put(":-(", ChatEmotion.Sad);
+            put(";D", ChatEmotion.Laugh);
+            put(":D", ChatEmotion.Laugh);
+            put(":L", ChatEmotion.Laugh);
 
-        emotions.put(";D", ChatEmotion.Laugh);
-        emotions.put(":D", ChatEmotion.Laugh);
-        emotions.put(":L", ChatEmotion.Laugh);
+            //hehe ;-)
+            put("leon", ChatEmotion.Smile);
+            put("comet", ChatEmotion.Smile);
+            put("java", ChatEmotion.Smile);
+            put("meesha", ChatEmotion.Smile);
 
-        // hehe
-        emotions.put("leon", ChatEmotion.Smile);
-        emotions.put("comet", ChatEmotion.Smile);
-        emotions.put("java", ChatEmotion.Smile);
-        emotions.put("meesha", ChatEmotion.Smile);
+            put("phoenix", ChatEmotion.Sad);
+            put("butterfly", ChatEmotion.Sad);
 
-        emotions.put("phoenix", ChatEmotion.Sad);
-        emotions.put("butterfly", ChatEmotion.Sad);
+            put("matou19", ChatEmotion.Angry);
+            put("mathis", ChatEmotion.Angry);
 
-        emotions.put("matou19", ChatEmotion.Angry);
-        emotions.put("mathis", ChatEmotion.Angry);
-
-        emotions.put("minette", ChatEmotion.Shocked); // mathis' cat
+            put("minette", ChatEmotion.Shocked); // mathis' cat
+        }};
 
         RoomManager.log.info("Loaded " + this.emotions.size() + " chat emotions");
     }
@@ -65,30 +65,9 @@ public class ChatEmotionsManager {
     public int getEmotion(String message) {
         for (Map.Entry<String, ChatEmotion> emotion : emotions.entrySet()) {
             if (message.toLowerCase().contains(emotion.getKey().toLowerCase())) {
-                return getPacketForEmotion(emotion.getValue());
+                return emotion.getValue().getEmotionId();
             }
         }
         return 0;
-    }
-
-    private int getPacketForEmotion(ChatEmotion e) {
-        if (e.equals(ChatEmotion.Smile))
-            return 1;
-
-        else if (e.equals(ChatEmotion.Angry))
-            return 2;
-
-        else if (e.equals(ChatEmotion.Shocked))
-            return 3;
-
-        else if (e.equals(ChatEmotion.Sad))
-            return 4;
-
-        else if (e.equals(ChatEmotion.Laugh))
-            return 6;
-
-        else
-            return 0;
-
     }
 }
