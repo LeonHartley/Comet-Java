@@ -49,7 +49,7 @@ public class GiftData {
     private boolean showUsername;
 
     /**
-     * Initilalize the gift data
+     * Initialize the gift data
      * @param pageId The page ID of the item
      * @param itemId The item ID
      * @param senderId The ID of the player who sent the item
