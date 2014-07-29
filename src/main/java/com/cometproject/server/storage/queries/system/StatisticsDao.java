@@ -13,8 +13,6 @@ public class StatisticsDao {
 
         try {
             sqlConnection = SqlHelper.getConnection();
-            //preparedStatement = SqlHelper.prepare("INSERT into rooms (`owner_id`, `owner`, `name`, `model`) VALUES(?, ?, ?, ?);", sqlConnection, true);
-
             preparedStatement = SqlHelper.prepare("UPDATE server_status SET active_players = ?, active_rooms = ?, server_version = ?", sqlConnection);
 
             preparedStatement.setInt(1, players);
