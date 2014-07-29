@@ -35,7 +35,7 @@ public class Comet {
     public static long start;
 
     /**
-     * Is a debugger attache?
+     * Is a debugger attached?
      */
     public static volatile boolean isDebugging = false;
 
@@ -45,7 +45,7 @@ public class Comet {
     public static volatile boolean isRunning = true;
 
     /**
-     * Start the emulator!
+     * Start the server!
      * @param args The arguments passed from the run command
      */
     public static void run(String[] args) {
