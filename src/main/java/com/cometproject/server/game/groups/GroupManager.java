@@ -106,7 +106,6 @@ public class GroupManager {
             return groupInstance;
 
         if(this.getData(id) == null) {
-            // Group doesn't exist!
             return null;
         }
 

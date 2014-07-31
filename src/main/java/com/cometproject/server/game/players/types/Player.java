@@ -37,6 +37,7 @@ public class Player {
     private PetComponent pets;
 
     private List<Integer> rooms = new ArrayList<>();
+    private List<Integer> groups = new ArrayList<>();
 
     private long lastMessageTime = 0;
     private double floodTime = 0;
