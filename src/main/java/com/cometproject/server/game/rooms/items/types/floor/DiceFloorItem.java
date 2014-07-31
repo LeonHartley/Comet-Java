@@ -23,14 +23,15 @@ public class DiceFloorItem extends RoomItemFloor {
         if (this.isInUse) {
             return;
         }
-        this.isInUse = true;
 
         if (requestData >= 0) {
             if (!"-1".equals(this.getExtraData())) {
                 this.setExtraData("-1");
                 this.sendUpdate();
 
-                this.setTicks(RoomItemFactory.getProcessTime(3));
+                this.isInUse = true;
+
+                this.setTicks(RoomItemFactory.getProcessTime(2.5));
             }
         } else {
             this.setExtraData("0");
