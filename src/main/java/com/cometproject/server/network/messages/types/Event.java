@@ -55,7 +55,6 @@ public final class Event implements ByteBufHolder {
 
     @Override
     public boolean release() {
-        log.debug("Releasing buffer, ref count will be " + (this.refCnt() - 1));
         return this.buffer.release();
     }
 

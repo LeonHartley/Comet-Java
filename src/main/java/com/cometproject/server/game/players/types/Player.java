@@ -11,6 +11,8 @@ import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMe
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.groups.GroupDao;
+import com.cometproject.server.storage.queries.groups.GroupMemberDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import javolution.util.FastMap;
 
@@ -60,6 +62,8 @@ public class Player {
         this.bots = new BotComponent(this);
         this.pets = new PetComponent(this);
 
+        this.groups = GroupDao.getIdsByPlayerId(this.id);
+
         this.avatar = null;
     }
 
@@ -80,6 +84,9 @@ public class Player {
 
         this.rooms.clear();
         this.rooms = null;
+
+        this.groups.clear();
+        this.groups = null;
 
         this.settings = null;
         this.data = null;
@@ -251,5 +258,9 @@ public class Player {
 
     public void setLastMessage(String lastMessage) {
         this.lastMessage = lastMessage;
+    }
+
+    public List<Integer> getGroups() {
+        return groups;
     }
 }

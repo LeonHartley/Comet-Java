@@ -94,6 +94,7 @@ public final class MessageHandler {
         this.registerCatalog();
         this.registerPets();
         this.registerLanding();
+        this.registerGroups();
         this.registerQuests();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
