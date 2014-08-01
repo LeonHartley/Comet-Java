@@ -23,8 +23,7 @@ public class LoadProfileMessageComposer {
         try {
             timestamp = Integer.parseInt(player.getRegDate());
             isTimestamp = true;
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
 
         msg.writeString(isTimestamp ? UserInfoMessageComposer.getDate(timestamp) : player.getRegDate());
         msg.writeInt(player.getAchievementPoints());
@@ -32,6 +31,7 @@ public class LoadProfileMessageComposer {
         msg.writeBoolean(isMyFriend);
         msg.writeBoolean(hasSentRequest);
         msg.writeBoolean(CometManager.getPlayers().isOnline(player.getId()));
+
         msg.writeInt(0); // groups
 
         msg.writeInt((int) Comet.getTime() - player.getLastVisit());

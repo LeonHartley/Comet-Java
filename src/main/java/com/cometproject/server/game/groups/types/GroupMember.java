@@ -34,7 +34,7 @@ public class GroupMember {
     public GroupMember(ResultSet data) throws SQLException {
         this.membershipId = data.getInt("id");
         this.playerId = data.getInt("player_id");
-        this.accessLevel = GroupAccessLevel.valueOf(data.getString("access_level").toLowerCase());
+        this.accessLevel = GroupAccessLevel.valueOf(data.getString("access_level").toUpperCase());
         this.groupId = data.getInt("group_id");
     }
 
