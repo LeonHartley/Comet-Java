@@ -1,6 +1,12 @@
 package com.cometproject.server.network.messages.headers;
 
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.CometManager;
+import javolution.util.FastMap;
+
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Map;
 
 public class Events {
     public static short CheckReleaseMessageEvent = 4000;
@@ -140,21 +146,24 @@ public class Events {
     public static short UpdateChatStyleMessageEvent = 2784;
     public static short GroupInformationMessageEvent = 1751;
 
-    public static String valueOfId(int i) {
-        Events e = new Events();
-        Field[] fields;
-        try {
-            fields = e.getClass().getDeclaredFields();
+    private static Map<Short, String> eventPacketNames = new FastMap<>();
 
-            for (Field field : fields) {
-                if (field.getInt(field.getName()) == i) {
-                    return field.getName();
-                }
+    static {
+        try {
+            for (Field field : Events.class.getDeclaredFields()) {
+                if(!Modifier.isPrivate(field.getModifiers()))
+                    eventPacketNames.put(field.getShort(field.getName()), field.getName());
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch(Exception ignored) {
+
+        }
+    }
+
+    public static String valueOfId(short packetId) {
+        if(eventPacketNames.containsKey(packetId)) {
+            return eventPacketNames.get(packetId);
         }
 
-        return "";
+        return "UnknownMessageEvent";
     }
 }

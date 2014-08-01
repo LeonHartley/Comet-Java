@@ -153,6 +153,7 @@ public class Composers {
 
     public static short NewGroupMessageComposer = 2684;
     public static short GroupDataMessageComposer = 3113;
+    public static short GroupInformationMessageComposer = 3435;
 
 
     public static String valueOfId(int i) {

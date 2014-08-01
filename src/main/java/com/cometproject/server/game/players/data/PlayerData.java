@@ -20,6 +20,8 @@ public class PlayerData {
     private int regTimestamp;
     private int achievementPoints;
 
+    private int favouriteGroup = 0;// TODO: this
+
     private boolean vip;
 
     public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints, String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp) {
@@ -150,5 +152,12 @@ public class PlayerData {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getFavouriteGroup() {
+        return this.favouriteGroup;
+    }
+    public void setFavouriteGroup(int favouriteGroup) {
+        this.favouriteGroup = favouriteGroup;
     }
 }
