@@ -114,6 +114,8 @@ public class GroupManager {
         if(groupInstance != null)
             this.groupInstances.put(id, groupInstance);
 
+        log.trace("Group with id #" + id + " was loaded");
+
         return groupInstance;
     }
 

@@ -1,7 +1,6 @@
 package com.cometproject.server.boot;
 
 import com.cometproject.server.api.APIManager;
-import com.cometproject.server.cache.CometCache;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Configuration;
 import com.cometproject.server.config.Locale;
