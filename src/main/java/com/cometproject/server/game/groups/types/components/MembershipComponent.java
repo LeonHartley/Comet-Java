@@ -7,6 +7,8 @@ import com.cometproject.server.storage.queries.groups.GroupMemberDao;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -78,6 +80,21 @@ public class MembershipComponent {
     public Map<Integer, GroupMember> getMembers() {
         return groupMembers;
     }
+
+    /**
+     * Get the members of the group in a list
+     * @return The members of the group in a list
+     */
+    public List<GroupMember> getMembersAsList() {
+        List<GroupMember> groupMembers = new ArrayList<>();
+
+        for(GroupMember groupMember : this.getMembers().values()) {
+            groupMembers.add(groupMember);
+        }
+
+        return groupMembers;
+    }
+
 
     /**
      * Get the administrators of the group
