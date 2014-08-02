@@ -155,7 +155,7 @@ public class GroupDao {
             resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()) {
-                data.add(resultSet.getInt(resultSet.getInt("group_id")));
+                data.add(resultSet.getInt("group_id"));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.catalog.groups;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.Group;
@@ -58,6 +59,7 @@ public class BuyGroupMessageEvent implements IEvent {
                 CometManager.getGroups().getGroupItems().getBackgroundColours().containsKey(colour2) ? colour2 : 1));
 
         group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.OWNER));
+        client.getPlayer().getGroups().add(group.getId());
 
         client.send(ForwardRoomMessageComposer.compose(roomId));
         client.send(NewGroupMessageComposer.compose(roomId, group.getId()));

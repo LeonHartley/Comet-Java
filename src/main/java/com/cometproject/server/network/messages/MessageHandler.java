@@ -13,6 +13,7 @@ import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroup
 import com.cometproject.server.network.messages.incoming.catalog.pets.PetRacesMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.pets.ValidatePetNameMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.GroupInformationMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.GroupMembersMessageEvent;
 import com.cometproject.server.network.messages.incoming.handshake.CheckReleaseMessageEvent;
 import com.cometproject.server.network.messages.incoming.handshake.GenerateSecretKeyMessageEvent;
 import com.cometproject.server.network.messages.incoming.handshake.InitCryptoMessageEvent;
@@ -281,6 +282,7 @@ public final class MessageHandler {
 
     public void registerGroups() {
         this.getMessages().put(Events.GroupInformationMessageEvent, new GroupInformationMessageEvent());
+        this.getMessages().put(Events.GroupMembersMessageEvent, new GroupMembersMessageEvent());
     }
 
     public void registerQuests() {
