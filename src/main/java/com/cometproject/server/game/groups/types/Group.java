@@ -2,6 +2,8 @@ package com.cometproject.server.game.groups.types;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.components.MembershipComponent;
+import com.cometproject.server.network.messages.outgoing.group.GroupInformationMessageComposer;
+import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
@@ -24,6 +26,18 @@ public class Group {
         this.id = id;
 
         this.membershipComponent = new MembershipComponent(this.id);
+    }
+
+    /**
+     * Create a packet containing group information
+     * @param flag Flag sent by the client (Unknown right now...)
+     * @param playerId The ID of the player to receive this message
+     * @param isFavourite Whether or not the group is the player's favourite
+     * @return Packet containing the group information
+     */
+    public Composer composeInformation(boolean flag, int playerId, boolean isFavourite) {
+        return GroupInformationMessageComposer.compose(this, CometManager.getRooms().getRoomData(this.getData().getRoomId()), flag, playerId == this.getData().getOwnerId(), isFavourite,
+                this.getMembershipComponent().getMembers().containsKey(playerId) ? 1 : this.getMembershipComponent().getMembershipRequests().contains(playerId) ? 2 : 0);
     }
 
     /**

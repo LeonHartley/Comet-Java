@@ -1,5 +1,6 @@
 package com.cometproject.server.game.groups.types;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.storage.queries.groups.GroupMemberDao;
 
 import java.sql.ResultSet;
@@ -27,6 +28,11 @@ public class GroupMember {
     private GroupAccessLevel accessLevel;
 
     /**
+     * The date the user joined the group
+     */
+    private int dateJoined;
+
+    /**
      * Initialize the member object with data from the database
      * @param data Data from the database
      * @throws SQLException
@@ -36,6 +42,7 @@ public class GroupMember {
         this.playerId = data.getInt("player_id");
         this.accessLevel = GroupAccessLevel.valueOf(data.getString("access_level").toUpperCase());
         this.groupId = data.getInt("group_id");
+        this.dateJoined = data.getInt("date_joined");
     }
 
     /**
@@ -49,6 +56,7 @@ public class GroupMember {
         this.playerId = playerId;
         this.groupId = groupId;
         this.accessLevel = accessLevel;
+        this.dateJoined = (int) Comet.getTime();
     }
 
     /**
@@ -93,6 +101,14 @@ public class GroupMember {
      */
     public void setAccessLevel(GroupAccessLevel accessLevel) {
         this.accessLevel = accessLevel;
+    }
+
+    /**
+     * Get the date the user joined the group
+     * @return The date the user joined the group
+     */
+    public int getDateJoined() {
+        return dateJoined;
     }
 
     /**

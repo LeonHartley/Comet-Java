@@ -46,6 +46,7 @@ public class GroupMemberDao {
     public static void save(GroupMember groupMember) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
+
         try {
             sqlConnection = SqlHelper.getConnection();
 
@@ -91,6 +92,25 @@ public class GroupMemberDao {
         }
 
         return 0;
+    }
+
+    public static void delete(int groupMembershipId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM group_memberships WHERE id = ?", sqlConnection);
+            preparedStatement.setInt(1, groupMembershipId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
     }
 }
 

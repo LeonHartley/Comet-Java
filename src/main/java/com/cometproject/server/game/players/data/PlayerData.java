@@ -20,11 +20,11 @@ public class PlayerData {
     private int regTimestamp;
     private int achievementPoints;
 
-    private int favouriteGroup = 0;// TODO: this
+    private int favouriteGroup;
 
     private boolean vip;
 
-    public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints, String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp) {
+    public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints, String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup) {
         this.id = id;
         this.username = username;
         this.motto = motto;
@@ -40,10 +40,12 @@ public class PlayerData {
         this.regDate = reg;
         this.lastVisit = lastVisit;
         this.regTimestamp = regTimestamp;
+
+        this.favouriteGroup = favouriteGroup;
     }
 
     public void save() {
-        PlayerDao.updatePlayerData(id, username, motto, figure, credits, points, gender);
+        PlayerDao.updatePlayerData(id, username, motto, figure, credits, points, gender, favouriteGroup);
     }
 
     public void decreaseCredits(int amount) {
@@ -155,8 +157,9 @@ public class PlayerData {
     }
 
     public int getFavouriteGroup() {
-        return this.favouriteGroup;
+        return favouriteGroup;
     }
+
     public void setFavouriteGroup(int favouriteGroup) {
         this.favouriteGroup = favouriteGroup;
     }

@@ -74,6 +74,24 @@ public class MembershipComponent {
     }
 
     /**
+     * Remove a player's membership to the group
+     * @param playerId The ID of the player to remove
+     */
+    public void removeMembership(int playerId) {
+        if(!groupMembers.containsKey(playerId))
+            return;
+
+        int groupMembershipId = groupMembers.get(playerId).getMembershipId();
+
+        GroupMemberDao.delete(groupMembershipId);
+
+        groupMembers.remove(groupMembershipId);
+
+        if(groupAdministrators.contains(playerId))
+            groupAdministrators.remove(playerId);
+    }
+
+    /**
      * Get the members of the group
      * @return The members of the group
      */
@@ -94,7 +112,6 @@ public class MembershipComponent {
 
         return groupMembers;
     }
-
 
     /**
      * Get the administrators of the group

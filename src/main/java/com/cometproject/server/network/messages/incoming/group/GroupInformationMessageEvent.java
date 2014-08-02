@@ -18,8 +18,6 @@ public class GroupInformationMessageEvent implements IEvent {
         if(group == null)
             return;
 
-        int membership = client.getPlayer().getGroups().contains(groupId) ? 1 : (group.getMembershipComponent().getMembershipRequests().contains(client.getPlayer().getId()) ? 2 : 0);
-
-        client.send(GroupInformationMessageComposer.compose(group, CometManager.getRooms().getRoomData(group.getData().getRoomId()), flag, true, false, membership));
+        client.send(group.composeInformation(flag, client.getPlayer().getId(), client.getPlayer().getData().getFavouriteGroup() == groupId));
     }
 }
