@@ -86,7 +86,7 @@ public class PlayerDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                return new PlayerData(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("motto"), resultSet.getString("figure"), resultSet.getString("gender"), resultSet.getString("email") == null ? "" : resultSet.getString("email"), resultSet.getInt("rank"), resultSet.getInt("credits"), resultSet.getInt("vip_points"), resultSet.getString("reg_date"), resultSet.getInt("last_online"), resultSet.getString("vip").equals("1"), resultSet.getInt("achievement_points"), resultSet.getInt("reg_timestamp"));
+                return new PlayerData(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("motto"), resultSet.getString("figure"), resultSet.getString("gender"), resultSet.getString("email") == null ? "" : resultSet.getString("email"), resultSet.getInt("rank"), resultSet.getInt("credits"), resultSet.getInt("vip_points"), resultSet.getString("reg_date"), resultSet.getInt("last_online"), resultSet.getString("vip").equals("1"), resultSet.getInt("achievement_points"), resultSet.getInt("reg_timestamp"), resultSet.getInt("favourite_group"));
             }
 
         } catch (SQLException e) {
@@ -155,7 +155,6 @@ public class PlayerDao {
             if (resultSet.next()) {
                 return new PlayerStatistics(resultSet);
             } else {
-                // close old statement
                 SqlHelper.closeSilently(preparedStatement);
 
                 preparedStatement = SqlHelper.prepare("INSERT into player_stats (`player_id`) VALUES(?)", sqlConnection);
@@ -203,7 +202,7 @@ public class PlayerDao {
     }
 
     public static String getUsernameByPlayerId(int playerId) {
-        // TODO: Cache, cache chache!
+        // TODO: Cache, cache cache!
 
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -261,7 +260,7 @@ public class PlayerDao {
         return 0;
     }
 
-    public static void updatePlayerData(int id, String username, String motto, String figure, int credits, int points, String gender) {
+    public static void updatePlayerData(int id, String username, String motto, String figure, int credits, int points, String gender, int favouriteGroup) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -275,7 +274,8 @@ public class PlayerDao {
             preparedStatement.setInt(4, credits);
             preparedStatement.setInt(5, points);
             preparedStatement.setString(6, gender);
-            preparedStatement.setInt(7, id);
+            preparedStatement.setInt(7, favouriteGroup);
+            preparedStatement.setInt(8, id);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {

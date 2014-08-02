@@ -46,7 +46,7 @@ public class GroupMembersMessageComposer {
             msg.writeInt(playerData.getId());
             msg.writeString(playerData.getUsername());
             msg.writeString(playerData.getFigure());
-            msg.writeString("JOIN_DATE");
+            msg.writeString(GroupInformationMessageComposer.getDate(groupMember.getDateJoined()));
         }
 
         msg.writeBoolean(isOwner);

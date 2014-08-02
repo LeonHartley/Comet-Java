@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,24 +15,23 @@ public class GroupPartsMessageComposer {
     public static Composer compose(List<Integer> rooms) {
         Composer msg = new Composer(Composers.GroupPartsMessageComposer);
 
-        int roomCount = 0;
+        List<Integer> availableRooms = new ArrayList<>();
 
         for (Integer room : rooms) {
-            //if (room.getGroup() == null) {
-            roomCount++;
-           //}
+            if(CometManager.getGroups().getGroupByRoomId(room) == null)
+                availableRooms.add(room);
         }
 
         msg.writeInt(CometSettings.groupCost);
-        msg.writeInt(roomCount);
+        msg.writeInt(availableRooms.size());
 
-        for (Integer room : rooms) {
+        for (Integer room : availableRooms) {
             RoomData roomData = CometManager.getRooms().getRoomData(room);
-            //if (room.getGroup() == null) {
-            msg.writeInt(roomData.getId());
-            msg.writeString(roomData.getName());
-            msg.writeBoolean(false);
-            //}
+            if (CometManager.getGroups().getGroupByRoomId(room) == null) {
+                msg.writeInt(roomData.getId());
+                msg.writeString(roomData.getName());
+                msg.writeBoolean(false);
+            }
         }
 
         msg.writeInt(5);
@@ -50,6 +50,8 @@ public class GroupPartsMessageComposer {
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeInt(0);
+
+        availableRooms.clear();
 
         return msg;
     }
