@@ -14,6 +14,8 @@ import com.cometproject.server.network.messages.incoming.catalog.pets.PetRacesMe
 import com.cometproject.server.network.messages.incoming.catalog.pets.ValidatePetNameMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.GroupInformationMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.GroupMembersMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.ManageGroupMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.RevokeMembershipMessageEvent;
 import com.cometproject.server.network.messages.incoming.handshake.CheckReleaseMessageEvent;
 import com.cometproject.server.network.messages.incoming.handshake.GenerateSecretKeyMessageEvent;
 import com.cometproject.server.network.messages.incoming.handshake.InitCryptoMessageEvent;
@@ -283,6 +285,8 @@ public final class MessageHandler {
     public void registerGroups() {
         this.getMessages().put(Events.GroupInformationMessageEvent, new GroupInformationMessageEvent());
         this.getMessages().put(Events.GroupMembersMessageEvent, new GroupMembersMessageEvent());
+        this.getMessages().put(Events.ManageGroupMessageEvent, new ManageGroupMessageEvent());
+        this.getMessages().put(Events.RevokeMembershipMessageEvent, new RevokeMembershipMessageEvent());
     }
 
     public void registerQuests() {
