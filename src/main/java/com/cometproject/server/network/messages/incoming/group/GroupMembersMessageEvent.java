@@ -8,6 +8,9 @@ import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessa
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GroupMembersMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
@@ -21,6 +24,22 @@ public class GroupMembersMessageEvent implements IEvent {
         if(group == null)
             return;
 
-        client.send(GroupMembersMessageComposer.compose(group, page, requestType, searchQuery, client.getPlayer().getId() == group.getData().getOwnerId()));
+        List<Object> groupMembers;
+
+        switch(requestType) {
+            default:
+                groupMembers = new ArrayList<>(group.getMembershipComponent().getMembersAsList());
+                break;
+
+            case 1:
+                groupMembers = new ArrayList<>(group.getMembershipComponent().getAdministrators());
+                break;
+
+            case 2:
+                groupMembers = new ArrayList<>(group.getMembershipComponent().getMembershipRequests());
+                break;
+        }
+
+        client.send(GroupMembersMessageComposer.compose(group.getData(), page, groupMembers, requestType, searchQuery, client.getPlayer().getId() == group.getData().getOwnerId()));
     }
 }
