@@ -7,9 +7,6 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.items.MoodlightDao;
 
-/**
- * Created by Matty on 05/07/2014.
- */
 public class UpdateMoodlightMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {

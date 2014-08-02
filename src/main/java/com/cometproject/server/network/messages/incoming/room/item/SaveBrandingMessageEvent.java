@@ -14,12 +14,9 @@ public class SaveBrandingMessageEvent implements IEvent {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if (room == null) {
+        if (room == null || (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;
         }
-
-        if (!room.getRights().hasRights(client.getPlayer().getId()))
-            return; // lol hax
 
         int length = msg.readInt();
         String data = "state" + (char) 9 + "0";
