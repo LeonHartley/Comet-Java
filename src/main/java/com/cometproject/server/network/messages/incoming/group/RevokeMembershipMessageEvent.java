@@ -30,6 +30,8 @@ public class RevokeMembershipMessageEvent implements IEvent {
             if(client.getPlayer().getSettings().getFavouriteGroup() == groupId) {
                 client.getPlayer().getData().setFavouriteGroup(0);
                 client.getPlayer().getData().save();
+
+                // Update favourite room
             }
 
             client.getPlayer().getGroups().remove(groupId);
