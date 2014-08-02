@@ -145,6 +145,7 @@ public class Events {
     public static short UpdateAudioSettingsMessageEvent = 2625;
     public static short UpdateChatStyleMessageEvent = 2784;
     public static short GroupInformationMessageEvent = 1751;
+    public static short GroupMembersMessageEvent = 318;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 
