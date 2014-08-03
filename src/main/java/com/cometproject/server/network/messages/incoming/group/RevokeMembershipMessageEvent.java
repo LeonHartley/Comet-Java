@@ -27,7 +27,7 @@ public class RevokeMembershipMessageEvent implements IEvent {
         group.getMembershipComponent().removeMembership(playerId);
 
         if (playerId == client.getPlayer().getId()) {
-            if(client.getPlayer().getSettings().getFavouriteGroup() == groupId) {
+            if(client.getPlayer().getData().getFavouriteGroup() == groupId) {
                 client.getPlayer().getData().setFavouriteGroup(0);
                 client.getPlayer().getData().save();
 

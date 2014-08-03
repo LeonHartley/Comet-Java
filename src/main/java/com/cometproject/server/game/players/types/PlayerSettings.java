@@ -25,8 +25,6 @@ public class PlayerSettings {
     private int homeRoom;
     private boolean useOldChat;
 
-    private int favouriteGroup;
-
     public PlayerSettings(ResultSet data) throws SQLException {
         String volumeData = data.getString("volume");
 
@@ -42,7 +40,6 @@ public class PlayerSettings {
         this.allowTrade = data.getString("allow_trade").equals("1");
 
         this.homeRoom = data.getInt("home_room");
-        this.favouriteGroup = data.getInt("favourite_group");
 
         String wardrobeText = data.getString("wardrobe");
 
@@ -69,7 +66,6 @@ public class PlayerSettings {
         this.volumes = new VolumeData(100, 100, 100);
         this.hideInRoom = false;
         this.homeRoom = 0;
-        this.favouriteGroup = 0;
         this.hideOnline = false;
         this.allowFriendRequests = true;
         this.allowTrade = true;
@@ -124,13 +120,5 @@ public class PlayerSettings {
 
     public void setUseOldChat(boolean useOldChat) {
         this.useOldChat = useOldChat;
-    }
-
-    public int getFavouriteGroup() {
-        return favouriteGroup;
-    }
-
-    public void setFavouriteGroup(int favouriteGroup) {
-        this.favouriteGroup = favouriteGroup;
     }
 }
