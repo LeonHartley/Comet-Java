@@ -5,6 +5,7 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
+import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -365,9 +366,20 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         msg.writeInt(1); // 1 = user 2 = pet 3 = bot
 
         msg.writeString(this.getGender().toLowerCase());
-        msg.writeInt(-1);
-        msg.writeInt(-1);
-        msg.writeInt(0);
+
+        if(this.player.getData().getFavouriteGroup() == 0) {
+            msg.writeInt(-1);
+            msg.writeInt(-1);
+            msg.writeInt(0);
+        } else {
+            Group group = CometManager.getGroups().get(this.player.getData().getFavouriteGroup());
+
+            msg.writeInt(group.getId());
+            msg.writeInt(2);
+            msg.writeString(group.getData().getTitle());
+            msg.writeString("");
+        }
+
         msg.writeInt(this.getPlayer().getData().getAchievementPoints()); //achv points
         msg.writeBoolean(false);
     }

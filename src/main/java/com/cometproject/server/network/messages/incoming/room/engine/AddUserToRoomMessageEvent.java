@@ -15,6 +15,9 @@ import com.cometproject.server.network.messages.outgoing.room.settings.Configure
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddUserToRoomMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         PlayerEntity avatar = client.getPlayer().getEntity();
@@ -40,6 +43,16 @@ public class AddUserToRoomMessageEvent implements IEvent {
         if (client.getPlayer().getFloodTime() >= 1) {
             client.send(FloodFilterMessageComposer.compose(client.getPlayer().getFloodTime()));
         }
+
+        List<Integer> groupsInRoom = new ArrayList<>();
+
+        for(PlayerEntity playerEntity : room.getEntities().getPlayerEntities()) {
+            if(playerEntity.getPlayer().getData().getFavouriteGroup() != 0) {
+                groupsInRoom.add(playerEntity.getPlayer().getData().getFavouriteGroup());
+            }
+        }
+
+        // Send packet for groups in room
 
         client.send(RoomPanelMessageComposer.compose(room.getId(), room.getData().getOwnerId() == client.getPlayer().getId() || client.getPlayer().getPermissions().hasPermission("room_full_control")));
         client.send(RoomDataMessageComposer.compose(room));
