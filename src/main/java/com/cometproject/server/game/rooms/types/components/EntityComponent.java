@@ -256,6 +256,23 @@ public class EntityComponent {
         return entities;
     }
 
+    public List<PlayerEntity> getPlayerEntitiesByPermission(String permission) {
+        List<PlayerEntity> entities = new ArrayList<>();
+
+        if (this.entities == null || this.entities.size() < 1) {
+            return entities;
+        }
+
+        for (GenericEntity entity : this.entities.values()) {
+            if (entity.getEntityType() == RoomEntityType.PLAYER) {
+                if(((PlayerEntity)entity).getPlayer().getPermissions().hasPermission(permission))
+                    entities.add((PlayerEntity) entity);
+            }
+        }
+
+        return entities;
+    }
+
     public void refreshScore() {
         for (PlayerEntity entity : getPlayerEntities()) {
             entity.getPlayer().getSession().send(RoomRatingMessageComposer.compose(room.getData().getScore(), entity.canRateRoom()));
