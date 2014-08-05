@@ -1,7 +1,5 @@
 package com.cometproject.server.network.messages.headers;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
 import javolution.util.FastMap;
 
 import java.lang.reflect.Field;
@@ -60,7 +58,7 @@ public class Events {
     public static short TalkMessageEvent = 816;
     public static short UserInformationMessageEvent = 881;
     public static short WalkMessageEvent = 1015;
-    public static short WisperMessageEvent = 678;
+    public static short WhisperMessageEvent = 678;
     public static short AddUserToRoomMessageEvent = 2552;
     public static short ExitRoomMessageEvent = 1547;
     public static short KickUserMessageEvent = 3118;

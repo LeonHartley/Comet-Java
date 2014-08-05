@@ -15,6 +15,7 @@ public class ChangeWallItemStateMessageEvent implements IEvent {
         if (item == null) {
             return;
         }
+
         item.onInteract(client.getPlayer().getEntity(), 0, false);
     }
 }
