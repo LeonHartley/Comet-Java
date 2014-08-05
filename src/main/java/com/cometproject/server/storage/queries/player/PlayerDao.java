@@ -267,7 +267,7 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE players SET username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE players SET username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ?, favourite_group = ? WHERE id = ?", sqlConnection);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, motto);
             preparedStatement.setString(3, figure);
