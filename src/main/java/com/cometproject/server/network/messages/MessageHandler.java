@@ -27,7 +27,6 @@ import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArt
 import com.cometproject.server.network.messages.incoming.messenger.*;
 import com.cometproject.server.network.messages.incoming.moderation.*;
 import com.cometproject.server.network.messages.incoming.navigator.*;
-import com.cometproject.server.network.messages.incoming.quests.OpenQuestsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.AnswerDoorbellMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.action.*;
 import com.cometproject.server.network.messages.incoming.room.bots.BotConfigMessageEvent;
@@ -195,7 +194,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.ExitRoomMessageEvent, new ExitRoomMessageEvent());
         this.getMessages().put(Events.TalkMessageEvent, new TalkMessageEvent());
         this.getMessages().put(Events.ShoutMessageEvent, new ShoutMessageEvent());
-        this.getMessages().put(Events.WisperMessageEvent, new WisperMessageEvent());
+        this.getMessages().put(Events.WhisperMessageEvent, new WhisperMessageEvent());
         this.getMessages().put(Events.WalkMessageEvent, new WalkMessageEvent());
         this.getMessages().put(Events.ApplyActionMessageEvent, new ApplyActionMessageEvent());
         this.getMessages().put(Events.ApplySignMessageEvent, new ApplySignMessageEvent());
