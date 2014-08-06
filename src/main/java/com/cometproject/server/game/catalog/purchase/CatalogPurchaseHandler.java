@@ -148,6 +148,11 @@ public class CatalogPurchaseHandler {
                     client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
                     return;
                 } else if (def.getInteraction().equals("badge_display")) {
+                    if(client.getPlayer().getInventory().getBadges().get(data) == null) {
+                        // Fuck off.
+                        return;
+                    }
+
                     extraData = data;
                 }
 

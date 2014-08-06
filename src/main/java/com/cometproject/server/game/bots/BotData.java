@@ -134,7 +134,7 @@ public abstract class BotData implements BotInformation {
      * @param username The new username
      */
     public void setUsername(String username) {
-        this.username = username;
+        this.username = this.stripNonAlphanumeric(username);
     }
 
     /**

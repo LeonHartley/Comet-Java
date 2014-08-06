@@ -11,6 +11,7 @@ public class ModToolRoomVisitsMessageEvent implements IEvent {
 
     @Override
     public void handle(Session client, Event msg) throws Exception {
+
         int playerId = msg.readInt();
 
         client.send(ModToolRoomVisitsMessageComposer.compose(playerId, PlayerDao.getUsernameByPlayerId(playerId), LogQueries.getLastRoomVisits(playerId, 100)));

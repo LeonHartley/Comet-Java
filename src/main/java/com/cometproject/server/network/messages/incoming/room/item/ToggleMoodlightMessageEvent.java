@@ -15,6 +15,10 @@ public class ToggleMoodlightMessageEvent implements IEvent {
         if (room == null) {
             return;
         }
+        if (!room.getRights().hasRights(client.getPlayer().getEntity().getPlayerId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            client.disconnect();
+            return;
+        }
 
         MoodlightWallItem moodlight = room.getItems().getMoodlight();
         if (moodlight == null) {

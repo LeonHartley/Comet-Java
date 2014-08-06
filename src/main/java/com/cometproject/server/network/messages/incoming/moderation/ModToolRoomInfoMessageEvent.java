@@ -12,6 +12,14 @@ public class ModToolRoomInfoMessageEvent implements IEvent {
     public void handle(Session client, Event msg) throws Exception {
         int roomId = msg.readInt();
 
+        if(!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+            // fuck off
+            client.getLogger().error(
+                    ModToolUserInfoMessageEvent.class.getName() + " - tried to view room info for room: " + roomId);
+            client.disconnect();
+            return;
+        }
+
         Room room = CometManager.getRooms().get(roomId);
 
         if (room == null)
