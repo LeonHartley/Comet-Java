@@ -118,10 +118,10 @@ public class PacketManager {
 
                                         structure.add(types.get(readFunctionName));
                                     } else {
-                                        structure.add("ExternalParser");
-                                        // TODO: this
+                                            structure.add("ExternalParser");
+                                            // TODO: this
+                                        }
                                     }
-                                }
 
                                 if(scriptLines[l].startsWith("        }")) {
                                     break;

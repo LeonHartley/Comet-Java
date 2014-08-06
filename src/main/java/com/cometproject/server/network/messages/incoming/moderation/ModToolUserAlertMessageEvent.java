@@ -13,6 +13,14 @@ public class ModToolUserAlertMessageEvent implements IEvent {
         int playerId = msg.readInt();
         String message = msg.readString();
 
+        if(!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+            // fuck off
+            client.getLogger().error(
+                    ModToolUserInfoMessageEvent.class.getName() + " - tried to alert user: " + playerId + " with text: " + message);
+            client.disconnect();
+            return;
+        }
+
         if (CometManager.getPlayers().isOnline(playerId)) {
             Session session = Comet.getServer().getNetwork().getSessions().getByPlayerId(playerId);
 

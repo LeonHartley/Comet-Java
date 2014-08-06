@@ -15,6 +15,7 @@ public class ModToolUserInfoMessageEvent implements IEvent {
         if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             client.getLogger().error(
                     ModToolUserInfoMessageEvent.class.getName() + " - tried to gather information on user: " + userId);
+            client.disconnect();
             return;
         }
 

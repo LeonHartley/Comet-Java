@@ -15,6 +15,10 @@ public class UseMoodlightMessageEvent implements IEvent {
             return;
         }
 
+        if (!room.getRights().hasRights(client.getPlayer().getEntity().getPlayerId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            return;
+        }
+
         MoodlightWallItem moodlight = room.getItems().getMoodlight();
 
         if (moodlight == null) {
