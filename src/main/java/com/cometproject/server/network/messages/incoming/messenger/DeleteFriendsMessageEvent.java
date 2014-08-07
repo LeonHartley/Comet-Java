@@ -5,6 +5,7 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
+import com.cometproject.server.storage.queries.player.relationships.RelationshipDao;
 
 public class DeleteFriendsMessageEvent implements IEvent {
     @Override
@@ -25,6 +26,11 @@ public class DeleteFriendsMessageEvent implements IEvent {
                 friendClient.getPlayer().getMessenger().removeFriend(client.getPlayer().getId());
             } else {
                 MessengerDao.deleteFriendship(userId, client.getPlayer().getId());
+
+                if(client.getPlayer().getRelationships().get(userId) != null) {
+                    RelationshipDao.deleteRelationship(client.getPlayer().getId(), userId);
+                    client.getPlayer().getRelationships().remove(userId);
+                }
             }
 
             client.getPlayer().getMessenger().removeFriend(userId);
