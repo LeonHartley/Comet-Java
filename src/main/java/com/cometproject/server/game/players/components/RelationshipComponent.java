@@ -33,6 +33,14 @@ public class RelationshipComponent {
         return i;
     }
 
+    public RelationshipLevel get(int playerId) {
+        return this.relationships.get(playerId);
+    }
+
+    public void remove(int playerId) {
+        this.getRelationships().remove(playerId);
+    }
+
     public int count() {
         return this.relationships.size();
     }
