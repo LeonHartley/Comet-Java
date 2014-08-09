@@ -39,6 +39,10 @@ public class BuyGroupMessageEvent implements IEvent {
         int colour1 = msg.readInt();
         int colour2 = msg.readInt();
 
+        if(!client.getPlayer().getRooms().contains(roomId) || CometManager.getRooms().getRoomData(roomId) == null) {
+            return;
+        }
+
         int stateCount = msg.readInt();
 
         int groupBase = msg.readInt();

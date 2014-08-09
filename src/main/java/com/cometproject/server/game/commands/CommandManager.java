@@ -3,6 +3,7 @@ package com.cometproject.server.game.commands;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.commands.notifications.NotificationManager;
 import com.cometproject.server.game.commands.staff.*;
 import com.cometproject.server.game.commands.user.*;
 import com.cometproject.server.game.commands.vip.*;
@@ -14,13 +15,16 @@ import java.util.Map;
 
 public class CommandManager {
 
+    private NotificationManager notifications;
+
     private FastMap<String, ChatCommand> commands;
 
     /**
      * Initialize the commands map and load all commands
      */
     public CommandManager() {
-        commands = new FastMap<>();
+        this.commands = new FastMap<>();
+        this.notifications = new NotificationManager();
 
         this.loadUserCommands();
         this.loadStaffCommands();
@@ -139,5 +143,9 @@ public class CommandManager {
         }
 
         return a;
+    }
+
+    public NotificationManager getNotifications() {
+        return notifications;
     }
 }
