@@ -157,6 +157,8 @@ public class Composers {
     public static short GroupMembersMessageComposer = 129;
     public static short ManageGroupMessageComposer = 3351;
 
+    public static short HotelMaintenanceMessageComposer = 3020;
+
 
     public static String valueOfId(int i) {
         Composers c = new Composers();

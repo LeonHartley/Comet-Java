@@ -6,7 +6,7 @@ import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.messages.outgoing.messenger.FollowFriendMessageComposer;
-import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
+import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;

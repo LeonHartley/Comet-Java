@@ -6,7 +6,7 @@ import com.cometproject.server.game.players.data.PlayerLoader;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.LoginMessageComposer;
-import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
+import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.RoomCategoriesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;

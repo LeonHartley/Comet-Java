@@ -3659,14 +3659,14 @@ com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMes
     21:21:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.components.types.MessengerRequest,boolean,boolean) -> a
     25:25:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.data.PlayerData,boolean,boolean) -> a
     29:50:com.cometproject.server.network.messages.types.Composer compose(int,java.lang.String,java.lang.String,java.lang.String,boolean,boolean) -> a
-com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer -> com.cometproject.server.f.d.c.f.a:
+com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer -> com.cometproject.server.f.d.c.f.a:
     9:25:com.cometproject.server.network.messages.types.Composer compose(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
     29:29:com.cometproject.server.network.messages.types.Composer compose(java.lang.String,java.lang.String) -> a
     39:39:com.cometproject.server.network.messages.types.Composer compose(java.lang.String) -> a
     49:49:com.cometproject.server.network.messages.types.Composer compose(java.lang.String,java.lang.String,java.lang.String) -> a
-com.cometproject.server.network.messages.outgoing.misc.AlertMessageComposer -> com.cometproject.server.f.d.c.f.b:
+com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer -> com.cometproject.server.f.d.c.f.b:
     8:12:com.cometproject.server.network.messages.types.Composer compose(java.lang.String) -> a
-com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer -> com.cometproject.server.f.d.c.f.c:
+com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer -> com.cometproject.server.f.d.c.f.c:
     9:13:com.cometproject.server.network.messages.types.Composer compose() -> a
     17:22:com.cometproject.server.network.messages.types.Composer compose(java.lang.String) -> a
 com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer -> com.cometproject.server.f.d.c.f.d:
