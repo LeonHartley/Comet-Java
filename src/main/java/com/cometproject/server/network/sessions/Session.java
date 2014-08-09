@@ -15,6 +15,8 @@ public class Session {
     private final ChannelHandlerContext ctx;
     private final SessionEventHandler eventHandler;
 
+    private boolean isClone = false;
+
     private Player player;
 
     public Session(ChannelHandlerContext ctx) {
@@ -37,14 +39,20 @@ public class Session {
     }
 
     public void onDisconnect() {
-        CometManager.getPlayers().remove(player.getId(), player.getData().getUsername());
+        if(!isClone)
+            CometManager.getPlayers().remove(player.getId(), player.getData().getUsername());
 
         this.eventHandler.dispose();
         this.getPlayer().dispose();
     }
 
-    public void disconnect() {
+    public void disconnect(boolean isClone) {
+        this.isClone = isClone;
         this.getChannel().disconnect();
+    }
+
+    public void disconnect() {
+        this.disconnect(false);
     }
 
     public void handleMessageEvent(Event msg) {
