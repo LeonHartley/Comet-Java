@@ -67,5 +67,8 @@ public class BuyGroupMessageEvent implements IEvent {
 
         client.send(ForwardRoomMessageComposer.compose(roomId));
         client.send(NewGroupMessageComposer.compose(roomId, group.getId()));
+
+        client.getPlayer().getData().setFavouriteGroup(group.getId());
+        client.getPlayer().getData().save();
     }
 }

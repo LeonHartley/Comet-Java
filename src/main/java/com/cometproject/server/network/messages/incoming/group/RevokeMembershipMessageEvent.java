@@ -36,7 +36,7 @@ public class RevokeMembershipMessageEvent implements IEvent {
 
             if(client.getPlayer().getGroups().contains(groupId)) {
                 client.getPlayer().getGroups().remove(groupId);
-                client.send(group.composeInformation(false, client.getPlayer().getId(), false));
+                client.send(group.composeInformation(true, client.getPlayer().getId(), false));
             }
         } else {
             if (CometManager.getPlayers().isOnline(playerId)) {

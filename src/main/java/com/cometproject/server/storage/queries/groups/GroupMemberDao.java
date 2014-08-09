@@ -71,7 +71,7 @@ public class GroupMemberDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("INSERT into group_memberships (`group_id`, `player_id`, `access_level`, `favourite_group`) VALUES(?, ?, ?, ?);", sqlConnection, true);
+            preparedStatement = SqlHelper.prepare("INSERT into group_memberships (`group_id`, `player_id`, `access_level`, `date_joined`) VALUES(?, ?, ?, ?);", sqlConnection, true);
             preparedStatement.setInt(1, groupMember.getGroupId());
             preparedStatement.setInt(2, groupMember.getPlayerId());
             preparedStatement.setString(3, groupMember.getAccessLevel().toString().toLowerCase());

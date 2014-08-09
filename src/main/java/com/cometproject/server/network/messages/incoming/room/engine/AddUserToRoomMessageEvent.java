@@ -1,9 +1,13 @@
 package com.cometproject.server.network.messages.incoming.room.engine;
 
+import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
@@ -14,9 +18,11 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.FloodF
 import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import javolution.util.FastMap;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class AddUserToRoomMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
@@ -44,15 +50,20 @@ public class AddUserToRoomMessageEvent implements IEvent {
             client.send(FloodFilterMessageComposer.compose(client.getPlayer().getFloodTime()));
         }
 
-        List<Integer> groupsInRoom = new ArrayList<>();
+        Map<Integer, String> groupsInRoom = new FastMap<>();
 
         for(PlayerEntity playerEntity : room.getEntities().getPlayerEntities()) {
             if(playerEntity.getPlayer().getData().getFavouriteGroup() != 0) {
-                groupsInRoom.add(playerEntity.getPlayer().getData().getFavouriteGroup());
+                GroupData groupData = CometManager.getGroups().getData(playerEntity.getPlayer().getData().getFavouriteGroup());
+
+                if(groupData == null)
+                    continue;
+
+                groupsInRoom.put(playerEntity.getPlayer().getData().getFavouriteGroup(), groupData.getBadge());
             }
         }
 
-        // Send packet for groups in room
+        client.send(GroupBadgesMessageComposer.compose(groupsInRoom));
 
         client.send(RoomPanelMessageComposer.compose(room.getId(), room.getData().getOwnerId() == client.getPlayer().getId() || client.getPlayer().getPermissions().hasPermission("room_full_control")));
         client.send(RoomDataMessageComposer.compose(room));
@@ -75,5 +86,7 @@ public class AddUserToRoomMessageEvent implements IEvent {
 
         client.send(ConfigureWallAndFloorMessageComposer.compose(client.getPlayer().getEntity().getRoom().getData().getHideWalls(), client.getPlayer().getEntity().getRoom().getData().getWallThickness(), client.getPlayer().getEntity().getRoom().getData().getFloorThickness()));
         client.getPlayer().getMessenger().sendStatus(true, true);
+
+        groupsInRoom.clear();
     }
 }
