@@ -247,6 +247,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 if (CometManager.getCommands().isCommand(message.substring(1))) {
                     CometManager.getCommands().parse(message.substring(1), this.player.getSession());
                     return false;
+                } else if(CometManager.getCommands().getNotifications().isNotificationExecutor(message.substring(1))) {
+                    System.out.println("Execute!!!!");
                 }
             }
         } catch (Exception e) {
