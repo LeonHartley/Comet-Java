@@ -79,7 +79,7 @@ public class Room implements Attributable {
             if (this.idleTicks >= 600) {
                 return true;
             } else {
-                this.idleTicks++;
+                this.idleTicks += 10;
             }
         }
 

@@ -12,10 +12,7 @@ import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroup
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.pets.PetRacesMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.pets.ValidatePetNameMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.GroupInformationMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.GroupMembersMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.ManageGroupMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.RevokeMembershipMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.*;
 import com.cometproject.server.network.messages.incoming.handshake.CheckReleaseMessageEvent;
 import com.cometproject.server.network.messages.incoming.handshake.GenerateSecretKeyMessageEvent;
 import com.cometproject.server.network.messages.incoming.handshake.InitCryptoMessageEvent;
@@ -286,6 +283,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.GroupMembersMessageEvent, new GroupMembersMessageEvent());
         this.getMessages().put(Events.ManageGroupMessageEvent, new ManageGroupMessageEvent());
         this.getMessages().put(Events.RevokeMembershipMessageEvent, new RevokeMembershipMessageEvent());
+        this.getMessages().put(Events.JoinGroupMessageEvent, new JoinGroupMessageEvent());
     }
 
     public void registerQuests() {
