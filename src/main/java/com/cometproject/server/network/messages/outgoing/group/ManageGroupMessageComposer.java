@@ -3,6 +3,8 @@ package com.cometproject.server.network.messages.outgoing.group;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import com.ctc.wstx.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
 
 public class ManageGroupMessageComposer {
     public static Composer compose(Group group) {
@@ -21,18 +23,16 @@ public class ManageGroupMessageComposer {
         msg.writeBoolean(false);
         msg.writeString("");
 
-        String[] badgeData = group.getData().getBadge().replace("b", "").split("s");
+        String[] badgeData = StringUtils.split(StringUtils.replace(group.getData().getBadge(), "b", ""), "s");
 
         msg.writeInt(5);
 
         int required = 5 - badgeData.length;
 
         for(String badgePart : badgeData) {
-            msg.writeInt(Integer.parseInt(badgePart.substring(0, 2)));
-            //msg.writeInt(Integer.parseInt(badgePart.substring(2, 2)));
-            msg.writeInt(0);
-            //msg.writeInt(Integer.parseInt(badgePart.substring(4, 1)));
-            msg.writeInt(0);
+            msg.writeInt(getInt(StringUtils.substring(badgePart, 0, 2)));
+            msg.writeInt(getInt(StringUtils.substring(badgePart, 2, 2)));
+            msg.writeInt(getInt(StringUtils.substring(badgePart, 4, 1)));
         }
 
         for(int i = 0; i != required; i++) {
@@ -45,5 +45,13 @@ public class ManageGroupMessageComposer {
         msg.writeInt(group.getMembershipComponent().getMembers().size());
 
         return msg;
+    }
+
+    private static int getInt(String badgePart) {
+        if(badgePart.isEmpty()) {
+            return 0;
+        }
+
+        return Integer.parseInt(badgePart);
     }
 }

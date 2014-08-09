@@ -34,7 +34,6 @@ public class JoinGroupMessageEvent implements IEvent {
 
                 if (client.getPlayer().getEntity() != null) {
                     client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(GroupBadgesMessageComposer.compose(groupId, group.getData().getBadge()));
-                    client.getPlayer().getEntity().markNeedsUpdate();
                 }
             }
 

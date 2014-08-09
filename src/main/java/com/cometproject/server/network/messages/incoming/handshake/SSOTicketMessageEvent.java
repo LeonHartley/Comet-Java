@@ -31,27 +31,6 @@ public class SSOTicketMessageEvent implements IEvent {
             return;
         }
 
-        /*boolean normalPlayerLoad = false;
-
-        if(ticket.contains(TICKET_DELIMITER)) {
-            String[] ticketData = ticket.split(TICKET_DELIMITER);
-
-            if(ticketData.length == 2) {
-                int playerId = Integer.parseInt(ticket.split(TICKET_DELIMITER)[0]);
-                String authTicket = ticketData[1];
-
-                StaticPlayerQueue.getQueueManager().queue(new PlayerLoginQueueEntry(client, playerId, authTicket));
-            } else {
-                normalPlayerLoad = true;
-            }
-        } else {
-            normalPlayerLoad = true;
-        }
-
-        if (normalPlayerLoad) {
-            StaticPlayerQueue.getQueueManager().queue(new PlayerLoginQueueEntry(client, -1, ticket));
-        }*/
-
         Player player = null;
         boolean normalPlayerLoad = false;
 
@@ -75,14 +54,14 @@ public class SSOTicketMessageEvent implements IEvent {
         }
 
         if (player == null) {
-            client.disconnect();
+            client.disconnect(false);
             return;
         }
 
         Session cloneSession = Comet.getServer().getNetwork().getSessions().getByPlayerId(player.getId());
 
         if (cloneSession != null) {
-            cloneSession.disconnect();
+            cloneSession.disconnect(true);
         }
 
         // to-do: clean this up!
