@@ -7,7 +7,7 @@ import com.cometproject.server.game.players.components.types.MessengerFriend;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.messenger.InstantChatMessageComposer;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;

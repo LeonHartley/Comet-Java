@@ -5,7 +5,7 @@ import com.cometproject.server.api.transformers.JsonTransformer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 import spark.Spark;

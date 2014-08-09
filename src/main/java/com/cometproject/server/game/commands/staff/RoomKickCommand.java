@@ -6,7 +6,7 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
 public class RoomKickCommand extends ChatCommand {

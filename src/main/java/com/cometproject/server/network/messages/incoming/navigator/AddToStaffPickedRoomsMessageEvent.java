@@ -7,7 +7,7 @@ import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
 import com.cometproject.server.game.navigator.types.featured.ImageType;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;

@@ -6,7 +6,7 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
-import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
+import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
 
 public class ReloadCommand extends ChatCommand {

@@ -31,11 +31,13 @@ public class RevokeMembershipMessageEvent implements IEvent {
                 client.getPlayer().getData().setFavouriteGroup(0);
                 client.getPlayer().getData().save();
 
-                // Update favourite room
+                // Update favourite group
             }
 
-            client.getPlayer().getGroups().remove(groupId);
-            client.send(group.composeInformation(false, client.getPlayer().getId(), false));
+            if(client.getPlayer().getGroups().contains(groupId)) {
+                client.getPlayer().getGroups().remove(groupId);
+                client.send(group.composeInformation(false, client.getPlayer().getId(), false));
+            }
         } else {
             if (CometManager.getPlayers().isOnline(playerId)) {
                 Session session = Comet.getServer().getNetwork().getSessions().getByPlayerId(playerId);

@@ -7,7 +7,7 @@ import com.cometproject.server.game.commands.notifications.NotificationManager;
 import com.cometproject.server.game.commands.staff.*;
 import com.cometproject.server.game.commands.user.*;
 import com.cometproject.server.game.commands.vip.*;
-import com.cometproject.server.network.messages.outgoing.misc.MotdNotificationComposer;
+import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
 
@@ -75,6 +75,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.unload.name"), new UnloadCommand());
         this.commands.put(Locale.get("command.roommute.name"), new RoomMuteCommand());
         this.commands.put(Locale.get("command.reload.name"), new ReloadCommand());
+        this.commands.put(Locale.get("command.maintenance.name"), new MaintenanceCommand());
     }
 
     /**

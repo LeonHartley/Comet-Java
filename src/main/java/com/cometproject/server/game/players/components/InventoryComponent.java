@@ -4,7 +4,7 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.network.messages.outgoing.misc.AlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;

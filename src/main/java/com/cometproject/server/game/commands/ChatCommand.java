@@ -1,7 +1,7 @@
 package com.cometproject.server.game.commands;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.network.messages.outgoing.misc.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
