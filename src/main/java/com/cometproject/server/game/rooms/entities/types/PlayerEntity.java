@@ -374,10 +374,19 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         } else {
             Group group = CometManager.getGroups().get(this.player.getData().getFavouriteGroup());
 
-            msg.writeInt(group.getId());
-            msg.writeInt(2);
-            msg.writeString(group.getData().getTitle());
-            msg.writeString("");
+            if(group == null) {
+                msg.writeInt(-1);
+                msg.writeInt(-1);
+                msg.writeInt(0);
+
+                this.player.getData().setFavouriteGroup(0);
+                this.player.getData().save();
+            } else {
+                msg.writeInt(group.getId());
+                msg.writeInt(2);
+                msg.writeString(group.getData().getTitle());
+                msg.writeString("");
+            }
         }
 
         msg.writeInt(this.getPlayer().getData().getAchievementPoints()); //achv points
