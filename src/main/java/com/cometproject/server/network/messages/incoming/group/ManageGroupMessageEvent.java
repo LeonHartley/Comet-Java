@@ -14,7 +14,7 @@ public class ManageGroupMessageEvent implements IEvent {
 
         Group group = CometManager.getGroups().get(groupId);
 
-        if(group == null)
+        if(group == null || client.getPlayer().getId() != group.getData().getOwnerId())
             return;
 
         client.send(ManageGroupMessageComposer.compose(group));

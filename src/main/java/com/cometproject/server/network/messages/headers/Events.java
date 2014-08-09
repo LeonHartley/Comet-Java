@@ -146,6 +146,7 @@ public class Events {
     public static short GroupMembersMessageEvent = 318;
     public static short ManageGroupMessageEvent = 560;
     public static short RevokeMembershipMessageEvent = 723;
+    public static short JoinGroupMessageEvent = 2377;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 

@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.incoming.group;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -22,6 +23,11 @@ public class RevokeMembershipMessageEvent implements IEvent {
             return;
 
         if (playerId == group.getData().getOwnerId())
+            return;
+
+        GroupMember groupMember = group.getMembershipComponent().getMembers().get(client.getPlayer().getId());
+
+        if(!groupMember.getAccessLevel().isAdmin() && playerId != client.getPlayer().getId())
             return;
 
         group.getMembershipComponent().removeMembership(playerId);
