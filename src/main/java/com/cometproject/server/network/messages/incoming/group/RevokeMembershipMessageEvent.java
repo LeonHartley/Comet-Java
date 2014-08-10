@@ -51,7 +51,7 @@ public class RevokeMembershipMessageEvent implements IEvent {
                 }
             }
 
-            client.send(GroupMembersMessageComposer.compose(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getMembersAsList()), 0, "", client.getPlayer().getId() == group.getData().getOwnerId()));
+            client.send(GroupMembersMessageComposer.compose(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getMembersAsList()), 0, "", group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())));
         }
     }
 }

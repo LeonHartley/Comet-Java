@@ -13,7 +13,7 @@ import java.util.List;
 public class GroupMembersMessageComposer {
     private static final int MEMBERS_PER_PAGE = 14;
 
-    public static Composer compose(GroupData group, int page, List<Object> groupMembers, int requestType, String searchQuery, boolean isOwner) {
+    public static Composer compose(GroupData group, int page, List<Object> groupMembers, int requestType, String searchQuery, boolean isAdmin) {
         Composer msg = new Composer(Composers.GroupMembersMessageComposer);
 
         msg.writeInt(group.getId());
@@ -63,7 +63,7 @@ public class GroupMembersMessageComposer {
             }
         }
 
-        msg.writeBoolean(isOwner);
+        msg.writeBoolean(isAdmin);
         msg.writeInt(MEMBERS_PER_PAGE);
         msg.writeInt(page);
 

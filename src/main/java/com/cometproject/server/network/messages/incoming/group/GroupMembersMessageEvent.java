@@ -51,6 +51,6 @@ public class GroupMembersMessageEvent implements IEvent {
             toRemove.clear();
         }
 
-        client.send(GroupMembersMessageComposer.compose(group.getData(), page, groupMembers, requestType, searchQuery, client.getPlayer().getId() == group.getData().getOwnerId()));
+        client.send(GroupMembersMessageComposer.compose(group.getData(), page, groupMembers, requestType, searchQuery, group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())));
     }
 }
