@@ -85,7 +85,7 @@ public class MembershipComponent {
 
         GroupMemberDao.delete(groupMembershipId);
 
-        groupMembers.remove(groupMembershipId);
+        groupMembers.remove(playerId);
 
         if(groupAdministrators.contains(playerId))
             groupAdministrators.remove(playerId);

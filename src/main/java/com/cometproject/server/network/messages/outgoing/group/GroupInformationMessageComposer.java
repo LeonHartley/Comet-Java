@@ -12,11 +12,11 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class GroupInformationMessageComposer {
-    public static Composer compose(Group group, RoomData roomData, boolean flag, boolean isOwner, boolean isFavourite, int membership) {
+    public static Composer compose(Group group, RoomData roomData, boolean flag, boolean isOwner, boolean isAdmin, int membership) {
         Composer msg = new Composer(Composers.GroupInformationMessageComposer);
 
         msg.writeInt(group.getId());
-        msg.writeBoolean(true); //??
+        msg.writeBoolean(true); //is visible
         msg.writeInt(group.getData().getType().getTypeId());
         msg.writeString(group.getData().getTitle());
         msg.writeString(group.getData().getDescription());
@@ -28,7 +28,7 @@ public class GroupInformationMessageComposer {
         msg.writeBoolean(false);
         msg.writeString(getDate(group.getData().getCreatedTimestamp()));
         msg.writeBoolean(isOwner);
-        msg.writeBoolean(isFavourite);
+        msg.writeBoolean(isAdmin);
 
         msg.writeString(PlayerDao.getUsernameByPlayerId(group.getData().getOwnerId()));
 

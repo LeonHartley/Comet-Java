@@ -23,30 +23,43 @@ public class GroupMembersMessageComposer {
 
         msg.writeInt(groupMembers.size());
 
-        List<List<Object>> paginatedMembers = paginateMembers(groupMembers, MEMBERS_PER_PAGE);
+        if(groupMembers.size() == 0) {
+            msg.writeInt(0);
+        } else {
+            List<List<Object>> paginatedMembers = paginateMembers(groupMembers, MEMBERS_PER_PAGE);
 
-        msg.writeInt(paginatedMembers.get(page).size());
+            msg.writeInt(paginatedMembers.get(page).size());
 
-        for(Object memberObject : paginatedMembers.get(page)) {
-            if(memberObject instanceof Integer) {
-                // TODO: It's a request/admin, handle differently...
-                continue;
+            for (Object memberObject : paginatedMembers.get(page)) {
+                int playerId;
+
+                if (memberObject instanceof Integer) {
+                    playerId = (int) memberObject;
+
+                    if (requestType == 1) {
+                        msg.writeInt(playerId == group.getOwnerId() ? 0 : 1);
+                    } else {
+                        msg.writeInt(3);
+                    }
+                } else {
+                    playerId = ((GroupMember) memberObject).getPlayerId();
+
+                    if (((GroupMember) memberObject).getAccessLevel().isAdmin()) {
+                        msg.writeInt(group.getOwnerId() == ((GroupMember) memberObject).getPlayerId() ? 0 : 1);
+                    } else {
+                        msg.writeInt(2);
+                    }
+
+                }
+
+                PlayerData playerData = PlayerDao.getDataById(playerId);
+
+                msg.writeInt(playerData.getId());
+                msg.writeString(playerData.getUsername());
+                msg.writeString(playerData.getFigure());
+                //msg.writeString(GroupInformationMessageComposer.getDate(groupMember.getDateJoined()));
+                msg.writeString("");
             }
-
-            GroupMember groupMember = (GroupMember) memberObject;
-
-            if (groupMember.getAccessLevel().isAdmin()) {
-                msg.writeInt(group.getOwnerId() == groupMember.getPlayerId() ? 0 : 1);
-            } else {
-                msg.writeInt(2);
-            }
-
-            PlayerData playerData = PlayerDao.getDataById(groupMember.getPlayerId());
-
-            msg.writeInt(playerData.getId());
-            msg.writeString(playerData.getUsername());
-            msg.writeString(playerData.getFigure());
-            msg.writeString(GroupInformationMessageComposer.getDate(groupMember.getDateJoined()));
         }
 
         msg.writeBoolean(isOwner);

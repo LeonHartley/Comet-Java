@@ -40,7 +40,7 @@ public class JoinGroupMessageEvent implements IEvent {
             client.getPlayer().getGroups().add(groupId);
 
             group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
-            client.send(group.composeInformation(true, client.getPlayer().getId(), client.getPlayer().getData().getFavouriteGroup() == group.getId()));
+            client.send(group.composeInformation(true, client.getPlayer().getId()));
         } else {
             // Exclusive.
         }
