@@ -42,7 +42,8 @@ public class JoinGroupMessageEvent implements IEvent {
             group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
             client.send(group.composeInformation(true, client.getPlayer().getId()));
         } else {
-            // Exclusive.
+            group.getMembershipComponent().createRequest(client.getPlayer().getId());
+            client.send(group.composeInformation(true, client.getPlayer().getId()));
         }
     }
 }

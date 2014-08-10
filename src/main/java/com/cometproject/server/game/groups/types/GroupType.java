@@ -12,4 +12,13 @@ public enum GroupType {
     public int getTypeId() {
         return this.typeId;
     }
+
+    public static GroupType valueOf(int typeId) {
+        if(typeId == 0)
+            return REGULAR;
+        else if(typeId == 1)
+            return EXCLUSIVE;
+        else
+            return PRIVATE;
+    }
 }

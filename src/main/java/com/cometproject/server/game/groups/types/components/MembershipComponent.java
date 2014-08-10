@@ -54,6 +54,10 @@ public class MembershipComponent {
         for(GroupMember groupMember : GroupMemberDao.getAllByGroupId(this.groupId)) {
             this.createMembership(groupMember);
         }
+
+        for(Integer playerId : GroupMemberDao.getAllRequestsByGroupId(groupId)) {
+            this.groupMembershipRequests.add(playerId);
+        }
     }
 
     /**
@@ -89,6 +93,44 @@ public class MembershipComponent {
 
         if(groupAdministrators.contains(playerId))
             groupAdministrators.remove(playerId);
+    }
+
+    /**
+     * Add a new membership request to the group
+     * @param playerId The ID of the player who is requesting to join
+     */
+    public void createRequest(int playerId) {
+        if(groupMembers.containsKey(playerId))
+            return;
+
+        if(groupMembershipRequests.contains(playerId))
+            return;
+
+        groupMembershipRequests.add(playerId);
+        GroupMemberDao.createRequest(groupId, playerId);
+    }
+
+    /**
+     * Clears all membership requests
+     */
+    public void clearRequests() {
+        if(groupMembershipRequests.size() == 0)
+            return;
+
+        groupMembershipRequests.clear();
+        GroupMemberDao.clearRequests(groupId);
+    }
+
+    /**
+     * Removes membership request
+     */
+    public void removeRequest(int playerId) {
+        if(!groupMembershipRequests.contains(playerId))
+            return;
+
+        groupMembershipRequests.remove(playerId);
+
+        GroupMemberDao.deleteRequest(groupId, playerId);
     }
 
     /**
