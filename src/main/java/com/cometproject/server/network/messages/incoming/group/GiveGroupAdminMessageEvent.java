@@ -11,7 +11,7 @@ import com.cometproject.server.network.sessions.Session;
 
 import java.util.ArrayList;
 
-public class RevokeAdminMessageEvent implements IEvent {
+public class GiveGroupAdminMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
         int groupId = msg.readInt();
@@ -34,15 +34,14 @@ public class RevokeAdminMessageEvent implements IEvent {
         if(groupMember == null)
             return;
 
-        if(!groupMember.getAccessLevel().isAdmin())
+        if(groupMember.getAccessLevel().isAdmin())
             return;
 
-        groupMember.setAccessLevel(GroupAccessLevel.MEMBER);
+        groupMember.setAccessLevel(GroupAccessLevel.ADMIN);
         groupMember.save();
 
-        group.getMembershipComponent().getAdministrators().remove(groupMember.getPlayerId());
+        group.getMembershipComponent().getAdministrators().add(groupMember.getPlayerId());
 
         client.send(GroupMembersMessageComposer.compose(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getAdministrators()), 1, "", client.getPlayer().getId() == group.getData().getOwnerId()));
-
     }
 }

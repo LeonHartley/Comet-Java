@@ -32,6 +32,7 @@ public class GroupMembersMessageComposer {
 
             for (Object memberObject : paginatedMembers.get(page)) {
                 int playerId;
+                int joinDate = 0;
 
                 if (memberObject instanceof Integer) {
                     playerId = (int) memberObject;
@@ -50,6 +51,7 @@ public class GroupMembersMessageComposer {
                         msg.writeInt(2);
                     }
 
+                    joinDate = ((GroupMember) memberObject).getDateJoined();
                 }
 
                 PlayerData playerData = PlayerDao.getDataById(playerId);
@@ -57,8 +59,7 @@ public class GroupMembersMessageComposer {
                 msg.writeInt(playerData.getId());
                 msg.writeString(playerData.getUsername());
                 msg.writeString(playerData.getFigure());
-                //msg.writeString(GroupInformationMessageComposer.getDate(groupMember.getDateJoined()));
-                msg.writeString("");
+                msg.writeString(joinDate != 0 ? GroupInformationMessageComposer.getDate(joinDate) : "");
             }
         }
 
