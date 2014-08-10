@@ -36,20 +36,18 @@ public class RevokeMembershipMessageEvent implements IEvent {
             if(client.getPlayer().getData().getFavouriteGroup() == groupId) {
                 client.getPlayer().getData().setFavouriteGroup(0);
                 client.getPlayer().getData().save();
-
-                // Update favourite group
             }
 
             if(client.getPlayer().getGroups().contains(groupId)) {
-                client.getPlayer().getGroups().remove(groupId);
-                client.send(group.composeInformation(true, client.getPlayer().getId(), false));
+                client.getPlayer().getGroups().remove(client.getPlayer().getGroups().indexOf(groupId));
+                client.send(group.composeInformation(true, client.getPlayer().getId()));
             }
         } else {
             if (CometManager.getPlayers().isOnline(playerId)) {
                 Session session = Comet.getServer().getNetwork().getSessions().getByPlayerId(playerId);
 
                 if (session != null) {
-                    session.getPlayer().getGroups().remove(groupId);
+                    session.getPlayer().getGroups().remove(session.getPlayer().getGroups().indexOf(groupId));
                 }
             }
 

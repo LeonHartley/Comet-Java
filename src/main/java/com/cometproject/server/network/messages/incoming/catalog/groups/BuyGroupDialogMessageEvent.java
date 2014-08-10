@@ -10,10 +10,10 @@ import com.cometproject.server.network.sessions.Session;
 
 public class BuyGroupDialogMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        if(!Comet.isDebugging) {
-            client.send(AdvancedAlertMessageComposer.compose("Feature Disabled", "This feature is still being developed and is not ready for the public yet.<br><br>If you want access to features such as this before other users, you may be interested in joining the beta program. <br><br>Contact a hotel manager for more details."));
-            return;
-        }
+//        if(!Comet.isDebugging) {
+//            client.send(AdvancedAlertMessageComposer.compose("Feature Disabled", "This feature is still being developed and is not ready for the public yet.<br><br>If you want access to features such as this before other users, you may be interested in joining the beta program. <br><br>Contact a hotel manager for more details."));
+//            return;
+//        }
 
         client.send(GroupPartsMessageComposer.compose(client.getPlayer().getRooms()));
         client.send(GroupElementsMessageComposer.compose());

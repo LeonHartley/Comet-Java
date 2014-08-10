@@ -148,6 +148,7 @@ public class Events {
     public static short RevokeMembershipMessageEvent = 723;
     public static short JoinGroupMessageEvent = 2377;
     public static short ModifyGroupTitleMessageEvent = 1254;
+    public static short RevokeAdminMessageEvent = 2536;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 

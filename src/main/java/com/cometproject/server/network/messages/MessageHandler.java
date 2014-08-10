@@ -286,6 +286,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.RevokeMembershipMessageEvent, new RevokeMembershipMessageEvent());
         this.getMessages().put(Events.JoinGroupMessageEvent, new JoinGroupMessageEvent());
         this.getMessages().put(Events.ModifyGroupTitleMessageEvent, new ModifyGroupTitleMessageEvent());
+        this.getMessages().put(Events.RevokeAdminMessageEvent, new RevokeAdminMessageEvent());
     }
 
     public void registerQuests() {

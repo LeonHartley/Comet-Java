@@ -32,11 +32,10 @@ public class Group {
      * Create a packet containing group information
      * @param flag Flag sent by the client (Unknown right now...)
      * @param playerId The ID of the player to receive this message
-     * @param isFavourite Whether or not the group is the player's favourite
      * @return Packet containing the group information
      */
-    public Composer composeInformation(boolean flag, int playerId, boolean isFavourite) {
-        return GroupInformationMessageComposer.compose(this, CometManager.getRooms().getRoomData(this.getData().getRoomId()), flag, playerId == this.getData().getOwnerId(), isFavourite,
+    public Composer composeInformation(boolean flag, int playerId) {
+        return GroupInformationMessageComposer.compose(this, CometManager.getRooms().getRoomData(this.getData().getRoomId()), flag, playerId == this.getData().getOwnerId(), this.getMembershipComponent().getAdministrators().contains(playerId),
                 this.getMembershipComponent().getMembers().containsKey(playerId) ? 1 : this.getMembershipComponent().getMembershipRequests().contains(playerId) ? 2 : 0);
     }
 

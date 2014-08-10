@@ -18,6 +18,6 @@ public class GroupInformationMessageEvent implements IEvent {
         if(group == null)
             return;
 
-        client.send(group.composeInformation(flag, client.getPlayer().getId(), client.getPlayer().getData().getFavouriteGroup() == groupId));
+        client.send(group.composeInformation(flag, client.getPlayer().getId()));
     }
 }
