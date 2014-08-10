@@ -152,6 +152,8 @@ public class Events {
     public static short GiveGroupAdminMessageEvent = 1178;
     public static short ModifyGroupSettingsMessageEvent = 2704;
     public static short AcceptMembershipMessageEvent = 2233;
+    public static short ModifyGroupBadgeMessageEvent = 3676;
+    public static short SetFavouriteGroupMessageEvent = 1213;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 

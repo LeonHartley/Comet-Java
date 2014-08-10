@@ -159,6 +159,7 @@ public class Composers {
 
     public static short HotelMaintenanceMessageComposer = 3020;
     public static short GroupBadgesMessageComposer = 1077;
+    public static short UpdateFavouriteGroupMessageComposer = 1875;
 
 
     public static String valueOfId(int i) {

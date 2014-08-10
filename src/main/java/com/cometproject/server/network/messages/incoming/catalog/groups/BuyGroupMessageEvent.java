@@ -18,9 +18,11 @@ import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.BadgeUtil;
+import javolution.util.FastSet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class BuyGroupMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
@@ -57,10 +59,12 @@ public class BuyGroupMessageEvent implements IEvent {
 
         String badge = BadgeUtil.generate(groupBase, groupBaseColour, groupItems);
 
+        System.out.println(badge + "," + groupBase + "," + groupBaseColour);
+
         client.send(BoughtItemMessageComposer.group());
 
         Group group = CometManager.getGroups().createGroup(new GroupData(name, desc, badge, client.getPlayer().getId(), roomId, CometManager.getGroups().getGroupItems().getSymbolColours().containsKey(colour1) ? colour1 : 1,
-                CometManager.getGroups().getGroupItems().getBackgroundColours().containsKey(colour2) ? colour2 : 1));
+                CometManager.getGroups().getGroupItems().getBackgroundColours().containsKey(colour2) ? colour2 : 1, groupItems));
 
         group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.OWNER));
         client.getPlayer().getGroups().add(group.getId());
