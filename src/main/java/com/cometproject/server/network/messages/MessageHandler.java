@@ -13,7 +13,9 @@ import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroup
 import com.cometproject.server.network.messages.incoming.catalog.pets.PetRacesMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.pets.ValidatePetNameMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.*;
+import com.cometproject.server.network.messages.incoming.group.favourite.SetFavouriteGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.ManageGroupMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.settings.ModifyGroupBadgeMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.ModifyGroupSettingsMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.ModifyGroupTitleMessageEvent;
 import com.cometproject.server.network.messages.incoming.handshake.CheckReleaseMessageEvent;
@@ -292,6 +294,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.GiveGroupAdminMessageEvent, new GiveGroupAdminMessageEvent());
         this.getMessages().put(Events.ModifyGroupSettingsMessageEvent, new ModifyGroupSettingsMessageEvent());
         this.getMessages().put(Events.AcceptMembershipMessageEvent, new AcceptMembershipMessageEvent());
+        this.getMessages().put(Events.ModifyGroupBadgeMessageEvent, new ModifyGroupBadgeMessageEvent());
+        this.getMessages().put(Events.SetFavouriteGroupMessageEvent, new SetFavouriteGroupMessageEvent());
     }
 
     public void registerQuests() {
