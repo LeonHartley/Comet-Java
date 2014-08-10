@@ -42,7 +42,7 @@ public class RevokeAdminMessageEvent implements IEvent {
 
         group.getMembershipComponent().getAdministrators().remove(groupMember.getPlayerId());
 
-        client.send(GroupMembersMessageComposer.compose(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getAdministrators()), 1, "", client.getPlayer().getId() == group.getData().getOwnerId()));
+        client.send(GroupMembersMessageComposer.compose(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getAdministrators()), 1, "", group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())));
 
     }
 }
