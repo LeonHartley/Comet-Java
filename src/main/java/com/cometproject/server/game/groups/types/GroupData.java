@@ -69,11 +69,6 @@ public class GroupData {
     private boolean adminDeco;
 
     /**
-     * The group image items (?)
-     */
-    private List<Integer> states;
-
-    /**
      * Load the group data straight from the database
      * @param data The set of data from the database
      * @throws SQLException
@@ -90,12 +85,6 @@ public class GroupData {
         this.colourA = data.getInt("colour1");
         this.colourB = data.getInt("colour2");
         this.adminDeco = data.getString("admindeco").equals("1");
-
-        this.states = new ArrayList<>();
-
-//        for(String state : data.getString("states").split(",")) {
-//            this.states.add(Integer.parseInt(state));
-//        }
     }
 
     /**
@@ -109,7 +98,7 @@ public class GroupData {
      * @param colourA The first colour of the group
      * @param colourB The second colour of the group
      */
-    public GroupData(String title, String description, String badge, int ownerId, int roomId, int colourA, int colourB, List<Integer> states) {
+    public GroupData(String title, String description, String badge, int ownerId, int roomId, int colourA, int colourB) {
         this.id = -1;
         this.title = title;
         this.description = description;
@@ -121,7 +110,6 @@ public class GroupData {
         this.colourA = colourA;
         this.colourB = colourB;
         this.adminDeco = false;
-        this.states = states;
     }
 
     /**
@@ -297,21 +285,5 @@ public class GroupData {
      */
     public void setColourB(int colourB) {
         this.colourB = colourB;
-    }
-
-    /**
-     * Get the group image items
-     * @return The group image items
-     */
-    public List<Integer> getStates() {
-        return states;
-    }
-
-    /**
-     * Set the group image items
-     * @param states The group image items
-     */
-    public void setStates(List<Integer> states) {
-        this.states = states;
     }
 }
