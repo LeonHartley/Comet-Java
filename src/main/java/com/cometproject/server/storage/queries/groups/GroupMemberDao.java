@@ -113,5 +113,96 @@ public class GroupMemberDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+    public static void createRequest(int groupId, int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into group_requests(`group_id`, `player_id`) VALUES(?, ?);", sqlConnection);
+
+            preparedStatement.setInt(1, groupId);
+            preparedStatement.setInt(2, playerId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void deleteRequest(int groupId, int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM group_requests WHERE group_id = ? AND player_id = ?", sqlConnection);
+
+            preparedStatement.setInt(1, groupId);
+            preparedStatement.setInt(2, playerId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void clearRequests(int groupId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM group_requests WHERE group_id = ?", sqlConnection);
+
+            preparedStatement.setInt(1, groupId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static List<Integer> getAllRequestsByGroupId(int groupId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        List<Integer> data = new ArrayList<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT * FROM group_requests WHERE group_id = ?", sqlConnection);
+            preparedStatement.setInt(1, groupId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                data.add(resultSet.getInt("player_id"));
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
+    }
 }
 

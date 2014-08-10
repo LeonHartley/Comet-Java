@@ -1,4 +1,4 @@
-package com.cometproject.server.network.messages.incoming.group;
+package com.cometproject.server.network.messages.incoming.group.settings;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.Group;

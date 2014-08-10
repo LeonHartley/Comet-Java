@@ -35,7 +35,7 @@ public class GroupInformationMessageComposer {
         msg.writeBoolean(flag);
         msg.writeBoolean(flag);
 
-        msg.writeInt(group.getMembershipComponent().getMembershipRequests().size());
+        msg.writeInt((isOwner || isAdmin) ? group.getMembershipComponent().getMembershipRequests().size() : 0);
         msg.writeBoolean(true);
 
         return msg;
