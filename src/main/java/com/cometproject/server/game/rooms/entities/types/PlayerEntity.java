@@ -100,7 +100,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                     return;
                 } else {
                     this.getRoom().getEntities().broadcastMessage(DoorbellRequestComposer.compose(this.getUsername()), true);
-                    this.player.getSession().send(DoorbellRequestComposer.compose(""));
+                    this.player.getSession().send(DoorbellRequestComposer.compose("Leon"));
                     return;
                 }
             }

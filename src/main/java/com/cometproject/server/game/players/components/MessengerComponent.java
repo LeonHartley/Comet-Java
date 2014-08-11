@@ -11,6 +11,7 @@ import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerSearchDao;
 import io.netty.util.ReferenceCountUtil;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +30,7 @@ public class MessengerComponent {
             this.friends = MessengerDao.getFriendsByPlayerId(player.getId());
             this.requests = MessengerDao.getRequestsByPlayerId(player.getId());
         } catch (Exception e) {
-            player.getSession().getLogger().error("Error while loading messenger friends", e);
+            Logger.getLogger(MessengerComponent.class.getName()).error("Error while loading messenger friends", e);
         }
     }
 
