@@ -64,7 +64,6 @@ public class MoveRotateEffect extends WiredEffect {
                 // We can't move here!
                 isCancelled = true;
             }
-            ;
 
             if (!isCancelled) {
                 for (AvatarEntity entity : room.getEntities().getEntitiesAt(previousPosition.getX(), previousPosition.getY())) {
@@ -87,6 +86,10 @@ public class MoveRotateEffect extends WiredEffect {
                 itemInstance.setY(newPosition.getY());
                 itemInstance.setX(newPosition.getX());
                 itemInstance.setHeight(height);
+
+                // Update mapping for both positions (old & new)
+                room.getMapping().updateTile(previousPosition.getX(), previousPosition.getY());
+                room.getMapping().updateTile(newPosition.getX(), newPosition.getY());
 
                 room.getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(itemInstance, room.getData().getOwnerId()));
             }

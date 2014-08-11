@@ -59,8 +59,6 @@ public class BuyGroupMessageEvent implements IEvent {
 
         String badge = BadgeUtil.generate(groupBase, groupBaseColour, groupItems);
 
-        System.out.println(badge + "," + groupBase + "," + groupBaseColour);
-
         client.send(BoughtItemMessageComposer.group());
 
         Group group = CometManager.getGroups().createGroup(new GroupData(name, desc, badge, client.getPlayer().getId(), roomId, CometManager.getGroups().getGroupItems().getSymbolColours().containsKey(colour1) ? colour1 : 1,

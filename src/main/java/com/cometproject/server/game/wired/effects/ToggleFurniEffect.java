@@ -1,5 +1,6 @@
 package com.cometproject.server.game.wired.effects;
 
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
@@ -32,7 +33,8 @@ public class ToggleFurniEffect extends WiredEffect {
                 return;
 
             // Toggle furni state
-            //CometManager.getItems().getInteractions().onInteract(0, itemInstance, null, true);
+            //CometManager.getItems()//.getInteractions().onInteract(0, itemInstance, null, true);
+            itemInstance.onInteract(null, 0, true);
         }
     }
 
