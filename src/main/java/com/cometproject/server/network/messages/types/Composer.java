@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.types;
 
+import com.cometproject.server.boot.Comet;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufHolder;
-import io.netty.buffer.Unpooled;
 import org.apache.log4j.Logger;
 
 import java.nio.charset.Charset;
@@ -15,7 +15,7 @@ public class Composer implements ByteBufHolder {
 
     public Composer(short id) {
         this.id = id;
-        this.body = Unpooled.buffer();
+        this.body = Comet.getServer().getNetwork().getAllocator().buffer();
 
         try {
             this.body.writeInt(-1);

@@ -30,6 +30,8 @@ public class NetworkManager {
     public static final AttributeKey<Session> SESSION_ATTR = AttributeKey.valueOf("Session.attr");
     public static final AttributeKey<Integer> CHANNEL_ID = AttributeKey.valueOf("ChannelId.attr");
 
+    private final PooledByteBufAllocator allocator = PooledByteBufAllocator.DEFAULT;
+
     private static Logger log = Logger.getLogger(NetworkManager.class.getName());
 
     public NetworkManager(String ip, String ports) {
@@ -58,7 +60,7 @@ public class NetworkManager {
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
                 .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)
-                .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+                .option(ChannelOption.ALLOCATOR, allocator)
                 .option(ChannelOption.MESSAGE_SIZE_ESTIMATOR, new DefaultMessageSizeEstimator(256))
                 .option(ChannelOption.TCP_NODELAY, true);
 
@@ -90,5 +92,9 @@ public class NetworkManager {
 
     public MessageHandler getMessages() {
         return this.messageHandler;
+    }
+
+    public PooledByteBufAllocator getAllocator() {
+        return allocator;
     }
 }
