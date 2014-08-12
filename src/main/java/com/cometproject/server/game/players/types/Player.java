@@ -46,6 +46,7 @@ public class Player {
     private int floodFlag = 0;
     private int teleportId = 0;
     private String lastMessage = "";
+    private int notifCooldown = 0;
 
     public Player(int id) {
         this.id = id;
@@ -262,5 +263,13 @@ public class Player {
 
     public List<Integer> getGroups() {
         return groups;
+    }
+
+    public int getNotifCooldown() {
+        return this.notifCooldown;
+    }
+
+    public void setNotifCooldown(int notifCooldown) {
+        this.notifCooldown = notifCooldown;
     }
 }

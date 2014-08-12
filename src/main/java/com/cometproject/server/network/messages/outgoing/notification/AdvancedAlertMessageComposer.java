@@ -37,7 +37,7 @@ public class AdvancedAlertMessageComposer {
 
     public static Composer compose(String message) {
         return compose(
-                "Message from Hotel Management",
+                "Alert",
                 message,
                 "",
                 "",

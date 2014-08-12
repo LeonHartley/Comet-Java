@@ -10,6 +10,7 @@ import com.cometproject.server.game.commands.vip.*;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
+import org.apache.log4j.Logger;
 
 import java.util.Map;
 
@@ -28,6 +29,8 @@ public class CommandManager {
 
         this.loadUserCommands();
         this.loadStaffCommands();
+
+        Logger.getLogger(CommandManager.class.getName()).info("Loaded " + commands.size() + " chat commands");
     }
 
     /**

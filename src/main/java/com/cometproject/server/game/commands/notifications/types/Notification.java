@@ -1,4 +1,8 @@
-package com.cometproject.server.game.commands.notifications;
+package com.cometproject.server.game.commands.notifications.types;
+
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +20,24 @@ public class Notification {
         this.type = NotificationType.valueOf(data.getString("type").toUpperCase());
         this.minRank = data.getInt("min_rank");
         this.coolDown = data.getInt("cooldown");
+    }
+
+    public void execute(Player player) {
+        if((player.getNotifCooldown() + coolDown) >= Comet.getTime()) {
+            return;
+        }
+
+        switch(this.type) {
+            case GLOBAL:
+                Comet.getServer().getNetwork().getSessions().broadcast(AdvancedAlertMessageComposer.compose(this.text + "\n\n-" + player.getData().getUsername()));
+                break;
+
+            case LOCAL:
+                player.getSession().send(AdvancedAlertMessageComposer.compose(this.text));
+                break;
+        }
+
+        player.setNotifCooldown((int) Comet.getTime());
     }
 
     public String getTrigger() {
