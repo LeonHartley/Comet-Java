@@ -14,7 +14,7 @@ public class RightsDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        FastTable<Integer> data = new FastTable<Integer>().shared();
+        FastTable<Integer> data = new FastTable<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
