@@ -8,6 +8,7 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.DefaultMessageSizeEstimator;
@@ -46,6 +47,8 @@ public class NetworkManager {
         }
 
         System.setProperty("java.net.preferIPv4Stack", "true");
+
+        System.setProperty("io.netty.allocator.type", "pooled");
         System.setProperty("io.netty.selectorAutoRebuildThreshold", "0");
         ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED);
 
