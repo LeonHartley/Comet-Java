@@ -50,7 +50,7 @@ public class NetworkManager {
 
         System.setProperty("io.netty.allocator.type", "pooled");
         System.setProperty("io.netty.selectorAutoRebuildThreshold", "0");
-        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED);
+        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.ADVANCED);
 
         EventLoopGroup acceptGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Accept Thread #%1$d").build());
         EventLoopGroup ioGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty IO Thread #%1$d").build());

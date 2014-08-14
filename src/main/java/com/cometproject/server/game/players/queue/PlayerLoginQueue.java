@@ -39,13 +39,7 @@ public class PlayerLoginQueue implements CometTask {
         int id = entry.getPlayerId();
         String sso = entry.getSsoTicket();
 
-        Player player = null;
-
-        if (id == -1) {
-            player = PlayerLoader.loadPlayerBySSo(sso);
-        } else {
-            player = PlayerLoader.loadPlayerByIdAndTicket(id, sso);
-        }
+        Player player = PlayerLoader.loadPlayerBySSo(sso);
 
         if (player == null) {
             client.disconnect();

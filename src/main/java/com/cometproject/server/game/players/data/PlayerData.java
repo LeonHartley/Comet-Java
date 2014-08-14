@@ -2,6 +2,9 @@ package com.cometproject.server.game.players.data;
 
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class PlayerData {
     private int id;
     private int rank;
@@ -42,6 +45,24 @@ public class PlayerData {
         this.regTimestamp = regTimestamp;
 
         this.favouriteGroup = favouriteGroup;
+    }
+
+    public PlayerData(ResultSet data) throws SQLException {
+        this.id = data.getInt("playerId");
+        this.username = data.getString("playerData_username");
+        this.motto = data.getString("playerData_motto");
+        this.figure = data.getString("playerData_figure");
+        this.gender = data.getString("playerData_gender");
+        this.email = data.getString("playerData_email");
+        this.rank = data.getInt("playerData_rank");
+        this.credits = data.getInt("playerData_credits");
+        this.points = data.getInt("playerData_vipPoints");
+        this.regDate = data.getString("playerData_regDate");
+        this.lastVisit = data.getInt("playerData_lastOnline");
+        this.vip = data.getString("playerData_vip").equals("1");
+        this.achievementPoints = data.getInt("playerData_achievementPoints");
+        this.regTimestamp = data.getInt("playerData_regTimestamp");
+        this.favouriteGroup = data.getInt("playerData_favouriteGroup");
     }
 
     public void save() {
