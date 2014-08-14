@@ -22,7 +22,8 @@ public class NetworkChannelInitializer extends ChannelInitializer<Channel> {
         if (threadSize == 0) {
             threadSize = (Runtime.getRuntime().availableProcessors() * 2);
         }
-        this.executor = new DefaultEventExecutorGroup(threadSize, new ThreadFactoryBuilder().setNameFormat("Netty Event Thread #%1$d").build());
+
+        this.executor = new DefaultEventExecutorGroup(threadSize, new ThreadFactoryBuilder().setNameFormat("Netty Event Thread #%1$d").setPriority(Thread.MAX_PRIORITY).build());
     }
 
     @Override

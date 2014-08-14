@@ -2,6 +2,7 @@ package com.cometproject.server.network.clients;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.messages.headers.Events;
 import com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;

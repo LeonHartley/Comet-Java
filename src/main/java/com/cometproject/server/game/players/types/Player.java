@@ -16,6 +16,8 @@ import com.cometproject.server.storage.queries.groups.GroupMemberDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import javolution.util.FastMap;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,12 +50,12 @@ public class Player {
     private String lastMessage = "";
     private int notifCooldown = 0;
 
-    public Player(int id) {
-        this.id = id;
+    public Player(ResultSet data) throws SQLException {
+        this.id = data.getInt("playerId");
 
-        this.settings = PlayerLoader.loadSettings(this.getId());
-        this.data = PlayerLoader.loadDataById(this.getId());
-        this.stats = PlayerLoader.loadStatistics(this.getId());
+        this.settings = new PlayerSettings(data);
+        this.data = new PlayerData(data);
+        this.stats = new PlayerStatistics(data);
 
         this.permissions = new PermissionComponent(this);
         this.inventory = new InventoryComponent(this);

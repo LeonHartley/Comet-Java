@@ -41,7 +41,7 @@ public class SSOTicketMessageEvent implements IEvent {
                 int playerId = Integer.parseInt(ticketData[0]);
                 String authTicket = ticketData[1];
 
-                player = PlayerLoader.loadPlayerByIdAndTicket(playerId, authTicket);
+                player = PlayerLoader.loadPlayerBySSo(authTicket);
             } else {
                 normalPlayerLoad = true;
             }
