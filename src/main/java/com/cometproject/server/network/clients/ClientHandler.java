@@ -71,6 +71,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         if (ctx.channel().isActive()) {
             if (cause instanceof IOException) {
+                log.error("IOException in ClientHandler", cause);
                 return;
             }
 

@@ -51,7 +51,7 @@ public class Player {
     public Player(ResultSet data) throws SQLException {
         this.id = data.getInt("playerId");
 
-        this.settings = new PlayerSettings(data);
+        this.settings = new PlayerSettings(data, false);
         this.data = new PlayerData(data);
         this.stats = new PlayerStatistics(data, true);
 

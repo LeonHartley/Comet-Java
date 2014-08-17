@@ -150,7 +150,7 @@ public class PlayerDao {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                return new PlayerSettings(resultSet);
+                return new PlayerSettings(resultSet, false);
             } else {
                 // close old statement
                 SqlHelper.closeSilently(preparedStatement);
