@@ -17,24 +17,24 @@ public class GiveGroupAdminMessageEvent implements IEvent {
         int groupId = msg.readInt();
         int playerId = msg.readInt();
 
-        if(!client.getPlayer().getGroups().contains(groupId)) {
+        if (!client.getPlayer().getGroups().contains(groupId)) {
             return;
         }
 
         Group group = CometManager.getGroups().get(groupId);
 
-        if(group == null)
+        if (group == null)
             return;
 
-        if(!group.getMembershipComponent().getMembers().containsKey(playerId))
+        if (!group.getMembershipComponent().getMembers().containsKey(playerId))
             return;
 
         GroupMember groupMember = group.getMembershipComponent().getMembers().get(playerId);
 
-        if(groupMember == null)
+        if (groupMember == null)
             return;
 
-        if(groupMember.getAccessLevel().isAdmin())
+        if (groupMember.getAccessLevel().isAdmin())
             return;
 
         groupMember.setAccessLevel(GroupAccessLevel.ADMIN);

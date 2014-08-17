@@ -34,6 +34,7 @@ public class GroupMember {
 
     /**
      * Initialize the member object with data from the database
+     *
      * @param data Data from the database
      * @throws SQLException
      */
@@ -47,8 +48,9 @@ public class GroupMember {
 
     /**
      * Initialize the member object before it's saved to the database
-     * @param playerId ID of the player
-     * @param groupId ID of the group
+     *
+     * @param playerId    ID of the player
+     * @param groupId     ID of the group
      * @param accessLevel The level of access the member has
      */
     public GroupMember(int playerId, int groupId, GroupAccessLevel accessLevel) {
@@ -61,6 +63,7 @@ public class GroupMember {
 
     /**
      * Get the ID of the membership
+     *
      * @return The ID of the membership
      */
     public int getMembershipId() {
@@ -69,6 +72,7 @@ public class GroupMember {
 
     /**
      * Set the ID of the membership
+     *
      * @param membershipId The ID of the membership1
      */
     public void setMembershipId(int membershipId) {
@@ -77,6 +81,7 @@ public class GroupMember {
 
     /**
      * Get the ID of the member
+     *
      * @return Get the ID of the member
      */
     public int getPlayerId() {
@@ -89,6 +94,7 @@ public class GroupMember {
 
     /**
      * Get the level of access the member has
+     *
      * @return The level of access the member has
      */
     public GroupAccessLevel getAccessLevel() {
@@ -97,6 +103,7 @@ public class GroupMember {
 
     /**
      * Set the level of access the member has
+     *
      * @param accessLevel The level of access the member has
      */
     public void setAccessLevel(GroupAccessLevel accessLevel) {
@@ -105,6 +112,7 @@ public class GroupMember {
 
     /**
      * Get the date the user joined the group
+     *
      * @return The date the user joined the group
      */
     public int getDateJoined() {

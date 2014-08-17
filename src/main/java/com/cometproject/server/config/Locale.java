@@ -27,7 +27,7 @@ public class Locale {
      * Load locale from the database
      */
     public static void reload() {
-        if(locale != null)
+        if (locale != null)
             locale.clear();
 
         locale = LocaleDao.getAll();
@@ -36,6 +36,7 @@ public class Locale {
 
     /**
      * Get a locale string by the key
+     *
      * @param key Retrieve from the locale by the key
      * @return String from the locale
      */

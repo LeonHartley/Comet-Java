@@ -159,7 +159,9 @@ public class InventoryComponent {
     }
 
     public InventoryItem getFloorItem(int id) {
-        if (!this.hasFloorItem(id)) { return null; }
+        if (!this.hasFloorItem(id)) {
+            return null;
+        }
         return this.getFloorItems().get(id);
     }
 
@@ -168,7 +170,9 @@ public class InventoryComponent {
     }
 
     public InventoryItem getWallItem(int id) {
-        if (!this.hasWallItem(id)) { return null; }
+        if (!this.hasWallItem(id)) {
+            return null;
+        }
         return this.getWallItems().get(id);
     }
 

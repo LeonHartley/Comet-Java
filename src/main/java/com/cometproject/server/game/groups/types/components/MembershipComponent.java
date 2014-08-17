@@ -35,6 +35,7 @@ public class MembershipComponent {
 
     /**
      * Initialize the MembershipComponent
+     *
      * @param groupId The ID of the group
      */
     public MembershipComponent(int groupId) {
@@ -51,27 +52,28 @@ public class MembershipComponent {
      * Load members of this group from the database
      */
     private void loadMemberships() {
-        for(GroupMember groupMember : GroupMemberDao.getAllByGroupId(this.groupId)) {
+        for (GroupMember groupMember : GroupMemberDao.getAllByGroupId(this.groupId)) {
             this.createMembership(groupMember);
         }
 
-        for(Integer playerId : GroupMemberDao.getAllRequestsByGroupId(groupId)) {
+        for (Integer playerId : GroupMemberDao.getAllRequestsByGroupId(groupId)) {
             this.groupMembershipRequests.add(playerId);
         }
     }
 
     /**
      * Add a new member to the group
+     *
      * @param groupMember The new member
      */
     public void createMembership(GroupMember groupMember) {
-        if(groupMember.getMembershipId() == 0)
+        if (groupMember.getMembershipId() == 0)
             groupMember.setMembershipId(GroupMemberDao.create(groupMember));
 
-        if(groupMembers.containsKey(groupMember.getPlayerId()))
+        if (groupMembers.containsKey(groupMember.getPlayerId()))
             groupMembers.remove(groupMember.getPlayerId());
 
-        if(groupMember.getAccessLevel().isAdmin())
+        if (groupMember.getAccessLevel().isAdmin())
             this.groupAdministrators.add(groupMember.getPlayerId());
 
         groupMembers.put(groupMember.getPlayerId(), groupMember);
@@ -79,10 +81,11 @@ public class MembershipComponent {
 
     /**
      * Remove a player's membership to the group
+     *
      * @param playerId The ID of the player to remove
      */
     public void removeMembership(int playerId) {
-        if(!groupMembers.containsKey(playerId))
+        if (!groupMembers.containsKey(playerId))
             return;
 
         int groupMembershipId = groupMembers.get(playerId).getMembershipId();
@@ -91,19 +94,20 @@ public class MembershipComponent {
 
         groupMembers.remove(playerId);
 
-        if(groupAdministrators.contains(playerId))
+        if (groupAdministrators.contains(playerId))
             groupAdministrators.remove(playerId);
     }
 
     /**
      * Add a new membership request to the group
+     *
      * @param playerId The ID of the player who is requesting to join
      */
     public void createRequest(int playerId) {
-        if(groupMembers.containsKey(playerId))
+        if (groupMembers.containsKey(playerId))
             return;
 
-        if(groupMembershipRequests.contains(playerId))
+        if (groupMembershipRequests.contains(playerId))
             return;
 
         groupMembershipRequests.add(playerId);
@@ -114,7 +118,7 @@ public class MembershipComponent {
      * Clears all membership requests
      */
     public void clearRequests() {
-        if(groupMembershipRequests.size() == 0)
+        if (groupMembershipRequests.size() == 0)
             return;
 
         groupMembershipRequests.clear();
@@ -125,7 +129,7 @@ public class MembershipComponent {
      * Removes membership request
      */
     public void removeRequest(int playerId) {
-        if(!groupMembershipRequests.contains(playerId))
+        if (!groupMembershipRequests.contains(playerId))
             return;
 
         groupMembershipRequests.remove(playerId);
@@ -135,6 +139,7 @@ public class MembershipComponent {
 
     /**
      * Get the members of the group
+     *
      * @return The members of the group
      */
     public Map<Integer, GroupMember> getMembers() {
@@ -143,12 +148,13 @@ public class MembershipComponent {
 
     /**
      * Get the members of the group in a list
+     *
      * @return The members of the group in a list
      */
     public List<GroupMember> getMembersAsList() {
         List<GroupMember> groupMembers = new ArrayList<>();
 
-        for(GroupMember groupMember : this.getMembers().values()) {
+        for (GroupMember groupMember : this.getMembers().values()) {
             groupMembers.add(groupMember);
         }
 
@@ -157,6 +163,7 @@ public class MembershipComponent {
 
     /**
      * Get the administrators of the group
+     *
      * @return The administrators of the group
      */
     public Set<Integer> getAdministrators() {
@@ -165,6 +172,7 @@ public class MembershipComponent {
 
     /**
      * Get the membership requests of the group
+     *
      * @return The membership requests of the group
      */
     public Set<Integer> getMembershipRequests() {
@@ -173,6 +181,7 @@ public class MembershipComponent {
 
     /**
      * Get the group that this component is assigned to
+     *
      * @return The group that this component is assigned to
      */
     private Group getGroup() {

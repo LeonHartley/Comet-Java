@@ -10,7 +10,7 @@ import com.cometproject.server.network.sessions.Session;
 public class ModToolUserKickMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        if(!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             // fuck off
             client.disconnect();
             return;

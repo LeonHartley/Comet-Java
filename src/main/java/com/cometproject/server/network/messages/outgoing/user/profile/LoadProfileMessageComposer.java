@@ -26,7 +26,8 @@ public class LoadProfileMessageComposer {
         try {
             timestamp = Integer.parseInt(player.getRegDate());
             isTimestamp = true;
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         msg.writeString(isTimestamp ? UserInfoMessageComposer.getDate(timestamp) : player.getRegDate());
         msg.writeInt(player.getAchievementPoints());
@@ -37,7 +38,7 @@ public class LoadProfileMessageComposer {
 
         msg.writeInt(groups.size());
 
-        for(Integer groupId : groups) {
+        for (Integer groupId : groups) {
             Group group = CometManager.getGroups().get(groupId);
 
             msg.writeInt(groupId);

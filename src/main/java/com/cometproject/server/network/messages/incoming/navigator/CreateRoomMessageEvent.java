@@ -2,8 +2,8 @@ package com.cometproject.server.network.messages.incoming.navigator;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.CreateRoomMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 

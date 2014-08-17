@@ -56,6 +56,7 @@ public class CatalogManager {
 
     /**
      * Get pages for a specific player rank
+     *
      * @param rank Player rank
      * @return A list of pages that are accessible by the specified rank
      */
@@ -73,6 +74,7 @@ public class CatalogManager {
 
     /**
      * Get a catalog page by it's ID
+     *
      * @param id Catalog Page ID
      * @return Catalog Page object with the specified ID
      */
@@ -86,6 +88,7 @@ public class CatalogManager {
 
     /**
      * Does a page with a specific ID exist?
+     *
      * @param id The ID of the page we want to check that exists
      * @return Whether or not the page with the specified ID exists
      */
@@ -95,6 +98,7 @@ public class CatalogManager {
 
     /**
      * Get all catalog pages
+     *
      * @return All catalog pages in-memory
      */
     public Map<Integer, CatalogPage> getPages() {
@@ -103,6 +107,7 @@ public class CatalogManager {
 
     /**
      * Get the catalog page handler
+     *
      * @return The catalog page handler
      */
     public CatalogPurchaseHandler getPurchaseHandler() {

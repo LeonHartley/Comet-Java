@@ -23,7 +23,7 @@ public class GroupMembersMessageComposer {
 
         msg.writeInt(groupMembers.size());
 
-        if(groupMembers.size() == 0) {
+        if (groupMembers.size() == 0) {
             msg.writeInt(0);
         } else {
             List<List<Object>> paginatedMembers = paginateMembers(groupMembers, MEMBERS_PER_PAGE);

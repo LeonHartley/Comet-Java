@@ -5,8 +5,6 @@ import com.cometproject.server.game.groups.types.components.MembershipComponent;
 import com.cometproject.server.network.messages.outgoing.group.GroupInformationMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 
-import java.util.List;
-
 public class Group {
     /**
      * The ID of the group
@@ -20,6 +18,7 @@ public class Group {
 
     /**
      * Initialize the group instance
+     *
      * @param id The ID of the group
      */
     public Group(int id) {
@@ -30,7 +29,8 @@ public class Group {
 
     /**
      * Create a packet containing group information
-     * @param flag Flag sent by the client (Unknown right now...)
+     *
+     * @param flag     Flag sent by the client (Unknown right now...)
      * @param playerId The ID of the player to receive this message
      * @return Packet containing the group information
      */
@@ -41,6 +41,7 @@ public class Group {
 
     /**
      * Get the ID of the group
+     *
      * @return The ID of the group
      */
     public int getId() {
@@ -49,6 +50,7 @@ public class Group {
 
     /**
      * Get the data assigned to a group instance (by the ID)
+     *
      * @return The data object
      */
     public GroupData getData() {
@@ -57,6 +59,7 @@ public class Group {
 
     /**
      * Get the membership component
+     *
      * @return The component which will handle everything member-related
      */
     public MembershipComponent getMembershipComponent() {

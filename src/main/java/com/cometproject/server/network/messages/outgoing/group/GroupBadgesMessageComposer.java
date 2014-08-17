@@ -11,7 +11,7 @@ public class GroupBadgesMessageComposer {
 
         msg.writeInt(badges.size());
 
-        for(Map.Entry<Integer, String> badge : badges.entrySet()) {
+        for (Map.Entry<Integer, String> badge : badges.entrySet()) {
             msg.writeInt(badge.getKey());
             msg.writeString(badge.getValue());
         }

@@ -13,9 +13,11 @@ public class GateFloorItem extends RoomItemFloor {
 
     @Override
     public void onInteract(GenericEntity entity0, int requestData, boolean isWiredTrigger) {
-        if ( !(entity0 instanceof PlayerEntity)) { return; /* TODO: Allow for this to be triggered by wired ;P */ }
+        if (!(entity0 instanceof PlayerEntity)) {
+            return; /* TODO: Allow for this to be triggered by wired ;P */
+        }
 
-        PlayerEntity pEntity = (PlayerEntity)entity0;
+        PlayerEntity pEntity = (PlayerEntity) entity0;
 
         if (!isWiredTrigger) {
             if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())

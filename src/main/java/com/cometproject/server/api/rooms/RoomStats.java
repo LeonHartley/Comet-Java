@@ -31,6 +31,7 @@ public class RoomStats {
 
     /**
      * Initialize the RoomStats object
+     *
      * @param room The room
      */
     public RoomStats(Room room) {
@@ -44,6 +45,7 @@ public class RoomStats {
 
     /**
      * Get the data of the room
+     *
      * @return The data of the room
      */
     public RoomData getData() {
@@ -52,6 +54,7 @@ public class RoomStats {
 
     /**
      * Set the data of the room
+     *
      * @param data The data of the room
      */
     public void setData(RoomData data) {
@@ -60,6 +63,7 @@ public class RoomStats {
 
     /**
      * Get the amount of players in the room
+     *
      * @return The amount of players in the room
      */
     public int getPlayers() {
@@ -68,6 +72,7 @@ public class RoomStats {
 
     /**
      * Set the amount of players in the room
+     *
      * @param players The amount of players in the room
      */
     public void setPlayers(int players) {
@@ -76,6 +81,7 @@ public class RoomStats {
 
     /**
      * Get the amount of bots in the room
+     *
      * @return The amount of bots in the room
      */
     public int getBots() {
@@ -84,6 +90,7 @@ public class RoomStats {
 
     /**
      * Set the amount of bots in the room
+     *
      * @param bots The amount of bots in the room
      */
     public void setBots(int bots) {
@@ -92,6 +99,7 @@ public class RoomStats {
 
     /**
      * Get the amount of pets in the room
+     *
      * @return The amount of pets in the room
      */
     public int getPets() {
@@ -100,6 +108,7 @@ public class RoomStats {
 
     /**
      * Set the amount of pets in the room
+     *
      * @param pets The amount of pets in the room
      */
     public void setPets(int pets) {
@@ -108,6 +117,7 @@ public class RoomStats {
 
     /**
      * Get the time the room was loaded
+     *
      * @return The time the room was loaded
      */
     public long getLoadTime() {
@@ -116,6 +126,7 @@ public class RoomStats {
 
     /**
      * Set the time the room was loaded
+     *
      * @param loadTime The time the room was loaded
      */
     public void setLoadTime(long loadTime) {

@@ -12,6 +12,7 @@ public class JsonTransformer implements ResponseTransformer {
 
     /**
      * Render the template as JSON using the GSON instance
+     *
      * @param o The object which we need to transform into JSON format
      * @return JSON formatted string
      * @throws Exception

@@ -23,11 +23,11 @@ public class Notification {
     }
 
     public void execute(Player player) {
-        if((player.getNotifCooldown() + coolDown) >= Comet.getTime()) {
+        if ((player.getNotifCooldown() + coolDown) >= Comet.getTime()) {
             return;
         }
 
-        switch(this.type) {
+        switch (this.type) {
             case GLOBAL:
                 Comet.getServer().getNetwork().getSessions().broadcast(AdvancedAlertMessageComposer.compose(this.text + "\n\n-" + player.getData().getUsername()));
                 break;

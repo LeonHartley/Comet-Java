@@ -187,7 +187,7 @@ public class PlayerDao {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                return new PlayerStatistics(resultSet);
+                return new PlayerStatistics(resultSet, false);
             } else {
                 SqlHelper.closeSilently(preparedStatement);
 

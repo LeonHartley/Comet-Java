@@ -23,28 +23,34 @@ public class GroupMembersMessageEvent implements IEvent {
 
         Group group = CometManager.getGroups().get(groupId);
 
-        if(group == null)
+        if (group == null)
             return;
 
         List<Object> groupMembers;
 
-        switch(requestType) {
-            default: groupMembers = new ArrayList<>(group.getMembershipComponent().getMembersAsList()); break;
-            case 1: groupMembers = new ArrayList<>(group.getMembershipComponent().getAdministrators()); break;
-            case 2: groupMembers = new ArrayList<>(group.getMembershipComponent().getMembershipRequests()); break;
+        switch (requestType) {
+            default:
+                groupMembers = new ArrayList<>(group.getMembershipComponent().getMembersAsList());
+                break;
+            case 1:
+                groupMembers = new ArrayList<>(group.getMembershipComponent().getAdministrators());
+                break;
+            case 2:
+                groupMembers = new ArrayList<>(group.getMembershipComponent().getMembershipRequests());
+                break;
         }
 
-        if(!searchQuery.isEmpty()) {
+        if (!searchQuery.isEmpty()) {
             List<Object> toRemove = new ArrayList<>();
 
-            for(Object obj : groupMembers) {
+            for (Object obj : groupMembers) {
                 PlayerData playerData = PlayerDao.getDataById(obj instanceof GroupMember ? ((GroupMember) obj).getPlayerId() : (int) obj);
 
-                if(!playerData.getUsername().toLowerCase().startsWith(searchQuery.toLowerCase()))
+                if (!playerData.getUsername().toLowerCase().startsWith(searchQuery.toLowerCase()))
                     toRemove.add(obj);
             }
 
-            for(Object obj : toRemove) {
+            for (Object obj : toRemove) {
                 groupMembers.remove(obj);
             }
 

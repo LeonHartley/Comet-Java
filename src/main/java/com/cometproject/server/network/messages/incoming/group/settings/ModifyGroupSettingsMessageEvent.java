@@ -14,18 +14,18 @@ public class ModifyGroupSettingsMessageEvent implements IEvent {
     public void handle(Session client, Event msg) throws Exception {
         int groupId = msg.readInt();
 
-        if(!client.getPlayer().getGroups().contains(groupId))
+        if (!client.getPlayer().getGroups().contains(groupId))
             return;
 
         Group group = CometManager.getGroups().get(groupId);
 
-        if(group == null || group.getData().getOwnerId() != client.getPlayer().getId())
+        if (group == null || group.getData().getOwnerId() != client.getPlayer().getId())
             return;
 
         int type = msg.readInt();
         int rightsType = msg.readInt();
 
-        if(GroupType.valueOf(type) != group.getData().getType()) {
+        if (GroupType.valueOf(type) != group.getData().getType()) {
             group.getMembershipComponent().clearRequests();
         }
 
@@ -34,7 +34,7 @@ public class ModifyGroupSettingsMessageEvent implements IEvent {
 
         group.getData().save();
 
-        if(CometManager.getRooms().isActive(group.getData().getRoomId())) {
+        if (CometManager.getRooms().isActive(group.getData().getRoomId())) {
             Room room = CometManager.getRooms().get(group.getData().getRoomId());
 
             room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));

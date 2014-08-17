@@ -20,6 +20,7 @@ public class SessionEventHandler {
 
     /**
      * Initialize the event handler
+     *
      * @param session The session attached to the event handler.
      */
     public SessionEventHandler(Session session) {
@@ -34,6 +35,7 @@ public class SessionEventHandler {
 
     /**
      * Handle the incoming event
+     *
      * @param msg The incoming event
      */
     public void handle(Event msg) {

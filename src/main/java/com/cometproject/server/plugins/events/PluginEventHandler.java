@@ -12,8 +12,9 @@ public class PluginEventHandler {
 
     /**
      * Process event
+     *
      * @param pluginEvent Event type
-     * @param args Arguments to send to the event
+     * @param args        Arguments to send to the event
      */
     public static void on(PluginEvent pluginEvent, Map<String, Object> args) {
 

@@ -15,7 +15,7 @@ public class ModToolUserCautionMessageEvent implements IEvent {
         int playerId = msg.readInt();
         String message = msg.readString();
 
-        if(!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             // fuck off
             client.getLogger().error(
                     ModToolUserCautionMessageEvent.class.getName() + " - tried to caution user with ID: " + playerId + " and message: " + message);

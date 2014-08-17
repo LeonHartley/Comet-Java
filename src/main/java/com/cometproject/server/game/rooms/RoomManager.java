@@ -134,12 +134,12 @@ public class RoomManager {
             }
 
 //            try {
-                Room room = new Room(data).load();
-                this.loadedRoomInstances.put(id, room);
+            Room room = new Room(data).load();
+            this.loadedRoomInstances.put(id, room);
 
-                this.finalizeRoomLoad(room);
+            this.finalizeRoomLoad(room);
 
-                return room;
+            return room;
 //            } finally {
 //                this.finalizeRoomLoad(this.getRoomInstances().get(id));
 //            }
@@ -147,7 +147,9 @@ public class RoomManager {
     }
 
     private void finalizeRoomLoad(Room room) {
-        if (room == null) { return; }
+        if (room == null) {
+            return;
+        }
         room.getItems().onLoaded();
     }
 

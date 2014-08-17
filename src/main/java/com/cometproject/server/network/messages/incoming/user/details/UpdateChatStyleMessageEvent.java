@@ -10,7 +10,9 @@ public class UpdateChatStyleMessageEvent implements IEvent {
     public void handle(Session client, Event msg) throws Exception {
         boolean useOldChat = msg.readBoolean();
 
-        if (client.getPlayer() == null) { return; }
+        if (client.getPlayer() == null) {
+            return;
+        }
 
         client.getPlayer().getSettings().setUseOldChat(useOldChat);
         PlayerDao.saveChatStyle(useOldChat, client.getPlayer().getId());

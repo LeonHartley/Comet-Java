@@ -59,16 +59,17 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Initialize the bot
-     * @param id The ID of the bot
-     * @param username The name of the bot
-     * @param motto The motto of the bot
-     * @param figure The figure of the bot
-     * @param gender The gender of the bot
-     * @param ownerName The name of the 1 owner
-     * @param ownerId The ID of the owner of the bot
-     * @param messages The messages the bot can say
+     *
+     * @param id            The ID of the bot
+     * @param username      The name of the bot
+     * @param motto         The motto of the bot
+     * @param figure        The figure of the bot
+     * @param gender        The gender of the bot
+     * @param ownerName     The name of the 1 owner
+     * @param ownerId       The ID of the owner of the bot
+     * @param messages      The messages the bot can say
      * @param automaticChat Can the bot talk without being triggered?
-     * @param chatDelay How long before the bot will next talk
+     * @param chatDelay     How long before the bot will next talk
      */
     public BotData(int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages, boolean automaticChat, int chatDelay) {
         this.id = id;
@@ -85,6 +86,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Get a random chat message from the array
+     *
      * @return A random chat message from the array
      */
     public String getRandomMessage() {
@@ -99,6 +101,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Strip non-alpha-numeric characters from a chat message
+     *
      * @param msg The chat message we will filter
      * @return A filtered version of the chat message
      */
@@ -115,6 +118,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Get the bot's ID
+     *
      * @return The bot's ID
      */
     public int getId() {
@@ -123,6 +127,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Get the bot's name
+     *
      * @return The bot's name
      */
     public String getUsername() {
@@ -131,6 +136,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Set the bot's username
+     *
      * @param username The new username
      */
     public void setUsername(String username) {
@@ -139,6 +145,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Get the bot's motto
+     *
      * @return The bot's motto
      */
     public String getMotto() {
@@ -147,6 +154,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Set the bot's motto
+     *
      * @param motto The new motto
      */
     public void setMotto(String motto) {
@@ -155,6 +163,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Get the bot's figure
+     *
      * @return The bot's figure
      */
     public String getFigure() {
@@ -163,6 +172,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Set the bot's figure
+     *
      * @param figure The new figure
      */
     public void setFigure(String figure) {
@@ -171,6 +181,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Get the bot's gender
+     *
      * @return The bot's gender
      */
     public String getGender() {
@@ -179,6 +190,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Set the bot's gender
+     *
      * @param gender The new gender
      */
     public void setGender(String gender) {
@@ -187,6 +199,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Get how long it is before the bot will talk
+     *
      * @return Seconds until the bot will talk
      */
     public int getChatDelay() {
@@ -195,6 +208,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Set how long it is before the bot can talk
+     *
      * @param delay Seconds until the bot will talk
      */
     public void setChatDelay(int delay) {
@@ -203,6 +217,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Get the bot's chat messages
+     *
      * @return Bot's chat messages
      */
     public String[] getMessages() {
@@ -211,6 +226,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Set the bot's chat messages
+     *
      * @param messages New chat messages
      */
     public void setMessages(String[] messages) {
@@ -219,6 +235,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Can the bot talk without being triggered?
+     *
      * @return Whether or not the bot can talk without being triggered
      */
     public boolean isAutomaticChat() {
@@ -227,6 +244,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Set whether or not the bot can talk without being triggered
+     *
      * @param isAutomaticChat Whether or not the bot can talk without being triggered
      */
     public void setAutomaticChat(boolean isAutomaticChat) {
@@ -235,6 +253,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Get the name of the owner of the bot
+     *
      * @return The name of the owner of the bot
      */
     public String getOwnerName() {
@@ -243,6 +262,7 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Get the ID of the owner of the bot
+     *
      * @return The ID of the owner of the bot
      */
     public int getOwnerId() {

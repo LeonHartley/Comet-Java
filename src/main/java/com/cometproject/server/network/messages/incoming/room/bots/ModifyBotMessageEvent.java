@@ -62,13 +62,13 @@ public class ModifyBotMessageEvent implements IEvent {
                     speakingInterval = "7";
                 }
 
-                for(String message : messages) {
+                for (String message : messages) {
                     FilterResult filterResult = CometManager.getRooms().getFilter().filter(message);
 
-                    if(filterResult.isBlocked()) {
+                    if (filterResult.isBlocked()) {
                         client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
                         return;
-                    } else if(filterResult.wasModified()) {
+                    } else if (filterResult.wasModified()) {
                         messages.remove(message);
                         messages.add(filterResult.getChatMessage());
                     }

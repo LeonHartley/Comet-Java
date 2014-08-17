@@ -33,7 +33,7 @@ public class AnswerDoorbellMessageEvent implements IEvent {
             return;
         }
 
-        if(requestingClient.getPlayer() == null || requestingClient.getPlayer().getEntity() == null) {
+        if (requestingClient.getPlayer() == null || requestingClient.getPlayer().getEntity() == null) {
             return;
         }
 

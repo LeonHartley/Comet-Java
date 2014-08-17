@@ -50,12 +50,13 @@ public class GiftData {
 
     /**
      * Initialize the gift data
-     * @param pageId The page ID of the item
-     * @param itemId The item ID
-     * @param senderId The ID of the player who sent the item
-     * @param receiver The name of the user will recieve the gift
-     * @param message The message that will appear in the gift
-     * @param spriteId The ID of the item in furnidata
+     *
+     * @param pageId         The page ID of the item
+     * @param itemId         The item ID
+     * @param senderId       The ID of the player who sent the item
+     * @param receiver       The name of the user will recieve the gift
+     * @param message        The message that will appear in the gift
+     * @param spriteId       The ID of the item in furnidata
      * @param wrappingPaper
      * @param decorationType
      * @param showUsername

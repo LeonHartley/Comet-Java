@@ -91,7 +91,9 @@ public class Room implements Attributable {
     }
 
     public void dispose() {
-        if (this.isDisposed) { return; }
+        if (this.isDisposed) {
+            return;
+        }
         this.isDisposed = true;
 
         this.process.stop();
@@ -102,10 +104,6 @@ public class Room implements Attributable {
         this.items.dispose();
 
         this.log.debug("Room has been disposed");
-    }
-
-    public boolean hasGroup() {
-        return CometManager.getGroups().get(this.getId()) == null;
     }
 
     public void tick() {
@@ -201,7 +199,7 @@ public class Room implements Attributable {
     }
 
     public boolean hasRoomMute() {
-        return this.attributes.containsKey("room_muted") && (boolean)this.attributes.get("room_muted");
+        return this.attributes.containsKey("room_muted") && (boolean) this.attributes.get("room_muted");
     }
 
     public void setRoomMute(boolean mute) {

@@ -2,9 +2,9 @@ package com.cometproject.server.game.players.components.types;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.data.PlayerData;
-import com.cometproject.server.game.players.data.PlayerLoader;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +21,7 @@ public class MessengerFriend {
         this.updateClient();
 
         if (client == null) {
-            userData = PlayerLoader.loadDataById(userId);
+            userData = PlayerDao.getDataById(userId);
         } else {
             userData = client.getPlayer().getData();
         }

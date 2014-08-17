@@ -3,7 +3,6 @@ package com.cometproject.server.game.players.types;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
-import com.cometproject.server.game.players.data.PlayerLoader;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
@@ -12,7 +11,6 @@ import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsM
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.groups.GroupDao;
-import com.cometproject.server.storage.queries.groups.GroupMemberDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import javolution.util.FastMap;
 
@@ -55,7 +53,7 @@ public class Player {
 
         this.settings = new PlayerSettings(data);
         this.data = new PlayerData(data);
-        this.stats = new PlayerStatistics(data);
+        this.stats = new PlayerStatistics(data, true);
 
         this.permissions = new PermissionComponent(this);
         this.inventory = new InventoryComponent(this);
@@ -140,7 +138,7 @@ public class Player {
             return;
         }
 
-        if(room.getEntities().getEntityByPlayerId(this.id) != null) {
+        if (room.getEntities().getEntityByPlayerId(this.id) != null) {
             // Remove them from the room hack lulz poop a doopa doo
             room.getEntities().getEntityByPlayerId(this.id).leaveRoom(true, false, false);
         }

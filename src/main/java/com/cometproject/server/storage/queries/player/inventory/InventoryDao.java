@@ -24,7 +24,7 @@ public class InventoryDao {
             sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = ITEMS_USERID_INDEX.equals("") ?
-                      SqlHelper.prepare("SELECT * FROM items WHERE room_id = 0 AND user_id = ?", sqlConnection)
+                    SqlHelper.prepare("SELECT * FROM items WHERE room_id = 0 AND user_id = ?", sqlConnection)
                     : SqlHelper.prepare("SELECT * FROM items USE INDEX (" + ITEMS_USERID_INDEX + ") WHERE room_id = 0 AND user_id = ?", sqlConnection);
 
             preparedStatement.setInt(1, playerId);

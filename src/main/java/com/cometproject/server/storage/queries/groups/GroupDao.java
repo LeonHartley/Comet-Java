@@ -3,7 +3,6 @@ package com.cometproject.server.storage.queries.groups;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.storage.SqlHelper;
-import com.ctc.wstx.util.StringUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -108,7 +107,7 @@ public class GroupDao {
     }
 
     public static void save(GroupData groupData) {
-        if(groupData.getId() == -1) {
+        if (groupData.getId() == -1) {
             CometManager.getLogger().warn("Tried to update group data which doesn't exist/doesn't have a valid ID (-1)! Title: " + groupData.getTitle());
             return;
         }
@@ -155,7 +154,7 @@ public class GroupDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 data.add(resultSet.getInt("group_id"));
             }
         } catch (SQLException e) {

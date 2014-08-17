@@ -27,18 +27,18 @@ public class RevokeMembershipMessageEvent implements IEvent {
 
         GroupMember groupMember = group.getMembershipComponent().getMembers().get(client.getPlayer().getId());
 
-        if(!groupMember.getAccessLevel().isAdmin() && playerId != client.getPlayer().getId())
+        if (!groupMember.getAccessLevel().isAdmin() && playerId != client.getPlayer().getId())
             return;
 
         group.getMembershipComponent().removeMembership(playerId);
 
         if (playerId == client.getPlayer().getId()) {
-            if(client.getPlayer().getData().getFavouriteGroup() == groupId) {
+            if (client.getPlayer().getData().getFavouriteGroup() == groupId) {
                 client.getPlayer().getData().setFavouriteGroup(0);
                 client.getPlayer().getData().save();
             }
 
-            if(client.getPlayer().getGroups().contains(groupId)) {
+            if (client.getPlayer().getGroups().contains(groupId)) {
                 client.getPlayer().getGroups().remove(client.getPlayer().getGroups().indexOf(groupId));
                 client.send(group.composeInformation(true, client.getPlayer().getId()));
             }

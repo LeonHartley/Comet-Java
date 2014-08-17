@@ -21,7 +21,7 @@ public class PlaylistMessageComposer {
         }
 
 //        if (playlist.size() > 0) {
-            msg.writeString(videoId);
+        msg.writeString(videoId);
 //        }
 
         return msg;

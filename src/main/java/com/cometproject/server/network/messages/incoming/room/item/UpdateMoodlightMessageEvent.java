@@ -13,7 +13,9 @@ public class UpdateMoodlightMessageEvent implements IEvent {
         Room r = client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null ?
                 client.getPlayer().getEntity().getRoom() : null;
 
-        if (r == null) { return; }
+        if (r == null) {
+            return;
+        }
 
         if (!r.getRights().hasRights(client.getPlayer().getEntity().getPlayerId())) {
             return;
@@ -21,7 +23,9 @@ public class UpdateMoodlightMessageEvent implements IEvent {
 
         MoodlightWallItem moodlight = r.getItems().getMoodlight();
 
-        if (moodlight == null) { return; }
+        if (moodlight == null) {
+            return;
+        }
 
         int preset = msg.readInt();
         boolean bgOnly = msg.readInt() >= 2;

@@ -15,19 +15,19 @@ public class JoinGroupMessageEvent implements IEvent {
     public void handle(Session client, Event msg) throws Exception {
         int groupId = msg.readInt();
 
-        if(client.getPlayer().getGroups().contains(groupId)) {
+        if (client.getPlayer().getGroups().contains(groupId)) {
             // Already joined, what you doing??
             return;
         }
 
         Group group = CometManager.getGroups().get(groupId);
 
-        if(group == null || group.getData().getType() == GroupType.PRIVATE) {
+        if (group == null || group.getData().getType() == GroupType.PRIVATE) {
             // fuck off haxor
             return;
         }
 
-        if(group.getData().getType() == GroupType.REGULAR) {
+        if (group.getData().getType() == GroupType.REGULAR) {
             if (client.getPlayer().getData().getFavouriteGroup() == 0) {
                 client.getPlayer().getData().setFavouriteGroup(groupId);
                 client.getPlayer().getData().save();

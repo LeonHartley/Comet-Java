@@ -7,8 +7,6 @@ import com.cometproject.server.network.messages.outgoing.room.engine.RelativeHei
 import com.cometproject.server.network.messages.types.Composer;
 import org.apache.log4j.Logger;
 
-import java.util.Arrays;
-
 public abstract class RoomModel {
     private String name;
     private String map = "";

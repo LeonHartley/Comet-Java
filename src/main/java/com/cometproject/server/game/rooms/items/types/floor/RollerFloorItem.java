@@ -7,7 +7,6 @@ import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RollerFloorItem extends RoomItemFloor {
@@ -110,7 +109,9 @@ public class RollerFloorItem extends RoomItemFloor {
                 continue;
             }
 
-            if (floor.getHeight() < 0.5) { continue; }
+            if (floor.getHeight() < 0.5) {
+                continue;
+            }
 
             double height = floor.getHeight();
 
@@ -149,7 +150,7 @@ public class RollerFloorItem extends RoomItemFloor {
 
             floor.setX(sqInfront.getX());
             floor.setY(sqInfront.getY());
-            floor.setHeight((float)height);
+            floor.setHeight((float) height);
 
             RoomItemDao.saveItemPosition(floor.getX(), floor.getY(), floor.getHeight(), floor.getRotation(), floor.getId());
         }

@@ -16,7 +16,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
-        if(entity.hasAttribute("banzaiTeleport")) {
+        if (entity.hasAttribute("banzaiTeleport")) {
             entity.removeAttribute("banzaiTeleport");
             return;
         }

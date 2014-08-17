@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.engine;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
@@ -20,8 +19,6 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class AddUserToRoomMessageEvent implements IEvent {
@@ -52,11 +49,11 @@ public class AddUserToRoomMessageEvent implements IEvent {
 
         Map<Integer, String> groupsInRoom = new FastMap<>();
 
-        for(PlayerEntity playerEntity : room.getEntities().getPlayerEntities()) {
-            if(playerEntity.getPlayer().getData().getFavouriteGroup() != 0) {
+        for (PlayerEntity playerEntity : room.getEntities().getPlayerEntities()) {
+            if (playerEntity.getPlayer().getData().getFavouriteGroup() != 0) {
                 GroupData groupData = CometManager.getGroups().getData(playerEntity.getPlayer().getData().getFavouriteGroup());
 
-                if(groupData == null)
+                if (groupData == null)
                     continue;
 
                 groupsInRoom.put(playerEntity.getPlayer().getData().getFavouriteGroup(), groupData.getBadge());

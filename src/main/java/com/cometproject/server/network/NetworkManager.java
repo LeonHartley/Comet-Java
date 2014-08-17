@@ -8,11 +8,12 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.DefaultMessageSizeEstimator;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.epoll.EpollEventLoopGroup;
+import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.AttributeKey;
@@ -33,13 +34,14 @@ public class NetworkManager {
 
     private final PooledByteBufAllocator allocator = PooledByteBufAllocator.DEFAULT;
 
+    public static boolean useEpoll = true;
+
     private static Logger log = Logger.getLogger(NetworkManager.class.getName());
 
     public NetworkManager(String ip, String ports) {
         this.sessions = new SessionManager();
         this.messageHandler = new MessageHandler();
 
-        // set the logger to our logger
         InternalLoggerFactory.setDefaultFactory(new Log4JLoggerFactory());
 
         if (CometSettings.httpEnabled) {
@@ -47,19 +49,18 @@ public class NetworkManager {
         }
 
         System.setProperty("java.net.preferIPv4Stack", "true");
-
-        System.setProperty("io.netty.allocator.type", "pooled");
         System.setProperty("io.netty.selectorAutoRebuildThreshold", "0");
+
         ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.ADVANCED);
 
-        EventLoopGroup acceptGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Accept Thread #%1$d").build());
-        EventLoopGroup ioGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty IO Thread #%1$d").build());
+        EventLoopGroup acceptGroup = useEpoll ? new EpollEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Epoll Accept Thread #%1$d").build()) : new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO Accept Thread #%1$d").build());
+        EventLoopGroup ioGroup = useEpoll ? new EpollEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Epoll IO Thread #%1$d").build()) : new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO IO Thread #%1$d").build());
 
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(acceptGroup, ioGroup)
-                .channel(NioServerSocketChannel.class)
+                .channel(useEpoll ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer(0))
-                .option(ChannelOption.SO_BACKLOG, 50)
+                .option(ChannelOption.SO_BACKLOG, 1024)
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
                 .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)

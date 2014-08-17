@@ -17,24 +17,24 @@ public class ModifyGroupTitleMessageEvent implements IEvent {
         String title = msg.readString();
         String description = msg.readString();
 
-        if(!client.getPlayer().getGroups().contains(groupId))
+        if (!client.getPlayer().getGroups().contains(groupId))
             return;
 
         Group group = CometManager.getGroups().get(groupId);
 
-        if(group == null)
+        if (group == null)
             return;
 
         GroupMember groupMember = group.getMembershipComponent().getMembers().get(client.getPlayer().getId());
 
-        if(groupMember.getAccessLevel() != GroupAccessLevel.OWNER)
+        if (groupMember.getAccessLevel() != GroupAccessLevel.OWNER)
             return;
 
         group.getData().setTitle(title);
         group.getData().setDescription(description);
         group.getData().save();
 
-        if(CometManager.getRooms().isActive(group.getData().getRoomId())) {
+        if (CometManager.getRooms().isActive(group.getData().getRoomId())) {
             Room room = CometManager.getRooms().get(group.getData().getRoomId());
 
             room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));

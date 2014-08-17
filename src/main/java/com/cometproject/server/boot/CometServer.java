@@ -65,6 +65,7 @@ public class CometServer {
 
     /**
      * Initialize Comet Server
+     *
      * @param overridenConfig Override configuration via the run command arguments
      */
     public void init(Map<String, String> overridenConfig) {
@@ -102,6 +103,7 @@ public class CometServer {
 
     /**
      * Get the Comet configuration
+     *
      * @return Comet configuration
      */
     public Configuration getConfig() {
@@ -110,6 +112,7 @@ public class CometServer {
 
     /**
      * Get the MySQL storage manager
+     *
      * @return MySQL Storage manager
      */
     public StorageManager getStorage() {
@@ -118,6 +121,7 @@ public class CometServer {
 
     /**
      * Get the networking manager
+     *
      * @return The networking manager
      */
     public NetworkManager getNetwork() {
@@ -126,6 +130,7 @@ public class CometServer {
 
     /**
      * Get the threading manager
+     *
      * @return The thrreading manager
      */
     public CometThreadManagement getThreadManagement() {
@@ -134,6 +139,7 @@ public class CometServer {
 
     /**
      * Get the plugin manager
+     *
      * @return The plugin manager
      */
     public PluginManager getPlugins() {
@@ -142,6 +148,7 @@ public class CometServer {
 
     /**
      * Get the logging manager
+     *
      * @return The logging manager
      */
     public LogManager getLoggingManager() {

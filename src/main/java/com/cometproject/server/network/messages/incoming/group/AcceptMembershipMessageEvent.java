@@ -17,15 +17,15 @@ public class AcceptMembershipMessageEvent implements IEvent {
         int groupId = msg.readInt();
         int playerId = msg.readInt();
 
-        if(!client.getPlayer().getGroups().contains(groupId))
+        if (!client.getPlayer().getGroups().contains(groupId))
             return;
 
         Group group = CometManager.getGroups().get(groupId);
 
-        if(group == null || group.getData().getOwnerId() != client.getPlayer().getId())
+        if (group == null || group.getData().getOwnerId() != client.getPlayer().getId())
             return;
 
-        if(!group.getMembershipComponent().getMembershipRequests().contains(playerId))
+        if (!group.getMembershipComponent().getMembershipRequests().contains(playerId))
             return;
 
         group.getMembershipComponent().removeRequest(playerId);

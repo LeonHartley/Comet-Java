@@ -148,13 +148,13 @@ public class RoomWriter {
     }
 
     private static void composeGroup(Composer msg, RoomData roomData) {
-        if(CometManager.getGroups().getGroupByRoomId(roomData.getId()) == null) {
+        if (CometManager.getGroups().getGroupByRoomId(roomData.getId()) == null) {
             msg.writeInt(0);
             msg.writeInt(0);
         } else {
             Group group = CometManager.getGroups().getGroupByRoomId(roomData.getId());
 
-            if(group == null) {
+            if (group == null) {
                 msg.writeInt(0);
                 msg.writeInt(0);
             } else {

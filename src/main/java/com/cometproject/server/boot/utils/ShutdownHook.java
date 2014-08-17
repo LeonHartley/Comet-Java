@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 public class ShutdownHook {
     private static final Logger log = Logger.getLogger(ShutdownHook.class.getName());
 
-    public static void init()  {
+    public static void init() {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {

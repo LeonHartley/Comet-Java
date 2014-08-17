@@ -14,9 +14,9 @@ public enum GroupType {
     }
 
     public static GroupType valueOf(int typeId) {
-        if(typeId == 0)
+        if (typeId == 0)
             return REGULAR;
-        else if(typeId == 1)
+        else if (typeId == 1)
             return EXCLUSIVE;
         else
             return PRIVATE;

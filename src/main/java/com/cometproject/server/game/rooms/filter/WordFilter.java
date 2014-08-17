@@ -6,7 +6,6 @@ import com.cometproject.server.storage.queries.filter.FilterDao;
 import com.cometproject.server.utilities.FilterUtil;
 import org.apache.log4j.Logger;
 
-import java.text.Normalizer;
 import java.util.Map;
 
 public class WordFilter {
@@ -27,13 +26,13 @@ public class WordFilter {
     }
 
     public FilterResult filter(String message) {
-        if(CometSettings.wordFilterMode == FilterMode.STRICT) {
+        if (CometSettings.wordFilterMode == FilterMode.STRICT) {
             message = FilterUtil.normalize(message.toLowerCase());
         }
 
         for (Map.Entry<String, String> word : wordfilter.entrySet()) {
             if (message.toLowerCase().contains(word.getKey())) {
-                if(CometSettings.wordFilterMode == FilterMode.STRICT)
+                if (CometSettings.wordFilterMode == FilterMode.STRICT)
                     return new FilterResult(true, word.getKey());
 
                 message = message.replace(word.getKey(), word.getValue());

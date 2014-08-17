@@ -5,8 +5,6 @@ import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 
-import java.util.Arrays;
-
 public class RoomMapping {
     private Room room;
 

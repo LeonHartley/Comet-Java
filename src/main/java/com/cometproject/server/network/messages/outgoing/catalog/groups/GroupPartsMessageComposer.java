@@ -2,14 +2,12 @@ package com.cometproject.server.network.messages.outgoing.catalog.groups;
 
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class GroupPartsMessageComposer {
     public static Composer compose(List<Integer> rooms) {
@@ -18,7 +16,7 @@ public class GroupPartsMessageComposer {
         List<Integer> availableRooms = new ArrayList<>();
 
         for (Integer room : rooms) {
-            if(CometManager.getGroups().getGroupByRoomId(room) == null)
+            if (CometManager.getGroups().getGroupByRoomId(room) == null)
                 availableRooms.add(room);
         }
 
