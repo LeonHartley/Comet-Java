@@ -25,41 +25,78 @@ public class PlayerSettings {
     private int homeRoom;
     private boolean useOldChat;
 
-    public PlayerSettings(ResultSet data) throws SQLException {
-        String volumeData = data.getString("playerSettings_volume");
+    public PlayerSettings(ResultSet data, boolean isLogin) throws SQLException {
+        if(isLogin) {
+            String volumeData = data.getString("playerSettings_volume");
 
-        if (volumeData != null && volumeData.startsWith("{")) {
-            volumes = new Gson().fromJson(volumeData, VolumeData.class);
+            if (volumeData != null && volumeData.startsWith("{")) {
+                volumes = new Gson().fromJson(volumeData, VolumeData.class);
+            } else {
+                volumes = new VolumeData(100, 100, 100);
+            }
+
+            this.hideOnline = data.getString("playerSettings_hideOnline").equals("1");
+            this.hideInRoom = data.getString("playerSettings_hideInRoom").equals("1");
+            this.allowFriendRequests = data.getString("playerSettings_allowFriendRequests").equals("1");
+            this.allowTrade = data.getString("playerSettings_allowTrade").equals("1");
+
+            this.homeRoom = data.getInt("playerSettings_homeRoom");
+
+            String wardrobeText = data.getString("playerSettings_wardrobe");
+
+            if (wardrobeText == null || wardrobeText.isEmpty()) {
+                wardrobe = new ArrayList<>();
+            } else {
+                wardrobe = new Gson().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
+                }.getType());
+            }
+
+            String playlistText = data.getString("playerSettings_playlist");
+
+            if (playlistText == null || playlistText.isEmpty()) {
+                playlist = new ArrayList<>();
+            } else {
+                playlist = new Gson().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
+                }.getType());
+            }
+
+            this.useOldChat = data.getString("playerSettings_useOldChat").equals("1");
         } else {
-            volumes = new VolumeData(100, 100, 100);
+            String volumeData = data.getString("volume");
+
+            if (volumeData != null && volumeData.startsWith("{")) {
+                volumes = new Gson().fromJson(volumeData, VolumeData.class);
+            } else {
+                volumes = new VolumeData(100, 100, 100);
+            }
+
+            this.hideOnline = data.getString("hide_online").equals("1");
+            this.hideInRoom = data.getString("hide_inroom").equals("1");
+            this.allowFriendRequests = data.getString("allow_friend_requests").equals("1");
+            this.allowTrade = data.getString("allow_trade").equals("1");
+
+            this.homeRoom = data.getInt("home_room");
+
+            String wardrobeText = data.getString("wardrobe");
+
+            if (wardrobeText == null || wardrobeText.isEmpty()) {
+                wardrobe = new ArrayList<>();
+            } else {
+                wardrobe = new Gson().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
+                }.getType());
+            }
+
+            String playlistText = data.getString("playlist");
+
+            if (playlistText == null || playlistText.isEmpty()) {
+                playlist = new ArrayList<>();
+            } else {
+                playlist = new Gson().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
+                }.getType());
+            }
+
+            this.useOldChat = data.getString("chat_oldstyle").equals("1");
         }
-
-        this.hideOnline = data.getString("playerSettings_hideOnline").equals("1");
-        this.hideInRoom = data.getString("playerSettings_hideInRoom").equals("1");
-        this.allowFriendRequests = data.getString("playerSettings_allowFriendRequests").equals("1");
-        this.allowTrade = data.getString("playerSettings_allowTrade").equals("1");
-
-        this.homeRoom = data.getInt("playerSettings_homeRoom");
-
-        String wardrobeText = data.getString("playerSettings_wardrobe");
-
-        if (wardrobeText == null || wardrobeText.isEmpty()) {
-            wardrobe = new ArrayList<>();
-        } else {
-            wardrobe = new Gson().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
-            }.getType());
-        }
-
-        String playlistText = data.getString("playerSettings_playlist");
-
-        if (playlistText == null || playlistText.isEmpty()) {
-            playlist = new ArrayList<>();
-        } else {
-            playlist = new Gson().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
-            }.getType());
-        }
-
-        this.useOldChat = data.getString("playerSettings_useOldChat").equals("1");
     }
 
     public PlayerSettings() {
