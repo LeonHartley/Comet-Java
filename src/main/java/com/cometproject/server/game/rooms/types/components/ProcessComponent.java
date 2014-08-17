@@ -105,7 +105,7 @@ public class ProcessComponent implements CometTask {
                     this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
                 }
 
-                if(this.updateEntityStuff(entity) && entity instanceof PlayerEntity) {
+                if (this.updateEntityStuff(entity) && entity instanceof PlayerEntity) {
                     playersToRemove.add((PlayerEntity) entity);
                 }
             }
@@ -131,7 +131,7 @@ public class ProcessComponent implements CometTask {
     }
 
     public void start() {
-        if(Room.useCycleForEntities) {
+        if (Room.useCycleForEntities) {
             this.active = true;
             return;
         }
@@ -147,7 +147,7 @@ public class ProcessComponent implements CometTask {
     }
 
     public void stop() {
-        if(Room.useCycleForEntities) {
+        if (Room.useCycleForEntities) {
             this.active = false;
             return;
         }
@@ -186,7 +186,7 @@ public class ProcessComponent implements CometTask {
             for (RoomItemFloor item : itemsOnOldSq) {
                 item.onEntityStepOff(entity);
                 if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
-                    
+
                 }
             }
 
@@ -419,7 +419,7 @@ public class ProcessComponent implements CometTask {
 
     protected void handleSupressedExceptions(Throwable t) {
         // TO-DO: we need log these somewhere separately so we can 'fix' these kind of errors easily..
-        if(t instanceof NullPointerException) {
+        if (t instanceof NullPointerException) {
             log.error("Error during room process", t);
         }
     }

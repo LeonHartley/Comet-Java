@@ -23,10 +23,10 @@ public class ShoutMessageEvent implements IEvent {
         if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
             FilterResult filterResult = CometManager.getRooms().getFilter().filter(message);
 
-            if(filterResult.isBlocked()) {
+            if (filterResult.isBlocked()) {
                 client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
                 return;
-            } else if(filterResult.wasModified()) {
+            } else if (filterResult.wasModified()) {
                 filteredMessage = filterResult.getChatMessage();
             }
         }

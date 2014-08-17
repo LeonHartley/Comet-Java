@@ -1,14 +1,5 @@
 package com.cometproject.server.plugins;
 
-import com.cometproject.server.plugins.events.PluginEventStore;
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
-
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import java.io.File;
-
 public class PluginManager {
 //
 //    public static final String ENGINE_NAME = "JavaScript";

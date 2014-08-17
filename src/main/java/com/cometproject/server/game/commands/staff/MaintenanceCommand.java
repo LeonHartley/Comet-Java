@@ -14,14 +14,14 @@ public class MaintenanceCommand extends ChatCommand {
         int hour;
         int minute;
 
-        if(params.length == 2) {
+        if (params.length == 2) {
             hour = Integer.parseInt(params[0]);
             minute = Integer.parseInt(params[1]);
 
-            if(hour > 23 || hour < 0)
+            if (hour > 23 || hour < 0)
                 hour = 0;
 
-            if(minute > 59 || minute < 0)
+            if (minute > 59 || minute < 0)
                 minute = 0;
         } else {
             Calendar calendar = Calendar.getInstance();

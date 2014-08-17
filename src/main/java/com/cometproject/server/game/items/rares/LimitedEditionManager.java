@@ -12,13 +12,13 @@ public class LimitedEditionManager {
     }
 
     public LimitedEditionItem getLimitedEdition(int itemId) {
-        if(this.limitedEditionItems.containsKey(itemId)) {
+        if (this.limitedEditionItems.containsKey(itemId)) {
             return this.limitedEditionItems.get(itemId);
         }
 
         LimitedEditionItem item = LimitedEditionDao.get(itemId);
 
-        if(item != null) {
+        if (item != null) {
             this.limitedEditionItems.put(itemId, item);
         }
 

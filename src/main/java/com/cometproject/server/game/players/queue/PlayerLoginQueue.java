@@ -2,13 +2,12 @@ package com.cometproject.server.game.players.queue;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.players.data.PlayerLoader;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.LoginMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.RoomCategoriesMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -39,7 +38,7 @@ public class PlayerLoginQueue implements CometTask {
         int id = entry.getPlayerId();
         String sso = entry.getSsoTicket();
 
-        Player player = PlayerLoader.loadPlayerBySSo(sso);
+        Player player = PlayerDao.getPlayer(sso);
 
         if (player == null) {
             client.disconnect();

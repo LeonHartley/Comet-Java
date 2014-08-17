@@ -94,13 +94,13 @@ public class APIManager {
      * Initialize the API routing
      */
     private void initializeRouting() {
-        if(!this.enabled)
+        if (!this.enabled)
             return;
 
         Spark.before((request, response) -> {
             boolean authenticated = request.headers("authToken") != null && request.headers("authToken").equals(this.authToken);
 
-            if(!authenticated) {
+            if (!authenticated) {
                 log.error("Unauthenticated request from: " + request.ip() + "; " + request.contextPath());
                 Spark.halt(401, "Invalid authentication");
             }
@@ -116,7 +116,7 @@ public class APIManager {
 
             List<RoomStats> activeRooms = new ArrayList<>();
 
-            for(Room room : CometManager.getRooms().getRoomInstances().values()) {
+            for (Room room : CometManager.getRooms().getRoomInstances().values()) {
                 activeRooms.add(new RoomStats(room));
             }
 
@@ -129,7 +129,7 @@ public class APIManager {
             int roomId = Integer.parseInt(request.params("id"));
             String action = request.params("action");
 
-            if(!CometManager.getRooms().getRoomInstances().containsKey(roomId)) {
+            if (!CometManager.getRooms().getRoomInstances().containsKey(roomId)) {
                 result.put("active", false);
                 return result;
             }
@@ -138,7 +138,7 @@ public class APIManager {
 
             result.put("id", roomId);
 
-            switch(action) {
+            switch (action) {
                 default: {
                     result.put("active", false);
                     break;

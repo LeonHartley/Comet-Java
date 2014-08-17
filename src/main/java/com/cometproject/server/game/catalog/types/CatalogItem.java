@@ -78,6 +78,7 @@ public class CatalogItem {
 
     /**
      * Initialize the catalog item with data from the database
+     *
      * @param data Data from the database
      * @throws SQLException
      */

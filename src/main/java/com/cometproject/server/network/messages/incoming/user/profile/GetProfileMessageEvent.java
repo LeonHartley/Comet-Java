@@ -2,15 +2,14 @@ package com.cometproject.server.network.messages.incoming.user.profile;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.data.PlayerData;
-import com.cometproject.server.game.players.data.PlayerLoader;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.user.profile.LoadProfileMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.groups.GroupDao;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GetProfileMessageEvent implements IEvent {
@@ -30,8 +29,8 @@ public class GetProfileMessageEvent implements IEvent {
         }
 
         if (data == null) {
-            data = PlayerLoader.loadDataById(userId);
-            stats = PlayerLoader.loadStatistics(userId);
+            data = PlayerDao.getDataById(userId);
+            stats = PlayerDao.getStatisticsById(userId);
             groups = GroupDao.getIdsByPlayerId(userId);
         }
 

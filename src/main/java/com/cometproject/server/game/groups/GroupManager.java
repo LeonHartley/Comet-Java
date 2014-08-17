@@ -6,10 +6,8 @@ import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.storage.queries.groups.GroupDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
-import org.apache.solr.search.LRUCache;
 import org.apache.solr.util.ConcurrentLRUCache;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class GroupManager {
@@ -79,16 +77,17 @@ public class GroupManager {
     /**
      * Get group data from the cache or from the database (which would then be
      * cached for later use)
+     *
      * @param id The ID of the group
      * @return Group data instance
      */
     public GroupData getData(int id) {
-        if(this.groupData.get(id) != null)
+        if (this.groupData.get(id) != null)
             return this.groupData.get(id);
 
         GroupData groupData = GroupDao.getDataById(id);
 
-        if(groupData != null)
+        if (groupData != null)
             this.groupData.put(id, groupData);
 
         return groupData;
@@ -96,22 +95,23 @@ public class GroupManager {
 
     /**
      * Get the group instance
+     *
      * @param id The ID of the group
      * @return Group instance
      */
     public Group get(int id) {
         Group groupInstance = this.groupInstances.get(id);
 
-        if(groupInstance != null)
+        if (groupInstance != null)
             return groupInstance;
 
-        if(this.getData(id) == null) {
+        if (this.getData(id) == null) {
             return null;
         }
 
         groupInstance = this.load(id);
 
-        if(groupInstance != null)
+        if (groupInstance != null)
             this.groupInstances.put(id, groupInstance);
 
         log.trace("Group with id #" + id + " was loaded");
@@ -121,6 +121,7 @@ public class GroupManager {
 
     /**
      * Creates a group instance based on the data provided
+     *
      * @param groupData Group data of the group we want to create
      * @return Group instance
      */
@@ -138,16 +139,17 @@ public class GroupManager {
 
     /**
      * Get a group by a room ID
+     *
      * @param roomId The ID of the room we want to use to fetch a group
      * @return The group instance
      */
     public Group getGroupByRoomId(int roomId) {
-        if(this.roomIdToGroupId.containsKey(roomId))
+        if (this.roomIdToGroupId.containsKey(roomId))
             return this.get(roomIdToGroupId.get(roomId));
 
         int groupId = GroupDao.getIdByRoomId(roomId);
 
-        if(groupId != 0)
+        if (groupId != 0)
             this.roomIdToGroupId.put(roomId, groupId);
 
         return this.get(groupId);
@@ -155,6 +157,7 @@ public class GroupManager {
 
     /**
      * Load the group by id from database
+     *
      * @param id The ID of the group
      * @return Group instance
      */
@@ -164,6 +167,7 @@ public class GroupManager {
 
     /**
      * Group items manager
+     *
      * @return Group items manager
      */
     public GroupItemManager getGroupItems() {

@@ -2,9 +2,7 @@ package com.cometproject.server.game.items;
 
 import com.cometproject.server.game.items.rares.LimitedEditionManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.storage.queries.items.ItemDao;
-import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import javolution.util.FastMap;

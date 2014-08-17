@@ -54,6 +54,16 @@ public final class Event implements ByteBufHolder {
     }
 
     @Override
+    public ByteBufHolder touch() {
+        return null;
+    }
+
+    @Override
+    public ByteBufHolder touch(Object o) {
+        return null;
+    }
+
+    @Override
     public boolean release() {
         return this.buffer.release();
     }
@@ -87,6 +97,7 @@ public final class Event implements ByteBufHolder {
     }
 
     public String toString() {
+        System.out.println("Called this...");
         String body = this.content().toString((Charset.defaultCharset()));
 
         for (int i = 0; i < 13; i++) {

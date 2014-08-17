@@ -25,7 +25,7 @@ public class NotificationManager {
     public void execute(Player player, String command) {
         Notification notification = this.notifications.get(command);
 
-        if(notification == null)
+        if (notification == null)
             return;
 
         notification.execute(player);

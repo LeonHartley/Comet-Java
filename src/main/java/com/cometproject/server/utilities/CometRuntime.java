@@ -14,16 +14,16 @@ public class CometRuntime {
     public static int processId = 0;
 
     static {
-        if(operatingSystem.contains("nix") || operatingSystem.contains("nux")) {
+        if (operatingSystem.contains("nix") || operatingSystem.contains("nux")) {
             processId = CLibrary.INSTANCE.getpid();
-        } else if(operatingSystem.contains("Windows")) {
+        } else if (operatingSystem.contains("Windows")) {
             processId = Kernel32.INSTANCE.GetCurrentProcessId();
-        } else if(operatingSystem.contains("Mac")) {
+        } else if (operatingSystem.contains("Mac")) {
             // TODO: Mac :P
             processId = /* processid for mac */ -1000;
         }
 
-        if(processId < 1)
+        if (processId < 1)
             log.warn("Failed to get process identifier - OS: " + operatingSystem + " (" + operatingSystemArchitecture + ")");
     }
 

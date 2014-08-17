@@ -29,10 +29,10 @@ public class WhisperMessageEvent implements IEvent {
         if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
             FilterResult filterResult = CometManager.getRooms().getFilter().filter(message);
 
-            if(filterResult.isBlocked()) {
+            if (filterResult.isBlocked()) {
                 client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
                 return;
-            } else if(filterResult.wasModified()) {
+            } else if (filterResult.wasModified()) {
                 filteredMessage = filterResult.getChatMessage();
             }
         }
@@ -43,8 +43,8 @@ public class WhisperMessageEvent implements IEvent {
         client.send(WisperMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), filteredMessage));
         ((PlayerEntity) userTo).getPlayer().getSession().send(WisperMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), filteredMessage));
 
-        for(PlayerEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntitiesByPermission("room_see_whisper")) {
-            if(entity.getPlayer().getId() != client.getPlayer().getId() && !user.equals(client.getPlayer().getData().getUsername()))
+        for (PlayerEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntitiesByPermission("room_see_whisper")) {
+            if (entity.getPlayer().getId() != client.getPlayer().getId() && !user.equals(client.getPlayer().getData().getUsername()))
                 entity.getPlayer().getSession().send(WisperMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), "Whisper to " + user + ": " + filteredMessage));
         }
     }

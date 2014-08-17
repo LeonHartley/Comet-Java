@@ -60,7 +60,9 @@ public class CatalogDao {
                         //System.out.println("Ignoring catalog item: " + resultSet.getInt("id"));
                         continue;
                     }
-                } catch (Exception e) { continue; }
+                } catch (Exception e) {
+                    continue;
+                }
 
                 data.put(resultSet.getInt("id"), new CatalogItem(resultSet));
             }

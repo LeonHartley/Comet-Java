@@ -3,9 +3,9 @@ package com.cometproject.server.network.messages.outgoing.user.profile;
 import com.cometproject.server.game.players.components.RelationshipComponent;
 import com.cometproject.server.game.players.components.types.RelationshipLevel;
 import com.cometproject.server.game.players.data.PlayerData;
-import com.cometproject.server.game.players.data.PlayerLoader;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.util.Map;
 
@@ -27,7 +27,7 @@ public class RelationshipsMessageComposer {
         int bobbas = relationships.countByLevel(RelationshipLevel.BOBBA);
 
         for (Map.Entry<Integer, RelationshipLevel> rel : relationships.getRelationships().entrySet()) {
-            PlayerData data = PlayerLoader.loadDataById(rel.getKey());
+            PlayerData data = PlayerDao.getDataById(rel.getKey());
 
             if (data == null) {
                 msg.writeInt(0);

@@ -2,9 +2,7 @@ package com.cometproject.server.config;
 
 import com.cometproject.server.game.rooms.filter.FilterMode;
 import com.cometproject.server.storage.queries.config.ConfigDao;
-import com.google.gson.Gson;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class CometSettings {
@@ -163,6 +161,7 @@ public class CometSettings {
 
     /**
      * Enable & set the Message Of The Day text
+     *
      * @param motd The message to display to the user on-login
      */
     public static void setMotd(String motd) {

@@ -247,7 +247,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 if (CometManager.getCommands().isCommand(cmd)) {
                     CometManager.getCommands().parse(cmd, this.player.getSession());
                     return false;
-                } else if(CometManager.getCommands().getNotifications().isNotificationExecutor(cmd, this.player.getData().getRank())) {
+                } else if (CometManager.getCommands().getNotifications().isNotificationExecutor(cmd, this.player.getData().getRank())) {
                     CometManager.getCommands().getNotifications().execute(this.player, cmd);
                 }
             }
@@ -347,7 +347,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void compose(Composer msg) {
-        if(this.hasAttribute("transformation")) {
+        if (this.hasAttribute("transformation")) {
             String[] transformationData = ((String) this.getAttribute("transformation")).split("#");
 
             TransformCommand.composeTransformation(msg, transformationData, this);
@@ -369,14 +369,14 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         msg.writeString(this.getGender().toLowerCase());
 
-        if(this.player.getData().getFavouriteGroup() == 0) {
+        if (this.player.getData().getFavouriteGroup() == 0) {
             msg.writeInt(-1);
             msg.writeInt(-1);
             msg.writeInt(0);
         } else {
             Group group = CometManager.getGroups().get(this.player.getData().getFavouriteGroup());
 
-            if(group == null) {
+            if (group == null) {
                 msg.writeInt(-1);
                 msg.writeInt(-1);
                 msg.writeInt(0);

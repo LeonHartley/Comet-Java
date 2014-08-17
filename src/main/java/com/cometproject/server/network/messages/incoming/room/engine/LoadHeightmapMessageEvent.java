@@ -6,7 +6,7 @@ import com.cometproject.server.network.sessions.Session;
 
 public class LoadHeightmapMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom().getModel() == null) {
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom().getModel() == null) {
             return;
         }
 

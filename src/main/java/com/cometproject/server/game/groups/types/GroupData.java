@@ -2,13 +2,9 @@ package com.cometproject.server.game.groups.types;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.storage.queries.groups.GroupDao;
-import javolution.util.FastSet;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 public class GroupData {
     /**
@@ -70,6 +66,7 @@ public class GroupData {
 
     /**
      * Load the group data straight from the database
+     *
      * @param data The set of data from the database
      * @throws SQLException
      */
@@ -90,13 +87,14 @@ public class GroupData {
     /**
      * Create a group data instance using data provided by
      * the group creator
-     * @param title The title of the group
+     *
+     * @param title       The title of the group
      * @param description The description of the group
-     * @param badge The badge created by the group owner
-     * @param ownerId The ID of the user
-     * @param roomId The room ID assigned to the group
-     * @param colourA The first colour of the group
-     * @param colourB The second colour of the group
+     * @param badge       The badge created by the group owner
+     * @param ownerId     The ID of the user
+     * @param roomId      The room ID assigned to the group
+     * @param colourA     The first colour of the group
+     * @param colourB     The second colour of the group
      */
     public GroupData(String title, String description, String badge, int ownerId, int roomId, int colourA, int colourB) {
         this.id = -1;
@@ -121,6 +119,7 @@ public class GroupData {
 
     /**
      * Get the ID of the group
+     *
      * @return The ID of the group
      */
     public int getId() {
@@ -129,6 +128,7 @@ public class GroupData {
 
     /**
      * Set the ID of the group
+     *
      * @param id The ID of the group
      */
     public void setId(int id) {
@@ -137,6 +137,7 @@ public class GroupData {
 
     /**
      * Get the title of the group
+     *
      * @return The title of the group
      */
     public String getTitle() {
@@ -145,6 +146,7 @@ public class GroupData {
 
     /**
      * Set the title of the group
+     *
      * @param title The title of the group
      */
     public void setTitle(String title) {
@@ -153,6 +155,7 @@ public class GroupData {
 
     /**
      * Get the description of the group
+     *
      * @return The description of the group
      */
     public String getDescription() {
@@ -161,6 +164,7 @@ public class GroupData {
 
     /**
      * Set the description of the group
+     *
      * @param description The description of the group
      */
     public void setDescription(String description) {
@@ -169,6 +173,7 @@ public class GroupData {
 
     /**
      * Get the ID of the owner of the group
+     *
      * @return The ID of the owner of the group
      */
     public int getOwnerId() {
@@ -177,6 +182,7 @@ public class GroupData {
 
     /**
      * Set the ID of the owner of the group
+     *
      * @param id The ID of the group
      */
     public void setOwnerId(int id) {
@@ -185,6 +191,7 @@ public class GroupData {
 
     /**
      * Get the badge of the group
+     *
      * @return The badge created by the group owner
      */
     public String getBadge() {
@@ -193,6 +200,7 @@ public class GroupData {
 
     /**
      * Set the badge of the group
+     *
      * @param badge The badge created by the group owner
      */
     public void setBadge(String badge) {
@@ -201,6 +209,7 @@ public class GroupData {
 
     /**
      * Get the room ID assigned the group
+     *
      * @return The room ID assigned to the group
      */
     public int getRoomId() {
@@ -209,6 +218,7 @@ public class GroupData {
 
     /**
      * Set the room ID assigned to the group
+     *
      * @param roomId The room ID assigned to the group
      */
     public void setRoomId(int roomId) {
@@ -217,6 +227,7 @@ public class GroupData {
 
     /**
      * Get the time the group was created
+     *
      * @return The time the group was created
      */
     public int getCreatedTimestamp() {
@@ -225,6 +236,7 @@ public class GroupData {
 
     /**
      * Can the group administrators decorate the room?
+     *
      * @return Can the group administrators decorate the room?
      */
     public boolean canAdminsDecorate() {
@@ -233,6 +245,7 @@ public class GroupData {
 
     /**
      * Set whether or not the group administrators can decorate the room
+     *
      * @param adminDeco Can the group administrators decorate the room?
      */
     public void setAdminDeco(boolean adminDeco) {
@@ -241,6 +254,7 @@ public class GroupData {
 
     /**
      * Get the membership type of the group
+     *
      * @return The membership type of the group
      */
     public GroupType getType() {
@@ -249,6 +263,7 @@ public class GroupData {
 
     /**
      * Set the membership type of the group
+     *
      * @param type The membership type of the group
      */
     public void setType(GroupType type) {
@@ -257,6 +272,7 @@ public class GroupData {
 
     /**
      * Get the first colour of the group
+     *
      * @return The first colour of the group
      */
     public int getColourA() {
@@ -265,6 +281,7 @@ public class GroupData {
 
     /**
      * Set the first colour of the group
+     *
      * @param colourA The first colour of the group
      */
     public void setColourA(int colourA) {
@@ -273,6 +290,7 @@ public class GroupData {
 
     /**
      * Get the second colour of the group
+     *
      * @return The second colour of the group
      */
     public int getColourB() {
@@ -281,6 +299,7 @@ public class GroupData {
 
     /**
      * Set the second colour of the group
+     *
      * @param colourB The second colour of the group
      */
     public void setColourB(int colourB) {

@@ -3,10 +3,6 @@ package com.cometproject.server.network.messages.outgoing.group;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
-import com.ctc.wstx.util.StringUtil;
-import org.apache.commons.lang.StringUtils;
-
-import java.util.List;
 
 public class ManageGroupMessageComposer {
     public static Composer compose(Group group) {
@@ -29,8 +25,8 @@ public class ManageGroupMessageComposer {
 
         String[] badgeData = group.getData().getBadge().replace("b", "").replace("X", "").split("s");
 
-        for(int i = 0; i != 5; i++) {
-            if(badgeData.length <= i) {
+        for (int i = 0; i != 5; i++) {
+            if (badgeData.length <= i) {
                 msg.writeInt(0);
                 msg.writeInt(0);
                 msg.writeInt(0);
@@ -49,7 +45,7 @@ public class ManageGroupMessageComposer {
     }
 
     private static int getInt(String badgePart) {
-        if(badgePart.isEmpty()) {
+        if (badgePart.isEmpty()) {
             return 0;
         }
 

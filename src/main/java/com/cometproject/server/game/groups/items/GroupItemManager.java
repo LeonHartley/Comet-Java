@@ -40,7 +40,7 @@ public class GroupItemManager {
     }
 
     public String checkSymbol(String symbol) {
-        if(symbol.equals("s000") || symbol.equals("s00000")) {
+        if (symbol.equals("s000") || symbol.equals("s00000")) {
             return "";
         }
 

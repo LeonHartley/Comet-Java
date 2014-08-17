@@ -2,19 +2,12 @@ package com.cometproject.server.boot;
 
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.server.boot.utils.ShutdownHook;
-import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.logging.database.queries.LogQueries;
-import com.cometproject.server.storage.queries.system.StatisticsDao;
+import com.cometproject.server.network.NetworkManager;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
 import java.util.Map;
 
@@ -46,6 +39,7 @@ public class Comet {
 
     /**
      * Start the server!
+     *
      * @param args The arguments passed from the run command
      */
     public static void run(String[] args) {
@@ -76,6 +70,14 @@ public class Comet {
             Map<String, String> cometConfiguration = new FastMap<>();
 
             for (int i = 0; i < args.length; i++) {
+                if (args[i].equals("--no-epoll")) {
+                    NetworkManager.useEpoll = false;
+                    continue;
+                }
+
+                if (!args[i].contains("="))
+                    break;
+
                 cometConfiguration.put(args[i].split("=")[0], args[i].split("=")[1]);
             }
 
@@ -88,6 +90,7 @@ public class Comet {
 
     /**
      * Exit the comet server
+     *
      * @param message The message to display to the console
      */
     public static void exit(String message) {
@@ -97,6 +100,7 @@ public class Comet {
 
     /**
      * Get the current time in seconds
+     *
      * @return The time in seconds
      */
     public static long getTime() {
@@ -105,14 +109,16 @@ public class Comet {
 
     /**
      * Get the current build of Comet
+     *
      * @return The current build of Comet
      */
     public static String getBuild() {
-        return "0.9.1-BETA3-EXPERIMENTAL";
+        return "0.9.1-BETA3-EXPERIMENTAL2";
     }
 
     /**
      * Get the main server instance
+     *
      * @return The main server instance
      */
     public static CometServer getServer() {

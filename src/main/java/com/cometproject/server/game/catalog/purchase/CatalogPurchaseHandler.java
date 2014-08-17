@@ -36,11 +36,12 @@ public class CatalogPurchaseHandler {
 
     /**
      * Handle the catalog purchase
-     * @param client The session assigned to the player who's purchasing the item
-     * @param pageId The catalog page the purchased item is on
-     * @param itemId The ID of the item that was purchased
-     * @param data The data sent by the client
-     * @param amount The amount of items we're purchasing
+     *
+     * @param client   The session assigned to the player who's purchasing the item
+     * @param pageId   The catalog page the purchased item is on
+     * @param itemId   The ID of the item that was purchased
+     * @param data     The data sent by the client
+     * @param amount   The amount of items we're purchasing
      * @param giftData Gift data (if-any)
      */
     public void handle(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
@@ -148,7 +149,7 @@ public class CatalogPurchaseHandler {
                     client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
                     return;
                 } else if (def.getInteraction().equals("badge_display")) {
-                    if(client.getPlayer().getInventory().getBadges().get(data) == null) {
+                    if (client.getPlayer().getInventory().getBadges().get(data) == null) {
                         // Fuck off.
                         return;
                     }
@@ -246,9 +247,10 @@ public class CatalogPurchaseHandler {
 
         /**
          * Initialize the catalog purchase object
-         * @param playerId The ID of the player who purchased the item
+         *
+         * @param playerId   The ID of the player who purchased the item
          * @param itemBaseId The item definition ID of the item
-         * @param data The data generated for items such as trophies etc
+         * @param data       The data generated for items such as trophies etc
          */
         public CatalogPurchase(int playerId, int itemBaseId, String data) {
             this.playerId = playerId;
@@ -258,6 +260,7 @@ public class CatalogPurchaseHandler {
 
         /**
          * Get the player ID of the player who purchased the item
+         *
          * @return The ID of the player who purchased the item
          */
         public int getPlayerId() {
@@ -266,6 +269,7 @@ public class CatalogPurchaseHandler {
 
         /**
          * Get the item definition ID
+         *
          * @return The item definition ID
          */
         public int getItemBaseId() {
@@ -274,6 +278,7 @@ public class CatalogPurchaseHandler {
 
         /**
          * Get the data generated for items such as trophies etc
+         *
          * @return The data generated for items such as trophies etc
          */
         public String getData() {

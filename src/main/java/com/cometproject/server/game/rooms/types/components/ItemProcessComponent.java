@@ -41,7 +41,7 @@ public class ItemProcessComponent implements CometTask {
     }
 
     public void start() {
-        if(Room.useCycleForItems) {
+        if (Room.useCycleForItems) {
             this.active = true;
             return;
         }
@@ -57,7 +57,7 @@ public class ItemProcessComponent implements CometTask {
     }
 
     public void stop() {
-        if(Room.useCycleForItems) {
+        if (Room.useCycleForItems) {
             this.active = false;
             return;
         }

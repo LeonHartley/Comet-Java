@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 public class ConsoleCommands {
     private static final Logger log = Logger.getLogger("Console Command Handler");
 
-    public static void init()  {
+    public static void init() {
         // Console commands
         final Thread cmdThr = new Thread() {
             public void run() {

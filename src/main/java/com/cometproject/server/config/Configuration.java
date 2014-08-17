@@ -18,6 +18,7 @@ public class Configuration extends Properties {
     /**
      * Initialize the configuration object
      * This configuration will be loaded from the *.properties files in /config
+     *
      * @param file The name of the config file
      */
     public Configuration(String file) {
@@ -35,6 +36,7 @@ public class Configuration extends Properties {
 
     /**
      * Override configuration
+     *
      * @param config The config strings which you want to override
      */
     public void override(Map<String, String> config) {
@@ -52,6 +54,7 @@ public class Configuration extends Properties {
 
     /**
      * Get a string from the configuration
+     *
      * @param key Retrieve a value from the config by the key
      * @return Value from the configuration
      */

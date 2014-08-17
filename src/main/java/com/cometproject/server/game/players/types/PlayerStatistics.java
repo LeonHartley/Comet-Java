@@ -17,15 +17,26 @@ public class PlayerStatistics {
     private int cautions;
     private int bans;
 
-    public PlayerStatistics(ResultSet data) throws SQLException {
-        this.userId = data.getInt("playerId");
-        this.achievementPoints = data.getInt("playerStats_achievementPoints");
-        this.dailyRespects = data.getInt("playerStats_dailyRespects") > 3 ? 3 : data.getInt("playerStats_dailyRespects");
-        this.respectPoints = data.getInt("playerStats_totalRespectPoints");
-        this.helpTickets = data.getInt("playerStats_helpTickets");
-        this.abusiveHelpTickets = data.getInt("playerStats_helpTicketsAbusive");
-        this.cautions = data.getInt("playerStats_cautions");
-        this.bans = data.getInt("playerStats_bans");
+    public PlayerStatistics(ResultSet data, boolean isLogin) throws SQLException {
+        if (isLogin) {
+            this.userId = data.getInt("playerId");
+            this.achievementPoints = data.getInt("playerStats_achievementPoints");
+            this.dailyRespects = data.getInt("playerStats_dailyRespects") > 3 ? 3 : data.getInt("playerStats_dailyRespects");
+            this.respectPoints = data.getInt("playerStats_totalRespectPoints");
+            this.helpTickets = data.getInt("playerStats_helpTickets");
+            this.abusiveHelpTickets = data.getInt("playerStats_helpTicketsAbusive");
+            this.cautions = data.getInt("playerStats_cautions");
+            this.bans = data.getInt("playerStats_bans");
+        } else {
+            this.userId = data.getInt("player_id");
+            this.achievementPoints = data.getInt("achievement_score");
+            this.dailyRespects = data.getInt("daily_respects") > 3 ? 3 : data.getInt("daily_respects");
+            this.respectPoints = data.getInt("total_respect_points");
+            this.helpTickets = data.getInt("help_tickets");
+            this.abusiveHelpTickets = data.getInt("help_tickets_abusive");
+            this.cautions = data.getInt("cautions");
+            this.bans = data.getInt("bans");
+        }
     }
 
     public PlayerStatistics(int userId) {

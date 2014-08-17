@@ -39,7 +39,7 @@ public class Session {
     }
 
     public void onDisconnect() {
-        if(!isClone)
+        if (!isClone)
             CometManager.getPlayers().remove(player.getId(), player.getData().getUsername());
 
         this.eventHandler.dispose();

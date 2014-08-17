@@ -2,17 +2,15 @@ package com.cometproject.server.network.messages.incoming.handshake;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.players.data.PlayerLoader;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.LoginMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.RoomCategoriesMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.LoadVolumeSettingsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -41,7 +39,7 @@ public class SSOTicketMessageEvent implements IEvent {
                 int playerId = Integer.parseInt(ticketData[0]);
                 String authTicket = ticketData[1];
 
-                player = PlayerLoader.loadPlayerBySSo(authTicket);
+                player = PlayerDao.getPlayer(authTicket);
             } else {
                 normalPlayerLoad = true;
             }
@@ -50,7 +48,7 @@ public class SSOTicketMessageEvent implements IEvent {
         }
 
         if (normalPlayerLoad) {
-            player = PlayerLoader.loadPlayerBySSo(ticket);
+            player = PlayerDao.getPlayer(ticket);
         }
 
         if (player == null) {

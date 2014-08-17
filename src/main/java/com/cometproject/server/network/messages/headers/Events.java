@@ -160,16 +160,16 @@ public class Events {
     static {
         try {
             for (Field field : Events.class.getDeclaredFields()) {
-                if(!Modifier.isPrivate(field.getModifiers()))
+                if (!Modifier.isPrivate(field.getModifiers()))
                     eventPacketNames.put(field.getShort(field.getName()), field.getName());
             }
-        } catch(Exception ignored) {
+        } catch (Exception ignored) {
 
         }
     }
 
     public static String valueOfId(short packetId) {
-        if(eventPacketNames.containsKey(packetId)) {
+        if (eventPacketNames.containsKey(packetId)) {
             return eventPacketNames.get(packetId);
         }
 

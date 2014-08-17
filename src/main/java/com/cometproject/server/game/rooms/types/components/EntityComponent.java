@@ -56,8 +56,8 @@ public class EntityComponent {
     }
 
     public boolean isSquareAvailable(int x, int y) {
-        if(x < entityGrid.length) {
-            if(y < entityGrid[x].length)
+        if (x < entityGrid.length) {
+            if (y < entityGrid[x].length)
                 return this.entityGrid[x][y] == null || this.entityGrid[x][y].isEmpty();
         }
 
@@ -265,7 +265,7 @@ public class EntityComponent {
 
         for (GenericEntity entity : this.entities.values()) {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
-                if(((PlayerEntity)entity).getPlayer().getPermissions().hasPermission(permission))
+                if (((PlayerEntity) entity).getPlayer().getPermissions().hasPermission(permission))
                     entities.add((PlayerEntity) entity);
             }
         }

@@ -61,7 +61,7 @@ public class ItemsComponent {
     }
 
     public boolean setMoodlight(int moodlight) {
-        if(this.moodlightId != 0)
+        if (this.moodlightId != 0)
             return false;
 
         this.moodlightId = moodlight;

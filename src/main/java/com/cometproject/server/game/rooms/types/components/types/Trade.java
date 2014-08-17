@@ -43,6 +43,7 @@ public class Trade {
 
     /**
      * Initialize the trade
+     *
      * @param user1 The user who initialized the trade
      * @param user2 The user who is participating in the trade
      */
@@ -68,6 +69,7 @@ public class Trade {
 
     /**
      * Cancel the trade
+     *
      * @param userId The user which is cancelling the trade
      */
     public void cancel(int userId) {
@@ -76,7 +78,8 @@ public class Trade {
 
     /**
      * Cancel the trade
-     * @param userId The user which is cancelling the trade
+     *
+     * @param userId  The user which is cancelling the trade
      * @param isLeave Is the user leaving the room?
      */
     public void cancel(int userId, boolean isLeave) {
@@ -110,6 +113,7 @@ public class Trade {
 
     /**
      * Add an item to the trade
+     *
      * @param user The user which is adding an item
      * @param item The chosen item
      */
@@ -130,7 +134,7 @@ public class Trade {
         this.sendToUsers(TradeAcceptUpdateMessageComposer.compose(user2.getPlayer().getId(), false));
         this.user2Accepted = false;
 
-        if(this.stage == 2)
+        if (this.stage == 2)
             this.stage = 1;
 
         this.updateWindow();
@@ -138,6 +142,7 @@ public class Trade {
 
     /**
      * Get the participant id
+     *
      * @param user The user who is trading
      * @return participant ID
      */
@@ -147,6 +152,7 @@ public class Trade {
 
     /**
      * Remove an item from the trade
+     *
      * @param user The user which is removing an item
      * @param item The chosen item
      */
@@ -166,6 +172,7 @@ public class Trade {
 
     /**
      * Accept the trade
+     *
      * @param user The user which is accepting the trade
      */
     public void accept(int user) {
@@ -186,6 +193,7 @@ public class Trade {
 
     /**
      * Confirm the trade
+     *
      * @param user The user which is confirming the trade
      */
     public void confirm(int user) {
@@ -269,6 +277,7 @@ public class Trade {
 
     /**
      * Send a packet to each player participating in the trade
+     *
      * @param msg The packet
      */
     public void sendToUsers(Composer msg) {
@@ -287,6 +296,7 @@ public class Trade {
 
     /**
      * Get the user 1 participating in the trade
+     *
      * @return user 1
      */
     public PlayerEntity getUser1() {
@@ -295,6 +305,7 @@ public class Trade {
 
     /**
      * Get the user 2 participating in the trade
+     *
      * @return user 2
      */
     public PlayerEntity getUser2() {
@@ -303,6 +314,7 @@ public class Trade {
 
     /**
      * The component instance which stores the trades
+     *
      * @return The instance
      */
     public TradeComponent getTradeComponent() {
@@ -311,6 +323,7 @@ public class Trade {
 
     /**
      * Set the trade component instance
+     *
      * @param tradeComponent The trade instance
      */
     public void setTradeComponent(TradeComponent tradeComponent) {

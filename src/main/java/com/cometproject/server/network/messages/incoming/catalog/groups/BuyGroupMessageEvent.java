@@ -1,28 +1,22 @@
 package com.cometproject.server.network.messages.incoming.catalog.groups;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
-import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
-import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.NewGroupMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.ForwardRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.BadgeUtil;
-import javolution.util.FastSet;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class BuyGroupMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
@@ -41,7 +35,7 @@ public class BuyGroupMessageEvent implements IEvent {
         int colour1 = msg.readInt();
         int colour2 = msg.readInt();
 
-        if(!client.getPlayer().getRooms().contains(roomId) || CometManager.getRooms().getRoomData(roomId) == null) {
+        if (!client.getPlayer().getRooms().contains(roomId) || CometManager.getRooms().getRoomData(roomId) == null) {
             return;
         }
 

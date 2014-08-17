@@ -1,9 +1,7 @@
 package com.cometproject.server.storage.queries.groups;
 
 import com.cometproject.server.game.groups.types.GroupMember;
-import com.cometproject.server.game.players.components.types.RelationshipLevel;
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class GroupMemberDao {
     public static List<GroupMember> getAllByGroupId(int groupId) {
@@ -81,7 +78,7 @@ public class GroupMemberDao {
 
             resultSet = preparedStatement.getGeneratedKeys();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 return resultSet.getInt(1);
             }
         } catch (SQLException e) {

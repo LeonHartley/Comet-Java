@@ -10,7 +10,9 @@ import com.google.gson.Gson;
 public class UpdateAudioSettingsMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        if (client.getPlayer() == null) { return; }
+        if (client.getPlayer() == null) {
+            return;
+        }
 
         int systemVolume = msg.readInt();
         int furniVolume = msg.readInt();
