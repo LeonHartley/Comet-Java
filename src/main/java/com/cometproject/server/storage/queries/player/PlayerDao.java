@@ -14,34 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PlayerDao {
-    public static int getIdBySSO(String sso) {
-        Connection sqlConnection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            sqlConnection = SqlHelper.getConnection();
-
-            preparedStatement = SqlHelper.prepare("SELECT `id` FROM players WHERE auth_ticket = ? LIMIT 1", sqlConnection);
-            preparedStatement.setString(1, sso);
-
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                return resultSet.getInt("id");
-            }
-
-        } catch (SQLException e) {
-            SqlHelper.handleSqlException(e);
-        } finally {
-            SqlHelper.closeSilently(resultSet);
-            SqlHelper.closeSilently(preparedStatement);
-            SqlHelper.closeSilently(sqlConnection);
-        }
-
-        return 0;
-    }
-
     public static Player getPlayer(String ssoTicket) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -78,34 +50,6 @@ public class PlayerDao {
         return null;
     }
 
-    public static String getAuthTicketById(int id) {
-        Connection sqlConnection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            sqlConnection = SqlHelper.getConnection();
-
-            preparedStatement = SqlHelper.prepare("SELECT `auth_ticket` FROM players WHERE id = ? LIMIT 1", sqlConnection);
-            preparedStatement.setInt(1, id);
-
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                return resultSet.getString("auth_ticket");
-            }
-
-        } catch (SQLException e) {
-            SqlHelper.handleSqlException(e);
-        } finally {
-            SqlHelper.closeSilently(resultSet);
-            SqlHelper.closeSilently(preparedStatement);
-            SqlHelper.closeSilently(sqlConnection);
-        }
-
-        return "";
-    }
-
     public static PlayerData getDataById(int id) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -114,13 +58,16 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM players WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT id, username, motto, figure, gender, email, rank, credits, vip_points, reg_date, last_online, vip, achievement_points, reg_timestamp, favourite_group FROM players WHERE id = ?", sqlConnection);
             preparedStatement.setInt(1, id);
 
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                return new PlayerData(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("motto"), resultSet.getString("figure"), resultSet.getString("gender"), resultSet.getString("email") == null ? "" : resultSet.getString("email"), resultSet.getInt("rank"), resultSet.getInt("credits"), resultSet.getInt("vip_points"), resultSet.getString("reg_date"), resultSet.getInt("last_online"), resultSet.getString("vip").equals("1"), resultSet.getInt("achievement_points"), resultSet.getInt("reg_timestamp"), resultSet.getInt("favourite_group"));
+                return new PlayerData(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("motto"), resultSet.getString("figure"), resultSet.getString("gender"),
+                        resultSet.getString("email") == null ? "" : resultSet.getString("email"), resultSet.getInt("rank"), resultSet.getInt("credits"), resultSet.getInt("vip_points"),
+                        resultSet.getString("reg_date"), resultSet.getInt("last_online"), resultSet.getString("vip").equals("1"), resultSet.getInt("achievement_points"),
+                        resultSet.getInt("reg_timestamp"), resultSet.getInt("favourite_group"));
             }
 
         } catch (SQLException e) {

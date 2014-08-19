@@ -51,10 +51,12 @@ public class NetworkManager {
         System.setProperty("java.net.preferIPv4Stack", "true");
         System.setProperty("io.netty.selectorAutoRebuildThreshold", "0");
 
-        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.ADVANCED);
+        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED);
 
         EventLoopGroup acceptGroup = useEpoll ? new EpollEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Epoll Accept Thread #%1$d").build()) : new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO Accept Thread #%1$d").build());
         EventLoopGroup ioGroup = useEpoll ? new EpollEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Epoll IO Thread #%1$d").build()) : new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO IO Thread #%1$d").build());
+
+        log.debug("Using event loop: " + acceptGroup.getClass().getName());
 
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(acceptGroup, ioGroup)

@@ -94,5 +94,7 @@ public class ConsoleCommands {
                 }
             }
         };
+
+        cmdThr.start();
     }
 }

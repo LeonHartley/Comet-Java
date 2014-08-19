@@ -64,7 +64,7 @@ public class Comet {
         server = new CometServer();
 
         if (args.length < 1) {
-            log.warn("No config args found, falling back to default configuration!");
+            log.debug("No config args found, falling back to default configuration!");
             server.init();
         } else {
             Map<String, String> cometConfiguration = new FastMap<>();
@@ -113,7 +113,7 @@ public class Comet {
      * @return The current build of Comet
      */
     public static String getBuild() {
-        return "0.9.2-BETA3-EXPERIMENTAL3";
+        return "0.9.2-BETA3-EXPERIMENTAL4";
     }
 
     /**

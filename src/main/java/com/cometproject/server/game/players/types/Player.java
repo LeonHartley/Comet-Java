@@ -51,7 +51,7 @@ public class Player {
     public Player(ResultSet data) throws SQLException {
         this.id = data.getInt("playerId");
 
-        this.settings = new PlayerSettings(data, false);
+        this.settings = new PlayerSettings(data, true);
         this.data = new PlayerData(data);
         this.stats = new PlayerStatistics(data, true);
 
@@ -94,14 +94,8 @@ public class Player {
     }
 
     public void sendBalance() {
-        session.send(SendCreditsMessageComposer.compose(session.getPlayer().getData().getCredits()));
-        Map<Integer, Integer> currencies = new FastMap<>();
-
-        currencies.put(0, 0); // duckets
-        currencies.put(105, getData().getPoints());
-
-        session.send(CurrenciesMessageComposer.compose(currencies));
-        currencies.clear();
+        session.send(composeCurrenciesBalance());
+        session.send(composeCreditBalance());
     }
 
     public Composer composeCreditBalance() {
