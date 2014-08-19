@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.headers.Events;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.incoming.catalog.GetCataIndexMessageEvent;
@@ -318,11 +319,8 @@ public final class MessageHandler {
             } catch (Exception e) {
                 log.error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
             }
-        } else {
-            if (Events.valueOfId(header) == null || Events.valueOfId(header).equals("") && header != PING_EVENT)
-                log.debug("Unknown message ID: " + header);
-            else if (header != PING_EVENT)
-                log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
+        } else if(!Comet.isDebugging) {
+            log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
         }
     }
 

@@ -24,6 +24,7 @@ public class StorageManager {
             config.addDataSourceProperty("password", Comet.getServer().getConfig().get("comet.db.password"));
             config.setMaximumPoolSize(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
             config.setLeakDetectionThreshold(300000);
+
             config.setInitializationFailFast(true);
 
             this.connections = new HikariDataSource(config);
