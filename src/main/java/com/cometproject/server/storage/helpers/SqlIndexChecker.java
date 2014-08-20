@@ -13,11 +13,11 @@ public class SqlIndexChecker {
     private static Logger log = Logger.getLogger(SqlIndexChecker.class);
 
     public static void checkIndexes(StorageManager engine) {
-        log.info("Checking for valid database indexes..");
+        log.debug("Checking for valid database indexes..");
 
         checkPlayersTable(engine);
 
-        log.info("Index check complete");
+        log.debug("Index check complete");
     }
 
     public static void setIndexes(StorageManager engine) {
@@ -32,7 +32,7 @@ public class SqlIndexChecker {
 
             while (rs.next()) {
                 if (rs.getString("Column_name").equals("user_id")) {
-                    log.info("Setting Items Index Column Successfully!");
+                    log.debug("Setting Items Index Column Successfully!");
                     InventoryDao.ITEMS_USERID_INDEX = rs.getString("Key_name");
                     break;
                 }
