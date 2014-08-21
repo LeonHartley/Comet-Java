@@ -1,4 +1,4 @@
-package com.cometproject.server.network.security;
+package com.cometproject.server.network.security.old;
 
 import java.math.BigInteger;
 import java.util.Random;
