@@ -3,7 +3,9 @@ package com.cometproject.server.boot;
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.server.boot.utils.ShutdownHook;
 import com.cometproject.server.network.NetworkManager;
+import io.netty.handler.logging.LogLevel;
 import javolution.util.FastMap;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -61,11 +63,11 @@ public class Comet {
             }
         }
 
-        server = new CometServer();
+        Level logLevel = Level.INFO;
 
         if (args.length < 1) {
             log.debug("No config args found, falling back to default configuration!");
-            server.init();
+            server = new CometServer(null);
         } else {
             Map<String, String> cometConfiguration = new FastMap<>();
 
@@ -75,14 +77,21 @@ public class Comet {
                     continue;
                 }
 
+                if(args[i].equals("--debug-logging")) {
+                    logLevel = Level.DEBUG;
+                }
+
                 if (!args[i].contains("="))
                     break;
 
                 cometConfiguration.put(args[i].split("=")[0], args[i].split("=")[1]);
             }
 
-            server.init(cometConfiguration);
+            server = new CometServer(cometConfiguration);
         }
+
+        Logger.getRootLogger().setLevel(logLevel);
+        server.init();
 
         ConsoleCommands.init();
         ShutdownHook.init();

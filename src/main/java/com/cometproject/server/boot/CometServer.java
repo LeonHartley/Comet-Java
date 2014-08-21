@@ -53,28 +53,18 @@ public class CometServer {
     /**
      * Empty constructor
      */
-    public CometServer() {
-    }
-
-    /**
-     * Initialize Comet without any overridden configuration
-     */
-    public void init() {
-        this.init(null);
-    }
-
-    /**
-     * Initialize Comet Server
-     *
-     * @param overridenConfig Override configuration via the run command arguments
-     */
-    public void init(Map<String, String> overridenConfig) {
+    public CometServer(Map<String, String> overridenConfig) {
         this.config = new Configuration("./config/comet.properties");
 
         if (overridenConfig != null) {
             this.config.override(overridenConfig);
         }
+    }
 
+    /**
+     * Initialize Comet Server
+     */
+    public void init() {
         this.apiManager = new APIManager();
 
         this.threadManagement = new CometThreadManagement();
@@ -89,8 +79,6 @@ public class CometServer {
         CometSettings.init();
         Locale.init();
         CometManager.init();
-
-//        CometCache.create();
 
         this.networkManager = new NetworkManager(this.getConfig().get("comet.network.host"), this.getConfig().get("comet.network.port"));
 
