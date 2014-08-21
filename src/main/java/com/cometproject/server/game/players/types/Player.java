@@ -79,7 +79,7 @@ public class Player {
         this.getMessenger().dispose();
         this.getRelationships().dispose();
 
-        this.session.getLogger().info(this.getData().getUsername() + " logged out");
+        this.session.getLogger().debug(this.getData().getUsername() + " logged out");
 
         PlayerDao.updatePlayerStatus(this, false, false);
 

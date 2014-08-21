@@ -7,11 +7,16 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.storage.SqlHelper;
+import io.netty.util.internal.StringUtil;
+import org.apache.commons.lang.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class PlayerDao {
     public static Player getPlayer(String ssoTicket) {
@@ -239,6 +244,39 @@ public class PlayerDao {
         }
 
         return 0;
+    }
+
+    public static Map<String, String> getValuesByKeys(Set<String> keys, int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        String query = StringUtils.join(keys.toArray(), ", ");
+
+        System.out.println(query);
+        return null;
+
+//        try {
+//            sqlConnection = SqlHelper.getConnection();
+//
+//            preparedStatement = SqlHelper.prepare("SELECT " + query + " FROM players WHERE id = ?", sqlConnection);
+//
+//            preparedStatement.setInt(1, playerId);
+//
+//            resultSet = preparedStatement.executeQuery();
+//
+//            while (resultSet.next()) {
+//
+//            }
+//        } catch (SQLException e) {
+//            SqlHelper.handleSqlException(e);
+//        } finally {
+//            SqlHelper.closeSilently(resultSet);
+//            SqlHelper.closeSilently(preparedStatement);
+//            SqlHelper.closeSilently(sqlConnection);
+//        }
+//
+//        //return null;
     }
 
     public static void updatePlayerData(int id, String username, String motto, String figure, int credits, int points, String gender, int favouriteGroup) {

@@ -97,7 +97,6 @@ public final class Event implements ByteBufHolder {
     }
 
     public String toString() {
-        System.out.println("Called this...");
         String body = this.content().toString((Charset.defaultCharset()));
 
         for (int i = 0; i < 13; i++) {
