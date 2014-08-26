@@ -76,7 +76,7 @@ public class DeleteRoomMessageEvent implements IEvent {
             }
         }
 
-        CometManager.getLogger().info("Room deleted: " + room.getId() + " by " + client.getPlayer().getId() + " / " + client.getPlayer().getData().getUsername());
+        CometManager.getLogger().debug("Room deleted: " + room.getId() + " by " + client.getPlayer().getId() + " / " + client.getPlayer().getData().getUsername());
         RoomDao.deleteRoom(room.getId());
 
         client.send(UpdateInventoryMessageComposer.compose());

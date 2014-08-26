@@ -12,8 +12,6 @@ import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.DefaultMessageSizeEstimator;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.epoll.EpollEventLoopGroup;
-import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.AttributeKey;
@@ -34,8 +32,6 @@ public class NetworkManager {
 
     private final PooledByteBufAllocator allocator = PooledByteBufAllocator.DEFAULT;
 
-    public static boolean useEpoll = true;
-
     private static Logger log = Logger.getLogger(NetworkManager.class.getName());
 
     public NetworkManager(String ip, String ports) {
@@ -53,14 +49,14 @@ public class NetworkManager {
 
         ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED);
 
-        EventLoopGroup acceptGroup = useEpoll ? new EpollEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Epoll Accept Thread #%1$d").build()) : new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO Accept Thread #%1$d").build());
-        EventLoopGroup ioGroup = useEpoll ? new EpollEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Epoll IO Thread #%1$d").build()) : new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO IO Thread #%1$d").build());
+        EventLoopGroup acceptGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO Accept Thread #%1$d").build());
+        EventLoopGroup ioGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO IO Thread #%1$d").build());
 
         log.debug("Using event loop: " + acceptGroup.getClass().getName());
 
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(acceptGroup, ioGroup)
-                .channel(useEpoll ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
+                .channel(NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer(0))
                 .option(ChannelOption.SO_BACKLOG, 1024)
                 .option(ChannelOption.SO_KEEPALIVE, true)

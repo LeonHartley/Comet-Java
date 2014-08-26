@@ -107,6 +107,10 @@
     <orderEntry type="library" name="Maven: org.eclipse.jetty.orbit:org.eclipse.jdt.core:3.8.2.v20130121" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:platform:3.5.2" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna:3.5.2" level="project" />
+    <orderEntry type="library" name="Maven: com.jcabi:jcabi-log:0.7.5" level="project" />
+    <orderEntry type="library" name="Maven: com.jcabi:jcabi-aspects:0.7.5" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: javax.validation:validation-api:1.1.0.Beta2" level="project" />
   </component>
 </module>
 

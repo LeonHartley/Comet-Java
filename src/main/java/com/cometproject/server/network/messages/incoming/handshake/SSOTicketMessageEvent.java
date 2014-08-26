@@ -29,6 +29,8 @@ public class SSOTicketMessageEvent implements IEvent {
             return;
         }
 
+
+        // TODO: Tell the hotel owners to remove the id:ticket stuff
         Player player = null;
         boolean normalPlayerLoad = false;
 
@@ -36,7 +38,6 @@ public class SSOTicketMessageEvent implements IEvent {
             String[] ticketData = ticket.split(TICKET_DELIMITER);
 
             if (ticketData.length == 2) {
-                int playerId = Integer.parseInt(ticketData[0]);
                 String authTicket = ticketData[1];
 
                 player = PlayerDao.getPlayer(authTicket);

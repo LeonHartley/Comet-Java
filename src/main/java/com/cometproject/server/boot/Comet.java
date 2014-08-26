@@ -2,8 +2,6 @@ package com.cometproject.server.boot;
 
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.server.boot.utils.ShutdownHook;
-import com.cometproject.server.network.NetworkManager;
-import io.netty.handler.logging.LogLevel;
 import javolution.util.FastMap;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -72,11 +70,6 @@ public class Comet {
             Map<String, String> cometConfiguration = new FastMap<>();
 
             for (int i = 0; i < args.length; i++) {
-                if (args[i].equals("--no-epoll")) {
-                    NetworkManager.useEpoll = false;
-                    continue;
-                }
-
                 if(args[i].equals("--debug-logging")) {
                     logLevel = Level.DEBUG;
                 }
