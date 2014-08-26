@@ -81,7 +81,8 @@ public class FilterUtil {
                 .replace("Ø", "o")
                 .replace("ª", "")
                 .replace("†", "")
-                .replace("º", "");
+                .replace("º", "")
+                .replace("í", "i");
 
         return result;
     }

@@ -31,7 +31,6 @@ public class ShoutMessageEvent implements IEvent {
             }
         }
 
-
         if (client.getPlayer().getEntity().onChat(filteredMessage)) {
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), filteredMessage, CometManager.getRooms().getEmotions().getEmotion(filteredMessage), colour));
         }
