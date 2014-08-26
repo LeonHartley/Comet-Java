@@ -26,6 +26,8 @@ public class WordFilter {
     }
 
     public FilterResult filter(String message) {
+        String filteredMessage = message;
+
         if (CometSettings.wordFilterMode == FilterMode.STRICT) {
             message = FilterUtil.normalize(message.toLowerCase());
         }
@@ -35,11 +37,11 @@ public class WordFilter {
                 if (CometSettings.wordFilterMode == FilterMode.STRICT)
                     return new FilterResult(true, word.getKey());
 
-                message = message.replace(word.getKey(), word.getValue());
+                filteredMessage = filteredMessage.replace(word.getKey(), word.getValue());
             }
         }
 
-        return new FilterResult(message);
+        return new FilterResult(filteredMessage, !message.equals(filteredMessage));
     }
 
     public void save() {

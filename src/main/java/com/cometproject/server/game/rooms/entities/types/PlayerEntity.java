@@ -4,6 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.types.Player;
@@ -245,8 +246,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 String cmd = message.substring(1);
 
                 if (CometManager.getCommands().isCommand(cmd)) {
-                    CometManager.getCommands().parse(cmd, this.player.getSession());
-                    return false;
+                    if(CometManager.getCommands().parse(cmd, this.player.getSession()))
+                        return false;
                 } else if (CometManager.getCommands().getNotifications().isNotificationExecutor(cmd, this.player.getData().getRank())) {
                     CometManager.getCommands().getNotifications().execute(this.player, cmd);
                 }

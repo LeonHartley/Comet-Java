@@ -37,6 +37,7 @@ public class CommandManager {
      * Loads all user commands
      */
     public void loadUserCommands() {
+        this.commands.put(Locale.get("command.commands.name"), new CommandsCommand());
         this.commands.put(Locale.get("command.about.name"), new AboutCommand());
         this.commands.put(Locale.get("command.build.name"), new BuildCommand());
         this.commands.put(Locale.get("command.pickall.name"), new PickAllCommand());
@@ -100,25 +101,14 @@ public class CommandManager {
      * @param client  The player who is attempting to execute the command
      * @throws Exception
      */
-    public void parse(String message, Session client) throws Exception {
+    public boolean parse(String message, Session client) throws Exception {
         String executor = message.split(" ")[0];
-        String commandName = executor.equals(Locale.get("command.commands.name")) ? Locale.get("command.commands.name") : this.commands.get(executor).getPermission();
-
-        if (executor.equals(Locale.get("command.commands.name"))) {
-            StringBuilder list = new StringBuilder();
-
-            for (Map.Entry<String, ChatCommand> command : this.commands.entrySet()) {
-                if (client.getPlayer().getPermissions().hasCommand(command.getValue().getPermission()))
-                    list.append(":" + command.getKey() + " - " + command.getValue().getDescription() + "\n");
-            }
-
-            client.send(MotdNotificationComposer.compose(Locale.get("command.commands.title") + " - Comet " + Comet.getBuild() + "\n================================================\n" + list.toString()));
-            return;
-        }
+        String commandName = this.commands.get(executor).getPermission();
 
         if (client.getPlayer().getPermissions().hasCommand(commandName)) {
             this.commands.get(executor).execute(client, getParams(message.split(" ")));
             CometManager.getLogger().debug(client.getPlayer().getData().getUsername() + " executed command: :" + message);
+            return true;
         } else {
             if (CometManager.getPermissions().getCommands().containsKey(commandName) &&
                     CometManager.getPermissions().getCommands().get(commandName).isVipOnly() &&
@@ -126,9 +116,8 @@ public class CommandManager {
                 ChatCommand.sendChat(Locale.get("command.vip"), client);
 
             CometManager.getLogger().debug(client.getPlayer().getData().getUsername() + " tried executing command: :" + message);
+            return false;
         }
-
-        // TODO: Command logging!
     }
 
     /**
@@ -153,5 +142,9 @@ public class CommandManager {
 
     public NotificationManager getNotifications() {
         return notifications;
+    }
+
+    public Map<String, ChatCommand> getChatCommands() {
+        return this.commands;
     }
 }
