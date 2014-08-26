@@ -328,5 +328,11 @@
                 <artifactId>platform</artifactId>
                 <version>3.5.2</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.jcabi</groupId>
+                <artifactId>jcabi-log</artifactId>
+                <version>0.7.5</version>
+            </dependency>
         </dependencies>
 </project>

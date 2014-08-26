@@ -73,7 +73,6 @@ public class SqlHelper {
     }
 
     public static PreparedStatement prepare(String query, Connection con, boolean returnKeys) throws SQLException {
-        log.debug("Query: " + query);
         return returnKeys ? con.prepareStatement(query, java.sql.Statement.RETURN_GENERATED_KEYS) : con.prepareStatement(query);
     }
     

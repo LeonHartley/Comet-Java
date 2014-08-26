@@ -1,6 +1,7 @@
 package com.cometproject.server.boot.utils;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.database.queries.LogQueries;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
 import org.apache.log4j.Logger;
@@ -17,7 +18,9 @@ public class ShutdownHook {
                 Comet.isRunning = false;
 
                 StatisticsDao.saveStatistics(0, 0, Comet.getBuild());
-                LogQueries.updateRoomEntries();
+
+                if(LogManager.ENABLED)
+                    LogQueries.updateRoomEntries();
 
                 log.info("Closing all database connections");
                 Comet.getServer().getStorage().getConnections().shutdown();
