@@ -138,6 +138,15 @@ public class MembershipComponent {
     }
 
     /**
+     * Clears all lists associated with this object
+     */
+    public void dispose() {
+        groupMembers.clear();
+        groupAdministrators.clear();
+        groupMembershipRequests.clear();
+    }
+
+    /**
      * Get the members of the group
      *
      * @return The members of the group

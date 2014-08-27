@@ -31,7 +31,7 @@ public class ModToolUserInfoMessageComposer {
 
         // TODO: Find banned accounts using this IP address or linked to this e-mail address (for hotels that use the Habbo ID system)
         msg.writeInt(0); // banned accts
-        msg.writeString(user.getEmail() + "; 127.0.0.1");
+        msg.writeString(user.getEmail() + "; " + user.getIpAddress());
 
         return msg;
     }

@@ -48,12 +48,18 @@ public class Player {
     private String lastMessage = "";
     private int notifCooldown = 0;
 
-    public Player(ResultSet data) throws SQLException {
+    public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
-        this.settings = new PlayerSettings(data, true);
+        if(isFallback) {
+            this.settings = PlayerDao.getSettingsById(this.id);
+            this.stats = PlayerDao.getStatisticsById(this.id);
+        } else {
+            this.settings = new PlayerSettings(data, true);
+            this.stats = new PlayerStatistics(data, true);
+        }
+
         this.data = new PlayerData(data);
-        this.stats = new PlayerStatistics(data, true);
 
         this.permissions = new PermissionComponent(this);
         this.inventory = new InventoryComponent(this);

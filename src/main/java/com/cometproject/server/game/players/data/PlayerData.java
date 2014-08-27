@@ -15,6 +15,8 @@ public class PlayerData {
     private String gender;
     private String email;
 
+    private String ipAddress;
+
     private int credits;
     private int points;
 
@@ -27,7 +29,8 @@ public class PlayerData {
 
     private boolean vip;
 
-    public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints, String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup) {
+    public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints,
+                      String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress) {
         this.id = id;
         this.username = username;
         this.motto = motto;
@@ -45,6 +48,7 @@ public class PlayerData {
         this.regTimestamp = regTimestamp;
 
         this.favouriteGroup = favouriteGroup;
+        this.ipAddress = ipAddress;
     }
 
     public PlayerData(ResultSet data) throws SQLException {
@@ -183,5 +187,13 @@ public class PlayerData {
 
     public void setFavouriteGroup(int favouriteGroup) {
         this.favouriteGroup = favouriteGroup;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 }

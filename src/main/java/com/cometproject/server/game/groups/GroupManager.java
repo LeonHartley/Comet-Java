@@ -156,6 +156,27 @@ public class GroupManager {
     }
 
     /**
+     * Removes a group from the system
+     * @param id The ID of the group to remove
+     */
+    public void removeGroup(int id) {
+        Group group = this.get(id);
+
+        if(group == null)
+            return;
+
+        if(this.roomIdToGroupId.containsKey(group.getData().getRoomId())) {
+            this.roomIdToGroupId.remove(group.getData().getRoomId());
+        }
+
+        this.groupInstances.remove(id);
+        this.groupData.remove(id);
+
+        group.getMembershipComponent().dispose();
+        GroupDao.deleteGroup(group.getId());
+    }
+
+    /**
      * Load the group by id from database
      *
      * @param id The ID of the group

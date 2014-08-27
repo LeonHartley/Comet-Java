@@ -41,7 +41,37 @@ public class PlayerDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                return new Player(resultSet);
+                return new Player(resultSet, false);
+            }
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return null;
+    }
+
+    public static Player getPlayerFallback(String ssoTicket) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT p.id as playerId, p.username AS playerData_username, p.figure AS playerData_figure, p.motto AS playerData_motto, p.credits AS playerData_credits, p.vip_points AS playerData_vipPoints, p.rank AS playerData_rank, p.vip AS playerData_vip, p.gender AS playerData_gender, p.last_online AS playerData_lastOnline, p.reg_timestamp AS playerData_regTimestamp, p.reg_date AS playerData_regDate, p.favourite_group AS playerData_favouriteGroup, p.achievement_points AS playerData_achievementPoints, p.email AS playerData_email\n" +
+                    "FROM players p\n" +
+                    "WHERE p.auth_ticket = ?", sqlConnection);
+            preparedStatement.setString(1, ssoTicket);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return new Player(resultSet, true);
             }
 
         } catch (SQLException e) {
@@ -63,7 +93,7 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT id, username, motto, figure, gender, email, rank, credits, vip_points, reg_date, last_online, vip, achievement_points, reg_timestamp, favourite_group FROM players WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT id, username, motto, figure, gender, email, rank, credits, vip_points, reg_date, last_online, vip, achievement_points, reg_timestamp, favourite_group, last_ip FROM players WHERE id = ?", sqlConnection);
             preparedStatement.setInt(1, id);
 
             resultSet = preparedStatement.executeQuery();
@@ -72,7 +102,7 @@ public class PlayerDao {
                 return new PlayerData(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("motto"), resultSet.getString("figure"), resultSet.getString("gender"),
                         resultSet.getString("email") == null ? "" : resultSet.getString("email"), resultSet.getInt("rank"), resultSet.getInt("credits"), resultSet.getInt("vip_points"),
                         resultSet.getString("reg_date"), resultSet.getInt("last_online"), resultSet.getString("vip").equals("1"), resultSet.getInt("achievement_points"),
-                        resultSet.getInt("reg_timestamp"), resultSet.getInt("favourite_group"));
+                        resultSet.getInt("reg_timestamp"), resultSet.getInt("favourite_group"), resultSet.getString("last_ip"));
             }
 
         } catch (SQLException e) {
@@ -168,12 +198,13 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE players SET online = ?" + (setLastOnline ? ", last_online = ?" : "") + " WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE players SET online = ?" + (setLastOnline ? ", last_online = ?, last_ip = ?" : "") + " WHERE id = ?", sqlConnection);
             preparedStatement.setString(1, online ? "1" : "0");
 
             if (setLastOnline) {
                 preparedStatement.setLong(2, Comet.getTime());
-                preparedStatement.setInt(3, player.getId());
+                preparedStatement.setString(3, player.getData().getIpAddress());
+                preparedStatement.setInt(4, player.getId());
             } else {
                 preparedStatement.setInt(2, player.getId());
             }

@@ -19,6 +19,12 @@ import java.io.IOException;
 public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
 
+    private static ClientHandler clientHandlerInstance;
+
+    public static ClientHandler getInstance() {
+        return new ClientHandler();
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Event msg) throws Exception {
         try {
