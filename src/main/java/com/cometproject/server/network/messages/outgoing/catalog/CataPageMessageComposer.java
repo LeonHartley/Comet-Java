@@ -86,9 +86,9 @@ public class CataPageMessageComposer {
                 if (item.getCostOther() > 0) {
                     msg.writeInt(item.getCostOther());
                     msg.writeInt(105);
-                } else {
-                    msg.writeInt(0);
-                    msg.writeInt(0);
+                } else if(item.getCostActivityPoints() > 0) {
+                    msg.writeInt(item.getCostActivityPoints());
+                    msg.writeInt(100);
                 }
 
                 msg.writeBoolean(false); // Can gift
@@ -126,7 +126,8 @@ public class CataPageMessageComposer {
                     msg.writeInt(0);
                 }
 
-                msg.writeBoolean(!(item.getLimitedTotal() > 0) && item.allowOffer());
+                // Rent?
+                msg.writeBoolean(false);
             }
         } else {
             msg.writeInt(0);
@@ -134,7 +135,7 @@ public class CataPageMessageComposer {
 
         msg.writeInt(0);
 
-        msg.writeInt(-1);
+        msg.writeBoolean(false);
         msg.writeBoolean(false);
 
         return msg;
