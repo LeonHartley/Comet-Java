@@ -86,9 +86,13 @@ public class CataPageMessageComposer {
                 if (item.getCostOther() > 0) {
                     msg.writeInt(item.getCostOther());
                     msg.writeInt(105);
-                } else if(item.getCostActivityPoints() > 0) {
-                    msg.writeInt(item.getCostActivityPoints());
-                    msg.writeInt(100);
+//                } else if(item.getCostActivityPoints() > 0) {
+//                    msg.writeInt(item.getCostActivityPoints());
+//                    msg.writeInt(0);
+//                }
+                } else {
+                    msg.writeInt(0);
+                    msg.writeInt(0);
                 }
 
                 msg.writeBoolean(false); // Can gift

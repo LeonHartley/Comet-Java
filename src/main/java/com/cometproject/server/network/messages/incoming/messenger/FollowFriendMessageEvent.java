@@ -13,10 +13,10 @@ public class FollowFriendMessageEvent implements IEvent {
 
         MessengerFriend friend = client.getPlayer().getMessenger().getFriendById(friendId);
 
-        if (friend == null || friend.updateClient() == null || friend.getClient().getPlayer() == null || friend.getClient().getPlayer().getEntity() == null)
+        if (friend == null || !friend.isInRoom())
             return;
 
-        Room room = friend.getClient().getPlayer().getEntity().getRoom();
+        Room room = friend.getSession().getPlayer().getEntity().getRoom();
 
         client.send(FollowFriendMessageComposer.compose(room.getId()));
     }
