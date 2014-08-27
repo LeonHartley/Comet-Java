@@ -139,6 +139,82 @@ public class GroupDao {
         }
     }
 
+    public static void deleteGroup(int groupId) {
+        Connection sqlConnection = null;
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            deleteGroupData(sqlConnection, groupId);
+            deleteAllMemberships(sqlConnection, groupId);
+            deleteAllRequests(sqlConnection, groupId);
+            clearGroupFavourites(sqlConnection, groupId);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    private static void deleteGroupData(Connection sqlConnection, int groupId) {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = sqlConnection.prepareStatement("DELETE FROM groups WHERE id = ?");
+            preparedStatement.setInt(1, groupId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+        }
+    }
+
+    private static void deleteAllMemberships(Connection sqlConnection, int groupId) {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = sqlConnection.prepareStatement("DELETE FROM group_memberships WHERE group_id = ?");
+            preparedStatement.setInt(1, groupId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+        }
+    }
+
+    private static void deleteAllRequests(Connection sqlConnection, int groupId) {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = sqlConnection.prepareStatement("DELETE FROM group_requests WHERE group_id = ?");
+            preparedStatement.setInt(1, groupId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+        }
+    }
+
+    private static void clearGroupFavourites(Connection sqlConnection, int groupId) {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = sqlConnection.prepareStatement("UPDATE players SET favourite_group = 0 WHERE favourite_group = ?");
+            preparedStatement.setInt(1, groupId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+        }
+    }
+
     public static List<Integer> getIdsByPlayerId(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;

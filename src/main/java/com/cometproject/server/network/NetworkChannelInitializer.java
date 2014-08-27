@@ -29,10 +29,10 @@ public class NetworkChannelInitializer extends ChannelInitializer<Channel> {
     @Override
     protected void initChannel(Channel ch) throws Exception {
         ch.pipeline().addLast("xmlDecoder", new XMLPolicyDecoder())
-                .addLast("messageDecoder", new MessageDecoder())
                 .addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8))
+                .addLast("messageDecoder", new MessageDecoder())
                 .addLast("messageEncoder", new MessageEncoder())
                 .addLast("idleHandler", new IdleStateHandler(60, 30, 0, TimeUnit.SECONDS))
-                .addLast(this.executor, "clientHandler", new ClientHandler());
+                .addLast(this.executor, "clientHandler", ClientHandler.getInstance());
     }
 }

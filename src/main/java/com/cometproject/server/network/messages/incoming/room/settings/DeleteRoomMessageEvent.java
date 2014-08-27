@@ -2,6 +2,8 @@ package com.cometproject.server.network.messages.incoming.room.settings;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
@@ -11,12 +13,16 @@ import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
+import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 
@@ -74,6 +80,29 @@ public class DeleteRoomMessageEvent implements IEvent {
                     owner.getPlayer().getRooms().remove(owner.getPlayer().getRooms().indexOf(room.getId()));
                 }
             }
+        }
+
+        if(CometManager.getGroups().getGroupByRoomId(room.getId()) != null) {
+            Group group = CometManager.getGroups().getGroupByRoomId(room.getId());
+
+            for(Integer groupMemberId : group.getMembershipComponent().getMembers().keySet()) {
+                Session groupMemberSession = Comet.getServer().getNetwork().getSessions().getByPlayerId(groupMemberId);
+
+                if(groupMemberSession != null && groupMemberSession.getPlayer() != null) {
+                    groupMemberSession.getPlayer().getGroups().remove(new Integer(group.getId()));
+
+                    if(groupMemberSession.getPlayer().getData().getFavouriteGroup() == group.getId()) {
+                        groupMemberSession.getPlayer().getData().setFavouriteGroup(0);
+
+                        if(groupMemberSession.getPlayer().getEntity() != null) {
+                            groupMemberSession.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(client.getPlayer().getEntity().getVirtualId()));
+                            groupMemberSession.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity()));
+                        }
+                    }
+                }
+            }
+
+            CometManager.getGroups().removeGroup(group.getId());
         }
 
         CometManager.getLogger().debug("Room deleted: " + room.getId() + " by " + client.getPlayer().getId() + " / " + client.getPlayer().getData().getUsername());

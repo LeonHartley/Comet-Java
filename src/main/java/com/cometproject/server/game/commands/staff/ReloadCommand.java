@@ -30,7 +30,7 @@ public class ReloadCommand extends ChatCommand {
                                 "- config\n" +
                                 "- items\n" +
                                 "- filter\n" +
-                                "- config\n"
+                                "- locale\n"
                 ));
 
                 break;
@@ -61,7 +61,6 @@ public class ReloadCommand extends ChatCommand {
                 break;
 
             case "config":
-                // TODO: Finish config rewrite.. ;p
                 CometSettings.init();
 
                 sendChat(Locale.get("command.reload.config"), client);
@@ -88,8 +87,9 @@ public class ReloadCommand extends ChatCommand {
             case "locale":
                 Locale.reload();
 
-                sendChat(Locale.get("command.reload.config"), client);
+                sendChat(Locale.get("command.reload.locale"), client);
                 break;
+
         }
     }
 

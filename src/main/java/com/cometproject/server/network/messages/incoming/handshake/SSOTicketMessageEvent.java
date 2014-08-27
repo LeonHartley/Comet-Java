@@ -53,8 +53,12 @@ public class SSOTicketMessageEvent implements IEvent {
         }
 
         if (player == null) {
-            client.disconnect(false);
-            return;
+            player = PlayerDao.getPlayerFallback(ticket);
+
+            if(player == null) {
+                client.disconnect(false);
+                return;
+            }
         }
 
         Session cloneSession = Comet.getServer().getNetwork().getSessions().getByPlayerId(player.getId());
@@ -63,12 +67,16 @@ public class SSOTicketMessageEvent implements IEvent {
             cloneSession.disconnect(true);
         }
 
+        String ipAddress = "N/A";
+
         // to-do: clean this up!
         if (client.getChannel().remoteAddress() instanceof InetSocketAddress) {
             InetSocketAddress socketAddress = (InetSocketAddress) client.getChannel().remoteAddress();
 
             if (socketAddress.getAddress() != null) { // idk read the docs
-                if (CometManager.getBans().hasBan(socketAddress.getAddress().getHostAddress())) {
+                ipAddress = socketAddress.getAddress().getHostAddress();
+
+                if (CometManager.getBans().hasBan(ipAddress)) {
                     CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
                     client.disconnect();
                     return;
@@ -84,6 +92,10 @@ public class SSOTicketMessageEvent implements IEvent {
 
         player.setSession(client);
         client.setPlayer(player);
+
+        if(!ipAddress.equals("N/A")) {
+            player.getData().setIpAddress(ipAddress);
+        }
 
         CometManager.getRooms().loadRoomsForUser(player);
 
