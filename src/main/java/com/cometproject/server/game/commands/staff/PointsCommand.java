@@ -23,6 +23,9 @@ public class PointsCommand extends ChatCommand {
 
         Session player = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
 
+        if(player == null)
+            return;
+
         player.getPlayer().getData().increasePoints(points);
 
         player.send(AdvancedAlertMessageComposer.compose(Locale.get("command.points.successtitle"), Locale.get("command.points.successmessage").replace("%amount%", String.valueOf(points))));
