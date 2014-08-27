@@ -163,6 +163,9 @@ public abstract class GenericEntity implements AvatarEntity {
 
     @Override
     public void setPosition(Position3D pos) {
+        if(pos == null)
+            return;
+
         if (this.position == null) {
             this.position = pos;
         } else {
