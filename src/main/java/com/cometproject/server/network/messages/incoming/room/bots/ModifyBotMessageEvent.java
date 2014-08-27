@@ -53,7 +53,7 @@ public class ModifyBotMessageEvent implements IEvent {
             case 2:
                 String[] data1 = data.split(";");
 
-                List<String> messages = Arrays.asList(data1[0].split("\\r*,\\r*"));
+                List<String> messages = Arrays.asList(data1[0].split("\r"));
 
                 String automaticChat = data1[2];
                 String speakingInterval = data1[4];
@@ -68,10 +68,11 @@ public class ModifyBotMessageEvent implements IEvent {
                     if (filterResult.isBlocked()) {
                         client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
                         return;
-                    } else if (filterResult.wasModified()) {
-                        messages.remove(message);
-                        messages.add(filterResult.getChatMessage());
                     }
+//                    else if (filterResult.wasModified()) {
+//                        messages.remove(message);
+//                        messages.add(filterResult.getChatMessage());
+//                    }
                 }
 
                 botEntity.getData().setMessages((String[]) messages.toArray());

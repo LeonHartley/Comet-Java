@@ -31,8 +31,7 @@ public class PrivateChatMessageEvent implements IEvent {
             return;
         }
 
-        friend.updateClient();
-        Session friendClient = friend.getClient();
+        Session friendClient = friend.getSession();
 
         if (friendClient == null) {
             return;

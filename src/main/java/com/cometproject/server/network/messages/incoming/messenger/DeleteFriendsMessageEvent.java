@@ -20,7 +20,7 @@ public class DeleteFriendsMessageEvent implements IEvent {
             if (friend == null)
                 continue;
 
-            Session friendClient = friend.updateClient();
+            Session friendClient = friend.getSession();
 
             if (friendClient != null && friendClient.getPlayer() != null) {
                 friendClient.getPlayer().getMessenger().removeFriend(client.getPlayer().getId());

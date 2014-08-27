@@ -1,5 +1,6 @@
 package com.cometproject.server.game.players.components;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.components.types.MessengerFriend;
 import com.cometproject.server.game.players.components.types.MessengerRequest;
 import com.cometproject.server.game.players.components.types.MessengerSearchResult;
@@ -96,11 +97,11 @@ public class MessengerComponent {
     public void broadcast(Composer msg) {
         try {
             for (MessengerFriend friend : this.getFriends().values()) {
-                if (friend.getClient() == null || friend.getClient().getPlayer() == null || friend.getUserId() == this.getPlayer().getId()) {
+                if (!friend.isOnline() || friend.getUserId() == this.getPlayer().getId()) {
                     continue;
                 }
 
-                friend.getClient().getChannel().writeAndFlush(msg.duplicate().retain());
+                Comet.getServer().getNetwork().getSessions().getByPlayerId(friend.getUserId()).getChannel().writeAndFlush(msg.duplicate().retain());
             }
         } finally {
             ReferenceCountUtil.release(msg);
@@ -110,17 +111,17 @@ public class MessengerComponent {
     public void broadcast(List<Integer> friends, Composer msg) {
         try {
             for (int friendId : friends) {
-                if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || this.friends.get(friendId).updateClient() == null) {
+                if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || !this.friends.get(friendId).isOnline()) {
                     continue;
                 }
 
                 MessengerFriend friend = this.friends.get(friendId);
 
-                if (friend.getClient().getPlayer() == null) {
+                if (!friend.isOnline() || friend.getUserId() == this.getPlayer().getId()) {
                     continue;
                 }
 
-                friend.getClient().getChannel().writeAndFlush(msg.duplicate().retain());
+                Comet.getServer().getNetwork().getSessions().getByPlayerId(friend.getUserId()).getChannel().writeAndFlush(msg.duplicate().retain());
             }
         } finally {
             ReferenceCountUtil.release(msg);
@@ -128,18 +129,10 @@ public class MessengerComponent {
     }
 
     public void sendOffline(MessengerRequest friend, boolean online, boolean inRoom) {
-        for (MessengerFriend f : this.getFriends().values()) {
-            f.updateClient();
-        }
-
         this.getPlayer().getSession().send(UpdateFriendStateMessageComposer.compose(friend, online, inRoom));
     }
 
     public void sendStatus(boolean online, boolean inRoom) {
-        for (MessengerFriend f : this.getFriends().values()) {
-            f.updateClient();
-        }
-
         this.broadcast(UpdateFriendStateMessageComposer.compose(this.getPlayer().getData(), online, inRoom));
     }
 

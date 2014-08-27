@@ -27,7 +27,6 @@ public class LoadFriendsMessageComposer {
 
         for (Map.Entry<Integer, MessengerFriend> friend : friends.entrySet()) {
             if (friend.getValue() != null && friend.getValue().getData() != null) {
-                friend.getValue().updateClient();
                 friend.getValue().serialize(msg);
             }
         }

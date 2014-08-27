@@ -28,13 +28,13 @@ public class AcceptFriendshipMessageEvent implements IEvent {
             Session friend = Comet.getServer().getNetwork().getSessions().getByPlayerId(request.getFromId());
 
             if (friend != null) {
-                friend.getPlayer().getMessenger().addFriend(new MessengerFriend(client.getPlayer().getId(), client));
+                friend.getPlayer().getMessenger().addFriend(new MessengerFriend(client.getPlayer().getId()));
                 friend.getPlayer().getMessenger().sendStatus(true, friend.getPlayer().getEntity() != null);
             } else {
                 client.getPlayer().getMessenger().sendOffline(request, false, false);
             }
 
-            client.getPlayer().getMessenger().addFriend(new MessengerFriend(request.getFromId(), client));
+            client.getPlayer().getMessenger().addFriend(new MessengerFriend(request.getFromId()));
             client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
         }
 

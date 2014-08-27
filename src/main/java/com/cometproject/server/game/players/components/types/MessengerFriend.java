@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.components.types;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
@@ -12,39 +13,30 @@ import java.sql.SQLException;
 public class MessengerFriend {
     private int userId;
 
-    private Session client;
-    private PlayerData userData;
+    private PlayerData playerData;
 
     public MessengerFriend(ResultSet data) throws SQLException {
         this.userId = data.getInt("user_two_id");
 
-        this.updateClient();
+        if(Comet.getServer().getNetwork().getSessions().getByPlayerId(userId) != null) {
+            Session session = Comet.getServer().getNetwork().getSessions().getByPlayerId(userId);
 
-        if (client == null) {
-            userData = PlayerDao.getDataById(userId);
+            this.playerData = session.getPlayer() == null || session.getPlayer().getData() == null ? PlayerDao.getDataById(userId) : session.getPlayer().getData();
         } else {
-            userData = client.getPlayer().getData();
+            this.playerData = PlayerDao.getDataById(userId);
         }
     }
 
-    public MessengerFriend(int userId, Session session) {
+    public MessengerFriend(int userId) {
         this.userId = userId;
-        this.client = session;
-        this.userData = session.getPlayer().getData();
-    }
-
-    public Session updateClient() {
-        this.client = Comet.getServer().getNetwork().getSessions().getByPlayerId(userId);
-
-        return this.client;
     }
 
     public void serialize(Composer msg) {
         msg.writeInt(userId);
         msg.writeString(this.getData().getUsername());
         msg.writeInt(1);
-        msg.writeBoolean(this.client != null);
-        msg.writeBoolean(isInRoom());
+        msg.writeBoolean(this.isOnline());
+        msg.writeBoolean(this.isInRoom());
         msg.writeString(this.getData().getFigure());
         msg.writeInt(0);
         msg.writeString(this.getData().getMotto());
@@ -57,16 +49,16 @@ public class MessengerFriend {
         msg.writeBoolean(false);
     }
 
-    private boolean isInRoom() {
-        if (client == null) {
+    public boolean isInRoom() {
+        if (!isOnline()) {
             return false;
         }
 
-        if (client.getPlayer().getEntity() == null) {
+        Session client = Comet.getServer().getNetwork().getSessions().getByPlayerId(this.userId);
+
+        if (client.getPlayer() == null || client.getPlayer().getEntity() == null) {
             return false;
         }
-
-        // more checks?
 
         return true;
     }
@@ -75,11 +67,15 @@ public class MessengerFriend {
         return this.userId;
     }
 
-    public Session getClient() {
-        return this.client;
+    public PlayerData getData() {
+        return this.playerData;
     }
 
-    public PlayerData getData() {
-        return this.userData;
+    public boolean isOnline() {
+        return CometManager.getPlayers().isOnline(userId);
+    }
+
+    public Session getSession() {
+        return Comet.getServer().getNetwork().getSessions().getByPlayerId(this.userId);
     }
 }
