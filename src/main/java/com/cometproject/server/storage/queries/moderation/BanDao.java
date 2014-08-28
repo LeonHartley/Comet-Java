@@ -2,6 +2,7 @@ package com.cometproject.server.storage.queries.moderation;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.moderation.types.Ban;
+import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
 
@@ -40,7 +41,7 @@ public class BanDao {
         return data;
     }
 
-    public static int createBan(long length, long expire, String data, int addedBy) {
+    public static int createBan(BanType type, long length, long expire, String data, int addedBy) {
 
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -51,7 +52,7 @@ public class BanDao {
 
             preparedStatement = SqlHelper.prepare("INSERT into bans (`type`, `expire`, `data`, `reason`, `added_by`) VALUES(?, ?, ?, ?, ?);", sqlConnection, true);
 
-            preparedStatement.setString(1, "user");
+            preparedStatement.setString(1, type.toString().toLowerCase());
             preparedStatement.setLong(2, length == 0 ? 0 : expire);
             preparedStatement.setString(3, data);
             preparedStatement.setString(4, "");

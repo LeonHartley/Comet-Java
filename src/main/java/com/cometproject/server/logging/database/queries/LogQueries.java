@@ -112,6 +112,8 @@ public class LogQueries {
     }
 
     public static List<RoomChatLogEntry> getChatlogsByCriteria(int playerId, int roomId, int entryTime, int exitTime) {
+        final int limit = 150;
+
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -121,13 +123,12 @@ public class LogQueries {
         try {
             sqlConnection = LogDatabaseHelper.getConnection();
 
-            preparedStatement = LogDatabaseHelper.prepare("SELECT `data`,`timestamp` FROM `logs` WHERE `timestamp` > ? AND `timestamp` < ? AND `type` = 'ROOM_CHATLOG' AND `user_id` = ? AND `room_id` = ? ORDER BY `timestamp` DESC LIMIT ?", sqlConnection);
+            preparedStatement = LogDatabaseHelper.prepare("SELECT `data`,`timestamp` FROM `logs` WHERE `timestamp` > ? AND `timestamp` < ? AND `type` = 'ROOM_CHATLOG' AND `user_id` = ? AND `room_id` = ? ORDER BY `timestamp` DESC LIMIT " + limit, sqlConnection);
 
             preparedStatement.setInt(1, entryTime);
             preparedStatement.setInt(2, exitTime == 0 ? (int) Comet.getTime() : exitTime);
             preparedStatement.setInt(3, playerId);
             preparedStatement.setInt(4, roomId);
-            preparedStatement.setInt(5, 150); // Limit...
 
             resultSet = preparedStatement.executeQuery();
 
