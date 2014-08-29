@@ -130,8 +130,7 @@ public class CataPageMessageComposer {
                     msg.writeInt(0);
                 }
 
-                // Rent?
-                msg.writeBoolean(false);
+                msg.writeBoolean(!(item.getLimitedTotal() > 0) && item.allowOffer());
             }
         } else {
             msg.writeInt(0);
