@@ -20,7 +20,7 @@ public class MonitorClientHandler extends SimpleChannelInboundHandler {
     private ChannelHandlerContext context;
 
     public MonitorClientHandler() {
-        String message = "{\"name\":\"hello\", \"message\": {\"version\": \"Comet Server [" + Comet.getBuild() + "]\", \"port\": " + NetworkManager.serverPort + "}}";
+        String message = "{\"name\":\"hello\", \"message\": {\"version\": \"" + Comet.getBuild() + "\", \"port\": " + NetworkManager.serverPort + "}}";
 
         this.handshakeMessage = Unpooled.buffer(message.getBytes().length);
 
