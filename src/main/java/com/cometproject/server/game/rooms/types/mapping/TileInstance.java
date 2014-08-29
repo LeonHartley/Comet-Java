@@ -96,6 +96,17 @@ public class TileInstance {
         return this.stackHeight;
     }
 
+    public double getSitHeight() {
+        double height = this.stackHeight;
+        RoomItemFloor roomItemFloor = this.mappingInstance.getRoom().getItems().getFloorItem(this.topItem);
+
+        if(roomItemFloor != null && roomItemFloor.getDefinition().canSit) {
+            height -= roomItemFloor.getDefinition().getHeight();
+        }
+
+        return height;
+    }
+
     public RoomTileStatusType getStatus() {
         return this.status;
     }
