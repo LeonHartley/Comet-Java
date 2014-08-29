@@ -12,8 +12,8 @@ import org.apache.log4j.Logger;
 import java.net.ConnectException;
 
 public class MonitorClient {
-    public final String MONITOR_HOST = "127.0.0.1";
-    public final int MONITOR_PORT = 1337;
+    public final String MONITOR_HOST = "monitor.cometproject.com";
+    public final int MONITOR_PORT = 13337;
 
     private MonitorClientHandler clientHandler;
 
