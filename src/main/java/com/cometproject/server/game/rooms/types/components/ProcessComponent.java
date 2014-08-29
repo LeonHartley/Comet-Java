@@ -30,8 +30,6 @@ import java.util.concurrent.TimeUnit;
 public class ProcessComponent implements CometTask {
     private int disposeCycles = 0;
 
-    private ArrayList<GenericEntity> usersToUpdate;
-
     private Room room;
 
     private Logger log;
@@ -51,18 +49,12 @@ public class ProcessComponent implements CometTask {
         try {
             long timeStart = System.currentTimeMillis();
 
-            // Reset the users to update
-            if (this.usersToUpdate == null) {
-                this.usersToUpdate = new ArrayList<>();
-            } else if (this.usersToUpdate.size() > 0) {
-                this.usersToUpdate.clear();
-            }
-
             Map<Integer, GenericEntity> entities = this.room.getEntities().getEntitiesCollection();
 
             List<GenericEntity>[][] entityGrid = new ArrayList[this.getRoom().getModel().getSizeX()][this.getRoom().getModel().getSizeY()];
 
             List<PlayerEntity> playersToRemove = new ArrayList<>();
+            List<GenericEntity> entitiesToUpdate = new ArrayList<>();
 
             for (GenericEntity entity : entities.values()) {
                 // Process each entity as its own
@@ -72,11 +64,11 @@ public class ProcessComponent implements CometTask {
                     try {
                         if (playerEntity.getPlayer() == null) {
                             playersToRemove.add(playerEntity);
-                            return;
+                            continue;
                         }
                     } catch (Exception e) {
                         log.warn("Failed to remove null player from room - user data was null");
-                        return;
+                        continue;
                     }
 
                     boolean playerNeedsRemove = processEntity(playerEntity);
@@ -97,14 +89,19 @@ public class ProcessComponent implements CometTask {
 
                 entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
 
-                // THE ORDER MATTERS HERE, KEEP THIS AFTER !!!! 'ENTITY.NEEDSUPDATE'
-
-                // Process anything generic for all entities below this line
                 if (entity.needsUpdate()) {
                     entity.markNeedsUpdateComplete();
+                    entitiesToUpdate.add(entity);
                     this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
                 }
+            }
 
+            // Update the entity grid
+            this.getRoom().getEntities().replaceEntityGrid(entityGrid);
+
+            this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entitiesToUpdate));
+
+            for(GenericEntity entity : entitiesToUpdate) {
                 if (this.updateEntityStuff(entity) && entity instanceof PlayerEntity) {
                     playersToRemove.add((PlayerEntity) entity);
                 }
@@ -114,10 +111,8 @@ public class ProcessComponent implements CometTask {
                 entity.leaveRoom(entity.getPlayer() == null, false, true);
             }
 
-            // Update the entity grid
-            this.getRoom().getEntities().replaceEntityGrid(entityGrid);
-
             playersToRemove.clear();
+            entitiesToUpdate.clear();
 
             TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
@@ -126,7 +121,7 @@ public class ProcessComponent implements CometTask {
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             this.handleSupressedExceptions(e);
         } catch (Exception e) {
-            log.error("Error during room process", e);
+            log.error("Error during room entity processing", e);
         }
     }
 
