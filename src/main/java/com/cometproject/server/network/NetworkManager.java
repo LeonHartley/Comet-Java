@@ -29,6 +29,8 @@ public class NetworkManager {
     private ManagementServer managementServer;
     private MonitorClient monitorClient;
 
+    public static int serverPort = 0;
+
     public static final AttributeKey<Session> SESSION_ATTR = AttributeKey.valueOf("Session.attr");
     public static final AttributeKey<Integer> CHANNEL_ID = AttributeKey.valueOf("ChannelId.attr");
 
@@ -79,6 +81,8 @@ public class NetworkManager {
 
     private void bind(ServerBootstrap bootstrap, String ip, int port) {
         try {
+            NetworkManager.serverPort = port;
+
             bootstrap.bind(new InetSocketAddress(ip, port));
             log.info("CometServer listening on port: " + port);
         } catch (Exception e) {

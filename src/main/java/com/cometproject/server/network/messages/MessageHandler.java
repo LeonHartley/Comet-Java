@@ -303,8 +303,6 @@ public final class MessageHandler {
         //this.getMessages().put(Events.OpenQuestsMessageEvent, new OpenQuestsMessageEvent());
     }
 
-    private static final short PING_EVENT = 3555;
-
     public void handle(Event message, Session client) {
         Short header = message.getId();
 

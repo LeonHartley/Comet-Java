@@ -8,15 +8,30 @@
     <script>
       var socket = io.connect('http://localhost');
 
-      socket.on('connection', function (data) {
-        console.log(data);
-        socket.emit('my other event', { my: 'data' });
+
+      setInterval(function() {
+         socket.emit("packet", { name: "refresh", message: "" } );
+      }, 3000);
+
+
+      // Get the list of active servers.
+      socket.on("packet", function(packet) {
+
+        switch(packet.name) {
+          case "serverList":
+
+            packet.data.forEach(function(val) {
+
+            });
+
+            break;
+        }
       });
 
     </script>
   </head>
 
   <body>
-    <div class
+    <div class="servers"></div>
   </body>
 </html>
