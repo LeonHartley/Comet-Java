@@ -1,6 +1,7 @@
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var monitorServer = require ('./monitorServer.js');
 
 server.listen(8080);
 
@@ -9,8 +10,14 @@ app.get('/', function (req, res) {
 });
 
 io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
+  socket.emit('packet', { name: 'serverList', data: monitorServer.getServerList() });
+
+  socket.on('packet', function (data) {
+    if(!data.hasOwnProperty("name")) {
+      socket.emit("error", { message: "Invalid packet structure!"} );
+      return;
+    }
+
+    
   });
 });

@@ -17,7 +17,7 @@ public class MonitorAppender extends AppenderSkeleton {
 
     @Override
     protected void append(LoggingEvent loggingEvent) {
-        if(Comet.getServer().getNetwork().getMonitorClient() == null || !MonitorMessageLibrary.isInitialized) {
+        if(Comet.getServer() == null || Comet.getServer().getNetwork() == null || Comet.getServer().getNetwork().getMonitorClient() == null || !MonitorMessageLibrary.isInitialized) {
             // Comet isn't finished booting up yet.
             return;
         }

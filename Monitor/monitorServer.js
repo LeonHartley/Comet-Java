@@ -1,6 +1,5 @@
 var net = require('net');
 
-// Keep track of the chat clients
 var clients = [];
 
 var handshake = {
@@ -8,11 +7,10 @@ var handshake = {
   "message": ""
 }
 
-// Start a TCP Server
 net.createServer(function (socket) {
 
   socket.instanceData = {
-    "name": socket.remoteAddress + ":" + socket.remotePort,
+    "name": "",
     "version": "",
     "status": {},
     "logs": []
@@ -24,7 +22,6 @@ net.createServer(function (socket) {
 
   socket.on('data', function (data) {
     var dataString = data.toString();
-    //var obj = JSON.parse(data.toString().slice(0, -4));//
 
     if(dataString.indexOf("}{") > -1) {
       dataString = dataString.split("}{")[0] + "}";
@@ -40,8 +37,6 @@ net.createServer(function (socket) {
 
       case "status":
         socket.instanceData.status = obj.message;
-
-        console.log(obj.message);
         break;
 
       case "appendLog":
@@ -49,7 +44,6 @@ net.createServer(function (socket) {
         console.log(obj);
         break;
     }
-
   });
 
   socket.on('end', function () {
@@ -58,6 +52,25 @@ net.createServer(function (socket) {
 
 }).listen(1337);
 
-exports.getClientByHotelName = function(hotelName) {
-  console.log(hotelName + ", " + clients.length);
+setInterval(function() {
+  broadcast({name: "heartbeat", message: ""});
+}, 1000);
+
+var broadcast = function(msg) {
+  clients.forEach(function(cli) {
+    cli.write(JSON.stringify(msg));
+  });
 }
+
+var getServerList = function() {
+  var serverList = [];
+
+  clients.forEach(function(cli) {
+    serverList.push(cli.instanceData);
+  });
+
+  return serverList;
+}
+
+exports.broadcast = broadcast;
+exports.getServerList = getServerList;
