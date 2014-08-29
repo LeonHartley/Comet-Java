@@ -16,28 +16,31 @@ public class MonitorClientHandler extends SimpleChannelInboundHandler {
     private MonitorMessageHandler messageHandler;
     private Gson gson = new Gson();
 
+    private ChannelHandlerContext context;
+
     public MonitorClientHandler() {
-        String message = "Comet Server [" + Comet.getBuild() + "]";
+        String message = "{\"name\":\"hello\", \"message\":\"Comet Server [" + Comet.getBuild() + "]\"}";
 
-        handshakeMessage = Unpooled.buffer(message.getBytes().length);
+        this.handshakeMessage = Unpooled.buffer(message.getBytes().length);
 
-        for (int i = 0; i < handshakeMessage.capacity(); i++) {
-            handshakeMessage.writeByte(message.getBytes()[i]);
+        for (int i = 0; i < this.handshakeMessage.capacity(); i++) {
+            this.handshakeMessage.writeByte(message.getBytes()[i]);
         }
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        messageHandler = new MonitorMessageHandler();
+        this.context = ctx;
+        this.messageHandler = new MonitorMessageHandler();
 
-        ctx.writeAndFlush(handshakeMessage);
+        ctx.writeAndFlush(this.handshakeMessage);
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
         ByteBuf buffer = (ByteBuf) msg;
         String messageJson = buffer.toString(Charset.defaultCharset());
-        MonitorPacket message = gson.fromJson(messageJson, MonitorPacket.class);
+        MonitorPacket message = this.gson.fromJson(messageJson, MonitorPacket.class);
 
         this.messageHandler.handle(message, channelHandlerContext);
     }
@@ -51,5 +54,9 @@ public class MonitorClientHandler extends SimpleChannelInboundHandler {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         log.error("Exception caught from MonitorClient", cause);
         ctx.close();
+    }
+
+    public ChannelHandlerContext getContext() {
+        return context;
     }
 }

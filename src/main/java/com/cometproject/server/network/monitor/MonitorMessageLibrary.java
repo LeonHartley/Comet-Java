@@ -1,47 +1,48 @@
 package com.cometproject.server.network.monitor;
 
+import com.cometproject.server.utilities.CometStats;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
 
 public class MonitorMessageLibrary {
+    public static boolean isInitialized = false;
+
     private static Logger log = Logger.getLogger(MonitorMessageLibrary.class.getName());
 
     public static String request;
     public static ChannelHandlerContext ctx;
 
+    private static Gson gsonInstance = new Gson();
+
     // Hello message
     public static void hello() {
+        isInitialized = true;
+
         log.debug(request);
 
         heartbeat();
     }
 
     public static void heartbeat() {
-        Runtime runtime = Runtime.getRuntime();
+        JsonObject jsonObject = new JsonObject();
 
-        /*ServerStatus status = new ServerStatus(
-                Comet.getServer().getNetwork().getSessions().getUsersOnlineCount(),
-                CometManager.getRoomInstances().getRooms().size(),
-                TimeSpan.millisecondsToDate(System.currentTimeMillis() - Comet.start),
-                ((runtime.totalMemory() / 1024) / 1024),
-                ((runtime.totalMemory() / 1024) / 1024) - ((runtime.freeMemory() / 1024) / 1024),
-                System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ")",
-                runtime.availableProcessors(),
-                Comet.getServer().getStorage().getConnectionCount()
-        );
+        jsonObject.add("name", gsonInstance.toJsonTree("status"));
+        jsonObject.add("message", gsonInstance.toJsonTree(CometStats.get(), CometStats.class));
 
-        sendMessage(new Gson().toJson(status));*/
+        sendMessage(ctx, jsonObject.toString());
     }
 
-    private static void sendMessage(String json) {
+    public static void sendMessage(ChannelHandlerContext context, String json) {
         ByteBuf msg = Unpooled.buffer(json.getBytes().length);
 
         for (int i = 0; i < msg.capacity(); i++) {
             msg.writeByte(json.getBytes()[i]);
         }
 
-        ctx.writeAndFlush(msg);
+        context.writeAndFlush(msg);
     }
 }
