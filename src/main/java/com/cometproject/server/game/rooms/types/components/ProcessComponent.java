@@ -92,7 +92,7 @@ public class ProcessComponent implements CometTask {
                 if (entity.needsUpdate()) {
                     entity.markNeedsUpdateComplete();
                     entitiesToUpdate.add(entity);
-                    this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
+//                    this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
                 }
             }
 
@@ -210,7 +210,9 @@ public class ProcessComponent implements CometTask {
                 }
 
                 item.onEntityStepOn(entity);
+
                 if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
+
                 }
             }
         }
