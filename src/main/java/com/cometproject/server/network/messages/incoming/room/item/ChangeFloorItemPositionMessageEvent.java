@@ -42,9 +42,6 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
 
                 double height = item.getId() == tile.getTopItem() ? item.getHeight() : tile.getStackHeight();
 
-                System.out.println(tile.getTopItem());
-                System.out.println(item.getId());
-
                 List<RoomItemFloor> floorItemsAt = room.getItems().getItemsOnSquare(x, y);
 
                 for (RoomItemFloor stackItem : floorItemsAt) {
