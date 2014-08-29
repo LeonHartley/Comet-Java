@@ -14,6 +14,8 @@ public class TileInstance {
 
     private boolean canStack;
 
+    private int topItem = 0;
+
     public TileInstance(RoomMapping mappingInstance, Position3D position) {
         this.mappingInstance = mappingInstance;
         this.position = position;
@@ -22,16 +24,24 @@ public class TileInstance {
 
     public void reload() {
         this.movementNode = RoomEntityMovementNode.OPEN;
-        this.stackHeight = 0.0;
         this.status = RoomTileStatusType.NONE;
         this.canStack = true;
+
+        double highestHeight = 0d;
+        int highestItem = 0;
 
         for (RoomItemFloor item : mappingInstance.getRoom().getItems().getItemsOnSquare(this.position.getX(), this.position.getY())) {
             if (item.getDefinition() == null)
                 continue;
 
+            final double totalHeight = item.getHeight() + item.getDefinition().getHeight();
+
+            if(totalHeight > highestHeight) {
+                highestHeight = totalHeight;
+                highestItem = item.getId();
+            }
+
             boolean isGate = item.getDefinition().getInteraction().equals("gate");
-            stackHeight += item.getHeight() + Math.round(item.getDefinition().getHeight());
 
             if (!item.getDefinition().canWalk && !isGate) {
                 movementNode = RoomEntityMovementNode.CLOSED;
@@ -73,6 +83,9 @@ public class TileInstance {
                 this.canStack = false;
             }
         }
+
+        this.stackHeight = highestHeight;
+        this.topItem = highestItem;
     }
 
     public RoomEntityMovementNode getMovementNode() {
@@ -93,5 +106,13 @@ public class TileInstance {
 
     public boolean canStack() {
         return this.canStack;
+    }
+
+    public int getTopItem() {
+        return this.topItem;
+    }
+
+    public void setTopItem(int topItem) {
+        this.topItem = topItem;
     }
 }

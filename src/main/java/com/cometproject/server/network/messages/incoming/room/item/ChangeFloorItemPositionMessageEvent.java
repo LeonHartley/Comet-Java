@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.TileInstance;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -32,20 +33,22 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
         if ((isOwner || hasRights) || client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             try {
                 RoomItemFloor item = room.getItems().getFloorItem(id);
+                TileInstance tile = room.getMapping().getTile(x, y);
 
-                double height = client.getPlayer().getEntity().getRoom().getModel().getSquareHeight()[x][y];
+                if(!tile.canStack()) {
+                    client.send(UpdateFloorItemMessageComposer.compose(item, room.getData().getOwnerId()));
+                    return;
+                }
+
+                double height = item.getId() == tile.getTopItem() ? item.getHeight() : tile.getStackHeight();
+
+                System.out.println(tile.getTopItem());
+                System.out.println(item.getId());
 
                 List<RoomItemFloor> floorItemsAt = room.getItems().getItemsOnSquare(x, y);
 
                 for (RoomItemFloor stackItem : floorItemsAt) {
                     if (item.getId() != stackItem.getId()) {
-                        if (stackItem.getDefinition().canStack) {
-                            height += stackItem.getDefinition().getHeight();
-                        } else {
-                            client.send(UpdateFloorItemMessageComposer.compose(item, room.getData().getOwnerId()));
-                            return;
-                        }
-
                         stackItem.onItemAddedToStack(item);
                     }
                 }
