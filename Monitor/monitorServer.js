@@ -1,5 +1,6 @@
 var net = require('net');
-
+var port = 13337;
+var heartbeatInterval = 1000;
 var clients = [];
 
 var handshake = {
@@ -31,8 +32,9 @@ net.createServer(function (socket) {
 
     switch(obj.name) {
       case "hello":
-        console.log("Server connected with version: " + obj.message);
-        socket.instanceData.version = obj.message;
+        console.log("Server connected with version: " + obj.message.version);
+        socket.instanceData.version = obj.message.version;
+        socket.instanceData.name = socket.remoteAddress + ":" + obj.message.port;
       break;
 
       case "status":
@@ -50,11 +52,11 @@ net.createServer(function (socket) {
     clients.splice(clients.indexOf(socket), 1);
   });
 
-}).listen(1337);
+}).listen(port);
 
 setInterval(function() {
   broadcast({name: "heartbeat", message: ""});
-}, 1000);
+}, heartbeatInterval);
 
 var broadcast = function(msg) {
   clients.forEach(function(cli) {

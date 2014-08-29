@@ -56,8 +56,6 @@ public class NetworkManager {
         EventLoopGroup acceptGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO Accept Thread #%1$d").build());
         EventLoopGroup ioGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO IO Thread #%1$d").build());
 
-        this.monitorClient = new MonitorClient(acceptGroup);
-
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(acceptGroup, ioGroup)
                 .channel(NioServerSocketChannel.class)
@@ -77,6 +75,8 @@ public class NetworkManager {
         } else {
             this.bind(bootstrap, ip, Integer.parseInt(ports));
         }
+
+        this.monitorClient = new MonitorClient(acceptGroup);
     }
 
     private void bind(ServerBootstrap bootstrap, String ip, int port) {
