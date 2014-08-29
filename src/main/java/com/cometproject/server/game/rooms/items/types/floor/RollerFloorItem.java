@@ -83,7 +83,7 @@ public class RollerFloorItem extends RoomItemFloor {
     private void handleItems() {
         List<RoomItemFloor> floorItems = this.getRoom().getItems().getItemsOnSquare(this.getX(), this.getY());
 
-        if (floorItems.size() == 0) {
+        if (floorItems.size() < 2) {
             return;
         }
 
