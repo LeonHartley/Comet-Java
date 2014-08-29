@@ -17,7 +17,7 @@ public class MonitorAppender extends AppenderSkeleton {
 
     @Override
     protected void append(LoggingEvent loggingEvent) {
-        if(!MonitorMessageLibrary.isInitialized) {
+        if(Comet.getServer().getNetwork().getMonitorClient() == null || !MonitorMessageLibrary.isInitialized) {
             // Comet isn't finished booting up yet.
             return;
         }
@@ -28,9 +28,15 @@ public class MonitorAppender extends AppenderSkeleton {
             return;
 
         JsonObject jsonObject = new JsonObject();
+        JsonObject logObject = new JsonObject();
+
+        logObject.add("name", gson.toJsonTree(loggingEvent.getLoggerName()));
+        logObject.add("message", gson.toJsonTree(loggingEvent.getRenderedMessage()));
+        logObject.add("time", gson.toJsonTree(loggingEvent.getTimeStamp()));
+        logObject.add("level", gson.toJsonTree(loggingEvent.getLevel().toString().toLowerCase()));
 
         jsonObject.add("name", gson.toJsonTree("appendLog"));
-        jsonObject.add("message", gson.toJsonTree(loggingEvent, LoggingEvent.class));
+        jsonObject.add("message", logObject);
 
         MonitorMessageLibrary.sendMessage(clientHandler.getContext(), jsonObject.toString());
     }

@@ -14,6 +14,8 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+Monitor/node_modules
+
 # workspace files are user-specific
 *.sublime-workspace
 
