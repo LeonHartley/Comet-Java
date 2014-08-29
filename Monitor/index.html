@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Comet Monitor</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect('http://localhost');
+
+      socket.on('connection', function (data) {
+        console.log(data);
+        socket.emit('my other event', { my: 'data' });
+      });
+
+    </script>
+  </head>
+
+  <body>
+    <div class
+  </body>
+</html>
