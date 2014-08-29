@@ -4,6 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.network.http.ManagementServer;
 import com.cometproject.server.network.messages.MessageHandler;
+import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -26,6 +27,7 @@ public class NetworkManager {
     private SessionManager sessions;
     private MessageHandler messageHandler;
     private ManagementServer managementServer;
+    private MonitorClient monitorClient;
 
     public static final AttributeKey<Session> SESSION_ATTR = AttributeKey.valueOf("Session.attr");
     public static final AttributeKey<Integer> CHANNEL_ID = AttributeKey.valueOf("ChannelId.attr");
@@ -52,7 +54,7 @@ public class NetworkManager {
         EventLoopGroup acceptGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO Accept Thread #%1$d").build());
         EventLoopGroup ioGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO IO Thread #%1$d").build());
 
-        log.debug("Using event loop: " + acceptGroup.getClass().getName());
+        this.monitorClient = new MonitorClient(acceptGroup);
 
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(acceptGroup, ioGroup)
@@ -98,5 +100,9 @@ public class NetworkManager {
 
     public PooledByteBufAllocator getAllocator() {
         return allocator;
+    }
+
+    public MonitorClient getMonitorClient() {
+        return monitorClient;
     }
 }
