@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.TileInstance;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.SendWallItemMessageComposer;
@@ -72,20 +73,13 @@ public class PlaceItemMessageEvent implements IEvent {
                 }
 
                 Room room = client.getPlayer().getEntity().getRoom();
+                TileInstance tile = room.getMapping().getTile(x, y);
 
-                float height = (float) client.getPlayer().getEntity().getRoom().getModel().getSquareHeight()[x][y];
+                float height = (float) tile.getStackHeight();
+
+                if(!tile.canStack()) return;
 
                 List<RoomItemFloor> floorItems = room.getItems().getItemsOnSquare(x, y);
-
-                for (RoomItemFloor stackItem : floorItems) {
-                    if (item.getId() != stackItem.getId()) {
-                        if (stackItem.getDefinition().canStack) {
-                            height += stackItem.getDefinition().getHeight();
-                        } else {
-                            return;
-                        }
-                    }
-                }
 
                 if (item.getDefinition() != null && item.getDefinition().getInteraction() != null) {
                     if (item.getDefinition().getInteraction().equals("mannequin")) {

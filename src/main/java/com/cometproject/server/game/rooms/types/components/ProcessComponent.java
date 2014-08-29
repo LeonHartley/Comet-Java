@@ -345,7 +345,7 @@ public class ProcessComponent implements CometTask {
                 entity.setBodyRotation(Position3D.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
                 entity.setHeadRotation(entity.getBodyRotation());
 
-                double height = this.getRoom().getModel().getSquareHeight()[nextSq.x][nextSq.y];
+                double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getSitHeight();
 
                 boolean isCancelled = false;
 
@@ -361,9 +361,6 @@ public class ProcessComponent implements CometTask {
 
                     if (item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0")) {
                         isCancelled = true;
-                    }
-                    if (!item.getDefinition().canSit) {
-                        height += item.getDefinition().getHeight();
                     }
 
                     item.onEntityPreStepOn(entity);
