@@ -27,6 +27,7 @@ public class PointsCommand extends ChatCommand {
             return;
 
         player.getPlayer().getData().increasePoints(points);
+        player.getPlayer().getData().save();
 
         player.send(AdvancedAlertMessageComposer.compose(Locale.get("command.points.successtitle"), Locale.get("command.points.successmessage").replace("%amount%", String.valueOf(points))));
         player.getPlayer().sendBalance();

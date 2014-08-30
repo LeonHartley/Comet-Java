@@ -3,13 +3,16 @@ package com.cometproject.server.network.monitor;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.NetworkManager;
 import com.google.gson.Gson;
+import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.EventLoop;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.apache.log4j.Logger;
 
 import java.nio.charset.Charset;
+import java.util.concurrent.TimeUnit;
 
 public class MonitorClientHandler extends SimpleChannelInboundHandler {
     private Logger log = Logger.getLogger(MonitorClientHandler.class.getName());
@@ -50,6 +53,18 @@ public class MonitorClientHandler extends SimpleChannelInboundHandler {
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         ctx.flush();
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        final EventLoop eventLoop = ctx.channel().eventLoop();
+        eventLoop.schedule(new Runnable() {
+            @Override
+            public void run() {
+                Comet.getServer().getNetwork().getMonitorClient().createBootstrap(new Bootstrap(), eventLoop);
+            }
+        }, 1L, TimeUnit.SECONDS);
+        super.channelInactive(ctx);
     }
 
     @Override

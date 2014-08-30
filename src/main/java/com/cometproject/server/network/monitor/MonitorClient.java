@@ -1,15 +1,12 @@
 package com.cometproject.server.network.monitor;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.apache.log4j.Logger;
 
-import java.net.ConnectException;
+import java.util.concurrent.TimeUnit;
 
 public class MonitorClient {
     public final String MONITOR_HOST = "monitor.cometproject.com";
@@ -22,33 +19,46 @@ public class MonitorClient {
     public MonitorClient(EventLoopGroup loopGroup) {
         this.clientHandler = new MonitorClientHandler();
 
-        Thread monitorThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Bootstrap bootstrap = new Bootstrap();
+        createBootstrap(new Bootstrap(), loopGroup);
+    }
 
-                    bootstrap.group(loopGroup)
-                            .channel(NioSocketChannel.class)
-                            .option(ChannelOption.TCP_NODELAY, true)
-                            .handler(new ChannelInitializer<SocketChannel>() {
-                                @Override
-                                protected void initChannel(SocketChannel socketChannel) throws Exception {
-//                                    socketChannel.pipeline().addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8));
-                                    socketChannel.pipeline().addLast("clientHandler", clientHandler);
-                                }
-                            });
+    public Bootstrap createBootstrap(Bootstrap bootstrap, EventLoopGroup eventLoop) {
+        if (bootstrap != null) {
+            final MonitorClientHandler handler = new MonitorClientHandler();
 
-                    ChannelFuture future = bootstrap.connect(MONITOR_HOST, MONITOR_PORT).sync();
+            bootstrap.group(eventLoop);
+            bootstrap.channel(NioSocketChannel.class);
 
-                    future.channel().closeFuture().sync();
-                } catch (Exception e) {
-                    log.error("Failed to connect to monitor server", e);
+            bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
+            bootstrap.option(ChannelOption.TCP_NODELAY, true);
+
+            bootstrap.handler(new ChannelInitializer<SocketChannel>() {
+                @Override
+                protected void initChannel(SocketChannel socketChannel) throws Exception {
+                    socketChannel.pipeline().addLast(handler);
                 }
-            }
-        });
+            });
+            bootstrap.remoteAddress(MONITOR_HOST, MONITOR_PORT);
+            bootstrap.connect().addListener(new ConnectionListener(this));
+        }
+        return bootstrap;
+    }
 
-        monitorThread.start();
+    public class ConnectionListener implements ChannelFutureListener {
+        private MonitorClient client;
+
+        public ConnectionListener(MonitorClient client) {
+            this.client = client;
+        }
+        @Override
+        public void operationComplete(ChannelFuture channelFuture) throws Exception {
+            if (!channelFuture.isSuccess()) {
+                log.info("Attempting to reconnect to the monitor server");
+
+                final EventLoop loop = channelFuture.channel().eventLoop();
+                loop.schedule(() -> client.createBootstrap(new Bootstrap(), loop), 1L, TimeUnit.SECONDS);
+            }
+        }
     }
 
     public MonitorClientHandler getClientHandler() {

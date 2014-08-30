@@ -22,8 +22,6 @@ public class MonitorMessageLibrary {
     public static void hello() {
         isInitialized = true;
 
-        log.debug(request);
-
         heartbeat();
     }
 
