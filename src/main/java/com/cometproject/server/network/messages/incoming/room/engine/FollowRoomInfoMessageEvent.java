@@ -14,10 +14,6 @@ public class FollowRoomInfoMessageEvent implements IEvent {
         int roomId = msg.readInt();
         boolean isInSameRoom = msg.readInt() == 1;
 
-        if (client.getPlayer() != null && client.getPlayer().getEntity() != null && roomId == client.getPlayer().getEntity().getRoom().getId()) {
-            return;
-        }
-
         if (roomId != 0 && !isInSameRoom) {
             RoomData roomData = CometManager.getRooms().getRoomData(roomId);
 

@@ -1,12 +1,19 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var monitorServer = require ('./monitorServer.js');
 
-server.listen(8080);
+server.listen(5050);
 
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
+var private = require('express-http-auth').realm('Index');
+
+app.get('/', private, function(req, res) {
+  if (req.username == 'monitor' && req.password == 'cometServer9900') {
+	res.sendFile(__dirname + '/index.html');
+  } else {
+    res.send("access forbidden");
+  }
 });
 
 io.on('connection', function (socket) {
@@ -18,7 +25,6 @@ io.on('connection', function (socket) {
 
     switch(data.name) {
       case "refresh":
-        console.log(monitorServer.getServerList());
         socket.emit("packet", { name: 'serverList', message: monitorServer.getServerList() });
         break;
 
