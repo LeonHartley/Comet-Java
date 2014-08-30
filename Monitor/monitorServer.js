@@ -43,7 +43,6 @@ net.createServer(function (socket) {
 
       case "appendLog":
         socket.instanceData.logs.push(obj.message);
-        console.log(obj);
         break;
     }
   });
@@ -51,6 +50,8 @@ net.createServer(function (socket) {
   socket.on('end', function () {
     clients.splice(clients.indexOf(socket), 1);
   });
+
+  socket.on('error', function() {});
 
 }).listen(port);
 

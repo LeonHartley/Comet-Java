@@ -8,7 +8,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      var socket = io.connect('http://localhost');
+      var socket = io.connect('http://monitor.cometproject.com');
       var totalPlayersOnline = 0;
 
       setInterval(function() {
@@ -63,7 +63,7 @@
 
       <div class="page-header">
         <h1>Comet Server Monitor</h1>
-        <p class="lead"><span class="total-online-players"></span> total online players</p>
+        <p class="lead"><span class="total-online-players">0</span> total online players</p>
       </div>
 
       <div class="row servers"></div>
