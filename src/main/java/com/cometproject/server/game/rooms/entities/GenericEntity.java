@@ -8,9 +8,8 @@ import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.room.avatar.ApplyEffectMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.HandItemMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
+import com.cometproject.server.game.utilities.DistanceCalculator;
+import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import javolution.util.FastMap;
 
 import java.lang.ref.WeakReference;
@@ -429,6 +428,64 @@ public abstract class GenericEntity implements AvatarEntity {
         this.effect = effect;
     }
 
+    public int distance(GenericEntity entity) {
+        int avatarX = entity.getPosition().getX();
+        int avatarY = entity.getPosition().getY();
+
+        return DistanceCalculator.calculate(avatarX, avatarY, this.getPosition().getX(), this.getPosition().getY());
+    }
+
+    public boolean touching(GenericEntity entity) {
+        int avatarX = entity.getPosition().getX();
+        int avatarY = entity.getPosition().getY();
+
+        return DistanceCalculator.tilesTouching(avatarX, avatarY, this.getPosition().getX(), this.getPosition().getY());
+    }
+
+    public Position3D squareInfront() {
+        Position3D pos = new Position3D(0, 0, 0);
+
+        int posX = this.getPosition().getX();
+        int posY = this.getPosition().getY();
+
+        if (this.getBodyRotation() == 0) {
+            posY--;
+        } else if (this.getBodyRotation() == 2) {
+            posX++;
+        } else if (this.getBodyRotation() == 4) {
+            posY++;
+        } else if (this.getBodyRotation() == 6) {
+            posX--;
+        }
+
+        pos.setX(posX);
+        pos.setY(posY);
+
+        return pos;
+    }
+
+    public Position3D squareBehind() {
+        Position3D pos = new Position3D(0, 0, 0);
+
+        int posX = this.getPosition().getX();
+        int posY = this.getPosition().getY();
+
+        if (this.getBodyRotation() == 0) {
+            posY++;
+        } else if (this.getBodyRotation() == 2) {
+            posX--;
+        } else if (this.getBodyRotation() == 4) {
+            posY--;
+        } else if (this.getBodyRotation() == 6) {
+            posX++;
+        }
+
+        pos.setX(posX);
+        pos.setY(posY);
+
+        return pos;
+    }
+
     public boolean isOverriden() {
         return this.overriden;
     }
@@ -459,10 +516,12 @@ public abstract class GenericEntity implements AvatarEntity {
 
     public void updateVisibility(boolean isVisible) {
         if (isVisible && !this.isVisible) {
-            // Add user to room etc.
+            this.getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(this));
         } else {
-            //remove from room
+            this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
         }
+
+        this.isVisible = isVisible;
     }
 
     public boolean isDoorbellAnswered() {
