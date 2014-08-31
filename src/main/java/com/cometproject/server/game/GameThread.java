@@ -61,14 +61,19 @@ public class GameThread implements CometTask {
             room.getRights().cycle();
         }
 
-        if (CometSettings.quartlyCreditsEnabled) {
+        if (CometSettings.quarterlyCreditsEnabled || CometSettings.quarterlyDucketsEnabled) {
             for (Session client : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
                 if (client.getPlayer() == null || client.getPlayer().getData() == null) {
                     continue;
                 }
 
-                int amountCredits = CometSettings.quartlyCreditsAmount;
-                client.getPlayer().getData().increaseCredits(amountCredits);
+                if(CometSettings.quarterlyCreditsEnabled) {
+                    client.getPlayer().getData().increaseCredits(CometSettings.quarterlyCreditsAmount);
+                }
+
+                if(CometSettings.quarterlyDucketsEnabled) {
+                    client.getPlayer().getData().increaseActivityPoints(CometSettings.quarterlyDucketsAmount);
+                }
 
                 client.getPlayer().sendBalance();
                 client.getPlayer().getData().save();

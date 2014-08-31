@@ -73,7 +73,7 @@ public class CatalogManager {
     }
 
     /**
-     * Get a catalog page by it's ID
+     * Get a catalog page by its ID
      *
      * @param id Catalog Page ID
      * @return Catalog Page object with the specified ID

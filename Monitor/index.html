@@ -4,11 +4,14 @@
     <title>Comet Monitor</title>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" type="text/css" />
-
+    <!--<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/flatly/bootstrap.min.css" rel="stylesheet">-->
+    <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/lumen/bootstrap.min.css" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
     <script src="/socket.io/socket.io.js"></script>
+
     <script>
-      var socket = io.connect('http://monitor.cometproject.com');
+      var socket = io.connect('http://localhost');
       var totalPlayersOnline = 0;
 
       setInterval(function() {
@@ -56,6 +59,7 @@
       });
 
     </script>
+
   </head>
 
 <body>

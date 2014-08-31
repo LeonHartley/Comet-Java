@@ -111,8 +111,8 @@ public class Player {
     public Composer composeCurrenciesBalance() {
         Map<Integer, Integer> currencies = new FastMap<>();
 
-        currencies.put(0, 0); // duckets
-        currencies.put(105, getData().getPoints());
+        currencies.put(0, getData().getActivityPoints());
+        currencies.put(105, getData().getVipPoints());
 
         try {
             return CurrenciesMessageComposer.compose(currencies);
@@ -139,7 +139,6 @@ public class Player {
         }
 
         if (room.getEntities().getEntityByPlayerId(this.id) != null) {
-            // Remove them from the room hack lulz poop a doopa doo
             room.getEntities().getEntityByPlayerId(this.id).leaveRoom(true, false, false);
         }
 

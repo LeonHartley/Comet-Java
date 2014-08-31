@@ -18,7 +18,8 @@ public class PlayerData {
     private String ipAddress;
 
     private int credits;
-    private int points;
+    private int vipPoints;
+    private int activityPoints;
 
     private String regDate;
     private int lastVisit;
@@ -37,7 +38,7 @@ public class PlayerData {
         this.figure = figure;
         this.rank = rank;
         this.credits = credits;
-        this.points = vipPoints;
+        this.vipPoints = vipPoints;
         this.gender = gender;
         this.vip = vip;
         this.achievementPoints = achievementPoints;
@@ -60,17 +61,18 @@ public class PlayerData {
         this.email = data.getString("playerData_email");
         this.rank = data.getInt("playerData_rank");
         this.credits = data.getInt("playerData_credits");
-        this.points = data.getInt("playerData_vipPoints");
+        this.vipPoints = data.getInt("playerData_vipPoints");
         this.regDate = data.getString("playerData_regDate");
         this.lastVisit = data.getInt("playerData_lastOnline");
         this.vip = data.getString("playerData_vip").equals("1");
         this.achievementPoints = data.getInt("playerData_achievementPoints");
         this.regTimestamp = data.getInt("playerData_regTimestamp");
         this.favouriteGroup = data.getInt("playerData_favouriteGroup");
+        this.activityPoints = data.getInt("playerData_activityPoints");
     }
 
     public void save() {
-        PlayerDao.updatePlayerData(id, username, motto, figure, credits, points, gender, favouriteGroup);
+        PlayerDao.updatePlayerData(id, username, motto, figure, credits, vipPoints, gender, favouriteGroup, activityPoints);
     }
 
     public void decreaseCredits(int amount) {
@@ -82,15 +84,23 @@ public class PlayerData {
     }
 
     public void decreasePoints(int points) {
-        this.points -= points;
+        this.vipPoints -= points;
     }
 
     public void increasePoints(int points) {
-        this.points += points;
+        this.vipPoints += points;
+    }
+
+    public void increaseActivityPoints(int points) {
+        this.activityPoints += points;
+    }
+
+    public void decreaseActivityPoints(int points) {
+        this.activityPoints -= points;
     }
 
     public void setPoints(int points) {
-        this.points = points;
+        this.vipPoints = points;
     }
 
     public int getId() {
@@ -133,8 +143,8 @@ public class PlayerData {
         this.credits = credits;
     }
 
-    public int getPoints() {
-        return this.points;
+    public int getVipPoints() {
+        return this.vipPoints;
     }
 
     public int getLastVisit() {
@@ -195,5 +205,13 @@ public class PlayerData {
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
+    }
+
+    public int getActivityPoints() {
+        return activityPoints;
+    }
+
+    public void setActivityPoints(int activityPoints) {
+        this.activityPoints = activityPoints;
     }
 }

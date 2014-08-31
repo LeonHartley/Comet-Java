@@ -42,7 +42,7 @@ public class NetworkManager {
         this.sessions = new SessionManager();
         this.messageHandler = new MessageHandler();
 
-        InternalLoggerFactory.setDefaultFactory(new Log4JLoggerFactory());
+//        InternalLoggerFactory.setDefaultFactory(new Log4JLoggerFactory());
 
         if (CometSettings.httpEnabled) {
             this.managementServer = new ManagementServer();
