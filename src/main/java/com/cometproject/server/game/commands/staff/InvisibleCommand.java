@@ -8,17 +8,14 @@ import com.cometproject.server.network.sessions.Session;
 public class InvisibleCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        client.send(WisperMessageComposer.compose(client.getPlayer().getId(), Locale.get("command.error.disabled")));
-
         boolean isVisible = false;
 
         if (!client.getPlayer().getEntity().isVisible()) {
             isVisible = true;
         }
 
+        client.send(WisperMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), Locale.get("command.invisible." + (isVisible ? "disabled" : "enabled"))));
         client.getPlayer().getEntity().updateVisibility(isVisible);
-
-        client.send(WisperMessageComposer.compose(client.getPlayer().getId(), Locale.get("command.invisible." + (isVisible ? "enabled" : "disabled"))));
     }
 
     @Override
