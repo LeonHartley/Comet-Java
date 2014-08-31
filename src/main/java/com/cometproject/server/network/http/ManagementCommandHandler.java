@@ -92,7 +92,7 @@ public class ManagementCommandHandler implements HttpHandler {
 
                 PlayerData newPlayerData = PlayerDao.getDataById(userId);
 
-                user.getPlayer().getData().setPoints(newPlayerData.getPoints());
+                user.getPlayer().getData().setPoints(newPlayerData.getVipPoints());
                 user.getPlayer().sendBalance();
                 break;
             }

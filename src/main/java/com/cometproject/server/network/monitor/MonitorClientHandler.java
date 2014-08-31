@@ -15,6 +15,8 @@ import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 
 public class MonitorClientHandler extends SimpleChannelInboundHandler {
+    public static boolean isConnected = false;
+
     private Logger log = Logger.getLogger(MonitorClientHandler.class.getName());
     private ByteBuf handshakeMessage;
     private MonitorMessageHandler messageHandler;
@@ -34,6 +36,8 @@ public class MonitorClientHandler extends SimpleChannelInboundHandler {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
+        MonitorClientHandler.isConnected = true;
+
         this.context = ctx;
         this.messageHandler = new MonitorMessageHandler();
 
@@ -57,6 +61,8 @@ public class MonitorClientHandler extends SimpleChannelInboundHandler {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        MonitorClientHandler.isConnected = false;
+
         final EventLoop eventLoop = ctx.channel().eventLoop();
         eventLoop.schedule(new Runnable() {
             @Override

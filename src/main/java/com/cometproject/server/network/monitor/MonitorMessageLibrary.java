@@ -31,16 +31,16 @@ public class MonitorMessageLibrary {
         jsonObject.add("name", gsonInstance.toJsonTree("status"));
         jsonObject.add("message", gsonInstance.toJsonTree(CometStats.get(), CometStats.class));
 
-        sendMessage(ctx, jsonObject.toString());
+        sendMessage(jsonObject.toString());
     }
 
-    public static void sendMessage(ChannelHandlerContext context, String json) {
+    public static void sendMessage(String json) {
         ByteBuf msg = Unpooled.buffer(json.getBytes().length);
 
         for (int i = 0; i < msg.capacity(); i++) {
             msg.writeByte(json.getBytes()[i]);
         }
 
-        context.writeAndFlush(msg);
+        ctx.writeAndFlush(msg);
     }
 }

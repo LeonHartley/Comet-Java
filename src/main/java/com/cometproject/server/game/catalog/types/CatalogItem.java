@@ -27,7 +27,7 @@ public class CatalogItem {
     private int costCredits;
 
     /**
-     * The duckets cost of the item -- not currently used.. :p
+     * The duckets cost of the item
      */
     private int costActivityPoints;
 

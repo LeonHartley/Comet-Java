@@ -72,6 +72,7 @@ public class Session {
         if (msg == null) {
             return;
         }
+
         this.ctx.writeAndFlush(msg);
     }
 

@@ -55,13 +55,24 @@ public class CometSettings {
     /**
      * Do users get credits every 15 minutes?
      */
-    public static boolean quartlyCreditsEnabled = false;
+    public static boolean quarterlyCreditsEnabled = false;
 
     /**
      * If enabled, the players will get x amount of credits
      * every 15 minutes
      */
-    public static int quartlyCreditsAmount = 0;
+    public static int quarterlyCreditsAmount = 0;
+
+    /**
+     * Do users get duckets every 15 minutes?
+     */
+    public static boolean quarterlyDucketsEnabled = false;
+
+    /**
+     * If enabled, the players will get x amount of duckets
+     * every 15 minutes
+     */
+    public static int quarterlyDucketsAmount = 0;
 
     /**
      * Do you want to show how many players are online in the
@@ -140,8 +151,11 @@ public class CometSettings {
 
         groupCost = Integer.parseInt(config.get("comet.game.groups.cost"));
 
-        quartlyCreditsEnabled = Boolean.parseBoolean(config.get("comet.game.quarterly.credits.enabled"));
-        quartlyCreditsAmount = Integer.parseInt(config.get("comet.game.quarterly.credits.amount"));
+        quarterlyCreditsEnabled = Boolean.parseBoolean(config.get("comet.game.quarterly.credits.enabled"));
+        quarterlyCreditsAmount = Integer.parseInt(config.get("comet.game.quarterly.credits.amount"));
+
+        quarterlyDucketsEnabled = Boolean.parseBoolean(config.get("comet.game.quarterly.duckets.enabled"));
+        quarterlyDucketsAmount = Integer.parseInt(config.get("comet.game.quarterly.duckets.amount"));
 
         showUptimeInAbout = Boolean.parseBoolean(config.get("comet.about.command.uptime"));
         showActiveRoomsInAbout = Boolean.parseBoolean(config.get("comet.about.command.activeRooms"));

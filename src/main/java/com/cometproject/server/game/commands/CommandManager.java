@@ -76,6 +76,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.roomkick.name"), new RoomKickCommand());
         this.commands.put(Locale.get("command.coins.name"), new CoinsCommand());
         this.commands.put(Locale.get("command.points.name"), new PointsCommand());
+        this.commands.put(Locale.get("command.duckets.name"), new DucketsCommand());
         this.commands.put(Locale.get("command.unload.name"), new UnloadCommand());
         this.commands.put(Locale.get("command.roommute.name"), new RoomMuteCommand());
         this.commands.put(Locale.get("command.reload.name"), new ReloadCommand());

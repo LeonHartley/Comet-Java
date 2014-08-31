@@ -45,7 +45,7 @@ public class CatalogPurchaseHandler {
      * @param giftData Gift data (if-any)
      */
     public void handle(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
-        // TODO: redo all of this, it sucks so bad ;P
+        // TODO: redo all of this, it sucks so bad ;P, maybe add purchase handlers for each item or some crap
         if (amount > 100) {
             client.send(AlertMessageComposer.compose(Locale.get("catalog.error.toomany")));
             return;
@@ -67,6 +67,7 @@ public class CatalogPurchaseHandler {
 
             int totalCostCredits;
             int totalCostPoints;
+            int totalCostActivityPoints;
 
             if (item.getLimitedSells() >= item.getLimitedTotal() && item.getLimitedTotal() != 0)
                 return;
@@ -74,12 +75,14 @@ public class CatalogPurchaseHandler {
             if (item.allowOffer()) {
                 totalCostCredits = amount > 1 ? ((item.getCostCredits() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostCredits())) : item.getCostCredits();
                 totalCostPoints = amount > 1 ? ((item.getCostOther() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostOther())) : item.getCostOther();
+                totalCostActivityPoints = amount > 1 ? ((item.getCostActivityPoints() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostActivityPoints())) : item.getCostActivityPoints();
             } else {
                 totalCostCredits = item.getCostCredits();
                 totalCostPoints = item.getCostOther();
+                totalCostActivityPoints = item.getCostActivityPoints();
             }
 
-            if (client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getPoints() < totalCostPoints) {
+            if (client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getVipPoints() < totalCostPoints) {
                 CometManager.getLogger().warn("Player with ID: " + client.getPlayer().getId() + " tried to purchase item with ID: " + item.getId() + " with the incorrect amount of credits or points.");
                 client.send(AlertMessageComposer.compose(Locale.get("catalog.error.notenough")));
                 return;
@@ -87,6 +90,7 @@ public class CatalogPurchaseHandler {
 
             client.getPlayer().getData().decreaseCredits(totalCostCredits);
             client.getPlayer().getData().decreasePoints(totalCostPoints);
+            client.getPlayer().getData().decreaseActivityPoints(totalCostActivityPoints);
 
             client.getPlayer().sendBalance();
             client.getPlayer().getData().save();

@@ -6,33 +6,35 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
-public class PointsCommand extends ChatCommand {
+public class DucketsCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length < 2)
             return;
 
         String username = params[0];
-        int points;
+        int duckets;
 
         try {
-            points = Integer.parseInt(params[1]);
+            duckets = Integer.parseInt(params[1]);
         } catch (Exception e) {
             return;
         }
 
         Session session = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
 
-        if (session == null)
+        if(session == null) {
             return;
+        }
 
-        session.getPlayer().getData().increasePoints(points);
+        session.getPlayer().getData().increaseActivityPoints(duckets);
         session.getPlayer().getData().save();
 
         session.send(AdvancedAlertMessageComposer.compose(
-                Locale.get("command.points.successtitle"),
-                Locale.get("command.points.successmessage").replace("%amount%", String.valueOf(points))
+                Locale.get("command.duckets.successtitle"),
+                Locale.get("command.duckets.successmessage").replace("%amount%", String.valueOf(duckets))
         ));
 
         session.send(session.getPlayer().composeCurrenciesBalance());
@@ -40,11 +42,11 @@ public class PointsCommand extends ChatCommand {
 
     @Override
     public String getPermission() {
-        return "points_command";
+        return "duckets_command";
     }
 
     @Override
     public String getDescription() {
-        return Locale.get("command.points.description");
+        return Locale.get("command.duckets.description");
     }
 }
