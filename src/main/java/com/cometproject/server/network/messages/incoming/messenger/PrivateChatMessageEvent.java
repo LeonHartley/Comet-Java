@@ -17,7 +17,7 @@ public class PrivateChatMessageEvent implements IEvent {
         int userId = msg.readInt();
         String message = msg.readString();
 
-        if (userId == -1) {
+        if (userId == -1 && client.getPlayer().getPermissions().hasPermission("staff_chat")) {
             for (Session user : Comet.getServer().getNetwork().getSessions().getByPlayerPermission("staff_chat")) {
                 if (user == client) continue;
                 user.send(InstantChatMessageComposer.compose(client.getPlayer().getData().getUsername() + ": " + message, -1));
