@@ -13,9 +13,11 @@ public class AvatarUpdateMessageComposer {
     public static Composer compose(Room room) {
         Composer msg = new Composer(Composers.RoomStatusesMessageComposer);
 
-        msg.writeInt(room.getEntities().count()); // items count
+        msg.writeInt(room.getEntities().count());
 
         for (GenericEntity entity : room.getEntities().getEntitiesCollection().values()) {
+            if(!entity.isVisible()) continue;
+
             msg.writeInt(entity.getVirtualId());
 
             msg.writeInt(entity.getPosition().getX());

@@ -1,64 +1,63 @@
 package com.cometproject.server.game.commands.vip;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
+import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.models.RoomModel;
+import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+
+import java.util.List;
 
 public class PullCommand extends ChatCommand {
 
     @Override
     public void execute(Session client, String[] params) {
-        sendChat("Command disabled", client);
-/*
         if (params.length == 0) {
             sendChat("Invalid username", client);
             return;
         }
 
         String username = params[0];
-        Session user = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
+        Session pulledSession = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
 
-        if (user == null) {
+        if (pulledSession == null) {
             return;
         }
 
-        if (user.getPlayer().getEntity() == null) {
+        if (pulledSession.getPlayer().getEntity() == null) {
             return;
         }
 
-        if (user == client) {
+        if (username.equals(client.getPlayer().getData().getUsername())) {
             sendChat(Locale.get("command.pull.playerhimself"), client);
             return;
         }
 
-        Position3D playerPosition = client.getPlayer().getEntity().getPosition();
-        Position3D pulledPlayerPosition = user.getPlayer().getEntity().getPosition();
+        Room room = client.getPlayer().getEntity().getRoom();
+        PlayerEntity pulledEntity = pulledSession.getPlayer().getEntity();
 
-        if(!DistanceCalculator.tilesTouching(playerPosition, pulledPlayerPosition)) {
+        if(pulledEntity.distance(client.getPlayer().getEntity()) != 2) {
             return;
         }
 
-        RoomModel model = client.getPlayer().getEntity().getRoom().getModel();
+        pulledEntity.setWalkingGoal(client.getPlayer().getEntity().squareInfront().getX(), client.getPlayer().getEntity().squareInfront().getY());
 
-       // if (model.getDoorX() == posX && model.getDoorY() == posY) {
-       //    sendChat(Locale.get(""), client);
-       //     return;
-       // }
+        List<Square> path = pulledEntity.getPathfinder().makePath();
+        pulledEntity.unIdle();
 
-       // user.getPlayer().getEntity().setWalkingGoal(posX, posY);
+        if (pulledEntity.getWalkingPath() != null)
+            pulledEntity.getWalkingPath().clear();
 
-        List<Square> path = user.getPlayer().getEntity().getPathfinder().makePath();
-        user.getPlayer().getEntity().unIdle();
+        pulledEntity.setWalkingPath(path);
 
-        if (user.getPlayer().getEntity().getWalkingPath() != null)
-            user.getPlayer().getEntity().getWalkingPath().clear();
-
-        user.getPlayer().getEntity().setWalkingPath(path);
-
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(
-                TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), Locale.get("command.pull.message").replace("%playername%", user.getPlayer().getData().getUsername()), 0, 0)
-        );*/
-
+        room.getEntities().broadcastMessage(
+                TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), Locale.get("command.pull.message").replace("%playername%", pulledEntity.getUsername()), 0, 0)
+        );
     }
 
 
