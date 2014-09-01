@@ -123,7 +123,6 @@ public class TileInstance {
     }
 
     public double getStackHeight() {
-        System.out.println(this.stackHeight);
         return this.stackHeight;
     }
 
