@@ -18,8 +18,6 @@ public class SaveStackToolMessageEvent implements IEvent {
             return;
         }
 
-        System.out.println(height);
-
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) return;
 
         RoomItemFloor floorItem = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(itemId);
@@ -36,8 +34,6 @@ public class SaveStackToolMessageEvent implements IEvent {
                     ).getOriginalHeight());
         } else {
             double heightf = height / 100.0d;
-
-            System.out.println(heightf);
 
             magicStackFloorItem.setMagicHeight(heightf);
         }
