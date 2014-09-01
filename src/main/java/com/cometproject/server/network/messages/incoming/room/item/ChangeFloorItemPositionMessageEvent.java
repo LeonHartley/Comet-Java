@@ -86,6 +86,8 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                     log.error("Failed to update entity positions for changing item position", e);
                 }
 
+                System.out.println(height);
+
                 item.setX(x);
                 item.setY(y);
 

@@ -145,7 +145,6 @@ public final class MessageHandler {
         this.getMessages().put(Events.PopularRoomsMessageEvent, new PopularRoomsMessageEvent());
         this.getMessages().put(Events.LoadSearchRoomMessageEvent, new LoadSearchRoomMessageEvent());
         this.getMessages().put(Events.SearchRoomMessageEvent, new SearchRoomMessageEvent());
-        this.getMessages().put(Events.CanCreateRoomMessageEvent, new CanCreateRoomMessageEvent());
         this.getMessages().put(Events.CreateNewRoomMessageEvent, new CreateRoomMessageEvent());
         this.getMessages().put(Events.FeaturedRoomsMessageEvent, new FeaturedRoomsMessageEvent());
         this.getMessages().put(Events.AddToStaffPickedRoomsMessageEvent, new AddToStaffPickedRoomsMessageEvent());
@@ -264,6 +263,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.UseMoodlightMessageEvent, new UseMoodlightMessageEvent());
         this.getMessages().put(Events.ToggleMoodlightMessageEvent, new ToggleMoodlightMessageEvent());
         this.getMessages().put(Events.UpdateMoodlightMessageEvent, new UpdateMoodlightMessageEvent());
+        this.getMessages().put(Events.SaveStackToolMessageEvent, new SaveStackToolMessageEvent());
     }
 
     public void registerCatalog() {

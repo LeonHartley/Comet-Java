@@ -31,6 +31,10 @@ public class RoomItemFactory {
             return new SeatFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
         }
 
+        if(def.getItemName().startsWith("tile_stackmagic")) {
+            return new MagicStackFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+        }
+
         switch (def.getInteraction()) {
             case "roller": {
                 return new RollerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
