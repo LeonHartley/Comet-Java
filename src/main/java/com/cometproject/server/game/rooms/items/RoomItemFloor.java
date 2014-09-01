@@ -16,7 +16,6 @@ public abstract class RoomItemFloor extends RoomItem {
     private String extraData;
 
     private Room room;
-    private ItemDefinition tmpItemDefiniton;
 
     public RoomItemFloor(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         this.init(id, itemId, roomId, owner, x, y, z, rotation, data);
@@ -165,11 +164,7 @@ public abstract class RoomItemFloor extends RoomItem {
     }
 
     public ItemDefinition getDefinition() {
-        if (this.tmpItemDefiniton == null) {
-            this.tmpItemDefiniton = CometManager.getItems().getDefinition(this.getItemId());
-        }
-
-        return this.tmpItemDefiniton;
+        return CometManager.getItems().getDefinition(this.getItemId());
     }
 
     public void onItemAddedToStack(RoomItemFloor floorItem) {
@@ -185,7 +180,6 @@ public abstract class RoomItemFloor extends RoomItem {
     }
 
     public void onEntityStepOff(GenericEntity entity) {
-
     }
 
     @Override

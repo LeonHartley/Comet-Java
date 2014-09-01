@@ -1,6 +1,8 @@
 package com.cometproject.server.game.rooms.items.types.floor;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.entities.types.PetEntity;
+import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 
 public class SeatFloorItem extends RoomItemFloor {
@@ -10,8 +12,30 @@ public class SeatFloorItem extends RoomItemFloor {
     }
 
     @Override
+    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+        if (!isWiredTrigger) {
+            if (!(entity instanceof PlayerEntity)) {
+                return;
+            }
+
+            PlayerEntity pEntity = (PlayerEntity) entity;
+
+            if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
+                    && !pEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
+                return;
+            }
+        }
+
+        this.toggleInteract(true);
+        this.sendUpdate();
+
+        // TODO: Move item saving to a queue for batch saving or something. :P
+        this.saveData();
+    }
+
+    @Override
     public void onEntityStepOn(GenericEntity entity) {
-        double height = this.getDefinition().getHeight();
+        double height = (entity instanceof PetEntity || entity.hasAttribute("transformation")) ? this.getDefinition().getHeight() / 2 : this.getDefinition().getHeight();
 
         entity.setBodyRotation(this.getRotation());
         entity.setHeadRotation(this.getRotation());

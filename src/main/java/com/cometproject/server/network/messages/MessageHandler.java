@@ -317,7 +317,7 @@ public final class MessageHandler {
             } catch (Exception e) {
                 log.error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
             }
-        } else if(!Comet.isDebugging) {
+        } else if(Comet.isDebugging) {
             log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
         }
     }

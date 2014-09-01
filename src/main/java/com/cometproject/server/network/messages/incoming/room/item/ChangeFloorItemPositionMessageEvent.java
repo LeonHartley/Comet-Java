@@ -65,6 +65,7 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                 try {
                     for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
                         tilesToUpdate.add(new Position3D(affectedTile.x, affectedTile.y, 0d));
+
                         List<GenericEntity> affectEntities1 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
 
                         for (GenericEntity entity1 : affectEntities1) {
@@ -85,17 +86,17 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                     log.error("Failed to update entity positions for changing item position", e);
                 }
 
+                item.setX(x);
+                item.setY(y);
+
+                item.setHeight(height);
+                item.setRotation(rot);
+
                 List<GenericEntity> affectEntities3 = room.getEntities().getEntitiesAt(x, y);
 
                 for (GenericEntity entity3 : affectEntities3) {
                     item.onEntityStepOn(entity3);
                 }
-
-                item.setX(x);
-                item.setY(y);
-
-                item.setRotation(rot);
-                item.setHeight(height);
 
                 RoomItemDao.saveItemPosition(x, y, height, rot, id);
 

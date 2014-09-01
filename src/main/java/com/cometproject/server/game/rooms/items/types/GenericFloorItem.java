@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.items.types;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 

@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.TileInstance;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import javolution.util.FastMap;
@@ -134,6 +135,13 @@ public abstract class GenericEntity implements AvatarEntity {
     @Override
     public void moveTo(int x, int y) {
         // TODO: Redirection grid here for beds
+        TileInstance tileInstance = this.getRoom().getMapping().getTile(x, y);
+
+        // reassign the position values if they're set to redirect
+        if(tileInstance.getRedirect() != null) {
+            x = tileInstance.getRedirect().getX();
+            y = tileInstance.getRedirect().getY();
+        }
 
         if (this.getPositionToSet() != null) {
             this.getRoom().getEntities().getEntitiesAt(this.getPosition().getX(), this.getPosition().getY()).remove(this);

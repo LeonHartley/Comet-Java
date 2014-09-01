@@ -83,7 +83,11 @@ public class TransformCommand extends ChatCommand {
         TERRIER("3 0 FFFFFF 2 2 -1 0 3 -1 0" + "#" + 0),
         SPIDER("8 0 FFFFFF 2 2 -1 0 3 -1 0" + "#" + 0),
         RHINO("7 0 CCCCCC 2 2 -1 0 3 -1 0" + "#" + 0),
-        PIG("5 0 FFFFFF 2 2 -1 0 3 -1 0" + "#" + 0);
+        PIG("5 0 FFFFFF 2 2 -1 0 3 -1 0" + "#" + 0),
+        MONKEY("14 0 FFFFFF 2 2 -1 0 3 -1 0" + "#" + 0),
+        DRAGON("12 0 FFFFFF 2 2 -1 0 3 -1 0" + "#" + 0),
+        MONSTER_PLANT("16 0 FFFFFF 0 0 0 0 0 0 0" + "#" + 0),
+        BUNNY("17 0 FFFFFF 0 0 0 0 0 0 0" + "#" + 0);
 
         private String transformationData;
 
