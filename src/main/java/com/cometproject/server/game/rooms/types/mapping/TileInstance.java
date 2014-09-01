@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.types.mapping;
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.types.floor.BedFloorItem;
+import com.cometproject.server.game.rooms.items.types.floor.GateFloorItem;
 
 public class TileInstance {
     private RoomMapping mappingInstance;
@@ -46,17 +47,18 @@ public class TileInstance {
                 highestItem = item.getId();
             }
 
-            final boolean isGate = item.getDefinition().getInteraction().equals("gate");
+            final boolean isGate = item instanceof GateFloorItem;
 
             if (!item.getDefinition().canWalk && !isGate) {
                 movementNode = RoomEntityMovementNode.CLOSED;
             }
 
-            switch (item.getDefinition().getInteraction().toLowerCase()) {-
+            switch (item.getDefinition().getInteraction().toLowerCase()) {
                 case "bed":
                     status = RoomTileStatusType.LAY;
                     movementNode = RoomEntityMovementNode.END_OF_ROUTE;
 
+                    // We need to find the origin tile for the item I think :p
                     if (item.getRotation() == 2 || item.getRotation() == 6) {
                         this.redirect = new Position3D(item.getX(), this.getPosition().getY());
                     } else if (item.getRotation() == 0 || item.getRotation() == 4) {

@@ -5,6 +5,9 @@ import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RoomMapping {
     private Room room;
 
@@ -35,7 +38,6 @@ public class RoomMapping {
     }
 
     public void updateTile(int x, int y) {
-        System.out.printf("Update tile (%s, %s)\n", x, y);
         if (this.tiles.length > x) {
             if (tiles[x].length > y)
                 this.tiles[x][y].reload();
@@ -121,5 +123,24 @@ public class RoomMapping {
 
     public RoomModel getModel() {
         return this.room.getModel();
+    }
+
+    @Override
+    public String toString() {
+        String mapString = "";
+
+        for(int y = 0; y < this.tiles.length; y++) {
+            for(int x = 0; x < this.tiles[y].length; x++) {
+                if(this.tiles[y][x].getMovementNode() == RoomEntityMovementNode.CLOSED) {
+                    mapString += " ";
+                } else {
+                    mapString += "X";
+                }
+            }
+
+            mapString += "\n";
+        }
+
+        return mapString;
     }
 }
