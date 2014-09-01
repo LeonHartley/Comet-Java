@@ -9,7 +9,6 @@ public class RoomMapping {
     private Room room;
 
     private TileInstance[][] tiles;
-    private Position3D[][] redirectionGrid;
 
     public RoomMapping(Room roomInstance) {
         this.room = roomInstance;
@@ -19,7 +18,6 @@ public class RoomMapping {
         int sizeX = this.getModel().getSizeX();
         int sizeY = this.getModel().getSizeY();
 
-        this.redirectionGrid = new Position3D[sizeX][sizeY];
         this.tiles = new TileInstance[sizeX][sizeY];
 
         for (int x = 0; x < sizeX; x++) {
@@ -37,6 +35,7 @@ public class RoomMapping {
     }
 
     public void updateTile(int x, int y) {
+        System.out.printf("Update tile (%s, %s)\n", x, y);
         if (this.tiles.length > x) {
             if (tiles[x].length > y)
                 this.tiles[x][y].reload();
@@ -122,9 +121,5 @@ public class RoomMapping {
 
     public RoomModel getModel() {
         return this.room.getModel();
-    }
-
-    public Position3D[][] getRedirectionGrid() {
-        return redirectionGrid;
     }
 }

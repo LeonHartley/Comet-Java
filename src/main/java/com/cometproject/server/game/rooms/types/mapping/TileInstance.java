@@ -2,12 +2,13 @@ package com.cometproject.server.game.rooms.types.mapping;
 
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.types.floor.BedFloorItem;
 
 public class TileInstance {
     private RoomMapping mappingInstance;
     private Position3D position;
 
-    private double stackHeight = 0.0;
+    private double stackHeight = 0d;
 
     private RoomEntityMovementNode movementNode;
     private RoomTileStatusType status;
@@ -16,6 +17,8 @@ public class TileInstance {
 
     private int topItem = 0;
 
+    private Position3D redirect = null;
+
     public TileInstance(RoomMapping mappingInstance, Position3D position) {
         this.mappingInstance = mappingInstance;
         this.position = position;
@@ -23,6 +26,8 @@ public class TileInstance {
     }
 
     public void reload() {
+        // reset the tile data
+        this.redirect = null;
         this.movementNode = RoomEntityMovementNode.OPEN;
         this.status = RoomTileStatusType.NONE;
         this.canStack = true;
@@ -41,21 +46,21 @@ public class TileInstance {
                 highestItem = item.getId();
             }
 
-            boolean isGate = item.getDefinition().getInteraction().equals("gate");
+            final boolean isGate = item.getDefinition().getInteraction().equals("gate");
 
             if (!item.getDefinition().canWalk && !isGate) {
                 movementNode = RoomEntityMovementNode.CLOSED;
             }
 
-            switch (item.getDefinition().getInteraction().toLowerCase()) {
+            switch (item.getDefinition().getInteraction().toLowerCase()) {-
                 case "bed":
                     status = RoomTileStatusType.LAY;
                     movementNode = RoomEntityMovementNode.END_OF_ROUTE;
 
                     if (item.getRotation() == 2 || item.getRotation() == 6) {
-                        this.mappingInstance.getRedirectionGrid()[this.position.getX()][this.position.getY()] = new Position3D(item.getX(), this.position.getY());
+                        this.redirect = new Position3D(item.getX(), this.getPosition().getY());
                     } else if (item.getRotation() == 0 || item.getRotation() == 4) {
-                        this.mappingInstance.getRedirectionGrid()[this.position.getX()][this.position.getY()] = new Position3D(this.position.getX(), item.getY());
+                        this.redirect = new Position3D(this.getPosition().getX(), item.getY());
                     }
 
                     break;
@@ -96,11 +101,11 @@ public class TileInstance {
         return this.stackHeight;
     }
 
-    public double getSitHeight() {
+    public double getWalkHeight() {
         double height = this.stackHeight;
         RoomItemFloor roomItemFloor = this.mappingInstance.getRoom().getItems().getFloorItem(this.topItem);
 
-        if(roomItemFloor != null && roomItemFloor.getDefinition().canSit) {
+        if ((roomItemFloor != null && roomItemFloor.getDefinition().canSit) || roomItemFloor instanceof BedFloorItem) {
             height -= roomItemFloor.getDefinition().getHeight();
         }
 
@@ -125,5 +130,13 @@ public class TileInstance {
 
     public void setTopItem(int topItem) {
         this.topItem = topItem;
+    }
+
+    public Position3D getRedirect() {
+        return redirect;
+    }
+
+    public void setRedirect(Position3D redirect) {
+        this.redirect = redirect;
     }
 }
