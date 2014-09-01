@@ -57,7 +57,6 @@ public class ProcessComponent implements CometTask {
             List<GenericEntity> entitiesToUpdate = new ArrayList<>();
 
             for (GenericEntity entity : entities.values()) {
-                // Process each entity as its own
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
 
@@ -92,14 +91,15 @@ public class ProcessComponent implements CometTask {
                 if (entity.needsUpdate()) {
                     entity.markNeedsUpdateComplete();
                     entitiesToUpdate.add(entity);
-//                    this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
                 }
             }
 
             // Update the entity grid
             this.getRoom().getEntities().replaceEntityGrid(entityGrid);
 
-            this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entitiesToUpdate));
+            // only send the updates if we need to
+            if(entitiesToUpdate.size() > 0)
+                this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entitiesToUpdate));
 
             for(GenericEntity entity : entitiesToUpdate) {
                 if (this.updateEntityStuff(entity) && entity instanceof PlayerEntity) {
