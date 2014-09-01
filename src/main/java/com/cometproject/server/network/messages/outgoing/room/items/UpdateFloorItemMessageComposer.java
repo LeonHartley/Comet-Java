@@ -13,4 +13,13 @@ public class UpdateFloorItemMessageComposer {
 
         return msg;
     }
+
+    public static Composer compose(RoomItemFloor item) {
+        Composer msg = new Composer(Composers.UpdateFloorItemMessageComposer);
+
+        item.serialize(msg);
+        msg.writeInt(item.getRoom().getData().getOwnerId());
+
+        return msg;
+    }
 }

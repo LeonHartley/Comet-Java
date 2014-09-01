@@ -75,7 +75,7 @@ public class PlaceItemMessageEvent implements IEvent {
                 Room room = client.getPlayer().getEntity().getRoom();
                 TileInstance tile = room.getMapping().getTile(x, y);
 
-                float height = (float) tile.getStackHeight();
+                double height = tile.getStackHeight();
 
                 if(!tile.canStack()) return;
 
@@ -111,11 +111,14 @@ public class PlaceItemMessageEvent implements IEvent {
                     }
                 }
 
+                floorItem.onPlaced();
+
+                RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), id);
+
                 for (Position3D tileToUpdate : tilesToUpdate) {
                     room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
                 }
 
-                floorItem.onPlaced();
                 room.getEntities().broadcastMessage(SendFloorItemMessageComposer.compose(floorItem, room));
             }
         } catch (Exception e) {

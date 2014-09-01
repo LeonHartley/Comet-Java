@@ -44,7 +44,7 @@ public class MoveRotateEffect extends WiredEffect {
                 isSameTile = false;
 
                 try {
-                    height += (float) room.getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()];
+                    height += room.getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()];
                     for (RoomItemFloor stackItem : room.getItems().getItemsOnSquare(newPosition.getX(), newPosition.getY())) {
                         if (item.getId() != stackItem.getId()) {
                             if (stackItem.getDefinition().canStack) {

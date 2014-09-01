@@ -150,7 +150,7 @@ public class RollerFloorItem extends RoomItemFloor {
 
             floor.setX(sqInfront.getX());
             floor.setY(sqInfront.getY());
-            floor.setHeight((float) height);
+            floor.setHeight(height);
 
             RoomItemDao.saveItemPosition(floor.getX(), floor.getY(), floor.getHeight(), floor.getRotation(), floor.getId());
         }

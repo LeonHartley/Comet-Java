@@ -5,6 +5,7 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.data.BackgroundTonerData;
 import com.cometproject.server.game.rooms.items.data.MannequinData;
+import com.cometproject.server.game.rooms.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
@@ -47,7 +48,7 @@ public abstract class RoomItemFloor extends RoomItem {
         msg.writeInt(this.getY());
         msg.writeInt(this.getRotation());
 
-        msg.writeString(Double.toString(this.getHeight())); // TODO: Stack tool
+        msg.writeString(this instanceof MagicStackFloorItem ? this.getExtraData() : Double.toString(this.getHeight()));
         msg.writeString(Double.toString(this.getHeight()));
 
         if (this.getDefinition().isAdFurni()) {

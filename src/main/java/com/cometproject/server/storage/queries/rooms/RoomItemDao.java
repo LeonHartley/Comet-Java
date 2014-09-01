@@ -49,7 +49,7 @@ public class RoomItemDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE items SET room_id = 0, user_id = ?, x = 0, y = 0, wall_pos = '' WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE items SET room_id = 0, user_id = ?, x = 0, y = 0, z = 0, wall_pos = '' WHERE id = ?", sqlConnection);
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, itemId);
 
@@ -151,7 +151,7 @@ public class RoomItemDao {
         }
     }
 
-    public static void placeFloorItem(int roomId, int x, int y, float height, int rot, String data, int itemId) {
+    public static void placeFloorItem(int roomId, int x, int y, double height, int rot, String data, int itemId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
