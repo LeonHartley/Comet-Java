@@ -39,6 +39,7 @@ public class TileInstance {
         this.topItem = 0;
         this.originalHeight = 0d;
         this.originalTopItem = 0;
+        this.stackHeight = 0d;
 
         double highestHeight = 0d;
         int highestItem = 0;
@@ -117,8 +118,11 @@ public class TileInstance {
             this.topItem = highestItem;
         }
 
-        final double tileHeight = this.mappingInstance.getModel().getSquareHeight()[this.position.getX()][this.position.getY()];
-        this.stackHeight += tileHeight;
+        if(this.stackHeight == 0d)
+            this.stackHeight = this.mappingInstance.getModel().getSquareHeight()[this.position.getX()][this.position.getY()];
+
+//        final double tileHeight = this.mappingInstance.getModel().getSquareHeight()[this.position.getX()][this.position.getY()];
+//        this.stackHeight += tileHeight;
     }
 
     public RoomEntityMovementNode getMovementNode() {

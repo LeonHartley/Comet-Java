@@ -3,6 +3,8 @@ package com.cometproject.server.game.rooms.items.types.floor;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 public class MagicStackFloorItem extends RoomItemFloor {
     private double magicHeight = 0d;
@@ -23,7 +25,7 @@ public class MagicStackFloorItem extends RoomItemFloor {
     }
 
     public void setMagicHeight(double magicHeight) {
-        this.setExtraData(new DecimalFormat("#.00").format(magicHeight));
+        this.setExtraData(new DecimalFormat("#.00").format(magicHeight).replace(",", "."));
         this.magicHeight = magicHeight;
     }
 }

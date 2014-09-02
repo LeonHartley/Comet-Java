@@ -1,0 +1,181 @@
+
+java.lang.UnsupportedOperationException
+        at java.util.AbstractList.remove(AbstractList.java:161)
+        at java.util.AbstractList$Itr.remove(AbstractList.java:374)
+        at java.util.AbstractCollection.remove(AbstractCollection.java:293)
+        at com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMessageEvent.handle(ModifyBotMessageEvent.java:72)
+
+[2014-08-28 00:20:41,382] [Netty Event Thread #19]  ERROR Tanisha - Error while finding path
+java.lang.NullPointerException
+        at com.cometproject.server.game.rooms.entities.GenericEntity.setPosition(GenericEntity.java:169)
+        at com.cometproject.server.game.rooms.entities.GenericEntity.moveTo(GenericEntity.java:141)
+        at com.cometproject.server.network.messages.incoming.room.action.WalkMessageEvent.handle(WalkMessageEvent.java:36)
+        at com.cometproject.server.network.messages.MessageHandler.handle(MessageHandler.java:317)
+        at com.cometproject.server.network.sessions.SessionEventHandler.handle(SessionEventHandler.java:52)
+        at com.cometproject.server.network.sessions.Session.handleMessageEvent(Session.java:59)
+        at com.cometproject.server.network.clients.ClientHandler.channelRead0(ClientHandler.java:34)
+        at com.cometproject.server.network.clients.ClientHandler.channelRead0(ClientHandler.java:18)
+        at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:105)
+        at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:83)
+        at io.netty.channel.DefaultChannelHandlerInvoker$7.run(DefaultChannelHandlerInvoker.java:158)
+        at io.netty.util.concurrent.DefaultEventExecutor.run(DefaultEventExecutor.java:56)
+
+
+crash_time:1409591731891
+error_cat:1009
+is_fatal:true
+host:178.33.197.162
+agent:Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.102 Safari/537.36
+sent_msg_time:1409591731748
+mouse_up_time:1409591731888
+system:A=t&SA=t&SV=t&EV=t&MP3=t&AE=t&VE=t&ACC=t&PR=t&SP=f&SB=f&DEB=f&V=WIN%2014%2C0%2C0%2C177&M=Google%20Pepper&R=1920x1080&COL=color&AR=1.0&OS=Windows%208.1&ARCH=x86&L=en&IME=t&PR32=t&PR64=t&PT=PlugIn&AVD=f&LFD=f&WD=f&TLS=t&ML=5.1&DP=72
+mouse_up_target:room_canvas_wrapper: [Window _-0V3::_-0n room_canvas_wrapper 4804]
+avg_update:45
+flash_version:WIN 14,0,0,177
+rece_msg_time:1409591731638
+click_time:1409591731748
+last_room:697609413
+error_ctx:11023000010
+click_target:room_canvas_wrapper: [Window _-0V3::_-0n room_canvas_wrapper 4804]
+in_room:true
+port:993
+start_time:1409591684195
+error_desc:Error caught when handling _-28i::_-8U: Error #1009
+debug: ** Port: 993,30000 ** Connected in 1365 ** Connected with 1 attempts ** Start search 2 => 3 ** Room id: 1 ** Library url http://swf.habbix.fr/dcr/dcr/hof_furni2/roomdimmer.swf ** Library name roomdimmer ** Canvas count: 1 ** ,R:2749,R:3768,R:1077,R:2318,S:2131,S:2547,R:495,S:1751,R:411,R:411,R:3977,R:3323,R:3670,R:1563,R:3435,R:3977,R:3977,R:161,R:3977,R:3977,R:3977,S:1015 ** Memory usage: 341 MB
+
+[2014-09-02 22:34:49,068] [Comet-Scheduled-Thread-32c812b5-7026-4245-b9c1-0658fd25b2ce]  ERROR com.cometproject.server.game.rooms.RoomCycle - Error while cycling room: 697233640, ::LE DAMIER::
+java.lang.NullPointerException
+        at com.cometproject.server.game.rooms.types.components.ItemsComponent.getItemsOnSquare(ItemsComponent.java:109)
+        at com.cometproject.server.game.rooms.types.components.WiredComponent.tick(WiredComponent.java:91)
+        at com.cometproject.server.game.rooms.types.Room.tick(Room.java:110)
+        at com.cometproject.server.game.rooms.RoomCycle.run(RoomCycle.java:49)
+        at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+        at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+        at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+        at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+        at java.lang.Thread.run(Thread.java:745)
+[2014-09-02 22:34:49,566] [Comet-Scheduled-Thread-32c812b5-7026-4245-b9c1-0658fd25b2ce]  ERROR com.cometproject.server.game.rooms.RoomCycle - Error while cycling room: 697233640, ::LE DAMIER::
+java.lang.NullPointerException
+        at com.cometproject.server.game.rooms.types.components.ItemsComponent.getItemsOnSquare(ItemsComponent.java:109)
+        at com.cometproject.server.game.rooms.types.components.WiredComponent.tick(WiredComponent.java:91)
+        at com.cometproject.server.game.rooms.types.Room.tick(Room.java:110)
+        at com.cometproject.server.game.rooms.RoomCycle.run(RoomCycle.java:49)
+        at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+        at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+        at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+        at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+        at java.lang.Thread.run(Thread.java:745)
+[2014-09-02 22:34:50,070] [Comet-Scheduled-Thread-32c812b5-7026-4245-b9c1-0658fd25b2ce]  ERROR com.cometproject.server.game.rooms.RoomCycle - Error while cycling room: 697233640, ::LE DAMIER::
+java.lang.NullPointerException
+        at com.cometproject.server.game.rooms.types.components.ItemsComponent.getItemsOnSquare(ItemsComponent.java:109)
+        at com.cometproject.server.game.rooms.types.components.WiredComponent.tick(WiredComponent.java:91)
+        at com.cometproject.server.game.rooms.types.Room.tick(Room.java:110)
+        at com.cometproject.server.game.rooms.RoomCycle.run(RoomCycle.java:49)
+        at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+        at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+        at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+        at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+        at java.lang.Thread.run(Thread.java:745)
+
+[2014-09-02 22:23:36,634] [Netty Event Thread #3]  ERROR com.cometproject.server.network.messages.MessageHandler - Error while handling event: com.cometproject.server.network.messages.incoming.room.item.ChangeFloorItemStateMessageEvent
+java.lang.NullPointerException
+        at com.cometproject.server.network.messages.incoming.room.item.ChangeFloorItemStateMessageEvent.handle(ChangeFloorItemStateMessageEvent.java:56)
+        at com.cometproject.server.network.messages.MessageHandler.handle(MessageHandler.java:320)
+        at com.cometproject.server.network.sessions.SessionEventHandler.handle(SessionEventHandler.java:52)
+        at com.cometproject.server.network.sessions.Session.handleMessageEvent(Session.java:59)
+        at com.cometproject.server.network.clients.ClientHandler.channelRead0(ClientHandler.java:34)
+        at com.cometproject.server.network.clients.ClientHandler.channelRead0(ClientHandler.java:18)
+        at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:105)
+        at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:83)
+        at io.netty.channel.DefaultChannelHandlerInvoker$7.run(DefaultChannelHandlerInvoker.java:158)
+        at io.netty.util.concurrent.DefaultEventExecutor.run(DefaultEventExecutor.java:56)
+        at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:834)
+        at java.lang.Thread.run(Thread.java:745)
+[2014-09-02 22:25:29,705] [Netty Event Thread #3]  ERROR com.cometproject.server.network.messages.MessageHandler - Error while handling event: com.cometproject.server.network.messages.incoming.room.action.ExitRoomMessageEvent
+java.lang.NullPointerException
+        at com.cometproject.server.game.rooms.entities.types.PlayerEntity.leaveRoom(PlayerEntity.java:161)
+        at com.cometproject.server.network.messages.incoming.room.action.ExitRoomMessageEvent.handle(ExitRoomMessageEvent.java:12)
+        at com.cometproject.server.network.messages.MessageHandler.handle(MessageHandler.java:320)
+        at com.cometproject.server.network.sessions.SessionEventHandler.handle(SessionEventHandler.java:52)
+        at com.cometproject.server.network.sessions.Session.handleMessageEvent(Session.java:59)
+        at com.cometproject.server.network.clients.ClientHandler.channelRead0(ClientHandler.java:34)
+        at com.cometproject.server.network.clients.ClientHandler.channelRead0(ClientHandler.java:18)
+        at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:105)
+        at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:83)
+        at io.netty.channel.DefaultChannelHandlerInvoker$7.run(DefaultChannelHandlerInvoker.java:158)
+        at io.netty.util.concurrent.DefaultEventExecutor.run(DefaultEventExecutor.java:56)
+        at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:834)
+        at java.lang.Thread.run(Thread.java:745)
+
+        [2014-09-02 22:19:08,124] [Netty Event Thread #12]  ERROR com.cometproject.server.network.clients.ClientHandler - Exception in ClientHandler : java.lang.IllegalArgumentException: minimumReadableBytes: -2140143357 (expected: >= 0)
+io.netty.handler.codec.DecoderException: java.lang.IllegalArgumentException: minimumReadableBytes: -2140143357 (expected: >= 0)
+        at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:280)
+        at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:149)
+        at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:83)
+        at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:153)
+        at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:182)
+        at io.netty.handler.codec.ByteToMessageDecoder.handlerRemoved(ByteToMessageDecoder.java:110)
+        at io.netty.channel.DefaultChannelPipeline.callHandlerRemoved0(DefaultChannelPipeline.java:625)
+        at io.netty.channel.DefaultChannelPipeline.callHandlerRemoved(DefaultChannelPipeline.java:619)
+        at io.netty.channel.DefaultChannelPipeline.remove0(DefaultChannelPipeline.java:449)
+        at io.netty.channel.DefaultChannelPipeline.remove(DefaultChannelPipeline.java:420)
+        at io.netty.channel.DefaultChannelPipeline.remove(DefaultChannelPipeline.java:397)
+        at com.cometproject.server.network.codec.XMLPolicyDecoder.decode(XMLPolicyDecoder.java:26)
+        at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:249)
+        at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:149)
+        at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:83)
+        at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:153)
+        at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:182)
+        at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:886)
+        at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:126)
+        at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:510)
+        at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:467)
+        at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:381)
+        at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:353)
+        at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:834)
+        at java.lang.Thread.run(Thread.java:745)
+Caused by: java.lang.IllegalArgumentException: minimumReadableBytes: -2140143357 (expected: >= 0)
+        at io.netty.buffer.AbstractByteBuf.checkReadableBytes(AbstractByteBuf.java:1144)
+        at io.netty.buffer.AbstractByteBuf.readBytes(AbstractByteBuf.java:627)
+        at com.cometproject.server.network.codec.MessageDecoder.decode(MessageDecoder.java:25)
+        at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:249)
+        ... 24 more
+[2014-09-02 22:22:52,576] [Netty Event Thread #2]  ERROR com.cometproject.server.network.clients.ClientHandler - Exception in ClientHandler : java.lang.IllegalArgumentException: minimumReadableBytes: -2140143357 (expected: >= 0)
+io.netty.handler.codec.DecoderException: java.lang.IllegalArgumentException: minimumReadableBytes: -2140143357 (expected: >= 0)
+        at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:280)
+        at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:149)
+        at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:83)
+        at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:153)
+        at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:182)
+        at io.netty.handler.codec.ByteToMessageDecoder.handlerRemoved(ByteToMessageDecoder.java:110)
+        at io.netty.channel.DefaultChannelPipeline.callHandlerRemoved0(DefaultChannelPipeline.java:625)
+        at io.netty.channel.DefaultChannelPipeline.callHandlerRemoved(DefaultChannelPipeline.java:619)
+        at io.netty.channel.DefaultChannelPipeline.remove0(DefaultChannelPipeline.java:449)
+        at io.netty.channel.DefaultChannelPipeline.remove(DefaultChannelPipeline.java:420)
+        at io.netty.channel.DefaultChannelPipeline.remove(DefaultChannelPipeline.java:397)
+        at com.cometproject.server.network.codec.XMLPolicyDecoder.decode(XMLPolicyDecoder.java:26)
+        at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:249)
+        at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:149)
+        at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:83)
+        at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:153)
+        at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:182)
+        at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:886)
+        at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:126)
+        at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:510)
+        at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:467)
+        at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:381)
+        at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:353)
+        at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:834)
+        at java.lang.Thread.run(Thread.java:745)
+Caused by: java.lang.IllegalArgumentException: minimumReadableBytes: -2140143357 (expected: >= 0)
+        at io.netty.buffer.AbstractByteBuf.checkReadableBytes(AbstractByteBuf.java:1144)
+        at io.netty.buffer.AbstractByteBuf.readBytes(AbstractByteBuf.java:627)
+        at com.cometproject.server.network.codec.MessageDecoder.decode(MessageDecoder.java:25)
+        at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:249)
+        ... 24 more

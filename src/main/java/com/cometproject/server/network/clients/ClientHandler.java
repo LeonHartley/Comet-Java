@@ -79,6 +79,9 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             if (cause instanceof IOException) {
 //                log.error("IOException in ClientHandler", cause);
                 return;
+            } else if(cause instanceof IllegalArgumentException) {
+                ctx.close();
+                return;
             }
 
             log.error("Exception in ClientHandler : " + cause.getMessage());

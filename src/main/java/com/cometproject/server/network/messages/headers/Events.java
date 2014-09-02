@@ -157,6 +157,7 @@ public class Events {
     public static short SaveStackToolMessageEvent = 3556;
     public static short GroupForumPermissionsMessageEvent = 1920;
     public static short GroupForumThreadsMessageEvent = 1851;
+    public static short GroupFurnitureCatalogMessageEvent = 619;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 
