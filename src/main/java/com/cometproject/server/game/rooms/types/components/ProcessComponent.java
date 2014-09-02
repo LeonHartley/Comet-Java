@@ -116,7 +116,7 @@ public class ProcessComponent implements CometTask {
 
             TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
-            if (span.toMilliseconds() > 400)
+            //if (span.toMilliseconds() > 400)
                 log.info("ProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             this.handleSupressedExceptions(e);

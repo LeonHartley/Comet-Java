@@ -161,6 +161,9 @@ public class Composers {
     public static short GroupBadgesMessageComposer = 1077;
     public static short UpdateFavouriteGroupMessageComposer = 1875;
 
+    public static short GroupForumPermissionsMessageComposer = 1575;
+    public static short GroupForumThreadsMessageComposer = 3037;
+
 
     public static String valueOfId(int i) {
         Composers c = new Composers();

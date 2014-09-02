@@ -15,6 +15,8 @@ import com.cometproject.server.network.messages.incoming.catalog.pets.PetRacesMe
 import com.cometproject.server.network.messages.incoming.catalog.pets.ValidatePetNameMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.*;
 import com.cometproject.server.network.messages.incoming.group.favourite.SetFavouriteGroupMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.forum.GroupForumPermissionsMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.forum.GroupForumThreadsMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.ManageGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.ModifyGroupBadgeMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.ModifyGroupSettingsMessageEvent;
@@ -297,6 +299,9 @@ public final class MessageHandler {
         this.getMessages().put(Events.AcceptMembershipMessageEvent, new AcceptMembershipMessageEvent());
         this.getMessages().put(Events.ModifyGroupBadgeMessageEvent, new ModifyGroupBadgeMessageEvent());
         this.getMessages().put(Events.SetFavouriteGroupMessageEvent, new SetFavouriteGroupMessageEvent());
+
+//        this.getMessages().put(Events.GroupForumPermissionsMessageEvent, new GroupForumPermissionsMessageEvent());
+//        this.getMessages().put(Events.GroupForumThreadsMessageEvent, new GroupForumThreadsMessageEvent());
     }
 
     public void registerQuests() {
