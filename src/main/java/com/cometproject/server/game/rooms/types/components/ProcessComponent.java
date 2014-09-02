@@ -28,8 +28,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class ProcessComponent implements CometTask {
-    private int disposeCycles = 0;
-
     private Room room;
 
     private Logger log;
@@ -116,7 +114,7 @@ public class ProcessComponent implements CometTask {
 
             TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
-            //if (span.toMilliseconds() > 400)
+            if (span.toMilliseconds() > 400)
                 log.info("ProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             this.handleSupressedExceptions(e);
