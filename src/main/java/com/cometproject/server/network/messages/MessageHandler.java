@@ -146,6 +146,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.OwnRoomsMessageEvent, new OwnRoomsMessageEvent());
         this.getMessages().put(Events.PopularRoomsMessageEvent, new PopularRoomsMessageEvent());
         this.getMessages().put(Events.LoadSearchRoomMessageEvent, new LoadSearchRoomMessageEvent());
+        this.getMessages().put(Events.CanCreateRoomMessageEvent, new CanCreateRoomMessageEvent());
         this.getMessages().put(Events.SearchRoomMessageEvent, new SearchRoomMessageEvent());
         this.getMessages().put(Events.CreateNewRoomMessageEvent, new CreateRoomMessageEvent());
         this.getMessages().put(Events.FeaturedRoomsMessageEvent, new FeaturedRoomsMessageEvent());
