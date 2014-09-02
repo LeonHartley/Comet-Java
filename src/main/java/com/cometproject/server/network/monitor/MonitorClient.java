@@ -1,5 +1,6 @@
 package com.cometproject.server.network.monitor;
 
+import com.cometproject.server.boot.Comet;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
@@ -9,16 +10,10 @@ import org.apache.log4j.Logger;
 import java.util.concurrent.TimeUnit;
 
 public class MonitorClient {
-    public final String MONITOR_HOST = "localhost";
+    public final String MONITOR_HOST = "monitor.cometproject.com";
     public final int MONITOR_PORT = 13337;
 
-    private MonitorClientHandler clientHandler;
-
-    private Logger log = Logger.getLogger(MonitorClient.class.getName());
-
     public MonitorClient(EventLoopGroup loopGroup) {
-        this.clientHandler = new MonitorClientHandler();
-
         createBootstrap(new Bootstrap(), loopGroup);
     }
 
@@ -39,7 +34,7 @@ public class MonitorClient {
                 }
             });
 
-            bootstrap.remoteAddress(MONITOR_HOST, MONITOR_PORT);
+            bootstrap.remoteAddress(Comet.isDebugging ? "localhost" : MONITOR_HOST, MONITOR_PORT);
             bootstrap.connect().addListener(new ConnectionListener(this));
         }
         return bootstrap;
@@ -57,15 +52,9 @@ public class MonitorClient {
             if (!channelFuture.isSuccess()) {
                 MonitorClientHandler.isConnected = false;
 
-//                log.info("Attempting to reconnect to the monitor server");
-
                 final EventLoop loop = channelFuture.channel().eventLoop();
                 loop.schedule(() -> client.createBootstrap(new Bootstrap(), loop), 1L, TimeUnit.SECONDS);
             }
         }
-    }
-
-    public MonitorClientHandler getClientHandler() {
-        return this.clientHandler;
     }
 }
