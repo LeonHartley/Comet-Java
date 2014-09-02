@@ -92,7 +92,6 @@ public class RoomMapping {
             return false;
         }
 
-        // TODO: Can step upwards
         return true;
     }
 

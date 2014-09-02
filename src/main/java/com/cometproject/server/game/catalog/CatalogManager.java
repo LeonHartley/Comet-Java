@@ -14,7 +14,7 @@ public class CatalogManager {
     /**
      * The pages within the catalog
      */
-    private Map<Integer, CatalogPage> pages;
+    private final Map<Integer, CatalogPage> pages;
 
     /**
      * The handler of everything catalog-purchase related
@@ -41,17 +41,19 @@ public class CatalogManager {
      * Load all catalog pages
      */
     public void loadPages() {
-        if (this.getPages().size() >= 1) {
-            this.getPages().clear();
-        }
+        synchronized (this.pages) {
+            if (this.getPages().size() >= 1) {
+                this.getPages().clear();
+            }
 
-        try {
-            this.pages = CatalogDao.getPages();
-        } catch (Exception e) {
-            log.error("Error while loading catalog pages", e);
-        }
+            try {
+                CatalogDao.getPages(this.pages);
+            } catch (Exception e) {
+                log.error("Error while loading catalog pages", e);
+            }
 
-        log.info("Loaded " + this.getPages().size() + " catalog pages");
+            log.info("Loaded " + this.getPages().size() + " catalog pages");
+        }
     }
 
     /**
