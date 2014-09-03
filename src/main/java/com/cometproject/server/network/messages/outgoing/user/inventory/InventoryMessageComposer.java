@@ -1,9 +1,13 @@
 package com.cometproject.server.network.messages.outgoing.user.inventory;
 
+import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.players.components.InventoryComponent;
 import com.cometproject.server.game.players.components.types.InventoryItem;
+import com.cometproject.server.game.rooms.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import org.apache.commons.lang.StringUtils;
 
 public class InventoryMessageComposer {
     public static Composer compose(InventoryComponent inv) {
@@ -15,6 +19,7 @@ public class InventoryMessageComposer {
 
         for (InventoryItem i : inv.getFloorItems().values()) {
             boolean isGift = false;
+            boolean isGroupItem = i.getDefinition().getInteraction().equals("group_item");
 
             if (i.getGiftData() != null) {
                 isGift = true;
@@ -34,6 +39,28 @@ public class InventoryMessageComposer {
                 msg.writeString(i.getExtraData());
                 msg.writeString(i.getExtraData());
                 msg.writeString(i.getExtraData());
+            } else if(isGroupItem) {
+                int groupId = 0;
+
+                msg.writeInt(17);
+
+                if(StringUtils.isNumeric(i.getExtraData())) {
+                    groupId = Integer.parseInt(i.getExtraData());
+                }
+
+                GroupData groupData = CometManager.getGroups().getData(groupId);
+
+                if(groupData == null) {
+                    msg.writeInt(0);
+                } else {
+                    msg.writeInt(2);
+                    msg.writeInt(5);
+                    msg.writeString("0");
+                    msg.writeString(groupId);
+                    msg.writeString(groupData.getBadge());
+                    msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(groupData.getColourA()));
+                    msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(groupData.getColourB()));
+                }
             } else {
                 msg.writeInt(1);
                 msg.writeInt(0);

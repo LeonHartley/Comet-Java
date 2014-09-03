@@ -1,11 +1,13 @@
 package com.cometproject.server.game.rooms.items;
 
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.data.BackgroundTonerData;
 import com.cometproject.server.game.rooms.items.data.MannequinData;
 import com.cometproject.server.game.rooms.items.types.floor.MagicStackFloorItem;
+import com.cometproject.server.game.rooms.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
@@ -40,6 +42,8 @@ public abstract class RoomItemFloor extends RoomItem {
         /*if (this.giftData != null) {
             isGift = true;
         }*/
+
+        // TODO: MOVE SPECIAL PROPERTIES TO THE INDIVIDUAL ITEM CLASS!!!
 
         msg.writeInt(this.getId());
         //msg.writeInt(isGift ? giftData.getSpriteId() : this.getDefinition().getSpriteId());
@@ -139,6 +143,21 @@ public abstract class RoomItemFloor extends RoomItem {
             msg.writeInt(1);
             msg.writeString("THUMBNAIL_URL");
             msg.writeString("/deliver/" + this.getAttribute("video"));
+        } else if(this instanceof GroupFloorItem) {
+            GroupData groupData = CometManager.getGroups().getData(((GroupFloorItem) this).getGroupId());
+
+            msg.writeInt(0);
+            if(groupData == null) {
+                msg.writeInt(0);
+            } else {
+                msg.writeInt(2);
+                msg.writeInt(5);
+                msg.writeString("0");
+                msg.writeString(this.getExtraData());
+                msg.writeString(groupData.getBadge());
+                msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(groupData.getColourA()));
+                msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(groupData.getColourB()));
+            }
         } else {
             msg.writeInt(0);
             msg.writeInt(0);

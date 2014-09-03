@@ -11,6 +11,7 @@ import com.cometproject.server.network.messages.incoming.catalog.data.GetShopDat
 import com.cometproject.server.network.messages.incoming.catalog.data.GetShopDataMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupDialogMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupMessageEvent;
+import com.cometproject.server.network.messages.incoming.catalog.groups.GroupFurnitureCatalogMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.pets.PetRacesMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.pets.ValidatePetNameMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.*;
@@ -280,6 +281,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.PetRacesMessageEvent, new PetRacesMessageEvent());
         this.getMessages().put(Events.ValidatePetNameMessageEvent, new ValidatePetNameMessageEvent());
         this.getMessages().put(Events.PurchaseGiftMessageEvent, new PurchaseGiftMessageEvent());
+        this.getMessages().put(Events.GroupFurnitureCatalogMessageEvent, new GroupFurnitureCatalogMessageEvent());
     }
 
     public void registerLanding() {
@@ -310,15 +312,16 @@ public final class MessageHandler {
     }
 
     public void handle(Event message, Session client) {
-        Short header = message.getId();
+        final Short header = message.getId();
 
         if (this.getMessages().containsKey(header)) {
-            long start = System.currentTimeMillis();
+            final long start = System.currentTimeMillis();
 
             log.debug("Started packet process for packet: [" + Events.valueOfId(header) + "][" + header + "]");
 
             try {
                 this.getMessages().get(header).handle(client, message);
+
                 log.debug("Finished packet process for packet: [" + Events.valueOfId(header) + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
             } catch (Exception e) {
                 log.error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);

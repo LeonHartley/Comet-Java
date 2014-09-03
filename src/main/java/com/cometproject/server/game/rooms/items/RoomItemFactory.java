@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.items.types.GenericWallItem;
 import com.cometproject.server.game.rooms.items.types.floor.*;
 import com.cometproject.server.game.rooms.items.types.floor.banzai.BanzaiTeleporterFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.boutique.MannequinFloorItem;
+import com.cometproject.server.game.rooms.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.hollywood.HaloTileFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.summer.SummerShowerFloorItem;
 import com.cometproject.server.game.rooms.items.types.wall.MoodlightWallItem;
@@ -123,6 +124,11 @@ public class RoomItemFactory {
             // Banzai
             case "bb_teleport": {
                 return new BanzaiTeleporterFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            }
+
+            // Group Items
+            case "group_item": {
+                return new GroupFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
 
             default: {
