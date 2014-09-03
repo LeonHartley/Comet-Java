@@ -5,6 +5,7 @@ import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
@@ -146,6 +147,16 @@ public class Player {
         setEntity(playerEntity);
 
         playerEntity.joinRoom(room, password);
+    }
+    
+    public void updateFigure() {
+        // poof
+        if (this.getEntity() != null && this.getEntity().getRoom() != null && this.getEntity().getRoom().getEntities() != null) {
+            this.getEntity().unIdle();
+            this.getEntity().getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(this.getEntity()));
+        }
+
+        this.getSession().send(UpdateInfoMessageComposer.compose(-1, this.data.getFigure(), this.data.getGender(), this.getData().getMotto(), this.getData().getAchievementPoints()));
     }
 
     public List<Integer> getRooms() {

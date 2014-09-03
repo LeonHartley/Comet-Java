@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.incoming.room.item;
 import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.types.floor.MagicStackFloorItem;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -11,6 +12,16 @@ import com.cometproject.server.network.sessions.Session;
 public class SaveStackToolMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
+        Room room = client.getPlayer().getEntity().getRoom();
+
+        if (room == null) {
+            return;
+        }
+        if (!room.getRights().hasRights(client.getPlayer().getEntity().getPlayerId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            client.disconnect();
+            return;
+        }
+
         int itemId = msg.readInt();
         int height = msg.readInt();
 
@@ -18,9 +29,7 @@ public class SaveStackToolMessageEvent implements IEvent {
             return;
         }
 
-        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) return;
-
-        RoomItemFloor floorItem = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(itemId);
+        RoomItemFloor floorItem = room.getItems().getFloorItem(itemId);
 
         if (floorItem == null || !(floorItem instanceof MagicStackFloorItem)) return;
 

@@ -8,6 +8,8 @@ import com.cometproject.server.game.rooms.items.types.GenericWallItem;
 import com.cometproject.server.game.rooms.items.types.floor.*;
 import com.cometproject.server.game.rooms.items.types.floor.banzai.BanzaiTeleporterFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.boutique.MannequinFloorItem;
+import com.cometproject.server.game.rooms.items.types.floor.football.FootballGateFloorItem;
+import com.cometproject.server.game.rooms.items.types.floor.football.FootballGoalFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.football.FootballTimerFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.hollywood.HaloTileFloorItem;
@@ -136,6 +138,14 @@ public class RoomItemFactory {
             case "ball":
             case "furniture_pushable": {
                 return new PushableFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            }
+
+            case "football_gate": {
+                return new FootballGateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            }
+
+            case "football_goal": {
+                return new FootballGoalFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
 
             default: {

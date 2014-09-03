@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.data.BackgroundTonerData;
 import com.cometproject.server.game.rooms.items.data.MannequinData;
 import com.cometproject.server.game.rooms.items.types.floor.MagicStackFloorItem;
+import com.cometproject.server.game.rooms.items.types.floor.football.FootballGateFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
@@ -165,7 +166,7 @@ public abstract class RoomItemFloor extends RoomItem {
             msg.writeInt(0);
 
             //msg.writeString(isGift ? giftData.toString() : this.getExtraData());
-            msg.writeString(this.getExtraData());
+            msg.writeString((this instanceof FootballGateFloorItem) ? "" : this.getExtraData());
 
             //msg.writeInt(15); // rare id
             //msg.writeInt(100); // amount of limited items in a stack
