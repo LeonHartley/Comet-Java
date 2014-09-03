@@ -1,3 +1,10 @@
+####################################
+## TODO FOR TOMORROW
+####################################
+
+- Re-do teleporters
+- Fix friend request bug (log off = never see request again.)
+- Banzai 
 
 java.lang.UnsupportedOperationException
         at java.util.AbstractList.remove(AbstractList.java:161)
