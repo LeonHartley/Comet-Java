@@ -68,6 +68,10 @@ public class FootballTimerFloorItem extends RoomItemFloor {
             this.setTicks(2);
         } else {
             if(this.getRoom().hasAttribute("football")) {
+                for(RoomItemFloor scoreItem : this.getRoom().getItems().getByInteraction("football_score")) {
+                    ((FootballScoreFloorItem) scoreItem).reset();
+                }
+
                 // football game has ended.
                 this.getRoom().removeAttribute("football");
             }
