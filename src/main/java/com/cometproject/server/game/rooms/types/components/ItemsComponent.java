@@ -109,6 +109,8 @@ public class ItemsComponent {
             if (item.getX() == x && item.getY() == y) {
                 items.add(item);
             } else {
+                if(item.getDefinition() == null) continue;
+
                 List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(
                         item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation());
 

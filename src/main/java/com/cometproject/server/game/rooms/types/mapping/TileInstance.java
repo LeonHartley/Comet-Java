@@ -138,7 +138,7 @@ public class TileInstance {
 
         RoomItemFloor roomItemFloor = this.mappingInstance.getRoom().getItems().getFloorItem(this.topItem);
 
-        if ((roomItemFloor != null && roomItemFloor.getDefinition().canSit) || roomItemFloor instanceof BedFloorItem) {
+        if (roomItemFloor != null && (roomItemFloor.getDefinition().canSit || roomItemFloor instanceof BedFloorItem)) {
             height -= roomItemFloor.getDefinition().getHeight();
         }
 
