@@ -20,6 +20,8 @@ public abstract class RoomItemFloor extends RoomItem {
 
     private Room room;
 
+    private ItemDefinition itemDefinition;
+
     public RoomItemFloor(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         this.init(id, itemId, roomId, owner, x, y, z, rotation, data);
     }
@@ -184,7 +186,11 @@ public abstract class RoomItemFloor extends RoomItem {
     }
 
     public ItemDefinition getDefinition() {
-        return CometManager.getItems().getDefinition(this.getItemId());
+        if(this.itemDefinition == null) {
+            this.itemDefinition = CometManager.getItems().getDefinition(this.getItemId());
+        }
+
+        return this.itemDefinition;
     }
 
     public void onItemAddedToStack(RoomItemFloor floorItem) {

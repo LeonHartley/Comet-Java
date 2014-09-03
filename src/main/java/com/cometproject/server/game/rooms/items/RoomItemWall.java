@@ -14,6 +14,8 @@ public abstract class RoomItemWall extends RoomItem {
 
     private Room room;
 
+    private ItemDefinition itemDefinition;
+
     public RoomItemWall(int id, int itemId, int roomId, int owner, String position, String data) {
         this.id = id;
         this.itemId = itemId;
@@ -83,7 +85,11 @@ public abstract class RoomItemWall extends RoomItem {
 
     @Override
     public ItemDefinition getDefinition() {
-        return CometManager.getItems().getDefinition(this.getItemId());
+        if(this.itemDefinition == null) {
+            this.itemDefinition = CometManager.getItems().getDefinition(this.getItemId());
+        }
+
+        return this.itemDefinition;
     }
 
     @Override
