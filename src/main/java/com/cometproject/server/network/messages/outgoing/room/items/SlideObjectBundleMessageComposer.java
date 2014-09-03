@@ -5,10 +5,10 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class SlideObjectBundleMessageComposer {
-    public static Composer compose(Position3D from, Position3D to, int RollerItemId, int AvatarId, int ItemId) {
+    public static Composer compose(Position3D from, Position3D to, int rollerItemId, int avatarId, int itemId) {
         Composer msg = new Composer(Composers.SlideObjectBundleMessageComposer);
 
-        boolean isItem = ItemId > 0;
+        boolean isItem = itemId > 0;
 
         msg.writeInt(from.getX());
         msg.writeInt(from.getY());
@@ -17,18 +17,18 @@ public class SlideObjectBundleMessageComposer {
         msg.writeInt(isItem ? 1 : 0);
 
         if (isItem) {
-            msg.writeInt(ItemId);
+            msg.writeInt(itemId);
         } else {
-            msg.writeInt(RollerItemId);
+            msg.writeInt(rollerItemId);
             msg.writeInt(2);
-            msg.writeInt(AvatarId);
+            msg.writeInt(avatarId);
         }
 
         msg.writeDouble(from.getZ());
         msg.writeDouble(to.getZ());
 
         if (isItem) {
-            msg.writeInt(RollerItemId);
+            msg.writeInt(rollerItemId);
         }
 
         return msg;
