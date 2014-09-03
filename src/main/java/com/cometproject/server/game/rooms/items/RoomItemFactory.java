@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.items.types.GenericWallItem;
 import com.cometproject.server.game.rooms.items.types.floor.*;
 import com.cometproject.server.game.rooms.items.types.floor.banzai.BanzaiTeleporterFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.boutique.MannequinFloorItem;
+import com.cometproject.server.game.rooms.items.types.floor.football.FootballTimerFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.hollywood.HaloTileFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.summer.SummerShowerFloorItem;
@@ -55,10 +56,6 @@ public class RoomItemFactory {
 
             case "gate": {
                 return new GateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "ball": {
-                return new BallFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
 
             case "roombg": {
@@ -129,6 +126,16 @@ public class RoomItemFactory {
             // Group Items
             case "group_item": {
                 return new GroupFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            }
+
+            // Football
+            case "football_timer": {
+                return new FootballTimerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            }
+
+            case "ball":
+            case "furniture_pushable": {
+                return new PushableFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }
 
             default: {

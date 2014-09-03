@@ -16,6 +16,7 @@ public class RollerFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
+        System.out.format("Step on! %s\n", this.ticksTimer);
         if (this.ticksTimer < 1) {
             this.setTicks(RoomItemFactory.getProcessTime(2));
         }
@@ -67,13 +68,11 @@ public class RollerFloorItem extends RoomItemFloor {
                 continue;
             }
 
-            double toHeight = 0d;
-
             for (RoomItemFloor nextItem : this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
-                if (!nextItem.getDefinition().canSit) {
-                    toHeight += nextItem.getDefinition().getHeight();
-                }
+                nextItem.onEntityStepOn(entity);
             }
+
+            final double toHeight = this.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY()).getWalkHeight();
 
             entity.updateAndSetPosition(new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight));
             this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight), this.getId(), entity.getVirtualId(), 0));
@@ -82,10 +81,10 @@ public class RollerFloorItem extends RoomItemFloor {
 
     private void handleItems() {
         List<RoomItemFloor> floorItems = this.getRoom().getItems().getItemsOnSquare(this.getX(), this.getY());
-
-        if (floorItems.size() < 2) {
-            return;
-        }
+//
+//        if (floorItems.size() < 2) {
+//            return;
+//        }
 
         // quick check illegal use of rollers
         int rollerCount = 0;
