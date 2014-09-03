@@ -75,6 +75,9 @@ public class PlaceItemMessageEvent implements IEvent {
                 Room room = client.getPlayer().getEntity().getRoom();
                 TileInstance tile = room.getMapping().getTile(x, y);
 
+                if(!tile.canPlaceItemHere())
+                    return;
+
                 double height = tile.getStackHeight();
 
                 if(!tile.canStack()) return;

@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.types.floor.BedFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.GateFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.MagicStackFloorItem;
+import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import org.apache.log4j.Logger;
 
 public class TileInstance {
@@ -24,6 +25,8 @@ public class TileInstance {
 
     private Position3D redirect = null;
 
+    private boolean canPlaceItemHere = false;
+
     public TileInstance(RoomMapping mappingInstance, Position3D position) {
         this.mappingInstance = mappingInstance;
         this.position = position;
@@ -40,6 +43,7 @@ public class TileInstance {
         this.originalHeight = 0d;
         this.originalTopItem = 0;
         this.stackHeight = 0d;
+        this.canPlaceItemHere = this.mappingInstance.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()].equals(RoomTileState.VALID);
 
         double highestHeight = 0d;
         int highestItem = 0;
@@ -179,5 +183,9 @@ public class TileInstance {
 
     public double getOriginalHeight() {
         return originalHeight;
+    }
+
+    public boolean canPlaceItemHere() {
+        return canPlaceItemHere;
     }
 }
