@@ -39,12 +39,12 @@ public class GroupItemManager {
         log.info("Loaded " + itemCount + " group items");
     }
 
-    public String checkSymbol(String symbol) {
-        if (symbol.equals("s000") || symbol.equals("s00000")) {
-            return "";
+    public String getBackgroundColour(int colour) {
+        if(this.backgroundColours.containsKey(colour)) {
+            return this.backgroundColours.get(colour).getColour();
         }
 
-        return symbol;
+        return null;
     }
 
     public List<GroupBase> getBases() {

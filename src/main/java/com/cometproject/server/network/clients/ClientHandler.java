@@ -22,7 +22,10 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     private static ClientHandler clientHandlerInstance;
 
     public static ClientHandler getInstance() {
-        return new ClientHandler();
+        if(clientHandlerInstance == null)
+            clientHandlerInstance = new ClientHandler();
+        
+        return clientHandlerInstance;
     }
 
     @Override

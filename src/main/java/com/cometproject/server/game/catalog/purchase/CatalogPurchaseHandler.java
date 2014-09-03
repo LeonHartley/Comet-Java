@@ -141,6 +141,12 @@ public class CatalogPurchaseHandler {
                     } else {
                         extraData += data.replace(",", ".");
                     }
+                } else if(def.getInteraction().equals("group_item")) {
+                    if(!client.getPlayer().getGroups().contains(new Integer(data))) {
+                        return;
+                    }
+
+                    extraData = data;
                 } else if (def.getType().equals("r")) {
                     // It's a bot!
                     String botName = "New Bot";
@@ -224,14 +230,14 @@ public class CatalogPurchaseHandler {
     }
 
     /**
-     * Deliver the gift (if it was gifted
+     * Deliver the gift (if it was gifted)
      */
     private void deliverGift() {
         // TODO: this
     }
 
     /**
-     * Catalo purchase object used for batching multiple purchases together
+     * Catalog purchase object used for batching multiple purchases together
      */
     public class CatalogPurchase {
         /**

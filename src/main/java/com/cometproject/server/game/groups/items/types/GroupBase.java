@@ -4,13 +4,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class GroupBase {
-    public int id;
-    public String valueA;
-    public String valueB;
+    private int id;
+    private String valueA;
+    private String valueB;
 
     public GroupBase(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
         this.valueA = data.getString("firstvalue");
         this.valueB = data.getString("secondvalue");
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getValueA() {
+        return valueA;
+    }
+
+    public String getValueB() {
+        return valueB;
     }
 }
