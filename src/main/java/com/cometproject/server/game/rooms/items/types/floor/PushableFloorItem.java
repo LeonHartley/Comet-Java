@@ -7,16 +7,17 @@ import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class BallFloorItem extends RoomItemFloor {
+public final class PushableFloorItem extends RoomItemFloor {
     private boolean isRolling = false;
 
     private List<Position3D> rollingPositions;
 
-    public BallFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
+    public PushableFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
     }
 
@@ -48,6 +49,8 @@ public final class BallFloorItem extends RoomItemFloor {
         this.setHeight(newPosition.getZ());
 
         this.isRolling = false;
+
+        RoomItemDao.saveItemPosition(this.getX(), this.getY(), this.getHeight(), this.getRotation(), this.getId());
     }
 
     public static void roll(RoomItemFloor item, Position3D from, Position3D to, Room room) {
@@ -136,7 +139,7 @@ public final class BallFloorItem extends RoomItemFloor {
         return new Position3D(x, y);
     }
 
-    public static final int KICK_POWER = 4;
+    public static final int KICK_POWER = 6;
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTriggered) {
@@ -180,8 +183,12 @@ public final class BallFloorItem extends RoomItemFloor {
 
     @Override
     public void onTick() {
-        if (this.rollingPositions.size() < 1)
+        if (this.rollingPositions.size() < 1) {
+            if(this.isRolling)
+                this.isRolling = false;
+
             return;
+        }
 
         Position3D newPosition = this.rollingPositions.get(0);
         Position3D currentPosition = new Position3D(this.x, this.y);
@@ -194,7 +201,7 @@ public final class BallFloorItem extends RoomItemFloor {
         }
 
         if (this.getRoom().getMapping().isValidStep(currentPosition, newPosition, false, true)) {
-            BallFloorItem.roll(this, currentPosition, newPosition, this.getRoom());
+            PushableFloorItem.roll(this, currentPosition, newPosition, this.getRoom());
 
             this.setX(newPosition.getX());
             this.setY(newPosition.getY());
@@ -205,6 +212,10 @@ public final class BallFloorItem extends RoomItemFloor {
 
         if (this.rollingPositions.size() != 0)
             this.setTicks(RoomItemFactory.getProcessTime(0.5));
+        else
+            isRolling = false;
+
+        RoomItemDao.saveItemPosition(this.getX(), this.getY(), this.getHeight(), this.getRotation(), this.getId());
     }
 
     public boolean isRolling() {
