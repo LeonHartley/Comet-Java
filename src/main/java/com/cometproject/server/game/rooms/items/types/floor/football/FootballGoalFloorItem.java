@@ -10,15 +10,25 @@ public class FootballGoalFloorItem extends RoomItemFloor {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
 
         switch(this.getDefinition().getItemName()) {
-            case "fball_goal_b": this.gameTeam = GameTeam.BLUE;
-            case "fball_goal_r": this.gameTeam = GameTeam.RED;
-            case "fball_goal_y": this.gameTeam = GameTeam.YELLOW;
-            case "fball_goal_g": this.gameTeam = GameTeam.GREEN;
+            case "fball_goal_b":
+                this.gameTeam = GameTeam.BLUE;
+            case "fball_goal_r":
+                this.gameTeam = GameTeam.RED;
+            case "fball_goal_y":
+                this.gameTeam = GameTeam.YELLOW;
+            case "fball_goal_g":
+                this.gameTeam = GameTeam.GREEN;
         }
     }
 
     @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
-        // update score depending on the team.
+        for(RoomItemFloor scoreItem : this.getRoom().getItems().getByInteraction("football_score")) {
+            ((FootballScoreFloorItem) scoreItem).increaseScore(this.gameTeam);
+        }
+    }
+
+    public GameTeam getGameTeam() {
+        return gameTeam;
     }
 }

@@ -35,7 +35,17 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                 RoomItemFloor item = room.getItems().getFloorItem(id);
                 TileInstance tile = room.getMapping().getTile(x, y);
 
-                if(!tile.canStack() && tile.getTopItem() != item.getId()) {
+                boolean cancelAction = false;
+
+                if(!tile.canPlaceItemHere()) {
+                    cancelAction = true;
+                }
+
+                if(!tile.canStack() && tile.getTopItem() != 0 && tile.getTopItem() != item.getId()) {
+                    cancelAction = true;
+                }
+
+                if(cancelAction) {
                     client.send(UpdateFloorItemMessageComposer.compose(item, room.getData().getOwnerId()));
                     return;
                 }

@@ -115,7 +115,7 @@ public class Comet {
      * @return The current build of Comet
      */
     public static String getBuild() {
-        return "0.9.3-BETA5-CROISSANT1";
+        return "0.9.4-BETA1";
     }
 
     /**

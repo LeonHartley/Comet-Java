@@ -1,4 +1,4 @@
-package com.cometproject.server.game.rooms.items.types.floor;
+package com.cometproject.server.game.rooms.items.types.floor.football;
 
 import com.cometproject.server.game.rooms.avatars.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -12,12 +12,12 @@ import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class PushableFloorItem extends RoomItemFloor {
+public final class FootballFloorItem extends RoomItemFloor {
     private boolean isRolling = false;
 
     private List<Position3D> rollingPositions;
 
-    public PushableFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
+    public FootballFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
     }
 
@@ -26,6 +26,7 @@ public final class PushableFloorItem extends RoomItemFloor {
         if (this.isRolling) {
             return;
         }
+
         this.isRolling = true;
 
         Position3D currentPosition = new Position3D(this.getX(), this.getY(), this.getHeight());
@@ -45,6 +46,11 @@ public final class PushableFloorItem extends RoomItemFloor {
         this.setRotation(entity.getBodyRotation());
         this.setX(newPosition.getX());
         this.setY(newPosition.getY());
+
+        // tell all other items on the new square that there's a new item. (good method of updating score...)
+        for(RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(newPosition.getX(), newPosition.getY())) {
+            floorItem.onItemAddedToStack(this);
+        }
 
         this.setHeight(newPosition.getZ());
 
@@ -201,7 +207,7 @@ public final class PushableFloorItem extends RoomItemFloor {
         }
 
         if (this.getRoom().getMapping().isValidStep(currentPosition, newPosition, false, true)) {
-            PushableFloorItem.roll(this, currentPosition, newPosition, this.getRoom());
+            FootballFloorItem.roll(this, currentPosition, newPosition, this.getRoom());
 
             this.setX(newPosition.getX());
             this.setY(newPosition.getY());
@@ -212,8 +218,15 @@ public final class PushableFloorItem extends RoomItemFloor {
 
         if (this.rollingPositions.size() != 0)
             this.setTicks(RoomItemFactory.getProcessTime(0.5));
-        else
+        else {
             isRolling = false;
+            this.sendUpdate();
+        }
+
+        // tell all other items on the new square that there's a new item. (good method of updating score...)
+        for(RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(newPosition.getX(), newPosition.getY())) {
+            floorItem.onItemAddedToStack(this);
+        }
 
         RoomItemDao.saveItemPosition(this.getX(), this.getY(), this.getHeight(), this.getRotation(), this.getId());
     }
