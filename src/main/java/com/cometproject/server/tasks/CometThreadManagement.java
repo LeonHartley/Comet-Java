@@ -6,10 +6,13 @@ import java.util.UUID;
 import java.util.concurrent.*;
 
 public class CometThreadManagement {
+    public static int POOL_SIZE = 0;
     private final ScheduledExecutorService scheduledExecutorService;
 
     public CometThreadManagement() {
         this.scheduledExecutorService = Executors.newScheduledThreadPool(2, r -> {
+            POOL_SIZE++;
+
             UUID randomId = UUID.randomUUID();
 
             Thread scheduledThread = new Thread(r);

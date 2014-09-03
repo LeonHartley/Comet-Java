@@ -30,10 +30,7 @@ public class MimicCommand extends ChatCommand {
         playerEntity.getPlayer().getData().setGender(entity.getGender());
         playerEntity.getPlayer().getData().save();
 
-        playerEntity.unIdle();
-        playerEntity.getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(client.getPlayer().getEntity()));
-
-        client.send(UpdateInfoMessageComposer.compose(-1, entity.getFigure(), entity.getGender(), client.getPlayer().getData().getMotto(), client.getPlayer().getData().getAchievementPoints()));
+        playerEntity.getPlayer().updateFigure();
     }
 
     @Override

@@ -268,6 +268,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.ToggleMoodlightMessageEvent, new ToggleMoodlightMessageEvent());
         this.getMessages().put(Events.UpdateMoodlightMessageEvent, new UpdateMoodlightMessageEvent());
         this.getMessages().put(Events.SaveStackToolMessageEvent, new SaveStackToolMessageEvent());
+        this.getMessages().put(Events.SaveFootballGateFloorItem, new SaveFootballGateMessageEvent());
     }
 
     public void registerCatalog() {
