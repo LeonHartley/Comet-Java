@@ -15,17 +15,24 @@ public class FootballScoreFloorItem extends RoomItemFloor {
         switch (this.getDefinition().getItemName()) {
             case "fball_score_b":
                 this.gameTeam = GameTeam.BLUE;
+                break;
             case "fball_score_r":
                 this.gameTeam = GameTeam.RED;
+                break;
             case "fball_score_y":
                 this.gameTeam = GameTeam.YELLOW;
+                break;
             case "fball_score_g":
                 this.gameTeam = GameTeam.GREEN;
+                break;
         }
     }
 
     public void increaseScore(GameTeam team) {
+        System.out.println("Score team: " + this.gameTeam);
+
         if(this.gameTeam == team) {
+
             this.score++;
 
             this.setExtraData(this.score + "");

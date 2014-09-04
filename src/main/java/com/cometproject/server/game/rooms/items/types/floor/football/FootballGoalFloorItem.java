@@ -12,17 +12,23 @@ public class FootballGoalFloorItem extends RoomItemFloor {
         switch(this.getDefinition().getItemName()) {
             case "fball_goal_b":
                 this.gameTeam = GameTeam.BLUE;
+                break;
             case "fball_goal_r":
                 this.gameTeam = GameTeam.RED;
+                break;
             case "fball_goal_y":
                 this.gameTeam = GameTeam.YELLOW;
+                break;
             case "fball_goal_g":
                 this.gameTeam = GameTeam.GREEN;
+                break;
         }
     }
 
     @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
+        System.out.println("Goal team: " + gameTeam);
+
         for(RoomItemFloor scoreItem : this.getRoom().getItems().getByInteraction("football_score")) {
             ((FootballScoreFloorItem) scoreItem).increaseScore(this.gameTeam);
         }
