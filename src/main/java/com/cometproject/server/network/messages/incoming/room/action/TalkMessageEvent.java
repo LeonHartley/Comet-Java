@@ -16,6 +16,9 @@ public class TalkMessageEvent implements IEvent {
         String message = msg.readString();
         int colour = msg.readInt();
 
+        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null)
+            return;
+
         if (!TalkMessageEvent.isValidColour(colour, client))
             colour = 0;
 

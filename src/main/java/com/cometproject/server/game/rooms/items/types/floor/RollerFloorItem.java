@@ -16,7 +16,6 @@ public class RollerFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
-        System.out.format("Step on! %s\n", this.ticksTimer);
         if (this.ticksTimer < 1) {
             this.setTicks(RoomItemFactory.getProcessTime(2));
         }
