@@ -37,11 +37,15 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
 
                 boolean cancelAction = false;
 
-                if(!tile.canPlaceItemHere()) {
-                    cancelAction = true;
-                }
+                if(tile != null) {
+                    if (!tile.canPlaceItemHere()) {
+                        cancelAction = true;
+                    }
 
-                if(!tile.canStack() && tile.getTopItem() != 0 && tile.getTopItem() != item.getId()) {
+                    if (!tile.canStack() && tile.getTopItem() != 0 && tile.getTopItem() != item.getId()) {
+                        cancelAction = true;
+                    }
+                } else {
                     cancelAction = true;
                 }
 

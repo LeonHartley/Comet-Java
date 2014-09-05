@@ -137,6 +137,9 @@ public abstract class GenericEntity implements AvatarEntity {
         // TODO: Redirection grid here for beds
         TileInstance tileInstance = this.getRoom().getMapping().getTile(x, y);
 
+        if(tileInstance == null)
+            return;
+
         // reassign the position values if they're set to redirect
         if(tileInstance.getRedirect() != null) {
             x = tileInstance.getRedirect().getX();

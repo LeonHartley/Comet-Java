@@ -106,6 +106,7 @@ public class ItemsComponent {
         List<RoomItemFloor> items = new ArrayList<>();
 
         for (RoomItemFloor item : this.getFloorItems()) {
+            if(item == null) continue; // it's null!
             if (item.getX() == x && item.getY() == y) {
                 items.add(item);
             } else {

@@ -45,6 +45,8 @@ public class RoomMapping {
     }
 
     public TileInstance getTile(int x, int y) {
+        if(x > this.tiles.length || y > this.tiles[x].length) return null;
+
         return this.tiles[x][y];
     }
 

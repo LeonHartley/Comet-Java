@@ -118,7 +118,7 @@ public class Composers {
     public static short PetInventoryMessageComposer = 1074;
     public static short HandItemMessageComposer = 2258;
     public static short PopularTagsMessageComposer = 2484;
-    public static short FriendRequestsMessageComposer = 1547;
+    public static short FriendRequestsMessageComposer = 379;
     public static short ModToolRoomInfoMessageComposer = 2954;
     public static short PetInformationMessageComposer = 2307;
 
