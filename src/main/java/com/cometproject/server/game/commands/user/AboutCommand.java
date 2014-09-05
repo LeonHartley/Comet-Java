@@ -50,41 +50,6 @@ public class AboutCommand extends ChatCommand {
             about.append("Current online record: " + CometManager.getThread().getOnlineRecord());
         }
 
-        if (message.length != 0) {
-            String param = message[0];
-
-            about.append("<br><br>");
-
-            switch (param) {
-                case "room": {
-                    if (client.getPlayer().getEntity() != null) {
-                        Room room = client.getPlayer().getEntity().getRoom();
-
-                        about.append("<b>Room Info</b><br>");
-                        about.append("Loaded time: " + TimeSpan.millisecondsToDate(System.currentTimeMillis() - (long) room.getAttribute("loadTime")));
-                    }
-
-                    break;
-                }
-
-                case "rooms":
-                    about.append("<b>LRU Stats</b><br>");
-
-                    about.append("Current size: " + CometManager.getRooms().getRoomDataInstances().getStats().getCurrentSize() + "<br>");
-                    about.append("Cumulative evictions: " + CometManager.getRooms().getRoomDataInstances().getStats().getCumulativeEvictions() + "<br>");
-                    about.append("Cumulative hits: " + CometManager.getRooms().getRoomDataInstances().getStats().getCumulativeHits() + "<br>");
-                    about.append("Cumulative look-ups: " + CometManager.getRooms().getRoomDataInstances().getStats().getCumulativeLookups() + "<br>");
-                    about.append("Cumulative misses: " + CometManager.getRooms().getRoomDataInstances().getStats().getCumulativeMisses() + "<br>");
-                    about.append("Cumulative non-live-puts: " + CometManager.getRooms().getRoomDataInstances().getStats().getCumulativeNonLivePuts() + "<br>");
-                    about.append("Cumulative puts: " + CometManager.getRooms().getRoomDataInstances().getStats().getCumulativePuts() + "<br><br>");
-
-                    about.append("<b>Room Manager Info</b><br>");
-                    about.append("Room data count: " + CometManager.getRooms().getRoomDataInstances().size() + "<br>");
-                    about.append("Room instance count: " + CometManager.getRooms().getRoomInstances().size() + "<br>");
-                    break;
-            }
-        }
-
         client.send(AdvancedAlertMessageComposer.compose(
                 "Comet Server - " + Comet.getBuild(),
                 about.toString(),

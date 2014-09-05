@@ -29,8 +29,6 @@ public class FootballScoreFloorItem extends RoomItemFloor {
     }
 
     public void increaseScore(GameTeam team) {
-        System.out.println("Score team: " + this.gameTeam);
-
         if(this.gameTeam == team) {
 
             this.score++;
