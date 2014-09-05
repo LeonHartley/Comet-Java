@@ -33,10 +33,10 @@ public class RoomActionCommand extends ChatCommand {
                 break;
 
             case "say":
-                String msg = params[1];
+                String msg = this.merge(params, 1);
 
                 for(PlayerEntity playerEntity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
-                    playerEntity.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(playerEntity.getVirtualId(), msg, CometManager.getRooms().getEmotions().getEmotion(msg), 1));
+                    playerEntity.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(playerEntity.getVirtualId(), msg, CometManager.getRooms().getEmotions().getEmotion(msg), 0));
                 }
                 break;
 
@@ -49,7 +49,7 @@ public class RoomActionCommand extends ChatCommand {
 
                 for(PlayerEntity playerEntity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
                     playerEntity.setDanceId(danceId);
-                    playerEntity.getRoom().getEntities().broadcastMessage(DanceMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), danceId));
+                    playerEntity.getRoom().getEntities().broadcastMessage(DanceMessageComposer.compose(playerEntity.getVirtualId(), danceId));
                 }
                 break;
 
