@@ -119,7 +119,7 @@ public class CometServer {
     /**
      * Get the threading manager
      *
-     * @return The thrreading manager
+     * @return The threading manager
      */
     public CometThreadManagement getThreadManagement() {
         return this.threadManagement;
@@ -141,5 +141,9 @@ public class CometServer {
      */
     public LogManager getLoggingManager() {
         return loggingManager;
+    }
+
+    public APIManager getAPI() {
+        return apiManager;
     }
 }

@@ -1,6 +1,8 @@
 package com.cometproject.server.api;
 
 import com.cometproject.server.api.rooms.RoomStats;
+import com.cometproject.server.api.routes.PlayerRoutes;
+import com.cometproject.server.api.routes.RoomRoutes;
 import com.cometproject.server.api.transformers.JsonTransformer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
@@ -111,73 +113,8 @@ public class APIManager {
             return "Invalid request, if you believe you received this in error, please contact the server administrator!";
         });
 
-        Spark.get("/rooms/active/all", (request, response) -> {
-            response.type("application/json");
-
-            List<RoomStats> activeRooms = new ArrayList<>();
-
-            for (Room room : CometManager.getRooms().getRoomInstances().values()) {
-                activeRooms.add(new RoomStats(room));
-            }
-
-            return activeRooms;
-        }, jsonTransformer);
-
-        Spark.get("/room/:id/:action", (request, response) -> {
-            Map<String, Object> result = new FastMap<>();
-
-            int roomId = Integer.parseInt(request.params("id"));
-            String action = request.params("action");
-
-            if (!CometManager.getRooms().getRoomInstances().containsKey(roomId)) {
-                result.put("active", false);
-                return result;
-            }
-
-            Room room = CometManager.getRooms().get(roomId);
-
-            result.put("id", roomId);
-
-            switch (action) {
-                default: {
-                    result.put("active", false);
-                    break;
-                }
-
-                case "alert": {
-                    String message = request.headers("message");
-                    if (message == null || message.isEmpty()) {
-                        result.put("success", false);
-                    } else {
-                        room.getEntities().broadcastMessage(AdvancedAlertMessageComposer.compose(message));
-                        result.put("success", true);
-                    }
-                    break;
-                }
-
-                case "dispose": {
-                    String message = request.headers("message");
-
-                    if (message != null && !message.isEmpty()) {
-                        room.getEntities().broadcastMessage(AdvancedAlertMessageComposer.compose(message));
-                    }
-
-                    room.setIdleNow();
-                    result.put("success", true);
-                    break;
-                }
-
-                case "data": {
-                    result.put("data", room.getData());
-                    break;
-                }
-
-                case "delete":
-                    result.put("message", "Feature not completed");
-                    break;
-            }
-
-            return result;
-        }, jsonTransformer);
+        Spark.get("/player/:id/reload", PlayerRoutes::reloadPlayerData, jsonTransformer);
+        Spark.get("/rooms/active/all", RoomRoutes::getAllActiveRooms, jsonTransformer);
+        Spark.get("/room/:id/:action", RoomRoutes::roomAction, jsonTransformer);
     }
 }

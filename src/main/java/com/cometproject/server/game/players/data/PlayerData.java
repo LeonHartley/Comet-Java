@@ -214,4 +214,12 @@ public class PlayerData {
     public void setActivityPoints(int activityPoints) {
         this.activityPoints = activityPoints;
     }
+
+    public void setVipPoints(int vipPoints) {
+        this.vipPoints = vipPoints;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
 }

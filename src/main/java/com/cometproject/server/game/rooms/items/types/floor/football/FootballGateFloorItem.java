@@ -59,7 +59,7 @@ public class FootballGateFloorItem extends RoomItemFloor {
         if(newFigureParts.equals("")) return;
 
         playerEntity.getPlayer().getData().setFigure(newFigure + newFigureParts);
-        playerEntity.getPlayer().updateFigure();
+        playerEntity.getPlayer().poof();
 
         playerEntity.getPlayer().getData().save();
     }

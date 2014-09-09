@@ -4,7 +4,6 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
-import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
 public class MimicCommand extends ChatCommand {
@@ -30,7 +29,7 @@ public class MimicCommand extends ChatCommand {
         playerEntity.getPlayer().getData().setGender(entity.getGender());
         playerEntity.getPlayer().getData().save();
 
-        playerEntity.getPlayer().updateFigure();
+        playerEntity.getPlayer().poof();
     }
 
     @Override
