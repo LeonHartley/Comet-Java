@@ -27,8 +27,6 @@ public class FootballGoalFloorItem extends RoomItemFloor {
 
     @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
-        System.out.println("Goal team: " + gameTeam);
-
         for(RoomItemFloor scoreItem : this.getRoom().getItems().getByInteraction("football_score")) {
             ((FootballScoreFloorItem) scoreItem).increaseScore(this.gameTeam);
         }

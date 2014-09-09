@@ -189,13 +189,6 @@ public final class FootballFloorItem extends RoomItemFloor {
 
     @Override
     public void onTick() {
-        if (this.rollingPositions.size() < 1) {
-            if(this.isRolling)
-                this.isRolling = false;
-
-            return;
-        }
-
         Position3D newPosition = this.rollingPositions.get(0);
         Position3D currentPosition = new Position3D(this.x, this.y);
 
@@ -209,6 +202,8 @@ public final class FootballFloorItem extends RoomItemFloor {
         if (this.getRoom().getMapping().isValidStep(currentPosition, newPosition, false, true)) {
             FootballFloorItem.roll(this, currentPosition, newPosition, this.getRoom());
 
+            System.out.printf("Item rolling from: %s; to: %s\n", currentPosition, newPosition);
+
             this.setX(newPosition.getX());
             this.setY(newPosition.getY());
             this.setHeight(newPosition.getZ());
@@ -218,10 +213,6 @@ public final class FootballFloorItem extends RoomItemFloor {
 
         if (this.rollingPositions.size() != 0)
             this.setTicks(RoomItemFactory.getProcessTime(0.5));
-        else {
-            isRolling = false;
-            this.sendUpdate();
-        }
 
         // tell all other items on the new square that there's a new item. (good method of updating score...)
         for(RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(newPosition.getX(), newPosition.getY())) {
