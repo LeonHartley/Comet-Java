@@ -149,7 +149,7 @@ public class Player {
         playerEntity.joinRoom(room, password);
     }
     
-    public void updateFigure() {
+    public void poof() {
         // poof
         if (this.getEntity() != null && this.getEntity().getRoom() != null && this.getEntity().getRoom().getEntities() != null) {
             this.getEntity().unIdle();

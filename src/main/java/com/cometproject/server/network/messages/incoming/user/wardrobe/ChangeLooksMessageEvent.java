@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.wardrobe;
 
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -14,6 +13,6 @@ public class ChangeLooksMessageEvent implements IEvent {
         client.getPlayer().getData().setFigure(figure);
         client.getPlayer().getData().save();
 
-        client.getPlayer().updateFigure();
+        client.getPlayer().poof();
     }
 }
