@@ -17,6 +17,7 @@ import java.util.Map;
 public class RoomRoutes {
     public static Object getAllActiveRooms(Request request, Response response) {
         response.type("application/json");
+        Map<String, Object> result = new FastMap<>();
 
         List<RoomStats> activeRooms = new ArrayList<>();
 
@@ -24,7 +25,8 @@ public class RoomRoutes {
             activeRooms.add(new RoomStats(room));
         }
 
-        return activeRooms;
+        result.put("response", activeRooms);
+        return result;
     }
 
     public static Object roomAction(Request request, Response response) {

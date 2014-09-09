@@ -79,7 +79,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         if (ctx.channel().isActive()) {
-            if (cause instanceof IOException) {
+            /*if (cause instanceof IOException) {
 //                log.error("IOException in ClientHandler", cause);
                 return;
             } else if(cause instanceof IllegalArgumentException) {
@@ -88,7 +88,9 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             }
 
             log.error("Exception in ClientHandler : " + cause.getMessage());
-            cause.printStackTrace();
+            cause.printStackTrace();*/
+
+            ctx.close();
         }
     }
 }

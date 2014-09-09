@@ -1,6 +1,7 @@
 package com.cometproject.server.api.transformers;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import spark.ResponseTransformer;
 
 public class JsonTransformer implements ResponseTransformer {
@@ -20,7 +21,13 @@ public class JsonTransformer implements ResponseTransformer {
     @Override
     public String render(Object o) throws Exception {
         try {
-            return gsonInstance.toJson(o);
+            String gsonString = gsonInstance.toJson(o);
+
+            if(!gsonString.startsWith("{")) {
+                return "{\"response\":" + gsonString + "}";
+            } else {
+                return gsonString;
+            }
         } catch (Exception e) {
             return gsonInstance.toJson(e);
         } finally {
