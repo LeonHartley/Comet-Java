@@ -2,6 +2,7 @@ package com.cometproject.server.api.routes;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -25,6 +26,7 @@ public class PlayerRoutes {
         int playerId = Integer.parseInt(request.params("id"));
 
         if(!CometManager.getPlayers().isOnline(playerId)) {
+            PlayerManager playerManager = CometManager.getPlayers();
             result.put("error", "Player is not online");
             return result;
         }

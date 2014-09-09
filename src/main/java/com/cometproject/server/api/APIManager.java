@@ -104,7 +104,8 @@ public class APIManager {
 
             if (!authenticated) {
                 log.error("Unauthenticated request from: " + request.ip() + "; " + request.contextPath());
-                Spark.halt(401, "Invalid authentication");
+                response.type("application/json");
+                Spark.halt("{\"error\":\"Invalid authentication token\"}");
             }
         });
 
