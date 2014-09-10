@@ -9,8 +9,7 @@ import com.cometproject.server.network.sessions.Session;
 
 public class PickUpItemMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        msg.readInt();
-
+        boolean isFloorItem = msg.readInt() == 2;
         int id = msg.readInt();
         Room room = client.getPlayer().getEntity().getRoom();
 

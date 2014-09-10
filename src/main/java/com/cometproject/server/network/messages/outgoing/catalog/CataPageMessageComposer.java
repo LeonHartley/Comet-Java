@@ -15,63 +15,18 @@ public class CataPageMessageComposer {
 
         msg.writeString("NORMAL");
 
-        if (page.getTemplate().equals("frontpage")) {
-            msg.writeString("frontpage4");
-            msg.writeInt(3);
-            msg.writeString(page.getHeadline());
-            msg.writeString(page.getTeaser());
-            msg.writeString("");
-            msg.writeInt(2);
-            msg.writeString(page.getPageText1());
-            msg.writeString(page.getPageText2());
+        msg.writeString(page.getTemplate());
 
-        } else if (page.getTemplate().equals("spaces_new")) {
-            msg.writeString("spaces_new");
-            msg.writeInt(1);
-            msg.writeString(page.getHeadline());
-            msg.writeInt(1);
-            msg.writeString(page.getPageText1());
+        msg.writeInt(page.getImages().size());
 
-        } else if (page.getTemplate().equals("trophies")) {
-            msg.writeString("trophies");
-            msg.writeInt(1);
-            msg.writeString(page.getHeadline());
-            msg.writeInt(2);
-            msg.writeString(page.getPageText1());
-            msg.writeString(page.getPageTextDetails());
+        for(String image : page.getImages()) {
+            msg.writeString(image);
+        }
 
-        } else if (page.getTemplate().equals("pets")) {
-            msg.writeString("pets");
-            msg.writeInt(2);
-            msg.writeString(page.getHeadline());
-            msg.writeString(page.getTeaser());
-            msg.writeInt(4);
-            msg.writeString(page.getPageText1());
-            msg.writeString("Give a name:");
-            msg.writeString("Pick a colour:");
-            msg.writeString("Pick a race:");
+        msg.writeInt(page.getTexts().size());
 
-        } else if (page.getTemplate().equals("guild_frontpage")) {
-            msg.writeString("guild_frontpage");
-            msg.writeInt(2);
-            msg.writeString("catalog_groups_en");
-            msg.writeString("");
-            msg.writeInt(3);
-            msg.writeString(CometSettings.hotelName + " Groups are a great way to stay in touch with your friends and share your interests with others. Each Group has a homeroom that can be decorated by other Group members, members can also purchase exclusive Group Furni that can be customised with your Group colours!");
-            msg.writeString("* Co-op room decorating for group members\n* Show off your group badge!\n* Get some neat Furni in your group's colors!");
-            msg.writeString("What's so great about " + CometSettings.hotelName + " Groups?");
-        } else if (page.getTemplate().equals("club_buy")) {
-            // TODO: buy HC
-        } else {
-            msg.writeString(page.getTemplate());
-            msg.writeInt(3);
-            msg.writeString(page.getHeadline());
-            msg.writeString(page.getTeaser());
-            msg.writeString(page.getSpecial());
-            msg.writeInt(3);
-            msg.writeString(page.getPageText1());
-            msg.writeString(page.getPageTextDetails());
-            msg.writeString(page.getPageText2());
+        for(String text : page.getTexts()) {
+            msg.writeString(text);
         }
 
         if (!page.getTemplate().equals("frontpage") && !page.getTemplate().equals("club_buy")) {
