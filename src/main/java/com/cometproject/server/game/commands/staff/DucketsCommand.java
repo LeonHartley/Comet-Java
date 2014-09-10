@@ -7,21 +7,16 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import org.apache.commons.lang.StringUtils;
 
 public class DucketsCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (params.length < 2)
+        if (params.length < 2 || !StringUtils.isNumeric(params[1]))
             return;
 
         String username = params[0];
-        int duckets;
-
-        try {
-            duckets = Integer.parseInt(params[1]);
-        } catch (Exception e) {
-            return;
-        }
+        int duckets = Integer.parseInt(params[1]);
 
         Session session = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
 
