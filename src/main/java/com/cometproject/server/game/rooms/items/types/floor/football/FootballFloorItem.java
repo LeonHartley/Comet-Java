@@ -202,8 +202,6 @@ public final class FootballFloorItem extends RoomItemFloor {
         if (this.getRoom().getMapping().isValidStep(currentPosition, newPosition, false, true)) {
             FootballFloorItem.roll(this, currentPosition, newPosition, this.getRoom());
 
-            System.out.printf("Item rolling from: %s; to: %s\n", currentPosition, newPosition);
-
             this.setX(newPosition.getX());
             this.setY(newPosition.getY());
             this.setHeight(newPosition.getZ());

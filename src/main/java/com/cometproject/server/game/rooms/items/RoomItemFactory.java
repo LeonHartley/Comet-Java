@@ -38,120 +38,46 @@ public class RoomItemFactory {
         }
 
         switch (def.getInteraction()) {
-            case "roller": {
-                return new RollerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
+            default: return new GenericFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
 
-            case "dice": {
-                return new DiceFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
+            case "roller": return new RollerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "dice": return new DiceFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "teleport": return new TeleporterFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "teleport_door": return new TeleporterFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "onewaygate": return new OneWayGateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "gate": return new GateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "roombg": return new BackgroundTonerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "bed": return new BedFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "vendingmachine": return new VendingMachineFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "mannequin": return new MannequinFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "beach_shower": return new SummerShowerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "halo_tile": return new HaloTileFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
 
-            case "teleport": {
-                return new TeleporterFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
+            // Wired Actions
+            case "wf_act_moverotate": return new WiredActionMoveRotate(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "wf_act_moveuser": return new WiredActionMoveUser(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "wf_act_saymsg": return new WiredActionShowMessage(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "wf_act_togglefurni": return new WiredActionToggleFurni(id, baseId, roomId, ownerId, x, y, height, rot, data);
 
-            case "onewaygate": {
-                return new OneWayGateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "gate": {
-                return new GateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "roombg": {
-                return new BackgroundTonerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "bed": {
-                return new BedFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "vendingmachine": {
-                return new VendingMachineFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "mannequin": {
-                return new MannequinFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "beach_shower": {
-                return new SummerShowerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "halo_tile": {
-                return new HaloTileFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            // Wired
-            case "wf_act_moverotate": {
-                return new WiredActionMoveRotate(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "wf_act_moveuser": {
-                return new WiredActionMoveUser(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "wf_act_saymsg": {
-                return new WiredActionShowMessage(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "wf_act_togglefurni": {
-                return new WiredActionToggleFurni(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "wf_trg_onsay": {
-                return new WiredTriggerOnSay(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "wf_trg_enterroom": {
-                return new WiredTriggerEnterRoom(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "wf_trg_onfurni": {
-                return new WiredTriggerOnFurni(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "wf_trg_offfurni": {
-                return new WiredTriggerOffFurni(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-            case "wf_trg_timer": {
-                return new WiredTriggerTimer(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
+            // Wired Triggers
+            case "wf_trg_onsay": return new WiredTriggerOnSay(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "wf_trg_enterroom": return new WiredTriggerEnterRoom(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "wf_trg_onfurni": return new WiredTriggerOnFurni(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "wf_trg_offfurni": return new WiredTriggerOffFurni(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "wf_trg_timer": return new WiredTriggerTimer(id, baseId, roomId, ownerId, x, y, height, rot, data);
 
             // Banzai
-            case "bb_teleport": {
-                return new BanzaiTeleporterFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
+            case "bb_teleport": return new BanzaiTeleporterFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
 
             // Group Items
-            case "group_item": {
-                return new GroupFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
+            case "group_item": return new GroupFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
 
             // Football
-            case "football_timer": {
-                return new FootballTimerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "ball": {
-                return new FootballFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "football_gate": {
-                return new FootballGateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "football_goal": {
-                return new FootballGoalFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            case "football_score": {
-                return new FootballScoreFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
-
-            default: {
-                return new GenericFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            }
+            case "football_timer": return new FootballTimerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "ball": return new FootballFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "football_gate": return new FootballGateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "football_goal": return new FootballGoalFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            case "football_score": return new FootballScoreFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
         }
     }
 

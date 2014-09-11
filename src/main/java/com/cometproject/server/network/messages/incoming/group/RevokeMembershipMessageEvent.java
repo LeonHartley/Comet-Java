@@ -27,6 +27,10 @@ public class RevokeMembershipMessageEvent implements IEvent {
 
         GroupMember groupMember = group.getMembershipComponent().getMembers().get(client.getPlayer().getId());
 
+        if(groupMember == null) {
+            return;
+        }
+
         if (!groupMember.getAccessLevel().isAdmin() && playerId != client.getPlayer().getId())
             return;
 

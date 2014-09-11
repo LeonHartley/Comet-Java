@@ -61,8 +61,6 @@ public class FootballTimerFloorItem extends RoomItemFloor {
 
     @Override
     public void onTickComplete() {
-        System.out.println(System.currentTimeMillis());
-
         if(this.time > 0) {
             this.time--;
 

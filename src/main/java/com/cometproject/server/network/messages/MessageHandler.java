@@ -325,7 +325,10 @@ public final class MessageHandler {
 
                 log.debug("Finished packet process for packet: [" + Events.valueOfId(header) + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
             } catch (Exception e) {
-                log.error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
+                if(client.getLogger() != null)
+                    client.getLogger().error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
+                else
+                    log.error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
             }
         } else if(Comet.isDebugging) {
             log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
