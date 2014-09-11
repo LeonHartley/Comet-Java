@@ -410,7 +410,7 @@ com.cometproject.server.game.catalog.types.CatalogPage -> com.cometproject.serve
     110:110:java.util.Map getItems() -> a
     7:7:int calculate(int,int,int,int) -> a
     11:19:boolean tilesTouching(int,int,int,int) -> a
-    23:31:boolean tilesTouching(com.cometproject.server.game.rooms.avatars.misc.Position3D,com.cometproject.server.game.rooms.avatars.misc.Position3D) -> a
+    23:31:boolean tilesTouching(com.cometproject.server.game.rooms.entities.misc.Position3D,com.cometproject.server.game.rooms.entities.misc.Position3D) -> a
 com.cometproject.server.game.catalog.types.gifts.GiftData -> com.cometproject.server.game.b.b.a.a:
     int pageId -> a
     int itemId -> b
@@ -972,7 +972,7 @@ com.cometproject.server.game.pets.data.PetData -> com.cometproject.server.game.j
     int typeId -> h
     int hairDye -> i
     int hair -> j
-    com.cometproject.server.game.rooms.avatars.misc.Position3D roomPosition -> a
+    com.cometproject.server.game.rooms.entities.misc.Position3D roomPosition -> a
     54:54:int getId() -> a
     58:58:java.lang.String getName() -> a
     62:62:int getLevel() -> b
@@ -987,8 +987,8 @@ com.cometproject.server.game.pets.data.PetData -> com.cometproject.server.game.j
     98:98:int getHair() -> h
     102:102:int getTypeId() -> i
     106:106:java.lang.String[] getSpeech() -> a
-    110:110:com.cometproject.server.game.rooms.avatars.misc.Position3D getRoomPosition() -> a
-    114:115:void setRoomPosition(com.cometproject.server.game.rooms.avatars.misc.Position3D) -> a
+    110:110:com.cometproject.server.game.rooms.entities.misc.Position3D getRoomPosition() -> a
+    114:115:void setRoomPosition(com.cometproject.server.game.rooms.entities.misc.Position3D) -> a
     11:24:com.cometproject.server.network.messages.types.Composer compose(java.lang.String,java.util.List) -> a
 com.cometproject.server.game.pets.data.StaticPetProperties -> com.cometproject.server.game.j.a.b:
     int DEFAULT_LEVEL -> a
@@ -1436,7 +1436,7 @@ com.cometproject.server.game.rooms.RoomManager -> com.cometproject.server.game.r
     243:243:java.util.Set getModels() -> a
     247:247:com.cometproject.server.game.rooms.RoomCycle getGlobalCycle() -> a
     251:251:com.cometproject.server.game.rooms.filter.WordFilter getFilter() -> a
-com.cometproject.server.game.rooms.avatars.effects.UserEffect -> com.cometproject.server.game.rooms.a.a.a:
+com.cometproject.server.game.rooms.entities.effects.UserEffect -> com.cometproject.server.game.rooms.a.a.a:
     int effectId -> a
     int duration -> b
     boolean expires -> a
@@ -1447,197 +1447,197 @@ com.cometproject.server.game.rooms.avatars.effects.UserEffect -> com.cometprojec
     37:37:boolean expires() -> a
     41:41:boolean isItemEffect() -> b
     11:25:com.cometproject.server.network.messages.types.Composer compose(java.util.List,java.util.List) -> a
-com.cometproject.server.game.rooms.avatars.effects.UserEffectType -> com.cometproject.server.game.rooms.a.a.b:
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SPOTLIGHT -> e
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType HOVERBOARD -> f
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType UFO_BLUE -> g
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType TWINKLE -> h
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType TORCH -> i
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType JETPACK -> j
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType BUTTERFLIES -> k
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType FIREFLIES -> l
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType LOVE -> m
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType FLIES -> n
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType X_RAY -> o
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ICE -> p
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType GHOS -> q
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType HOVERBOARD_PINK_ -> r
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType HOVERBOARD_YELLOW -> s
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType MICROPHONE -> t
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType UFO_PINK -> u
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType UFO_YELLOW -> v
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType CAR_POLICE -> w
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType CAR_AMBULANCE -> x
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType CAR_DOLLAR -> y
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType CAR_TOPFUEL -> z
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType TOTEM_MAN -> A
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType TOTEM_MERDRAGON -> B
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType TOTEM_EAGLE -> C
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType TOTEM_MIX -> D
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType VIKING -> E
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SPLASH -> F
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SWIMMING -> G
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType WADE -> H
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType CHEETOS -> I
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType DESPICABLE_ME -> J
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType BB_RED -> a
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType BB_GREEN -> b
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType BB_BLUE -> c
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType BB_YELLOW -> d
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType WADE_IN_SWAMP -> K
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ICE_SKATING__BOY -> L
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ICE_SKATING__GIRL -> M
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ES_RED -> N
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ES_GREEN -> O
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ES_BLUE -> P
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ES_YELLOW -> Q
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SIMS -> R
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType TAGGED_ICE_SKATING__BOY -> S
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType TAGGED_ICE_SKATING__GIRL -> T
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType MEGAMIND -> U
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType CAR_DOGGY -> V
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ES_RED_UNTOUCHABLE -> W
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ES_GREEN_UNTOUCHABLE -> X
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ES_BLUE_UNTOUCHABLE -> Y
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ES_YELLOW_UNTOUCHABLE -> Z
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType EASTER_CHICKS -> aa
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType EASTER_BUNNY -> ab
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ROLLER_SKATING_BOY -> ac
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ROLLER_SKATING_GIRL -> ad
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType TAGGED_ROLLER_SKATING_BOY -> ae
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType TAGGED_ROLLER_SKATING_GIRL -> af
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SUNNY_DELIGHT -> ag
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType RANGO -> ah
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType DISNEY_CHANNEL_EFFECT_1 -> ai
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType DISNEY_CHANNEL_EFFECT_2 -> aj
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType DISNEY_CHANNEL_EFFECT_3 -> ak
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType CANDLE -> al
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType MOBILE_0800 -> am
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType DISNEY_WIZARDS_OF_WAVERLY -> an
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType RIO_PARROT -> ao
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType EASTER_TAGGING -> ap
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType VOLKSWAGEN -> aq
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType KUNG_FU_PANDA -> ar
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SKATEBOARD_ -> as
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SKATEBOARD -> at
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType CHUPA_CHUP -> au
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType LEI_1 -> av
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType LEI_2 -> aw
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType LEI_3 -> ax
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType RIDING -> ay
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PERRY -> az
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ALIEN_MASK -> aA
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType GIANT_MOUTH_2 -> aB
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SWAMP_CREATURE_MASK_2 -> aC
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType INK_BLOT_MASK_2 -> aD
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType MIME_MASK_2 -> aE
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType MUMMY_MASK -> aF
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PUMPKIN_MASK -> aG
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SCARECROW_MASK_2 -> aH
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType WOLF_MASK -> aI
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ZOMBIE_MASK_2 -> aJ
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType BACK_KNIFE_2 -> aK
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType BUTTERYFLY_WINGS_2 -> aL
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType FAIRY_WINGS_2 -> aM
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType GHOST_SHEET -> aN
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType HEADLES_1 -> aO
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType LIISU_TRUCK -> aP
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SNOWWAR_RED -> aQ
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SNOWWAR_BLUE -> aR
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SNOWBOARD_PLC -> aS
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType CROSSHAIR__FOR_SNOWSTOR -> aT
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType NIKO -> aU
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType DRAGON -> aV
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType RESERVED_FOR_CHINESE_UMBRELL -> aW
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType RESERVED_FOR_CHINESE_FA -> aX
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType RIDING__SADDLE_ -> aY
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PIE -> aZ
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType DUBBELFRISSS -> ba
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType BLUE_TORCH -> bb
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PLASTO_POD_CHAIR -> bc
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType NINJA_DISAPPE -> bd
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType MEDAL_1 -> be
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType MEDAL_2 -> bf
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType MEDAL_3 -> bg
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SPIDERMAN -> bh
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType RAINCLOUD -> bi
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType STRONG_ARM -> bj
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType RINGMASTER -> bk
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType FLY -> bl
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType EXECUTIONER -> bm
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType EVIL_CLOWN -> bn
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType DARK_ALIEN_MASK -> bo
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType GIANT_MOUTH -> bp
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SWAMP_CREATURE_MASK -> bq
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType INK_BLOT_MASK -> br
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType MIME_MASK -> bs
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType MUMMY_2_MASK -> bt
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType FROST_PUMPKIN_MASK -> bu
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SCARECROW_MASK -> bv
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType EVIL_WOLF_MASK -> bw
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType ZOMBIE_MASK -> bx
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType BACK_KNIFE -> by
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType BUTTERYFLY_WINGS_1 -> bz
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType FAIRY_WINGS_1 -> bA
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType GLOWING_GHOST_SHEET -> bB
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType HEADLES -> bC
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SNAKE_BODY -> bD
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PUPPET_MASTER -> bE
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType BACKWALKING_SHOES -> bF
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType GOLD_SPOTLIGHT -> bG
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType GOLDEN_GLASSES -> bH
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType GOLD_MICROPHONE -> bI
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType HABNAM_DANCE -> bJ
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType FLOWERMASK -> bK
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType GOATMASK -> bL
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType FEATHERMASK1 -> bM
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType FEATHERMASK2 -> bN
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType FEATHERMASK3 -> bO
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType FEATHERMASK4 -> bP
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PEACOCK1_MASK -> bQ
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PEACOCK2_MASK -> bR
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PEACOCK3_MASK -> bS
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PEACOCK4_MASK -> bT
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType GOATMASK2 -> bU
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType GOATMASK3 -> bV
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType FLOWERMASK2 -> bW
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType MASSIVE_EGG -> bX
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType BCRYSTAL -> bY
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType GCRYSTAL -> bZ
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PIMPLE -> ca
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PINATA -> cb
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType BARRE -> cc
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PIRATE_CAPTAIN -> cd
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PIRATE_CREW -> ce
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PIRATE_SWORD -> cf
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType HEAD_ON_THE_GROUND -> cg
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType PIRATE_GUN -> ch
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SPINNING_THUMBSUP -> ci
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType GOBLIN -> cj
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType MUTANT -> ck
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SPINNING_HEATS -> cl
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType SLIME -> cm
+com.cometproject.server.game.rooms.entities.effects.UserEffectType -> com.cometproject.server.game.rooms.a.a.b:
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SPOTLIGHT -> e
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType HOVERBOARD -> f
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType UFO_BLUE -> g
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType TWINKLE -> h
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType TORCH -> i
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType JETPACK -> j
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType BUTTERFLIES -> k
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType FIREFLIES -> l
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType LOVE -> m
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType FLIES -> n
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType X_RAY -> o
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ICE -> p
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType GHOS -> q
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType HOVERBOARD_PINK_ -> r
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType HOVERBOARD_YELLOW -> s
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType MICROPHONE -> t
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType UFO_PINK -> u
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType UFO_YELLOW -> v
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType CAR_POLICE -> w
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType CAR_AMBULANCE -> x
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType CAR_DOLLAR -> y
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType CAR_TOPFUEL -> z
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType TOTEM_MAN -> A
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType TOTEM_MERDRAGON -> B
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType TOTEM_EAGLE -> C
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType TOTEM_MIX -> D
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType VIKING -> E
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SPLASH -> F
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SWIMMING -> G
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType WADE -> H
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType CHEETOS -> I
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType DESPICABLE_ME -> J
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType BB_RED -> a
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType BB_GREEN -> b
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType BB_BLUE -> c
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType BB_YELLOW -> d
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType WADE_IN_SWAMP -> K
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ICE_SKATING__BOY -> L
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ICE_SKATING__GIRL -> M
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ES_RED -> N
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ES_GREEN -> O
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ES_BLUE -> P
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ES_YELLOW -> Q
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SIMS -> R
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType TAGGED_ICE_SKATING__BOY -> S
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType TAGGED_ICE_SKATING__GIRL -> T
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType MEGAMIND -> U
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType CAR_DOGGY -> V
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ES_RED_UNTOUCHABLE -> W
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ES_GREEN_UNTOUCHABLE -> X
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ES_BLUE_UNTOUCHABLE -> Y
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ES_YELLOW_UNTOUCHABLE -> Z
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType EASTER_CHICKS -> aa
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType EASTER_BUNNY -> ab
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ROLLER_SKATING_BOY -> ac
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ROLLER_SKATING_GIRL -> ad
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType TAGGED_ROLLER_SKATING_BOY -> ae
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType TAGGED_ROLLER_SKATING_GIRL -> af
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SUNNY_DELIGHT -> ag
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType RANGO -> ah
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType DISNEY_CHANNEL_EFFECT_1 -> ai
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType DISNEY_CHANNEL_EFFECT_2 -> aj
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType DISNEY_CHANNEL_EFFECT_3 -> ak
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType CANDLE -> al
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType MOBILE_0800 -> am
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType DISNEY_WIZARDS_OF_WAVERLY -> an
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType RIO_PARROT -> ao
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType EASTER_TAGGING -> ap
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType VOLKSWAGEN -> aq
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType KUNG_FU_PANDA -> ar
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SKATEBOARD_ -> as
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SKATEBOARD -> at
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType CHUPA_CHUP -> au
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType LEI_1 -> av
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType LEI_2 -> aw
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType LEI_3 -> ax
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType RIDING -> ay
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PERRY -> az
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ALIEN_MASK -> aA
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType GIANT_MOUTH_2 -> aB
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SWAMP_CREATURE_MASK_2 -> aC
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType INK_BLOT_MASK_2 -> aD
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType MIME_MASK_2 -> aE
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType MUMMY_MASK -> aF
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PUMPKIN_MASK -> aG
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SCARECROW_MASK_2 -> aH
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType WOLF_MASK -> aI
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ZOMBIE_MASK_2 -> aJ
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType BACK_KNIFE_2 -> aK
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType BUTTERYFLY_WINGS_2 -> aL
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType FAIRY_WINGS_2 -> aM
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType GHOST_SHEET -> aN
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType HEADLES_1 -> aO
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType LIISU_TRUCK -> aP
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SNOWWAR_RED -> aQ
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SNOWWAR_BLUE -> aR
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SNOWBOARD_PLC -> aS
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType CROSSHAIR__FOR_SNOWSTOR -> aT
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType NIKO -> aU
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType DRAGON -> aV
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType RESERVED_FOR_CHINESE_UMBRELL -> aW
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType RESERVED_FOR_CHINESE_FA -> aX
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType RIDING__SADDLE_ -> aY
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PIE -> aZ
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType DUBBELFRISSS -> ba
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType BLUE_TORCH -> bb
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PLASTO_POD_CHAIR -> bc
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType NINJA_DISAPPE -> bd
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType MEDAL_1 -> be
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType MEDAL_2 -> bf
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType MEDAL_3 -> bg
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SPIDERMAN -> bh
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType RAINCLOUD -> bi
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType STRONG_ARM -> bj
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType RINGMASTER -> bk
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType FLY -> bl
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType EXECUTIONER -> bm
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType EVIL_CLOWN -> bn
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType DARK_ALIEN_MASK -> bo
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType GIANT_MOUTH -> bp
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SWAMP_CREATURE_MASK -> bq
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType INK_BLOT_MASK -> br
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType MIME_MASK -> bs
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType MUMMY_2_MASK -> bt
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType FROST_PUMPKIN_MASK -> bu
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SCARECROW_MASK -> bv
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType EVIL_WOLF_MASK -> bw
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType ZOMBIE_MASK -> bx
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType BACK_KNIFE -> by
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType BUTTERYFLY_WINGS_1 -> bz
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType FAIRY_WINGS_1 -> bA
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType GLOWING_GHOST_SHEET -> bB
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType HEADLES -> bC
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SNAKE_BODY -> bD
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PUPPET_MASTER -> bE
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType BACKWALKING_SHOES -> bF
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType GOLD_SPOTLIGHT -> bG
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType GOLDEN_GLASSES -> bH
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType GOLD_MICROPHONE -> bI
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType HABNAM_DANCE -> bJ
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType FLOWERMASK -> bK
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType GOATMASK -> bL
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType FEATHERMASK1 -> bM
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType FEATHERMASK2 -> bN
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType FEATHERMASK3 -> bO
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType FEATHERMASK4 -> bP
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PEACOCK1_MASK -> bQ
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PEACOCK2_MASK -> bR
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PEACOCK3_MASK -> bS
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PEACOCK4_MASK -> bT
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType GOATMASK2 -> bU
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType GOATMASK3 -> bV
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType FLOWERMASK2 -> bW
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType MASSIVE_EGG -> bX
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType BCRYSTAL -> bY
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType GCRYSTAL -> bZ
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PIMPLE -> ca
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PINATA -> cb
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType BARRE -> cc
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PIRATE_CAPTAIN -> cd
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PIRATE_CREW -> ce
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PIRATE_SWORD -> cf
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType HEAD_ON_THE_GROUND -> cg
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType PIRATE_GUN -> ch
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SPINNING_THUMBSUP -> ci
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType GOBLIN -> cj
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType MUTANT -> ck
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SPINNING_HEATS -> cl
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType SLIME -> cm
     int effectId -> a
-    com.cometproject.server.game.rooms.avatars.effects.UserEffectType[] $VALUES -> a
-    3:3:com.cometproject.server.game.rooms.avatars.effects.UserEffectType[] values() -> values
-    3:3:com.cometproject.server.game.rooms.avatars.effects.UserEffectType valueOf(java.lang.String) -> valueOf
+    com.cometproject.server.game.rooms.entities.effects.UserEffectType[] $VALUES -> a
+    3:3:com.cometproject.server.game.rooms.entities.effects.UserEffectType[] values() -> values
+    3:3:com.cometproject.server.game.rooms.entities.effects.UserEffectType valueOf(java.lang.String) -> valueOf
     181:181:int getEffectId() -> a
 com.cometproject.server.game.rooms.avatars.events.OnEnterRoomEvent -> com.cometproject.server.game.rooms.a.b.a:
-com.cometproject.server.game.rooms.avatars.misc.AvatarWriter -> com.cometproject.server.game.rooms.a.c.a:
+com.cometproject.server.game.rooms.entities.misc.AvatarWriter -> com.cometproject.server.game.rooms.a.c.a:
     10:38:void write$59f6d2e3(com.cometproject.server.game.rooms.entities.AvatarEntity,com.cometproject.server.network.messages.types.Composer) -> a
-com.cometproject.server.game.rooms.avatars.misc.Position3D -> com.cometproject.server.game.rooms.a.c.b:
+com.cometproject.server.game.rooms.entities.misc.Position3D -> com.cometproject.server.game.rooms.a.c.b:
     int x -> a
     int y -> b
     double z -> a
-    35:35:com.cometproject.server.game.rooms.avatars.misc.Position3D add(com.cometproject.server.game.rooms.avatars.misc.Position3D) -> a
-    39:39:com.cometproject.server.game.rooms.avatars.misc.Position3D subtract(com.cometproject.server.game.rooms.avatars.misc.Position3D) -> b
-    43:46:int getDistanceSquared(com.cometproject.server.game.rooms.avatars.misc.Position3D) -> a
+    35:35:com.cometproject.server.game.rooms.entities.misc.Position3D add(com.cometproject.server.game.rooms.entities.misc.Position3D) -> a
+    39:39:com.cometproject.server.game.rooms.entities.misc.Position3D subtract(com.cometproject.server.game.rooms.entities.misc.Position3D) -> b
+    43:46:int getDistanceSquared(com.cometproject.server.game.rooms.entities.misc.Position3D) -> a
     51:71:java.lang.String validateWallPosition(java.lang.String) -> a
     75:81:double calculateHeight(com.cometproject.server.game.rooms.items.RoomItemFloor) -> a
     85:112:int calculateRotation(int,int,int,int,boolean) -> a
-    116:134:com.cometproject.server.game.rooms.avatars.misc.Position3D squareInFront(int) -> a
-    138:156:com.cometproject.server.game.rooms.avatars.misc.Position3D squareBehind(int) -> b
-    160:163:double distanceBetween(com.cometproject.server.game.rooms.avatars.misc.Position3D,com.cometproject.server.game.rooms.avatars.misc.Position3D) -> a
+    116:134:com.cometproject.server.game.rooms.entities.misc.Position3D squareInFront(int) -> a
+    138:156:com.cometproject.server.game.rooms.entities.misc.Position3D squareBehind(int) -> b
+    160:163:double distanceBetween(com.cometproject.server.game.rooms.entities.misc.Position3D,com.cometproject.server.game.rooms.entities.misc.Position3D) -> a
     168:168:java.lang.String toString() -> toString
     172:172:int getX() -> a
     176:176:int getY() -> b
@@ -1645,7 +1645,7 @@ com.cometproject.server.game.rooms.avatars.misc.Position3D -> com.cometproject.s
     184:185:void setX(int) -> a
     188:189:void setY(int) -> b
     192:193:void setZ(double) -> a
-com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile -> com.cometproject.server.game.rooms.a.d.a:
+com.cometproject.server.game.rooms.entities.pathfinding.AffectedTile -> com.cometproject.server.game.rooms.a.d.a:
     int x -> a
     int y -> b
     16:60:java.util.List getAffectedBothTilesAt(int,int,int,int,int) -> a
@@ -1654,25 +1654,25 @@ com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile -> com.comet
     21:21:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.components.types.MessengerRequest,boolean,boolean) -> a
     25:25:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.data.PlayerData,boolean,boolean) -> a
     29:50:com.cometproject.server.network.messages.types.Composer compose(int,java.lang.String,java.lang.String,java.lang.String,boolean,boolean) -> a
-com.cometproject.server.game.rooms.avatars.pathfinding.Pathfinder -> com.cometproject.server.game.rooms.a.d.b:
+com.cometproject.server.game.rooms.entities.pathfinding.Pathfinder -> com.cometproject.server.game.rooms.a.d.b:
     com.cometproject.server.game.rooms.entities.AvatarEntity entity -> a
     19:30:java.util.List makePath() -> a
-    34:100:com.cometproject.server.game.rooms.avatars.pathfinding.PathfinderNode makePathReversed() -> a
-    104:104:com.cometproject.server.game.rooms.avatars.misc.Position3D[] movePoints() -> a
+    34:100:com.cometproject.server.game.rooms.entities.pathfinding.PathfinderNode makePathReversed() -> a
+    104:104:com.cometproject.server.game.rooms.entities.misc.Position3D[] movePoints() -> a
     9:25:com.cometproject.server.network.messages.types.Composer compose(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
     29:29:com.cometproject.server.network.messages.types.Composer compose(java.lang.String,java.lang.String) -> a
     39:39:com.cometproject.server.network.messages.types.Composer compose(java.lang.String) -> a
     49:49:com.cometproject.server.network.messages.types.Composer compose(java.lang.String,java.lang.String,java.lang.String) -> a
-com.cometproject.server.game.rooms.avatars.pathfinding.PathfinderNode -> com.cometproject.server.game.rooms.a.d.c:
-    com.cometproject.server.game.rooms.avatars.misc.Position3D position -> a
-    com.cometproject.server.game.rooms.avatars.pathfinding.PathfinderNode nextNode -> a
+com.cometproject.server.game.rooms.entities.pathfinding.PathfinderNode -> com.cometproject.server.game.rooms.a.d.c:
+    com.cometproject.server.game.rooms.entities.misc.Position3D position -> a
+    com.cometproject.server.game.rooms.entities.pathfinding.PathfinderNode nextNode -> a
     java.lang.Integer cost -> a
     boolean inOpen -> a
     boolean inClosed -> b
-    14:14:com.cometproject.server.game.rooms.avatars.misc.Position3D getPosition() -> a
-    18:19:void setPosition(com.cometproject.server.game.rooms.avatars.misc.Position3D) -> a
-    22:22:com.cometproject.server.game.rooms.avatars.pathfinding.PathfinderNode getNextNode() -> a
-    26:27:void setNextNode(com.cometproject.server.game.rooms.avatars.pathfinding.PathfinderNode) -> a
+    14:14:com.cometproject.server.game.rooms.entities.misc.Position3D getPosition() -> a
+    18:19:void setPosition(com.cometproject.server.game.rooms.entities.misc.Position3D) -> a
+    22:22:com.cometproject.server.game.rooms.entities.pathfinding.PathfinderNode getNextNode() -> a
+    26:27:void setNextNode(com.cometproject.server.game.rooms.entities.pathfinding.PathfinderNode) -> a
     30:30:java.lang.Integer getCost() -> a
     34:35:void setCost(int) -> a
     38:38:boolean isInOpen() -> a
@@ -1680,11 +1680,11 @@ com.cometproject.server.game.rooms.avatars.pathfinding.PathfinderNode -> com.com
     46:46:boolean isInClosed() -> b
     50:51:void setInClosed(boolean) -> b
     59:59:boolean equals(java.lang.Object) -> equals
-    63:63:boolean equals(com.cometproject.server.game.rooms.avatars.pathfinding.PathfinderNode) -> a
+    63:63:boolean equals(com.cometproject.server.game.rooms.entities.pathfinding.PathfinderNode) -> a
     68:68:int hashCode() -> hashCode
-    73:73:int compareTo(com.cometproject.server.game.rooms.avatars.pathfinding.PathfinderNode) -> a
+    73:73:int compareTo(com.cometproject.server.game.rooms.entities.pathfinding.PathfinderNode) -> a
     5:5:int compareTo(java.lang.Object) -> compareTo
-com.cometproject.server.game.rooms.avatars.pathfinding.Square -> com.cometproject.server.game.rooms.a.d.d:
+com.cometproject.server.game.rooms.entities.pathfinding.Square -> com.cometproject.server.game.rooms.a.d.d:
     int x -> a
     int y -> b
     8:12:com.cometproject.server.network.messages.types.Composer compose(java.lang.String) -> a
@@ -1699,22 +1699,22 @@ com.cometproject.server.game.rooms.backup.RoomBackupInstance -> com.cometproject
 com.cometproject.server.game.rooms.entities.AvatarEntity -> com.cometproject.server.game.rooms.c.a:
     int id -> a
     com.cometproject.server.game.rooms.entities.RoomEntityType entityType -> a
-    com.cometproject.server.game.rooms.avatars.misc.Position3D position -> a
-    com.cometproject.server.game.rooms.avatars.misc.Position3D walkingGoal -> b
-    com.cometproject.server.game.rooms.avatars.misc.Position3D positionToSet -> c
+    com.cometproject.server.game.rooms.entities.misc.Position3D position -> a
+    com.cometproject.server.game.rooms.entities.misc.Position3D walkingGoal -> b
+    com.cometproject.server.game.rooms.entities.misc.Position3D positionToSet -> c
     int bodyRotation -> b
     int headRotation -> c
     int roomId -> d
     java.lang.ref.WeakReference room -> a
     java.util.List processingPath -> a
     java.util.List walkingPath -> b
-    com.cometproject.server.game.rooms.avatars.pathfinding.Square futureSquare -> a
-    com.cometproject.server.game.rooms.avatars.pathfinding.Pathfinder pathfinder -> a
+    com.cometproject.server.game.rooms.entities.pathfinding.Square futureSquare -> a
+    com.cometproject.server.game.rooms.entities.pathfinding.Pathfinder pathfinder -> a
     int stepsToGoal -> e
     int idleTime -> f
     int signTime -> g
     int danceId -> h
-    com.cometproject.server.game.rooms.avatars.effects.UserEffect effect -> a
+    com.cometproject.server.game.rooms.entities.effects.UserEffect effect -> a
     int handItem -> i
     int handItemTimer -> j
     boolean markedNeedsUpdate -> a
@@ -1724,12 +1724,12 @@ com.cometproject.server.game.rooms.entities.AvatarEntity -> com.cometproject.ser
     boolean doorbellAnswered -> e
     java.util.Map statusses -> a
     100:100:int getVirtualId() -> a
-    109:109:com.cometproject.server.game.rooms.avatars.misc.Position3D getPosition() -> a
-    166:173:void setPosition(com.cometproject.server.game.rooms.avatars.misc.Position3D) -> a
-    114:117:com.cometproject.server.game.rooms.avatars.misc.Position3D getWalkingGoal() -> b
+    109:109:com.cometproject.server.game.rooms.entities.misc.Position3D getPosition() -> a
+    166:173:void setPosition(com.cometproject.server.game.rooms.entities.misc.Position3D) -> a
+    114:117:com.cometproject.server.game.rooms.entities.misc.Position3D getWalkingGoal() -> b
     123:129:void setWalkingGoal(int,int) -> a
-    177:177:com.cometproject.server.game.rooms.avatars.misc.Position3D getPositionToSet() -> c
-    182:183:void updateAndSetPosition(com.cometproject.server.game.rooms.avatars.misc.Position3D) -> b
+    177:177:com.cometproject.server.game.rooms.entities.misc.Position3D getPositionToSet() -> c
+    182:183:void updateAndSetPosition(com.cometproject.server.game.rooms.entities.misc.Position3D) -> b
     187:188:void markPositionIsSet() -> a
     196:196:int getBodyRotation() -> b
     201:202:void setBodyRotation(int) -> a
@@ -1740,9 +1740,9 @@ com.cometproject.server.game.rooms.entities.AvatarEntity -> com.cometproject.ser
     221:221:java.util.List getProcessingPath() -> b
     226:227:void setProcessingPath(java.util.List) -> b
     245:245:boolean isWalking() -> a
-    250:250:com.cometproject.server.game.rooms.avatars.pathfinding.Square getFutureSquare() -> a
-    255:256:void setFutureSquare(com.cometproject.server.game.rooms.avatars.pathfinding.Square) -> a
-    260:264:com.cometproject.server.game.rooms.avatars.pathfinding.Pathfinder getPathfinder() -> a
+    250:250:com.cometproject.server.game.rooms.entities.pathfinding.Square getFutureSquare() -> a
+    255:256:void setFutureSquare(com.cometproject.server.game.rooms.entities.pathfinding.Square) -> a
+    260:264:com.cometproject.server.game.rooms.entities.pathfinding.Pathfinder getPathfinder() -> a
     139:162:void moveTo(int,int) -> b
     269:269:java.util.Map getStatuses() -> a
     274:279:void addStatus(java.lang.String,java.lang.String) -> a
@@ -1761,8 +1761,8 @@ com.cometproject.server.game.rooms.entities.AvatarEntity -> com.cometproject.ser
     367:376:boolean isDisplayingSign() -> d
     430:430:boolean isOverriden() -> e
     434:435:void setOverriden(boolean) -> a
-    392:392:com.cometproject.server.game.rooms.avatars.effects.UserEffect getCurrentEffect() -> a
-    420:427:void applyEffect(com.cometproject.server.game.rooms.avatars.effects.UserEffect) -> a
+    392:392:com.cometproject.server.game.rooms.entities.effects.UserEffect getCurrentEffect() -> a
+    420:427:void applyEffect(com.cometproject.server.game.rooms.entities.effects.UserEffect) -> a
     402:406:void carryItem(int) -> d
     397:397:int getHandItem() -> g
     344:346:boolean handItemNeedsRemove() -> f
@@ -1795,22 +1795,22 @@ com.cometproject.server.game.rooms.entities.AvatarEntity -> com.cometproject.ser
 com.cometproject.server.game.rooms.entities.GenericEntity -> com.cometproject.server.game.rooms.c.b:
     int id -> a
     com.cometproject.server.game.rooms.entities.RoomEntityType entityType -> a
-    com.cometproject.server.game.rooms.avatars.misc.Position3D position -> a
-    com.cometproject.server.game.rooms.avatars.misc.Position3D walkingGoal -> b
-    com.cometproject.server.game.rooms.avatars.misc.Position3D positionToSet -> c
+    com.cometproject.server.game.rooms.entities.misc.Position3D position -> a
+    com.cometproject.server.game.rooms.entities.misc.Position3D walkingGoal -> b
+    com.cometproject.server.game.rooms.entities.misc.Position3D positionToSet -> c
     int bodyRotation -> b
     int headRotation -> c
     int roomId -> d
     java.lang.ref.WeakReference room -> a
     java.util.List processingPath -> a
     java.util.List walkingPath -> b
-    com.cometproject.server.game.rooms.avatars.pathfinding.Square futureSquare -> a
-    com.cometproject.server.game.rooms.avatars.pathfinding.Pathfinder pathfinder -> a
+    com.cometproject.server.game.rooms.entities.pathfinding.Square futureSquare -> a
+    com.cometproject.server.game.rooms.entities.pathfinding.Pathfinder pathfinder -> a
     int stepsToGoal -> e
     int idleTime -> f
     int signTime -> g
     int danceId -> h
-    com.cometproject.server.game.rooms.avatars.effects.UserEffect effect -> a
+    com.cometproject.server.game.rooms.entities.effects.UserEffect effect -> a
     int handItem -> i
     int handItemTimer -> j
     boolean markedNeedsUpdate -> a
@@ -1821,14 +1821,14 @@ com.cometproject.server.game.rooms.entities.GenericEntity -> com.cometproject.se
     java.util.Map statusses -> a
     100:100:int getVirtualId() -> a
     104:104:com.cometproject.server.game.rooms.entities.RoomEntityType getEntityType() -> a
-    109:109:com.cometproject.server.game.rooms.avatars.misc.Position3D getPosition() -> a
-    114:117:com.cometproject.server.game.rooms.avatars.misc.Position3D getWalkingGoal() -> b
+    109:109:com.cometproject.server.game.rooms.entities.misc.Position3D getPosition() -> a
+    114:117:com.cometproject.server.game.rooms.entities.misc.Position3D getWalkingGoal() -> b
     123:129:void setWalkingGoal(int,int) -> a
     132:132:int getStepsToGoal() -> i
     139:162:void moveTo(int,int) -> b
-    166:173:void setPosition(com.cometproject.server.game.rooms.avatars.misc.Position3D) -> a
-    177:177:com.cometproject.server.game.rooms.avatars.misc.Position3D getPositionToSet() -> c
-    182:183:void updateAndSetPosition(com.cometproject.server.game.rooms.avatars.misc.Position3D) -> b
+    166:173:void setPosition(com.cometproject.server.game.rooms.entities.misc.Position3D) -> a
+    177:177:com.cometproject.server.game.rooms.entities.misc.Position3D getPositionToSet() -> c
+    182:183:void updateAndSetPosition(com.cometproject.server.game.rooms.entities.misc.Position3D) -> b
     187:188:void markPositionIsSet() -> a
     191:191:boolean hasPositionToSet() -> g
     196:196:int getBodyRotation() -> b
@@ -1841,9 +1841,9 @@ com.cometproject.server.game.rooms.entities.GenericEntity -> com.cometproject.se
     231:231:java.util.List getWalkingPath() -> a
     236:241:void setWalkingPath(java.util.List) -> a
     245:245:boolean isWalking() -> a
-    250:250:com.cometproject.server.game.rooms.avatars.pathfinding.Square getFutureSquare() -> a
-    255:256:void setFutureSquare(com.cometproject.server.game.rooms.avatars.pathfinding.Square) -> a
-    260:264:com.cometproject.server.game.rooms.avatars.pathfinding.Pathfinder getPathfinder() -> a
+    250:250:com.cometproject.server.game.rooms.entities.pathfinding.Square getFutureSquare() -> a
+    255:256:void setFutureSquare(com.cometproject.server.game.rooms.entities.pathfinding.Square) -> a
+    260:264:com.cometproject.server.game.rooms.entities.pathfinding.Pathfinder getPathfinder() -> a
     269:269:java.util.Map getStatuses() -> a
     274:279:void addStatus(java.lang.String,java.lang.String) -> a
     283:288:void removeStatus(java.lang.String) -> a
@@ -1864,12 +1864,12 @@ com.cometproject.server.game.rooms.entities.GenericEntity -> com.cometproject.se
     367:376:boolean isDisplayingSign() -> d
     382:382:int getDanceId() -> e
     387:388:void setDanceId(int) -> c
-    392:392:com.cometproject.server.game.rooms.avatars.effects.UserEffect getCurrentEffect() -> a
+    392:392:com.cometproject.server.game.rooms.entities.effects.UserEffect getCurrentEffect() -> a
     397:397:int getHandItem() -> g
     402:406:void carryItem(int) -> d
     410:410:int getHandItemTimer() -> h
     415:416:void setHandItemTimer(int) -> e
-    420:427:void applyEffect(com.cometproject.server.game.rooms.avatars.effects.UserEffect) -> a
+    420:427:void applyEffect(com.cometproject.server.game.rooms.entities.effects.UserEffect) -> a
     430:430:boolean isOverriden() -> e
     434:435:void setOverriden(boolean) -> a
     void joinRoom$d51a245(java.lang.String) -> b
@@ -1990,9 +1990,9 @@ com.cometproject.server.game.rooms.entities.types.ai.PetAI -> com.cometproject.s
     11:12:com.cometproject.server.network.messages.types.Composer compose() -> a
 com.cometproject.server.game.rooms.entities.types.data.PlayerBotData -> com.cometproject.server.game.rooms.c.a.b.a:
     org.apache.log4j.Logger log -> a
-    com.cometproject.server.game.rooms.avatars.misc.Position3D position -> a
-    17:17:com.cometproject.server.game.rooms.avatars.misc.Position3D getPosition() -> a
-    21:22:void setPosition(com.cometproject.server.game.rooms.avatars.misc.Position3D) -> a
+    com.cometproject.server.game.rooms.entities.misc.Position3D position -> a
+    17:17:com.cometproject.server.game.rooms.entities.misc.Position3D getPosition() -> a
+    21:22:void setPosition(com.cometproject.server.game.rooms.entities.misc.Position3D) -> a
 com.cometproject.server.game.rooms.filter.WordFilter -> com.cometproject.server.game.rooms.d.a:
     java.util.Map wordfilter -> a
     17:24:void loadFilter() -> a
@@ -2027,8 +2027,8 @@ com.cometproject.server.game.rooms.items.RoomItem -> com.cometproject.server.gam
     116:116:void onUnload() -> h
     119:122:int distance$1461f88d(com.cometproject.server.game.rooms.entities.AvatarEntity) -> a
     126:129:boolean touching$1461f87c(com.cometproject.server.game.rooms.entities.AvatarEntity) -> a
-    133:151:com.cometproject.server.game.rooms.avatars.misc.Position3D squareInfront() -> a
-    155:173:com.cometproject.server.game.rooms.avatars.misc.Position3D squareBehind() -> b
+    133:151:com.cometproject.server.game.rooms.entities.misc.Position3D squareInfront() -> a
+    155:173:com.cometproject.server.game.rooms.entities.misc.Position3D squareBehind() -> b
     178:183:void setAttribute(java.lang.String,java.lang.Object) -> a
     187:187:java.lang.Object getAttribute(java.lang.String) -> a
     192:192:boolean hasAttribute(java.lang.String) -> c
@@ -2179,9 +2179,9 @@ com.cometproject.server.game.rooms.items.types.floor.BallFloorItem -> com.cometp
     java.util.List rollingPositions -> a
     int KICK_POWER -> h
     25:51:void onEntityPreStepOn$1461f880(com.cometproject.server.game.rooms.entities.AvatarEntity) -> a
-    54:59:void roll(com.cometproject.server.game.rooms.items.RoomItemFloor,com.cometproject.server.game.rooms.avatars.misc.Position3D,com.cometproject.server.game.rooms.avatars.misc.Position3D,com.cometproject.server.game.rooms.types.Room) -> a
-    62:62:com.cometproject.server.game.rooms.avatars.misc.Position3D calculatePosition(int,int,int) -> a
-    66:136:com.cometproject.server.game.rooms.avatars.misc.Position3D calculatePosition(int,int,int,boolean) -> a
+    54:59:void roll(com.cometproject.server.game.rooms.items.RoomItemFloor,com.cometproject.server.game.rooms.entities.misc.Position3D,com.cometproject.server.game.rooms.entities.misc.Position3D,com.cometproject.server.game.rooms.types.Room) -> a
+    62:62:com.cometproject.server.game.rooms.entities.misc.Position3D calculatePosition(int,int,int) -> a
+    66:136:com.cometproject.server.game.rooms.entities.misc.Position3D calculatePosition(int,int,int,boolean) -> a
     143:179:void onInteract$7c48c7b1(com.cometproject.server.game.rooms.entities.AvatarEntity,int,boolean) -> a
     183:208:void onTick() -> c
     211:211:boolean isRolling() -> b
@@ -2739,20 +2739,20 @@ com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode -> com.c
 com.cometproject.server.game.rooms.types.mapping.RoomMapping -> com.cometproject.server.game.rooms.f.b.b:
     com.cometproject.server.game.rooms.types.Room room -> a
     com.cometproject.server.game.rooms.types.mapping.TileInstance[][] tiles -> a
-    com.cometproject.server.game.rooms.avatars.misc.Position3D[][] redirectionGrid -> a
+    com.cometproject.server.game.rooms.entities.misc.Position3D[][] redirectionGrid -> a
     21:39:void init() -> a
     42:47:void dispose() -> b
     50:54:void updateTile(int,int) -> a
     57:57:com.cometproject.server.game.rooms.types.mapping.TileInstance getTile(int,int) -> a
-    61:61:boolean positionHasUser(com.cometproject.server.game.rooms.avatars.misc.Position3D) -> b
+    61:61:boolean positionHasUser(com.cometproject.server.game.rooms.entities.misc.Position3D) -> b
     65:65:boolean canStepUpwards(double,double) -> a
-    69:69:boolean isValidStep(com.cometproject.server.game.rooms.avatars.misc.Position3D,com.cometproject.server.game.rooms.avatars.misc.Position3D,boolean) -> a
-    73:105:boolean isValidStep(com.cometproject.server.game.rooms.avatars.misc.Position3D,com.cometproject.server.game.rooms.avatars.misc.Position3D,boolean,boolean) -> a
-    109:122:double getStepHeight(com.cometproject.server.game.rooms.avatars.misc.Position3D) -> a
-    126:126:boolean isValidPosition(com.cometproject.server.game.rooms.avatars.misc.Position3D) -> a
+    69:69:boolean isValidStep(com.cometproject.server.game.rooms.entities.misc.Position3D,com.cometproject.server.game.rooms.entities.misc.Position3D,boolean) -> a
+    73:105:boolean isValidStep(com.cometproject.server.game.rooms.entities.misc.Position3D,com.cometproject.server.game.rooms.entities.misc.Position3D,boolean,boolean) -> a
+    109:122:double getStepHeight(com.cometproject.server.game.rooms.entities.misc.Position3D) -> a
+    126:126:boolean isValidPosition(com.cometproject.server.game.rooms.entities.misc.Position3D) -> a
     130:130:com.cometproject.server.game.rooms.types.Room getRoom() -> a
     134:134:com.cometproject.server.game.rooms.models.RoomModel getModel() -> a
-    138:138:com.cometproject.server.game.rooms.avatars.misc.Position3D[][] getRedirectionGrid() -> a
+    138:138:com.cometproject.server.game.rooms.entities.misc.Position3D[][] getRedirectionGrid() -> a
     11:14:com.cometproject.server.network.messages.types.Composer compose() -> a
 com.cometproject.server.game.rooms.types.mapping.RoomTileStatus -> com.cometproject.server.game.rooms.f.b.c:
     int statusType$556f17e5 -> a
@@ -2771,7 +2771,7 @@ com.cometproject.server.game.rooms.types.mapping.RoomTileStatusType -> com.comet
     3:3:int[] values$6000c71f() -> a
 com.cometproject.server.game.rooms.types.mapping.TileInstance -> com.cometproject.server.game.rooms.f.b.e:
     com.cometproject.server.game.rooms.types.mapping.RoomMapping mappingInstance -> a
-    com.cometproject.server.game.rooms.avatars.misc.Position3D position -> a
+    com.cometproject.server.game.rooms.entities.misc.Position3D position -> a
     double stackHeight -> a
     int movementNode$445d4df -> a
     int status$556f17e5 -> b
@@ -2780,7 +2780,7 @@ com.cometproject.server.game.rooms.types.mapping.TileInstance -> com.cometprojec
     79:79:int getMovementNode$4b08bf40() -> a
     83:83:double getStackHeight() -> a
     87:87:int getStatus$455463ba() -> b
-    91:91:com.cometproject.server.game.rooms.avatars.misc.Position3D getPosition() -> a
+    91:91:com.cometproject.server.game.rooms.entities.misc.Position3D getPosition() -> a
     95:95:boolean canStack() -> a
     8:11:com.cometproject.server.network.messages.types.Composer compose(int) -> a
 com.cometproject.server.game.rooms.types.misc.ChatEmotion -> com.cometproject.server.game.rooms.f.c.a:
@@ -2805,7 +2805,7 @@ com.cometproject.server.game.rooms.types.tiles.RoomTileState -> com.cometproject
 com.cometproject.server.game.utilities.DistanceCalculator -> com.cometproject.server.game.k.a:
     7:7:int calculate(int,int,int,int) -> a
     11:19:boolean tilesTouching(int,int,int,int) -> a
-    23:31:boolean tilesTouching(com.cometproject.server.game.rooms.avatars.misc.Position3D,com.cometproject.server.game.rooms.avatars.misc.Position3D) -> a
+    23:31:boolean tilesTouching(com.cometproject.server.game.rooms.entities.misc.Position3D,com.cometproject.server.game.rooms.entities.misc.Position3D) -> a
 com.cometproject.server.game.utilities.ModelUtils -> com.cometproject.server.game.k.b:
     5:79:int getHeight(char) -> a
 com.cometproject.server.game.wired.WiredManager -> com.cometproject.server.game.l.a:
@@ -2856,7 +2856,7 @@ com.cometproject.server.game.wired.data.WiredDataInstance -> com.cometproject.se
 com.cometproject.server.game.wired.effects.MoveRotateEffect -> com.cometproject.server.game.l.b.a:
     java.util.Random random -> a
     20:94:void onActivate(java.util.List,com.cometproject.server.game.rooms.items.RoomItemFloor) -> a
-    99:158:com.cometproject.server.game.rooms.avatars.misc.Position3D handleMovement(com.cometproject.server.game.rooms.avatars.misc.Position3D,int) -> a
+    99:158:com.cometproject.server.game.rooms.entities.misc.Position3D handleMovement(com.cometproject.server.game.rooms.entities.misc.Position3D,int) -> a
     162:192:int handleRotation(int,int) -> a
     197:221:void onSave(com.cometproject.server.network.messages.types.Event,com.cometproject.server.game.rooms.items.RoomItemFloor) -> a
 com.cometproject.server.game.wired.effects.MoveUserEffect -> com.cometproject.server.game.l.b.b:
@@ -3823,7 +3823,7 @@ com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessag
 com.cometproject.server.network.messages.outgoing.room.items.SendWallItemMessageComposer -> com.cometproject.server.f.d.c.i.f.e:
     9:13:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.items.RoomItemWall) -> a
 com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer -> com.cometproject.server.f.d.c.i.f.f:
-    9:34:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.avatars.misc.Position3D,com.cometproject.server.game.rooms.avatars.misc.Position3D,int,int,int) -> a
+    9:34:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.entities.misc.Position3D,com.cometproject.server.game.rooms.entities.misc.Position3D,int,int,int) -> a
 com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer -> com.cometproject.server.f.d.c.i.f.g:
     9:32:com.cometproject.server.network.messages.types.Composer compose(int,java.lang.String) -> a
 com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer -> com.cometproject.server.f.d.c.i.f.h:

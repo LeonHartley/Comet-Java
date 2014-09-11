@@ -1,8 +1,8 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
-import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItem;
 import com.cometproject.server.game.rooms.items.RoomItemFactory;

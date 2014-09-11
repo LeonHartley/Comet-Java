@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;

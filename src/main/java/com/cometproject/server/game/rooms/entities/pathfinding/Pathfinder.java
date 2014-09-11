@@ -1,6 +1,6 @@
-package com.cometproject.server.game.rooms.avatars.pathfinding;
+package com.cometproject.server.game.rooms.entities.pathfinding;
 
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.AvatarEntity;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MinMaxPriorityQueue;

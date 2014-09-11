@@ -1,12 +1,11 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.types.floor.BedFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.GateFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
-import org.apache.log4j.Logger;
 
 public class TileInstance {
     private RoomMapping mappingInstance;

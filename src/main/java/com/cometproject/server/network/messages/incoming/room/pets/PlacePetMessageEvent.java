@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.pets;
 
 import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;

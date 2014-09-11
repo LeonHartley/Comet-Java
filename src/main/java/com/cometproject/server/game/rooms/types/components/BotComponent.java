@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.players.components.types.InventoryBot;
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.types.Room;

@@ -2,8 +2,8 @@ package com.cometproject.server.network.messages.incoming.room.item;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.components.types.InventoryItem;
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
-import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.RoomItemWall;
