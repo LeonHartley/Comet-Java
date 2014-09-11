@@ -31,7 +31,7 @@ public class Session {
 
         String username = player.getData().getUsername();
 
-        this.logger = Logger.getLogger(username);
+        this.logger = Logger.getLogger("[" + username + "][" + player.getId() + "]");
         this.player = player;
 
         int channelId = this.ctx.attr(NetworkManager.CHANNEL_ID).get();
