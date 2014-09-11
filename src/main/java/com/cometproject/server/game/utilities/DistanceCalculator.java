@@ -1,6 +1,6 @@
 package com.cometproject.server.game.utilities;
 
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
 
 public class DistanceCalculator {
     public static int calculate(int pos1X, int pos1Y, int pos2X, int pos2Y) {

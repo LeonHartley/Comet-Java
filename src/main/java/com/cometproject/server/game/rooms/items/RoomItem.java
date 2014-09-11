@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.items;
 
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.types.Composer;

@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.rooms.avatars.pathfinding.AffectedTile;
+import com.cometproject.server.game.rooms.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.types.Room;

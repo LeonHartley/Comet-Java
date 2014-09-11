@@ -1,7 +1,7 @@
 package com.cometproject.server.storage.queries.bots;
 
 import com.cometproject.server.game.bots.BotData;
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
 import com.cometproject.server.storage.SqlHelper;
 import com.google.gson.Gson;

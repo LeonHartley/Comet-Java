@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
 import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;

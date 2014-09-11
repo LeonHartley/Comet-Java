@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.room.items;
 
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 

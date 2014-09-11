@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.entities.types.data;
 
 import com.cometproject.server.game.bots.BotData;
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
 import org.apache.log4j.Logger;
 
 public class PlayerBotData extends BotData {

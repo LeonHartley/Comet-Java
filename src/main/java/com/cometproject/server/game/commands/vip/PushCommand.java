@@ -3,7 +3,7 @@ package com.cometproject.server.game.commands.vip;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
+import com.cometproject.server.game.rooms.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.sessions.Session;

@@ -1,4 +1,4 @@
-package com.cometproject.server.game.rooms.avatars.effects;
+package com.cometproject.server.game.rooms.entities.effects;
 
 public enum UserEffectType {
     SPOTLIGHT(1),

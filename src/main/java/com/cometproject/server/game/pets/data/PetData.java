@@ -1,7 +1,7 @@
 package com.cometproject.server.game.pets.data;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

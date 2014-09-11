@@ -1,9 +1,9 @@
 package com.cometproject.server.game.rooms.entities;
 
-import com.cometproject.server.game.rooms.avatars.effects.UserEffect;
-import com.cometproject.server.game.rooms.avatars.misc.Position3D;
-import com.cometproject.server.game.rooms.avatars.pathfinding.Pathfinder;
-import com.cometproject.server.game.rooms.avatars.pathfinding.Square;
+import com.cometproject.server.game.rooms.entities.effects.UserEffect;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.pathfinding.Pathfinder;
+import com.cometproject.server.game.rooms.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
