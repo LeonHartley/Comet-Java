@@ -6,9 +6,9 @@ Comet is a super secret project that no one should ever know about.
 
 Current To-do List
 ---
-+   Finish Wired
-+   Groups
-+   Battle Banzai, Freeze, Football, Skateboard
++   Rewrite Wired (Take advantage of the "new" item system)
++   Battle Banzai
++   Freeze
 +   Finish Pets (& Horses)
 +   Trax
 +   Report
@@ -18,3 +18,5 @@ Current To-do List
 +   Helps
 +   Spectator mode (& room-enter queue)
 +   Gift
++   SWF update
++   Encryption
