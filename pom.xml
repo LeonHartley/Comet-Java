@@ -8,7 +8,7 @@
     <artifactId>Comet</artifactId>
 
     <packaging>jar</packaging>
-    <version>0.9.4-BETA5</version>
+    <version>0.9.4-BETA6</version>
 
     <name>Comet</name>
     <url>http://www.comet.im</url>
@@ -54,6 +54,7 @@
                             <mainClass>com.boot.Main</mainClass>
                             <useUniqueVersions>false</useUniqueVersions>
                             <classpathPrefix>lib/</classpathPrefix>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                     </archive>
                 </configuration>

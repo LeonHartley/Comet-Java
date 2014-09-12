@@ -18,6 +18,11 @@ public class FollowFriendMessageEvent implements IEvent {
 
         Room room = friend.getSession().getPlayer().getEntity().getRoom();
 
+        if(room == null) {
+            // wtf?
+            return;
+        }
+
         client.send(FollowFriendMessageComposer.compose(room.getId()));
     }
 }
