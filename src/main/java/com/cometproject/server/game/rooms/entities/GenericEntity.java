@@ -13,7 +13,6 @@ import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import javolution.util.FastMap;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +29,7 @@ public abstract class GenericEntity implements AvatarEntity {
     private int headRotation;
 
     private int roomId;
-    private WeakReference<Room> room;
+    private Room room;
 
     private List<Square> processingPath;
     private List<Square> walkingPath;
@@ -76,7 +75,7 @@ public abstract class GenericEntity implements AvatarEntity {
         this.headRotation = startHeadRotation;
 
         this.roomId = roomInstance.getId();
-        this.room = new WeakReference<>(roomInstance);
+        this.room = roomInstance;
 
         this.idleTime = 0;
         this.signTime = 0;
@@ -226,7 +225,7 @@ public abstract class GenericEntity implements AvatarEntity {
 
     @Override
     public Room getRoom() {
-        return this.room.get();
+        return this.room;
     }
 
     @Override
