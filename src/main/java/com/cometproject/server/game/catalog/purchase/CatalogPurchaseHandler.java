@@ -115,7 +115,7 @@ public class CatalogPurchaseHandler {
                 if (def.getInteraction().equals("trophy")) {
                     extraData +=
                             client.getPlayer().getData().getUsername() + Character.toChars(9)[0] + DateTime.now().getDayOfMonth() + "-" + DateTime.now().getMonthOfYear() + "-" + DateTime.now().getYear() + Character.toChars(9)[0] + data;
-                } else if (def.getInteraction().equals("teleport")) {
+                } else if (def.getInteraction().equals("teleport") || def.getInteraction().equals("teleport_door")) {
                     amount = amount * 2;
                     isTeleport = true;
                 } else if (item.getDisplayName().startsWith("a0 pet")) {
