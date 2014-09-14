@@ -20,7 +20,7 @@ public class WiredActionMoveUser extends WiredActionItem {
 
     @Override
     public int getInterface() {
-        return 0;
+        return 8;
     }
 
     @Override

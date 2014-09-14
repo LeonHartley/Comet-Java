@@ -12,11 +12,10 @@ import com.cometproject.server.game.rooms.items.types.floor.football.*;
 import com.cometproject.server.game.rooms.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.hollywood.HaloTileFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.summer.SummerShowerFloorItem;
-import com.cometproject.server.game.rooms.items.types.floor.wired.AbstractWiredItem;
+import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionMoveUser;
 import com.cometproject.server.game.rooms.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionMoveRotate;
-import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionMoveUser;
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionShowMessage;
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionToggleFurni;
 import com.cometproject.server.game.rooms.items.types.wired.trigger.*;
@@ -47,12 +46,12 @@ public class RoomItemFactory {
             put("halo_tile", HaloTileFloorItem.class);
 
             put("wf_act_moverotate", WiredActionMoveRotate.class);
-            put("wf_act_moveuser", WiredActionMoveUser.class);
+            put("wf_act_moveuser", WiredActionMoveUser.class);//new
             put("wf_act_saymsg", WiredActionShowMessage.class);
             put("wf_act_togglefurni", WiredActionToggleFurni.class);
 
             put("wf_trg_onsay", WiredTriggerOnSay.class);
-            put("wf_trg_enterroom", AbstractWiredItem.class);
+            put("wf_trg_enterroom", WiredTriggerEnterRoom.class);
             put("wf_trg_onfurni", WiredTriggerOnFurni.class);
             put("wf_trg_offfurni", WiredTriggerOffFurni.class);
             put("wf_trg_timer", WiredTriggerTimer.class);
@@ -77,6 +76,8 @@ public class RoomItemFactory {
             return null;
         }
 
+        System.out.println(def.getInteraction());
+
         if (def.canSit) {
             return new SeatFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
         }
@@ -91,6 +92,7 @@ public class RoomItemFactory {
                         .newInstance(id, baseId, roomId, ownerId, x, y, height, rot, data);
             } catch (Exception e) {
                 log.warn("Failed to create instance for item: " + id + ", type: " + def.getInteraction());
+                e.printStackTrace();
             }
         }
 
