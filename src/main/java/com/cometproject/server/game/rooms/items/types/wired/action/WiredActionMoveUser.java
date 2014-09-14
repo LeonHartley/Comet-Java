@@ -36,7 +36,7 @@ public class WiredActionMoveUser extends RoomItemFloor {
             return;
         }
 
-        Composer msg = new Composer(Composers.WiredEffectMessageComposer);
+        Composer msg = new Composer(Composers.WiredActionMessageComposer);
 
         msg.writeBoolean(false);
         msg.writeInt(WiredStaticConfig.MAX_FURNI_SELECTION);
