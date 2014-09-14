@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.items.types.floor.wired;
 
+import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 
 import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionItem;
@@ -36,7 +38,7 @@ public abstract class AbstractWiredItem extends RoomItemFloor {
 
         // TODO: convert old wired data to new wired data
 
-        if(this.getExtraData().isEmpty()) {
+        if(!this.getExtraData().startsWith("{")) {
             this.setExtraData("{}");
         }
 
@@ -62,10 +64,25 @@ public abstract class AbstractWiredItem extends RoomItemFloor {
         this.wiredItemData = gson.fromJson(this.getExtraData(), (this instanceof WiredActionItem) ? WiredActionItemData.class : WiredItemData.class);
     }
 
-    /**
-     * Get the wired item data object
-     * @return The wired item data object
-     */
+    @Override
+    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+        if (!(entity instanceof PlayerEntity)) {
+            return;
+        }
+
+        PlayerEntity p = (PlayerEntity) entity;
+
+        if (!this.getRoom().getRights().hasRights(p.getPlayerId()) && !p.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            return;
+        }
+
+        ((PlayerEntity) entity).getPlayer().getSession().send(this.getDialog());
+    }
+
+        /**
+         * Get the wired item data object
+         * @return The wired item data object
+         */
     public WiredItemData getWiredData() {
         return wiredItemData;
     }
