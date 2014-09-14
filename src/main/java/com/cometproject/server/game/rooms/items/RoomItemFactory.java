@@ -19,9 +19,29 @@ import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionMo
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionShowMessage;
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionToggleFurni;
 import com.cometproject.server.game.rooms.items.types.wired.trigger.*;
+import javolution.util.FastMap;
+import org.apache.log4j.Logger;
+
+import java.util.Map;
 
 public class RoomItemFactory {
     private static final int processMs = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
+    private static final Logger log = Logger.getLogger(RoomItemFactory.class.getName());
+//
+//    private static final Map<String, Class<?>> itemDefinitionMap;
+//
+//    static {
+//        itemDefinitionMap = new FastMap<String, Class<?>>() {{
+//            put("roller", RollerFloorItem.class);
+//            put("dice", DiceFloorItem.class);
+//            put("teleport", TeleporterFloorItem.class);
+//            put("teleport_door", TeleporterFloorItem.class);
+//            put("onewaygate", OneWayGateFloorItem.class);
+//            put("gate", GateFloorItem.class);
+//            put("roombg", BackgroundTonerFloorItem.class);
+//            put("bed", BedFloorItem.class);
+//        }};
+//    }
 
     public static RoomItemFloor createFloor(int id, int baseId, int roomId, int ownerId, int x, int y, double height, int rot, String data) {
         ItemDefinition def = CometManager.getItems().getDefinition(baseId);
@@ -36,6 +56,16 @@ public class RoomItemFactory {
         if(def.getItemName().startsWith("tile_stackmagic")) {
             return new MagicStackFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
         }
+
+//        try {
+//            RoomItemFloor item = RollerFloorItem.class.getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Double.TYPE, Integer.TYPE, String.class)
+//                    .newInstance(id, baseId, roomId, ownerId, x, y, height, rot, data);
+//
+//
+//        } catch(Exception e) {
+//            log.error("Failed to create instance for item: " + id);
+//            return new GenericFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+//        }
 
         switch (def.getInteraction()) {
             default: return new GenericFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
