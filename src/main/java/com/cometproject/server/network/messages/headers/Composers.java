@@ -84,7 +84,7 @@ public class Composers {
     public static short FeaturedRoomsMessageComposer = 2540;//d
 
     public static short WiredTriggerMessageComposer = 2550;
-    public static short WiredEffectMessageComposer = 1800;
+    public static short WiredActionMessageComposer = 1800;
     public static short SaveWiredMessageComposer = 1115;
     public static short RoomCategoriesMessageComposer = 1535;
     public static short ConfigureWallAndFloorMessageComposer = 3323;

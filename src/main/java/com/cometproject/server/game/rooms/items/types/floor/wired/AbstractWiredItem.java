@@ -1,23 +1,36 @@
 package com.cometproject.server.game.rooms.items.types.floor.wired;
 
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
+
+import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionItem;
+import com.cometproject.server.game.rooms.items.types.floor.wired.data.WiredActionItemData;
+import com.cometproject.server.game.rooms.items.types.floor.wired.data.WiredItemData;
 import com.cometproject.server.network.messages.types.Composer;
 import com.google.gson.Gson;
 
-import java.util.List;
-
 public abstract class AbstractWiredItem extends RoomItemFloor {
-    public static final int MAX_SELECTION = 5;
-    public static final int PARAM_STATE = 0;
-    public static final int PARAM_ROTATION = 1;
-    public static final int PARAM_POSITION = 2;
+    /**
+     * GSON instance to share among all wired items
+     */
+    private static final Gson gson = new Gson();
 
-    private int selectionType;
-    private List<Integer> selectedIds;
-    private String text;
-    private int[] params;
-    private List<WiredItemSnapshot> snapshots;
+    /**
+     * The data associated with this wired item
+     */
+    private WiredItemData wiredItemData = null;
 
+    /**
+     * The default constructor
+     * @param id The ID of the item
+     * @param itemId The ID of the item definition
+     * @param roomId The ID of the room
+     * @param owner The ID of the owner
+     * @param x The position of the item on the X axis
+     * @param y The position of the item on the Y axis
+     * @param z The position of the item on the z axis
+     * @param rotation The orientation of the item
+     * @param data The JSON object associated with this item
+     */
     public AbstractWiredItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
 
@@ -30,17 +43,31 @@ public abstract class AbstractWiredItem extends RoomItemFloor {
         this.load();
     }
 
+    /**
+     * Turn the wired item data into a JSON object, and then save it to the database
+     */
     public void save() {
-        // turn all the data associated with the wired item into a JSON object.
+        this.setExtraData(gson.toJson(wiredItemData));
+        this.saveData();
     }
 
+    /**
+     * Turn the JSON object into a usable WiredItemData object
+     */
     public void load() {
         if(this.getExtraData().equals("{}")) {
-            // No data available, what do?
+            this.wiredItemData = (this instanceof WiredActionItem) ? new WiredActionItemData() : new WiredItemData();
         }
 
-        // Turn the JSON object into all data for the wired item
-        System.out.printf("Item's extra data: %s\n", getExtraData());
+        this.wiredItemData = gson.fromJson(this.getExtraData(), (this instanceof WiredActionItem) ? WiredActionItemData.class : WiredItemData.class);
+    }
+
+    /**
+     * Get the wired item data object
+     * @return The wired item data object
+     */
+    public WiredItemData getWiredData() {
+        return wiredItemData;
     }
 
     public abstract int getInterface();

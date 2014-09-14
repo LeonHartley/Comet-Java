@@ -25,7 +25,7 @@ public class WiredActionShowMessage extends RoomItemFloor {
             return;
         }
 
-        Composer msg = new Composer(Composers.WiredEffectMessageComposer);
+        Composer msg = new Composer(Composers.WiredActionMessageComposer);
 
         msg.writeBoolean(false);
         msg.writeInt(0);
