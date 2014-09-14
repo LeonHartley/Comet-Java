@@ -27,24 +27,51 @@ import java.util.Map;
 public class RoomItemFactory {
     private static final int processMs = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
     private static final Logger log = Logger.getLogger(RoomItemFactory.class.getName());
-//
-//    private static final Map<String, Class<?>> itemDefinitionMap;
-//
-//    static {
-//        itemDefinitionMap = new FastMap<String, Class<?>>() {{
-//            put("roller", RollerFloorItem.class);
-//            put("dice", DiceFloorItem.class);
-//            put("teleport", TeleporterFloorItem.class);
-//            put("teleport_door", TeleporterFloorItem.class);
-//            put("onewaygate", OneWayGateFloorItem.class);
-//            put("gate", GateFloorItem.class);
-//            put("roombg", BackgroundTonerFloorItem.class);
-//            put("bed", BedFloorItem.class);
-//        }};
-//    }
+
+    private static final FastMap<String, Class<? extends RoomItemFloor>> itemDefinitionMap;
+
+    static {
+        itemDefinitionMap = new FastMap<String, Class<? extends RoomItemFloor>>() {{
+            put("roller", RollerFloorItem.class);
+            put("dice", DiceFloorItem.class);
+            put("teleport", TeleporterFloorItem.class);
+            put("teleport_door", TeleporterFloorItem.class);
+            put("onewaygate", OneWayGateFloorItem.class);
+            put("gate", GateFloorItem.class);
+            put("roombg", BackgroundTonerFloorItem.class);
+            put("bed", BedFloorItem.class);
+            put("vendingmachine", VendingMachineFloorItem.class);
+            put("mannequin", MannequinFloorItem.class);
+            put("beach_shower", SummerShowerFloorItem.class);
+            put("halo_tile", HaloTileFloorItem.class);
+
+            put("wf_act_moverotate", WiredActionMoveRotate.class);
+            put("wf_act_moveuser", WiredActionMoveUser.class);
+            put("wf_act_saymsg", WiredActionShowMessage.class);
+            put("wf_act_togglefurni", WiredActionToggleFurni.class);
+
+            put("wf_trg_onsay", WiredTriggerOnSay.class);
+            put("wf_trg_enterroom", WiredTriggerEnterRoom.class);
+            put("wf_trg_onfurni", WiredTriggerOnFurni.class);
+            put("wf_trg_offfurni", WiredTriggerOffFurni.class);
+            put("wf_trg_timer", WiredTriggerTimer.class);
+
+            put("bb_teleport", BanzaiTeleporterFloorItem.class);
+
+            put("group_item", GroupFloorItem.class);
+
+            put("football_timer", FootballTimerFloorItem.class);
+            put("ball", FootballFloorItem.class);
+            put("football_gate", FootballGateFloorItem.class);
+            put("football_goal", FootballGoalFloorItem.class);
+            put("football_score", FootballScoreFloorItem.class);
+        }};
+    }
 
     public static RoomItemFloor createFloor(int id, int baseId, int roomId, int ownerId, int x, int y, double height, int rot, String data) {
         ItemDefinition def = CometManager.getItems().getDefinition(baseId);
+        RoomItemFloor floorItem = null;
+
         if (def == null) {
             return null;
         }
@@ -54,61 +81,20 @@ public class RoomItemFactory {
         }
 
         if(def.getItemName().startsWith("tile_stackmagic")) {
-            return new MagicStackFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            floorItem = new MagicStackFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
         }
 
-//        try {
-//            RoomItemFloor item = RollerFloorItem.class.getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Double.TYPE, Integer.TYPE, String.class)
-//                    .newInstance(id, baseId, roomId, ownerId, x, y, height, rot, data);
-//
-//
-//        } catch(Exception e) {
-//            log.error("Failed to create instance for item: " + id);
-//            return new GenericFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-//        }
-
-        switch (def.getInteraction()) {
-            default: return new GenericFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-
-            case "roller": return new RollerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "dice": return new DiceFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "teleport": return new TeleporterFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "teleport_door": return new TeleporterFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "onewaygate": return new OneWayGateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "gate": return new GateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "roombg": return new BackgroundTonerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "bed": return new BedFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "vendingmachine": return new VendingMachineFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "mannequin": return new MannequinFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "beach_shower": return new SummerShowerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "halo_tile": return new HaloTileFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-
-            // Wired Actions
-            case "wf_act_moverotate": return new WiredActionMoveRotate(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "wf_act_moveuser": return new WiredActionMoveUser(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "wf_act_saymsg": return new WiredActionShowMessage(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "wf_act_togglefurni": return new WiredActionToggleFurni(id, baseId, roomId, ownerId, x, y, height, rot, data);
-
-            // Wired Triggers
-            case "wf_trg_onsay": return new WiredTriggerOnSay(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "wf_trg_enterroom": return new WiredTriggerEnterRoom(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "wf_trg_onfurni": return new WiredTriggerOnFurni(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "wf_trg_offfurni": return new WiredTriggerOffFurni(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "wf_trg_timer": return new WiredTriggerTimer(id, baseId, roomId, ownerId, x, y, height, rot, data);
-
-            // Banzai
-            case "bb_teleport": return new BanzaiTeleporterFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-
-            // Group Items
-            case "group_item": return new GroupFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-
-            // Football
-            case "football_timer": return new FootballTimerFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "ball": return new FootballFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "football_gate": return new FootballGateFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "football_goal": return new FootballGoalFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            case "football_score": return new FootballScoreFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+        if(itemDefinitionMap.containsKey(def.getInteraction())) {
+            try {
+                floorItem = itemDefinitionMap.get(def.getInteraction()).getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Double.TYPE, Integer.TYPE, String.class)
+                        .newInstance(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            } catch(Exception e) {
+                log.warn("Failed to create instance for item: " + id + ", reverting to GenericFloorItem");
+                floorItem = new GenericFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+            }
         }
+
+        return floorItem;
     }
 
     public static RoomItemWall createWall(int id, int baseId, int roomId, int owner, String position, String data) {
