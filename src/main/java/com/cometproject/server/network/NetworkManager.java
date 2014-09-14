@@ -1,8 +1,6 @@
 package com.cometproject.server.network;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.network.http.ManagementServer;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.Session;
@@ -17,8 +15,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.AttributeKey;
 import io.netty.util.ResourceLeakDetector;
-import io.netty.util.internal.logging.InternalLoggerFactory;
-import io.netty.util.internal.logging.Log4JLoggerFactory;
 import org.apache.log4j.Logger;
 
 import java.net.InetSocketAddress;
@@ -26,7 +22,6 @@ import java.net.InetSocketAddress;
 public class NetworkManager {
     private SessionManager sessions;
     private MessageHandler messageHandler;
-    private ManagementServer managementServer;
     private MonitorClient monitorClient;
 
     public static int serverPort = 0;
@@ -41,12 +36,6 @@ public class NetworkManager {
     public NetworkManager(String ip, String ports) {
         this.sessions = new SessionManager();
         this.messageHandler = new MessageHandler();
-
-//        InternalLoggerFactory.setDefaultFactory(new Log4JLoggerFactory());
-
-        if (CometSettings.httpEnabled) {
-            this.managementServer = new ManagementServer();
-        }
 
         System.setProperty("java.net.preferIPv4Stack", "true");
         System.setProperty("io.netty.selectorAutoRebuildThreshold", "0");
@@ -92,10 +81,6 @@ public class NetworkManager {
 
     public SessionManager getSessions() {
         return this.sessions;
-    }
-
-    public ManagementServer getManagement() {
-        return this.managementServer;
     }
 
     public MessageHandler getMessages() {

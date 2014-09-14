@@ -7,14 +7,6 @@ import java.util.Map;
 
 public class CometSettings {
     /**
-     * Is the built-in basic HTTP server enabled?
-     * This is not used and will be removed soon - it has been
-     * replaced with a much better server with many more
-     * features!
-     */
-    public static boolean httpEnabled = false;
-
-    /**
      * Is the login message enabled?
      */
     public static boolean messageOfTheDayEnabled = false;
