@@ -80,15 +80,15 @@ public class RoomItemFactory {
             return new SeatFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
         }
 
-        if(def.getItemName().startsWith("tile_stackmagic")) {
+        if (def.getItemName().startsWith("tile_stackmagic")) {
             floorItem = new MagicStackFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
         }
 
-        if(itemDefinitionMap.containsKey(def.getInteraction())) {
+        if (itemDefinitionMap.containsKey(def.getInteraction())) {
             try {
                 floorItem = itemDefinitionMap.get(def.getInteraction()).getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Double.TYPE, Integer.TYPE, String.class)
                         .newInstance(id, baseId, roomId, ownerId, x, y, height, rot, data);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 log.warn("Failed to create instance for item: " + id + ", reverting to GenericFloorItem");
                 floorItem = new GenericFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
             }

@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,11 +37,19 @@ public class CatalogPage {
         this.template = data.getString("page_layout");
         this.parentId = data.getInt("parent_id");
 
-        this.images = gsonInstance.fromJson(data.getString("page_images"), listType);
-        this.texts = gsonInstance.fromJson(data.getString("page_texts"), listType);
+        if(data.getString("page_images") == null || data.getString("page_images").isEmpty()) {
+            this.images = new ArrayList<>();
+        } else {
+            this.images = gsonInstance.fromJson(data.getString("page_images"), listType);
+        }
+
+        if(data.getString("page_texts") == null || data.getString("page_texts").isEmpty()) {
+            this.texts = new ArrayList<>();
+        } else {
+            this.texts = gsonInstance.fromJson(data.getString("page_texts"), listType);
+        }
 
         this.enabled = data.getString("enabled").equals("1");
-
         this.items = items;
     }
 
