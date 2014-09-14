@@ -90,6 +90,7 @@ public class ItemsComponent {
 
     public RoomItemFloor addFloorItem(int id, int baseId, int roomId, int ownerId, int x, int y, int rot, double height, String data) {
         RoomItemFloor floor = RoomItemFactory.createFloor(id, baseId, roomId, ownerId, x, y, height, rot, data);
+
         this.getFloorItems().add(floor);
 
         return floor;

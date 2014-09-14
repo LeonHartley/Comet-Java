@@ -86,12 +86,15 @@ public class RoomItemFactory {
 
         if (itemDefinitionMap.containsKey(def.getInteraction())) {
             try {
-                floorItem = itemDefinitionMap.get(def.getInteraction()).getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Double.TYPE, Integer.TYPE, String.class)
+                floorItem = itemDefinitionMap.get(def.getInteraction()).getConstructor(int.class, int.class, int.class, int.class, int.class, int.class, double.class, int.class, String.class)
                         .newInstance(id, baseId, roomId, ownerId, x, y, height, rot, data);
             } catch (Exception e) {
-                log.warn("Failed to create instance for item: " + id + ", reverting to GenericFloorItem");
-                floorItem = new GenericFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
+                log.warn("Failed to create instance for item: " + id + ", type: " + def.getInteraction());
             }
+        }
+
+        if(floorItem == null) {
+            floorItem = new GenericFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
         }
 
         return floorItem;
