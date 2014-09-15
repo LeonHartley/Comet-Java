@@ -1,10 +1,13 @@
 package com.cometproject.server.game.rooms.items.types.floor.wired.triggers;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.types.floor.wired.AbstractWiredItem;
-import com.cometproject.server.game.wired.misc.WiredSquare;
+import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionItem;
+import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.WiredConditionItem;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredTriggerMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.google.common.collect.Lists;
 
 import java.util.List;
 
@@ -26,8 +29,36 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
     }
 
-    public void execute(Object data, List<GenericEntity> entities, WiredSquare wiredBlock) {
-        //tits
+    @Override
+    public boolean evaluate(GenericEntity entity, Object data) {
+        List<WiredActionItem> wiredActions = Lists.newArrayList();
+        List<WiredConditionItem> wiredConditions = Lists.newArrayList();
+
+        boolean canExecute = true;
+
+        for (RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(this.x, this.y)) {
+            if (floorItem instanceof WiredActionItem) {
+                wiredActions.add(((WiredActionItem) floorItem));
+            } else if (floorItem instanceof WiredConditionItem) {
+                wiredConditions.add((WiredConditionItem) floorItem);
+            }
+        }
+
+        for (WiredConditionItem conditionItem : wiredConditions) {
+            if (!conditionItem.evaluate(entity, data)) {
+                canExecute = false;
+            }
+        }
+
+        if (canExecute) {
+            for (WiredActionItem actionItem : wiredActions) {
+                actionItem.evaluate(entity, data);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     @Override

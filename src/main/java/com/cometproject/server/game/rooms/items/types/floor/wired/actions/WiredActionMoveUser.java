@@ -1,5 +1,11 @@
 package com.cometproject.server.game.rooms.items.types.floor.wired.actions;
 
+import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.entities.effects.UserEffect;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.types.floor.wired.WiredUtil;
+
 public class WiredActionMoveUser extends WiredActionItem {
     /**
      * The default constructor
@@ -19,10 +25,41 @@ public class WiredActionMoveUser extends WiredActionItem {
     }
 
     @Override
-    public boolean evaluate() {
-        // move da player bro
+    public boolean evaluate(GenericEntity entity, Object data) {
+        if(this.entity != null) {
+            // this action is busy, pls come back later.
+            return false;
+        }
+
+        this.entity = entity;
+
+        if(this.getWiredData().getDelay() >= 1) {
+            this.setTicks(this.getWiredData().getDelay());
+        } else {
+            this.onTickComplete();
+        }
+
         return true;
     }
+
+    @Override
+    public void onTickComplete() {
+        int itemId = WiredUtil.getRandomElement(this.getWiredData().getSelectedIds());
+        RoomItemFloor item = this.getRoom().getItems().getFloorItem(itemId);
+
+        if(item == null) {
+            return;
+        }
+
+        Position3D position = new Position3D(item.getX(), item.getY(), item.getHeight());
+
+        entity.applyEffect(new UserEffect(4, 5));
+        entity.updateAndSetPosition(position);
+        entity.markNeedsUpdate();
+
+        this.entity = null;
+    }
+
 
     @Override
     public int getInterface() {

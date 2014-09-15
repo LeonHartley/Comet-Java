@@ -13,8 +13,12 @@ import com.google.gson.Gson;
 import java.util.StringTokenizer;
 import java.util.concurrent.Callable;
 
+/**
+ * The new wired system was inspired by Nillus' "habbod2".
+ */
 public abstract class AbstractWiredItem extends RoomItemFloor {
     /**
+     * /**
      * GSON instance to share among all wired items
      */
     private static final Gson gson = new Gson();
@@ -113,9 +117,11 @@ public abstract class AbstractWiredItem extends RoomItemFloor {
     public abstract Composer getDialog();
 
     /**
-     * Execute the wired item's
+     * Evaluate the wired trigger/action/condition
      *
-     * @return whether or not the evaluation was a success
+     * @param entity The entity that's involved with this event
+     * @param data   The data passed by the trigger
+     * @return Whether or not the evaluation was a success
      */
-    public abstract boolean evaluate();
+    public abstract boolean evaluate(GenericEntity entity, Object data);
 }
