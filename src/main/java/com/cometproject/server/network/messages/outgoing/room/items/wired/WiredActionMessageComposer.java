@@ -24,9 +24,9 @@ public class WiredActionMessageComposer {
 
         msg.writeString(wiredAction.getWiredData().getText());
 
-        msg.writeInt(wiredAction.getWiredData().getParams().length);
+        msg.writeInt(wiredAction.getWiredData().getParams().size());
 
-        for(int param : wiredAction.getWiredData().getParams()) {
+        for(int param : wiredAction.getWiredData().getParams().values()) {
             msg.writeInt(param);
         }
 

@@ -48,6 +48,7 @@ import com.cometproject.server.network.messages.incoming.room.item.*;
 import com.cometproject.server.network.messages.incoming.room.item.gifts.OpenGiftMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinNameMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.wired.SaveWiredDataMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.wired.SaveWiredMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.*;
 import com.cometproject.server.network.messages.incoming.room.pets.PetInformationMessageEvent;
@@ -255,7 +256,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.OpenDiceMessageEvent, new OpenDiceMessageEvent());
         this.getMessages().put(Events.RunDiceMessageEvent, new RunDiceMessageEvent());
         this.getMessages().put(Events.SaveWiredTriggerMessageEvent, new SaveWiredMessageEvent());
-        this.getMessages().put(Events.SaveWiredEffectMessageEvent, new SaveWiredMessageEvent());
+//        this.getMessages().put(Events.SaveWiredEffectMessageEvent, new SaveWiredMessageEvent());
+        this.getMessages().put(Events.SaveWiredEffectMessageEvent, new SaveWiredDataMessageEvent());
         this.getMessages().put(Events.ExchangeItemMessageEvent, new ExchangeItemMessageEvent());
         this.getMessages().put(Events.UseWallItemMessageEvent, new UseWallItemMessageEvent());
         this.getMessages().put(Events.SaveMannequinMessageEvent, new SaveMannequinMessageEvent());

@@ -10,6 +10,9 @@ import com.cometproject.server.game.rooms.items.types.floor.wired.data.WiredItem
 import com.cometproject.server.network.messages.types.Composer;
 import com.google.gson.Gson;
 
+import java.util.StringTokenizer;
+import java.util.concurrent.Callable;
+
 public abstract class AbstractWiredItem extends RoomItemFloor {
     /**
      * GSON instance to share among all wired items
@@ -23,22 +26,23 @@ public abstract class AbstractWiredItem extends RoomItemFloor {
 
     /**
      * The default constructor
-     * @param id The ID of the item
-     * @param itemId The ID of the item definition
-     * @param roomId The ID of the room
-     * @param owner The ID of the owner
-     * @param x The position of the item on the X axis
-     * @param y The position of the item on the Y axis
-     * @param z The position of the item on the z axis
+     *
+     * @param id       The ID of the item
+     * @param itemId   The ID of the item definition
+     * @param roomId   The ID of the room
+     * @param owner    The ID of the owner
+     * @param x        The position of the item on the X axis
+     * @param y        The position of the item on the Y axis
+     * @param z        The position of the item on the z axis
      * @param rotation The orientation of the item
-     * @param data The JSON object associated with this item
+     * @param data     The JSON object associated with this item
      */
     public AbstractWiredItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
 
         // TODO: convert old wired data to new wired data
 
-        if(!this.getExtraData().startsWith("{")) {
+        if (!this.getExtraData().startsWith("{")) {
             this.setExtraData("{}");
         }
 
@@ -57,7 +61,7 @@ public abstract class AbstractWiredItem extends RoomItemFloor {
      * Turn the JSON object into a usable WiredItemData object
      */
     public void load() {
-        if(this.getExtraData().equals("{}")) {
+        if (this.getExtraData().equals("{}")) {
             this.wiredItemData = (this instanceof WiredActionItem) ? new WiredActionItemData() : new WiredItemData();
         }
 
@@ -79,15 +83,33 @@ public abstract class AbstractWiredItem extends RoomItemFloor {
         ((PlayerEntity) entity).getPlayer().getSession().send(this.getDialog());
     }
 
-        /**
-         * Get the wired item data object
-         * @return The wired item data object
-         */
+    /**
+     * Get the wired item data object
+     *
+     * @return The wired item data object
+     */
     public WiredItemData getWiredData() {
         return wiredItemData;
     }
 
+    /**
+     * Get the ID of the interface of the item which will tell the client which input fields to display
+     *
+     * @return The ID of the interface
+     */
     public abstract int getInterface();
+
+    /**
+     * Get the packet to display the full dialog to the player
+     *
+     * @return The dialog message composer
+     */
     public abstract Composer getDialog();
+
+    /**
+     * Execute the wired item's
+     *
+     * @return whether or not the evaluation was a success
+     */
     public abstract boolean evaluate();
 }
