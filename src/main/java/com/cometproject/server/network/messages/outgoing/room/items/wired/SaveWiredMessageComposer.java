@@ -5,8 +5,6 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class SaveWiredMessageComposer {
     public static Composer compose() {
-        Composer msg = new Composer(Composers.SaveWiredMessageComposer);
-
-        return msg;
+        return new Composer(Composers.SaveWiredMessageComposer);
     }
 }

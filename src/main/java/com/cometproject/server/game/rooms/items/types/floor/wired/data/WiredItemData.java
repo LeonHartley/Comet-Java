@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 public class WiredItemData {
-    private AbstractWiredItem itemInstance;
-
     private int selectionType = 0;
     private List<Integer> selectedIds;
     private String text;
@@ -30,6 +28,7 @@ public class WiredItemData {
         this.selectedIds = Lists.newArrayList();
         this.text = "";
         this.params = Maps.newHashMap();
+        this.snapshots = Lists.newArrayList();
     }
 
     public void putParam(int param, int value) {
@@ -90,13 +89,5 @@ public class WiredItemData {
 
     public void setSnapshots(List<WiredItemSnapshot> snapshots) {
         this.snapshots = snapshots;
-    }
-
-    public AbstractWiredItem getItemInstance() {
-        return itemInstance;
-    }
-
-    public void setItemInstance(AbstractWiredItem itemInstance) {
-        this.itemInstance = itemInstance;
     }
 }

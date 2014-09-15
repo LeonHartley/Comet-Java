@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.items.types.floor.wired.AbstractWiredI
 import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.room.items.wired.SaveWiredMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -23,7 +24,7 @@ public class SaveWiredDataMessageEvent implements IEvent {
             return;
         }
 
-        AbstractWiredItem wiredItem = ((WiredActionItem) room.getItems().getFloorItem(itemId));
+        AbstractWiredItem wiredItem = ((AbstractWiredItem) room.getItems().getFloorItem(itemId));
 
         if(wiredItem == null) return;
 
@@ -50,5 +51,7 @@ public class SaveWiredDataMessageEvent implements IEvent {
 
         wiredItem.getWiredData().setSelectionType(msg.readInt());
         wiredItem.save();
+
+        client.send(SaveWiredMessageComposer.compose());
     }
 }
