@@ -3,11 +3,12 @@ package com.cometproject.server.game.rooms.items.types.floor.wired.data;
 import com.cometproject.server.game.rooms.items.types.floor.wired.WiredItemSnapshot;
 
 import java.util.List;
+import java.util.Map;
 
 public class WiredActionItemData extends WiredItemData {
     private int delay;
 
-    public WiredActionItemData(int selectionType, List<Integer> selectedIds, String text, int[] params, List<WiredItemSnapshot> snapshots, int delay) {
+    public WiredActionItemData(int selectionType, List<Integer> selectedIds, String text, Map<Integer, Integer> params, List<WiredItemSnapshot> snapshots, int delay) {
         super(selectionType, selectedIds, text, params, snapshots);
         this.delay = delay;
     }
@@ -23,5 +24,9 @@ public class WiredActionItemData extends WiredItemData {
 
     public int getDelay() {
         return delay;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
     }
 }

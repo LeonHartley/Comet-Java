@@ -1,18 +1,23 @@
 package com.cometproject.server.game.rooms.items.types.floor.wired.data;
 
+import com.cometproject.server.game.rooms.items.types.floor.wired.AbstractWiredItem;
 import com.cometproject.server.game.rooms.items.types.floor.wired.WiredItemSnapshot;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class WiredItemData {
+    private AbstractWiredItem itemInstance;
+
     private int selectionType = 0;
     private List<Integer> selectedIds;
     private String text;
-    private int[] params;
+    private Map<Integer, Integer> params;
     private List<WiredItemSnapshot> snapshots;
 
-    public WiredItemData(int selectionType, List<Integer> selectedIds, String text, int[] params, List<WiredItemSnapshot> snapshots) {
+    public WiredItemData(int selectionType, List<Integer> selectedIds, String text, Map<Integer, Integer> params, List<WiredItemSnapshot> snapshots) {
         this.selectionType = selectionType;
         this.selectedIds = selectedIds;
         this.text = text;
@@ -22,9 +27,33 @@ public class WiredItemData {
 
     public WiredItemData() {
         this.selectionType = 0;
-        this.selectedIds = new ArrayList<>();
+        this.selectedIds = Lists.newArrayList();
         this.text = "";
-        this.params = new int[0];
+        this.params = Maps.newHashMap();
+    }
+
+    public void putParam(int param, int value) {
+        if(this.params.containsKey(param)) {
+            if (this.params.get(param) != value) {
+                this.params.replace(param, value);
+            }
+        } else {
+            this.params.put(param, value);
+        }
+    }
+
+    public void removeParam(int param) {
+        if(this.params.containsKey(param)) {
+            this.params.remove(param);
+        }
+    }
+
+    public void clearSelectedItems() {
+        this.getSelectedIds().clear();
+    }
+
+    public void selectItem(int itemId) {
+        this.selectedIds.add(itemId);
     }
 
     public int getSelectionType() {
@@ -39,10 +68,6 @@ public class WiredItemData {
         return selectedIds;
     }
 
-    public void setSelectedIds(List<Integer> selectedIds) {
-        this.selectedIds = selectedIds;
-    }
-
     public String getText() {
         return text;
     }
@@ -51,11 +76,11 @@ public class WiredItemData {
         this.text = text;
     }
 
-    public int[] getParams() {
+    public Map<Integer, Integer> getParams() {
         return params;
     }
 
-    public void setParams(int[] params) {
+    public void setParams(Map<Integer, Integer> params) {
         this.params = params;
     }
 
@@ -65,5 +90,13 @@ public class WiredItemData {
 
     public void setSnapshots(List<WiredItemSnapshot> snapshots) {
         this.snapshots = snapshots;
+    }
+
+    public AbstractWiredItem getItemInstance() {
+        return itemInstance;
+    }
+
+    public void setItemInstance(AbstractWiredItem itemInstance) {
+        this.itemInstance = itemInstance;
     }
 }

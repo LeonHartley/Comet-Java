@@ -76,8 +76,6 @@ public class RoomItemFactory {
             return null;
         }
 
-        System.out.println(def.getInteraction());
-
         if (def.canSit) {
             return new SeatFloorItem(id, baseId, roomId, ownerId, x, y, height, rot, data);
         }

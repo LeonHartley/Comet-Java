@@ -19,12 +19,13 @@ public class WiredActionMoveUser extends WiredActionItem {
     }
 
     @Override
-    public int getInterface() {
-        return 8;
+    public boolean evaluate() {
+        // move da player bro
+        return true;
     }
 
     @Override
-    public boolean evaluate() {
-        return true;
+    public int getInterface() {
+        return 0;
     }
 }
