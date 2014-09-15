@@ -32,7 +32,6 @@ public class WiredConditionMessageComposer {
 
         msg.writeInt(wiredAction.getWiredData().getSelectionType());
         msg.writeInt(wiredAction.getInterface());
-        msg.writeInt(0); // conflicts
 
         return msg;
     }
