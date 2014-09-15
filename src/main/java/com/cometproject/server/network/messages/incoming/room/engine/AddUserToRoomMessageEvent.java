@@ -4,6 +4,7 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -90,8 +91,8 @@ public class AddUserToRoomMessageEvent implements IEvent {
         client.send(FloorItemsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
         client.send(WallItemsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
 
-        client.getPlayer().getEntity().getRoom().getWired().trigger(TriggerType.ENTER_ROOM, null, client.getPlayer().getEntity());
-
+//        client.getPlayer().getEntity().getRoom().getWired().trigger(TriggerType.ENTER_ROOM, null, client.getPlayer().getEntity());
+        WiredTriggerEnterRoom.executeTriggers(client.getPlayer().getEntity());
 
         groupsInRoom.clear();
     }

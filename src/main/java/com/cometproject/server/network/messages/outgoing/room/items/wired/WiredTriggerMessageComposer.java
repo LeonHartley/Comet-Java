@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.room.items.wired;
 
+import com.cometproject.server.game.rooms.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.WiredTriggerItem;
 import com.cometproject.server.game.wired.WiredStaticConfig;
 import com.cometproject.server.network.messages.headers.Composers;
@@ -10,7 +11,7 @@ public class WiredTriggerMessageComposer {
         Composer msg = new Composer(Composers.WiredTriggerMessageComposer);
 
         msg.writeBoolean(false); // advanced
-        msg.writeInt(WiredStaticConfig.MAX_FURNI_SELECTION);
+        msg.writeInt(WiredUtil.MAX_FURNI_SELECTION);
 
         msg.writeInt(wiredTrigger.getWiredData().getSelectedIds().size());
 

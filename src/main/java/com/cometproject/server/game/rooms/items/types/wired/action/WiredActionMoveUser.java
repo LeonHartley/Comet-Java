@@ -4,6 +4,7 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.wired.WiredStaticConfig;
 import com.cometproject.server.game.wired.data.WiredDataFactory;
 import com.cometproject.server.game.wired.data.WiredDataInstance;
@@ -39,7 +40,7 @@ public class WiredActionMoveUser extends RoomItemFloor {
         Composer msg = new Composer(Composers.WiredActionMessageComposer);
 
         msg.writeBoolean(false);
-        msg.writeInt(WiredStaticConfig.MAX_FURNI_SELECTION);
+        msg.writeInt(WiredUtil.MAX_FURNI_SELECTION);
 
         msg.writeInt(data.getCount());
 

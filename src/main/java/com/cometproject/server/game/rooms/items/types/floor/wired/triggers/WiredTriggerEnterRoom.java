@@ -1,5 +1,9 @@
 package com.cometproject.server.game.rooms.items.types.floor.wired.triggers;
 
+import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
+
+
 public class WiredTriggerEnterRoom extends WiredTriggerItem {
 
     /**
@@ -24,8 +28,13 @@ public class WiredTriggerEnterRoom extends WiredTriggerItem {
         return 7;
     }
 
-    @Override
-    public boolean evaluate() {
-        return false;
+    public static void executeTriggers(PlayerEntity playerEntity) {
+        for(RoomItemFloor floorItem : playerEntity.getRoom().getItems().getByInteraction("wf_trg_enterroom")) {
+            WiredTriggerEnterRoom trigger = ((WiredTriggerEnterRoom) floorItem);
+
+            if(trigger.getWiredData().getText().isEmpty() || trigger.getWiredData().getText().equals(playerEntity.getUsername())) {
+                trigger.evaluate(playerEntity, null);
+            }
+        }
     }
 }
