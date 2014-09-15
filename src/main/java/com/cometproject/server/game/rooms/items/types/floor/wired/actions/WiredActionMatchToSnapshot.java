@@ -1,10 +1,9 @@
-package com.cometproject.server.game.rooms.items.types.floor.wired.conditions;
+package com.cometproject.server.game.rooms.items.types.floor.wired.actions;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.items.types.floor.wired.AbstractWiredItem;
+import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredActionItem;
 
-public abstract class WiredConditionItem extends AbstractWiredItem {
-
+public class WiredActionMatchToSnapshot extends WiredActionItem {
     /**
      * The default constructor
      *
@@ -18,12 +17,22 @@ public abstract class WiredConditionItem extends AbstractWiredItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredConditionItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredActionMatchToSnapshot(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
     }
 
     @Override
+    public boolean requiresPlayer() {
+        return false;
+    }
+
+    @Override
+    public int getInterface() {
+        return 9;
+    }
+
+    @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        return true;
+        return false;
     }
 }

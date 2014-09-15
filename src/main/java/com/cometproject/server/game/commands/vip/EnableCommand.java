@@ -15,6 +15,11 @@ public class EnableCommand extends ChatCommand {
 
         try {
             int effectId = Integer.parseInt(params[0]);
+
+            if(effectId == 102 && !client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+                return;
+            }
+
             PlayerEntity entity = client.getPlayer().getEntity();
             entity.applyEffect(new UserEffect(effectId, 0));
 

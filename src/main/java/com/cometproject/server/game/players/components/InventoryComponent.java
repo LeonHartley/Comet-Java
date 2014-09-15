@@ -80,6 +80,10 @@ public class InventoryComponent {
         }
     }
 
+    public boolean hasBadge(String code) {
+        return this.badges.containsKey(code);
+    }
+
     public void removeBadge(String code, boolean delete) {
         if (badges.containsKey(code)) {
             if (delete) {

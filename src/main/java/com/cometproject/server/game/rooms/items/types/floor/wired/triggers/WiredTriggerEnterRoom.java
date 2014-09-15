@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.items.types.floor.wired.triggers;
 
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredTriggerItem;
 
 
 public class WiredTriggerEnterRoom extends WiredTriggerItem {
@@ -36,5 +37,10 @@ public class WiredTriggerEnterRoom extends WiredTriggerItem {
                 trigger.evaluate(playerEntity, null);
             }
         }
+    }
+
+    @Override
+    public boolean suppliesPlayer() {
+        return true;
     }
 }

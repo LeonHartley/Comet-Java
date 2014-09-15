@@ -1,13 +1,11 @@
-package com.cometproject.server.game.rooms.items.types.floor.wired.actions;
+package com.cometproject.server.game.rooms.items.types.floor.wired.base;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.types.floor.wired.AbstractWiredItem;
-import com.cometproject.server.game.rooms.items.types.floor.wired.data.WiredActionItemData;
-import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredActionMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredConditionMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 
-public abstract class WiredActionItem extends AbstractWiredItem {
-    protected GenericEntity entity;
+public abstract class WiredConditionItem extends AbstractWiredItem {
 
     /**
      * The default constructor
@@ -22,17 +20,12 @@ public abstract class WiredActionItem extends AbstractWiredItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredConditionItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
     }
 
     @Override
     public Composer getDialog() {
-        return WiredActionMessageComposer.compose(this);
-    }
-
-    @Override
-    public WiredActionItemData getWiredData() {
-        return (WiredActionItemData) super.getWiredData();
+        return WiredConditionMessageComposer.compose(this);
     }
 }
