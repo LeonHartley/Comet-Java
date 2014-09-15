@@ -12,18 +12,21 @@ import com.cometproject.server.game.rooms.items.types.floor.football.*;
 import com.cometproject.server.game.rooms.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.hollywood.HaloTileFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.summer.SummerShowerFloorItem;
+import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionMatchToSnapshot;
 import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionMoveUser;
+import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.WiredConditionTriggererOnFurni;
+import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.*;
 import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionMoveRotate;
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionShowMessage;
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionToggleFurni;
-import com.cometproject.server.game.rooms.items.types.wired.trigger.*;
+import com.cometproject.server.game.rooms.items.types.wired.trigger.WiredTriggerOffFurni;
+import com.cometproject.server.game.rooms.items.types.wired.trigger.WiredTriggerOnFurni;
+import com.cometproject.server.game.rooms.items.types.wired.trigger.WiredTriggerOnSay;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
-
-import java.util.Map;
 
 public class RoomItemFactory {
     private static final int processMs = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
@@ -50,12 +53,15 @@ public class RoomItemFactory {
             put("wf_act_moveuser", WiredActionMoveUser.class);//new
             put("wf_act_saymsg", WiredActionShowMessage.class);
             put("wf_act_togglefurni", WiredActionToggleFurni.class);
+            put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);//new
 
             put("wf_trg_onsay", WiredTriggerOnSay.class);
             put("wf_trg_enterroom", WiredTriggerEnterRoom.class);//new
             put("wf_trg_onfurni", WiredTriggerOnFurni.class);
             put("wf_trg_offfurni", WiredTriggerOffFurni.class);
-            put("wf_trg_timer", WiredTriggerTimer.class);
+            put("wf_trg_timer", WiredTriggerTimer.class);//new
+
+            put("wf_cnd_trggrer_on_frn", WiredConditionTriggererOnFurni.class);//new
 
             put("bb_teleport", BanzaiTeleporterFloorItem.class);
 

@@ -4,14 +4,11 @@ import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 
-import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionItem;
+import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.items.types.floor.wired.data.WiredActionItemData;
 import com.cometproject.server.game.rooms.items.types.floor.wired.data.WiredItemData;
 import com.cometproject.server.network.messages.types.Composer;
 import com.google.gson.Gson;
-
-import java.util.StringTokenizer;
-import java.util.concurrent.Callable;
 
 /**
  * The new wired system was inspired by Nillus' "habbod2".

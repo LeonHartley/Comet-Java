@@ -14,6 +14,8 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorE
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
+import java.util.List;
+
 public abstract class RoomItemFloor extends RoomItem {
     private int roomId;
     private double height;
@@ -259,6 +261,10 @@ public abstract class RoomItemFloor extends RoomItem {
         if (r != null) {
             r.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
         }
+    }
+
+    public List<RoomItemFloor> getItemsOnStack() {
+        return this.getRoom().getItems().getItemsOnSquare(this.getX(), this.getY());
     }
 
     public double getHeight() {

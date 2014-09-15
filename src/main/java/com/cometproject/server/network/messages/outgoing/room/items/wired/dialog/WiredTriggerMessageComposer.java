@@ -1,13 +1,18 @@
-package com.cometproject.server.network.messages.outgoing.room.items.wired;
+package com.cometproject.server.network.messages.outgoing.room.items.wired.dialog;
 
 import com.cometproject.server.game.rooms.items.types.floor.wired.WiredUtil;
-import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.WiredTriggerItem;
-import com.cometproject.server.game.wired.WiredStaticConfig;
+import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredTriggerItem;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+import java.util.List;
+
 public class WiredTriggerMessageComposer {
     public static Composer compose(WiredTriggerItem wiredTrigger) {
+
+        List<WiredActionItem> incompatibleActions = wiredTrigger.getIncompatibleActions();
+
         Composer msg = new Composer(Composers.WiredTriggerMessageComposer);
 
         msg.writeBoolean(false); // advanced
@@ -32,7 +37,13 @@ public class WiredTriggerMessageComposer {
 
         msg.writeInt(wiredTrigger.getWiredData().getSelectionType());
         msg.writeInt(wiredTrigger.getInterface());
-        msg.writeInt(0); // conflicts
+
+        msg.writeInt(incompatibleActions.size());
+
+        for(WiredActionItem incompatibleAction : incompatibleActions) {
+            msg.writeInt(incompatibleAction.getDefinition().getSpriteId());
+        }
+
         msg.writeString(""); //no idea
 
         return msg;

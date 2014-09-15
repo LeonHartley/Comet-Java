@@ -1,11 +1,9 @@
-package com.cometproject.server.game.rooms.items.types.floor.wired.triggers;
+package com.cometproject.server.game.rooms.items.types.floor.wired.base;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.types.floor.wired.AbstractWiredItem;
-import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionItem;
-import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.WiredConditionItem;
-import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredTriggerMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredTriggerMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.google.common.collect.Lists;
 
@@ -36,7 +34,7 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
 
         boolean canExecute = true;
 
-        for (RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(this.x, this.y)) {
+        for (RoomItemFloor floorItem : this.getItemsOnStack()) {
             if (floorItem instanceof WiredActionItem) {
                 wiredActions.add(((WiredActionItem) floorItem));
             } else if (floorItem instanceof WiredConditionItem) {
@@ -65,4 +63,24 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
     public Composer getDialog() {
         return WiredTriggerMessageComposer.compose(this);
     }
+
+    public List<WiredActionItem> getIncompatibleActions() {
+        List<WiredActionItem> incompatibleActions = Lists.newArrayList();
+
+        if (!this.suppliesPlayer()) {
+            for(RoomItemFloor floorItem : this.getItemsOnStack()) {
+                if(floorItem instanceof WiredActionItem) {
+                    if(((WiredActionItem) floorItem).requiresPlayer()) {
+                        incompatibleActions.add(((WiredActionItem) floorItem));
+                    }
+                }
+            }
+        }
+
+        return incompatibleActions;
+    }
+
+    public abstract boolean suppliesPlayer();
+
+
 }

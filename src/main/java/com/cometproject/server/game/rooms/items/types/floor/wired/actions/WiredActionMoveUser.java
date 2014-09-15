@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.effects.UserEffect;
 import com.cometproject.server.game.rooms.entities.misc.Position3D;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.items.types.floor.wired.WiredUtil;
 
 public class WiredActionMoveUser extends WiredActionItem {
@@ -26,6 +27,8 @@ public class WiredActionMoveUser extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
+        if(entity == null) return false;
+
         if(this.entity != null) {
             // this action is busy, pls come back later.
             return false;
@@ -64,5 +67,10 @@ public class WiredActionMoveUser extends WiredActionItem {
     @Override
     public int getInterface() {
         return 0;
+    }
+
+    @Override
+    public boolean requiresPlayer() {
+        return true;
     }
 }

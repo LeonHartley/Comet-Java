@@ -164,6 +164,8 @@ public class Composers {
     public static short GroupForumPermissionsMessageComposer = 1575;
     public static short GroupForumThreadsMessageComposer = 3037;
 
+    public static short WiredConditionMessageComposer = 1476;
+
 
     public static String valueOfId(int i) {
         Composers c = new Composers();
