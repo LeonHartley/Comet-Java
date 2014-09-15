@@ -13,6 +13,7 @@ import com.cometproject.server.game.wired.types.WiredEffect;
 import com.cometproject.server.game.wired.types.WiredTrigger;
 import javolution.util.FastMap;
 
+@Deprecated
 public class WiredManager {
     private FastMap<String, WiredTrigger> triggers;
     private FastMap<String, WiredCondition> conditions;
