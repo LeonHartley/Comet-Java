@@ -115,7 +115,7 @@ public class Comet {
      * @return The current build of Comet
      */
     public static String getBuild() {
-        return Comet.class.getPackage().getImplementationVersion();
+        return Comet.class.getPackage().getImplementationVersion() == null ? "Comet-DEV" : Comet.class.getPackage().getImplementationVersion();
     }
 
     /**

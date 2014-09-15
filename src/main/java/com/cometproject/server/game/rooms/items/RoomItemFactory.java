@@ -13,6 +13,7 @@ import com.cometproject.server.game.rooms.items.types.floor.groups.GroupFloorIte
 import com.cometproject.server.game.rooms.items.types.floor.hollywood.HaloTileFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.summer.SummerShowerFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionMoveUser;
+import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionMoveRotate;
@@ -51,7 +52,7 @@ public class RoomItemFactory {
             put("wf_act_togglefurni", WiredActionToggleFurni.class);
 
             put("wf_trg_onsay", WiredTriggerOnSay.class);
-            put("wf_trg_enterroom", WiredTriggerEnterRoom.class);
+            put("wf_trg_enterroom", WiredTriggerEnterRoom.class);//new
             put("wf_trg_onfurni", WiredTriggerOnFurni.class);
             put("wf_trg_offfurni", WiredTriggerOffFurni.class);
             put("wf_trg_timer", WiredTriggerTimer.class);

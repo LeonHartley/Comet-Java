@@ -63,9 +63,15 @@ public abstract class AbstractWiredItem extends RoomItemFloor {
     public void load() {
         if (this.getExtraData().equals("{}")) {
             this.wiredItemData = (this instanceof WiredActionItem) ? new WiredActionItemData() : new WiredItemData();
+            return;
         }
 
         this.wiredItemData = gson.fromJson(this.getExtraData(), (this instanceof WiredActionItem) ? WiredActionItemData.class : WiredItemData.class);
+    }
+
+    @Override
+    public void onPickup() {
+        this.setExtraData("{}");
     }
 
     @Override
