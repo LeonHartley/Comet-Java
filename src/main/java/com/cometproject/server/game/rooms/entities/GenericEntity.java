@@ -28,7 +28,6 @@ public abstract class GenericEntity implements AvatarEntity {
     private int bodyRotation;
     private int headRotation;
 
-    private int roomId;
     private Room room;
 
     private List<Square> processingPath;
@@ -74,7 +73,6 @@ public abstract class GenericEntity implements AvatarEntity {
         this.bodyRotation = startBodyRotation;
         this.headRotation = startHeadRotation;
 
-        this.roomId = roomInstance.getId();
         this.room = roomInstance;
 
         this.idleTime = 0;

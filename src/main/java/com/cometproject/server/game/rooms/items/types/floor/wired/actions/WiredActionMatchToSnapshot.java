@@ -1,6 +1,8 @@
 package com.cometproject.server.game.rooms.items.types.floor.wired.actions;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.types.floor.wired.WiredItemSnapshot;
 import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredActionItem;
 
 public class WiredActionMatchToSnapshot extends WiredActionItem {
@@ -28,11 +30,25 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
 
     @Override
     public int getInterface() {
-        return 9;
+        return 3;
     }
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
+        if(this.getWiredData().getSnapshots().size() == 0) {
+            return false;
+        }
+
+        for(int itemId : this.getWiredData().getSelectedIds()) {
+            RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
+
+            if (floorItem == null) continue;
+
+            WiredItemSnapshot itemSnapshot = this.getWiredData().getSnapshots().get(itemId);
+
+            //todo: finish dis
+        }
+
         return false;
     }
 }

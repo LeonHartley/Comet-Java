@@ -13,9 +13,9 @@ public class WiredItemData {
     private List<Integer> selectedIds;
     private String text;
     private Map<Integer, Integer> params;
-    private List<WiredItemSnapshot> snapshots;
+    private Map<Integer, WiredItemSnapshot> snapshots;
 
-    public WiredItemData(int selectionType, List<Integer> selectedIds, String text, Map<Integer, Integer> params, List<WiredItemSnapshot> snapshots) {
+    public WiredItemData(int selectionType, List<Integer> selectedIds, String text, Map<Integer, Integer> params, Map<Integer, WiredItemSnapshot> snapshots) {
         this.selectionType = selectionType;
         this.selectedIds = selectedIds;
         this.text = text;
@@ -28,7 +28,7 @@ public class WiredItemData {
         this.selectedIds = Lists.newArrayList();
         this.text = "";
         this.params = Maps.newHashMap();
-        this.snapshots = Lists.newArrayList();
+        this.snapshots = Maps.newHashMap();
     }
 
     public void putParam(int param, int value) {
@@ -83,11 +83,11 @@ public class WiredItemData {
         this.params = params;
     }
 
-    public List<WiredItemSnapshot> getSnapshots() {
+    public Map<Integer, WiredItemSnapshot> getSnapshots() {
         return snapshots;
     }
 
-    public void setSnapshots(List<WiredItemSnapshot> snapshots) {
+    public void setSnapshots(Map<Integer, WiredItemSnapshot> snapshots) {
         this.snapshots = snapshots;
     }
 }
