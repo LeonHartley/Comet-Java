@@ -15,9 +15,9 @@ import com.cometproject.server.game.rooms.items.types.floor.summer.SummerShowerF
 import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionMatchToSnapshot;
 import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionTeleportPlayer;
 import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.negative.WiredNegativeConditionFurniHasPlayers;
-import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.positive.WiredConditionFurniHasPlayers;
-import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.positive.WiredConditionPlayerInGroup;
-import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.positive.WiredConditionTriggererOnFurni;
+import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.negative.WiredNegativeConditionPlayerHasBadgeEquipped;
+import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.negative.WiredNegativeConditionPlayerWearingEffect;
+import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.positive.*;
 import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.negative.WiredNegativeConditionPlayerInGroup;
 import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.*;
 import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
@@ -69,6 +69,10 @@ public class RoomItemFactory {
             put("wf_cnd_not_in_group", WiredNegativeConditionPlayerInGroup.class);//new
             put("wf_cnd_furnis_hv_avtrs", WiredConditionFurniHasPlayers.class);//new
             put("wf_cnd_not_hv_avtrs", WiredNegativeConditionFurniHasPlayers.class);//new
+            put("wf_cnd_wearing_badge", WiredConditionPlayerHasBadgeEquipped.class);//new
+            put("wf_cnd_not_wearing_badge", WiredNegativeConditionPlayerHasBadgeEquipped.class);//new
+            put("wf_cnd_wearing_effect", WiredConditionPlayerWearingEffect.class);//new
+            put("wf_cnd_not_wearing_effect", WiredNegativeConditionPlayerWearingEffect.class);//new
 
             put("wf_trg_onsay", WiredTriggerOnSay.class);//old
             put("wf_trg_onfurni", WiredTriggerOnFurni.class);//old
