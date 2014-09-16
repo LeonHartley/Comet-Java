@@ -22,17 +22,6 @@ public class RelationshipComponent {
         this.player = null;
     }
 
-    public int countByLevel(RelationshipLevel level) {
-        int i = 0;
-
-        for (RelationshipLevel l : relationships.values()) {
-            if (l == level)
-                i++;
-        }
-
-        return i;
-    }
-
     public RelationshipLevel get(int playerId) {
         return this.relationships.get(playerId);
     }
@@ -45,11 +34,21 @@ public class RelationshipComponent {
         return this.relationships.size();
     }
 
-    public synchronized Map<Integer, RelationshipLevel> getRelationships() {
+    public Map<Integer, RelationshipLevel> getRelationships() {
         return this.relationships;
     }
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    public static int countByLevel(RelationshipLevel level, Map<Integer, RelationshipLevel> relationships) {
+        int levelCount = 0;
+
+        for(RelationshipLevel relationship : relationships.values()) {
+            if(relationship == level) levelCount++;
+        }
+
+        return levelCount;
     }
 }

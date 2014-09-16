@@ -6,42 +6,51 @@ import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.google.common.collect.Lists;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class RelationshipsMessageComposer {
-    public static Composer compose(RelationshipComponent relationships) {
+    public static Composer compose(int playerId, Map<Integer, RelationshipLevel> relationships) {
         Composer msg = new Composer(Composers.RelationshipsMessageComposer);
 
-        msg.writeInt(relationships.getPlayer().getId());
+        msg.writeInt(playerId);
 
-        if (relationships.count() == 0) {
+        if (relationships.size() == 0) {
             msg.writeInt(0);
             return msg;
         }
 
-        msg.writeInt(relationships.count());
+        msg.writeInt(relationships.size());
 
-        int hearts = relationships.countByLevel(RelationshipLevel.HEART);
-        int smiles = relationships.countByLevel(RelationshipLevel.SMILE);
-        int bobbas = relationships.countByLevel(RelationshipLevel.BOBBA);
+        int hearts = RelationshipComponent.countByLevel(RelationshipLevel.HEART, relationships);
+        int smiles = RelationshipComponent.countByLevel(RelationshipLevel.SMILE, relationships);
+        int bobbas = RelationshipComponent.countByLevel(RelationshipLevel.BOBBA, relationships);
 
-        for (Map.Entry<Integer, RelationshipLevel> rel : relationships.getRelationships().entrySet()) {
-            PlayerData data = PlayerDao.getDataById(rel.getKey());
+        List<Integer> relationshipKeys = Lists.newArrayList(relationships.keySet());
+        Collections.shuffle(relationshipKeys);
+
+        for(Integer relationshipKey : relationshipKeys) {
+            RelationshipLevel level = relationships.get(relationshipKey);
+
+            PlayerData data = PlayerDao.getDataById(relationshipKey);
 
             if (data == null) {
                 msg.writeInt(0);
                 msg.writeInt(0);
                 msg.writeInt(0); // id
-                msg.writeString("Placeholder");
-                msg.writeString("hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62"); // newer versions only apparently.
+                msg.writeString("Username");
+                msg.writeString("hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62");
             } else {
-                msg.writeInt(RelationshipLevel.getInt(rel.getValue()));
-                msg.writeInt(rel.getValue() == RelationshipLevel.HEART ? hearts : rel.getValue() == RelationshipLevel.SMILE ? smiles : bobbas);
+                msg.writeInt(level.getLevelId());
+                msg.writeInt(level == RelationshipLevel.HEART ? hearts : level == RelationshipLevel.SMILE ? smiles : bobbas);
                 msg.writeInt(data.getId());
                 msg.writeString(data.getUsername());
-                msg.writeString(data.getFigure()); // newer versions only apparently.
+                msg.writeString(data.getFigure());
             }
+
         }
 
         return msg;

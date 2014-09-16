@@ -21,16 +21,17 @@ public class SetRelationshipMessageEvent implements IEvent {
                 relationships.getRelationships().remove(user);
             }
         } else {
-            // TODO: should probs update and not delete ;-)
+            String levelString = level == 1 ? "HEART" : level == 2 ? "SMILE" : "BOBBA";
+
             if (relationships.getRelationships().containsKey(user)) {
-                RelationshipDao.deleteRelationship(client.getPlayer().getId(), user);
-                relationships.getRelationships().remove(user);
+
+                RelationshipDao.updateRelationship(client.getPlayer().getId(), user, levelString);
+                relationships.getRelationships().replace(user, RelationshipLevel.valueOf(levelString));
+                return;
             }
 
-            String levelString = level == 1 ? "heart" : level == 2 ? "smile" : "bobba";
-
             RelationshipDao.createRelationship(client.getPlayer().getId(), user, levelString);
-            relationships.getRelationships().put(user, RelationshipLevel.getLevel(levelString));
+            relationships.getRelationships().put(user, RelationshipLevel.valueOf(levelString));
         }
     }
 }
