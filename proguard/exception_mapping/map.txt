@@ -3925,7 +3925,7 @@ com.cometproject.server.network.messages.types.Composer -> com.cometproject.serv
     int id -> a
     io.netty.buffer.ByteBuf body -> a
     35:35:io.netty.buffer.ByteBuf content() -> content
-    40:40:com.cometproject.server.network.messages.types.Composer copy() -> c
+    40:40:com.cometproject.server.network.messages.types.Composer copy() -> h
     45:45:com.cometproject.server.network.messages.types.Composer duplicate() -> a
     50:50:int refCnt() -> refCnt
     55:55:com.cometproject.server.network.messages.types.Composer retain() -> b

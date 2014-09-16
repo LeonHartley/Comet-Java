@@ -1,10 +1,10 @@
-package com.cometproject.server.game.rooms.items.types.floor.wired.conditions;
+package com.cometproject.server.game.rooms.items.types.floor.wired.conditions.positive;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredConditionItem;
 
-public class WiredConditionTriggererOnFurni extends WiredConditionItem {
+public class WiredConditionFurniHasPlayers extends WiredConditionItem {
     /**
      * The default constructor
      *
@@ -18,29 +18,28 @@ public class WiredConditionTriggererOnFurni extends WiredConditionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredConditionTriggererOnFurni(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredConditionFurniHasPlayers(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
     }
 
     @Override
+    public int getInterface() {
+        return 8;
+    }
+
+    @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(entity == null) return false;
+        int itemsWithUserCount = 0;
 
         for(int itemId : this.getWiredData().getSelectedIds()) {
-            RoomItemFloor item = this.getRoom().getItems().getFloorItem(itemId);
+            RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
-            if(item != null) {
-                if(item.getX() == entity.getPosition().getX() && item.getY() == entity.getPosition().getY())
-                    return true;
+            if(floorItem != null) {
+                if(floorItem.getEntitiesOnItem().size() != 0)
+                    itemsWithUserCount++;
             }
         }
 
-        return false;
-    }
-
-
-    @Override
-    public int getInterface() {
-        return 8;
+        return isNegative ? itemsWithUserCount < this.getWiredData().getSelectedIds().size() : itemsWithUserCount >= this.getWiredData().getSelectedIds().size();
     }
 }
