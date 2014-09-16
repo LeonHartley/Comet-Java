@@ -435,8 +435,8 @@ public abstract class GenericEntity implements AvatarEntity {
             this.getRoom().getEntities().broadcastMessage(ApplyEffectMessageComposer.compose(this.id, effect.getEffectId()));
         }
 
-        if(effect.expires()) {
-            this.backupEffect = effect;
+        if(effect != null && effect.expires()) {
+            this.backupEffect = this.effect;
         }
 
         this.effect = effect;
