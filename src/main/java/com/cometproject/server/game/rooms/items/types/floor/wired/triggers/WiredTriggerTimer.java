@@ -36,6 +36,8 @@ public class WiredTriggerTimer extends WiredTriggerItem {
     @Override
     public void onTickComplete() {
         this.evaluate(null, null);
+
+        // loop
         this.setTicks(this.getWiredData().getParams().get(PARAM_TICK_LENGTH));
     }
 
