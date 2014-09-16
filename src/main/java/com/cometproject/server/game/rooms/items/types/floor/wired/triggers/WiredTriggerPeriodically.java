@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.items.types.floor.wired.triggers;
 
 import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredTriggerItem;
 
-public class WiredTriggerTimer extends WiredTriggerItem {
+public class WiredTriggerPeriodically extends WiredTriggerItem {
     private static final int PARAM_TICK_LENGTH = 0;
 
     /**
@@ -18,7 +18,7 @@ public class WiredTriggerTimer extends WiredTriggerItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredTriggerTimer(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredTriggerPeriodically(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
 
         if (this.getWiredData().getParams().get(PARAM_TICK_LENGTH) == null) {

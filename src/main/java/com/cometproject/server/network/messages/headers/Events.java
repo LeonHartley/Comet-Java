@@ -66,6 +66,7 @@ public class Events {
     public static short RemoveRightsMessageEvent = 3432;
     public static short RemoveAllRightsMessageEvent = 330;
     public static short SaveWiredTriggerMessageEvent = 795;
+    public static short SaveWiredConditionMessageEvent = 1226;
     public static short SaveWiredEffectMessageEvent = 81;
     public static short SaveRoomDataMessageEvent = 2618;
     public static short RespectUserMessageEvent = 1001;

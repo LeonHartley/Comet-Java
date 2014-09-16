@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog
 import com.cometproject.server.network.messages.types.Composer;
 
 public abstract class WiredConditionItem extends AbstractWiredItem {
+    protected boolean isNegative;
 
     /**
      * The default constructor
@@ -22,6 +23,7 @@ public abstract class WiredConditionItem extends AbstractWiredItem {
      */
     public WiredConditionItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
+        this.isNegative = this.getClass().getTypeName().startsWith("WiredNegativeCondition");
     }
 
     @Override

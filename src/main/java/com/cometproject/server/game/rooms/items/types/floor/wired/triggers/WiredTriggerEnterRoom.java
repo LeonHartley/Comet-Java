@@ -29,6 +29,11 @@ public class WiredTriggerEnterRoom extends WiredTriggerItem {
         return 7;
     }
 
+    @Override
+    public boolean suppliesPlayer() {
+        return true;
+    }
+
     public static void executeTriggers(PlayerEntity playerEntity) {
         for(RoomItemFloor floorItem : playerEntity.getRoom().getItems().getByInteraction("wf_trg_enterroom")) {
             WiredTriggerEnterRoom trigger = ((WiredTriggerEnterRoom) floorItem);
@@ -37,10 +42,5 @@ public class WiredTriggerEnterRoom extends WiredTriggerItem {
                 trigger.evaluate(playerEntity, null);
             }
         }
-    }
-
-    @Override
-    public boolean suppliesPlayer() {
-        return true;
     }
 }

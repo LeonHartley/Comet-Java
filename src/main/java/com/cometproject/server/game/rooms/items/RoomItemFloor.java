@@ -4,6 +4,8 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.items.data.BackgroundTonerData;
 import com.cometproject.server.game.rooms.items.data.MannequinData;
 import com.cometproject.server.game.rooms.items.types.floor.MagicStackFloorItem;
@@ -13,6 +15,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.google.common.collect.Lists;
 
 import java.util.List;
 
@@ -265,6 +268,21 @@ public abstract class RoomItemFloor extends RoomItem {
 
     public List<RoomItemFloor> getItemsOnStack() {
         return this.getRoom().getItems().getItemsOnSquare(this.getX(), this.getY());
+    }
+
+    public List<GenericEntity> getEntitiesOnItem() {
+        List<GenericEntity> entities = Lists.newArrayList();
+
+        for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(this.getDefinition().getLength(), this.getDefinition().getWidth(), this.getX(), this.getY(), this.getRotation())) {
+
+            List<GenericEntity> entitiesOnTile = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
+
+            for(GenericEntity entityOnTile : entitiesOnTile) {
+                entities.add(entityOnTile);
+            }
+        }
+
+        return entities;
     }
 
     public double getHeight() {

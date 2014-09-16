@@ -7,7 +7,7 @@ import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.items.types.floor.wired.WiredUtil;
 
-public class WiredActionMoveUser extends WiredActionItem {
+public class WiredActionTeleportPlayer extends WiredActionItem {
     /**
      * The default constructor
      *
@@ -21,7 +21,7 @@ public class WiredActionMoveUser extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionMoveUser(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredActionTeleportPlayer(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
     }
 
