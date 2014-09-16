@@ -42,6 +42,8 @@ public abstract class GenericEntity implements AvatarEntity {
     private int signTime;
 
     private int danceId;
+
+    private UserEffect backupEffect;
     private UserEffect effect;
 
     private int handItem;
@@ -433,6 +435,10 @@ public abstract class GenericEntity implements AvatarEntity {
             this.getRoom().getEntities().broadcastMessage(ApplyEffectMessageComposer.compose(this.id, effect.getEffectId()));
         }
 
+        if(effect.expires()) {
+            this.backupEffect = effect;
+        }
+
         this.effect = effect;
     }
 
@@ -538,5 +544,13 @@ public abstract class GenericEntity implements AvatarEntity {
 
     public void setDoorbellAnswered(boolean b) {
         this.doorbellAnswered = b;
+    }
+
+    public UserEffect getBackupEffect() {
+        return backupEffect;
+    }
+
+    public void setBackupEffect(UserEffect backupEffect) {
+        this.backupEffect = backupEffect;
     }
 }

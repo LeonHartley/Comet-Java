@@ -402,7 +402,7 @@ public class ProcessComponent implements CometTask {
             entity.getCurrentEffect().decrementDuration();
 
             if (entity.getCurrentEffect().getDuration() == 0 && entity.getCurrentEffect().expires()) {
-                entity.applyEffect(null);
+                entity.applyEffect(entity.getBackupEffect() != null ? entity.getBackupEffect() : null);
             }
         }
 
