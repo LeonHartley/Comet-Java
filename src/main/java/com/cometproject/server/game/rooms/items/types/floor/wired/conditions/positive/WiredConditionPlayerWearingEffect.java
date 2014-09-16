@@ -5,6 +5,8 @@ import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredCond
 import org.apache.commons.lang.StringUtils;
 
 public class WiredConditionPlayerWearingEffect extends WiredConditionItem {
+    public static int PARAM_EFFECT_ID = 0;
+
     /**
      * The default constructor
      *
@@ -29,11 +31,11 @@ public class WiredConditionPlayerWearingEffect extends WiredConditionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(!StringUtils.isNumeric(this.getWiredData().getText())) {
+        if(this.getWiredData().getParams().size() != 1) {
             return false;
         }
 
-        final int effectId = Integer.parseInt(this.getWiredData().getText());
+        final int effectId = this.getWiredData().getParams().get(PARAM_EFFECT_ID);
         boolean isWearingEffect = false;
 
         if(entity.getCurrentEffect() != null) {
