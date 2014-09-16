@@ -274,12 +274,8 @@ public abstract class RoomItemFloor extends RoomItem {
         List<GenericEntity> entities = Lists.newArrayList();
 
         for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(this.getDefinition().getLength(), this.getDefinition().getWidth(), this.getX(), this.getY(), this.getRotation())) {
-
             List<GenericEntity> entitiesOnTile = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
-
-            for(GenericEntity entityOnTile : entitiesOnTile) {
-                entities.add(entityOnTile);
-            }
+            entities.addAll(entitiesOnTile);
         }
 
         return entities;
