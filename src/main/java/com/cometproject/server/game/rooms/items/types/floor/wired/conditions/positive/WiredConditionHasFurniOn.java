@@ -24,19 +24,20 @@ public class WiredConditionHasFurniOn extends WiredConditionItem {
 
     @Override
     public int getInterface() {
-        return 4;
+        return 1;
     }
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
         boolean hasFurniOnTop = false;
 
-        for(int itemId : this.getWiredData().getSelectedIds()) {
+        for (int itemId : this.getWiredData().getSelectedIds()) {
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
-            if(floorItem != null) {
-                for(RoomItemFloor itemOnSq : floorItem.getItemsOnStack()) {
-                    if(itemOnSq.getHeight() > this.getHeight()) hasFurniOnTop = true;
+            if (floorItem != null) {
+                for (RoomItemFloor itemOnSq : floorItem.getItemsOnStack()) {
+                    if (itemOnSq.getHeight() >= floorItem.getHeight() && itemOnSq.getId() != floorItem.getId())
+                        hasFurniOnTop = true;
                 }
             }
         }

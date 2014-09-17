@@ -18,6 +18,7 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.items.WiredDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.google.common.collect.Lists;
 import javolution.util.FastTable;
 import org.apache.log4j.Logger;
 
@@ -104,7 +105,7 @@ public class ItemsComponent {
     }
 
     public List<RoomItemFloor> getItemsOnSquare(int x, int y) {
-        List<RoomItemFloor> items = new ArrayList<>();
+        List<RoomItemFloor> items = Lists.newArrayList();
 
         for (RoomItemFloor item : this.getFloorItems()) {
             if(item == null) continue; // it's null!
