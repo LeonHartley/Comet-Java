@@ -549,8 +549,4 @@ public abstract class GenericEntity implements AvatarEntity {
     public UserEffect getBackupEffect() {
         return backupEffect;
     }
-
-    public void setBackupEffect(UserEffect backupEffect) {
-        this.backupEffect = backupEffect;
-    }
 }
