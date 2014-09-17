@@ -267,7 +267,20 @@ public abstract class RoomItemFloor extends RoomItem {
     }
 
     public List<RoomItemFloor> getItemsOnStack() {
-        return this.getRoom().getItems().getItemsOnSquare(this.getX(), this.getY());
+        List<RoomItemFloor> floorItems = Lists.newArrayList();
+
+        List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(
+                this.getDefinition().getLength(), this.getDefinition().getWidth(), this.getX(), this.getY(), this.getRotation());
+
+        for (AffectedTile tile : affectedTiles) {
+            for(RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(tile.x, tile.y)) {
+                if(!floorItems.contains(floorItem)) floorItems.add(floorItem);
+            }
+        }
+
+        System.out.println(floorItems.size());
+
+        return floorItems;
     }
 
     public List<GenericEntity> getEntitiesOnItem() {
