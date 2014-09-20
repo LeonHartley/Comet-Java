@@ -3,6 +3,7 @@ package com.cometproject.server.game.commands.vip;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.rooms.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
@@ -88,7 +89,7 @@ public class PushCommand extends ChatCommand {
 
             user.getPlayer().getEntity().setWalkingGoal(posX, posY);
 
-            List<Square> path = user.getPlayer().getEntity().getPathfinder().makePath();
+            List<Square> path = Pathfinder.getInstance().makePath(user.getPlayer().getEntity());
             user.getPlayer().getEntity().unIdle();
 
             if (user.getPlayer().getEntity().getWalkingPath() != null)

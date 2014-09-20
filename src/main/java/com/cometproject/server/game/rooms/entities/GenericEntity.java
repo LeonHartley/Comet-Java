@@ -35,7 +35,6 @@ public abstract class GenericEntity implements AvatarEntity {
 
     private Square futureSquare;
 
-    private Pathfinder pathfinder;
     private int stepsToGoal;
 
     private int idleTime;
@@ -154,7 +153,7 @@ public abstract class GenericEntity implements AvatarEntity {
         this.setWalkingGoal(x, y);
 
         // Create a walking path
-        List<Square> path = this.getPathfinder().makePath();
+        List<Square> path = Pathfinder.getInstance().makePath(this);
 
         // Check returned path to see if it calculated one
         if (path == null || path.size() == 0) {
@@ -265,15 +264,6 @@ public abstract class GenericEntity implements AvatarEntity {
     @Override
     public void setFutureSquare(Square square) {
         this.futureSquare = square;
-    }
-
-    @Override
-    public Pathfinder getPathfinder() {
-        if (this.pathfinder == null) {
-            this.pathfinder = new Pathfinder(this);
-        }
-
-        return this.pathfinder;
     }
 
     @Override

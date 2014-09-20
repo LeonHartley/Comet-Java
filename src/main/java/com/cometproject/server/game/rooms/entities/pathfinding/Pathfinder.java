@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.entities.pathfinding;
 
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.AvatarEntity;
 import com.google.common.collect.Lists;
@@ -9,16 +10,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Pathfinder {
-    protected AvatarEntity entity;
+    private static Pathfinder instance;
 
-    public Pathfinder(AvatarEntity entity) {
-        this.entity = entity;
+    public static Pathfinder getInstance() {
+        if(instance == null)
+            instance = new Pathfinder();
+
+        return instance;
     }
-
-    public List<Square> makePath() {
+    public List<Square> makePath(GenericEntity entity) {
         LinkedList<Square> squares = new LinkedList<>();
 
-        PathfinderNode nodes = makePathReversed();
+        PathfinderNode nodes = makePathReversed(entity);
 
         if (nodes != null) {
             while (nodes.getNextNode() != null) {
@@ -30,7 +33,7 @@ public class Pathfinder {
         return Lists.reverse(squares);
     }
 
-    private PathfinderNode makePathReversed() {
+    private PathfinderNode makePathReversed(GenericEntity entity) {
         MinMaxPriorityQueue<PathfinderNode> openList = MinMaxPriorityQueue.maximumSize(256).create();
 
         PathfinderNode[][] map = new PathfinderNode[entity.getRoom().getMapping().getModel().getSizeX()][entity.getRoom().getMapping().getModel().getSizeY()];
