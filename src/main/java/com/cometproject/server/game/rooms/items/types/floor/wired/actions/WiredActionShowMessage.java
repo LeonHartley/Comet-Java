@@ -1,11 +1,12 @@
 package com.cometproject.server.game.rooms.items.types.floor.wired.actions;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.items.types.floor.wired.WiredItemSnapshot;
+import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
 
-public class WiredActionMatchToSnapshot extends WiredActionItem {
+public class WiredActionShowMessage extends WiredActionItem {
+
     /**
      * The default constructor
      *
@@ -19,37 +20,30 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionMatchToSnapshot(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredActionShowMessage(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
     }
 
     @Override
     public boolean requiresPlayer() {
-        return false;
+        return true;
     }
 
     @Override
     public int getInterface() {
-        return 3;
+        return 7;
     }
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(this.getWiredData().getSnapshots().size() == 0) {
-            return false;
+        if(!(entity instanceof PlayerEntity)) return false;
+
+        PlayerEntity playerEntity = ((PlayerEntity) entity);
+
+        if(!this.getWiredData().getText().isEmpty()) {
+            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(entity.getVirtualId(), this.getWiredData().getText()));
         }
 
-        for(int itemId : this.getWiredData().getSelectedIds()) {
-            RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
-
-            if (floorItem == null) continue;
-
-            WiredItemSnapshot itemSnapshot = this.getWiredData().getSnapshots().get(itemId);
-
-            if(itemSnapshot == null) continue;
-//todo this
-        }
-
-        return false;
+        return true;
     }
 }

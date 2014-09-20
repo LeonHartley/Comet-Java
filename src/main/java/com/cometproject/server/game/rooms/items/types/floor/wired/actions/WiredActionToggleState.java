@@ -1,11 +1,9 @@
 package com.cometproject.server.game.rooms.items.types.floor.wired.actions;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.items.types.floor.wired.WiredItemSnapshot;
 import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredActionItem;
 
-public class WiredActionMatchToSnapshot extends WiredActionItem {
+public class WiredActionToggleState extends WiredActionItem {
     /**
      * The default constructor
      *
@@ -19,7 +17,7 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionMatchToSnapshot(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredActionToggleState(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
     }
 
@@ -30,26 +28,12 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
 
     @Override
     public int getInterface() {
-        return 3;
+        return 8;
     }
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(this.getWiredData().getSnapshots().size() == 0) {
-            return false;
-        }
-
-        for(int itemId : this.getWiredData().getSelectedIds()) {
-            RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
-
-            if (floorItem == null) continue;
-
-            WiredItemSnapshot itemSnapshot = this.getWiredData().getSnapshots().get(itemId);
-
-            if(itemSnapshot == null) continue;
-//todo this
-        }
-
+        System.out.println("togglin da state since 1999");
         return false;
     }
 }
