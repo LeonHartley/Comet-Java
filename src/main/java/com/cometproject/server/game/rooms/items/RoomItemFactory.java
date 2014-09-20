@@ -13,19 +13,16 @@ import com.cometproject.server.game.rooms.items.types.floor.groups.GroupFloorIte
 import com.cometproject.server.game.rooms.items.types.floor.hollywood.HaloTileFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.summer.SummerShowerFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionMatchToSnapshot;
+import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionShowMessage;
 import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionTeleportPlayer;
+import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionToggleState;
+import com.cometproject.server.game.rooms.items.types.floor.wired.addons.WiredAddonFloorSwitch;
 import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.negative.*;
 import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.positive.*;
 import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.*;
 import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.items.types.wall.WheelWallItem;
-import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionMoveRotate;
-import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionShowMessage;
-import com.cometproject.server.game.rooms.items.types.wired.action.WiredActionToggleFurni;
-import com.cometproject.server.game.rooms.items.types.wired.trigger.WiredTriggerOffFurni;
-import com.cometproject.server.game.rooms.items.types.wired.trigger.WiredTriggerOnFurni;
-import com.cometproject.server.game.rooms.items.types.wired.trigger.WiredTriggerOnSay;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -55,6 +52,8 @@ public class RoomItemFactory {
 //todo:end
 
             put("wf_act_teleport_to", WiredActionTeleportPlayer.class);//new
+            put("wf_act_show_message", WiredActionShowMessage.class);//new
+            put("wf_act_toggle_state", WiredActionToggleState.class);//new
 
             put("wf_trg_says_something", WiredTriggerPlayerSaysKeyword.class);//new
             put("wf_trg_enter_room", WiredTriggerEnterRoom.class);//new
@@ -73,13 +72,16 @@ public class RoomItemFactory {
             put("wf_cnd_has_furni_on", WiredConditionHasFurniOn.class);//new
             put("wf_cnd_not_has_furni_on", WiredNegativeConditionHasFurniOn.class);//new
 
-            put("wf_trg_onsay", WiredTriggerOnSay.class);//old
-            put("wf_trg_onfurni", WiredTriggerOnFurni.class);//old
-            put("wf_trg_offfurni", WiredTriggerOffFurni.class);//old
-
-            put("wf_act_saymsg", WiredActionShowMessage.class);//old
-            put("wf_act_togglefurni", WiredActionToggleFurni.class);//old
-            put("wf_act_moverotate", WiredActionMoveRotate.class);//old
+            put("wf_floor_switch1", WiredAddonFloorSwitch.class);
+            put("wf_floor_switch2", WiredAddonFloorSwitch.class);
+//
+//            put("wf_trg_onsay", WiredTriggerOnSay.class);//old
+//            put("wf_trg_onfurni", WiredTriggerOnFurni.class);//old
+//            put("wf_trg_offfurni", WiredTriggerOffFurni.class);//old
+//
+//            put("wf_act_saymsg", WiredActionShowMessage.class);//old
+//            put("wf_act_togglefurni", WiredActionToggleFurni.class);//old
+//            put("wf_act_moverotate", WiredActionMoveRotate.class);//old
 
             put("bb_teleport", BanzaiTeleporterFloorItem.class);
 

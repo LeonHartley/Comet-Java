@@ -1,8 +1,10 @@
 package com.cometproject.server.game.rooms.items.types.floor.wired.triggers;
 
+import com.cometproject.server.game.rooms.entities.GenericEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredTriggerItem;
+import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
 
 public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
     public static final int PARAM_OWNERONLY = 0;
@@ -32,6 +34,17 @@ public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
     @Override
     public int getInterface() {
         return 0;
+    }
+
+    @Override
+    public void preActionTrigger(GenericEntity entity, Object data) {
+        if(!(entity instanceof PlayerEntity)) return;
+
+        PlayerEntity playerEntity = ((PlayerEntity) entity);
+
+        if(data instanceof String && !((String) data).isEmpty()) {
+            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(playerEntity.getVirtualId(), ((String) data)));
+        }
     }
 
     public static boolean executeTriggers(PlayerEntity playerEntity, String message) {

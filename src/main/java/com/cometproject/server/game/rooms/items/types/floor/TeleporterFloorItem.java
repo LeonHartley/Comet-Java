@@ -28,6 +28,8 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+        if(isWiredTrigger) return; //go away u canny use fkin teleport via wired
+
         Position3D posInFront = this.squareInfront();
 
         if (entity.getPosition().getX() != posInFront.getX() || entity.getPosition().getY() != posInFront.getY()) {

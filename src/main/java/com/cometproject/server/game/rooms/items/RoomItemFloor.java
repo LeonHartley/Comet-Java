@@ -225,7 +225,7 @@ public abstract class RoomItemFloor extends RoomItem {
             return true;
         }
 
-        if ((interaction.equals("default") || interaction.equals("gate") || interaction.equals("pressure_pad")) && (this.getDefinition().getInteractionCycleCount() > 1)) {
+        if (this.getDefinition().getInteractionCycleCount() > 1) {
             if (this.getExtraData().isEmpty() || this.getExtraData().equals(" ")) {
                 this.setExtraData("0");
             }
@@ -272,13 +272,13 @@ public abstract class RoomItemFloor extends RoomItem {
         List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(
                 this.getDefinition().getLength(), this.getDefinition().getWidth(), this.getX(), this.getY(), this.getRotation());
 
+        floorItems.addAll(this.getRoom().getItems().getItemsOnSquare(this.x, this.y));
+
         for (AffectedTile tile : affectedTiles) {
             for(RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(tile.x, tile.y)) {
                 if(!floorItems.contains(floorItem)) floorItems.add(floorItem);
             }
         }
-
-        System.out.println(floorItems.size());
 
         return floorItems;
     }
