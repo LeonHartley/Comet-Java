@@ -3,6 +3,7 @@ package com.cometproject.server.game.commands.vip;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.rooms.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
@@ -45,7 +46,7 @@ public class PullCommand extends ChatCommand {
 
         pulledEntity.setWalkingGoal(client.getPlayer().getEntity().squareInfront().getX(), client.getPlayer().getEntity().squareInfront().getY());
 
-        List<Square> path = pulledEntity.getPathfinder().makePath();
+        List<Square> path = Pathfinder.getInstance().makePath(pulledEntity);
         pulledEntity.unIdle();
 
         if (pulledEntity.getWalkingPath() != null)

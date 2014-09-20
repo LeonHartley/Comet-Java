@@ -50,8 +50,6 @@ public interface AvatarEntity extends Attributable {
 
     public void setFutureSquare(Square square);
 
-    public Pathfinder getPathfinder();
-
     public void moveTo(int x, int y);
 
     public Map<String, String> getStatuses();
