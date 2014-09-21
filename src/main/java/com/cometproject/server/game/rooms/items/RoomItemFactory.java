@@ -16,7 +16,10 @@ import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredA
 import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionShowMessage;
 import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionTeleportPlayer;
 import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionToggleState;
+import com.cometproject.server.game.rooms.items.types.floor.wired.addons.WiredAddonColourWheel;
 import com.cometproject.server.game.rooms.items.types.floor.wired.addons.WiredAddonFloorSwitch;
+import com.cometproject.server.game.rooms.items.types.floor.wired.addons.WiredAddonPressurePlate;
+import com.cometproject.server.game.rooms.items.types.floor.wired.addons.WiredAddonPyramid;
 import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.negative.*;
 import com.cometproject.server.game.rooms.items.types.floor.wired.conditions.positive.*;
 import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.*;
@@ -72,8 +75,13 @@ public class RoomItemFactory {
             put("wf_cnd_has_furni_on", WiredConditionHasFurniOn.class);//new
             put("wf_cnd_not_has_furni_on", WiredNegativeConditionHasFurniOn.class);//new
 
-            put("wf_floor_switch1", WiredAddonFloorSwitch.class);
-            put("wf_floor_switch2", WiredAddonFloorSwitch.class);
+            put("wf_floor_switch1", WiredAddonFloorSwitch.class);//new
+            put("wf_floor_switch2", WiredAddonFloorSwitch.class);//new
+            put("wf_colorwheel", WiredAddonColourWheel.class);//new
+            put("wf_pressureplate", WiredAddonPressurePlate.class);//new
+            put("wf_arrowplate", WiredAddonPressurePlate.class);//new
+            put("wf_ringplate", WiredAddonPressurePlate.class);//new
+            put("wf_pyramid", WiredAddonPyramid.class);//new
 //
 //            put("wf_trg_onsay", WiredTriggerOnSay.class);//old
 //            put("wf_trg_onfurni", WiredTriggerOnFurni.class);//old
