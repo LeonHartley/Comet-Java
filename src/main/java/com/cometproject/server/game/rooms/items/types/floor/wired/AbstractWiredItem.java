@@ -68,6 +68,7 @@ public abstract class AbstractWiredItem extends RoomItemFloor {
         }
 
         this.wiredItemData = gson.fromJson(this.getExtraData(), (this instanceof WiredActionItem) ? WiredActionItemData.class : WiredItemData.class);
+        this.onDataRefresh();
     }
 
     @Override
@@ -121,4 +122,11 @@ public abstract class AbstractWiredItem extends RoomItemFloor {
      * @return Whether or not the evaluation was a success
      */
     public abstract boolean evaluate(GenericEntity entity, Object data);
+
+    /**
+     * Will be executed when the data has been refreshed
+     */
+    public void onDataRefresh() {
+
+    }
 }

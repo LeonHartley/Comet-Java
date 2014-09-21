@@ -12,10 +12,7 @@ import com.cometproject.server.game.rooms.items.types.floor.football.*;
 import com.cometproject.server.game.rooms.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.hollywood.HaloTileFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.summer.SummerShowerFloorItem;
-import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionMatchToSnapshot;
-import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionShowMessage;
-import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionTeleportPlayer;
-import com.cometproject.server.game.rooms.items.types.floor.wired.actions.WiredActionToggleState;
+import com.cometproject.server.game.rooms.items.types.floor.wired.actions.*;
 import com.cometproject.server.game.rooms.items.types.floor.wired.addons.WiredAddonColourWheel;
 import com.cometproject.server.game.rooms.items.types.floor.wired.addons.WiredAddonFloorSwitch;
 import com.cometproject.server.game.rooms.items.types.floor.wired.addons.WiredAddonPressurePlate;
@@ -57,6 +54,7 @@ public class RoomItemFactory {
             put("wf_act_teleport_to", WiredActionTeleportPlayer.class);//new
             put("wf_act_show_message", WiredActionShowMessage.class);//new
             put("wf_act_toggle_state", WiredActionToggleState.class);//new
+            put("wf_act_give_reward", WiredActionGiveReward.class);//new
 
             put("wf_trg_says_something", WiredTriggerPlayerSaysKeyword.class);//new
             put("wf_trg_enter_room", WiredTriggerEnterRoom.class);//new
@@ -74,6 +72,8 @@ public class RoomItemFactory {
             put("wf_cnd_not_wearing_effect", WiredNegativeConditionPlayerWearingEffect.class);//new
             put("wf_cnd_has_furni_on", WiredConditionHasFurniOn.class);//new
             put("wf_cnd_not_has_furni_on", WiredNegativeConditionHasFurniOn.class);//new
+            put("wf_cnd_user_count_in", WiredConditionPlayerCountInRoom.class);//new
+            put("wf_cnd_not_user_count", WiredConditionPlayerCountInRoom.class);//new
 
             put("wf_floor_switch1", WiredAddonFloorSwitch.class);//new
             put("wf_floor_switch2", WiredAddonFloorSwitch.class);//new
