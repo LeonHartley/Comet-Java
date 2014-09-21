@@ -1,7 +1,12 @@
 package com.cometproject.server.game.rooms.items.types.floor.wired.actions;
 
 import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.items.types.floor.wired.base.WiredActionItem;
+import com.google.common.collect.Lists;
+
+import java.util.List;
 
 public class WiredActionToggleState extends WiredActionItem {
     /**
@@ -33,7 +38,21 @@ public class WiredActionToggleState extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        System.out.println("togglin da state since 1999");
+        List<Position3D> tilesToUpdate = Lists.newArrayList();
+
+        for (int itemId : this.getWiredData().getSelectedIds()) {
+            final RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
+
+            if (floorItem == null) continue;
+            floorItem.onInteract(null, 0, true);
+            tilesToUpdate.add(new Position3D(floorItem.getX(), floorItem.getY()));
+        }
+
+        for (Position3D tileToUpdate : tilesToUpdate) {
+            this.getRoom().getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
+        }
+
+        tilesToUpdate.clear();
         return false;
     }
 }

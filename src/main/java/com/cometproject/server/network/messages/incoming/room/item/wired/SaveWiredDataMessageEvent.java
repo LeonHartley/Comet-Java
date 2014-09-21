@@ -53,5 +53,6 @@ public class SaveWiredDataMessageEvent implements IEvent {
         wiredItem.save();
 
         client.send(SaveWiredMessageComposer.compose());
+        wiredItem.onDataRefresh();
     }
 }
