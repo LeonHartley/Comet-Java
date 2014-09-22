@@ -159,7 +159,8 @@ public class Events {
     public static short GroupForumPermissionsMessageEvent = 1920;
     public static short GroupForumThreadsMessageEvent = 1851;
     public static short GroupFurnitureCatalogMessageEvent = 619;
-    public static short SaveFootballGateFloorItem = 1462;
+    public static short SaveFootballGateMessageEvent = 1462;
+    public static short UpdateSnapshotsMessageEvent = 718;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 

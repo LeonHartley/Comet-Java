@@ -1,20 +1,22 @@
 package com.cometproject.server.game.rooms.items.types.floor.wired;
 
+import com.cometproject.server.game.rooms.items.RoomItemFloor;
+
 public class WiredItemSnapshot {
     private int itemId;
     private int x;
     private int y;
-    private int z;
+    private double z;
     private int rotation;
     private String extraData;
 
-    public WiredItemSnapshot(int itemId, int x, int y, int z, int rotation, String extraData) {
-        this.itemId = itemId;
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.rotation = rotation;
-        this.extraData = extraData;
+    public WiredItemSnapshot(RoomItemFloor floorItem) {
+        this.itemId = floorItem.getId();
+        this.x = floorItem.getX();
+        this.y = floorItem.getY();
+        this.z = floorItem.getHeight();
+        this.rotation = floorItem.getRotation();
+        this.extraData = floorItem.getExtraData();
     }
 
     public int getItemId() {
@@ -41,11 +43,11 @@ public class WiredItemSnapshot {
         this.y = y;
     }
 
-    public int getZ() {
+    public double getZ() {
         return z;
     }
 
-    public void setZ(int z) {
+    public void setZ(double z) {
         this.z = z;
     }
 
@@ -63,5 +65,9 @@ public class WiredItemSnapshot {
 
     public void setExtraData(String extraData) {
         this.extraData = extraData;
+    }
+
+    public interface Refreshable {
+        void refreshSnapshots();
     }
 }

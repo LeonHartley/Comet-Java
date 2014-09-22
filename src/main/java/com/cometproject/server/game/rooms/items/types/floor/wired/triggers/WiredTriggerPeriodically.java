@@ -22,7 +22,7 @@ public class WiredTriggerPeriodically extends WiredTriggerItem {
         super(id, itemId, roomId, owner, x, y, z, rotation, data);
 
         if (this.getWiredData().getParams().get(PARAM_TICK_LENGTH) == null) {
-            this.getWiredData().putParam(PARAM_TICK_LENGTH, 2); // 1s
+            this.getWiredData().getParams().put(PARAM_TICK_LENGTH, 2); // 1s
         }
 
         this.setTicks(this.getWiredData().getParams().get(PARAM_TICK_LENGTH));

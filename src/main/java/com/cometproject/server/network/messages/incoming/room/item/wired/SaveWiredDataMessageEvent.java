@@ -31,13 +31,13 @@ public class SaveWiredDataMessageEvent implements IEvent {
         int paramCount = msg.readInt();
 
         for (int param = 0; param < paramCount; param++) {
-            wiredItem.getWiredData().putParam(param, msg.readInt());
+            wiredItem.getWiredData().getParams().put(param, msg.readInt());
         }
 
         // TODO: Filter txt
         wiredItem.getWiredData().setText(msg.readString());
 
-        wiredItem.getWiredData().clearSelectedItems();
+        wiredItem.getWiredData().getSelectedIds().clear();
 
         int selectedItemCount = msg.readInt();
 
@@ -54,5 +54,6 @@ public class SaveWiredDataMessageEvent implements IEvent {
 
         client.send(SaveWiredMessageComposer.compose());
         wiredItem.onDataRefresh();
+        wiredItem.onDataChange();
     }
 }
