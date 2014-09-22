@@ -47,7 +47,8 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
             WiredItemSnapshot itemSnapshot = this.getWiredData().getSnapshots().get(itemId);
 
             if(itemSnapshot == null) continue;
-//todo this
+
+
         }
 
         return false;
