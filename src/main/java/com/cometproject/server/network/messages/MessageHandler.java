@@ -16,8 +16,6 @@ import com.cometproject.server.network.messages.incoming.catalog.pets.PetRacesMe
 import com.cometproject.server.network.messages.incoming.catalog.pets.ValidatePetNameMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.*;
 import com.cometproject.server.network.messages.incoming.group.favourite.SetFavouriteGroupMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.forum.GroupForumPermissionsMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.forum.GroupForumThreadsMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.ManageGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.ModifyGroupBadgeMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.ModifyGroupSettingsMessageEvent;
@@ -49,7 +47,7 @@ import com.cometproject.server.network.messages.incoming.room.item.gifts.OpenGif
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinNameMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.wired.SaveWiredDataMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.item.wired.SaveWiredMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.wired.UpdateSnapshotsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.*;
 import com.cometproject.server.network.messages.incoming.room.pets.PetInformationMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PlacePetMessageEvent;
@@ -273,7 +271,9 @@ public final class MessageHandler {
         this.getMessages().put(Events.ToggleMoodlightMessageEvent, new ToggleMoodlightMessageEvent());
         this.getMessages().put(Events.UpdateMoodlightMessageEvent, new UpdateMoodlightMessageEvent());
         this.getMessages().put(Events.SaveStackToolMessageEvent, new SaveStackToolMessageEvent());
-        this.getMessages().put(Events.SaveFootballGateFloorItem, new SaveFootballGateMessageEvent());
+        this.getMessages().put(Events.SaveFootballGateMessageEvent, new SaveFootballGateMessageEvent());
+
+        this.getMessages().put(Events.UpdateSnapshotsMessageEvent, new UpdateSnapshotsMessageEvent());
     }
 
     public void registerCatalog() {

@@ -31,26 +31,6 @@ public class WiredItemData {
         this.snapshots = Maps.newHashMap();
     }
 
-    public void putParam(int param, int value) {
-        if(this.params.containsKey(param)) {
-            if (this.params.get(param) != value) {
-                this.params.replace(param, value);
-            }
-        } else {
-            this.params.put(param, value);
-        }
-    }
-
-    public void removeParam(int param) {
-        if(this.params.containsKey(param)) {
-            this.params.remove(param);
-        }
-    }
-
-    public void clearSelectedItems() {
-        this.getSelectedIds().clear();
-    }
-
     public void selectItem(int itemId) {
         this.selectedIds.add(itemId);
     }

@@ -220,4 +220,3 @@ public class WiredActionGiveReward extends WiredActionItem {
         }
     }
 }
-2

@@ -129,4 +129,11 @@ public abstract class AbstractWiredItem extends RoomItemFloor {
     public void onDataRefresh() {
 
     }
+
+    /**
+     * Will be executed when the data has been changed (different to the "onDataRefresh" event
+     */
+    public void onDataChange() {
+
+    }
 }
