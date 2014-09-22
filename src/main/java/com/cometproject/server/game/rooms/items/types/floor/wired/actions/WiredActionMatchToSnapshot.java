@@ -45,11 +45,22 @@ public class WiredActionMatchToSnapshot extends WiredActionItem implements Wired
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(this.getWiredData().getSnapshots().size() == 0) {
-            return false;
+        if(this.hasTicks()) return false;
+
+        if(this.getWiredData().getDelay() >= 1) {
+            this.setTicks(this.getWiredData().getDelay());
+        } else {
+            this.onTickComplete();
         }
 
-        System.out.println("hi");
+        return true;
+    }
+
+    @Override
+    public void onTickComplete() {
+        if(this.getWiredData().getSnapshots().size() == 0) {
+            return;
+        }
 
         final boolean matchState = this.getWiredData().getParams().get(PARAM_MATCH_STATE) == 1;
         final boolean matchRotation = this.getWiredData().getParams().get(PARAM_MATCH_ROTATION) == 1;
@@ -66,27 +77,22 @@ public class WiredActionMatchToSnapshot extends WiredActionItem implements Wired
                 floorItem.setExtraData(itemSnapshot.getExtraData());
             }
 
-            if(matchRotation) {
-                floorItem.setRotation(itemSnapshot.getRotation());
-            }
-
-            if(matchPosition) {
+            if(matchPosition || matchRotation) {
                 Position3D currentPosition = new Position3D(floorItem.getX(), floorItem.getY(), floorItem.getHeight());
                 Position3D newPosition = new Position3D(itemSnapshot.getX(), itemSnapshot.getY());
 
-                if(this.getRoom().getItems().moveFloorItem(floorItem.getId(), newPosition, floorItem.getRotation(), true)) {
+                if(this.getRoom().getItems().moveFloorItem(floorItem.getId(), !matchPosition ? currentPosition : newPosition, matchRotation ? itemSnapshot.getRotation() : floorItem.getRotation(), true)) {
                     newPosition.setZ(floorItem.getHeight());
 
-                    this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(currentPosition, newPosition, 0, 0, floorItem.getId()));
+                    this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(currentPosition, !matchPosition ? currentPosition : newPosition, 0, 0, floorItem.getId()));
                 }
-            } else {
-                this.getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(floorItem, this.getRoom().getData().getOwnerId()));
             }
+
+            if(matchRotation && !matchPosition)
+                this.getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(floorItem, this.getRoom().getData().getOwnerId()));
 
             floorItem.sendUpdate();
         }
-
-        return false;
     }
 
     @Override

@@ -47,10 +47,7 @@ public class RoomItemFactory {
             put("beach_shower", SummerShowerFloorItem.class);
             put("halo_tile", HaloTileFloorItem.class);
 
-//todo:start
             put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);
-//todo:end
-
             put("wf_act_teleport_to", WiredActionTeleportPlayer.class);//new
             put("wf_act_show_message", WiredActionShowMessage.class);//new
             put("wf_act_toggle_state", WiredActionToggleState.class);//new
