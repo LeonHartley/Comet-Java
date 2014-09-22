@@ -15,7 +15,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -156,11 +156,9 @@ public class WiredActionGiveReward extends WiredActionItem {
                         InventoryItem inventoryItem = new InventoryItem(newItem, itemId, extraData);
 
                         playerEntity.getPlayer().getInventory().addItem(inventoryItem);
-                        playerEntity.getPlayer().getSession().send(UpdateInventoryMessageComposer.compose());
 
-                        playerEntity.getPlayer().getSession().send(SendPurchaseAlertMessageComposer.compose(new ArrayList<InventoryItem>() {{
-                            add(inventoryItem);
-                        }}));
+                        playerEntity.getPlayer().getSession().send(UpdateInventoryMessageComposer.compose());
+                        playerEntity.getPlayer().getSession().send(SendPurchaseAlertMessageComposer.compose(Arrays.asList(inventoryItem)));
 
                         playerEntity.getPlayer().getSession().send(WiredRewardMessageComposer.compose(6));
                     }
@@ -204,6 +202,12 @@ public class WiredActionGiveReward extends WiredActionItem {
         }
     }
 
+    @Override
+    public void onPickup() {
+        super.onPickup();
+        rewardTimings.get(this.getId()).remove(this.getId());
+    }
+
     public class Reward {
         private boolean isBadge;
         private String productCode;
@@ -216,3 +220,4 @@ public class WiredActionGiveReward extends WiredActionItem {
         }
     }
 }
+2
