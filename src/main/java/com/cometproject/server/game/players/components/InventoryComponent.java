@@ -4,7 +4,9 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
@@ -75,7 +77,7 @@ public class InventoryComponent {
             // 0 = slot
             this.badges.put(code, 0);
 
-            this.player.getSession().send(AlertMessageComposer.compose(Locale.get("badge.get")));
+            this.player.getSession().send(WiredRewardMessageComposer.compose(7));
             this.player.getSession().send(BadgeInventoryMessageComposer.compose(this.badges));
         }
     }

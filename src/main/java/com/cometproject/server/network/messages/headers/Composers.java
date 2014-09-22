@@ -165,7 +165,7 @@ public class Composers {
     public static short GroupForumThreadsMessageComposer = 3037;
 
     public static short WiredConditionMessageComposer = 1476;
-
+    public static short WiredRewardMessageComposer = 934;
 
     public static String valueOfId(int i) {
         Composers c = new Composers();
