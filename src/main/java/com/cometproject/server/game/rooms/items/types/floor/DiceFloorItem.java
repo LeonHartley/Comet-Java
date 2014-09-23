@@ -37,6 +37,7 @@ public class DiceFloorItem extends RoomItemFloor {
             this.setExtraData("0");
             this.sendUpdate();
         }
+
     }
 
     @Override
@@ -57,6 +58,7 @@ public class DiceFloorItem extends RoomItemFloor {
 
         this.setExtraData(Integer.toString(num));
         this.sendUpdate();
+        this.saveData();
 
         this.isInUse = false;
     }
