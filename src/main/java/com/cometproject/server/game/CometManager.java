@@ -13,7 +13,6 @@ import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.wired.WiredManager;
 import org.apache.log4j.Logger;
 
 public class CometManager {
@@ -23,7 +22,6 @@ public class CometManager {
     private static ItemManager itemManager;
     private static RoomManager roomManager;
     private static CommandManager commandManager;
-    private static WiredManager wiredManager;
     private static BanManager banManager;
     private static ModerationManager moderationManager;
     private static PetManager petManager;
@@ -42,7 +40,6 @@ public class CometManager {
         roomManager = new RoomManager();
         navigatorManager = new NavigatorManager();
         commandManager = new CommandManager();
-        wiredManager = new WiredManager();
         banManager = new BanManager();
         moderationManager = new ModerationManager();
         petManager = new PetManager();
@@ -81,10 +78,6 @@ public class CometManager {
 
     public static RoomManager getRooms() {
         return roomManager;
-    }
-
-    public static WiredManager getWired() {
-        return wiredManager;
     }
 
     public static BanManager getBans() {

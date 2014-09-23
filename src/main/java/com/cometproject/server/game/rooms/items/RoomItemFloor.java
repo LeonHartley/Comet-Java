@@ -11,6 +11,7 @@ import com.cometproject.server.game.rooms.items.data.MannequinData;
 import com.cometproject.server.game.rooms.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.football.FootballGateFloorItem;
 import com.cometproject.server.game.rooms.items.types.floor.groups.GroupFloorItem;
+import com.cometproject.server.game.rooms.items.types.floor.wired.AbstractWiredItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
@@ -216,10 +217,8 @@ public abstract class RoomItemFloor extends RoomItem {
 
     @Override
     public boolean toggleInteract(boolean state) {
-        String interaction = this.getDefinition().getInteraction();
-
         if (!state) {
-            if (!CometManager.getWired().isWiredItem(this))
+            if (!(this instanceof AbstractWiredItem))
                 this.setExtraData("0");
 
             return true;
