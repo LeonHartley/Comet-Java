@@ -10,6 +10,8 @@ import com.cometproject.server.game.rooms.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
+import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.wired.types.TriggerType;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
@@ -178,9 +180,9 @@ public class ProcessComponent implements CometTask {
             // Step off
             for (RoomItemFloor item : itemsOnOldSq) {
                 item.onEntityStepOff(entity);
-                if (this.getRoom().getWired().trigger(TriggerType.OFF_FURNI, item.getId(), entity)) {
 
-                }
+                if(!itemsOnSq.contains(item))
+                    WiredTriggerWalksOffFurni.executeTriggers(entity, item);
             }
 
             entity.updateAndSetPosition(null);
@@ -209,9 +211,8 @@ public class ProcessComponent implements CometTask {
 
                 item.onEntityStepOn(entity);
 
-                if (this.getRoom().getWired().trigger(TriggerType.ON_FURNI, item.getId(), entity)) {
-
-                }
+                if(!itemsOnOldSq.contains(item))
+                    WiredTriggerWalksOnFurni.executeTriggers(entity, item);
             }
         }
 
