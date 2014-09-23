@@ -26,7 +26,6 @@ public class Room implements Attributable {
     private RightsComponent rights;
     private ItemsComponent items;
     private ItemProcessComponent itemProcess;
-    private WiredComponent wired;
     private TradeComponent trade;
     private BotComponent bots;
     private PetComponent pets;
@@ -57,7 +56,6 @@ public class Room implements Attributable {
         this.process = new ProcessComponent(this);
         this.rights = new RightsComponent(this);
         this.items = new ItemsComponent(this);
-        this.wired = new WiredComponent(this);
         this.trade = new TradeComponent(this);
         this.game = new GameComponent(this);
         this.entities = new EntityComponent(this);
@@ -107,7 +105,6 @@ public class Room implements Attributable {
     }
 
     public void tick() {
-        this.wired.tick();
 
         if (useCycleForEntities && this.process != null) {
             this.process.tick();
@@ -164,10 +161,6 @@ public class Room implements Attributable {
 
     public ItemsComponent getItems() {
         return this.items;
-    }
-
-    public WiredComponent getWired() {
-        return this.wired;
     }
 
     public TradeComponent getTrade() {

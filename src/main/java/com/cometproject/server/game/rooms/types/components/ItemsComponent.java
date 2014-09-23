@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.entities.misc.Position3D;
 import com.cometproject.server.game.rooms.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.entities.GenericEntity;
@@ -11,14 +10,10 @@ import com.cometproject.server.game.rooms.items.RoomItemWall;
 import com.cometproject.server.game.rooms.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.TileInstance;
-import com.cometproject.server.game.wired.data.WiredDataFactory;
-import com.cometproject.server.game.wired.data.WiredDataInstance;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.items.WiredDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.google.common.collect.Lists;
 import javolution.util.FastTable;
@@ -224,15 +219,6 @@ public class ItemsComponent {
             client.send(UpdateInventoryMessageComposer.compose());
         } else {
             RoomItemDao.deleteItem(item.getId());
-        }
-
-        if (CometManager.getWired().isWiredItem(item)) {
-            WiredDataInstance instance = WiredDataFactory.get(item);
-
-            WiredDao.deleteWiredData(item.getId());
-            WiredDataFactory.removeInstance(item.getId());
-
-            instance.dispose();
         }
 
         for (Position3D tileToUpdate : tilesToUpdate) {
