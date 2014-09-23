@@ -47,15 +47,18 @@ public class RoomItemFactory {
             put("beach_shower", SummerShowerFloorItem.class);
             put("halo_tile", HaloTileFloorItem.class);
 
-            put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);
+            put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);//new
             put("wf_act_teleport_to", WiredActionTeleportPlayer.class);//new
             put("wf_act_show_message", WiredActionShowMessage.class);//new
             put("wf_act_toggle_state", WiredActionToggleState.class);//new
             put("wf_act_give_reward", WiredActionGiveReward.class);//new
+            put("wf_act_move_rotate", WiredActionMoveRotate.class);//new
 
             put("wf_trg_says_something", WiredTriggerPlayerSaysKeyword.class);//new
             put("wf_trg_enter_room", WiredTriggerEnterRoom.class);//new
             put("wf_trg_periodically", WiredTriggerPeriodically.class);//new
+            put("wf_trg_walks_off_furni", WiredTriggerWalksOffFurni.class);//new
+            put("wf_trg_walks_on_furni", WiredTriggerWalksOnFurni.class);//new
 
             put("wf_cnd_trggrer_on_frn", WiredConditionTriggererOnFurni.class);//new
             put("wf_cnd_not_trggrer_on", WiredNegativeConditionPlayerInGroup.class);//new
@@ -79,14 +82,6 @@ public class RoomItemFactory {
             put("wf_arrowplate", WiredAddonPressurePlate.class);//new
             put("wf_ringplate", WiredAddonPressurePlate.class);//new
             put("wf_pyramid", WiredAddonPyramid.class);//new
-//
-//            put("wf_trg_onsay", WiredTriggerOnSay.class);//old
-//            put("wf_trg_onfurni", WiredTriggerOnFurni.class);//old
-//            put("wf_trg_offfurni", WiredTriggerOffFurni.class);//old
-//
-//            put("wf_act_saymsg", WiredActionShowMessage.class);//old
-//            put("wf_act_togglefurni", WiredActionToggleFurni.class);//old
-//            put("wf_act_moverotate", WiredActionMoveRotate.class);//old
 
             put("bb_teleport", BanzaiTeleporterFloorItem.class);
 

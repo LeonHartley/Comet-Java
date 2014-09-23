@@ -84,7 +84,8 @@ public class WiredActionMatchToSnapshot extends WiredActionItem implements Wired
                 if(this.getRoom().getItems().moveFloorItem(floorItem.getId(), !matchPosition ? currentPosition : newPosition, matchRotation ? itemSnapshot.getRotation() : floorItem.getRotation(), true)) {
                     newPosition.setZ(floorItem.getHeight());
 
-                    this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(currentPosition, !matchPosition ? currentPosition : newPosition, 0, 0, floorItem.getId()));
+                    if(!matchRotation)
+                        this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(currentPosition, newPosition, 0, 0, floorItem.getId()));
                 }
             }
 
