@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.bots;
 
-import com.cometproject.server.game.rooms.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.bots.BotConfigMessageComposer;
 import com.cometproject.server.network.messages.types.Event;

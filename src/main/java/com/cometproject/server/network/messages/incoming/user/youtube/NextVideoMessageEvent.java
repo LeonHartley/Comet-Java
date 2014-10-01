@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.incoming.user.youtube;
 
 import com.cometproject.server.game.players.components.types.PlaylistItem;
 import com.cometproject.server.game.players.types.PlayerSettings;
-import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.youtube.PlayVideoMessageComposer;

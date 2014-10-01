@@ -1,9 +1,9 @@
 package com.cometproject.server.game.rooms.types.components.games.banzai;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.RoomEntityType;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
@@ -65,7 +65,7 @@ public class BanzaiGame extends RoomGame {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 
                 if (this.getTeam(playerEntity.getPlayerId()).equals(winningTeam)) {
-                    this.room.getEntities().broadcastMessage(ActionMessageComposer.compose(playerEntity.getVirtualId(), 1)); // wave o/
+                    this.room.getEntities().broadcastMessage(ActionMessageComposer.compose(playerEntity.getId(), 1)); // wave o/
                 }
             }
         }

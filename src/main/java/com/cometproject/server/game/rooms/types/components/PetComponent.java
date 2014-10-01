@@ -1,8 +1,8 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.types.PetEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
 
@@ -26,7 +26,7 @@ public class PetComponent {
         RoomPetDao.updatePet(this.room.getId(), x, y, pet.getId());
 
         int virtualId = room.getEntities().getFreeId();
-        PetEntity petEntity = new PetEntity(pet, virtualId, new Position3D(x, y, 0), 3, 3, room);
+        PetEntity petEntity = new PetEntity(pet, virtualId, new Position(x, y, 0), 3, 3, room);
         this.getRoom().getEntities().addEntity(petEntity);
 
         return petEntity;

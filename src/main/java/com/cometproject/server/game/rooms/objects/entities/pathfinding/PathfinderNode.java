@@ -1,20 +1,20 @@
 package com.cometproject.server.game.rooms.objects.entities.pathfinding;
 
-import com.cometproject.server.game.rooms.objects.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 
 public class PathfinderNode implements Comparable<PathfinderNode> {
-    private Position3D position;
+    private Position position;
     private PathfinderNode nextNode;
 
     private Integer cost = Integer.MAX_VALUE;
     private boolean inOpen = false;
     private boolean inClosed = false;
 
-    public Position3D getPosition() {
+    public Position getPosition() {
         return position;
     }
 
-    public void setPosition(Position3D position) {
+    public void setPosition(Position position) {
         this.position = position;
     }
 
@@ -50,7 +50,7 @@ public class PathfinderNode implements Comparable<PathfinderNode> {
         this.inClosed = inClosed;
     }
 
-    public PathfinderNode(Position3D current) {
+    public PathfinderNode(Position current) {
         this.position = current;
     }
 

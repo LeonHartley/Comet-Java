@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.room.avatar;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.bots.Bot;
 import com.cometproject.server.network.messages.headers.Composers;
@@ -18,7 +18,7 @@ public class AvatarUpdateMessageComposer {
         for (GenericEntity entity : room.getEntities().getEntitiesCollection().values()) {
             if(!entity.isVisible()) continue;
 
-            msg.writeInt(entity.getVirtualId());
+            msg.writeInt(entity.getId());
 
             msg.writeInt(entity.getPosition().getX());
             msg.writeInt(entity.getPosition().getY());
@@ -56,7 +56,7 @@ public class AvatarUpdateMessageComposer {
         msg.writeInt(list.size()); // items count
 
         for (GenericEntity entity : list) {
-            msg.writeInt(entity.getVirtualId());
+            msg.writeInt(entity.getId());
 
             msg.writeInt(entity.getPosition().getX());
             msg.writeInt(entity.getPosition().getY());
@@ -93,7 +93,7 @@ public class AvatarUpdateMessageComposer {
 
         msg.writeInt(1);
 
-        msg.writeInt(entity.getVirtualId());
+        msg.writeInt(entity.getId());
 
         msg.writeInt(entity.getPosition().getX());
         msg.writeInt(entity.getPosition().getY());

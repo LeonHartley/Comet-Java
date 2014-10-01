@@ -1,13 +1,13 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.pathfinding.AffectedTile;
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.items.RoomItem;
-import com.cometproject.server.game.rooms.items.RoomItemFactory;
-import com.cometproject.server.game.rooms.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.items.RoomItemWall;
-import com.cometproject.server.game.rooms.items.types.wall.MoodlightWallItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItem;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
+import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.TileInstance;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
@@ -35,7 +35,7 @@ public class ItemsComponent {
     public ItemsComponent(Room room) {
         this.room = room;
         this.log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
-        RoomItemDao.getItems(this.room.getId(), this.floorItems, this.wallItems);
+        RoomItemDao.getItems(this.room, this.floorItems, this.wallItems);
     }
 
     public void onLoaded() {
@@ -86,16 +86,16 @@ public class ItemsComponent {
         return (MoodlightWallItem) this.getWallItem(this.moodlightId);
     }
 
-    public RoomItemFloor addFloorItem(int id, int baseId, int roomId, int ownerId, int x, int y, int rot, double height, String data) {
-        RoomItemFloor floor = RoomItemFactory.createFloor(id, baseId, roomId, ownerId, x, y, height, rot, data);
+    public RoomItemFloor addFloorItem(int id, int baseId, Room room, int ownerId, int x, int y, int rot, double height, String data) {
+        RoomItemFloor floor = RoomItemFactory.createFloor(id, baseId, room, ownerId, x, y, height, rot, data);
 
         this.getFloorItems().add(floor);
 
         return floor;
     }
 
-    public RoomItemWall addWallItem(int id, int baseId, int roomId, int ownerId, String position, String data) {
-        RoomItemWall wall = RoomItemFactory.createWall(id, baseId, roomId, ownerId, position, data);
+    public RoomItemWall addWallItem(int id, int baseId, Room room, int ownerId, String position, String data) {
+        RoomItemWall wall = RoomItemFactory.createWall(id, baseId, room, ownerId, position, data);
         this.getWallItems().add(wall);
 
         return wall;
@@ -106,13 +106,13 @@ public class ItemsComponent {
 
         for (RoomItemFloor item : this.getFloorItems()) {
             if(item == null) continue; // it's null!
-            if (item.getX() == x && item.getY() == y) {
+            if (item.getPosition().getX() == x && item.getPosition().getY() == y) {
                 items.add(item);
             } else {
                 if(item.getDefinition() == null) continue;
 
                 List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(
-                        item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation());
+                        item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation());
 
                 for (AffectedTile tile : affectedTiles) {
                     if (x == tile.x && y == tile.y) {
@@ -181,10 +181,10 @@ public class ItemsComponent {
     }
 
     public void removeItem(RoomItemFloor item, Session client, boolean toInventory) {
-        List<GenericEntity> affectEntities = room.getEntities().getEntitiesAt(item.getX(), item.getY());
-        List<Position3D> tilesToUpdate = new ArrayList<>();
+        List<GenericEntity> affectEntities = room.getEntities().getEntitiesAt(item.getPosition().getX(), item.getPosition().getY());
+        List<Position> tilesToUpdate = new ArrayList<>();
 
-        tilesToUpdate.add(new Position3D(item.getX(), item.getY(), 0d));
+        tilesToUpdate.add(new Position(item.getPosition().getX(), item.getPosition().getY(), 0d));
 
         for (GenericEntity entity : affectEntities) {
             /*if (entity.hasStatus("sit")) {
@@ -195,9 +195,9 @@ public class ItemsComponent {
             item.onEntityStepOff(entity);
         }
 
-        for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
+        for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation())) {
             List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(tile.x, tile.y);
-            tilesToUpdate.add(new Position3D(tile.x, tile.y, 0d));
+            tilesToUpdate.add(new Position(tile.x, tile.y, 0d));
 
             for (GenericEntity entity0 : affectEntities0) {
                 /*if (entity0.hasStatus("sit")) {
@@ -221,12 +221,12 @@ public class ItemsComponent {
             RoomItemDao.deleteItem(item.getId());
         }
 
-        for (Position3D tileToUpdate : tilesToUpdate) {
+        for (Position tileToUpdate : tilesToUpdate) {
             room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
         }
     }
 
-    public boolean moveFloorItem(int itemId, Position3D newPosition, int rotation, boolean save) {
+    public boolean moveFloorItem(int itemId, Position newPosition, int rotation, boolean save) {
         RoomItemFloor item = this.getFloorItem(itemId);
         if(item == null) return false;
 
@@ -250,7 +250,7 @@ public class ItemsComponent {
             return false;
         }
 
-        double height = item.getId() == tile.getTopItem() ? item.getHeight() : tile.getStackHeight();
+        double height = item.getId() == tile.getTopItem() ? item.getPosition().getZ() : tile.getStackHeight();
 
         List<RoomItemFloor> floorItemsAt = this.getItemsOnSquare(newPosition.getX(), newPosition.getY());
 
@@ -260,21 +260,21 @@ public class ItemsComponent {
             }
         }
 
-        List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(item.getX(), item.getY());
+        List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(item.getPosition().getX(), item.getPosition().getY());
 
         for (GenericEntity entity0 : affectEntities0) {
             item.onEntityStepOff(entity0);
         }
 
-        List<Position3D> tilesToUpdate = new ArrayList<>();
+        List<Position> tilesToUpdate = new ArrayList<>();
 
-        tilesToUpdate.add(new Position3D(item.getX(), item.getY()));
-        tilesToUpdate.add(new Position3D(newPosition.getX(), newPosition.getY()));
+        tilesToUpdate.add(new Position(item.getPosition().getX(), item.getPosition().getY()));
+        tilesToUpdate.add(new Position(newPosition.getX(), newPosition.getY()));
 
         // Catch this so the item still updates!
         try {
-            for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
-                tilesToUpdate.add(new Position3D(affectedTile.x, affectedTile.y));
+            for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation())) {
+                tilesToUpdate.add(new Position(affectedTile.x, affectedTile.y));
 
                 List<GenericEntity> affectEntities1 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
 
@@ -284,7 +284,7 @@ public class ItemsComponent {
             }
 
             for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), newPosition.getX(), newPosition.getY(), item.getRotation())) {
-                tilesToUpdate.add(new Position3D(affectedTile.x, affectedTile.y));
+                tilesToUpdate.add(new Position(affectedTile.x, affectedTile.y));
 
                 List<GenericEntity> affectEntities2 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
 
@@ -296,10 +296,10 @@ public class ItemsComponent {
             log.error("Failed to update entity positions for changing item position", e);
         }
 
-        item.setX(newPosition.getX());
-        item.setY(newPosition.getY());
+        item.getPosition().setX(newPosition.getX());
+        item.getPosition().setY(newPosition.getY());
 
-        item.setHeight(height);
+        item.getPosition().setZ(height);
         item.setRotation(rotation);
 
         List<GenericEntity> affectEntities3 = room.getEntities().getEntitiesAt(newPosition.getX(), newPosition.getY());
@@ -311,7 +311,7 @@ public class ItemsComponent {
         if(save)
             RoomItemDao.saveItemPosition(newPosition.getX(), newPosition.getY(), height, rotation, itemId);
 
-        for (Position3D tileToUpdate : tilesToUpdate) {
+        for (Position tileToUpdate : tilesToUpdate) {
             room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
         }
 

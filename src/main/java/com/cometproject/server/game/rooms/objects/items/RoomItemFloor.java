@@ -3,14 +3,15 @@ package com.cometproject.server.game.rooms.objects.items;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.pathfinding.AffectedTile;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.data.BackgroundTonerData;
 import com.cometproject.server.game.rooms.objects.items.data.MannequinData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.AbstractWiredItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
@@ -20,32 +21,21 @@ import com.google.common.collect.Lists;
 import java.util.List;
 
 public abstract class RoomItemFloor extends RoomItem {
-    private int roomId;
-    private double height;
     private String extraData;
-
-    private Room room;
 
     private ItemDefinition itemDefinition;
 
-    public RoomItemFloor(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        this.init(id, itemId, roomId, owner, x, y, z, rotation, data);
-    }
+    public RoomItemFloor(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, new Position(x, y, z), room);
 
-    private void init(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        this.id = id;
         this.itemId = itemId;
-        this.roomId = roomId;
         this.ownerId = owner;
-        this.x = x;
-        this.y = y;
-        this.height = z;
         this.rotation = rotation;
         this.extraData = data;
     }
 
     public void serialize(Composer msg, boolean isNew) {
-        boolean isGift = false;
+        //final boolean isGift = false;
 
         /*if (this.giftData != null) {
             isGift = true;
@@ -56,12 +46,12 @@ public abstract class RoomItemFloor extends RoomItem {
         msg.writeInt(this.getId());
         //msg.writeInt(isGift ? giftData.getSpriteId() : this.getDefinition().getSpriteId());
         msg.writeInt(this.getDefinition().getSpriteId());
-        msg.writeInt(this.getX());
-        msg.writeInt(this.getY());
+        msg.writeInt(this.getPosition().getX());
+        msg.writeInt(this.getPosition().getY());
         msg.writeInt(this.getRotation());
 
-        msg.writeString(this instanceof MagicStackFloorItem ? this.getExtraData() : Double.toString(this.getHeight()));
-        msg.writeString(Double.toString(this.getHeight()));
+        msg.writeString(this instanceof MagicStackFloorItem ? this.getExtraData() : Double.toString(this.getPosition().getZ()));
+        msg.writeString(Double.toString(this.getPosition().getZ()));
 
         if (this.getDefinition().isAdFurni()) {
             msg.writeInt(0);
@@ -242,17 +232,9 @@ public abstract class RoomItemFloor extends RoomItem {
         }
     }
 
-    public Room getRoom() {
-        if (this.room == null) {
-            this.room = CometManager.getRooms().get(this.roomId);
-        }
-
-        return this.room;
-    }
-
     @Override
     public void saveData() {
-        RoomItemDao.saveData(id, extraData);
+        RoomItemDao.saveData(this.getId(), extraData);
     }
 
     @Override
@@ -268,9 +250,9 @@ public abstract class RoomItemFloor extends RoomItem {
         List<RoomItemFloor> floorItems = Lists.newArrayList();
 
         List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(
-                this.getDefinition().getLength(), this.getDefinition().getWidth(), this.getX(), this.getY(), this.getRotation());
+                this.getDefinition().getLength(), this.getDefinition().getWidth(), this.getPosition().getX(), this.getPosition().getY(), this.getRotation());
 
-        floorItems.addAll(this.getRoom().getItems().getItemsOnSquare(this.x, this.y));
+        floorItems.addAll(this.getRoom().getItems().getItemsOnSquare(this.getPosition().getX(), this.getPosition().getY()));
 
         for (AffectedTile tile : affectedTiles) {
             for(RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(tile.x, tile.y)) {
@@ -284,36 +266,20 @@ public abstract class RoomItemFloor extends RoomItem {
     public List<GenericEntity> getEntitiesOnItem() {
         List<GenericEntity> entities = Lists.newArrayList();
 
-        for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(this.getDefinition().getLength(), this.getDefinition().getWidth(), this.getX(), this.getY(), this.getRotation())) {
-            List<GenericEntity> entitiesOnTile = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
+        for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(this.getDefinition().getLength(), this.getDefinition().getWidth(), this.getPosition().getX(), this.getPosition().getY(), this.getRotation())) {
+            List<GenericEntity> entitiesOnTile = this.getRoom().getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
             entities.addAll(entitiesOnTile);
         }
 
         return entities;
     }
 
-    public double getHeight() {
-        return this.height;
-    }
-
     public String getExtraData() {
         return this.extraData;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public void setRotation(int rot) {
         this.rotation = rot;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
     }
 
     public void setExtraData(String data) {

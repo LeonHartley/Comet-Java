@@ -12,7 +12,7 @@ public class RespectUserMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int respect = msg.readInt();
 
-        if (respect == client.getPlayer().getEntity().getVirtualId()) {
+        if (respect == client.getPlayer().getEntity().getId()) {
             return;
         }
 
@@ -30,7 +30,7 @@ public class RespectUserMessageEvent implements IEvent {
         user.getPlayer().getStats().incrementRespectPoints(1);
         client.getPlayer().getStats().decrementDailyRespects(1);
 
-        room.getEntities().broadcastMessage(ActionMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), 7));
+        room.getEntities().broadcastMessage(ActionMessageComposer.compose(client.getPlayer().getEntity().getId(), 7));
         room.getEntities().broadcastMessage(GiveRespectMessageComposer.compose(user.getPlayer().getId(), user.getPlayer().getStats().getRespectPoints()));
     }
 }

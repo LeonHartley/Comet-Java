@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.incoming.room.bots;
 
 import com.cometproject.server.game.players.components.types.InventoryBot;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
@@ -26,7 +26,7 @@ public class PlaceBotMessageEvent implements IEvent {
 
         double height = room.getModel().getSquareHeight()[x][y];
 
-        if (room.getEntities().getEntitiesAt(x, y).size() >= 1 || !room.getMapping().isValidPosition(new Position3D(x, y, height))) {
+        if (room.getEntities().getEntitiesAt(x, y).size() >= 1 || !room.getMapping().isValidPosition(new Position(x, y, height))) {
             return;
         }
 

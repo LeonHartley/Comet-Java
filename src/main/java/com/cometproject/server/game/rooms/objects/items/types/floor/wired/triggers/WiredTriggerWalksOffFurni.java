@@ -1,8 +1,9 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
+import com.cometproject.server.game.rooms.types.Room;
 
 public class WiredTriggerWalksOffFurni extends WiredTriggerItem {
     /**
@@ -18,8 +19,8 @@ public class WiredTriggerWalksOffFurni extends WiredTriggerItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredTriggerWalksOffFurni(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public WiredTriggerWalksOffFurni(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
     @Override

@@ -12,9 +12,9 @@ public class WiredItemSnapshot {
 
     public WiredItemSnapshot(RoomItemFloor floorItem) {
         this.itemId = floorItem.getId();
-        this.x = floorItem.getX();
-        this.y = floorItem.getY();
-        this.z = floorItem.getHeight();
+        this.x = floorItem.getPosition().getX();
+        this.y = floorItem.getPosition().getY();
+        this.z = floorItem.getPosition().getZ();
         this.rotation = floorItem.getRotation();
         this.extraData = floorItem.getExtraData();
     }

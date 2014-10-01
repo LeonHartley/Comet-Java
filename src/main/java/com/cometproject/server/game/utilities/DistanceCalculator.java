@@ -1,6 +1,6 @@
 package com.cometproject.server.game.utilities;
 
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 
 public class DistanceCalculator {
     public static int calculate(int pos1X, int pos1Y, int pos2X, int pos2Y) {
@@ -19,14 +19,7 @@ public class DistanceCalculator {
         return false;
     }
 
-    public static boolean tilesTouching(Position3D pos1, Position3D pos2) {
-        if (!(Math.abs(pos1.getX() - pos2.getX()) > 1 || Math.abs(pos1.getY() - pos2.getY()) > 1)) {
-            return true;
-        }
-
-        if (pos1.getX() == pos2.getX() && pos1.getY() == pos2.getY()) {
-            return true;
-        }
+    public static boolean tilesTouching(Position pos1, Position pos2) {
 
         return false;
     }

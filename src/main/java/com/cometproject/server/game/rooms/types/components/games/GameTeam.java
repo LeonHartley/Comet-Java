@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.types.components.games;
 
-import com.cometproject.server.game.rooms.entities.effects.UserEffectType;
+import com.cometproject.server.game.rooms.objects.entities.effects.UserEffectType;
 
 public enum GameTeam {
     NONE(0),

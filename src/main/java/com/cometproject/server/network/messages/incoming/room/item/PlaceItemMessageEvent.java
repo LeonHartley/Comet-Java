@@ -2,11 +2,11 @@ package com.cometproject.server.network.messages.incoming.room.item;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.components.types.InventoryItem;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.pathfinding.AffectedTile;
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.items.RoomItemWall;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.TileInstance;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -36,7 +36,7 @@ public class PlaceItemMessageEvent implements IEvent {
 
         try {
             if (parts.length > 1 && parts[1].startsWith(":")) {
-                String position = Position3D.validateWallPosition(parts[1] + " " + parts[2] + " " + parts[3]);
+                String position = Position.validateWallPosition(parts[1] + " " + parts[2] + " " + parts[3]);
 
                 if (position == null) {
                     return;
@@ -54,7 +54,7 @@ public class PlaceItemMessageEvent implements IEvent {
                 client.getPlayer().getInventory().removeWallItem(id);
 
                 Room room = client.getPlayer().getEntity().getRoom();
-                RoomItemWall wallItem = room.getItems().addWallItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
+                RoomItemWall wallItem = room.getItems().addWallItem(id, item.getBaseId(), room, client.getPlayer().getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
 
                 client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(
                         SendWallItemMessageComposer.compose(wallItem)
@@ -93,8 +93,8 @@ public class PlaceItemMessageEvent implements IEvent {
                 RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), id);
                 client.getPlayer().getInventory().removeFloorItem(id);
 
-                RoomItemFloor floorItem = room.getItems().addFloorItem(id, item.getBaseId(), room.getId(), client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
-                List<Position3D> tilesToUpdate = new ArrayList<>();
+                RoomItemFloor floorItem = room.getItems().addFloorItem(id, item.getBaseId(), room, client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
+                List<Position> tilesToUpdate = new ArrayList<>();
 
                 for (RoomItemFloor stackItem : floorItems) {
                     if (item.getId() != stackItem.getId()) {
@@ -102,10 +102,10 @@ public class PlaceItemMessageEvent implements IEvent {
                     }
                 }
 
-                tilesToUpdate.add(new Position3D(floorItem.getX(), floorItem.getY(), 0d));
+                tilesToUpdate.add(new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY(), 0d));
 
-                for (AffectedTile affTile : AffectedTile.getAffectedBothTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), floorItem.getX(), floorItem.getY(), floorItem.getRotation())) {
-                    tilesToUpdate.add(new Position3D(affTile.x, affTile.y, 0d));
+                for (AffectedTile affTile : AffectedTile.getAffectedBothTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), floorItem.getPosition().getX(), floorItem.getPosition().getY(), floorItem.getRotation())) {
+                    tilesToUpdate.add(new Position(affTile.x, affTile.y, 0d));
 
                     List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(affTile.x, affTile.y);
 
@@ -118,7 +118,7 @@ public class PlaceItemMessageEvent implements IEvent {
 
                 RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), id);
 
-                for (Position3D tileToUpdate : tilesToUpdate) {
+                for (Position tileToUpdate : tilesToUpdate) {
                     room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
                 }
 

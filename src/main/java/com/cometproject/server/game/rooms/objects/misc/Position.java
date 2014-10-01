@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.misc;
 
+import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 
 public class Position {
@@ -160,6 +161,10 @@ public class Position {
         return Math.abs(this.getX() - pos.getX()) + Math.abs(this.getY() - pos.getY());
     }
 
+    public double distanceTo(RoomObject roomObject) {
+        return distanceTo(roomObject.getPosition());
+    }
+
     public boolean touching(Position pos) {
         if (!(Math.abs(this.getX() - pos.getX()) > 1 || Math.abs(this.getY() - pos.getY()) > 1)) {
             return true;
@@ -170,6 +175,10 @@ public class Position {
         }
 
         return false;
+    }
+
+    public boolean touching(RoomObject roomObject) {
+        return this.touching(roomObject.getPosition());
     }
 
     public Position copy() {

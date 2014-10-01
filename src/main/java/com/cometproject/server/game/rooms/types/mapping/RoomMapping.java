@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
@@ -24,7 +24,7 @@ public class RoomMapping {
             TileInstance[] xArray = new TileInstance[sizeY];
 
             for (int y = 0; y < sizeY; y++) {
-                TileInstance instance = new TileInstance(this, new Position3D(x, y, 0d));
+                TileInstance instance = new TileInstance(this, new Position(x, y, 0d));
                 instance.reload();
 
                 xArray[y] = instance;
@@ -47,7 +47,7 @@ public class RoomMapping {
         return this.tiles[x][y];
     }
 
-    public boolean positionHasUser(Position3D position) {
+    public boolean positionHasUser(Position position) {
         return this.room.getEntities().getEntitiesAt(position.getX(), position.getY()).size() > 0;
     }
 
@@ -55,11 +55,11 @@ public class RoomMapping {
         return (height0 - height1) <= 1.5;
     }
 
-    public boolean isValidStep(Position3D from, Position3D to, boolean lastStep) {
+    public boolean isValidStep(Position from, Position to, boolean lastStep) {
         return isValidStep(from, to, lastStep, false);
     }
 
-    public boolean isValidStep(Position3D from, Position3D to, boolean lastStep, boolean isFloorItem) {
+    public boolean isValidStep(Position from, Position to, boolean lastStep, boolean isFloorItem) {
         if (from.getX() == to.getX() && from.getY() == to.getY()) {
             return true;
         }
@@ -94,7 +94,7 @@ public class RoomMapping {
         return true;
     }
 
-    public double getStepHeight(Position3D position) {
+    public double getStepHeight(Position position) {
         TileInstance instance = this.tiles[position.getX()][position.getY()];
 
         if (!isValidPosition(instance.getPosition())) {
@@ -111,7 +111,7 @@ public class RoomMapping {
         return height;
     }
 
-    public boolean isValidPosition(Position3D position) {
+    public boolean isValidPosition(Position position) {
         return ((position.getX() >= 0) && (position.getY() >= 0) && (position.getX() < this.getModel().getSizeX()) && (position.getY() < this.getModel().getSizeY()));
     }
 

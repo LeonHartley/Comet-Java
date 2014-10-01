@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.pathfinding.AffectedTile;
-import com.cometproject.server.game.rooms.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
@@ -29,18 +29,18 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
 
         // Can't close gate when a user is on same tile?
         /*if (item.getDefinition().getInteraction().equals("gate")) {
-            for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
+            for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation())) {
                 if (room.getEntities().getEntitiesAt(tile.x, tile.y).size() > 0) {
                     return;
                 }
             }
 
-            if (room.getEntities().getEntitiesAt(item.getX(), item.getY()).size() > 0) {
+            if (room.getEntities().getEntitiesAt(item.getPosition().getX(), item.getPosition().getY()).size() > 0) {
                 return;
             }
 
             for (GenericEntity entity : room.getEntities().getEntitiesCollection().values()) {
-                if (Position3D.distanceBetween(client.getPlayer().getEntity().getPosition(), new Position3D(item.getX(), item.getY(), 0d)) <= 1 && entity.isWalking()) {
+                if (Position3D.distanceBetween(client.getPlayer().getEntity().getPosition(), new Position3D(item.getPosition().getX(), item.getPosition().getY(), 0d)) <= 1 && entity.isWalking()) {
                     return;
                 }
             }
@@ -50,15 +50,15 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
 
         // to-do: move below into each onInteract or turn onInteract into a boolean (i prefer the latter) no biggie for now
 
-        List<Position3D> tilesToUpdate = new ArrayList<>();
-        tilesToUpdate.add(new Position3D(item.getX(), item.getY(), 0d));
+        List<Position> tilesToUpdate = new ArrayList<>();
+        tilesToUpdate.add(new Position(item.getPosition().getX(), item.getPosition().getY(), 0d));
 
-        for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getX(), item.getY(), item.getRotation())) {
+        for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation())) {
             if (room.getEntities().getEntitiesAt(tile.x, tile.y).size() >= 0)
-                tilesToUpdate.add(new Position3D(tile.x, tile.y, 0d));
+                tilesToUpdate.add(new Position(tile.x, tile.y, 0d));
         }
 
-        for (Position3D tileToUpdate : tilesToUpdate) {
+        for (Position tileToUpdate : tilesToUpdate) {
             room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
         }
     }

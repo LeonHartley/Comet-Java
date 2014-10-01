@@ -22,7 +22,7 @@ public class EmptyCommand extends ChatCommand {
 
         InventoryDao.clearInventory(client.getPlayer().getId());
 
-        this.sendChat("Your inventory was cleared.", client);
+        sendChat("Your inventory was cleared.", client);
         client.send(UpdateInventoryMessageComposer.compose());
     }
 

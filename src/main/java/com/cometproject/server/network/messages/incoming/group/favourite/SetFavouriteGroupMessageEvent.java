@@ -30,7 +30,7 @@ public class SetFavouriteGroupMessageEvent implements IEvent {
         if (client.getPlayer().getEntity() != null) {
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(GroupBadgesMessageComposer.compose(groupId, group.getData().getBadge()));
 
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(client.getPlayer().getEntity().getVirtualId()));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(client.getPlayer().getEntity().getId()));
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity()));
         } else {
             client.send(GroupBadgesMessageComposer.compose(groupId, group.getData().getBadge()));

@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.incoming.room.pets;
 
 import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.types.PetEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
@@ -37,7 +37,7 @@ public class PlacePetMessageEvent implements IEvent {
                 return;
             }
 
-            if ((!atDoor && client.getPlayer().getEntity().getRoom().getEntities().getEntitiesAt(x, y).size() >= 1) || !room.getMapping().isValidPosition(new Position3D(x, y, room.getModel().getSquareHeight()[x][y]))) {
+            if ((!atDoor && client.getPlayer().getEntity().getRoom().getEntities().getEntitiesAt(x, y).size() >= 1) || !room.getMapping().isValidPosition(new Position(x, y, room.getModel().getSquareHeight()[x][y]))) {
                 return;
             }
 

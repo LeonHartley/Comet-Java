@@ -3,9 +3,10 @@ package com.cometproject.server.game.commands.vip;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.rooms.entities.pathfinding.Pathfinder;
-import com.cometproject.server.game.rooms.entities.pathfinding.Square;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -40,11 +41,13 @@ public class PullCommand extends ChatCommand {
         Room room = client.getPlayer().getEntity().getRoom();
         PlayerEntity pulledEntity = pulledSession.getPlayer().getEntity();
 
-        if(pulledEntity.distance(client.getPlayer().getEntity()) != 2) {
+        if(pulledEntity.getPosition().distanceTo(client.getPlayer().getEntity()) != 2) {
             return;
         }
 
-        pulledEntity.setWalkingGoal(client.getPlayer().getEntity().squareInfront().getX(), client.getPlayer().getEntity().squareInfront().getY());
+        Position squareInFront = client.getPlayer().getEntity().getPosition().squareInFront(client.getPlayer().getEntity().getBodyRotation());
+
+        pulledEntity.setWalkingGoal(squareInFront.getX(), squareInFront.getY());
 
         List<Square> path = Pathfinder.getInstance().makePath(pulledEntity);
         pulledEntity.unIdle();
@@ -55,7 +58,7 @@ public class PullCommand extends ChatCommand {
         pulledEntity.setWalkingPath(path);
 
         room.getEntities().broadcastMessage(
-                TalkMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), Locale.get("command.pull.message").replace("%playername%", pulledEntity.getUsername()), 0, 0)
+                TalkMessageComposer.compose(client.getPlayer().getEntity().getId(), Locale.get("command.pull.message").replace("%playername%", pulledEntity.getUsername()), 0, 0)
         );
     }
 

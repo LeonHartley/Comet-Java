@@ -11,6 +11,6 @@ public class StartTypingMessageEvent implements IEvent {
             return;
 
         client.getPlayer().getEntity().unIdle();
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(TypingStatusMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), 1));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(TypingStatusMessageComposer.compose(client.getPlayer().getEntity().getId(), 1));
     }
 }

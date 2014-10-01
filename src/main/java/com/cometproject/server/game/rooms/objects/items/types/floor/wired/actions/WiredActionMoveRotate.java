@@ -1,9 +1,10 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 
 import java.util.Random;
@@ -25,8 +26,8 @@ public class WiredActionMoveRotate extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionMoveRotate(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public WiredActionMoveRotate(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
     @Override
@@ -66,8 +67,8 @@ public class WiredActionMoveRotate extends WiredActionItem {
 
             if(floorItem == null) continue;
 
-            final Position3D currentPosition = new Position3D(floorItem.getX(), floorItem.getY());
-            final Position3D newPosition = this.handleMovement(currentPosition, movement);
+            final Position currentPosition = new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY());
+            final Position newPosition = this.handleMovement(currentPosition, movement);
             final int newRotation = this.handleRotation(floorItem.getRotation(), rotation);
 
             if(this.getRoom().getItems().moveFloorItem(floorItem.getId(), newPosition, newRotation, true)) {
@@ -78,7 +79,7 @@ public class WiredActionMoveRotate extends WiredActionItem {
 
     private Random random = new Random();
 
-    private Position3D handleMovement(Position3D point, int movementType) {
+    private Position handleMovement(Position point, int movementType) {
         switch (movementType) {
             case 0:
                 return point;

@@ -1,9 +1,10 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.types.Room;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -22,8 +23,8 @@ public class WiredActionToggleState extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionToggleState(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public WiredActionToggleState(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
     @Override
@@ -38,17 +39,17 @@ public class WiredActionToggleState extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        List<Position3D> tilesToUpdate = Lists.newArrayList();
+        List<Position> tilesToUpdate = Lists.newArrayList();
 
         for (int itemId : this.getWiredData().getSelectedIds()) {
             final RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
             if (floorItem == null) continue;
             floorItem.onInteract(null, 0, true);
-            tilesToUpdate.add(new Position3D(floorItem.getX(), floorItem.getY()));
+            tilesToUpdate.add(new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY()));
         }
 
-        for (Position3D tileToUpdate : tilesToUpdate) {
+        for (Position tileToUpdate : tilesToUpdate) {
             this.getRoom().getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
         }
 

@@ -7,7 +7,7 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.game.rooms.objects.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.PlayerEntityAccess;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -44,7 +44,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     private Map<String, Object> attributes = new FastMap<>();
     private RoomVisitLogEntry visitLogEntry;
 
-    public PlayerEntity(Player player, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
+    public PlayerEntity(Player player, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.player = player;
@@ -112,7 +112,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     protected void finalizeJoinRoom() {
-        this.player.getSession().send(ModelAndIdMessageComposer.compose(this.getRoom().getModel().getId(), this.getVirtualId()));
+        this.player.getSession().send(ModelAndIdMessageComposer.compose(this.getRoom().getModel().getId(), this.getId()));
 
         for (Map.Entry<String, String> decoration : this.getRoom().getData().getDecorations().entrySet()) {
             if (decoration.getKey().equals("wallpaper") || decoration.getKey().equals("floor")) {
@@ -169,7 +169,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         // Send leave room message to all current entities
-        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
+        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
 
         // Sending this user to the hotel view?
         if (!isOffline && toHotelView) {
@@ -288,7 +288,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.getStatuses().clear();
 
         // Send leave room message to all current entities
-        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
+        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
 
         // Sending this user to the hotel view?
         this.getPlayer().getSession().send(HotelViewMessageComposer.compose());
@@ -358,7 +358,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         msg.writeString(this.getUsername());
         msg.writeString(this.getMotto());
         msg.writeString(this.getFigure());
-        msg.writeInt(this.getVirtualId());
+        msg.writeInt(this.getId());
 
         msg.writeInt(this.getPosition().getX());
         msg.writeInt(this.getPosition().getY());

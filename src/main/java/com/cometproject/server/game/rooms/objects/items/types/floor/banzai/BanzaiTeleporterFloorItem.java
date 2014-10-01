@@ -1,17 +1,18 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.banzai;
 
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.RandomInteger;
 import javolution.util.FastSet;
 
 import java.util.Set;
 
 public class BanzaiTeleporterFloorItem extends RoomItemFloor {
-    public BanzaiTeleporterFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public BanzaiTeleporterFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
     @Override
@@ -35,7 +36,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
 
         BanzaiTeleporterFloorItem randomTeleporter = (BanzaiTeleporterFloorItem) teleporters.toArray()[RandomInteger.getRandom(0, teleporters.size() - 1)];
 
-        Position3D teleportPosition = new Position3D(randomTeleporter.getX(), randomTeleporter.getY(), randomTeleporter.getHeight());
+        Position teleportPosition = new Position(randomTeleporter.getPosition().getX(), randomTeleporter.getPosition().getY(), randomTeleporter.getPosition().getZ());
 
         entity.warp(teleportPosition);
 

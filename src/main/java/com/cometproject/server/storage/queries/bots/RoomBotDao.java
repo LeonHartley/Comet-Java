@@ -1,8 +1,8 @@
 package com.cometproject.server.storage.queries.bots;
 
 import com.cometproject.server.game.bots.BotData;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.storage.SqlHelper;
 import com.google.gson.Gson;
 
@@ -31,7 +31,7 @@ public class RoomBotDao {
 
             while (resultSet.next()) {
                 PlayerBotData botData = new PlayerBotData(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getString("motto"), resultSet.getString("figure"), resultSet.getString("gender"), resultSet.getString("owner"), resultSet.getInt("owner_id"), resultSet.getString("messages"), resultSet.getString("automatic_chat").equals("1"), resultSet.getInt("chat_delay"));
-                botData.setPosition(new Position3D(resultSet.getInt("x"), resultSet.getInt("y")));
+                botData.setPosition(new Position(resultSet.getInt("x"), resultSet.getInt("y")));
 
                 data.add(botData);
             }

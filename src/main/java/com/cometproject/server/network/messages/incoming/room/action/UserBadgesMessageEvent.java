@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.user.profile.UserBadgesMessageComposer;
 import com.cometproject.server.network.messages.types.Event;

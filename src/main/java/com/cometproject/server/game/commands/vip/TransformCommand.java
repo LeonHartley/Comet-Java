@@ -2,7 +2,7 @@ package com.cometproject.server.game.commands.vip;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
@@ -27,7 +27,7 @@ public class TransformCommand extends ChatCommand {
             client.getPlayer().getEntity().setAttribute("transformation", type.getData());
         }
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(client.getPlayer().getEntity().getVirtualId()));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(client.getPlayer().getEntity().getId()));
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity()));
     }
 
@@ -47,7 +47,7 @@ public class TransformCommand extends ChatCommand {
         msg.writeString(entity.getUsername());
         msg.writeString(entity.getMotto());
         msg.writeString(transformationData[0]);
-        msg.writeInt(entity.getVirtualId());
+        msg.writeInt(entity.getId());
 
         msg.writeInt(entity.getPosition().getX());
         msg.writeInt(entity.getPosition().getY());

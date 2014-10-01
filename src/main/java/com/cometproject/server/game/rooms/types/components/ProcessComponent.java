@@ -1,17 +1,17 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.rooms.entities.effects.UserEffect;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.pathfinding.Square;
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.RoomEntityType;
-import com.cometproject.server.game.rooms.entities.types.BotEntity;
-import com.cometproject.server.game.rooms.entities.types.PetEntity;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
-import com.cometproject.server.game.rooms.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
+import com.cometproject.server.game.rooms.objects.entities.effects.UserEffect;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
+import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
@@ -171,7 +171,7 @@ public class ProcessComponent implements CometTask {
             }
 
             // Create the new position
-            Position3D newPosition = entity.getPositionToSet().copy();
+            Position newPosition = entity.getPositionToSet().copy();
 
             List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
             List<RoomItemFloor> itemsOnOldSq = this.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY());
@@ -243,7 +243,7 @@ public class ProcessComponent implements CometTask {
                     int x = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeX());
                     int y = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeY());
 
-                    if (this.getRoom().getMapping().isValidStep(entity.getPosition(), new Position3D(x, y, 0d), true) && x != this.getRoom().getModel().getDoorX() && y != this.getRoom().getModel().getDoorY()) {
+                    if (this.getRoom().getMapping().isValidStep(entity.getPosition(), new Position(x, y, 0d), true) && x != this.getRoom().getModel().getDoorX() && y != this.getRoom().getModel().getDoorY()) {
                         entity.moveTo(x, y);
                     }
                 }
@@ -254,7 +254,7 @@ public class ProcessComponent implements CometTask {
                     String message = ((BotEntity) entity).getData().getRandomMessage();
 
                     if (message != null && !message.isEmpty()) {
-                        this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getVirtualId(), message, 0, 2));
+                        this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getId(), message, 0, 2));
                     }
 
                     ((BotEntity) entity).resetCycleCount();
@@ -282,7 +282,7 @@ public class ProcessComponent implements CometTask {
                                 break;
 
                             default:
-                                this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(entity.getVirtualId(), message, 0, 0));
+                                this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(entity.getId(), message, 0, 0));
                                 break;
                         }
                     }
@@ -311,7 +311,7 @@ public class ProcessComponent implements CometTask {
                 return true;
             } else {
                 // Set idle status!
-                this.room.getEntities().broadcastMessage(IdleStatusMessageComposer.compose(entity.getVirtualId(), true));
+                this.room.getEntities().broadcastMessage(IdleStatusMessageComposer.compose(entity.getId(), true));
                 entity.resetIdleTime();
             }
         }
@@ -340,9 +340,9 @@ public class ProcessComponent implements CometTask {
 
             boolean isLastStep = (entity.getProcessingPath().size() == 0);
 
-            if (nextSq != null && entity.getRoom().getMapping().isValidStep(entity.getPosition(), new Position3D(nextSq.x, nextSq.y, 0), isLastStep) || entity.isOverriden()) {
-                Position3D currentPos = entity.getPosition() != null ? entity.getPosition() : new Position3D(0, 0, 0);
-                entity.setBodyRotation(Position3D.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
+            if (nextSq != null && entity.getRoom().getMapping().isValidStep(entity.getPosition(), new Position(nextSq.x, nextSq.y, 0), isLastStep) || entity.isOverriden()) {
+                Position currentPos = entity.getPosition() != null ? entity.getPosition() : new Position(0, 0, 0);
+                entity.setBodyRotation(Position.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
                 entity.setHeadRotation(entity.getBodyRotation());
 
                 double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getWalkHeight();
@@ -381,7 +381,7 @@ public class ProcessComponent implements CometTask {
                         entity.removeStatus("lay");
                     }
 
-                    entity.updateAndSetPosition(new Position3D(nextSq.x, nextSq.y, height));
+                    entity.updateAndSetPosition(new Position(nextSq.x, nextSq.y, height));
                     entity.markNeedsUpdate();
                 } else {
                     if (entity.getWalkingPath() != null) {
