@@ -1,8 +1,9 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
+import com.cometproject.server.game.rooms.types.Room;
 
 public class WiredConditionFurniHasPlayers extends WiredConditionItem {
     /**
@@ -18,8 +19,8 @@ public class WiredConditionFurniHasPlayers extends WiredConditionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredConditionFurniHasPlayers(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public WiredConditionFurniHasPlayers(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
     @Override

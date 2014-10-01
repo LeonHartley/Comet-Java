@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.football;
 
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
@@ -15,10 +15,10 @@ import java.util.List;
 public final class FootballFloorItem extends RoomItemFloor {
     private boolean isRolling = false;
 
-    private List<Position3D> rollingPositions;
+    private List<Position> rollingPositions;
 
-    public FootballFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public FootballFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
     @Override
@@ -29,14 +29,14 @@ public final class FootballFloorItem extends RoomItemFloor {
 
         this.isRolling = true;
 
-        Position3D currentPosition = new Position3D(this.getX(), this.getY(), this.getHeight());
+        Position currentPosition = new Position(this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ());
 
-        Position3D newPosition;
+        Position newPosition;
 
-        if (entity.getRoom().getMapping().isValidStep(currentPosition, calculatePosition(this.getX(), this.getY(), entity.getBodyRotation()), false)) {
-            newPosition = calculatePosition(this.getX(), this.getY(), entity.getBodyRotation());
+        if (entity.getRoom().getMapping().isValidStep(currentPosition, calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation()), false)) {
+            newPosition = calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation());
         } else {
-            newPosition = calculatePosition(this.getX(), this.getY(), entity.getBodyRotation(), true);
+            newPosition = calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation(), true);
         }
 
         newPosition.setZ(this.getRoom().getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()]);
@@ -44,22 +44,22 @@ public final class FootballFloorItem extends RoomItemFloor {
         roll(this, currentPosition, newPosition, entity.getRoom());
 
         this.setRotation(entity.getBodyRotation());
-        this.setX(newPosition.getX());
-        this.setY(newPosition.getY());
+        this.getPosition().setX(newPosition.getX());
+        this.getPosition().setY(newPosition.getY());
 
         // tell all other items on the new square that there's a new item. (good method of updating score...)
         for(RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(newPosition.getX(), newPosition.getY())) {
             floorItem.onItemAddedToStack(this);
         }
 
-        this.setHeight(newPosition.getZ());
+        this.getPosition().setZ(newPosition.getZ());
 
         this.isRolling = false;
 
-        RoomItemDao.saveItemPosition(this.getX(), this.getY(), this.getHeight(), this.getRotation(), this.getId());
+        RoomItemDao.saveItemPosition(this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), this.getRotation(), this.getId());
     }
 
-    public static void roll(RoomItemFloor item, Position3D from, Position3D to, Room room) {
+    public static void roll(RoomItemFloor item, Position from, Position to, Room room) {
         room.getEntities().broadcastMessage(
                 SlideObjectBundleMessageComposer.compose(
                         from,
@@ -67,11 +67,11 @@ public final class FootballFloorItem extends RoomItemFloor {
         );
     }
 
-    public static Position3D calculatePosition(int x, int y, int playerRotation) {
+    public static Position calculatePosition(int x, int y, int playerRotation) {
         return calculatePosition(x, y, playerRotation, false);
     }
 
-    public static Position3D calculatePosition(int x, int y, int playerRotation, boolean isReversed) {
+    public static Position calculatePosition(int x, int y, int playerRotation, boolean isReversed) {
         switch (playerRotation) {
             case 0:
                 if (!isReversed)
@@ -142,7 +142,7 @@ public final class FootballFloorItem extends RoomItemFloor {
                 break;
         }
 
-        return new Position3D(x, y);
+        return new Position(x, y);
     }
 
     public static final int KICK_POWER = 6;
@@ -153,15 +153,15 @@ public final class FootballFloorItem extends RoomItemFloor {
             return;
         }
 
-        if (!DistanceCalculator.tilesTouching(this.getX(), this.getY(), entity.getPosition().getX(), entity.getPosition().getY())) {
+        if (!DistanceCalculator.tilesTouching(this.getPosition().getX(), this.getPosition().getY(), entity.getPosition().getX(), entity.getPosition().getY())) {
             return;
         }
 
         this.setRotation(entity.getBodyRotation());
 
-        List<Position3D> positions = new ArrayList<>();
-        Position3D currentPosition = new Position3D(this.getX(), this.getY());
-        Position3D nextPosition = currentPosition.squareInFront(entity.getBodyRotation());
+        List<Position> positions = new ArrayList<>();
+        Position currentPosition = new Position(this.getPosition().getX(), this.getPosition().getY());
+        Position nextPosition = currentPosition.squareInFront(entity.getBodyRotation());
 
         boolean needsReverse = false;
 
@@ -189,8 +189,8 @@ public final class FootballFloorItem extends RoomItemFloor {
 
     @Override
     public void onTick() {
-        Position3D newPosition = this.rollingPositions.get(0);
-        Position3D currentPosition = new Position3D(this.x, this.y);
+        Position newPosition = this.rollingPositions.get(0);
+        Position currentPosition = new Position(this.getPosition().getX(), this.getPosition().getY());
 
         currentPosition.setZ(this.getRoom().getModel().getSquareHeight()[currentPosition.getX()][currentPosition.getY()]);
         newPosition.setZ(this.getRoom().getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()]);
@@ -202,9 +202,9 @@ public final class FootballFloorItem extends RoomItemFloor {
         if (this.getRoom().getMapping().isValidStep(currentPosition, newPosition, false, true)) {
             FootballFloorItem.roll(this, currentPosition, newPosition, this.getRoom());
 
-            this.setX(newPosition.getX());
-            this.setY(newPosition.getY());
-            this.setHeight(newPosition.getZ());
+            this.getPosition().setX(newPosition.getX());
+            this.getPosition().setY(newPosition.getY());
+            this.getPosition().setZ(newPosition.getZ());
         }
 
         this.rollingPositions.remove(newPosition);
@@ -217,18 +217,18 @@ public final class FootballFloorItem extends RoomItemFloor {
             floorItem.onItemAddedToStack(this);
         }
 
-        RoomItemDao.saveItemPosition(this.getX(), this.getY(), this.getHeight(), this.getRotation(), this.getId());
+        RoomItemDao.saveItemPosition(this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), this.getRotation(), this.getId());
     }
 
     public boolean isRolling() {
         return (this.rollingPositions != null && this.rollingPositions.size() > 0);
     }
 
-    public List<Position3D> getRollingPositions() {
+    public List<Position> getRollingPositions() {
         return this.rollingPositions;
     }
 
-    public void setRollingPositions(List<Position3D> positions) {
+    public void setRollingPositions(List<Position> positions) {
         this.rollingPositions = positions;
     }
 }

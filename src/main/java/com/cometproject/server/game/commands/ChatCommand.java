@@ -18,7 +18,7 @@ public abstract class ChatCommand {
     }
 
     public static final void sendChat(String msg, Session c) {
-        c.send(WisperMessageComposer.compose(c.getPlayer().getEntity().getVirtualId(), msg));
+        c.send(WisperMessageComposer.compose(c.getPlayer().getEntity().getId(), msg));
     }
 
     public final String merge(String[] params) {

@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.queue;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 
 public class RoomItemEventQueueEntry {

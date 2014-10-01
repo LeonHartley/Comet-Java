@@ -1,8 +1,9 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
 
 public class WiredActionShowMessage extends WiredActionItem {
@@ -20,8 +21,8 @@ public class WiredActionShowMessage extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionShowMessage(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public WiredActionShowMessage(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class WiredActionShowMessage extends WiredActionItem {
         PlayerEntity playerEntity = ((PlayerEntity) entity);
 
         if(!this.getWiredData().getText().isEmpty()) {
-            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(entity.getVirtualId(), this.getWiredData().getText()));
+            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(entity.getId(), this.getWiredData().getText()));
         }
 
         return true;

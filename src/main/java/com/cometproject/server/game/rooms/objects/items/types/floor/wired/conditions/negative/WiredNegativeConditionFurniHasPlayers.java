@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative;
 
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.WiredConditionFurniHasPlayers;
+import com.cometproject.server.game.rooms.types.Room;
 
 public class WiredNegativeConditionFurniHasPlayers extends WiredConditionFurniHasPlayers {
     /**
@@ -16,7 +17,7 @@ public class WiredNegativeConditionFurniHasPlayers extends WiredConditionFurniHa
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredNegativeConditionFurniHasPlayers(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public WiredNegativeConditionFurniHasPlayers(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 }

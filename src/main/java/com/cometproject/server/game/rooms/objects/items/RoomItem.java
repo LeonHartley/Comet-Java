@@ -1,8 +1,10 @@
 package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.RoomObject;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.attributes.Attributable;
@@ -10,13 +12,9 @@ import com.cometproject.server.utilities.attributes.Attributable;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class RoomItem implements RoomItemAttributes, Attributable {
-    protected int id;
+public abstract class RoomItem extends RoomObject implements Attributable {
     protected int itemId;
     protected int ownerId;
-
-    protected int x;
-    protected int y;
 
     protected int rotation;
 
@@ -24,37 +22,20 @@ public abstract class RoomItem implements RoomItemAttributes, Attributable {
 
     private final Map<String, Object> attributes = new HashMap<>();
 
-    @Override
-    public int getId() {
-        return this.id;
-    }
-
-    @Override
     public int getItemId() {
         return this.itemId;
     }
 
-    @Override
     public int getOwner() {
         return this.ownerId;
     }
 
-    @Override
-    public int getX() {
-        return this.x;
-    }
-
-    @Override
-    public int getY() {
-        return this.y;
-    }
-
-    @Override
     public int getRotation() {
         return this.rotation;
     }
 
-    public RoomItem() {
+    public RoomItem(int id, Position position, Room room) {
+        super(id, position, room);
         this.ticksTimer = -1;
     }
 
@@ -113,64 +94,6 @@ public abstract class RoomItem implements RoomItemAttributes, Attributable {
 
     public void onUnload() {
         // Override this
-    }
-
-    public int distance(GenericEntity entity) {
-        int avatarX = entity.getPosition().getX();
-        int avatarY = entity.getPosition().getY();
-
-        return DistanceCalculator.calculate(avatarX, avatarY, this.getX(), this.getY());
-    }
-
-    public boolean touching(GenericEntity entity) {
-        int avatarX = entity.getPosition().getX();
-        int avatarY = entity.getPosition().getY();
-
-        return DistanceCalculator.tilesTouching(avatarX, avatarY, this.getX(), this.getY());
-    }
-
-    public Position3D squareInfront() {
-        Position3D pos = new Position3D(0, 0, 0);
-
-        int posX = this.getX();
-        int posY = this.getY();
-
-        if (getRotation() == 0) {
-            posY--;
-        } else if (getRotation() == 2) {
-            posX++;
-        } else if (getRotation() == 4) {
-            posY++;
-        } else if (getRotation() == 6) {
-            posX--;
-        }
-
-        pos.setX(posX);
-        pos.setY(posY);
-
-        return pos;
-    }
-
-    public Position3D squareBehind() {
-        Position3D pos = new Position3D(0, 0, 0);
-
-        int posX = this.getX();
-        int posY = this.getY();
-
-        if (getRotation() == 0) {
-            posY++;
-        } else if (getRotation() == 2) {
-            posX--;
-        } else if (getRotation() == 4) {
-            posY--;
-        } else if (getRotation() == 6) {
-            posX++;
-        }
-
-        pos.setX(posX);
-        pos.setY(posY);
-
-        return pos;
     }
 
     @Override

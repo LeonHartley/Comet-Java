@@ -1,9 +1,10 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
 
 public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
@@ -22,8 +23,8 @@ public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredTriggerPlayerSaysKeyword(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public WiredTriggerPlayerSaysKeyword(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
         PlayerEntity playerEntity = ((PlayerEntity) entity);
 
         if(data instanceof String && !((String) data).isEmpty()) {
-            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(playerEntity.getVirtualId(), ((String) data)));
+            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(playerEntity.getId(), ((String) data)));
         }
     }
 

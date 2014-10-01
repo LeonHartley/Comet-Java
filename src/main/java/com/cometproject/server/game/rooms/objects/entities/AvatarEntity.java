@@ -1,9 +1,8 @@
 package com.cometproject.server.game.rooms.objects.entities;
 
 import com.cometproject.server.game.rooms.objects.entities.effects.UserEffect;
-import com.cometproject.server.game.rooms.objects.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
-import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.attributes.Attributable;
 
@@ -11,19 +10,15 @@ import java.util.List;
 import java.util.Map;
 
 public interface AvatarEntity extends Attributable {
-    public int getVirtualId();
+    public int getId();
 
-    public Position3D getPosition();
-
-    public void setPosition(Position3D position);
-
-    public Position3D getWalkingGoal();
+    public Position getWalkingGoal();
 
     public void setWalkingGoal(int x, int y);
 
-    public Position3D getPositionToSet();
+    public Position getPositionToSet();
 
-    public void updateAndSetPosition(Position3D position);
+    public void updateAndSetPosition(Position position);
 
     public void markPositionIsSet();
 
@@ -99,8 +94,6 @@ public interface AvatarEntity extends Attributable {
 
     public void setHandItemTimer(int time);
 
-    public Room getRoom();
-
     public String getUsername();
 
     public String getMotto();
@@ -111,5 +104,5 @@ public interface AvatarEntity extends Attributable {
 
     public void compose(Composer msg);
 
-    public void warp(Position3D position);
+    public void warp(Position position);
 }

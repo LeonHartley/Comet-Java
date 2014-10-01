@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.pets;
 
-import com.cometproject.server.game.rooms.entities.types.PetEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.pets.PetInformationMessageComposer;
 import com.cometproject.server.network.messages.types.Event;

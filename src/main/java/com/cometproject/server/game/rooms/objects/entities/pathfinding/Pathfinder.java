@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities.pathfinding;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
-import com.cometproject.server.game.rooms.objects.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MinMaxPriorityQueue;
 
@@ -37,7 +37,7 @@ public class Pathfinder {
 
         PathfinderNode[][] map = new PathfinderNode[entity.getRoom().getMapping().getModel().getSizeX()][entity.getRoom().getMapping().getModel().getSizeY()];
         PathfinderNode node;
-        Position3D tmp;
+        Position tmp;
 
         int cost;
         int diff;
@@ -45,7 +45,7 @@ public class Pathfinder {
         PathfinderNode current = new PathfinderNode(entity.getPosition());
         current.setCost(0);
 
-        Position3D end = entity.getWalkingGoal();
+        Position end = entity.getWalkingGoal();
         PathfinderNode finish = new PathfinderNode(end);
 
         map[current.getPosition().getX()][current.getPosition().getY()] = current;
@@ -59,7 +59,7 @@ public class Pathfinder {
                 tmp = current.getPosition().add(movePoints()[i]);
                 boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
 
-                if (entity.getRoom().getMapping().isValidStep(new Position3D(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove) || entity.isOverriden()) {
+                if (entity.getRoom().getMapping().isValidStep(new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove) || entity.isOverriden()) {
                     if (map[tmp.getX()][tmp.getY()] == null) {
                         node = new PathfinderNode(tmp);
                         map[tmp.getX()][tmp.getY()] = node;
@@ -102,16 +102,16 @@ public class Pathfinder {
         return null;
     }
 
-    private Position3D[] movePoints() {
-        return new Position3D[]{
-                new Position3D(0, -1, 0),
-                new Position3D(0, 1, 0),
-                new Position3D(1, 0, 0),
-                new Position3D(-1, 0, 0),
-                new Position3D(1, -1, 0),
-                new Position3D(-1, 1, 0),
-                new Position3D(1, 1, 0),
-                new Position3D(-1, -1, 0)
+    private Position[] movePoints() {
+        return new Position[]{
+                new Position(0, -1, 0),
+                new Position(0, 1, 0),
+                new Position(1, 0, 0),
+                new Position(-1, 0, 0),
+                new Position(1, -1, 0),
+                new Position(-1, 1, 0),
+                new Position(1, 1, 0),
+                new Position(-1, -1, 0)
         };
     }
 }

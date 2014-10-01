@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -20,7 +20,7 @@ public class LookToMessageEvent implements IEvent {
         if (x == avatar.getPosition().getX() && y == avatar.getPosition().getY())
             return;
 
-        int rotation = Position3D.calculateRotation(avatar.getPosition().getX(), avatar.getPosition().getY(), x, y, false);
+        int rotation = Position.calculateRotation(avatar.getPosition().getX(), avatar.getPosition().getY(), x, y, false);
 
         avatar.unIdle();
 

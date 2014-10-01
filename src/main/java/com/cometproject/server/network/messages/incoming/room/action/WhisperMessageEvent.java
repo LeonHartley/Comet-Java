@@ -2,9 +2,9 @@ package com.cometproject.server.network.messages.incoming.room.action;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.RoomEntityType;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
@@ -40,12 +40,12 @@ public class WhisperMessageEvent implements IEvent {
         if (!client.getPlayer().getEntity().onChat(filteredMessage))
             return;
 
-        client.send(WisperMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), filteredMessage));
-        ((PlayerEntity) userTo).getPlayer().getSession().send(WisperMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), filteredMessage));
+        client.send(WisperMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage));
+        ((PlayerEntity) userTo).getPlayer().getSession().send(WisperMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage));
 
         for (PlayerEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntitiesByPermission("room_see_whisper")) {
             if (entity.getPlayer().getId() != client.getPlayer().getId() && !user.equals(entity.getUsername()))
-                entity.getPlayer().getSession().send(WisperMessageComposer.compose(client.getPlayer().getEntity().getVirtualId(), "Whisper to " + user + ": " + filteredMessage));
+                entity.getPlayer().getSession().send(WisperMessageComposer.compose(client.getPlayer().getEntity().getId(), "Whisper to " + user + ": " + filteredMessage));
         }
     }
 }

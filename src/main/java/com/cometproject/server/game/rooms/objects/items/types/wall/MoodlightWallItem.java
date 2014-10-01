@@ -1,16 +1,17 @@
 package com.cometproject.server.game.rooms.objects.items.types.wall;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.data.MoodlightData;
 import com.cometproject.server.game.rooms.objects.items.data.MoodlightPresetData;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queries.items.MoodlightDao;
 
 public class MoodlightWallItem extends RoomItemWall {
     private MoodlightData moodlightData = null;
 
-    public MoodlightWallItem(int id, int itemId, int roomId, int owner, String position, String data) {
-        super(id, itemId, roomId, owner, position, data);
+    public MoodlightWallItem(int id, int itemId, Room room, int owner, String position, String data) {
+        super(id, itemId, room, owner, position, data);
     }
 
     @Override
@@ -25,7 +26,7 @@ public class MoodlightWallItem extends RoomItemWall {
 
     @Override
     public void onPlaced() {
-        if (this.getRoom().getItems().setMoodlight(this.id)) {
+        if (this.getRoom().getItems().setMoodlight(this.getId())) {
             this.moodlightData = MoodlightDao.getMoodlightData(this.getId());
         }
     }

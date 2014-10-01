@@ -1,12 +1,12 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.objects.items.RoomItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.messenger.FollowFriendMessageComposer;
 
 public class TeleporterFloorItem extends RoomItemFloor {
@@ -18,8 +18,8 @@ public class TeleporterFloorItem extends RoomItemFloor {
     boolean isDoor = false;
 
 
-    public TeleporterFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public TeleporterFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
 
         if(this.getDefinition().getInteraction().equals("teleport_door")) {
             this.isDoor = true;
@@ -30,7 +30,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         if(isWiredTrigger) return; //go away u canny use fkin teleport via wired
 
-        Position3D posInFront = this.squareInfront();
+        Position posInFront = this.getPosition().squareInFront(this.getRotation());
 
         if (entity.getPosition().getX() != posInFront.getX() || entity.getPosition().getY() != posInFront.getY()) {
             entity.moveTo(posInFront.getX(), posInFront.getY());
@@ -55,7 +55,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
                 this.outgoingEntity.setOverriden(true);
 
-                this.outgoingEntity.moveTo(this.getX(), this.getY());
+                this.outgoingEntity.moveTo(this.getPosition().getX(), this.getPosition().getY());
 
                 this.toggleDoor(true);
 
@@ -144,7 +144,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 this.toggleDoor(true);
 
                 if (this.incomingEntity != null) {
-                    this.incomingEntity.moveTo(this.squareInfront().getX(), this.squareInfront().getY());
+                    this.incomingEntity.moveTo(this.getPosition().squareInFront(this.getRotation()).getX(), this.getPosition().squareInFront(this.getRotation()).getY());
                 }
 
                 this.state = 7;
@@ -164,7 +164,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 this.toggleDoor(true);
 
                 if (this.outgoingEntity != null) {
-                    this.outgoingEntity.moveTo(this.squareInfront().getX(), this.squareInfront().getY());
+                    this.outgoingEntity.moveTo(this.getPosition().squareBehind(this.rotation).getX(), this.getPosition().squareBehind(this.rotation).getY());
                 }
 
                 this.state = 7;
@@ -192,7 +192,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
             otherItem.endTeleporting();
 
         this.toggleAnimation(true);
-        entity.updateAndSetPosition(new Position3D(this.getX(), this.getY(), this.getHeight()));
+        entity.updateAndSetPosition(this.getPosition().copy());
 
         this.incomingEntity = entity;
 

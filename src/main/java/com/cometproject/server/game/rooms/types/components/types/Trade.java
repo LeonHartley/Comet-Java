@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.types.components.types;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.components.types.InventoryItem;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.components.TradeComponent;
 import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;

@@ -1,10 +1,9 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.items.RoomItemWall;
-import com.cometproject.server.game.rooms.items.queue.RoomItemEventQueue;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
+import com.cometproject.server.game.rooms.objects.items.queue.RoomItemEventQueue;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;

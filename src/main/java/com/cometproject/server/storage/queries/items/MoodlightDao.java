@@ -1,8 +1,8 @@
 package com.cometproject.server.storage.queries.items;
 
-import com.cometproject.server.game.rooms.items.data.MoodlightData;
-import com.cometproject.server.game.rooms.items.data.MoodlightPresetData;
-import com.cometproject.server.game.rooms.items.types.wall.MoodlightWallItem;
+import com.cometproject.server.game.rooms.objects.items.data.MoodlightData;
+import com.cometproject.server.game.rooms.objects.items.data.MoodlightPresetData;
+import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.storage.SqlHelper;
 import com.google.gson.Gson;
 

@@ -1,14 +1,14 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.RoomEntityType;
-import com.cometproject.server.game.rooms.entities.types.BotEntity;
-import com.cometproject.server.game.rooms.entities.types.PetEntity;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.items.types.floor.TeleporterFloorItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
+import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.TeleporterFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
@@ -65,13 +65,13 @@ public class EntityComponent {
     }
 
     public PlayerEntity createEntity(Player player) {
-        Position3D startPosition = new Position3D(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY(), this.getRoom().getModel().getDoorZ());
+        Position startPosition = new Position(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY(), this.getRoom().getModel().getDoorZ());
 
         if (player.isTeleporting()) {
             RoomItemFloor item = this.room.getItems().getFloorItem(player.getTeleportId());
 
             if (item != null) {
-                startPosition = new Position3D(item.getX(), item.getY(), item.getHeight());
+                startPosition = new Position(item.getPosition().getX(), item.getPosition().getY(), item.getPosition().getZ());
             }
         }
 
@@ -97,18 +97,18 @@ public class EntityComponent {
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
-            this.playerIdToEntity.put(playerEntity.getPlayerId(), playerEntity.getVirtualId());
+            this.playerIdToEntity.put(playerEntity.getPlayerId(), playerEntity.getId());
         } else if (entity.getEntityType() == RoomEntityType.BOT) {
             BotEntity botEntity = (BotEntity) entity;
 
-            this.botIdToEntity.put(botEntity.getBotId(), botEntity.getVirtualId());
+            this.botIdToEntity.put(botEntity.getBotId(), botEntity.getId());
         } else if (entity.getEntityType() == RoomEntityType.PET) {
             PetEntity petEntity = (PetEntity) entity;
 
-            this.petIdToEntity.put(petEntity.getData().getId(), petEntity.getVirtualId());
+            this.petIdToEntity.put(petEntity.getData().getId(), petEntity.getId());
         }
 
-        this.entities.put(entity.getVirtualId(), entity);
+        this.entities.put(entity.getId(), entity);
     }
 
     public void removeEntity(GenericEntity entity) {
@@ -127,7 +127,7 @@ public class EntityComponent {
             this.petIdToEntity.remove(petEntity.getData().getId());
         }
 
-        this.entities.remove(entity.getVirtualId());
+        this.entities.remove(entity.getId());
     }
 
     public void broadcastMessage(Composer msg, boolean usersWithRightsOnly) {

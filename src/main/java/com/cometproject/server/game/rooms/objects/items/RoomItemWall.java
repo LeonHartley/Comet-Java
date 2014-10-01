@@ -8,18 +8,14 @@ import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 public abstract class RoomItemWall extends RoomItem {
-    private int roomId;
     private String position;
     private String extraData;
 
-    private Room room;
-
     private ItemDefinition itemDefinition;
 
-    public RoomItemWall(int id, int itemId, int roomId, int owner, String position, String data) {
-        this.id = id;
-        this.itemId = itemId;
-        this.roomId = roomId;
+    public RoomItemWall(int id, int itemId, Room room, int owner, String position, String data) {
+        super(id, null, room);
+
         this.ownerId = owner;
         this.position = position;
         this.extraData = data;
@@ -29,7 +25,7 @@ public abstract class RoomItemWall extends RoomItem {
     public void serialize(Composer msg) {
         msg.writeString(this.getId());
         msg.writeInt(this.getDefinition().getSpriteId());
-        msg.writeString(this.getPosition());
+        msg.writeString(this.getWallPosition());
 
         msg.writeString(this.getExtraData());
         msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
@@ -61,14 +57,6 @@ public abstract class RoomItemWall extends RoomItem {
         }
     }
 
-    public Room getRoom() {
-        if (this.room == null) {
-            this.room = CometManager.getRooms().get(this.roomId);
-        }
-
-        return this.room;
-    }
-
     @Override
     public void sendUpdate() {
         Room r = this.getRoom();
@@ -80,7 +68,7 @@ public abstract class RoomItemWall extends RoomItem {
 
     @Override
     public void saveData() {
-        RoomItemDao.saveData(id, extraData);
+        RoomItemDao.saveData(this.getId(), extraData);
     }
 
     @Override
@@ -93,17 +81,8 @@ public abstract class RoomItemWall extends RoomItem {
     }
 
     @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
     public int getItemId() {
         return itemId;
-    }
-
-    public int getRoomId() {
-        return roomId;
     }
 
     @Override
@@ -115,7 +94,7 @@ public abstract class RoomItemWall extends RoomItem {
         this.position = position;
     }
 
-    public String getPosition() {
+    public String getWallPosition() {
         return this.position;
     }
 

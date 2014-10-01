@@ -2,8 +2,8 @@ package com.cometproject.server.network.messages.incoming.room.bots;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.entities.types.BotEntity;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -90,7 +90,7 @@ public class ModifyBotMessageEvent implements IEvent {
                 int danceId = RandomInteger.getRandom(1, 4);
                 botEntity.setDanceId(danceId);
 
-                room.getEntities().broadcastMessage(DanceMessageComposer.compose(botEntity.getVirtualId(), danceId));
+                room.getEntities().broadcastMessage(DanceMessageComposer.compose(botEntity.getId(), danceId));
                 break;
 
             case 5:

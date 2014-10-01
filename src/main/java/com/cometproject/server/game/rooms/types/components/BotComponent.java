@@ -2,9 +2,9 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.players.components.types.InventoryBot;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.types.BotEntity;
-import com.cometproject.server.game.rooms.entities.types.data.PlayerBotData;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 
@@ -38,7 +38,7 @@ public class BotComponent {
         int virtualId = room.getEntities().getFreeId();
 
         BotData botData = new PlayerBotData(bot.getId(), bot.getName(), bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7);
-        BotEntity botEntity = new BotEntity(botData, virtualId, new Position3D(x, y, 0), 1, 1, room);
+        BotEntity botEntity = new BotEntity(botData, virtualId, new Position(x, y, 0), 1, 1, room);
 
         this.getRoom().getEntities().addEntity(botEntity);
         return botEntity;

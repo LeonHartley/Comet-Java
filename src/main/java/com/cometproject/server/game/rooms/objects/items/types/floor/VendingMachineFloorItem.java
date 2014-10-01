@@ -1,23 +1,24 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.RandomInteger;
 
 public class VendingMachineFloorItem extends RoomItemFloor {
     private GenericEntity vendingEntity;
     private int state = -1;
 
-    public VendingMachineFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public VendingMachineFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-        if (!this.touching(entity)) {
-            entity.moveTo(this.x, this.y);
+        if (!this.getPosition().touching(entity)) {
+            entity.moveTo(this.getPosition().getX(), this.getPosition().getY());
             return;
         }
 
@@ -25,7 +26,7 @@ public class VendingMachineFloorItem extends RoomItemFloor {
         //     return;
         // }
 
-        int rotation = Position3D.calculateRotation(entity.getPosition().getX(), entity.getPosition().getY(), this.getX(), this.getY(), false);
+        int rotation = Position.calculateRotation(entity.getPosition().getX(), entity.getPosition().getY(), this.getPosition().getX(), this.getPosition().getY(), false);
 
         entity.setBodyRotation(rotation);
         entity.setHeadRotation(rotation);

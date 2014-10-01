@@ -1,7 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
+import com.cometproject.server.game.rooms.types.Room;
 
 public class WiredConditionPlayerCountInRoom extends WiredConditionItem {
     private static final int PARAM_AT_LEAST = 0;
@@ -12,7 +13,7 @@ public class WiredConditionPlayerCountInRoom extends WiredConditionItem {
      *
      * @param id       The ID of the item
      * @param itemId   The ID of the item definition
-     * @param roomId   The ID of the room
+     * @param room       The instance of the room
      * @param owner    The ID of the owner
      * @param x        The position of the item on the X axis
      * @param y        The position of the item on the Y axis
@@ -20,8 +21,8 @@ public class WiredConditionPlayerCountInRoom extends WiredConditionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredConditionPlayerCountInRoom(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public WiredConditionPlayerCountInRoom(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
     @Override

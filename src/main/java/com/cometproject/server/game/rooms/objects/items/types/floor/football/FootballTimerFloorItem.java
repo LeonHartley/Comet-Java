@@ -1,13 +1,14 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.football;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.types.Room;
 
 public class FootballTimerFloorItem extends RoomItemFloor {
     private int time = 0;
 
-    public FootballTimerFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public FootballTimerFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
 

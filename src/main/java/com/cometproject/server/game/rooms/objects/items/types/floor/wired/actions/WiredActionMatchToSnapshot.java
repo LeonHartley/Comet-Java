@@ -1,10 +1,11 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredItemSnapshot;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.google.common.collect.Lists;
@@ -29,8 +30,8 @@ public class WiredActionMatchToSnapshot extends WiredActionItem implements Wired
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionMatchToSnapshot(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public WiredActionMatchToSnapshot(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
     @Override
@@ -78,11 +79,11 @@ public class WiredActionMatchToSnapshot extends WiredActionItem implements Wired
             }
 
             if(matchPosition || matchRotation) {
-                Position3D currentPosition = new Position3D(floorItem.getX(), floorItem.getY(), floorItem.getHeight());
-                Position3D newPosition = new Position3D(itemSnapshot.getX(), itemSnapshot.getY());
+                Position currentPosition = new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY(), floorItem.getPosition().getZ());
+                Position newPosition = new Position(itemSnapshot.getX(), itemSnapshot.getY());
 
                 if(this.getRoom().getItems().moveFloorItem(floorItem.getId(), !matchPosition ? currentPosition : newPosition, matchRotation ? itemSnapshot.getRotation() : floorItem.getRotation(), true)) {
-                    newPosition.setZ(floorItem.getHeight());
+                    newPosition.setZ(floorItem.getPosition().getZ());
 
                     if(!matchRotation)
                         this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(currentPosition, newPosition, 0, 0, floorItem.getId()));

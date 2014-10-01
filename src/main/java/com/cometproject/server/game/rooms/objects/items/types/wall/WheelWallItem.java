@@ -1,9 +1,10 @@
 package com.cometproject.server.game.rooms.objects.items.types.wall;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
+import com.cometproject.server.game.rooms.types.Room;
 
 import java.util.Random;
 
@@ -12,8 +13,8 @@ public class WheelWallItem extends RoomItemWall {
 
     private final Random r = new Random();
 
-    public WheelWallItem(int id, int itemId, int roomId, int owner, String position, String data) {
-        super(id, itemId, roomId, owner, position, data);
+    public WheelWallItem(int id, int itemId, Room room, int owner, String position, String data) {
+        super(id, itemId, room, owner, position, data);
     }
 
     @Override

@@ -1,17 +1,18 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 import java.util.List;
 
 public class RollerFloorItem extends RoomItemFloor {
-    public RollerFloorItem(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public RollerFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
     @Override
@@ -45,16 +46,16 @@ public class RollerFloorItem extends RoomItemFloor {
     }
 
     private void handleEntities() {
-        Position3D sqInfront = this.squareInfront();
+        Position sqInfront = this.getPosition().squareBehind(this.getRotation());
 
         if (!this.getRoom().getMapping().isValidPosition(sqInfront)) {
             return;
         }
 
-        List<GenericEntity> entities = this.getRoom().getEntities().getEntitiesAt(this.getX(), this.getY());
+        List<GenericEntity> entities = this.getRoom().getEntities().getEntitiesAt(this.getPosition().getX(), this.getPosition().getY());
 
         for (GenericEntity entity : entities) {
-            if (entity.getPosition().getX() != this.getX() && entity.getPosition().getY() != this.getY()) {
+            if (entity.getPosition().getX() != this.getPosition().getX() && entity.getPosition().getY() != this.getPosition().getY()) {
                 continue;
             }
 
@@ -73,13 +74,13 @@ public class RollerFloorItem extends RoomItemFloor {
 
             final double toHeight = this.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY()).getWalkHeight();
 
-            entity.updateAndSetPosition(new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight));
-            this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position3D(sqInfront.getX(), sqInfront.getY(), toHeight), this.getId(), entity.getVirtualId(), 0));
+            entity.updateAndSetPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
+            this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position(sqInfront.getX(), sqInfront.getY(), toHeight), this.getId(), entity.getId(), 0));
         }
     }
 
     private void handleItems() {
-        List<RoomItemFloor> floorItems = this.getRoom().getItems().getItemsOnSquare(this.getX(), this.getY());
+        List<RoomItemFloor> floorItems = this.getRoom().getItems().getItemsOnSquare(this.getPosition().getX(), this.getPosition().getY());
 //
 //        if (floorItems.size() < 2) {
 //            return;
@@ -98,20 +99,20 @@ public class RollerFloorItem extends RoomItemFloor {
             return;
         }
 
-        Position3D sqInfront = this.squareInfront();
+        Position sqInfront = this.getPosition().squareInFront(this.getRotation());
 
         boolean noItemsOnNext = false;
 
         for (RoomItemFloor floor : floorItems) {
-            if (floor.getX() != this.getX() && floor.getY() != this.getY()) {
+            if (floor.getPosition().getX() != this.getPosition().getX() && floor.getPosition().getY() != this.getPosition().getY()) {
                 continue;
             }
 
-            if (floor.getHeight() < 0.5) {
+            if (floor.getPosition().getZ() < 0.5) {
                 continue;
             }
 
-            double height = floor.getHeight();
+            double height = floor.getPosition().getZ();
 
             List<RoomItemFloor> itemsSq = this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY());
 
@@ -134,26 +135,26 @@ public class RollerFloorItem extends RoomItemFloor {
                 RoomItemFloor item1 = itemsSq.get(0);
                 RoomItemFloor item2 = itemsSq.get(1);
 
-                heightDiff = item1.getHeight() - item2.getHeight();
+                heightDiff = item1.getPosition().getZ() - item2.getPosition().getZ();
             }
 
             if (heightDiff > -2) {
-                if (!this.getRoom().getMapping().isValidStep(new Position3D(floor.getX(), floor.getY(), floor.getHeight()), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
+                if (!this.getRoom().getMapping().isValidStep(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
                     this.setTicks(3);
                     break;
                 }
             }
 
-            this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position3D(floor.getX(), floor.getY(), floor.getHeight()), new Position3D(sqInfront.getX(), sqInfront.getY(), height), this.getId(), 0, floor.getId()));
+            this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), new Position(sqInfront.getX(), sqInfront.getY(), height), this.getId(), 0, floor.getId()));
 
-            floor.setX(sqInfront.getX());
-            floor.setY(sqInfront.getY());
-            floor.setHeight(height);
+            floor.getPosition().setX(sqInfront.getX());
+            floor.getPosition().setY(sqInfront.getY());
+            floor.getPosition().setZ(height);
 
-            RoomItemDao.saveItemPosition(floor.getX(), floor.getY(), floor.getHeight(), floor.getRotation(), floor.getId());
+            RoomItemDao.saveItemPosition(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ(), floor.getRotation(), floor.getId());
         }
 
-        this.getRoom().getMapping().updateTile(this.getX(), this.getY());
+        this.getRoom().getMapping().updateTile(this.getPosition().getX(), this.getPosition().getY());
         this.getRoom().getMapping().updateTile(sqInfront.getX(), sqInfront.getY());
 
 

@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.moderation;
 
-import com.cometproject.server.game.rooms.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;

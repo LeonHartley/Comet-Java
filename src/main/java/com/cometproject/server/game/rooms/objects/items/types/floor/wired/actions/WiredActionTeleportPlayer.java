@@ -1,11 +1,12 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.server.game.rooms.entities.GenericEntity;
-import com.cometproject.server.game.rooms.entities.effects.UserEffect;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.effects.UserEffect;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
+import com.cometproject.server.game.rooms.types.Room;
 
 public class WiredActionTeleportPlayer extends WiredActionItem {
     /**
@@ -21,8 +22,8 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionTeleportPlayer(int id, int itemId, int roomId, int owner, int x, int y, double z, int rotation, String data) {
-        super(id, itemId, roomId, owner, x, y, z, rotation, data);
+    public WiredActionTeleportPlayer(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
             return;
         }
 
-        Position3D position = new Position3D(item.getX(), item.getY(), item.getHeight());
+        Position position = new Position(item.getPosition().getX(), item.getPosition().getY(), item.getPosition().getZ());
 
         this.entity.applyEffect(new UserEffect(4, 5));
         this.entity.updateAndSetPosition(position);

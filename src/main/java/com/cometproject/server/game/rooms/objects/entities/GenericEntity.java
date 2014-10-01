@@ -1,7 +1,8 @@
 package com.cometproject.server.game.rooms.objects.entities;
 
+import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.effects.UserEffect;
-import com.cometproject.server.game.rooms.objects.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
@@ -9,7 +10,6 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.TileInstance;
-import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import javolution.util.FastMap;
 
@@ -17,18 +17,13 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class GenericEntity extends RoomObject implements AvatarEntity {
-    private int id;
-
     private RoomEntityType entityType;
 
-    private Position3D position;
-    private Position3D walkingGoal;
-    private Position3D positionToSet;
+    private Position walkingGoal;
+    private Position positionToSet;
 
     private int bodyRotation;
     private int headRotation;
-
-    private Room room;
 
     private List<Square> processingPath;
     private List<Square> walkingPath;
@@ -57,10 +52,9 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     private Map<String, String> statusses = new FastMap<>();
 
-    public GenericEntity(int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
-        this.id = identifier;
+    public GenericEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
+        super(identifier, startPosition, roomInstance);
 
-        // Set the entity type
         if (this instanceof PlayerEntity) {
             this.entityType = RoomEntityType.PLAYER;
         } else if (this instanceof BotEntity) {
@@ -69,12 +63,8 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
             this.entityType = RoomEntityType.PET;
         }
 
-        this.position = startPosition;
-
         this.bodyRotation = startBodyRotation;
         this.headRotation = startHeadRotation;
-
-        this.room = roomInstance;
 
         this.idleTime = 0;
         this.signTime = 0;
@@ -93,24 +83,14 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.stepsToGoal = 0;
     }
 
-    @Override
-    public int getVirtualId() {
-        return this.id;
-    }
-
     public RoomEntityType getEntityType() {
         return this.entityType;
     }
 
     @Override
-    public Position3D getPosition() {
-        return this.position;
-    }
-
-    @Override
-    public Position3D getWalkingGoal() {
+    public Position getWalkingGoal() {
         if (this.walkingGoal == null) {
-            return this.position;
+            return this.getPosition();
         } else {
             return this.walkingGoal;
         }
@@ -119,7 +99,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     @Override
     public void setWalkingGoal(int x, int y) {
         if (this.walkingGoal == null) {
-            this.walkingGoal = new Position3D(x, y, 0.0);
+            this.walkingGoal = new Position(x, y, 0.0);
         } else {
             this.walkingGoal.setX(x);
             this.walkingGoal.setY(y);
@@ -169,26 +149,12 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     }
 
     @Override
-    public void setPosition(Position3D pos) {
-        if(pos == null)
-            return;
-
-        if (this.position == null) {
-            this.position = pos;
-        } else {
-            this.position.setX(pos.getX());
-            this.position.setY(pos.getY());
-            this.position.setZ(pos.getZ());
-        }
-    }
-
-    @Override
-    public Position3D getPositionToSet() {
+    public Position getPositionToSet() {
         return this.positionToSet;
     }
 
     @Override
-    public void updateAndSetPosition(Position3D pos) {
+    public void updateAndSetPosition(Position pos) {
         this.positionToSet = pos;
     }
 
@@ -219,11 +185,6 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     @Override
     public void setHeadRotation(int rotation) {
         this.headRotation = rotation;
-    }
-
-    @Override
-    public Room getRoom() {
-        return this.room;
     }
 
     @Override
@@ -350,7 +311,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     public void unIdle() {
         this.resetIdleTime();
-        this.getRoom().getEntities().broadcastMessage(IdleStatusMessageComposer.compose(this.getVirtualId(), false));
+        this.getRoom().getEntities().broadcastMessage(IdleStatusMessageComposer.compose(this.getId(), false));
     }
 
     @Override
@@ -403,7 +364,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.handItem = id;
 
         this.handItemTimer = 240;
-        this.getRoom().getEntities().broadcastMessage(HandItemMessageComposer.compose(this.getVirtualId(), handItem));
+        this.getRoom().getEntities().broadcastMessage(HandItemMessageComposer.compose(this.getId(), handItem));
     }
 
     @Override
@@ -419,9 +380,9 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     @Override
     public void applyEffect(UserEffect effect) {
         if (effect == null) {
-            this.getRoom().getEntities().broadcastMessage(ApplyEffectMessageComposer.compose(this.id, 0));
+            this.getRoom().getEntities().broadcastMessage(ApplyEffectMessageComposer.compose(this.getId(), 0));
         } else {
-            this.getRoom().getEntities().broadcastMessage(ApplyEffectMessageComposer.compose(this.id, effect.getEffectId()));
+            this.getRoom().getEntities().broadcastMessage(ApplyEffectMessageComposer.compose(this.getId(), effect.getEffectId()));
         }
 
         if(effect != null && effect.expires()) {
@@ -429,64 +390,6 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         }
 
         this.effect = effect;
-    }
-
-    public int distance(GenericEntity entity) {
-        int avatarX = entity.getPosition().getX();
-        int avatarY = entity.getPosition().getY();
-
-        return DistanceCalculator.calculate(avatarX, avatarY, this.getPosition().getX(), this.getPosition().getY());
-    }
-
-    public boolean touching(GenericEntity entity) {
-        int avatarX = entity.getPosition().getX();
-        int avatarY = entity.getPosition().getY();
-
-        return DistanceCalculator.tilesTouching(avatarX, avatarY, this.getPosition().getX(), this.getPosition().getY());
-    }
-
-    public Position3D squareInfront() {
-        Position3D pos = new Position3D(0, 0, 0);
-
-        int posX = this.getPosition().getX();
-        int posY = this.getPosition().getY();
-
-        if (this.getBodyRotation() == 0) {
-            posY--;
-        } else if (this.getBodyRotation() == 2) {
-            posX++;
-        } else if (this.getBodyRotation() == 4) {
-            posY++;
-        } else if (this.getBodyRotation() == 6) {
-            posX--;
-        }
-
-        pos.setX(posX);
-        pos.setY(posY);
-
-        return pos;
-    }
-
-    public Position3D squareBehind() {
-        Position3D pos = new Position3D(0, 0, 0);
-
-        int posX = this.getPosition().getX();
-        int posY = this.getPosition().getY();
-
-        if (this.getBodyRotation() == 0) {
-            posY++;
-        } else if (this.getBodyRotation() == 2) {
-            posX--;
-        } else if (this.getBodyRotation() == 4) {
-            posY--;
-        } else if (this.getBodyRotation() == 6) {
-            posX++;
-        }
-
-        pos.setX(posX);
-        pos.setY(posY);
-
-        return pos;
     }
 
     public boolean isOverriden() {
@@ -521,14 +424,14 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         if (isVisible && !this.isVisible) {
             this.getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(this));
         } else {
-            this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
+            this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
         }
 
         this.isVisible = isVisible;
     }
 
     @Override
-    public void warp(Position3D position) {
+    public void warp(Position position) {
         if(this.isWalking()) {
             this.processingPath.clear();
         }

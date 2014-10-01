@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
-import com.cometproject.server.game.rooms.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.items.data.BackgroundTonerData;
-import com.cometproject.server.game.rooms.items.types.floor.BackgroundTonerFloorItem;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.data.BackgroundTonerData;
+import com.cometproject.server.game.rooms.objects.items.types.floor.BackgroundTonerFloorItem;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.network.messages.types.Event;

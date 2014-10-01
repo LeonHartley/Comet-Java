@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities.types;
 
 import com.cometproject.server.game.bots.BotData;
-import com.cometproject.server.game.rooms.objects.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.DefaultAI;
@@ -19,7 +19,7 @@ public class BotEntity extends GenericEntity {
 
     private Map<String, Object> attributes = new FastMap<>();
 
-    public BotEntity(BotData data, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
+    public BotEntity(BotData data, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.data = data;
@@ -45,7 +45,7 @@ public class BotEntity extends GenericEntity {
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
         // Send leave room message to all current entities
-        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
+        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
 
         // Remove entity from the room
         this.getRoom().getEntities().removeEntity(this);
@@ -69,7 +69,7 @@ public class BotEntity extends GenericEntity {
     @Override
     public boolean onRoomDispose() {
         // Send leave room message to all current entities
-        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
+        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
 
         this.data.dispose();
         this.data = null;
@@ -109,7 +109,7 @@ public class BotEntity extends GenericEntity {
         msg.writeString(this.getUsername());
         msg.writeString(this.getMotto());
         msg.writeString(this.getFigure());
-        msg.writeInt(this.getVirtualId());//vid
+        msg.writeInt(this.getId());
 
         msg.writeInt(this.getPosition().getX());
         msg.writeInt(this.getPosition().getY());

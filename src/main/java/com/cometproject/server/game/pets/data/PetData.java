@@ -1,7 +1,7 @@
 package com.cometproject.server.game.pets.data;
 
 import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +21,7 @@ public class PetData {
     private int hairDye = 0;
     private int hair = -1;
 
-    private Position3D roomPosition;
+    private Position roomPosition;
 
     public PetData(int id, String name, int level, int happiness, int experience, int energy, int ownerId, String colour, int raceId, int typeId) {
         this.id = id;
@@ -47,7 +47,7 @@ public class PetData {
         this.colour = data.getString("colour");
         this.raceId = data.getInt("race_id");
         this.typeId = data.getInt("type");
-        this.roomPosition = new Position3D(data.getInt("x"), data.getInt("y"));
+        this.roomPosition = new Position(data.getInt("x"), data.getInt("y"));
     }
 
     public int getId() {
@@ -106,11 +106,11 @@ public class PetData {
         return CometManager.getPets().getSpeech(this.typeId);
     }
 
-    public Position3D getRoomPosition() {
+    public Position getRoomPosition() {
         return this.roomPosition;
     }
 
-    public void setRoomPosition(Position3D position) {
+    public void setRoomPosition(Position position) {
         this.roomPosition = position;
     }
 }

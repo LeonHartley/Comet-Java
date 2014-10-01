@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
-import com.cometproject.server.game.rooms.entities.pathfinding.Square;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;

@@ -1,15 +1,15 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
-import com.cometproject.server.game.rooms.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.items.types.floor.BedFloorItem;
-import com.cometproject.server.game.rooms.items.types.floor.GateFloorItem;
-import com.cometproject.server.game.rooms.items.types.floor.MagicStackFloorItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.BedFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.GateFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 
 public class TileInstance {
     private RoomMapping mappingInstance;
-    private Position3D position;
+    private Position position;
 
     private RoomEntityMovementNode movementNode;
     private RoomTileStatusType status;
@@ -22,11 +22,11 @@ public class TileInstance {
     private int originalTopItem = 0;
     private double originalHeight = 0d;
 
-    private Position3D redirect = null;
+    private Position redirect = null;
 
     private boolean canPlaceItemHere = false;
 
-    public TileInstance(RoomMapping mappingInstance, Position3D position) {
+    public TileInstance(RoomMapping mappingInstance, Position position) {
         this.mappingInstance = mappingInstance;
         this.position = position;
         this.reload();
@@ -54,7 +54,7 @@ public class TileInstance {
             if (item.getDefinition() == null)
                 continue;
 
-            final double totalHeight = item.getHeight() + item.getDefinition().getHeight();
+            final double totalHeight = item.getPosition().getZ() + item.getDefinition().getHeight();
 
             if(totalHeight > highestHeight) {
                 highestHeight = totalHeight;
@@ -73,9 +73,9 @@ public class TileInstance {
                     movementNode = RoomEntityMovementNode.END_OF_ROUTE;
 
                     if (item.getRotation() == 2 || item.getRotation() == 6) {
-                        this.redirect = new Position3D(item.getX(), this.getPosition().getY());
+                        this.redirect = new Position(item.getPosition().getX(), this.getPosition().getY());
                     } else if (item.getRotation() == 0 || item.getRotation() == 4) {
-                        this.redirect = new Position3D(this.getPosition().getX(), item.getY());
+                        this.redirect = new Position(this.getPosition().getX(), item.getPosition().getY());
                     }
 
                     break;
@@ -156,7 +156,7 @@ public class TileInstance {
         return this.status;
     }
 
-    public Position3D getPosition() {
+    public Position getPosition() {
         return this.position;
     }
 
@@ -172,11 +172,11 @@ public class TileInstance {
         this.topItem = topItem;
     }
 
-    public Position3D getRedirect() {
+    public Position getRedirect() {
         return redirect;
     }
 
-    public void setRedirect(Position3D redirect) {
+    public void setRedirect(Position redirect) {
         this.redirect = redirect;
     }
 

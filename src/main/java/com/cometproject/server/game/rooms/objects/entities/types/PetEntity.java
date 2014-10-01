@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities.types;
 
 import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.game.rooms.objects.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.PetAI;
@@ -21,7 +21,7 @@ public class PetEntity extends GenericEntity {
 
     private Map<String, Object> attributes = new FastMap<>();
 
-    public PetEntity(PetData data, int identifier, Position3D startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
+    public PetEntity(PetData data, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.data = data;
@@ -49,7 +49,7 @@ public class PetEntity extends GenericEntity {
         }
 
         this.getRoom().getEntities().removeEntity(this);
-        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
+        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
         this.attributes.clear();
     }
 
@@ -67,7 +67,7 @@ public class PetEntity extends GenericEntity {
     public boolean onRoomDispose() {
         PetDao.savePet(this.getPosition().getX(), this.getPosition().getY(), this.data.getId());
 
-        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getVirtualId()));
+        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
 
         this.attributes.clear();
         return true;
@@ -99,7 +99,7 @@ public class PetEntity extends GenericEntity {
         msg.writeString(this.data.getName());
         msg.writeString("PET_MOTTO");
         msg.writeString(data.getLook() + " 2 2 " + data.getHair() + " " + data.getHairDye() + " 3 " + data.getHair() + " " + data.getHairDye());
-        msg.writeInt(this.getVirtualId());
+        msg.writeInt(this.getId());
 
         msg.writeInt(this.getPosition().getX());
         msg.writeInt(this.getPosition().getY());

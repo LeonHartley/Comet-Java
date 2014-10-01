@@ -1,7 +1,7 @@
 package com.cometproject.server.storage.queries.pets;
 
 import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.game.rooms.entities.misc.Position3D;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
@@ -29,7 +29,7 @@ public class RoomPetDao {
 
             while (resultSet.next()) {
                 PetData petData = new PetData(resultSet);
-                petData.setRoomPosition(new Position3D(resultSet.getInt("x"), resultSet.getInt("y")));
+                petData.setRoomPosition(new Position(resultSet.getInt("x"), resultSet.getInt("y")));
 
                 data.add(petData);
             }
