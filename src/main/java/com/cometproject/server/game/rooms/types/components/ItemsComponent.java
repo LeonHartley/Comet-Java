@@ -187,8 +187,8 @@ public class ItemsComponent {
         tilesToUpdate.add(new Position(item.getPosition().getX(), item.getPosition().getY(), 0d));
 
         for (GenericEntity entity : affectEntities) {
-            /*if (entity.hasStatus("sit")) {
-                entity.removeStatus("sit");
+            /*if (entity.hasStatus(RoomEntityStatus.SIT)) {
+                entity.removeStatus(RoomEntityStatus.SIT);
                 entity.markNeedsUpdate();
             }*/
 
@@ -200,8 +200,8 @@ public class ItemsComponent {
             tilesToUpdate.add(new Position(tile.x, tile.y, 0d));
 
             for (GenericEntity entity0 : affectEntities0) {
-                /*if (entity0.hasStatus("sit")) {
-                    entity0.removeStatus("sit");
+                /*if (entity0.hasStatus(RoomEntityStatus.SIT)) {
+                    entity0.removeStatus(RoomEntityStatus.SIT);
                     entity0.markNeedsUpdate();
                 }*/
 

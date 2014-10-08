@@ -277,6 +277,33 @@ public class PlayerDao {
         return 0;
     }
 
+    public static String getIpAddress(int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT `last_ip` FROM players WHERE `id` = ?", sqlConnection);
+            preparedStatement.setInt(1, playerId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return resultSet.getString("last_ip");
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return "";
+    }
+
     public static Map<String, String> getValuesByKeys(Set<String> keys, int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;

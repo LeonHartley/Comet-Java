@@ -3,7 +3,8 @@ package com.cometproject.server.game.commands.staff;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.rooms.objects.entities.effects.UserEffect;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
+import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
@@ -28,7 +29,7 @@ public class RoomActionCommand extends ChatCommand {
                 int effectId = Integer.parseInt(params[1]);
 
                 for(PlayerEntity playerEntity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
-                    playerEntity.applyEffect(new UserEffect(effectId, 0));
+                    playerEntity.applyEffect(new PlayerEffect(effectId, 0));
                 }
                 break;
 
@@ -59,7 +60,7 @@ public class RoomActionCommand extends ChatCommand {
                 }
 
                 for(PlayerEntity playerEntity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
-                    playerEntity.addStatus("sign", String.valueOf(params[1]));
+                    playerEntity.addStatus(RoomEntityStatus.SIGN, String.valueOf(params[1]));
 
                     playerEntity.markDisplayingSign();
                     playerEntity.markNeedsUpdate();

@@ -11,7 +11,7 @@ public class AvatarsMessageComposer {
 
         msg.writeInt(room.getEntities().count());
 
-        for (GenericEntity entity : room.getEntities().getEntitiesCollection().values()) {
+        for (GenericEntity entity : room.getEntities().getAllEntities().values()) {
             if(!entity.isVisible()) continue;
 
             entity.compose(msg);

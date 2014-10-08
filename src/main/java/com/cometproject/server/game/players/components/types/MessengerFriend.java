@@ -31,24 +31,6 @@ public class MessengerFriend {
         this.userId = userId;
     }
 
-    public void serialize(Composer msg) {
-        msg.writeInt(userId);
-        msg.writeString(this.getData().getUsername());
-        msg.writeInt(1);
-        msg.writeBoolean(this.isOnline());
-        msg.writeBoolean(this.isInRoom());
-        msg.writeString(this.getData().getFigure());
-        msg.writeInt(0);
-        msg.writeString(this.getData().getMotto());
-        msg.writeString("");
-        msg.writeString("");
-        msg.writeBoolean(true);
-        msg.writeBoolean(true);
-        msg.writeBoolean(false);
-        msg.writeBoolean(false);
-        msg.writeBoolean(false);
-    }
-
     public boolean isInRoom() {
         if (!isOnline()) {
             return false;

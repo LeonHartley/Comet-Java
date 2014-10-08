@@ -6,11 +6,14 @@ import com.cometproject.server.config.Configuration;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.logging.LogManager;
+import com.cometproject.server.logging.sentry.SentryDispatcher;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.plugins.PluginManager;
 import com.cometproject.server.storage.StorageManager;
 import com.cometproject.server.storage.helpers.SqlIndexChecker;
 import com.cometproject.server.tasks.CometThreadManagement;
+import net.kencochrane.raven.event.Event;
+import net.kencochrane.raven.event.EventBuilder;
 
 import java.util.Map;
 
@@ -80,9 +83,23 @@ public class CometServer {
         Locale.init();
         CometManager.init();
 
-        this.networkManager = new NetworkManager(this.getConfig().get("comet.network.host"), this.getConfig().get("comet.network.port"));
+        String ipAddress = this.getConfig().get("comet.network.host"),
+               port = this.getConfig().get("comet.network.port");
+
+        this.networkManager = new NetworkManager(ipAddress, port);
 
         CometManager.startCycle();
+
+        SentryDispatcher.getInstance().dispatchManualEvent(
+                new EventBuilder()
+                        .addTag("type", "boot")
+                        .setMessage("Comet Server was booted")
+                        .addExtra("Server IP", ipAddress)
+                        .addExtra("Server Port", port)
+                        .setLevel(Event.Level.INFO)
+                        .setLogger("INFO"),
+                false);
+
 
         if (Comet.isDebugging) {
             CometManager.getLogger().debug("Comet Server is debugging");

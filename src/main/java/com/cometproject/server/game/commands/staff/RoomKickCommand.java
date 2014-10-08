@@ -12,7 +12,7 @@ import com.cometproject.server.network.sessions.Session;
 public class RoomKickCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        for (GenericEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getEntitiesCollection().values()) {
+        for (GenericEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getAllEntities().values()) {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 

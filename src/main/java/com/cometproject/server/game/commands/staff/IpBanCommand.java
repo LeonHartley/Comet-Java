@@ -32,7 +32,7 @@ public class IpBanCommand extends ChatCommand {
 
         long expire = Comet.getTime() + (length * 3600);
 
-        String ipAddress = ((InetSocketAddress) user.getChannel().remoteAddress()).getAddress().getHostAddress();
+        String ipAddress = user.getIpAddress();
 
         if (CometManager.getBans().hasBan(ipAddress)) {
             sendChat("IP: " + ipAddress + " is already banned.", client);

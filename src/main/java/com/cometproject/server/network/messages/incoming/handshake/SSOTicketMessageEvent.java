@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.handshake;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -55,7 +56,7 @@ public class SSOTicketMessageEvent implements IEvent {
         if (player == null) {
             player = PlayerDao.getPlayerFallback(ticket);
 
-            if(player == null) {
+            if (player == null) {
                 client.disconnect(false);
                 return;
             }
@@ -67,23 +68,6 @@ public class SSOTicketMessageEvent implements IEvent {
             cloneSession.disconnect(true);
         }
 
-        String ipAddress = "N/A";
-
-        // to-do: clean this up!
-        if (client.getChannel().remoteAddress() instanceof InetSocketAddress) {
-            InetSocketAddress socketAddress = (InetSocketAddress) client.getChannel().remoteAddress();
-
-            if (socketAddress.getAddress() != null) { // idk read the docs
-                ipAddress = socketAddress.getAddress().getHostAddress();
-
-                if (CometManager.getBans().hasBan(ipAddress)) {
-                    CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
-                    client.disconnect();
-                    return;
-                }
-            }
-        }
-
         if (CometManager.getBans().hasBan(Integer.toString(player.getId()))) {
             CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
             client.disconnect();
@@ -93,8 +77,17 @@ public class SSOTicketMessageEvent implements IEvent {
         player.setSession(client);
         client.setPlayer(player);
 
-        if(!ipAddress.equals("N/A")) {
-            player.getData().setIpAddress(ipAddress);
+
+        String ipAddress = client.getIpAddress();
+
+        if (!ipAddress.isEmpty()) {
+            if (CometManager.getBans().hasBan(ipAddress)) {
+                CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
+                client.disconnect();
+                return;
+            }
+
+            client.getPlayer().getData().setIpAddress(ipAddress);
         }
 
         CometManager.getRooms().loadRoomsForUser(player);
@@ -120,5 +113,7 @@ public class SSOTicketMessageEvent implements IEvent {
 
         client.sendQueue(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
         client.flush();
+
+        throw new NullPointerException();
     }
 }

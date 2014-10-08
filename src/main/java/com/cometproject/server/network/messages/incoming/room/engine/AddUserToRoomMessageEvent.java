@@ -71,10 +71,9 @@ public class AddUserToRoomMessageEvent implements IEvent {
         client.send(AvatarsMessageComposer.compose(room));
         room.getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity()));
 
-        client.send(AvatarUpdateMessageComposer.compose(room));
-        avatar.markNeedsUpdate();
+        client.send(AvatarUpdateMessageComposer.compose(room.getEntities().count(), room.getEntities().getAllEntities().values()));
 
-        for (GenericEntity av : client.getPlayer().getEntity().getRoom().getEntities().getEntitiesCollection().values()) {
+        for (GenericEntity av : client.getPlayer().getEntity().getRoom().getEntities().getAllEntities().values()) {
             if (av.getDanceId() != 0) {
                 client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(DanceMessageComposer.compose(av.getId(), av.getDanceId()));
             }
@@ -93,6 +92,7 @@ public class AddUserToRoomMessageEvent implements IEvent {
 //        client.getPlayer().getEntity().getRoom().getWired().trigger(TriggerType.ENTER_ROOM, null, client.getPlayer().getEntity());
         WiredTriggerEnterRoom.executeTriggers(client.getPlayer().getEntity());
 
+        avatar.markNeedsUpdate();
         groupsInRoom.clear();
     }
 }

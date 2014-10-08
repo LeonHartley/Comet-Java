@@ -7,6 +7,7 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.PlayerEntityAccess;
@@ -127,10 +128,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         int accessLevel = 0;
 
         if (this.getRoom().getData().getOwnerId() == this.player.getId() || this.player.getPermissions().hasPermission("room_full_control")) {
-            this.addStatus("flatctrl 4", "useradmin");
+            this.addStatus(RoomEntityStatus.CONTROLLER, "4");
             accessLevel = 4;
         } else if (this.getRoom().getRights().hasRights(this.player.getId())) {
-            this.addStatus("flatctrl 1", "");
+            this.addStatus(RoomEntityStatus.CONTROLLER, "1");
             accessLevel = 1;
         }
 

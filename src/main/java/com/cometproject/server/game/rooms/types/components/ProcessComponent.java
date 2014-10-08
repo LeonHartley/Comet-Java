@@ -1,7 +1,9 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.rooms.objects.entities.effects.UserEffect;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
+import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
+import com.cometproject.server.game.rooms.objects.items.types.floor.GateFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
@@ -13,6 +15,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.logging.sentry.SentryDispatcher;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
@@ -20,6 +23,8 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessage
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.utilities.RandomInteger;
 import com.cometproject.server.utilities.TimeSpan;
+import javolution.util.FastMap;
+import net.kencochrane.raven.event.Event;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -48,7 +53,7 @@ public class ProcessComponent implements CometTask {
         try {
             long timeStart = System.currentTimeMillis();
 
-            Map<Integer, GenericEntity> entities = this.room.getEntities().getEntitiesCollection();
+            Map<Integer, GenericEntity> entities = this.room.getEntities().getAllEntities();
 
             List<GenericEntity>[][] entityGrid = new ArrayList[this.getRoom().getModel().getSizeX()][this.getRoom().getModel().getSizeY()];
 
@@ -75,8 +80,10 @@ public class ProcessComponent implements CometTask {
                         playersToRemove.add(playerEntity);
                     }
                 } else if (entity.getEntityType() == RoomEntityType.BOT) {
+                    // do anything special here for bots?
                     processEntity(entity);
                 } else if (entity.getEntityType() == RoomEntityType.PET) {
+                    // do anything special here for pets?
                     processEntity(entity);
                 }
 
@@ -88,8 +95,12 @@ public class ProcessComponent implements CometTask {
                 entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
 
                 if (entity.needsUpdate()) {
-                    entity.markNeedsUpdateComplete();
+                    entity.markUpdateComplete();
                     entitiesToUpdate.add(entity);
+                } else {
+                    if(entity.hasAttribute("warp")) {
+                        entitiesToUpdate.add(entity);
+                    }
                 }
             }
 
@@ -120,7 +131,7 @@ public class ProcessComponent implements CometTask {
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             this.handleSupressedExceptions(e);
         } catch (Exception e) {
-            log.error("Error during room entity processing", e);
+            log.warn("Error during room entity processing", e);
         }
     }
 
@@ -166,8 +177,8 @@ public class ProcessComponent implements CometTask {
                 return true;
             }
 
-            if (entity.hasStatus("sit")) {
-                entity.removeStatus("sit");
+            if (entity.hasStatus(RoomEntityStatus.SIT)) {
+                entity.removeStatus(RoomEntityStatus.SIT);
             }
 
             // Create the new position
@@ -201,10 +212,10 @@ public class ProcessComponent implements CometTask {
                 if (item.getDefinition().getEffectId() != 0) {
                     if (oldItem != null) {
                         if (oldItem.getDefinition().getEffectId() != item.getDefinition().getEffectId()) {
-                            entity.applyEffect(new UserEffect(item.getDefinition().getEffectId(), true));
+                            entity.applyEffect(new PlayerEffect(item.getDefinition().getEffectId(), true));
                         }
                     } else {
-                        entity.applyEffect(new UserEffect(item.getDefinition().getEffectId(), true));
+                        entity.applyEffect(new PlayerEffect(item.getDefinition().getEffectId(), true));
                     }
                 }
 
@@ -236,7 +247,7 @@ public class ProcessComponent implements CometTask {
                 }
             }
         } else {
-            int chance = RandomInteger.getRandom(1, (entity.hasStatus("sit") || entity.hasStatus("lay")) ? 20 : 6);
+            int chance = RandomInteger.getRandom(1, (entity.hasStatus(RoomEntityStatus.SIT) || entity.hasStatus(RoomEntityStatus.LAY)) ? 20 : 6);
 
             if (chance == 1) {
                 if (!entity.isWalking()) {
@@ -270,14 +281,16 @@ public class ProcessComponent implements CometTask {
                     String message = ((PetEntity) entity).getData().getSpeech()[messageKey];
 
                     if (message != null && !message.isEmpty()) {
+                        final String status = "" + this.room.getModel().getSquareHeight()[entity.getPosition().getX()][entity.getPosition().getY()];
+
                         switch (message) {
                             case "sit":
-                                entity.addStatus("sit", "" + this.room.getModel().getSquareHeight()[entity.getPosition().getX()][entity.getPosition().getY()]);
+                                entity.addStatus(RoomEntityStatus.SIT, status);
                                 entity.markNeedsUpdate();
                                 break;
 
                             case "lay":
-                                entity.addStatus("lay", "" + this.room.getModel().getSquareHeight()[entity.getPosition().getX()][entity.getPosition().getY()]);
+                                entity.addStatus(RoomEntityStatus.LAY, status);
                                 entity.markNeedsUpdate();
                                 break;
 
@@ -300,8 +313,8 @@ public class ProcessComponent implements CometTask {
         }
 
         // Handle signs
-        if (entity.hasStatus("sign") && !entity.isDisplayingSign()) {
-            entity.removeStatus("sign");
+        if (entity.hasStatus(RoomEntityStatus.SIGN) && !entity.isDisplayingSign()) {
+            entity.removeStatus(RoomEntityStatus.SIGN);
             entity.markNeedsUpdate();
         }
 
@@ -316,8 +329,8 @@ public class ProcessComponent implements CometTask {
             }
         }
 
-        if (entity.hasStatus("mv")) {
-            entity.removeStatus("mv");
+        if (entity.hasStatus(RoomEntityStatus.MOVE)) {
+            entity.removeStatus(RoomEntityStatus.MOVE);
             entity.markNeedsUpdate();
         }
 
@@ -359,7 +372,7 @@ public class ProcessComponent implements CometTask {
                         effectNeedsRemove = false;
                     }
 
-                    if (item.getDefinition().getInteraction().equals("gate") && item.getExtraData().equals("0")) {
+                    if (item instanceof GateFloorItem && ((GateFloorItem) item).isOpen()) {
                         isCancelled = true;
                     }
 
@@ -371,14 +384,16 @@ public class ProcessComponent implements CometTask {
                 }
 
                 if (!isCancelled) {
-                    entity.addStatus("mv", String.valueOf(nextSq.x).concat(",").concat(String.valueOf(nextSq.y)).concat(",").concat(String.valueOf(height)));
-
-                    if (entity.hasStatus("sit")) {
-                        entity.removeStatus("sit");
+                    if(!entity.hasAttribute("warp")) {
+                        entity.addStatus(RoomEntityStatus.MOVE, String.valueOf(nextSq.x).concat(",").concat(String.valueOf(nextSq.y)).concat(",").concat(String.valueOf(height)));
                     }
 
-                    if (entity.hasStatus("lay")) {
-                        entity.removeStatus("lay");
+                    if (entity.hasStatus(RoomEntityStatus.SIT)) {
+                        entity.removeStatus(RoomEntityStatus.SIT);
+                    }
+
+                    if (entity.hasStatus(RoomEntityStatus.LAY)) {
+                        entity.removeStatus(RoomEntityStatus.LAY);
                     }
 
                     entity.updateAndSetPosition(new Position(nextSq.x, nextSq.y, height));
@@ -402,18 +417,18 @@ public class ProcessComponent implements CometTask {
             entity.getCurrentEffect().decrementDuration();
 
             if (entity.getCurrentEffect().getDuration() == 0 && entity.getCurrentEffect().expires()) {
-                entity.applyEffect(entity.getBackupEffect() != null ? entity.getBackupEffect() : null);
+                entity.applyEffect(entity.getLastEffect() != null ? entity.getLastEffect() : null);
             }
         }
 
         return false;
     }
 
-    protected void handleSupressedExceptions(Throwable t) {
-        // TO-DO: we need log these somewhere separately so we can 'fix' these kind of errors easily..
-        if (t instanceof NullPointerException) {
-            log.error("Error during room process", t);
-        }
+    protected void handleSupressedExceptions(Exception e) {
+        SentryDispatcher.getInstance().dispatchException("entityProcess", "Exception during entity process", e, Event.Level.ERROR, new FastMap<String, Object>() {{
+            put("Room ID", room.getId());
+            put("Room Name", room.getData().getName());
+        }});
     }
 
     public boolean isActive() {

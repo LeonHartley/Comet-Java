@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 
@@ -13,14 +14,14 @@ public class BedFloorItem extends RoomItemFloor {
     public void onEntityStepOn(GenericEntity entity) {
         entity.setBodyRotation(this.getRotation());
         entity.setHeadRotation(this.getRotation());
-        entity.addStatus("lay", this.getDefinition().getHeight() + "");
+        entity.addStatus(RoomEntityStatus.LAY, this.getDefinition().getHeight() + "");
 
         entity.markNeedsUpdate();
     }
 
     @Override
     public void onEntityStepOff(GenericEntity entity) {
-        entity.removeStatus("lay");
+        entity.removeStatus(RoomEntityStatus.LAY);
         entity.markNeedsUpdate();
     }
 }

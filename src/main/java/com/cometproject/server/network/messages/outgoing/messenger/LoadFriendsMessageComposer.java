@@ -27,7 +27,21 @@ public class LoadFriendsMessageComposer {
 
         for (Map.Entry<Integer, MessengerFriend> friend : friends.entrySet()) {
             if (friend.getValue() != null && friend.getValue().getData() != null) {
-                friend.getValue().serialize(msg);
+                msg.writeInt(friend.getValue().getUserId());
+                msg.writeString(friend.getValue().getData().getUsername());
+                msg.writeInt(1);
+                msg.writeBoolean(friend.getValue().isOnline());
+                msg.writeBoolean(friend.getValue().isInRoom());
+                msg.writeString(friend.getValue().getData().getFigure());
+                msg.writeInt(0);
+                msg.writeString(friend.getValue().getData().getMotto());
+                msg.writeString("");
+                msg.writeString("");
+                msg.writeBoolean(true);
+                msg.writeBoolean(true);
+                msg.writeBoolean(false);
+                msg.writeBoolean(false);
+                msg.writeBoolean(false);
             }
         }
 

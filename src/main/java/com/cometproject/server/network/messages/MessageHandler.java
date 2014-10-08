@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.logging.sentry.SentryDispatcher;
 import com.cometproject.server.network.messages.headers.Events;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.incoming.catalog.GetCataIndexMessageEvent;
@@ -330,10 +331,17 @@ public final class MessageHandler {
 
                 log.debug("Finished packet process for packet: [" + Events.valueOfId(header) + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
             } catch (Exception e) {
-                if(client.getLogger() != null)
-                    client.getLogger().error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
-                else
-                    log.error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
+//                if(client.getLogger() != null)
+//                    client.getLogger().error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
+//                else
+//                    log.error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
+
+                SentryDispatcher.getInstance().dispatchException("packetError", "Exception while handling message", e, net.kencochrane.raven.event.Event.Level.ERROR, new FastMap<String, Object>() {{
+                    if(client.getPlayer() != null) {
+                        put("Player ID", client.getPlayer().getId());
+                        put("Player Username", client.getPlayer().getData().getUsername());
+                    }
+                }});
             }
         } else if(Comet.isDebugging) {
             log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);

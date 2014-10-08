@@ -49,7 +49,7 @@ public class Composers {
     public static short RoomFullMessageComposer = 1819;
     public static short OwnerRightsMessageComposer = 1001;
     public static short RoomPanelMessageComposer = 2318;
-    public static short RoomStatusesMessageComposer = 3977;
+    public static short EntityUpdateMessageComposer = 3977;
     public static short RoomUsersMessageComposer = 411;
     public static short SearchFriendsMessageComposer = 171;
     public static short SendCreditsMessageComposer = 2507;
