@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.moderation;
 
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -32,8 +33,8 @@ public class GiveRightsMessageEvent implements IEvent {
         playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(1));
         client.send(GivePowersMessageComposer.compose(room.getId(), playerId));
 
-        playerEntity.removeStatus("flatctrl");
-        playerEntity.addStatus("flatctrl", "1");
+        playerEntity.removeStatus(RoomEntityStatus.CONTROLLER);
+        playerEntity.addStatus(RoomEntityStatus.CONTROLLER, "1");
 
         playerEntity.markNeedsUpdate();
 

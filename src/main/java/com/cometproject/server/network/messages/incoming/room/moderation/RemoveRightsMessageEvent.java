@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.moderation;
 
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -33,8 +34,8 @@ public class RemoveRightsMessageEvent implements IEvent {
         playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(0));
         client.send(RemovePowersMessageComposer.compose(room.getId(), playerId));
 
-        playerEntity.removeStatus("flatctrl");
-        playerEntity.addStatus("flatctrl", "0");
+        playerEntity.removeStatus(RoomEntityStatus.CONTROLLER);
+        playerEntity.addStatus(RoomEntityStatus.CONTROLLER, "0");
         playerEntity.markNeedsUpdate();
     }
 }

@@ -175,7 +175,7 @@ public class EntityComponent {
     }
 
     public GenericEntity getEntityByName(String name, RoomEntityType type) {
-        for (GenericEntity entity : this.getEntitiesCollection().values()) {
+        for (GenericEntity entity : this.getAllEntities().values()) {
             if (entity.getUsername() == null) continue;
 
             if (entity.getUsername().equals(name) && entity.getEntityType() == type) {
@@ -294,10 +294,10 @@ public class EntityComponent {
     }
 
     public int playerCount() {
-        return this.playerIdToEntity == null ? 0 : this.playerIdToEntity.size();
+        return this.playerIdToEntity.size();
     }
 
-    public Map<Integer, GenericEntity> getEntitiesCollection() {
+    public Map<Integer, GenericEntity> getAllEntities() {
         return this.entities;
     }
 

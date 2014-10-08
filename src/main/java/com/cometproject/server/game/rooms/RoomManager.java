@@ -73,7 +73,7 @@ public class RoomManager {
             }
         }
 
-        log.error("Couldn't find model: " + id);
+        log.debug("Couldn't find model: " + id);
 
         return null;
     }

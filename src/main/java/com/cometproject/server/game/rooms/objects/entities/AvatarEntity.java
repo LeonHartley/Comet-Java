@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities;
 
-import com.cometproject.server.game.rooms.objects.entities.effects.UserEffect;
+import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.network.messages.types.Composer;
@@ -46,13 +46,13 @@ public interface AvatarEntity extends Attributable {
 
     public void moveTo(int x, int y);
 
-    public Map<String, String> getStatuses();
+    public Map<RoomEntityStatus, String> getStatuses();
 
-    public void addStatus(String key, String value);
+    public void addStatus(RoomEntityStatus key, String value);
 
-    public void removeStatus(String key);
+    public void removeStatus(RoomEntityStatus key);
 
-    public boolean hasStatus(String key);
+    public boolean hasStatus(RoomEntityStatus key);
 
     public void markNeedsUpdate();
 
@@ -80,9 +80,9 @@ public interface AvatarEntity extends Attributable {
 
     public void setOverriden(boolean overriden);
 
-    public UserEffect getCurrentEffect();
+    public PlayerEffect getCurrentEffect();
 
-    public void applyEffect(UserEffect effect);
+    public void applyEffect(PlayerEffect effect);
 
     public void carryItem(int id);
 

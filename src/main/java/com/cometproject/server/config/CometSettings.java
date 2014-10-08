@@ -126,6 +126,11 @@ public class CometSettings {
      */
     public static FilterMode wordFilterMode = FilterMode.DEFAULT;
 
+    /**
+     * If this is enabled, it will use the IP from the database and not from the client
+     */
+    public static boolean useDatabaseIp = false;
+
     // TODO: Catch missing-config exceptions and fallback to the defaults...
 
     /**
@@ -163,6 +168,10 @@ public class CometSettings {
         roomPasswordEncryptionRounds = Integer.parseInt(config.get("comet.game.rooms.hashrounds"));
 
         wordFilterMode = FilterMode.valueOf(config.get("comet.game.filter.mode").toUpperCase());
+
+        if(config.containsKey("config.security.use_database_ip")) {
+            useDatabaseIp = Boolean.parseBoolean(config.get("config.security.use_database_ip"));
+        }
     }
 
     /**

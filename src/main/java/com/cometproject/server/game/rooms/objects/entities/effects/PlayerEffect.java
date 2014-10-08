@@ -1,19 +1,19 @@
 package com.cometproject.server.game.rooms.objects.entities.effects;
 
-public class UserEffect {
+public class PlayerEffect {
     private int effectId;
     private int duration;
     private boolean expires;
     private boolean isItemEffect;
 
-    public UserEffect(int id, int duration) {
+    public PlayerEffect(int id, int duration) {
         this.effectId = id;
         this.duration = duration;
         this.expires = duration != 0;
         this.isItemEffect = false;
     }
 
-    public UserEffect(int id, boolean isItemEffect) {
+    public PlayerEffect(int id, boolean isItemEffect) {
         this.effectId = id;
         this.isItemEffect = isItemEffect;
         this.duration = 0;

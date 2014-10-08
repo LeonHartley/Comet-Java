@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities;
 
 import com.cometproject.server.game.rooms.objects.RoomObject;
-import com.cometproject.server.game.rooms.objects.entities.effects.UserEffect;
+import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
@@ -13,6 +13,7 @@ import com.cometproject.server.game.rooms.types.mapping.TileInstance;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import javolution.util.FastMap;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,20 +38,20 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     private int danceId;
 
-    private UserEffect backupEffect;
-    private UserEffect effect;
+    private PlayerEffect lastEffect;
+    private PlayerEffect effect;
 
     private int handItem;
     private int handItemTimer;
 
-    private boolean markedNeedsUpdate;
+    private boolean needsUpdate;
     private boolean isMoonwalking;
     private boolean overriden;
     private boolean isVisible;
 
     private boolean doorbellAnswered;
 
-    private Map<String, String> statusses = new FastMap<>();
+    private Map<RoomEntityStatus, String> statuses = new FastMap<>();
 
     public GenericEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, roomInstance);
@@ -73,7 +74,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
         this.danceId = 0;
 
-        this.markedNeedsUpdate = false;
+        this.needsUpdate = false;
         this.isMoonwalking = false;
         this.overriden = false;
         this.isVisible = true;
@@ -227,45 +228,45 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     }
 
     @Override
-    public Map<String, String> getStatuses() {
-        return this.statusses;
+    public Map<RoomEntityStatus, String> getStatuses() {
+        return this.statuses;
     }
 
     @Override
-    public void addStatus(String key, String value) {
-        if (this.statusses.containsKey(key)) {
+    public void addStatus(RoomEntityStatus key, String value) {
+        if (this.statuses.containsKey(key)) {
             return;
         }
 
-        this.statusses.put(key, value);
+        this.statuses.put(key, value);
     }
 
     @Override
-    public void removeStatus(String key) {
-        if (!this.statusses.containsKey(key)) {
+    public void removeStatus(RoomEntityStatus status) {
+        if (!this.statuses.containsKey(status)) {
             return;
         }
 
-        this.statusses.remove(key);
+        this.statuses.remove(status);
     }
 
     @Override
-    public boolean hasStatus(String key) {
-        return this.statusses.containsKey(key);
+    public boolean hasStatus(RoomEntityStatus key) {
+        return this.statuses.containsKey(key);
     }
 
     @Override
     public void markNeedsUpdate() {
-        this.markedNeedsUpdate = true;
+        this.needsUpdate = true;
     }
 
-    public void markNeedsUpdateComplete() {
-        this.markedNeedsUpdate = false;
+    public void markUpdateComplete() {
+        this.needsUpdate = false;
     }
 
     @Override
     public boolean needsUpdate() {
-        return this.markedNeedsUpdate;
+        return this.needsUpdate;
     }
 
     public boolean isMoonwalking() {
@@ -350,7 +351,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     }
 
     @Override
-    public UserEffect getCurrentEffect() {
+    public PlayerEffect getCurrentEffect() {
         return this.effect;
     }
 
@@ -378,7 +379,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     }
 
     @Override
-    public void applyEffect(UserEffect effect) {
+    public void applyEffect(PlayerEffect effect) {
         if (effect == null) {
             this.getRoom().getEntities().broadcastMessage(ApplyEffectMessageComposer.compose(this.getId(), 0));
         } else {
@@ -386,7 +387,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         }
 
         if(effect != null && effect.expires()) {
-            this.backupEffect = this.effect;
+            this.lastEffect = this.effect;
         }
 
         this.effect = effect;
@@ -432,13 +433,11 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     @Override
     public void warp(Position position) {
-        if(this.isWalking()) {
-            this.processingPath.clear();
-        }
+        this.walkingGoal = position;
+        this.stepsToGoal = 0;
+        this.futureSquare = null;
 
         this.updateAndSetPosition(position);
-//        this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(this));
-//        this.moveTo(position.getX(), position.getY());
     }
 
     public boolean isDoorbellAnswered() {
@@ -449,7 +448,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.doorbellAnswered = b;
     }
 
-    public UserEffect getBackupEffect() {
-        return backupEffect;
+    public PlayerEffect getLastEffect() {
+        return lastEffect;
     }
 }

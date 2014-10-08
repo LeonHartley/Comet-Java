@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -24,7 +25,7 @@ public class LookToMessageEvent implements IEvent {
 
         avatar.unIdle();
 
-        if (!avatar.hasStatus("sit")) {
+        if (!avatar.hasStatus(RoomEntityStatus.SIT)) {
             avatar.setBodyRotation(rotation);
             avatar.setHeadRotation(rotation);
 

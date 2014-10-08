@@ -81,7 +81,7 @@ public class TileInstance {
                     break;
 
                 case "gate":
-                    movementNode = item.getExtraData().equals("1") ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
+                    movementNode = ((GateFloorItem) item).isOpen() ? RoomEntityMovementNode.OPEN : RoomEntityMovementNode.CLOSED;
                     break;
 
                 case "onewaygate":

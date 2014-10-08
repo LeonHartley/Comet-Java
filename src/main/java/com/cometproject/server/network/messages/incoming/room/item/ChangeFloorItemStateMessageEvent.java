@@ -39,7 +39,7 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
                 return;
             }
 
-            for (GenericEntity entity : room.getEntities().getEntitiesCollection().values()) {
+            for (GenericEntity entity : room.getEntities().getAllEntities().values()) {
                 if (Position3D.distanceBetween(client.getPlayer().getEntity().getPosition(), new Position3D(item.getPosition().getX(), item.getPosition().getY(), 0d)) <= 1 && entity.isWalking()) {
                     return;
                 }

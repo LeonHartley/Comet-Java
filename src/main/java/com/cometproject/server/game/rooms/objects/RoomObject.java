@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects;
 
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.TileInstance;
 
 public abstract class RoomObject {
     /**
@@ -28,6 +29,16 @@ public abstract class RoomObject {
         this.id = id;
         this.position = position;
         this.room = room;
+    }
+
+    /**
+     * Gets the tile instance from the room mapping
+     * @return the tile instance from the room mapping
+     */
+    public TileInstance getTile() {
+        if(this.getPosition() == null) return null;
+
+        return this.getRoom().getMapping().getTile(this.getPosition().getX(), this.getPosition().getY());
     }
 
     /**

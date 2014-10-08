@@ -2,6 +2,7 @@ package com.cometproject.server.game.commands.user;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.sessions.Session;
 
@@ -9,7 +10,7 @@ public class SitCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         PlayerEntity playerEntity = client.getPlayer().getEntity();
-        if (!playerEntity.hasStatus("sit")) {
+        if (!playerEntity.hasStatus(RoomEntityStatus.SIT)) {
             double height = 0.5;
 
             //for (RoomItemFloor roomItemFloor : playerEntity.getRoom().getItems().getItemsOnSquare(playerEntity.getPosition().getX(), playerEntity.getPosition().getY())) {
@@ -32,7 +33,7 @@ public class SitCommand extends ChatCommand {
                 }
             }
 
-            playerEntity.addStatus("sit", String.valueOf(height));
+            playerEntity.addStatus(RoomEntityStatus.SIT, String.valueOf(height));
             playerEntity.setBodyRotation(rotation);
             playerEntity.markNeedsUpdate();
         }

@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.types.components.types;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.components.types.InventoryItem;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.components.TradeComponent;
 import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
@@ -54,13 +55,13 @@ public class Trade {
         user1Items = new ArrayList<>();
         user2Items = new ArrayList<>();
 
-        if (!user1.hasStatus("trd")) {
-            user1.addStatus("trd", "");
+        if (!user1.hasStatus(RoomEntityStatus.TRADE)) {
+            user1.addStatus(RoomEntityStatus.TRADE, "");
             user1.markNeedsUpdate();
         }
 
-        if (!user2.getPlayer().getEntity().hasStatus("trd")) {
-            user2.addStatus("trd", "");
+        if (!user2.getPlayer().getEntity().hasStatus(RoomEntityStatus.TRADE)) {
+            user2.addStatus(RoomEntityStatus.TRADE, "");
             user2.markNeedsUpdate();
         }
 
@@ -98,12 +99,12 @@ public class Trade {
         }
 
         if (user1 != null && user1.getPlayer() != null && sendToUser1) {
-            user1.removeStatus("trd");
+            user1.removeStatus(RoomEntityStatus.TRADE);
             user1.markNeedsUpdate();
         }
 
         if (user2 != null && user2.getPlayer() != null && sendToUser2) {
-            user2.removeStatus("trd");
+            user2.removeStatus(RoomEntityStatus.TRADE);
             user2.markNeedsUpdate();
         }
 
@@ -214,13 +215,13 @@ public class Trade {
             this.user1Items.clear();
             this.user2Items.clear();
 
-            if (user1.getPlayer().getEntity().hasStatus("trd")) {
-                user1.getPlayer().getEntity().removeStatus("trd");
+            if (user1.getPlayer().getEntity().hasStatus(RoomEntityStatus.TRADE)) {
+                user1.getPlayer().getEntity().removeStatus(RoomEntityStatus.TRADE);
                 user1.getPlayer().getEntity().markNeedsUpdate();
             }
 
-            if (user2.getPlayer().getEntity().hasStatus("trd")) {
-                user2.getPlayer().getEntity().removeStatus("trd");
+            if (user2.getPlayer().getEntity().hasStatus(RoomEntityStatus.TRADE)) {
+                user2.getPlayer().getEntity().removeStatus(RoomEntityStatus.TRADE);
                 user2.getPlayer().getEntity().markNeedsUpdate();
             }
         }

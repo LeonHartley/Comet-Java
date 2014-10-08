@@ -3,6 +3,7 @@ package com.cometproject.server.game.commands.user;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.sessions.Session;
 
@@ -10,11 +11,11 @@ public class LayCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         PlayerEntity playerEntity = client.getPlayer().getEntity();
-        if (playerEntity.hasStatus("lay")) {
-            playerEntity.removeStatus("lay");
+        if (playerEntity.hasStatus(RoomEntityStatus.LAY)) {
+            playerEntity.removeStatus(RoomEntityStatus.LAY);
             playerEntity.markNeedsUpdate();
         } else {
-            playerEntity.addStatus("lay", "0.5");
+            playerEntity.addStatus(RoomEntityStatus.LAY, "0.5");
             playerEntity.markNeedsUpdate();
         }
     }

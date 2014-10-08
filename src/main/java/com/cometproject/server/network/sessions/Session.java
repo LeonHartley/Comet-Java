@@ -1,13 +1,17 @@
 package com.cometproject.server.network.sessions;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
+
+import java.net.InetSocketAddress;
 
 public class Session {
     private Logger logger = Logger.getLogger("Session");
@@ -51,6 +55,28 @@ public class Session {
         this.getChannel().disconnect();
     }
 
+    public String getIpAddress() {
+        String ipAddress = "";
+
+        if(!CometSettings.useDatabaseIp) {
+            // to-do: clean this up!
+            if (this.getChannel().remoteAddress() instanceof InetSocketAddress) {
+                InetSocketAddress socketAddress = (InetSocketAddress) this.getChannel().remoteAddress();
+
+                if (socketAddress.getAddress() != null) { // idk read the docs
+                    ipAddress = socketAddress.getAddress().getHostAddress();
+                }
+            }
+        } else {
+            ipAddress = PlayerDao.getIpAddress(this.getPlayer().getId());
+        }
+
+        if(ipAddress.isEmpty()) {
+            logger.warn("Could not retrieve IP address of player: " + this.getPlayer().getId());
+        }
+
+        return ipAddress;
+    }
     public void disconnect() {
         this.disconnect(false);
     }

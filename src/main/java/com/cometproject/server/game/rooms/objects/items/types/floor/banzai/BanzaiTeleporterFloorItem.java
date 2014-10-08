@@ -11,16 +11,28 @@ import javolution.util.FastSet;
 import java.util.Set;
 
 public class BanzaiTeleporterFloorItem extends RoomItemFloor {
+    private int stage = 0;
+
+    private Position teleportPosition;
+    private GenericEntity entity;
+
     public BanzaiTeleporterFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
-        if (entity.hasAttribute("banzaiTeleport")) {
-            entity.removeAttribute("banzaiTeleport");
+        if(this.entity != null) return; // wait yer turn
+
+        if (entity.hasAttribute("warp")) {
+            this.stage = 2;
+            this.setTicks(RoomItemFactory.getProcessTime(0.5));
+
+            entity.removeAttribute("warp");
             return;
         }
+
+        this.entity = entity;
 
         Set<BanzaiTeleporterFloorItem> teleporters = new FastSet<>();
 
@@ -36,15 +48,13 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
 
         BanzaiTeleporterFloorItem randomTeleporter = (BanzaiTeleporterFloorItem) teleporters.toArray()[RandomInteger.getRandom(0, teleporters.size() - 1)];
 
-        Position teleportPosition = new Position(randomTeleporter.getPosition().getX(), randomTeleporter.getPosition().getY(), randomTeleporter.getPosition().getZ());
-
-        entity.warp(teleportPosition);
-
-        entity.setAttribute("banzaiTeleport", true);
+        this.teleportPosition = new Position(randomTeleporter.getPosition().getX(), randomTeleporter.getPosition().getY(), randomTeleporter.getPosition().getZ());
+        this.entity.setAttribute("warp", true);
 
         this.setExtraData("1");
         this.sendUpdate();
 
+        this.stage = 1;
         this.setTicks(RoomItemFactory.getProcessTime(0.5));
 
         teleporters.clear();
@@ -52,6 +62,22 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
 
     @Override
     public void onTickComplete() {
+        if(this.stage == 1) {
+            this.entity.warp(this.teleportPosition);
+            this.entity = null;
+            this.teleportPosition = null;
+
+            this.setTicks(RoomItemFactory.getProcessTime(0.5));
+            this.stage = 0;
+            return;
+        } else if(this.stage == 2) {
+            this.setExtraData("1");
+            this.sendUpdate();
+
+            this.setTicks(RoomItemFactory.getProcessTime(0.5));
+            this.stage = 0;
+        }
+
         this.setExtraData("0");
         this.sendUpdate();
     }

@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
-import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -37,7 +36,7 @@ public class GateFloorItem extends RoomItemFloor {
             return;
         }
 
-        for (GenericEntity entity : this.getRoom().getEntities().getEntitiesCollection().values()) {
+        for (GenericEntity entity : this.getRoom().getEntities().getAllEntities().values()) {
             if (this.getPosition().distanceTo(entity.getPosition()) <= 1 && entity.isWalking()) {
                 return;
             }
@@ -49,4 +48,9 @@ public class GateFloorItem extends RoomItemFloor {
         // TODO: Move item saving to a queue for batch saving or something. :P
         this.saveData();
     }
+
+    public boolean isOpen() {
+        return !this.getExtraData().equals("0");
+    }
+
 }

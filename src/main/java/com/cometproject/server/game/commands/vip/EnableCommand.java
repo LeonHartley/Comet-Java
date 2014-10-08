@@ -2,7 +2,7 @@ package com.cometproject.server.game.commands.vip;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.rooms.objects.entities.effects.UserEffect;
+import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.sessions.Session;
 
@@ -21,7 +21,7 @@ public class EnableCommand extends ChatCommand {
             }
 
             PlayerEntity entity = client.getPlayer().getEntity();
-            entity.applyEffect(new UserEffect(effectId, 0));
+            entity.applyEffect(new PlayerEffect(effectId, 0));
 
         } catch (Exception e) {
             sendChat(Locale.get("command.enable.invalidid"), client);

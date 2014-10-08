@@ -60,7 +60,7 @@ public class BanzaiGame extends RoomGame {
             item.dispose();
         }
 
-        for (GenericEntity entity : this.room.getEntities().getEntitiesCollection().values()) {
+        for (GenericEntity entity : this.room.getEntities().getAllEntities().values()) {
             if (entity.getEntityType().equals(RoomEntityType.PLAYER)) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 

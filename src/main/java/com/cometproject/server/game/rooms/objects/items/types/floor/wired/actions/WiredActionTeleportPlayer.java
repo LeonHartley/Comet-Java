@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
-import com.cometproject.server.game.rooms.objects.entities.effects.UserEffect;
+import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -57,7 +57,7 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
 
         Position position = new Position(item.getPosition().getX(), item.getPosition().getY(), item.getPosition().getZ());
 
-        this.entity.applyEffect(new UserEffect(4, 5));
+        this.entity.applyEffect(new PlayerEffect(4, 5));
         this.entity.updateAndSetPosition(position);
         this.entity.markNeedsUpdate();
 
