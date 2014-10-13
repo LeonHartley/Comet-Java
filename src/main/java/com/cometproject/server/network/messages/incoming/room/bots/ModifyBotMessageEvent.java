@@ -14,6 +14,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoM
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.RandomInteger;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -58,7 +59,7 @@ public class ModifyBotMessageEvent implements IEvent {
                 String automaticChat = data1[2];
                 String speakingInterval = data1[4];
 
-                if (speakingInterval.isEmpty() || Integer.parseInt(speakingInterval) < 7) {
+                if (speakingInterval.isEmpty() || !StringUtils.isNumeric(speakingInterval) || Integer.parseInt(speakingInterval) < 7) {
                     speakingInterval = "7";
                 }
 

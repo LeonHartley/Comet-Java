@@ -24,7 +24,7 @@ public class WallItemsMessageComposer {
         for (RoomItemWall item : room.getItems().getWallItems()) {
             msg.writeString(item.getId());
             msg.writeInt(item.getDefinition().getSpriteId());
-            msg.writeString(item.getPosition());
+            msg.writeString(item.getWallPosition());
             msg.writeString(item.getExtraData());
             msg.writeInt(0);
             msg.writeInt(room.getData().getOwnerId());

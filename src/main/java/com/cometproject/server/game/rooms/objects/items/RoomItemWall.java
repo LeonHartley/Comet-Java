@@ -8,7 +8,7 @@ import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 public abstract class RoomItemWall extends RoomItem {
-    private String position;
+    private String wallPosition;
     private String extraData;
 
     private ItemDefinition itemDefinition;
@@ -16,13 +16,16 @@ public abstract class RoomItemWall extends RoomItem {
     public RoomItemWall(int id, int itemId, Room room, int owner, String position, String data) {
         super(id, null, room);
 
+        this.itemId = itemId;
+
         this.ownerId = owner;
-        this.position = position;
+        this.wallPosition = position;
         this.extraData = data;
     }
 
     @Override
     public void serialize(Composer msg) {
+        System.out.println(this.getWallPosition());
         msg.writeString(this.getId());
         msg.writeInt(this.getDefinition().getSpriteId());
         msg.writeString(this.getWallPosition());
@@ -91,11 +94,11 @@ public abstract class RoomItemWall extends RoomItem {
     }
 
     public void setPosition(String position) {
-        this.position = position;
+        this.wallPosition = position;
     }
 
     public String getWallPosition() {
-        return this.position;
+        return this.wallPosition;
     }
 
     public String getExtraData() {
