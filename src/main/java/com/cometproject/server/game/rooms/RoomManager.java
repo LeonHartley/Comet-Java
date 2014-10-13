@@ -117,6 +117,8 @@ public class RoomManager {
     }*/
 
     public Room get(int id) {
+        if(id == 0) return null;
+
         if (this.getRoomInstances().containsKey(id)) {
             return this.getRoomInstances().get(id);
         }
