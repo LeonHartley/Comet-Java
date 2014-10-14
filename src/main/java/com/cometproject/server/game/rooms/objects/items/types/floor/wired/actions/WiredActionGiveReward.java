@@ -44,7 +44,6 @@ public class WiredActionGiveReward extends WiredActionItem {
      *
      * @param id       The ID of the item
      * @param itemId   The ID of the item definition
-     * @param roomId   The ID of the room
      * @param owner    The ID of the owner
      * @param x        The position of the item on the X axis
      * @param y        The position of the item on the Y axis
@@ -148,7 +147,8 @@ public class WiredActionGiveReward extends WiredActionItem {
                     if (!StringUtils.isNumeric(itemData[0]))
                         continue;
 
-                    int itemId = Integer.parseInt(reward.productCode);
+                    int itemId = Integer.parseInt(itemData[0]);
+
                     ItemDefinition itemDefinition = CometManager.getItems().getDefinition(itemId);
 
                     if (itemDefinition != null) {
