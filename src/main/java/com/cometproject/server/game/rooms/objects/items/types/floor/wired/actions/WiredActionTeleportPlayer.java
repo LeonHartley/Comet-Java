@@ -14,7 +14,7 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
      *
      * @param id       The ID of the item
      * @param itemId   The ID of the item definition
-     * @param roomId   The ID of the room
+     * @param room     The instance of the room
      * @param owner    The ID of the owner
      * @param x        The position of the item on the X axis
      * @param y        The position of the item on the Y axis
@@ -48,6 +48,8 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
 
     @Override
     public void onTickComplete() {
+        if(this.getWiredData() == null || this.getWiredData().getSelectedIds() == null) return;
+
         int itemId = WiredUtil.getRandomElement(this.getWiredData().getSelectedIds());
         RoomItemFloor item = this.getRoom().getItems().getFloorItem(itemId);
 
