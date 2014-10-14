@@ -113,7 +113,5 @@ public class SSOTicketMessageEvent implements IEvent {
 
         client.sendQueue(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
         client.flush();
-
-        throw new NullPointerException();
     }
 }
