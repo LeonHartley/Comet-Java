@@ -23,7 +23,7 @@ public abstract class WiredConditionItem extends AbstractWiredItem {
      */
     public WiredConditionItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
-        this.isNegative = this.getClass().getTypeName().startsWith("WiredNegativeCondition");
+        this.isNegative = this.getClass().getSimpleName().startsWith("WiredNegativeCondition");
     }
 
     @Override
