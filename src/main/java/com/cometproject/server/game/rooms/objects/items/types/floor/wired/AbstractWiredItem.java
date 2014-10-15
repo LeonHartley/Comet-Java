@@ -9,12 +9,15 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.W
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredItemData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.types.Composer;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
+
+import java.util.List;
 
 /**
  * The new wired system was inspired by Nillus' "habbod2".
  */
-public abstract class AbstractWiredItem extends RoomItemFloor {
+public abstract class AbstractWiredItem extends RoomItemFloor implements WiredItemSnapshot.Refreshable {
     /**
      * /**
      * GSON instance to share among all wired items
@@ -41,8 +44,6 @@ public abstract class AbstractWiredItem extends RoomItemFloor {
      */
     public AbstractWiredItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
-
-        // TODO: convert old wired data to new wired data
 
         if (!this.getExtraData().startsWith("{")) {
             this.setExtraData("{}");
@@ -90,6 +91,30 @@ public abstract class AbstractWiredItem extends RoomItemFloor {
         }
 
         ((PlayerEntity) entity).getPlayer().getSession().send(this.getDialog());
+    }
+
+
+    @Override
+    public void refreshSnapshots() {
+        List<Integer> toRemove = Lists.newArrayList();
+        this.getWiredData().getSnapshots().clear();
+
+        for(int itemId : this.getWiredData().getSelectedIds()) {
+            RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
+
+            if(floorItem == null) {
+                toRemove.add(itemId);
+                continue;
+            }
+
+            this.getWiredData().getSnapshots().put(itemId, new WiredItemSnapshot(floorItem));
+        }
+
+        for(Integer itemToRemove : toRemove) {
+            this.getWiredData().getSelectedIds().remove(itemToRemove);
+        }
+
+        this.save();
     }
 
     /**

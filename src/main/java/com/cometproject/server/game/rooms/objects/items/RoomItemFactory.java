@@ -60,6 +60,7 @@ public class RoomItemFactory {
             put("wf_trg_periodically", WiredTriggerPeriodically.class);//new
             put("wf_trg_walks_off_furni", WiredTriggerWalksOffFurni.class);//new
             put("wf_trg_walks_on_furni", WiredTriggerWalksOnFurni.class);//new
+            put("wf_trg_state_changed", WiredTriggerStateChanged.class);//new
 
             put("wf_cnd_trggrer_on_frn", WiredConditionTriggererOnFurni.class);//new
             put("wf_cnd_not_trggrer_on", WiredNegativeConditionPlayerInGroup.class);//new
@@ -75,6 +76,8 @@ public class RoomItemFactory {
             put("wf_cnd_not_has_furni_on", WiredNegativeConditionHasFurniOn.class);//new
             put("wf_cnd_user_count_in", WiredConditionPlayerCountInRoom.class);//new
             put("wf_cnd_not_user_count", WiredConditionPlayerCountInRoom.class);//new
+            put("wf_cnd_match_snapshot", WiredConditionMatchSnapshot.class);
+            put("wf_cnd_not_match_snap", WiredNegativeMatchSnapshot.class);
 
             put("wf_floor_switch1", WiredAddonFloorSwitch.class);//new
             put("wf_floor_switch2", WiredAddonFloorSwitch.class);//new
