@@ -372,7 +372,7 @@ public class ProcessComponent implements CometTask {
                         effectNeedsRemove = false;
                     }
 
-                    if (item instanceof GateFloorItem && ((GateFloorItem) item).isOpen()) {
+                    if (item instanceof GateFloorItem && !((GateFloorItem) item).isOpen()) {
                         isCancelled = true;
                     }
 
