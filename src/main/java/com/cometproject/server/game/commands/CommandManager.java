@@ -102,7 +102,7 @@ public class CommandManager {
      * @throws Exception
      */
     public boolean parse(String message, Session client) throws Exception {
-        String executor = message.split(" ")[0];
+        String executor = message.split(" ")[0].toLowerCase();
         String commandName = this.commands.get(executor).getPermission();
 
         if (client.getPlayer().getPermissions().hasCommand(commandName)) {
