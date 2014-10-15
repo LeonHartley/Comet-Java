@@ -51,7 +51,6 @@ public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
     public static boolean executeTriggers(PlayerEntity playerEntity, String message) {
         boolean wasExecuted = false;
 
-
         for(RoomItemFloor floorItem : playerEntity.getRoom().getItems().getByInteraction("wf_trg_says_something")) {
             WiredTriggerPlayerSaysKeyword trigger = ((WiredTriggerPlayerSaysKeyword) floorItem);
 

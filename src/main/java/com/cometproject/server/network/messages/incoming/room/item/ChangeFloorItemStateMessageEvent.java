@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerStateChanged;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -47,6 +48,7 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
         }*/
 
         item.onInteract(client.getPlayer().getEntity(), msg.readInt(), false);
+        WiredTriggerStateChanged.executeTriggers(client.getPlayer().getEntity(), item);
 
         // to-do: move below into each onInteract or turn onInteract into a boolean (i prefer the latter) no biggie for now
 

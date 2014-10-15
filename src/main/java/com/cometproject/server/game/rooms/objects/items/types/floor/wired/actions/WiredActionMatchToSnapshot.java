@@ -12,7 +12,7 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
-public class WiredActionMatchToSnapshot extends WiredActionItem implements WiredItemSnapshot.Refreshable {
+public class WiredActionMatchToSnapshot extends WiredActionItem {
     private static final int PARAM_MATCH_STATE = 0;
     private static final int PARAM_MATCH_ROTATION = 1;
     private static final int PARAM_MATCH_POSITION = 2;
@@ -95,28 +95,5 @@ public class WiredActionMatchToSnapshot extends WiredActionItem implements Wired
 
             floorItem.sendUpdate();
         }
-    }
-
-    @Override
-    public void refreshSnapshots() {
-        List<Integer> toRemove = Lists.newArrayList();
-        this.getWiredData().getSnapshots().clear();
-
-        for(int itemId : this.getWiredData().getSelectedIds()) {
-            RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
-
-            if(floorItem == null) {
-                toRemove.add(itemId);
-                continue;
-            }
-
-            this.getWiredData().getSnapshots().put(itemId, new WiredItemSnapshot(floorItem));
-        }
-
-        for(Integer itemToRemove : toRemove) {
-            this.getWiredData().getSelectedIds().remove(itemToRemove);
-        }
-
-        this.save();
     }
 }
