@@ -42,8 +42,6 @@ public class WiredConditionFurniHasPlayers extends WiredConditionItem {
 
         boolean result = itemsWithUserCount >= this.getWiredData().getSelectedIds().size();
 
-        System.out.println(result);
-
         return isNegative ? !result : result;
     }
 }
