@@ -44,6 +44,7 @@ public class WiredActionGiveReward extends WiredActionItem {
      *
      * @param id       The ID of the item
      * @param itemId   The ID of the item definition
+     * @param room     The instance of the room
      * @param owner    The ID of the owner
      * @param x        The position of the item on the X axis
      * @param y        The position of the item on the Y axis
