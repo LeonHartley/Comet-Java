@@ -12,7 +12,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.TeleporterFl
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
-import io.netty.util.ReferenceCountUtil;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -131,23 +130,19 @@ public class EntityComponent {
     }
 
     public void broadcastMessage(Composer msg, boolean usersWithRightsOnly) {
-        try {
-            for (GenericEntity entity : this.entities.values()) {
-                if (entity.getEntityType() == RoomEntityType.PLAYER) {
-                    PlayerEntity playerEntity = (PlayerEntity) entity;
+        for (GenericEntity entity : this.entities.values()) {
+            if (entity.getEntityType() == RoomEntityType.PLAYER) {
+                PlayerEntity playerEntity = (PlayerEntity) entity;
 
-                    if (playerEntity.getPlayer() == null)
-                        continue;
+                if (playerEntity.getPlayer() == null)
+                    continue;
 
-                    if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId())) {
-                        continue;
-                    }
-
-                    playerEntity.getPlayer().getSession().getChannel().writeAndFlush(msg.duplicate().retain());
+                if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId())) {
+                    continue;
                 }
+
+                playerEntity.getPlayer().getSession().send(msg);
             }
-        } finally {
-            ReferenceCountUtil.release(msg);
         }
     }
 

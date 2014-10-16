@@ -11,7 +11,6 @@ import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendS
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerSearchDao;
-import io.netty.util.ReferenceCountUtil;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -95,36 +94,28 @@ public class MessengerComponent {
     }
 
     public void broadcast(Composer msg) {
-        try {
-            for (MessengerFriend friend : this.getFriends().values()) {
-                if (!friend.isOnline() || friend.getUserId() == this.getPlayer().getId()) {
-                    continue;
-                }
-
-                Comet.getServer().getNetwork().getSessions().getByPlayerId(friend.getUserId()).getChannel().writeAndFlush(msg.duplicate().retain());
+        for (MessengerFriend friend : this.getFriends().values()) {
+            if (!friend.isOnline() || friend.getUserId() == this.getPlayer().getId()) {
+                continue;
             }
-        } finally {
-            ReferenceCountUtil.release(msg);
+
+            Comet.getServer().getNetwork().getSessions().getByPlayerId(friend.getUserId()).send(msg);
         }
     }
 
     public void broadcast(List<Integer> friends, Composer msg) {
-        try {
-            for (int friendId : friends) {
-                if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || !this.friends.get(friendId).isOnline()) {
-                    continue;
-                }
-
-                MessengerFriend friend = this.friends.get(friendId);
-
-                if (!friend.isOnline() || friend.getUserId() == this.getPlayer().getId()) {
-                    continue;
-                }
-
-                Comet.getServer().getNetwork().getSessions().getByPlayerId(friend.getUserId()).getChannel().writeAndFlush(msg.duplicate().retain());
+        for (int friendId : friends) {
+            if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || !this.friends.get(friendId).isOnline()) {
+                continue;
             }
-        } finally {
-            ReferenceCountUtil.release(msg);
+
+            MessengerFriend friend = this.friends.get(friendId);
+
+            if (!friend.isOnline() || friend.getUserId() == this.getPlayer().getId()) {
+                continue;
+            }
+
+            Comet.getServer().getNetwork().getSessions().getByPlayerId(friend.getUserId()).send(msg);
         }
     }
 
