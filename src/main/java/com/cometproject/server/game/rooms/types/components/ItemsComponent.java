@@ -151,6 +151,8 @@ public class ItemsComponent {
         List<RoomItemFloor> items = new ArrayList<>();
 
         for (RoomItemFloor floorItem : this.floorItems) {
+            if(floorItem == null || floorItem.getDefinition() == null) continue;
+
             if (floorItem.getDefinition().getInteraction().equals(interaction)) {
                 items.add(floorItem);
             } else if (interaction.contains("%")) {
@@ -187,11 +189,6 @@ public class ItemsComponent {
         tilesToUpdate.add(new Position(item.getPosition().getX(), item.getPosition().getY(), 0d));
 
         for (GenericEntity entity : affectEntities) {
-            /*if (entity.hasStatus(RoomEntityStatus.SIT)) {
-                entity.removeStatus(RoomEntityStatus.SIT);
-                entity.markNeedsUpdate();
-            }*/
-
             item.onEntityStepOff(entity);
         }
 
@@ -200,11 +197,6 @@ public class ItemsComponent {
             tilesToUpdate.add(new Position(tile.x, tile.y, 0d));
 
             for (GenericEntity entity0 : affectEntities0) {
-                /*if (entity0.hasStatus(RoomEntityStatus.SIT)) {
-                    entity0.removeStatus(RoomEntityStatus.SIT);
-                    entity0.markNeedsUpdate();
-                }*/
-
                 item.onEntityStepOff(entity0);
             }
         }
