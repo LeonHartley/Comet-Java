@@ -8,7 +8,7 @@
     <artifactId>Comet</artifactId>
 
     <packaging>jar</packaging>
-    <version>0.10-EXPERIMENTAL4</version>
+    <version>0.10-EXPERIMENTAL6</version>
 
     <name>Comet</name>
     <url>http://www.comet.im</url>
