@@ -1,83 +1,32 @@
 package com.cometproject.server.network.messages.types;
 
-import com.cometproject.server.boot.Comet;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufHolder;
 import org.apache.log4j.Logger;
+import org.jboss.netty.buffer.ChannelBuffer;
+import org.jboss.netty.buffer.ChannelBuffers;
 
 import java.nio.charset.Charset;
 
-public class Composer implements ByteBufHolder {
+public class Composer {
     private final static Logger log = Logger.getLogger(Composer.class);
 
     protected final int id;
-    protected final ByteBuf body;
+    protected ChannelBuffer body;
 
-    public Composer(short id) {
+    public Composer(int id) {
         this.id = id;
-        this.body = Comet.getServer().getNetwork().getAllocator().buffer();
+        this.body = ChannelBuffers.dynamicBuffer(8192);
 
         try {
-            this.body.writeInt(-1);
+            this.body.writeInt(-1); // reserve this space for message length
             this.body.writeShort(id);
         } catch (Exception e) {
             exceptionCaught(e);
         }
     }
 
-    public Composer(int id, ByteBuf body) {
+    public Composer(int id, ChannelBuffer buf) {
         this.id = id;
-        this.body = body;
-    }
-
-    @Override
-    public ByteBuf content() {
-        return this.body;
-    }
-
-    @Override
-    public Composer copy() {
-        return new Composer(this.id, this.body.copy());
-    }
-
-    @Override
-    public Composer duplicate() {
-        return new Composer(this.id, this.body.duplicate());
-    }
-
-    @Override
-    public int refCnt() {
-        return this.body.refCnt();
-    }
-
-    @Override
-    public Composer retain() {
-        return new Composer(this.id, this.body.retain());
-    }
-
-    @Override
-    public Composer retain(int increment) {
-        return new Composer(this.id, this.body.retain(increment));
-    }
-
-    @Override
-    public ByteBufHolder touch() {
-        return null;
-    }
-
-    @Override
-    public ByteBufHolder touch(Object o) {
-        return null;
-    }
-
-    @Override
-    public boolean release() {
-        return this.body.release();
-    }
-
-    @Override
-    public boolean release(int decrement) {
-        return this.body.release(decrement);
+        this.body = buf;
     }
 
     public int getId() {
@@ -96,7 +45,7 @@ public class Composer implements ByteBufHolder {
         try {
             String string = "";
 
-            if (obj != null) {
+            if(obj != null) {
                 string = String.valueOf(obj);
             }
 
@@ -136,6 +85,14 @@ public class Composer implements ByteBufHolder {
         }
     }
 
+    public void writeShort(int s) {
+        try {
+            this.body.writeShort((short) s);
+        } catch (Exception e) {
+            exceptionCaught(e);
+        }
+    }
+
     public void writeByte(int b) {
         try {
             this.body.writeByte(b);
@@ -144,13 +101,12 @@ public class Composer implements ByteBufHolder {
         }
     }
 
-
-    public void writeShort(int s) {
-        try {
-            this.body.writeShort((short) s);
-        } catch (Exception e) {
-            exceptionCaught(e);
+    public ChannelBuffer get() {
+        if (!this.hasLength()) {
+            body.setInt(0, body.writerIndex() - 4);
         }
+
+        return this.body;
     }
 
     protected static void exceptionCaught(Throwable t) {
