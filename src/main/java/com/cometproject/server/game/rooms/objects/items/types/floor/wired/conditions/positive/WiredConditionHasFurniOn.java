@@ -30,7 +30,7 @@ public class WiredConditionHasFurniOn extends WiredConditionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        boolean hasFurniOnTop = false;
+        int selectedItemsWithFurni = 0;
 
         for (int itemId : this.getWiredData().getSelectedIds()) {
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
@@ -38,11 +38,12 @@ public class WiredConditionHasFurniOn extends WiredConditionItem {
             if (floorItem != null) {
                 for (RoomItemFloor itemOnSq : floorItem.getItemsOnStack()) {
                     if (itemOnSq.getPosition().getZ() >= floorItem.getPosition().getZ() && itemOnSq.getId() != floorItem.getId())
-                        hasFurniOnTop = true;
+                        selectedItemsWithFurni++;
                 }
             }
         }
 
-        return this.isNegative ? !hasFurniOnTop : hasFurniOnTop;
+        final boolean result = selectedItemsWithFurni == this.getWiredData().getSelectedIds().size();
+        return this.isNegative ? !result : result;
     }
 }
