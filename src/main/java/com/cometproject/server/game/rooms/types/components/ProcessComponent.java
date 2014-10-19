@@ -414,6 +414,9 @@ public class ProcessComponent implements CometTask {
 
             if (entity.getCurrentEffect().getDuration() == 0 && entity.getCurrentEffect().expires()) {
                 entity.applyEffect(entity.getLastEffect() != null ? entity.getLastEffect() : null);
+
+                if(entity.getLastEffect() != null)
+                    entity.setLastEffect(null);
             }
         }
 

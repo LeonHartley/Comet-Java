@@ -14,7 +14,7 @@ public class WalkMessageEvent implements IEvent {
         int goalY = msg.readInt();
 
         try {
-            if (client.getPlayer().getEntity() == null) {
+            if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().hasAttribute("warp")) {
                 // User not in room!
                 return;
             }
