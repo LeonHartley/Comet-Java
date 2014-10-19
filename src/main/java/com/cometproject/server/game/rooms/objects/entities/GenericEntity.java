@@ -443,8 +443,6 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.processingPath = null;
         this.stepsToGoal = 0;
 
-
-
         this.updateAndSetPosition(position);
         this.markNeedsUpdate();
     }

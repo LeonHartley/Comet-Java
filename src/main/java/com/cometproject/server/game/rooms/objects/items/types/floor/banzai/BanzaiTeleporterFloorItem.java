@@ -55,7 +55,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
         this.sendUpdate();
 
         this.stage = 1;
-        this.setTicks(RoomItemFactory.getProcessTime(0.5));
+        this.setTicks(RoomItemFactory.getProcessTime(1.0));
 
         teleporters.clear();
     }
@@ -74,8 +74,9 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
             this.setExtraData("1");
             this.sendUpdate();
 
-            this.setTicks(RoomItemFactory.getProcessTime(0.5));
+            this.setTicks(RoomItemFactory.getProcessTime(1.0));
             this.stage = 0;
+            return;
         }
 
         this.setExtraData("0");
