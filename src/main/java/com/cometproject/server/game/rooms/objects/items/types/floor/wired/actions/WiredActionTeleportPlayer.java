@@ -60,8 +60,7 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
         Position position = new Position(item.getPosition().getX(), item.getPosition().getY(), item.getPosition().getZ());
 
         this.entity.applyEffect(new PlayerEffect(4, 5));
-        this.entity.updateAndSetPosition(position);
-        this.entity.markNeedsUpdate();
+        this.entity.warp(position);
 
         this.entity = null;
     }

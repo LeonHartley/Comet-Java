@@ -433,11 +433,10 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     @Override
     public void warp(Position position) {
-        this.walkingGoal = position;
-        this.stepsToGoal = 0;
-        this.futureSquare = null;
-
         this.updateAndSetPosition(position);
+        this.markNeedsUpdate();
+
+//        this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(this));
     }
 
     public boolean isDoorbellAnswered() {

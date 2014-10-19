@@ -32,7 +32,7 @@ public class WalkMessageEvent implements IEvent {
                 return;
             }
 
-            if (!client.getPlayer().getEntity().isOverriden())
+            if (!client.getPlayer().getEntity().isOverriden() && client.getPlayer().getEntity().isVisible())
                 client.getPlayer().getEntity().moveTo(goalX, goalY);
         } catch (Exception e) {
             client.getLogger().error("Error while finding path", e);

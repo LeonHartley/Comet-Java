@@ -78,7 +78,9 @@ public class Comet {
                 }
 
                 if (!args[i].contains("="))
-                    break;
+                    continue;
+
+                System.out.println(args[i]);
 
                 cometConfiguration.put(args[i].split("=")[0], args[i].split("=")[1]);
             }
