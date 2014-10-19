@@ -359,9 +359,7 @@ public class ProcessComponent implements CometTask {
                 entity.setHeadRotation(entity.getBodyRotation());
 
                 double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getWalkHeight();
-
                 boolean isCancelled = false;
-
                 boolean effectNeedsRemove = true;
 
                 List<RoomItemFloor> preItems = this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y);
@@ -384,9 +382,7 @@ public class ProcessComponent implements CometTask {
                 }
 
                 if (!isCancelled) {
-                    if(!entity.hasAttribute("warp")) {
-                        entity.addStatus(RoomEntityStatus.MOVE, String.valueOf(nextSq.x).concat(",").concat(String.valueOf(nextSq.y)).concat(",").concat(String.valueOf(height)));
-                    }
+                    entity.addStatus(RoomEntityStatus.MOVE, String.valueOf(nextSq.x).concat(",").concat(String.valueOf(nextSq.y)).concat(",").concat(String.valueOf(height)));
 
                     if (entity.hasStatus(RoomEntityStatus.SIT)) {
                         entity.removeStatus(RoomEntityStatus.SIT);
