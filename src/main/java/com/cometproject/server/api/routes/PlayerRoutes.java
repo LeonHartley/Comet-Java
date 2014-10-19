@@ -26,7 +26,6 @@ public class PlayerRoutes {
         int playerId = Integer.parseInt(request.params("id"));
 
         if(!CometManager.getPlayers().isOnline(playerId)) {
-            PlayerManager playerManager = CometManager.getPlayers();
             result.put("error", "Player is not online");
             return result;
         }
