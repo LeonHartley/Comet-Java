@@ -135,7 +135,7 @@ public class WiredActionGiveReward extends WiredActionItem {
                 if (reward.isBadge) {
                     if (!playerEntity.getPlayer().getInventory().hasBadge(reward.productCode)) {
                         playerEntity.getPlayer().getInventory().addBadge(reward.productCode, true);
-                        continue;
+//                        continue;
                     }
                 } else {
                     String[] itemData = reward.productCode.split("%");

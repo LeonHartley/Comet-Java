@@ -32,9 +32,8 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
                 if(floorItem != null) {
                     room.getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(floorItem, room.getData().getOwnerId()));
                 }
-
             } catch (Exception e) {
-                log.fatal("Error whilst changing floor item position!", e);
+                log.error("Error whilst changing floor item position!", e);
             }
         }
     }
