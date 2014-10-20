@@ -95,12 +95,7 @@ public class ProcessComponent implements CometTask {
                 entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
 
                 if (entity.needsUpdate()) {
-                    entity.markUpdateComplete();
                     entitiesToUpdate.add(entity);
-                } else {
-                    if(entity.hasAttribute("warp")) {
-                        entitiesToUpdate.add(entity);
-                    }
                 }
             }
 
@@ -226,7 +221,6 @@ public class ProcessComponent implements CometTask {
             }
         }
 
-        // Needs remove...
         return false;
     }
 
@@ -358,7 +352,7 @@ public class ProcessComponent implements CometTask {
                 entity.setBodyRotation(Position.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
                 entity.setHeadRotation(entity.getBodyRotation());
 
-                double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getWalkHeight();
+                final double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getWalkHeight();
                 boolean isCancelled = false;
                 boolean effectNeedsRemove = true;
 
