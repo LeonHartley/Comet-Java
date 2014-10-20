@@ -18,7 +18,7 @@ public class InventoryMessageComposer {
 
         for (InventoryItem i : inv.getFloorItems().values()) {
             boolean isGift = false;
-            boolean isGroupItem = i.getDefinition().getInteraction().equals("group_item");
+            boolean isGroupItem = i.getDefinition().getInteraction().equals("group_item") || i.getDefinition().getInteraction().equals("group_gate");
 
             if (i.getGiftData() != null) {
                 isGift = true;

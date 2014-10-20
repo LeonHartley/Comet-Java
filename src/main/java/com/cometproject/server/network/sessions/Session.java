@@ -64,7 +64,7 @@ public class Session {
             ipAddress = PlayerDao.getIpAddress(this.getPlayer().getId());
         }
 
-        if(ipAddress.isEmpty()) {
+        if(ipAddress == null || ipAddress.isEmpty()) {
             logger.warn("Could not retrieve IP address of player: " + this.getPlayer().getId());
         }
 

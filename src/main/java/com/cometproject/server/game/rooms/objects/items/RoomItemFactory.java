@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.Banza
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.hollywood.HaloTileFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.summer.SummerShowerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.*;
@@ -90,6 +91,7 @@ public class RoomItemFactory {
             put("bb_teleport", BanzaiTeleporterFloorItem.class);
 
             put("group_item", GroupFloorItem.class);
+            put("group_gate", GroupGateFloorItem.class);
 
             put("football_timer", FootballTimerFloorItem.class);
             put("ball", FootballFloorItem.class);
