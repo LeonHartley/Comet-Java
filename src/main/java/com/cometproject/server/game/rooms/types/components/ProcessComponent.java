@@ -1,9 +1,12 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GateFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
@@ -94,13 +97,8 @@ public class ProcessComponent implements CometTask {
 
                 entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
 
-                if (entity.needsUpdate()) {
-                    entity.markUpdateComplete();
+                if (entity.needsUpdate() && !entity.needsUpdateCancel()) {
                     entitiesToUpdate.add(entity);
-                } else {
-                    if(entity.hasAttribute("warp")) {
-                        entitiesToUpdate.add(entity);
-                    }
                 }
             }
 
@@ -226,7 +224,6 @@ public class ProcessComponent implements CometTask {
             }
         }
 
-        // Needs remove...
         return false;
     }
 
@@ -358,7 +355,7 @@ public class ProcessComponent implements CometTask {
                 entity.setBodyRotation(Position.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
                 entity.setHeadRotation(entity.getBodyRotation());
 
-                double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getWalkHeight();
+                final double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getWalkHeight();
                 boolean isCancelled = false;
                 boolean effectNeedsRemove = true;
 
@@ -372,9 +369,17 @@ public class ProcessComponent implements CometTask {
 
                     if (item instanceof GateFloorItem && !((GateFloorItem) item).isOpen()) {
                         isCancelled = true;
+                    } else if(item instanceof GroupGateFloorItem) {
+                        if(isPlayer) {
+                            if(((PlayerEntity) entity).getPlayer().getGroups().contains(((GroupGateFloorItem) item).getGroupId())) {
+                                item.onEntityPreStepOn(entity);
+                            } else {
+                                isCancelled = true;
+                            }
+                        }
+                    } else {
+                        item.onEntityPreStepOn(entity);
                     }
-
-                    item.onEntityPreStepOn(entity);
                 }
 
                 if (effectNeedsRemove && entity.getCurrentEffect() != null && entity.getCurrentEffect().isItemEffect()) {
@@ -414,6 +419,9 @@ public class ProcessComponent implements CometTask {
 
             if (entity.getCurrentEffect().getDuration() == 0 && entity.getCurrentEffect().expires()) {
                 entity.applyEffect(entity.getLastEffect() != null ? entity.getLastEffect() : null);
+
+                if(entity.getLastEffect() != null)
+                    entity.setLastEffect(null);
             }
         }
 

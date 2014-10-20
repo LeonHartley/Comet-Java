@@ -80,6 +80,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.reload.name"), new ReloadCommand());
         this.commands.put(Locale.get("command.maintenance.name"), new MaintenanceCommand());
         this.commands.put(Locale.get("command.roomaction.name"), new RoomActionCommand());
+        this.commands.put(Locale.get("command.eventalert.name"), new EventAlertCommand());
     }
 
     /**

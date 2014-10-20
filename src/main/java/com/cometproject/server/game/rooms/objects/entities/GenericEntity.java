@@ -49,6 +49,8 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     private boolean overriden;
     private boolean isVisible;
 
+    private boolean cancelNextUpdate;
+
     private boolean doorbellAnswered;
 
     private Map<RoomEntityStatus, String> statuses = new FastMap<>();
@@ -78,6 +80,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.isMoonwalking = false;
         this.overriden = false;
         this.isVisible = true;
+        this.cancelNextUpdate = false;
 
         this.doorbellAnswered = false;
 
@@ -355,6 +358,10 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         return this.effect;
     }
 
+    public void setLastEffect(PlayerEffect lastEffect) {
+        this.lastEffect = lastEffect;
+    }
+
     @Override
     public int getHandItem() {
         return this.handItem;
@@ -433,10 +440,36 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     @Override
     public void warp(Position position) {
+<<<<<<< HEAD
+        // clear all walking
+        this.walkingGoal = null;
+        this.walkingPath = null;
+        this.processingPath = null;
+        this.stepsToGoal = 0;
+
+        this.futureSquare = null;
+
+        this.updateAndSetPosition(position);
+        this.markNeedsUpdate();
+    }
+
+    public boolean needsUpdateCancel() {
+        if(this.cancelNextUpdate) {
+            this.cancelNextUpdate = false;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void cancelNextUpdate() {
+        this.cancelNextUpdate = true;
+=======
         this.updateAndSetPosition(position);
         this.markNeedsUpdate();
 
 //        this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(this));
+>>>>>>> master
     }
 
     public boolean isDoorbellAnswered() {

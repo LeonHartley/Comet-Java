@@ -7,14 +7,12 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.storage.SqlHelper;
-import io.netty.util.internal.StringUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

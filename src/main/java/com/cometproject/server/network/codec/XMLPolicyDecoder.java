@@ -1,21 +1,21 @@
 package com.cometproject.server.network.codec;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.ByteToMessageDecoder;
+import org.jboss.netty.buffer.ChannelBuffer;
+import org.jboss.netty.buffer.ChannelBuffers;
+import org.jboss.netty.channel.Channel;
+import org.jboss.netty.channel.ChannelFutureListener;
+import org.jboss.netty.channel.ChannelHandlerContext;
+import org.jboss.netty.handler.codec.frame.FrameDecoder;
 
-import java.util.List;
-
-public class XMLPolicyDecoder extends ByteToMessageDecoder {
+public class XMLPolicyDecoder extends FrameDecoder {
     @Override
-    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        in.markReaderIndex();
-        byte delimiter = in.readByte();
-        in.resetReaderIndex();
+    protected Object decode(ChannelHandlerContext ctx, Channel channel, ChannelBuffer buffer) throws Exception {
+        buffer.markReaderIndex();
+        byte delimiter = buffer.readByte();
+        buffer.resetReaderIndex();
 
         if (delimiter == 0x3C) {
-            ctx.channel().writeAndFlush(
+            channel.write(
                     "<?xml version=\"1.0\"?>\r\n"
                             + "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\r\n"
                             + "<cross-domain-policy>\r\n"
@@ -23,10 +23,10 @@ public class XMLPolicyDecoder extends ByteToMessageDecoder {
                             + "</cross-domain-policy>\0"
             ).addListener(ChannelFutureListener.CLOSE);
         } else {
-            ctx.channel().pipeline().remove(this);
-
-            MessageDecoder decoder = ctx.pipeline().get(MessageDecoder.class);
-            decoder.decode(ctx, in, out);
+            ctx.getPipeline().remove(this);
+            return ChannelBuffers.wrappedBuffer(buffer.readBytes(buffer.readableBytes()));
         }
+
+        return null;
     }
 }
