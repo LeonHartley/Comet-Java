@@ -77,6 +77,7 @@ public class SqlHelper {
     }
     
     public static void handleSqlException(SQLException e) {
+        if(e.getMessage().equals("Pool has been shutdown")) return;
         log.error("Error while executing query", e);
     }
 

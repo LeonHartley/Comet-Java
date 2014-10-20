@@ -3,28 +3,26 @@ package com.cometproject.server.network.sessions;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
+import org.jboss.netty.channel.Channel;
 
 import java.net.InetSocketAddress;
 
 public class Session {
     private Logger logger = Logger.getLogger("Session");
 
-    private final ChannelHandlerContext ctx;
+    private final Channel channel;
     private final SessionEventHandler eventHandler;
 
     private boolean isClone = false;
 
     private Player player;
 
-    public Session(ChannelHandlerContext ctx) {
-        this.ctx = ctx;
+    public Session(Channel channel) {
+        this.channel = channel;
         this.eventHandler = new SessionEventHandler(this);
     }
 
@@ -38,7 +36,8 @@ public class Session {
         this.logger = Logger.getLogger("[" + username + "][" + player.getId() + "]");
         this.player = player;
 
-        int channelId = this.ctx.attr(NetworkManager.CHANNEL_ID).get();
+        int channelId = this.channel.getId();
+
         CometManager.getPlayers().put(player.getId(), channelId, username);
     }
 
@@ -60,18 +59,12 @@ public class Session {
 
         if(!CometSettings.useDatabaseIp) {
             // to-do: clean this up!
-            if (this.getChannel().remoteAddress() instanceof InetSocketAddress) {
-                InetSocketAddress socketAddress = (InetSocketAddress) this.getChannel().remoteAddress();
-
-                if (socketAddress.getAddress() != null) { // idk read the docs
-                    ipAddress = socketAddress.getAddress().getHostAddress();
-                }
-            }
+            return ((InetSocketAddress)this.getChannel().getRemoteAddress()).getAddress().getHostAddress();
         } else {
             ipAddress = PlayerDao.getIpAddress(this.getPlayer().getId());
         }
 
-        if(ipAddress.isEmpty()) {
+        if(ipAddress == null || ipAddress.isEmpty()) {
             logger.warn("Could not retrieve IP address of player: " + this.getPlayer().getId());
         }
 
@@ -90,7 +83,7 @@ public class Session {
             return this;
         }
 
-        this.ctx.write(msg);
+        this.getChannel().write(msg);
         return this;
     }
 
@@ -99,11 +92,11 @@ public class Session {
             return;
         }
 
-        this.ctx.writeAndFlush(msg);
+        this.getChannel().write(msg);
     }
 
     public void flush() {
-        this.ctx.flush();
+       // todo: bundling of packets
     }
 
     public Logger getLogger() {
@@ -115,6 +108,6 @@ public class Session {
     }
 
     public Channel getChannel() {
-        return this.ctx.channel();
+        return this.channel;
     }
 }

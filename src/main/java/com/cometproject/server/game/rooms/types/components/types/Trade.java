@@ -11,7 +11,6 @@ import com.cometproject.server.network.messages.outgoing.room.trading.*;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.items.TradeDao;
-import io.netty.util.ReferenceCountUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -282,16 +281,12 @@ public class Trade {
      * @param msg The packet
      */
     public void sendToUsers(Composer msg) {
-        try {
-            if (user1 != null && user1.getPlayer() != null && user1.getPlayer().getSession() != null) {
-                user1.getPlayer().getSession().getChannel().writeAndFlush(msg.duplicate().retain());
-            }
+        if (user1 != null && user1.getPlayer() != null && user1.getPlayer().getSession() != null) {
+            user1.getPlayer().getSession().send(msg);
+        }
 
-            if (user2 != null && user2.getPlayer() != null && user2.getPlayer().getSession() != null) {
-                user2.getPlayer().getSession().getChannel().writeAndFlush(msg.duplicate().retain());
-            }
-        } finally {
-            ReferenceCountUtil.release(msg);
+        if (user2 != null && user2.getPlayer() != null && user2.getPlayer().getSession() != null) {
+            user2.getPlayer().getSession().send(msg);
         }
     }
 
