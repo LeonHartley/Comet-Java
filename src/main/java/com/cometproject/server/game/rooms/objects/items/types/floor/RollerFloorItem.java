@@ -32,7 +32,12 @@ public class RollerFloorItem extends RoomItemFloor {
 
     @Override
     public void onTick() {
-        if(ticker != 3) { // TODO: Ability to set roller speed (4 = default)
+        final int rollerSpeed = this.getRoom().hasAttribute("customRollerSpeed") ? (int) this.getRoom().getAttribute("customRollerSpeed") : 3;
+
+        if(this.ticker > rollerSpeed) // reset the ticker if the roller speed has been manaully edited
+            this.ticker = 0;
+
+        if(ticker != rollerSpeed) { // TODO: Ability to set roller speed (4 = default)
             ticker++;
             return;
         }
@@ -126,14 +131,14 @@ public class RollerFloorItem extends RoomItemFloor {
                 noItemsOnNext = true;
             }
 
-            double heightDiff = 0;
-
-            if (itemsSq.size() > 1) {
-                RoomItemFloor item1 = itemsSq.get(0);
-                RoomItemFloor item2 = itemsSq.get(1);
-
-                heightDiff = item1.getPosition().getZ() - item2.getPosition().getZ();
-            }
+//            double heightDiff = 0;
+//
+//            if (itemsSq.size() > 1) {
+//                RoomItemFloor item1 = itemsSq.get(0);
+//                RoomItemFloor item2 = itemsSq.get(1);
+//
+//                heightDiff = item1.getPosition().getZ() - item2.getPosition().getZ();
+//            }
 //
 //            if (heightDiff > -2) {
 //                if (!this.getRoom().getMapping().isValidStep(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
