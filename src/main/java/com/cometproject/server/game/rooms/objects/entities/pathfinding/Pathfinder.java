@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MinMaxPriorityQueue;
+import jdk.nashorn.internal.runtime.arrays.ArrayIndex;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -60,11 +61,15 @@ public class Pathfinder {
                 boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
 
                 if (entity.getRoom().getMapping().isValidStep(new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove) || entity.isOverriden()) {
-                    if (map[tmp.getX()][tmp.getY()] == null) {
-                        node = new PathfinderNode(tmp);
-                        map[tmp.getX()][tmp.getY()] = node;
-                    } else {
-                        node = map[tmp.getX()][tmp.getY()];
+                    try {
+                        if (map[tmp.getX()][tmp.getY()] == null) {
+                            node = new PathfinderNode(tmp);
+                            map[tmp.getX()][tmp.getY()] = node;
+                        } else {
+                            node = map[tmp.getX()][tmp.getY()];
+                        }
+                    } catch(ArrayIndexOutOfBoundsException e) {
+                        continue;
                     }
 
                     if (!node.isInClosed()) {

@@ -64,7 +64,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             return;
         }
 
-        // Room full or slot available
+        // Room full slot available
         if (this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() && !this.player.getPermissions().hasPermission("room_enter_full")) {
             this.player.getSession().send(AdvancedAlertMessageComposer.compose(Locale.get("game.room.full")));
             this.player.getSession().send(HotelViewMessageComposer.compose());
@@ -80,7 +80,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         boolean isOwner = (this.getRoom().getData().getOwnerId() == this.player.getId());
 
-        if (!isOwner && !this.player.getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered() && !this.getPlayer().isTeleporting()) {
+        if ((!isOwner && !this.player.getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered()) && !this.getPlayer().isTeleporting()) {
             if (this.getRoom().getData().getAccess().equals("password")) {
                 boolean matched;
 
@@ -106,6 +106,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 }
             }
         }
+
+        player.setTeleportId(0);
 
         this.getRoom().getEntities().addEntity(this);
         this.finalizeJoinRoom();

@@ -85,8 +85,6 @@ public class EntityComponent {
                 TeleporterFloorItem item = (TeleporterFloorItem) flItem;
                 item.handleIncomingEntity(entity, null);
             }
-
-            player.setTeleportId(0);
         }
 
         return entity;
