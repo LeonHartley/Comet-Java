@@ -49,6 +49,8 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     private boolean overriden;
     private boolean isVisible;
 
+    private boolean cancelNextUpdate;
+
     private boolean doorbellAnswered;
 
     private Map<RoomEntityStatus, String> statuses = new FastMap<>();
@@ -78,6 +80,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.isMoonwalking = false;
         this.overriden = false;
         this.isVisible = true;
+        this.cancelNextUpdate = false;
 
         this.doorbellAnswered = false;
 
@@ -447,6 +450,19 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
         this.updateAndSetPosition(position);
         this.markNeedsUpdate();
+    }
+
+    public boolean needsUpdateCancel() {
+        if(this.cancelNextUpdate) {
+            this.cancelNextUpdate = false;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void cancelNextUpdate() {
+        this.cancelNextUpdate = true;
     }
 
     public boolean isDoorbellAnswered() {

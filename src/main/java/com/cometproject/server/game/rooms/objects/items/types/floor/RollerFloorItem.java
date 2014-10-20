@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -16,20 +17,8 @@ public class RollerFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
-        if (this.ticksTimer < 1) {
-            this.setTicks(RoomItemFactory.getProcessTime(2));
-        }
-    }
-
-    @Override
     public void onEntityStepOff(GenericEntity entity) {
 
-    }
-
-    @Override
-    public void onLoad() {
-        this.setTicks(RoomItemFactory.getProcessTime(2));
     }
 
     @Override
@@ -39,14 +28,23 @@ public class RollerFloorItem extends RoomItemFloor {
         }
     }
 
+    private int ticker = 0;
+
     @Override
-    public void onTickComplete() {
+    public void onTick() {
+        if(ticker != 3) { // TODO: Ability to set roller speed (4 = default)
+            ticker++;
+            return;
+        }
+
         this.handleEntities();
         this.handleItems();
+
+        this.ticker = 0;
     }
 
     private void handleEntities() {
-        Position sqInfront = this.getPosition().squareBehind(this.getRotation());
+        Position sqInfront = this.getPosition().squareInFront(this.getRotation());
 
         if (!this.getRoom().getMapping().isValidPosition(sqInfront)) {
             return;
@@ -60,7 +58,6 @@ public class RollerFloorItem extends RoomItemFloor {
             }
 
             if (!this.getRoom().getMapping().isValidStep(entity.getPosition(), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
-                this.setTicks(3);
                 break;
             }
 
@@ -74,17 +71,18 @@ public class RollerFloorItem extends RoomItemFloor {
 
             final double toHeight = this.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY()).getWalkHeight();
 
-            entity.updateAndSetPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
             this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position(sqInfront.getX(), sqInfront.getY(), toHeight), this.getId(), entity.getId(), 0));
+            entity.setPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
+            entity.cancelNextUpdate();
         }
     }
 
     private void handleItems() {
         List<RoomItemFloor> floorItems = this.getRoom().getItems().getItemsOnSquare(this.getPosition().getX(), this.getPosition().getY());
-//
-//        if (floorItems.size() < 2) {
-//            return;
-//        }
+
+        if (floorItems.size() < 2) {
+            return;
+        }
 
         // quick check illegal use of rollers
         int rollerCount = 0;
@@ -95,7 +93,6 @@ public class RollerFloorItem extends RoomItemFloor {
         }
 
         if (rollerCount > 1) {
-            this.setTicks(3);
             return;
         }
 
@@ -108,7 +105,7 @@ public class RollerFloorItem extends RoomItemFloor {
                 continue;
             }
 
-            if (floor.getPosition().getZ() < 0.5) {
+            if (floor instanceof RollerFloorItem || floor.getPosition().getZ() < 0.5) {
                 continue;
             }
 
@@ -137,13 +134,13 @@ public class RollerFloorItem extends RoomItemFloor {
 
                 heightDiff = item1.getPosition().getZ() - item2.getPosition().getZ();
             }
-
-            if (heightDiff > -2) {
-                if (!this.getRoom().getMapping().isValidStep(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
-                    this.setTicks(3);
-                    break;
-                }
-            }
+//
+//            if (heightDiff > -2) {
+//                if (!this.getRoom().getMapping().isValidStep(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
+//                    this.setTicks(3);
+//                    break;
+//                }
+//            }
 
             this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), new Position(sqInfront.getX(), sqInfront.getY(), height), this.getId(), 0, floor.getId()));
 

@@ -4,6 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.queue.RoomItemEventQueue;
+import com.cometproject.server.game.rooms.objects.items.types.floor.RollerFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
@@ -86,7 +87,7 @@ public class ItemProcessComponent implements CometTask {
 
         for (RoomItemFloor item : this.getRoom().getItems().getFloorItems()) {
             try {
-                if (item.requiresTick()) {
+                if (item.requiresTick() || item instanceof RollerFloorItem) {
                     item.tick();
                 }
             } catch (NullPointerException | IndexOutOfBoundsException e) {
