@@ -40,7 +40,7 @@ import com.cometproject.server.network.messages.incoming.room.bots.PlaceBotMessa
 import com.cometproject.server.network.messages.incoming.room.bots.RemoveBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.AddUserToRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.FollowRoomInfoMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.engine.InitalizeRoomMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.LoadHeightmapMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.floor.SaveFloorMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.*;
@@ -194,7 +194,7 @@ public final class MessageHandler {
     }
 
     public void registerRoom() {
-        this.getMessages().put(Events.InitalizeRoomMessageEvent, new InitalizeRoomMessageEvent());
+        this.getMessages().put(Events.InitalizeRoomMessageEvent, new InitializeRoomMessageEvent());
         this.getMessages().put(Events.LoadHeightmapMessageEvent, new LoadHeightmapMessageEvent());
         this.getMessages().put(Events.AddUserToRoomMessageEvent, new AddUserToRoomMessageEvent());
         this.getMessages().put(Events.AddUserToRoom2MessageEvent, new AddUserToRoomMessageEvent());

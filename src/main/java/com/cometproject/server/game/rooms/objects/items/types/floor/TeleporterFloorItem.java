@@ -126,6 +126,11 @@ public class TeleporterFloorItem extends RoomItemFloor {
                     }
                 }
 
+                if(!this.isDoor) {
+                    this.state = 9;
+                    this.setTicks(RoomItemFactory.getProcessTime(1));
+                }
+
                 TeleporterFloorItem teleItem = (TeleporterFloorItem) pairItem;
 
                 if (teleItem != null)
@@ -170,6 +175,10 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 this.state = 7;
                 this.setTicks(RoomItemFactory.getProcessTime(1));
                 break;
+            }
+
+            case 9: {
+                this.endTeleporting();
             }
         }
     }
