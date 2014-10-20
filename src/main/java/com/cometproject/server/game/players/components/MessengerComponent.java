@@ -142,4 +142,8 @@ public class MessengerComponent {
     public Player getPlayer() {
         return this.player;
     }
+
+    public void removeRequest(MessengerRequest request) {
+        this.requests.remove(request);
+    }
 }

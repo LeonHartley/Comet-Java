@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.trading;
 
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -12,7 +13,7 @@ public class BeginTradeMessageEvent implements IEvent {
 
         PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntity(userId);
 
-        if (entity == null) {
+        if (entity == null || entity.hasStatus(RoomEntityStatus.TRADE)) {
             return;
         }
 

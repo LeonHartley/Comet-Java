@@ -80,7 +80,7 @@ public class SSOTicketMessageEvent implements IEvent {
 
         String ipAddress = client.getIpAddress();
 
-        if (!ipAddress.isEmpty()) {
+        if (ipAddress != null && !ipAddress.isEmpty()) {
             if (CometManager.getBans().hasBan(ipAddress)) {
                 CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
                 client.disconnect();

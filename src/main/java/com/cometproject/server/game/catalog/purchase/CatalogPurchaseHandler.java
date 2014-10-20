@@ -141,7 +141,7 @@ public class CatalogPurchaseHandler {
                     } else {
                         extraData += data.replace(",", ".");
                     }
-                } else if(def.getInteraction().equals("group_item")) {
+                } else if(def.getInteraction().equals("group_item") || def.getInteraction().equals("group_gate")) {
                     if(!client.getPlayer().getGroups().contains(new Integer(data))) {
                         return;
                     }

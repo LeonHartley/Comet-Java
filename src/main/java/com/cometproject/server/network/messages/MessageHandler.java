@@ -141,6 +141,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.FollowFriendMessageEvent, new FollowFriendMessageEvent());
         this.getMessages().put(Events.DeleteFriendsMessageEvent, new DeleteFriendsMessageEvent());
         this.getMessages().put(Events.InviteFriendsMessageEvent, new InviteFriendsMessageEvent());
+        this.getMessages().put(Events.DeclineFriendshipMessageEvent, new DeclineFriendshipMessageEvent());
     }
 
     public void registerNavigator() {
@@ -254,8 +255,6 @@ public final class MessageHandler {
         this.getMessages().put(Events.OneWayGateTriggerMessageEvent, new ChangeFloorItemStateMessageEvent());
         this.getMessages().put(Events.OpenDiceMessageEvent, new OpenDiceMessageEvent());
         this.getMessages().put(Events.RunDiceMessageEvent, new RunDiceMessageEvent());
-//        this.getMessages().put(Events.SaveWiredTriggerMessageEvent, new SaveWiredMessageEvent());
-//        this.getMessages().put(Events.SaveWiredEffectMessageEvent, new SaveWiredMessageEvent());
         this.getMessages().put(Events.SaveWiredEffectMessageEvent, new SaveWiredDataMessageEvent());
         this.getMessages().put(Events.SaveWiredTriggerMessageEvent, new SaveWiredDataMessageEvent());
         this.getMessages().put(Events.SaveWiredConditionMessageEvent, new SaveWiredDataMessageEvent());
@@ -331,19 +330,21 @@ public final class MessageHandler {
 
                 log.debug("Finished packet process for packet: [" + Events.valueOfId(header) + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
             } catch (Exception e) {
-//                if(client.getLogger() != null)
-//                    client.getLogger().error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
-//                else
-//                    log.error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
-
-                SentryDispatcher.getInstance().dispatchException("packetError", "Exception while handling message", e, net.kencochrane.raven.event.Event.Level.ERROR, new FastMap<String, Object>() {{
-                    if(client.getPlayer() != null) {
-                        put("Player ID", client.getPlayer().getId());
-                        put("Player Username", client.getPlayer().getData().getUsername());
-                    }
-                }});
+                if (Comet.isDebugging) {
+                    if (client.getLogger() != null)
+                        client.getLogger().error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
+                    else
+                        log.error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
+                } else {
+                    SentryDispatcher.getInstance().dispatchException("packetError", "Exception while handling message", e, net.kencochrane.raven.event.Event.Level.ERROR, new FastMap<String, Object>() {{
+                        if (client.getPlayer() != null) {
+                            put("Player ID", client.getPlayer().getId());
+                            put("Player Username", client.getPlayer().getData().getUsername());
+                        }
+                    }});
+                }
             }
-        } else if(Comet.isDebugging) {
+        } else if (Comet.isDebugging) {
             log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
         }
     }

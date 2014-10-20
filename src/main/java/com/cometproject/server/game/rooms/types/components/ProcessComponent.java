@@ -1,9 +1,12 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GateFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
@@ -366,9 +369,17 @@ public class ProcessComponent implements CometTask {
 
                     if (item instanceof GateFloorItem && !((GateFloorItem) item).isOpen()) {
                         isCancelled = true;
+                    } else if(item instanceof GroupGateFloorItem) {
+                        if(isPlayer) {
+                            if(((PlayerEntity) entity).getPlayer().getGroups().contains(((GroupGateFloorItem) item).getGroupId())) {
+                                item.onEntityPreStepOn(entity);
+                            } else {
+                                isCancelled = true;
+                            }
+                        }
+                    } else {
+                        item.onEntityPreStepOn(entity);
                     }
-
-                    item.onEntityPreStepOn(entity);
                 }
 
                 if (effectNeedsRemove && entity.getCurrentEffect() != null && entity.getCurrentEffect().isItemEffect()) {
