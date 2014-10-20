@@ -355,7 +355,11 @@ public class ProcessComponent implements CometTask {
                 entity.setBodyRotation(Position.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
                 entity.setHeadRotation(entity.getBodyRotation());
 
+<<<<<<< HEAD
                 final double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getWalkHeight();
+=======
+                double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getWalkHeight();
+>>>>>>> master
                 boolean isCancelled = false;
                 boolean effectNeedsRemove = true;
 

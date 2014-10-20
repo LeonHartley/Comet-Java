@@ -55,7 +55,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
         this.sendUpdate();
 
         this.stage = 1;
-        this.setTicks(RoomItemFactory.getProcessTime(0.5));
+        this.setTicks(RoomItemFactory.getProcessTime(1.0));
 
         teleporters.clear();
     }

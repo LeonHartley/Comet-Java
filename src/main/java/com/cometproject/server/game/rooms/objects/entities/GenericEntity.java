@@ -440,6 +440,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     @Override
     public void warp(Position position) {
+<<<<<<< HEAD
         // clear all walking
         this.walkingGoal = null;
         this.walkingPath = null;
@@ -463,6 +464,12 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     public void cancelNextUpdate() {
         this.cancelNextUpdate = true;
+=======
+        this.updateAndSetPosition(position);
+        this.markNeedsUpdate();
+
+//        this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(this));
+>>>>>>> master
     }
 
     public boolean isDoorbellAnswered() {
