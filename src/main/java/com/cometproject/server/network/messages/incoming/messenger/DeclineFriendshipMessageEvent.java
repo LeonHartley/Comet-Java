@@ -12,31 +12,21 @@ import java.util.List;
 public class DeclineFriendshipMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        int mode = msg.readInt();
-        int count = msg.readInt();
+        final boolean allRequests = msg.readBoolean();
+        final int mode = msg.readInt();
 
-        if(mode == 0) {
-            for (MessengerRequest request : client.getPlayer().getMessenger().getRequests()) {
-                if (request != null) {
-                    MessengerDao.deleteRequestData(request.getFromId(), client.getPlayer().getId());
-                    client.getPlayer().getMessenger().removeRequest(request);
-                }
-            }
-        } else {
-            List<MessengerRequest> requests = new ArrayList<>();
+        if (allRequests) {
+            MessengerDao.deleteRequestDataByRecieverId(client.getPlayer().getId());
+            client.getPlayer().getMessenger().clearRequests();
+            return;
+        }
 
-            for (int i = 0; i < count; i++) {
-                requests.add(client.getPlayer().getMessenger().getRequestBySender(msg.readInt()));
-            }
+        final int sender = msg.readInt();
+        final MessengerRequest messengerRequest = client.getPlayer().getMessenger().getRequestBySender(sender);
 
-            for (MessengerRequest request : requests) {
-                if (request != null) {
-                    MessengerDao.deleteRequestData(request.getFromId(), client.getPlayer().getId());
-                    client.getPlayer().getMessenger().removeRequest(request);
-                }
-            }
-
-            requests.clear();
+        if (messengerRequest != null) {
+            MessengerDao.deleteRequestData(messengerRequest.getFromId(), client.getPlayer().getId());
+            client.getPlayer().getMessenger().removeRequest(messengerRequest);
         }
     }
 }

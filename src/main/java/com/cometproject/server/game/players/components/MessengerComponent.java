@@ -119,6 +119,10 @@ public class MessengerComponent {
         }
     }
 
+    public void clearRequests() {
+        this.requests.clear();
+    }
+
     public void sendOffline(MessengerRequest friend, boolean online, boolean inRoom) {
         this.getPlayer().getSession().send(UpdateFriendStateMessageComposer.compose(friend, online, inRoom));
     }
