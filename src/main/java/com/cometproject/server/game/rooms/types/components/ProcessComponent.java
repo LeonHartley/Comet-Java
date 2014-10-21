@@ -97,7 +97,7 @@ public class ProcessComponent implements CometTask {
 
                 entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
 
-                if (entity.needsUpdate() && !entity.needsUpdateCancel()) {
+                if (entity.needsUpdate() && !entity.needsUpdateCancel() && entity.isVisible()) {
                     entitiesToUpdate.add(entity);
                 }
             }
