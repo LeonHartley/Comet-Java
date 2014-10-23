@@ -1,7 +1,5 @@
 package com.cometproject.server.game.catalog.types.gifts;
 
-import com.cometproject.server.game.CometManager;
-
 public class GiftData {
     /**
      * The page ID of the item
@@ -49,6 +47,11 @@ public class GiftData {
     private boolean showUsername;
 
     /**
+     * The data supplied when purchasing the gift
+     */
+    private String extraData;
+
+    /**
      * Initialize the gift data
      *
      * @param pageId         The page ID of the item
@@ -60,8 +63,9 @@ public class GiftData {
      * @param wrappingPaper
      * @param decorationType
      * @param showUsername
+     * @param extraData      The data supplied when purchasing the gift
      */
-    public GiftData(int pageId, int itemId, int senderId, String receiver, String message, int spriteId, int wrappingPaper, int decorationType, boolean showUsername) {
+    public GiftData(int pageId, int itemId, int senderId, String receiver, String message, int spriteId, int wrappingPaper, int decorationType, boolean showUsername, String extraData) {
         this.pageId = pageId;
         this.itemId = itemId;
         this.senderId = senderId;
@@ -71,40 +75,7 @@ public class GiftData {
         this.wrappingPaper = wrappingPaper;
         this.decorationType = decorationType;
         this.showUsername = showUsername;
-    }
-
-    private int pos = 0;
-
-    @Override
-    public String toString() {
-        if (pos != 0)
-            pos = 0;
-
-        byte[] data = new byte[13 + message.length()];
-
-        data[pos++] = showUsername ? (byte) 1 : (byte) 0;
-
-        writeInt(senderId, data);
-        writeInt(wrappingPaper, data);
-        writeInt(decorationType, data);
-
-        for (int i = 0; i < message.getBytes().length; i++) {
-            data[pos++] = message.getBytes()[i];
-        }
-
-        try {
-            return new String(data, "UTF-8");
-        } catch (Exception e) {
-            CometManager.getLogger().error("Error while compiling GiftData", e);
-            return "";
-        }
-    }
-
-    private void writeInt(int value, byte[] data) {
-        data[pos++] = (byte) (255 & (value >> 24));
-        data[pos++] = (byte) (255 & (value >> 16));
-        data[pos++] = (byte) (255 & (value >> 8));
-        data[pos++] = (byte) (255 & (value));
+        this.extraData = extraData;
     }
 
     public int getPageId() {
@@ -141,5 +112,13 @@ public class GiftData {
 
     public int getSenderId() {
         return senderId;
+    }
+
+    public String getExtraData() {
+        return extraData;
+    }
+
+    public void setExtraData(String extraData) {
+        this.extraData = extraData;
     }
 }

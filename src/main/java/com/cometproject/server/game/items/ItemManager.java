@@ -12,6 +12,7 @@ public class ItemManager {
     private Logger log = Logger.getLogger(ItemManager.class.getName());
 
     private FastMap<Integer, ItemDefinition> itemDefinitions;
+    private FastMap<Integer, Integer> itemSpriteIdToDefinitionId;
 
     private LimitedEditionManager limitedEditionManager;
 
@@ -25,12 +26,20 @@ public class ItemManager {
     public void loadItemDefinitions() {
         if (this.getItemDefinitions().size() >= 1) {
             this.getItemDefinitions().clear();
+            this.itemSpriteIdToDefinitionId.clear();
         }
 
         try {
             this.itemDefinitions = ItemDao.getDefinitions();
+            this.itemSpriteIdToDefinitionId = new FastMap<>();
         } catch (Exception e) {
             log.error("Error while loading item definitions", e);
+        }
+
+        if(itemDefinitions != null) {
+            for(ItemDefinition itemDefinition : this.itemDefinitions.values()) {
+                this.itemSpriteIdToDefinitionId.put(itemDefinition.getSpriteId(), itemDefinition.getId());
+            }
         }
 
         log.info("Loaded " + this.getItemDefinitions().size() + " item definitions");
@@ -52,6 +61,10 @@ public class ItemManager {
         log.debug("Couldn't find item definition for item: " + itemId + ", make sure the database is complete! (`furniture` table)");
 
         return null;
+    }
+
+    public ItemDefinition getBySpriteId(int spriteId) {
+        return this.itemDefinitions.get(this.itemSpriteIdToDefinitionId.get(spriteId));
     }
 
     public FastMap<Integer, ItemDefinition> getItemDefinitions() {

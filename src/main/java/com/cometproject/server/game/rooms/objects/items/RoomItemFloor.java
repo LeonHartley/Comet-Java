@@ -141,11 +141,11 @@ public abstract class RoomItemFloor extends RoomItem {
             msg.writeInt(1);
             msg.writeString("THUMBNAIL_URL");
             msg.writeString("/deliver/" + this.getAttribute("video"));
-        } else if(this instanceof GroupFloorItem) {
+        } else if (this instanceof GroupFloorItem) {
             GroupData groupData = CometManager.getGroups().getData(((GroupFloorItem) this).getGroupId());
 
             msg.writeInt(0);
-            if(groupData == null) {
+            if (groupData == null) {
                 msg.writeInt(0);
             } else {
                 msg.writeInt(2);
@@ -156,6 +156,7 @@ public abstract class RoomItemFloor extends RoomItem {
                 msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(groupData.getColourA()));
                 msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(groupData.getColourB()));
             }
+
         } else {
             msg.writeInt(0);
             msg.writeInt(0);
@@ -182,7 +183,7 @@ public abstract class RoomItemFloor extends RoomItem {
     }
 
     public ItemDefinition getDefinition() {
-        if(this.itemDefinition == null) {
+        if (this.itemDefinition == null) {
             this.itemDefinition = CometManager.getItems().getDefinition(this.getItemId());
         }
 
@@ -255,8 +256,8 @@ public abstract class RoomItemFloor extends RoomItem {
         floorItems.addAll(this.getRoom().getItems().getItemsOnSquare(this.getPosition().getX(), this.getPosition().getY()));
 
         for (AffectedTile tile : affectedTiles) {
-            for(RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(tile.x, tile.y)) {
-                if(!floorItems.contains(floorItem)) floorItems.add(floorItem);
+            for (RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(tile.x, tile.y)) {
+                if (!floorItems.contains(floorItem)) floorItems.add(floorItem);
             }
         }
 

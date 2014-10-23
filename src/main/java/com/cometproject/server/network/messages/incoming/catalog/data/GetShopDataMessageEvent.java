@@ -8,8 +8,5 @@ import com.cometproject.server.network.sessions.Session;
 public class GetShopDataMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         client.send(ShopDataMessageComposer.compose(1));
-
-        // Send twice apparently? xD
-        client.send(ShopDataMessageComposer.compose(1));
     }
 }
