@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.AbstractWiredItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -44,7 +45,7 @@ public class WiredActionToggleState extends WiredActionItem {
         for (int itemId : this.getWiredData().getSelectedIds()) {
             final RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
-            if (floorItem == null) continue;
+            if (floorItem == null || floorItem instanceof AbstractWiredItem) continue;
             floorItem.onInteract(null, 0, true);
             tilesToUpdate.add(new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY()));
         }

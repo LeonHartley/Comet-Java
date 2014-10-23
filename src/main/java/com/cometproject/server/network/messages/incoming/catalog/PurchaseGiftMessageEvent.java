@@ -21,7 +21,7 @@ public class PurchaseGiftMessageEvent implements IEvent {
         int decorationType = msg.readInt();
         boolean showUsername = msg.readBoolean();
 
-        GiftData data = new GiftData(pageId, itemId, client.getPlayer().getId(), sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername);
+        GiftData data = new GiftData(pageId, itemId, client.getPlayer().getId(), sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername, extraData);
 
         CometManager.getCatalog().getPurchaseHandler().handle(client, pageId, itemId, extraData, 1, data);
     }

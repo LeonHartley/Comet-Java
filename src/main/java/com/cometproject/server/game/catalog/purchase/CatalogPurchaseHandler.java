@@ -22,6 +22,7 @@ import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.pets.PetDao;
+import com.google.gson.Gson;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -175,15 +176,21 @@ public class CatalogPurchaseHandler {
 
                 List<CatalogPurchase> purchases = new ArrayList<>();
 
-                for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
-                    for (int itemCount = 0; itemCount != item.getAmount(); itemCount++) {
-                        purchases.add(new CatalogPurchase(client.getPlayer().getId(), newItemId, extraData));
-                    }
+                if(giftData != null) {
+                    giftData.setExtraData(extraData);
+                    purchases.add(new CatalogPurchase(client.getPlayer().getId(), CometManager.getItems().getBySpriteId(giftData.getSpriteId()).getId(), new Gson().toJson(giftData)));
+                    return;
+                } else {
+                    for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
+                        for (int itemCount = 0; itemCount != item.getAmount(); itemCount++) {
+                            purchases.add(new CatalogPurchase(client.getPlayer().getId(), newItemId, extraData));
+                        }
 
-                    if (item.getLimitedTotal() > 0) {
-                        item.increaseLimitedSells(1);
+                        if (item.getLimitedTotal() > 0) {
+                            item.increaseLimitedSells(1);
 
-                        CatalogDao.updateLimitSellsForItem(item.getId());
+                            CatalogDao.updateLimitSellsForItem(item.getId());
+                        }
                     }
                 }
 
@@ -233,7 +240,7 @@ public class CatalogPurchaseHandler {
      * Deliver the gift (if it was gifted)
      */
     private void deliverGift() {
-        // TODO: this
+        // todo: this
     }
 
     /**

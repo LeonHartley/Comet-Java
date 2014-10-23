@@ -21,6 +21,8 @@ public class TeleporterFloorItem extends RoomItemFloor {
     public TeleporterFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
+        this.setExtraData("0");
+
         if(this.getDefinition().getInteraction().equals("teleport_door")) {
             this.isDoor = true;
         }
@@ -162,6 +164,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 this.incomingEntity.setOverriden(false);
                 this.incomingEntity = null;
                 this.inUse = false;
+                this.state = -1;
                 break;
             }
 
