@@ -287,6 +287,15 @@ public class EntityComponent {
     }
 
     public int playerCount() {
+        int counter = 0;
+        for(GenericEntity entity : this.entities.values()) {
+            if(entity.isVisible() && entity instanceof PlayerEntity) counter++;
+        }
+
+        return counter;
+    }
+
+    public int realPlayerCount() {
         return this.playerIdToEntity.size();
     }
 

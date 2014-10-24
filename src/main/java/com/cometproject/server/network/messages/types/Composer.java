@@ -14,7 +14,7 @@ public class Composer {
 
     public Composer(int id) {
         this.id = id;
-        this.body = ChannelBuffers.dynamicBuffer(8192);
+        this.body = ChannelBuffers.dynamicBuffer(1024);
 
         try {
             this.body.writeInt(-1); // reserve this space for message length

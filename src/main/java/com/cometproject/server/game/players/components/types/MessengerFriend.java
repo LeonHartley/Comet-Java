@@ -38,9 +38,13 @@ public class MessengerFriend {
 
         Session client = Comet.getServer().getNetwork().getSessions().getByPlayerId(this.userId);
 
+        // Could have these in 1 statement, but to make it easier to read - lets just leave it like this. :P
         if (client.getPlayer() == null || client.getPlayer().getEntity() == null) {
             return false;
         }
+
+        if(!client.getPlayer().getEntity().isVisible())
+            return false;
 
         return true;
     }
