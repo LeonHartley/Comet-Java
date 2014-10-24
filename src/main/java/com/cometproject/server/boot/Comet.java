@@ -80,8 +80,6 @@ public class Comet {
                 if (!args[i].contains("="))
                     continue;
 
-                System.out.println(args[i]);
-
                 cometConfiguration.put(args[i].split("=")[0], args[i].split("=")[1]);
             }
 

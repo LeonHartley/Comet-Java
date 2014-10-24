@@ -71,7 +71,7 @@ public class Room implements Attributable {
     }
 
     public boolean isIdle() {
-        if (this.idleTicks < 600 && this.getEntities().playerCount() > 0) {
+        if (this.idleTicks < 600 && this.getEntities().realPlayerCount() > 0) {
             this.idleTicks = 0;
         } else {
             if (this.idleTicks >= 600) {
