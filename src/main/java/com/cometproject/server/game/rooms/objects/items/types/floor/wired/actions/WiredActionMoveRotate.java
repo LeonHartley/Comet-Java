@@ -77,7 +77,7 @@ public class WiredActionMoveRotate extends WiredActionItem {
         }
     }
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
     private Position handleMovement(Position point, int movementType) {
         switch (movementType) {

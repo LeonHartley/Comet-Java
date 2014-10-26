@@ -17,6 +17,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorE
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
@@ -211,6 +212,10 @@ public abstract class RoomItemFloor extends RoomItem {
             if (!(this instanceof AbstractWiredItem))
                 this.setExtraData("0");
 
+            return true;
+        }
+
+        if(!StringUtils.isNumeric(this.getExtraData())) {
             return true;
         }
 
