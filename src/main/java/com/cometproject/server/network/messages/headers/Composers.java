@@ -3,8 +3,8 @@ package com.cometproject.server.network.messages.headers;
 import java.lang.reflect.Field;
 
 public class Composers {
-    public static short InitCryptoMessageComposer = 3016;
-    public static short SecretKeyMessageComposer = 847;
+    public static short InitCryptoMessageComposer = 3523;
+    public static short SecretKeyMessageComposer = 893;
     public static short HomeRoomMessageComposer = 2174;
     public static short FuserightsMessageComposer = 1723;
     public static short ActionMessageComposer = 2439;

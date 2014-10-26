@@ -5,6 +5,7 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.security.hurlant.ARC4;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
@@ -20,6 +21,8 @@ public class Session {
     private boolean isClone = false;
 
     private Player player;
+
+    private ARC4 arc4;
 
     public Session(Channel channel) {
         this.channel = channel;
@@ -97,6 +100,14 @@ public class Session {
 
     public void flush() {
        // todo: bundling of packets
+    }
+
+    public ARC4 getEncryption() {
+        return this.arc4;
+    }
+
+    public void initEncryption(byte[] key) {
+        this.arc4 = new ARC4(key);
     }
 
     public Logger getLogger() {

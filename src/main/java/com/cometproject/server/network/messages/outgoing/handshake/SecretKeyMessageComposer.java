@@ -8,6 +8,7 @@ public class SecretKeyMessageComposer {
         Composer msg = new Composer(Composers.SecretKeyMessageComposer);
 
         msg.writeString(key);
+        msg.writeBoolean(false);//rc4 clientside
 
         return msg;
     }
