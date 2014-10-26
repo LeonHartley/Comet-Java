@@ -88,22 +88,22 @@ public final class MessageHandler {
 
     public void load() {
         this.registerHandshake();
-        this.registerModTool();
-        this.registerHelpTool();
-        this.registerMessenger();
-        this.registerNavigator();
-        this.registerUser();
-        this.registerBots();
-        this.registerRoom();
-        this.registerRoomTrade();
-        this.registerRoomModeration();
-        this.registerRoomAccess();
-        this.registerItems();
-        this.registerCatalog();
-        this.registerPets();
-        this.registerLanding();
-        this.registerGroups();
-        this.registerQuests();
+//        this.registerModTool();
+//        this.registerHelpTool();
+//        this.registerMessenger();
+//        this.registerNavigator();
+//        this.registerUser();
+//        this.registerBots();
+//        this.registerRoom();
+//        this.registerRoomTrade();
+//        this.registerRoomModeration();
+//        this.registerRoomAccess();
+//        this.registerItems();
+//        this.registerCatalog();
+//        this.registerPets();
+//        this.registerLanding();
+//        this.registerGroups();
+//        this.registerQuests();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
     }

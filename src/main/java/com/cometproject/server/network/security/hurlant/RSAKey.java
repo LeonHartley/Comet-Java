@@ -65,6 +65,7 @@ public class RSAKey {
 
             return c.toByteArray();
         } catch(Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -113,12 +114,11 @@ public class RSAKey {
         bytes[--n] = 0;
 
         while(n > 2) {
-            byte x = 0;
+            byte x = (byte) 0xFF;
 
-            switch(type) {
-                case FULL_BYTE: x = (byte) 0xFF;
-                case RANDOM_BYTE: x = (byte) 0xFF;//TODO: this
-            }
+//            switch(type) {
+//                case FULL_BYTE: x = (byte) 0xFF; break;
+//            }
 
             bytes[--n] = x;
         }

@@ -4,11 +4,14 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class InitCryptoMessageComposer {
-    public static Composer compose(String key, boolean flag) {
+    public static Composer compose(String prime, String generator) {
         Composer msg = new Composer(Composers.InitCryptoMessageComposer);
 
-        msg.writeString(key);
-        msg.writeBoolean(flag);
+        System.out.println(prime);
+        System.out.println(generator);
+
+        msg.writeString(prime);
+        msg.writeString(generator);
 
         return msg;
     }

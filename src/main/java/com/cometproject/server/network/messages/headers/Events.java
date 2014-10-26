@@ -8,9 +8,9 @@ import java.util.Map;
 
 public class Events {
     public static short CheckReleaseMessageEvent = 4000;
-    public static short InitCryptoMessageEvent = 1182;
-    public static short GenerateSecretKeyMessageEvent = 20;
-    public static short SSOTicketMessageEvent = 496;
+    public static short InitCryptoMessageEvent = 3200;
+    public static short GenerateSecretKeyMessageEvent = 2205;
+    public static short SSOTicketMessageEvent = 493;
     public static short AcceptFriendshipMessageEvent = 3011;
     public static short AcceptTradeMessageEvent = 2011;
     public static short ApplyActionMessageEvent = 548;

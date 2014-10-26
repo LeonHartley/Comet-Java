@@ -17,6 +17,10 @@ public class ClientHandler extends SimpleChannelUpstreamHandler {
             Session client = (Session) ctx.getChannel().getAttachment();
 
             if (client != null && (ev.getMessage() instanceof Event)) {
+                if(client.getEncryption() != null) {
+                    // decrypt msg
+                }
+
                 Comet.getServer().getNetwork().getMessages().handle((Event) ev.getMessage(), client);
             }
         } catch (Exception e) {
