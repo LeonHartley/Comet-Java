@@ -49,7 +49,7 @@ public class CataPageMessageComposer {
                     msg.writeInt(0);
                 }
 
-                msg.writeBoolean(true); // Can gift
+                msg.writeBoolean(false); // Can gift
 
                 if (!item.hasBadge()) {
                     msg.writeInt(item.getItems().size());
