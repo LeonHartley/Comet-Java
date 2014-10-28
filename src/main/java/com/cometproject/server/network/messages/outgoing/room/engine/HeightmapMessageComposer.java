@@ -7,7 +7,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class HeightmapMessageComposer {
     public static Composer compose(RoomModel roomModel) {
-        Composer msg = new Composer(Composers.HeightmapMessageComposer);
+        Composer msg = new Composer(Composers.HeightMapMessageComposer);
 
         msg.writeInt(roomModel.getSizeX());
         msg.writeInt(roomModel.getSizeY() * roomModel.getSizeX());

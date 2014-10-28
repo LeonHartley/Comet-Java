@@ -6,9 +6,6 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class HelpTicketMessageComposer {
     public static Composer compose(HelpTicket ticket) {
-        Composer msg = new Composer(Composers.HelpTicketMessageComposer);
-
-
-        return msg;
+        return null;
     }
 }

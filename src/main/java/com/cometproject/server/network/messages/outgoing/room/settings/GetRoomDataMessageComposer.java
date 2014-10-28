@@ -8,7 +8,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class GetRoomDataMessageComposer {
     public static Composer compose(Room room, boolean staff) {
-        Composer msg = new Composer(Composers.GetRoomDataMessageComposer);
+        Composer msg = new Composer(Composers.RoomSettingsDataMessageComposer);
 
         msg.writeInt(room.getId());
         msg.writeString(room.getData().getName());

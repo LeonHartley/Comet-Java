@@ -11,7 +11,7 @@ public class CataIndexMessageComposer {
     public static Composer compose(int rank) {
         List<CatalogPage> pages = CometManager.getCatalog().getPagesForRank(rank);
 
-        Composer msg = new Composer(Composers.CataIndexMessageComposer);
+        Composer msg = new Composer(Composers.CatalogIndexMessageComposer);
 
         msg.writeBoolean(true);
         msg.writeInt(0);

@@ -7,7 +7,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class SendFloorItemMessageComposer {
     public static Composer compose(RoomItemFloor item, Room room) {
-        Composer msg = new Composer(Composers.SendFloorItemMessageComposer);
+        Composer msg = new Composer(Composers.AddFloorItemMessageComposer);
 
         item.serialize(msg, true);
         //msg.writeInt(item.getOwner());

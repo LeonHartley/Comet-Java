@@ -115,7 +115,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     protected void finalizeJoinRoom() {
-        this.player.getSession().send(ModelAndIdMessageComposer.compose(this.getRoom().getModel().getId(), this.getId()));
+//        this.player.getSession().send(ModelAndIdMessageComposer.compose(this.getRoom().getModel().getId(), this.getId()));
 
         for (Map.Entry<String, String> decoration : this.getRoom().getData().getDecorations().entrySet()) {
             if (decoration.getKey().equals("wallpaper") || decoration.getKey().equals("floor")) {

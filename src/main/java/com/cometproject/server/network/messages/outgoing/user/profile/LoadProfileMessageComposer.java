@@ -6,14 +6,14 @@ import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.outgoing.user.details.UserInfoMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.details.UserObjectMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
 public class LoadProfileMessageComposer {
     public static Composer compose(PlayerData player, PlayerStatistics stats, List<Integer> groups, boolean isMyFriend, boolean hasSentRequest) {
-        Composer msg = new Composer(Composers.LoadProfileMessageComposer);
+        Composer msg = new Composer(Composers.UserProfileMessageComposer);
 
         msg.writeInt(player.getId());
         msg.writeString(player.getUsername());
@@ -29,7 +29,7 @@ public class LoadProfileMessageComposer {
         } catch (Exception ignored) {
         }
 
-        msg.writeString(isTimestamp ? UserInfoMessageComposer.getDate(timestamp) : player.getRegDate());
+        msg.writeString(isTimestamp ? UserObjectMessageComposer.getDate(timestamp) : player.getRegDate());
         msg.writeInt(player.getAchievementPoints());
         msg.writeInt(stats.getFriendCount());
         msg.writeBoolean(isMyFriend);
@@ -47,6 +47,8 @@ public class LoadProfileMessageComposer {
             msg.writeString(group.getData().getColourA());
             msg.writeString(group.getData().getColourB());
             msg.writeBoolean(player.getFavouriteGroup() == groupId);
+            msg.writeInt(-1);
+            msg.writeBoolean(true); // has forum
         }
 
         msg.writeInt((int) Comet.getTime() - player.getLastVisit());

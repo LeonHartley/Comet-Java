@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class InitHelpToolMessageComposer {
     public static Composer compose() {
-        Composer msg = new Composer(Composers.InitHelpToolMessageComposer);
+        Composer msg = new Composer(Composers.OpenHelpToolMessageComposer);
 
         msg.writeInt(0);
 

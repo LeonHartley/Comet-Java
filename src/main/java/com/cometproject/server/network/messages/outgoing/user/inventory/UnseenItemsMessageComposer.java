@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class UnseenItemsMessageComposer {
     public static Composer compose(Map<Integer, Integer> items) {
-        Composer msg = new Composer(Composers.UnseenItemsMessageComposer);
+        Composer msg = new Composer(Composers.NewInventoryObjectMessageComposer);
 
         msg.writeInt(items.size());
 

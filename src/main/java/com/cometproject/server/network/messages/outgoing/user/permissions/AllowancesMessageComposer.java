@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class AllowancesMessageComposer {
     public static Composer compose(int rank) {
-        Composer msg = new Composer(Composers.AllowancesMessageComposer);
+        Composer msg = new Composer(Composers.SendPerkAllowancesMessageComposer);
 
         if (rank == -1) {
             msg.writeInt(0);

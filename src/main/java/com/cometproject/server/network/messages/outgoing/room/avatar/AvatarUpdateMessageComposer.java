@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class AvatarUpdateMessageComposer {
     public static Composer compose(int count, Collection<GenericEntity> list) {
-        Composer msg = new Composer(Composers.EntityUpdateMessageComposer);
+        Composer msg = new Composer(Composers.UpdateUserStatusMessageComposer);
 
         msg.writeInt(count);
 
@@ -27,7 +27,7 @@ public class AvatarUpdateMessageComposer {
     }
 
     public static Composer compose(GenericEntity entity) {
-        Composer msg = new Composer(Composers.EntityUpdateMessageComposer);
+        Composer msg = new Composer(Composers.UpdateUserStatusMessageComposer);
 
         msg.writeInt(1);
 

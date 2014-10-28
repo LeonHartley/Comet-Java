@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class GroupBadgesMessageComposer {
     public static Composer compose(Map<Integer, String> badges) {
-        Composer msg = new Composer(Composers.GroupBadgesMessageComposer);
+        Composer msg = new Composer(Composers.RoomGroupMessageComposer);
 
         msg.writeInt(badges.size());
 
@@ -20,7 +20,7 @@ public class GroupBadgesMessageComposer {
     }
 
     public static Composer compose(int groupId, String badge) {
-        Composer msg = new Composer(Composers.GroupBadgesMessageComposer);
+        Composer msg = new Composer(Composers.RoomGroupMessageComposer);
 
         msg.writeInt(1); // Count
 

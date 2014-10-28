@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class PlayVideoMessageComposer {
     public static Composer compose(int itemId, String videoId, int videoLength) {
-        Composer msg = new Composer(Composers.PlayVideoMessageComposer);
+        Composer msg = new Composer(Composers.YouTubeLoadVideoMessageComposer);
 
         msg.writeInt(itemId);
         msg.writeString(videoId);

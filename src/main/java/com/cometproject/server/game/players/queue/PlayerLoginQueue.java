@@ -3,8 +3,8 @@ package com.cometproject.server.game.players.queue;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.network.messages.outgoing.handshake.AuthenticationOKMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
-import com.cometproject.server.network.messages.outgoing.handshake.LoginMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.RoomCategoriesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
@@ -14,7 +14,6 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.tasks.CometTask;
 import org.apache.log4j.Logger;
 
-import java.net.InetSocketAddress;
 import java.util.ArrayDeque;
 
 public class PlayerLoginQueue implements CometTask {
@@ -67,7 +66,7 @@ public class PlayerLoginQueue implements CometTask {
 
         PlayerDao.updatePlayerStatus(player, true, true);
 
-        client.send(LoginMessageComposer.compose());
+        client.send(AuthenticationOKMessageComposer.compose());
         client.getPlayer().sendBalance();
         client.send(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));
         client.send(MotdNotificationComposer.compose());

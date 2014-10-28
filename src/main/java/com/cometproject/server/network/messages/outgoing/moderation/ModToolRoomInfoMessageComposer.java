@@ -7,7 +7,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class ModToolRoomInfoMessageComposer {
     public static Composer compose(Room room) {
-        Composer msg = new Composer(Composers.ModToolRoomInfoMessageComposer);
+        Composer msg = new Composer(Composers.ModerationRoomToolMessageComposer);
 
         msg.writeInt(room.getId());
         msg.writeInt(room.getEntities().playerCount());

@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class RelationshipsMessageComposer {
     public static Composer compose(int playerId, Map<Integer, RelationshipLevel> relationships) {
-        Composer msg = new Composer(Composers.RelationshipsMessageComposer);
+        Composer msg = new Composer(Composers.RelationshipMessageComposer);
 
         msg.writeInt(playerId);
 
@@ -57,7 +57,7 @@ public class RelationshipsMessageComposer {
     }
 
     public static Composer compose(int id) {
-        Composer msg = new Composer(Composers.RelationshipsMessageComposer);
+        Composer msg = new Composer(Composers.RelationshipMessageComposer);
 
         msg.writeInt(id);
         msg.writeInt(0);

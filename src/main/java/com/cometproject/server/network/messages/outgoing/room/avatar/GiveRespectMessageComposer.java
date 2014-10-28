@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class GiveRespectMessageComposer {
     public static Composer compose(int userId, int totalRespects) {
-        Composer msg = new Composer(Composers.GiveRespectMessageComposer);
+        Composer msg = new Composer(Composers.GiveRespectsMessageComposer);
 
         msg.writeInt(userId);
         msg.writeInt(totalRespects);

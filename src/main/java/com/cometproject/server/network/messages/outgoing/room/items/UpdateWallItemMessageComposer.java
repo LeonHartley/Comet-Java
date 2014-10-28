@@ -6,7 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class UpdateWallItemMessageComposer {
     public static Composer compose(RoomItemWall item, int ownerId, String owner) {
-        Composer msg = new Composer(Composers.UpdateWallItemMessageComposer);
+        Composer msg = new Composer(Composers.UpdateRoomWallItemMessageComposer);
 
         msg.writeString(item.getId());
         msg.writeInt(item.getDefinition().getSpriteId());

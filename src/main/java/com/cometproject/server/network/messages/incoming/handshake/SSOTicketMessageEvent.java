@@ -1,12 +1,11 @@
 package com.cometproject.server.network.messages.incoming.handshake;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.handshake.AuthenticationOKMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
-import com.cometproject.server.network.messages.outgoing.handshake.LoginMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.RoomCategoriesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
@@ -15,8 +14,6 @@ import com.cometproject.server.network.messages.outgoing.user.permissions.Fuseri
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-
-import java.net.InetSocketAddress;
 
 public class SSOTicketMessageEvent implements IEvent {
     public static String TICKET_DELIMITER = ":";
@@ -109,22 +106,20 @@ public class SSOTicketMessageEvent implements IEvent {
 
         PlayerDao.updatePlayerStatus(player, true, true);
 
-        client.sendQueue(LoginMessageComposer.compose()).
-                sendQueue(client.getPlayer().composeCreditBalance()).
-                sendQueue(client.getPlayer().composeCurrenciesBalance()).
+        client.sendQueue(AuthenticationOKMessageComposer.compose()).
                 sendQueue(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank())).
-                sendQueue(MotdNotificationComposer.compose())
-                .sendQueue(LoadVolumeSettingsMessageComposer.compose(player));
-
-        if (player.getSettings().getHomeRoom() > 0) {
-            client.sendQueue(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
-        }
-
-        if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
-            client.sendQueue(ModToolMessageComposer.compose());
-        }
-
-        client.sendQueue(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
+                sendQueue(MotdNotificationComposer.compose());
+//                .sendQueue(LoadVolumeSettingsMessageComposer.compose(player));
+//
+//        if (player.getSettings().getHomeRoom() > 0) {
+//            client.sendQueue(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
+//        }
+////
+//        if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+//            client.sendQueue(ModToolMessageComposer.compose());
+//        }
+////
+//        client.sendQueue(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
         client.flush();
     }
 }

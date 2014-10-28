@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class RemovePowersMessageComposer {
     public static Composer compose(int userId, int roomId) {
-        Composer msg = new Composer(Composers.RemovePowersMessageComposer);
+        Composer msg = new Composer(Composers.RemoveRightsMessageComposer);
 
         msg.writeInt(roomId);
         msg.writeInt(userId);

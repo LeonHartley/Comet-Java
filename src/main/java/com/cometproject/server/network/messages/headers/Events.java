@@ -57,7 +57,7 @@ public class Events {
     public static short GetCatalogPageMessageEvent = 1913;
     public static short GetCatalogClubPageMessageEvent = 2690;
     public static short GetCatalogOfferMessageEvent = 3743;
-    public static short CatalogueOfferConfigMessageEvent = 238;
+    public static short CatalogOfferConfigMessageEvent = 238;
     public static short PurchaseFromCatalogMessageEvent = 563;
     public static short PurchaseFromCatalogAsGiftMessageEvent = 3079;
     public static short GetSellablePetBreedsMessageEvent = 1812;
@@ -216,7 +216,7 @@ public class Events {
     public static short AcceptFriendMessageEvent = 882;
     public static short ConsoleInstantChatMessageEvent = 913;
     public static short ConsoleInviteFriendsMessageEvent = 2072;
-    public static short ConsoleSearchFriendsMessageEvent = 0;
+    public static short ConsoleSearchFriendsMessageEvent = 573;
     public static short FollowFriendMessageEvent = 166;
     public static short FriendListUpdateMessageEvent = 2994;
     public static short DeclineFriendMessageEvent = 549;
