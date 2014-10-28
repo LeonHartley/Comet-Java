@@ -19,9 +19,9 @@ public class Session {
     private final SessionEventHandler eventHandler;
 
     private boolean isClone = false;
+    private String uniqueId = "";
 
     private Player player;
-
     private ARC4 arc4;
 
     public Session(Channel channel) {
@@ -58,10 +58,9 @@ public class Session {
     }
 
     public String getIpAddress() {
-        String ipAddress = "";
+        String ipAddress;
 
         if(!CometSettings.useDatabaseIp) {
-            // to-do: clean this up!
             return ((InetSocketAddress)this.getChannel().getRemoteAddress()).getAddress().getHostAddress();
         } else {
             ipAddress = PlayerDao.getIpAddress(this.getPlayer().getId());
@@ -120,5 +119,13 @@ public class Session {
 
     public Channel getChannel() {
         return this.channel;
+    }
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
     }
 }

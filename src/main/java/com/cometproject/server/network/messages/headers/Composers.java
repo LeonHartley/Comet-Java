@@ -3,14 +3,15 @@ package com.cometproject.server.network.messages.headers;
 import java.lang.reflect.Field;
 
 public class Composers {
-    public static short InitCryptoMessageComposer = 3523;
-    public static short SecretKeyMessageComposer = 893;
-    public static short HomeRoomMessageComposer = 2174;
+    public static short InitCryptoMessageComposer = 3523;//d
+    public static short SecretKeyMessageComposer = 893;//d
+    public static short LoginMessageComposer = 97;//d
+    public static short HomeRoomMessageComposer = 315;//d
     public static short FuserightsMessageComposer = 1723;
     public static short ActionMessageComposer = 2439;
     public static short IdleStatusMessageComposer = 908;
     public static short AdvancedAlertMessageComposer = 2664;
-    public static short AllowancesMessageComposer = 3899;
+    public static short AllowancesMessageComposer = 2903;//d
     public static short BoughtItemMessageComposer = 2408;
     public static short CanCreateRoomMessageComposer = 3353;
     public static short CataIndexMessageComposer = 1319;
@@ -30,10 +31,9 @@ public class Composers {
     public static short LoadFriendsMessageComposer = 3332;
     public static short LoadProfileMessageComposer = 3563;
     public static short LoadRightsOnRoomMessageComposer = 2423; // ACCESS_LEVEL
-    public static short LoginMessageComposer = 531;
     public static short ModelAndIdMessageComposer = 1667;
     public static short ModToolMessageComposer = 2578;
-    public static short MotdMessageComposer = 2291;
+    public static short MotdMessageComposer = 2534;//d
     public static short NavigatorFlatListMessageComposer = 2694;
     public static short OfferMessageComposer = 2235;
     public static short OnCreateRoomInfoMessageComposer = 3379;
@@ -75,7 +75,7 @@ public class Composers {
     public static short UpdateInfoMessageComposer = 1859;
     public static short UpdateWallItemMessageComposer = 1640;
     public static short UpdateInventoryMessageComposer = 345;
-    public static short UserInfoMessageComposer = 2895;
+    public static short UserInfoMessageComposer = 532;//d
     public static short WallItemsMessageComposer = 1563;
     public static short WelcomeUserMessageComposer = 2933;
     public static short WisperMessageComposer = 1123;

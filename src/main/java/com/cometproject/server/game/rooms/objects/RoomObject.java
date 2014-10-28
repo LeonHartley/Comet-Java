@@ -56,6 +56,14 @@ public abstract class RoomObject {
     }
 
     /**
+     * Checks whether or not the object is at the door tile
+     * @return Is the object on the door tile?
+     */
+    public boolean isAtDoor() {
+        return this.position.getX() == this.getRoom().getModel().getDoorX() && this.position.getY() == this.getRoom().getModel().getDoorY();
+    }
+
+    /**
      * Get the room where this object is
      * @return The room instance
      */

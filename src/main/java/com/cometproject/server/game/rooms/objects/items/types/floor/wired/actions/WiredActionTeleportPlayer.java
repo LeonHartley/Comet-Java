@@ -53,7 +53,7 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
         int itemId = WiredUtil.getRandomElement(this.getWiredData().getSelectedIds());
         RoomItemFloor item = this.getRoom().getItems().getFloorItem(itemId);
 
-        if(item == null) {
+        if(item == null || item.isAtDoor()) {
             return;
         }
 
