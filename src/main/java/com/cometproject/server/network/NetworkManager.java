@@ -2,7 +2,10 @@ package com.cometproject.server.network;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.MessageHandler;
+import com.cometproject.server.network.security.EncryptionManager;
+import com.cometproject.server.network.security.SecurityUtil;
 import com.cometproject.server.network.sessions.SessionManager;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.log4j.Logger;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.AdaptiveReceiveBufferSizePredictorFactory;
@@ -17,12 +20,6 @@ import java.util.concurrent.Executors;
 public class NetworkManager {
     private SessionManager sessions;
     private MessageHandler messageHandler;
-//    private MonitorClient monitorClient;
-
-    public static int serverPort = 0;
-
-//    public static final AttributeKey<Session> SESSION_ATTR = AttributeKey.valueOf("Session.attr");
-//    public static final AttributeKey<Integer> CHANNEL_ID = AttributeKey.valueOf("ChannelId.attr");
 
     private static Logger log = Logger.getLogger(NetworkManager.class.getName());
 
@@ -33,9 +30,8 @@ public class NetworkManager {
         // set the logger to our logger
         InternalLoggerFactory.setDefaultFactory(new Log4JLoggerFactory());
 
-//        if (CometSettings.httpEnabled) { this.managementServer = new ManagementServer(); }
-
-        int poolSize = (Runtime.getRuntime().availableProcessors() * 2);
+//        int poolSize = (Runtime.getRuntime().availableProcessors() * 2);
+        int poolSize = 16;
 
         ServerBootstrap bootstrap = new ServerBootstrap(
                 new NioServerSocketChannelFactory(

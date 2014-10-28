@@ -22,6 +22,20 @@ public class SSOTicketMessageEvent implements IEvent {
     public static String TICKET_DELIMITER = ":";
 
     public void handle(Session client, Event msg) {
+        if(client.getEncryption() == null) {
+            CometManager.getLogger().warn("Session was disconnected because RC4 was not initialized!");
+            client.disconnect();
+            return;
+        }
+
+        if(client.getUniqueId().isEmpty() || client.getUniqueId().length() < 10) {
+            CometManager.getLogger().warn("Session was disconnected because it did not have a valid machine ID!");
+            client.disconnect();
+            return;
+        }
+
+        // check for machine id ban
+
         String ticket = msg.readString();
 
         if (ticket.length() < 10 || ticket.length() > 128) {
@@ -29,7 +43,6 @@ public class SSOTicketMessageEvent implements IEvent {
             client.disconnect();
             return;
         }
-
 
         // TODO: Tell the hotel owners to remove the id:ticket stuff
         Player player = null;

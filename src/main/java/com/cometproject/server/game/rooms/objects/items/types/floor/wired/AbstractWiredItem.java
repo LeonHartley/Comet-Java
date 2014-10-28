@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import java.util.List;
 
 /**
- * The new wired system was inspired by Nillus' "habbod2".
+ * This system was inspired by Nillus' "habbod2".
  */
 public abstract class AbstractWiredItem extends RoomItemFloor implements WiredItemSnapshot.Refreshable {
     /**

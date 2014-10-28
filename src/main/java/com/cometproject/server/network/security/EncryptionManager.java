@@ -18,6 +18,10 @@ public class EncryptionManager {
         this.diffieHellman = new DiffieHellman();
     }
 
+    public RSAKey getRsaKey() {
+        return this.rsaKey;
+    }
+
     public String getPrimeKey() {
         String key = this.diffieHellman.getPrime().toString(10);
         return getEncryptedString(key);

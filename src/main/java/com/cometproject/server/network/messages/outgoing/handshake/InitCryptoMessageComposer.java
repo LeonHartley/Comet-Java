@@ -7,9 +7,6 @@ public class InitCryptoMessageComposer {
     public static Composer compose(String prime, String generator) {
         Composer msg = new Composer(Composers.InitCryptoMessageComposer);
 
-        System.out.println(prime);
-        System.out.println(generator);
-
         msg.writeString(prime);
         msg.writeString(generator);
 
