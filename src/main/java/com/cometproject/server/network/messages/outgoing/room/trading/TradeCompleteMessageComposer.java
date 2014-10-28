@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class TradeCompleteMessageComposer {
     public static Composer compose() {
-        Composer msg = new Composer(Composers.TradeCompleteMessageComposer);
+        Composer msg = new Composer(Composers.TradeCompletedMessageComposer);
 
         return msg;
     }

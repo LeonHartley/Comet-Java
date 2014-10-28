@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class HotelViewItemMessageComposer {
     public static Composer compose(String key, String value) {
-        Composer msg = new Composer(Composers.HotelViewItemMessageComposer);
+        Composer msg = new Composer(Composers.LandingWidgetMessageComposer);
 
         msg.writeString(key);
         msg.writeString(value);

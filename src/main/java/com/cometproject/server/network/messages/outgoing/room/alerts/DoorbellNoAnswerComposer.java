@@ -8,7 +8,7 @@ import com.cometproject.server.network.messages.types.Composer;
  */
 public class DoorbellNoAnswerComposer {
     public static Composer compose() {
-        Composer msg = new Composer(Composers.DoorBellNoAnswerComposer);
+        Composer msg = new Composer(Composers.DoorbellNoOneMessageComposer);
         msg.writeString("");
 
         return msg;

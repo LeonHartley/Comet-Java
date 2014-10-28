@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class ActionMessageComposer {
     public static Composer compose(int userId, int actionId) {
-        Composer msg = new Composer(Composers.ActionMessageComposer);
+        Composer msg = new Composer(Composers.RoomUserActionMessageComposer);
 
         msg.writeInt(userId);
         msg.writeInt(actionId);

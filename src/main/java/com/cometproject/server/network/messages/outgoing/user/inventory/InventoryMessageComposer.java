@@ -10,7 +10,7 @@ import org.apache.commons.lang.StringUtils;
 
 public class InventoryMessageComposer {
     public static Composer compose(InventoryComponent inv) {
-        Composer msg = new Composer(Composers.InventoryMessageComposer);
+        Composer msg = new Composer(Composers.LoadInventoryMessageComposer);
 
         msg.writeInt(1);
         msg.writeInt(1);

@@ -5,10 +5,10 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class TicketSentMessageComposer {
     public static Composer compose() {
-        Composer msg = new Composer(Composers.TicketSentMessageComposer);
+//        Composer msg = new Composer(Composers.ModerationTicketResponseMessageComposer);
+//
+//        msg.writeInt(1);
 
-        msg.writeInt(1);
-
-        return msg;
+        return null;
     }
 }

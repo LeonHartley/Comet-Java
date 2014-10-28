@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class PopularTagsMessageComposer {
     public static Composer compose() {
-        Composer msg = new Composer(Composers.PopularTagsMessageComposer);
+        Composer msg = new Composer(Composers.PopularRoomTagsMessageComposer);
 
         msg.writeInt(0);
         // TODO: show tags

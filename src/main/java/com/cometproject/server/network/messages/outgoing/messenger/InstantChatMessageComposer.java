@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class InstantChatMessageComposer {
     public static Composer compose(String message, int fromId) {
-        Composer msg = new Composer(Composers.InstantChatMessageComposer);
+        Composer msg = new Composer(Composers.ConsoleChatMessageComposer);
 
         msg.writeInt(fromId);
         msg.writeString(message);

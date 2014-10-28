@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class RoomPanelMessageComposer {
     public static Composer compose(int id, boolean hasOwnershipPermission) {
-        Composer msg = new Composer(Composers.RoomPanelMessageComposer);
+        Composer msg = new Composer(Composers.RoomOwnershipMessageComposer);
         msg.writeBoolean(true);
         msg.writeInt(id);
         msg.writeBoolean(hasOwnershipPermission);

@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class WisperMessageComposer {
     public static Composer compose(int userId, String message) {
-        Composer msg = new Composer(Composers.WisperMessageComposer);
+        Composer msg = new Composer(Composers.WhisperMessageComposer);
 
         msg.writeInt(userId);
         msg.writeString(message);

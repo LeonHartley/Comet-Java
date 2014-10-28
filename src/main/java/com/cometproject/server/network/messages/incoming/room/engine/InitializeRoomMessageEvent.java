@@ -10,5 +10,9 @@ public class InitializeRoomMessageEvent implements IEvent {
         String password = msg.readString();
 
         client.getPlayer().loadRoom(id, password);
+
+        // test this
+        new LoadHeightmapMessageEvent().handle(client, msg);
+        new AddUserToRoomMessageEvent().handle(client, msg);
     }
 }

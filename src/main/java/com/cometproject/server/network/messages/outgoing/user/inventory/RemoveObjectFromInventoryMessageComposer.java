@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class RemoveObjectFromInventoryMessageComposer {
     public static Composer compose(int itemId) {
-        Composer msg = new Composer(Composers.RemoveObjectFromInventoryMessageComposer);
+        Composer msg = new Composer(Composers.RemoveInventoryObjectMessageComposer);
 
         msg.writeInt(itemId);
 

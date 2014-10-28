@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class ShowRoomPollMessageComposer {
     public static Composer compose(int roomId) {
-        Composer msg = new Composer(Composers.ShowRoomPollMessageComposer);
+        Composer msg = new Composer(Composers.PollQuestionsMessageComposer);
 
         msg.writeInt(1);
         msg.writeString("Do you like Comet?");

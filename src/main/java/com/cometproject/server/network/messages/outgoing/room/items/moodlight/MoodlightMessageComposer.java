@@ -7,7 +7,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class MoodlightMessageComposer {
     public static Composer compose(MoodlightWallItem moodlight) {
-        Composer msg = new Composer(Composers.MoodlightMessageComposer);
+        Composer msg = new Composer(Composers.DimmerDataMessageComposer);
 
         msg.writeInt(moodlight.getMoodlightData().getPresets().size());
         msg.writeInt(moodlight.getMoodlightData().getActivePreset());

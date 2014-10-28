@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class PromoArticlesMessageComposer {
     public static Composer compose(Map<Integer, PromoArticle> articles) {
-        Composer msg = new Composer(Composers.PromoArticlesMessageComposer);
+        Composer msg = new Composer(Composers.LandingPromosMessageComposer);
 
         msg.writeInt(articles.size());
 

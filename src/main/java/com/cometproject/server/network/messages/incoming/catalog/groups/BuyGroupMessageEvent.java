@@ -8,8 +8,8 @@ import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
-import com.cometproject.server.network.messages.outgoing.group.NewGroupMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.ForwardRoomMessageComposer;
+import com.cometproject.server.network.messages.outgoing.group.GroupRoomMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -61,8 +61,8 @@ public class BuyGroupMessageEvent implements IEvent {
         group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.OWNER));
         client.getPlayer().getGroups().add(group.getId());
 
-        client.send(ForwardRoomMessageComposer.compose(roomId));
-        client.send(NewGroupMessageComposer.compose(roomId, group.getId()));
+        client.send(RoomForwardMessageComposer.compose(roomId));
+        client.send(GroupRoomMessageComposer.compose(roomId, group.getId()));
 
         client.getPlayer().getData().setFavouriteGroup(group.getId());
         client.getPlayer().getData().save();

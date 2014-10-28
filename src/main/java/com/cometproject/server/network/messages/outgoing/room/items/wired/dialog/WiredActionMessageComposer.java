@@ -13,7 +13,7 @@ public class WiredActionMessageComposer {
 
         List<WiredTriggerItem> incompatibleTriggers = wiredAction.getIncompatibleTriggers();
 
-        Composer msg = new Composer(Composers.WiredActionMessageComposer);
+        Composer msg = new Composer(Composers.WiredEffectMessageComposer);
 
         msg.writeBoolean(false); // advanced
         msg.writeInt(WiredUtil.MAX_FURNI_SELECTION);

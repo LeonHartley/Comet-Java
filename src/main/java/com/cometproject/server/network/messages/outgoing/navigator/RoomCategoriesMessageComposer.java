@@ -8,7 +8,7 @@ import java.util.List;
 
 public class RoomCategoriesMessageComposer {
     public static Composer compose(List<Category> categories, int rank) {
-        Composer msg = new Composer(Composers.RoomCategoriesMessageComposer);
+        Composer msg = new Composer(Composers.FlatCategoriesMessageComposer);
 
         msg.writeInt(categories.size());
 

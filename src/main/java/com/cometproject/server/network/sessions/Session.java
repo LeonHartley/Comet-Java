@@ -3,6 +3,7 @@ package com.cometproject.server.network.sessions;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.security.hurlant.ARC4;
@@ -81,11 +82,7 @@ public class Session {
     }
 
     public Session sendQueue(Composer msg) {
-        if (msg == null) {
-            return this;
-        }
-
-        this.getChannel().write(msg);
+        this.send(msg);
         return this;
     }
 
@@ -94,6 +91,7 @@ public class Session {
             return;
         }
 
+        logger.debug("Sending composer: " + Composers.valueOfId(msg.getId()));
         this.getChannel().write(msg);
     }
 

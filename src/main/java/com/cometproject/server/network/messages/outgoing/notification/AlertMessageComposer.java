@@ -5,9 +5,10 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class AlertMessageComposer {
     public static Composer compose(String message) {
-        Composer msg = new Composer(Composers.AlertMessageComposer);
+        Composer msg = new Composer(Composers.AlertNotificationMessageComposer);
 
         msg.writeString(message);
+        msg.writeString("");
 
         return msg;
     }

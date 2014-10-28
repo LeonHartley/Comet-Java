@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class GivePowersMessageComposer {
     public static Composer compose(int roomId, int userId) {
-        Composer msg = new Composer(Composers.GivePowersMessageComposer);
+        Composer msg = new Composer(Composers.GiveRoomRightsMessageComposer);
 
         msg.writeInt(roomId);
         msg.writeInt(userId);

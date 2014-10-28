@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SendPurchaseAlertMessageComposer {
     public static Composer compose(List<InventoryItem> items) {
-        Composer msg = new Composer(Composers.SendPurchaseAlertMessageComposer);
+        Composer msg = new Composer(Composers.NewInventoryObjectMessageComposer);
 
         int i = 1;
         for (InventoryItem item : items) {
@@ -28,7 +28,7 @@ public class SendPurchaseAlertMessageComposer {
     }
 
     public static Composer compose() {
-        Composer msg = new Composer(Composers.SendPurchaseAlertMessageComposer);
+        Composer msg = new Composer(Composers.NewInventoryObjectMessageComposer);
 
 
         msg.writeInt(1);
