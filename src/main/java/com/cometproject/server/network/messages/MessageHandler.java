@@ -24,6 +24,7 @@ import com.cometproject.server.network.messages.incoming.group.settings.ModifyGr
 import com.cometproject.server.network.messages.incoming.handshake.*;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
+import com.cometproject.server.network.messages.incoming.landing.LandingLoadWidgetMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArticlesMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.*;
 import com.cometproject.server.network.messages.incoming.moderation.*;
@@ -140,6 +141,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.NavigatorGetFeaturedRoomsMessageEvent, new FeaturedRoomsMessageEvent());
 //        this.getMessages().put(Events.FeatureRoomAdd, new AddToStaffPickedRoomsMessageEvent());
         this.getMessages().put(Events.NavigatorGetEventsMessageEvent, new PromotedRoomsMessageEvent());
+        this.getMessages().put(Events.NavigatorGetFlatCategoriesMessageEvent, new LoadCategoriesMessageEvent());
     }
 
     public void registerUser() {
@@ -278,7 +280,7 @@ public final class MessageHandler {
 
     public void registerLanding() {
         this.getMessages().put(Events.LandingRefreshPromosMessageEvent, new RefreshPromoArticlesMessageEvent());
-//        this.getMessages().put(Events.Hote, new HotelViewItemMessageEvent());
+        this.getMessages().put(Events.LandingLoadWidgetMessageEvent, new LandingLoadWidgetMessageEvent());
     }
 
     public void registerGroups() {
@@ -311,7 +313,7 @@ public final class MessageHandler {
 
             log.debug("Started packet process for packet: [" + Events.valueOfId(header) + "][" + header + "]");
 
-            System.out.println(message.toString());
+//            System.out.println(message.toString());
 
             try {
                 this.getMessages().get(header).handle(client, message);
@@ -334,7 +336,7 @@ public final class MessageHandler {
             }
         } else if (Comet.isDebugging) {
             log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
-            System.out.println(message.toString());
+//            System.out.println(message.toString());
         }
     }
 
