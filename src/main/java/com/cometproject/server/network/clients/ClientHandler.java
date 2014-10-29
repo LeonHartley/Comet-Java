@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 import org.jboss.netty.channel.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientHandler extends SimpleChannelUpstreamHandler {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
@@ -16,8 +18,12 @@ public class ClientHandler extends SimpleChannelUpstreamHandler {
         try {
             Session client = (Session) ctx.getChannel().getAttachment();
 
-            if (client != null && (ev.getMessage() instanceof Event)) {
-                Comet.getServer().getNetwork().getMessages().handle((Event) ev.getMessage(), client);
+            if (client != null && (ev.getMessage() instanceof List)) {
+                List events = ((List) ev.getMessage());
+
+                for(Object event : events) {
+                    Comet.getServer().getNetwork().getMessages().handle((Event) event, client);
+                }
             }
         } catch (Exception e) {
             log.error("Error while receiving message", e);
@@ -55,7 +61,7 @@ public class ClientHandler extends SimpleChannelUpstreamHandler {
                 return;
             }
 
-            log.error("Exception in ClientHandler : " + ev.getCause().getMessage());
+            log.error("Exception in ClientHandler: " + ev.getCause().getMessage());
 
             ev.getCause().printStackTrace();
             ctx.getChannel().close();
