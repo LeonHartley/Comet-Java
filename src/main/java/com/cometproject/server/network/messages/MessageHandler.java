@@ -30,8 +30,8 @@ import com.cometproject.server.network.messages.incoming.moderation.*;
 import com.cometproject.server.network.messages.incoming.navigator.*;
 import com.cometproject.server.network.messages.incoming.room.access.AnswerDoorbellMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.action.*;
+import com.cometproject.server.network.messages.incoming.user.citizenship.CitizenshipStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.AddUserToRoomMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.engine.FollowRoomInfoMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.LoadHeightmapMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.floor.SaveFloorMessageEvent;
@@ -143,9 +143,10 @@ public final class MessageHandler {
     }
 
     public void registerUser() {
+        this.getMessages().put(Events.RetrieveCitizenshipStatus, new CitizenshipStatusMessageEvent());
         this.getMessages().put(Events.LoadUserProfileMessageEvent, new GetProfileMessageEvent());
         this.getMessages().put(Events.GetSubscriptionDataMessageEvent, new ClubStatusMessageEvent());
-        this.getMessages().put(Events.InfoRetrieveMessageEvent, new UserInformationMessageEvent());
+        this.getMessages().put(Events.InfoRetrieveMessageEvent, new InfoRetrieveMessageEvent());
         this.getMessages().put(Events.UserUpdateLookMessageEvent, new ChangeLooksMessageEvent());
         this.getMessages().put(Events.LoadItemsInventoryMessageEvent, new OpenInventoryMessageEvent());
         this.getMessages().put(Events.LoadBadgeInventoryMessageEvent, new BadgeInventoryMessageEvent());

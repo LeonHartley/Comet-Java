@@ -16,6 +16,9 @@ public class RoomCategoriesMessageComposer {
             msg.writeInt(cat.getId());
             msg.writeString(cat.getTitle());
             msg.writeBoolean(cat.getRank() <= rank);
+            msg.writeBoolean(false);
+            msg.writeString("NONE");
+            msg.writeString("");
         }
 
         return msg;

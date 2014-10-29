@@ -88,6 +88,7 @@ public class Session {
 
     public void send(Composer msg) {
         if (msg == null) {
+            logger.debug("Message was null!");
             return;
         }
 
