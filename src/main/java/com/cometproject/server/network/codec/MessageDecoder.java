@@ -29,7 +29,6 @@ public class MessageDecoder extends FrameDecoder {
         while(buffer.readableBytes() > packetIndex) {
             try {
                 int length = buffer.readInt();
-                System.out.println("Buffer length: " + length);
 
                 if (length >= 2 && length <= 1024) {
 

@@ -152,12 +152,12 @@ public class InventoryComponent {
 
     public void removeFloorItem(int itemId) {
         this.getFloorItems().remove(itemId);
-        this.getPlayer().getSession().send(RemoveObjectFromInventoryMessageComposer.compose(itemId));
+        this.getPlayer().getSession().send(RemoveObjectFromInventoryMessageComposer.compose(itemId, this.getPlayer().getId()));
     }
 
     public void removeWallItem(int itemId) {
         this.getWallItems().remove(itemId);
-        this.getPlayer().getSession().send(RemoveObjectFromInventoryMessageComposer.compose(itemId));
+        this.getPlayer().getSession().send(RemoveObjectFromInventoryMessageComposer.compose(itemId, this.getPlayer().getId()));
     }
 
     public boolean hasFloorItem(int id) {

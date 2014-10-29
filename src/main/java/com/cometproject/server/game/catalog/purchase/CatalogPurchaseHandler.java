@@ -11,7 +11,7 @@ import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
-import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
@@ -224,8 +224,9 @@ public class CatalogPurchaseHandler {
                     client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
                 }
 
+
+                client.send(UnseenItemsMessageComposer.compose(unseenItems));
                 client.send(UpdateInventoryMessageComposer.compose());
-                client.send(SendPurchaseAlertMessageComposer.compose(unseenItems));
             }
         } catch (Exception e) {
             CometManager.getLogger().error("Error while buying catalog item", e);

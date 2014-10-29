@@ -6,7 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class UpdateFloorItemMessageComposer {
     public static Composer compose(RoomItemFloor item, int ownerId) {
-        Composer msg = new Composer(Composers.UpdateFloorItemExtraDataMessageComposer);
+        Composer msg = new Composer(Composers.UpdateRoomItemMessageComposer);
 
         item.serialize(msg);
         msg.writeInt(ownerId);
@@ -15,7 +15,7 @@ public class UpdateFloorItemMessageComposer {
     }
 
     public static Composer compose(RoomItemFloor item) {
-        Composer msg = new Composer(Composers.UpdateFloorItemExtraDataMessageComposer);
+        Composer msg = new Composer(Composers.UpdateRoomItemMessageComposer);
 
         item.serialize(msg);
         msg.writeInt(item.getRoom().getData().getOwnerId());

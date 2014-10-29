@@ -8,7 +8,7 @@ public class CitizenshipStatusMessageComposer {
         Composer msg = new Composer(Composers.CitizenshipStatusMessageComposer);
 
         msg.writeString("citizenship");
-        msg.writeInt(1);
+        msg.writeInt(4);
         msg.writeInt(4);
 
         return msg;

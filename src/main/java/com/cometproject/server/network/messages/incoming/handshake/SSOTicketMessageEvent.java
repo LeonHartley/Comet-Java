@@ -8,6 +8,7 @@ import com.cometproject.server.network.messages.outgoing.handshake.Authenticatio
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.UniqueIDMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
+import com.cometproject.server.network.messages.outgoing.navigator.FavouriteRoomsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.RoomCategoriesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
@@ -15,6 +16,7 @@ import com.cometproject.server.network.messages.outgoing.user.details.EnableNoti
 import com.cometproject.server.network.messages.outgoing.user.details.EnableTradingMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.LoadVolumeSettingsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.UnreadMinimailsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.EffectsInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -111,24 +113,26 @@ public class SSOTicketMessageEvent implements IEvent {
 
         PlayerDao.updatePlayerStatus(player, true, true);
 
-        client.sendQueue(AuthenticationOKMessageComposer.compose()).
+        client.sendQueue(UniqueIDMessageComposer.compose(client.getUniqueId())).
+                sendQueue(AuthenticationOKMessageComposer.compose()).
                 sendQueue(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank())).
                 sendQueue(MotdNotificationComposer.compose()).
+                sendQueue(FavouriteRoomsMessageComposer.compose()).
                 sendQueue(UnreadMinimailsMessageComposer.compose(0)).
-                sendQueue(UniqueIDMessageComposer.compose(client.getUniqueId())).
                 sendQueue(EnableTradingMessageComposer.compose(true)).
                 sendQueue(EnableNotificationsMessageComposer.compose());
 //                .sendQueue(LoadVolumeSettingsMessageComposer.compose(player));
-//
-        if (player.getSettings().getHomeRoom() > 0) {
+
+//        if (player.getSettings().getHomeRoom() > 0) {
             client.sendQueue(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
-        }
-////
-//        if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
-//            client.sendQueue(ModToolMessageComposer.compose());
 //        }
-////
-        client.sendQueue(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
+
+        if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+            client.sendQueue(ModToolMessageComposer.compose());
+        }
+
+        client.send(EffectsInventoryMessageComposer.compose());
+
         client.flush();
     }
 }

@@ -5,17 +5,18 @@ import com.cometproject.server.network.messages.outgoing.landing.HotelViewItemMe
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
-public class HotelViewItemMessageEvent implements IEvent {
+public class LandingLoadWidgetMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        String[] data = msg.readString().split(";");
+        String text = msg.readString();
 
-        for (int i = 0; i < data.length; i++) {
-            if (data[i].contains(",")) {
-                client.sendQueue(HotelViewItemMessageComposer.compose(data[i], data[i].split(",")[1]));
-            }
+        if (text.isEmpty()) {
+            client.sendQueue(HotelViewItemMessageComposer.compose("", ""));
+            return;
         }
 
-        client.flush();
+        if (text.split(",")[1].equals("gamesmaker")) return;
+
+        client.sendQueue(HotelViewItemMessageComposer.compose(text, text.split(",")[1]));
     }
 }
