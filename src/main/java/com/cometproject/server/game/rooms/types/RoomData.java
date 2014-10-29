@@ -4,6 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.navigator.types.Category;
+import com.cometproject.server.game.rooms.types.misc.RoomTradeState;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
 import org.mindrot.jbcrypt.BCrypt;
@@ -23,6 +24,7 @@ public class RoomData {
     private String access;
     private String password;
     private String originalPassword;
+    private RoomTradeState tradeState;
 
     private int score;
 
@@ -74,6 +76,7 @@ public class RoomData {
         this.allowWalkthrough = room.getString("allow_walkthrough").equals("1");
         this.allowPets = room.getString("allow_pets").equals("1");
         this.heightmap = room.getString("heightmap");
+        this.tradeState = RoomTradeState.valueOf(room.getString("trade_state"));
     }
 
     public void save() {

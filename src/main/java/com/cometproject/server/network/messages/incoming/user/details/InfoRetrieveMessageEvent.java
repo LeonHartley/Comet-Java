@@ -6,7 +6,6 @@ import com.cometproject.server.network.messages.outgoing.messenger.LoadFriendsMe
 import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementPointsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.buildersclub.BuildersClubMembershipMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.UserObjectMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.details.WelcomeUserMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.AllowancesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.CitizenshipStatusMessageComposer;

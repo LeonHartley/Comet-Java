@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotionsManager;
+import com.cometproject.server.game.rooms.types.misc.RoomTradeState;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
@@ -258,8 +259,8 @@ public class RoomManager {
         return this.getRoomInstances().containsKey(id);
     }
 
-    public int createRoom(String name, String model, Session client) {
-        int roomId = RoomDao.createRoom(name, model, client.getPlayer().getId(), client.getPlayer().getData().getUsername());
+    public int createRoom(String name, String description, String model, int category, int maxVisitors, int tradeState, Session client) {
+        int roomId = RoomDao.createRoom(name, model, description, category, maxVisitors, RoomTradeState.valueOf(tradeState), client.getPlayer().getId(), client.getPlayer().getData().getUsername());
 
         this.loadRoomsForUser(client.getPlayer());
 
