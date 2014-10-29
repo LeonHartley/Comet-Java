@@ -148,7 +148,7 @@ public class Composers {
     public static short MOTDNotificationMessageComposer = 2534;
     public static short SuperNotificationMessageComposer = 3062;
     public static short SerializePetMessageComposer = 2257;
-    public static short RespectPetMessageComposer = 2858;
+    public static short RespectPetMessageComposer = 0;
     public static short PetRespectNotificationMessageComposer = 443;
     public static short LandingRewardMessageComposer = 135;
     public static short LoadVolumeMessageComposer = 2967;

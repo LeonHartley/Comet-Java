@@ -2,6 +2,7 @@ package com.cometproject.server.storage.queries.rooms;
 
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.RoomData;
+import com.cometproject.server.game.rooms.types.misc.RoomTradeState;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
@@ -140,19 +141,23 @@ public class RoomDao {
         return rooms;
     }
 
-    public static int createRoom(String name, String model, int userId, String username) {
+    public static int createRoom(String name, String description, String model, int category, int maxVisitors, RoomTradeState tradeState, int userId, String username) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
-            preparedStatement = SqlHelper.prepare("INSERT into rooms (`owner_id`, `owner`, `name`, `model`) VALUES(?, ?, ?, ?);", sqlConnection, true);
+            preparedStatement = SqlHelper.prepare("INSERT into rooms (`owner_id`, `owner`, `name`, `model`, `description`, `category`, `max_users`, `trade_state`) VALUES(?, ?, ?, ?, ?, ?, ?, ?);", sqlConnection, true);
 
             preparedStatement.setInt(1, userId);
             preparedStatement.setString(2, username);
             preparedStatement.setString(3, name);
             preparedStatement.setString(4, model);
+            preparedStatement.setString(5, description);
+            preparedStatement.setInt(6, category);
+            preparedStatement.setInt(7, maxVisitors);
+            preparedStatement.setString(8, tradeState.toString());
 
             preparedStatement.execute();
 

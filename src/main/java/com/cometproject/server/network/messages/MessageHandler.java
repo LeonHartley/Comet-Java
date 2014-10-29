@@ -31,6 +31,13 @@ import com.cometproject.server.network.messages.incoming.moderation.*;
 import com.cometproject.server.network.messages.incoming.navigator.*;
 import com.cometproject.server.network.messages.incoming.room.access.AnswerDoorbellMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.action.*;
+import com.cometproject.server.network.messages.incoming.room.bots.BotConfigMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.bots.PlaceBotMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.bots.RemoveBotMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.pets.PetInformationMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.pets.PlacePetMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.pets.RemovePetMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.citizenship.CitizenshipStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.AddUserToRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
@@ -48,7 +55,9 @@ import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.*;
 import com.cometproject.server.network.messages.incoming.user.inventory.BadgeInventoryMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.inventory.BotInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.OpenInventoryMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.inventory.PetInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.profile.GetProfileMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.profile.GetRelationshipsMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.profile.SetRelationshipMessageEvent;
@@ -168,18 +177,18 @@ public final class MessageHandler {
     }
 
     public void registerBots() {
-//        this.getMessages().put(Events.BotInventoryMessageEvent, new BotInventoryMessageEvent());
-//        this.getMessages().put(Events.PlaceBotMessageEvent, new PlaceBotMessageEvent());
-//        this.getMessages().put(Events.ModifyBotMessageEvent, new ModifyBotMessageEvent());
-//        this.getMessages().put(Events.RemoveBotMessageEvent, new RemoveBotMessageEvent());
-//        this.getMessages().put(Events.BotConfigMessageEvent, new BotConfigMessageEvent());
+        this.getMessages().put(Events.LoadBotInventoryMessageEvent, new BotInventoryMessageEvent());
+        this.getMessages().put(Events.PlaceBotMessageEvent, new PlaceBotMessageEvent());
+        this.getMessages().put(Events.BotActionsMessageEvent, new ModifyBotMessageEvent());
+        this.getMessages().put(Events.PickUpBotMessageEvent, new RemoveBotMessageEvent());
+        this.getMessages().put(Events.BotSpeechListMessageEvent, new BotConfigMessageEvent());
     }
 
     public void registerPets() {
-//        this.getMessages().put(Events.PetInventoryMessageEvent, new PetInventoryMessageEvent());
-//        this.getMessages().put(Events.PlacePetMessageEvent, new PlacePetMessageEvent());
-//        this.getMessages().put(Events.PetInformationMessageEvent, new PetInformationMessageEvent());
-//        this.getMessages().put(Events.RemovePetMessageEvent, new RemovePetMessageEvent());
+        this.getMessages().put(Events.LoadPetInventoryMessageEvent, new PetInventoryMessageEvent());
+        this.getMessages().put(Events.PlacePetMessageEvent, new PlacePetMessageEvent());
+        this.getMessages().put(Events.PetGetInformationMessageEvent, new PetInformationMessageEvent());
+        this.getMessages().put(Events.PickUpPetMessageEvent, new RemovePetMessageEvent());
     }
 
     public void registerRoom() {
@@ -195,7 +204,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.RoomUserActionMessageEvent, new ApplyActionMessageEvent());
         this.getMessages().put(Events.UserSignMessageEvent, new ApplySignMessageEvent());
         this.getMessages().put(Events.UserDanceMessageEvent, new ApplyDanceMessageEvent());
-        this.getMessages().put(Events.RoomGetInfoMessageEvent, new LoadRoomInfoMessageEvent());
+        this.getMessages().put(Events.RoomGetSettingsInfoMessageEvent, new LoadRoomInfoMessageEvent());
         this.getMessages().put(Events.GetRoomRightsListMessageEvent, new UsersWithRightsMessageEvent());
         this.getMessages().put(Events.RoomSaveSettingsMessageEvent, new SaveRoomDataMessageEvent());
         this.getMessages().put(Events.GiveRespectMessageEvent, new RespectUserMessageEvent());
