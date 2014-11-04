@@ -20,7 +20,7 @@ public class RelativeHeightmapMessageComposer {
         Composer msg = new Composer(Composers.FloorMapMessageComposer);
 
         msg.writeBoolean(true); // ??
-        msg.writeInt(-1);
+        msg.writeInt(model.getWallHeight()); // wall-height
 
         StringBuilder builder = new StringBuilder();
 

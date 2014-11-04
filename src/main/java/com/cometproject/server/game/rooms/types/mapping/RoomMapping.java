@@ -4,6 +4,9 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
+import com.google.common.collect.Lists;
+
+import java.util.List;
 
 public class RoomMapping {
     private Room room;
@@ -91,6 +94,11 @@ public class RoomMapping {
             return false;
         }
 
+        final double fromHeight = this.getStepHeight(from);
+        final double toHeight = this.getStepHeight(to);
+
+        if(fromHeight < toHeight && (toHeight - fromHeight) > 1.0) return false;
+
         return true;
     }
 
@@ -102,13 +110,25 @@ public class RoomMapping {
         }
 
         RoomTileStatusType tileStatus = instance.getStatus();
-        double height = instance.getStackHeight();
+        double height = instance.getWalkHeight();
 
         if (tileStatus == null) {
             return 0.0;
         }
 
         return height;
+    }
+
+    public List<Position> tilesWithFurniture() {
+        List<Position> tilesWithFurniture = Lists.newArrayList();
+
+        for(int x = 0; x < this.tiles.length; x++) {
+            for(int y = 0; y < this.tiles[x].length; y++) {
+                if(this.tiles[x][y].hasItems()) tilesWithFurniture.add(new Position(x, y));
+            }
+        }
+
+        return tilesWithFurniture;
     }
 
     public boolean isValidPosition(Position position) {

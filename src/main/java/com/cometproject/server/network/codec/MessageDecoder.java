@@ -27,6 +27,8 @@ public class MessageDecoder extends FrameDecoder {
         }
 
         while(buffer.readableBytes() > packetIndex) {
+            if(buffer.readableBytes() < 4) break;
+
             try {
                 int length = buffer.readInt();
 
