@@ -33,7 +33,6 @@ public class MessageDecoder extends FrameDecoder {
                 int length = buffer.readInt();
 
                 if (length >= 2 && length <= 1024) {
-
                     if (!(buffer.readableBytes() >= length)) {
                         continue;
                     }
@@ -41,10 +40,12 @@ public class MessageDecoder extends FrameDecoder {
                     packets.add(new Event(buffer.readBytes(length)));
                 }
             } catch (Exception e) {
-                // TODO: do something with this exception!
-                e.printStackTrace();
+//                // TODO: do something with this exception!
+//                e.printStackTrace();
             }
         }
+
+        if(packets.size() == 0) return null;
 
         return packets;
     }
