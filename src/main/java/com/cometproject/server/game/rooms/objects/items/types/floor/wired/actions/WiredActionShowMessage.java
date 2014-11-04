@@ -42,7 +42,7 @@ public class WiredActionShowMessage extends WiredActionItem {
         PlayerEntity playerEntity = ((PlayerEntity) entity);
 
         if(!this.getWiredData().getText().isEmpty()) {
-            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(entity.getId(), this.getWiredData().getText()));
+            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(entity.getId(), this.getWiredData().getText(), 34));
         }
 
         return true;
