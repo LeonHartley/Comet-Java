@@ -16,6 +16,8 @@ public enum RoomTradeState {
     }
 
     public static RoomTradeState valueOf(int state) {
-        return RoomTradeState.ENABLED;
+        if (state == 0) return DISABLED;
+        else if (state == 2) return ENABLED;
+        else return OWNER_ONLY;
     }
 }
