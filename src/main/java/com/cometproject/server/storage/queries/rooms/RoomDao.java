@@ -141,7 +141,7 @@ public class RoomDao {
         return rooms;
     }
 
-    public static int createRoom(String name, String description, String model, int category, int maxVisitors, RoomTradeState tradeState, int userId, String username) {
+    public static int createRoom(String name, String model, String description, int category, int maxVisitors, RoomTradeState tradeState, int userId, String username) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

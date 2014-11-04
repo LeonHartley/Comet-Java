@@ -35,6 +35,7 @@ import com.cometproject.server.network.messages.incoming.room.bots.BotConfigMess
 import com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.PlaceBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.RemoveBotMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.engine.FollowRoomInfoMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PetInformationMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PlacePetMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.RemovePetMessageEvent;
@@ -193,9 +194,9 @@ public final class MessageHandler {
 
     public void registerRoom() {
         this.getMessages().put(Events.EnterPrivateRoomMessageEvent, new InitializeRoomMessageEvent());
-        this.getMessages().put(Events.RoomGetHeightmapMessageEvent, new LoadHeightmapMessageEvent());
-        this.getMessages().put(Events.RoomOnLoadMessageEvent, new AddUserToRoomMessageEvent());
-//        this.getMessages().put(Events.AddUserToRoom2MessageEvent, new AddUserToRoomMessageEvent());
+//        this.getMessages().put(Events.RoomGetHeightmapMessageEvent, new LoadHeightmapMessageEvent());
+//        this.getMessages().put(Events.RoomOnLoadMessageEvent, new AddUserToRoomMessageEvent());
+        this.getMessages().put(Events.RoomGetInfoMessageEvent, new FollowRoomInfoMessageEvent());
         this.getMessages().put(Events.GoToHotelViewMessageEvent, new ExitRoomMessageEvent());
         this.getMessages().put(Events.ChatMessageEvent, new TalkMessageEvent());
         this.getMessages().put(Events.ShoutMessageEvent, new ShoutMessageEvent());
@@ -224,7 +225,7 @@ public final class MessageHandler {
     public void registerRoomTrade() {
         this.getMessages().put(Events.TradeStartMessageEvent, new BeginTradeMessageEvent());
         this.getMessages().put(Events.TradeCancelMessageEvent, new CancelTradeMessageEvent());
-//        this.getMessages().put(Events.CancelTradeButtonMessageEvent, new CancelTradeMessageEvent());
+//        this.getMessages().put(Events.Cancel, new CancelTradeMessageEvent());
         this.getMessages().put(Events.TradeAddItemOfferMessageEvent, new SendOfferMessageEvent());
         this.getMessages().put(Events.TradeDiscardMessageEvent, new CancelOfferMessageEvent());
         this.getMessages().put(Events.TradeAcceptMessageEvent, new AcceptTradeMessageEvent());
@@ -322,8 +323,6 @@ public final class MessageHandler {
 
             log.debug("Started packet process for packet: [" + Events.valueOfId(header) + "][" + header + "]");
 
-//            System.out.println(message.toString());
-
             try {
                 this.getMessages().get(header).handle(client, message);
 
@@ -345,7 +344,6 @@ public final class MessageHandler {
             }
         } else if (Comet.isDebugging) {
             log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
-//            System.out.println(message.toString());
         }
     }
 
