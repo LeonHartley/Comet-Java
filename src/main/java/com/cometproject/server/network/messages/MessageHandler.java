@@ -269,8 +269,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.SaveRoomBackgroundTonerMessageEvent, new SaveTonerMessageEvent());
         this.getMessages().put(Events.SaveRoomBrandingMessageEvent, new SaveBrandingMessageEvent());
         this.getMessages().put(Events.OpenGiftMessageEvent, new OpenGiftMessageEvent());
-        this.getMessages().put(Events.TriggerMoodlightMessageEvent, new UseMoodlightMessageEvent());
-        this.getMessages().put(Events.ActivateMoodlightMessageEvent, new ToggleMoodlightMessageEvent());
+        this.getMessages().put(Events.ActivateMoodlightMessageEvent, new UseMoodlightMessageEvent());
+        this.getMessages().put(Events.TriggerMoodlightMessageEvent, new ToggleMoodlightMessageEvent());
         this.getMessages().put(Events.UpdateMoodlightMessageEvent, new UpdateMoodlightMessageEvent());
         this.getMessages().put(Events.TileStackMagicSetHeightMessageEvent, new SaveStackToolMessageEvent());
         this.getMessages().put(Events.SaveFootballGateOutfitMessageEvent, new SaveFootballGateMessageEvent());

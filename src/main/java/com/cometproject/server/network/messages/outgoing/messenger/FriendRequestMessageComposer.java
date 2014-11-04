@@ -6,7 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class FriendRequestMessageComposer {
     public static Composer compose(MessengerRequest request) {
-        Composer msg = new Composer(Composers.FriendRequestsMessageComposer);
+        Composer msg = new Composer(Composers.ConsoleSendFriendRequestMessageComposer);
 
         msg.writeInt(request.getFromId());
         msg.writeString(request.getUsername());
