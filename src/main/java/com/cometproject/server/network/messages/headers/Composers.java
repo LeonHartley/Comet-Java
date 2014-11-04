@@ -65,7 +65,7 @@ public class Composers {
     public static short RoomEnterErrorMessageComposer = 3820;
     public static short RoomEventMessageComposer = 241;
     public static short RoomFloorItemsMessageComposer = 529;
-    public static short RoomFloorWallLevelsMessageComposer = 2412;
+    public static short RoomFloorWallLevelsMessageComposer = 103;
     public static short RoomGroupMessageComposer = 1907;
     public static short RoomOwnershipMessageComposer = 2101;
     public static short RoomRatingMessageComposer = 1118;
@@ -84,8 +84,8 @@ public class Composers {
     public static short WhisperMessageComposer = 1430;
     public static short DanceStatusMessageComposer = 1362;
     public static short DoorbellMessageComposer = 3104;
-    public static short DoorbellNoOneMessageComposer = 1;
-    public static short DoorbellOpenedMessageComposer = 1;
+    public static short DoorbellNoOneMessageComposer = 2590;
+    public static short DoorbellOpenedMessageComposer = 2590;
     public static short UserProfileMessageComposer = 3031;
     public static short AddFloorItemMessageComposer = 3183;
     public static short AddWallItemMessageComposer = 2400;
@@ -259,7 +259,7 @@ public class Composers {
     public static short UpdateFloorHeightMapMessageComposer = 2264;
     public static short EnableRoomInfoMessageComposer = 1919;
 
-    public static short WiredRewardMessageComposer = 0;
+    public static short WiredRewardMessageComposer = 2640;
     public static short MaintenanceNotificationMessageComposer = 431;
     public static short AdvancedAlertMessageComposer = 2273;
 

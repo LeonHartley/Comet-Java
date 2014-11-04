@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class BadgeInventoryMessageComposer {
     public static Composer compose(Map<String, Integer> badges) {
-        Composer msg = new Composer(Composers.UserBadgesMessageComposer);
+        Composer msg = new Composer(Composers.LoadBadgesWidgetMessageComposer);
 
         Map<String, Integer> activeBadges = new FastMap<>();
 

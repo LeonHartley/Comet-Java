@@ -69,7 +69,7 @@ public class SaveFloorMessageEvent implements IEvent {
         room.getData().setHeightmap(JsonFactory.getInstance().toJson(floorMapData));
         room.getData().save();
 
-        client.send(AdvancedAlertMessageComposer.compose("Model Saved", Locale.get("command.floor.complete")));
+        client.send(AdvancedAlertMessageComposer.compose("Model Saved", Locale.get("command.floor.complete"), "Go", "event:navigator/goto/" + client.getPlayer().getEntity().getRoom().getId(), ""));
 
         room.setIdleNow();
     }

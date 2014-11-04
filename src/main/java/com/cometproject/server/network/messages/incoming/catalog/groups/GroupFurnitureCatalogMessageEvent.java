@@ -8,6 +8,6 @@ import com.cometproject.server.network.sessions.Session;
 public class GroupFurnitureCatalogMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        client.send(GroupDataMessageComposer.compose(client.getPlayer().getGroups(), client.getPlayer().getData().getFavouriteGroup()));
+        client.send(GroupDataMessageComposer.compose(client.getPlayer().getGroups(), client.getPlayer().getId()));
     }
 }
