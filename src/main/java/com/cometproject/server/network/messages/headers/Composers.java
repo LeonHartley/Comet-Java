@@ -108,7 +108,7 @@ public class Composers {
     public static short UserLeftRoomMessageComposer = 658;
     public static short UserTagsMessageComposer = 1725;
     public static short RelationshipMessageComposer = 1485;
-    public static short RemoveInventoryObjectMessageComposer = 1596;
+    public static short RemoveInventoryObjectMessageComposer = 2369;
     public static short LoadBadgesWidgetMessageComposer = 2569;
     public static short UpdateFurniStackMapMessageComposer = 2264;
     public static short ModerationToolIssueChatlogMessageComposer = 2589;
@@ -234,8 +234,8 @@ public class Composers {
     public static short PollQuestionsMessageComposer = 2525;
     public static short OpenBullyReportMessageComposer = 2548;
     public static short BullyReportSentMessageComposer = 2848;
-    public static short GetFloorPlanUsedCoordsMessageComposer = 279;
-    public static short SetFloorPlanDoorMessageComposer = 2844;
+    public static short GetFloorPlanUsedCoordsMessageComposer = 3845;
+    public static short SetFloorPlanDoorMessageComposer = 1381;
     public static short NuxListGiftsMessageComposer = 3629;
     public static short BuildersClubMembershipMessageComposer = 296;
     public static short LoveLockDialogueMessageComposer = 1903;

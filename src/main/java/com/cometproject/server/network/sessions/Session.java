@@ -91,8 +91,6 @@ public class Session {
             logger.debug("Message was null!");
             return;
         }
-
-        logger.debug("Sending composer: " + Composers.valueOfId(msg.getId()));
         this.getChannel().write(msg);
     }
 

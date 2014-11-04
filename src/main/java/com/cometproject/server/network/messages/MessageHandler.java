@@ -36,6 +36,8 @@ import com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMess
 import com.cometproject.server.network.messages.incoming.room.bots.PlaceBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.RemoveBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.FollowRoomInfoMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.floor.GetFloorPlanDoorMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.floor.GetTilesInUseMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PetInformationMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PlacePetMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.RemovePetMessageEvent;
@@ -217,9 +219,11 @@ public final class MessageHandler {
         this.getMessages().put(Events.DropHanditemMessageEvent, new DropHandItemMessageEvent());
         this.getMessages().put(Events.RoomDeleteMessageEvent, new DeleteRoomMessageEvent());
         this.getMessages().put(Events.RoomSettingsMuteAllMessageEvent, new MuteRoomMessageEvent());
-        this.getMessages().put(Events.SaveFloorPlanEditorMessageEvent, new SaveFloorMessageEvent());
         this.getMessages().put(Events.RateRoomMessageEvent, new RateRoomMessageEvent());
         this.getMessages().put(Events.GiveHanditemMessageEvent, new GiveHandItemMessageEvent());
+        this.getMessages().put(Events.SaveFloorPlanEditorMessageEvent, new SaveFloorMessageEvent());
+        this.getMessages().put(Events.GetFloorPlanFurnitureMessageEvent, new GetTilesInUseMessageEvent());
+        this.getMessages().put(Events.GetFloorPlanDoorMessageEvent, new GetFloorPlanDoorMessageEvent());
     }
 
     public void registerRoomTrade() {

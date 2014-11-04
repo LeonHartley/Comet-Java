@@ -2,11 +2,14 @@ package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.models.types.DynamicRoomModel;
 import com.cometproject.server.game.rooms.types.components.*;
 import com.cometproject.server.game.rooms.types.mapping.RoomMapping;
+import com.cometproject.server.utilities.JsonFactory;
 import com.cometproject.server.utilities.attributes.Attributable;
+import com.google.gson.Gson;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -46,9 +49,13 @@ public class Room implements Attributable {
         this.model = CometManager.getRooms().getModel(this.getData().getModel());
 
         if (this.getData().getHeightmap() != null) {
-            this.model = new DynamicRoomModel("dynamic_heightmap", this.getData().getHeightmap(), this.getModel().getDoorX(), this.getModel().getDoorY(), this.getModel().getDoorZ(), this.getModel().getDoorRotation());
+            if (this.getData().getHeightmap().startsWith("{")) {
+                CustomFloorMapData mapData = JsonFactory.getInstance().fromJson(this.getData().getHeightmap(), CustomFloorMapData.class);
+                this.model = new DynamicRoomModel("dynamic_heightmap", mapData.getModelData(), mapData.getDoorX(), mapData.getDoorY(), this.getModel().getDoorZ(), mapData.getDoorRotation(), mapData.getWallHeight());
+            } else {
+                this.model = new DynamicRoomModel("dynamic_heightmap", this.getData().getHeightmap(), this.getModel().getDoorX(), this.getModel().getDoorY(), this.getModel().getDoorZ(), this.getModel().getDoorRotation(), -1);
+            }
         }
-
         this.attributes = new FastMap<>();
 
         this.mapping = new RoomMapping(this);

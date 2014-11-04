@@ -25,12 +25,15 @@ public abstract class RoomModel {
     private final Composer heightmapMessageComposer;
     private final Composer floorMapMessageComposer;
 
-    public RoomModel(String name, String heightmap, int doorX, int doorY, int doorZ, int doorRotation) {
+    private int wallHeight;
+
+    public RoomModel(String name, String heightmap, int doorX, int doorY, int doorZ, int doorRotation, int wallHeight) {
         this.name = name;
         this.doorX = doorX;
         this.doorY = doorY;
         this.doorZ = doorZ;
         this.doorRotation = doorRotation;
+        this.wallHeight = wallHeight;
 
         String[] axes = heightmap.split("\r");
 
@@ -92,6 +95,10 @@ public abstract class RoomModel {
         return this.doorZ;
     }
 
+    public void setDoorZ(int doorZ) {
+        this.doorZ = doorZ;
+    }
+
     public int getDoorRotation() {
         return this.doorRotation;
     }
@@ -118,5 +125,9 @@ public abstract class RoomModel {
 
     public Composer getRelativeHeightmapMessage() {
         return this.floorMapMessageComposer;
+    }
+
+    public int getWallHeight() {
+        return wallHeight;
     }
 }
