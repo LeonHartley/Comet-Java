@@ -20,7 +20,7 @@ public class RelativeHeightmapMessageComposer {
         Composer msg = new Composer(Composers.FloorMapMessageComposer);
 
         msg.writeBoolean(true); // ??
-        msg.writeInt(0);
+        msg.writeInt(-1);
 
         StringBuilder builder = new StringBuilder();
 

@@ -16,8 +16,6 @@ public class CreateRoomMessageEvent implements IEvent {
         int maxVisitors = msg.readInt();
         int tradeState = msg.readInt();
 
-        System.out.println("Trade state: " + tradeState);
-
         if (CometManager.getRooms().getModel(model) == null) {
             client.send(MotdNotificationComposer.compose("Invalid room model"));
             return;
