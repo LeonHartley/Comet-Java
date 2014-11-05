@@ -185,10 +185,23 @@ public class Trade {
 
         if (user1Accepted && user2Accepted) {
             this.stage++;
-            this.sendToUsers(TradeCompleteMessageComposer.compose());
+            this.sendToUsers(TradeConfirmationMessageComposer.compose());
             this.user1Accepted = false;
             this.user2Accepted = false;
         }
+    }
+
+    public void unaccept(int user) {
+        if(this.user1Accepted && user2Accepted) {
+            this.stage--;
+        }
+
+        if (user == 1)
+            this.user1Accepted = false;
+        else
+            this.user2Accepted = false;
+
+        this.sendToUsers(TradeAcceptUpdateMessageComposer.compose(((user == 1) ? user1 : user2).getPlayer().getId(), false));
     }
 
     /**

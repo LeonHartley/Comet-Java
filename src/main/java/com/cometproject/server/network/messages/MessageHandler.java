@@ -71,6 +71,7 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardr
 import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlaylistMessageEvent;
 import com.cometproject.server.network.messages.outgoing.room.access.LoadRoomByDoorBellMessageEvent;
+import com.cometproject.server.network.messages.outgoing.room.trading.TradeAcceptUpdateMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
@@ -229,7 +230,7 @@ public final class MessageHandler {
     public void registerRoomTrade() {
         this.getMessages().put(Events.TradeStartMessageEvent, new BeginTradeMessageEvent());
         this.getMessages().put(Events.TradeCancelMessageEvent, new CancelTradeMessageEvent());
-//        this.getMessages().put(Events.Cancel, new CancelTradeMessageEvent());
+        this.getMessages().put(Events.TradeUnacceptMessageEvent, new UnacceptTradeMessageEvent());
         this.getMessages().put(Events.TradeAddItemOfferMessageEvent, new SendOfferMessageEvent());
         this.getMessages().put(Events.TradeDiscardMessageEvent, new CancelOfferMessageEvent());
         this.getMessages().put(Events.TradeAcceptMessageEvent, new AcceptTradeMessageEvent());
