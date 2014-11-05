@@ -60,8 +60,8 @@ public class Position {
                 String[] length = data[1].substring(2).split(",");
                 int lengthX = Integer.parseInt(length[0]);
                 int lengthY = Integer.parseInt(length[1]);
-                if (lengthX < 0 || lengthY < 0 || lengthX > 200 || lengthY > 200)
-                    return null;
+//                if (lengthX < 0 || lengthY < 0 || lengthX > 200 || lengthY > 200)
+//                    return null;
 
                 return ":w=" + widthX + "," + widthY + " " + "l=" + lengthX + "," + lengthY + " " + data[2];
             }

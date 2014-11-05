@@ -22,25 +22,32 @@ public class RollerFloorItem extends RoomItemFloor {
     }
 
     @Override
+    public void onEntityStepOn(GenericEntity entity) {
+        if (this.ticksTimer < 1) {
+            this.setTicks(this.getTickCount());
+        }
+    }
+
+    @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
         if (this.ticksTimer < 1) {
-            this.setTicks(RoomItemFactory.getProcessTime(2));
+            this.setTicks(this.getTickCount());
         }
     }
 
     private int ticker = 0;
 
     @Override
-    public void onTick() {
-        final int rollerSpeed = this.getRoom().hasAttribute("customRollerSpeed") ? (int) this.getRoom().getAttribute("customRollerSpeed") : 3;
-
-        if(this.ticker > rollerSpeed) // reset the ticker if the roller speed has been manaully edited
-            this.ticker = 0;
-
-        if(ticker != rollerSpeed) { // TODO: Ability to set roller speed (4 = default)
-            ticker++;
-            return;
-        }
+    public void onTickComplete() {
+//        final int rollerSpeed = this.getRoom().hasAttribute("customRollerSpeed") ? (int) this.getRoom().getAttribute("customRollerSpeed") : 3;
+//
+//        if(this.ticker > rollerSpeed) // reset the ticker if the roller speed has been manaully edited
+//            this.ticker = 0;
+//
+//        if(ticker != rollerSpeed) { // TODO: Ability to set roller speed (4 = default)
+//            ticker++;
+//            return;
+//        }
 
         this.handleEntities();
         this.handleItems();
@@ -78,7 +85,7 @@ public class RollerFloorItem extends RoomItemFloor {
 
             this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position(sqInfront.getX(), sqInfront.getY(), toHeight), this.getId(), entity.getId(), 0));
             entity.setPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
-            entity.cancelNextUpdate();
+//            entity.cancelNextUpdate();
         }
     }
 
@@ -147,6 +154,11 @@ public class RollerFloorItem extends RoomItemFloor {
 //                }
 //            }
 
+            if (!this.getRoom().getMapping().isValidStep(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
+                    this.setTicks(this.getTickCount());
+                    break;
+            }
+
             this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), new Position(sqInfront.getX(), sqInfront.getY(), height), this.getId(), 0, floor.getId()));
 
             floor.getPosition().setX(sqInfront.getX());
@@ -165,5 +177,9 @@ public class RollerFloorItem extends RoomItemFloor {
                 nextItem.onItemAddedToStack(floor);
             }
         }
+    }
+
+    private int getTickCount() {
+        return RoomItemFactory.getProcessTime(this.getRoom().hasAttribute("customRollerSpeed") ? (int) this.getRoom().getAttribute("customRollerSpeed") : 3);
     }
 }
