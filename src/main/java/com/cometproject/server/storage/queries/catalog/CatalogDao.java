@@ -61,7 +61,7 @@ public class CatalogDao {
                     continue;
                 }
 
-                if(resultSet.getString("id").length() > 9 || resultSet.getString("item_ids").length() > 9) continue;
+//                if(resultSet.getString("id").length() > 9 || resultSet.getString("item_ids").length() > 9) continue;
                 data.put(resultSet.getInt("id"), new CatalogItem(resultSet));
             }
 
