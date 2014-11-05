@@ -51,6 +51,9 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     private boolean cancelNextUpdate;
 
+    public int updatePhase = 0;
+    public boolean needsForcedUpdate = false;
+
     private boolean doorbellAnswered;
 
     private Map<RoomEntityStatus, String> statuses = new FastMap<>();
@@ -447,6 +450,8 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.stepsToGoal = 0;
 
         this.futureSquare = null;
+
+        this.needsForcedUpdate = true;
 
         this.updateAndSetPosition(position);
         this.markNeedsUpdate();

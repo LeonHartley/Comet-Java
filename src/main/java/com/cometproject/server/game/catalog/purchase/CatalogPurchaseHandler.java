@@ -23,6 +23,7 @@ import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.google.gson.Gson;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -143,6 +144,8 @@ public class CatalogPurchaseHandler {
                         extraData += data.replace(",", ".");
                     }
                 } else if(def.getInteraction().equals("group_item") || def.getInteraction().equals("group_gate")) {
+                    if(!StringUtils.isNumeric(data)) return;
+
                     if(!client.getPlayer().getGroups().contains(new Integer(data))) {
                         return;
                     }
