@@ -92,7 +92,7 @@ public class Session {
             return;
         }
 
-        logger.debug("Sent message: " + Composers.valueOfId(msg.getId()) + " / " + msg.getId());
+//        logger.debug("Sent message: " + Composers.valueOfId(msg.getId()) + " / " + msg.getId());
 
         this.getChannel().write(msg);
     }
