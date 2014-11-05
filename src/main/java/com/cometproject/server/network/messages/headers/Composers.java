@@ -84,7 +84,7 @@ public class Composers {
     public static final short WhisperMessageComposer = 1430;
     public static final short DanceStatusMessageComposer = 1362;
     public static final short DoorbellMessageComposer = 3104;
-    public static final short DoorbellNoOneMessageComposer = 2590;
+    public static final short DoorbellNoOneMessageComposer = 2149;
     public static final short DoorbellOpenedMessageComposer = 2590;
     public static final short UserProfileMessageComposer = 3031;
     public static final short AddFloorItemMessageComposer = 3183;
@@ -131,7 +131,7 @@ public class Composers {
     public static final short BotInventoryMessageComposer = 1346;
     public static final short BotSpeechListMessageComposer = 3323;
     public static final short AddEffectToInventoryMessageComposer = 2798;
-    public static final short ApplyEffectMessageComposer = 2683;
+    public static final short ApplyEffectMessageComposer = 2666;
     public static final short EnableEffectMessageComposer = 3074;
     public static final short StopAvatarEffectMessageComposer = 2666;
     public static final short FloodFilterMessageComposer = 3180;
@@ -160,7 +160,7 @@ public class Composers {
     public static final short RecyclingStateMessageComposer = 1;
     public static final short LoadPostItMessageComposer = 1;
     public static final short OpenGiftMessageComposer = 2272;
-    public static final short RemoveRightsMessageComposer = 1;
+    public static final short RemoveRightsMessageComposer = 867;
     public static final short LoadRoomRightsListMessageComposer = 798;
     public static final short RoomBannedListMessageComposer = 3997;
     public static final short RoomSettingsDataMessageComposer = 1113;
@@ -173,7 +173,7 @@ public class Composers {
     public static final short FriendUpdateMessageComposer = 3335;
     public static final short GiftErrorMessageComposer = 1342;
     public static final short GiveRespectsMessageComposer = 1447;
-    public static final short GiveRoomRightsMessageComposer = 1;
+    public static final short GiveRoomRightsMessageComposer = 6;
     public static final short NavigatorNewFlatCategoriesMessageComposer = 6;
     public static final short RoomMuteStatusMessageComposer = 1322;
     public static final short ReceiveBadgeMessageComposer = 479;

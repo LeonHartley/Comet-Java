@@ -137,8 +137,8 @@ public class Events {
     public static final short WardrobeUpdateMessageEvent = 1862;
     public static final short RoomAddFloorItemMessageEvent = 900;
     public static final short FloorItemMoveMessageEvent = 835;
-    public static final short TriggerDiceCloseMessageEvent = 2501;
-    public static final short TriggerDiceRollMessageEvent = 2496;
+    public static final short TriggerDiceCloseMessageEvent = 2355;
+    public static final short TriggerDiceRollMessageEvent = 3119;
     public static final short TriggerItemMessageEvent = 163;
     public static final short TriggerMoodlightMessageEvent = 830;
     public static final short TriggerWallItemMessageEvent = 1516;
