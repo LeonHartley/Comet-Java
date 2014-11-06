@@ -10,12 +10,10 @@ import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessa
 import com.cometproject.server.network.messages.outgoing.handshake.UniqueIDMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.FavouriteRoomsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.navigator.RoomCategoriesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.EnableNotificationsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.EnableTradingMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.details.LoadVolumeSettingsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.details.PlayerSettingsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.UnreadMinimailsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.EffectsInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
@@ -127,8 +125,8 @@ public class SSOTicketMessageEvent implements IEvent {
                 sendQueue(FavouriteRoomsMessageComposer.compose()).
                 sendQueue(UnreadMinimailsMessageComposer.compose(0)).
                 sendQueue(EnableTradingMessageComposer.compose(true)).
-                sendQueue(EnableNotificationsMessageComposer.compose());
-//                .sendQueue(LoadVolumeSettingsMessageComposer.compose(player));
+                sendQueue(EnableNotificationsMessageComposer.compose())
+                .sendQueue(PlayerSettingsMessageComposer.compose(player));
 
 //        if (player.getSettings().getHomeRoom() > 0) {
             client.sendQueue(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));

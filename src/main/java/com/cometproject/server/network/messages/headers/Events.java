@@ -271,6 +271,7 @@ public class Events {
     public static final short OnGuideSessionDetachedMessageEvent = 943;
     public static final short GetHelperToolConfigurationMessageEvent = 139;
     public static final short SetChatPreferenceMessageEvent = 1997;
+    public static final short IgnoreInvitationsMessageEvent = 3705;
     public static final short OnGuideMessageEvent = 535;
     public static final short GuideToolMessageNew = 1929;
     public static final short GuideInviteToRoom = 1527;

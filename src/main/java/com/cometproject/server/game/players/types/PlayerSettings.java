@@ -24,9 +24,10 @@ public class PlayerSettings {
 
     private int homeRoom;
     private boolean useOldChat;
+    private boolean ignoreInvites;
 
     public PlayerSettings(ResultSet data, boolean isLogin) throws SQLException {
-        if(isLogin) {
+        if (isLogin) {
             String volumeData = data.getString("playerSettings_volume");
 
             if (volumeData != null && volumeData.startsWith("{")) {
@@ -61,6 +62,7 @@ public class PlayerSettings {
             }
 
             this.useOldChat = data.getString("playerSettings_useOldChat").equals("1");
+            this.ignoreInvites = data.getString("playerSettings_ignoreInvites").equals("1");
         } else {
             String volumeData = data.getString("volume");
 
@@ -96,6 +98,7 @@ public class PlayerSettings {
             }
 
             this.useOldChat = data.getString("chat_oldstyle").equals("1");
+            this.ignoreInvites = data.getString("ignore_invites").equals("1");
         }
     }
 
@@ -157,5 +160,13 @@ public class PlayerSettings {
 
     public void setUseOldChat(boolean useOldChat) {
         this.useOldChat = useOldChat;
+    }
+
+    public boolean isIgnoreInvites() {
+        return ignoreInvites;
+    }
+
+    public void setIgnoreInvites(boolean ignoreInvites) {
+        this.ignoreInvites = ignoreInvites;
     }
 }

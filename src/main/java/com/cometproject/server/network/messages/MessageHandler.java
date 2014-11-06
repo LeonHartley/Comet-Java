@@ -70,6 +70,7 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.ChangeLoo
 import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlaylistMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoMessageEvent;
 import com.cometproject.server.network.messages.outgoing.room.access.LoadRoomByDoorBellMessageEvent;
 import com.cometproject.server.network.messages.outgoing.room.trading.TradeAcceptUpdateMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -174,10 +175,11 @@ public final class MessageHandler {
         this.getMessages().put(Events.SetHomeRoomMessageEvent, new ChangeHomeRoomMessageEvent());
         this.getMessages().put(Events.ChangeUsernameMessageEvent, new ChangeUsernameCheckMessageEvent());
         this.getMessages().put(Events.YouTubeGetPlaylistGetMessageEvent, new LoadPlaylistMessageEvent());
-//        this.getMessages().put(Events.PlayVideoMessageEvent, new PlayVideoMessageEvent());
-//        this.getMessages().put(Events.NextVideoMessageEvent, new NextVideoMessageEvent());
-//        this.getMessages().put(Events, new UpdateAudioSettingsMessageEvent());
+//        this.getMessages().put(Events.YouTubeChoosePlaylistVideoMessageEvent, new PlayVideoMessageEvent());
+//        this.getMessages().put(Events.You, new NextVideoMessageEvent());
+        this.getMessages().put(Events.SaveClientSettingsMessageEvent, new UpdateAudioSettingsMessageEvent());
         this.getMessages().put(Events.SetChatPreferenceMessageEvent, new UpdateChatStyleMessageEvent());
+        this.getMessages().put(Events.IgnoreInvitationsMessageEvent, new IgnoreInvitationsMessageEvent());
     }
 
     public void registerBots() {
