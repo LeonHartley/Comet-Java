@@ -7,7 +7,7 @@ import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotionsManager;
-import com.cometproject.server.game.rooms.types.misc.RoomTradeState;
+import com.cometproject.server.game.rooms.types.misc.settings.RoomTradeState;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;

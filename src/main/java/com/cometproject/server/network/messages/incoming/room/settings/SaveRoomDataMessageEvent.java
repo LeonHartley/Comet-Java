@@ -6,6 +6,10 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
+import com.cometproject.server.game.rooms.types.misc.settings.RoomBanState;
+import com.cometproject.server.game.rooms.types.misc.settings.RoomKickState;
+import com.cometproject.server.game.rooms.types.misc.settings.RoomMuteState;
+import com.cometproject.server.game.rooms.types.misc.settings.RoomTradeState;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
@@ -45,7 +49,7 @@ public class SaveRoomDataMessageEvent implements IEvent {
         String tagString = tagBuilder.toString();
         String[] tags = tagString.split(",");
 
-        int junk = msg.readInt();
+        int tradeState = msg.readInt();
 
         boolean allowPets = msg.readBoolean();
         boolean allowPetsEat = msg.readBoolean();
@@ -55,9 +59,15 @@ public class SaveRoomDataMessageEvent implements IEvent {
         int wallThick = msg.readInt();
         int floorThick = msg.readInt();
 
-        int whoMute = msg.readInt();
-        int whoKick = msg.readInt();
-        int whoBan = msg.readInt();
+        int muteState = msg.readInt();
+        int kickState = msg.readInt();
+        int banState = msg.readInt();
+
+        int bubbleMode = msg.readInt();
+        int bubbleType = msg.readInt();
+        int bubbleScroll = msg.readInt();
+        int chatDistance = msg.readInt();
+        int antiFloodSettings = msg.readInt();
 
         if (wallThick < -2 || wallThick > 1) {
             wallThick = 0;
@@ -109,6 +119,17 @@ public class SaveRoomDataMessageEvent implements IEvent {
         data.setHideWalls(hideWall);
         data.setAllowWalkthrough(allowWalkthrough);
         data.setAllowPets(allowPets);
+
+        data.setTradeState(RoomTradeState.valueOf(tradeState));
+        data.setMuteState(RoomMuteState.valueOf(muteState));
+        data.setKickState(RoomKickState.valueOf(kickState));
+        data.setBanState(RoomBanState.valueOf(banState));
+
+        data.setChatDistance(chatDistance);
+        data.setBubbleMode(bubbleMode);
+        data.setBubbleScroll(bubbleScroll);
+        data.setBubbleType(bubbleType);
+        data.setAntiFloodSettings(antiFloodSettings);
 
         try {
             data.save();

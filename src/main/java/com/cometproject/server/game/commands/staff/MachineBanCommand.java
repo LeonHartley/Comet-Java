@@ -1,6 +1,7 @@
 package com.cometproject.server.game.commands.staff;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.moderation.types.Ban;
@@ -8,9 +9,7 @@ import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.moderation.BanDao;
 
-import java.net.InetSocketAddress;
-
-public class IpBanCommand extends ChatCommand {
+public class MachineBanCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length != 2) {
@@ -23,7 +22,7 @@ public class IpBanCommand extends ChatCommand {
         Session user = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
 
         if (user == null) {
-            // TODO: Use the "player_access" table to allow you to IP ban a user that's not online
+            // TODO: Use the "player_access" table to allow you to machine ban a user that's not online
             return;
         }
 
@@ -33,28 +32,28 @@ public class IpBanCommand extends ChatCommand {
 
         long expire = Comet.getTime() + (length * 3600);
 
-        String ipAddress = user.getIpAddress();
+        String uniqueId = user.getUniqueId();
 
-        if (CometManager.getBans().hasBan(ipAddress, BanType.IP)) {
-            sendChat("IP: " + ipAddress + " is already banned.", client);
+        if (CometManager.getBans().hasBan(uniqueId, BanType.MACHINE)) {
+            sendChat("Machine ID: " + uniqueId + " is already banned.", client);
             return;
         }
 
-        int banId = BanDao.createBan(BanType.IP, length, expire, ipAddress, client.getPlayer().getId());
-        CometManager.getBans().add(new Ban(banId, user.getPlayer().getId() + "", expire, BanType.IP, ""));
+        int banId = BanDao.createBan(BanType.MACHINE, length, expire, uniqueId, client.getPlayer().getId());
+        CometManager.getBans().add(new Ban(banId, user.getPlayer().getId() + "", expire, BanType.MACHINE, ""));
 
-        sendChat("User has been IP banned (IP: " + ipAddress + ")", client);
+        sendChat("User has been machine ID banned (" + uniqueId + ")", client);
 
         user.disconnect();
     }
 
     @Override
     public String getPermission() {
-        return "ipban_command";
+        return "machineban_command";
     }
 
     @Override
     public String getDescription() {
-        return "command.ipban.description";
+        return Locale.get("command.machineban.description");
     }
 }

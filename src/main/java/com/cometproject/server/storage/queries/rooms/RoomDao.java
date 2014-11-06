@@ -2,7 +2,10 @@ package com.cometproject.server.storage.queries.rooms;
 
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.RoomData;
-import com.cometproject.server.game.rooms.types.misc.RoomTradeState;
+import com.cometproject.server.game.rooms.types.misc.settings.RoomBanState;
+import com.cometproject.server.game.rooms.types.misc.settings.RoomKickState;
+import com.cometproject.server.game.rooms.types.misc.settings.RoomMuteState;
+import com.cometproject.server.game.rooms.types.misc.settings.RoomTradeState;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
@@ -177,13 +180,23 @@ public class RoomDao {
         return 0;
     }
 
-    public static void updateRoom(int roomId, String name, String description, int ownerId, String owner, int category, int maxUsers, String access, String password, int score, String tags, String decor, String model, boolean hideWalls, int thicknessWall, int thicknessFloor, boolean allowWalkthrough, boolean allowPets, String heightmap) {
+    public static void updateRoom(int roomId, String name, String description, int ownerId, String owner, int category, int maxUsers, String access,
+                                  String password, int score, String tags, String decor, String model, boolean hideWalls, int thicknessWall,
+                                  int thicknessFloor, boolean allowWalkthrough, boolean allowPets, String heightmap, RoomTradeState tradeState, RoomMuteState whoCanMute,
+                                  RoomKickState whoCanKick, RoomBanState whoCanBan, int bubbleMode, int bubbleType, int bubbleScroll,
+                                  int chatDistance, int antiFloodSettings) {
+
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
-            preparedStatement = SqlHelper.prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?, max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?, thickness_floor = ?, allow_walkthrough = ?, allow_pets = ?, heightmap = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?," +
+                            " max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?," +
+                            " thickness_floor = ?, allow_walkthrough = ?, allow_pets = ?, heightmap = ?, mute_state = ?, ban_state = ?, kick_state = ?," +
+                            "bubble_mode = ?, bubble_type = ?, bubble_scroll = ?, chat_distance = ?, flood_level = ?, trade_state = ? WHERE id = ?",
+                    sqlConnection);
+
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, description);
             preparedStatement.setInt(3, ownerId);
@@ -202,7 +215,17 @@ public class RoomDao {
             preparedStatement.setString(16, allowWalkthrough ? "1" : "0");
             preparedStatement.setString(17, allowPets ? "1" : "0");
             preparedStatement.setString(18, heightmap);
-            preparedStatement.setInt(19, roomId);
+            preparedStatement.setString(19, whoCanMute.toString());
+            preparedStatement.setString(20, whoCanBan.toString());
+            preparedStatement.setString(21, whoCanKick.toString());
+            preparedStatement.setInt(22, bubbleMode);
+            preparedStatement.setInt(23, bubbleType);
+            preparedStatement.setInt(24, bubbleScroll);
+            preparedStatement.setInt(25, chatDistance);
+            preparedStatement.setInt(26, antiFloodSettings);
+            preparedStatement.setString(27, tradeState.toString());
+
+            preparedStatement.setInt(28, roomId);
 
             preparedStatement.execute();
         } catch (SQLException e) {

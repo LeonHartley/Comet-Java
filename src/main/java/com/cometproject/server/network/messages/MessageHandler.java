@@ -302,7 +302,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetGroupInfoMessageEvent, new GroupInformationMessageEvent());
         this.getMessages().put(Events.GetGroupMembersMessageEvent, new GroupMembersMessageEvent());
         this.getMessages().put(Events.GroupManageMessageEvent, new ManageGroupMessageEvent());
-        this.getMessages().put(Events.GroupDeclineMembershipRequestMessageEvent, new RevokeMembershipMessageEvent());
+        this.getMessages().put(Events.RequestLeaveGroupMessageEvent, new RevokeMembershipMessageEvent());
         this.getMessages().put(Events.GroupUserJoinMessageEvent, new JoinGroupMessageEvent());
         this.getMessages().put(Events.GroupUpdateNameMessageEvent, new ModifyGroupTitleMessageEvent());
         this.getMessages().put(Events.RemoveGroupAdminMessageEvent, new RevokeAdminMessageEvent());

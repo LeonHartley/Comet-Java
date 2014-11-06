@@ -1,4 +1,4 @@
-package com.cometproject.server.game.rooms.types.misc;
+package com.cometproject.server.game.rooms.types.misc.settings;
 
 public enum RoomTradeState {
     DISABLED(0),

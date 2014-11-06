@@ -1,6 +1,7 @@
 package com.cometproject.server.game.moderation;
 
 import com.cometproject.server.game.moderation.types.Ban;
+import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.storage.queries.moderation.BanDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
@@ -34,8 +35,14 @@ public class BanManager {
         this.bans.put(ban.getData(), ban);
     }
 
-    public boolean hasBan(String data) {
-        return this.bans.containsKey(data);
+    public boolean hasBan(String data, BanType type) {
+        if(this.bans.containsKey(data)) {
+            if(this.bans.get(data).getType() == type) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public Ban get(String data) {
