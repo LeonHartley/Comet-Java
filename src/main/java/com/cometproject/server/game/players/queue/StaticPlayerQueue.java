@@ -9,7 +9,7 @@ public class StaticPlayerQueue {
 
     }
 
-    public static void init(CometThreadManagement threadManagement) {
+    public static void invit(CometThreadManagement threadManagement) {
         mgr = new PlayerLoginQueueManager(true, threadManagement);
     }
 

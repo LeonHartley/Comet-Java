@@ -25,10 +25,16 @@ public class CommandManager {
         this.commands = new FastMap<>();
         this.notifications = new NotificationManager();
 
-        this.loadUserCommands();
-        this.loadStaffCommands();
+        this.reloadAllCommands();
 
         Logger.getLogger(CommandManager.class.getName()).info("Loaded " + commands.size() + " chat commands");
+    }
+
+    public void reloadAllCommands() {
+        this.commands.clear();
+
+        this.loadUserCommands();
+        this.loadStaffCommands();
     }
 
     /**
@@ -81,6 +87,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.maintenance.name"), new MaintenanceCommand());
         this.commands.put(Locale.get("command.roomaction.name"), new RoomActionCommand());
         this.commands.put(Locale.get("command.eventalert.name"), new EventAlertCommand());
+        this.commands.put(Locale.get("command.machineban.name"), new MachineBanCommand());
     }
 
     /**

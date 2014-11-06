@@ -86,6 +86,7 @@ public class ReloadCommand extends ChatCommand {
 
             case "locale":
                 Locale.reload();
+                CometManager.getCommands().reloadAllCommands();
 
                 sendChat(Locale.get("command.reload.locale"), client);
                 break;

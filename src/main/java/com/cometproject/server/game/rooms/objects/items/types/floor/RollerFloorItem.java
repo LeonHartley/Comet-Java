@@ -17,8 +17,8 @@ public class RollerFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOff(GenericEntity entity) {
-
+    public void onLoad() {
+        this.setTicks(this.getTickCount());
     }
 
     @Override
@@ -35,8 +35,6 @@ public class RollerFloorItem extends RoomItemFloor {
         }
     }
 
-    private int ticker = 0;
-
     @Override
     public void onTickComplete() {
 //        final int rollerSpeed = this.getRoom().hasAttribute("customRollerSpeed") ? (int) this.getRoom().getAttribute("customRollerSpeed") : 3;
@@ -44,15 +42,13 @@ public class RollerFloorItem extends RoomItemFloor {
 //        if(this.ticker > rollerSpeed) // reset the ticker if the roller speed has been manaully edited
 //            this.ticker = 0;
 //
-//        if(ticker != rollerSpeed) { // TODO: Ability to set roller speed (4 = default)
+//        if(ticker != rollerSpeed) {
 //            ticker++;
 //            return;
 //        }
 
         this.handleEntities();
         this.handleItems();
-
-        this.ticker = 0;
     }
 
     private void handleEntities() {
@@ -156,7 +152,7 @@ public class RollerFloorItem extends RoomItemFloor {
 
             if (!this.getRoom().getMapping().isValidStep(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
                     this.setTicks(this.getTickCount());
-                    break;
+                    return;
             }
 
             this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), new Position(sqInfront.getX(), sqInfront.getY(), height), this.getId(), 0, floor.getId()));
@@ -180,6 +176,7 @@ public class RollerFloorItem extends RoomItemFloor {
     }
 
     private int getTickCount() {
-        return RoomItemFactory.getProcessTime(this.getRoom().hasAttribute("customRollerSpeed") ? (int) this.getRoom().getAttribute("customRollerSpeed") : 3);
+//        return RoomItemFactory.getProcessTime(this.getRoom().hasAttribute("customRollerSpeed") ? (int) this.getRoom().getAttribute("customRollerSpeed") : 3);
+        return this.getRoom().hasAttribute("customRollerSpeed") ? (int) this.getRoom().getAttribute("customRollerSpeed") : 3;
     }
 }
