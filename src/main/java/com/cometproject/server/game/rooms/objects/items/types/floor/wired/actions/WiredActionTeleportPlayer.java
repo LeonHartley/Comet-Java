@@ -30,6 +30,9 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
     public boolean evaluate(GenericEntity entity, Object data) {
         if(entity == null) return false;
 
+
+        System.out.println("Started teleport of entity");
+
         if(this.entity != null) {
             // this action is busy, pls come back later.
             return false;
@@ -57,12 +60,15 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
             return;
         }
 
-        Position position = new Position(item.getPosition().getX(), item.getPosition().getY(), item.getPosition().getZ());
+        Position position = new Position(item.getPosition().getX(), item.getPosition().getY(), item.getTile().getWalkHeight());
 
         this.entity.applyEffect(new PlayerEffect(4, 5));
+
+        this.entity.needsForcedUpdate = true;
         this.entity.warp(position);
 
         this.entity = null;
+        System.out.println("Completed teleport of entity");
     }
 
 

@@ -131,7 +131,7 @@ public class Composers {
     public static final short BotInventoryMessageComposer = 1346;
     public static final short BotSpeechListMessageComposer = 3323;
     public static final short AddEffectToInventoryMessageComposer = 2798;
-    public static final short ApplyEffectMessageComposer = 2666;
+    public static final short ApplyEffectMessageComposer = 3074;
     public static final short EnableEffectMessageComposer = 3074;
     public static final short StopAvatarEffectMessageComposer = 2666;
     public static final short FloodFilterMessageComposer = 3180;
@@ -262,6 +262,7 @@ public class Composers {
     public static final short WiredRewardMessageComposer = 2640;
     public static final short MaintenanceNotificationMessageComposer = 431;
     public static final short AdvancedAlertMessageComposer = 2273;
+    public static final short TradeErrorMessageComposer = 2483;
 
     private static Map<Short, String> composerNames = new FastMap<>();
 

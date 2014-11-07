@@ -195,6 +195,9 @@ public class ProcessComponent implements CometTask {
             List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
             List<RoomItemFloor> itemsOnOldSq = this.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY());
 
+            entity.updateAndSetPosition(null);
+            entity.setPosition(newPosition);
+
             // Step off
             for (RoomItemFloor item : itemsOnOldSq) {
                 item.onEntityStepOff(entity);
@@ -202,9 +205,6 @@ public class ProcessComponent implements CometTask {
                 if (!itemsOnSq.contains(item))
                     WiredTriggerWalksOffFurni.executeTriggers(entity, item);
             }
-
-            entity.updateAndSetPosition(null);
-            entity.setPosition(newPosition);
 
             // Step-on
             RoomItemFloor oldItem = null;
@@ -436,7 +436,7 @@ public class ProcessComponent implements CometTask {
             }
         }
 
-        if(entity.isWalkCancelled()) {
+        if (entity.isWalkCancelled()) {
             entity.setWalkCancelled(false);
         }
 
