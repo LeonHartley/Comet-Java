@@ -278,6 +278,7 @@ public class Events {
     public static final short VisitRoomGuides = 1705;
     public static final short GuideEndSession = 2436;
     public static final short CancellInviteGuide = 3879;
+    public static final short GroupFurnitureWidgetMessageEvent = 1711;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 

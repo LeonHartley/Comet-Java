@@ -317,6 +317,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.AcceptGroupRequestMessageEvent, new AcceptMembershipMessageEvent());
         this.getMessages().put(Events.GroupUpdateBadgeMessageEvent, new ModifyGroupBadgeMessageEvent());
         this.getMessages().put(Events.SetFavoriteGroupMessageEvent, new SetFavouriteGroupMessageEvent());
+        this.getMessages().put(Events.GroupFurnitureWidgetMessageEvent, new GroupFurnitureWidgetMessageEvent());
 
 //        this.getMessages().put(Events.GroupForumPermissionsMessageEvent, new GroupForumPermissionsMessageEvent());
 //        this.getMessages().put(Events.GroupForumThreadsMessageEvent, new GroupForumThreadsMessageEvent());

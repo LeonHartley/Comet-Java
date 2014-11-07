@@ -30,9 +30,6 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
     public boolean evaluate(GenericEntity entity, Object data) {
         if(entity == null) return false;
 
-
-        System.out.println("Started teleport of entity");
-
         if(this.entity != null) {
             // this action is busy, pls come back later.
             return false;
@@ -51,7 +48,10 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
 
     @Override
     public void onTickComplete() {
-        if(this.getWiredData() == null || this.getWiredData().getSelectedIds() == null) return;
+        if(this.getWiredData() == null || this.getWiredData().getSelectedIds() == null) {
+            this.entity = null;
+            return;
+        }
 
         int itemId = WiredUtil.getRandomElement(this.getWiredData().getSelectedIds());
         RoomItemFloor item = this.getRoom().getItems().getFloorItem(itemId);
@@ -64,11 +64,11 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
 
         this.entity.applyEffect(new PlayerEffect(4, 5));
 
+        this.entity.cancelWalk();
         this.entity.needsForcedUpdate = true;
         this.entity.warp(position);
 
         this.entity = null;
-        System.out.println("Completed teleport of entity");
     }
 
 
