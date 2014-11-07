@@ -20,7 +20,7 @@ public class ShoutMessageEvent implements IEvent {
 
         String filteredMessage = TalkMessageEvent.filterMessage(message);
 
-        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() != null)
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null)
             return;
 
 
