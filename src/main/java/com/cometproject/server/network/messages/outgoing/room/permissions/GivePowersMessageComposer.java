@@ -4,12 +4,12 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class GivePowersMessageComposer {
-    public static Composer compose(int roomId, int userId) {
+    public static Composer compose(int roomId, int userId, String username) {
         Composer msg = new Composer(Composers.GiveRoomRightsMessageComposer);
 
         msg.writeInt(roomId);
         msg.writeInt(userId);
-        msg.writeString("Leon"); // test
+        msg.writeString(username);
 
         return msg;
     }

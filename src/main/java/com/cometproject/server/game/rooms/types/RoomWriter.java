@@ -18,8 +18,8 @@ public class RoomWriter {
         msg.writeInt(room.getMaxUsers());
         msg.writeString(room.getDescription());
         msg.writeInt(0);
-        msg.writeInt(room.getCategory().canTrade() ? 2 : 0);
         msg.writeInt(room.getScore());
+        msg.writeInt(room.getCategory().canTrade() ? 2 : 0);
         msg.writeInt(0);
         msg.writeInt(room.getCategory().getId());
 

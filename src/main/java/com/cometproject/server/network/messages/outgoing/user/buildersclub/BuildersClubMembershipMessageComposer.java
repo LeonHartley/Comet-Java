@@ -7,7 +7,7 @@ public class BuildersClubMembershipMessageComposer {
     public static Composer compose() {
         Composer msg = new Composer(Composers.BuildersClubMembershipMessageComposer);
 
-        msg.writeInt(3700);
+        msg.writeInt(999999999);
         msg.writeInt(100);
         msg.writeInt(2);
 

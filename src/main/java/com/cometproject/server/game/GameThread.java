@@ -57,10 +57,6 @@ public class GameThread implements CometTask {
     }
 
     private void cycle() throws Exception {
-        for (Room room : CometManager.getRooms().getRoomInstances().values()) {
-            room.getRights().cycle();
-        }
-
         if (CometSettings.quarterlyCreditsEnabled || CometSettings.quarterlyDucketsEnabled) {
             for (Session client : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
                 if (client.getPlayer() == null || client.getPlayer().getData() == null) {

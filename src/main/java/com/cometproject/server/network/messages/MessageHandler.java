@@ -227,6 +227,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.SaveFloorPlanEditorMessageEvent, new SaveFloorMessageEvent());
         this.getMessages().put(Events.GetFloorPlanFurnitureMessageEvent, new GetTilesInUseMessageEvent());
         this.getMessages().put(Events.GetFloorPlanDoorMessageEvent, new GetFloorPlanDoorMessageEvent());
+        this.getMessages().put(Events.IgnoreUserMessageEvent, new IgnoreUserMessageEvent());
+        this.getMessages().put(Events.UnignoreUserMessageEvent, new UnignoreUserMessageEvent());
     }
 
     public void registerRoomTrade() {
@@ -241,10 +243,12 @@ public final class MessageHandler {
 
     public void registerRoomModeration() {
         this.getMessages().put(Events.RoomKickUserMessageEvent, new KickUserMessageEvent());
+        this.getMessages().put(Events.RoomBanUserMessageEvent, new BanUserMessageEvent());
         this.getMessages().put(Events.GiveRightsMessageEvent, new GiveRightsMessageEvent());
         this.getMessages().put(Events.RoomRemoveUserRightsMessageEvent, new RemoveRightsMessageEvent());
         this.getMessages().put(Events.RoomRemoveAllRightsMessageEvent, new RemoveAllRightsMessageEvent());
         this.getMessages().put(Events.GetRoomBannedUsersMessageEvent, new GetBannedUsersMessageEvent());
+        this.getMessages().put(Events.RoomUnbanUserMessageEvent, new RoomUnbanUserMessageEvent());
     }
 
     public void registerRoomAccess() {

@@ -9,7 +9,6 @@ import com.cometproject.server.game.rooms.types.components.*;
 import com.cometproject.server.game.rooms.types.mapping.RoomMapping;
 import com.cometproject.server.utilities.JsonFactory;
 import com.cometproject.server.utilities.attributes.Attributable;
-import com.google.gson.Gson;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -119,6 +118,10 @@ public class Room implements Attributable {
 
         if (useCycleForItems && this.itemProcess != null) {
             this.itemProcess.tick();
+        }
+
+        if(this.rights != null) {
+            this.rights.tick();
         }
     }
 

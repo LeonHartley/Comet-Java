@@ -22,20 +22,18 @@ public class RemoveRightsMessageEvent implements IEvent {
 
         PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(playerId);
 
-        if (playerEntity == null) {
+        if (!room.getRights().hasRights(playerId)) {
             return;
         }
 
-        if (!room.getRights().hasRights(playerEntity.getPlayerId())) {
-            return;
-        }
-
-        room.getRights().removeRights(playerEntity.getPlayerId());
-        playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(0));
+        room.getRights().removeRights(playerId);
         client.send(RemovePowersMessageComposer.compose(room.getId(), playerId));
 
-        playerEntity.removeStatus(RoomEntityStatus.CONTROLLER);
-        playerEntity.addStatus(RoomEntityStatus.CONTROLLER, "0");
-        playerEntity.markNeedsUpdate();
+        if (playerEntity != null) {
+            playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(0));
+            playerEntity.removeStatus(RoomEntityStatus.CONTROLLER);
+            playerEntity.addStatus(RoomEntityStatus.CONTROLLER, "0");
+            playerEntity.markNeedsUpdate();
+        }
     }
 }

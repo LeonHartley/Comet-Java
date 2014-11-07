@@ -22,6 +22,7 @@ import com.cometproject.server.network.messages.incoming.room.engine.InitializeR
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
+import com.cometproject.server.network.messages.outgoing.room.alerts.RoomConnectionErrorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomErrorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
@@ -70,15 +71,14 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         // Room full slot available
         if (this.getPlayer().getId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() && !this.player.getPermissions().hasPermission("room_enter_full")) {
-            this.player.getSession().send(AdvancedAlertMessageComposer.compose(Locale.get("game.room.full")));
+            this.player.getSession().send(RoomConnectionErrorMessageComposer.compose(1, ""));
             this.player.getSession().send(HotelViewMessageComposer.compose());
             return;
         }
 
         // Room bans
         if (this.getRoom().getRights().hasBan(this.player.getId()) && !this.player.getPermissions().hasPermission("room_unkickable")) {
-            // TODO: Proper ban message
-            this.player.getSession().send(HotelViewMessageComposer.compose());
+            this.player.getSession().send(RoomConnectionErrorMessageComposer.compose(4, ""));
             return;
         }
 
@@ -180,6 +180,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             item.onEntityStepOff(this);
         }
 
+        if (isKick && !isOffline) {
+            this.getPlayer().getSession().send(RoomErrorMessageComposer.compose(4008));
+        }
+
         // Send leave room message to all current entities
         this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
 
@@ -187,10 +191,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         if (!isOffline && toHotelView) {
             this.getPlayer().getSession().send(HotelViewMessageComposer.compose());
             this.getPlayer().getSession().getPlayer().getMessenger().sendStatus(true, false);
-        }
-
-        if (isKick && !isOffline) {
-            this.getPlayer().getSession().send(RoomErrorMessageComposer.compose(4008));
         }
 
         // Check and cancel any active trades
