@@ -12,7 +12,7 @@ public class RightsComponent {
     private Room room;
 
     private FastTable<Integer> rights;
-    private FastTable<RoomBan> bannedUsers;
+    private FastTable<RoomBan> bannedPlayers;
 
     public RightsComponent(Room room) {
         this.room = room;
@@ -24,7 +24,12 @@ public class RightsComponent {
             this.room.log.error("Error while loading room rights", e);
         }
 
-        this.bannedUsers = new FastTable<RoomBan>().shared();
+        this.bannedPlayers = new FastTable<RoomBan>().shared();
+    }
+
+    public void dispose() {
+        this.rights.clear();
+        this.bannedPlayers.clear();
     }
 
     public boolean hasRights(int playerId) {
@@ -43,13 +48,13 @@ public class RightsComponent {
         RightsDao.add(playerId, this.room.getId());
     }
 
-    public void addBan(int userId) {
-        this.bannedUsers.add(new RoomBan(userId));
+    public void addBan(int playerId, String playerName, int length) {
+        this.bannedPlayers.add(new RoomBan(playerId, playerName, length != -1 ? length * 2 : -1));
     }
 
     public boolean hasBan(int userId) {
-        for (RoomBan ban : this.bannedUsers) {
-            if (ban.getId() == userId) {
+        for (RoomBan ban : this.bannedPlayers) {
+            if (ban.getPlayerId() == userId) {
                 return true;
             }
         }
@@ -57,21 +62,40 @@ public class RightsComponent {
         return false;
     }
 
-    public void cycle() {
+    public void removeBan(int playerId) {
+        int indexToRemove = -1;
+
+        for (RoomBan ban : this.bannedPlayers) {
+            if (ban.getPlayerId() == playerId) {
+                indexToRemove = this.bannedPlayers.indexOf(ban);
+            }
+        }
+
+        if(indexToRemove != -1) {
+            this.bannedPlayers.remove(indexToRemove);
+        }
+    }
+
+    public void tick() {
         List<RoomBan> bansToRemove = new ArrayList<>();
 
-        for (RoomBan ban : this.bannedUsers) {
-            if (ban.getCycle() >= 1) {
+        for (RoomBan ban : this.bannedPlayers) {
+            if (ban.getTicksLeft() <= 0 && !ban.isPermanent()) {
                 bansToRemove.add(ban);
-                continue;
             }
 
-            ban.increaseCycle();
+            ban.decreaseTicks();
         }
 
         for (RoomBan ban : bansToRemove) {
-            this.bannedUsers.remove(ban);
+            this.bannedPlayers.remove(ban);
         }
+
+        bansToRemove.clear();
+    }
+
+    public List<RoomBan> getBannedPlayers() {
+        return this.bannedPlayers;
     }
 
     public List<Integer> getAll() {

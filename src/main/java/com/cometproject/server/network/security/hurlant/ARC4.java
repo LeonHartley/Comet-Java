@@ -2,6 +2,8 @@ package com.cometproject.server.network.security.hurlant;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 
+import java.util.Arrays;
+
 public class ARC4 {
     private int i = 0;
     private int j = 0;

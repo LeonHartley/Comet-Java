@@ -174,14 +174,13 @@ public class Composers {
     public static final short GiftErrorMessageComposer = 1342;
     public static final short GiveRespectsMessageComposer = 1447;
     public static final short GiveRoomRightsMessageComposer = 6;
-    public static final short NavigatorNewFlatCategoriesMessageComposer = 6;
+    public static final short NavigatorNewFlatCategoriesMessageComposer = 0;
     public static final short RoomMuteStatusMessageComposer = 1322;
     public static final short ReceiveBadgeMessageComposer = 479;
     public static final short UpdateAvatarAspectMessageComposer = 2551;
     public static final short UserUpdateNameInRoomMessageComposer = 2432;
     public static final short UserIsPlayingFreezeMessageComposer = 2846;
     public static final short UpdateFreezeLivesMessageComposer = 1633;
-    public static final short UpdateIgnoreStatusMessageComposer = 1996;
     public static final short NotifyNewPetLevelMessageComposer = 2685;
     public static final short RetrieveSongIDMessageComposer = 1473;
     public static final short JukeboxNowPlayingMessageComposer = 3001;
@@ -263,6 +262,9 @@ public class Composers {
     public static final short MaintenanceNotificationMessageComposer = 431;
     public static final short AdvancedAlertMessageComposer = 2273;
     public static final short TradeErrorMessageComposer = 2483;
+    public static final short RoomConnectionErrorMessageComposer = 3820;
+    public static final short RoomPlayerUnbannedMessageComposer = 2215;
+    public static final short UpdateIgnoreStatusMessageComposer = 1996;
 
     private static Map<Short, String> composerNames = new FastMap<>();
 

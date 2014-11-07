@@ -42,6 +42,8 @@ public class Player {
     private List<Integer> rooms = new ArrayList<>();
     private List<Integer> groups = new ArrayList<>();
 
+    private List<Integer> ignoredPlayers = new ArrayList<>();
+
     private long lastMessageTime = 0;
     private double floodTime = 0;
     private int floodFlag = 0;
@@ -95,6 +97,9 @@ public class Player {
 
         this.groups.clear();
         this.groups = null;
+
+        this.ignoredPlayers.clear();
+        this.ignoredPlayers = null;
 
         this.settings = null;
         this.data = null;
@@ -157,6 +162,18 @@ public class Player {
         }
 
         this.getSession().send(UpdateInfoMessageComposer.compose(-1, this.data.getFigure(), this.data.getGender(), this.getData().getMotto(), this.getData().getAchievementPoints()));
+    }
+
+    public void ignorePlayer(int playerId) {
+        this.ignoredPlayers.add(playerId);
+    }
+
+    public void unignorePlayer(int playerId) {
+        this.ignoredPlayers.remove((Integer) playerId);
+    }
+
+    public boolean ignores(int playerId) {
+        return this.ignoredPlayers.contains(playerId);
     }
 
     public List<Integer> getRooms() {

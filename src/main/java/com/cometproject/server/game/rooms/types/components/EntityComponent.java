@@ -144,6 +144,20 @@ public class EntityComponent {
         }
     }
 
+    public void broadcastChatMessage(Composer msg, PlayerEntity sender) {
+        for (GenericEntity entity : this.entities.values()) {
+            if (entity.getEntityType() == RoomEntityType.PLAYER) {
+                PlayerEntity playerEntity = (PlayerEntity) entity;
+
+                if (playerEntity.getPlayer() == null)
+                    continue;
+
+                if(!playerEntity.getPlayer().ignores(sender.getPlayerId()))
+                    playerEntity.getPlayer().getSession().send(msg);
+            }
+        }
+    }
+
     public void broadcastMessage(Composer msg) {
         broadcastMessage(msg, false);
     }
