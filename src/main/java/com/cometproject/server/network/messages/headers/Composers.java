@@ -266,6 +266,7 @@ public class Composers {
     public static final short RoomPlayerUnbannedMessageComposer = 2215;
     public static final short UpdateIgnoreStatusMessageComposer = 1996;
     public static final short GroupFurnitureWidgetMessageComposer = 1674;
+    public static final short CameraTokenMessageComposer = 2137;
 
     private static Map<Short, String> composerNames = new FastMap<>();
 
