@@ -267,7 +267,6 @@ public class Events {
     public static final short NewNavigatorResizeEvent = 2191;
     public static final short NewNavigatorCollapseCategoryEvent = 495;
     public static final short NewNavigatorUncollapseCategoryEvent = 2103;
-    public static final short HabboCameraMessageEvent = 2600;
     public static final short OnGuideSessionDetachedMessageEvent = 943;
     public static final short GetHelperToolConfigurationMessageEvent = 139;
     public static final short SetChatPreferenceMessageEvent = 1997;
@@ -279,6 +278,7 @@ public class Events {
     public static final short GuideEndSession = 2436;
     public static final short CancellInviteGuide = 3879;
     public static final short GroupFurnitureWidgetMessageEvent = 1711;
+    public static final short CameraTokenMessageEvent = 2600;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 

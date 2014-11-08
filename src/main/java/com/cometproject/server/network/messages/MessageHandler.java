@@ -41,6 +41,7 @@ import com.cometproject.server.network.messages.incoming.room.floor.GetTilesInUs
 import com.cometproject.server.network.messages.incoming.room.pets.PetInformationMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PlacePetMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.RemovePetMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.camera.CameraTokenMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.citizenship.CitizenshipStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.AddUserToRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
@@ -104,6 +105,7 @@ public final class MessageHandler {
         this.registerLanding();
         this.registerGroups();
         this.registerQuests();
+        this.registerCamera();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
     }
@@ -327,6 +329,10 @@ public final class MessageHandler {
         //this.getMessages().put(Events.OpenQuestsMessageEvent, new OpenQuestsMessageEvent());
     }
 
+    public void registerCamera() {
+        this.getMessages().put(Events.CameraTokenMessageEvent, new CameraTokenMessageEvent());
+    }
+
     public void handle(Event message, Session client) {
         final Short header = message.getId();
 
@@ -335,6 +341,7 @@ public final class MessageHandler {
 
             log.debug("Started packet process for packet: [" + Events.valueOfId(header) + "][" + header + "]");
 
+            log.debug(message.toString());
             try {
                 this.getMessages().get(header).handle(client, message);
 
@@ -356,6 +363,8 @@ public final class MessageHandler {
             }
         } else if (Comet.isDebugging) {
             log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
+            log.debug("Packet content: " + message.toString());
+
         }
     }
 
