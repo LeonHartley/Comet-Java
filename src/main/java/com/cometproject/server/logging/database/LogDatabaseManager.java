@@ -36,8 +36,6 @@ public class LogDatabaseManager {
                 log.info("Connection to MySQL server was successful");
             }
         }
-
-        LogDatabaseHelper.init(this);
     }
 
     public HikariDataSource getConnections() {
