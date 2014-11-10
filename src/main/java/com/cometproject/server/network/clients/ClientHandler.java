@@ -18,12 +18,8 @@ public class ClientHandler extends SimpleChannelUpstreamHandler {
         try {
             Session client = (Session) ctx.getChannel().getAttachment();
 
-            if (client != null && (ev.getMessage() instanceof List)) {
-                List events = ((List) ev.getMessage());
-
-                for(Object event : events) {
-                    Comet.getServer().getNetwork().getMessages().handle((Event) event, client);
-                }
+            if (client != null && ev.getMessage() instanceof Event) {
+                Comet.getServer().getNetwork().getMessages().handle((Event) ev.getMessage(), client);
             }
         } catch (Exception e) {
             log.error("Error while receiving message", e);

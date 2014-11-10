@@ -23,7 +23,7 @@ public class Session {
     private String uniqueId = "";
 
     private Player player;
-    private ARC4 arc4;
+    private Object arc4;
 
     public Session(Channel channel) {
         this.channel = channel;
@@ -101,12 +101,12 @@ public class Session {
        // todo: bundling of packets
     }
 
-    public ARC4 getEncryption() {
+    public Object getEncryption() {
         return this.arc4;
     }
 
     public void initEncryption(byte[] key) {
-        this.arc4 = new ARC4(key);
+        this.arc4 = new Object();
     }
 
     public Logger getLogger() {
