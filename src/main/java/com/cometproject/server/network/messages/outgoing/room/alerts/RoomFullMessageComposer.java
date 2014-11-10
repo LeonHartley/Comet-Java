@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class RoomFullMessageComposer {
     public static Composer compose() {
-        Composer msg = new Composer(Composers.RoomFullMessageComposer);
+        Composer msg = new Composer(Composers.RoomEnterErrorMessageComposer);
 
         msg.writeInt(1);
         msg.writeString("/x363");

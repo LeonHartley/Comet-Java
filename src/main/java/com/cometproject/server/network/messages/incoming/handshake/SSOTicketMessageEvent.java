@@ -1,27 +1,50 @@
 package com.cometproject.server.network.messages.incoming.handshake;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.handshake.AuthenticationOKMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
-import com.cometproject.server.network.messages.outgoing.handshake.LoginMessageComposer;
+import com.cometproject.server.network.messages.outgoing.handshake.UniqueIDMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
-import com.cometproject.server.network.messages.outgoing.navigator.RoomCategoriesMessageComposer;
+import com.cometproject.server.network.messages.outgoing.navigator.FavouriteRoomsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
-import com.cometproject.server.network.messages.outgoing.user.details.LoadVolumeSettingsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.details.EnableNotificationsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.details.EnableTradingMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.details.PlayerSettingsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.details.UnreadMinimailsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.EffectsInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
+import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.PlayerAccessDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-
-import java.net.InetSocketAddress;
 
 public class SSOTicketMessageEvent implements IEvent {
     public static String TICKET_DELIMITER = ":";
 
     public void handle(Session client, Event msg) {
+        if(client.getEncryption() == null) {
+            CometManager.getLogger().warn("Session was disconnected because RC4 was not initialized!");
+            client.disconnect();
+            return;
+        }
+
+        if(client.getUniqueId().isEmpty() || client.getUniqueId().length() < 10) {
+            CometManager.getLogger().warn("Session was disconnected because it did not have a valid machine ID!");
+            client.disconnect();
+            return;
+        }
+
+        if(CometManager.getBans().hasBan(client.getUniqueId(), BanType.MACHINE)) {
+            CometManager.getLogger().warn("Banned player: " + client.getUniqueId() + " tried logging in");
+            client.disconnect();
+            return;
+        }
+
         String ticket = msg.readString();
 
         if (ticket.length() < 10 || ticket.length() > 128) {
@@ -29,7 +52,6 @@ public class SSOTicketMessageEvent implements IEvent {
             client.disconnect();
             return;
         }
-
 
         // TODO: Tell the hotel owners to remove the id:ticket stuff
         Player player = null;
@@ -68,7 +90,7 @@ public class SSOTicketMessageEvent implements IEvent {
             cloneSession.disconnect(true);
         }
 
-        if (CometManager.getBans().hasBan(Integer.toString(player.getId()))) {
+        if (CometManager.getBans().hasBan(Integer.toString(player.getId()), BanType.USER)) {
             CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
             client.disconnect();
             return;
@@ -77,11 +99,10 @@ public class SSOTicketMessageEvent implements IEvent {
         player.setSession(client);
         client.setPlayer(player);
 
-
         String ipAddress = client.getIpAddress();
 
         if (ipAddress != null && !ipAddress.isEmpty()) {
-            if (CometManager.getBans().hasBan(ipAddress)) {
+            if (CometManager.getBans().hasBan(ipAddress, BanType.IP)) {
                 CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
                 client.disconnect();
                 return;
@@ -90,28 +111,34 @@ public class SSOTicketMessageEvent implements IEvent {
             client.getPlayer().getData().setIpAddress(ipAddress);
         }
 
+        PlayerAccessDao.saveAccess(player.getId(), client.getUniqueId(), ipAddress);
+
         CometManager.getRooms().loadRoomsForUser(player);
 
         client.getLogger().debug(client.getPlayer().getData().getUsername() + " logged in");
 
         PlayerDao.updatePlayerStatus(player, true, true);
 
-        client.sendQueue(LoginMessageComposer.compose()).
-                sendQueue(client.getPlayer().composeCreditBalance()).
-                sendQueue(client.getPlayer().composeCurrenciesBalance()).
+        client.sendQueue(UniqueIDMessageComposer.compose(client.getUniqueId())).
+                sendQueue(AuthenticationOKMessageComposer.compose()).
                 sendQueue(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank())).
-                sendQueue(MotdNotificationComposer.compose())
-                .sendQueue(LoadVolumeSettingsMessageComposer.compose(player));
+                sendQueue(MotdNotificationComposer.compose()).
+                sendQueue(FavouriteRoomsMessageComposer.compose()).
+                sendQueue(UnreadMinimailsMessageComposer.compose(0)).
+                sendQueue(EnableTradingMessageComposer.compose(true)).
+                sendQueue(EnableNotificationsMessageComposer.compose())
+                .sendQueue(PlayerSettingsMessageComposer.compose(player));
 
-        if (player.getSettings().getHomeRoom() > 0) {
+//        if (player.getSettings().getHomeRoom() > 0) {
             client.sendQueue(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
-        }
+//        }
 
         if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             client.sendQueue(ModToolMessageComposer.compose());
         }
 
-        client.sendQueue(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
+        client.send(EffectsInventoryMessageComposer.compose());
+        
         client.flush();
     }
 }

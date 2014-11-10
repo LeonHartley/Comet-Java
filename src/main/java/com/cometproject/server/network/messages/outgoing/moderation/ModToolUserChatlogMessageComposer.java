@@ -11,7 +11,7 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 
 public class ModToolUserChatlogMessageComposer {
     public static Composer compose(int userId, UserChatlogContainer logContainer) {
-        Composer msg = new Composer(Composers.ModToolUserChatlogMessageComposer);
+        Composer msg = new Composer(Composers.ModerationToolUserChatlogMessageComposer);
 
         String username = PlayerDao.getUsernameByPlayerId(userId);
 

@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class GroupInformationMessageComposer {
     public static Composer compose(Group group, RoomData roomData, boolean flag, boolean isOwner, boolean isAdmin, int membership) {
-        Composer msg = new Composer(Composers.GroupInformationMessageComposer);
+        Composer msg = new Composer(Composers.GroupDataMessageComposer);
 
         msg.writeInt(group.getId());
         msg.writeBoolean(true); //is visible

@@ -10,15 +10,18 @@ import com.cometproject.server.network.sessions.Session;
 public class CreateRoomMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         String name = msg.readString();
+        String description = msg.readString();
         String model = msg.readString();
+        int category = msg.readInt();
+        int maxVisitors = msg.readInt();
+        int tradeState = msg.readInt();
 
         if (CometManager.getRooms().getModel(model) == null) {
             client.send(MotdNotificationComposer.compose("Invalid room model"));
             return;
         }
 
-        int roomId = CometManager.getRooms().createRoom(name, model, client);
-
+        int roomId = CometManager.getRooms().createRoom(name, description, model, category, maxVisitors, tradeState, client);
         client.send(CreateRoomMessageComposer.compose(roomId, name));
     }
 }

@@ -97,8 +97,18 @@ public class ProcessComponent implements CometTask {
 
                 entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
 
-                if (entity.needsUpdate() && !entity.needsUpdateCancel() && entity.isVisible()) {
-                    entitiesToUpdate.add(entity);
+                if ((entity.needsUpdate() && !entity.needsUpdateCancel() || entity.needsForcedUpdate) && entity.isVisible()) {
+                    if (entity.needsForcedUpdate && entity.updatePhase == 1) {
+                        entity.needsForcedUpdate = false;
+                        entity.updatePhase = 0;
+
+                        entitiesToUpdate.add(entity);
+                    } else if (entity.needsForcedUpdate) {
+                        entity.updatePhase = 1;
+                    } else {
+                        entity.markUpdateComplete();
+                        entitiesToUpdate.add(entity);
+                    }
                 }
             }
 
@@ -106,10 +116,10 @@ public class ProcessComponent implements CometTask {
             this.getRoom().getEntities().replaceEntityGrid(entityGrid);
 
             // only send the updates if we need to
-            if(entitiesToUpdate.size() > 0)
+            if (entitiesToUpdate.size() > 0)
                 this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entitiesToUpdate));
 
-            for(GenericEntity entity : entitiesToUpdate) {
+            for (GenericEntity entity : entitiesToUpdate) {
                 if (this.updateEntityStuff(entity) && entity instanceof PlayerEntity) {
                     playersToRemove.add((PlayerEntity) entity);
                 }
@@ -185,16 +195,16 @@ public class ProcessComponent implements CometTask {
             List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
             List<RoomItemFloor> itemsOnOldSq = this.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY());
 
+            entity.updateAndSetPosition(null);
+            entity.setPosition(newPosition);
+
             // Step off
             for (RoomItemFloor item : itemsOnOldSq) {
                 item.onEntityStepOff(entity);
 
-                if(!itemsOnSq.contains(item))
+                if (!itemsOnSq.contains(item))
                     WiredTriggerWalksOffFurni.executeTriggers(entity, item);
             }
-
-            entity.updateAndSetPosition(null);
-            entity.setPosition(newPosition);
 
             // Step-on
             RoomItemFloor oldItem = null;
@@ -219,7 +229,7 @@ public class ProcessComponent implements CometTask {
 
                 item.onEntityStepOn(entity);
 
-                if(!itemsOnOldSq.contains(item))
+                if (!itemsOnOldSq.contains(item))
                     WiredTriggerWalksOnFurni.executeTriggers(entity, item);
             }
         }
@@ -356,7 +366,7 @@ public class ProcessComponent implements CometTask {
                 entity.setHeadRotation(entity.getBodyRotation());
 
                 final double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getWalkHeight();
-                boolean isCancelled = false;
+                boolean isCancelled = entity.isWalkCancelled();
                 boolean effectNeedsRemove = true;
 
                 List<RoomItemFloor> preItems = this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y);
@@ -369,9 +379,9 @@ public class ProcessComponent implements CometTask {
 
                     if (item instanceof GateFloorItem && !((GateFloorItem) item).isOpen()) {
                         isCancelled = true;
-                    } else if(item instanceof GroupGateFloorItem) {
-                        if(isPlayer) {
-                            if(((PlayerEntity) entity).getPlayer().getGroups().contains(((GroupGateFloorItem) item).getGroupId())) {
+                    } else if (item instanceof GroupGateFloorItem) {
+                        if (isPlayer) {
+                            if (((PlayerEntity) entity).getPlayer().getGroups().contains(((GroupGateFloorItem) item).getGroupId())) {
                                 item.onEntityPreStepOn(entity);
                             } else {
                                 isCancelled = true;
@@ -404,6 +414,7 @@ public class ProcessComponent implements CometTask {
                         entity.getWalkingPath().clear();
                     }
                     entity.getProcessingPath().clear();
+                    entity.setWalkCancelled(false);
                 }
             } else {
                 if (entity.getWalkingPath() != null) {
@@ -420,9 +431,13 @@ public class ProcessComponent implements CometTask {
             if (entity.getCurrentEffect().getDuration() == 0 && entity.getCurrentEffect().expires()) {
                 entity.applyEffect(entity.getLastEffect() != null ? entity.getLastEffect() : null);
 
-                if(entity.getLastEffect() != null)
+                if (entity.getLastEffect() != null)
                     entity.setLastEffect(null);
             }
+        }
+
+        if (entity.isWalkCancelled()) {
+            entity.setWalkCancelled(false);
         }
 
         return false;

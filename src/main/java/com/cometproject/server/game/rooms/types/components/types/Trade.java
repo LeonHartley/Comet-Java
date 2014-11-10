@@ -5,7 +5,7 @@ import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.components.TradeComponent;
-import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.trading.*;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
@@ -185,10 +185,23 @@ public class Trade {
 
         if (user1Accepted && user2Accepted) {
             this.stage++;
-            this.sendToUsers(TradeCompleteMessageComposer.compose());
+            this.sendToUsers(TradeConfirmationMessageComposer.compose());
             this.user1Accepted = false;
             this.user2Accepted = false;
         }
+    }
+
+    public void unaccept(int user) {
+        if(this.user1Accepted && user2Accepted) {
+            this.stage--;
+        }
+
+        if (user == 1)
+            this.user1Accepted = false;
+        else
+            this.user2Accepted = false;
+
+        this.sendToUsers(TradeAcceptUpdateMessageComposer.compose(((user == 1) ? user1 : user2).getPlayer().getId(), false));
     }
 
     /**
@@ -254,8 +267,8 @@ public class Trade {
             }
         }
 
-        user1.getPlayer().getSession().send(SendPurchaseAlertMessageComposer.compose(user2Items));
-        user2.getPlayer().getSession().send(SendPurchaseAlertMessageComposer.compose(user1Items));
+        user1.getPlayer().getSession().send(UnseenItemsMessageComposer.compose(user2Items));
+        user2.getPlayer().getSession().send(UnseenItemsMessageComposer.compose(user1Items));
 
         sendToUsers(UpdateInventoryMessageComposer.compose());
         sendToUsers(TradeCloseCleanMessageComposer.compose());

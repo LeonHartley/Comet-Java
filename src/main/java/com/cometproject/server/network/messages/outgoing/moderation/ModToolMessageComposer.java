@@ -6,7 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class ModToolMessageComposer {
     public static Composer compose() {
-        Composer msg = new Composer(Composers.ModToolMessageComposer);
+        Composer msg = new Composer(Composers.LoadModerationToolMessageComposer);
 
         msg.writeInt(0);
 

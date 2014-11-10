@@ -18,8 +18,8 @@ public class RoomWriter {
         msg.writeInt(room.getMaxUsers());
         msg.writeString(room.getDescription());
         msg.writeInt(0);
-        msg.writeInt(room.getCategory().canTrade() ? 2 : 0);
         msg.writeInt(room.getScore());
+        msg.writeInt(room.getCategory().canTrade() ? 2 : 0);
         msg.writeInt(0);
         msg.writeInt(room.getCategory().getId());
 
@@ -55,9 +55,9 @@ public class RoomWriter {
         msg.writeInt(!isActive ? 0 : CometManager.getRooms().get(room.getId()).getEntities().playerCount());
         msg.writeInt(room.getMaxUsers());
         msg.writeString(room.getDescription());
-        msg.writeInt(room.getCategory().canTrade() ? 2 : 0);
-        msg.writeInt(0);
+        msg.writeInt(room.getTradeState().getState());
         msg.writeInt(room.getScore());
+        msg.writeInt(0);
         msg.writeInt(0);
         msg.writeInt(room.getCategory().getId());
 
@@ -74,28 +74,28 @@ public class RoomWriter {
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeInt(0);
-        msg.writeBoolean(true);
-        msg.writeBoolean(true);
+        msg.writeBoolean(room.isAllowPets()); //allowpets
+        msg.writeBoolean(true); // room enter ad :s
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeBoolean(false);
         msg.writeBoolean(CometManager.getNavigator().isFeatured(room.getId()));
         msg.writeBoolean(false);
 
-        msg.writeInt(0);
-        msg.writeInt(0);
-        msg.writeInt(0);
+        msg.writeBoolean(false); // IS_MUTED
+        msg.writeInt(room.getMuteState().getState());
+        msg.writeInt(room.getKickState().getState());
+        msg.writeInt(room.getBanState().getState());
         msg.writeBoolean(false);
-        msg.writeBoolean(false);
-        msg.writeBoolean(true);
-        msg.writeInt(0);
-        msg.writeInt(2);
-        msg.writeInt(0);
-        msg.writeInt(14);
-        msg.writeBoolean(false);
-        msg.writeBoolean(false);
-        msg.writeBoolean(false);
-        msg.writeBoolean(true);
+
+        msg.writeInt(room.getBubbleMode());
+        msg.writeInt(room.getBubbleType());
+        msg.writeInt(room.getBubbleScroll());
+        msg.writeInt(room.getChatDistance());
+        msg.writeInt(room.getAntiFloodSettings());
+//        msg.writeBoolean(false);
+//        msg.writeBoolean(false);
+//        msg.writeBoolean(true);
     }
 
     public static void writeInfo(RoomData room, Composer msg) {

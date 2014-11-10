@@ -7,7 +7,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class GroupElementsMessageComposer {
     public static Composer compose() {
-        Composer msg = new Composer(Composers.GroupElementsMessageComposer);
+        Composer msg = new Composer(Composers.GroupPurchasePartsMessageComposer);
 
         msg.writeInt(CometManager.getGroups().getGroupItems().getBases().size());
 

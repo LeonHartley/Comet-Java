@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class TalkMessageComposer {
     public static Composer compose(int userId, String message, int emoticon, int colour) {
-        Composer msg = new Composer(Composers.TalkMessageComposer);
+        Composer msg = new Composer(Composers.ChatMessageComposer);
 
         msg.writeInt(userId);
         msg.writeString(message);

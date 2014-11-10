@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class CurrenciesMessageComposer {
     public static Composer compose(Map<Integer, Integer> currencies) {
-        Composer msg = new Composer(Composers.CurrenciesMessageComposer);
+        Composer msg = new Composer(Composers.ActivityPointsMessageComposer);
 
         msg.writeInt(currencies.size());
 

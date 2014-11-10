@@ -48,14 +48,16 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
 
         BanzaiTeleporterFloorItem randomTeleporter = (BanzaiTeleporterFloorItem) teleporters.toArray()[RandomInteger.getRandom(0, teleporters.size() - 1)];
 
-        this.teleportPosition = new Position(randomTeleporter.getPosition().getX(), randomTeleporter.getPosition().getY(), randomTeleporter.getPosition().getZ());
+        this.teleportPosition = new Position(randomTeleporter.getPosition().getX(), randomTeleporter.getPosition().getY(), randomTeleporter.getTile().getWalkHeight());
         this.entity.setAttribute("warp", true);
 
         this.setExtraData("1");
         this.sendUpdate();
 
         this.stage = 1;
-        this.setTicks(RoomItemFactory.getProcessTime(1.0));
+
+        entity.cancelWalk();
+        this.setTicks(RoomItemFactory.getProcessTime(0.5));
 
         teleporters.clear();
     }
@@ -74,7 +76,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
             this.setExtraData("1");
             this.sendUpdate();
 
-            this.setTicks(RoomItemFactory.getProcessTime(1.0));
+            this.setTicks(RoomItemFactory.getProcessTime(.5));
             this.stage = 0;
             return;
         }

@@ -1,187 +1,294 @@
 package com.cometproject.server.network.messages.headers;
 
+import javolution.util.FastMap;
+
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Map;
 
 public class Composers {
-    public static short InitCryptoMessageComposer = 3016;
-    public static short SecretKeyMessageComposer = 847;
-    public static short HomeRoomMessageComposer = 2174;
-    public static short FuserightsMessageComposer = 1723;
-    public static short ActionMessageComposer = 2439;
-    public static short IdleStatusMessageComposer = 908;
-    public static short AdvancedAlertMessageComposer = 2664;
-    public static short AllowancesMessageComposer = 3899;
-    public static short BoughtItemMessageComposer = 2408;
-    public static short CanCreateRoomMessageComposer = 3353;
-    public static short CataIndexMessageComposer = 1319;
-    public static short CataPageMessageComposer = 1732;
-    public static short CurrenciesMessageComposer = 2446;
-    public static short DanceMessageComposer = 3030;
-    public static short FloorItemsMessageComposer = 3670;
-    public static short FollowBuddyMessageComposer = 3168;
-    public static short GetPowerListMessageComposer = 2547;
-    public static short GetRoomDataMessageComposer = 329;
-    public static short HeightmapMessageComposer = 2749;
-    public static short HotelViewMessageComposer = 2919;
-    public static short InstantChatMessageComposer = 2109;
-    public static short InstantInviteMessageComposer = 258;
-    public static short InventoryMessageComposer = 1293;
-    public static short LeaveRoomMessageComposer = 3666;
-    public static short LoadFriendsMessageComposer = 3332;
-    public static short LoadProfileMessageComposer = 3563;
-    public static short LoadRightsOnRoomMessageComposer = 2423; // ACCESS_LEVEL
-    public static short LoginMessageComposer = 531;
-    public static short ModelAndIdMessageComposer = 1667;
-    public static short ModToolMessageComposer = 2578;
-    public static short MotdMessageComposer = 2291;
-    public static short NavigatorFlatListMessageComposer = 2694;
-    public static short OfferMessageComposer = 2235;
-    public static short OnCreateRoomInfoMessageComposer = 3379;
-    public static short PapersMessageComposer = 3642;
-    public static short RelativeHeightmapMessageComposer = 3768;
-    public static short RemoveFloorItemMessageComposer = 3386;
-    public static short RemoveObjectFromInventoryMessageComposer = 2759;
-    public static short RemovePowersMessageComposer = 3094;
-    public static short GivePowersMessageComposer = 3763;
-    public static short RemoveWallItemMessageComposer = 2003;
-    public static short RequestFriendshipMessageComposer = 1546;
-    public static short RoomDataMessageComposer = 495;
-    public static short RoomFullMessageComposer = 1819;
-    public static short OwnerRightsMessageComposer = 1001;
-    public static short RoomPanelMessageComposer = 2318;
-    public static short EntityUpdateMessageComposer = 3977;
-    public static short RoomUsersMessageComposer = 411;
-    public static short SearchFriendsMessageComposer = 171;
-    public static short SendCreditsMessageComposer = 2507;
-    public static short SendFloorItemMessageComposer = 1013;
-    public static short SendWallItemMessageComposer = 1926;
-    public static short SerializeClubMessageComposer = 2179;
-    public static short ShopData1MessageComposer = 1141;
-    public static short ShopData2MessageComposer = 2642;
-    public static short ShoutMessageComposer = 1192;
-    public static short TalkMessageComposer = 3372;
+    public static final short InitCryptoMessageComposer = 3523;
+    public static final short SecretKeyMessageComposer = 893;
+    public static final short AuthenticationOKMessageComposer = 97;
+    public static final short UniqueMachineIDMessageComposer = 1790;
+    public static final short HomeRoomMessageComposer = 315;
+    public static final short MinimailCountMessageComposer = 1714;
+    public static final short FavouriteRoomsMessageComposer = 1974;
+    public static final short EffectsInventoryMessageComposer = 2687;
+    public static final short UserClubRightsMessageComposer = 757;
+    public static final short EnableNotificationsMessageComposer = 114;
+    public static final short EnableTradingMessageComposer = 1086;
+    public static final short ActivityPointsMessageComposer = 343;
+    public static final short LoadModerationToolMessageComposer = 2851;
+    public static final short BroadcastNotifMessageComposer = 2127;
+    public static final short SendAchievementsRequirementsMessageComposer = 1504;
+    public static final short NuxSuggestFreeGiftsMessageComposer = 3887;
+    public static final short UserObjectMessageComposer = 532;
+    public static final short SendPerkAllowancesMessageComposer = 2903;
+    public static final short CreditsBalanceMessageComposer = 2835;
+    public static final short SubscriptionStatusMessageComposer = 518;
+    public static final short LandingWidgetMessageComposer = 2684;
+    public static final short LandingCommunityChallengeMessageComposer = 3875;
+    public static final short LandingPromosMessageComposer = 3695;
+    public static final short FlatCategoriesMessageComposer = 1531;
+    public static final short OfficialRoomsMessageComposer = 1122;
+    public static final short NavigatorListingsMessageComposer = 2825;
+    public static final short FavouriteRoomsUpdateMessageComposer = 1135;
+    public static final short CanCreateRoomMessageComposer = 2737;
+    public static final short PopularRoomTagsMessageComposer = 3274;
+    public static final short CatalogIndexMessageComposer = 151;
+    public static final short CatalogPageMessageComposer = 415;
+    public static final short CatalogueClubPageMessageComposer = 3385;
+    public static final short CatalogOfferMessageComposer = 3381;
+    public static final short CatalogueOfferConfigMessageComposer = 1732;
+    public static final short PurchaseOKMessageComposer = 1475;
+    public static final short CatalogPurchaseNotAllowedMessageComposer = 1264;
+    public static final short CatalogLimitedItemSoldOutMessageComposer = 2668;
+    public static final short SellablePetBreedsMessageComposer = 3770;
+    public static final short ReloadEcotronMessageComposer = 1708;
+    public static final short GiftWrappingConfigurationMessageComposer = 2988;
+    public static final short RecyclerRewardsMessageComposer = 2750;
+    public static final short CatalogPromotionGetRoomsMessageComposer = 2555;
+    public static final short LoadCatalogClubGiftsMessageComposer = 2179;
+    public static final short AchievementPointsMessageComposer = 3110;
+    public static final short InitialRoomInfoMessageComposer = 3431;
+    public static final short PrepareRoomMessageComposer = 441;
+    public static final short HeightMapMessageComposer = 1454;
+    public static final short FloorMapMessageComposer = 1768;
+    public static final short HasOwnerRightsMessageComposer = 1204;
+    public static final short SetRoomUserMessageComposer = 3753;
+    public static final short UpdateUserStatusMessageComposer = 3128;
+    public static final short RoomSpacesMessageComposer = 2251;
+    public static final short RoomChatOptionsMessageComposer = 3495;
+    public static final short RoomErrorMessageComposer = 487;
+    public static final short RoomDataMessageComposer = 1231;
+    public static final short RoomEnterErrorMessageComposer = 3820;
+    public static final short RoomEventMessageComposer = 241;
+    public static final short RoomFloorItemsMessageComposer = 529;
+    public static final short RoomFloorWallLevelsMessageComposer = 103;
+    public static final short RoomGroupMessageComposer = 1907;
+    public static final short RoomOwnershipMessageComposer = 2101;
+    public static final short RoomRatingMessageComposer = 1118;
+    public static final short RoomRightsLevelMessageComposer = 2004;
+    public static final short SendRoomCampaignFurnitureMessageComposer = 2571;
+    public static final short RoomForwardMessageComposer = 3581;
+    public static final short GroupRoomMessageComposer = 3646;
+    public static final short OnCreateRoomInfoMessageComposer = 1361;
+    public static final short RoomUpdateMessageComposer = 1919;
+    public static final short RoomWallItemsMessageComposer = 1276;
+    public static final short RoomUserActionMessageComposer = 3685;
+    public static final short RoomUserIdleMessageComposer = 2858;
+    public static final short ApplyHanditemMessageComposer = 314;
+    public static final short ChatMessageComposer = 803;
+    public static final short ShoutMessageComposer = 1419;
+    public static final short WhisperMessageComposer = 1430;
+    public static final short DanceStatusMessageComposer = 1362;
+    public static final short DoorbellMessageComposer = 3104;
+    public static final short DoorbellNoOneMessageComposer = 2149;
+    public static final short DoorbellOpenedMessageComposer = 2590;
+    public static final short UserProfileMessageComposer = 3031;
+    public static final short AddFloorItemMessageComposer = 3183;
+    public static final short AddWallItemMessageComposer = 2400;
+    public static final short DimmerDataMessageComposer = 3457;
+    public static final short TypingStatusMessageComposer = 989;
+    public static final short LoadInventoryMessageComposer = 37;
+    public static final short ItemAnimationMessageComposer = 215;
+    public static final short NewInventoryObjectMessageComposer = 1006;
+    public static final short LatencyTestResponseMessageComposer = 3112;
+    public static final short PickUpFloorItemMessageComposer = 1899;
+    public static final short PickUpWallItemMessageComposer = 1596;
+    public static final short WiredRewardAlertMessageComposer = 2640;
+    public static final short UpdateInventoryMessageComposer = 3351;
+    public static final short UpdateFloorItemExtraDataMessageComposer = 931;
+    public static final short UpdateRoomItemMessageComposer = 1459;
+    public static final short UpdateRoomWallItemMessageComposer = 853;
+    public static final short UpdateUserDataMessageComposer = 3464;
+    public static final short UpdateUserNameMessageComposer = 3121;
+    public static final short UserBadgesMessageComposer = 2711;
+    public static final short UserLeftRoomMessageComposer = 658;
+    public static final short UserTagsMessageComposer = 1725;
+    public static final short RelationshipMessageComposer = 1485;
+    public static final short RemoveInventoryObjectMessageComposer = 2369;
+    public static final short LoadBadgesWidgetMessageComposer = 2569;
+    public static final short UpdateFurniStackMapMessageComposer = 2264;
+    public static final short ModerationToolIssueChatlogMessageComposer = 2589;
+    public static final short ModerationRoomToolMessageComposer = 2067;
+    public static final short ModerationTicketResponseMessageComposer = 2128;
+    public static final short ModerationToolIssueMessageComposer = 641;
+    public static final short ModerationToolRoomVisitsMessageComposer = 1587;
+    public static final short ModerationToolUpdateIssueMessageComposer = 1516;
+    public static final short ModerationToolUserChatlogMessageComposer = 3582;
+    public static final short ModerationToolUserToolMessageComposer = 433;
+    public static final short ModerationToolRoomChatlogMessageComposer = 3827;
+    public static final short OpenHelpToolMessageComposer = 1245;
+    public static final short ConsoleChatErrorMessageComposer = 1664;
+    public static final short ConsoleChatMessageComposer = 793;
+    public static final short ConsoleInvitationMessageComposer = 1551;
+    public static final short ConsoleMessengerActionMessageComposer = 3335;
+    public static final short ConsoleSearchFriendMessageComposer = 909;
+    public static final short ConsoleSendFriendRequestMessageComposer = 1932;
+    public static final short AlertNotificationMessageComposer = 1688;
+    public static final short BotInventoryMessageComposer = 1346;
+    public static final short BotSpeechListMessageComposer = 3323;
+    public static final short AddEffectToInventoryMessageComposer = 2798;
+    public static final short ApplyEffectMessageComposer = 3074;
+    public static final short EnableEffectMessageComposer = 3074;
+    public static final short StopAvatarEffectMessageComposer = 2666;
+    public static final short FloodFilterMessageComposer = 3180;
+    public static final short PetInfoMessageComposer = 830;
+    public static final short PetInventoryMessageComposer = 649;
+    public static final short PetTrainerPanelMessageComposer = 2860;
+    public static final short AddPetExperienceMessageComposer = 2818;
+    public static final short LoadFriendsMessageComposer = 168;
+    public static final short QuestAbortedMessageComposer = 1673;
+    public static final short QuestCompletedMessageComposer = 3498;
+    public static final short QuestListMessageComposer = 3562;
+    public static final short QuestStartedMessageComposer = 813;
+    public static final short OutOfRoomMessageComposer = 913;
+    public static final short MOTDNotificationMessageComposer = 2534;
+    public static final short SuperNotificationMessageComposer = 3062;
+    public static final short SerializePetMessageComposer = 2257;
+    public static final short RespectPetMessageComposer = 0;
+    public static final short PetRespectNotificationMessageComposer = 443;
+    public static final short LandingRewardMessageComposer = 135;
+    public static final short LoadVolumeMessageComposer = 2967;
+    public static final short LoadWardrobeMessageComposer = 1618;
+    public static final short NameChangedUpdatesMessageComposer = 3992;
+    public static final short NotAcceptingRequestsMessageComposer = 951;
+    public static final short PingMessageComposer = 3972;
+    public static final short PublishShopMessageComposer = 1639;
+    public static final short RecyclingStateMessageComposer = 1;
+    public static final short LoadPostItMessageComposer = 1;
+    public static final short OpenGiftMessageComposer = 2272;
+    public static final short RemoveRightsMessageComposer = 867;
+    public static final short LoadRoomRightsListMessageComposer = 798;
+    public static final short RoomBannedListMessageComposer = 3997;
+    public static final short RoomSettingsDataMessageComposer = 1113;
+    public static final short RoomLoadFilterMessageComposer = 1249;
+    public static final short RoomSettingsSavedMessageComposer = 2881;
+    public static final short RoomUnbanUserMessageComposer = 2215;
+    public static final short SaveWiredMessageComposer = 3283;
+    public static final short FollowFriendErrorMessageComposer = 2204;
+    public static final short FriendRequestsMessageComposer = 3389;
+    public static final short FriendUpdateMessageComposer = 3335;
+    public static final short GiftErrorMessageComposer = 1342;
+    public static final short GiveRespectsMessageComposer = 1447;
+    public static final short GiveRoomRightsMessageComposer = 6;
+    public static final short NavigatorNewFlatCategoriesMessageComposer = 0;
+    public static final short RoomMuteStatusMessageComposer = 1322;
+    public static final short ReceiveBadgeMessageComposer = 479;
+    public static final short UpdateAvatarAspectMessageComposer = 2551;
+    public static final short UserUpdateNameInRoomMessageComposer = 2432;
+    public static final short UserIsPlayingFreezeMessageComposer = 2846;
+    public static final short UpdateFreezeLivesMessageComposer = 1633;
+    public static final short NotifyNewPetLevelMessageComposer = 2685;
+    public static final short RetrieveSongIDMessageComposer = 1473;
+    public static final short JukeboxNowPlayingMessageComposer = 3001;
+    public static final short JukeboxPlaylistMessageComposer = 186;
+    public static final short SongsLibraryMessageComposer = 2236;
+    public static final short SongsMessageComposer = 1898;
+    public static final short SpectatorModeMessageComposer = 822;
+    public static final short SendMonsterplantIdMessageComposer = 3870;
+    public static final short VoucherErrorMessageComposer = 1738;
+    public static final short VoucherValidMessageComposer = 1738;
+    public static final short YouTubeLoadPlaylistsMessageComposer = 3247;
+    public static final short YouTubeLoadVideoMessageComposer = -32;
+    public static final short WiredConditionMessageComposer = 1612;
+    public static final short WiredEffectMessageComposer = 178;
+    public static final short WiredTriggerMessageComposer = 3016;
+    public static final short ChangeFavouriteGroupMessageComposer = 2939;
+    public static final short FavouriteGroupMessageComposer = 3069;
+    public static final short GroupDataEditMessageComposer = 1572;
+    public static final short GroupDataMessageComposer = 2527;
+    public static final short GroupFurniturePageMessageComposer = 1960;
+    public static final short GroupMembersMessageComposer = 3717;
+    public static final short GroupPurchasePageMessageComposer = 2768;
+    public static final short GroupPurchasePartsMessageComposer = 3161;
+    public static final short GroupAreYouSureMessageComposer = 941;
+    public static final short GroupConfirmLeaveMessageComposer = 248;
+    public static final short GroupRequestReloadMessageComposer = 941;
+    public static final short GroupForumListingsMessageComposer = 3154;
+    public static final short GroupForumDataMessageComposer = 2470;
+    public static final short GroupForumThreadRootMessageComposer = 1755;
+    public static final short GroupForumThreadUpdateMessageComposer = 904;
+    public static final short GroupForumNewThreadMessageComposer = 1860;
+    public static final short GroupForumNewResponseMessageComposer = 1004;
+    public static final short GroupForumReadThreadMessageComposer = 1109;
+    public static final short AchievementListMessageComposer = 2172;
+    public static final short AchievementProgressMessageComposer = 3339;
+    public static final short UnlockAchievementMessageComposer = 2704;
+    public static final short ActivityPointsNotificationMessageComposer = 576;
+    public static final short BadgeCampaignMessageComposer = 2569;
+    public static final short CheckPetNameMessageComposer = 1073;
+    public static final short CitizenshipStatusMessageComposer = 1246;
+    public static final short TalentLevelUpMessageComposer = 1413;
+    public static final short TalentsTrackMessageComposer = 2829;
+    public static final short TradeAcceptMessageComposer = 1827;
+    public static final short TradeCloseMessageComposer = 3670;
+    public static final short TradeCompletedMessageComposer = 3757;
+    public static final short TradeConfirmationMessageComposer = 3063;
+    public static final short TradeStartMessageComposer = 2538;
+    public static final short TradeUpdateMessageComposer = 1165;
+    public static final short SuggestPollMessageComposer = 1414;
+    public static final short PollQuestionsMessageComposer = 2525;
+    public static final short OpenBullyReportMessageComposer = 2548;
+    public static final short BullyReportSentMessageComposer = 2848;
+    public static final short GetFloorPlanUsedCoordsMessageComposer = 3845;
+    public static final short SetFloorPlanDoorMessageComposer = 1381;
+    public static final short NuxListGiftsMessageComposer = 3629;
+    public static final short BuildersClubMembershipMessageComposer = 296;
+    public static final short LoveLockDialogueMessageComposer = 1903;
+    public static final short LoveLockDialogueSetLockedMessageComposer = 652;
+    public static final short LoveLockDialogueCloseMessageComposer = 777;
+    public static final short NavigatorLiftedRoomsComposer = 554;
+    public static final short NavigatorMetaDataComposer = 1676;
+    public static final short NavigatorSavedSearchesComposer = 3255;
+    public static final short SearchResultSetComposer = 2095;
+    public static final short NewNavigatorOfficialRooms = 1122;
+    public static final short HelperToolConfigurationMessageComposer = 1245;
+    public static final short OnGuideSessionStartedMessageComposer = 3738;
+    public static final short OnGuideSessionPartnerIsTypingMessageComposer = 3317;
+    public static final short OnGuideSessionMsgMessageComposer = 2948;
+    public static final short OnGuideSessionInvitedToGuideRoomMessageComposer = 3991;
+    public static final short OnGuideSessionAttachedMessageComposer = 1987;
+    public static final short OnGuideSessionDetachedMessageComposer = 2075;
+    public static final short OnGuideSessionError = 1;
+    public static final short InternalLinkMessageComposer = 688;
+    public static final short BuildersClubUpdateFurniCountMessageComposer = 862;
+    public static final short UpdateFloorHeightMapMessageComposer = 2264;
+    public static final short EnableRoomInfoMessageComposer = 1919;
 
-    public static short TradeAcceptUpdateMessageComposer = 1142;
-    public static short TradeCloseMessageComposer = 7;
-    public static short TradeCloseCleanMessageComposer = 1681;
-    public static short TradeCompleteMessageComposer = 3017;
-    public static short TradeStartMessageComposer = 2078;
-    public static short TradeUpdateMessageComposer = 918;
+    public static final short WiredRewardMessageComposer = 2640;
+    public static final short MaintenanceNotificationMessageComposer = 431;
+    public static final short AdvancedAlertMessageComposer = 2273;
+    public static final short TradeErrorMessageComposer = 2483;
+    public static final short RoomConnectionErrorMessageComposer = 3820;
+    public static final short RoomPlayerUnbannedMessageComposer = 2215;
+    public static final short UpdateIgnoreStatusMessageComposer = 1996;
+    public static final short GroupFurnitureWidgetMessageComposer = 1674;
+    public static final short CameraTokenMessageComposer = 2137;
+    public static final short InitHelpToolMessageComposer = 1140;
+    public static final short TicketSentMessageComposer = 1082;
 
-    public static short TypingStatusMessageComposer = 1860;
-    public static short UpdateFloorExtraDataMessageComposer = 750;
-    public static short UpdateFloorItemMessageComposer = 3169;
-    public static short UpdateFriendStateMessageComposer = 161;
-    public static short UpdateInfoMessageComposer = 1859;
-    public static short UpdateWallItemMessageComposer = 1640;
-    public static short UpdateInventoryMessageComposer = 345;
-    public static short UserInfoMessageComposer = 2895;
-    public static short WallItemsMessageComposer = 1563;
-    public static short WelcomeUserMessageComposer = 2933;
-    public static short WisperMessageComposer = 1123;
-    public static short UnseenItemsMessageComposer = 469;
-    public static short ClubMessageComposer = 2677;
-    public static short FeaturedRoomsMessageComposer = 2540;//d
+    private static Map<Short, String> composerNames = new FastMap<>();
 
-    public static short WiredTriggerMessageComposer = 2550;
-    public static short WiredActionMessageComposer = 1800;
-    public static short SaveWiredMessageComposer = 1115;
-    public static short RoomCategoriesMessageComposer = 1535;
-    public static short ConfigureWallAndFloorMessageComposer = 3323;
-    public static short GiveRespectMessageComposer = 3836;
-    public static short RelationshipsMessageComposer = 3754;
-    public static short SendPurchaseAlertMessageComposer = 774;
-    public static short BotInventoryMessageComposer = 823;
-
-    public static short ModToolUserInfoMessageComposer = 3872;
-    public static short ModToolUserChatlogMessageComposer = 3012;
-
-    public static short InitHelpToolMessageComposer = 3466;
-    public static short TicketSentMessageComposer = 3027;
-    public static short HelpTicketMessageComposer = 2740;
-
-    public static short BadgeInventoryMessageComposer = 3866;
-    public static short FloodFilterMessageComposer = 3728;
-
-    public static short ApplyEffectMessageComposer = 445;
-    public static short UserBadgesMessageComposer = 2059;
-
-    public static short GroupPartsMessageComposer = 3696;
-    public static short GroupElementsMessageComposer = 2081;
-
-    public static short WardrobeMessageComposer = 3709;
-
-    public static short SlideObjectBundleMessageComposer = 2473;
-    public static short BotConfigMessageComposer = 3945;
-    public static short PetRacesMessageComposer = 1261;
-    public static short ValidatePetNameMessageComposer = 1674;
-    public static short PetInventoryMessageComposer = 1074;
-    public static short HandItemMessageComposer = 2258;
-    public static short PopularTagsMessageComposer = 2484;
-    public static short FriendRequestsMessageComposer = 379;
-    public static short ModToolRoomInfoMessageComposer = 2954;
-    public static short PetInformationMessageComposer = 2307;
-
-    public static short PingMessageComposer = 884; // Make sure this is right or users may get disconnected lots..
-    public static short CatalogPublishedMessageComposer = 1652;
-
-    public static short AchievementPointsMessageComposer = 1942;
-    public static short HotelViewItemMessageComposer = 360;
-    public static short PromoArticlesMessageComposer = 3897;
-
-    public static short RoomErrorMessageComposer = 1273;
-    public static short DoorBellNoAnswerComposer = 371;
-    public static short DoorBellRequestComposer = 1738;
-    public static short DoorBellAcceptedComposer = 106;
-
-    public static short ChangeUsernameCheckMessageComposer = 2853;
-
-    public static short PlaylistMessageComposer = 2928;
-    public static short PlayVideoMessageComposer = 3598;
-    public static short RoomRatingMessageComposer = 3533;
-
-    public static short MoodlightMessageComposer = 3496;
-
-    public static short ShowRoomPollMessageComposer = 3762;
-
-    public static short AlertMessageComposer = 656;
-    public static short ModToolRoomVisitsMessageComposer = 1586;
-
-    public static short LoadVolumeSettingsMessageComposer = 2440;
-
-    public static short ForwardRoomMessageComposer = 2674;
-
-    public static short NewGroupMessageComposer = 2684;
-    public static short GroupDataMessageComposer = 3113;
-    public static short GroupInformationMessageComposer = 3435;
-    public static short GroupMembersMessageComposer = 129;
-    public static short ManageGroupMessageComposer = 3351;
-
-    public static short HotelMaintenanceMessageComposer = 3020;
-    public static short GroupBadgesMessageComposer = 1077;
-    public static short UpdateFavouriteGroupMessageComposer = 1875;
-
-    public static short GroupForumPermissionsMessageComposer = 1575;
-    public static short GroupForumThreadsMessageComposer = 3037;
-
-    public static short WiredConditionMessageComposer = 1476;
-    public static short WiredRewardMessageComposer = 934;
-
-    public static String valueOfId(int i) {
-        Composers c = new Composers();
-        Field[] fields;
+    static {
         try {
-            fields = c.getClass().getDeclaredFields();
-
-            for (Field field : fields) {
-                if (field.getInt(field.getName()) == i) {
-                    return field.getName();
-                }
+            for (Field field : Composers.class.getDeclaredFields()) {
+                if (!Modifier.isPrivate(field.getModifiers()))
+                    composerNames.put(field.getShort(field.getName()), field.getName());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
+
+        }
+    }
+
+    public static String valueOfId(short packetId) {
+        if (composerNames.containsKey(packetId)) {
+            return composerNames.get(packetId);
         }
 
-        return "";
+        return "UnknownMessageComposer";
     }
+
 }

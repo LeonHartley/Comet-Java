@@ -68,6 +68,6 @@ public class WiredItemSnapshot {
     }
 
     public interface Refreshable {
-        void refreshSnapshots();
+        public void refreshSnapshots();
     }
 }

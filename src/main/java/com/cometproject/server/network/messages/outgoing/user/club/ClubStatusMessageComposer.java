@@ -25,7 +25,7 @@ public class ClubStatusMessageComposer {
             }
         }
 
-        Composer msg = new Composer(Composers.SerializeClubMessageComposer);
+        Composer msg = new Composer(Composers.SubscriptionStatusMessageComposer);
         msg.writeString("club_habbo");
 
         msg.writeInt(subscription.isValid() ? days - (months * 31) : 0);

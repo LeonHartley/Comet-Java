@@ -6,7 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class UpdateFloorExtraDataMessageComposer {
     public static Composer compose(int id, String data) {
-        Composer msg = new Composer(Composers.UpdateFloorExtraDataMessageComposer);
+        Composer msg = new Composer(Composers.UpdateFloorItemExtraDataMessageComposer);
 
         if (data.contains(";#;")) {
             msg.writeString(String.valueOf(id));

@@ -7,7 +7,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.messenger.FollowFriendMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 
 public class TeleporterFloorItem extends RoomItemFloor {
     private boolean inUse = false;
@@ -119,7 +119,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                         if (this.outgoingEntity instanceof PlayerEntity) {
                             PlayerEntity pEntity = (PlayerEntity) this.outgoingEntity;
                             pEntity.getPlayer().setTeleportId(pairId);
-                            pEntity.getPlayer().getSession().send(FollowFriendMessageComposer.compose(roomId));
+                            pEntity.getPlayer().getSession().send(RoomForwardMessageComposer.compose(roomId));
                         }
                     } else {
                         this.state = 8;

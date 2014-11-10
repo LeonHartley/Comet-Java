@@ -8,7 +8,7 @@ import java.util.List;
 
 public class WardrobeMessageComposer {
     public static Composer compose(List<WardrobeItem> wardrobe) {
-        Composer msg = new Composer(Composers.WardrobeMessageComposer);
+        Composer msg = new Composer(Composers.LoadWardrobeMessageComposer);
 
         msg.writeInt(1);
         msg.writeInt(wardrobe.size());

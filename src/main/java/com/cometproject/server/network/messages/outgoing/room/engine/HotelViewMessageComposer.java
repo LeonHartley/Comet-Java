@@ -5,9 +5,9 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class HotelViewMessageComposer {
     public static Composer compose() {
-        Composer msg = new Composer(Composers.HotelViewMessageComposer);
+        Composer msg = new Composer(Composers.OutOfRoomMessageComposer);
 
-        msg.writeString("");
+        msg.writeShort(2);
 
         return msg;
     }

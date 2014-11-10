@@ -3,7 +3,7 @@ package com.cometproject.server.game.commands.vip;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.network.messages.outgoing.messenger.FollowFriendMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
 public class FollowCommand extends ChatCommand {
@@ -18,7 +18,7 @@ public class FollowCommand extends ChatCommand {
         if (leader != null && leader.getPlayer() != null && leader.getPlayer().getEntity() != null) {
             // TODO: Does leader allow follow??
 
-            client.send(FollowFriendMessageComposer.compose(leader.getPlayer().getEntity().getRoom().getId()));
+            client.send(RoomForwardMessageComposer.compose(leader.getPlayer().getEntity().getRoom().getId()));
         } else {
             if (leader == null || leader.getPlayer() == null)
                 sendChat(Locale.get("command.follow.online"), client);

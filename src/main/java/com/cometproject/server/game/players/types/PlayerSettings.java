@@ -3,6 +3,7 @@ package com.cometproject.server.game.players.types;
 import com.cometproject.server.game.players.components.types.PlaylistItem;
 import com.cometproject.server.game.players.components.types.VolumeData;
 import com.cometproject.server.game.players.components.types.WardrobeItem;
+import com.cometproject.server.utilities.JsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -24,13 +25,14 @@ public class PlayerSettings {
 
     private int homeRoom;
     private boolean useOldChat;
+    private boolean ignoreInvites;
 
     public PlayerSettings(ResultSet data, boolean isLogin) throws SQLException {
-        if(isLogin) {
+        if (isLogin) {
             String volumeData = data.getString("playerSettings_volume");
 
             if (volumeData != null && volumeData.startsWith("{")) {
-                volumes = new Gson().fromJson(volumeData, VolumeData.class);
+                volumes = JsonFactory.getInstance().fromJson(volumeData, VolumeData.class);
             } else {
                 volumes = new VolumeData(100, 100, 100);
             }
@@ -47,7 +49,7 @@ public class PlayerSettings {
             if (wardrobeText == null || wardrobeText.isEmpty()) {
                 wardrobe = new ArrayList<>();
             } else {
-                wardrobe = new Gson().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
+                wardrobe = JsonFactory.getInstance().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
                 }.getType());
             }
 
@@ -56,16 +58,17 @@ public class PlayerSettings {
             if (playlistText == null || playlistText.isEmpty()) {
                 playlist = new ArrayList<>();
             } else {
-                playlist = new Gson().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
+                playlist = JsonFactory.getInstance().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
                 }.getType());
             }
 
             this.useOldChat = data.getString("playerSettings_useOldChat").equals("1");
+            this.ignoreInvites = data.getString("playerSettings_ignoreInvites").equals("1");
         } else {
             String volumeData = data.getString("volume");
 
             if (volumeData != null && volumeData.startsWith("{")) {
-                volumes = new Gson().fromJson(volumeData, VolumeData.class);
+                volumes = JsonFactory.getInstance().fromJson(volumeData, VolumeData.class);
             } else {
                 volumes = new VolumeData(100, 100, 100);
             }
@@ -82,7 +85,7 @@ public class PlayerSettings {
             if (wardrobeText == null || wardrobeText.isEmpty()) {
                 wardrobe = new ArrayList<>();
             } else {
-                wardrobe = new Gson().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
+                wardrobe = JsonFactory.getInstance().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
                 }.getType());
             }
 
@@ -91,11 +94,12 @@ public class PlayerSettings {
             if (playlistText == null || playlistText.isEmpty()) {
                 playlist = new ArrayList<>();
             } else {
-                playlist = new Gson().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
+                playlist = JsonFactory.getInstance().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
                 }.getType());
             }
 
             this.useOldChat = data.getString("chat_oldstyle").equals("1");
+            this.ignoreInvites = data.getString("ignore_invites").equals("1");
         }
     }
 
@@ -157,5 +161,13 @@ public class PlayerSettings {
 
     public void setUseOldChat(boolean useOldChat) {
         this.useOldChat = useOldChat;
+    }
+
+    public boolean isIgnoreInvites() {
+        return ignoreInvites;
+    }
+
+    public void setIgnoreInvites(boolean ignoreInvites) {
+        this.ignoreInvites = ignoreInvites;
     }
 }

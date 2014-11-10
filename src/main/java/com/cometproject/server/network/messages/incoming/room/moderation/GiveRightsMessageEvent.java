@@ -8,10 +8,14 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.Access
 import com.cometproject.server.network.messages.outgoing.room.permissions.GivePowersMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
 public class GiveRightsMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int playerId = msg.readInt();
+
+
+        if(playerId == -1) return;
 
         Room room = client.getPlayer().getEntity().getRoom();
 
@@ -21,22 +25,19 @@ public class GiveRightsMessageEvent implements IEvent {
 
         PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(playerId);
 
-        if (playerEntity == null) {
+        if (room.getRights().hasRights(playerId)) {
             return;
         }
 
-        if (room.getRights().hasRights(playerEntity.getPlayerId())) {
-            return;
+        room.getRights().addRights(playerId);
+        client.send(GivePowersMessageComposer.compose(room.getId(), playerId, playerEntity != null ? playerEntity.getUsername() : PlayerDao.getUsernameByPlayerId(playerId)));
+
+        if (playerEntity != null) {
+            playerEntity.removeStatus(RoomEntityStatus.CONTROLLER);
+            playerEntity.addStatus(RoomEntityStatus.CONTROLLER, "1");
+
+            playerEntity.markNeedsUpdate();
+            playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(1));
         }
-
-        room.getRights().addRights(playerEntity.getPlayerId());
-        playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(1));
-        client.send(GivePowersMessageComposer.compose(room.getId(), playerId));
-
-        playerEntity.removeStatus(RoomEntityStatus.CONTROLLER);
-        playerEntity.addStatus(RoomEntityStatus.CONTROLLER, "1");
-
-        playerEntity.markNeedsUpdate();
-
     }
 }

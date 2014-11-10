@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class SendCreditsMessageComposer {
     public static Composer compose(int credits) {
-        Composer msg = new Composer(Composers.SendCreditsMessageComposer);
+        Composer msg = new Composer(Composers.CreditsBalanceMessageComposer);
 
         msg.writeString(credits + ".0");
 

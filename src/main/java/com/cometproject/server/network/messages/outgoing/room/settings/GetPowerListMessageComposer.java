@@ -8,7 +8,7 @@ import java.util.List;
 
 public class GetPowerListMessageComposer {
     public static Composer compose(int roomId, List<Integer> usersWithRights) {
-        Composer msg = new Composer(Composers.GetPowerListMessageComposer);
+        Composer msg = new Composer(Composers.LoadRoomRightsListMessageComposer);
 
         msg.writeInt(roomId);
         msg.writeInt(usersWithRights.size());

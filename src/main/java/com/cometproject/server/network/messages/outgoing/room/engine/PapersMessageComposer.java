@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class PapersMessageComposer {
     public static Composer compose(String key, String value) {
-        Composer msg = new Composer(Composers.PapersMessageComposer);
+        Composer msg = new Composer(Composers.RoomSpacesMessageComposer);
 
         msg.writeString(key);
         msg.writeString(value);

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ModToolRoomVisitsMessageComposer {
     public static Composer compose(int userId, String username, List<RoomVisitLogEntry> roomVisits) {
-        Composer msg = new Composer(Composers.ModToolRoomVisitsMessageComposer);
+        Composer msg = new Composer(Composers.ModerationToolRoomVisitsMessageComposer);
 
         msg.writeInt(userId);
         msg.writeString(username);

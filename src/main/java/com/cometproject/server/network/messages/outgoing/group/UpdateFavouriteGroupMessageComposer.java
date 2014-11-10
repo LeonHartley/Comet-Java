@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class UpdateFavouriteGroupMessageComposer {
     public static Composer compose(int playerId) {
-        Composer msg = new Composer(Composers.UpdateFavouriteGroupMessageComposer);
+        Composer msg = new Composer(Composers.ChangeFavouriteGroupMessageComposer);
 
         msg.writeInt(playerId);
 

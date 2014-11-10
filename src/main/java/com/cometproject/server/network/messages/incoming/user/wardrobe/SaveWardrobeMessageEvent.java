@@ -5,6 +5,7 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.cometproject.server.utilities.JsonFactory;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -34,6 +35,6 @@ public class SaveWardrobeMessageEvent implements IEvent {
         }
 
         client.getPlayer().getSettings().setWardrobe(wardrobe);
-        PlayerDao.saveWardrobe(new Gson().toJson(wardrobe), client.getPlayer().getId());
+        PlayerDao.saveWardrobe(JsonFactory.getInstance().toJson(wardrobe), client.getPlayer().getId());
     }
 }

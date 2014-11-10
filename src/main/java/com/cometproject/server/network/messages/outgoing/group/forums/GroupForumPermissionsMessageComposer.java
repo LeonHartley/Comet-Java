@@ -5,16 +5,16 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class GroupForumPermissionsMessageComposer {
     public static Composer compose(int groupId) {
-        Composer msg = new Composer(Composers.GroupForumPermissionsMessageComposer);
-
-        msg.writeInt(groupId);
-
-        msg.writeInt(125); // ??
-        msg.writeBoolean(true); // ??
-        msg.writeBoolean(true); // ??
-        msg.writeBoolean(true); // ??
-        msg.writeBoolean(true); // ??
-
-        return msg;
+//        Composer msg = new Composer(Composers.Forum);
+//
+//        msg.writeInt(groupId);
+//
+//        msg.writeInt(125); // ??
+//        msg.writeBoolean(true); // ??
+//        msg.writeBoolean(true); // ??
+//        msg.writeBoolean(true); // ??
+//        msg.writeBoolean(true); // ??
+//
+        return null;
     }
 }

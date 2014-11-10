@@ -6,7 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class SendWallItemMessageComposer {
     public static Composer compose(RoomItemWall item) {
-        Composer msg = new Composer(Composers.SendWallItemMessageComposer);
+        Composer msg = new Composer(Composers.AddWallItemMessageComposer);
 
         item.serialize(msg);
 

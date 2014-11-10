@@ -7,7 +7,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class UpdateFriendStateMessageComposer {
     public static Composer compose(int action, int userId) {
-        Composer msg = new Composer(Composers.UpdateFriendStateMessageComposer);
+        Composer msg = new Composer(Composers.FriendUpdateMessageComposer);
 
         msg.writeInt(0);
         msg.writeInt(1);
@@ -26,7 +26,7 @@ public class UpdateFriendStateMessageComposer {
     }
 
     public static Composer compose(int id, String username, String figure, String motto, boolean online, boolean inRoom) {
-        Composer msg = new Composer(Composers.UpdateFriendStateMessageComposer);
+        Composer msg = new Composer(Composers.FriendUpdateMessageComposer);
 
         msg.writeInt(0);
         msg.writeInt(1);

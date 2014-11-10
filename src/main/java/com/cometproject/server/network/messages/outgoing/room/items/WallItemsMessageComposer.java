@@ -7,7 +7,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class WallItemsMessageComposer {
     public static Composer compose(Room room) {
-        Composer msg = new Composer(Composers.WallItemsMessageComposer);
+        Composer msg = new Composer(Composers.RoomWallItemsMessageComposer);
 
         int size = room.getItems().getWallItems().size();
 

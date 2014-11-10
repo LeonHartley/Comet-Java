@@ -10,7 +10,7 @@ import java.util.*;
 
 public class NavigatorFlatListMessageComposer {
     public static Composer compose(int category, int mode, String query, Collection<RoomData> activeRooms, boolean limit) {
-        Composer msg = new Composer(Composers.NavigatorFlatListMessageComposer);
+        Composer msg = new Composer(Composers.NavigatorListingsMessageComposer);
         msg.writeInt(mode);
         msg.writeString(query);
         msg.writeInt(limit ? (activeRooms.size() > 50 ? 50 : activeRooms.size()) : activeRooms.size());

@@ -20,6 +20,10 @@ public class ShoutMessageEvent implements IEvent {
 
         String filteredMessage = TalkMessageEvent.filterMessage(message);
 
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null)
+            return;
+
+
         if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
             FilterResult filterResult = CometManager.getRooms().getFilter().filter(message);
 
@@ -32,7 +36,7 @@ public class ShoutMessageEvent implements IEvent {
         }
 
         if (client.getPlayer().getEntity().onChat(filteredMessage)) {
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage, CometManager.getRooms().getEmotions().getEmotion(filteredMessage), colour));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(ShoutMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage, CometManager.getRooms().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
         }
     }
 }

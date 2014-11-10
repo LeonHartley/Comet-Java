@@ -3,8 +3,8 @@ package com.cometproject.server.game.players.queue;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.network.messages.outgoing.handshake.AuthenticationOKMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
-import com.cometproject.server.network.messages.outgoing.handshake.LoginMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.RoomCategoriesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
@@ -14,7 +14,6 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.tasks.CometTask;
 import org.apache.log4j.Logger;
 
-import java.net.InetSocketAddress;
 import java.util.ArrayDeque;
 
 public class PlayerLoginQueue implements CometTask {
@@ -33,54 +32,54 @@ public class PlayerLoginQueue implements CometTask {
     }
 
     private void processQueueItem(PlayerLoginQueueEntry entry) {
-        Session client = entry.getClient();
-
-        int id = entry.getPlayerId();
-        String sso = entry.getSsoTicket();
-
-        Player player = PlayerDao.getPlayer(sso);
-
-        if (player == null) {
-            client.disconnect();
-            return;
-        }
-
-        Session cloneSession = Comet.getServer().getNetwork().getSessions().getByPlayerId(player.getId());
-
-        if (cloneSession != null) {
-            cloneSession.disconnect();
-        }
-
-        if (CometManager.getBans().hasBan(Integer.toString(player.getId())) || CometManager.getBans().hasBan(entry.getClient().getIpAddress())) {
-            CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
-
-            client.disconnect();
-            return;
-        }
-
-        player.setSession(client);
-        client.setPlayer(player);
-
-        CometManager.getRooms().loadRoomsForUser(player);
-
-        //client.getLogger().info(client.getPlayer().getData().getUsername() + " logged in");
-
-        PlayerDao.updatePlayerStatus(player, true, true);
-
-        client.send(LoginMessageComposer.compose());
-        client.getPlayer().sendBalance();
-        client.send(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));
-        client.send(MotdNotificationComposer.compose());
-
-        if (player.getSettings().getHomeRoom() > 0) {
-            client.send(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
-        }
-
-        if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
-            client.send(ModToolMessageComposer.compose());
-        }
-
-        client.send(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
+//        Session client = entry.getClient();
+//
+//        int id = entry.getPlayerId();
+//        String sso = entry.getSsoTicket();
+//
+//        Player player = PlayerDao.getPlayer(sso);
+//
+//        if (player == null) {
+//            client.disconnect();
+//            return;
+//        }
+//
+//        Session cloneSession = Comet.getServer().getNetwork().getSessions().getByPlayerId(player.getId());
+//
+//        if (cloneSession != null) {
+//            cloneSession.disconnect();
+//        }
+//
+//        if (CometManager.getBans().hasBan(Integer.toString(player.getId())) || CometManager.getBans().hasBan(entry.getClient().getIpAddress())) {
+//            CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
+//
+//            client.disconnect();
+//            return;
+//        }
+//
+//        player.setSession(client);
+//        client.setPlayer(player);
+//
+//        CometManager.getRooms().loadRoomsForUser(player);
+//
+//        //client.getLogger().info(client.getPlayer().getData().getUsername() + " logged in");
+//
+//        PlayerDao.updatePlayerStatus(player, true, true);
+//
+//        client.send(AuthenticationOKMessageComposer.compose());
+//        client.getPlayer().sendBalance();
+//        client.send(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));
+//        client.send(MotdNotificationComposer.compose());
+//
+//        if (player.getSettings().getHomeRoom() > 0) {
+//            client.send(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
+//        }
+//
+//        if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+//            client.send(ModToolMessageComposer.compose());
+//        }
+//
+//        client.send(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
     }
 
     public boolean queue(PlayerLoginQueueEntry entry) {

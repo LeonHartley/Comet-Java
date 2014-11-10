@@ -1,6 +1,7 @@
 package com.cometproject.server.game.bots;
 
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
+import com.cometproject.server.utilities.JsonFactory;
 import com.cometproject.server.utilities.RandomInteger;
 import com.google.gson.Gson;
 
@@ -79,7 +80,7 @@ public abstract class BotData implements BotInformation {
         this.gender = gender;
         this.ownerId = ownerId;
         this.ownerName = ownerName;
-        this.messages = (messages == null || messages.isEmpty()) ? new String[0] : new Gson().fromJson(messages, String[].class);
+        this.messages = (messages == null || messages.isEmpty()) ? new String[0] : JsonFactory.getInstance().fromJson(messages, String[].class);
         this.chatDelay = chatDelay;
         this.isAutomaticChat = automaticChat;
     }
