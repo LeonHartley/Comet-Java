@@ -1,5 +1,6 @@
 package com.cometproject.server.game.catalog.types;
 
+import com.cometproject.server.utilities.JsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 public class CatalogPage {
-    private static final Gson gsonInstance = new Gson();
     private static final Type listType = new TypeToken<List<String>>(){}.getType();
 
     private int id;
@@ -40,13 +40,13 @@ public class CatalogPage {
         if(data.getString("page_images") == null || data.getString("page_images").isEmpty()) {
             this.images = new ArrayList<>();
         } else {
-            this.images = gsonInstance.fromJson(data.getString("page_images"), listType);
+            this.images = JsonFactory.getInstance().fromJson(data.getString("page_images"), listType);
         }
 
         if(data.getString("page_texts") == null || data.getString("page_texts").isEmpty()) {
             this.texts = new ArrayList<>();
         } else {
-            this.texts = gsonInstance.fromJson(data.getString("page_texts"), listType);
+            this.texts = JsonFactory.getInstance().fromJson(data.getString("page_texts"), listType);
         }
 
         this.enabled = data.getString("enabled").equals("1");

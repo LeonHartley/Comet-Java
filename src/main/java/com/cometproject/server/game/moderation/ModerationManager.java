@@ -1,6 +1,6 @@
 package com.cometproject.server.game.moderation;
 
-import com.cometproject.server.game.moderation.types.HelpTicket;
+import com.cometproject.server.game.moderation.types.tickets.HelpTicket;
 import com.cometproject.server.storage.queries.moderation.PresetDao;
 import com.cometproject.server.storage.queries.moderation.TicketDao;
 import javolution.util.FastMap;
@@ -60,7 +60,7 @@ public class ModerationManager {
     }
 
     public void addTicket(HelpTicket ticket) {
-        this.tickets.put(ticket.getId(), ticket);
+        this.tickets.put(ticket.getTicketId(), ticket);
 
         // TODO: send ticket to all moderators.
         /*synchronized (Comet.getServer().getNetwork().getSessions().getSessions()) {
@@ -80,7 +80,7 @@ public class ModerationManager {
 
     public HelpTicket getTicketByUserId(int id) {
         for (HelpTicket ticket : tickets.values()) {
-            if (ticket.getPlayerId() == id)
+            if (ticket.getOpenerId() == id)
                 return ticket;
         }
 
