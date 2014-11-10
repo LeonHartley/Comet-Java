@@ -341,7 +341,6 @@ public final class MessageHandler {
 
             log.debug("Started packet process for packet: [" + Events.valueOfId(header) + "][" + header + "]");
 
-            log.debug(message.toString());
             try {
                 this.getMessages().get(header).handle(client, message);
 
@@ -363,7 +362,7 @@ public final class MessageHandler {
             }
         } else if (Comet.isDebugging) {
             log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
-            log.debug("Packet content: " + message.toString());
+//            log.debug("Packet content: " + message.toString());
 
         }
     }

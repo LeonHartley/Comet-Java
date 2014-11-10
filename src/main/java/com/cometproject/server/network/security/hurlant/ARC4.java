@@ -32,15 +32,15 @@ public class ARC4 {
         this.j = 0;
     }
 
-    public ChannelBuffer parse(ChannelBuffer channelBuffer) {
-        for (int a = 0; a < channelBuffer.readableBytes(); a++) {
+    public void parse(byte[] b) {
+        for(int a = 0;a<b.length;a++)
+        {
             this.i = (this.i + 1) % 256;
             this.j = (this.j + this.table[this.i]) % 256;
             this.swap(this.i, this.j);
-            channelBuffer.setByte(a, (byte) ((channelBuffer.getByte(a) & 0xff) ^ this.table[(this.table[this.i] + this.table[this.j]) % 256]));
+            b[a] = (byte) ((b[a] & 0xff) ^ this.table[(this.table[this.i] + this.table[this.j]) % 256]);
         }
 
-        return channelBuffer;
     }
 
     private void swap(int a1, int a2) {

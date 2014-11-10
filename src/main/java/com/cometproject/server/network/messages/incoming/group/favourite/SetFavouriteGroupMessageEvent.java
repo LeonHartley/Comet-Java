@@ -36,6 +36,6 @@ public class SetFavouriteGroupMessageEvent implements IEvent {
             client.send(GroupBadgesMessageComposer.compose(groupId, group.getData().getBadge()));
         }
 
-        client.send(UpdateFavouriteGroupMessageComposer.compose(client.getPlayer().getId()));
+//        client.send(UpdateFavouriteGroupMessageComposer.compose(client.getPlayer().getId()));
     }
 }
