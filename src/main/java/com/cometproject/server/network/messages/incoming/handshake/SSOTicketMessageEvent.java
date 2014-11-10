@@ -17,6 +17,7 @@ import com.cometproject.server.network.messages.outgoing.user.details.PlayerSett
 import com.cometproject.server.network.messages.outgoing.user.details.UnreadMinimailsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.EffectsInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
+import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerAccessDao;
@@ -137,7 +138,7 @@ public class SSOTicketMessageEvent implements IEvent {
         }
 
         client.send(EffectsInventoryMessageComposer.compose());
-
+        
         client.flush();
     }
 }

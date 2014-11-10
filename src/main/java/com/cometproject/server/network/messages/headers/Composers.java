@@ -267,6 +267,8 @@ public class Composers {
     public static final short UpdateIgnoreStatusMessageComposer = 1996;
     public static final short GroupFurnitureWidgetMessageComposer = 1674;
     public static final short CameraTokenMessageComposer = 2137;
+    public static final short InitHelpToolMessageComposer = 1140;
+    public static final short TicketSentMessageComposer = 1082;
 
     private static Map<Short, String> composerNames = new FastMap<>();
 
