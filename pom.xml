@@ -8,12 +8,8 @@
     <artifactId>Comet</artifactId>
 
     <packaging>jar</packaging>
-<<<<<<< HEAD
-    <version>0.10.2-ALPHA1</version>
-=======
 
     <version>0.11.1-ALPHA3</version>
->>>>>>> september-swf
 
     <name>Comet</name>
     <url>http://www.comet.im</url>
