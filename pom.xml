@@ -8,11 +8,8 @@
     <artifactId>Comet</artifactId>
 
     <packaging>jar</packaging>
-<<<<<<< HEAD
-    <version>0.11.1-ALPHA2</version>
-=======
+
     <version>0.11.1-ALPHA3</version>
->>>>>>> FETCH_HEAD
 
     <name>Comet</name>
     <url>http://www.comet.im</url>

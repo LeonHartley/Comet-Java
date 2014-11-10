@@ -3,6 +3,7 @@ package com.cometproject.server.game.players.types;
 import com.cometproject.server.game.players.components.types.PlaylistItem;
 import com.cometproject.server.game.players.components.types.VolumeData;
 import com.cometproject.server.game.players.components.types.WardrobeItem;
+import com.cometproject.server.utilities.JsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -31,7 +32,7 @@ public class PlayerSettings {
             String volumeData = data.getString("playerSettings_volume");
 
             if (volumeData != null && volumeData.startsWith("{")) {
-                volumes = new Gson().fromJson(volumeData, VolumeData.class);
+                volumes = JsonFactory.getInstance().fromJson(volumeData, VolumeData.class);
             } else {
                 volumes = new VolumeData(100, 100, 100);
             }
@@ -48,7 +49,7 @@ public class PlayerSettings {
             if (wardrobeText == null || wardrobeText.isEmpty()) {
                 wardrobe = new ArrayList<>();
             } else {
-                wardrobe = new Gson().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
+                wardrobe = JsonFactory.getInstance().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
                 }.getType());
             }
 
@@ -57,7 +58,7 @@ public class PlayerSettings {
             if (playlistText == null || playlistText.isEmpty()) {
                 playlist = new ArrayList<>();
             } else {
-                playlist = new Gson().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
+                playlist = JsonFactory.getInstance().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
                 }.getType());
             }
 
@@ -67,7 +68,7 @@ public class PlayerSettings {
             String volumeData = data.getString("volume");
 
             if (volumeData != null && volumeData.startsWith("{")) {
-                volumes = new Gson().fromJson(volumeData, VolumeData.class);
+                volumes = JsonFactory.getInstance().fromJson(volumeData, VolumeData.class);
             } else {
                 volumes = new VolumeData(100, 100, 100);
             }
@@ -84,7 +85,7 @@ public class PlayerSettings {
             if (wardrobeText == null || wardrobeText.isEmpty()) {
                 wardrobe = new ArrayList<>();
             } else {
-                wardrobe = new Gson().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
+                wardrobe = JsonFactory.getInstance().fromJson(wardrobeText, new TypeToken<ArrayList<WardrobeItem>>() {
                 }.getType());
             }
 
@@ -93,7 +94,7 @@ public class PlayerSettings {
             if (playlistText == null || playlistText.isEmpty()) {
                 playlist = new ArrayList<>();
             } else {
-                playlist = new Gson().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
+                playlist = JsonFactory.getInstance().fromJson(playlistText, new TypeToken<ArrayList<PlaylistItem>>() {
                 }.getType());
             }
 

@@ -28,9 +28,6 @@ public class HelpTicketMessageEvent implements IEvent {
 
         for(int i = 0; i < chatCout; i++) {
             int sayerId = msg.readInt();
-
-            System.out.println(o);
-
             System.out.println(msg.readString());
         }
 

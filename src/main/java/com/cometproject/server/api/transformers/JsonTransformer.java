@@ -1,16 +1,11 @@
 package com.cometproject.server.api.transformers;
 
+import com.cometproject.server.utilities.JsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import spark.ResponseTransformer;
 
 public class JsonTransformer implements ResponseTransformer {
-
-    /**
-     * Create a reusable instance of GSON
-     */
-    private Gson gsonInstance = new Gson();
-
     /**
      * Render the template as JSON using the GSON instance
      *
@@ -21,7 +16,7 @@ public class JsonTransformer implements ResponseTransformer {
     @Override
     public String render(Object o) throws Exception {
         try {
-            String gsonString = gsonInstance.toJson(o);
+            String gsonString = JsonFactory.getInstance().toJson(o);
 
             if(!gsonString.startsWith("{")) {
                 return "{\"response\":" + gsonString + "}";
@@ -29,7 +24,7 @@ public class JsonTransformer implements ResponseTransformer {
                 return gsonString;
             }
         } catch (Exception e) {
-            return gsonInstance.toJson(e);
+            return JsonFactory.getInstance().toJson(e);
         } finally {
             // Dispose object..
         }
