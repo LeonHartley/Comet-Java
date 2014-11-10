@@ -5,12 +5,12 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class InitHelpToolMessageComposer {
     public static Composer compose() {
-        Composer msg = new Composer(Composers.OpenHelpToolMessageComposer);
+        Composer msg = new Composer(Composers.InitHelpToolMessageComposer);
 
-        msg.writeBoolean(false);
         msg.writeInt(0);
-        msg.writeInt(0);
-        msg.writeInt(0);
+//        msg.writeInt(0);
+//        msg.writeInt(0);
+//        msg.writeInt(0);
 
         return msg;
     }

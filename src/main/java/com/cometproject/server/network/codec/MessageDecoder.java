@@ -18,13 +18,13 @@ public class MessageDecoder extends FrameDecoder {
         List<Object> packets = Lists.newArrayList();
 
         final int packetIndex = 0;
-        if(channel.getAttachment() instanceof Session) {
-            Session session = (Session)channel.getAttachment();
-
-            if(session.getEncryption() != null) {
-                session.getEncryption().parse(buffer);
-            }
-        }
+//        if(channel.getAttachment() instanceof Session) {
+//            Session session = (Session)channel.getAttachment();
+//
+//            if(session.getEncryption() != null) {
+//                session.getEncryption().parse(buffer);
+//            }
+//        }
 
         while(buffer.readableBytes() > packetIndex) {
             if(buffer.readableBytes() < 4) break;

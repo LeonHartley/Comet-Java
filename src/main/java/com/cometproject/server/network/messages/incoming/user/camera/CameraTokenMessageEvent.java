@@ -8,6 +8,6 @@ import com.cometproject.server.network.sessions.Session;
 public class CameraTokenMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        client.send(CameraTokenMessageComposer.compose("67152056372501114565316423057012359"));
+        client.send(CameraTokenMessageComposer.compose("Leon's Camera"));
     }
 }
