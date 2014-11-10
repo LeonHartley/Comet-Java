@@ -341,25 +341,28 @@ public final class MessageHandler {
 
             log.debug("Started packet process for packet: [" + Events.valueOfId(header) + "][" + header + "]");
 
-            log.debug(message.toString());
+            log.debug("Message content: " + message.toString());
+
             try {
                 this.getMessages().get(header).handle(client, message);
 
                 log.debug("Finished packet process for packet: [" + Events.valueOfId(header) + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
             } catch (Exception e) {
-                if (Comet.isDebugging) {
-                    if (client.getLogger() != null)
-                        client.getLogger().error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
-                    else
-                        log.error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
-                } else {
-                    SentryDispatcher.getInstance().dispatchException("packetError", "Exception while handling message", e, net.kencochrane.raven.event.Event.Level.ERROR, new FastMap<String, Object>() {{
-                        if (client.getPlayer() != null) {
-                            put("Player ID", client.getPlayer().getId());
-                            put("Player Username", client.getPlayer().getData().getUsername());
-                        }
-                    }});
-                }
+//                if (Comet.isDebugging) {
+                if (client.getLogger() != null)
+                    client.getLogger().error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
+                else
+                    log.error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
+//                } else {
+//                    SentryDispatcher.getInstance().dispatchException("packetError", "Exception while handling message", e, net.kencochrane.raven.event.Event.Level.ERROR, new FastMap<String, Object>() {{
+//                        if (client.getPlayer() != null) {
+//                            put("Player ID", client.getPlayer().getId());
+//                            put("Player Username", client.getPlayer().getData().getUsername());
+//                        }
+//                    }});
+
+//                    log.error("Error while handling event: " + this.getMessages().get(header).getClass().getName(), e);
+//                }
             }
         } else if (Comet.isDebugging) {
             log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
