@@ -7,12 +7,16 @@ import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.google.common.collect.Table;
 import javolution.util.FastTable;
+import org.apache.log4j.Logger;
+import org.osgi.service.log.LogEntry;
 
 import java.util.concurrent.TimeUnit;
 
 public class LogEntryContainer implements CometTask {
     private FastTable<AbstractLogEntry> entriesToSave = new FastTable<>();
     private FastTable<AbstractLogEntry> entriesPending = new FastTable<>();
+
+    private final Logger logger = Logger.getLogger(LogEntryContainer.class.getName());
 
     private boolean isWriting = false;
 
@@ -28,11 +32,15 @@ public class LogEntryContainer implements CometTask {
 
         LogQueries.putEntryBatch(this.entriesToSave);
 
+        logger.debug("Saved " + this.entriesToSave.size() + " log entries to database");
+
         this.entriesToSave.clear();
 
         for(AbstractLogEntry pendingEntry : this.entriesPending) {
             this.entriesToSave.add(pendingEntry);
         }
+
+        logger.debug("Moved " + this.entriesPending.size() + " pending entries to the save queue");
 
         this.entriesPending.clear();
 
@@ -46,5 +54,4 @@ public class LogEntryContainer implements CometTask {
             this.entriesToSave.add(logEntry);
         }
     }
-
 }
