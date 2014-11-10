@@ -8,8 +8,8 @@ import com.cometproject.server.network.messages.types.Composer;
 import java.util.List;
 
 public class GroupDataMessageComposer {
-    public static Composer compose(List<Integer> groups, int favouriteGroup) {
-        Composer msg = new Composer(Composers.GroupDataMessageComposer);
+    public static Composer compose(List<Integer> groups, int userId) {
+        Composer msg = new Composer(Composers.GroupFurniturePageMessageComposer);
 
         int count = 0;
 
@@ -28,7 +28,9 @@ public class GroupDataMessageComposer {
                 msg.writeString(group.getBadge());
                 msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(group.getColourA()));
                 msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(group.getColourB()));
-                msg.writeBoolean(group.getId() == favouriteGroup);
+                msg.writeBoolean(group.getOwnerId() == userId);
+                msg.writeInt(group.getOwnerId());
+                msg.writeBoolean(false); // has forum
             }
         }
 

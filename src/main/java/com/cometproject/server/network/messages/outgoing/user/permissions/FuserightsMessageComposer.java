@@ -5,10 +5,11 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class FuserightsMessageComposer {
     public static Composer compose(boolean hasClub, int rank) {
-        Composer msg = new Composer(Composers.FuserightsMessageComposer);
+        Composer msg = new Composer(Composers.UserClubRightsMessageComposer);
 
         msg.writeInt(hasClub ? 2 : 0);
         msg.writeInt(rank);
+        msg.writeBoolean(false);// Is ambassador!
 
         return msg;
     }

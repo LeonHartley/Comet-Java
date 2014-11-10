@@ -11,7 +11,7 @@ import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
-import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
@@ -22,7 +22,9 @@ import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.pets.PetDao;
+import com.cometproject.server.utilities.JsonFactory;
 import com.google.gson.Gson;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -143,6 +145,8 @@ public class CatalogPurchaseHandler {
                         extraData += data.replace(",", ".");
                     }
                 } else if(def.getInteraction().equals("group_item") || def.getInteraction().equals("group_gate")) {
+                    if(!StringUtils.isNumeric(data)) return;
+
                     if(!client.getPlayer().getGroups().contains(new Integer(data))) {
                         return;
                     }
@@ -178,7 +182,7 @@ public class CatalogPurchaseHandler {
 
                 if(giftData != null) {
                     giftData.setExtraData(extraData);
-                    purchases.add(new CatalogPurchase(client.getPlayer().getId(), CometManager.getItems().getBySpriteId(giftData.getSpriteId()).getId(), new Gson().toJson(giftData)));
+                    purchases.add(new CatalogPurchase(client.getPlayer().getId(), CometManager.getItems().getBySpriteId(giftData.getSpriteId()).getId(), JsonFactory.getInstance().toJson(giftData)));
                     return;
                 } else {
                     for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
@@ -224,8 +228,9 @@ public class CatalogPurchaseHandler {
                     client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
                 }
 
+
+                client.send(UnseenItemsMessageComposer.compose(unseenItems));
                 client.send(UpdateInventoryMessageComposer.compose());
-                client.send(SendPurchaseAlertMessageComposer.compose(unseenItems));
             }
         } catch (Exception e) {
             CometManager.getLogger().error("Error while buying catalog item", e);

@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class OwnerRightsMessageComposer {
     public static Composer compose() {
-        Composer msg = new Composer(Composers.OwnerRightsMessageComposer);
+        Composer msg = new Composer(Composers.HasOwnerRightsMessageComposer);
 
         return msg;
     }

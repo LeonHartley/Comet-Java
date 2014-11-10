@@ -8,7 +8,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.catalog.SendPurchaseAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.storage.queries.items.ItemDao;
@@ -160,7 +160,7 @@ public class WiredActionGiveReward extends WiredActionItem {
                         playerEntity.getPlayer().getInventory().addItem(inventoryItem);
 
                         playerEntity.getPlayer().getSession().send(UpdateInventoryMessageComposer.compose());
-                        playerEntity.getPlayer().getSession().send(SendPurchaseAlertMessageComposer.compose(Arrays.asList(inventoryItem)));
+                        playerEntity.getPlayer().getSession().send(UnseenItemsMessageComposer.compose(Arrays.asList(inventoryItem)));
 
                         playerEntity.getPlayer().getSession().send(WiredRewardMessageComposer.compose(6));
                     }

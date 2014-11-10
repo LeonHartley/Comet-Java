@@ -131,6 +131,11 @@ public class CometSettings {
      */
     public static boolean useDatabaseIp = false;
 
+    /**
+     * If enabled, all logins will be saved to the database
+     */
+    public static boolean storeAccess = false;
+
     // TODO: Catch missing-config exceptions and fallback to the defaults...
 
     /**
@@ -171,6 +176,10 @@ public class CometSettings {
 
         if(config.containsKey("config.security.use_database_ip")) {
             useDatabaseIp = Boolean.parseBoolean(config.get("config.security.use_database_ip"));
+        }
+
+        if(config.containsKey("comet.security.storeAccess")) {
+            storeAccess = Boolean.parseBoolean(config.get("comet.security.storeAccess"));
         }
     }
 

@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public class FeaturedRoomsMessageComposer {
     public static Composer compose(Collection<FeaturedRoom> rooms) {
-        Composer msg = new Composer(Composers.FeaturedRoomsMessageComposer);
+        Composer msg = new Composer(Composers.OfficialRoomsMessageComposer);
 
         msg.writeInt(rooms.size());
 

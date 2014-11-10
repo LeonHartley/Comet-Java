@@ -51,7 +51,12 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     private boolean cancelNextUpdate;
 
+    public int updatePhase = 0;
+    public boolean needsForcedUpdate = false;
+
     private boolean doorbellAnswered;
+
+    private boolean walkCancelled = false;
 
     private Map<RoomEntityStatus, String> statuses = new FastMap<>();
 
@@ -438,16 +443,16 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.isVisible = isVisible;
     }
 
+    public void cancelWalk() {
+        this.setWalkCancelled(true);
+        this.markNeedsUpdate();
+    }
+
     @Override
     public void warp(Position position) {
-        // clear all walking
-        this.walkingGoal = null;
-        this.walkingPath = null;
-        this.processingPath = null;
-        this.stepsToGoal = 0;
+        this.cancelNextUpdate();
 
-        this.futureSquare = null;
-
+        this.needsForcedUpdate = true;
         this.updateAndSetPosition(position);
         this.markNeedsUpdate();
     }
@@ -475,5 +480,13 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     public PlayerEffect getLastEffect() {
         return lastEffect;
+    }
+
+    public boolean isWalkCancelled() {
+        return walkCancelled;
+    }
+
+    public void setWalkCancelled(boolean walkCancelled) {
+        this.walkCancelled = walkCancelled;
     }
 }

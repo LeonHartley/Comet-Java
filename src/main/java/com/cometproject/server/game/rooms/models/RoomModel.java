@@ -22,12 +22,18 @@ public abstract class RoomModel {
     private double[][] squareHeight;
     private RoomTileState[][] squareState;
 
-    public RoomModel(String name, String heightmap, int doorX, int doorY, int doorZ, int doorRotation) {
+    private final Composer heightmapMessageComposer;
+    private final Composer floorMapMessageComposer;
+
+    private int wallHeight;
+
+    public RoomModel(String name, String heightmap, int doorX, int doorY, int doorZ, int doorRotation, int wallHeight) {
         this.name = name;
         this.doorX = doorX;
         this.doorY = doorY;
         this.doorZ = doorZ;
         this.doorRotation = doorRotation;
+        this.wallHeight = wallHeight;
 
         String[] axes = heightmap.split("\r");
 
@@ -64,6 +70,9 @@ public abstract class RoomModel {
         } catch (Exception e) {
             Logger.getLogger(RoomModel.class.getName()).error("Failed to parse heightmap for model: " + this.name, e);
         }
+
+        this.heightmapMessageComposer = HeightmapMessageComposer.compose(this);
+        this.floorMapMessageComposer = RelativeHeightmapMessageComposer.compose(this);
     }
 
     public String getId() {
@@ -84,6 +93,10 @@ public abstract class RoomModel {
 
     public int getDoorZ() {
         return this.doorZ;
+    }
+
+    public void setDoorZ(int doorZ) {
+        this.doorZ = doorZ;
     }
 
     public int getDoorRotation() {
@@ -107,10 +120,14 @@ public abstract class RoomModel {
     }
 
     public Composer getHeightmapMessage() {
-        return HeightmapMessageComposer.compose(this);
+        return this.heightmapMessageComposer;
     }
 
     public Composer getRelativeHeightmapMessage() {
-        return RelativeHeightmapMessageComposer.compose(this);
+        return this.floorMapMessageComposer;
+    }
+
+    public int getWallHeight() {
+        return wallHeight;
     }
 }

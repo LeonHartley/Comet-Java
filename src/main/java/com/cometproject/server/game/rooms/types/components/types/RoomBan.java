@@ -1,22 +1,37 @@
 package com.cometproject.server.game.rooms.types.components.types;
 
 public class RoomBan {
-    private int id, cycle;
+    private int playerId;
+    private String playerName;
+    private int ticksLeft;
 
-    public RoomBan(int id) {
-        this.id = id;
-        this.cycle = 0; // gets increased on every cycle
+    private boolean isPermanent;
+
+    public RoomBan(int playerId, String playerName, int ticksLeft) {
+        this.playerId = playerId;
+        this.ticksLeft = ticksLeft;
+        this.playerName = playerName;
+
+        this.isPermanent = this.ticksLeft == -1;
     }
 
-    public int getId() {
-        return this.id;
+    public int getPlayerId() {
+        return playerId;
     }
 
-    public int getCycle() {
-        return this.cycle;
+    public int getTicksLeft() {
+        return ticksLeft;
     }
 
-    public void increaseCycle() {
-        this.cycle++;
+    public void decreaseTicks() {
+        this.ticksLeft--;
+    }
+
+    public boolean isPermanent() {
+        return isPermanent;
+    }
+
+    public String getPlayerName() {
+        return playerName;
     }
 }

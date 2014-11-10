@@ -29,8 +29,8 @@ public class Composer {
         this.body = buf;
     }
 
-    public int getId() {
-        return this.id;
+    public short getId() {
+        return (short) this.id;
     }
 
     public void clear() {

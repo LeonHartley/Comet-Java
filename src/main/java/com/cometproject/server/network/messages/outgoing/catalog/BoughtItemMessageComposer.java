@@ -8,7 +8,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class BoughtItemMessageComposer {
     public static Composer compose(CatalogItem item, ItemDefinition def) {
-        Composer msg = new Composer(Composers.BoughtItemMessageComposer);
+        Composer msg = new Composer(Composers.PurchaseOKMessageComposer);
 
         msg.writeInt(item.getId());
         msg.writeString(def.getItemName());
@@ -29,7 +29,7 @@ public class BoughtItemMessageComposer {
     }
 
     public static Composer group() {
-        Composer msg = new Composer(Composers.BoughtItemMessageComposer);
+        Composer msg = new Composer(Composers.PurchaseOKMessageComposer);
 
         msg.writeInt(6165);
         msg.writeString("CREATE_GUILD");

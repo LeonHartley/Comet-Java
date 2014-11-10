@@ -52,7 +52,7 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
 
         // loop through the conditions and check whether or not we can perform the action
         for (WiredConditionItem conditionItem : wiredConditions) {
-            if (!conditionItem.evaluate(entity, data)) {
+            if(!conditionItem.evaluate(entity, data)) {
                 canExecute = false;
             }
         }

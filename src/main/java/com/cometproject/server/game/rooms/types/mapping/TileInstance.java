@@ -25,6 +25,7 @@ public class TileInstance {
     private Position redirect = null;
 
     private boolean canPlaceItemHere = false;
+    private boolean hasItems = false;
 
     public TileInstance(RoomMapping mappingInstance, Position position) {
         this.mappingInstance = mappingInstance;
@@ -34,6 +35,7 @@ public class TileInstance {
 
     public void reload() {
         // reset the tile data
+        this.hasItems = false;
         this.redirect = null;
         this.movementNode = RoomEntityMovementNode.OPEN;
         this.status = RoomTileStatusType.NONE;
@@ -53,6 +55,8 @@ public class TileInstance {
         for (RoomItemFloor item : mappingInstance.getRoom().getItems().getItemsOnSquare(this.position.getX(), this.position.getY())) {
             if (item.getDefinition() == null)
                 continue;
+
+            this.hasItems = true;
 
             final double totalHeight = item.getPosition().getZ() + item.getDefinition().getHeight();
 
@@ -190,5 +194,9 @@ public class TileInstance {
 
     public boolean canPlaceItemHere() {
         return canPlaceItemHere;
+    }
+
+    public boolean hasItems() {
+        return hasItems;
     }
 }

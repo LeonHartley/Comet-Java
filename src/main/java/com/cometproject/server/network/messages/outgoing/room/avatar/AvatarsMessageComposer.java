@@ -7,7 +7,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class AvatarsMessageComposer {
     public static Composer compose(Room room) {
-        Composer msg = new Composer(Composers.RoomUsersMessageComposer);
+        Composer msg = new Composer(Composers.SetRoomUserMessageComposer);
 
         msg.writeInt(room.getEntities().count());
 
@@ -21,7 +21,7 @@ public class AvatarsMessageComposer {
     }
 
     public static Composer compose(GenericEntity entity) {
-        Composer msg = new Composer(Composers.RoomUsersMessageComposer);
+        Composer msg = new Composer(Composers.SetRoomUserMessageComposer);
 
         msg.writeInt(1);
         entity.compose(msg);

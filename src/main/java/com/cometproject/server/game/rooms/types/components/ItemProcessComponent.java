@@ -1,14 +1,17 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.queue.RoomItemEventQueue;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollerFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.logging.sentry.SentryDispatcher;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;
+import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.ScheduledFuture;
@@ -78,7 +81,7 @@ public class ItemProcessComponent implements CometTask {
             return;
         }
 
-        if (this.getRoom().getEntities().playerCount() == 0) {
+        if (this.getRoom().getEntities().realPlayerCount() == 0) {
             this.stop();
             return;
         }
@@ -91,7 +94,7 @@ public class ItemProcessComponent implements CometTask {
                     item.tick();
                 }
             } catch (NullPointerException | IndexOutOfBoundsException e) {
-                this.handleSupressedExceptions(e);
+                this.handleException(item, e);
             }
         }
 
@@ -101,21 +104,21 @@ public class ItemProcessComponent implements CometTask {
                     item.tick();
                 }
             } catch (NullPointerException | IndexOutOfBoundsException e) {
-                this.handleSupressedExceptions(e);
+                this.handleException(item, e);
             }
         }
 
 
         // Now lets process any queued events last
-        try {
-            this.eventQueue.cycle();
-        } catch (NullPointerException | IndexOutOfBoundsException e) {
-            this.handleSupressedExceptions(e);
-        }
+//        try {
+//            this.eventQueue.tick();
+//        } catch (NullPointerException | IndexOutOfBoundsException e) {
+//            this.handleSupressedExceptions(e);
+//        }
 
         TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
-        if (span.toMilliseconds() > FLAG) {
+        if (span.toMilliseconds() > FLAG && Comet.isDebugging) {
             log.warn("ItemProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
         }
     }
@@ -125,11 +128,11 @@ public class ItemProcessComponent implements CometTask {
         this.tick();
     }
 
-    protected void handleSupressedExceptions(Throwable t) {
-        // TO-DO: we need log these somewhere separately so we can 'fix' these kind of errors easily..
-        if (Comet.isDebugging) {
-            t.printStackTrace();
-        }
+    protected void handleException(RoomItem item, Exception e) {
+        SentryDispatcher.getInstance().dispatchException("itemProcessError", "Exception while processing items", e, net.kencochrane.raven.event.Event.Level.ERROR, new FastMap<String, Object>() {{
+            put("Item ID", item.getId());
+            put("Item Class", item.getClass().getSimpleName());
+        }});
     }
 
     public Room getRoom() {

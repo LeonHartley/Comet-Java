@@ -27,6 +27,7 @@ public class ItemDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
+//                if(resultSet.getString("id").length() > 9) continue;
                 data.put(resultSet.getInt("id"), new ItemDefinition(resultSet));
             }
 

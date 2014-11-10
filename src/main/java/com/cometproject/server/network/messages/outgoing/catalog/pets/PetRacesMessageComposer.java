@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PetRacesMessageComposer {
     public static Composer compose(String raceString, List<PetRace> races) {
-        Composer msg = new Composer(Composers.PetRacesMessageComposer);
+        Composer msg = new Composer(Composers.SellablePetBreedsMessageComposer);
 
         msg.writeString(raceString);
         msg.writeInt(races.size());

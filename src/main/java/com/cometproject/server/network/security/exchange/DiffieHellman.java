@@ -33,7 +33,7 @@ public class DiffieHellman {
             this.generator = temp;
         }
 
-        this.publicKey = this.generator.modPow(this.privateKey, this.prime);
+//        this.publicKey = this.generator.modPow(this.privateKey, this.prime);
     }
 
     public BigInteger calculateSharedKey(BigInteger m) {

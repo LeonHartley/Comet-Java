@@ -1,6 +1,5 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
-import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
@@ -10,7 +9,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class CataPageMessageComposer {
     public static Composer compose(CatalogPage page) {
-        Composer msg = new Composer(Composers.CataPageMessageComposer);
+        Composer msg = new Composer(Composers.CatalogPageMessageComposer);
         msg.writeInt(page.getId());
 
         msg.writeString("NORMAL");

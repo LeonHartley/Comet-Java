@@ -6,7 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class SlideObjectBundleMessageComposer {
     public static Composer compose(Position from, Position to, int rollerItemId, int avatarId, int itemId) {
-        Composer msg = new Composer(Composers.SlideObjectBundleMessageComposer);
+        Composer msg = new Composer(Composers.ItemAnimationMessageComposer);
 
         boolean isItem = itemId > 0;
 

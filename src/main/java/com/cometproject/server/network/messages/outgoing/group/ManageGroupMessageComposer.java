@@ -6,7 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class ManageGroupMessageComposer {
     public static Composer compose(Group group) {
-        Composer msg = new Composer(Composers.ManageGroupMessageComposer);
+        Composer msg = new Composer(Composers.GroupDataEditMessageComposer);
 
         msg.writeInt(0); // Array for something related to rooms (int:roomId, String:roomName, Boolean:Unk)
         msg.writeBoolean(true);

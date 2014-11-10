@@ -7,7 +7,7 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 
 public class PetInformationMessageComposer {
     public static Composer compose(PetData data) {
-        Composer msg = new Composer(Composers.PetInformationMessageComposer);
+        Composer msg = new Composer(Composers.PetInfoMessageComposer);
 
         msg.writeInt(data.getId());
         msg.writeString(data.getName());

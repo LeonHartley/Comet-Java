@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MessengerSearchResultsMessageComposer {
     public static Composer compose(List<MessengerSearchResult> currentFriends, List<MessengerSearchResult> otherPeople) {
-        Composer msg = new Composer(Composers.SearchFriendsMessageComposer);
+        Composer msg = new Composer(Composers.ConsoleSearchFriendMessageComposer);
 
         msg.writeInt(currentFriends.size());
 

@@ -9,21 +9,16 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.W
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredItemData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.utilities.JsonFactory;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 
 import java.util.List;
 
 /**
- * The new wired system was inspired by Nillus' "habbod2".
+ * This system was inspired by Nillus' "habbod2".
  */
 public abstract class AbstractWiredItem extends RoomItemFloor implements WiredItemSnapshot.Refreshable {
-    /**
-     * /**
-     * GSON instance to share among all wired items
-     */
-    private static final Gson gson = new Gson();
-
     /**
      * The data associated with this wired item
      */
@@ -56,7 +51,7 @@ public abstract class AbstractWiredItem extends RoomItemFloor implements WiredIt
      * Turn the wired item data into a JSON object, and then save it to the database
      */
     public void save() {
-        this.setExtraData(gson.toJson(wiredItemData));
+        this.setExtraData(JsonFactory.getInstance().toJson(wiredItemData));
         this.saveData();
     }
 
@@ -69,7 +64,7 @@ public abstract class AbstractWiredItem extends RoomItemFloor implements WiredIt
             return;
         }
 
-        this.wiredItemData = gson.fromJson(this.getExtraData(), (this instanceof WiredActionItem) ? WiredActionItemData.class : WiredItemData.class);
+        this.wiredItemData = JsonFactory.getInstance().fromJson(this.getExtraData(), (this instanceof WiredActionItem) ? WiredActionItemData.class : WiredItemData.class);
         this.onDataRefresh();
     }
 

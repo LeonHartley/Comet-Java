@@ -23,6 +23,7 @@ public class IpBanCommand extends ChatCommand {
         Session user = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
 
         if (user == null) {
+            // TODO: Use the "player_access" table to allow you to IP ban a user that's not online
             return;
         }
 
@@ -34,7 +35,7 @@ public class IpBanCommand extends ChatCommand {
 
         String ipAddress = user.getIpAddress();
 
-        if (CometManager.getBans().hasBan(ipAddress)) {
+        if (CometManager.getBans().hasBan(ipAddress, BanType.IP)) {
             sendChat("IP: " + ipAddress + " is already banned.", client);
             return;
         }

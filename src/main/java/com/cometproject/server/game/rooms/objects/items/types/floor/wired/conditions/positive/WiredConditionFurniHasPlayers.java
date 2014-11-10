@@ -31,17 +31,28 @@ public class WiredConditionFurniHasPlayers extends WiredConditionItem {
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
         int itemsWithUserCount = 0;
+        int itemsWithoutUsersCount = 0;
 
-        for(int itemId : this.getWiredData().getSelectedIds()) {
+        for (int itemId : this.getWiredData().getSelectedIds()) {
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
-            if(floorItem != null) {
-                if(floorItem.getEntitiesOnItem().size() != 0) itemsWithUserCount++;
+            if (floorItem != null) {
+                if (floorItem.getEntitiesOnItem().size() != 0) {
+                    itemsWithUserCount++;
+                } else {
+                    itemsWithoutUsersCount++;
+                }
             }
         }
 
-        boolean result = itemsWithUserCount >= this.getWiredData().getSelectedIds().size();
+        if (isNegative) {
+            if (itemsWithoutUsersCount == this.getWiredData().getSelectedIds().size()) {
+                return true;
+            }
 
-        return isNegative ? !result : result;
+            return false;
+        } else {
+            return itemsWithUserCount == this.getWiredData().getSelectedIds().size();
+        }
     }
 }

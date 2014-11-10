@@ -8,6 +8,9 @@ public class InitHelpToolMessageComposer {
         Composer msg = new Composer(Composers.InitHelpToolMessageComposer);
 
         msg.writeInt(0);
+//        msg.writeInt(0);
+//        msg.writeInt(0);
+//        msg.writeInt(0);
 
         return msg;
     }

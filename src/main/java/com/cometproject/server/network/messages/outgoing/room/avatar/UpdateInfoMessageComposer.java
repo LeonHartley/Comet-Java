@@ -7,7 +7,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class UpdateInfoMessageComposer {
     public static Composer compose(int userId, String figure, String gender, String motto, int achievementPoints) {
-        Composer msg = new Composer(Composers.UpdateInfoMessageComposer);
+        Composer msg = new Composer(Composers.UpdateUserDataMessageComposer);
 
         msg.writeInt(userId);
         msg.writeString(figure);

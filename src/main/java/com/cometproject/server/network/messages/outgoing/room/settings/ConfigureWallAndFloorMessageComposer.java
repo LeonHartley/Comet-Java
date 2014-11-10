@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class ConfigureWallAndFloorMessageComposer {
     public static Composer compose(boolean hideWall, int wallThick, int floorThick) {
-        Composer msg = new Composer(Composers.ConfigureWallAndFloorMessageComposer);
+        Composer msg = new Composer(Composers.RoomFloorWallLevelsMessageComposer);
 
         msg.writeBoolean(hideWall);
         msg.writeInt(wallThick);

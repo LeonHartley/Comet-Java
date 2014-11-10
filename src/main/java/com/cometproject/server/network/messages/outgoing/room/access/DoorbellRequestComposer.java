@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class DoorbellRequestComposer {
     public static Composer compose(String username) {
-        Composer msg = new Composer(Composers.DoorBellRequestComposer);
+        Composer msg = new Composer(Composers.DoorbellMessageComposer);
         msg.writeString(username);
 
         return msg;

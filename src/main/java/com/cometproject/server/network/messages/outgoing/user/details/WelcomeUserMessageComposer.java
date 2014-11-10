@@ -5,10 +5,11 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class WelcomeUserMessageComposer {
     public static Composer compose() {
-        Composer msg = new Composer(Composers.WelcomeUserMessageComposer);
-
-        msg.writeInt(0);
-
-        return msg;
+//        Composer msg = new Composer(Composers.User);
+//
+//        msg.writeInt(0);
+//
+//        return msg;
+        return null;
     }
 }

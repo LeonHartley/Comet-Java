@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class TradeAcceptUpdateMessageComposer {
     public static Composer compose(int userId, boolean accepted) {
-        Composer msg = new Composer(Composers.TradeAcceptUpdateMessageComposer);
+        Composer msg = new Composer(Composers.TradeAcceptMessageComposer);
 
         msg.writeInt(userId);
         msg.writeInt(accepted ? 1 : 0);

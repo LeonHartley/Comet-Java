@@ -48,18 +48,24 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
 
     @Override
     public void onTickComplete() {
-        if(this.getWiredData() == null || this.getWiredData().getSelectedIds() == null) return;
+        if(this.getWiredData() == null || this.getWiredData().getSelectedIds() == null) {
+            this.entity = null;
+            return;
+        }
 
         int itemId = WiredUtil.getRandomElement(this.getWiredData().getSelectedIds());
         RoomItemFloor item = this.getRoom().getItems().getFloorItem(itemId);
 
-        if(item == null) {
+        if(item == null || item.isAtDoor()) {
             return;
         }
 
-        Position position = new Position(item.getPosition().getX(), item.getPosition().getY(), item.getPosition().getZ());
+        Position position = new Position(item.getPosition().getX(), item.getPosition().getY(), item.getTile().getWalkHeight());
 
         this.entity.applyEffect(new PlayerEffect(4, 5));
+
+        this.entity.cancelWalk();
+        this.entity.needsForcedUpdate = true;
         this.entity.warp(position);
 
         this.entity = null;

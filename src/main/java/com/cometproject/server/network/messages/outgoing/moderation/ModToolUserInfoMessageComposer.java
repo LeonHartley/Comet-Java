@@ -9,7 +9,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class ModToolUserInfoMessageComposer {
     public static Composer compose(PlayerData user, PlayerStatistics stats) {
-        Composer msg = new Composer(Composers.ModToolUserInfoMessageComposer);
+        Composer msg = new Composer(Composers.ModerationToolUserToolMessageComposer);
 
         msg.writeInt(user.getId());
         msg.writeString(user.getUsername());

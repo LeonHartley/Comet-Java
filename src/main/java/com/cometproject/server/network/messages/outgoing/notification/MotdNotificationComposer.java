@@ -14,7 +14,7 @@ public class MotdNotificationComposer {
     }
 
     public static Composer compose(String message) {
-        Composer msg = new Composer(Composers.MotdMessageComposer);
+        Composer msg = new Composer(Composers.MOTDNotificationMessageComposer);
 
         msg.writeInt(1);
         msg.writeString(message);

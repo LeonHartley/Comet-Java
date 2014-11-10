@@ -4,6 +4,10 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.navigator.types.Category;
+import com.cometproject.server.game.rooms.types.misc.settings.RoomBanState;
+import com.cometproject.server.game.rooms.types.misc.settings.RoomKickState;
+import com.cometproject.server.game.rooms.types.misc.settings.RoomMuteState;
+import com.cometproject.server.game.rooms.types.misc.settings.RoomTradeState;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
 import org.mindrot.jbcrypt.BCrypt;
@@ -23,6 +27,7 @@ public class RoomData {
     private String access;
     private String password;
     private String originalPassword;
+    private RoomTradeState tradeState;
 
     private int score;
 
@@ -37,6 +42,17 @@ public class RoomData {
     private boolean allowWalkthrough;
     private boolean allowPets;
     private String heightmap;
+
+    private RoomMuteState muteState;
+    private RoomKickState kickState;
+    private RoomBanState banState;
+
+    private int bubbleMode;
+    private int bubbleType;
+    private int bubbleScroll;
+    private int chatDistance;
+
+    private int antiFloodSettings;
 
     private long lastReferenced = Comet.getTime();
 
@@ -74,6 +90,17 @@ public class RoomData {
         this.allowWalkthrough = room.getString("allow_walkthrough").equals("1");
         this.allowPets = room.getString("allow_pets").equals("1");
         this.heightmap = room.getString("heightmap");
+        this.tradeState = RoomTradeState.valueOf(room.getString("trade_state"));
+
+        this.kickState = RoomKickState.valueOf(room.getString("kick_state"));
+        this.banState = RoomBanState.valueOf(room.getString("ban_state"));
+        this.muteState = RoomMuteState.valueOf(room.getString("mute_state"));
+
+        this.bubbleMode = room.getInt("bubble_mode");
+        this.bubbleScroll = room.getInt("bubble_scroll");
+        this.bubbleType = room.getInt("bubble_type");
+        this.antiFloodSettings = room.getInt("flood_level");
+        this.chatDistance = room.getInt("chat_distance");
     }
 
     public void save() {
@@ -99,7 +126,11 @@ public class RoomData {
             }
         }
 
-        RoomDao.updateRoom(id, name, description, ownerId, owner, category, maxUsers, access, password, score, tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1), model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, allowPets, heightmap);
+        RoomDao.updateRoom(id, name, description, ownerId, owner, category, maxUsers, access, password, score,
+                tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1),
+                model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, allowPets, heightmap, tradeState,
+                muteState, kickState, banState, bubbleMode, bubbleType, bubbleScroll, chatDistance, antiFloodSettings
+        );
     }
 
     public int getId() {
@@ -268,5 +299,77 @@ public class RoomData {
         this.lastReferenced = lastReferenced;
 
         return this;
+    }
+
+    public RoomTradeState getTradeState() {
+        return tradeState;
+    }
+
+    public void setTradeState(RoomTradeState tradeState) {
+        this.tradeState = tradeState;
+    }
+
+    public int getBubbleMode() {
+        return bubbleMode;
+    }
+
+    public void setBubbleMode(int bubbleMode) {
+        this.bubbleMode = bubbleMode;
+    }
+
+    public int getBubbleType() {
+        return bubbleType;
+    }
+
+    public void setBubbleType(int bubbleType) {
+        this.bubbleType = bubbleType;
+    }
+
+    public int getBubbleScroll() {
+        return bubbleScroll;
+    }
+
+    public void setBubbleScroll(int bubbleScroll) {
+        this.bubbleScroll = bubbleScroll;
+    }
+
+    public int getChatDistance() {
+        return chatDistance;
+    }
+
+    public void setChatDistance(int chatDistance) {
+        this.chatDistance = chatDistance;
+    }
+
+    public int getAntiFloodSettings() {
+        return antiFloodSettings;
+    }
+
+    public void setAntiFloodSettings(int antiFloodSettings) {
+        this.antiFloodSettings = antiFloodSettings;
+    }
+
+    public RoomMuteState getMuteState() {
+        return muteState;
+    }
+
+    public void setMuteState(RoomMuteState muteState) {
+        this.muteState = muteState;
+    }
+
+    public RoomKickState getKickState() {
+        return kickState;
+    }
+
+    public void setKickState(RoomKickState kickState) {
+        this.kickState = kickState;
+    }
+
+    public RoomBanState getBanState() {
+        return banState;
+    }
+
+    public void setBanState(RoomBanState banState) {
+        this.banState = banState;
     }
 }

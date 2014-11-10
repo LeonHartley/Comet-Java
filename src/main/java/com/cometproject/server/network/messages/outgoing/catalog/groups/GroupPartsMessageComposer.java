@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GroupPartsMessageComposer {
     public static Composer compose(List<Integer> rooms) {
-        Composer msg = new Composer(Composers.GroupPartsMessageComposer);
+        Composer msg = new Composer(Composers.GroupPurchasePageMessageComposer);
 
         List<Integer> availableRooms = new ArrayList<>();
 

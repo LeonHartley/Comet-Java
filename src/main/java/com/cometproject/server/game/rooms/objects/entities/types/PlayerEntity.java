@@ -18,9 +18,11 @@ import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
+import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
+import com.cometproject.server.network.messages.outgoing.room.alerts.RoomConnectionErrorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomErrorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
@@ -30,6 +32,7 @@ import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessa
 import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.settings.EnableRoomInfoMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.attributes.Attributable;
@@ -44,6 +47,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     private Map<String, Object> attributes = new FastMap<>();
     private RoomVisitLogEntry visitLogEntry;
+
+    private boolean isFinalized = false;
 
     public PlayerEntity(Player player, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
@@ -65,16 +70,15 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         // Room full slot available
-        if (this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() && !this.player.getPermissions().hasPermission("room_enter_full")) {
-            this.player.getSession().send(AdvancedAlertMessageComposer.compose(Locale.get("game.room.full")));
+        if (this.getPlayer().getId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() && !this.player.getPermissions().hasPermission("room_enter_full")) {
+            this.player.getSession().send(RoomConnectionErrorMessageComposer.compose(1, ""));
             this.player.getSession().send(HotelViewMessageComposer.compose());
             return;
         }
 
         // Room bans
         if (this.getRoom().getRights().hasBan(this.player.getId()) && !this.player.getPermissions().hasPermission("room_unkickable")) {
-            // TODO: Proper ban message
-            this.player.getSession().send(HotelViewMessageComposer.compose());
+            this.player.getSession().send(RoomConnectionErrorMessageComposer.compose(4, ""));
             return;
         }
 
@@ -115,7 +119,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     protected void finalizeJoinRoom() {
-        this.player.getSession().send(ModelAndIdMessageComposer.compose(this.getRoom().getModel().getId(), this.getId()));
+//        this.player.getSession().send(ModelAndIdMessageComposer.compose(this.getRoom().getModel().getId(), this.getId()));
 
         for (Map.Entry<String, String> decoration : this.getRoom().getData().getDecorations().entrySet()) {
             if (decoration.getKey().equals("wallpaper") || decoration.getKey().equals("floor")) {
@@ -144,6 +148,11 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         this.player.getSession().send(RoomRatingMessageComposer.compose(this.getRoom().getData().getScore(), canRateRoom()));
+
+        InitializeRoomMessageEvent.heightmapMessageEvent.handle(this.player.getSession(), null);
+        InitializeRoomMessageEvent.addUserToRoomMessageEvent.handle(this.player.getSession(), null);
+
+        this.isFinalized = true;
     }
 
     public boolean canRateRoom() {
@@ -171,6 +180,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             item.onEntityStepOff(this);
         }
 
+        if (isKick && !isOffline) {
+            this.getPlayer().getSession().send(RoomErrorMessageComposer.compose(4008));
+        }
+
         // Send leave room message to all current entities
         this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
 
@@ -178,10 +191,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         if (!isOffline && toHotelView) {
             this.getPlayer().getSession().send(HotelViewMessageComposer.compose());
             this.getPlayer().getSession().getPlayer().getMessenger().sendStatus(true, false);
-        }
-
-        if (isKick && !isOffline) {
-            this.getPlayer().getSession().send(RoomErrorMessageComposer.compose(4008));
         }
 
         // Check and cancel any active trades
@@ -248,7 +257,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 String cmd = message.substring(1);
 
                 if (CometManager.getCommands().isCommand(cmd)) {
-                    if(CometManager.getCommands().parse(cmd, this.player.getSession()))
+                    if (CometManager.getCommands().parse(cmd, this.player.getSession()))
                         return false;
                 } else if (CometManager.getCommands().getNotifications().isNotificationExecutor(cmd, this.player.getData().getRank())) {
                     CometManager.getCommands().getNotifications().execute(this.player, cmd);
@@ -431,5 +440,9 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     @Override
     public void removeAttribute(String attributeKey) {
         this.attributes.remove(attributeKey);
+    }
+
+    public boolean isFinalized() {
+        return isFinalized;
     }
 }

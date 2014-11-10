@@ -41,7 +41,9 @@ public class WhisperMessageEvent implements IEvent {
             return;
 
         client.send(WisperMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage));
-        ((PlayerEntity) userTo).getPlayer().getSession().send(WisperMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage));
+
+        if(!((PlayerEntity) userTo).getPlayer().ignores(client.getPlayer().getId()))
+            ((PlayerEntity) userTo).getPlayer().getSession().send(WisperMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage));
 
         for (PlayerEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntitiesByPermission("room_see_whisper")) {
             if (entity.getPlayer().getId() != client.getPlayer().getId() && !user.equals(entity.getUsername()))
