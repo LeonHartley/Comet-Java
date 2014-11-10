@@ -56,7 +56,7 @@ public abstract class RoomModel {
             }
 
             for (String mapLine : heightmap.split("\r\n")) {
-                if (mapLine.isEmpty() || mapLine == null) {
+                if (mapLine.isEmpty()) {
                     continue;
                 }
                 map += mapLine + (char) 13;
