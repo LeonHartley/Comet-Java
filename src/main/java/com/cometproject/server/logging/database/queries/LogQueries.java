@@ -38,6 +38,35 @@ public class LogQueries {
         }
     }
 
+    public static void putEntryBatch(List<AbstractLogEntry> entries) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = LogDatabaseHelper.getConnection();
+
+            preparedStatement = LogDatabaseHelper.prepare("INSERT into logs (`type`, `room_id`, `user_id`, `data`, `timestamp`) VALUES(?, ?, ?, ?, ?);", sqlConnection);
+
+            for(AbstractLogEntry entry : entries) {
+
+                preparedStatement.setString(1, entry.getType().toString());
+                preparedStatement.setInt(2, entry.getRoomId());
+                preparedStatement.setInt(3, entry.getUserId());
+                preparedStatement.setString(4, entry.getString());
+                preparedStatement.setInt(5, entry.getTimestamp());
+
+                preparedStatement.addBatch();
+            }
+
+            preparedStatement.executeBatch();
+        } catch (SQLException e) {
+            LogDatabaseHelper.handleSqlException(e);
+        } finally {
+            LogDatabaseHelper.closeSilently(preparedStatement);
+            LogDatabaseHelper.closeSilently(sqlConnection);
+        }
+    }
+
     public static RoomVisitLogEntry putRoomVisit(int playerId, int roomId, int entryTime) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
