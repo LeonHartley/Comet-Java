@@ -6,7 +6,6 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiGame;
-import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiSolver;
 import com.google.common.collect.Lists;
 
 import java.util.LinkedList;
