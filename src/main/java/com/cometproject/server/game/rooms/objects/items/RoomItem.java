@@ -48,6 +48,7 @@ public abstract class RoomItem extends RoomObject implements Attributable {
     }
 
     protected final void setTicks(int time) {
+        System.out.println("Ticks: " + time);
         this.ticksTimer = time;
     }
 

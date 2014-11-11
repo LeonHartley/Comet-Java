@@ -1,15 +1,11 @@
 package com.cometproject.server.game.rooms.objects.items;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.objects.items.types.GenericFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.GenericWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
-import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiGateFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTeleporterFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTileFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTimerFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
@@ -32,7 +28,7 @@ import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 public class RoomItemFactory {
-    private static final int processMs = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
+    private static final int processMs = 25;
     private static final Logger log = Logger.getLogger(RoomItemFactory.class.getName());
 
     private static final FastMap<String, Class<? extends RoomItemFloor>> itemDefinitionMap;
@@ -98,6 +94,7 @@ public class RoomItemFactory {
             put("bb_green_gate", BanzaiGateFloorItem.class);
             put("bb_patch", BanzaiTileFloorItem.class);
             put("bb_timer", BanzaiTimerFloorItem.class);
+            put("bb_puck", BanzaiPuckFloorItem.class);
 
             put("group_item", GroupFloorItem.class);
             put("group_gate", GroupGateFloorItem.class);

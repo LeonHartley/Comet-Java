@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actio
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -38,7 +39,7 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
         this.entity = entity;
 
         if(this.getWiredData().getDelay() >= 1) {
-            this.setTicks(this.getWiredData().getDelay());
+            this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
         } else {
             this.onTickComplete();
         }

@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.RandomInteger;
@@ -24,7 +25,7 @@ public class WiredAddonColourWheel extends RoomItemFloor {
         this.setExtraData("9");
         this.sendUpdate();
 
-        this.setTicks(TIMEOUT); // 2.5s
+        this.setTicks(RoomItemFactory.getProcessTime(TIMEOUT / 2));
     }
 
     @Override

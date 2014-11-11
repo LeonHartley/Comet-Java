@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 
@@ -18,7 +19,7 @@ public class AlertFloorItem extends RoomItemFloor {
         this.setExtraData("1");
         this.sendUpdate();
 
-        this.setTicks(3);
+        this.setTicks(RoomItemFactory.getProcessTime(1.5));
     }
 
     @Override

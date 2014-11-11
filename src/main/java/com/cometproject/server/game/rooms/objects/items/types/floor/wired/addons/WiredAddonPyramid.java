@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.RandomInteger;
@@ -28,7 +29,7 @@ public class WiredAddonPyramid extends RoomItemFloor {
     @Override
     public void onTickComplete() {
         if(this.hasEntity) {
-            this.setTicks(2);
+            this.setTicks(RoomItemFactory.getProcessTime(1.0));
             return;
         }
 
@@ -39,7 +40,7 @@ public class WiredAddonPyramid extends RoomItemFloor {
         }
 
         this.sendUpdate();
-        this.setTicks(RandomInteger.getRandom(5, 8) * 2);
+        this.setTicks(RoomItemFactory.getProcessTime(RandomInteger.getRandom(5, 8)));
         this.getRoom().getMapping().getTile(this.getPosition().getX(), this.getPosition().getY()).reload();
     }
 }
