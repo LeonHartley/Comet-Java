@@ -51,12 +51,6 @@ public class BanzaiGateFloorItem extends GenericFloorItem {
 
             playerEntity.setGameTeam(this.getTeam());
             playerEntity.applyEffect(new PlayerEffect(this.getTeam().getBanzaiEffect(), 0));
-
-            if (this.getRoom().getGame().getInstance() == null) {
-                this.getRoom().getGame().createNew(GameType.BANZAI);
-                this.getRoom().getGame().getInstance().startTimer(10);
-            }
-
         } else {
             playerEntity.setGameTeam(GameTeam.NONE);
             playerEntity.applyEffect(null);
