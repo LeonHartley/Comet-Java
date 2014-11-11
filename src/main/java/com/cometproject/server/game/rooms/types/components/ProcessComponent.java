@@ -444,10 +444,12 @@ public class ProcessComponent implements CometTask {
     }
 
     protected void handleSupressedExceptions(Exception e) {
-        SentryDispatcher.getInstance().dispatchException("entityProcess", "Exception during entity process", e, Event.Level.ERROR, new FastMap<String, Object>() {{
-            put("Room ID", room.getId());
-            put("Room Name", room.getData().getName());
-        }});
+//        SentryDispatcher.getInstance().dispatchException("entityProcess", "Exception during entity process", e, Event.Level.ERROR, new FastMap<String, Object>() {{
+//            put("Room ID", room.getId());
+//            put("Room Name", room.getData().getName());
+//        }});
+
+        log.error("Error while processing entity", e);
     }
 
     public boolean isActive() {

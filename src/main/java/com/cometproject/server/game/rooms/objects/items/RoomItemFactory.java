@@ -6,7 +6,10 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.objects.items.types.GenericFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.GenericWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
+import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTeleporterFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTileFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
@@ -89,6 +92,12 @@ public class RoomItemFactory {
             put("wf_pyramid", WiredAddonPyramid.class);//new
 
             put("bb_teleport", BanzaiTeleporterFloorItem.class);
+            put("bb_red_gate", BanzaiGateFloorItem.class);
+            put("bb_yellow_gate", BanzaiGateFloorItem.class);
+            put("bb_blue_gate", BanzaiGateFloorItem.class);
+            put("bb_green_gate", BanzaiGateFloorItem.class);
+            put("bb_patch", BanzaiTileFloorItem.class);
+            put("bb_timer", BanzaiTimerFloorItem.class);
 
             put("group_item", GroupFloorItem.class);
             put("group_gate", GroupGateFloorItem.class);

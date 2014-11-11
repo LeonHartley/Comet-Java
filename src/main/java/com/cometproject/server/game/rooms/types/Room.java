@@ -104,6 +104,7 @@ public class Room implements Attributable {
         this.itemProcess.stop();
         this.game.stop();
 
+        this.game.dispose();
         this.entities.dispose();
         this.items.dispose();
 

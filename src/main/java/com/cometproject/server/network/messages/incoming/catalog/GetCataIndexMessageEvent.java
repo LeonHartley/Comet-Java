@@ -7,6 +7,11 @@ import com.cometproject.server.network.sessions.Session;
 
 public class GetCataIndexMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
+        if(msg.readString().equals("BUILDERS_CLUB")) {
+            client.getPlayer().cancelPageOpen = true;
+            return;
+        }
+
         client.send(CataIndexMessageComposer.compose(client.getPlayer().getData().getRank()));
     }
 }

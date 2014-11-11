@@ -51,6 +51,8 @@ public class Player {
     private String lastMessage = "";
     private int notifCooldown = 0;
 
+    public boolean cancelPageOpen = false;
+
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
