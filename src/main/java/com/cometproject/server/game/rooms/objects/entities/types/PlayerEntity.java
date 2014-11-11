@@ -14,6 +14,7 @@ import com.cometproject.server.game.rooms.objects.entities.PlayerEntityAccess;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPlayerSaysKeyword;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
@@ -49,6 +50,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     private RoomVisitLogEntry visitLogEntry;
 
     private boolean isFinalized = false;
+
+    private GameTeam gameTeam = GameTeam.NONE;
 
     public PlayerEntity(Player player, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
@@ -168,12 +171,13 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
+        for(RoomItemFloor floorItem : this.getRoom().getItems().getFloorItems()) {
+            floorItem.onEntityLeaveRoom(this);
+        }
+
         // Remove entity from the room
         this.getRoom().getEntities().removeEntity(this);
         this.getPlayer().setEntity(null);
-
-        // Clear all statuses
-        //this.getStatuses().clear();
 
         // Step off
         for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(this.getPosition().getX(), this.getPosition().getY())) {
@@ -206,6 +210,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             Comet.getServer().getLoggingManager().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
         }
 
+        this.getStatuses().clear();
         this.attributes.clear();
 
         // De-reference things
@@ -444,5 +449,13 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     public boolean isFinalized() {
         return isFinalized;
+    }
+
+    public GameTeam getGameTeam() {
+        return gameTeam;
+    }
+
+    public void setGameTeam(GameTeam gameTeam) {
+        this.gameTeam = gameTeam;
     }
 }

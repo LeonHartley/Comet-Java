@@ -4,29 +4,30 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTileFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
+import com.google.common.collect.Lists;
 import javolution.util.FastMap;
 
+import java.util.List;
 import java.util.Map;
 
 public class BanzaiGame extends RoomGame {
-    public static final String TEAM_ATTRIBUTE = "gameTeam";
-    public static final String SCORE_ATTRIBUTE = "gameScore";
-
     private Map<GameTeam, Integer> scores;
 
     public BanzaiGame(Room room) {
         super(room, GameType.BANZAI);
 
-        scores = new FastMap<>();
-
-        for (GameTeam team : GameTeam.values()) {
-            this.scores.put(team, 0);
-        }
+        this.scores = new FastMap<GameTeam, Integer>() {{
+            add(GameTeam.BLUE, 0);
+            add(GameTeam.YELLOW, 0);
+            add(GameTeam.RED, 0);
+            add(GameTeam.GREEN, 0);
+        }};
     }
 
     @Override
@@ -40,31 +41,33 @@ public class BanzaiGame extends RoomGame {
     }
 
     @Override
-    public void gameEnds() {
+    public void gameStarts() {
+        // TODO: Wired trigger game_starts
 
+        for (RoomItemFloor item : this.room.getItems().getByInteraction("bb_patch")) {
+            ((BanzaiTileFloorItem) item).onGameStarts();
+        }
+
+        this.updateScoreboard(null);
+    }
+
+    @Override
+    public void gameEnds() {
         GameTeam winningTeam = this.winningTeam();
 
         for (RoomItemFloor item : this.room.getItems().getByInteraction("bb_patch")) {
-            if (item.hasAttribute(TEAM_ATTRIBUTE)) {
-                if (item.getAttribute(TEAM_ATTRIBUTE).equals(winningTeam)) {
-                    // TODO: this
-                } else {
-                    item.setExtraData("0");
-                    item.sendUpdate();
+            if(item instanceof BanzaiTileFloorItem) {
+                if(((BanzaiTileFloorItem) item).getTeam() == winningTeam && winningTeam != GameTeam.NONE) {
+                    ((BanzaiTileFloorItem) item).flash();
                 }
-            } else {
-                item.setExtraData("0");
-                item.sendUpdate();
             }
-
-            item.dispose();
         }
 
         for (GenericEntity entity : this.room.getEntities().getAllEntities().values()) {
             if (entity.getEntityType().equals(RoomEntityType.PLAYER)) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 
-                if (this.getTeam(playerEntity.getPlayerId()).equals(winningTeam)) {
+                if (this.getGameComponent().getTeam(playerEntity.getPlayerId()).equals(winningTeam) && winningTeam != GameTeam.NONE) {
                     this.room.getEntities().broadcastMessage(ActionMessageComposer.compose(playerEntity.getId(), 1)); // wave o/
                 }
             }
@@ -75,50 +78,26 @@ public class BanzaiGame extends RoomGame {
         // TODO: Wired trigger GAME_ENDS
     }
 
-    @Override
-    public void gameStarts() {
-        for (RoomItemFloor item : this.room.getItems().getByInteraction("bb_patch")) {
-            item.setExtraData("1");
-            item.sendUpdate();
+    public void increaseScore(GameTeam team, int amount) {
+        this.scores.replace(team, this.getScore(team) + amount);
+        this.updateScoreboard(team);
+    }
+
+    public void updateScoreboard(GameTeam team) {
+        for (RoomItemFloor scoreboard : this.getGameComponent().getRoom().getItems().getByInteraction("%_score")) {
+            if (team == null || scoreboard.getDefinition().getInteraction().toUpperCase().startsWith(team.name())) {
+                scoreboard.setExtraData(team == null ? "0" : this.getScore(team) + "");
+                scoreboard.sendUpdate();
+            }
         }
     }
 
-    public void captureTile(int x, int y, GameTeam team) {
-        if (!this.active)
-            return;
-
-        for (RoomItemFloor item : this.room.getItems().getItemsOnSquare(x, y)) {
-            if (item.getDefinition().getInteraction().equals("bb_patch")) {
-                int itemScore = 1;
-
-                if (item.hasAttribute(TEAM_ATTRIBUTE) && item.getAttribute(TEAM_ATTRIBUTE).equals(team)) {
-                    itemScore = (int) item.getAttribute(SCORE_ATTRIBUTE) + 1;
-                } else {
-                    if (!item.hasAttribute(SCORE_ATTRIBUTE)) {
-                        item.setAttribute(TEAM_ATTRIBUTE, team);
-                    } else {
-                        if ((int) item.getAttribute(SCORE_ATTRIBUTE) == 3)
-                            return;
-                    }
-                }
-
-                if (itemScore <= 3) {
-                    item.setAttribute(SCORE_ATTRIBUTE, itemScore);
-                    item.setExtraData((itemScore + (team.getTeamId() * 3) - 1) + "");
-
-                    item.sendUpdate();
-
-                    this.scores.replace(team, this.scores.get(team) + 1);
-
-                    for (RoomItemFloor scoreboard : room.getItems().getByInteraction("%_score")) {
-                        if (scoreboard.getDefinition().getInteraction().toUpperCase().startsWith(team.name())) {
-                            scoreboard.setExtraData(this.scores.get(team) + "");
-                            scoreboard.sendUpdate();
-                        }
-                    }
-                }
-            }
+    public int getScore(GameTeam team) {
+        if(this.scores.containsKey(team)) {
+            return this.scores.get(team);
         }
+
+        return 0;
     }
 
     public GameTeam winningTeam() {

@@ -17,11 +17,10 @@ public class HelpTicketMessageEvent implements IEvent {
 //        }
 
         String message = msg.readString();
-//        int unk = msg.readInt();
         int category = msg.readInt();
         int reportedId = msg.readInt();
-//        int timestamp = (int) Comet.getTime();
-//        int roomId = client.getPlayer().getEntity() != null ? client.getPlayer().getEntity().getRoom().getId() : 0;
+        int timestamp = (int) Comet.getTime();
+        int roomId = client.getPlayer().getEntity() != null ? client.getPlayer().getEntity().getRoom().getId() : 0;
 
         int junk = msg.readInt();
         int chatCout = msg.readInt();

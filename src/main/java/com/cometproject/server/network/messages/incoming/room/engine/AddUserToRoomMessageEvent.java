@@ -8,10 +8,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.HandItemMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomPanelMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.FloorItemsMessageComposer;
@@ -74,6 +71,10 @@ public class AddUserToRoomMessageEvent implements IEvent {
         client.send(AvatarUpdateMessageComposer.compose(room.getEntities().count(), room.getEntities().getAllEntities().values()));
 
         for (GenericEntity av : client.getPlayer().getEntity().getRoom().getEntities().getAllEntities().values()) {
+            if(av.getCurrentEffect() != null) {
+                client.send(ApplyEffectMessageComposer.compose(av.getId(), av.getCurrentEffect().getEffectId()));
+            }
+
             if (av.getDanceId() != 0) {
                 client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(DanceMessageComposer.compose(av.getId(), av.getDanceId()));
             }

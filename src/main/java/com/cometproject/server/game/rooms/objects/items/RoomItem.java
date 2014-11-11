@@ -96,6 +96,10 @@ public abstract class RoomItem extends RoomObject implements Attributable {
         // Override this
     }
 
+    public void onEntityLeaveRoom(GenericEntity entity) {
+        // Override this
+    }
+
     @Override
     public void setAttribute(String attributeKey, Object attributeValue) {
         if (this.attributes.containsKey(attributeKey)) {

@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.handshake;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.game.players.types.Player;
@@ -111,7 +112,8 @@ public class SSOTicketMessageEvent implements IEvent {
             client.getPlayer().getData().setIpAddress(ipAddress);
         }
 
-        PlayerAccessDao.saveAccess(player.getId(), client.getUniqueId(), ipAddress);
+        if(CometSettings.storeAccess)
+            PlayerAccessDao.saveAccess(player.getId(), client.getUniqueId(), ipAddress);
 
         CometManager.getRooms().loadRoomsForUser(player);
 

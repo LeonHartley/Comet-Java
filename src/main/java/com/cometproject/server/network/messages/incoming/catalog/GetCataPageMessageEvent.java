@@ -10,6 +10,10 @@ public class GetCataPageMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int pageId = msg.readInt();
 
+        if(client.getPlayer().cancelPageOpen) {
+            client.getPlayer().cancelPageOpen = false;
+        }
+
         if (CometManager.getCatalog().pageExists(pageId) && CometManager.getCatalog().getPage(pageId).isEnabled()) {
             client.send(CataPageMessageComposer.compose(CometManager.getCatalog().getPage(pageId)));
         }

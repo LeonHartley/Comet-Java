@@ -341,6 +341,8 @@ public final class MessageHandler {
 
             log.debug("Started packet process for packet: [" + Events.valueOfId(header) + "][" + header + "]");
 
+            System.out.println(message.toString());
+
             try {
                 this.getMessages().get(header).handle(client, message);
 
