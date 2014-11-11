@@ -6,7 +6,6 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiGame;
-import com.google.common.collect.Lists;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -41,6 +40,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
 
         if(this.points == 3) {
             ((BanzaiGame) this.getRoom().getGame().getInstance()).increaseScore(this.gameTeam, 1);
+            ((BanzaiGame) this.getRoom().getGame().getInstance()).decreaseTileCount();
 
             final List<BanzaiTileFloorItem> rectangle = buildBanzaiRectangle(this, this.getPosition().getX(), this.getPosition().getY(), 0, 0, -1, 4, gameTeam);
 
@@ -68,11 +68,14 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
                     }
 
                     if (borderCheck[0] && borderCheck[1] && borderCheck[2] && borderCheck[3]) {
-                        tileItem.setPoints(3);
-                        tileItem.setTeam(this.gameTeam);
+                        if(tileItem.getId() != this.getId()) {
+                            tileItem.setPoints(3);
+                            tileItem.setTeam(this.gameTeam);
 
-                        ((BanzaiGame) this.getRoom().getGame().getInstance()).increaseScore(this.gameTeam, 1);
-                        tileItem.updateTileData();
+                            ((BanzaiGame) this.getRoom().getGame().getInstance()).increaseScore(this.gameTeam, 1);
+                            ((BanzaiGame) this.getRoom().getGame().getInstance()).decreaseTileCount();
+                            tileItem.updateTileData();
+                        }
                     }
                 }
             }

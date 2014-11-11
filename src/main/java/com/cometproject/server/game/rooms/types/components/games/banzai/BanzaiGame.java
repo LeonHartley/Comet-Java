@@ -10,14 +10,13 @@ import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
-import com.google.common.collect.Lists;
 import javolution.util.FastMap;
 
-import java.util.List;
 import java.util.Map;
 
 public class BanzaiGame extends RoomGame {
     private Map<GameTeam, Integer> scores;
+    private int banzaiTileCount = 0;
 
     public BanzaiGame(Room room) {
         super(room, GameType.BANZAI);
@@ -32,19 +31,25 @@ public class BanzaiGame extends RoomGame {
 
     @Override
     public void tick() {
+        if(this.banzaiTileCount == 0) {
+            // Stop the game!
+            this.timer = this.gameLength;
+        }
+
         for (RoomItemFloor item : room.getItems().getByInteraction("bb_timer")) {
             item.setExtraData((gameLength - timer) + "");
             item.sendUpdate();
         }
-
-        this.getLog().debug("Game tick (" + this.timer + ")");
     }
 
     @Override
     public void gameStarts() {
         // TODO: Wired trigger game_starts
 
+        this.banzaiTileCount = 0;
+
         for (RoomItemFloor item : this.room.getItems().getByInteraction("bb_patch")) {
+            this.banzaiTileCount++;
             ((BanzaiTileFloorItem) item).onGameStarts();
         }
 
@@ -110,5 +115,9 @@ public class BanzaiGame extends RoomGame {
         }
 
         return winningTeam != null ? winningTeam.getKey() : GameTeam.NONE;
+    }
+
+    public void decreaseTileCount() {
+        this.banzaiTileCount--;
     }
 }
