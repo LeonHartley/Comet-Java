@@ -46,7 +46,7 @@ public class Composers {
     public static final short CatalogLimitedItemSoldOutMessageComposer = 2668;
     public static final short SellablePetBreedsMessageComposer = 3770;
     public static final short ReloadEcotronMessageComposer = 1708;
-    public static final short GiftWrappingConfigurationMessageComposer = 2988;
+    public static final short GiftWrappingConfigurationMessageComposer = 1966;
     public static final short RecyclerRewardsMessageComposer = 2750;
     public static final short CatalogPromotionGetRoomsMessageComposer = 2555;
     public static final short LoadCatalogClubGiftsMessageComposer = 2179;
