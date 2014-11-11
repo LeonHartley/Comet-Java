@@ -159,7 +159,6 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     @Override
     public void onTick() {
         if(this.hasTicks()) {
-            System.out.println("yes");
             if(needsChange) {
                 this.setExtraData("1");
                 this.sendUpdate();

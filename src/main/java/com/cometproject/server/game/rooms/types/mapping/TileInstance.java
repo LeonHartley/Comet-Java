@@ -169,7 +169,6 @@ public class TileInstance {
     }
 
     public int getTopItem() {
-        System.out.println(this.topItem);
         return this.topItem;
     }
 

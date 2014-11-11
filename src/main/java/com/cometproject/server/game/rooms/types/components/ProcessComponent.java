@@ -393,7 +393,7 @@ public class ProcessComponent implements CometTask {
                 }
 
                 if (effectNeedsRemove && entity.getCurrentEffect() != null && entity.getCurrentEffect().isItemEffect()) {
-                    entity.applyEffect(null);
+                    entity.applyEffect(entity.getLastEffect());
                 }
 
                 if (!isCancelled) {

@@ -23,11 +23,10 @@ public class HelpTicketMessageEvent implements IEvent {
         int roomId = client.getPlayer().getEntity() != null ? client.getPlayer().getEntity().getRoom().getId() : 0;
 
         int junk = msg.readInt();
-        int chatCout = msg.readInt();
+        int chatCount = msg.readInt();
 
-        for(int i = 0; i < chatCout; i++) {
+        for(int i = 0; i < chatCount; i++) {
             int sayerId = msg.readInt();
-            System.out.println(msg.readString());
         }
 
         client.send(TicketSentMessageComposer.compose());
