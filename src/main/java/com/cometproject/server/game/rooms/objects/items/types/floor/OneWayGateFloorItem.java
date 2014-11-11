@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -34,7 +35,7 @@ public class OneWayGateFloorItem extends RoomItemFloor {
         this.sendUpdate();
 
         this.interactingEntity = entity;
-        this.setTicks(14);
+        this.setTicks(RoomItemFactory.getProcessTime(7.0));
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.banzai;
 
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
@@ -84,6 +86,15 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
         this.updateTileData();
     }
 
+    @Override
+    public void onItemAddedToStack(RoomItemFloor roomItemFloor) {
+        if(roomItemFloor instanceof BanzaiPuckFloorItem) {
+            if(((BanzaiPuckFloorItem) roomItemFloor).getPusher() != null) {
+                this.onEntityStepOn(((BanzaiPuckFloorItem) roomItemFloor).getPusher());
+            }
+        }
+    }
+
     public static List<BanzaiTileFloorItem> buildBanzaiRectangle(final BanzaiTileFloorItem triggerItem, final int x, final int y,
                                                                  final int goX, final int goY, final int currentDirection, final int turns, final GameTeam team) {
         final boolean[] directions = new boolean[4];
@@ -158,10 +169,11 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     }
 
     private boolean needsChange = false;
+    private int ticker = 0;
 
     @Override
     public void onTick() {
-        if(this.hasTicks()) {
+        if(this.hasTicks() && this.ticker >= RoomItemFactory.getProcessTime(0.5)) {
             if(needsChange) {
                 this.setExtraData("1");
                 this.sendUpdate();
@@ -170,13 +182,22 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
                 this.needsChange = true;
                 this.updateTileData();
             }
+
+            this.ticker = 0;
         }
+
+        this.ticker++;
+    }
+
+    @Override
+    public void onTickComplete() {
+        this.updateTileData();
     }
 
     public void flash() {
         if(this.points == 3) {
             this.needsChange = true;
-            this.setTicks(6);//3s
+            this.setTicks(RoomItemFactory.getProcessTime(3.5));//3.5s
         }
     }
 

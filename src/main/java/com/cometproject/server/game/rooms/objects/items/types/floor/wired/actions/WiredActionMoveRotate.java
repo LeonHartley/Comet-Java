@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -45,7 +46,7 @@ public class WiredActionMoveRotate extends WiredActionItem {
         if(this.hasTicks()) return false;
 
         if(this.getWiredData().getDelay() >= 1) {
-            this.setTicks(this.getWiredData().getDelay());
+            this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
         } else {
             this.onTickComplete();
         }

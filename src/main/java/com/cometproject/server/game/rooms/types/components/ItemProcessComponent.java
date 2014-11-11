@@ -18,7 +18,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class ItemProcessComponent implements CometTask {
-    private final int INTERVAL = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
+//    private final int INTERVAL = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
+    private final int INTERVAL = 25;
     private final int FLAG = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.flag"));
 
     private Room room;
@@ -129,10 +130,7 @@ public class ItemProcessComponent implements CometTask {
     }
 
     protected void handleException(RoomItem item, Exception e) {
-        SentryDispatcher.getInstance().dispatchException("itemProcessError", "Exception while processing items", e, net.kencochrane.raven.event.Event.Level.ERROR, new FastMap<String, Object>() {{
-            put("Item ID", item.getId());
-            put("Item Class", item.getClass().getSimpleName());
-        }});
+        log.error("Error while processing item: " + item.getId() + " (" + item.getClass().getSimpleName(), e);
     }
 
     public Room getRoom() {

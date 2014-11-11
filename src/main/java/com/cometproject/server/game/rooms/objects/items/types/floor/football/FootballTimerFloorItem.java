@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.football;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 
@@ -56,7 +57,7 @@ public class FootballTimerFloorItem extends RoomItemFloor {
                 ((FootballScoreFloorItem) scoreItem).reset();
             }
 
-            this.setTicks(2);
+            this.setTicks(RoomItemFactory.getProcessTime(1.0));
         }
     }
 
@@ -68,7 +69,7 @@ public class FootballTimerFloorItem extends RoomItemFloor {
             this.setExtraData(this.time + "");
             this.sendUpdate();
 
-            this.setTicks(2);
+            this.setTicks(RoomItemFactory.getProcessTime(1.0));
         } else {
             if(this.getRoom().hasAttribute("football")) {
                 // football game has ended.
