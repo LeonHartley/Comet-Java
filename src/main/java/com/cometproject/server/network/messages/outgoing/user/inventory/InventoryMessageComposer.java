@@ -61,20 +61,28 @@ public class InventoryMessageComposer {
                     msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(groupData.getColourB()));
                 }
             } else {
-                msg.writeInt(1);
+                msg.writeInt(isGift ? 9 : 0);
                 msg.writeInt(0);
-                msg.writeString(isGift ? i.getGiftData().toString() : i.getExtraData());
+                msg.writeString(isGift ? "" : i.getExtraData());
             }
 
             msg.writeBoolean(i.getDefinition().canRecycle);
-            msg.writeBoolean(i.getDefinition().canTrade);
-            msg.writeBoolean(i.getDefinition().canInventoryStack);
-            msg.writeBoolean(i.getDefinition().canMarket);
+            msg.writeBoolean(!isGift && i.getDefinition().canTrade);
+            msg.writeBoolean(!isGift && i.getDefinition().canInventoryStack);
+            msg.writeBoolean(!isGift && i.getDefinition().canMarket);
+
             msg.writeInt(-1);
             msg.writeBoolean(true);
             msg.writeInt(-1);
             msg.writeString("");
-            msg.writeInt(0);
+
+            int extra = 0;
+
+            if(isGift) {
+                extra = (i.getGiftData().getDecorationType() * 1000) + i.getGiftData().getWrappingPaper();
+            }
+
+            msg.writeInt(extra);
         }
 
         for (InventoryItem i : inv.getWallItems().values()) {

@@ -144,10 +144,10 @@ public class CatalogPurchaseHandler {
                     } else {
                         extraData += data.replace(",", ".");
                     }
-                } else if(def.getInteraction().equals("group_item") || def.getInteraction().equals("group_gate")) {
-                    if(!StringUtils.isNumeric(data)) return;
+                } else if (def.getInteraction().equals("group_item") || def.getInteraction().equals("group_gate")) {
+                    if (!StringUtils.isNumeric(data)) return;
 
-                    if(!client.getPlayer().getGroups().contains(new Integer(data))) {
+                    if (!client.getPlayer().getGroups().contains(new Integer(data))) {
                         return;
                     }
 
@@ -180,10 +180,9 @@ public class CatalogPurchaseHandler {
 
                 List<CatalogPurchase> purchases = new ArrayList<>();
 
-                if(giftData != null) {
+                if (giftData != null) {
                     giftData.setExtraData(extraData);
                     purchases.add(new CatalogPurchase(client.getPlayer().getId(), CometManager.getItems().getBySpriteId(giftData.getSpriteId()).getId(), JsonFactory.getInstance().toJson(giftData)));
-                    return;
                 } else {
                     for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
                         for (int itemCount = 0; itemCount != item.getAmount(); itemCount++) {
@@ -201,7 +200,8 @@ public class CatalogPurchaseHandler {
                 List<Integer> newItems = ItemDao.createItems(purchases);
 
                 for (Integer newItem : newItems) {
-                    unseenItems.add(client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData));
+                    if(giftData == null)
+                        unseenItems.add(client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData));
 
                     if (isTeleport)
                         teleportIds[newItems.indexOf(newItem)] = newItem;
@@ -224,13 +224,17 @@ public class CatalogPurchaseHandler {
                     }
                 }
 
-                if (item.hasBadge()) {
-                    client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
+                if(giftData != null) {
+                    this.deliverGift(giftData, newItems);
+                } else {
+                    if (item.hasBadge()) {
+                        client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
+                    }
+
+                    client.send(UnseenItemsMessageComposer.compose(unseenItems));
+                    client.send(UpdateInventoryMessageComposer.compose());
                 }
 
-
-                client.send(UnseenItemsMessageComposer.compose(unseenItems));
-                client.send(UpdateInventoryMessageComposer.compose());
             }
         } catch (Exception e) {
             CometManager.getLogger().error("Error while buying catalog item", e);
@@ -243,8 +247,10 @@ public class CatalogPurchaseHandler {
 
     /**
      * Deliver the gift (if it was gifted)
+     * @param giftData The data of the gift
+     * @param newItems The new items
      */
-    private void deliverGift() {
+    private void deliverGift(GiftData giftData, List<Integer> newItems) {
         // todo: this
     }
 
