@@ -44,4 +44,26 @@ public class BoughtItemMessageComposer {
 
         return msg;
     }
+    
+    public static Composer promoteRoom() {
+        Composer msg = new Composer(Composers.PurchaseOKMessageComposer);
+
+        msg.writeInt(0);
+        msg.writeString("");
+        msg.writeBoolean(false);
+        msg.writeInt(0);
+        msg.writeInt(0);
+        msg.writeInt(0);
+        msg.writeBoolean(true);
+        msg.writeInt(1);
+        msg.writeString("s");
+        msg.writeInt(0);
+        msg.writeString("");
+        msg.writeInt(1);
+        msg.writeInt(0);
+        msg.writeString("");
+        msg.writeInt(1);
+
+        return msg;
+    }
 }

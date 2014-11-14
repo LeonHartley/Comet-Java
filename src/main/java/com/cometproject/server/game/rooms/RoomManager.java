@@ -6,8 +6,10 @@ import com.cometproject.server.game.rooms.filter.WordFilter;
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
+import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotionsManager;
 import com.cometproject.server.game.rooms.types.misc.settings.RoomTradeState;
+import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
@@ -30,6 +32,8 @@ public class RoomManager {
     private FastMap<Integer, Room> loadedRoomInstances;
     private FastMap<Integer, Room> unloadingRoomInstances;
 
+    private FastMap<Integer, RoomPromotion> roomPromotions;
+
     private final Object syncObj = new Object();
 
     private Set<StaticRoomModel> models;
@@ -43,6 +47,7 @@ public class RoomManager {
 
         this.loadedRoomInstances = new FastMap<Integer, Room>().shared();
         this.unloadingRoomInstances = new FastMap<Integer, Room>().shared();
+        this.roomPromotions = new FastMap<Integer, RoomPromotion>().shared();
 
         this.emotions = new ChatEmotionsManager();
         this.filterManager = new WordFilter();
@@ -78,44 +83,6 @@ public class RoomManager {
 
         return null;
     }
-
-    /*private Room createRoomInstance(RoomData data) {
-        if (data == null) { return null; }
-
-        Room instance = new Room(data);
-
-        // attributes
-        instance.setAttribute("loadTime", System.currentTimeMillis());
-
-        return instance;
-    }*/
-
-    /*public Room get(int id) {
-        if (this.getRoomInstances().containsKey(id)) {
-            Room r = this.getRoomInstances().get(id);
-
-            if (r.needsRemoving()) {
-                this.getRoomInstances().remove(id);
-                r.dispose();
-            } else {
-                r.unIdleIfRequired();
-                return r;
-            }
-        }
-
-        Room room = createRoomInstance(this.getRoomData(id));
-
-        if (room == null) {
-            log.warn("There was a problem loading room: " + id + ", data was null");
-            return null;
-        }
-
-        this.roomInstances.put(room.getId(), room);
-
-        room.getItems().callOnLoad();
-
-        return room;
-    }*/
 
     public Room get(int id) {
         if(id == 0) return null;
@@ -199,20 +166,6 @@ public class RoomManager {
         }
     }
 
-    /*public void removeInstance(int roomId) {
-        if (!this.getRoomInstances().containsKey(roomId)) {
-            return;
-        }
-
-        Room room = this.getRoomInstances().get(roomId);
-
-        if (!room.isDisposed()) {
-            room.dispose();
-        }
-
-        this.getRoomInstances().remove(roomId);
-    }*/
-
     public void removeData(int roomId) {
         if (!this.getRoomDataInstances().getMap().containsKey(roomId)) {
             return;
@@ -281,6 +234,33 @@ public class RoomManager {
         return rooms;
     }
 
+    public void promoteRoom(int roomId, String name, String description) {
+        // TODO: Save to db??
+
+        if(this.roomPromotions.containsKey(roomId)) {
+            RoomPromotion promo = this.roomPromotions.get(roomId);
+            promo.setTimestampFinish(Comet.getTime() + (RoomPromotion.DEFAULT_PROMO_LENGTH  * 60));
+        } else {
+            this.roomPromotions.put(roomId, new RoomPromotion(roomId, name, description));
+        }
+
+        if(this.get(roomId) != null) {
+            Room room = this.get(roomId);
+
+            if(room.getEntities() != null && room.getEntities().realPlayerCount() >= 1) {
+                room.getEntities().broadcastMessage(RoomPromotionMessageComposer.compose(room.getData(), this.roomPromotions.get(roomId)));
+            }
+        }
+    }
+
+    public boolean hasPromotion(int roomId) {
+        if(this.roomPromotions.containsKey(roomId) && !this.roomPromotions.get(roomId).isExpired()) {
+            return true;
+        }
+
+        return false;
+    }
+
     public final ChatEmotionsManager getEmotions() {
         return this.emotions;
     }
@@ -303,5 +283,9 @@ public class RoomManager {
 
     public final WordFilter getFilter() {
         return filterManager;
+    }
+
+    public FastMap<Integer, RoomPromotion> getRoomPromotions() {
+        return roomPromotions;
     }
 }

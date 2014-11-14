@@ -10,6 +10,9 @@ import java.util.ArrayList;
 public class PromotedRoomsMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
+
+        // Get all the promoted rooms.
+
         client.send(NavigatorFlatListMessageComposer.compose(-1, 0, "", new ArrayList<>()));
     }
 }
