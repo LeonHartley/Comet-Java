@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManagement;
 import com.cometproject.server.utilities.TimeSpan;

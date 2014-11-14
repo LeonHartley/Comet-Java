@@ -8,6 +8,9 @@ import com.cometproject.server.network.messages.incoming.catalog.GetCataIndexMes
 import com.cometproject.server.network.messages.incoming.catalog.GetCataPageMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.PurchaseGiftMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.PurchaseItemMessageEvent;
+import com.cometproject.server.network.messages.incoming.catalog.ads.CatalogPromotionGetRoomsMessageEvent;
+import com.cometproject.server.network.messages.incoming.catalog.ads.PromoteRoomMessageEvent;
+import com.cometproject.server.network.messages.incoming.catalog.ads.PromotionUpdateMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.data.CatalogOfferConfigMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.data.GetGiftWrappingConfigurationMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupDialogMessageEvent;
@@ -106,6 +109,7 @@ public final class MessageHandler {
         this.registerGroups();
         this.registerQuests();
         this.registerCamera();
+        this.registerPromotions();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
     }
@@ -285,6 +289,12 @@ public final class MessageHandler {
         this.getMessages().put(Events.SaveFootballGateOutfitMessageEvent, new SaveFootballGateMessageEvent());
 
         this.getMessages().put(Events.WiredSaveMatchingMessageEvent, new UpdateSnapshotsMessageEvent());
+    }
+
+    public void registerPromotions() {
+        this.getMessages().put(Events.CatalogPromotionGetRoomsMessageEvent, new CatalogPromotionGetRoomsMessageEvent());
+        this.getMessages().put(Events.PromoteRoomMessageEvent, new PromoteRoomMessageEvent());
+        this.getMessages().put(Events.RoomEventUpdateMessageEvent, new PromotionUpdateMessageEvent());
     }
 
     public void registerCatalog() {

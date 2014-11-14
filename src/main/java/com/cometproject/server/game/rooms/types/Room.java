@@ -112,6 +112,12 @@ public class Room implements Attributable {
     }
 
     public void tick() {
+        if(this.getPromotion() != null) {
+            if(this.getPromotion().isExpired()) {
+                // The room isn't promoted anymore!
+                CometManager.getRooms().getRoomPromotions().remove(this.getId());
+            }
+        }
 
         if (useCycleForEntities && this.process != null) {
             this.process.tick();
@@ -124,6 +130,10 @@ public class Room implements Attributable {
         if(this.rights != null) {
             this.rights.tick();
         }
+    }
+
+    public RoomPromotion getPromotion() {
+        return CometManager.getRooms().getRoomPromotions().get(this.getId());
     }
 
     @Override

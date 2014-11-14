@@ -30,6 +30,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMe
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.ModelAndIdMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
@@ -154,6 +155,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         InitializeRoomMessageEvent.heightmapMessageEvent.handle(this.player.getSession(), null);
         InitializeRoomMessageEvent.addUserToRoomMessageEvent.handle(this.player.getSession(), null);
+
+        if(CometManager.getRooms().hasPromotion(this.getRoom().getId())) {
+            this.player.getSession().send(RoomPromotionMessageComposer.compose(this.getRoom().getData(), this.getRoom().getPromotion()));
+        }
 
         this.isFinalized = true;
     }
