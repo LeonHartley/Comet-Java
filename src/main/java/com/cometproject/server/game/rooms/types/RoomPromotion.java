@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.types;
 import com.cometproject.server.boot.Comet;
 
 public class RoomPromotion {
-    public static final int DEFAULT_PROMO_LENGTH = 120;
+    public static final int DEFAULT_PROMO_LENGTH = 1;
 
     private int roomId;
 
@@ -19,7 +19,7 @@ public class RoomPromotion {
         this.promotionDescription = description;
 
         this.timestampStart = Comet.getTime();
-        this.timestampFinish = this.timestampStart += ((DEFAULT_PROMO_LENGTH * 60));
+        this.timestampFinish = this.timestampStart + (DEFAULT_PROMO_LENGTH * 60);
     }
 
     public int getRoomId() {
@@ -64,5 +64,10 @@ public class RoomPromotion {
 
     public void setTimestampStart(long timestampStart) {
         this.timestampStart = timestampStart;
+    }
+
+    public int minutesLeft() {
+        return (int) Math.floor(this.getTimestampFinish() - Comet.getTime()) / 60;
+
     }
 }

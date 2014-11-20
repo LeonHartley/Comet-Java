@@ -116,6 +116,8 @@ public class Room implements Attributable {
             if(this.getPromotion().isExpired()) {
                 // The room isn't promoted anymore!
                 CometManager.getRooms().getRoomPromotions().remove(this.getId());
+
+                // Remove the event from the room!
             }
         }
 
