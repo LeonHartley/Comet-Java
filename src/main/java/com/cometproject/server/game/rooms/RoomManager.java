@@ -235,7 +235,7 @@ public class RoomManager {
     }
 
     public void promoteRoom(int roomId, String name, String description) {
-        // TODO: Save to db??
+        // TODO: Save to db
 
         if(this.roomPromotions.containsKey(roomId)) {
             RoomPromotion promo = this.roomPromotions.get(roomId);

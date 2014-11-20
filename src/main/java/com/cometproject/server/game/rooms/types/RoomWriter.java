@@ -36,10 +36,16 @@ public class RoomWriter {
         msg.writeInt(0);
         msg.writeBoolean(false);
         msg.writeBoolean(false);
-        msg.writeInt(0); // has promo
-        msg.writeString(""); // promo name
-        msg.writeString(""); // promo description
-        msg.writeInt(0); // promo minutes left
+
+        RoomPromotion promotion = CometManager.getRooms().getRoomPromotions().get(room.getId());
+
+        if(promotion != null)
+            System.out.println(promotion.getTimestampFinish() - promotion.getTimestampStart());
+
+        msg.writeInt(promotion != null ? 1 : 0); // has promo
+        msg.writeString(promotion != null ? promotion.getPromotionName() : ""); // promo name
+        msg.writeString(promotion != null ? promotion.getPromotionDescription() : ""); // promo description
+        msg.writeInt(promotion != null ? promotion.minutesLeft() : 0); // promo minutes left
     }
 
     public static void writeData(RoomData room, Composer msg) {
