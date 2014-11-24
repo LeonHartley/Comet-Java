@@ -35,7 +35,6 @@ public class WiredTriggerWalksOffFurni extends WiredTriggerItem {
     }
 
     public static boolean executeTriggers(GenericEntity entity, RoomItemFloor floorItem) {
-        CometManager.getLogger().debug("Executing walks off trigger");
         boolean wasExecuted = false;
 
         for(RoomItemFloor wiredItem : entity.getRoom().getItems().getByInteraction("wf_trg_walks_off_furni")) {
