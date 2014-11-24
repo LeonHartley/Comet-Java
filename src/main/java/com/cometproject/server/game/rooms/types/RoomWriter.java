@@ -39,9 +39,6 @@ public class RoomWriter {
 
         RoomPromotion promotion = CometManager.getRooms().getRoomPromotions().get(room.getId());
 
-        if(promotion != null)
-            System.out.println(promotion.getTimestampFinish() - promotion.getTimestampStart());
-
         msg.writeInt(promotion != null ? 1 : 0); // has promo
         msg.writeString(promotion != null ? promotion.getPromotionName() : ""); // promo name
         msg.writeString(promotion != null ? promotion.getPromotionDescription() : ""); // promo description

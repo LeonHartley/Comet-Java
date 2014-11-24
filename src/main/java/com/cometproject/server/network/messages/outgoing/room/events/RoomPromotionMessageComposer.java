@@ -9,8 +9,6 @@ public class RoomPromotionMessageComposer {
     public static Composer compose(RoomData roomData, RoomPromotion roomPromotion) {
         Composer msg = new Composer(Composers.RoomEventMessageComposer);
 
-        System.out.println("Yes.");
-
         msg.writeInt(roomData.getId());
         msg.writeInt(roomData.getOwnerId());
         msg.writeString(roomData.getOwner());
