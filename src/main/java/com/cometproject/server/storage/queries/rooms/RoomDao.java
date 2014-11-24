@@ -121,8 +121,10 @@ public class RoomDao {
                 preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE owner = ?", sqlConnection);
                 preparedStatement.setString(1, query.split("owner:")[1]);
             } else if(query.startsWith("tag:")) {
-                preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE tags LIKE ?", sqlConnection);
-                preparedStatement.setString(1, "%" + query.split("tag:")[1]  + "%");
+                preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE tags LIKE ? LIMIT 50", sqlConnection);
+
+                String tagName = SqlHelper.escapeWildcards(query.split("tag:")[1]);
+                preparedStatement.setString(1, "%" + tagName  + "%");
             } else {
                 // escape wildcard characters
                 query = SqlHelper.escapeWildcards(query);
@@ -268,7 +270,7 @@ public class RoomDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM rooms ORDER by score DESC LIMIT 1", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM rooms ORDER by score DESC LIMIT 50", sqlConnection);
 
             resultSet = preparedStatement.executeQuery();
 
