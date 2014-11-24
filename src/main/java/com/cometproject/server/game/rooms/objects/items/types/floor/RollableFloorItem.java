@@ -128,7 +128,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTriggered) {
         if (isWiredTriggered) return;
 
-        if (this.isRolling) {
+        if (this.isRolling || !entity.getPosition().touching(this.getPosition()))  {
             return;
         }
 
@@ -177,9 +177,9 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         Position newPosition = this.rollingPositions.get(0);
         Position currentPosition = new Position(this.getPosition().getX(), this.getPosition().getY());
 
-        if(newPosition.getX() == currentPosition.getX() && newPosition.getY() == currentPosition.getY()) {
-
-        }
+//        if(newPosition.getX() == currentPosition.getX() && newPosition.getY() == currentPosition.getY()) {
+//
+//        }
 
         currentPosition.setZ(this.getRoom().getModel().getSquareHeight()[currentPosition.getX()][currentPosition.getY()]);
         newPosition.setZ(this.getRoom().getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()]);

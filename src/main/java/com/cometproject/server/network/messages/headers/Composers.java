@@ -196,7 +196,7 @@ public class Composers {
     public static final short WiredConditionMessageComposer = 1612;
     public static final short WiredEffectMessageComposer = 178;
     public static final short WiredTriggerMessageComposer = 3016;
-    public static final short ChangeFavouriteGroupMessageComposer = 2939;
+    public static final short ChangeFavouriteGroupMessageComposer = 492;
     public static final short FavouriteGroupMessageComposer = 3069;
     public static final short GroupDataEditMessageComposer = 1572;
     public static final short GroupDataMessageComposer = 2527;

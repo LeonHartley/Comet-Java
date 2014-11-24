@@ -234,6 +234,10 @@ public class ItemsComponent {
             if (!tile.canStack() && tile.getTopItem() != 0 && tile.getTopItem() != item.getId()) {
                 cancelAction = true;
             }
+
+            if(tile.getPosition().getX() == this.getRoom().getModel().getDoorX() && tile.getPosition().getY() == this.getRoom().getModel().getDoorY()) {
+                cancelAction = true;
+            }
         } else {
             cancelAction = true;
         }

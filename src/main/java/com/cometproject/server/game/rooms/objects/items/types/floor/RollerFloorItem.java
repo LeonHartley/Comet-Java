@@ -1,6 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -23,6 +25,8 @@ public class RollerFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
+        if(entity.isWalking()) return;
+
         if (this.ticksTimer < 1) {
             this.setTicks(this.getTickCount());
         }
@@ -65,6 +69,10 @@ public class RollerFloorItem extends RoomItemFloor {
                 continue;
             }
 
+            if(entity.getPositionToSet() != null) {
+                continue;
+            }
+
             if (!this.getRoom().getMapping().isValidStep(entity.getPosition(), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
                 break;
             }
@@ -73,7 +81,11 @@ public class RollerFloorItem extends RoomItemFloor {
                 continue;
             }
 
+            WiredTriggerWalksOffFurni.executeTriggers(entity, this);
+
             for (RoomItemFloor nextItem : this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
+                WiredTriggerWalksOnFurni.executeTriggers(entity, nextItem);
+
                 nextItem.onEntityStepOn(entity);
             }
 

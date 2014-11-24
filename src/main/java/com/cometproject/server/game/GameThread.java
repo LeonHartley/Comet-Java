@@ -36,27 +36,25 @@ public class GameThread implements CometTask {
                 return;
             }
 
+            CometManager.getBans().tick();
+
             int usersOnline = Comet.getServer().getNetwork().getSessions().getUsersOnlineCount();
 
             if (usersOnline > this.onlineRecord)
                 onlineRecord = usersOnline;
 
             if (cycleCount >= 15) {
-                this.cycle();
+                this.cycleRewards();
             }
 
             StatisticsDao.saveStatistics(usersOnline, CometManager.getRooms().getRoomInstances().size(), Comet.getBuild());
             cycleCount++;
         } catch (Exception e) {
-            if (e instanceof InterruptedException) {
-                return;
-            }
-
             log.error("Error during game thread", e);
         }
     }
 
-    private void cycle() throws Exception {
+    private void cycleRewards() throws Exception {
         if (CometSettings.quarterlyCreditsEnabled || CometSettings.quarterlyDucketsEnabled) {
             for (Session client : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
                 if (client.getPlayer() == null || client.getPlayer().getData() == null) {

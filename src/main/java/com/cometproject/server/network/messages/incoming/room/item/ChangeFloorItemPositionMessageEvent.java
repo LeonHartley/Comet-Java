@@ -25,7 +25,9 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
 
         if ((isOwner || hasRights) || client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             try {
-                if(room.getItems().moveFloorItem(id, new Position(x, y), rot, true)) {}
+                if(room.getItems().moveFloorItem(id, new Position(x, y), rot, true)) {
+                    // success!
+                }
 
                 RoomItemFloor floorItem = room.getItems().getFloorItem(id);
 
