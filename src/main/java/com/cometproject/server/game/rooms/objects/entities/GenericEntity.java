@@ -123,11 +123,11 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     public void moveTo(int x, int y) {
         TileInstance tileInstance = this.getRoom().getMapping().getTile(x, y);
 
-        if(tileInstance == null)
+        if (tileInstance == null)
             return;
 
         // reassign the position values if they're set to redirect
-        if(tileInstance.getRedirect() != null) {
+        if (tileInstance.getRedirect() != null) {
             x = tileInstance.getRedirect().getX();
             y = tileInstance.getRedirect().getY();
         }
@@ -243,10 +243,10 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     @Override
     public void addStatus(RoomEntityStatus key, String value) {
         if (this.statuses.containsKey(key)) {
-            return;
+            this.statuses.replace(key, value);
+        } else {
+            this.statuses.put(key, value);
         }
-
-        this.statuses.put(key, value);
     }
 
     @Override
@@ -398,7 +398,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
             this.getRoom().getEntities().broadcastMessage(ApplyEffectMessageComposer.compose(this.getId(), effect.getEffectId()));
         }
 
-        if(effect != null && effect.expires()) {
+        if (effect != null && effect.expires()) {
             this.lastEffect = this.effect;
         }
 
@@ -458,7 +458,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     }
 
     public boolean needsUpdateCancel() {
-        if(this.cancelNextUpdate) {
+        if (this.cancelNextUpdate) {
             this.cancelNextUpdate = false;
             return true;
         } else {

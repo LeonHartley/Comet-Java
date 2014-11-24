@@ -18,6 +18,6 @@ public class OwnRoomsMessageEvent implements IEvent {
             rooms.add(CometManager.getRooms().getRoomData(roomId));
         }
 
-        client.send(NavigatorFlatListMessageComposer.compose(0, 5, "", rooms, false));
+        client.send(NavigatorFlatListMessageComposer.compose(0, 5, "", rooms, false, false));
     }
 }

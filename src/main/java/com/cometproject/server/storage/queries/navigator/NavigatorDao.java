@@ -94,7 +94,7 @@ public class NavigatorDao {
 
         try {
             sqlConnection = SqlHelper.getConnection();
-            preparedStatement = SqlHelper.prepare("INSERT into navigator_featured_rooms VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", sqlConnection);
+            preparedStatement = SqlHelper.prepare("INSERT into navigator_featured_rooms VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", sqlConnection, true);
 
             preparedStatement.setString(1, "small");
             preparedStatement.setString(2, name);

@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 
 public class SeatFloorItem extends RoomItemFloor {
 
@@ -31,18 +32,28 @@ public class SeatFloorItem extends RoomItemFloor {
         this.toggleInteract(true);
         this.sendUpdate();
 
+        if(this instanceof AdjustableHeightFloorItem) {
+            for(GenericEntity sitter : this.getEntitiesOnItem()) {
+                this.onEntityStepOn(sitter);
+            }
+        }
+
         // TODO: Move item saving to a queue for batch saving or something. :P
         this.saveData();
     }
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
-        double height = (entity instanceof PetEntity || entity.hasAttribute("transformation")) ? this.getDefinition().getHeight() / 2 : this.getDefinition().getHeight();
+        double height = (entity instanceof PetEntity || entity.hasAttribute("transformation")) ? this.getSitHeight() / 2 : this.getSitHeight();
 
         entity.setBodyRotation(this.getRotation());
         entity.setHeadRotation(this.getRotation());
         entity.addStatus(RoomEntityStatus.SIT, String.valueOf(height).replace(',', '.'));
-        entity.markNeedsUpdate();
+
+        if(this instanceof AdjustableHeightFloorItem)
+            this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
+        else
+            entity.markNeedsUpdate();
     }
 
     @Override
@@ -52,5 +63,9 @@ public class SeatFloorItem extends RoomItemFloor {
         }
 
         entity.markNeedsUpdate();
+    }
+
+    public double getSitHeight() {
+        return this.getDefinition().getHeight();
     }
 }

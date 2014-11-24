@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.types.misc.settings.RoomKickState;
 import com.cometproject.server.game.rooms.types.misc.settings.RoomMuteState;
 import com.cometproject.server.game.rooms.types.misc.settings.RoomTradeState;
 import com.cometproject.server.storage.SqlHelper;
+import com.google.common.collect.Lists;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
 
@@ -119,6 +120,9 @@ public class RoomDao {
             if (query.startsWith("owner:")) {
                 preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE owner = ?", sqlConnection);
                 preparedStatement.setString(1, query.split("owner:")[1]);
+            } else if(query.startsWith("tag:")) {
+                preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE tags LIKE ?", sqlConnection);
+                preparedStatement.setString(1, "%" + query.split("tag:")[1]  + "%");
             } else {
                 // escape wildcard characters
                 query = SqlHelper.escapeWildcards(query);
@@ -252,6 +256,35 @@ public class RoomDao {
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
+    }
+
+    public static List<RoomData> getHighestScoredRooms() {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        List<RoomData> roomData = Lists.newArrayList();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT * FROM rooms ORDER by score DESC LIMIT 1", sqlConnection);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                roomData.add(new RoomData(resultSet));
+            }
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return roomData;
     }
 
 }
