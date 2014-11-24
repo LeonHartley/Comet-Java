@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.item.mannequins;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.data.MannequinData;
+import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
@@ -25,18 +25,19 @@ public class SaveMannequinNameMessageEvent implements IEvent {
             return;
         }
 
-        MannequinData data = MannequinData.get(item.getExtraData());
+        String[] figureParts = client.getPlayer().getData().getFigure().split("\\.");
+        String finalFigure = "";
 
-        if (data == null) {
-            data = new MannequinData(msg.readString(), client.getPlayer().getData().getFigure(), client.getPlayer().getData().getGender());
-        } else {
-            data.setName(msg.readString());
-            data.setFigure(client.getPlayer().getData().getFigure());
-            data.setGender(client.getPlayer().getData().getGender());
+        for(String figurePart : figureParts) {
+            if(!figurePart.contains("hr") && !figurePart.contains("hd") && !figurePart.contains("he") && !figurePart.contains("ha")) {
+                finalFigure += figurePart + ".";
+            }
         }
 
-        room.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(item.getId(), MannequinData.get(data)));
-        item.setExtraData(MannequinData.get(data));
+        ((MannequinFloorItem) item).setFigure(finalFigure.substring(0, finalFigure.length() - 1));
+        ((MannequinFloorItem) item).setGender(client.getPlayer().getData().getGender());
+
+        room.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(item.getId(), item));
         item.saveData();
     }
 }

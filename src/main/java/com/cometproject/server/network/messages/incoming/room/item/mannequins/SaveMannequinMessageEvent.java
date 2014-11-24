@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.item.mannequins;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.data.MannequinData;
+import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
@@ -25,20 +25,10 @@ public class SaveMannequinMessageEvent implements IEvent {
             return;
         }
 
-        MannequinData data = MannequinData.get(item.getExtraData());
+        ((MannequinFloorItem) item).setName(msg.readString());
+        ((MannequinFloorItem) item).setGender(client.getPlayer().getData().getGender());
 
-        String figure = client.getPlayer().getData().getFigure();
-        String gender = client.getPlayer().getData().getGender().toLowerCase();
-
-        if (data == null) {
-            data = new MannequinData("New Mannequin", figure, gender);
-        } else {
-            data.setFigure(figure);
-            data.setGender(gender);
-        }
-
-        room.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(item.getId(), MannequinData.get(data)));
-        item.setExtraData(MannequinData.get(data));
+        room.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(item.getId(), item));
         item.saveData();
     }
 }

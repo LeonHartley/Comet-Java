@@ -3,37 +3,72 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.boutique;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.data.MannequinData;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 
 public class MannequinFloorItem extends RoomItemFloor {
+    private String name = "New Mannequin";
+    private String figure = "ch-210-62.lg-270-62";
+    private String gender = "m";
+
     public MannequinFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
+
+        if(!this.getExtraData().isEmpty()) {
+            String[] splitData = this.getExtraData().split(";#;");
+            if(splitData.length != 3) return;
+
+            this.name = splitData[0];
+            this.figure = splitData[1];
+            this.gender = splitData[2];
+        }
     }
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-        if (!(entity instanceof PlayerEntity))
+        if (isWiredTrigger || !(entity instanceof PlayerEntity))
             return;
 
         PlayerEntity playerEntity = (PlayerEntity) entity;
 
-        // TODO: Move all this data to class properties
-        MannequinData data = MannequinData.get(this.getExtraData());
+        if(this.name == null || this.gender == null || this.figure == null) return;
 
-        if (data == null) {
-            // There's no data to use!!
-            return;
-        }
-
-        playerEntity.getPlayer().getData().setFigure(data.getFigure());
-        playerEntity.getPlayer().getData().setGender(data.getGender());
+        playerEntity.getPlayer().getData().setFigure(this.figure);
+        playerEntity.getPlayer().getData().setGender(this.gender);
 
         playerEntity.getPlayer().getData().save();
 
         entity.getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(playerEntity));
         ((PlayerEntity) entity).getPlayer().getSession().send(UpdateInfoMessageComposer.compose(true, playerEntity));
+    }
+
+    @Override
+    public String getDataObject() {
+        return this.name + ";#;" + this.figure + ";#;" + this.gender;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getFigure() {
+        return figure;
+    }
+
+    public void setFigure(String figure) {
+        this.figure = figure;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
 

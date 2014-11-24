@@ -6,8 +6,8 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.data.BackgroundTonerData;
-import com.cometproject.server.game.rooms.objects.items.data.MannequinData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.AbstractWiredItem;
@@ -82,28 +82,16 @@ public abstract class RoomItemFloor extends RoomItem {
 
 
         } else if (this.getDefinition().getInteraction().equals("mannequin")) {
-            MannequinData data = MannequinData.get(extraData);
-
             msg.writeInt(0);
             msg.writeInt(1);
             msg.writeInt(3);
 
-            String gender = "m";
-            String figure = "ch-210-62.lg-270-62";
-            String name = "New Mannequin";
-
-            if (data != null) {
-                gender = data.getGender().toLowerCase();
-                figure = data.getFigure();
-                name = data.getName();
-            }
-
             msg.writeString("GENDER");
-            msg.writeString(gender);
+            msg.writeString(((MannequinFloorItem) this).getGender());
             msg.writeString("FIGURE");
-            msg.writeString(figure);
+            msg.writeString(((MannequinFloorItem) this).getFigure());
             msg.writeString("OUTFIT_NAME");
-            msg.writeString(name);
+            msg.writeString(((MannequinFloorItem) this).getName());
 
             msg.writeInt(0);
             msg.writeInt(0);
@@ -240,7 +228,7 @@ public abstract class RoomItemFloor extends RoomItem {
 
     @Override
     public void saveData() {
-        RoomItemDao.saveData(this.getId(), extraData);
+        RoomItemDao.saveData(this.getId(), this.getDataObject());
     }
 
     @Override
@@ -248,7 +236,7 @@ public abstract class RoomItemFloor extends RoomItem {
         Room r = this.getRoom();
 
         if (r != null) {
-            r.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this.getExtraData()));
+            r.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this));
         }
     }
 
@@ -281,6 +269,10 @@ public abstract class RoomItemFloor extends RoomItem {
         }
 
         return entities;
+    }
+
+    public String getDataObject() {
+        return this.extraData;
     }
 
     public String getExtraData() {
