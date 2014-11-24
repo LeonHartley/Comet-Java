@@ -1,11 +1,14 @@
 package com.cometproject.server.game.moderation;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.moderation.types.Ban;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.storage.queries.moderation.BanDao;
+import com.google.common.collect.Lists;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
+import java.util.List;
 import java.util.Map;
 
 public class BanManager {
@@ -18,17 +21,33 @@ public class BanManager {
     }
 
     public void loadBans() {
-        if (bans != null)
-            bans.clear();
-        else
-            bans = new FastMap<>();
+        if (this.bans != null)
+            this.bans.clear();
 
         try {
-            bans = BanDao.getActiveBans();
+            this.bans = BanDao.getActiveBans();
             logger.info("Loaded " + this.bans.size() + " bans");
         } catch (Exception e) {
             logger.error("Error while loading bans", e);
         }
+    }
+
+    public void tick() {
+        List<Ban> bansToRemove = Lists.newArrayList();
+
+        for(Ban ban : this.bans.values()) {
+            if(ban.getExpire() != 0 && Comet.getTime() >= ban.getExpire()) {
+                bansToRemove.add(ban);
+            }
+        }
+
+        if(bansToRemove.size() != 0) {
+            for(Ban ban : bansToRemove) {
+                this.bans.remove(ban.getData());
+            }
+        }
+
+        bansToRemove.clear();
     }
 
     public void add(Ban ban) {
@@ -37,7 +56,13 @@ public class BanManager {
 
     public boolean hasBan(String data, BanType type) {
         if(this.bans.containsKey(data)) {
-            if(this.bans.get(data).getType() == type) {
+            Ban ban = this.bans.get(data);
+
+            if(ban != null && ban.getType() == type) {
+                if(ban.getExpire() != 0 && Comet.getTime() >= ban.getExpire()) {
+                    return false;
+                }
+                
                 return true;
             }
         }

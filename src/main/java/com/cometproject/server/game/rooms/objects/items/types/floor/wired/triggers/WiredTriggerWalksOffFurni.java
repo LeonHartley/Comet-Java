@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers;
 
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
@@ -34,6 +35,7 @@ public class WiredTriggerWalksOffFurni extends WiredTriggerItem {
     }
 
     public static boolean executeTriggers(GenericEntity entity, RoomItemFloor floorItem) {
+        CometManager.getLogger().debug("Executing walks off trigger");
         boolean wasExecuted = false;
 
         for(RoomItemFloor wiredItem : entity.getRoom().getItems().getByInteraction("wf_trg_walks_off_furni")) {
