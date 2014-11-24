@@ -9,22 +9,24 @@ import com.cometproject.server.network.messages.types.Composer;
 import java.util.*;
 
 public class NavigatorFlatListMessageComposer {
-    public static Composer compose(int category, int mode, String query, Collection<RoomData> activeRooms, boolean limit) {
+    public static Composer compose(int category, int mode, String query, Collection<RoomData> activeRooms, boolean limit, boolean order) {
         Composer msg = new Composer(Composers.NavigatorListingsMessageComposer);
         msg.writeInt(mode);
         msg.writeString(query);
         msg.writeInt(limit ? (activeRooms.size() > 50 ? 50 : activeRooms.size()) : activeRooms.size());
 
-        Collections.sort((List<RoomData>) activeRooms, new Comparator<RoomData>() {
-            @Override
-            public int compare(RoomData o1, RoomData o2) {
-                boolean is1Active = CometManager.getRooms().isActive(o1.getId());
-                boolean is2Active = CometManager.getRooms().isActive(o2.getId());
+        if(order) {
+            Collections.sort((List<RoomData>) activeRooms, new Comparator<RoomData>() {
+                @Override
+                public int compare(RoomData o1, RoomData o2) {
+                    boolean is1Active = CometManager.getRooms().isActive(o1.getId());
+                    boolean is2Active = CometManager.getRooms().isActive(o2.getId());
 
-                return ((!is2Active ? 0 : CometManager.getRooms().get(o2.getId()).getEntities().playerCount()) -
-                        (!is1Active ? 0 : CometManager.getRooms().get(o1.getId()).getEntities().playerCount()));
-            }
-        });
+                    return ((!is2Active ? 0 : CometManager.getRooms().get(o2.getId()).getEntities().playerCount()) -
+                            (!is1Active ? 0 : CometManager.getRooms().get(o1.getId()).getEntities().playerCount()));
+                }
+            });
+        }
 
         List<RoomData> topRooms = new ArrayList<>();
 
@@ -49,6 +51,6 @@ public class NavigatorFlatListMessageComposer {
     }
 
     public static Composer compose(int category, int mode, String query, Collection<RoomData> activeRooms) {
-        return compose(category, mode, query, activeRooms, true);
+        return compose(category, mode, query, activeRooms, true, true);
     }
 }

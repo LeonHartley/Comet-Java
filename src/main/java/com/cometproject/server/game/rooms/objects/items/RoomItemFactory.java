@@ -47,6 +47,7 @@ public class RoomItemFactory {
             put("mannequin", MannequinFloorItem.class);
             put("beach_shower", SummerShowerFloorItem.class);
             put("halo_tile", HaloTileFloorItem.class);
+            put("adjustable_height", AdjustableHeightFloorItem.class);
 
             put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);//new
             put("wf_act_teleport_to", WiredActionTeleportPlayer.class);//new
@@ -116,7 +117,7 @@ public class RoomItemFactory {
         }
 
         if (def.canSit) {
-            return new SeatFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
+            floorItem = new SeatFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
         }
 
         if (def.getItemName().startsWith("tile_stackmagic")) {
