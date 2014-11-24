@@ -22,6 +22,8 @@ public class InventoryComponent {
     private Map<Integer, InventoryItem> wallItems;
     private Map<String, Integer> badges;
 
+    private boolean itemsLoaded = false;
+
     private Logger log = Logger.getLogger(InventoryComponent.class.getName());
 
     public InventoryComponent(Player player) {
@@ -31,11 +33,12 @@ public class InventoryComponent {
         this.wallItems = new FastMap<>();
         this.badges = new FastMap<>();
 
-        this.loadItems();
         this.loadBadges();
     }
 
     public void loadItems() {
+        this.itemsLoaded = true;
+
         if (this.getWallItems().size() >= 1) {
             this.getWallItems().clear();
         }
@@ -221,5 +224,9 @@ public class InventoryComponent {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    public boolean itemsLoaded() {
+        return itemsLoaded;
     }
 }
