@@ -90,16 +90,15 @@ public class CometServer {
 
         CometManager.startCycle();
 
-        SentryDispatcher.getInstance().dispatchManualEvent(
-                new EventBuilder()
-                        .addTag("type", "boot")
-                        .setMessage("Comet Server was booted")
-                        .addExtra("Server IP", ipAddress)
-                        .addExtra("Server Port", port)
-                        .setLevel(Event.Level.INFO)
-                        .setLogger("INFO"),
-                false);
-
+//        SentryDispatcher.getInstance().dispatchManualEvent(
+//                new EventBuilder()
+//                        .addTag("type", "boot")
+//                        .setMessage("Comet Server was booted")
+//                        .addExtra("Server IP", ipAddress)
+//                        .addExtra("Server Port", port)
+//                        .setLevel(Event.Level.INFO)
+//                        .setLogger("INFO"),
+//                false);
 
         if (Comet.isDebugging) {
             CometManager.getLogger().debug("Comet Server is debugging");
