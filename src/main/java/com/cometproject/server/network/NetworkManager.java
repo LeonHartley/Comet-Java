@@ -2,10 +2,8 @@ package com.cometproject.server.network;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.MessageHandler;
-import com.cometproject.server.network.security.EncryptionManager;
-import com.cometproject.server.network.security.SecurityUtil;
 import com.cometproject.server.network.sessions.SessionManager;
-import org.apache.commons.codec.binary.Hex;
+
 import org.apache.log4j.Logger;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.AdaptiveReceiveBufferSizePredictorFactory;

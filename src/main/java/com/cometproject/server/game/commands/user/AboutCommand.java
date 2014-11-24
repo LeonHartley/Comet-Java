@@ -12,6 +12,7 @@ import com.cometproject.server.utilities.CometRuntime;
 import com.cometproject.server.utilities.CometStats;
 import com.cometproject.server.utilities.TimeSpan;
 
+import java.lang.management.ManagementFactory;
 import java.text.NumberFormat;
 
 public class AboutCommand extends ChatCommand {
@@ -45,6 +46,7 @@ public class AboutCommand extends ChatCommand {
             about.append("Used memory: " + format.format(cometStats.getUsedMemory()) + "MB<br>");
             about.append("OS: " + cometStats.getOperatingSystem() + "<br>");
             about.append("CPU cores:  " + cometStats.getCpuCores() + "<br>");
+            about.append("Threads:  " + ManagementFactory.getThreadMXBean().getThreadCount() + "<br>");
 
             about.append("<br><br><b>Hotel Stats</b><br>");
             about.append("Current online record: " + CometManager.getThread().getOnlineRecord());

@@ -15,6 +15,8 @@ public class XMLPolicyDecoder extends FrameDecoder {
         buffer.resetReaderIndex();
 
         if (delimiter == 0x3C) {
+            buffer.discardReadBytes();
+
             channel.write(
                     "<?xml version=\"1.0\"?>\r\n"
                             + "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\r\n"
@@ -22,11 +24,11 @@ public class XMLPolicyDecoder extends FrameDecoder {
                             + "<allow-access-from domain=\"*\" to-ports=\"*\" />\r\n"
                             + "</cross-domain-policy>\0"
             ).addListener(ChannelFutureListener.CLOSE);
+
+            return null;
         } else {
             ctx.getPipeline().remove(this);
             return ChannelBuffers.wrappedBuffer(buffer.readBytes(buffer.readableBytes()));
         }
-
-        return null;
     }
 }

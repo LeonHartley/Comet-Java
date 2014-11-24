@@ -7,6 +7,10 @@ import com.cometproject.server.network.sessions.Session;
 
 public class OpenInventoryMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
+        if(!client.getPlayer().getInventory().itemsLoaded()) {
+            client.getPlayer().getInventory().loadItems();
+        }
+
         client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
     }
 }
