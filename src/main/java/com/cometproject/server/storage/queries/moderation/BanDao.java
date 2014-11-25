@@ -41,7 +41,7 @@ public class BanDao {
         return data;
     }
 
-    public static int createBan(BanType type, long length, long expire, String data, int addedBy) {
+    public static int createBan(BanType type, long length, long expire, String data, int addedBy, String reason) {
 
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -55,7 +55,7 @@ public class BanDao {
             preparedStatement.setString(1, type.toString().toLowerCase());
             preparedStatement.setLong(2, length == 0 ? 0 : expire);
             preparedStatement.setString(3, data);
-            preparedStatement.setString(4, "");
+            preparedStatement.setString(4, reason);
             preparedStatement.setInt(5, addedBy);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);

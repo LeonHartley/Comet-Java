@@ -1,6 +1,7 @@
 package com.cometproject.server.game.moderation;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.moderation.types.Ban;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.storage.queries.moderation.BanDao;
@@ -55,8 +56,12 @@ public class BanManager {
         bansToRemove.clear();
     }
 
-    public void add(Ban ban) {
-        System.out.println("Putting ban: " + ban.getData());
+    public void banPlayer(BanType type, String data, int length, long expire, String reason, int bannerId) {
+        int banId = BanDao.createBan(type, length, expire, data, bannerId, reason);
+        this.add(new Ban(banId, data, length == 0 ? length : expire, type, reason));
+    }
+
+    private void add(Ban ban) {
         this.bans.put(ban.getData(), ban);
     }
 

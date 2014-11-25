@@ -12,7 +12,7 @@ import com.cometproject.server.storage.queries.moderation.BanDao;
 public class MachineBanCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (params.length != 2) {
+        if (params.length < 2) {
             return;
         }
 
@@ -39,12 +39,10 @@ public class MachineBanCommand extends ChatCommand {
             return;
         }
 
-        int banId = BanDao.createBan(BanType.MACHINE, length, expire, uniqueId, client.getPlayer().getId());
-        CometManager.getBans().add(new Ban(banId, uniqueId + "", length == 0 ? length : expire, BanType.MACHINE, ""));
-
+        CometManager.getBans().banPlayer(BanType.MACHINE, user.getUniqueId(), length, expire, params.length > 2 ? this.merge(params, 2) : "", client.getPlayer().getId());
         sendChat("User has been machine ID banned (" + uniqueId + ")", client);
 
-        user.disconnect();
+        user.disconnect("banned");
     }
 
     @Override

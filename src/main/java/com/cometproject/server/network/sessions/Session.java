@@ -4,6 +4,7 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.network.messages.outgoing.notification.LogoutMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.security.hurlant.ARC4;
@@ -73,8 +74,14 @@ public class Session {
 
         return ipAddress;
     }
+
     public void disconnect() {
         this.disconnect(false);
+    }
+
+    public void disconnect(String reason) {
+        this.send(LogoutMessageComposer.compose(reason));
+        this.disconnect();
     }
 
     public void handleMessageEvent(Event msg) {

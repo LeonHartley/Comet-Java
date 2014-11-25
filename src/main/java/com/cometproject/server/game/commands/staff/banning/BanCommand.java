@@ -29,12 +29,11 @@ public class BanCommand extends ChatCommand {
             return;
         }
 
-        user.disconnect();
+        user.disconnect("banned");
 
         long expire = Comet.getTime() + (length * 3600);
-        int banId = BanDao.createBan(BanType.USER, length, expire, user.getPlayer().getId() + "", client.getPlayer().getId());
 
-        CometManager.getBans().add(new Ban(banId, user.getPlayer().getId() + "", length == 0 ? length : expire, BanType.USER, ""));
+        CometManager.getBans().banPlayer(BanType.USER, user.getPlayer().getId() + "", length, expire, params.length > 2 ? this.merge(params, 2) : "", client.getPlayer().getId());
     }
 
     @Override
