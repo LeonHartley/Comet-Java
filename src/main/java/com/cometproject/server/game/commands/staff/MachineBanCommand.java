@@ -40,7 +40,7 @@ public class MachineBanCommand extends ChatCommand {
         }
 
         int banId = BanDao.createBan(BanType.MACHINE, length, expire, uniqueId, client.getPlayer().getId());
-        CometManager.getBans().add(new Ban(banId, uniqueId + "", expire, BanType.MACHINE, ""));
+        CometManager.getBans().add(new Ban(banId, uniqueId + "", length == 0 ? length : expire, BanType.MACHINE, ""));
 
         sendChat("User has been machine ID banned (" + uniqueId + ")", client);
 
