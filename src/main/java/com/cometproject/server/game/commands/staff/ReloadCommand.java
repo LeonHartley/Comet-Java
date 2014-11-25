@@ -6,6 +6,7 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
+import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
 
@@ -30,7 +31,8 @@ public class ReloadCommand extends ChatCommand {
                                 "- config\n" +
                                 "- items\n" +
                                 "- filter\n" +
-                                "- locale\n"
+                                "- locale\n" +
+                                " - modpresets\n"
                 ));
 
                 break;
@@ -89,6 +91,16 @@ public class ReloadCommand extends ChatCommand {
                 CometManager.getCommands().reloadAllCommands();
 
                 sendChat(Locale.get("command.reload.locale"), client);
+                break;
+
+            case "modpresets":
+                CometManager.getModeration().loadPresets();
+
+                sendChat(Locale.get("command.reload.modpresets"), client);
+
+                for(Session session : Comet.getServer().getNetwork().getSessions().getByPlayerPermission("mod_tool")) {
+                    session.send(ModToolMessageComposer.compose());
+                }
                 break;
 
         }
