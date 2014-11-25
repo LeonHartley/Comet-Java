@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.Room;
@@ -52,7 +54,15 @@ public class RoomMapping {
     }
 
     public boolean positionHasUser(Position position) {
-        return this.room.getEntities().getEntitiesAt(position.getX(), position.getY()).size() > 0;
+        boolean hasMountedPet = false;
+
+        for(GenericEntity entity : this.room.getEntities().getEntitiesAt(position.getX(), position.getY())) {
+            if(entity instanceof PetEntity && ((PetEntity) entity).hasMount()) {
+                hasMountedPet = true;
+            }
+        }
+
+        return !hasMountedPet && this.room.getEntities().getEntitiesAt(position.getX(), position.getY()).size() > 0;
     }
 
     public boolean canStepUpwards(double height0, double height1) {

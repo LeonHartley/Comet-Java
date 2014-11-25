@@ -58,6 +58,8 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     private boolean walkCancelled = false;
 
+    private GenericEntity mountedEntity;
+
     private Map<RoomEntityStatus, String> statuses = new FastMap<>();
 
     public GenericEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
@@ -488,5 +490,13 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     public void setWalkCancelled(boolean walkCancelled) {
         this.walkCancelled = walkCancelled;
+    }
+
+    public GenericEntity getMountedEntity() {
+        return mountedEntity;
+    }
+
+    public void setMountedEntity(GenericEntity mountedEntity) {
+        this.mountedEntity = mountedEntity;
     }
 }

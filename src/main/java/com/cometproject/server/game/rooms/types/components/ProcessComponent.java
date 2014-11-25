@@ -256,13 +256,15 @@ public class ProcessComponent implements CometTask {
         } else {
             int chance = RandomInteger.getRandom(1, (entity.hasStatus(RoomEntityStatus.SIT) || entity.hasStatus(RoomEntityStatus.LAY)) ? 20 : 6);
 
-            if (chance == 1) {
-                if (!entity.isWalking()) {
-                    int x = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeX());
-                    int y = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeY());
+            if(!(entity instanceof PetEntity) || !((PetEntity) entity).hasMount()) {
+                if (chance == 1) {
+                    if (!entity.isWalking()) {
+                        int x = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeX());
+                        int y = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeY());
 
-                    if (this.getRoom().getMapping().isValidStep(entity.getPosition(), new Position(x, y, 0d), true) && x != this.getRoom().getModel().getDoorX() && y != this.getRoom().getModel().getDoorY()) {
-                        entity.moveTo(x, y);
+                        if (this.getRoom().getMapping().isValidStep(entity.getPosition(), new Position(x, y, 0d), true) && x != this.getRoom().getModel().getDoorX() && y != this.getRoom().getModel().getDoorY()) {
+                            entity.moveTo(x, y);
+                        }
                     }
                 }
             }
@@ -365,7 +367,7 @@ public class ProcessComponent implements CometTask {
                 entity.setBodyRotation(Position.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
                 entity.setHeadRotation(entity.getBodyRotation());
 
-                final double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getWalkHeight();
+                final double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getWalkHeight() + (entity.getMountedEntity() != null ? 1.0 : 0);
                 boolean isCancelled = entity.isWalkCancelled();
                 boolean effectNeedsRemove = true;
 

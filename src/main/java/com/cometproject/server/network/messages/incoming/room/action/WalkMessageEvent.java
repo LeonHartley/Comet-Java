@@ -27,13 +27,23 @@ public class WalkMessageEvent implements IEvent {
                 List<Square> squares = new ArrayList<>();
                 squares.add(new Square(goalX, goalY));
 
+                if(client.getPlayer().getEntity().getMountedEntity() != null) {
+                    client.getPlayer().getEntity().getMountedEntity().setWalkingPath(squares);
+                    client.getPlayer().getEntity().getMountedEntity().setWalkingGoal(goalX, goalY);
+                }
+
                 client.getPlayer().getEntity().setWalkingPath(squares);
                 client.getPlayer().getEntity().setWalkingGoal(goalX, goalY);
                 return;
             }
 
-            if (!client.getPlayer().getEntity().isOverriden() && client.getPlayer().getEntity().isVisible())
+            if (!client.getPlayer().getEntity().isOverriden() && client.getPlayer().getEntity().isVisible()) {
                 client.getPlayer().getEntity().moveTo(goalX, goalY);
+
+                if(client.getPlayer().getEntity().getMountedEntity() != null) {
+                    client.getPlayer().getEntity().getMountedEntity().moveTo(goalX, goalY);
+                }
+            }
         } catch (Exception e) {
             client.getLogger().error("Error while finding path", e);
         }

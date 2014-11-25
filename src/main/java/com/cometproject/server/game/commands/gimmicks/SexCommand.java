@@ -18,6 +18,8 @@ public class SexCommand extends ChatCommand {
 
         GenericEntity entity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(sexedPlayer, RoomEntityType.PLAYER);
 
+        if(entity == null) return;
+
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(WisperMessageComposer.compose(client.getPlayer().getEntity().getId(), "* " + client.getPlayer().getData().getUsername() + " sexed " + entity.getUsername() + " *", 34));
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(ActionMessageComposer.compose(entity.getId(), 7));
     }
