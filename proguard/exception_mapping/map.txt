@@ -448,15 +448,15 @@ com.cometproject.server.game.commands.CommandManager -> com.cometproject.server.
     83:85:boolean isCommand(java.lang.String) -> a
     96:122:void parse$1c35686b(java.lang.String,com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer) -> a
     131:141:java.lang.String[] getParams(java.lang.String[]) -> a
-com.cometproject.server.game.commands.staff.AlertCommand -> com.cometproject.server.game.c.a.a:
+com.cometproject.server.game.commands.staff.alerts.AlertCommand -> com.cometproject.server.game.c.a.a:
     12:19:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     23:23:java.lang.String getPermission() -> a
     28:28:java.lang.String getDescription() -> b
-com.cometproject.server.game.commands.staff.BanCommand -> com.cometproject.server.game.c.a.b:
+com.cometproject.server.game.commands.staff.banning.BanCommand -> com.cometproject.server.game.c.a.b:
     15:38:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     42:42:java.lang.String getPermission() -> a
     47:47:java.lang.String getDescription() -> b
-com.cometproject.server.game.commands.staff.CoinsCommand -> com.cometproject.server.game.c.a.c:
+com.cometproject.server.game.commands.staff.rewards.CoinsCommand -> com.cometproject.server.game.c.a.c:
     13:29:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     33:33:java.lang.String getPermission() -> a
     38:38:java.lang.String getDescription() -> b
@@ -464,11 +464,11 @@ com.cometproject.server.game.commands.staff.DisconnectCommand -> com.cometprojec
     11:30:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     34:34:java.lang.String getPermission() -> a
     39:39:java.lang.String getDescription() -> b
-com.cometproject.server.game.commands.staff.GiveBadgeCommand -> com.cometproject.server.game.c.a.e:
+com.cometproject.server.game.commands.staff.rewards.GiveBadgeCommand -> com.cometproject.server.game.c.a.e:
     12:21:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     25:25:java.lang.String getPermission() -> a
     30:30:java.lang.String getDescription() -> b
-com.cometproject.server.game.commands.staff.HotelAlertCommand -> com.cometproject.server.game.c.a.f:
+com.cometproject.server.game.commands.staff.alerts.HotelAlertCommand -> com.cometproject.server.game.c.a.f:
     12:17:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     21:21:java.lang.String getPermission() -> a
     26:26:java.lang.String getDescription() -> b
@@ -476,7 +476,7 @@ com.cometproject.server.game.commands.staff.InvisibleCommand -> com.cometproject
     11:22:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     26:26:java.lang.String getPermission() -> a
     31:31:java.lang.String getDescription() -> b
-com.cometproject.server.game.commands.staff.IpBanCommand -> com.cometproject.server.game.c.a.h:
+com.cometproject.server.game.commands.staff.banning.IpBanCommand -> com.cometproject.server.game.c.a.h:
     16:48:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     52:52:java.lang.String getPermission() -> a
     57:57:java.lang.String getDescription() -> b
@@ -484,15 +484,15 @@ com.cometproject.server.game.commands.staff.KickCommand -> com.cometproject.serv
     12:33:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     37:37:java.lang.String getPermission() -> a
     42:42:java.lang.String getDescription() -> b
-com.cometproject.server.game.commands.staff.MassMotdCommand -> com.cometproject.server.game.c.a.j:
+com.cometproject.server.game.commands.staff.alerts.MassMotdCommand -> com.cometproject.server.game.c.a.j:
     13:16:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     20:20:java.lang.String getPermission() -> a
     25:25:java.lang.String getDescription() -> b
-com.cometproject.server.game.commands.staff.MimicCommand -> com.cometproject.server.game.c.a.k:
+com.cometproject.server.game.commands.vip.MimicCommand -> com.cometproject.server.game.c.a.k:
     13:37:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     41:41:java.lang.String getPermission() -> a
     46:46:java.lang.String getDescription() -> b
-com.cometproject.server.game.commands.staff.PointsCommand -> com.cometproject.server.game.c.a.l:
+com.cometproject.server.game.commands.staff.rewards.PointsCommand -> com.cometproject.server.game.c.a.l:
     13:30:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     34:34:java.lang.String getPermission() -> a
     39:39:java.lang.String getDescription() -> b
@@ -504,7 +504,7 @@ com.cometproject.server.game.commands.staff.RemoveBadgeCommand -> com.cometproje
     12:19:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     23:23:java.lang.String getPermission() -> a
     28:28:java.lang.String getDescription() -> b
-com.cometproject.server.game.commands.staff.RoomAlertCommand -> com.cometproject.server.game.c.a.o:
+com.cometproject.server.game.commands.staff.alerts.RoomAlertCommand -> com.cometproject.server.game.c.a.o:
     15:22:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     26:26:java.lang.String getPermission() -> a
     31:31:java.lang.String getDescription() -> b
@@ -512,7 +512,7 @@ com.cometproject.server.game.commands.staff.RoomKickCommand -> com.cometproject.
     15:25:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     29:29:java.lang.String getPermission() -> a
     34:34:java.lang.String getDescription() -> b
-com.cometproject.server.game.commands.staff.RoomMuteCommand -> com.cometproject.server.game.c.a.q:
+com.cometproject.server.game.commands.staff.muting.RoomMuteCommand -> com.cometproject.server.game.c.a.q:
     11:17:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     21:21:java.lang.String getPermission() -> a
     26:26:java.lang.String getDescription() -> b

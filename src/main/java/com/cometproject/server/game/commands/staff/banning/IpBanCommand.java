@@ -1,4 +1,4 @@
-package com.cometproject.server.game.commands.staff;
+package com.cometproject.server.game.commands.staff.banning;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;

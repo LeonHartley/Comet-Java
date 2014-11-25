@@ -8,7 +8,7 @@ public class ModToolMessageComposer {
     public static Composer compose() {
         Composer msg = new Composer(Composers.LoadModerationToolMessageComposer);
 
-        msg.writeInt(0);
+        msg.writeInt(0); // issues
 
         msg.writeInt(CometManager.getModeration().getUserPresets().size());
 
@@ -16,7 +16,27 @@ public class ModToolMessageComposer {
             msg.writeString(preset);
         }
 
-        msg.writeInt(0);
+        msg.writeInt(1);
+
+        {
+            msg.writeString("Title");
+            // never used
+            msg.writeBoolean(false);
+            msg.writeInt(1);
+
+            {
+                msg.writeString("Name");
+                msg.writeString("Description");
+
+                msg.writeInt(0);
+                msg.writeInt(0);
+                msg.writeInt(0);
+                msg.writeInt(0);
+                msg.writeString("IDK");
+            }
+
+        }
+
         msg.writeBoolean(true);
         msg.writeBoolean(true);
         msg.writeBoolean(true);
@@ -25,13 +45,15 @@ public class ModToolMessageComposer {
         msg.writeBoolean(true);
         msg.writeBoolean(true);
 
-        msg.writeInt(0);
 
         msg.writeInt(CometManager.getModeration().getRoomPresets().size());
 
         for (String preset : CometManager.getModeration().getRoomPresets()) {
             msg.writeString(preset);
         }
+
+        msg.writeInt(0);
+
 
         return msg;
     }

@@ -6,17 +6,22 @@ import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.storage.queries.moderation.BanDao;
 import com.google.common.collect.Lists;
 import javolution.util.FastMap;
+import javolution.util.FastSet;
 import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class BanManager {
     private Map<String, Ban> bans;
+    private FastSet<Integer> mutedPlayers;
 
     Logger logger = Logger.getLogger(BanManager.class.getName());
 
     public BanManager() {
+        this.mutedPlayers = new FastSet<Integer>().shared();
+
         loadBans();
     }
 
@@ -73,5 +78,17 @@ public class BanManager {
 
     public Ban get(String data) {
         return this.bans.get(data);
+    }
+
+    public boolean isMuted(int playerId) {
+        return this.mutedPlayers.contains(playerId);
+    }
+
+    public void mute(int playerId) {
+        this.mutedPlayers.add(playerId);
+    }
+
+    public void unmute(int playerId) {
+        this.mutedPlayers.remove(playerId);
     }
 }

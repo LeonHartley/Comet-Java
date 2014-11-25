@@ -283,6 +283,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             return false;
         }
 
+        if(CometManager.getBans().isMuted(this.getPlayerId())  && !this.getPlayer().getPermissions().hasPermission("bypass_roommute")) {
+            return false;
+        }
+
         if (WiredTriggerPlayerSaysKeyword.executeTriggers(this, message)) {
             return false;
         }

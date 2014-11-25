@@ -13,6 +13,7 @@ import java.util.Map;
 public class ModerationManager {
     private List<String> userPresets;
     private List<String> roomPresets;
+    private List<String> actionCategories;
     private Map<Integer, HelpTicket> tickets;
 
     private Logger logger = Logger.getLogger(ModerationManager.class.getName());
@@ -35,8 +36,14 @@ public class ModerationManager {
             roomPresets.clear();
         }
 
+        if(actionCategories == null) {
+            actionCategories = new ArrayList<>();
+        } else {
+            actionCategories.clear();
+        }
+
         try {
-            PresetDao.getPresets(userPresets, roomPresets);
+            PresetDao.getPresets(userPresets, roomPresets, actionCategories);
 
             logger.info("Loaded " + (this.getRoomPresets().size() + this.getUserPresets().size()) + " moderation presets");
         } catch (Exception e) {
@@ -93,5 +100,9 @@ public class ModerationManager {
 
     public List<String> getRoomPresets() {
         return this.roomPresets;
+    }
+
+    public List<String> getActionCategories() {
+        return this.actionCategories;
     }
 }

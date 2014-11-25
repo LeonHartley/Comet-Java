@@ -1,4 +1,4 @@
-package com.cometproject.server.game.commands.staff;
+package com.cometproject.server.game.commands.staff.alerts;
 
 
 import com.cometproject.server.config.Locale;

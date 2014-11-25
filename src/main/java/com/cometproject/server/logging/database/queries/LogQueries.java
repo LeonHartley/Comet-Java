@@ -175,6 +175,38 @@ public class LogQueries {
         return chatlogs;
     }
 
+    public static List<RoomChatLogEntry> getChatlogsForRoom(int roomId) {
+        final int limit = 150;
+
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        List<RoomChatLogEntry> chatlogs = new ArrayList<>();
+
+        try {
+            sqlConnection = LogDatabaseHelper.getConnection();
+
+            preparedStatement = LogDatabaseHelper.prepare("SELECT `user_id`,`data`,`timestamp` FROM `logs` WHERE `type` = 'ROOM_CHATLOG' AND `room_id` = ? ORDER BY `timestamp` DESC LIMIT " + limit, sqlConnection);
+
+            preparedStatement.setInt(1, roomId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                chatlogs.add(new RoomChatLogEntry(roomId, resultSet.getInt("user_id"), resultSet.getString("data"), resultSet.getInt("timestamp")));
+            }
+        } catch (SQLException e) {
+            LogDatabaseHelper.handleSqlException(e);
+        } finally {
+            LogDatabaseHelper.closeSilently(preparedStatement);
+            LogDatabaseHelper.closeSilently(sqlConnection);
+            LogDatabaseHelper.closeSilently(resultSet);
+        }
+
+        return chatlogs;
+    }
+
     public static List<RoomVisitLogEntry> getLastRoomVisits(int playerId, int count) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
