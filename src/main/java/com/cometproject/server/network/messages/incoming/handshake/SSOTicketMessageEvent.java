@@ -41,7 +41,6 @@ public class SSOTicketMessageEvent implements IEvent {
 
         if(CometManager.getBans().hasBan(client.getUniqueId(), BanType.MACHINE)) {
             CometManager.getLogger().warn("Banned player: " + client.getUniqueId() + " tried logging in");
-            client.disconnect();
             return;
         }
 
@@ -92,7 +91,7 @@ public class SSOTicketMessageEvent implements IEvent {
 
         if (CometManager.getBans().hasBan(Integer.toString(player.getId()), BanType.USER)) {
             CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
-            client.disconnect();
+            client.disconnect("banned");
             return;
         }
 
@@ -104,7 +103,7 @@ public class SSOTicketMessageEvent implements IEvent {
         if (ipAddress != null && !ipAddress.isEmpty()) {
             if (CometManager.getBans().hasBan(ipAddress, BanType.IP)) {
                 CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
-                client.disconnect();
+                client.disconnect("banned");
                 return;
             }
 

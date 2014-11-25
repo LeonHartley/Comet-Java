@@ -1,5 +1,7 @@
 package com.cometproject.server.game.moderation;
 
+import com.cometproject.server.game.moderation.types.actions.ActionCategory;
+import com.cometproject.server.game.moderation.types.actions.ActionPreset;
 import com.cometproject.server.game.moderation.types.tickets.HelpTicket;
 import com.cometproject.server.storage.queries.moderation.PresetDao;
 import com.cometproject.server.storage.queries.moderation.TicketDao;
@@ -13,7 +15,7 @@ import java.util.Map;
 public class ModerationManager {
     private List<String> userPresets;
     private List<String> roomPresets;
-    private List<String> actionCategories;
+    private List<ActionCategory> actionCategories;
     private Map<Integer, HelpTicket> tickets;
 
     private Logger logger = Logger.getLogger(ModerationManager.class.getName());
@@ -39,13 +41,18 @@ public class ModerationManager {
         if(actionCategories == null) {
             actionCategories = new ArrayList<>();
         } else {
+            for(ActionCategory actionCategory : actionCategories) {
+                actionCategory.dispose();
+            }
+
             actionCategories.clear();
         }
 
         try {
-            PresetDao.getPresets(userPresets, roomPresets, actionCategories);
+            PresetDao.getPresets(userPresets, roomPresets);
+            PresetDao.getPresetActions(actionCategories);
 
-            logger.info("Loaded " + (this.getRoomPresets().size() + this.getUserPresets().size()) + " moderation presets");
+            logger.info("Loaded " + (this.getRoomPresets().size() + this.getUserPresets().size()) + this.getActionCategories().size() + " moderation presets");
         } catch (Exception e) {
             logger.error("Error while loading moderation presets", e);
         }
@@ -102,7 +109,7 @@ public class ModerationManager {
         return this.roomPresets;
     }
 
-    public List<String> getActionCategories() {
+    public List<ActionCategory> getActionCategories() {
         return this.actionCategories;
     }
 }

@@ -13,7 +13,7 @@ import java.net.InetSocketAddress;
 public class IpBanCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (params.length != 2) {
+        if (params.length < 2) {
             return;
         }
 
@@ -40,12 +40,12 @@ public class IpBanCommand extends ChatCommand {
             return;
         }
 
-        int banId = BanDao.createBan(BanType.IP, length, length == 0 ? length : expire, ipAddress, client.getPlayer().getId());
-        CometManager.getBans().add(new Ban(banId, ipAddress + "", length == 0 ? length : expire, BanType.IP, ""));
+
+        CometManager.getBans().banPlayer(BanType.IP, user.getIpAddress(), length, expire, params.length > 2 ? this.merge(params, 2) : "", client.getPlayer().getId());
 
         sendChat("User has been IP banned (IP: " + ipAddress + ")", client);
 
-        user.disconnect();
+        user.disconnect("banned");
     }
 
     @Override

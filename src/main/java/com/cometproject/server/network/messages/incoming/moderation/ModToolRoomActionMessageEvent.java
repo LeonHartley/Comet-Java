@@ -1,9 +1,11 @@
 package com.cometproject.server.network.messages.incoming.moderation;
 
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -37,10 +39,16 @@ public class ModToolRoomActionMessageEvent implements IEvent {
             if (room == null) return;
 
             if (kickAll) {
-                
+                for(PlayerEntity entity : room.getEntities().getPlayerEntities()) {
+                    entity.leaveRoom(false, true, true);
+                }
             }
 
-
+            if(lockDoor || changeRoomName && !kickAll) {
+                room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
+            }
         }
+
+        roomData.save();
     }
 }

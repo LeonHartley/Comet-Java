@@ -1,6 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.moderation;
 
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.moderation.types.actions.ActionCategory;
+import com.cometproject.server.game.moderation.types.actions.ActionPreset;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
@@ -16,35 +18,32 @@ public class ModToolMessageComposer {
             msg.writeString(preset);
         }
 
-        msg.writeInt(1);
+        msg.writeInt(CometManager.getModeration().getActionCategories().size());
 
-        {
-            msg.writeString("Title");
-            // never used
-            msg.writeBoolean(false);
-            msg.writeInt(1);
+        for(ActionCategory actionCategory : CometManager.getModeration().getActionCategories()) {
+            msg.writeString(actionCategory.getCategoryName());
+            msg.writeBoolean(false); // unused bool
+            msg.writeInt(actionCategory.getPresets().size());
 
-            {
-                msg.writeString("Name");
-                msg.writeString("Description");
-
-                msg.writeInt(0);
-                msg.writeInt(0);
-                msg.writeInt(0);
-                msg.writeInt(0);
-                msg.writeString("IDK");
+            for(ActionPreset preset : actionCategory.getPresets()) {
+                msg.writeString(preset.getName());
+                msg.writeString(preset.getMessage());
+                msg.writeInt(preset.getBanLength());
+                msg.writeInt(preset.getAvatarBanLength());
+                msg.writeInt(preset.getMuteLength());
+                msg.writeInt(preset.getTradeLockLength());
+                msg.writeString(preset.getDescription());
             }
-
         }
 
-        msg.writeBoolean(true);
-        msg.writeBoolean(true);
-        msg.writeBoolean(true);
-        msg.writeBoolean(true);
-        msg.writeBoolean(true);
-        msg.writeBoolean(true);
-        msg.writeBoolean(true);
-
+        // Fuses
+        msg.writeBoolean(true); // tickets
+        msg.writeBoolean(true); // chatlog
+        msg.writeBoolean(true); // message, caution, user info
+        msg.writeBoolean(true); // kick fuse / user info
+        msg.writeBoolean(true); // ban
+        msg.writeBoolean(true); // room alert
+        msg.writeBoolean(true); // room kick
 
         msg.writeInt(CometManager.getModeration().getRoomPresets().size());
 

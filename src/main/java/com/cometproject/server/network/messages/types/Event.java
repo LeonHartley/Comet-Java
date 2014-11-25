@@ -36,10 +36,14 @@ public final class Event {
     }
 
     public String readString() {
-        int length = this.readShort();
-        byte[] data = this.getBuffer().readBytes((length)).array();
+        try {
+            int length = this.readShort();
+            byte[] data = this.getBuffer().readBytes((length)).array();
 
-        return new String(data);
+            return new String(data);
+        } catch(Exception e) {
+            return null;
+        }
     }
 
     public String toString() {
