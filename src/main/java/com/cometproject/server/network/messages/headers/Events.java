@@ -280,6 +280,7 @@ public class Events {
     public static final short GroupFurnitureWidgetMessageEvent = 1711;
     public static final short CameraTokenMessageEvent = 2600;
     public static final short AddToStaffPickedRoomsMessageEvent = 537;
+    public static final short DeletePostItMessageEvent = 2547;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 

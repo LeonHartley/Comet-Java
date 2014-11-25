@@ -3486,7 +3486,7 @@ com.cometproject.server.network.messages.incoming.room.item.PickUpItemMessageEve
     12:36:void handle$4eefe864(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,com.cometproject.server.network.messages.types.Event) -> a
 com.cometproject.server.network.messages.incoming.room.item.PlaceItemMessageEvent -> com.cometproject.server.f.d.b.i.f.h:
     24:127:void handle$4eefe864(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,com.cometproject.server.network.messages.types.Event) -> a
-com.cometproject.server.network.messages.incoming.room.item.PlacePostitMessageEvent -> com.cometproject.server.f.d.b.i.f.i:
+com.cometproject.server.network.messages.incoming.room.item.stickies.PlacePostitMessageEvent -> com.cometproject.server.f.d.b.i.f.i:
     43:43:void handle$4eefe864(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,com.cometproject.server.network.messages.types.Event) -> a
 com.cometproject.server.network.messages.incoming.room.item.RunDiceMessageEvent -> com.cometproject.server.f.d.b.i.f.j:
     12:25:void handle$4eefe864(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,com.cometproject.server.network.messages.types.Event) -> a

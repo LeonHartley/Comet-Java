@@ -158,7 +158,7 @@ public class Composers {
     public static final short PingMessageComposer = 3972;
     public static final short PublishShopMessageComposer = 1639;
     public static final short RecyclingStateMessageComposer = 1;
-    public static final short LoadPostItMessageComposer = 1;
+    public static final short LoadPostItMessageComposer = 3524;
     public static final short OpenGiftMessageComposer = 2272;
     public static final short RemoveRightsMessageComposer = 867;
     public static final short LoadRoomRightsListMessageComposer = 798;
