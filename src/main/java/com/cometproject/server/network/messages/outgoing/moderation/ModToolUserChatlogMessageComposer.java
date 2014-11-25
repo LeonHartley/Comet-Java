@@ -34,12 +34,7 @@ public class ModToolUserChatlogMessageComposer {
             msg.writeShort(logSet.getLogs().size());
 
             for (RoomChatLogEntry chatLogEntry : logSet.getLogs()) {
-                msg.writeInt((int) (Comet.getTime() - chatLogEntry.getTimestamp()) * 1000);
-
-                msg.writeInt(chatLogEntry.getUserId());
-                msg.writeString(username);
-                msg.writeString(chatLogEntry.getString());
-                msg.writeBoolean(false);
+                chatLogEntry.compose(msg);
             }
         }
 

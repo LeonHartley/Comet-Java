@@ -28,6 +28,8 @@ public class PlayerData {
 
     private int favouriteGroup;
 
+    private String temporaryFigure;
+
     private boolean vip;
 
     public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints,
@@ -221,5 +223,13 @@ public class PlayerData {
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public String getTemporaryFigure() {
+        return temporaryFigure;
+    }
+
+    public void setTemporaryFigure(String temporaryFigure) {
+        this.temporaryFigure = temporaryFigure;
     }
 }

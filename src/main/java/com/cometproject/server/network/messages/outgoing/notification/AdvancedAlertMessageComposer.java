@@ -29,8 +29,8 @@ public class AdvancedAlertMessageComposer {
         return compose(
                 header,
                 message,
-                CometSettings.hotelName,
-                CometSettings.hotelUrl + "?ref=alert_link",
+                "",
+                "",
                 ""
         );
     }
@@ -49,8 +49,8 @@ public class AdvancedAlertMessageComposer {
         return compose(
                 header,
                 message,
-                CometSettings.hotelName,
-                CometSettings.hotelUrl + "?ref=alert_link",
+                "",
+                "",
                 image
         );
     }

@@ -22,7 +22,7 @@ public class ModToolRoomVisitsMessageComposer {
             RoomData roomData = CometManager.getRooms().getRoomData(roomVisit.getRoomId());
             DateTime dateTime = new DateTime(roomVisit.getEntryTime() * 1000L);
 
-            msg.writeBoolean(false); // is room public?
+//            msg.writeBoolean(false); // is room public?
             msg.writeInt(roomData.getId());
             msg.writeString(roomData.getName());
 

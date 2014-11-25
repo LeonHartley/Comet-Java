@@ -2,8 +2,23 @@ package com.cometproject.server.game.commands;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.commands.gimmicks.KissCommand;
+import com.cometproject.server.game.commands.gimmicks.PunchCommand;
+import com.cometproject.server.game.commands.gimmicks.SexCommand;
+import com.cometproject.server.game.commands.gimmicks.SlapCommand;
 import com.cometproject.server.game.commands.notifications.NotificationManager;
 import com.cometproject.server.game.commands.staff.*;
+import com.cometproject.server.game.commands.staff.alerts.*;
+import com.cometproject.server.game.commands.staff.banning.BanCommand;
+import com.cometproject.server.game.commands.staff.banning.IpBanCommand;
+import com.cometproject.server.game.commands.staff.banning.MachineBanCommand;
+import com.cometproject.server.game.commands.staff.muting.MuteCommand;
+import com.cometproject.server.game.commands.staff.muting.RoomMuteCommand;
+import com.cometproject.server.game.commands.staff.muting.UnmuteCommand;
+import com.cometproject.server.game.commands.staff.rewards.CoinsCommand;
+import com.cometproject.server.game.commands.staff.rewards.DucketsCommand;
+import com.cometproject.server.game.commands.staff.rewards.GiveBadgeCommand;
+import com.cometproject.server.game.commands.staff.rewards.PointsCommand;
 import com.cometproject.server.game.commands.user.*;
 import com.cometproject.server.game.commands.vip.*;
 import com.cometproject.server.network.sessions.Session;
@@ -59,6 +74,13 @@ public class CommandManager {
         this.commands.put(Locale.get("command.transform.name"), new TransformCommand());
         this.commands.put(Locale.get("command.noface.name"), new NoFaceCommand());
         this.commands.put(Locale.get("command.follow.name"), new FollowCommand());
+        this.commands.put(Locale.get("command.superpull.name"), new SuperPullCommand());
+
+        // Gimmick commands
+        this.commands.put(Locale.get("command.slap.name"), new SlapCommand());
+        this.commands.put(Locale.get("command.kiss.name"), new KissCommand());
+        this.commands.put(Locale.get("command.sex.name"), new SexCommand());
+        this.commands.put(Locale.get("command.punch.name"), new PunchCommand());
     }
 
     /**
@@ -88,6 +110,10 @@ public class CommandManager {
         this.commands.put(Locale.get("command.roomaction.name"), new RoomActionCommand());
         this.commands.put(Locale.get("command.eventalert.name"), new EventAlertCommand());
         this.commands.put(Locale.get("command.machineban.name"), new MachineBanCommand());
+        this.commands.put(Locale.get("command.makesay.name"), new MakeSayCommand());
+        this.commands.put(Locale.get("command.mute.name"), new MuteCommand());
+        this.commands.put(Locale.get("command.unmute.name"), new UnmuteCommand());
+
     }
 
     /**

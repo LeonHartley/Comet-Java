@@ -1,4 +1,4 @@
-package com.cometproject.server.game.commands.staff;
+package com.cometproject.server.game.commands.staff.muting;
 
 
 import com.cometproject.server.config.Locale;
@@ -13,7 +13,6 @@ public class RoomMuteCommand extends ChatCommand {
         } else {
             client.getPlayer().getEntity().getRoom().setRoomMute(true);
         }
-
     }
 
     @Override

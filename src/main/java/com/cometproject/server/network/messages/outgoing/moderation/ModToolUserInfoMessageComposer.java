@@ -24,14 +24,17 @@ public class ModToolUserInfoMessageComposer {
         msg.writeInt(stats.getAbusiveHelpTickets());
         msg.writeInt(stats.getCautions());
         msg.writeInt(stats.getBans());
-        msg.writeInt(0); // Trade locks
+        msg.writeInt(0); // TODO: FInd out what this is
+        msg.writeString("N/A"); //trading_lock_expiry_txt
 
         msg.writeString("N/A"); // TODO: purchase logging
-        msg.writeInt(0); // ???
+        msg.writeInt(1); // ???
+        msg.writeInt(0); // Banned accounts
 
         // TODO: Find banned accounts using this IP address or linked to this e-mail address (for hotels that use the Habbo ID system)
-        msg.writeInt(0); // banned accts
-        msg.writeString(user.getEmail() + "; " + user.getIpAddress());
+
+        msg.writeString("Email: " + user.getEmail());
+        msg.writeString("IP Address: " + user.getIpAddress());
 
         return msg;
     }

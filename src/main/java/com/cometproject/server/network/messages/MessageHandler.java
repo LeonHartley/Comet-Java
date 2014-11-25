@@ -131,6 +131,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.ModerationToolSendUserAlertMessageEvent, new ModToolUserAlertMessageEvent());
         this.getMessages().put(Events.ModerationToolSendUserCautionMessageEvent, new ModToolUserCautionMessageEvent());
         this.getMessages().put(Events.ModerationKickUserMessageEvent, new ModToolUserKickMessageEvent());
+        this.getMessages().put(Events.ModerationToolSendRoomAlertMessageEvent, new ModToolRoomAlertMessageEvent());
+        this.getMessages().put(Events.ModerationToolPerformRoomActionMessageEvent, new ModToolRoomActionMessageEvent());
     }
 
     public void registerHelpTool() {

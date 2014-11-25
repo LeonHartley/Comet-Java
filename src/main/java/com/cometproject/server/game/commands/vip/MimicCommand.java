@@ -1,4 +1,4 @@
-package com.cometproject.server.game.commands.staff;
+package com.cometproject.server.game.commands.vip;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;

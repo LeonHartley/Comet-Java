@@ -11,19 +11,25 @@ public class NoFaceCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         String figure = client.getPlayer().getData().getFigure();
 
-        if (figure.contains("hd-")) {
-            String[] head = ("hd-" + figure.split("hd-")[1].split("\\.")[0]).split("-");
+        if(client.getPlayer().getData().getTemporaryFigure() != null) {
+            client.getPlayer().getData().setFigure(client.getPlayer().getData().getTemporaryFigure());
+            client.getPlayer().getData().setTemporaryFigure(null);
+        } else {
+            if (figure.contains("hd-")) {
+                String[] head = ("hd-" + figure.split("hd-")[1].split("\\.")[0]).split("-");
 
-            if (head.length < 2)
-                return;
+                if (head.length < 2)
+                    return;
 
-            client.getPlayer().getData().setFigure(figure.replace(StringUtils.join(head, "-"), "hd-" + 99999 + "-" + head[2]));
-
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(client.getPlayer().getEntity()));
-            client.send(UpdateInfoMessageComposer.compose(true, client.getPlayer().getEntity()));
-
-            client.getPlayer().getData().save();
+                client.getPlayer().getData().setTemporaryFigure(figure);
+                client.getPlayer().getData().setFigure(figure.replace(StringUtils.join(head, "-"), "hd-" + 99999 + "-" + head[2]));
+            }
         }
+
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(client.getPlayer().getEntity()));
+        client.send(UpdateInfoMessageComposer.compose(true, client.getPlayer().getEntity()));
+
+        client.getPlayer().getData().save();
     }
 
     @Override

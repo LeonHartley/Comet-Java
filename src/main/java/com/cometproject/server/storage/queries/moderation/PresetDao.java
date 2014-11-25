@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class PresetDao {
-    public static void getPresets(List<String> userPresets, List<String> roomPresets) {
+    public static void getPresets(List<String> userPresets, List<String> roomPresets, List<String> actionReasons) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -21,7 +21,19 @@ public class PresetDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                (resultSet.getString("type").equals("user") ? userPresets : roomPresets).add(resultSet.getString("message"));
+                switch (resultSet.getString("type")) {
+                    case "user":
+                        userPresets.add(resultSet.getString("message"));
+                        break;
+
+                    case "room":
+                        roomPresets.add(resultSet.getString("message"));
+                        break;
+
+                    case "action":
+                        actionReasons.add(resultSet.getString("message"));
+                        break;
+                }
             }
 
         } catch (SQLException e) {

@@ -3,6 +3,8 @@ package com.cometproject.server.logging.entries;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.logging.AbstractLogEntry;
 import com.cometproject.server.logging.LogEntryType;
+import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
 public class RoomChatLogEntry extends AbstractLogEntry {
     private int roomId;
@@ -22,6 +24,15 @@ public class RoomChatLogEntry extends AbstractLogEntry {
         this.userId = userId;
         this.message = message;
         this.timestamp = timestamp;
+    }
+
+    public void compose(Composer msg) {
+        msg.writeInt((int) (Comet.getTime() - this.getTimestamp()) * 1000);
+
+        msg.writeInt(this.getUserId());
+        msg.writeString(PlayerDao.getUsernameByPlayerId(this.getUserId()));
+        msg.writeString(this.getString());
+        msg.writeBoolean(false);
     }
 
     @Override
