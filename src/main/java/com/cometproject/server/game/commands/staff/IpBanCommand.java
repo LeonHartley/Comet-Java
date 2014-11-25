@@ -40,8 +40,8 @@ public class IpBanCommand extends ChatCommand {
             return;
         }
 
-        int banId = BanDao.createBan(BanType.IP, length, expire, ipAddress, client.getPlayer().getId());
-        CometManager.getBans().add(new Ban(banId, user.getPlayer().getId() + "", expire, BanType.IP, ""));
+        int banId = BanDao.createBan(BanType.IP, length, length == 0 ? length : expire, ipAddress, client.getPlayer().getId());
+        CometManager.getBans().add(new Ban(banId, ipAddress + "", length == 0 ? length : expire, BanType.IP, ""));
 
         sendChat("User has been IP banned (IP: " + ipAddress + ")", client);
 

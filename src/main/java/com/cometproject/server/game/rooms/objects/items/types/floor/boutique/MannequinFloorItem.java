@@ -21,6 +21,17 @@ public class MannequinFloorItem extends RoomItemFloor {
             this.name = splitData[0];
             this.figure = splitData[1];
             this.gender = splitData[2];
+
+            String[] figureParts = this.figure.split("\\.");
+            String finalFigure = "";
+
+            for(String figurePart : figureParts) {
+                if(!figurePart.contains("hr") && !figurePart.contains("hd") && !figurePart.contains("he") && !figurePart.contains("ha")) {
+                    finalFigure += figurePart + ".";
+                }
+            }
+
+            this.figure = finalFigure.substring(0, finalFigure.length() - 1);
         }
     }
 

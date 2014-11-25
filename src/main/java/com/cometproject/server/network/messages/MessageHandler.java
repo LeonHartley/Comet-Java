@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.logging.sentry.SentryDispatcher;
 import com.cometproject.server.network.messages.headers.Events;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.incoming.catalog.GetCataIndexMessageEvent;
@@ -41,19 +40,17 @@ import com.cometproject.server.network.messages.incoming.room.bots.RemoveBotMess
 import com.cometproject.server.network.messages.incoming.room.engine.FollowRoomInfoMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.floor.GetFloorPlanDoorMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.floor.GetTilesInUseMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinFigureMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PetInformationMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PlacePetMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.RemovePetMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.camera.CameraTokenMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.citizenship.CitizenshipStatusMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.engine.AddUserToRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.engine.LoadHeightmapMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.floor.SaveFloorMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.*;
 import com.cometproject.server.network.messages.incoming.room.item.gifts.OpenGiftMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinNameMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.wired.SaveWiredDataMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.wired.UpdateSnapshotsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.*;
@@ -74,9 +71,7 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.ChangeLoo
 import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlaylistMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoMessageEvent;
 import com.cometproject.server.network.messages.outgoing.room.access.LoadRoomByDoorBellMessageEvent;
-import com.cometproject.server.network.messages.outgoing.room.trading.TradeAcceptUpdateMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
@@ -279,7 +274,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.ReedemExchangeItemMessageEvent, new ExchangeItemMessageEvent());
         this.getMessages().put(Events.TriggerWallItemMessageEvent, new UseWallItemMessageEvent());
         this.getMessages().put(Events.MannequinSaveDataMessageEvent, new SaveMannequinMessageEvent());
-        this.getMessages().put(Events.MannequinUpdateDataMessageEvent, new SaveMannequinNameMessageEvent());
+        this.getMessages().put(Events.MannequinUpdateDataMessageEvent, new SaveMannequinFigureMessageEvent());
         this.getMessages().put(Events.SaveRoomBackgroundTonerMessageEvent, new SaveTonerMessageEvent());
         this.getMessages().put(Events.SaveRoomBrandingMessageEvent, new SaveBrandingMessageEvent());
         this.getMessages().put(Events.OpenGiftMessageEvent, new OpenGiftMessageEvent());

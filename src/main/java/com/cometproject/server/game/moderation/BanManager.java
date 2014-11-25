@@ -51,6 +51,7 @@ public class BanManager {
     }
 
     public void add(Ban ban) {
+        System.out.println("Putting ban: " + ban.getData());
         this.bans.put(ban.getData(), ban);
     }
 
