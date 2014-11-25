@@ -41,6 +41,10 @@ import com.cometproject.server.network.messages.incoming.room.engine.FollowRoomI
 import com.cometproject.server.network.messages.incoming.room.floor.GetFloorPlanDoorMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.floor.GetTilesInUseMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinFigureMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.stickies.DeletePostItMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.stickies.OpenPostItMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.stickies.PlacePostItMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.stickies.SavePostItMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PetInformationMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.PlacePetMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.RemovePetMessageEvent;
@@ -285,6 +289,11 @@ public final class MessageHandler {
         this.getMessages().put(Events.SaveFootballGateOutfitMessageEvent, new SaveFootballGateMessageEvent());
 
         this.getMessages().put(Events.WiredSaveMatchingMessageEvent, new UpdateSnapshotsMessageEvent());
+
+        this.getMessages().put(Events.RoomAddPostItMessageEvent, new PlacePostItMessageEvent());
+        this.getMessages().put(Events.OpenPostItMessageEvent, new OpenPostItMessageEvent());
+        this.getMessages().put(Events.SavePostItMessageEvent, new SavePostItMessageEvent());
+        this.getMessages().put(Events.DeletePostItMessageEvent, new DeletePostItMessageEvent());
     }
 
     public void registerPromotions() {

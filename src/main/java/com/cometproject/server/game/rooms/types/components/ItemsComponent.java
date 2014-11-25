@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.server.game.players.components.types.InventoryItem;
+import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
@@ -12,6 +14,8 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.TileInstance;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.items.SendWallItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
@@ -202,7 +206,7 @@ public class ItemsComponent {
         }
 
         room.getEntities().broadcastMessage(RemoveFloorItemMessageComposer.compose(item.getId(), client.getPlayer().getId()));
-        room.getItems().getFloorItems().remove(item);
+        this.getFloorItems().remove(item);
 
         if (toInventory) {
             RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
@@ -215,6 +219,20 @@ public class ItemsComponent {
 
         for (Position tileToUpdate : tilesToUpdate) {
             room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
+        }
+    }
+
+    public void removeItem(RoomItemWall item, Session client, boolean toInventory) {
+        this.getRoom().getEntities().broadcastMessage(RemoveWallItemMessageComposer.compose(item.getId(), client.getPlayer().getId()));
+        this.getWallItems().remove(item);
+
+        if (toInventory) {
+            RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
+
+            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
+            client.send(UpdateInventoryMessageComposer.compose());
+        } else {
+            RoomItemDao.deleteItem(item.getId());
         }
     }
 
@@ -314,6 +332,21 @@ public class ItemsComponent {
         return true;
     }
 
+    public void placeWallItem(InventoryItem item, String position, Player player) {
+        int roomId = this.room.getId();
+
+        RoomItemDao.placeWallItem(roomId, position, item.getExtraData().trim().isEmpty() ? "0" : item.getExtraData(), item.getId());
+        player.getInventory().removeWallItem(item.getId());
+
+        RoomItemWall wallItem = this.addWallItem(item.getId(), item.getBaseId(), this.room, player.getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
+
+        this.room.getEntities().broadcastMessage(
+                SendWallItemMessageComposer.compose(wallItem)
+        );
+
+        wallItem.onPlaced();
+    }
+
     public Room getRoom() {
         return this.room;
     }
@@ -324,5 +357,58 @@ public class ItemsComponent {
 
     public Collection<RoomItemWall> getWallItems() {
         return this.wallItems;
+    }
+
+    public void placeFloorItem(InventoryItem item, int x, int y, int rot, Player player) {
+        TileInstance tile = room.getMapping().getTile(x, y);
+
+        if(tile == null || !tile.canPlaceItemHere())
+            return;
+
+        double height = tile.getStackHeight();
+
+        if(!tile.canStack()) return;
+
+        List<RoomItemFloor> floorItems = room.getItems().getItemsOnSquare(x, y);
+
+        if (item.getDefinition() != null && item.getDefinition().getInteraction() != null) {
+            if (item.getDefinition().getInteraction().equals("mannequin")) {
+                rot = 2;
+            }
+        }
+
+        RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getId());
+        player.getInventory().removeFloorItem(item.getId());
+
+        RoomItemFloor floorItem = room.getItems().addFloorItem(item.getId(), item.getBaseId(), room, player.getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
+        List<Position> tilesToUpdate = new ArrayList<>();
+
+        for (RoomItemFloor stackItem : floorItems) {
+            if (item.getId() != stackItem.getId()) {
+                stackItem.onItemAddedToStack(floorItem);
+            }
+        }
+
+        tilesToUpdate.add(new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY(), 0d));
+
+        for (AffectedTile affTile : AffectedTile.getAffectedBothTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), floorItem.getPosition().getX(), floorItem.getPosition().getY(), floorItem.getRotation())) {
+            tilesToUpdate.add(new Position(affTile.x, affTile.y, 0d));
+
+            List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(affTile.x, affTile.y);
+
+            for (GenericEntity entity0 : affectEntities0) {
+                floorItem.onEntityStepOn(entity0);
+            }
+        }
+
+        floorItem.onPlaced();
+
+        RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getId());
+
+        for (Position tileToUpdate : tilesToUpdate) {
+            room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
+        }
+
+        room.getEntities().broadcastMessage(SendFloorItemMessageComposer.compose(floorItem, room));
     }
 }

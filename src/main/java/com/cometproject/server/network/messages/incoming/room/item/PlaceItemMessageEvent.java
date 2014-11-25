@@ -49,19 +49,7 @@ public class PlaceItemMessageEvent implements IEvent {
                     return;
                 }
 
-                int roomId = client.getPlayer().getEntity().getRoom().getId();
-
-                RoomItemDao.placeWallItem(roomId, position, item.getExtraData().trim().isEmpty() ? "0" : item.getExtraData(), item.getId());
-                client.getPlayer().getInventory().removeWallItem(id);
-
-                Room room = client.getPlayer().getEntity().getRoom();
-                RoomItemWall wallItem = room.getItems().addWallItem(id, item.getBaseId(), room, client.getPlayer().getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
-
-                client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(
-                        SendWallItemMessageComposer.compose(wallItem)
-                );
-
-                wallItem.onPlaced();
+                client.getPlayer().getEntity().getRoom().getItems().placeWallItem(item, position, client.getPlayer());
             } else {
                 int x = Integer.parseInt(parts[1]);
                 int y = Integer.parseInt(parts[2]);
@@ -73,57 +61,7 @@ public class PlaceItemMessageEvent implements IEvent {
                     return;
                 }
 
-                Room room = client.getPlayer().getEntity().getRoom();
-                TileInstance tile = room.getMapping().getTile(x, y);
-
-                if(tile == null || !tile.canPlaceItemHere())
-                    return;
-
-                double height = tile.getStackHeight();
-
-                if(!tile.canStack()) return;
-
-                List<RoomItemFloor> floorItems = room.getItems().getItemsOnSquare(x, y);
-
-                if (item.getDefinition() != null && item.getDefinition().getInteraction() != null) {
-                    if (item.getDefinition().getInteraction().equals("mannequin")) {
-                        rot = 2;
-                    }
-                }
-
-                RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), id);
-                client.getPlayer().getInventory().removeFloorItem(id);
-
-                RoomItemFloor floorItem = room.getItems().addFloorItem(id, item.getBaseId(), room, client.getPlayer().getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
-                List<Position> tilesToUpdate = new ArrayList<>();
-
-                for (RoomItemFloor stackItem : floorItems) {
-                    if (item.getId() != stackItem.getId()) {
-                        stackItem.onItemAddedToStack(floorItem);
-                    }
-                }
-
-                tilesToUpdate.add(new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY(), 0d));
-
-                for (AffectedTile affTile : AffectedTile.getAffectedBothTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), floorItem.getPosition().getX(), floorItem.getPosition().getY(), floorItem.getRotation())) {
-                    tilesToUpdate.add(new Position(affTile.x, affTile.y, 0d));
-
-                    List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(affTile.x, affTile.y);
-
-                    for (GenericEntity entity0 : affectEntities0) {
-                        floorItem.onEntityStepOn(entity0);
-                    }
-                }
-
-                floorItem.onPlaced();
-
-                RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), id);
-
-                for (Position tileToUpdate : tilesToUpdate) {
-                    room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
-                }
-
-                room.getEntities().broadcastMessage(SendFloorItemMessageComposer.compose(floorItem, room));
+                client.getPlayer().getEntity().getRoom().getItems().placeFloorItem(item, x, y, rot, client.getPlayer());
             }
         } catch (Exception e) {
             CometManager.getLogger().error("Error while placing item", e);

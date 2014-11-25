@@ -22,6 +22,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.condit
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
+import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import javolution.util.FastMap;
@@ -134,7 +135,7 @@ public class RoomItemFactory {
             }
         }
 
-        if(floorItem == null) {
+        if (floorItem == null) {
             floorItem = new GenericFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
         }
 
@@ -153,6 +154,9 @@ public class RoomItemFactory {
             }
             case "dimmer": {
                 return new MoodlightWallItem(id, baseId, room, owner, position, data);
+            }
+            case "postit": {
+                return new PostItWallItem(id, baseId, room, owner, position, data);
             }
             default: {
                 return new GenericWallItem(id, baseId, room, owner, position, data);

@@ -125,7 +125,7 @@ public class RollerFloorItem extends RoomItemFloor {
                 continue;
             }
 
-            if (floor instanceof RollerFloorItem || floor.getPosition().getZ() < this.getPosition().getZ()) {
+            if (floor instanceof RollerFloorItem || floor.getPosition().getZ() <= this.getPosition().getZ()) {
                 continue;
             }
 

@@ -70,7 +70,7 @@ public abstract class RoomItemWall extends RoomItem {
 
     @Override
     public void saveData() {
-        RoomItemDao.saveData(this.getId(), extraData);
+        RoomItemDao.saveData(this.getId(), this.extraData);
     }
 
     @Override

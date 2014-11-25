@@ -34,7 +34,7 @@ public class SeatFloorItem extends RoomItemFloor {
 
         if(this instanceof AdjustableHeightFloorItem) {
             for(GenericEntity sitter : this.getEntitiesOnItem()) {
-                this.onEntityStepOn(sitter);
+                this.onEntityStepOn(sitter, true);
             }
         }
 
@@ -42,18 +42,22 @@ public class SeatFloorItem extends RoomItemFloor {
         this.saveData();
     }
 
-    @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(GenericEntity entity, boolean instantUpdate) {
         double height = (entity instanceof PetEntity || entity.hasAttribute("transformation")) ? this.getSitHeight() / 2 : this.getSitHeight();
 
         entity.setBodyRotation(this.getRotation());
         entity.setHeadRotation(this.getRotation());
         entity.addStatus(RoomEntityStatus.SIT, String.valueOf(height).replace(',', '.'));
 
-        if(this instanceof AdjustableHeightFloorItem)
+        if(instantUpdate)
             this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
         else
             entity.markNeedsUpdate();
+    }
+
+    @Override
+    public void onEntityStepOn(GenericEntity entity) {
+        this.onEntityStepOn(entity, false);
     }
 
     @Override
