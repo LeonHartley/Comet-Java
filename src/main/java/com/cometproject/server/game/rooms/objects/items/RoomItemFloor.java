@@ -275,6 +275,22 @@ public abstract class RoomItemFloor extends RoomItem {
         return entities;
     }
 
+    public Position getPartnerTile() {
+        if(this.getDefinition().getLength() != 2) return null;
+
+        for (AffectedTile affTile : AffectedTile.getAffectedBothTilesAt(this.getDefinition().getLength(), this.getDefinition().getWidth(), this.getPosition().getX(), this.getPosition().getY(), this.getRotation())) {
+            if(affTile.x == this.getPosition().getX() && affTile.y == this.getPosition().getY()) continue;
+
+            return new Position(affTile.x, affTile.y);
+        }
+
+        return null;
+    }
+
+    public double getOverrideHeight() {
+        return -1d;
+    }
+
     public String getDataObject() {
         return this.extraData;
     }

@@ -32,7 +32,7 @@ public class SeatFloorItem extends RoomItemFloor {
         this.toggleInteract(true);
         this.sendUpdate();
 
-        if(this instanceof AdjustableHeightFloorItem) {
+        if(this instanceof AdjustableHeightSeatFloorItem) {
             for(GenericEntity sitter : this.getEntitiesOnItem()) {
                 this.onEntityStepOn(sitter, true);
             }

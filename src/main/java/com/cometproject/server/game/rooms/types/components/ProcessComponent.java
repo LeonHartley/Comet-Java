@@ -200,10 +200,10 @@ public class ProcessComponent implements CometTask {
 
             // Step off
             for (RoomItemFloor item : itemsOnOldSq) {
-                item.onEntityStepOff(entity);
-
-                if (!itemsOnSq.contains(item))
+                if (!itemsOnSq.contains(item)) {
+                    item.onEntityStepOff(entity);
                     WiredTriggerWalksOffFurni.executeTriggers(entity, item);
+                }
             }
 
             // Step-on
@@ -227,10 +227,10 @@ public class ProcessComponent implements CometTask {
                     }
                 }
 
-                item.onEntityStepOn(entity);
-
-                if (!itemsOnOldSq.contains(item))
+                if (!itemsOnOldSq.contains(item)) {
+                    item.onEntityStepOn(entity);
                     WiredTriggerWalksOnFurni.executeTriggers(entity, item);
+                }
             }
         }
 

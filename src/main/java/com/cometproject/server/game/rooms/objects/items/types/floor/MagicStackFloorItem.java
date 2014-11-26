@@ -19,11 +19,12 @@ public class MagicStackFloorItem extends RoomItemFloor {
         this.saveData();
     }
 
-    public double getMagicHeight() {
+    @Override
+    public double getOverrideHeight() {
         return magicHeight;
     }
 
-    public void setMagicHeight(double magicHeight) {
+    public void setOverrideHeight(double magicHeight) {
         this.setExtraData(new DecimalFormat("#.00").format(magicHeight).replace(",", "."));
         this.magicHeight = magicHeight;
     }

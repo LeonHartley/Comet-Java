@@ -177,6 +177,22 @@ public class Position {
         return false;
     }
 
+    public void increaseX() {
+        this.x = this.x + 1;
+    }
+
+    public void decreaseX() {
+        this.x = this.x - 1;
+    }
+
+    public void increaseY() {
+        this.y = this.y + 1;
+    }
+
+    public void decreaseY() {
+        this.y = this.y - 1;
+    }
+
     public boolean touching(RoomObject roomObject) {
         return this.touching(roomObject.getPosition());
     }

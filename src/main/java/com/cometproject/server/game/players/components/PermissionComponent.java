@@ -1,5 +1,6 @@
 package com.cometproject.server.game.players.components;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.permissions.types.CommandPermission;
 import com.cometproject.server.game.players.types.Player;
@@ -29,6 +30,8 @@ public class PermissionComponent {
                 if ((permission.isVipOnly() && player.getData().isVip()) || !permission.isVipOnly())
                     return true;
             }
+        } else if(key.equals("debug") && Comet.isDebugging) {
+            return true;
         }
 
         return false;
