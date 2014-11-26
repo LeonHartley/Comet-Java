@@ -12,45 +12,29 @@ import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorI
 import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.utilities.BadgeUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ModifyGroupBadgeMessageEvent implements IEvent {
+public class GroupUpdateColoursMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
         int groupId = msg.readInt();
 
-        if (!client.getPlayer().getGroups().contains(groupId))
-            return;
-
         Group group = CometManager.getGroups().get(groupId);
 
-        if (group == null || group.getData().getOwnerId() != client.getPlayer().getId())
+        if (group == null || client.getPlayer().getId() != group.getData().getOwnerId())
             return;
 
-        int stateCount = msg.readInt();
+        int colourA = msg.readInt();
+        int colourB = msg.readInt();
 
-        int groupBase = msg.readInt();
-        int groupBaseColour = msg.readInt();
-        int groupItemsLength = msg.readInt();
+        group.getData().setColourA(colourA);
+        group.getData().setColourB(colourB);
 
-        List<Integer> groupItems = new ArrayList<>();
-
-        for (int i = 0; i < 12; i++) {
-            groupItems.add(msg.readInt());
-        }
-
-        String badge = BadgeUtil.generate(groupBase, groupBaseColour, groupItems);
-
-        group.getData().setBadge(badge);
         group.getData().save();
 
-        if (CometManager.getRooms().isActive(group.getData().getRoomId())) {
-            Room room = CometManager.getRooms().get(group.getData().getRoomId());
+        client.send(ManageGroupMessageComposer.compose(group));
 
-            room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
+        if(client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
+            Room room = client.getPlayer().getEntity().getRoom();
 
             for(RoomItemFloor roomItemFloor : room.getItems().getByInteraction("group_item")) {
                 if(roomItemFloor instanceof GroupFloorItem) {
@@ -59,8 +43,8 @@ public class ModifyGroupBadgeMessageEvent implements IEvent {
                 }
             }
 
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
         }
 
-        client.send(ManageGroupMessageComposer.compose(group));
     }
 }

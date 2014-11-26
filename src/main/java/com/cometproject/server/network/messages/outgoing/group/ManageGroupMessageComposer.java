@@ -3,12 +3,18 @@ package com.cometproject.server.network.messages.outgoing.group;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import org.apache.commons.lang.StringUtils;
 
 public class ManageGroupMessageComposer {
     public static Composer compose(Group group) {
         Composer msg = new Composer(Composers.GroupDataEditMessageComposer);
 
-        msg.writeInt(0); // Array for something related to rooms (int:roomId, String:roomName, Boolean:Unk)
+        msg.writeInt(1); // Array for something related to rooms (int:roomId, String:roomName, Boolean:Unk)
+
+        msg.writeInt(1);
+        msg.writeString("Yes");
+        msg.writeBoolean(false);
+
         msg.writeBoolean(true);
         msg.writeInt(group.getId());
         msg.writeString(group.getData().getTitle());
@@ -25,17 +31,32 @@ public class ManageGroupMessageComposer {
 
         String[] badgeData = group.getData().getBadge().replace("b", "").replace("X", "").split("s");
 
-        for (int i = 0; i != 5; i++) {
-            if (badgeData.length <= i) {
-                msg.writeInt(0);
-                msg.writeInt(0);
-                msg.writeInt(0);
-                continue;
-            }
+        int amountOfData = 5 - badgeData.length;
+        int dataAppended = 0;
 
-            msg.writeInt(getInt(badgeData[i].substring(0, 2)));
-            msg.writeInt(getInt(badgeData[i].substring(2, 4)));
-            msg.writeInt(getInt((badgeData[i]).substring(4)));
+        for (int i = 0; i < badgeData.length; i++) {
+            String text = badgeData[i];
+
+            int num1 = (text.length() >= 6) ? Integer.parseInt(StringUtils.left(text, 3)) : Integer.parseInt(StringUtils.left(text, 2));
+            int num2 = (text.length() >= 6) ? Integer.parseInt(StringUtils.left(StringUtils.right(text, 3), 2)) : Integer.parseInt(StringUtils.right(StringUtils.left(text, 4), 2));
+
+            msg.writeInt(num1);
+            msg.writeInt(num2);
+
+            if(text.length() < 5) {
+                msg.writeInt(0);
+            } else if(text.length() >= 6) {
+                msg.writeInt(Integer.parseInt(StringUtils.right(text, 1)));
+            } else {
+                msg.writeInt(Integer.parseInt(StringUtils.right(text, 1)));
+            }
+        }
+
+        while(dataAppended != amountOfData) {
+            msg.writeInt(0);
+            msg.writeInt(0);
+            msg.writeInt(0);
+            dataAppended++;
         }
 
         msg.writeString(group.getData().getBadge());
