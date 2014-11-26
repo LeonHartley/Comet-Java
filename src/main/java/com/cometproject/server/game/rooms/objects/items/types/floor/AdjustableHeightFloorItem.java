@@ -30,8 +30,6 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
 
         this.sendUpdate();
 
-        System.out.println(this.getExtraData());
-
         // TODO: Move item saving to a queue for batch saving or something. :P
         this.saveData();
     }

@@ -122,8 +122,6 @@ public class TileInstance {
             if(item.getOverrideHeight() != -1d) {
                 overrideItem = item.getId();
                 overrideHeight = item.getOverrideHeight() + (hasComponentItem ? 1.0 : 0d);
-
-                System.out.println(hasComponentItem);
             }
         }
 
