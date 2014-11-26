@@ -120,6 +120,9 @@ public class TeleporterFloorItem extends RoomItemFloor {
                             PlayerEntity pEntity = (PlayerEntity) this.outgoingEntity;
                             pEntity.getPlayer().setTeleportId(pairId);
                             pEntity.getPlayer().getSession().send(RoomForwardMessageComposer.compose(roomId));
+
+                            this.state = 7;
+                            this.setTicks(RoomItemFactory.getProcessTime(0.5));
                         }
                     } else {
                         this.state = 8;
@@ -161,8 +164,12 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
             case 7: {
                 this.toggleDoor(false);
-                this.incomingEntity.setOverriden(false);
-                this.incomingEntity = null;
+
+                if(this.incomingEntity != null) {
+                    this.incomingEntity.setOverriden(false);
+                    this.incomingEntity = null;
+                }
+
                 this.inUse = false;
                 this.state = -1;
                 break;
