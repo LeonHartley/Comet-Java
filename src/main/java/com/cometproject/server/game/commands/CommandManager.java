@@ -1,7 +1,10 @@
 package com.cometproject.server.game.commands;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.commands.development.PositionCommand;
+import com.cometproject.server.game.commands.development.ReloadMappingCommand;
 import com.cometproject.server.game.commands.gimmicks.KissCommand;
 import com.cometproject.server.game.commands.gimmicks.PunchCommand;
 import com.cometproject.server.game.commands.gimmicks.SexCommand;
@@ -50,6 +53,11 @@ public class CommandManager {
 
         this.loadUserCommands();
         this.loadStaffCommands();
+
+        if(Comet.isDebugging) {
+            this.commands.put("reloadmapping", new ReloadMappingCommand());
+            this.commands.put("position", new PositionCommand());
+        }
     }
 
     /**
@@ -113,7 +121,6 @@ public class CommandManager {
         this.commands.put(Locale.get("command.makesay.name"), new MakeSayCommand());
         this.commands.put(Locale.get("command.mute.name"), new MuteCommand());
         this.commands.put(Locale.get("command.unmute.name"), new UnmuteCommand());
-
     }
 
     /**

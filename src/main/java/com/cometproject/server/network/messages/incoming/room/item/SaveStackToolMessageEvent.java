@@ -36,7 +36,7 @@ public class SaveStackToolMessageEvent implements IEvent {
         MagicStackFloorItem magicStackFloorItem = ((MagicStackFloorItem) floorItem);
 
         if (height == -100) {
-            magicStackFloorItem.setMagicHeight(
+            magicStackFloorItem.setOverrideHeight(
                     magicStackFloorItem.getRoom().getMapping().getTile(
                             magicStackFloorItem.getPosition().getX(),
                             magicStackFloorItem.getPosition().getY()
@@ -44,7 +44,7 @@ public class SaveStackToolMessageEvent implements IEvent {
         } else {
             double heightf = height / 100.0d;
 
-            magicStackFloorItem.setMagicHeight(heightf);
+            magicStackFloorItem.setOverrideHeight(heightf);
         }
 
         for (AffectedTile affectedTile : AffectedTile.getAffectedBothTilesAt(

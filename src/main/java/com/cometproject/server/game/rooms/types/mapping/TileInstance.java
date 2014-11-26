@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
-import com.cometproject.server.game.rooms.objects.items.types.floor.AdjustableHeightFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.BedFloorItem;
@@ -46,6 +46,9 @@ public class TileInstance {
         this.originalTopItem = 0;
         this.stackHeight = 0d;
         this.canPlaceItemHere = this.mappingInstance.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()].equals(RoomTileState.VALID);
+
+        // component item is an item that can be used along with an item that overrides the height.
+        boolean hasComponentItem = false;
 
         double highestHeight = 0d;
         int highestItem = 0;
@@ -98,6 +101,10 @@ public class TileInstance {
                     break;
             }
 
+            if(item instanceof SnowboardJumpFloorItem) {
+                hasComponentItem = true;
+            }
+
             if (item.getDefinition().canSit) {
                 status = RoomTileStatusType.SIT;
                 movementNode = RoomEntityMovementNode.END_OF_ROUTE;
@@ -112,9 +119,11 @@ public class TileInstance {
                 this.canStack = false;
             }
 
-            if(item instanceof MagicStackFloorItem) {
+            if(item.getOverrideHeight() != -1d) {
                 overrideItem = item.getId();
-                overrideHeight = ((MagicStackFloorItem) item).getMagicHeight();
+                overrideHeight = item.getOverrideHeight() + (hasComponentItem ? 1.0 : 0d);
+
+                System.out.println(hasComponentItem);
             }
         }
 
@@ -132,9 +141,6 @@ public class TileInstance {
 
         if(this.stackHeight == 0d)
             this.stackHeight = this.mappingInstance.getModel().getSquareHeight()[this.position.getX()][this.position.getY()];
-
-//        final double tileHeight = this.mappingInstance.getModel().getSquareHeight()[this.position.getX()][this.position.getY()];
-//        this.stackHeight += tileHeight;
     }
 
     public RoomEntityMovementNode getMovementNode() {
@@ -150,8 +156,12 @@ public class TileInstance {
 
         RoomItemFloor roomItemFloor = this.mappingInstance.getRoom().getItems().getFloorItem(this.topItem);
 
-        if (roomItemFloor != null && (roomItemFloor.getDefinition().canSit || roomItemFloor instanceof BedFloorItem)) {
-            height -= roomItemFloor.getDefinition().getHeight();
+        if (roomItemFloor != null && (roomItemFloor.getDefinition().canSit || roomItemFloor instanceof BedFloorItem || roomItemFloor instanceof SnowboardJumpFloorItem)) {
+            if(roomItemFloor instanceof SnowboardJumpFloorItem) {
+                height += 1.0;
+            } else {
+                height -= roomItemFloor.getDefinition().getHeight();
+            }
         }
 
         return height;

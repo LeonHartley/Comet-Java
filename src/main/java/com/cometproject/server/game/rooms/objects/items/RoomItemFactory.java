@@ -11,6 +11,8 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.football.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.hollywood.HaloTileFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardSlopeFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.summer.SummerShowerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonColourWheel;
@@ -48,7 +50,7 @@ public class RoomItemFactory {
             put("mannequin", MannequinFloorItem.class);
             put("beach_shower", SummerShowerFloorItem.class);
             put("halo_tile", HaloTileFloorItem.class);
-            put("adjustable_height", AdjustableHeightFloorItem.class);
+            put("adjustable_height", AdjustableHeightSeatFloorItem.class);
 
             put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);//new
             put("wf_act_teleport_to", WiredActionTeleportPlayer.class);//new
@@ -106,6 +108,10 @@ public class RoomItemFactory {
             put("football_gate", FootballGateFloorItem.class);
             put("football_goal", FootballGoalFloorItem.class);
             put("football_score", FootballScoreFloorItem.class);
+
+            put("snowb_slope", SnowboardSlopeFloorItem.class);
+            put("snowb_rail", SnowboardJumpFloorItem.class);
+            put("snowb_jump", SnowboardJumpFloorItem.class);
         }};
     }
 
