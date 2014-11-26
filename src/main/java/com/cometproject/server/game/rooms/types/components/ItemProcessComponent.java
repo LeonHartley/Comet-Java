@@ -30,6 +30,8 @@ public class ItemProcessComponent implements CometTask {
 
     private boolean active = false;
 
+    private int idleTimer = 0;
+
     private final RoomItemEventQueue eventQueue = new RoomItemEventQueue();
 
     public ItemProcessComponent(CometThreadManagement mgr, Room room) {
@@ -83,8 +85,14 @@ public class ItemProcessComponent implements CometTask {
         }
 
         if (this.getRoom().getEntities().realPlayerCount() == 0) {
-            this.stop();
-            return;
+            if(this.idleTimer >= 750) {
+                this.stop();
+                return;
+            } else {
+                this.idleTimer++;
+            }
+        } else {
+            this.idleTimer = 0;
         }
 
         long timeStart = System.currentTimeMillis();
