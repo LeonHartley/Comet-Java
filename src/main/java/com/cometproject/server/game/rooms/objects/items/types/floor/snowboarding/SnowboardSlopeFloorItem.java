@@ -22,6 +22,13 @@ public class SnowboardSlopeFloorItem extends AdjustableHeightFloorItem {
         }
     }
 
+    @Override
+    public void onEntityStepOff(GenericEntity entity) {
+        if(entity.getCurrentEffect() != null && entity.getCurrentEffect().getEffectId() == getEffectId(entity.getGender())) {
+            entity.applyEffect(null);
+        }
+    }
+
     private static int getEffectId(String gender) {
         if(gender.toLowerCase().equals("m")) {
             return SNOWBOARD_MALE;
