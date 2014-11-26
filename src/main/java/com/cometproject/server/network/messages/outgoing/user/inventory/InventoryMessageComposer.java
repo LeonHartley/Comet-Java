@@ -57,8 +57,12 @@ public class InventoryMessageComposer {
                     msg.writeString("0");
                     msg.writeString(groupId);
                     msg.writeString(groupData.getBadge());
-                    msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(groupData.getColourA()));
-                    msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(groupData.getColourB()));
+
+                    String colourA = CometManager.getGroups().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour();
+                    String colourB = CometManager.getGroups().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour();
+
+                    msg.writeString(colourA);
+                    msg.writeString(colourB);
                 }
             } else {
                 msg.writeInt(isGift ? 9 : 0);

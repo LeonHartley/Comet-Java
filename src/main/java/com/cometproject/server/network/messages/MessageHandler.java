@@ -19,10 +19,7 @@ import com.cometproject.server.network.messages.incoming.catalog.pets.PetRacesMe
 import com.cometproject.server.network.messages.incoming.catalog.pets.ValidatePetNameMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.*;
 import com.cometproject.server.network.messages.incoming.group.favourite.SetFavouriteGroupMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.settings.ManageGroupMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.settings.ModifyGroupBadgeMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.settings.ModifyGroupSettingsMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.settings.ModifyGroupTitleMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.settings.*;
 import com.cometproject.server.network.messages.incoming.handshake.*;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
@@ -339,6 +336,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.GroupUpdateBadgeMessageEvent, new ModifyGroupBadgeMessageEvent());
         this.getMessages().put(Events.SetFavoriteGroupMessageEvent, new SetFavouriteGroupMessageEvent());
         this.getMessages().put(Events.GroupFurnitureWidgetMessageEvent, new GroupFurnitureWidgetMessageEvent());
+        this.getMessages().put(Events.GroupUpdateColoursMessageEvent, new GroupUpdateColoursMessageEvent());
 
 //        this.getMessages().put(Events.GroupForumPermissionsMessageEvent, new GroupForumPermissionsMessageEvent());
 //        this.getMessages().put(Events.GroupForumThreadsMessageEvent, new GroupForumThreadsMessageEvent());

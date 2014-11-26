@@ -8,7 +8,10 @@ import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
+import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupRoomMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -61,12 +64,18 @@ public class BuyGroupMessageEvent implements IEvent {
         group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.OWNER));
         client.getPlayer().getGroups().add(group.getId());
 
+        client.getPlayer().getData().setFavouriteGroup(group.getId());
+        client.getPlayer().getData().save();
+
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom().getId() != roomId) {
             client.send(RoomForwardMessageComposer.compose(roomId));
+        } else {
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(GroupBadgesMessageComposer.compose(group.getId(), group.getData().getBadge()));
+
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(client.getPlayer().getEntity().getId()));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity()));
         }
 
         client.send(GroupRoomMessageComposer.compose(roomId, group.getId()));
-        client.getPlayer().getData().setFavouriteGroup(group.getId());
-        client.getPlayer().getData().save();
     }
 }

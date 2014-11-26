@@ -142,8 +142,12 @@ public abstract class RoomItemFloor extends RoomItem {
                 msg.writeString("0");
                 msg.writeString(this.getExtraData());
                 msg.writeString(groupData.getBadge());
-                msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(groupData.getColourA()));
-                msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(groupData.getColourB()));
+
+                String colourA = CometManager.getGroups().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour();
+                String colourB = CometManager.getGroups().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour();
+
+                msg.writeString(colourA);
+                msg.writeString(colourB);
             }
 
         } else {

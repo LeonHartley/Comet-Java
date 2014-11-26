@@ -26,8 +26,13 @@ public class GroupDataMessageComposer {
                 msg.writeInt(group.getId());
                 msg.writeString(group.getTitle());
                 msg.writeString(group.getBadge());
-                msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(group.getColourA()));
-                msg.writeString(CometManager.getGroups().getGroupItems().getBackgroundColour(group.getColourB()));
+
+                String colourA = CometManager.getGroups().getGroupItems().getSymbolColours().get(group.getColourA()).getColour();
+                String colourB = CometManager.getGroups().getGroupItems().getBackgroundColours().get(group.getColourB()).getColour();
+
+                msg.writeString(colourA);
+                msg.writeString(colourB);
+
                 msg.writeBoolean(group.getOwnerId() == userId);
                 msg.writeInt(group.getOwnerId());
                 msg.writeBoolean(false); // has forum

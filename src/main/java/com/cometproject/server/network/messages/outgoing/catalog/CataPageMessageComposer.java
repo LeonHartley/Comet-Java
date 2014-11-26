@@ -12,7 +12,7 @@ public class CataPageMessageComposer {
         Composer msg = new Composer(Composers.CatalogPageMessageComposer);
         msg.writeInt(page.getId());
 
-        msg.writeString("NORMAL");
+        msg.writeString("NORMAL"); // builders club or not
 
         msg.writeString(page.getTemplate());
 

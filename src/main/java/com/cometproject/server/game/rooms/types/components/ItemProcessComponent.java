@@ -19,11 +19,11 @@ import java.util.concurrent.TimeUnit;
 
 public class ItemProcessComponent implements CometTask {
 //    private final int INTERVAL = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
-    private final int INTERVAL = 25;
-    private final int FLAG = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.flag"));
+    private static final int INTERVAL = 25;
+    private static final int FLAG = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.flag"));
 
-    private Room room;
-    private Logger log;
+    private final Room room;
+    private final Logger log;
 
     private ScheduledFuture myFuture;
     private CometThreadManagement mgr;
