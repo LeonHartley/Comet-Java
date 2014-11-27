@@ -22,7 +22,7 @@ public class InventoryItem {
 
         try {
             if (this.getDefinition().getInteraction().equals("gift")) {
-                this.giftData = JsonFactory.getInstance().fromJson(this.extraData, GiftData.class);
+                this.giftData = JsonFactory.getInstance().fromJson(this.extraData.split("GIFT::##")[1], GiftData.class);
             }
         } catch (Exception e) {
             this.giftData = null;

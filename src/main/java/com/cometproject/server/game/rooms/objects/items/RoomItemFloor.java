@@ -1,11 +1,15 @@
 package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.groups.types.GroupData;
+import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
+import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.data.BackgroundTonerData;
+import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGateFloorItem;
@@ -15,6 +19,7 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
@@ -54,7 +59,26 @@ public abstract class RoomItemFloor extends RoomItem {
         msg.writeString(this instanceof MagicStackFloorItem ? this.getExtraData() : Double.toString(this.getPosition().getZ()));
         msg.writeString(Double.toString(this.getPosition().getZ()));
 
-        if (this.getDefinition().isAdFurni()) {
+        if(this instanceof GiftFloorItem) {
+            final GiftData giftData = ((GiftFloorItem) this).getGiftData();
+            final PlayerData purchaser = PlayerDao.getDataById(giftData.getSenderId());
+
+            msg.writeInt(giftData.getDecorationType() * 1000 + giftData.getWrappingPaper());
+            msg.writeInt(1);
+            msg.writeInt(6);
+            msg.writeString("EXTRA_PARAM");
+            msg.writeString("");
+            msg.writeString("MESSAGE");
+            msg.writeString(giftData.getMessage());
+            msg.writeString("PURCHASER_NAME");
+            msg.writeString(purchaser.getUsername());
+            msg.writeString("PURCHASER_FIGURE");
+            msg.writeString(purchaser.getFigure());
+            msg.writeString("PRODUCT_CODE");
+            msg.writeString("");
+            msg.writeString("state");
+            msg.writeString(((GiftFloorItem) this).isOpened() ? "1" : "0");
+        } else if (this.getDefinition().isAdFurni()) {
             msg.writeInt(0);
             msg.writeInt(1);
 
@@ -150,15 +174,22 @@ public abstract class RoomItemFloor extends RoomItem {
                 msg.writeString(colourB);
             }
 
+        } else if(CometManager.getItems().getLimitedEditionManager().getLimitedEdition(this.getId()) != null) {
+            LimitedEditionItem limitedEditionItem = CometManager.getItems().getLimitedEditionManager().getLimitedEdition(this.getId());
+
+            msg.writeInt(0);
+            msg.writeString("");
+            msg.writeBoolean(true);
+            msg.writeBoolean(false);
+            msg.writeString(this.getExtraData());
+            msg.writeInt(limitedEditionItem.getLimitedRare());
+            msg.writeInt(limitedEditionItem.getLimitedRareTotal());
         } else {
             msg.writeInt(0);
             msg.writeInt(0);
 
             //msg.writeString(isGift ? giftData.toString() : this.getExtraData());
             msg.writeString((this instanceof FootballGateFloorItem) ? "" : this.getExtraData());
-
-            //msg.writeInt(15); // rare id
-            //msg.writeInt(100); // amount of limited items in a stack
         }
 
         msg.writeInt(-1);

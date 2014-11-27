@@ -16,7 +16,7 @@ public class LimitedEditionDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("INSERT INTO items_limited (`item_id`, `limited_rare`, `limited_rare_total`) (?, ?, ?);", sqlConnection);
+            preparedStatement = SqlHelper.prepare("INSERT INTO items_limited_edition (`item_id`, `limited_id`, `limited_total`) VALUES(?, ?, ?);", sqlConnection);
             preparedStatement.setInt(1, item.getItemId());
             preparedStatement.setInt(2, item.getLimitedRare());
             preparedStatement.setInt(3, item.getLimitedRareTotal());
@@ -38,13 +38,13 @@ public class LimitedEditionDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM items_limited WHERE id_one = ? LIMIT 1;", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT `limited_id`, `limited_total` FROM items_limited_edition WHERE item_id = ? LIMIT 1;", sqlConnection);
             preparedStatement.setInt(1, itemId);
 
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                return new LimitedEditionItem(itemId, resultSet.getInt("limited_rare"), resultSet.getInt("limited_rare_total"));
+                return new LimitedEditionItem(itemId, resultSet.getInt("limited_id"), resultSet.getInt("limited_total"));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

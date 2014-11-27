@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
@@ -48,7 +49,7 @@ public class CataPageMessageComposer {
                     msg.writeInt(0);
                 }
 
-                msg.writeBoolean(false); // Can gift
+                msg.writeBoolean(Comet.isDebugging); // Can gift
 
                 if (!item.hasBadge()) {
                     msg.writeInt(item.getItems().size());

@@ -32,6 +32,8 @@ import org.apache.log4j.Logger;
 
 public class RoomItemFactory {
     private static final int processMs = 25;
+    private static final String GIFT_DATA = "GIFT::##";
+
     private static final Logger log = Logger.getLogger(RoomItemFactory.class.getName());
 
     private static final FastMap<String, Class<? extends RoomItemFloor>> itemDefinitionMap;
@@ -129,6 +131,10 @@ public class RoomItemFactory {
 
         if (def.getItemName().startsWith("tile_stackmagic")) {
             floorItem = new MagicStackFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
+        }
+
+        if(data.startsWith(GIFT_DATA)) {
+            return new GiftFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
         }
 
         if (itemDefinitionMap.containsKey(def.getInteraction())) {
