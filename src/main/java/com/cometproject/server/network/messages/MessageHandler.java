@@ -44,10 +44,7 @@ import com.cometproject.server.network.messages.incoming.room.item.stickies.Dele
 import com.cometproject.server.network.messages.incoming.room.item.stickies.OpenPostItMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.stickies.PlacePostItMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.stickies.SavePostItMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.pets.HorseMountOnMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.pets.PetInformationMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.pets.PlacePetMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.pets.RemovePetMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.pets.*;
 import com.cometproject.server.network.messages.incoming.user.camera.CameraTokenMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.citizenship.CitizenshipStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
@@ -204,6 +201,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.PetGetInformationMessageEvent, new PetInformationMessageEvent());
         this.getMessages().put(Events.PickUpPetMessageEvent, new RemovePetMessageEvent());
         this.getMessages().put(Events.HorseMountOnMessageEvent, new HorseMountOnMessageEvent());
+        this.getMessages().put(Events.RespectPetMessageEvent, new RespectPetMessageEvent());
     }
 
     public void registerRoom() {
