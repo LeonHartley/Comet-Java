@@ -5,12 +5,14 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
+import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
+import com.cometproject.server.network.messages.outgoing.catalog.LimitedEditionSoldOutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
@@ -20,6 +22,7 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.bots.PlayerBotDao;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.storage.queries.items.ItemDao;
+import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.utilities.JsonFactory;
@@ -72,8 +75,10 @@ public class CatalogPurchaseHandler {
             int totalCostPoints;
             int totalCostActivityPoints;
 
-            if (item.getLimitedSells() >= item.getLimitedTotal() && item.getLimitedTotal() != 0)
+            if (item.getLimitedSells() >= item.getLimitedTotal() && item.getLimitedTotal() != 0) {
+                client.send(LimitedEditionSoldOutMessageComposer.compose());
                 return;
+            }
 
             if (item.allowOffer()) {
                 totalCostCredits = amount > 1 ? ((item.getCostCredits() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostCredits())) : item.getCostCredits();
@@ -182,17 +187,11 @@ public class CatalogPurchaseHandler {
 
                 if (giftData != null) {
                     giftData.setExtraData(extraData);
-                    purchases.add(new CatalogPurchase(client.getPlayer().getId(), CometManager.getItems().getBySpriteId(giftData.getSpriteId()).getId(), JsonFactory.getInstance().toJson(giftData)));
+                    purchases.add(new CatalogPurchase(client.getPlayer().getId(), CometManager.getItems().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData)));
                 } else {
                     for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
                         for (int itemCount = 0; itemCount != item.getAmount(); itemCount++) {
                             purchases.add(new CatalogPurchase(client.getPlayer().getId(), newItemId, extraData));
-                        }
-
-                        if (item.getLimitedTotal() > 0) {
-                            item.increaseLimitedSells(1);
-
-                            CatalogDao.updateLimitSellsForItem(item.getId());
                         }
                     }
                 }
@@ -200,6 +199,13 @@ public class CatalogPurchaseHandler {
                 List<Integer> newItems = ItemDao.createItems(purchases);
 
                 for (Integer newItem : newItems) {
+                    if(item.getLimitedTotal() > 0) {
+                        item.increaseLimitedSells(1);
+                        CatalogDao.updateLimitSellsForItem(item.getId());
+
+                        LimitedEditionDao.save(new LimitedEditionItem(newItem, item.getLimitedSells(), item.getLimitedTotal()));
+                    }
+
                     if(giftData == null)
                         unseenItems.add(client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData));
 

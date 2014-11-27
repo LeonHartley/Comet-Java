@@ -25,9 +25,11 @@ import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageE
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.LandingLoadWidgetMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArticlesMessageEvent;
+import com.cometproject.server.network.messages.incoming.latency.RequestLatencyTestMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.*;
 import com.cometproject.server.network.messages.incoming.moderation.*;
 import com.cometproject.server.network.messages.incoming.navigator.*;
+import com.cometproject.server.network.messages.incoming.quests.OpenQuestsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.AnswerDoorbellMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.action.*;
 import com.cometproject.server.network.messages.incoming.room.bots.BotConfigMessageEvent;
@@ -64,10 +66,7 @@ import com.cometproject.server.network.messages.incoming.user.inventory.BadgeInv
 import com.cometproject.server.network.messages.incoming.user.inventory.BotInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.OpenInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.PetInventoryMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.profile.GetProfileMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.profile.GetRelationshipsMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.profile.SetRelationshipMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.profile.WearBadgeMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.profile.*;
 import com.cometproject.server.network.messages.incoming.user.username.ChangeUsernameCheckMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.ChangeLooksMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardrobeMessageEvent;
@@ -107,8 +106,13 @@ public final class MessageHandler {
         this.registerQuests();
         this.registerCamera();
         this.registerPromotions();
+        this.registerMisc();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
+    }
+
+    private void registerMisc() {
+        this.getMessages().put(Events.RequestLatencyTestMessageEvent, new RequestLatencyTestMessageEvent());
     }
 
     public void registerHandshake() {
@@ -139,7 +143,6 @@ public final class MessageHandler {
     }
 
     public void registerMessenger() {
-//        this.getMessages().put(Events., new FollowRoomInfoMessageEvent());
         this.getMessages().put(Events.ConsoleInstantChatMessageEvent, new PrivateChatMessageEvent());
         this.getMessages().put(Events.RequestFriendMessageEvent, new RequestFriendshipMessageEvent());
         this.getMessages().put(Events.AcceptFriendMessageEvent, new AcceptFriendshipMessageEvent());
@@ -167,6 +170,7 @@ public final class MessageHandler {
     public void registerUser() {
         this.getMessages().put(Events.RetrieveCitizenshipStatus, new CitizenshipStatusMessageEvent());
         this.getMessages().put(Events.LoadUserProfileMessageEvent, new GetProfileMessageEvent());
+        this.getMessages().put(Events.LoadProfileByUsernameMessageEvent, new GetProfileByUsernameMessageEvent());
         this.getMessages().put(Events.GetSubscriptionDataMessageEvent, new ClubStatusMessageEvent());
         this.getMessages().put(Events.InfoRetrieveMessageEvent, new InfoRetrieveMessageEvent());
         this.getMessages().put(Events.UserUpdateLookMessageEvent, new ChangeLooksMessageEvent());
@@ -181,8 +185,6 @@ public final class MessageHandler {
         this.getMessages().put(Events.SetHomeRoomMessageEvent, new ChangeHomeRoomMessageEvent());
         this.getMessages().put(Events.ChangeUsernameMessageEvent, new ChangeUsernameCheckMessageEvent());
         this.getMessages().put(Events.YouTubeGetPlaylistGetMessageEvent, new LoadPlaylistMessageEvent());
-//        this.getMessages().put(Events.YouTubeChoosePlaylistVideoMessageEvent, new PlayVideoMessageEvent());
-//        this.getMessages().put(Events.You, new NextVideoMessageEvent());
         this.getMessages().put(Events.SaveClientSettingsMessageEvent, new UpdateAudioSettingsMessageEvent());
         this.getMessages().put(Events.SetChatPreferenceMessageEvent, new UpdateChatStyleMessageEvent());
         this.getMessages().put(Events.IgnoreInvitationsMessageEvent, new IgnoreInvitationsMessageEvent());
@@ -206,8 +208,6 @@ public final class MessageHandler {
 
     public void registerRoom() {
         this.getMessages().put(Events.EnterPrivateRoomMessageEvent, new InitializeRoomMessageEvent());
-//        this.getMessages().put(Events.RoomGetHeightmapMessageEvent, new LoadHeightmapMessageEvent());
-//        this.getMessages().put(Events.RoomOnLoadMessageEvent, new AddUserToRoomMessageEvent());
         this.getMessages().put(Events.RoomGetInfoMessageEvent, new FollowRoomInfoMessageEvent());
         this.getMessages().put(Events.GoToHotelViewMessageEvent, new ExitRoomMessageEvent());
         this.getMessages().put(Events.ChatMessageEvent, new TalkMessageEvent());
@@ -269,13 +269,11 @@ public final class MessageHandler {
         this.getMessages().put(Events.WallItemMoveMessageEvent, new ChangeWallItemPositionMessageEvent());
         this.getMessages().put(Events.PickUpItemMessageEvent, new PickUpItemMessageEvent());
         this.getMessages().put(Events.TriggerItemMessageEvent, new ChangeFloorItemStateMessageEvent());
-//        this.getMessages().put(Events.OneWayGateTriggerMessageEvent, new ChangeFloorItemStateMessageEvent());
         this.getMessages().put(Events.TriggerDiceCloseMessageEvent, new OpenDiceMessageEvent());
         this.getMessages().put(Events.TriggerDiceRollMessageEvent, new RunDiceMessageEvent());
         this.getMessages().put(Events.WiredSaveEffectMessageEvent, new SaveWiredDataMessageEvent());
         this.getMessages().put(Events.WiredSaveTriggerMessageEvent, new SaveWiredDataMessageEvent());
         this.getMessages().put(Events.WiredSaveConditionMessageEvent, new SaveWiredDataMessageEvent());
-
         this.getMessages().put(Events.ReedemExchangeItemMessageEvent, new ExchangeItemMessageEvent());
         this.getMessages().put(Events.TriggerWallItemMessageEvent, new UseWallItemMessageEvent());
         this.getMessages().put(Events.MannequinSaveDataMessageEvent, new SaveMannequinMessageEvent());
@@ -288,9 +286,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.UpdateMoodlightMessageEvent, new UpdateMoodlightMessageEvent());
         this.getMessages().put(Events.TileStackMagicSetHeightMessageEvent, new SaveStackToolMessageEvent());
         this.getMessages().put(Events.SaveFootballGateOutfitMessageEvent, new SaveFootballGateMessageEvent());
-
         this.getMessages().put(Events.WiredSaveMatchingMessageEvent, new UpdateSnapshotsMessageEvent());
-
         this.getMessages().put(Events.RoomAddPostItMessageEvent, new PlacePostItMessageEvent());
         this.getMessages().put(Events.OpenPostItMessageEvent, new OpenPostItMessageEvent());
         this.getMessages().put(Events.SavePostItMessageEvent, new SavePostItMessageEvent());
@@ -343,7 +339,7 @@ public final class MessageHandler {
     }
 
     public void registerQuests() {
-        //this.getMessages().put(Events.OpenQuestsMessageEvent, new OpenQuestsMessageEvent());
+        this.getMessages().put(Events.OpenQuestsMessageEvent, new OpenQuestsMessageEvent());
     }
 
     public void registerCamera() {
@@ -353,16 +349,16 @@ public final class MessageHandler {
     public void handle(Event message, Session client) {
         final Short header = message.getId();
 
+        if(Comet.isDebugging) {
+            log.debug(message.toString());
+        }
+
         if (this.getMessages().containsKey(header)) {
             final long start = System.currentTimeMillis();
 
             log.debug("Started packet process for packet: [" + Events.valueOfId(header) + "][" + header + "]");
 
             try {
-                if(Comet.isDebugging) {
-                    log.debug(message.toString());
-                }
-
                 this.getMessages().get(header).handle(client, message);
 
                 log.debug("Finished packet process for packet: [" + Events.valueOfId(header) + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
@@ -374,7 +370,6 @@ public final class MessageHandler {
             }
         } else if (Comet.isDebugging) {
             log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
-//            log.debug("Packet content: " + message.toString());
 
         }
     }

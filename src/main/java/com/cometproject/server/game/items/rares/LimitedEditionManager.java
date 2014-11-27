@@ -16,12 +16,13 @@ public class LimitedEditionManager {
             return this.limitedEditionItems.get(itemId);
         }
 
+        // TODO: LRU cache
         LimitedEditionItem item = LimitedEditionDao.get(itemId);
 
         if (item != null) {
             this.limitedEditionItems.put(itemId, item);
         }
 
-        return null;
+        return item;
     }
 }

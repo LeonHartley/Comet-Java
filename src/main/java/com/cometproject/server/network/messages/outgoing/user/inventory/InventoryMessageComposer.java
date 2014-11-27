@@ -2,49 +2,41 @@ package com.cometproject.server.network.messages.outgoing.user.inventory;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.types.GroupData;
+import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.players.components.InventoryComponent;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.commons.lang.StringUtils;
 
 public class InventoryMessageComposer {
-    public static Composer compose(InventoryComponent inv) {
+    public static Composer compose(InventoryComponent inventory) {
         Composer msg = new Composer(Composers.LoadInventoryMessageComposer);
 
         msg.writeInt(1);
         msg.writeInt(1);
-        msg.writeInt(inv.getTotalSize());
+        msg.writeInt(inventory.getTotalSize());
 
-        for (InventoryItem i : inv.getFloorItems().values()) {
-            boolean isGift = false;
-            boolean isGroupItem = i.getDefinition().getInteraction().equals("group_item") || i.getDefinition().getInteraction().equals("group_gate");
+        for (InventoryItem inventoryItem : inventory.getFloorItems().values()) {
+            final boolean isGift = inventoryItem.getGiftData() != null;
+            final boolean isGroupItem = inventoryItem.getDefinition().getInteraction().equals("group_item") || inventoryItem.getDefinition().getInteraction().equals("group_gate");
+            final boolean isLimited = CometManager.getItems().getLimitedEditionManager().getLimitedEdition(inventoryItem.getId()) != null;
 
-            if (i.getGiftData() != null) {
-                isGift = true;
-            }
+            msg.writeInt(inventoryItem.getId());
+            msg.writeString(inventoryItem.getDefinition().getType().toUpperCase());
+            msg.writeInt(inventoryItem.getId());
+            msg.writeInt(isGift ? inventoryItem.getGiftData().getSpriteId() : inventoryItem.getDefinition().getSpriteId());
+            msg.writeInt(1);
 
-            msg.writeInt(i.getId());
-            msg.writeString(i.getDefinition().getType().toUpperCase());
-            msg.writeInt(i.getId());
-            msg.writeInt(isGift ? i.getGiftData().getSpriteId() : i.getDefinition().getSpriteId());
-
-            if (i.getDefinition().getInteraction().equals("badge_display") && !isGift) {
-                msg.writeInt(0);
-                msg.writeInt(2);
-                msg.writeInt(4);
-
-                msg.writeString(i.getExtraData());
-                msg.writeString(i.getExtraData());
-                msg.writeString(i.getExtraData());
-                msg.writeString(i.getExtraData());
-            } else if(isGroupItem) {
+            if (isGroupItem) {
+                // Append the group data...
                 int groupId = 0;
 
                 msg.writeInt(17);
 
-                if(StringUtils.isNumeric(i.getExtraData())) {
-                    groupId = Integer.parseInt(i.getExtraData());
+                if(StringUtils.isNumeric(inventoryItem.getExtraData())) {
+                    groupId = Integer.parseInt(inventoryItem.getExtraData());
                 }
 
                 GroupData groupData = CometManager.getGroups().getData(groupId);
@@ -64,32 +56,48 @@ public class InventoryMessageComposer {
                     msg.writeString(colourA);
                     msg.writeString(colourB);
                 }
+            } else if (isLimited) {
+                msg.writeString("");
+                msg.writeBoolean(true);
+                msg.writeBoolean(false);
+            } else if (inventoryItem.getDefinition().getInteraction().equals("badge_display") && !isGift) {
+                msg.writeInt(2);
             } else {
-                msg.writeInt(isGift ? 9 : 0);
                 msg.writeInt(0);
-                msg.writeString(isGift ? "" : i.getExtraData());
             }
 
-            msg.writeBoolean(i.getDefinition().canRecycle);
-            msg.writeBoolean(!isGift && i.getDefinition().canTrade);
-            msg.writeBoolean(!isGift && i.getDefinition().canInventoryStack);
-            msg.writeBoolean(!isGift && i.getDefinition().canMarket);
+            if(inventoryItem.getDefinition().getInteraction().equals("badge_display") && !isGift) {
+                msg.writeInt(4);
+
+                msg.writeString("0");
+                msg.writeString(inventoryItem.getExtraData());
+                msg.writeString(""); // creator
+                msg.writeString(""); // date
+            } else if(!isGroupItem) {
+                msg.writeString(!isGift ? inventoryItem.getExtraData() : "");
+            }
+
+            if(isLimited && !isGift) {
+                LimitedEditionItem limitedEditionItem = CometManager.getItems().getLimitedEditionManager().getLimitedEdition(inventoryItem.getId());
+
+                msg.writeInt(limitedEditionItem.getLimitedRare());
+                msg.writeInt(limitedEditionItem.getLimitedRareTotal());
+            }
+
+            msg.writeBoolean(inventoryItem.getDefinition().canRecycle);
+            msg.writeBoolean(!isGift && inventoryItem.getDefinition().canTrade);
+            msg.writeBoolean(!isLimited && !isGift && inventoryItem.getDefinition().canInventoryStack);
+            msg.writeBoolean(!isGift && inventoryItem.getDefinition().canMarket);
 
             msg.writeInt(-1);
-            msg.writeBoolean(true);
+            msg.writeBoolean(false);//??
             msg.writeInt(-1);
             msg.writeString("");
-
-            int extra = 0;
-
-            if(isGift) {
-                extra = (i.getGiftData().getDecorationType() * 1000) + i.getGiftData().getWrappingPaper();
-            }
-
-            msg.writeInt(extra);
+            msg.writeInt(0);
         }
 
-        for (InventoryItem i : inv.getWallItems().values()) {
+        // Wall items
+        for (InventoryItem i : inventory.getWallItems().values()) {
             msg.writeInt(i.getId());
             msg.writeString(i.getDefinition().getType().toUpperCase());
             msg.writeInt(i.getId());
