@@ -24,6 +24,8 @@ public class GiftFloorItem extends RoomItemFloor {
 
         this.getRoom().getEntities().broadcastMessage(RemoveFloorItemMessageComposer.compose(this.getId(), 0));
         this.getRoom().getEntities().broadcastMessage(SendFloorItemMessageComposer.compose(this, this.getRoom()));
+
+        this.isOpened = false;
     }
 
     public GiftData getGiftData() {
