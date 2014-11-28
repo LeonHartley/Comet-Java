@@ -6,6 +6,8 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 
+import java.util.Arrays;
+
 public class MannequinFloorItem extends RoomItemFloor {
     private String name = "New Mannequin";
     private String figure = "ch-210-62.lg-270-62";
@@ -44,7 +46,37 @@ public class MannequinFloorItem extends RoomItemFloor {
 
         if(this.name == null || this.gender == null || this.figure == null) return;
 
-        playerEntity.getPlayer().getData().setFigure(this.figure);
+
+        String newFigure = "";
+
+        for(String playerFigurePart : Arrays.asList(playerEntity.getFigure().split("\\."))) {
+            if(!playerFigurePart.startsWith("ch") && !playerFigurePart.startsWith("lg"))
+                newFigure += playerFigurePart + ".";
+        }
+
+        String newFigureParts = "";
+
+        switch(playerEntity.getGender().toUpperCase()) {
+            case "M":
+                if(this.figure.equals("")) return;
+                newFigureParts = this.figure;
+                break;
+
+            case "F":
+                if(this.figure.equals("")) return;
+                newFigureParts = this.figure;
+                break;
+        }
+
+        for(String newFigurePart : Arrays.asList(newFigureParts.split("\\."))) {
+            if(newFigurePart.startsWith("hd"))
+                newFigureParts = newFigureParts.replace(newFigurePart, "");
+        }
+
+        if(newFigureParts.equals("")) return;
+
+        playerEntity.getPlayer().getData().setFigure(newFigure + newFigureParts);
+;
         playerEntity.getPlayer().getData().setGender(this.gender);
 
         playerEntity.getPlayer().getData().save();
