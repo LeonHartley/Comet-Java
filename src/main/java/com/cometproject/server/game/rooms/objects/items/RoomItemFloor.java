@@ -174,8 +174,8 @@ public abstract class RoomItemFloor extends RoomItem {
                 msg.writeString(colourB);
             }
 
-        } else if(CometManager.getItems().getLimitedEditionManager().getLimitedEdition(this.getId()) != null) {
-            LimitedEditionItem limitedEditionItem = CometManager.getItems().getLimitedEditionManager().getLimitedEdition(this.getId());
+        } else if(CometManager.getItems().getLimitedEdition(this.getId()) != null) {
+            LimitedEditionItem limitedEditionItem = CometManager.getItems().getLimitedEdition(this.getId());
 
             msg.writeInt(0);
             msg.writeString("");

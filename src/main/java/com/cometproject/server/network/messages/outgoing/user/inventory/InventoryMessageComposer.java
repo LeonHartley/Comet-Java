@@ -21,7 +21,7 @@ public class InventoryMessageComposer {
         for (InventoryItem inventoryItem : inventory.getFloorItems().values()) {
             final boolean isGift = inventoryItem.getGiftData() != null;
             final boolean isGroupItem = inventoryItem.getDefinition().getInteraction().equals("group_item") || inventoryItem.getDefinition().getInteraction().equals("group_gate");
-            final boolean isLimited = CometManager.getItems().getLimitedEditionManager().getLimitedEdition(inventoryItem.getId()) != null;
+            final boolean isLimited = CometManager.getItems().getLimitedEdition(inventoryItem.getId()) != null;
 
             msg.writeInt(inventoryItem.getId());
             msg.writeString(inventoryItem.getDefinition().getType().toUpperCase());
@@ -78,7 +78,7 @@ public class InventoryMessageComposer {
             }
 
             if(isLimited && !isGift) {
-                LimitedEditionItem limitedEditionItem = CometManager.getItems().getLimitedEditionManager().getLimitedEdition(inventoryItem.getId());
+                LimitedEditionItem limitedEditionItem = CometManager.getItems().getLimitedEdition(inventoryItem.getId());
 
                 msg.writeInt(limitedEditionItem.getLimitedRare());
                 msg.writeInt(limitedEditionItem.getLimitedRareTotal());

@@ -1,8 +1,10 @@
 package com.cometproject.server.game.items;
 
+import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.rares.LimitedEditionManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.queries.items.ItemDao;
+import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import javolution.util.FastMap;
@@ -13,12 +15,13 @@ public class ItemManager {
 
     private FastMap<Integer, ItemDefinition> itemDefinitions;
     private FastMap<Integer, Integer> itemSpriteIdToDefinitionId;
+    private FastMap<Integer, LimitedEditionItem> limitedEditionItems;
 
     private LimitedEditionManager limitedEditionManager;
 
     public ItemManager() {
         this.itemDefinitions = new FastMap<>();
-        this.limitedEditionManager = new LimitedEditionManager();
+        this.limitedEditionItems = new FastMap<>();
 
         this.loadItemDefinitions();
     }
@@ -67,11 +70,22 @@ public class ItemManager {
         return this.itemDefinitions.get(this.itemSpriteIdToDefinitionId.get(spriteId));
     }
 
-    public FastMap<Integer, ItemDefinition> getItemDefinitions() {
-        return this.itemDefinitions;
+    public LimitedEditionItem getLimitedEdition(int itemId) {
+        if (this.limitedEditionItems.containsKey(itemId)) {
+            return this.limitedEditionItems.get(itemId);
+        }
+
+        // TODO: LRU cache
+        LimitedEditionItem item = LimitedEditionDao.get(itemId);
+
+        if (item != null) {
+            this.limitedEditionItems.put(itemId, item);
+        }
+
+        return item;
     }
 
-    public LimitedEditionManager getLimitedEditionManager() {
-        return limitedEditionManager;
+    public FastMap<Integer, ItemDefinition> getItemDefinitions() {
+        return this.itemDefinitions;
     }
 }

@@ -7,9 +7,7 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class OpenGiftMessageComposer {
-    public static Composer compose(int presentId, String type, GiftData giftData) {
-        ItemDefinition itemDefinition = CometManager.getItems().getDefinition(giftData.getItemId());
-
+    public static Composer compose(int presentId, String type, GiftData giftData, ItemDefinition itemDefinition) {
         Composer msg = new Composer(Composers.OpenGiftMessageComposer);
 
         msg.writeString(itemDefinition.getType());
