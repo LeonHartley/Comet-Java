@@ -1,5 +1,10 @@
 package com.cometproject.server.network.messages.incoming.room.item.gifts;
 
+import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.catalog.types.CatalogItem;
+import com.cometproject.server.game.catalog.types.CatalogPage;
+import com.cometproject.server.game.catalog.types.gifts.GiftData;
+import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -21,7 +26,15 @@ public class OpenGiftMessageEvent implements IEvent {
 
         if(floorItem == null || !(floorItem instanceof GiftFloorItem)) return;
 
+        final GiftData giftData = ((GiftFloorItem) floorItem).getGiftData();
+
+        final CatalogPage catalogPage = CometManager.getCatalog().getPage(giftData.getPageId());
+        if(catalogPage == null) return;
+
+        final CatalogItem catalogItem = catalogPage.getItems().get(giftData.getItemId());
+        if(catalogItem == null) return;
+
         floorItem.onInteract(client.getPlayer().getEntity(), 0, false);
-        client.send(OpenGiftMessageComposer.compose(floorItemId, floorItem.getDefinition().getType(), ((GiftFloorItem) floorItem).getGiftData()));
+        client.send(OpenGiftMessageComposer.compose(floorItemId, floorItem.getDefinition().getType(), ((GiftFloorItem) floorItem).getGiftData(), CometManager.getItems().getDefinition(Integer.parseInt(catalogItem.getItemId()))));
     }
 }
