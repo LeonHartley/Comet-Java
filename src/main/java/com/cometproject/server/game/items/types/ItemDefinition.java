@@ -23,6 +23,7 @@ public class ItemDefinition {
     public boolean canInventoryStack;
 
     private int effectId;
+    private int offerId;
     private String interaction;
     private int interactionCycleCount;
     private String[] vendingIds;
@@ -42,6 +43,8 @@ public class ItemDefinition {
         this.canWalk = data.getString("is_walkable").equals("1");
         this.canTrade = data.getString("allow_trade").equals("1");
         this.canInventoryStack = data.getString("allow_inventory_stack").equals("1");
+
+        this.offerId = data.getInt("flat_id");
 
         this.canRecycle = true;
         this.canMarket = true;
@@ -107,5 +110,9 @@ public class ItemDefinition {
 
     public String[] getVendingIds() {
         return vendingIds;
+    }
+
+    public int getOfferId() {
+        return offerId;
     }
 }

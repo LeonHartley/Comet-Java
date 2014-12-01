@@ -1,5 +1,11 @@
 package com.cometproject.server.game.catalog.types;
 
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.server.game.items.types.ItemDefinition;
+import com.cometproject.server.network.messages.types.Composer;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -110,6 +116,67 @@ public class CatalogItem {
         } else {
             this.items.add(Integer.valueOf(this.itemId));
         }
+
+        int offerId = CometManager.getItems().getDefinition(this.getItems().get(0)).getOfferId();
+
+        if (!CatalogManager.getCatalogOffers().containsKey(offerId)) {
+            CatalogManager.getCatalogOffers().put(offerId, new CatalogOffer(offerId, data.getInt("page_id"), this.getId()));
+        }
+    }
+    
+    public void compose(Composer msg) {
+        msg.writeInt(this.getId());
+        msg.writeString(this.getDisplayName());
+        msg.writeBoolean(false);
+        msg.writeInt(this.getCostCredits());
+
+        if (this.getCostOther() > 0) {
+            msg.writeInt(this.getCostOther());
+            msg.writeInt(105);
+        } else if(this.getCostActivityPoints() > 0) {
+            msg.writeInt(this.getCostActivityPoints());
+            msg.writeInt(0);
+        } else {
+            msg.writeInt(0);
+            msg.writeInt(0);
+        }
+
+        msg.writeBoolean(Comet.isDebugging); // Can gift
+
+        if (!this.hasBadge()) {
+            msg.writeInt(this.getItems().size());
+        } else {
+            msg.writeInt(this.getItems().size() + 1);
+            msg.writeString("b");
+            msg.writeString(this.getBadgeId());
+        }
+
+        for (int i : this.getItems()) {
+            ItemDefinition def = CometManager.getItems().getDefinition(i);
+            msg.writeString(def.getType());
+            msg.writeInt(def.getSpriteId());
+
+            if (this.getDisplayName().contains("wallpaper_single") || this.getDisplayName().contains("floor_single") || this.getDisplayName().contains("landscape_single")) {
+                msg.writeString(this.getDisplayName().split("_")[2]);
+            } else {
+                msg.writeString(this.getPresetData());
+            }
+
+            msg.writeInt(this.getAmount());
+
+            if (this.getLimitedTotal() == 0)
+                msg.writeInt(0);
+        }
+
+        msg.writeBoolean(this.getLimitedTotal() != 0);
+
+        if (this.getLimitedTotal() > 0) {
+            msg.writeInt(this.getLimitedTotal());
+            msg.writeInt(this.getLimitedTotal() - this.getLimitedSells());
+            msg.writeInt(0);
+        }
+
+        msg.writeBoolean(!(this.getLimitedTotal() > 0) && this.allowOffer());
     }
 
     public int getId() {

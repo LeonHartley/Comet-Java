@@ -3,10 +3,7 @@ package com.cometproject.server.network.messages;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.headers.Events;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.incoming.catalog.GetCataIndexMessageEvent;
-import com.cometproject.server.network.messages.incoming.catalog.GetCataPageMessageEvent;
-import com.cometproject.server.network.messages.incoming.catalog.PurchaseGiftMessageEvent;
-import com.cometproject.server.network.messages.incoming.catalog.PurchaseItemMessageEvent;
+import com.cometproject.server.network.messages.incoming.catalog.*;
 import com.cometproject.server.network.messages.incoming.catalog.ads.CatalogPromotionGetRoomsMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.ads.PromoteRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.ads.PromotionUpdateMessageEvent;
@@ -309,6 +306,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.CheckPetNameMessageEvent, new ValidatePetNameMessageEvent());
         this.getMessages().put(Events.PurchaseFromCatalogAsGiftMessageEvent, new PurchaseGiftMessageEvent());
         this.getMessages().put(Events.GetGroupFurnitureMessageEvent, new GroupFurnitureCatalogMessageEvent());
+        this.getMessages().put(Events.GetCatalogOfferMessageEvent, new GetCatalogOfferMessageEvent());
     }
 
     public void registerLanding() {

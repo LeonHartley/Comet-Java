@@ -48,6 +48,7 @@ public abstract class RoomItemFloor extends RoomItem {
         }*/
 
         // TODO: MOVE SPECIAL PROPERTIES TO THE INDIVIDUAL ITEM CLASS!!!
+        // This needs cleaning up immensely.
 
         msg.writeInt(this.getId());
         //msg.writeInt(isGift ? giftData.getSpriteId() : this.getDefinition().getSpriteId());
