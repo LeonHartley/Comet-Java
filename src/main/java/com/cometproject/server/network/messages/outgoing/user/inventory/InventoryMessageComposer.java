@@ -27,7 +27,9 @@ public class InventoryMessageComposer {
             msg.writeString(inventoryItem.getDefinition().getType().toUpperCase());
             msg.writeInt(inventoryItem.getId());
             msg.writeInt(isGift ? inventoryItem.getGiftData().getSpriteId() : inventoryItem.getDefinition().getSpriteId());
-            msg.writeInt(1);
+
+            if(!isGroupItem)
+                msg.writeInt(1);
 
             if (isGroupItem) {
                 // Append the group data...

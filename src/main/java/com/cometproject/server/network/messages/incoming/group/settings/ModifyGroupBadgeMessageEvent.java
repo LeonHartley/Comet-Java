@@ -47,8 +47,8 @@ public class ModifyGroupBadgeMessageEvent implements IEvent {
         group.getData().setBadge(badge);
         group.getData().save();
 
-        if (CometManager.getRooms().isActive(group.getData().getRoomId())) {
-            Room room = CometManager.getRooms().get(group.getData().getRoomId());
+        if (client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
+            Room room = client.getPlayer().getEntity().getRoom();
 
             room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
 
