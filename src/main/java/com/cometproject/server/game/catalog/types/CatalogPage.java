@@ -1,5 +1,6 @@
 package com.cometproject.server.game.catalog.types;
 
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.utilities.JsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -51,6 +52,20 @@ public class CatalogPage {
 
         this.enabled = data.getString("enabled").equals("1");
         this.items = items;
+    }
+
+    public int getOfferSize() {
+        int size = 0;
+
+        for(CatalogItem item : this.items.values()) {
+            if(CometManager.getItems().getDefinition(item.getItems().get(0)) != null) {
+                if(CometManager.getItems().getDefinition(item.getItems().get(0)).getOfferId() != -1 && CometManager.getItems().getDefinition(item.getItems().get(0)).getOfferId() != 0) {
+                    size++;
+                }
+            }
+        }
+
+        return size;
     }
 
     public int getId() {

@@ -54,14 +54,12 @@ public class CatalogDao {
             while (resultSet.next()) {
                 try {
                     if (!CometManager.getItems().getItemDefinitions().containsKey(Integer.parseInt(resultSet.getString("item_ids")))) {
-                        //System.out.println("Ignoring catalog item: " + resultSet.getInt("id"));
                         continue;
                     }
                 } catch (Exception e) {
                     continue;
                 }
 
-//                if(resultSet.getString("id").length() > 9 || resultSet.getString("item_ids").length() > 9) continue;
                 data.put(resultSet.getInt("id"), new CatalogItem(resultSet));
             }
 

@@ -1,6 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.catalog.types.CatalogItem;
+import com.cometproject.server.game.catalog.types.CatalogOffer;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
@@ -8,6 +10,7 @@ import com.cometproject.server.network.messages.types.Composer;
 import java.util.List;
 
 public class CataIndexMessageComposer {
+
     public static Composer compose(int rank) {
         List<CatalogPage> pages = CometManager.getCatalog().getPagesForRank(rank);
 
@@ -26,13 +29,20 @@ public class CataIndexMessageComposer {
                 continue;
             }
 
-            msg.writeBoolean(true);
-            //msg.writeInt(page.getColour());
+            msg.writeBoolean(true); // visible
             msg.writeInt(page.getIcon());
             msg.writeInt(page.getId());
             msg.writeString(page.getCaption().toLowerCase().replace(" ", "_"));
             msg.writeString(page.getCaption());
-            msg.writeInt(0);
+
+            msg.writeInt(page.getOfferSize());
+
+            for (CatalogItem item : page.getItems().values()) {
+                int offerId = CometManager.getItems().getDefinition(item.getItems().get(0)).getOfferId();
+
+                if (offerId != -1)
+                    msg.writeInt(offerId);
+            }
 
             msg.writeInt(count(page.getId(), pages));
 
@@ -41,14 +51,22 @@ public class CataIndexMessageComposer {
                     continue;
                 }
 
-                msg.writeBoolean(true);
-                //msg.writeInt(child.getColour());
+                msg.writeBoolean(true); // visible
                 msg.writeInt(child.getIcon());
                 msg.writeInt(child.getId());
                 msg.writeString(child.getCaption().toLowerCase().replace(" ", "_"));
                 msg.writeString(child.getCaption());
-                msg.writeInt(0);
-                msg.writeInt(0); //??
+                msg.writeInt(child.getOfferSize());
+
+                for (CatalogItem item : child.getItems().values()) {
+                    int offerId = CometManager.getItems().getDefinition(item.getItems().get(0)).getOfferId();
+
+                    if (offerId != -1 && offerId != 0)
+                        msg.writeInt(offerId);
+                }
+
+
+                msg.writeInt(0); //tree size
             }
         }
 

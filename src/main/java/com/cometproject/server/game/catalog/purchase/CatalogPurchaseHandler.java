@@ -60,7 +60,13 @@ public class CatalogPurchaseHandler {
         List<InventoryItem> unseenItems = new ArrayList<>();
 
         try {
-            CatalogItem item = this.catalogManager.getPage(pageId).getItems().get(itemId);
+            CatalogItem item;
+
+            if(pageId > 0) {
+                item = this.catalogManager.getPage(pageId).getItems().get(itemId);
+            } else {
+                item = this.catalogManager.getCatalogItemByItemId(itemId);
+            }
 
             if (amount > 1 && !item.allowOffer()) {
                 client.send(AlertMessageComposer.compose(Locale.get("catalog.error.nooffer")));

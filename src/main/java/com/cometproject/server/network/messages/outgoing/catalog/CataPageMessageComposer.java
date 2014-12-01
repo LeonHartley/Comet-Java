@@ -33,58 +33,7 @@ public class CataPageMessageComposer {
             msg.writeInt(page.getItems().size());
 
             for (CatalogItem item : page.getItems().values()) {
-                msg.writeInt(item.getId());
-                msg.writeString(item.getDisplayName());
-                msg.writeBoolean(false);
-                msg.writeInt(item.getCostCredits());
-
-                if (item.getCostOther() > 0) {
-                    msg.writeInt(item.getCostOther());
-                    msg.writeInt(105);
-                } else if(item.getCostActivityPoints() > 0) {
-                    msg.writeInt(item.getCostActivityPoints());
-                    msg.writeInt(0);
-                } else {
-                    msg.writeInt(0);
-                    msg.writeInt(0);
-                }
-
-                msg.writeBoolean(Comet.isDebugging); // Can gift
-
-                if (!item.hasBadge()) {
-                    msg.writeInt(item.getItems().size());
-                } else {
-                    msg.writeInt(item.getItems().size() + 1);
-                    msg.writeString("b");
-                    msg.writeString(item.getBadgeId());
-                }
-
-                for (int i : item.getItems()) {
-                    ItemDefinition def = CometManager.getItems().getDefinition(i);
-                    msg.writeString(def.getType());
-                    msg.writeInt(def.getSpriteId());
-
-                    if (item.getDisplayName().contains("wallpaper_single") || item.getDisplayName().contains("floor_single") || item.getDisplayName().contains("landscape_single")) {
-                        msg.writeString(item.getDisplayName().split("_")[2]);
-                    } else {
-                        msg.writeString(item.getPresetData());
-                    }
-
-                    msg.writeInt(item.getAmount());
-
-                    if (item.getLimitedTotal() == 0)
-                        msg.writeInt(0);
-                }
-
-                msg.writeBoolean(item.getLimitedTotal() != 0);
-
-                if (item.getLimitedTotal() > 0) {
-                    msg.writeInt(item.getLimitedTotal());
-                    msg.writeInt(item.getLimitedTotal() - item.getLimitedSells());
-                    msg.writeInt(0);
-                }
-
-                msg.writeBoolean(!(item.getLimitedTotal() > 0) && item.allowOffer());
+                item.compose(msg);
             }
         } else {
             msg.writeInt(0);
