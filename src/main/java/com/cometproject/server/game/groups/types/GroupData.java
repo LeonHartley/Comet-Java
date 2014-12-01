@@ -100,7 +100,7 @@ public class GroupData {
         this.id = -1;
         this.title = title;
         this.description = description;
-        this.badge = badge;
+        this.badge = badge.replace("s00000", "");
         this.ownerId = ownerId;
         this.roomId = roomId;
         this.created = (int) Comet.getTime();
@@ -205,7 +205,7 @@ public class GroupData {
      * @param badge The badge created by the group owner
      */
     public void setBadge(String badge) {
-        this.badge = badge;
+        this.badge = badge.replace("s00000", "");
     }
 
     /**

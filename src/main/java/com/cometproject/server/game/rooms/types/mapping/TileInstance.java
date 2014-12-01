@@ -45,7 +45,12 @@ public class TileInstance {
         this.originalHeight = 0d;
         this.originalTopItem = 0;
         this.stackHeight = 0d;
-        this.canPlaceItemHere = this.mappingInstance.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()].equals(RoomTileState.VALID);
+
+        if(this.mappingInstance.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()] == null) {
+            this.canPlaceItemHere = false;
+        } else {
+            this.canPlaceItemHere = this.mappingInstance.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()].equals(RoomTileState.VALID);
+        }
 
         // component item is an item that can be used along with an item that overrides the height.
         boolean hasComponentItem = false;

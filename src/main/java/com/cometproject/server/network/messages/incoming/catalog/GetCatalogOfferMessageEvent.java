@@ -15,8 +15,6 @@ public class GetCatalogOfferMessageEvent implements IEvent {
         if (offerId == -1)
             return;
 
-        System.out.println(offerId);
-
         CatalogItem catalogItem = CometManager.getCatalog().getCatalogItemByOfferId(offerId);
 
         if (catalogItem != null) {
