@@ -34,6 +34,7 @@ public class InventoryComponent {
         this.badges = new FastMap<>();
 
         this.loadBadges();
+        this.loadItems();
     }
 
     public void loadItems() {

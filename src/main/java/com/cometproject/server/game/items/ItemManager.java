@@ -1,7 +1,6 @@
 package com.cometproject.server.game.items;
 
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
-import com.cometproject.server.game.items.rares.LimitedEditionManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.LimitedEditionDao;
@@ -16,8 +15,6 @@ public class ItemManager {
     private FastMap<Integer, ItemDefinition> itemDefinitions;
     private FastMap<Integer, Integer> itemSpriteIdToDefinitionId;
     private FastMap<Integer, LimitedEditionItem> limitedEditionItems;
-
-    private LimitedEditionManager limitedEditionManager;
 
     public ItemManager() {
         this.itemDefinitions = new FastMap<>();

@@ -227,10 +227,10 @@ public class ProcessComponent implements CometTask {
                     }
                 }
 
-                if (!itemsOnOldSq.contains(item)) {
+//                if (!itemsOnOldSq.contains(item)) {
                     item.onEntityStepOn(entity);
                     WiredTriggerWalksOnFurni.executeTriggers(entity, item);
-                }
+//                }
             }
         }
 
