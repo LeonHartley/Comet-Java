@@ -61,6 +61,6 @@ public class ModifyGroupBadgeMessageEvent implements IEvent {
 
         }
 
-        client.send(ManageGroupMessageComposer.compose(group));
+//        client.send(ManageGroupMessageComposer.compose(group));
     }
 }

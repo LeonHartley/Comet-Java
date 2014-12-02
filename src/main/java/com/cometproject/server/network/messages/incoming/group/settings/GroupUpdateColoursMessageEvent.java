@@ -31,12 +31,12 @@ public class GroupUpdateColoursMessageEvent implements IEvent {
 
         group.getData().save();
 
-        client.send(ManageGroupMessageComposer.compose(group));
+//        client.send(ManageGroupMessageComposer.compose(group));
 
         if(client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
             Room room = client.getPlayer().getEntity().getRoom();
 
-            for(RoomItemFloor roomItemFloor : room.getItems().getByInteraction("group_item")) {
+            for(RoomItemFloor roomItemFloor : room.getItems().getByInteraction("group_%")) {
                 if(roomItemFloor instanceof GroupFloorItem) {
                     room.getEntities().broadcastMessage(RemoveFloorItemMessageComposer.compose(roomItemFloor.getId(), 0));
                     room.getEntities().broadcastMessage(SendFloorItemMessageComposer.compose(roomItemFloor, room));

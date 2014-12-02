@@ -25,6 +25,7 @@ import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.pets.PetDao;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.utilities.JsonFactory;
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
@@ -193,7 +194,7 @@ public class CatalogPurchaseHandler {
 
                 if (giftData != null) {
                     giftData.setExtraData(extraData);
-                    purchases.add(new CatalogPurchase(client.getPlayer().getId(), CometManager.getItems().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData)));
+                    purchases.add(new CatalogPurchase(PlayerDao.getIdByUsername(giftData.getReceiver()), CometManager.getItems().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData)));
                 } else {
                     for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
                         for (int itemCount = 0; itemCount != item.getAmount(); itemCount++) {

@@ -9,7 +9,7 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 public class UpdateFloorExtraDataMessageComposer {
-    public static Composer compose(int id, RoomItemFloor floorItem) {
+    public static Composer compose(int id, RoomItemFloor floorItem, boolean useGroupItem) {
         Composer msg = new Composer(Composers.UpdateFloorItemExtraDataMessageComposer);
 
         if (floorItem instanceof MannequinFloorItem) {
@@ -24,8 +24,7 @@ public class UpdateFloorExtraDataMessageComposer {
             msg.writeString(((MannequinFloorItem) floorItem).getGender());
             msg.writeString("OUTFIT_NAME");
             msg.writeString(((MannequinFloorItem) floorItem).getName());
-
-        } else if (floorItem instanceof GroupFloorItem) {
+        } else if (floorItem instanceof GroupFloorItem && useGroupItem) {
             GroupData groupData = CometManager.getGroups().getData(((GroupFloorItem) floorItem).getGroupId());
 
             msg.writeString(id);
@@ -36,7 +35,7 @@ public class UpdateFloorExtraDataMessageComposer {
             } else {
                 msg.writeInt(2);
                 msg.writeInt(5);
-                msg.writeString("0");
+                msg.writeString(groupData.getTitle());
                 msg.writeString(floorItem.getExtraData());
                 msg.writeString(groupData.getBadge());
 
@@ -53,5 +52,9 @@ public class UpdateFloorExtraDataMessageComposer {
         }
 
         return msg;
+    }
+
+    public static Composer compose(int id, RoomItemFloor floorItem) {
+        return compose(id, floorItem, true);
     }
 }
