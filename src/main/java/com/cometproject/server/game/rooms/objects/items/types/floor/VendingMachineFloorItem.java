@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -28,10 +29,12 @@ public class VendingMachineFloorItem extends RoomItemFloor {
 
         int rotation = Position.calculateRotation(entity.getPosition().getX(), entity.getPosition().getY(), this.getPosition().getX(), this.getPosition().getY(), false);
 
-        entity.setBodyRotation(rotation);
-        entity.setHeadRotation(rotation);
+        if (!entity.hasStatus(RoomEntityStatus.SIT) && !entity.hasStatus(RoomEntityStatus.LAY)) {
+            entity.setBodyRotation(rotation);
+            entity.setHeadRotation(rotation);
 
-        entity.markNeedsUpdate();
+            entity.markNeedsUpdate();
+        }
 
         this.vendingEntity = entity;
 
