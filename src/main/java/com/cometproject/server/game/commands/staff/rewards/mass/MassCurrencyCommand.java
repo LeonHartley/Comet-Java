@@ -17,12 +17,14 @@ public abstract class MassCurrencyCommand extends ChatCommand {
 
         for (Session session : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
 
-            if (this.getPermission().startsWith("masscoins")) {
+            if (this instanceof MassCoinsCommand) {
                 session.getPlayer().getData().increaseCredits(amount);
                 session.send(AdvancedAlertMessageComposer.compose(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(amount))));
-            } else if (this.getPermission().startsWith("massduckets")) {
+
+            } else if (this instanceof MassDucketsCommand) {
                 session.getPlayer().getData().increaseActivityPoints(amount);
-            } else if (this.getPermission().startsWith("masspoints")) {
+
+            } else if (this instanceof MassPointsCommand) {
                 session.getPlayer().getData().increasePoints(amount);
 
                 session.send(AdvancedAlertMessageComposer.compose(
