@@ -55,6 +55,6 @@ public class WiredActionToggleState extends WiredActionItem {
         }
 
         tilesToUpdate.clear();
-        return false;
+        return true;
     }
 }
