@@ -65,8 +65,6 @@ public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
             }
         }
 
-        System.out.println(wasExecuted);
-
         return wasExecuted;
     }
 }
