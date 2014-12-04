@@ -49,12 +49,18 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
 
     @Override
     public void onTickComplete() {
-        if(this.getWiredData() == null || this.getWiredData().getSelectedIds() == null) {
+        if(this.getWiredData() == null || this.getWiredData().getSelectedIds() == null || this.getWiredData().getSelectedIds().isEmpty()) {
             this.entity = null;
             return;
         }
 
-        int itemId = WiredUtil.getRandomElement(this.getWiredData().getSelectedIds());
+        Integer itemId = WiredUtil.getRandomElement(this.getWiredData().getSelectedIds());
+
+        if(itemId == null) {
+            this.entity = null;
+            return;
+        }
+
         RoomItemFloor item = this.getRoom().getItems().getFloorItem(itemId);
 
         if(item == null || item.isAtDoor()) {
