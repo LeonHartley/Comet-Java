@@ -27,8 +27,8 @@ public class GroupDataMessageComposer {
                 msg.writeString(group.getTitle());
                 msg.writeString(group.getBadge());
 
-                String colourA = CometManager.getGroups().getGroupItems().getSymbolColours().get(group.getColourA()).getColour();
-                String colourB = CometManager.getGroups().getGroupItems().getBackgroundColours().get(group.getColourB()).getColour();
+                String colourA = CometManager.getGroups().getGroupItems().getSymbolColours().get(group.getColourA()) != null ? CometManager.getGroups().getGroupItems().getSymbolColours().get(group.getColourA()).getColour() : "ffffff";
+                String colourB = CometManager.getGroups().getGroupItems().getBackgroundColours().get(group.getColourB()) != null ? CometManager.getGroups().getGroupItems().getBackgroundColours().get(group.getColourB()).getColour() : "ffffff";
 
                 msg.writeString(colourA);
                 msg.writeString(colourB);
