@@ -38,7 +38,7 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
     public double getOverrideHeight() {
         double height;
 
-        if (!StringUtils.isNumeric(this.getExtraData())) {
+            if (this.getExtraData().isEmpty() || !StringUtils.isNumeric(this.getExtraData())) {
             height = 0.5;
         } else {
             height = Double.parseDouble(this.getExtraData());

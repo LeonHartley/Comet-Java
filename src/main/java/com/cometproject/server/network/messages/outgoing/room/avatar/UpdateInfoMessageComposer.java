@@ -9,6 +9,8 @@ public class UpdateInfoMessageComposer {
     public static Composer compose(int userId, String figure, String gender, String motto, int achievementPoints) {
         Composer msg = new Composer(Composers.UpdateUserDataMessageComposer);
 
+        System.out.println(userId);
+
         msg.writeInt(userId);
         msg.writeString(figure);
         msg.writeString(gender.toLowerCase());
