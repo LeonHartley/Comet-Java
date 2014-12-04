@@ -28,7 +28,7 @@ public class InventoryMessageComposer {
             msg.writeInt(inventoryItem.getId());
             msg.writeInt(isGift ? inventoryItem.getGiftData().getSpriteId() : inventoryItem.getDefinition().getSpriteId());
 
-            if(!isGroupItem)
+            if (!isGroupItem)
                 msg.writeInt(1);
 
             if (isGroupItem) {
@@ -37,23 +37,23 @@ public class InventoryMessageComposer {
 
                 msg.writeInt(17);
 
-                if(StringUtils.isNumeric(inventoryItem.getExtraData())) {
+                if (StringUtils.isNumeric(inventoryItem.getExtraData())) {
                     groupId = Integer.parseInt(inventoryItem.getExtraData());
                 }
 
-                GroupData groupData = CometManager.getGroups().getData(groupId);
+                GroupData groupData = groupId == 0 ? null : CometManager.getGroups().getData(groupId);
 
-                if(groupData == null) {
+                if (groupData == null) {
                     msg.writeInt(0);
                 } else {
                     msg.writeInt(2);
                     msg.writeInt(5);
-                    msg.writeString("0");
+                    msg.writeString("0"); //state
                     msg.writeString(groupId);
                     msg.writeString(groupData.getBadge());
 
-                    String colourA = CometManager.getGroups().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour();
-                    String colourB = CometManager.getGroups().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour();
+                    String colourA = CometManager.getGroups().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? CometManager.getGroups().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour() : "ffffff";
+                    String colourB = CometManager.getGroups().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? CometManager.getGroups().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour() : "ffffff";
 
                     msg.writeString(colourA);
                     msg.writeString(colourB);
@@ -68,18 +68,18 @@ public class InventoryMessageComposer {
                 msg.writeInt(0);
             }
 
-            if(inventoryItem.getDefinition().getInteraction().equals("badge_display") && !isGift) {
+            if (inventoryItem.getDefinition().getInteraction().equals("badge_display") && !isGift) {
                 msg.writeInt(4);
 
                 msg.writeString("0");
                 msg.writeString(inventoryItem.getExtraData());
                 msg.writeString(""); // creator
                 msg.writeString(""); // date
-            } else if(!isGroupItem) {
+            } else if (!isGroupItem) {
                 msg.writeString(!isGift ? inventoryItem.getExtraData() : "");
             }
 
-            if(isLimited && !isGift) {
+            if (isLimited && !isGift) {
                 LimitedEditionItem limitedEditionItem = CometManager.getItems().getLimitedEdition(inventoryItem.getId());
 
                 msg.writeInt(limitedEditionItem.getLimitedRare());
