@@ -45,6 +45,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
         this.inUse = true;
         this.outgoingEntity = entity;
+        this.outgoingEntity.setOverriden(true);
 
         this.state = 0;
         this.setTicks(RoomItemFactory.getProcessTime(1));
@@ -54,8 +55,6 @@ public class TeleporterFloorItem extends RoomItemFloor {
     public void onTickComplete() {
         switch (this.state) {
             case 0: {
-
-                this.outgoingEntity.setOverriden(true);
 
                 this.outgoingEntity.moveTo(this.getPosition().getX(), this.getPosition().getY());
 
@@ -93,7 +92,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                     this.toggleAnimation(true);
 
                     this.state = 3;
-                    this.setTicks(RoomItemFactory.getProcessTime(2));
+                    this.setTicks(RoomItemFactory.getProcessTime(1));
                 } else {
                     this.state = 3;
                     this.setTicks(RoomItemFactory.getProcessTime(0.1));
@@ -217,7 +216,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
         if(!this.isDoor) {
             this.state = 5;
-            this.setTicks(RoomItemFactory.getProcessTime(2));
+            this.setTicks(RoomItemFactory.getProcessTime(1));
         } else {
             this.state = 6;
             this.setTicks(RoomItemFactory.getProcessTime(0.1));

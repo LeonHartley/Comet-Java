@@ -22,6 +22,10 @@ import com.cometproject.server.game.commands.staff.rewards.CoinsCommand;
 import com.cometproject.server.game.commands.staff.rewards.DucketsCommand;
 import com.cometproject.server.game.commands.staff.rewards.GiveBadgeCommand;
 import com.cometproject.server.game.commands.staff.rewards.PointsCommand;
+import com.cometproject.server.game.commands.staff.rewards.mass.MassBadgeCommand;
+import com.cometproject.server.game.commands.staff.rewards.mass.MassCoinsCommand;
+import com.cometproject.server.game.commands.staff.rewards.mass.MassDucketsCommand;
+import com.cometproject.server.game.commands.staff.rewards.mass.MassPointsCommand;
 import com.cometproject.server.game.commands.user.*;
 import com.cometproject.server.game.commands.vip.*;
 import com.cometproject.server.network.sessions.Session;
@@ -121,6 +125,10 @@ public class CommandManager {
         this.commands.put(Locale.get("command.makesay.name"), new MakeSayCommand());
         this.commands.put(Locale.get("command.mute.name"), new MuteCommand());
         this.commands.put(Locale.get("command.unmute.name"), new UnmuteCommand());
+        this.commands.put(Locale.get("command.masscoins.name"), new MassCoinsCommand());
+        this.commands.put(Locale.get("command.massbadge.name"), new MassBadgeCommand());
+        this.commands.put(Locale.get("command.massduckets.name"), new MassDucketsCommand());
+        this.commands.put(Locale.get("command.masspoints.name"), new MassPointsCommand());
     }
 
     /**

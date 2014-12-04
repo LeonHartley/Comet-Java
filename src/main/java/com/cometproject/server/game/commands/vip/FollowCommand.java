@@ -18,6 +18,12 @@ public class FollowCommand extends ChatCommand {
         if (leader != null && leader.getPlayer() != null && leader.getPlayer().getEntity() != null) {
             // TODO: Does leader allow follow??
 
+            if(leader.getPlayer().getPermissions().hasPermission("mod_tool")) {
+                if(!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+                    return;
+                }
+            }
+
             client.send(RoomForwardMessageComposer.compose(leader.getPlayer().getEntity().getRoom().getId()));
         } else {
             if (leader == null || leader.getPlayer() == null)
