@@ -91,11 +91,13 @@ public class ProcessComponent implements CometTask {
                 }
 
                 // Create the new entity grid
-                if (entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] == null) {
-                    entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] = new ArrayList<>();
-                }
+                if (entity.getPosition().getX() <= this.room.getModel().getSizeX() && entity.getPosition().getY() <= this.getRoom().getModel().getSizeY()) {
+                    if (entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] == null) {
+                        entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] = new ArrayList<>();
+                    }
 
-                entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
+                    entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
+                }
 
                 if ((entity.needsUpdate() && !entity.needsUpdateCancel() || entity.needsForcedUpdate) && entity.isVisible()) {
                     if (entity.needsForcedUpdate && entity.updatePhase == 1) {
@@ -228,8 +230,8 @@ public class ProcessComponent implements CometTask {
                 }
 
 //                if (!itemsOnOldSq.contains(item)) {
-                    item.onEntityStepOn(entity);
-                    WiredTriggerWalksOnFurni.executeTriggers(entity, item);
+                item.onEntityStepOn(entity);
+                WiredTriggerWalksOnFurni.executeTriggers(entity, item);
 //                }
             }
         }
@@ -256,7 +258,7 @@ public class ProcessComponent implements CometTask {
         } else {
             int chance = RandomInteger.getRandom(1, (entity.hasStatus(RoomEntityStatus.SIT) || entity.hasStatus(RoomEntityStatus.LAY)) ? 20 : 6);
 
-            if(!(entity instanceof PetEntity) || !((PetEntity) entity).hasMount()) {
+            if (!(entity instanceof PetEntity) || !((PetEntity) entity).hasMount()) {
                 if (chance == 1) {
                     if (!entity.isWalking()) {
                         int x = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeX());
