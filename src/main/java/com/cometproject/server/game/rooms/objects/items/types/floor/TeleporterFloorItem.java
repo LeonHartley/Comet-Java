@@ -34,6 +34,8 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
         Position posInFront = this.getPosition().squareInFront(this.getRotation());
 
+        if(entity.isOverriden()) return;
+
         if (entity.getPosition().getX() != posInFront.getX() || entity.getPosition().getY() != posInFront.getY()) {
             entity.moveTo(posInFront.getX(), posInFront.getY());
             return;
