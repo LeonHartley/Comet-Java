@@ -47,33 +47,53 @@ public class RoomMapping {
     }
 
     public TileInstance getTile(int x, int y) {
-        if(x < 0 || y < 0) return null;
-        if(x >= this.tiles.length || y >= this.tiles[x].length) return null;
+        if (x < 0 || y < 0) return null;
+        if (x >= this.tiles.length || y >= this.tiles[x].length) return null;
 
         return this.tiles[x][y];
     }
 
     public boolean positionHasUser(Position position) {
-        boolean hasMountedPet = false;
+        return positionHasUser(null, position);
+    }
 
-        for(GenericEntity entity : this.room.getEntities().getEntitiesAt(position.getX(), position.getY())) {
-            if(entity instanceof PetEntity && ((PetEntity) entity).hasMount()) {
+    public boolean positionHasUser(Integer entityId, Position position) {
+        boolean hasMountedPet = false;
+        int entitySize = 0;
+        boolean hasMe = false;
+
+        for (GenericEntity entity : this.room.getEntities().getEntitiesAt(position.getX(), position.getY())) {
+            entitySize++;
+
+            if (entity instanceof PetEntity && ((PetEntity) entity).hasMount()) {
                 hasMountedPet = true;
+            }
+
+            if (entity.getId() == entityId) {
+                hasMe = true;
             }
         }
 
-        return !hasMountedPet && this.room.getEntities().getEntitiesAt(position.getX(), position.getY()).size() > 0;
+        return !(hasMe && entitySize == 1) && !hasMountedPet && entitySize > 0;
     }
 
     public boolean canStepUpwards(double height0, double height1) {
         return (height0 - height1) <= 1.5;
     }
 
+    public boolean isValidEntityStep(GenericEntity entity, Position currentPosition, Position toPosition, boolean isFinalMove) {
+        return isValidStep(entity, currentPosition, toPosition, isFinalMove, false);
+    }
+
     public boolean isValidStep(Position from, Position to, boolean lastStep) {
-        return isValidStep(from, to, lastStep, false);
+        return isValidStep(null, from, to, lastStep, false);
     }
 
     public boolean isValidStep(Position from, Position to, boolean lastStep, boolean isFloorItem) {
+        return isValidStep(null, from, to, lastStep, isFloorItem);
+    }
+
+    public boolean isValidStep(GenericEntity entity, Position from, Position to, boolean lastStep, boolean isFloorItem) {
         if (from.getX() == to.getX() && from.getY() == to.getY()) {
             return true;
         }
@@ -86,13 +106,16 @@ public class RoomMapping {
             return false;
         }
 
-        boolean isAtDoor = this.getModel().getDoorX() == from.getX() && this.getModel().getDoorY() == from.getY();
+        final boolean isAtDoor = this.getModel().getDoorX() == from.getX() && this.getModel().getDoorY() == from.getY();
+        final boolean positionHasUser = positionHasUser(entity == null ? null : entity.getId(), to);
 
-        if (((!room.getData().getAllowWalkthrough() || isFloorItem) && positionHasUser(to)) && !isAtDoor) {
-            return false;
+        if (positionHasUser) {
+            if ((!room.getData().getAllowWalkthrough() || isFloorItem) && !isAtDoor) {
+                return false;
 
-        } else if ((room.getData().getAllowWalkthrough()) && lastStep && positionHasUser(to) && !isAtDoor) {
-            return false;
+            } else if ((room.getData().getAllowWalkthrough()) && lastStep && !isAtDoor) {
+                return false;
+            }
         }
 
         TileInstance tile = tiles[to.getX()][to.getY()];
@@ -108,7 +131,7 @@ public class RoomMapping {
         final double fromHeight = this.getStepHeight(from);
         final double toHeight = this.getStepHeight(to);
 
-        if(fromHeight < toHeight && (toHeight - fromHeight) > 1.0) return false;
+        if (fromHeight < toHeight && (toHeight - fromHeight) > 1.0) return false;
 
         return true;
     }
@@ -133,9 +156,9 @@ public class RoomMapping {
     public List<Position> tilesWithFurniture() {
         List<Position> tilesWithFurniture = Lists.newArrayList();
 
-        for(int x = 0; x < this.tiles.length; x++) {
-            for(int y = 0; y < this.tiles[x].length; y++) {
-                if(this.tiles[x][y].hasItems()) tilesWithFurniture.add(new Position(x, y));
+        for (int x = 0; x < this.tiles.length; x++) {
+            for (int y = 0; y < this.tiles[x].length; y++) {
+                if (this.tiles[x][y].hasItems()) tilesWithFurniture.add(new Position(x, y));
             }
         }
 
@@ -158,9 +181,9 @@ public class RoomMapping {
     public String toString() {
         String mapString = "";
 
-        for(int y = 0; y < this.tiles.length; y++) {
-            for(int x = 0; x < this.tiles[y].length; x++) {
-                if(this.tiles[y][x].getMovementNode() == RoomEntityMovementNode.CLOSED) {
+        for (int y = 0; y < this.tiles.length; y++) {
+            for (int x = 0; x < this.tiles[y].length; x++) {
+                if (this.tiles[y][x].getMovementNode() == RoomEntityMovementNode.CLOSED) {
                     mapString += " ";
                 } else {
                     mapString += "X";
