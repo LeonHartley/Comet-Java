@@ -190,6 +190,8 @@ public class RoomManager {
     public List<RoomData> getRoomByQuery(String query) {
         ArrayList<RoomData> rooms = new ArrayList<>();
 
+        if(query.equals("tag:")) return rooms;
+
         List<RoomData> roomSearchResults = RoomDao.getRoomsByQuery(query);
 
         for (RoomData data : roomSearchResults) {

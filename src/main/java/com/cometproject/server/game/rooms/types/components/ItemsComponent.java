@@ -133,6 +133,8 @@ public class ItemsComponent {
 
     public RoomItemFloor getFloorItem(int id) {
         for (RoomItemFloor item : this.getFloorItems()) {
+            if(item == null) continue;
+
             if (item.getId() == id) {
                 return item;
             }

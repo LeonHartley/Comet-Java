@@ -128,11 +128,16 @@ public class Trade {
             }
         }
 
-        this.sendToUsers(TradeAcceptUpdateMessageComposer.compose(user1.getPlayer().getId(), false));
-        this.user1Accepted = false;
 
-        this.sendToUsers(TradeAcceptUpdateMessageComposer.compose(user2.getPlayer().getId(), false));
-        this.user2Accepted = false;
+        if(user1 != null && user1.getPlayer() != null) {
+            this.sendToUsers(TradeAcceptUpdateMessageComposer.compose(user1.getPlayer().getId(), false));
+            this.user1Accepted = false;
+        }
+
+        if(user2 != null && user2.getPlayer() != null) {
+            this.sendToUsers(TradeAcceptUpdateMessageComposer.compose(user2.getPlayer().getId(), false));
+            this.user2Accepted = false;
+        }
 
         if (this.stage == 2)
             this.stage = 1;

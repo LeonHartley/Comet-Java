@@ -168,8 +168,8 @@ public abstract class RoomItemFloor extends RoomItem {
                 msg.writeString(this.getExtraData());
                 msg.writeString(groupData.getBadge());
 
-                String colourA = CometManager.getGroups().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour();
-                String colourB = CometManager.getGroups().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour();
+                String colourA = CometManager.getGroups().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? CometManager.getGroups().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour() : "ffffff";
+                String colourB = CometManager.getGroups().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? CometManager.getGroups().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour() : "ffffff";
 
                 msg.writeString(colourA);
                 msg.writeString(colourB);

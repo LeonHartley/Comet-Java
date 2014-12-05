@@ -19,8 +19,8 @@ public class GroupInformationMessageComposer {
         msg.writeString(group.getData().getTitle());
         msg.writeString(group.getData().getDescription());
         msg.writeString(group.getData().getBadge());
-        msg.writeInt(roomData.getId());
-        msg.writeString(roomData.getName());
+        msg.writeInt(roomData == null ? 0 : roomData.getId());
+        msg.writeString(roomData == null ? "Unknown Room" : roomData.getName());
         msg.writeInt(membership);
         msg.writeInt(group.getMembershipComponent().getMembers().size());
         msg.writeBoolean(false);
