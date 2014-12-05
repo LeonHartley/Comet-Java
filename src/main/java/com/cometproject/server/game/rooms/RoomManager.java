@@ -99,7 +99,6 @@ public class RoomManager {
             RoomData data = this.getRoomData(id);
 
             if (data == null) {
-                log.warn("There was a problem loading room: " + id + ", data was null");
                 return null;
             }
 
