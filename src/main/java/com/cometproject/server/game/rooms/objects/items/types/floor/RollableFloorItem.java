@@ -174,6 +174,8 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     public void onTickComplete() {
         this.rollCount++;
 
+        if(this.rollingPositions.isEmpty()) return;
+
         Position newPosition = this.rollingPositions.get(0);
         Position currentPosition = new Position(this.getPosition().getX(), this.getPosition().getY());
 

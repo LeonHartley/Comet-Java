@@ -18,7 +18,11 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
         int y = msg.readInt();
         int rot = msg.readInt();
 
+        if(client.getPlayer().getEntity() == null) return;
+
         Room room = client.getPlayer().getEntity().getRoom();
+
+        if(room == null) return;
 
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
         boolean hasRights = room.getRights().hasRights(client.getPlayer().getId());
