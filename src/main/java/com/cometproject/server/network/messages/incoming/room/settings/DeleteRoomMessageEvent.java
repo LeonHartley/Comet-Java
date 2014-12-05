@@ -12,6 +12,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
@@ -21,6 +22,7 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 
 import java.util.ArrayList;
@@ -40,6 +42,8 @@ public class DeleteRoomMessageEvent implements IEvent {
         if (room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;
         }
+
+        final int roomId = room.getId();
 
         List<RoomItem> itemsToRemove = new ArrayList<>();
         itemsToRemove.addAll(room.getItems().getFloorItems());
@@ -101,6 +105,14 @@ public class DeleteRoomMessageEvent implements IEvent {
 
             CometManager.getGroups().removeGroup(group.getId());
         }
+
+        if(client.getPlayer().getSettings().getHomeRoom() == roomId) {
+            client.getPlayer().getSettings().setHomeRoom(0);
+            client.send(HomeRoomMessageComposer.compose(0));
+        }
+
+        PlayerDao.resetHomeRoom(roomId);
+
 
         CometManager.getLogger().debug("Room deleted: " + room.getId() + " by " + client.getPlayer().getId() + " / " + client.getPlayer().getData().getUsername());
         RoomDao.deleteRoom(room.getId());
