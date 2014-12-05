@@ -60,7 +60,7 @@ public class Pathfinder {
                 tmp = current.getPosition().add(movePoints()[i]);
                 boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
 
-                if (entity.getRoom().getMapping().isValidStep(new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove) || entity.isOverriden()) {
+                if (entity.getRoom().getMapping().isValidEntityStep(entity, new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove) || entity.isOverriden()) {
                     try {
                         if (map[tmp.getX()][tmp.getY()] == null) {
                             node = new PathfinderNode(tmp);

@@ -364,7 +364,7 @@ public class ProcessComponent implements CometTask {
 
             boolean isLastStep = (entity.getProcessingPath().size() == 0);
 
-            if (nextSq != null && entity.getRoom().getMapping().isValidStep(entity.getPosition(), new Position(nextSq.x, nextSq.y, 0), isLastStep) || entity.isOverriden()) {
+            if (nextSq != null && entity.getRoom().getMapping().isValidEntityStep(entity, entity.getPosition(), new Position(nextSq.x, nextSq.y, 0), isLastStep) || entity.isOverriden()) {
                 Position currentPos = entity.getPosition() != null ? entity.getPosition() : new Position(0, 0, 0);
                 entity.setBodyRotation(Position.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
                 entity.setHeadRotation(entity.getBodyRotation());
