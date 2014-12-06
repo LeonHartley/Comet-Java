@@ -15,6 +15,8 @@ public class OwnRoomsMessageEvent implements IEvent {
         List<RoomData> rooms = new ArrayList<>();
 
         for (Integer roomId : client.getPlayer().getRooms()) {
+            if(CometManager.getRooms().getRoomData(roomId) == null) continue;
+
             rooms.add(CometManager.getRooms().getRoomData(roomId));
         }
 

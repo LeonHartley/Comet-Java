@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballScoreFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
+import org.apache.commons.lang.StringUtils;
 
 public class BanzaiTimerFloorItem extends RoomItemFloor {
     public BanzaiTimerFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
@@ -28,7 +29,11 @@ public class BanzaiTimerFloorItem extends RoomItemFloor {
         }
 
         if (requestData == 2) {
-            int time = Integer.parseInt(this.getExtraData());
+            int time = 0;
+
+            if(!this.getExtraData().isEmpty() && StringUtils.isNumeric(this.getExtraData())) {
+                time = Integer.parseInt(this.getExtraData());
+            }
 
             if (time == 0 || time == 30 || time == 60 || time == 120 || time == 180 || time == 300 || time == 600) {
                 switch (time) {

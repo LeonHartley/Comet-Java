@@ -31,12 +31,15 @@ public class WiredConditionPlayerWearingEffect extends WiredConditionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
+        if(entity == null) return false;
+
         if(this.getWiredData().getParams().size() != 1) {
             return false;
         }
 
         final int effectId = this.getWiredData().getParams().get(PARAM_EFFECT_ID);
         boolean isWearingEffect = false;
+
 
         if(entity.getCurrentEffect() != null) {
             if(entity.getCurrentEffect().getEffectId() == effectId) {

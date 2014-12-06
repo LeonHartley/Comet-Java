@@ -16,16 +16,20 @@ public class NavigatorFlatListMessageComposer {
         msg.writeInt(limit ? (activeRooms.size() > 50 ? 50 : activeRooms.size()) : activeRooms.size());
 
         if(order) {
-            Collections.sort((List<RoomData>) activeRooms, new Comparator<RoomData>() {
-                @Override
-                public int compare(RoomData o1, RoomData o2) {
-                    boolean is1Active = CometManager.getRooms().isActive(o1.getId());
-                    boolean is2Active = CometManager.getRooms().isActive(o2.getId());
+            try {
+                Collections.sort((List<RoomData>) activeRooms, new Comparator<RoomData>() {
+                    @Override
+                    public int compare(RoomData o1, RoomData o2) {
+                        boolean is1Active = CometManager.getRooms().isActive(o1.getId());
+                        boolean is2Active = CometManager.getRooms().isActive(o2.getId());
 
-                    return ((!is2Active ? 0 : CometManager.getRooms().get(o2.getId()).getEntities().playerCount()) -
-                            (!is1Active ? 0 : CometManager.getRooms().get(o1.getId()).getEntities().playerCount()));
-                }
-            });
+                        return ((!is2Active ? 0 : CometManager.getRooms().get(o2.getId()).getEntities().playerCount()) -
+                                (!is1Active ? 0 : CometManager.getRooms().get(o1.getId()).getEntities().playerCount()));
+                    }
+                });
+            } catch(Exception ignored) {
+
+            }
         }
 
         List<RoomData> topRooms = new ArrayList<>();

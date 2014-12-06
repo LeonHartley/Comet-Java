@@ -18,9 +18,13 @@ import com.cometproject.server.network.sessions.Session;
 
 public class SaveRoomDataMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
+        if(client.getPlayer() == null || client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+            return;
+        }
+
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if (room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
+        if ((room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;
         }
 

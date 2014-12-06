@@ -113,7 +113,8 @@ public class EntityComponent {
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
-            this.playerIdToEntity.remove(playerEntity.getPlayerId());
+            if(playerEntity.getPlayer() != null)
+                this.playerIdToEntity.remove(playerEntity.getPlayerId());
         } else if (entity.getEntityType() == RoomEntityType.BOT) {
             BotEntity botEntity = (BotEntity) entity;
 
