@@ -10,7 +10,7 @@ public class CometThreadManagement {
     private final ScheduledExecutorService scheduledExecutorService;
 
     public CometThreadManagement() {
-        this.scheduledExecutorService = Executors.newScheduledThreadPool(2, r -> {
+        this.scheduledExecutorService = Executors.newScheduledThreadPool(16, r -> {
             POOL_SIZE++;
 
             UUID randomId = UUID.randomUUID();
