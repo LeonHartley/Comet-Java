@@ -2,7 +2,6 @@ package com.cometproject.server.game.rooms.objects.entities.types;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.groups.types.Group;
@@ -20,7 +19,6 @@ import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
-import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomConnectionErrorMessageComposer;
@@ -28,13 +26,11 @@ import com.cometproject.server.network.messages.outgoing.room.alerts.RoomErrorMe
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.ModelAndIdMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.settings.EnableRoomInfoMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.attributes.Attributable;
@@ -46,6 +42,7 @@ import java.util.Set;
 
 public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, Attributable {
     private Player player;
+    private int playerId;
 
     private Map<String, Object> attributes = new FastMap<>();
     private RoomVisitLogEntry visitLogEntry;
@@ -58,6 +55,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.player = player;
+        this.playerId = player.getId();
 
         if (this.player.isTeleporting())
             this.setOverriden(true);
@@ -349,7 +347,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     }
 
     public int getPlayerId() {
-        return this.player.getId();
+        return this.playerId;
     }
 
     @Override
