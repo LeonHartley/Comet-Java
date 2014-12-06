@@ -136,8 +136,8 @@ public class ProcessComponent implements CometTask {
 
             TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
-            if (span.toMilliseconds() > 400)
-                log.info("ProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
+//            if (span.toMilliseconds() > 400)
+//                log.info("ProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             this.handleSupressedExceptions(e);
         } catch (Exception e) {
@@ -448,10 +448,10 @@ public class ProcessComponent implements CometTask {
     }
 
     protected void handleSupressedExceptions(Exception e) {
-//        SentryDispatcher.getInstance().dispatchException("entityProcess", "Exception during entity process", e, Event.Level.ERROR, new FastMap<String, Object>() {{
-//            put("Room ID", room.getId());
-//            put("Room Name", room.getData().getName());
-//        }});
+        if(e instanceof NullPointerException || e instanceof IndexOutOfBoundsException) {
+            // TODO: Rewrite entity grid
+            return;
+        }
 
         log.error("Error while processing entity", e);
     }

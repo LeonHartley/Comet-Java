@@ -138,6 +138,8 @@ public class ItemProcessComponent implements CometTask {
     }
 
     protected void handleException(RoomItem item, Exception e) {
+        if(item instanceof RollerFloorItem) return; // TODO: Find stack trice for this.
+
         log.error("Error while processing item: " + item.getId() + " (" + item.getClass().getSimpleName(), e);
     }
 

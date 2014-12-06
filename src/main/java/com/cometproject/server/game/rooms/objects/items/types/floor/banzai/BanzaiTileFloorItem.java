@@ -134,37 +134,40 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
             final int nextX = x + nextXStep;
             final int nextY = y + nextYStep;
 
-            RoomItemFloor obj = room.getItems().getFloorItem(room.getMapping().getTile(nextX, nextY).getTopItem());
+            if(room.getMapping().getTile(nextX, nextY) != null) {
+                RoomItemFloor obj = room.getItems().getFloorItem(room.getMapping().getTile(nextX, nextY).getTopItem());
 
-            if(obj instanceof BanzaiTileFloorItem) {
-                final BanzaiTileFloorItem item = (BanzaiTileFloorItem) obj;
+                if (obj != null && obj instanceof BanzaiTileFloorItem) {
+                    final BanzaiTileFloorItem item = (BanzaiTileFloorItem) obj;
 
-                if (item != null && item.getTeam() == team && item.getPoints() == 3) {
-                    List<BanzaiTileFloorItem> foundPatches = null;
-                    if (currentDirection != i && currentDirection != -1) {
-                        if (turns > 0) {
+                    if (item.getTeam() == team && item.getPoints() == 3) {
+                        List<BanzaiTileFloorItem> foundPatches = null;
+                        if (currentDirection != i && currentDirection != -1) {
+                            if (turns > 0) {
+                                foundPatches = buildBanzaiRectangle(
+                                        triggerItem, nextX, nextY,
+                                        (nextXStep == 0) ? (goX * -1) : (nextXStep * -1),
+                                        (nextYStep == 0) ? (goY * -1) : (nextYStep * -1),
+                                        i, (turns - 1), team
+                                );
+                            }
+                        } else {
                             foundPatches = buildBanzaiRectangle(
                                     triggerItem, nextX, nextY,
-                                    (nextXStep == 0) ? (goX * -1) : (nextXStep * -1),
-                                    (nextYStep == 0) ? (goY * -1) : (nextYStep * -1),
-                                    i, (turns - 1), team
+                                    (nextXStep == 0) ? goX : (nextXStep * -1),
+                                    (nextYStep == 0) ? goY : (nextYStep * -1),
+                                    i, turns, team
                             );
                         }
-                    } else {
-                        foundPatches = buildBanzaiRectangle(
-                                triggerItem, nextX, nextY,
-                                (nextXStep == 0) ? goX : (nextXStep * -1),
-                                (nextYStep == 0) ? goY : (nextYStep * -1),
-                                i, turns, team
-                        );
-                    }
-                    if (foundPatches != null) {
-                        foundPatches.add(item);
-                        return foundPatches;
+                        if (foundPatches != null) {
+                            foundPatches.add(item);
+                            return foundPatches;
+                        }
                     }
                 }
             }
         }
+
         return null;
     }
 

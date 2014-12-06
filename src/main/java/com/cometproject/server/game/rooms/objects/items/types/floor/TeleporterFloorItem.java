@@ -119,8 +119,11 @@ public class TeleporterFloorItem extends RoomItemFloor {
                     if (CometManager.getRooms().get(roomId) != null) {
                         if (this.outgoingEntity instanceof PlayerEntity) {
                             PlayerEntity pEntity = (PlayerEntity) this.outgoingEntity;
-                            pEntity.getPlayer().setTeleportId(pairId);
-                            pEntity.getPlayer().getSession().send(RoomForwardMessageComposer.compose(roomId));
+
+                            if(pEntity.getPlayer() != null && pEntity.getPlayer().getSession() != null) {
+                                pEntity.getPlayer().setTeleportId(pairId);
+                                pEntity.getPlayer().getSession().send(RoomForwardMessageComposer.compose(roomId));
+                            }
 
                             this.state = 7;
                             this.setTicks(RoomItemFactory.getProcessTime(0.5));
