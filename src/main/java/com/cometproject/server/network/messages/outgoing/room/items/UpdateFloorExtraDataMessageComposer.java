@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.Man
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.utilities.attributes.Stateable;
 
 public class UpdateFloorExtraDataMessageComposer {
     public static Composer compose(int id, RoomItemFloor floorItem, boolean useGroupItem) {
@@ -48,7 +49,7 @@ public class UpdateFloorExtraDataMessageComposer {
         } else {
             msg.writeString(id);
             msg.writeInt(0);
-            msg.writeString(floorItem.getExtraData());
+            msg.writeString(floorItem instanceof Stateable ? (((Stateable) floorItem).getState() ? "1" : "0") : floorItem.getExtraData());
         }
 
         return msg;

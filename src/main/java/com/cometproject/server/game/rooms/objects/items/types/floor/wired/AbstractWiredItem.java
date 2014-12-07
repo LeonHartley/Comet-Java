@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -10,6 +11,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.W
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.JsonFactory;
+import com.cometproject.server.utilities.attributes.Stateable;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 
@@ -18,11 +20,13 @@ import java.util.List;
 /**
  * This system was inspired by Nillus' "habbod2".
  */
-public abstract class AbstractWiredItem extends RoomItemFloor implements WiredItemSnapshot.Refreshable {
+public abstract class AbstractWiredItem extends RoomItemFloor implements WiredItemSnapshot.Refreshable, Stateable {
     /**
      * The data associated with this wired item
      */
     private WiredItemData wiredItemData = null;
+    private boolean state;
+    private int flashTicks = 0;
 
     /**
      * The default constructor
@@ -94,10 +98,10 @@ public abstract class AbstractWiredItem extends RoomItemFloor implements WiredIt
         List<Integer> toRemove = Lists.newArrayList();
         this.getWiredData().getSnapshots().clear();
 
-        for(int itemId : this.getWiredData().getSelectedIds()) {
+        for (int itemId : this.getWiredData().getSelectedIds()) {
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
-            if(floorItem == null) {
+            if (floorItem == null) {
                 toRemove.add(itemId);
                 continue;
             }
@@ -105,11 +109,28 @@ public abstract class AbstractWiredItem extends RoomItemFloor implements WiredIt
             this.getWiredData().getSnapshots().put(itemId, new WiredItemSnapshot(floorItem));
         }
 
-        for(Integer itemToRemove : toRemove) {
+        for (Integer itemToRemove : toRemove) {
             this.getWiredData().getSelectedIds().remove(itemToRemove);
         }
 
         this.save();
+    }
+
+    public void flash() {
+        this.flashTicks = RoomItemFactory.getProcessTime(0.5);
+        this.state = true;
+        this.sendUpdate();
+    }
+
+    public void onTick() {
+        if(this.state) {
+            if (this.flashTicks <= 0) {
+                this.state = false;
+                this.sendUpdate();
+            } else {
+                this.flashTicks--;
+            }
+        }
     }
 
     /**
@@ -156,5 +177,10 @@ public abstract class AbstractWiredItem extends RoomItemFloor implements WiredIt
      */
     public void onDataChange() {
 
+    }
+
+    @Override
+    public boolean getState() {
+        return this.state;
     }
 }

@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.objects.RoomObject;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.AbstractWiredItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.types.Room;
@@ -40,7 +41,7 @@ public abstract class RoomItem extends RoomObject implements Attributable {
     }
 
     public final boolean requiresTick() {
-        return this.hasTicks();
+        return this.hasTicks() || this instanceof AbstractWiredItem;
     }
 
     protected final boolean hasTicks() {
