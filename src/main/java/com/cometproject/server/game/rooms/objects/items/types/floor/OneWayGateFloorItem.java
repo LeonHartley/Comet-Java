@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
@@ -19,23 +20,31 @@ public class OneWayGateFloorItem extends RoomItemFloor {
         if (this.isInUse) {
             return;
         }
-        this.isInUse = true;
 
-        Position doorPosition = new Position(this.getPosition().getX(), this.getPosition().getY());
-
-        if (doorPosition.squareInFront(this.getRotation()).getX() != entity.getPosition().getX() && doorPosition.squareInFront(this.getRotation()).getY() != entity.getPosition().getY()) {
-            entity.moveTo(doorPosition.squareInFront(this.getRotation()).getX(), doorPosition.squareInFront(this.getRotation()).getY());
+        if (this.getPosition().squareInFront(this.getRotation()).getX() != entity.getPosition().getX() && this.getPosition().squareInFront(this.getRotation()).getY() != entity.getPosition().getY()) {
+            entity.moveTo(this.getPosition().squareInFront(this.getRotation()).getX(), this.getPosition().squareInFront(this.getRotation()).getY());
             return;
         }
 
+        Position squareBehind = this.getPosition().squareBehind(this.rotation);
+
+        if (!this.getRoom().getMapping().isValidStep(this.getPosition(), squareBehind, true)) {
+            return;
+        }
+
+        this.isInUse = true;
+
         entity.setOverriden(true);
-        entity.moveTo(doorPosition.squareBehind(this.getRotation()).getX(), doorPosition.squareBehind(this.getRotation()).getY());
+
+        entity.moveTo(squareBehind.getX(), squareBehind.getY());
 
         this.setExtraData("1");
         this.sendUpdate();
 
         this.interactingEntity = entity;
-        this.setTicks(RoomItemFactory.getProcessTime(7.0));
+        this.setTicks(RoomItemFactory.getProcessTime(2.0));
+
+
     }
 
     @Override

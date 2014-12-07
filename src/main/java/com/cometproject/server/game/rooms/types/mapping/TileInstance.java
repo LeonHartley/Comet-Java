@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
+import com.cometproject.server.game.rooms.objects.items.types.floor.OneWayGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
