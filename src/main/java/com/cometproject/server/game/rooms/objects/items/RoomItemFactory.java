@@ -60,6 +60,9 @@ public class RoomItemFactory {
             put("wf_act_toggle_state", WiredActionToggleState.class);//new
             put("wf_act_give_reward", WiredActionGiveReward.class);//new
             put("wf_act_move_rotate", WiredActionMoveRotate.class);//new
+            put("wf_act_flee", WiredActionFlee.class);//new
+            put("wf_act_chase", WiredActionChase.class);//new
+            put("wf_act_kick_user", WiredActionKickUser.class);//new
 
             put("wf_trg_says_something", WiredTriggerPlayerSaysKeyword.class);//new
             put("wf_trg_enter_room", WiredTriggerEnterRoom.class);//new
