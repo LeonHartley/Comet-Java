@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actio
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
+import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredItemSnapshot;
@@ -75,7 +76,7 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
             WiredItemSnapshot itemSnapshot = this.getWiredData().getSnapshots().get(itemId);
             if(itemSnapshot == null) continue;
 
-            if(matchState) {
+            if(matchState && !(floorItem instanceof DiceFloorItem)) {
                 floorItem.setExtraData(itemSnapshot.getExtraData());
             }
 
