@@ -26,8 +26,7 @@ public class SavePostItMessageEvent implements IEvent {
         if(wallItem == null || !(wallItem instanceof PostItWallItem)) return;
 
         if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
-            if(!message.startsWith(((PostItWallItem) wallItem).getMessage()))
-                return;
+            return;
         }
 
         wallItem.setExtraData(colour + " " + message);

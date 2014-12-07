@@ -8,6 +8,8 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessa
 
 public class WiredActionShowMessage extends WiredActionItem {
 
+    protected boolean isWisperBubble = false;
+
     /**
      * The default constructor
      *
@@ -42,7 +44,7 @@ public class WiredActionShowMessage extends WiredActionItem {
         PlayerEntity playerEntity = ((PlayerEntity) entity);
 
         if(!this.getWiredData().getText().isEmpty()) {
-            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(entity.getId(), this.getWiredData().getText(), 34));
+            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(entity.getId(), this.getWiredData().getText(), isWisperBubble ? 0 : 34));
         }
 
         return true;
