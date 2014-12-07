@@ -48,12 +48,20 @@ public class Room implements Attributable {
         this.model = CometManager.getRooms().getModel(this.getData().getModel());
 
         if (this.getData().getHeightmap() != null) {
+            DynamicRoomModel dynamicRoomModel;
+
             if (this.getData().getHeightmap().startsWith("{")) {
                 CustomFloorMapData mapData = JsonFactory.getInstance().fromJson(this.getData().getHeightmap(), CustomFloorMapData.class);
-                this.model = new DynamicRoomModel("dynamic_heightmap", mapData.getModelData(), mapData.getDoorX(), mapData.getDoorY(), this.getModel().getDoorZ(), mapData.getDoorRotation(), mapData.getWallHeight());
+
+                dynamicRoomModel = DynamicRoomModel.create("dynamic_heightmap", mapData.getModelData(), mapData.getDoorX(), mapData.getDoorY(), this.getModel().getDoorZ(), mapData.getDoorRotation(), mapData.getWallHeight());
             } else {
-                this.model = new DynamicRoomModel("dynamic_heightmap", this.getData().getHeightmap(), this.getModel().getDoorX(), this.getModel().getDoorY(), this.getModel().getDoorZ(), this.getModel().getDoorRotation(), -1);
+                dynamicRoomModel = DynamicRoomModel.create("dynamic_heightmap", this.getData().getHeightmap(), this.getModel().getDoorX(), this.getModel().getDoorY(), this.getModel().getDoorZ(), this.getModel().getDoorRotation(), -1);
             }
+
+            if(dynamicRoomModel != null) {
+                this.model = dynamicRoomModel;
+            }
+
         }
         this.attributes = new FastMap<>();
 

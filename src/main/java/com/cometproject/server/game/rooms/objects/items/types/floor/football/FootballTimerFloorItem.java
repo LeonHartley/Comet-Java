@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.football;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameEnds;
@@ -17,6 +18,19 @@ public class FootballTimerFloorItem extends RoomItemFloor {
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTriggered) {
+        if (!isWiredTriggered) {
+            if (!(entity instanceof PlayerEntity)) {
+                return;
+            }
+
+            PlayerEntity pEntity = (PlayerEntity) entity;
+
+            if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
+                    && !pEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
+                return;
+            }
+        }
+
         if(requestData == 1) {
             int time = Integer.parseInt(this.getExtraData());
 

@@ -104,6 +104,9 @@ public class RoomManager {
 
 //            try {
             Room room = new Room(data).load();
+
+            if(room == null) return null;
+
             this.loadedRoomInstances.put(id, room);
 
             this.finalizeRoomLoad(room);
