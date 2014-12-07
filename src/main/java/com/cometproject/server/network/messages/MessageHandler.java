@@ -264,6 +264,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.WallItemMoveMessageEvent, new ChangeWallItemPositionMessageEvent());
         this.getMessages().put(Events.PickUpItemMessageEvent, new PickUpItemMessageEvent());
         this.getMessages().put(Events.TriggerItemMessageEvent, new ChangeFloorItemStateMessageEvent());
+        this.getMessages().put(Events.EnterOneWayDoorMessageEvent, new ChangeFloorItemStateMessageEvent());
         this.getMessages().put(Events.TriggerDiceCloseMessageEvent, new OpenDiceMessageEvent());
         this.getMessages().put(Events.TriggerDiceRollMessageEvent, new RunDiceMessageEvent());
         this.getMessages().put(Events.WiredSaveEffectMessageEvent, new SaveWiredDataMessageEvent());
