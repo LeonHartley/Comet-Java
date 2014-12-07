@@ -30,7 +30,7 @@ public class WiredTriggerGameStarts extends WiredTriggerItem {
 
     @Override
     public int getInterface() {
-        return 7;
+        return 8;
     }
 
     public static boolean executeTriggers(Room room) {

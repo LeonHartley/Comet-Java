@@ -106,7 +106,12 @@ public class ProcessComponent implements CometTask {
 
                         entitiesToUpdate.add(entity);
                     } else if (entity.needsForcedUpdate) {
+                        if(entity.hasStatus(RoomEntityStatus.MOVE)) {
+                            entity.removeStatus(RoomEntityStatus.MOVE);
+                        }
+
                         entity.updatePhase = 1;
+                        entitiesToUpdate.add(entity);
                     } else {
                         entity.markUpdateComplete();
                         entitiesToUpdate.add(entity);
@@ -122,6 +127,8 @@ public class ProcessComponent implements CometTask {
                 this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entitiesToUpdate));
 
             for (GenericEntity entity : entitiesToUpdate) {
+                if(entity.updatePhase == 1) continue;
+
                 if (this.updateEntityStuff(entity) && entity instanceof PlayerEntity) {
                     playersToRemove.add((PlayerEntity) entity);
                 }
@@ -134,7 +141,7 @@ public class ProcessComponent implements CometTask {
             playersToRemove.clear();
             entitiesToUpdate.clear();
 
-            TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
+//            TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
 
 //            if (span.toMilliseconds() > 400)
 //                log.info("ProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
