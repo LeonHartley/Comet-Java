@@ -5,6 +5,7 @@ import com.cometproject.server.game.utilities.ModelUtils;
 import com.cometproject.server.network.messages.outgoing.room.engine.HeightmapMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RelativeHeightmapMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.sun.media.sound.InvalidDataException;
 import org.apache.log4j.Logger;
 
 public abstract class RoomModel {
@@ -27,7 +28,7 @@ public abstract class RoomModel {
 
     private int wallHeight;
 
-    public RoomModel(String name, String heightmap, int doorX, int doorY, int doorZ, int doorRotation, int wallHeight) {
+    public RoomModel(String name, String heightmap, int doorX, int doorY, int doorZ, int doorRotation, int wallHeight) throws InvalidModelException {
         this.name = name;
         this.doorX = doorX;
         this.doorY = doorY;
@@ -48,6 +49,10 @@ public abstract class RoomModel {
 
                 int x = 0;
                 for (char tile : line) {
+                    if(x > mapSizeX) {
+                        throw new InvalidModelException();
+                    }
+
                     String tileVal = String.valueOf(tile);
 
                     if (tileVal.equals("x")) {
@@ -68,6 +73,10 @@ public abstract class RoomModel {
                 map += mapLine + (char) 13;
             }
         } catch (Exception e) {
+            if(e instanceof InvalidModelException) {
+                throw e;
+            }
+
             Logger.getLogger(RoomModel.class.getName()).error("Failed to parse heightmap for model: " + this.name, e);
         }
 
@@ -129,5 +138,9 @@ public abstract class RoomModel {
 
     public int getWallHeight() {
         return wallHeight;
+    }
+
+    public class InvalidModelException extends Exception {
+
     }
 }

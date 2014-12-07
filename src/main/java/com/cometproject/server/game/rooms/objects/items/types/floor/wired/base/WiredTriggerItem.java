@@ -1,9 +1,13 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.base;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.AbstractWiredItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionKickUser;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.incoming.room.moderation.KickUserMessageEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredTriggerMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.google.common.collect.Lists;
@@ -68,6 +72,16 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
             boolean wasSuccess = false;
 
             for (WiredActionItem actionItem : wiredActions) {
+                if(this instanceof WiredTriggerEnterRoom && actionItem instanceof WiredActionKickUser) {
+                    if(entity != null) {
+                        if(entity instanceof PlayerEntity && ((PlayerEntity) entity).getPlayer() != null) {
+                            if(((PlayerEntity) entity).getPlayer().getPermissions().hasPermission("room_unkickable")) {
+                                continue;
+                            }
+                        }
+                    }
+                }
+
                 if(actionItem.evaluate(entity, data)) {
                     wasSuccess = true;
                 }

@@ -3,6 +3,7 @@ package com.cometproject.server.storage.queries.player.inventory;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 public class InventoryDao {
     public static String ITEMS_USERID_INDEX = "";
+    private static Logger log = Logger.getLogger(InventoryDao.class.getName());
 
     public static Map<Integer, InventoryItem> getInventoryByPlayerId(int playerId) {
         Connection sqlConnection = null;
@@ -33,7 +35,13 @@ public class InventoryDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.put(resultSet.getInt("id"), new InventoryItem(resultSet));
+                InventoryItem inventoryItem = new InventoryItem(resultSet);
+
+                if(inventoryItem.getDefinition() != null) {
+                    data.put(resultSet.getInt("id"), inventoryItem);
+                } else {
+                    log.warn("InventoryItem: " + inventoryItem.getId() + " with invalid definition ID: " + inventoryItem.getBaseId());
+                }
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

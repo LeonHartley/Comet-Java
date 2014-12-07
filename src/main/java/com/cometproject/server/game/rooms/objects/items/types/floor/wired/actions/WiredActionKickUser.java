@@ -61,7 +61,8 @@ public class WiredActionKickUser extends WiredActionShowMessage {
         } else {
             playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(entity.getId(), "Wired kick exception: " + kickException));
         }
-        return false;
+
+        return true;
     }
 
     public void onTickComplete() {

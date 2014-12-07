@@ -38,8 +38,9 @@ public class RoomDao {
                 data.add(new StaticRoomModel(resultSet));
             }
 
-        } catch (SQLException e) {
-            SqlHelper.handleSqlException(e);
+        } catch (Exception e) {
+            if(e instanceof SQLException)
+                SqlHelper.handleSqlException(((SQLException) e));
         } finally {
             SqlHelper.closeSilently(resultSet);
             SqlHelper.closeSilently(preparedStatement);

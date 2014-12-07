@@ -46,6 +46,8 @@ public abstract class RoomObject {
      * @param newPosition The position to replace the current one with
      */
     public void setPosition(Position newPosition) {
+        if(newPosition == null) return;
+
         if(this.position == null) {
             this.position = newPosition.copy();
         } else {
