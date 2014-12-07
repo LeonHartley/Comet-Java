@@ -70,6 +70,8 @@ public class RoomItemFactory {
             put("wf_trg_walks_off_furni", WiredTriggerWalksOffFurni.class);//new
             put("wf_trg_walks_on_furni", WiredTriggerWalksOnFurni.class);//new
             put("wf_trg_state_changed", WiredTriggerStateChanged.class);//new
+            put("wf_trg_game_starts", WiredTriggerGameStarts.class);//new
+            put("wf_trg_game_ends", WiredTriggerGameEnds.class);//new
 
             put("wf_cnd_trggrer_on_frn", WiredConditionTriggererOnFurni.class);//new
             put("wf_cnd_not_trggrer_on", WiredNegativeConditionPlayerInGroup.class);//new

@@ -3,6 +3,8 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.football;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameEnds;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameStarts;
 import com.cometproject.server.game.rooms.types.Room;
 
 public class FootballTimerFloorItem extends RoomItemFloor {
@@ -57,6 +59,7 @@ public class FootballTimerFloorItem extends RoomItemFloor {
                 ((FootballScoreFloorItem) scoreItem).reset();
             }
 
+            WiredTriggerGameStarts.executeTriggers(this.getRoom());
             this.setTicks(RoomItemFactory.getProcessTime(1.0));
         }
     }
@@ -72,7 +75,8 @@ public class FootballTimerFloorItem extends RoomItemFloor {
             this.setTicks(RoomItemFactory.getProcessTime(1.0));
         } else {
             if(this.getRoom().hasAttribute("football")) {
-                // football game has ended.
+
+                WiredTriggerGameEnds.executeTriggers(this.getRoom());
                 this.getRoom().removeAttribute("football");
             }
         }

@@ -5,6 +5,8 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTileFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameEnds;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameStarts;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
@@ -16,6 +18,7 @@ import java.util.Map;
 
 public class BanzaiGame extends RoomGame {
     private Map<GameTeam, Integer> scores;
+    private int startBanzaiTileCount = 0;
     private int banzaiTileCount = 0;
 
     public BanzaiGame(Room room) {
@@ -31,7 +34,7 @@ public class BanzaiGame extends RoomGame {
 
     @Override
     public void tick() {
-        if(this.banzaiTileCount == 0) {
+        if(this.startBanzaiTileCount != 0 && this.banzaiTileCount == 0) {
             // Stop the game!
             this.timer = this.gameLength;
         }
@@ -44,7 +47,7 @@ public class BanzaiGame extends RoomGame {
 
     @Override
     public void gameStarts() {
-        // TODO: Wired trigger game_starts
+        WiredTriggerGameStarts.executeTriggers(this.room);
 
         this.banzaiTileCount = 0;
 
@@ -52,6 +55,8 @@ public class BanzaiGame extends RoomGame {
             this.banzaiTileCount++;
             ((BanzaiTileFloorItem) item).onGameStarts();
         }
+
+        this.startBanzaiTileCount = this.banzaiTileCount;
 
         this.updateScoreboard(null);
     }
@@ -79,8 +84,7 @@ public class BanzaiGame extends RoomGame {
         }
 
         this.scores.clear();
-
-        // TODO: Wired trigger GAME_ENDS
+        WiredTriggerGameEnds.executeTriggers(this.room);
     }
 
     public void increaseScore(GameTeam team, int amount) {

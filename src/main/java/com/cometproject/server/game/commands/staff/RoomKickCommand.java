@@ -12,11 +12,11 @@ import com.cometproject.server.network.sessions.Session;
 public class RoomKickCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        for (GenericEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getAllEntities().values()) {
+        for (GenericEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 
-                if (!playerEntity.getPlayer().getPermissions().hasPermission("user_unkickable")) {
+                if (!playerEntity.getPlayer().getPermissions().hasPermission("room_unkickable")) {
                     playerEntity.getPlayer().getSession().send(AdvancedAlertMessageComposer.compose(Locale.get("command.roomkick.title"), this.merge(params)));
                     playerEntity.leaveRoom(false, true, true);
                 }
