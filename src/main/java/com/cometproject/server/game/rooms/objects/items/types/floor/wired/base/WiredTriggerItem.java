@@ -42,6 +42,8 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
 
         boolean canExecute = true;
 
+        this.flash();
+
         // loop through all items on this tile
         for (RoomItemFloor floorItem : this.getItemsOnStack()) {
             if (floorItem instanceof WiredActionItem) {
@@ -56,6 +58,8 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
 
         // loop through the conditions and check whether or not we can perform the action
         for (WiredConditionItem conditionItem : wiredConditions) {
+            conditionItem.flash();
+
             if(!conditionItem.evaluate(entity, data)) {
                 canExecute = false;
             }
@@ -81,6 +85,8 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
                         }
                     }
                 }
+
+                actionItem.flash();
 
                 if(actionItem.evaluate(entity, data)) {
                     wasSuccess = true;
