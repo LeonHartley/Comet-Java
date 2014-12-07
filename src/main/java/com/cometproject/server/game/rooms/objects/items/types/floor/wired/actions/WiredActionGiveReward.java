@@ -72,7 +72,7 @@ public class WiredActionGiveReward extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if (this.getWiredData().getParams().size() != 3 || !(entity instanceof PlayerEntity) || this.rewards.size() == 0) {
+        if (this.getWiredData().getParams().size() != 4 || !(entity instanceof PlayerEntity) || this.rewards.size() == 0) {
             return false;
         }
 
