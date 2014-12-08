@@ -44,7 +44,7 @@ public class SuperPullCommand extends ChatCommand {
 
         pulledEntity.setWalkingGoal(squareInFront.getX(), squareInFront.getY());
 
-        List<Square> path = Pathfinder.getInstance().makePath(pulledEntity);
+        List<Square> path = Pathfinder.getInstance().makePath(pulledEntity, pulledEntity.getWalkingGoal());
         pulledEntity.unIdle();
 
         if (pulledEntity.getWalkingPath() != null)

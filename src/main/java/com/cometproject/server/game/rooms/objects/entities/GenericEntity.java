@@ -143,7 +143,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.setWalkingGoal(x, y);
 
         // Create a walking path
-        List<Square> path = Pathfinder.getInstance().makePath(this);
+        List<Square> path = Pathfinder.getInstance().makePath(this, new Position(x, y));
 
         // Check returned path to see if it calculated one
         if (path == null || path.size() == 0) {

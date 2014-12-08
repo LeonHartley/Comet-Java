@@ -72,6 +72,7 @@ public class RoomItemFactory {
             put("wf_trg_state_changed", WiredTriggerStateChanged.class);//new
             put("wf_trg_game_starts", WiredTriggerGameStarts.class);//new
             put("wf_trg_game_ends", WiredTriggerGameEnds.class);//new
+            put("wf_trg_collision", WiredTriggerCollision.class);//new
 
             put("wf_cnd_trggrer_on_frn", WiredConditionTriggererOnFurni.class);//new
             put("wf_cnd_not_trggrer_on", WiredNegativeConditionPlayerInGroup.class);//new
@@ -87,8 +88,8 @@ public class RoomItemFactory {
             put("wf_cnd_not_furni_on", WiredNegativeConditionHasFurniOn.class);//new
             put("wf_cnd_user_count_in", WiredConditionPlayerCountInRoom.class);//new
             put("wf_cnd_not_user_count", WiredConditionPlayerCountInRoom.class);//new
-            put("wf_cnd_match_snapshot", WiredConditionMatchSnapshot.class);
-            put("wf_cnd_not_match_snap", WiredNegativeConditionMatchSnapshot.class);
+            put("wf_cnd_match_snapshot", WiredConditionMatchSnapshot.class);//new
+            put("wf_cnd_not_match_snap", WiredNegativeConditionMatchSnapshot.class);//new
 
             put("wf_floor_switch1", WiredAddonFloorSwitch.class);//new
             put("wf_floor_switch2", WiredAddonFloorSwitch.class);//new
@@ -183,8 +184,9 @@ public class RoomItemFactory {
 
     public static int getProcessTime(double time) {
         long realTime = Math.round(time * 1000 / processMs);
+
         if (realTime < 1) {
-            realTime = 1;
+            realTime = 20; //0.5s
         }
 
         return (int) realTime;

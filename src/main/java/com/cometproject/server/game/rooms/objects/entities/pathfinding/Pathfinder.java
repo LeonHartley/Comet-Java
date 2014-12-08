@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.pathfinding;
 
+import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.google.common.collect.Lists;
@@ -10,6 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Pathfinder {
+    public static final byte DISABLE_DIAGONAL = 0;
+    public static final byte ALLOW_DIAGONAL = 1;
+
     private static Pathfinder instance;
 
     public static Pathfinder getInstance() {
@@ -18,10 +22,15 @@ public class Pathfinder {
 
         return instance;
     }
-    public List<Square> makePath(GenericEntity entity) {
+
+    public List<Square> makePath(RoomObject roomObject, Position end) {
+        return this.makePath(roomObject, end, ALLOW_DIAGONAL);
+    }
+
+    public List<Square> makePath(RoomObject roomObject, Position end, byte pathfinderMode) {
         LinkedList<Square> squares = new LinkedList<>();
 
-        PathfinderNode nodes = makePathReversed(entity);
+        PathfinderNode nodes = makePathReversed(roomObject, end, pathfinderMode);
 
         if (nodes != null) {
             while (nodes.getNextNode() != null) {
@@ -33,20 +42,19 @@ public class Pathfinder {
         return Lists.reverse(squares);
     }
 
-    private PathfinderNode makePathReversed(GenericEntity entity) {
+    private PathfinderNode makePathReversed(RoomObject roomObject, Position end, byte pathfinderMode) {
         MinMaxPriorityQueue<PathfinderNode> openList = MinMaxPriorityQueue.maximumSize(256).create();
 
-        PathfinderNode[][] map = new PathfinderNode[entity.getRoom().getMapping().getModel().getSizeX()][entity.getRoom().getMapping().getModel().getSizeY()];
+        PathfinderNode[][] map = new PathfinderNode[roomObject.getRoom().getMapping().getModel().getSizeX()][roomObject.getRoom().getMapping().getModel().getSizeY()];
         PathfinderNode node;
         Position tmp;
 
         int cost;
         int diff;
 
-        PathfinderNode current = new PathfinderNode(entity.getPosition());
+        PathfinderNode current = new PathfinderNode(roomObject.getPosition());
         current.setCost(0);
 
-        Position end = entity.getWalkingGoal();
         PathfinderNode finish = new PathfinderNode(end);
 
         map[current.getPosition().getX()][current.getPosition().getY()] = current;
@@ -56,11 +64,11 @@ public class Pathfinder {
             current = openList.pollFirst();
             current.setInClosed(true);
 
-            for (int i = 0; i < movePoints().length; i++) {
-                tmp = current.getPosition().add(movePoints()[i]);
+            for (int i = 0; i < (pathfinderMode == ALLOW_DIAGONAL ? diagonalMovePoints().length : movePoints().length); i++) {
+                tmp = current.getPosition().add((pathfinderMode == ALLOW_DIAGONAL ? diagonalMovePoints() : movePoints())[i]);
                 boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
 
-                if (entity.getRoom().getMapping().isValidEntityStep(entity, new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove) || entity.isOverriden()) {
+                if (roomObject.getRoom().getMapping().isValidEntityStep(roomObject instanceof GenericEntity ? ((GenericEntity) roomObject) : null, new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove) || (roomObject instanceof GenericEntity && ((GenericEntity) roomObject).isOverriden())) {
                     try {
                         if (map[tmp.getX()][tmp.getY()] == null) {
                             node = new PathfinderNode(tmp);
@@ -107,16 +115,25 @@ public class Pathfinder {
         return null;
     }
 
+    private Position[] diagonalMovePoints() {
+        return new Position[]{
+                new Position(0, -1),
+                new Position(0, 1),
+                new Position(1, 0),
+                new Position(-1, 0),
+                new Position(1, -1),
+                new Position(-1, 1),
+                new Position(1, 1),
+                new Position(-1, -1)
+        };
+    }
+
     private Position[] movePoints() {
         return new Position[]{
-                new Position(0, -1, 0),
-                new Position(0, 1, 0),
-                new Position(1, 0, 0),
-                new Position(-1, 0, 0),
-                new Position(1, -1, 0),
-                new Position(-1, 1, 0),
-                new Position(1, 1, 0),
-                new Position(-1, -1, 0)
+                new Position(0, -1),
+                new Position(1, 0),
+                new Position(0, 1),
+                new Position(-1, 0)
         };
     }
 }

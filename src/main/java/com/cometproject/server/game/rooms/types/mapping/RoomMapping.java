@@ -62,6 +62,8 @@ public class RoomMapping {
         int entitySize = 0;
         boolean hasMe = false;
 
+        if (entityId == null) return false;
+
         for (GenericEntity entity : this.room.getEntities().getEntitiesAt(position.getX(), position.getY())) {
             entitySize++;
 
@@ -69,6 +71,8 @@ public class RoomMapping {
                 hasMountedPet = true;
             }
 
+
+            // nullcheckhere
             if (entity.getId() == entityId) {
                 hasMe = true;
             }

@@ -89,7 +89,7 @@ public class PushCommand extends ChatCommand {
 
             user.getPlayer().getEntity().setWalkingGoal(posX, posY);
 
-            List<Square> path = Pathfinder.getInstance().makePath(user.getPlayer().getEntity());
+            List<Square> path = Pathfinder.getInstance().makePath(user.getPlayer().getEntity(), user.getPlayer().getEntity().getWalkingGoal());
             user.getPlayer().getEntity().unIdle();
 
             if (user.getPlayer().getEntity().getWalkingPath() != null)
