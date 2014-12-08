@@ -10,6 +10,8 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
+import com.cometproject.server.utilities.Direction;
+import com.cometproject.server.utilities.RandomInteger;
 
 import java.util.List;
 
@@ -54,12 +56,13 @@ public class WiredActionChase extends WiredActionItem {
             Position positionFrom = floorItem.getPosition();
 
             if (nearestEntity != null) {
-                if (isCollided(nearestEntity, floorItem)) {
+                if (this.isCollided(nearestEntity, floorItem)) {
                     if (floorItem.getCollision() != nearestEntity) {
                         floorItem.setCollision(nearestEntity);
 
                         WiredTriggerCollision.executeTriggers(nearestEntity);
                     }
+
                     continue;
                 }
 
@@ -100,8 +103,13 @@ public class WiredActionChase extends WiredActionItem {
 
     private void moveToTile(RoomItemFloor floorItem, Position from, Position to) {
         if (to == null) {
-            // random tile.
-            return;
+            for(int i = 0; i < 16; i++) {
+                if(to != null) break;
+
+                to = this.random(floorItem, from);
+            }
+
+            if(to == null) return;
         }
 
         if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), to, floorItem.getRotation(), true)) {
@@ -109,5 +117,16 @@ public class WiredActionChase extends WiredActionItem {
         }
 
         floorItem.nullifyCollision();
+    }
+
+    private Position random(RoomItemFloor floorItem, Position from) {
+        int randomDirection = RandomInteger.getRandom(0, 3) * 2;
+        Position newPosition = from.squareInFront(randomDirection);
+
+        if(floorItem.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY()).isReachable(floorItem)) {
+            return newPosition;
+        }
+
+        return null;
     }
 }

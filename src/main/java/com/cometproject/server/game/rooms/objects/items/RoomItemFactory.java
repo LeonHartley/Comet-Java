@@ -70,6 +70,7 @@ public class RoomItemFactory {
             put("wf_trg_game_starts", WiredTriggerGameStarts.class);//new
             put("wf_trg_game_ends", WiredTriggerGameEnds.class);//new
             put("wf_trg_collision", WiredTriggerCollision.class);//new
+            put("wf_trg_period_long", WiredTriggerPeriodicallyLong.class);//new
 
             put("wf_cnd_trggrer_on_frn", WiredConditionTriggererOnFurni.class);//new
             put("wf_cnd_not_trggrer_on", WiredNegativeConditionPlayerInGroup.class);//new
@@ -188,6 +189,8 @@ public class RoomItemFactory {
         if (realTime < 1) {
             realTime = 20; //0.5s
         }
+
+        System.out.println(realTime);
 
         return (int) realTime;
     }
