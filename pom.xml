@@ -9,7 +9,7 @@
 
     <packaging>jar</packaging>
 
-    <version>0.11.7-ALPHA10</version>
+    <version>0.11.8-ALPHA1</version>
 
     <name>Comet</name>
     <url>http://www.comet.im</url>

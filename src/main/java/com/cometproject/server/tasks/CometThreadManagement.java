@@ -1,5 +1,7 @@
 package com.cometproject.server.tasks;
 
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.CometManager;
 import org.apache.log4j.Logger;
 
 import java.util.UUID;
@@ -10,7 +12,9 @@ public class CometThreadManagement {
     private final ScheduledExecutorService scheduledExecutorService;
 
     public CometThreadManagement() {
-        this.scheduledExecutorService = Executors.newScheduledThreadPool(16, r -> {
+        int poolSize = Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.system.threads", "8"));
+
+        this.scheduledExecutorService = Executors.newScheduledThreadPool(poolSize, r -> {
             POOL_SIZE++;
 
             UUID randomId = UUID.randomUUID();
