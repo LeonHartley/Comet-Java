@@ -76,7 +76,7 @@ public class Comet {
                 if(args[i].equals("--debug-logging")) {
                     logLevel = Level.DEBUG;
                 }
-
+                
                 if (!args[i].contains("="))
                     continue;
 
