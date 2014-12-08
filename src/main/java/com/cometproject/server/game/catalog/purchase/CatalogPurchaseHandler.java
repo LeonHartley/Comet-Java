@@ -1,5 +1,6 @@
 package com.cometproject.server.game.catalog.purchase;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.CatalogManager;
@@ -12,6 +13,7 @@ import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
+import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoundMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.LimitedEditionSoldOutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
@@ -56,6 +58,15 @@ public class CatalogPurchaseHandler {
         if (amount > 100) {
             client.send(AlertMessageComposer.compose(Locale.get("catalog.error.toomany")));
             return;
+        }
+
+        final int playerIdToDeliver = giftData == null ? -1 : PlayerDao.getIdByUsername(giftData.getReceiver());
+
+        if(giftData != null) {
+            if(playerIdToDeliver == 0) {
+                client.send(GiftUserNotFoundMessageComposer.compose());
+                return;
+            }
         }
 
         List<InventoryItem> unseenItems = new ArrayList<>();
@@ -157,7 +168,7 @@ public class CatalogPurchaseHandler {
                         extraData += data.replace(",", ".");
                     }
                 } else if (def.getInteraction().equals("group_item") || def.getInteraction().equals("group_gate")) {
-                    if (!StringUtils.isNumeric(data)) return;
+                    if (data.isEmpty() || !StringUtils.isNumeric(data)) return;
 
                     if (!client.getPlayer().getGroups().contains(new Integer(data))) {
                         return;
@@ -194,7 +205,7 @@ public class CatalogPurchaseHandler {
 
                 if (giftData != null) {
                     giftData.setExtraData(extraData);
-                    purchases.add(new CatalogPurchase(PlayerDao.getIdByUsername(giftData.getReceiver()), CometManager.getItems().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData)));
+                    purchases.add(new CatalogPurchase(playerIdToDeliver, CometManager.getItems().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData)));
                 } else {
                     for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
                         for (int itemCount = 0; itemCount != item.getAmount(); itemCount++) {
@@ -238,7 +249,7 @@ public class CatalogPurchaseHandler {
                 }
 
                 if(giftData != null) {
-                    this.deliverGift(giftData, newItems);
+                    this.deliverGift(playerIdToDeliver, giftData, newItemId, newItems);
                 } else {
                     if (item.hasBadge()) {
                         client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
@@ -253,7 +264,6 @@ public class CatalogPurchaseHandler {
             CometManager.getLogger().error("Error while buying catalog item", e);
         } finally {
             // Clean up the purchase - even if there was an exception!!
-
             unseenItems.clear();
         }
     }
@@ -263,8 +273,19 @@ public class CatalogPurchaseHandler {
      * @param giftData The data of the gift
      * @param newItems The new items
      */
-    private void deliverGift(GiftData giftData, List<Integer> newItems) {
-        // todo: this
+    private void deliverGift(int playerId, GiftData giftData, int definitionId, List<Integer> newItems) {
+        Session client = Comet.getServer().getNetwork().getSessions().getByPlayerId(playerId);
+
+        if(client != null) {
+            List<InventoryItem> unseenItems = new ArrayList<>();
+
+            for(int newItem : newItems) {
+                unseenItems.add(client.getPlayer().getInventory().add(newItem, CometManager.getItems().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData), giftData));
+            }
+
+            client.send(UnseenItemsMessageComposer.compose(unseenItems));
+            client.send(UpdateInventoryMessageComposer.compose());
+        }
     }
 
     /**

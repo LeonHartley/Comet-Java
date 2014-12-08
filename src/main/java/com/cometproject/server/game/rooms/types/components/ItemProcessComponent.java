@@ -5,7 +5,10 @@ import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.queue.RoomItemEventQueue;
+import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollerFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiPuckFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.logging.sentry.SentryDispatcher;
 import com.cometproject.server.tasks.CometTask;
@@ -138,7 +141,7 @@ public class ItemProcessComponent implements CometTask {
     }
 
     protected void handleException(RoomItem item, Exception e) {
-        if(item instanceof RollerFloorItem) return; // TODO: Find stack trice for this.
+        if(item instanceof RollerFloorItem || item instanceof RollableFloorItem) return; // TODO: Find stack trace for this.
 
         log.error("Error while processing item: " + item.getId() + " (" + item.getClass().getSimpleName(), e);
     }

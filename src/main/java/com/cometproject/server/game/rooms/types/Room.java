@@ -63,6 +63,7 @@ public class Room implements Attributable {
             }
 
         }
+
         this.attributes = new FastMap<>();
 
         this.mapping = new RoomMapping(this);
