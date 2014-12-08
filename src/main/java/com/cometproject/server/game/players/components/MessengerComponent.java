@@ -119,6 +119,15 @@ public class MessengerComponent {
         }
     }
 
+    public boolean hasRequestFrom(int playerId) {
+        for(MessengerRequest messengerRequest : this.requests) {
+            if(messengerRequest.getFromId() == playerId)
+                return true;
+        }
+
+        return false;
+    }
+
     public void clearRequests() {
         this.requests.clear();
     }

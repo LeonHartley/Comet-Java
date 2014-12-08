@@ -27,6 +27,9 @@ public class RequestFriendshipMessageEvent implements IEvent {
             return;
         }
 
+        if(request.getPlayer().getMessenger().hasRequestFrom(client.getPlayer().getId()))
+            return;
+
         MessengerRequest req = new MessengerRequest(client.getPlayer().getId(), client.getPlayer().getData().getUsername(), client.getPlayer().getData().getFigure(), client.getPlayer().getData().getMotto());
 
         request.getPlayer().getMessenger().addRequest(req);
