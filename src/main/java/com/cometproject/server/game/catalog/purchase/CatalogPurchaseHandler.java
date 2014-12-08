@@ -269,9 +269,11 @@ public class CatalogPurchaseHandler {
     }
 
     /**
-     * Deliver the gift (if it was gifted)
+     * Deliver the gift
+     * @param playerId The ID of the player to deliver the item to
      * @param giftData The data of the gift
-     * @param newItems The new items
+     * @param definitionId
+     * @param newItems List of items to deliver
      */
     private void deliverGift(int playerId, GiftData giftData, int definitionId, List<Integer> newItems) {
         Session client = Comet.getServer().getNetwork().getSessions().getByPlayerId(playerId);

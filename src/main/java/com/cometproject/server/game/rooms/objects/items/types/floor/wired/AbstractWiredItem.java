@@ -12,9 +12,11 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.JsonFactory;
 import com.cometproject.server.utilities.attributes.Stateable;
+import com.cometproject.server.utilities.comporators.PositionComporator;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 
+import java.util.Collections;
 import java.util.List;
 
 /**

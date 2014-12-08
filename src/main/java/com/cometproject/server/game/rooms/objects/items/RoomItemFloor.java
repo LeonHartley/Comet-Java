@@ -8,6 +8,7 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.data.BackgroundTonerData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
@@ -21,15 +22,19 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorE
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.cometproject.server.utilities.attributes.Collidable;
+import com.cometproject.server.utilities.comporators.PositionComporator;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 
-public abstract class RoomItemFloor extends RoomItem {
+public abstract class RoomItemFloor extends RoomItem implements Collidable {
     private String extraData;
 
     private ItemDefinition itemDefinition;
+    private GenericEntity collidedEntity;
 
     public RoomItemFloor(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, new Position(x, y, z), room);
@@ -317,6 +322,34 @@ public abstract class RoomItemFloor extends RoomItem {
         }
 
         return null;
+    }
+
+    public PlayerEntity nearestPlayerEntity() {
+        PositionComporator positionComporator = new PositionComporator(this);
+
+        List<PlayerEntity> nearestEntities = this.getRoom().getEntities().getPlayerEntities();
+
+        Collections.sort(nearestEntities, positionComporator);
+
+        for(PlayerEntity playerEntity : nearestEntities) {
+//            if(playerEntity.getTile().isReachable(this)) {
+            return playerEntity;
+//            }
+        }
+
+        return null;
+    }
+
+    public GenericEntity getCollision() {
+        return this.collidedEntity;
+    }
+
+    public void setCollision(GenericEntity entity) {
+        this.collidedEntity = entity;
+    }
+
+    public void nullifyCollision() {
+        this.collidedEntity = null;
     }
 
     public double getOverrideHeight() {
