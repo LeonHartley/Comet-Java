@@ -17,19 +17,11 @@ import javolution.util.FastMap;
 import java.util.Map;
 
 public class BanzaiGame extends RoomGame {
-    private Map<GameTeam, Integer> scores;
     private int startBanzaiTileCount = 0;
     private int banzaiTileCount = 0;
 
     public BanzaiGame(Room room) {
         super(room, GameType.BANZAI);
-
-        this.scores = new FastMap<GameTeam, Integer>() {{
-            add(GameTeam.BLUE, 0);
-            add(GameTeam.YELLOW, 0);
-            add(GameTeam.RED, 0);
-            add(GameTeam.GREEN, 0);
-        }};
     }
 
     @Override
@@ -83,12 +75,12 @@ public class BanzaiGame extends RoomGame {
             }
         }
 
-        this.scores.clear();
+        this.getGameComponent().resetScores();
         WiredTriggerGameEnds.executeTriggers(this.room);
     }
 
     public void increaseScore(GameTeam team, int amount) {
-        this.scores.replace(team, this.getScore(team) + amount);
+        this.getGameComponent().increaseScore(team, amount);
         this.updateScoreboard(team);
     }
 
@@ -102,17 +94,13 @@ public class BanzaiGame extends RoomGame {
     }
 
     public int getScore(GameTeam team) {
-        if(this.scores.containsKey(team)) {
-            return this.scores.get(team);
-        }
-
-        return 0;
+        return this.getGameComponent().getScore(team);
     }
 
     public GameTeam winningTeam() {
         Map.Entry<GameTeam, Integer> winningTeam = null;
 
-        for (Map.Entry<GameTeam, Integer> score : this.scores.entrySet()) {
+        for (Map.Entry<GameTeam, Integer> score : this.getGameComponent().getScores().entrySet()) {
             if (winningTeam == null || winningTeam.getValue() < score.getValue()) {
                 winningTeam = score;
             }

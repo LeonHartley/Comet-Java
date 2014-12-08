@@ -4,7 +4,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
 import com.cometproject.server.game.rooms.types.Room;
 
-public class WiredTriggerAtGivenTime extends WiredTriggerItem {
+public class WiredTriggerAtGivenTimeLong extends WiredTriggerItem {
     private static final int PARAM_TICK_LENGTH = 0;
     private boolean reset = false;
 
@@ -21,24 +21,24 @@ public class WiredTriggerAtGivenTime extends WiredTriggerItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredTriggerAtGivenTime(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredTriggerAtGivenTimeLong(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         if (this.getWiredData().getParams().get(PARAM_TICK_LENGTH) == null) {
             this.getWiredData().getParams().put(PARAM_TICK_LENGTH, 2); // 1s
         }
 
-        this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2));
+        this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10);
     }
 
     @Override
     public void onTickComplete() {
-        if(this.isReset()) {
+        if (this.isReset()) {
             this.evaluate(null, null);
             this.reset = false;
-        }
 
-        this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2));
+            this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10);
+        }
     }
 
     @Override
@@ -57,6 +57,6 @@ public class WiredTriggerAtGivenTime extends WiredTriggerItem {
 
     public void reset() {
         this.reset = true;
-        this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2));
+        this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10);
     }
 }

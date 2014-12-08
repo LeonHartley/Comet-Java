@@ -41,7 +41,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
         }
 
         if(this.points == 3) {
-            ((BanzaiGame) this.getRoom().getGame().getInstance()).increaseScore(this.gameTeam, 1);
+            ((BanzaiGame) this.getRoom().getGame().getInstance()).increaseScore(gameTeam, 1);
             ((BanzaiGame) this.getRoom().getGame().getInstance()).decreaseTileCount();
 
             final List<BanzaiTileFloorItem> rectangle = buildBanzaiRectangle(this, this.getPosition().getX(), this.getPosition().getY(), 0, 0, -1, 4, gameTeam);
@@ -74,7 +74,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
                             tileItem.setPoints(3);
                             tileItem.setTeam(this.gameTeam);
 
-                            ((BanzaiGame) this.getRoom().getGame().getInstance()).increaseScore(this.gameTeam, 1);
+                            ((BanzaiGame) this.getRoom().getGame().getInstance()).increaseScore(gameTeam, 1);
                             ((BanzaiGame) this.getRoom().getGame().getInstance()).decreaseTileCount();
                             tileItem.updateTileData();
                         }
