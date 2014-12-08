@@ -5,11 +5,15 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.AbstractWiredItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionKickUser;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonRandomEffect;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonUnseenEffect;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.room.moderation.KickUserMessageEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredTriggerMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.utilities.RandomInteger;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -40,27 +44,42 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
         // create empty list for all wired conditions on current tile
         List<WiredConditionItem> wiredConditions = Lists.newArrayList();
 
+        // used by addons
+        boolean useRandomEffect = false;
+        WiredAddonUnseenEffect unseenEffectItem = null;
+
         boolean canExecute = true;
 
+        // Wired animation
         this.flash();
 
         // loop through all items on this tile
         for (RoomItemFloor floorItem : this.getItemsOnStack()) {
             if (floorItem instanceof WiredActionItem) {
+
                 // if the item is a wired action, add it to the list of actions
                 wiredActions.add(((WiredActionItem) floorItem));
             } else if (floorItem instanceof WiredConditionItem) {
 
                 // if the item is a wired condition, add it to the list of conditions
                 wiredConditions.add((WiredConditionItem) floorItem);
+            } else if (floorItem instanceof WiredAddonUnseenEffect && unseenEffectItem == null) {
+
+                unseenEffectItem = ((WiredAddonUnseenEffect) floorItem);
+            } else if (floorItem instanceof WiredAddonRandomEffect) {
+                useRandomEffect = true;
             }
+        }
+
+        if(unseenEffectItem != null && unseenEffectItem.getSeenEffects().size() >= wiredActions.size()) {
+            unseenEffectItem.getSeenEffects().clear();
         }
 
         // loop through the conditions and check whether or not we can perform the action
         for (WiredConditionItem conditionItem : wiredConditions) {
             conditionItem.flash();
 
-            if(!conditionItem.evaluate(entity, data)) {
+            if (!conditionItem.evaluate(entity, data)) {
                 canExecute = false;
             }
         }
@@ -75,21 +94,35 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
             // event that called this wired trigger can do what it needs to do
             boolean wasSuccess = false;
 
-            for (WiredActionItem actionItem : wiredActions) {
-                if(this instanceof WiredTriggerEnterRoom && actionItem instanceof WiredActionKickUser) {
-                    if(entity != null) {
-                        if(entity instanceof PlayerEntity && ((PlayerEntity) entity).getPlayer() != null) {
-                            if(((PlayerEntity) entity).getPlayer().getPermissions().hasPermission("room_unkickable")) {
-                                continue;
-                            }
-                        }
+            if (useRandomEffect) {
+                int itemIndex = RandomInteger.getRandom(0, wiredActions.size() - 1);
+
+                WiredActionItem actionItem = wiredActions.get(itemIndex);
+
+                if (actionItem != null) {
+                    if (this.executeEffect(actionItem, entity, data)) {
+                        wasSuccess = true;
                     }
                 }
 
-                actionItem.flash();
+                return wasSuccess;
+            } else if (unseenEffectItem != null) {
+                for (WiredActionItem actionItem : wiredActions) {
+                    if(!unseenEffectItem.getSeenEffects().contains(actionItem.getId())) {
+                        unseenEffectItem.getSeenEffects().add(actionItem.getId());
 
-                if(actionItem.evaluate(entity, data)) {
-                    wasSuccess = true;
+                        if(this.executeEffect(actionItem, entity, data))
+                            wasSuccess = true;
+                        break;
+                    }
+                }
+
+                return wasSuccess;
+            } else {
+                for (WiredActionItem actionItem : wiredActions) {
+                    if (this.executeEffect(actionItem, entity, data)) {
+                        wasSuccess = true;
+                    }
                 }
             }
 
@@ -98,6 +131,22 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
 
         // tell the event that called the trigger that it was not a success!
         return false;
+    }
+
+    private boolean executeEffect(WiredActionItem actionItem, GenericEntity entity, Object data) {
+        if (this instanceof WiredTriggerEnterRoom && actionItem instanceof WiredActionKickUser) {
+            if (entity != null) {
+                if (entity instanceof PlayerEntity && ((PlayerEntity) entity).getPlayer() != null) {
+                    if (((PlayerEntity) entity).getPlayer().getPermissions().hasPermission("room_unkickable")) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        actionItem.flash();
+
+        return actionItem.evaluate(entity, data);
     }
 
     @Override
@@ -112,10 +161,10 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
         // check whether or not this current trigger supplies a player
         if (!this.suppliesPlayer()) {
             // if it doesn't, loop through all items on current tile
-            for(RoomItemFloor floorItem : this.getItemsOnStack()) {
-                if(floorItem instanceof WiredActionItem) {
+            for (RoomItemFloor floorItem : this.getItemsOnStack()) {
+                if (floorItem instanceof WiredActionItem) {
                     // check whether the item needs a player to perform its action
-                    if(((WiredActionItem) floorItem).requiresPlayer()) {
+                    if (((WiredActionItem) floorItem).requiresPlayer()) {
                         // if it does, add it to the incompatible actions list!
                         incompatibleActions.add(((WiredActionItem) floorItem));
                     }

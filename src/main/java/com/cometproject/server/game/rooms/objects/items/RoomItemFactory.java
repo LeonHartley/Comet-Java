@@ -15,10 +15,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardSlopeFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.summer.SummerShowerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.*;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonColourWheel;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonFloorSwitch;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonPressurePlate;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonPyramid;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.*;
@@ -90,6 +87,9 @@ public class RoomItemFactory {
             put("wf_cnd_not_user_count", WiredConditionPlayerCountInRoom.class);//new
             put("wf_cnd_match_snapshot", WiredConditionMatchSnapshot.class);//new
             put("wf_cnd_not_match_snap", WiredNegativeConditionMatchSnapshot.class);//new
+
+            put("wf_xtra_random", WiredAddonRandomEffect.class);
+            put("wf_xtra_unseen", WiredAddonUnseenEffect.class);
 
             put("wf_floor_switch1", WiredAddonFloorSwitch.class);//new
             put("wf_floor_switch2", WiredAddonFloorSwitch.class);//new

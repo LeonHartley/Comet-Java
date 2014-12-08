@@ -71,8 +71,7 @@ public class RoomMapping {
                 hasMountedPet = true;
             }
 
-
-            // nullcheckhere
+            // Do we need a null check here? Not sure yet..
             if (entity.getId() == entityId) {
                 hasMe = true;
             }
