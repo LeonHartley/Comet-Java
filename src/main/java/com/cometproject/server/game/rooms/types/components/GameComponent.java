@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerScoreAchieved;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
@@ -16,16 +18,30 @@ public class GameComponent {
     private RoomGame instance;
 
     private Map<GameTeam, List<Integer>> teams;
+    private Map<GameTeam, Integer> scores;
 
     public GameComponent(Room room) {
         this.teams = new FastMap<GameTeam, List<Integer>>() {{
-            add(GameTeam.BLUE, Lists.newArrayList());
-            add(GameTeam.YELLOW, Lists.newArrayList());
-            add(GameTeam.RED, Lists.newArrayList());
-            add(GameTeam.GREEN, Lists.newArrayList());
+            put(GameTeam.BLUE, Lists.newArrayList());
+            put(GameTeam.YELLOW, Lists.newArrayList());
+            put(GameTeam.RED, Lists.newArrayList());
+            put(GameTeam.GREEN, Lists.newArrayList());
         }};
 
+        this.resetScores();
         this.room = room;
+    }
+
+    public void resetScores() {
+        if(this.scores != null)
+            this.scores.clear();
+
+        this.scores = new FastMap<GameTeam, Integer>() {{
+            put(GameTeam.BLUE, 0);
+            put(GameTeam.YELLOW, 0);
+            put(GameTeam.GREEN, 0);
+            put(GameTeam.RED, 0);
+        }};
     }
 
     public void dispose() {
@@ -71,6 +87,27 @@ public class GameComponent {
         return GameTeam.NONE;
     }
 
+    public void increaseScore(GameTeam team, int amount) {
+        this.scores.replace(team, this.scores.get(team) + amount);
+
+        for(RoomItemFloor scoreItem : this.getRoom().getItems().getByInteraction("football_score")) {
+            scoreItem.sendUpdate();
+        }
+
+        for (RoomItemFloor scoreboard : this.getRoom().getItems().getByInteraction("%_score")) {
+            if (team == null || scoreboard.getDefinition().getInteraction().toUpperCase().startsWith(team.name())) {
+                scoreboard.setExtraData(team == null ? "0" : this.getScore(team) + "");
+                scoreboard.sendUpdate();
+            }
+        }
+
+        WiredTriggerScoreAchieved.executeTriggers(this.getRoom().getGame().getScore(team), team, this.getRoom());
+    }
+
+    public int getScore(GameTeam team) {
+        return this.scores.get(team);
+    }
+
     public Map<GameTeam, List<Integer>> getTeams() {
         return teams;
     }
@@ -82,5 +119,9 @@ public class GameComponent {
 
     public Room getRoom() {
         return this.room;
+    }
+
+    public Map<GameTeam, Integer> getScores() {
+        return scores;
     }
 }

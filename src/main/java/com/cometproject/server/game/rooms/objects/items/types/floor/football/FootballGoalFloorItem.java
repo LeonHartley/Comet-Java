@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.football;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerScoreAchieved;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 
@@ -28,9 +29,7 @@ public class FootballGoalFloorItem extends RoomItemFloor {
 
     @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
-        for(RoomItemFloor scoreItem : this.getRoom().getItems().getByInteraction("football_score")) {
-            ((FootballScoreFloorItem) scoreItem).increaseScore(this.gameTeam);
-        }
+        this.getRoom().getGame().increaseScore(this.gameTeam, 1);
     }
 
     public GameTeam getGameTeam() {

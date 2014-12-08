@@ -141,7 +141,7 @@ public class ItemProcessComponent implements CometTask {
     }
 
     protected void handleException(RoomItem item, Exception e) {
-        if(item instanceof RollerFloorItem || item instanceof RollableFloorItem) return; // TODO: Find stack trace for this.
+        if(item instanceof RollerFloorItem) return; // TODO: Find stack trace for this.
 
         log.error("Error while processing item: " + item.getId() + " (" + item.getClass().getSimpleName(), e);
     }

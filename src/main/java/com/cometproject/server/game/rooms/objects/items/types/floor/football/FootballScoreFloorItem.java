@@ -5,7 +5,6 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 
 public class FootballScoreFloorItem extends RoomItemFloor {
-    private int score = 0;
     private GameTeam gameTeam;
 
     public FootballScoreFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
@@ -29,20 +28,13 @@ public class FootballScoreFloorItem extends RoomItemFloor {
         }
     }
 
-    public void increaseScore(GameTeam team) {
-        if(this.gameTeam == team) {
+    public void sendUpdate() {
+        this.setExtraData(this.getRoom().getGame().getScore(this.gameTeam) + "");
 
-            this.score++;
-
-            this.setExtraData(this.score + "");
-            this.sendUpdate();
-        }
+        super.sendUpdate();
     }
-
     public void reset() {
-        this.score = 0;
-
-        this.setExtraData(this.score + "");
+        this.setExtraData(0 + "");
         this.sendUpdate();
     }
 }
