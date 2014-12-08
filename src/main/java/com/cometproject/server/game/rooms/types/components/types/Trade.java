@@ -286,8 +286,8 @@ public class Trade {
      */
     public void updateWindow() {
         this.sendToUsers(TradeUpdateMessageComposer.compose(
-                (this.user1 == null || this.user1.getPlayer() == null) ? 0 : this.user1.getPlayer().getId(),
-                (this.user2 == null || this.user2.getPlayer() == null) ? 0 : this.user2.getPlayer().getId(),
+                this.user1.getPlayerId(),
+                this.user2.getPlayerId(),
                 this.user1Items,
                 this.user2Items
         ));

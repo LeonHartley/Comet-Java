@@ -5,7 +5,6 @@ import com.cometproject.server.game.utilities.ModelUtils;
 import com.cometproject.server.network.messages.outgoing.room.engine.HeightmapMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RelativeHeightmapMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
-import com.sun.media.sound.InvalidDataException;
 import org.apache.log4j.Logger;
 
 public abstract class RoomModel {
