@@ -136,6 +136,11 @@ public class CometSettings {
      */
     public static boolean storeAccess = false;
 
+    /**
+     * If disable, the wired items will not send the flash update
+     */
+    public static boolean disableWiredFlash = false;
+
     // TODO: Catch missing-config exceptions and fallback to the defaults...
 
     /**
@@ -180,6 +185,10 @@ public class CometSettings {
 
         if(config.containsKey("comet.security.storeAccess")) {
             storeAccess = Boolean.parseBoolean(config.get("comet.security.storeAccess"));
+        }
+
+        if(config.containsKey("comet.game.rooms.disableWiredFlash")) {
+            storeAccess = Boolean.parseBoolean(config.get("comet.game.rooms.disableWiredFlash"));
         }
     }
 
