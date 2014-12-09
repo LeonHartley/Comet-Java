@@ -287,6 +287,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.OpenPostItMessageEvent, new OpenPostItMessageEvent());
         this.getMessages().put(Events.SavePostItMessageEvent, new SavePostItMessageEvent());
         this.getMessages().put(Events.DeletePostItMessageEvent, new DeletePostItMessageEvent());
+        this.getMessages().put(Events.YouTubeGetPlayerMessageEvent, new LoadPlaylistMessageEvent());
     }
 
     public void registerPromotions() {
