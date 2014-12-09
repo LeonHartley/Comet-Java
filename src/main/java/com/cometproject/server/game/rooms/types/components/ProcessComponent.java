@@ -265,7 +265,7 @@ public class ProcessComponent implements CometTask {
         } else {
             int chance = RandomInteger.getRandom(1, (entity.hasStatus(RoomEntityStatus.SIT) || entity.hasStatus(RoomEntityStatus.LAY)) ? 20 : 6);
 
-            if (!(entity instanceof PetEntity) || !((PetEntity) entity).hasMount()) {
+            if (!(entity instanceof PetEntity) || !entity.hasMount()) {
                 if (chance == 1) {
                     if (!entity.isWalking()) {
                         int x = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeX());
@@ -376,7 +376,9 @@ public class ProcessComponent implements CometTask {
                 entity.setBodyRotation(Position.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
                 entity.setHeadRotation(entity.getBodyRotation());
 
-                final double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getWalkHeight() + (entity.getMountedEntity() != null ? 1.0 : 0);
+                final double mountHeight = entity.getMountedEntity() != null ? 1.0 : 0;//(entity.getMountedEntity() != null) ? (((String) entity.getAttribute("transform")).startsWith("15 ") ? 1.0 : 0.5) : 0;
+
+                final double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getWalkHeight() + mountHeight;
                 boolean isCancelled = entity.isWalkCancelled();
                 boolean effectNeedsRemove = true;
 
@@ -455,10 +457,10 @@ public class ProcessComponent implements CometTask {
     }
 
     protected void handleSupressedExceptions(Exception e) {
-        if(e instanceof NullPointerException || e instanceof IndexOutOfBoundsException) {
-            // TODO: Rewrite entity grid
-            return;
-        }
+//        if(e instanceof NullPointerException || e instanceof IndexOutOfBoundsException) {
+//            // TODO: Rewrite entity grid
+//            return;
+//        }
 
         log.error("Error while processing entity", e);
     }

@@ -18,7 +18,6 @@ public class PetEntity extends GenericEntity {
     private PetAI ai;
 
     private int cycleCount = 0;
-    private boolean hasMount = false;
 
     private Map<String, Object> attributes = new FastMap<>();
 
@@ -168,13 +167,5 @@ public class PetEntity extends GenericEntity {
     @Override
     public void removeAttribute(String attributeKey) {
         this.attributes.remove(attributeKey);
-    }
-
-    public boolean hasMount() {
-        return hasMount;
-    }
-
-    public void setHasMount(boolean hasMount) {
-        this.hasMount = hasMount;
     }
 }
