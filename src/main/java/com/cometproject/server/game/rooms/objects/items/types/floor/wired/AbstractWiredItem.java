@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -119,6 +120,10 @@ public abstract class AbstractWiredItem extends RoomItemFloor implements WiredIt
     }
 
     public void flash() {
+        if (CometSettings.disableWiredFlash) {
+            return;
+        }
+        
         if(this.state) return; // already flashing
 
         this.flashTicks = RoomItemFactory.getProcessTime(0.5);
@@ -127,7 +132,11 @@ public abstract class AbstractWiredItem extends RoomItemFloor implements WiredIt
     }
 
     public void onTick() {
-        if(this.state) {
+        if (CometSettings.disableWiredFlash) {
+            return;
+        }
+
+        if (this.state) {
             if (this.flashTicks <= 0) {
                 this.state = false;
                 this.sendUpdate();
