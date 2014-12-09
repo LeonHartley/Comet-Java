@@ -191,8 +191,8 @@ public class Composers {
     public static final short SendMonsterplantIdMessageComposer = 3870;
     public static final short VoucherErrorMessageComposer = 1738;
     public static final short VoucherValidMessageComposer = 1738;
-    public static final short YouTubeLoadPlaylistsMessageComposer = 3247;
-    public static final short YouTubeLoadVideoMessageComposer = -32;
+    public static final short YouTubeLoadPlaylistsMessageComposer = 1225;
+    public static final short YouTubeLoadVideoMessageComposer = 3247;
     public static final short WiredConditionMessageComposer = 1612;
     public static final short WiredEffectMessageComposer = 178;
     public static final short WiredTriggerMessageComposer = 3016;

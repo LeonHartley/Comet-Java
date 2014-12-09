@@ -10,13 +10,16 @@ import com.cometproject.server.network.messages.outgoing.user.youtube.PlaylistMe
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import org.apache.commons.lang.StringUtils;
 
 public class PlayVideoMessageEvent implements IEvent {
 
     @Override
     public void handle(Session client, Event msg) throws Exception {
         int itemId = msg.readInt();
-        int videoId = msg.readInt();
+
+        String videoIdStr = msg.readString();
+        int videoId = videoIdStr.isEmpty() ? 0 : StringUtils.isNumeric(videoIdStr) ? Integer.parseInt(videoIdStr) : 0;
 
         RoomItemFloor item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(itemId);
 
