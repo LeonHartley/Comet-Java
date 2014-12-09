@@ -493,10 +493,26 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     }
 
     public GenericEntity getMountedEntity() {
+        if(this.mountedEntity == null) return null;
+
+        if(this.getRoom().getEntities().getEntity(this.mountedEntity.getId()) == null) {
+            return null;
+        }
+
         return mountedEntity;
     }
 
     public void setMountedEntity(GenericEntity mountedEntity) {
         this.mountedEntity = mountedEntity;
+    }
+
+    private boolean hasMount = false;
+
+    public boolean hasMount() {
+        return hasMount;
+    }
+
+    public void setHasMount(boolean hasMount) {
+        this.hasMount = hasMount;
     }
 }

@@ -179,6 +179,11 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             floorItem.onEntityLeaveRoom(this);
         }
 
+        if(this.getMountedEntity() != null) {
+            this.getMountedEntity().setOverriden(false);
+            this.getMountedEntity().setHasMount(false);
+        }
+
         // Remove entity from the room
         this.getRoom().getEntities().removeEntity(this);
         this.getPlayer().setEntity(null);

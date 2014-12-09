@@ -123,7 +123,7 @@ public abstract class AbstractWiredItem extends RoomItemFloor implements WiredIt
         if (CometSettings.disableWiredFlash) {
             return;
         }
-        
+
         if(this.state) return; // already flashing
 
         this.flashTicks = RoomItemFactory.getProcessTime(0.5);
