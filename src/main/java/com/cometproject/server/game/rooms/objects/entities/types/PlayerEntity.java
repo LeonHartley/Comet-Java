@@ -107,7 +107,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                     return;
                 } else {
                     this.getRoom().getEntities().broadcastMessage(DoorbellRequestComposer.compose(this.getUsername()), true);
-                    this.player.getSession().send(DoorbellRequestComposer.compose("Leon"));
+                    this.player.getSession().send(DoorbellRequestComposer.compose(""));
                     return;
                 }
             }
@@ -121,8 +121,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     protected void finalizeJoinRoom() {
-//        this.player.getSession().send(ModelAndIdMessageComposer.compose(this.getRoom().getModel().getId(), this.getId()));
-
         for (Map.Entry<String, String> decoration : this.getRoom().getData().getDecorations().entrySet()) {
             if (decoration.getKey().equals("wallpaper") || decoration.getKey().equals("floor")) {
                 if (decoration.getValue().equals("0.0")) {
