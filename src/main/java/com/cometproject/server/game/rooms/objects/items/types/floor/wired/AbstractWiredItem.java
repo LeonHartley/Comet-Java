@@ -119,6 +119,8 @@ public abstract class AbstractWiredItem extends RoomItemFloor implements WiredIt
     }
 
     public void flash() {
+        if(this.state) return; // already flashing
+
         this.flashTicks = RoomItemFactory.getProcessTime(0.5);
         this.state = true;
         this.sendUpdate();
