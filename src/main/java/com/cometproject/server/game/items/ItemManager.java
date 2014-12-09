@@ -73,7 +73,7 @@ public class ItemManager {
         }
 
         // TODO: LRU cache
-        LimitedEditionItem item = LimitedEditionDao.get(itemId);
+        LimitedEditionItem item = null;
 
         if (item != null) {
             this.limitedEditionItems.put(itemId, item);

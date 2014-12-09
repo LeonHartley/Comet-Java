@@ -87,6 +87,7 @@ public class CommandManager {
         this.commands.put(Locale.get("command.noface.name"), new NoFaceCommand());
         this.commands.put(Locale.get("command.follow.name"), new FollowCommand());
         this.commands.put(Locale.get("command.superpull.name"), new SuperPullCommand());
+        this.commands.put(Locale.get("command.redeemcredits.name"), new RedeemCreditsCommand());
 
         // Gimmick commands
         this.commands.put(Locale.get("command.slap.name"), new SlapCommand());

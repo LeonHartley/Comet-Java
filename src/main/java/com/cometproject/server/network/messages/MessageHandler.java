@@ -66,6 +66,8 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.ChangeLoo
 import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlaylistMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.youtube.NextVideoMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoMessageEvent;
 import com.cometproject.server.network.messages.outgoing.room.access.LoadRoomByDoorBellMessageEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -178,7 +180,6 @@ public final class MessageHandler {
         this.getMessages().put(Events.WardrobeUpdateMessageEvent, new SaveWardrobeMessageEvent());
         this.getMessages().put(Events.SetHomeRoomMessageEvent, new ChangeHomeRoomMessageEvent());
         this.getMessages().put(Events.ChangeUsernameMessageEvent, new ChangeUsernameCheckMessageEvent());
-        this.getMessages().put(Events.YouTubeGetPlaylistGetMessageEvent, new LoadPlaylistMessageEvent());
         this.getMessages().put(Events.SaveClientSettingsMessageEvent, new UpdateAudioSettingsMessageEvent());
         this.getMessages().put(Events.SetChatPreferenceMessageEvent, new UpdateChatStyleMessageEvent());
         this.getMessages().put(Events.IgnoreInvitationsMessageEvent, new IgnoreInvitationsMessageEvent());
@@ -288,6 +289,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.SavePostItMessageEvent, new SavePostItMessageEvent());
         this.getMessages().put(Events.DeletePostItMessageEvent, new DeletePostItMessageEvent());
         this.getMessages().put(Events.YouTubeGetPlayerMessageEvent, new LoadPlaylistMessageEvent());
+        this.getMessages().put(Events.YouTubeGetPlaylistGetMessageEvent, new PlayVideoMessageEvent());
+        this.getMessages().put(Events.YouTubeChoosePlaylistVideoMessageEvent, new NextVideoMessageEvent());
     }
 
     public void registerPromotions() {
