@@ -41,7 +41,7 @@ public class ItemProcessComponent implements CometTask {
         this.mgr = mgr;
         this.room = room;
 
-        log = Logger.getLogger("GenericRoomItem Process [" + room.getData().getName() + "]");
+        log = Logger.getLogger("Item Process [" + room.getData().getName() + "]");
     }
 
     public RoomItemEventQueue getEventQueue() {
@@ -87,16 +87,16 @@ public class ItemProcessComponent implements CometTask {
             return;
         }
 
-        if (this.getRoom().getEntities().realPlayerCount() == 0) {
-            if(this.idleTimer >= 750) {
-                this.stop();
-                return;
-            } else {
-                this.idleTimer++;
-            }
-        } else {
-            this.idleTimer = 0;
-        }
+//        if (this.getRoom().getEntities().realPlayerCount() == 0) {
+//            if(this.idleTimer >= 750) {
+//                this.stop();
+//                return;
+//            } else {
+//                this.idleTimer++;
+//            }
+//        } else {
+//            this.idleTimer = 0;
+//        }
 
         long timeStart = System.currentTimeMillis();
 
