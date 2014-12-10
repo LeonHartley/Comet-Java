@@ -48,6 +48,8 @@ public class RedeemCreditsCommand extends ChatCommand {
         client.send(UpdateInventoryMessageComposer.compose());
         client.getPlayer().getData().increaseCredits(coinsToGive);
         client.getPlayer().sendBalance();
+
+        client.getPlayer().getData().save();
     }
 
 
