@@ -3,11 +3,12 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actio
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
-import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+
 
 public class WiredActionTeleportPlayer extends WiredActionItem {
     /**
@@ -29,16 +30,16 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(entity == null) return false;
+        if (entity == null) return false;
 
-        if(this.entity != null) {
+        if (this.entity != null) {
             // this action is busy, pls come back later.
             return false;
         }
 
         this.entity = entity;
 
-        if(this.getWiredData().getDelay() >= 1) {
+        if (this.getWiredData().getDelay() >= 1) {
             this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
         } else {
             this.onTickComplete();
@@ -49,21 +50,21 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
 
     @Override
     public void onTickComplete() {
-        if(this.getWiredData() == null || this.getWiredData().getSelectedIds() == null || this.getWiredData().getSelectedIds().isEmpty()) {
+        if (this.getWiredData() == null || this.getWiredData().getSelectedIds() == null || this.getWiredData().getSelectedIds().isEmpty()) {
             this.entity = null;
             return;
         }
 
         Integer itemId = WiredUtil.getRandomElement(this.getWiredData().getSelectedIds());
 
-        if(itemId == null) {
+        if (itemId == null) {
             this.entity = null;
             return;
         }
 
         RoomItemFloor item = this.getRoom().getItems().getFloorItem(itemId);
 
-        if(item == null || item.isAtDoor()) {
+        if (item == null || item.isAtDoor()) {
             this.entity = null;
             return;
         }

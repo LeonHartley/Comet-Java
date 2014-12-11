@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.Map;
 
+
 public class LoadFriendsMessageComposer {
     public static Composer compose(Map<Integer, MessengerFriend> friends, boolean hasStaffChat) {
         Composer msg = new Composer(Composers.LoadFriendsMessageComposer);

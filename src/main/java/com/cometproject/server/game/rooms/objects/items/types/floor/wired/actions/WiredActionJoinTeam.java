@@ -6,8 +6,10 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.W
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 
+
 public class WiredActionJoinTeam extends WiredActionItem {
     private static final int PARAM_TEAM_ID = 0;
+
     /**
      * The default constructor
      *
@@ -24,7 +26,7 @@ public class WiredActionJoinTeam extends WiredActionItem {
     public WiredActionJoinTeam(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
-        if(this.getWiredData().getParams().size() != 1) {
+        if (this.getWiredData().getParams().size() != 1) {
             this.getWiredData().getParams().put(PARAM_TEAM_ID, 1); // team red
         }
     }
@@ -41,17 +43,17 @@ public class WiredActionJoinTeam extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(entity == null || !(entity instanceof PlayerEntity)) {
+        if (entity == null || !(entity instanceof PlayerEntity)) {
             return false;
         }
 
         PlayerEntity playerEntity = ((PlayerEntity) entity);
 
-        if(playerEntity.getGameTeam() != GameTeam.NONE) {
+        if (playerEntity.getGameTeam() != GameTeam.NONE) {
             return false; // entity already in a team!
         }
 
-        if(this.getTeam() == GameTeam.NONE)
+        if (this.getTeam() == GameTeam.NONE)
             return false;
 
         playerEntity.setGameTeam(this.getTeam());
@@ -60,7 +62,7 @@ public class WiredActionJoinTeam extends WiredActionItem {
     }
 
     private GameTeam getTeam() {
-        switch(this.getWiredData().getParams().get(PARAM_TEAM_ID)) {
+        switch (this.getWiredData().getParams().get(PARAM_TEAM_ID)) {
 
             case 1:
                 return GameTeam.RED;

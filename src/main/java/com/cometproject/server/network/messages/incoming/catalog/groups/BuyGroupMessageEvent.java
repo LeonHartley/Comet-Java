@@ -1,11 +1,12 @@
 package com.cometproject.server.network.messages.incoming.catalog.groups;
 
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
@@ -20,6 +21,7 @@ import com.cometproject.server.utilities.BadgeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class BuyGroupMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
@@ -38,7 +40,7 @@ public class BuyGroupMessageEvent implements IEvent {
         int colour1 = msg.readInt();
         int colour2 = msg.readInt();
 
-        if (!client.getPlayer().getRooms().contains(roomId) || CometManager.getRooms().getRoomData(roomId) == null) {
+        if (!client.getPlayer().getRooms().contains(roomId) || RoomManager.getInstance().getRoomData(roomId) == null) {
             return;
         }
 
@@ -58,8 +60,8 @@ public class BuyGroupMessageEvent implements IEvent {
 
         client.send(BoughtItemMessageComposer.group());
 
-        Group group = CometManager.getGroups().createGroup(new GroupData(name, desc, badge, client.getPlayer().getId(), roomId, CometManager.getGroups().getGroupItems().getSymbolColours().containsKey(colour1) ? colour1 : 1,
-                CometManager.getGroups().getGroupItems().getBackgroundColours().containsKey(colour2) ? colour2 : 1));
+        Group group = GroupManager.getInstance().createGroup(new GroupData(name, desc, badge, client.getPlayer().getId(), roomId, GroupManager.getInstance().getGroupItems().getSymbolColours().containsKey(colour1) ? colour1 : 1,
+                GroupManager.getInstance().getGroupItems().getBackgroundColours().containsKey(colour2) ? colour2 : 1));
 
         group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.OWNER));
         client.getPlayer().getGroups().add(group.getId());

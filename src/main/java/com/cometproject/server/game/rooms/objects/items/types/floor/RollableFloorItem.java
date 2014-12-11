@@ -1,11 +1,11 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
-import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiPuckFloorItem;
-import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiPuckFloorItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
@@ -13,8 +13,8 @@ import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.Direction;
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
 import java.util.List;
+
 
 public abstract class RollableFloorItem extends RoomItemFloor {
     public static final int KICK_POWER = 6;
@@ -36,14 +36,14 @@ public abstract class RollableFloorItem extends RoomItemFloor {
             return;
         }
 
-        if(entity instanceof PlayerEntity && this instanceof BanzaiPuckFloorItem) {
+        if (entity instanceof PlayerEntity && this instanceof BanzaiPuckFloorItem) {
             this.setExtraData((((PlayerEntity) entity).getGameTeam().getTeamId() + 1) + "");
             this.sendUpdate();
         }
 
         if (entity.getWalkingGoal().getX() == this.getPosition().getX() && entity.getWalkingGoal().getY() == this.getPosition().getY()) {
             if (this.skipNext) {
-                if(isDribbling) {
+                if (isDribbling) {
                     this.onInteract(entity, 0, false);
                     this.isDribbling = false;
                 }
@@ -58,7 +58,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
             this.rollBall(entity.getPosition(), KICK_POWER, entity.getBodyRotation());
         } else {
-            if(entity.getWalkingGoal().distanceTo(this.getPosition()) > 1) {
+            if (entity.getWalkingGoal().distanceTo(this.getPosition()) > 1) {
                 this.isDribbling = true;
             }
 
@@ -97,7 +97,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 //                i--;
 //                continue;
 //            } else {
-                positions.add(nextPosition);
+            positions.add(nextPosition);
 //            }
 
             if (needsReverse) {
@@ -128,7 +128,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTriggered) {
         if (isWiredTriggered) return;
 
-        if (this.isRolling || !entity.getPosition().touching(this.getPosition()))  {
+        if (this.isRolling || !entity.getPosition().touching(this.getPosition())) {
             return;
         }
 
@@ -174,7 +174,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     public void onTickComplete() {
         this.rollCount++;
 
-        if(this.rollingPositions.isEmpty()) return;
+        if (this.rollingPositions.isEmpty()) return;
 
         Position newPosition = this.rollingPositions.get(0);
         Position currentPosition = new Position(this.getPosition().getX(), this.getPosition().getY());

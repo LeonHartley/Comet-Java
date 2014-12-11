@@ -10,6 +10,7 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class GroupMembersMessageComposer {
     private static final int MEMBERS_PER_PAGE = 14;
 

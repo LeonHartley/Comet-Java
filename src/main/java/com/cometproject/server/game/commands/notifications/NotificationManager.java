@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import java.util.Map;
 
+
 public class NotificationManager {
     private Map<String, Notification> notifications;
 

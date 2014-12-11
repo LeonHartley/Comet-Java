@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.W
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
 
+
 public class WiredActionShowMessage extends WiredActionItem {
 
     protected boolean isWisperBubble = false;
@@ -39,11 +40,11 @@ public class WiredActionShowMessage extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(!(entity instanceof PlayerEntity)) return false;
+        if (!(entity instanceof PlayerEntity)) return false;
 
         PlayerEntity playerEntity = ((PlayerEntity) entity);
 
-        if(!this.getWiredData().getText().isEmpty()) {
+        if (!this.getWiredData().getText().isEmpty()) {
             playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(entity.getId(), this.getWiredData().getText(), isWisperBubble ? 0 : 34));
         }
 

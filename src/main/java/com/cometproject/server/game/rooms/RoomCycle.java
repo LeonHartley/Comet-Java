@@ -1,30 +1,27 @@
 package com.cometproject.server.game.rooms;
 
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.tasks.CometTask;
-import com.cometproject.server.tasks.CometThreadManagement;
+import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+
 public class RoomCycle implements CometTask {
     private Logger log = Logger.getLogger(RoomCycle.class.getName());
 
     private final static int PERIOD = 500;
 
-    private final CometThreadManagement threadManagement;
     private ScheduledFuture myFuture;
 
-    public RoomCycle(CometThreadManagement mgr) {
-        this.threadManagement = mgr;
+    public RoomCycle() {
     }
 
     public void start() {
-        this.myFuture = this.threadManagement.executePeriodic(this, PERIOD, PERIOD, TimeUnit.MILLISECONDS);
+        this.myFuture = CometThreadManager.getInstance().executePeriodic(this, PERIOD, PERIOD, TimeUnit.MILLISECONDS);
     }
 
     public void stop() {
@@ -43,9 +40,9 @@ public class RoomCycle implements CometTask {
             long start = System.currentTimeMillis();
 
             // run this before ticking
-            CometManager.getRooms().unloadIdleRooms();
+            RoomManager.getInstance().unloadIdleRooms();
 
-            for (Room room : CometManager.getRooms().getRoomInstances().values()) {
+            for (Room room : RoomManager.getInstance().getRoomInstances().values()) {
                 try {
                     room.tick();
                 } catch (Exception e) {

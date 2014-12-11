@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.Collection;
 
+
 public class FeaturedRoomsMessageComposer {
     public static Composer compose(Collection<FeaturedRoom> rooms) {
         Composer msg = new Composer(Composers.OfficialRoomsMessageComposer);
@@ -13,7 +14,7 @@ public class FeaturedRoomsMessageComposer {
         msg.writeInt(rooms.size());
 
         for (FeaturedRoom room : rooms) {
-            if(room.getCategoryId() > 0)
+            if (room.getCategoryId() > 0)
                 continue;
 
             room.compose(msg);

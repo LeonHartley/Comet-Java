@@ -1,14 +1,34 @@
 package com.cometproject.server.game.players;
 
+import com.cometproject.server.utilities.Initializable;
 import javolution.util.FastMap;
+import org.apache.log4j.Logger;
 
-public class PlayerManager {
+
+public class PlayerManager implements Initializable {
+    private static PlayerManager playerManagerInstance;
+    private static Logger log = Logger.getLogger(PlayerManager.class.getName());
+
     private FastMap<Integer, Integer> playerIdToSessionId;
+
     private FastMap<String, Integer> playerUsernameToPlayerId;
 
     public PlayerManager() {
+    }
+
+    @Override
+    public void initialize() {
         this.playerIdToSessionId = new FastMap<>();
         this.playerUsernameToPlayerId = new FastMap<>();
+
+        log.info("PlayerManager initialized");
+    }
+
+    public static PlayerManager getInstance() {
+        if (playerManagerInstance == null)
+            playerManagerInstance = new PlayerManager();
+
+        return playerManagerInstance;
     }
 
     public void put(int playerId, int sessionId, String username) {

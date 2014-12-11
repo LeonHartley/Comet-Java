@@ -5,23 +5,19 @@ import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.queue.RoomItemEventQueue;
-import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollerFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiPuckFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.logging.sentry.SentryDispatcher;
 import com.cometproject.server.tasks.CometTask;
-import com.cometproject.server.tasks.CometThreadManagement;
+import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
-import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+
 public class ItemProcessComponent implements CometTask {
-//    private final int INTERVAL = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
+    //    private final int INTERVAL = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
     private static final int INTERVAL = 25;
     private static final int FLAG = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.flag"));
 
@@ -29,7 +25,7 @@ public class ItemProcessComponent implements CometTask {
     private final Logger log;
 
     private ScheduledFuture myFuture;
-    private CometThreadManagement mgr;
+    private CometThreadManager mgr;
 
     private boolean active = false;
 
@@ -37,7 +33,7 @@ public class ItemProcessComponent implements CometTask {
 
     private final RoomItemEventQueue eventQueue = new RoomItemEventQueue();
 
-    public ItemProcessComponent(CometThreadManagement mgr, Room room) {
+    public ItemProcessComponent(CometThreadManager mgr, Room room) {
         this.mgr = mgr;
         this.room = room;
 
@@ -88,7 +84,7 @@ public class ItemProcessComponent implements CometTask {
         }
 
         if (this.getRoom().getEntities().realPlayerCount() == 0) {
-            if(this.idleTimer >= 750) {
+            if (this.idleTimer >= 750) {
                 this.stop();
                 return;
             } else {
@@ -141,7 +137,7 @@ public class ItemProcessComponent implements CometTask {
     }
 
     protected void handleException(RoomItem item, Exception e) {
-        if(item instanceof RollerFloorItem) return; // TODO: Find stack trace for this.
+        if (item instanceof RollerFloorItem) return; // TODO: Find stack trace for this.
 
         log.error("Error while processing item: " + item.getId() + " (" + item.getClass().getSimpleName(), e);
     }

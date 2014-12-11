@@ -1,13 +1,15 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
-import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
+
 
 public class TeleporterFloorItem extends RoomItemFloor {
     private boolean inUse = false;
@@ -23,18 +25,18 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
         this.setExtraData("0");
 
-        if(this.getDefinition().getInteraction().equals("teleport_door")) {
+        if (this.getDefinition().getInteraction().equals("teleport_door")) {
             this.isDoor = true;
         }
     }
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-        if(isWiredTrigger) return; //go away u canny use fkin teleport via wired
+        if (isWiredTrigger) return; //go away u canny use fkin teleport via wired
 
         Position posInFront = this.getPosition().squareInFront(this.getRotation());
 
-        if(entity.isOverriden()) return;
+        if (entity.isOverriden()) return;
 
         if (entity.getPosition().getX() != posInFront.getX() || entity.getPosition().getY() != posInFront.getY()) {
             entity.moveTo(posInFront.getX(), posInFront.getY());
@@ -68,20 +70,20 @@ public class TeleporterFloorItem extends RoomItemFloor {
             }
 
             case 1: {
-                int pairId = CometManager.getItems().getTeleportPartner(this.getId());
+                int pairId = ItemManager.getInstance().getTeleportPartner(this.getId());
                 RoomItemFloor pairItem = this.getPartner(pairId);
 
                 if (pairItem == null) {
-                    int roomId = CometManager.getItems().roomIdByItemId(pairId);
+                    int roomId = ItemManager.getInstance().roomIdByItemId(pairId);
 
-                    if (CometManager.getRooms().get(roomId) == null) {
+                    if (RoomManager.getInstance().get(roomId) == null) {
                         this.state = 8;
                         this.setTicks(RoomItemFactory.getProcessTime(0.5));
                         return;
                     }
                 }
 
-                if(!this.isDoor)
+                if (!this.isDoor)
                     this.toggleDoor(false);
 
                 this.state = 2;
@@ -90,7 +92,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
             }
 
             case 2: {
-                if(!this.isDoor) {
+                if (!this.isDoor) {
                     this.toggleAnimation(true);
 
                     this.state = 3;
@@ -103,7 +105,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
             }
 
             case 3: {
-                int pairId = CometManager.getItems().getTeleportPartner(this.getId());
+                int pairId = ItemManager.getInstance().getTeleportPartner(this.getId());
 
                 if (pairId == 0) {
                     this.state = 8;
@@ -114,13 +116,13 @@ public class TeleporterFloorItem extends RoomItemFloor {
                 RoomItemFloor pairItem = this.getPartner(pairId);
 
                 if (pairItem == null) {
-                    int roomId = CometManager.getItems().roomIdByItemId(pairId);
+                    int roomId = ItemManager.getInstance().roomIdByItemId(pairId);
 
-                    if (CometManager.getRooms().get(roomId) != null) {
+                    if (RoomManager.getInstance().get(roomId) != null) {
                         if (this.outgoingEntity instanceof PlayerEntity) {
                             PlayerEntity pEntity = (PlayerEntity) this.outgoingEntity;
 
-                            if(pEntity.getPlayer() != null && pEntity.getPlayer().getSession() != null) {
+                            if (pEntity.getPlayer() != null && pEntity.getPlayer().getSession() != null) {
                                 pEntity.getPlayer().setTeleportId(pairId);
                                 pEntity.getPlayer().getSession().send(RoomForwardMessageComposer.compose(roomId));
                             }
@@ -135,7 +137,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
                     }
                 }
 
-                if(!this.isDoor) {
+                if (!this.isDoor) {
                     this.state = 9;
                     this.setTicks(RoomItemFactory.getProcessTime(1));
                 }
@@ -169,7 +171,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
             case 7: {
                 this.toggleDoor(false);
 
-                if(this.incomingEntity != null) {
+                if (this.incomingEntity != null) {
                     this.incomingEntity.setOverriden(false);
                     this.incomingEntity = null;
                 }
@@ -219,7 +221,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
         this.incomingEntity = entity;
 
-        if(!this.isDoor) {
+        if (!this.isDoor) {
             this.state = 5;
             this.setTicks(RoomItemFactory.getProcessTime(1));
         } else {

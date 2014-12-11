@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
+
 public class FilterDao {
     public static Map<String, String> loadWordfilter() {
         Connection sqlConnection = null;

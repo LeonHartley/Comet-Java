@@ -3,6 +3,7 @@ package com.cometproject.tools.logger;
 import com.cometproject.tools.CometTools;
 import com.cometproject.tools.logger.proxy.Proxy;
 
+
 public class PacketLogger {
     private CometTools tools;
     private boolean isActive = false;

@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.RoomObject;
 
 import java.util.Comparator;
 
+
 public class PositionComporator implements Comparator<RoomObject> {
     private RoomObject roomObject;
 
@@ -16,9 +17,9 @@ public class PositionComporator implements Comparator<RoomObject> {
         final double distanceOne = o1.getPosition().distanceTo(this.roomObject.getPosition());
         final double distanceTwo = o2.getPosition().distanceTo(this.roomObject.getPosition());
 
-        if(distanceOne > distanceTwo)
+        if (distanceOne > distanceTwo)
             return 1;
-        else if(distanceOne < distanceTwo)
+        else if (distanceOne < distanceTwo)
             return -1;
 
         return 0;

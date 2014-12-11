@@ -3,6 +3,7 @@ package com.cometproject.server.game.landing.types;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class PromoArticle {
     private int id;
     private String title;

@@ -2,9 +2,8 @@ package com.cometproject.logger.routes;
 
 import com.cometproject.logger.ResponseBuilder;
 
-import static spark.Spark.get;
 import static com.cometproject.logger.CometLogger.JSON_TRANSFORMER;
-import static spark.Spark.post;
+
 
 public class Routes {
     public static void init() {

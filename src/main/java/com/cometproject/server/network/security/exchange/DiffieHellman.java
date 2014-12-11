@@ -3,6 +3,7 @@ package com.cometproject.server.network.security.exchange;
 import java.math.BigInteger;
 import java.util.Random;
 
+
 public class DiffieHellman {
     private final int BIT_LENGTH = 32;
     private final Random random = new Random();
@@ -27,7 +28,7 @@ public class DiffieHellman {
 
         this.privateKey = new BigInteger(bytes);
 
-        if(this.generator.compareTo(this.prime) == 1) {
+        if (this.generator.compareTo(this.prime) == 1) {
             BigInteger temp = this.prime;
             this.prime = this.generator;
             this.generator = temp;

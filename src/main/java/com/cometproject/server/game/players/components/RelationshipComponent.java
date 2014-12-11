@@ -6,6 +6,7 @@ import com.cometproject.server.storage.queries.player.relationships.Relationship
 
 import java.util.Map;
 
+
 public class RelationshipComponent {
     private Player player;
     private Map<Integer, RelationshipLevel> relationships;
@@ -45,8 +46,8 @@ public class RelationshipComponent {
     public static int countByLevel(RelationshipLevel level, Map<Integer, RelationshipLevel> relationships) {
         int levelCount = 0;
 
-        for(RelationshipLevel relationship : relationships.values()) {
-            if(relationship == level) levelCount++;
+        for (RelationshipLevel relationship : relationships.values()) {
+            if (relationship == level) levelCount++;
         }
 
         return levelCount;

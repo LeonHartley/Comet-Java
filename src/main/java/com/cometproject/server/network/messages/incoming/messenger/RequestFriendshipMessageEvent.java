@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.components.types.MessengerRequest;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.messenger.FriendRequestMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
@@ -11,6 +11,7 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 
+
 public class RequestFriendshipMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         String username = msg.readString();
@@ -18,16 +19,16 @@ public class RequestFriendshipMessageEvent implements IEvent {
         if (username.equals(client.getPlayer().getData().getUsername()))
             return;
 
-        Session request = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
+        Session request = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
-        if(request == null || request.getPlayer() == null) return;
+        if (request == null || request.getPlayer() == null) return;
 
-        if(!request.getPlayer().getSettings().getAllowFriendRequests()) {
+        if (!request.getPlayer().getSettings().getAllowFriendRequests()) {
             client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.messenger.friendrequests.disabled")));
             return;
         }
 
-        if(request.getPlayer().getMessenger().hasRequestFrom(client.getPlayer().getId()))
+        if (request.getPlayer().getMessenger().hasRequestFrom(client.getPlayer().getId()))
             return;
 
         MessengerRequest req = new MessengerRequest(client.getPlayer().getId(), client.getPlayer().getData().getUsername(), client.getPlayer().getData().getFigure(), client.getPlayer().getData().getMotto());

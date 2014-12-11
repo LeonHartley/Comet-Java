@@ -9,6 +9,7 @@ import java.io.Reader;
 import java.util.Map;
 import java.util.Properties;
 
+
 public class Configuration extends Properties {
     /**
      * The configuration logger

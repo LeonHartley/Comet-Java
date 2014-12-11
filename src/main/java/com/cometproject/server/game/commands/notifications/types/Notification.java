@@ -2,10 +2,12 @@ package com.cometproject.server.game.commands.notifications.types;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 public class Notification {
     private String trigger;
@@ -29,7 +31,7 @@ public class Notification {
 
         switch (this.type) {
             case GLOBAL:
-                Comet.getServer().getNetwork().getSessions().broadcast(AdvancedAlertMessageComposer.compose(this.text + "\n\n-" + player.getData().getUsername()));
+                NetworkManager.getInstance().getSessions().broadcast(AdvancedAlertMessageComposer.compose(this.text + "\n\n-" + player.getData().getUsername()));
                 break;
 
             case LOCAL:

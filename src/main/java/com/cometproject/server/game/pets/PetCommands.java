@@ -2,6 +2,7 @@ package com.cometproject.server.game.pets;
 
 import com.cometproject.server.config.Locale;
 
+
 public class PetCommands {
     public static final String FREE = Locale.get("game.pet.command.free");
     public static final String COME = Locale.get("game.pet.command.come");

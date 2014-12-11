@@ -5,10 +5,10 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MinMaxPriorityQueue;
-import jdk.nashorn.internal.runtime.arrays.ArrayIndex;
 
 import java.util.LinkedList;
 import java.util.List;
+
 
 public class Pathfinder {
     public static final byte DISABLE_DIAGONAL = 0;
@@ -17,7 +17,7 @@ public class Pathfinder {
     private static Pathfinder instance;
 
     public static Pathfinder getInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new Pathfinder();
 
         return instance;
@@ -76,7 +76,7 @@ public class Pathfinder {
                         } else {
                             node = map[tmp.getX()][tmp.getY()];
                         }
-                    } catch(ArrayIndexOutOfBoundsException e) {
+                    } catch (ArrayIndexOutOfBoundsException e) {
                         continue;
                     }
 

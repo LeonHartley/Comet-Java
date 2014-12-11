@@ -12,6 +12,7 @@ import org.jboss.netty.handler.execution.ExecutionHandler;
 import org.jboss.netty.handler.execution.OrderedMemoryAwareThreadPoolExecutor;
 import org.jboss.netty.util.CharsetUtil;
 
+
 public class NetworkChannelInitializer implements ChannelPipelineFactory {
 //    private final Timer idleTimer;
 //    private final ClientIdleHandler idleHandler;

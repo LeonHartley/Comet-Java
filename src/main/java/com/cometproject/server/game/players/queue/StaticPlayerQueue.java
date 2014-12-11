@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.queue;
 
-import com.cometproject.server.tasks.CometThreadManagement;
+import com.cometproject.server.tasks.CometThreadManager;
+
 
 public class StaticPlayerQueue {
     private static PlayerLoginQueueManager mgr;
@@ -9,7 +10,7 @@ public class StaticPlayerQueue {
 
     }
 
-    public static void invit(CometThreadManagement threadManagement) {
+    public static void invit(CometThreadManager threadManagement) {
         mgr = new PlayerLoginQueueManager(true, threadManagement);
     }
 

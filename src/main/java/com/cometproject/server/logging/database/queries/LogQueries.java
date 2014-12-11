@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class LogQueries {
     public static void putEntry(AbstractLogEntry entry) {
         Connection sqlConnection = null;
@@ -47,7 +48,7 @@ public class LogQueries {
 
             preparedStatement = LogDatabaseHelper.prepare("INSERT into logs (`type`, `room_id`, `user_id`, `data`, `timestamp`) VALUES(?, ?, ?, ?, ?);", sqlConnection);
 
-            for(AbstractLogEntry entry : entries) {
+            for (AbstractLogEntry entry : entries) {
 
                 preparedStatement.setString(1, entry.getType().toString());
                 preparedStatement.setInt(2, entry.getRoomId());

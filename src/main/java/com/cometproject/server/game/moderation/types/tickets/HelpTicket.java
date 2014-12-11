@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.types.components.types.ChatMessage;
 
 import java.util.List;
 
+
 public class HelpTicket {
     private int ticketId;
     private int roomId;

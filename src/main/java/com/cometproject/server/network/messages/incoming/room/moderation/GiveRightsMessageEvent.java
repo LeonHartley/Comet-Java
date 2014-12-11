@@ -10,12 +10,13 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
+
 public class GiveRightsMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int playerId = msg.readInt();
 
 
-        if(playerId == -1) return;
+        if (playerId == -1) return;
 
         Room room = client.getPlayer().getEntity().getRoom();
 

@@ -1,13 +1,13 @@
 package com.cometproject.server.network.messages.outgoing.moderation;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.moderation.chatlog.UserChatlogContainer;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+
 
 public class ModToolUserChatlogMessageComposer {
     public static Composer compose(int userId, UserChatlogContainer logContainer) {
@@ -20,7 +20,7 @@ public class ModToolUserChatlogMessageComposer {
         msg.writeInt(logContainer.size());
 
         for (UserChatlogContainer.LogSet logSet : logContainer.getLogs()) {
-            RoomData roomData = CometManager.getRooms().getRoomData(logSet.getRoomId());
+            RoomData roomData = RoomManager.getInstance().getRoomData(logSet.getRoomId());
 
             msg.writeByte(1);
             msg.writeShort(2);

@@ -1,18 +1,19 @@
 package com.cometproject.server.game.rooms.types;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.models.types.DynamicRoomModel;
 import com.cometproject.server.game.rooms.types.components.*;
 import com.cometproject.server.game.rooms.types.mapping.RoomMapping;
+import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.JsonFactory;
 import com.cometproject.server.utilities.attributes.Attributable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
+
 
 public class Room implements Attributable {
     public static final boolean useCycleForItems = false;
@@ -45,7 +46,7 @@ public class Room implements Attributable {
     }
 
     public Room load() {
-        this.model = CometManager.getRooms().getModel(this.getData().getModel());
+        this.model = RoomManager.getInstance().getModel(this.getData().getModel());
 
         if (this.getData().getHeightmap() != null) {
             DynamicRoomModel dynamicRoomModel;
@@ -58,7 +59,7 @@ public class Room implements Attributable {
                 dynamicRoomModel = DynamicRoomModel.create("dynamic_heightmap", this.getData().getHeightmap(), this.getModel().getDoorX(), this.getModel().getDoorY(), this.getModel().getDoorZ(), this.getModel().getDoorRotation(), -1);
             }
 
-            if(dynamicRoomModel != null) {
+            if (dynamicRoomModel != null) {
                 this.model = dynamicRoomModel;
             }
 
@@ -67,7 +68,7 @@ public class Room implements Attributable {
         this.attributes = new FastMap<>();
 
         this.mapping = new RoomMapping(this);
-        this.itemProcess = new ItemProcessComponent(Comet.getServer().getThreadManagement(), this);
+        this.itemProcess = new ItemProcessComponent(CometThreadManager.getInstance(), this);
         this.process = new ProcessComponent(this);
         this.rights = new RightsComponent(this);
         this.items = new ItemsComponent(this);
@@ -121,10 +122,10 @@ public class Room implements Attributable {
     }
 
     public void tick() {
-        if(this.getPromotion() != null) {
-            if(this.getPromotion().isExpired()) {
+        if (this.getPromotion() != null) {
+            if (this.getPromotion().isExpired()) {
                 // The room isn't promoted anymore!
-                CometManager.getRooms().getRoomPromotions().remove(this.getId());
+                RoomManager.getInstance().getRoomPromotions().remove(this.getId());
 
                 // Remove the event from the room!
             }
@@ -138,13 +139,13 @@ public class Room implements Attributable {
             this.itemProcess.tick();
         }
 
-        if(this.rights != null) {
+        if (this.rights != null) {
             this.rights.tick();
         }
     }
 
     public RoomPromotion getPromotion() {
-        return CometManager.getRooms().getRoomPromotions().get(this.getId());
+        return RoomManager.getInstance().getRoomPromotions().get(this.getId());
     }
 
     @Override

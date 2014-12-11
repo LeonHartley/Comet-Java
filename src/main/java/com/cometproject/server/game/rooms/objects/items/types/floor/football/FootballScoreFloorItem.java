@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 
+
 public class FootballScoreFloorItem extends RoomItemFloor {
     private GameTeam gameTeam;
 
@@ -33,6 +34,7 @@ public class FootballScoreFloorItem extends RoomItemFloor {
 
         super.sendUpdate();
     }
+
     public void reset() {
         this.setExtraData(0 + "");
         this.sendUpdate();

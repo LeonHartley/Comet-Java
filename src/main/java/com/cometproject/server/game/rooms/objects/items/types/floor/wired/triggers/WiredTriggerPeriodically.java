@@ -1,9 +1,9 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
 import com.cometproject.server.game.rooms.types.Room;
+
 
 public class WiredTriggerPeriodically extends WiredTriggerItem {
     private static final int PARAM_TICK_LENGTH = 0;

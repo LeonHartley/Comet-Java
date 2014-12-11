@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.types.Room;
 
+
 public class WiredActionLeaveTeam extends WiredActionItem {
     /**
      * The default constructor
@@ -35,13 +36,13 @@ public class WiredActionLeaveTeam extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(entity == null || !(entity instanceof PlayerEntity)) {
+        if (entity == null || !(entity instanceof PlayerEntity)) {
             return false;
         }
 
         PlayerEntity playerEntity = ((PlayerEntity) entity);
 
-        if(playerEntity.getGameTeam() == null) {
+        if (playerEntity.getGameTeam() == null) {
             return false; // entity already in a team!
         }
 

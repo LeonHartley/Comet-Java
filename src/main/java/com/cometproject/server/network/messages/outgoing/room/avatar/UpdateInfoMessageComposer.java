@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public class UpdateInfoMessageComposer {
     public static Composer compose(int userId, String figure, String gender, String motto, int achievementPoints) {
         Composer msg = new Composer(Composers.UpdateUserDataMessageComposer);

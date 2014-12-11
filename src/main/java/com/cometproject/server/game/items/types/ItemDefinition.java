@@ -3,6 +3,7 @@ package com.cometproject.server.game.items.types;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class ItemDefinition {
     private int id;
     private String publicName;

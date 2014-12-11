@@ -5,6 +5,7 @@ import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogOffer;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
+import com.cometproject.server.utilities.Initializable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -12,16 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CatalogManager {
+
+public class CatalogManager implements Initializable {
+    private static CatalogManager catalogManagerInstance;
+
     /**
      * The pages within the catalog
      */
-    private final Map<Integer, CatalogPage> pages;
+    private Map<Integer, CatalogPage> pages;
 
     /**
      * The catalog item IDs to page IDs map
      */
-    private final Map<Integer, Integer> catalogItemIdToPageId;
+    private Map<Integer, Integer> catalogItemIdToPageId;
 
     /**
      * Maps the offer ID of an item to the page ID.
@@ -42,45 +46,56 @@ public class CatalogManager {
      * Initialize the catalog
      */
     public CatalogManager() {
+
+    }
+
+    @Override
+    public void initialize() {
         this.pages = new FastMap<>();
         this.catalogItemIdToPageId = new FastMap<>();
 
         this.purchaseHandler = new CatalogPurchaseHandler(this);
 
         this.loadPages();
+        log.info("CatalogManager initialized");
+    }
+
+    public static CatalogManager getInstance() {
+        if (catalogManagerInstance == null)
+            catalogManagerInstance = new CatalogManager();
+
+        return catalogManagerInstance;
     }
 
     /**
      * Load all catalog pages
      */
     public void loadPages() {
-        synchronized (this.pages) {
-            if (this.getPages().size() >= 1) {
-                this.getPages().clear();
-            }
-
-            if (getCatalogOffers().size() >= 1) {
-                getCatalogOffers().clear();
-            }
-
-            if(this.catalogItemIdToPageId.size() >= 1) {
-                this.catalogItemIdToPageId.clear();
-            }
-
-            try {
-                CatalogDao.getPages(this.pages);
-            } catch (Exception e) {
-                log.error("Error while loading catalog pages", e);
-            }
-
-            for(CatalogPage page : this.pages.values()) {
-                for(Integer item : page.getItems().keySet()) {
-                    this.catalogItemIdToPageId.put(item, page.getId());
-                }
-            }
-
-            log.info("Loaded " + this.getPages().size() + " catalog pages and " + this.catalogItemIdToPageId.size() + " catalog items");
+        if (this.getPages().size() >= 1) {
+            this.getPages().clear();
         }
+
+        if (getCatalogOffers().size() >= 1) {
+            getCatalogOffers().clear();
+        }
+
+        if (this.catalogItemIdToPageId.size() >= 1) {
+            this.catalogItemIdToPageId.clear();
+        }
+
+        try {
+            CatalogDao.getPages(this.pages);
+        } catch (Exception e) {
+            log.error("Error while loading catalog pages", e);
+        }
+
+        for (CatalogPage page : this.pages.values()) {
+            for (Integer item : page.getItems().keySet()) {
+                this.catalogItemIdToPageId.put(item, page.getId());
+            }
+        }
+
+        log.info("Loaded " + this.getPages().size() + " catalog pages and " + this.catalogItemIdToPageId.size() + " catalog items");
     }
 
     /**
@@ -115,7 +130,7 @@ public class CatalogManager {
     }
 
     public CatalogItem getCatalogItemByItemId(int itemId) {
-        if(!this.catalogItemIdToPageId.containsKey(itemId)) {
+        if (!this.catalogItemIdToPageId.containsKey(itemId)) {
             return null;
         }
 

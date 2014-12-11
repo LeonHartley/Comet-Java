@@ -5,6 +5,7 @@ import com.cometproject.tools.packets.instances.MessageEvent;
 
 import java.util.Map;
 
+
 public class HabboRevision {
     private String releaseString;
 

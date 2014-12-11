@@ -2,16 +2,16 @@ package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.objects.RoomObject;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.AbstractWiredItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.attributes.Attributable;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 public abstract class RoomItem extends RoomObject implements Attributable {
     protected int itemId;

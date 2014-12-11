@@ -1,11 +1,12 @@
 package com.cometproject.server.network.messages.outgoing.group;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
+
 
 public class GroupDataMessageComposer {
     public static Composer compose(List<Integer> groups, int userId) {
@@ -13,22 +14,22 @@ public class GroupDataMessageComposer {
 
         int count = 0;
 
-        for(Integer groupId : groups) {
-            if(CometManager.getGroups().getData(groupId) != null)  count++;
+        for (Integer groupId : groups) {
+            if (GroupManager.getInstance().getData(groupId) != null) count++;
         }
 
         msg.writeInt(count);
 
-        for(Integer groupId : groups) {
-            GroupData group = CometManager.getGroups().getData(groupId);
+        for (Integer groupId : groups) {
+            GroupData group = GroupManager.getInstance().getData(groupId);
 
-            if(group != null) {
+            if (group != null) {
                 msg.writeInt(group.getId());
                 msg.writeString(group.getTitle());
                 msg.writeString(group.getBadge());
 
-                String colourA = CometManager.getGroups().getGroupItems().getSymbolColours().get(group.getColourA()) != null ? CometManager.getGroups().getGroupItems().getSymbolColours().get(group.getColourA()).getColour() : "ffffff";
-                String colourB = CometManager.getGroups().getGroupItems().getBackgroundColours().get(group.getColourB()) != null ? CometManager.getGroups().getGroupItems().getBackgroundColours().get(group.getColourB()).getColour() : "ffffff";
+                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(group.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(group.getColourA()).getColour() : "ffffff";
+                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(group.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(group.getColourB()).getColour() : "ffffff";
 
                 msg.writeString(colourA);
                 msg.writeString(colourB);

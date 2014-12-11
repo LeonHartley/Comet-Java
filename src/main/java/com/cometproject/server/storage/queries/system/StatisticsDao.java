@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
 public class StatisticsDao {
     public static void saveStatistics(int players, int rooms, String version) {
         Connection sqlConnection = null;

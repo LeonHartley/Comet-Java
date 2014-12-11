@@ -6,6 +6,7 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public class BoughtItemMessageComposer {
     public static Composer compose(CatalogItem item, ItemDefinition def) {
         Composer msg = new Composer(Composers.PurchaseOKMessageComposer);
@@ -44,7 +45,7 @@ public class BoughtItemMessageComposer {
 
         return msg;
     }
-    
+
     public static Composer promoteRoom() {
         Composer msg = new Composer(Composers.PurchaseOKMessageComposer);
 

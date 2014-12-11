@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.entities.pathfinding;
 
 import com.cometproject.server.game.rooms.objects.misc.Position;
 
+
 public class PathfinderNode implements Comparable<PathfinderNode> {
     private Position position;
     private PathfinderNode nextNode;

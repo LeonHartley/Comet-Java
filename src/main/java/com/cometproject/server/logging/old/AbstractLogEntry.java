@@ -1,4 +1,5 @@
 //package com.cometproject.server.logging.old;
+
 //
 //public abstract class AbstractLogEntry {
 //    public abstract LogType getType();

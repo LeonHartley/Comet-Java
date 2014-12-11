@@ -3,9 +3,9 @@ package com.cometproject.server.game.bots;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.cometproject.server.utilities.JsonFactory;
 import com.cometproject.server.utilities.RandomInteger;
-import com.google.gson.Gson;
 
 import java.util.Arrays;
+
 
 public abstract class BotData implements BotInformation {
     /**

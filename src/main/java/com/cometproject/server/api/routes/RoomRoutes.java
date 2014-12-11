@@ -1,18 +1,17 @@
 package com.cometproject.server.api.routes;
 
 import com.cometproject.server.api.rooms.RoomStats;
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import javolution.util.FastMap;
 import spark.Request;
 import spark.Response;
-import spark.Spark;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 
 public class RoomRoutes {
     public static Object getAllActiveRooms(Request request, Response response) {
@@ -21,7 +20,7 @@ public class RoomRoutes {
 
         List<RoomStats> activeRooms = new ArrayList<>();
 
-        for (Room room : CometManager.getRooms().getRoomInstances().values()) {
+        for (Room room : RoomManager.getInstance().getRoomInstances().values()) {
             activeRooms.add(new RoomStats(room));
         }
 
@@ -35,12 +34,12 @@ public class RoomRoutes {
         int roomId = Integer.parseInt(request.params("id"));
         String action = request.params("action");
 
-        if (!CometManager.getRooms().getRoomInstances().containsKey(roomId)) {
+        if (!RoomManager.getInstance().getRoomInstances().containsKey(roomId)) {
             result.put("active", false);
             return result;
         }
 
-        Room room = CometManager.getRooms().get(roomId);
+        Room room = RoomManager.getInstance().get(roomId);
 
         result.put("id", roomId);
 

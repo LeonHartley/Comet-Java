@@ -1,11 +1,12 @@
 package com.cometproject.server.game.commands.staff.rewards.mass;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import org.apache.commons.lang.StringUtils;
+
 
 public abstract class MassCurrencyCommand extends ChatCommand {
     @Override
@@ -15,7 +16,7 @@ public abstract class MassCurrencyCommand extends ChatCommand {
 
         final int amount = Integer.parseInt(params[0]);
 
-        for (Session session : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
+        for (Session session : NetworkManager.getInstance().getSessions().getSessions().values()) {
 
             if (this instanceof MassCoinsCommand) {
                 session.getPlayer().getData().increaseCredits(amount);

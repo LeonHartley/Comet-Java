@@ -7,12 +7,13 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class UpdateSnapshotsMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
         int itemId = msg.readInt();
 
-        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) return;
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) return;
 
         Room room = client.getPlayer().getEntity().getRoom();
 
@@ -25,7 +26,7 @@ public class UpdateSnapshotsMessageEvent implements IEvent {
 
         RoomItemFloor floorItem = room.getItems().getFloorItem(itemId);
 
-        if(floorItem == null || !(floorItem instanceof WiredItemSnapshot.Refreshable)) {
+        if (floorItem == null || !(floorItem instanceof WiredItemSnapshot.Refreshable)) {
             return;
         }
 

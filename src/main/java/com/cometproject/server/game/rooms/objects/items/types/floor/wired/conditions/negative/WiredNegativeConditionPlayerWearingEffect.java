@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.condi
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.WiredConditionPlayerWearingEffect;
 import com.cometproject.server.game.rooms.types.Room;
 
+
 public class WiredNegativeConditionPlayerWearingEffect extends WiredConditionPlayerWearingEffect {
     /**
      * The default constructor

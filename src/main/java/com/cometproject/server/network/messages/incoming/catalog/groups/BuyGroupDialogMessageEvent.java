@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.outgoing.catalog.groups.GroupPar
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class BuyGroupDialogMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         client.send(GroupPartsMessageComposer.compose(client.getPlayer().getRooms()));

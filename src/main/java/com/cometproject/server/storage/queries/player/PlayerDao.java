@@ -1,20 +1,18 @@
 package com.cometproject.server.storage.queries.player;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.storage.SqlHelper;
-import org.apache.commons.lang.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
-import java.util.Set;
+
 
 public class PlayerDao {
     public static Player getPlayer(String ssoTicket) {
@@ -246,8 +244,8 @@ public class PlayerDao {
     }
 
     public static int getIdByUsername(String username) {
-        if (CometManager.getPlayers().getPlayerIdByUsername(username) != -1)
-            return CometManager.getPlayers().getPlayerIdByUsername(username);
+        if (PlayerManager.getInstance().getPlayerIdByUsername(username) != -1)
+            return PlayerManager.getInstance().getPlayerIdByUsername(username);
 
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;

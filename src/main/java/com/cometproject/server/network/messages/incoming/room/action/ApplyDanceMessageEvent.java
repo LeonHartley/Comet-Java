@@ -5,6 +5,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessag
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class ApplyDanceMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int danceId = msg.readInt();

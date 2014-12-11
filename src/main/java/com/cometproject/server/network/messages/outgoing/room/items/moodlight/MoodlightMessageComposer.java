@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWall
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public class MoodlightMessageComposer {
     public static Composer compose(MoodlightWallItem moodlight) {
         Composer msg = new Composer(Composers.DimmerDataMessageComposer);

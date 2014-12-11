@@ -7,6 +7,7 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 
+
 public class BadgeInventoryMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int userId = msg.readInt();

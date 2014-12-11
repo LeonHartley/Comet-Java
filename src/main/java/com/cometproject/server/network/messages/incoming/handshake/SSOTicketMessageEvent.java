@@ -1,10 +1,12 @@
 package com.cometproject.server.network.messages.incoming.handshake;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.handshake.AuthenticationOKMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
@@ -23,23 +25,24 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerAccessDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
+
 public class SSOTicketMessageEvent implements IEvent {
     public static final String TICKET_DELIMITER = ":";
 
     public void handle(Session client, Event msg) {
-        if(client.getEncryption() == null) {
+        if (client.getEncryption() == null) {
             CometManager.getLogger().warn("Session was disconnected because RC4 was not initialized!");
             client.disconnect();
             return;
         }
 
-        if(client.getUniqueId().isEmpty() || client.getUniqueId().length() < 10) {
+        if (client.getUniqueId().isEmpty() || client.getUniqueId().length() < 10) {
             CometManager.getLogger().warn("Session was disconnected because it did not have a valid machine ID!");
             client.disconnect();
             return;
         }
 
-        if(CometManager.getBans().hasBan(client.getUniqueId(), BanType.MACHINE)) {
+        if (BanManager.getInstance().hasBan(client.getUniqueId(), BanType.MACHINE)) {
             CometManager.getLogger().warn("Banned player: " + client.getUniqueId() + " tried logging in");
             return;
         }
@@ -83,13 +86,13 @@ public class SSOTicketMessageEvent implements IEvent {
             }
         }
 
-        Session cloneSession = Comet.getServer().getNetwork().getSessions().getByPlayerId(player.getId());
+        Session cloneSession = NetworkManager.getInstance().getSessions().getByPlayerId(player.getId());
 
         if (cloneSession != null) {
             cloneSession.disconnect(true);
         }
 
-        if (CometManager.getBans().hasBan(Integer.toString(player.getId()), BanType.USER)) {
+        if (BanManager.getInstance().hasBan(Integer.toString(player.getId()), BanType.USER)) {
             CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
             client.disconnect("banned");
             return;
@@ -101,7 +104,7 @@ public class SSOTicketMessageEvent implements IEvent {
         String ipAddress = client.getIpAddress();
 
         if (ipAddress != null && !ipAddress.isEmpty()) {
-            if (CometManager.getBans().hasBan(ipAddress, BanType.IP)) {
+            if (BanManager.getInstance().hasBan(ipAddress, BanType.IP)) {
                 CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
                 client.disconnect("banned");
                 return;
@@ -110,10 +113,10 @@ public class SSOTicketMessageEvent implements IEvent {
             client.getPlayer().getData().setIpAddress(ipAddress);
         }
 
-        if(CometSettings.storeAccess)
+        if (CometSettings.storeAccess)
             PlayerAccessDao.saveAccess(player.getId(), client.getUniqueId(), ipAddress);
 
-        CometManager.getRooms().loadRoomsForUser(player);
+        RoomManager.getInstance().loadRoomsForUser(player);
 
         client.getLogger().debug(client.getPlayer().getData().getUsername() + " logged in");
 
@@ -130,7 +133,7 @@ public class SSOTicketMessageEvent implements IEvent {
                 .sendQueue(PlayerSettingsMessageComposer.compose(player));
 
 //        if (player.getSettings().getHomeRoom() > 0) {
-            client.sendQueue(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
+        client.sendQueue(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
 //        }
 
         if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {

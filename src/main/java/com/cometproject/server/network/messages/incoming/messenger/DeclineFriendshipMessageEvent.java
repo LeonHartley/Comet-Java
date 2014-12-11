@@ -6,8 +6,6 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class DeclineFriendshipMessageEvent implements IEvent {
     @Override

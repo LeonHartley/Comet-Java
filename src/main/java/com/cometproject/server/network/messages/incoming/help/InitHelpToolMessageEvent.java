@@ -5,6 +5,7 @@ import com.cometproject.server.network.messages.outgoing.help.InitHelpToolMessag
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class InitHelpToolMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         client.send(InitHelpToolMessageComposer.compose());

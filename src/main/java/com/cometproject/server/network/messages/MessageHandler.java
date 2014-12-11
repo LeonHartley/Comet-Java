@@ -34,26 +34,26 @@ import com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMess
 import com.cometproject.server.network.messages.incoming.room.bots.PlaceBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.RemoveBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.FollowRoomInfoMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.floor.GetFloorPlanDoorMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.floor.GetTilesInUseMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.floor.SaveFloorMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.*;
+import com.cometproject.server.network.messages.incoming.room.item.gifts.OpenGiftMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinFigureMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.stickies.DeletePostItMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.stickies.OpenPostItMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.stickies.PlacePostItMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.stickies.SavePostItMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.pets.*;
-import com.cometproject.server.network.messages.incoming.user.camera.CameraTokenMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.citizenship.CitizenshipStatusMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.floor.SaveFloorMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.item.*;
-import com.cometproject.server.network.messages.incoming.room.item.gifts.OpenGiftMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.wired.SaveWiredDataMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.wired.UpdateSnapshotsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.*;
+import com.cometproject.server.network.messages.incoming.room.pets.*;
 import com.cometproject.server.network.messages.incoming.room.settings.*;
 import com.cometproject.server.network.messages.incoming.room.trading.*;
+import com.cometproject.server.network.messages.incoming.user.camera.CameraTokenMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.citizenship.CitizenshipStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.*;
 import com.cometproject.server.network.messages.incoming.user.inventory.BadgeInventoryMessageEvent;
@@ -73,6 +73,7 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
+
 
 public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
@@ -350,7 +351,7 @@ public final class MessageHandler {
     public void handle(Event message, Session client) {
         final Short header = message.getId();
 
-        if(Comet.isDebugging) {
+        if (Comet.isDebugging) {
             log.debug(message.toString());
         }
 

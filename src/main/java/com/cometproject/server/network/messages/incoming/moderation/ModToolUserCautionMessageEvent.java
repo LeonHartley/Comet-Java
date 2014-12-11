@@ -1,13 +1,14 @@
 package com.cometproject.server.network.messages.incoming.moderation;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.types.PlayerStatistics;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+
 
 public class ModToolUserCautionMessageEvent implements IEvent {
     @Override
@@ -23,8 +24,8 @@ public class ModToolUserCautionMessageEvent implements IEvent {
             return;
         }
 
-        if (CometManager.getPlayers().isOnline(playerId)) {
-            Session session = Comet.getServer().getNetwork().getSessions().getByPlayerId(playerId);
+        if (PlayerManager.getInstance().isOnline(playerId)) {
+            Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
             if (session != null) {
                 session.send(AdvancedAlertMessageComposer.compose(message));

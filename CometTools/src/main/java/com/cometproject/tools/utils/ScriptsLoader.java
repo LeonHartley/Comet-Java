@@ -2,8 +2,11 @@ package com.cometproject.tools.utils;
 
 import com.google.common.base.Stopwatch;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.concurrent.TimeUnit;
+
 
 public class ScriptsLoader {
     public static String load(String fileName) {

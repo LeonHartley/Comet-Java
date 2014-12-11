@@ -1,11 +1,11 @@
 package com.cometproject.server.game.players.components;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.components.types.MessengerFriend;
 import com.cometproject.server.game.players.components.types.MessengerRequest;
 import com.cometproject.server.game.players.components.types.MessengerSearchResult;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerSearchResultsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 
 public class MessengerComponent {
     private Player player;
@@ -99,7 +100,7 @@ public class MessengerComponent {
                 continue;
             }
 
-            Comet.getServer().getNetwork().getSessions().getByPlayerId(friend.getUserId()).send(msg);
+            NetworkManager.getInstance().getSessions().getByPlayerId(friend.getUserId()).send(msg);
         }
     }
 
@@ -115,13 +116,13 @@ public class MessengerComponent {
                 continue;
             }
 
-            Comet.getServer().getNetwork().getSessions().getByPlayerId(friend.getUserId()).send(msg);
+            NetworkManager.getInstance().getSessions().getByPlayerId(friend.getUserId()).send(msg);
         }
     }
 
     public boolean hasRequestFrom(int playerId) {
-        for(MessengerRequest messengerRequest : this.requests) {
-            if(messengerRequest.getFromId() == playerId)
+        for (MessengerRequest messengerRequest : this.requests) {
+            if (messengerRequest.getFromId() == playerId)
                 return true;
         }
 

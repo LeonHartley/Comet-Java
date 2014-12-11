@@ -1,12 +1,13 @@
 package com.cometproject.server.game.commands.staff.alerts;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.HotelMaintenanceMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
 import java.util.Calendar;
+
 
 public class MaintenanceCommand extends ChatCommand {
     @Override
@@ -30,7 +31,7 @@ public class MaintenanceCommand extends ChatCommand {
             minute = calendar.get(Calendar.MINUTE) + 10;
         }
 
-        Comet.getServer().getNetwork().getSessions().broadcast(HotelMaintenanceMessageComposer.compose(hour, minute, false));
+        NetworkManager.getInstance().getSessions().broadcast(HotelMaintenanceMessageComposer.compose(hour, minute, false));
     }
 
     @Override

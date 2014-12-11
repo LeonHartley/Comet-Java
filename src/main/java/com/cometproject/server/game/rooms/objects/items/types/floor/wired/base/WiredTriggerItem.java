@@ -16,6 +16,7 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
+
 public abstract class WiredTriggerItem extends AbstractWiredItem {
     /**
      * The default constructor
@@ -69,7 +70,7 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
             }
         }
 
-        if(unseenEffectItem != null && unseenEffectItem.getSeenEffects().size() >= wiredActions.size()) {
+        if (unseenEffectItem != null && unseenEffectItem.getSeenEffects().size() >= wiredActions.size()) {
             unseenEffectItem.getSeenEffects().clear();
         }
 
@@ -106,10 +107,10 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
                 return wasSuccess;
             } else if (unseenEffectItem != null) {
                 for (WiredActionItem actionItem : wiredActions) {
-                    if(!unseenEffectItem.getSeenEffects().contains(actionItem.getId())) {
+                    if (!unseenEffectItem.getSeenEffects().contains(actionItem.getId())) {
                         unseenEffectItem.getSeenEffects().add(actionItem.getId());
 
-                        if(this.executeEffect(actionItem, entity, data))
+                        if (this.executeEffect(actionItem, entity, data))
                             wasSuccess = true;
                         break;
                     }

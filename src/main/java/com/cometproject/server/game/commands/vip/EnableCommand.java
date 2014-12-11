@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class EnableCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
@@ -16,7 +17,7 @@ public class EnableCommand extends ChatCommand {
         try {
             int effectId = Integer.parseInt(params[0]);
 
-            if(effectId == 102 && !client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+            if (effectId == 102 && !client.getPlayer().getPermissions().hasPermission("mod_tool")) {
                 return;
             }
 

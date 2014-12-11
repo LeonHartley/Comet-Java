@@ -3,6 +3,7 @@ package com.cometproject.server.game.moderation.types;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class Ban {
     private int id;
     private String data;

@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.objects.misc;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 
+
 public class Position {
     private int x;
     private int y;

@@ -8,12 +8,13 @@ import com.cometproject.server.network.messages.outgoing.room.items.postit.PostI
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class OpenPostItMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
         int itemId = msg.readInt();
 
-        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
@@ -21,7 +22,7 @@ public class OpenPostItMessageEvent implements IEvent {
 
         RoomItemWall wallItem = room.getItems().getWallItem(itemId);
 
-        if(wallItem == null || !(wallItem instanceof PostItWallItem)) return;
+        if (wallItem == null || !(wallItem instanceof PostItWallItem)) return;
 
         client.send(PostItMessageComposer.compose(itemId, ((PostItWallItem) wallItem).getColour() + " " + ((PostItWallItem) wallItem).getMessage()));
     }

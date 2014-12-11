@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.condi
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.WiredConditionTriggererOnFurni;
 import com.cometproject.server.game.rooms.types.Room;
 
+
 public class WiredNegativeConditionTriggererOnFurni extends WiredConditionTriggererOnFurni {
     /**
      * The default constructor

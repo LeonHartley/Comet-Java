@@ -8,6 +8,7 @@ import com.cometproject.server.tasks.CometTask;
 
 import java.util.concurrent.TimeUnit;
 
+
 public class LogStore implements CometTask {
     private static final TimeUnit QUEUE_FLUSH_UNIT = TimeUnit.MINUTES;
     private static final int QUEUE_FLUSH_TIME = 1;

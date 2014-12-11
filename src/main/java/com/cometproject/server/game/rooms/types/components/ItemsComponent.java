@@ -2,14 +2,14 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.TileInstance;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 
 public class ItemsComponent {
     private Room room;
@@ -109,11 +110,11 @@ public class ItemsComponent {
         List<RoomItemFloor> items = Lists.newArrayList();
 
         for (RoomItemFloor item : this.getFloorItems()) {
-            if(item == null) continue; // it's null!
+            if (item == null) continue; // it's null!
             if (item.getPosition().getX() == x && item.getPosition().getY() == y) {
                 items.add(item);
             } else {
-                if(item.getDefinition() == null) continue;
+                if (item.getDefinition() == null) continue;
 
                 List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(
                         item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation());
@@ -133,7 +134,7 @@ public class ItemsComponent {
 
     public RoomItemFloor getFloorItem(int id) {
         for (RoomItemFloor item : this.getFloorItems()) {
-            if(item == null) continue;
+            if (item == null) continue;
 
             if (item.getId() == id) {
                 return item;
@@ -157,7 +158,7 @@ public class ItemsComponent {
         List<RoomItemFloor> items = new ArrayList<>();
 
         for (RoomItemFloor floorItem : this.floorItems) {
-            if(floorItem == null || floorItem.getDefinition() == null) continue;
+            if (floorItem == null || floorItem.getDefinition() == null) continue;
 
             if (floorItem.getDefinition().getInteraction().equals(interaction)) {
                 items.add(floorItem);
@@ -240,13 +241,13 @@ public class ItemsComponent {
 
     public boolean moveFloorItem(int itemId, Position newPosition, int rotation, boolean save) {
         RoomItemFloor item = this.getFloorItem(itemId);
-        if(item == null) return false;
+        if (item == null) return false;
 
         TileInstance tile = this.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
 
         boolean cancelAction = false;
 
-        if(tile != null) {
+        if (tile != null) {
             if (!tile.canPlaceItemHere()) {
                 cancelAction = true;
             }
@@ -255,14 +256,14 @@ public class ItemsComponent {
                 cancelAction = true;
             }
 
-            if(tile.getPosition().getX() == this.getRoom().getModel().getDoorX() && tile.getPosition().getY() == this.getRoom().getModel().getDoorY()) {
+            if (tile.getPosition().getX() == this.getRoom().getModel().getDoorX() && tile.getPosition().getY() == this.getRoom().getModel().getDoorY()) {
                 cancelAction = true;
             }
         } else {
             cancelAction = true;
         }
 
-        if(cancelAction) {
+        if (cancelAction) {
             return false;
         }
 
@@ -324,7 +325,7 @@ public class ItemsComponent {
             item.onEntityStepOn(entity3);
         }
 
-        if(save)
+        if (save)
             RoomItemDao.saveItemPosition(newPosition.getX(), newPosition.getY(), height, rotation, itemId);
 
         for (Position tileToUpdate : tilesToUpdate) {
@@ -364,12 +365,12 @@ public class ItemsComponent {
     public void placeFloorItem(InventoryItem item, int x, int y, int rot, Player player) {
         TileInstance tile = room.getMapping().getTile(x, y);
 
-        if(tile == null || !tile.canPlaceItemHere())
+        if (tile == null || !tile.canPlaceItemHere())
             return;
 
         double height = tile.getStackHeight();
 
-        if(!tile.canStack()) return;
+        if (!tile.canStack()) return;
 
         List<RoomItemFloor> floorItems = room.getItems().getItemsOnSquare(x, y);
 

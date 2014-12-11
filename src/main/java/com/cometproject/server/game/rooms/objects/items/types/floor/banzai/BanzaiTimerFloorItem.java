@@ -3,11 +3,10 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.banzai;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballScoreFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameStarts;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import org.apache.commons.lang.StringUtils;
+
 
 public class BanzaiTimerFloorItem extends RoomItemFloor {
     public BanzaiTimerFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
@@ -32,7 +31,7 @@ public class BanzaiTimerFloorItem extends RoomItemFloor {
         if (requestData == 2) {
             int time = 0;
 
-            if(!this.getExtraData().isEmpty() && StringUtils.isNumeric(this.getExtraData())) {
+            if (!this.getExtraData().isEmpty() && StringUtils.isNumeric(this.getExtraData())) {
                 time = Integer.parseInt(this.getExtraData());
             }
 

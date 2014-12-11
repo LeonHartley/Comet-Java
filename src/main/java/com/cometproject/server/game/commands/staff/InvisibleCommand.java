@@ -5,6 +5,7 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class InvisibleCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {

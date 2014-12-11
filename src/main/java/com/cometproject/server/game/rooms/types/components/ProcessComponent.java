@@ -1,33 +1,27 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
-import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
-import com.cometproject.server.game.rooms.objects.items.types.floor.GateFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
-import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
+import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.GateFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.logging.sentry.SentryDispatcher;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.tasks.CometTask;
+import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.RandomInteger;
-import com.cometproject.server.utilities.TimeSpan;
-import javolution.util.FastMap;
-import net.kencochrane.raven.event.Event;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -35,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
 
 public class ProcessComponent implements CometTask {
     private Room room;
@@ -106,7 +101,7 @@ public class ProcessComponent implements CometTask {
 
                         entitiesToUpdate.add(entity);
                     } else if (entity.needsForcedUpdate) {
-                        if(entity.hasStatus(RoomEntityStatus.MOVE)) {
+                        if (entity.hasStatus(RoomEntityStatus.MOVE)) {
                             entity.removeStatus(RoomEntityStatus.MOVE);
                         }
 
@@ -127,7 +122,7 @@ public class ProcessComponent implements CometTask {
                 this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entitiesToUpdate));
 
             for (GenericEntity entity : entitiesToUpdate) {
-                if(entity.updatePhase == 1) continue;
+                if (entity.updatePhase == 1) continue;
 
                 if (this.updateEntityStuff(entity) && entity instanceof PlayerEntity) {
                     playersToRemove.add((PlayerEntity) entity);
@@ -162,7 +157,7 @@ public class ProcessComponent implements CometTask {
             stop();
         }
 
-        this.processFuture = Comet.getServer().getThreadManagement().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
+        this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
         this.active = true;
 
         log.debug("Processing started");

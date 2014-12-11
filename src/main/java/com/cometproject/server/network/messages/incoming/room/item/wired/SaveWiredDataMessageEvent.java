@@ -8,12 +8,13 @@ import com.cometproject.server.network.messages.outgoing.room.items.wired.SaveWi
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class SaveWiredDataMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
         int itemId = msg.readInt();
 
-        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) return;
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) return;
 
         Room room = client.getPlayer().getEntity().getRoom();
 
@@ -26,7 +27,7 @@ public class SaveWiredDataMessageEvent implements IEvent {
 
         AbstractWiredItem wiredItem = ((AbstractWiredItem) room.getItems().getFloorItem(itemId));
 
-        if(wiredItem == null) return;
+        if (wiredItem == null) return;
 
         int paramCount = msg.readInt();
 
@@ -41,11 +42,11 @@ public class SaveWiredDataMessageEvent implements IEvent {
 
         int selectedItemCount = msg.readInt();
 
-        for(int i = 0; i < selectedItemCount; i++) {
+        for (int i = 0; i < selectedItemCount; i++) {
             wiredItem.getWiredData().selectItem(msg.readInt());
         }
 
-        if(wiredItem instanceof WiredActionItem) {
+        if (wiredItem instanceof WiredActionItem) {
             ((WiredActionItem) wiredItem).getWiredData().setDelay(msg.readInt());
         }
 

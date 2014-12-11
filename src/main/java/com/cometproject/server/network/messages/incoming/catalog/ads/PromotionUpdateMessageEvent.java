@@ -7,6 +7,7 @@ import com.cometproject.server.network.messages.outgoing.room.events.RoomPromoti
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class PromotionUpdateMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
@@ -22,7 +23,7 @@ public class PromotionUpdateMessageEvent implements IEvent {
 
         RoomPromotion roomPromotion = room.getPromotion();
 
-        if(roomPromotion != null) {
+        if (roomPromotion != null) {
             roomPromotion.setPromotionName(promotionName);
             roomPromotion.setPromotionDescription(promotionDescription);
 

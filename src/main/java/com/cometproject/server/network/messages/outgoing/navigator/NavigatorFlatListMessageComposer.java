@@ -1,12 +1,13 @@
 package com.cometproject.server.network.messages.outgoing.navigator;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.*;
+
 
 public class NavigatorFlatListMessageComposer {
     public static Composer compose(int category, int mode, String query, Collection<RoomData> activeRooms, boolean limit, boolean order) {
@@ -15,19 +16,19 @@ public class NavigatorFlatListMessageComposer {
         msg.writeString(query);
         msg.writeInt(limit ? (activeRooms.size() > 50 ? 50 : activeRooms.size()) : activeRooms.size());
 
-        if(order) {
+        if (order) {
             try {
                 Collections.sort((List<RoomData>) activeRooms, new Comparator<RoomData>() {
                     @Override
                     public int compare(RoomData o1, RoomData o2) {
-                        boolean is1Active = CometManager.getRooms().isActive(o1.getId());
-                        boolean is2Active = CometManager.getRooms().isActive(o2.getId());
+                        boolean is1Active = RoomManager.getInstance().isActive(o1.getId());
+                        boolean is2Active = RoomManager.getInstance().isActive(o2.getId());
 
-                        return ((!is2Active ? 0 : CometManager.getRooms().get(o2.getId()).getEntities().playerCount()) -
-                                (!is1Active ? 0 : CometManager.getRooms().get(o1.getId()).getEntities().playerCount()));
+                        return ((!is2Active ? 0 : RoomManager.getInstance().get(o2.getId()).getEntities().playerCount()) -
+                                (!is1Active ? 0 : RoomManager.getInstance().get(o1.getId()).getEntities().playerCount()));
                     }
                 });
-            } catch(Exception ignored) {
+            } catch (Exception ignored) {
 
             }
         }

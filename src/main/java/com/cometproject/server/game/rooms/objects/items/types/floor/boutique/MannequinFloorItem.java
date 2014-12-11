@@ -8,6 +8,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoM
 
 import java.util.Arrays;
 
+
 public class MannequinFloorItem extends RoomItemFloor {
     private String name = "New Mannequin";
     private String figure = "ch-210-62.lg-270-62";
@@ -16,9 +17,9 @@ public class MannequinFloorItem extends RoomItemFloor {
     public MannequinFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
-        if(!this.getExtraData().isEmpty()) {
+        if (!this.getExtraData().isEmpty()) {
             String[] splitData = this.getExtraData().split(";#;");
-            if(splitData.length != 3) return;
+            if (splitData.length != 3) return;
 
             this.name = splitData[0];
             this.figure = splitData[1];
@@ -27,8 +28,8 @@ public class MannequinFloorItem extends RoomItemFloor {
             String[] figureParts = this.figure.split("\\.");
             String finalFigure = "";
 
-            for(String figurePart : figureParts) {
-                if(!figurePart.contains("hr") && !figurePart.contains("hd") && !figurePart.contains("he") && !figurePart.contains("ha")) {
+            for (String figurePart : figureParts) {
+                if (!figurePart.contains("hr") && !figurePart.contains("hd") && !figurePart.contains("he") && !figurePart.contains("ha")) {
                     finalFigure += figurePart + ".";
                 }
             }
@@ -44,39 +45,39 @@ public class MannequinFloorItem extends RoomItemFloor {
 
         PlayerEntity playerEntity = (PlayerEntity) entity;
 
-        if(this.name == null || this.gender == null || this.figure == null) return;
+        if (this.name == null || this.gender == null || this.figure == null) return;
 
 
         String newFigure = "";
 
-        for(String playerFigurePart : Arrays.asList(playerEntity.getFigure().split("\\."))) {
-            if(!playerFigurePart.startsWith("ch") && !playerFigurePart.startsWith("lg"))
+        for (String playerFigurePart : Arrays.asList(playerEntity.getFigure().split("\\."))) {
+            if (!playerFigurePart.startsWith("ch") && !playerFigurePart.startsWith("lg"))
                 newFigure += playerFigurePart + ".";
         }
 
         String newFigureParts = "";
 
-        switch(playerEntity.getGender().toUpperCase()) {
+        switch (playerEntity.getGender().toUpperCase()) {
             case "M":
-                if(this.figure.equals("")) return;
+                if (this.figure.equals("")) return;
                 newFigureParts = this.figure;
                 break;
 
             case "F":
-                if(this.figure.equals("")) return;
+                if (this.figure.equals("")) return;
                 newFigureParts = this.figure;
                 break;
         }
 
-        for(String newFigurePart : Arrays.asList(newFigureParts.split("\\."))) {
-            if(newFigurePart.startsWith("hd"))
+        for (String newFigurePart : Arrays.asList(newFigureParts.split("\\."))) {
+            if (newFigurePart.startsWith("hd"))
                 newFigureParts = newFigureParts.replace(newFigurePart, "");
         }
 
-        if(newFigureParts.equals("")) return;
+        if (newFigureParts.equals("")) return;
 
         playerEntity.getPlayer().getData().setFigure(newFigure + newFigureParts);
-;
+        ;
         playerEntity.getPlayer().getData().setGender(this.gender);
 
         playerEntity.getPlayer().getData().save();

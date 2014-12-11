@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.objects.entities.pathfinding;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class AffectedTile {
     public int x;
     public int y;

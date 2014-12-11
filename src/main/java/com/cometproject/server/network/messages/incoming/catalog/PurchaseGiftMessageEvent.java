@@ -1,10 +1,11 @@
 package com.cometproject.server.network.messages.incoming.catalog;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+
 
 public class PurchaseGiftMessageEvent implements IEvent {
     @Override
@@ -23,6 +24,6 @@ public class PurchaseGiftMessageEvent implements IEvent {
 
         GiftData data = new GiftData(pageId, itemId, client.getPlayer().getId(), sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername, extraData);
 
-        CometManager.getCatalog().getPurchaseHandler().handle(client, pageId, itemId, extraData, 1, data);
+        CatalogManager.getInstance().getPurchaseHandler().handle(client, pageId, itemId, extraData, 1, data);
     }
 }

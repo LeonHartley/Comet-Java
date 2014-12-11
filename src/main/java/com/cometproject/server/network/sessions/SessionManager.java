@@ -1,6 +1,7 @@
 package com.cometproject.server.network.sessions;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.permissions.PermissionsManager;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.messages.types.Composer;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
@@ -8,6 +9,7 @@ import org.jboss.netty.channel.Channel;
 
 import java.util.Map;
 import java.util.Set;
+
 
 public final class SessionManager {
     private final FastMap<Integer, Session> sessions = new FastMap<Integer, Session>().shared();
@@ -29,11 +31,11 @@ public final class SessionManager {
     }
 
     public boolean disconnectByPlayerId(int id) {
-        if (CometManager.getPlayers().getSessionIdByPlayerId(id) == -1) {
+        if (PlayerManager.getInstance().getSessionIdByPlayerId(id) == -1) {
             return false;
         }
 
-        int sessionId = CometManager.getPlayers().getSessionIdByPlayerId(id);
+        int sessionId = PlayerManager.getInstance().getSessionIdByPlayerId(id);
         Session session = sessions.get(sessionId);
 
         if (session != null) {
@@ -45,8 +47,8 @@ public final class SessionManager {
     }
 
     public Session getByPlayerId(int id) {
-        if (CometManager.getPlayers().getSessionIdByPlayerId(id) != -1) {
-            int sessionId = CometManager.getPlayers().getSessionIdByPlayerId(id);
+        if (PlayerManager.getInstance().getSessionIdByPlayerId(id) != -1) {
+            int sessionId = PlayerManager.getInstance().getSessionIdByPlayerId(id);
 
             return sessions.get(sessionId);
         }
@@ -58,7 +60,7 @@ public final class SessionManager {
         // TODO: Optimize this
         Set<Session> sessions = new FastSet<>();
 
-        int rank = CometManager.getPermissions().getPermissions().get(permission).getRank();
+        int rank = PermissionsManager.getInstance().getPermissions().get(permission).getRank();
 
         for (Map.Entry<Integer, Session> session : this.sessions.entrySet()) {
             if (session.getValue().getPlayer() != null) {
@@ -72,12 +74,12 @@ public final class SessionManager {
     }
 
     public Session getByPlayerUsername(String username) {
-        int playerId = CometManager.getPlayers().getPlayerIdByUsername(username);
+        int playerId = PlayerManager.getInstance().getPlayerIdByUsername(username);
 
         if (playerId == -1)
             return null;
 
-        int sessionId = CometManager.getPlayers().getSessionIdByPlayerId(playerId);
+        int sessionId = PlayerManager.getInstance().getSessionIdByPlayerId(playerId);
 
         if (sessionId == -1)
             return null;
@@ -89,7 +91,7 @@ public final class SessionManager {
     }
 
     public int getUsersOnlineCount() {
-        return CometManager.getPlayers().size();
+        return PlayerManager.getInstance().size();
     }
 
     public Map<Integer, Session> getSessions() {

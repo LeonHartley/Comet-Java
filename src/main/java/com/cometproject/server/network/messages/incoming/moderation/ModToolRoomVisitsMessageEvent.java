@@ -9,13 +9,14 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.google.common.collect.Lists;
 
+
 public class ModToolRoomVisitsMessageEvent implements IEvent {
 
     @Override
     public void handle(Session client, Event msg) throws Exception {
         int playerId = msg.readInt();
 
-        if(LogManager.ENABLED)
+        if (LogManager.ENABLED)
             client.send(ModToolRoomVisitsMessageComposer.compose(playerId, PlayerDao.getUsernameByPlayerId(playerId), LogQueries.getLastRoomVisits(playerId, 100)));
         else
             client.send(ModToolRoomVisitsMessageComposer.compose(playerId, PlayerDao.getUsernameByPlayerId(playerId), Lists.newArrayList()));

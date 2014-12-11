@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.outgoing.user.profile.UserBadges
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class UserBadgesMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int userId = msg.readInt();

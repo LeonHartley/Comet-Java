@@ -1,13 +1,13 @@
 package com.cometproject.server.network.messages.incoming.moderation;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.moderation.types.Ban;
+import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.types.BanType;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.moderation.BanDao;
+
 
 public class ModToolBanUserMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
@@ -21,7 +21,7 @@ public class ModToolBanUserMessageEvent implements IEvent {
         boolean machineBan = msg.readBoolean();
 
 
-        Session user = Comet.getServer().getNetwork().getSessions().getByPlayerId(userId);
+        Session user = NetworkManager.getInstance().getSessions().getByPlayerId(userId);
 
         if (user == null) {
             return;
@@ -35,14 +35,14 @@ public class ModToolBanUserMessageEvent implements IEvent {
 
         long expire = Comet.getTime() + (length * 3600);
 
-        if(ipBan) {
-            CometManager.getBans().banPlayer(BanType.IP, user.getIpAddress(), length, expire, message, client.getPlayer().getId());
+        if (ipBan) {
+            BanManager.getInstance().banPlayer(BanType.IP, user.getIpAddress(), length, expire, message, client.getPlayer().getId());
         }
 
-        if(machineBan) {
-            CometManager.getBans().banPlayer(BanType.MACHINE, user.getUniqueId(), length, expire, message, client.getPlayer().getId());
+        if (machineBan) {
+            BanManager.getInstance().banPlayer(BanType.MACHINE, user.getUniqueId(), length, expire, message, client.getPlayer().getId());
         }
 
-        CometManager.getBans().banPlayer(BanType.USER, user.getPlayer().getId() + "", length, expire, message, client.getPlayer().getId());
+        BanManager.getInstance().banPlayer(BanType.USER, user.getPlayer().getId() + "", length, expire, message, client.getPlayer().getId());
     }
 }

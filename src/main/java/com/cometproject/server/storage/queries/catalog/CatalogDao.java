@@ -1,8 +1,8 @@
 package com.cometproject.server.storage.queries.catalog;
 
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
 
@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+
 
 public class CatalogDao {
     public static void getPages(Map<Integer, CatalogPage> pages) {
@@ -53,7 +54,7 @@ public class CatalogDao {
 
             while (resultSet.next()) {
                 try {
-                    if (!CometManager.getItems().getItemDefinitions().containsKey(Integer.parseInt(resultSet.getString("item_ids")))) {
+                    if (!ItemManager.getInstance().getItemDefinitions().containsKey(Integer.parseInt(resultSet.getString("item_ids")))) {
                         continue;
                     }
                 } catch (Exception e) {

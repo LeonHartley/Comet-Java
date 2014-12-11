@@ -1,10 +1,11 @@
 package com.cometproject.server.network.messages.incoming.group;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+
 
 public class GroupInformationMessageEvent implements IEvent {
     @Override
@@ -12,7 +13,7 @@ public class GroupInformationMessageEvent implements IEvent {
         int groupId = msg.readInt();
         boolean flag = msg.readBoolean();
 
-        Group group = CometManager.getGroups().get(groupId);
+        Group group = GroupManager.getInstance().get(groupId);
 
         if (group == null)
             return;

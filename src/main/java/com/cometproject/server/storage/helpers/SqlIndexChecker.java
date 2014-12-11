@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class SqlIndexChecker {
     private static Logger log = Logger.getLogger(SqlIndexChecker.class);
 

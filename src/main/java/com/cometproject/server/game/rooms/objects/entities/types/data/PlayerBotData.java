@@ -4,6 +4,7 @@ import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import org.apache.log4j.Logger;
 
+
 public class PlayerBotData extends BotData {
     private Logger log = Logger.getLogger(PlayerBotData.class.getName());
 

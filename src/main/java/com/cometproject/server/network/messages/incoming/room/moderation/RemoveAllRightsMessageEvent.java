@@ -11,6 +11,7 @@ import com.cometproject.server.network.sessions.Session;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class RemoveAllRightsMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         Room room = client.getPlayer().getEntity().getRoom();

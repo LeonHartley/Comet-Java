@@ -1,12 +1,13 @@
 package com.cometproject.server.network.messages.incoming.room.access;
 
-import com.cometproject.server.boot.Comet;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellAcceptedComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+
 
 public class AnswerDoorbellMessageEvent implements IEvent {
     @Override
@@ -26,7 +27,7 @@ public class AnswerDoorbellMessageEvent implements IEvent {
             return;
         }
 
-        Session requestingClient = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
+        Session requestingClient = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
         // player could of d/c
         if (requestingClient == null) {

@@ -1,12 +1,12 @@
 package com.cometproject.server.game.rooms.filter;
 
-
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.storage.queries.filter.FilterDao;
 import com.cometproject.server.utilities.FilterUtil;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
+
 
 public class WordFilter {
     private Map<String, String> wordfilter;

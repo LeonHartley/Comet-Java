@@ -3,6 +3,7 @@ package com.cometproject.server.game.moderation.types.actions;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class ActionPreset {
     private int id;
     private int categoryId;

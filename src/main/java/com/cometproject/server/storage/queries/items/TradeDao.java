@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
 public class TradeDao {
 
     public static void updateTradeItems(int userId, int itemId) {

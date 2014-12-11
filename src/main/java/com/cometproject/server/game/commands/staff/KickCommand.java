@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class KickCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
@@ -14,7 +15,7 @@ public class KickCommand extends ChatCommand {
         }
         String username = params[0];
 
-        PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER); //Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
+        PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER); //NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
         if (entity == null)
             return;

@@ -2,10 +2,7 @@ package com.cometproject.server.boot;
 
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.server.boot.utils.ShutdownHook;
-import com.cometproject.server.logging.sentry.SentryDispatcher;
 import javolution.util.FastMap;
-import net.kencochrane.raven.DefaultRavenFactory;
-import net.kencochrane.raven.event.EventBuilder;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -13,6 +10,7 @@ import org.apache.log4j.PropertyConfigurator;
 import java.io.FileInputStream;
 import java.lang.management.ManagementFactory;
 import java.util.Map;
+
 
 public class Comet {
     /**
@@ -73,10 +71,10 @@ public class Comet {
             Map<String, String> cometConfiguration = new FastMap<>();
 
             for (int i = 0; i < args.length; i++) {
-                if(args[i].equals("--debug-logging")) {
+                if (args[i].equals("--debug-logging")) {
                     logLevel = Level.DEBUG;
                 }
-                
+
                 if (!args[i].contains("="))
                     continue;
 

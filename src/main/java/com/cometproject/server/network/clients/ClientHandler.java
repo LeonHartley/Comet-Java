@@ -1,14 +1,13 @@
 package com.cometproject.server.network.clients;
 
-import com.cometproject.server.boot.Comet;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class ClientHandler extends SimpleChannelUpstreamHandler {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
@@ -19,7 +18,7 @@ public class ClientHandler extends SimpleChannelUpstreamHandler {
             Session client = (Session) ctx.getChannel().getAttachment();
 
             if (client != null && ev.getMessage() instanceof Event) {
-                Comet.getServer().getNetwork().getMessages().handle((Event) ev.getMessage(), client);
+                NetworkManager.getInstance().getMessages().handle((Event) ev.getMessage(), client);
             }
         } catch (Exception e) {
             log.error("Error while receiving message", e);
@@ -28,7 +27,7 @@ public class ClientHandler extends SimpleChannelUpstreamHandler {
 
     @Override
     public void channelOpen(final ChannelHandlerContext ctx, ChannelStateEvent ev) throws Exception {
-        if (!Comet.getServer().getNetwork().getSessions().add(ctx.getChannel())) {
+        if (!NetworkManager.getInstance().getSessions().add(ctx.getChannel())) {
             ctx.getChannel().disconnect();
             return;
         }
@@ -44,7 +43,7 @@ public class ClientHandler extends SimpleChannelUpstreamHandler {
         } catch (Exception e) {
         }
 
-        Comet.getServer().getNetwork().getSessions().remove(ctx.getChannel());
+        NetworkManager.getInstance().getSessions().remove(ctx.getChannel());
 
         super.channelClosed(ctx, ev);
     }

@@ -2,6 +2,7 @@ package com.cometproject.server.plugins.events;
 
 import java.util.Map;
 
+
 public class PluginEventHandler {
     /**
      * Initialize the plugin event handler

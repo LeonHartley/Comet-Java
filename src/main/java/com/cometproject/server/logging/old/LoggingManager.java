@@ -1,9 +1,12 @@
 //package com.cometproject.server.logging.old;
+
 //
 //import com.cometproject.server.boot.Comet;
 //
 //import java.util.concurrent.ScheduledFuture;
 //import java.util.concurrent.TimeUnit;
+
+
 //
 //public class LoggingManager {
 //    private final int FLUSH_SECONDS = 0;//Integer.parseInt(Comet.getServer().getConfig().get("comet.game.logging.flush.seconds"));

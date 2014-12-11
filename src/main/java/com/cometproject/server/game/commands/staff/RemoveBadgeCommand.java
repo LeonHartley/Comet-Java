@@ -1,10 +1,10 @@
 package com.cometproject.server.game.commands.staff;
 
-
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
+
 
 public class RemoveBadgeCommand extends ChatCommand {
     @Override
@@ -12,7 +12,7 @@ public class RemoveBadgeCommand extends ChatCommand {
         if (params.length < 2)
             return;
 
-        Session session = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(params[0]);
+        Session session = NetworkManager.getInstance().getSessions().getByPlayerUsername(params[0]);
 
         if (session != null)
             session.getPlayer().getInventory().removeBadge(params[1], true);

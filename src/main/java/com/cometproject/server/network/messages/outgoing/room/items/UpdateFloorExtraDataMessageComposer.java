@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.room.items;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.groups.Group
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.attributes.Stateable;
+
 
 public class UpdateFloorExtraDataMessageComposer {
     public static Composer compose(int id, RoomItemFloor floorItem, boolean useGroupItem) {
@@ -26,7 +27,7 @@ public class UpdateFloorExtraDataMessageComposer {
             msg.writeString("OUTFIT_NAME");
             msg.writeString(((MannequinFloorItem) floorItem).getName());
         } else if (floorItem instanceof GroupFloorItem && useGroupItem) {
-            GroupData groupData = CometManager.getGroups().getData(((GroupFloorItem) floorItem).getGroupId());
+            GroupData groupData = GroupManager.getInstance().getData(((GroupFloorItem) floorItem).getGroupId());
 
             msg.writeString(id);
 
@@ -40,8 +41,8 @@ public class UpdateFloorExtraDataMessageComposer {
                 msg.writeString(floorItem.getExtraData());
                 msg.writeString(groupData.getBadge());
 
-                String colourA = CometManager.getGroups().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour();
-                String colourB = CometManager.getGroups().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour();
+                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour();
+                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour();
 
                 msg.writeString(colourA);
                 msg.writeString(colourB);

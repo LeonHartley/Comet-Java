@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
 public class RoomDao {
     public static Set<StaticRoomModel> getModels() {
         Connection sqlConnection = null;
@@ -39,7 +40,7 @@ public class RoomDao {
             }
 
         } catch (Exception e) {
-            if(e instanceof SQLException)
+            if (e instanceof SQLException)
                 SqlHelper.handleSqlException(((SQLException) e));
         } finally {
             SqlHelper.closeSilently(resultSet);
@@ -121,11 +122,11 @@ public class RoomDao {
             if (query.startsWith("owner:")) {
                 preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE owner = ?", sqlConnection);
                 preparedStatement.setString(1, query.split("owner:")[1]);
-            } else if(query.startsWith("tag:")) {
+            } else if (query.startsWith("tag:")) {
                 preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE tags LIKE ? LIMIT 50", sqlConnection);
 
                 String tagName = SqlHelper.escapeWildcards(query.split("tag:")[1]);
-                preparedStatement.setString(1, "%" + tagName  + "%");
+                preparedStatement.setString(1, "%" + tagName + "%");
             } else {
                 // escape wildcard characters
                 query = SqlHelper.escapeWildcards(query);

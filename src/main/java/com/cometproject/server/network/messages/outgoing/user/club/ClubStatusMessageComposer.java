@@ -5,6 +5,7 @@ import com.cometproject.server.game.players.components.SubscriptionComponent;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public class ClubStatusMessageComposer {
     public static Composer compose(SubscriptionComponent subscription) {
         int timeLeft = 0;

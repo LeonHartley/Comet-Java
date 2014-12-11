@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.outgoing.room.avatar;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public class WisperMessageComposer {
     public static Composer compose(int userId, String message, int bubbleId) {
         Composer msg = new Composer(Composers.WhisperMessageComposer);

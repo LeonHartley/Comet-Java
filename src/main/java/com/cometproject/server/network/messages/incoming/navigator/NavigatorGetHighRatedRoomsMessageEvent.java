@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 
+
 public class NavigatorGetHighRatedRoomsMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {

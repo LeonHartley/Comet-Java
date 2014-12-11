@@ -1,8 +1,7 @@
 package com.cometproject.server.game.catalog.types;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.utilities.JsonFactory;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -12,8 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 public class CatalogPage {
-    private static final Type listType = new TypeToken<List<String>>(){}.getType();
+    private static final Type listType = new TypeToken<List<String>>() {
+    }.getType();
 
     private int id;
     private String caption;
@@ -38,13 +39,13 @@ public class CatalogPage {
         this.template = data.getString("page_layout");
         this.parentId = data.getInt("parent_id");
 
-        if(data.getString("page_images") == null || data.getString("page_images").isEmpty()) {
+        if (data.getString("page_images") == null || data.getString("page_images").isEmpty()) {
             this.images = new ArrayList<>();
         } else {
             this.images = JsonFactory.getInstance().fromJson(data.getString("page_images"), listType);
         }
 
-        if(data.getString("page_texts") == null || data.getString("page_texts").isEmpty()) {
+        if (data.getString("page_texts") == null || data.getString("page_texts").isEmpty()) {
             this.texts = new ArrayList<>();
         } else {
             this.texts = JsonFactory.getInstance().fromJson(data.getString("page_texts"), listType);
@@ -57,9 +58,9 @@ public class CatalogPage {
     public int getOfferSize() {
         int size = 0;
 
-        for(CatalogItem item : this.items.values()) {
-            if(CometManager.getItems().getDefinition(item.getItems().get(0)) != null) {
-                if(CometManager.getItems().getDefinition(item.getItems().get(0)).getOfferId() != -1 && CometManager.getItems().getDefinition(item.getItems().get(0)).getOfferId() != 0) {
+        for (CatalogItem item : this.items.values()) {
+            if (ItemManager.getInstance().getDefinition(item.getItems().get(0)) != null) {
+                if (ItemManager.getInstance().getDefinition(item.getItems().get(0)).getOfferId() != -1 && ItemManager.getInstance().getDefinition(item.getItems().get(0)).getOfferId() != 0) {
                     size++;
                 }
             }

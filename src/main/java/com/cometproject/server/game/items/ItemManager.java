@@ -3,13 +3,16 @@ package com.cometproject.server.game.items;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.queries.items.ItemDao;
-import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.cometproject.server.utilities.Initializable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-public class ItemManager {
+
+public class ItemManager implements Initializable {
+    private static ItemManager itemManagerInstance;
+
     private Logger log = Logger.getLogger(ItemManager.class.getName());
 
     private FastMap<Integer, ItemDefinition> itemDefinitions;
@@ -17,10 +20,24 @@ public class ItemManager {
     private FastMap<Integer, LimitedEditionItem> limitedEditionItems;
 
     public ItemManager() {
+    }
+
+    @Override
+    public void initialize() {
         this.itemDefinitions = new FastMap<>();
         this.limitedEditionItems = new FastMap<>();
 
         this.loadItemDefinitions();
+
+        log.info("ItemManager initialized");
+    }
+
+    public static ItemManager getInstance() {
+        if (itemManagerInstance == null) {
+            itemManagerInstance = new ItemManager();
+        }
+
+        return itemManagerInstance;
     }
 
     public void loadItemDefinitions() {
@@ -36,8 +53,8 @@ public class ItemManager {
             log.error("Error while loading item definitions", e);
         }
 
-        if(itemDefinitions != null) {
-            for(ItemDefinition itemDefinition : this.itemDefinitions.values()) {
+        if (itemDefinitions != null) {
+            for (ItemDefinition itemDefinition : this.itemDefinitions.values()) {
                 this.itemSpriteIdToDefinitionId.put(itemDefinition.getSpriteId(), itemDefinition.getId());
             }
         }
@@ -84,5 +101,6 @@ public class ItemManager {
 
     public FastMap<Integer, ItemDefinition> getItemDefinitions() {
         return this.itemDefinitions;
+
     }
 }

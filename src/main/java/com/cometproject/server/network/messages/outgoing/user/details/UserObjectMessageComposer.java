@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+
 public class UserObjectMessageComposer {
     public static Composer compose(Player player) {
         Composer msg = new Composer(Composers.UserObjectMessageComposer);

@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+
 public class RelationshipsMessageComposer {
     public static Composer compose(int playerId, Map<Integer, RelationshipLevel> relationships) {
         Composer msg = new Composer(Composers.RelationshipMessageComposer);
@@ -32,7 +33,7 @@ public class RelationshipsMessageComposer {
         List<Integer> relationshipKeys = Lists.newArrayList(relationships.keySet());
         Collections.shuffle(relationshipKeys);
 
-        for(Integer relationshipKey : relationshipKeys) {
+        for (Integer relationshipKey : relationshipKeys) {
             RelationshipLevel level = relationships.get(relationshipKey);
 
             PlayerData data = PlayerDao.getDataById(relationshipKey);

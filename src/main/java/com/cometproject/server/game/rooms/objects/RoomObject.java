@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.TileInstance;
 
+
 public abstract class RoomObject {
     /**
      * The unique identifier of this object
@@ -22,8 +23,9 @@ public abstract class RoomObject {
 
     /**
      * Create the room object instance
+     *
      * @param position The position in the room where this object is
-     * @param room The room where this object is
+     * @param room     The room where this object is
      */
     public RoomObject(int id, Position position, Room room) {
         this.id = id;
@@ -33,22 +35,24 @@ public abstract class RoomObject {
 
     /**
      * Gets the tile instance from the room mapping
+     *
      * @return the tile instance from the room mapping
      */
     public TileInstance getTile() {
-        if(this.getPosition() == null) return null;
+        if (this.getPosition() == null) return null;
 
         return this.getRoom().getMapping().getTile(this.getPosition().getX(), this.getPosition().getY());
     }
 
     /**
      * Set the position to a new position
+     *
      * @param newPosition The position to replace the current one with
      */
     public void setPosition(Position newPosition) {
-        if(newPosition == null) return;
+        if (newPosition == null) return;
 
-        if(this.position == null) {
+        if (this.position == null) {
             this.position = newPosition.copy();
         } else {
             this.position.setX(newPosition.getX());
@@ -59,6 +63,7 @@ public abstract class RoomObject {
 
     /**
      * Checks whether or not the object is at the door tile
+     *
      * @return Is the object on the door tile?
      */
     public boolean isAtDoor() {
@@ -67,6 +72,7 @@ public abstract class RoomObject {
 
     /**
      * Get the room where this object is
+     *
      * @return The room instance
      */
     public Room getRoom() {
@@ -75,6 +81,7 @@ public abstract class RoomObject {
 
     /**
      * Get the position in which this object is on the grid
+     *
      * @return The position instance
      */
     public Position getPosition() {
@@ -83,6 +90,7 @@ public abstract class RoomObject {
 
     /**
      * Get the ID of this object
+     *
      * @return The ID of this object
      */
     public int getId() {

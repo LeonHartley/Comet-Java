@@ -9,6 +9,7 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 public class GroupInformationMessageComposer {
     public static Composer compose(Group group, RoomData roomData, boolean flag, boolean isOwner, boolean isAdmin, int membership) {
         Composer msg = new Composer(Composers.GroupDataMessageComposer);

@@ -3,6 +3,7 @@ package com.cometproject.server.game.permissions.types;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class Permission {
     private String id;
     private int minRank;

@@ -3,6 +3,7 @@ package com.cometproject.server.game.players.components.types;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class InventoryBot {
     private int id, ownerId;
     private String name, figure, gender, motto, ownerName;

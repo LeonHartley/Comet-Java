@@ -2,6 +2,7 @@ package com.cometproject.server.game.utilities;
 
 import com.cometproject.server.game.rooms.objects.misc.Position;
 
+
 public class DistanceCalculator {
     public static int calculate(int pos1X, int pos1Y, int pos2X, int pos2Y) {
         return Math.abs(pos1X - pos2X) + Math.abs(pos1Y - pos2Y);

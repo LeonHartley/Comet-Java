@@ -1,16 +1,17 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.banzai;
 
-import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
-import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.utilities.RandomInteger;
 import javolution.util.FastSet;
 
 import java.util.Set;
+
 
 public class BanzaiTeleporterFloorItem extends RoomItemFloor {
     private int stage = 0;
@@ -25,13 +26,13 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
 
     @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
-        if(this.floorItem != null) return;
+        if (this.floorItem != null) return;
 
-        if(!(floorItem instanceof RollableFloorItem)) {
+        if (!(floorItem instanceof RollableFloorItem)) {
             return;
         }
 
-        if(floorItem.hasAttribute("warp")) {
+        if (floorItem.hasAttribute("warp")) {
             this.stage = 2;
             this.setTicks(RoomItemFactory.getProcessTime(0.5));
 
@@ -49,7 +50,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
-        if(this.entity != null) return; // wait yer turn
+        if (this.entity != null) return; // wait yer turn
 
         if (entity.hasAttribute("warp")) {
             this.stage = 2;
@@ -94,17 +95,17 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
 
     @Override
     public void onTickComplete() {
-        if(this.stage == 1) {
-            if(this.entity != null) {
+        if (this.stage == 1) {
+            if (this.entity != null) {
                 this.entity.warp(this.teleportPosition);
                 this.entity = null;
             }
 
-            if(this.floorItem != null) {
+            if (this.floorItem != null) {
                 this.floorItem.getPosition().setX(this.teleportPosition.getX());
                 this.floorItem.getPosition().setY(this.teleportPosition.getY());
 
-                for(RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(this.teleportPosition.getX(), this.teleportPosition.getY())) {
+                for (RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(this.teleportPosition.getX(), this.teleportPosition.getY())) {
                     floorItem.onItemAddedToStack(this);
                 }
 
@@ -117,7 +118,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
             this.setTicks(RoomItemFactory.getProcessTime(0.5));
             this.stage = 0;
             return;
-        } else if(this.stage == 2) {
+        } else if (this.stage == 2) {
             this.setExtraData("1");
             this.sendUpdate();
 

@@ -1,8 +1,8 @@
 package com.cometproject.server.game.catalog.types;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.types.Composer;
 
@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class CatalogItem {
     /**
@@ -117,13 +118,13 @@ public class CatalogItem {
             this.items.add(Integer.valueOf(this.itemId));
         }
 
-        int offerId = CometManager.getItems().getDefinition(this.getItems().get(0)).getOfferId();
+        int offerId = ItemManager.getInstance().getDefinition(this.getItems().get(0)).getOfferId();
 
         if (!CatalogManager.getCatalogOffers().containsKey(offerId)) {
             CatalogManager.getCatalogOffers().put(offerId, new CatalogOffer(offerId, data.getInt("page_id"), this.getId()));
         }
     }
-    
+
     public void compose(Composer msg) {
         msg.writeInt(this.getId());
         msg.writeString(this.getDisplayName());
@@ -133,7 +134,7 @@ public class CatalogItem {
         if (this.getCostOther() > 0) {
             msg.writeInt(this.getCostOther());
             msg.writeInt(105);
-        } else if(this.getCostActivityPoints() > 0) {
+        } else if (this.getCostActivityPoints() > 0) {
             msg.writeInt(this.getCostActivityPoints());
             msg.writeInt(0);
         } else {
@@ -152,7 +153,7 @@ public class CatalogItem {
         }
 
         for (int i : this.getItems()) {
-            ItemDefinition def = CometManager.getItems().getDefinition(i);
+            ItemDefinition def = ItemManager.getInstance().getDefinition(i);
             msg.writeString(def.getType());
             msg.writeInt(def.getSpriteId());
 

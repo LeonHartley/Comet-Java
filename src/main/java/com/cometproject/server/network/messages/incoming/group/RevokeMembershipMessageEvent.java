@@ -1,9 +1,10 @@
 package com.cometproject.server.network.messages.incoming.group;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupMember;
+import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -11,13 +12,14 @@ import com.cometproject.server.network.sessions.Session;
 
 import java.util.ArrayList;
 
+
 public class RevokeMembershipMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
         int groupId = msg.readInt();
         int playerId = msg.readInt();
 
-        Group group = CometManager.getGroups().get(groupId);
+        Group group = GroupManager.getInstance().get(groupId);
 
         if (group == null)
             return;
@@ -27,7 +29,7 @@ public class RevokeMembershipMessageEvent implements IEvent {
 
         GroupMember groupMember = group.getMembershipComponent().getMembers().get(client.getPlayer().getId());
 
-        if(groupMember == null) {
+        if (groupMember == null) {
             return;
         }
 
@@ -47,8 +49,8 @@ public class RevokeMembershipMessageEvent implements IEvent {
                 client.send(group.composeInformation(true, client.getPlayer().getId()));
             }
         } else {
-            if (CometManager.getPlayers().isOnline(playerId)) {
-                Session session = Comet.getServer().getNetwork().getSessions().getByPlayerId(playerId);
+            if (PlayerManager.getInstance().isOnline(playerId)) {
+                Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
                 if (session != null) {
                     session.getPlayer().getGroups().remove(session.getPlayer().getGroups().indexOf(groupId));

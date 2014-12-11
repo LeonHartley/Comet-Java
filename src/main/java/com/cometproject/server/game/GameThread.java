@@ -2,15 +2,18 @@ package com.cometproject.server.game;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.moderation.BanManager;
+import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
 import com.cometproject.server.tasks.CometTask;
-import com.cometproject.server.tasks.CometThreadManagement;
+import com.cometproject.server.tasks.CometThreadManager;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
 
 public class GameThread implements CometTask {
     private static Logger log = Logger.getLogger(GameThread.class.getName());
@@ -21,7 +24,7 @@ public class GameThread implements CometTask {
 
     private int onlineRecord = 0;
 
-    public GameThread(CometThreadManagement mgr) {
+    public GameThread(CometThreadManager mgr) {
         int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.thread.interval"));
         this.gameFuture = mgr.executePeriodic(this, interval, interval, TimeUnit.MINUTES);
         this.active = true;
@@ -36,9 +39,9 @@ public class GameThread implements CometTask {
                 return;
             }
 
-            CometManager.getBans().tick();
+            BanManager.getInstance().tick();
 
-            int usersOnline = Comet.getServer().getNetwork().getSessions().getUsersOnlineCount();
+            int usersOnline = NetworkManager.getInstance().getSessions().getUsersOnlineCount();
 
             if (usersOnline > this.onlineRecord)
                 onlineRecord = usersOnline;
@@ -47,7 +50,7 @@ public class GameThread implements CometTask {
                 this.cycleRewards();
             }
 
-            StatisticsDao.saveStatistics(usersOnline, CometManager.getRooms().getRoomInstances().size(), Comet.getBuild());
+            StatisticsDao.saveStatistics(usersOnline, RoomManager.getInstance().getRoomInstances().size(), Comet.getBuild());
             cycleCount++;
         } catch (Exception e) {
             log.error("Error during game thread", e);
@@ -56,16 +59,16 @@ public class GameThread implements CometTask {
 
     private void cycleRewards() throws Exception {
         if (CometSettings.quarterlyCreditsEnabled || CometSettings.quarterlyDucketsEnabled) {
-            for (Session client : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
+            for (Session client : NetworkManager.getInstance().getSessions().getSessions().values()) {
                 if (client.getPlayer() == null || client.getPlayer().getData() == null) {
                     continue;
                 }
 
-                if(CometSettings.quarterlyCreditsEnabled) {
+                if (CometSettings.quarterlyCreditsEnabled) {
                     client.getPlayer().getData().increaseCredits(CometSettings.quarterlyCreditsAmount);
                 }
 
-                if(CometSettings.quarterlyDucketsEnabled) {
+                if (CometSettings.quarterlyDucketsEnabled) {
                     client.getPlayer().getData().increaseActivityPoints(CometSettings.quarterlyDucketsAmount);
                 }
 

@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 
+
 public class SeatFloorItem extends RoomItemFloor {
 
     public SeatFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
@@ -32,8 +33,8 @@ public class SeatFloorItem extends RoomItemFloor {
         this.toggleInteract(true);
         this.sendUpdate();
 
-        if(this instanceof AdjustableHeightSeatFloorItem) {
-            for(GenericEntity sitter : this.getEntitiesOnItem()) {
+        if (this instanceof AdjustableHeightSeatFloorItem) {
+            for (GenericEntity sitter : this.getEntitiesOnItem()) {
                 this.onEntityStepOn(sitter, true);
             }
         }
@@ -49,7 +50,7 @@ public class SeatFloorItem extends RoomItemFloor {
         entity.setHeadRotation(this.getRotation());
         entity.addStatus(RoomEntityStatus.SIT, String.valueOf(height).replace(',', '.'));
 
-        if(instantUpdate)
+        if (instantUpdate)
             this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
         else
             entity.markNeedsUpdate();

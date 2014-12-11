@@ -2,6 +2,7 @@ package com.cometproject.server.game.commands.staff.rewards.mass;
 
 import com.cometproject.server.config.Locale;
 
+
 public class MassPointsCommand extends MassCurrencyCommand {
     @Override
     public String getPermission() {

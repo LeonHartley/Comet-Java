@@ -4,6 +4,7 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public class MotdNotificationComposer {
     public static Composer compose() {
         if (CometSettings.messageOfTheDayEnabled) {

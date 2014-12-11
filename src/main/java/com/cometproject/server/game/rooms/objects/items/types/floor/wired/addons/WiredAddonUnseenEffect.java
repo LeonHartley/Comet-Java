@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
+
 public class WiredAddonUnseenEffect extends RoomItemFloor {
     private List<Integer> seenEffects;
 

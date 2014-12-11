@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class MimicCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {

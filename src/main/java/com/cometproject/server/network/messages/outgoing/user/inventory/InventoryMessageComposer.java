@@ -1,14 +1,15 @@
 package com.cometproject.server.network.messages.outgoing.user.inventory;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.players.components.InventoryComponent;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.commons.lang.StringUtils;
+
 
 public class InventoryMessageComposer {
     public static Composer compose(InventoryComponent inventory) {
@@ -21,7 +22,7 @@ public class InventoryMessageComposer {
         for (InventoryItem inventoryItem : inventory.getFloorItems().values()) {
             final boolean isGift = inventoryItem.getGiftData() != null;
             final boolean isGroupItem = inventoryItem.getDefinition().getInteraction().equals("group_item") || inventoryItem.getDefinition().getInteraction().equals("group_gate");
-            final boolean isLimited = CometManager.getItems().getLimitedEdition(inventoryItem.getId()) != null;
+            final boolean isLimited = ItemManager.getInstance().getLimitedEdition(inventoryItem.getId()) != null;
 
             msg.writeInt(inventoryItem.getId());
             msg.writeString(inventoryItem.getDefinition().getType().toUpperCase());
@@ -41,7 +42,7 @@ public class InventoryMessageComposer {
                     groupId = Integer.parseInt(inventoryItem.getExtraData());
                 }
 
-                GroupData groupData = groupId == 0 ? null : CometManager.getGroups().getData(groupId);
+                GroupData groupData = groupId == 0 ? null : GroupManager.getInstance().getData(groupId);
 
                 if (groupData == null) {
                     msg.writeInt(0);
@@ -52,8 +53,8 @@ public class InventoryMessageComposer {
                     msg.writeString(groupId);
                     msg.writeString(groupData.getBadge());
 
-                    String colourA = CometManager.getGroups().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? CometManager.getGroups().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour() : "ffffff";
-                    String colourB = CometManager.getGroups().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? CometManager.getGroups().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour() : "ffffff";
+                    String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour() : "ffffff";
+                    String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour() : "ffffff";
 
                     msg.writeString(colourA);
                     msg.writeString(colourB);
@@ -80,7 +81,7 @@ public class InventoryMessageComposer {
             }
 
             if (isLimited && !isGift) {
-                LimitedEditionItem limitedEditionItem = CometManager.getItems().getLimitedEdition(inventoryItem.getId());
+                LimitedEditionItem limitedEditionItem = ItemManager.getInstance().getLimitedEdition(inventoryItem.getId());
 
                 msg.writeInt(limitedEditionItem.getLimitedRare());
                 msg.writeInt(limitedEditionItem.getLimitedRareTotal());

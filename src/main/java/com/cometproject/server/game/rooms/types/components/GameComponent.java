@@ -13,6 +13,7 @@ import javolution.util.FastMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class GameComponent {
     private Room room;
     private RoomGame instance;
@@ -33,7 +34,7 @@ public class GameComponent {
     }
 
     public void resetScores() {
-        if(this.scores != null)
+        if (this.scores != null)
             this.scores.clear();
 
         this.scores = new FastMap<GameTeam, Integer>() {{
@@ -45,7 +46,7 @@ public class GameComponent {
     }
 
     public void dispose() {
-        for(Map.Entry<GameTeam, List<Integer>> entry : this.teams.entrySet()) {
+        for (Map.Entry<GameTeam, List<Integer>> entry : this.teams.entrySet()) {
             entry.getValue().clear();
         }
 
@@ -90,7 +91,7 @@ public class GameComponent {
     public void increaseScore(GameTeam team, int amount) {
         this.scores.replace(team, this.scores.get(team) + amount);
 
-        for(RoomItemFloor scoreItem : this.getRoom().getItems().getByInteraction("football_score")) {
+        for (RoomItemFloor scoreItem : this.getRoom().getItems().getByInteraction("football_score")) {
             scoreItem.sendUpdate();
         }
 

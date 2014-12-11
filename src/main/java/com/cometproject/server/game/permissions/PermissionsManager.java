@@ -4,12 +4,16 @@ import com.cometproject.server.game.permissions.types.CommandPermission;
 import com.cometproject.server.game.permissions.types.Perk;
 import com.cometproject.server.game.permissions.types.Permission;
 import com.cometproject.server.storage.queries.permissions.PermissionsDao;
+import com.cometproject.server.utilities.Initializable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
 
-public class PermissionsManager {
+
+public class PermissionsManager implements Initializable {
+    private static PermissionsManager permissionsManagerInstance;
+
     private FastMap<Integer, Perk> perks;
     private FastMap<String, Permission> permissions;
     private FastMap<String, CommandPermission> commands;
@@ -17,6 +21,11 @@ public class PermissionsManager {
     private static Logger log = Logger.getLogger(PermissionsManager.class.getName());
 
     public PermissionsManager() {
+
+    }
+
+    @Override
+    public void initialize() {
         this.perks = new FastMap<>();
         this.permissions = new FastMap<>();
         this.commands = new FastMap<>();
@@ -24,6 +33,15 @@ public class PermissionsManager {
         this.loadPerks();
         this.loadPermissions();
         this.loadCommands();
+
+        log.info("PermissionsManager initialized");
+    }
+
+    public static PermissionsManager getInstance() {
+        if (permissionsManagerInstance == null)
+            permissionsManagerInstance = new PermissionsManager();
+
+        return permissionsManagerInstance;
     }
 
     public void loadPerks() {

@@ -7,6 +7,7 @@ import com.cometproject.server.network.messages.outgoing.room.engine.RoomForward
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class FollowFriendMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int friendId = msg.readInt();
@@ -18,7 +19,7 @@ public class FollowFriendMessageEvent implements IEvent {
 
         Room room = friend.getSession().getPlayer().getEntity().getRoom();
 
-        if(room == null) {
+        if (room == null) {
             // wtf?
             return;
         }

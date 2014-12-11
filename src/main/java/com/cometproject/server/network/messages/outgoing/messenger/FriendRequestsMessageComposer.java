@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
+
 public class FriendRequestsMessageComposer {
     public static Composer compose(List<MessengerRequest> requests) {
         Composer msg = new Composer(Composers.FriendRequestsMessageComposer);

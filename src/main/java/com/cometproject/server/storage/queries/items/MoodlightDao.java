@@ -5,7 +5,6 @@ import com.cometproject.server.game.rooms.objects.items.data.MoodlightPresetData
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.storage.SqlHelper;
 import com.cometproject.server.utilities.JsonFactory;
-import com.google.gson.Gson;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class MoodlightDao {
     public static MoodlightData getMoodlightData(int itemId) {

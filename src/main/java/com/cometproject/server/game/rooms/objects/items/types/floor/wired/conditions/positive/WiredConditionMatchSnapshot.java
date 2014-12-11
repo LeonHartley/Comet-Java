@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredI
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
 import com.cometproject.server.game.rooms.types.Room;
 
+
 public class WiredConditionMatchSnapshot extends WiredConditionItem {
     private static final int PARAM_MATCH_STATE = 0;
     private static final int PARAM_MATCH_ROTATION = 1;
@@ -45,19 +46,19 @@ public class WiredConditionMatchSnapshot extends WiredConditionItem {
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
             WiredItemSnapshot snapshot = this.getWiredData().getSnapshots().get(itemId);
 
-            if(floorItem != null && snapshot != null) {
-                if(matchState) {
-                    if(!floorItem.getExtraData().equals(snapshot.getExtraData()))
+            if (floorItem != null && snapshot != null) {
+                if (matchState) {
+                    if (!floorItem.getExtraData().equals(snapshot.getExtraData()))
                         result = false;
                 }
 
-                if(matchRotation) {
-                    if(floorItem.getRotation() != snapshot.getRotation())
+                if (matchRotation) {
+                    if (floorItem.getRotation() != snapshot.getRotation())
                         result = false;
                 }
 
-                if(matchPosition) {
-                    if(floorItem.getPosition().getX() != snapshot.getX() && floorItem.getPosition().getY() != snapshot.getY())
+                if (matchPosition) {
+                    if (floorItem.getPosition().getX() != snapshot.getX() && floorItem.getPosition().getY() != snapshot.getY())
                         result = false;
                 }
             }

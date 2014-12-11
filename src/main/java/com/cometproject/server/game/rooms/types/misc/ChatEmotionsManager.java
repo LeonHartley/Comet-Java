@@ -5,6 +5,7 @@ import javolution.util.FastMap;
 
 import java.util.Map;
 
+
 public class ChatEmotionsManager {
     private FastMap<String, ChatEmotion> emotions;
 

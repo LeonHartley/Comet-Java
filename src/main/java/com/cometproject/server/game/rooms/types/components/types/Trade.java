@@ -15,6 +15,7 @@ import com.cometproject.server.storage.queries.items.TradeDao;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Trade {
     /**
      * The entities which are trading
@@ -129,12 +130,12 @@ public class Trade {
         }
 
 
-        if(user1 != null && user1.getPlayer() != null) {
+        if (user1 != null && user1.getPlayer() != null) {
             this.sendToUsers(TradeAcceptUpdateMessageComposer.compose(user1.getPlayer().getId(), false));
             this.user1Accepted = false;
         }
 
-        if(user2 != null && user2.getPlayer() != null) {
+        if (user2 != null && user2.getPlayer() != null) {
             this.sendToUsers(TradeAcceptUpdateMessageComposer.compose(user2.getPlayer().getId(), false));
             this.user2Accepted = false;
         }
@@ -197,7 +198,7 @@ public class Trade {
     }
 
     public void unaccept(int user) {
-        if(this.user1Accepted && user2Accepted) {
+        if (this.user1Accepted && user2Accepted) {
             this.stage--;
         }
 

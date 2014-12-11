@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
+
 public class RoomCategoriesMessageComposer {
     public static Composer compose(List<Category> categories, int rank) {
         Composer msg = new Composer(Composers.FlatCategoriesMessageComposer);

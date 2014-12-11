@@ -11,6 +11,7 @@ import com.cometproject.server.network.sessions.Session;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class PickAllCommand extends ChatCommand {
     @Override
     public void execute(Session client, String message[]) {

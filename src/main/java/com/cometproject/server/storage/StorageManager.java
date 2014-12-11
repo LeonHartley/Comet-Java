@@ -1,15 +1,23 @@
 package com.cometproject.server.storage;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.utilities.Initializable;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.log4j.Logger;
 
-public class StorageManager {
+
+public class StorageManager implements Initializable {
+    private static StorageManager storageManagerInstance;
     private static Logger log = Logger.getLogger(StorageManager.class.getName());
     private HikariDataSource connections = null;
 
     public StorageManager() {
+
+    }
+
+    @Override
+    public void initialize() {
         boolean isConnectionFailed = false;
 
         try {
@@ -39,6 +47,13 @@ public class StorageManager {
         }
 
         SqlHelper.init(this);
+    }
+
+    public static StorageManager getInstance() {
+        if (storageManagerInstance == null)
+            storageManagerInstance = new StorageManager();
+
+        return storageManagerInstance;
     }
 
     public HikariDataSource getConnections() {

@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.banzai;
 
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -11,6 +10,7 @@ import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiGa
 
 import java.util.LinkedList;
 import java.util.List;
+
 
 public class BanzaiTileFloorItem extends RoomItemFloor {
     private GameTeam gameTeam = GameTeam.NONE;
@@ -24,29 +24,29 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
-        if(!(entity instanceof PlayerEntity) || ((PlayerEntity) entity).getGameTeam() == GameTeam.NONE || this.getRoom().getGame().getInstance() == null) {
+        if (!(entity instanceof PlayerEntity) || ((PlayerEntity) entity).getGameTeam() == GameTeam.NONE || this.getRoom().getGame().getInstance() == null) {
             return;
         }
 
-        if(this.points == 3) {
+        if (this.points == 3) {
             // It's locked, what you doing?!?
             return;
         }
 
-        if(((PlayerEntity) entity).getGameTeam() == this.gameTeam) {
+        if (((PlayerEntity) entity).getGameTeam() == this.gameTeam) {
             this.points++;
         } else {
             this.gameTeam = ((PlayerEntity) entity).getGameTeam();
             this.points = 1;
         }
 
-        if(this.points == 3) {
+        if (this.points == 3) {
             ((BanzaiGame) this.getRoom().getGame().getInstance()).increaseScore(gameTeam, 1);
             ((BanzaiGame) this.getRoom().getGame().getInstance()).decreaseTileCount();
 
             final List<BanzaiTileFloorItem> rectangle = buildBanzaiRectangle(this, this.getPosition().getX(), this.getPosition().getY(), 0, 0, -1, 4, gameTeam);
 
-            if(rectangle != null) {
+            if (rectangle != null) {
                 for (RoomItemFloor floorItem : this.getRoom().getItems().getByInteraction("bb_patch")) {
                     BanzaiTileFloorItem tileItem = ((BanzaiTileFloorItem) floorItem);
                     if (tileItem.getPoints() == 3) continue;
@@ -70,7 +70,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
                     }
 
                     if (borderCheck[0] && borderCheck[1] && borderCheck[2] && borderCheck[3]) {
-                        if(tileItem.getId() != this.getId()) {
+                        if (tileItem.getId() != this.getId()) {
                             tileItem.setPoints(3);
                             tileItem.setTeam(this.gameTeam);
 
@@ -88,8 +88,8 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
 
     @Override
     public void onItemAddedToStack(RoomItemFloor roomItemFloor) {
-        if(roomItemFloor instanceof BanzaiPuckFloorItem) {
-            if(((BanzaiPuckFloorItem) roomItemFloor).getPusher() != null) {
+        if (roomItemFloor instanceof BanzaiPuckFloorItem) {
+            if (((BanzaiPuckFloorItem) roomItemFloor).getPusher() != null) {
                 this.onEntityStepOn(((BanzaiPuckFloorItem) roomItemFloor).getPusher());
             }
         }
@@ -134,7 +134,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
             final int nextX = x + nextXStep;
             final int nextY = y + nextYStep;
 
-            if(room.getMapping().getTile(nextX, nextY) != null) {
+            if (room.getMapping().getTile(nextX, nextY) != null) {
                 RoomItemFloor obj = room.getItems().getFloorItem(room.getMapping().getTile(nextX, nextY).getTopItem());
 
                 if (obj != null && obj instanceof BanzaiTileFloorItem) {
@@ -176,8 +176,8 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
 
     @Override
     public void onTick() {
-        if(this.hasTicks() && this.ticker >= RoomItemFactory.getProcessTime(0.5)) {
-            if(needsChange) {
+        if (this.hasTicks() && this.ticker >= RoomItemFactory.getProcessTime(0.5)) {
+            if (needsChange) {
                 this.setExtraData("1");
                 this.sendUpdate();
                 this.needsChange = false;
@@ -198,7 +198,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     }
 
     public void flash() {
-        if(this.points == 3) {
+        if (this.points == 3) {
             this.needsChange = true;
             this.setTicks(RoomItemFactory.getProcessTime(3.5));//3.5s
         }
@@ -211,7 +211,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     }
 
     public void updateTileData() {
-        if(this.points != 0)
+        if (this.points != 0)
             this.setExtraData(((this.points + (gameTeam.getTeamId() * 3) - 1) + ""));
         else
             this.setExtraData("1");

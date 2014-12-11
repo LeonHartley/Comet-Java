@@ -5,9 +5,10 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.Inventor
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class OpenInventoryMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        if(!client.getPlayer().getInventory().itemsLoaded()) {
+        if (!client.getPlayer().getInventory().itemsLoaded()) {
             client.getPlayer().getInventory().loadItems();
         }
 

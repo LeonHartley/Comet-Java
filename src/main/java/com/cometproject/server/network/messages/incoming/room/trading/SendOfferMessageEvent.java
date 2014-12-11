@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class SendOfferMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int itemId = msg.readInt();
@@ -20,7 +21,7 @@ public class SendOfferMessageEvent implements IEvent {
         }
 
         Trade trade = client.getPlayer().getEntity().getRoom().getTrade().get(client.getPlayer().getEntity());
-        if(trade == null) return;
+        if (trade == null) return;
 
         trade.addItem(trade.getUserNumber(client.getPlayer().getEntity()), item);
     }

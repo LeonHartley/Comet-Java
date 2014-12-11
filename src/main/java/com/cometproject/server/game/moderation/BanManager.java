@@ -1,29 +1,43 @@
 package com.cometproject.server.game.moderation;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.moderation.types.Ban;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.storage.queries.moderation.BanDao;
+import com.cometproject.server.utilities.Initializable;
 import com.google.common.collect.Lists;
-import javolution.util.FastMap;
 import javolution.util.FastSet;
 import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-public class BanManager {
+
+public class BanManager implements Initializable {
+    public static BanManager banManagerInstance;
+
     private Map<String, Ban> bans;
     private FastSet<Integer> mutedPlayers;
 
-    Logger logger = Logger.getLogger(BanManager.class.getName());
+    Logger log = Logger.getLogger(BanManager.class.getName());
 
     public BanManager() {
+
+    }
+
+    @Override
+    public void initialize() {
         this.mutedPlayers = new FastSet<Integer>().shared();
 
         loadBans();
+        log.info("BanManager initialized");
+    }
+
+    public static BanManager getInstance() {
+        if (banManagerInstance == null)
+            banManagerInstance = new BanManager();
+
+        return banManagerInstance;
     }
 
     public void loadBans() {
@@ -32,23 +46,23 @@ public class BanManager {
 
         try {
             this.bans = BanDao.getActiveBans();
-            logger.info("Loaded " + this.bans.size() + " bans");
+            log.info("Loaded " + this.bans.size() + " bans");
         } catch (Exception e) {
-            logger.error("Error while loading bans", e);
+            log.error("Error while loading bans", e);
         }
     }
 
     public void tick() {
         List<Ban> bansToRemove = Lists.newArrayList();
 
-        for(Ban ban : this.bans.values()) {
-            if(ban.getExpire() != 0 && Comet.getTime() >= ban.getExpire()) {
+        for (Ban ban : this.bans.values()) {
+            if (ban.getExpire() != 0 && Comet.getTime() >= ban.getExpire()) {
                 bansToRemove.add(ban);
             }
         }
 
-        if(bansToRemove.size() != 0) {
-            for(Ban ban : bansToRemove) {
+        if (bansToRemove.size() != 0) {
+            for (Ban ban : bansToRemove) {
                 this.bans.remove(ban.getData());
             }
         }
@@ -66,14 +80,14 @@ public class BanManager {
     }
 
     public boolean hasBan(String data, BanType type) {
-        if(this.bans.containsKey(data)) {
+        if (this.bans.containsKey(data)) {
             Ban ban = this.bans.get(data);
 
-            if(ban != null && ban.getType() == type) {
-                if(ban.getExpire() != 0 && Comet.getTime() >= ban.getExpire()) {
+            if (ban != null && ban.getType() == type) {
+                if (ban.getExpire() != 0 && Comet.getTime() >= ban.getExpire()) {
                     return false;
                 }
-                
+
                 return true;
             }
         }

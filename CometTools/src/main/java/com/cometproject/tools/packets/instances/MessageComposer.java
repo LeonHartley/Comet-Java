@@ -5,6 +5,7 @@ import javolution.util.FastList;
 
 import java.util.List;
 
+
 public class MessageComposer extends Packet {
     private List<String> structure;
     private String parserName;

@@ -1,11 +1,10 @@
 package com.cometproject.server.game.players.types;
 
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateAvatarAspectMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
@@ -22,6 +21,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 
 public class Player {
     private int id;
@@ -58,7 +58,7 @@ public class Player {
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
-        if(isFallback) {
+        if (isFallback) {
             this.settings = PlayerDao.getSettingsById(this.id);
             this.stats = PlayerDao.getStatisticsById(this.id);
         } else {
@@ -137,7 +137,7 @@ public class Player {
             setEntity(null);
         }
 
-        Room room = CometManager.getRooms().get(id);
+        Room room = RoomManager.getInstance().get(id);
 
         if (room == null) {
             session.send(HotelViewMessageComposer.compose());
@@ -157,7 +157,7 @@ public class Player {
 
         playerEntity.joinRoom(room, password);
     }
-    
+
     public void poof() {
         // poof
         this.getSession().send(UpdateInfoMessageComposer.compose(-1, this.getData().getFigure(), this.getData().getGender(), this.getData().getMotto(), this.getData().getAchievementPoints()));

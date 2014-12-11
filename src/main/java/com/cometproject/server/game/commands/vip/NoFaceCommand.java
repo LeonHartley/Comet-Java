@@ -6,12 +6,13 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoM
 import com.cometproject.server.network.sessions.Session;
 import org.apache.commons.lang.StringUtils;
 
+
 public class NoFaceCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         String figure = client.getPlayer().getData().getFigure();
 
-        if(client.getPlayer().getData().getTemporaryFigure() != null) {
+        if (client.getPlayer().getData().getTemporaryFigure() != null) {
             client.getPlayer().getData().setFigure(client.getPlayer().getData().getTemporaryFigure());
             client.getPlayer().getData().setTemporaryFigure(null);
         } else {

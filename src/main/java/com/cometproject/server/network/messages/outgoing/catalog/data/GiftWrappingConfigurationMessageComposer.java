@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.outgoing.catalog.data;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public class GiftWrappingConfigurationMessageComposer {
     public static Composer compose() {
         Composer msg = new Composer(Composers.GiftWrappingConfigurationMessageComposer);

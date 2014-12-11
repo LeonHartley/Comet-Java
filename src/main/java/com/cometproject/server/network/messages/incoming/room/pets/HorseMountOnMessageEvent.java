@@ -8,29 +8,30 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class HorseMountOnMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
         int entityId = msg.readInt();
 
-        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getMountedEntity() != null) {
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getMountedEntity() != null) {
             return;
         }
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room == null) return;
+        if (room == null) return;
 
         PetEntity horse = room.getEntities().getEntityByPetId(entityId);
 
-        if(horse == null) {
+        if (horse == null) {
             // its a user.
-            if(entityId == client.getPlayer().getId()) return;
+            if (entityId == client.getPlayer().getId()) return;
 
             PlayerEntity playerEntity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPlayerId(entityId);
 
-            if(playerEntity != null) {
-                if(!playerEntity.getMotto().toLowerCase().startsWith("rideable")) {
+            if (playerEntity != null) {
+                if (!playerEntity.getMotto().toLowerCase().startsWith("rideable")) {
                     return;
                 }
 

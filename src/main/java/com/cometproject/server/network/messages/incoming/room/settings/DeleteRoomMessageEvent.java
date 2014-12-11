@@ -1,9 +1,11 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.types.InventoryBot;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -11,6 +13,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
@@ -27,6 +30,7 @@ import com.cometproject.server.storage.queries.rooms.RoomDao;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class DeleteRoomMessageEvent implements IEvent {
 
@@ -70,11 +74,11 @@ public class DeleteRoomMessageEvent implements IEvent {
             RoomPetDao.updatePet(0, 0, 0, pet.getData().getId());
         }
 
-        CometManager.getRooms().forceUnload(room.getId());
-        CometManager.getRooms().removeData(room.getId());
+        RoomManager.getInstance().forceUnload(room.getId());
+        RoomManager.getInstance().removeData(room.getId());
 
-        if (CometManager.getPlayers().isOnline(room.getData().getOwnerId())) {
-            Session owner = Comet.getServer().getNetwork().getSessions().getByPlayerId(room.getData().getOwnerId());
+        if (PlayerManager.getInstance().isOnline(room.getData().getOwnerId())) {
+            Session owner = NetworkManager.getInstance().getSessions().getByPlayerId(room.getData().getOwnerId());
 
             if (owner.getPlayer() != null && owner.getPlayer().getRooms() != null) {
                 if (owner.getPlayer().getRooms().contains(room.getId())) {
@@ -83,19 +87,19 @@ public class DeleteRoomMessageEvent implements IEvent {
             }
         }
 
-        if(CometManager.getGroups().getGroupByRoomId(room.getId()) != null) {
-            Group group = CometManager.getGroups().getGroupByRoomId(room.getId());
+        if (GroupManager.getInstance().getGroupByRoomId(room.getId()) != null) {
+            Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
 
-            for(Integer groupMemberId : group.getMembershipComponent().getMembers().keySet()) {
-                Session groupMemberSession = Comet.getServer().getNetwork().getSessions().getByPlayerId(groupMemberId);
+            for (Integer groupMemberId : group.getMembershipComponent().getMembers().keySet()) {
+                Session groupMemberSession = NetworkManager.getInstance().getSessions().getByPlayerId(groupMemberId);
 
-                if(groupMemberSession != null && groupMemberSession.getPlayer() != null) {
+                if (groupMemberSession != null && groupMemberSession.getPlayer() != null) {
                     groupMemberSession.getPlayer().getGroups().remove(new Integer(group.getId()));
 
-                    if(groupMemberSession.getPlayer().getData().getFavouriteGroup() == group.getId()) {
+                    if (groupMemberSession.getPlayer().getData().getFavouriteGroup() == group.getId()) {
                         groupMemberSession.getPlayer().getData().setFavouriteGroup(0);
 
-                        if(groupMemberSession.getPlayer().getEntity() != null) {
+                        if (groupMemberSession.getPlayer().getEntity() != null) {
                             groupMemberSession.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(client.getPlayer().getEntity().getId()));
                             groupMemberSession.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity()));
                         }
@@ -103,10 +107,10 @@ public class DeleteRoomMessageEvent implements IEvent {
                 }
             }
 
-            CometManager.getGroups().removeGroup(group.getId());
+            GroupManager.getInstance().removeGroup(group.getId());
         }
 
-        if(client.getPlayer().getSettings().getHomeRoom() == roomId) {
+        if (client.getPlayer().getSettings().getHomeRoom() == roomId) {
             client.getPlayer().getSettings().setHomeRoom(0);
             client.send(HomeRoomMessageComposer.compose(0));
         }

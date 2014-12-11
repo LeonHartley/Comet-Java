@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.group;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.players.data.PlayerData;
@@ -13,6 +13,7 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class GroupMembersMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
@@ -21,7 +22,7 @@ public class GroupMembersMessageEvent implements IEvent {
         String searchQuery = msg.readString();
         int requestType = msg.readInt();
 
-        Group group = CometManager.getGroups().get(groupId);
+        Group group = GroupManager.getInstance().get(groupId);
 
         if (group == null)
             return;

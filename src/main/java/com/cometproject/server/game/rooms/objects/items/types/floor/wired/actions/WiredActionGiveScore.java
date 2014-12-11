@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.types.Room;
 
+
 public class WiredActionGiveScore extends WiredActionItem {
     private final static int PARAM_SCORE = 0;
     private final static int PARAM_PER_GAME = 1;
@@ -25,7 +26,7 @@ public class WiredActionGiveScore extends WiredActionItem {
     public WiredActionGiveScore(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
-        if(this.getWiredData().getParams().size() < 2) {
+        if (this.getWiredData().getParams().size() < 2) {
             this.getWiredData().getParams().clear();
 
             this.getWiredData().getParams().put(PARAM_SCORE, 1);
@@ -45,13 +46,13 @@ public class WiredActionGiveScore extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(!(entity instanceof PlayerEntity)) {
+        if (!(entity instanceof PlayerEntity)) {
             return false;
         }
 
         PlayerEntity playerEntity = ((PlayerEntity) entity);
 
-        if(playerEntity.getGameTeam() == null) {
+        if (playerEntity.getGameTeam() == null) {
             return false;
         }
 

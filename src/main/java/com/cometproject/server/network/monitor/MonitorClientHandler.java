@@ -1,4 +1,5 @@
 //package com.cometproject.server.network.monitor;
+
 //
 //import com.cometproject.server.boot.Comet;
 //import com.cometproject.server.network.NetworkManager;
@@ -13,6 +14,8 @@
 //
 //import java.nio.charset.Charset;
 //import java.util.concurrent.TimeUnit;
+
+
 //
 //public class MonitorClientHandler extends SimpleChannelInboundHandler {
 //    public static boolean isConnected = false;
@@ -67,7 +70,7 @@
 //        eventLoop.schedule(new Runnable() {
 //            @Override
 //            public void run() {
-//                Comet.getServer().getNetwork().getMonitorClient().createBootstrap(new Bootstrap(), eventLoop);
+//                NetworkManager.getInstance().getMonitorClient().createBootstrap(new Bootstrap(), eventLoop);
 //            }
 //        }, 1L, TimeUnit.SECONDS);
 //        super.channelInactive(ctx);

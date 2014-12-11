@@ -1,6 +1,6 @@
 package com.cometproject.server.game.groups.types.components;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.storage.queries.groups.GroupMemberDao;
@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 
 public class MembershipComponent {
     /**
@@ -194,6 +195,6 @@ public class MembershipComponent {
      * @return The group that this component is assigned to
      */
     private Group getGroup() {
-        return CometManager.getGroups().get(this.groupId);
+        return GroupManager.getInstance().get(this.groupId);
     }
 }

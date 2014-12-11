@@ -8,6 +8,7 @@ import javolution.util.FastSet;
 
 import java.util.Set;
 
+
 public class RateRoomMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {

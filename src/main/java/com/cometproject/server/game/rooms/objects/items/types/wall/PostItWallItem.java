@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.Arrays;
 
+
 public class PostItWallItem extends RoomItemWall {
     private String colour;
     private String message;
@@ -13,7 +14,7 @@ public class PostItWallItem extends RoomItemWall {
     public PostItWallItem(int id, int itemId, Room room, int owner, String position, String data) {
         super(id, itemId, room, owner, position, data);
 
-        if(this.isValidData(data))
+        if (this.isValidData(data))
             this.setExtraData(data);
         else
             this.setExtraData("FFFF33 ");
@@ -29,7 +30,7 @@ public class PostItWallItem extends RoomItemWall {
         String[] data = extraData.split(" ");
         String colour = data[0];
 
-        if(!this.isValidColour(colour)) {
+        if (!this.isValidColour(colour)) {
             return;
         }
 
@@ -40,7 +41,7 @@ public class PostItWallItem extends RoomItemWall {
     }
 
     private boolean isValidColour(String colour) {
-        switch(colour) {
+        switch (colour) {
             default:
                 return false;
 

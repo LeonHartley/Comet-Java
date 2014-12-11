@@ -1,11 +1,10 @@
 package com.cometproject.server.storage.queries.bots;
 
 import com.cometproject.server.game.bots.BotData;
-import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.storage.SqlHelper;
 import com.cometproject.server.utilities.JsonFactory;
-import com.google.gson.Gson;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class RoomBotDao {
     public static List<BotData> getBotsByRoomId(int roomId) {

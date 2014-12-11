@@ -1,10 +1,11 @@
 package com.cometproject.server.network.messages.outgoing.moderation;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.moderation.types.actions.ActionCategory;
 import com.cometproject.server.game.moderation.types.actions.ActionPreset;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+
 
 public class ModToolMessageComposer {
     public static Composer compose() {
@@ -12,20 +13,20 @@ public class ModToolMessageComposer {
 
         msg.writeInt(0); // issues
 
-        msg.writeInt(CometManager.getModeration().getUserPresets().size());
+        msg.writeInt(ModerationManager.getInstance().getUserPresets().size());
 
-        for (String preset : CometManager.getModeration().getUserPresets()) {
+        for (String preset : ModerationManager.getInstance().getUserPresets()) {
             msg.writeString(preset);
         }
 
-        msg.writeInt(CometManager.getModeration().getActionCategories().size());
+        msg.writeInt(ModerationManager.getInstance().getActionCategories().size());
 
-        for(ActionCategory actionCategory : CometManager.getModeration().getActionCategories()) {
+        for (ActionCategory actionCategory : ModerationManager.getInstance().getActionCategories()) {
             msg.writeString(actionCategory.getCategoryName());
             msg.writeBoolean(false); // unused bool
             msg.writeInt(actionCategory.getPresets().size());
 
-            for(ActionPreset preset : actionCategory.getPresets()) {
+            for (ActionPreset preset : actionCategory.getPresets()) {
                 msg.writeString(preset.getName());
                 msg.writeString(preset.getMessage());
                 msg.writeInt(preset.getBanLength());
@@ -45,9 +46,9 @@ public class ModToolMessageComposer {
         msg.writeBoolean(true); // room alert
         msg.writeBoolean(true); // room kick
 
-        msg.writeInt(CometManager.getModeration().getRoomPresets().size());
+        msg.writeInt(ModerationManager.getInstance().getRoomPresets().size());
 
-        for (String preset : CometManager.getModeration().getRoomPresets()) {
+        for (String preset : ModerationManager.getInstance().getRoomPresets()) {
             msg.writeString(preset);
         }
 

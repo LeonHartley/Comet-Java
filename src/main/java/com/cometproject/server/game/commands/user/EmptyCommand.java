@@ -9,6 +9,7 @@ import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 
 import java.util.Map;
 
+
 public class EmptyCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {

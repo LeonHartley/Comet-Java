@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class LandingDao {
     public static FastMap<Integer, PromoArticle> getArticles() {
         Connection sqlConnection = null;

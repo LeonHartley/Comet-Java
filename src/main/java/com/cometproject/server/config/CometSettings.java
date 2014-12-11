@@ -5,6 +5,7 @@ import com.cometproject.server.storage.queries.config.ConfigDao;
 
 import java.util.Map;
 
+
 public class CometSettings {
     /**
      * Is the login message enabled?
@@ -146,7 +147,7 @@ public class CometSettings {
     /**
      * Initialize the configuration
      */
-    public static void init() {
+    public static void initialize() {
         Map<String, String> config = ConfigDao.getAll();
 
         messageOfTheDayEnabled = Boolean.parseBoolean(config.get("comet.game.motd.enabled"));
@@ -179,15 +180,15 @@ public class CometSettings {
 
         wordFilterMode = FilterMode.valueOf(config.get("comet.game.filter.mode").toUpperCase());
 
-        if(config.containsKey("config.security.use_database_ip")) {
+        if (config.containsKey("config.security.use_database_ip")) {
             useDatabaseIp = Boolean.parseBoolean(config.get("config.security.use_database_ip"));
         }
 
-        if(config.containsKey("comet.security.storeAccess")) {
+        if (config.containsKey("comet.security.storeAccess")) {
             storeAccess = Boolean.parseBoolean(config.get("comet.security.storeAccess"));
         }
 
-        if(config.containsKey("comet.game.rooms.disableWiredFlash")) {
+        if (config.containsKey("comet.game.rooms.disableWiredFlash")) {
             storeAccess = Boolean.parseBoolean(config.get("comet.game.rooms.disableWiredFlash"));
         }
     }

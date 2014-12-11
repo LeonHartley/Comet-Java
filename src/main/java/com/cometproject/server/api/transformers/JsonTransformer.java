@@ -1,9 +1,8 @@
 package com.cometproject.server.api.transformers;
 
 import com.cometproject.server.utilities.JsonFactory;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import spark.ResponseTransformer;
+
 
 public class JsonTransformer implements ResponseTransformer {
     /**
@@ -18,7 +17,7 @@ public class JsonTransformer implements ResponseTransformer {
         try {
             String gsonString = JsonFactory.getInstance().toJson(o);
 
-            if(!gsonString.startsWith("{")) {
+            if (!gsonString.startsWith("{")) {
                 return "{\"response\":" + gsonString + "}";
             } else {
                 return gsonString;

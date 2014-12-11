@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.group;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupMember;
@@ -9,6 +9,7 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+
 
 public class JoinGroupMessageEvent implements IEvent {
     @Override
@@ -20,7 +21,7 @@ public class JoinGroupMessageEvent implements IEvent {
             return;
         }
 
-        Group group = CometManager.getGroups().get(groupId);
+        Group group = GroupManager.getInstance().get(groupId);
 
         if (group == null || group.getData().getType() == GroupType.PRIVATE) {
             // fuck off haxor

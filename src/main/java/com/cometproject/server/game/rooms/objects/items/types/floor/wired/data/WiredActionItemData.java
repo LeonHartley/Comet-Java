@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredI
 import java.util.List;
 import java.util.Map;
 
+
 public class WiredActionItemData extends WiredItemData {
     private int delay;
 

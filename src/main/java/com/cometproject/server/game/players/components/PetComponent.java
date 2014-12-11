@@ -6,6 +6,7 @@ import com.cometproject.server.storage.queries.pets.PetDao;
 
 import java.util.Map;
 
+
 public class PetComponent {
     private Player player;
     private Map<Integer, PetData> pets;
