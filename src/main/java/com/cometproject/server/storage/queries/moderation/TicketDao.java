@@ -6,7 +6,6 @@ import com.cometproject.server.game.rooms.types.components.types.ChatMessage;
 import com.cometproject.server.storage.SqlHelper;
 import com.cometproject.server.utilities.JsonFactory;
 import com.google.common.collect.Lists;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javolution.util.FastMap;
 
@@ -17,6 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 
 public class TicketDao {
     public static Map<Integer, HelpTicket> getOpenTickets() {

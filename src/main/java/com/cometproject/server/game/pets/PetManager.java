@@ -3,6 +3,7 @@ package com.cometproject.server.game.pets;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.storage.queries.pets.PetDao;
+import com.cometproject.server.utilities.Initializable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -10,15 +11,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PetManager {
+
+public class PetManager implements Initializable {
+    private static PetManager petManagerInstance;
     private Logger log = Logger.getLogger(PetManager.class.getName());
 
     private List<PetRace> petRaces;
     private Map<Integer, String[]> petSpeech;
 
     public PetManager() {
+    }
+
+    @Override
+    public void initialize() {
         this.loadPetRaces();
         this.loadPetSpeech();
+
+        log.info("PetManager initialized");
+    }
+
+    public static PetManager getInstance() {
+        if (petManagerInstance == null)
+            petManagerInstance = new PetManager();
+
+        return petManagerInstance;
     }
 
     public void loadPetRaces() {
@@ -94,6 +110,7 @@ public class PetManager {
     public List<PetRace> getPetRaces() {
         return this.petRaces;
     }
+
 
     public String[] getSpeech(int petType) {
         return this.petSpeech.get(petType);

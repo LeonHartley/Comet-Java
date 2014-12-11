@@ -1,9 +1,5 @@
 package com.cometproject.server.network.security.hurlant;
 
-import org.jboss.netty.buffer.ChannelBuffer;
-
-import java.util.Arrays;
-
 public class ARC4 {
     private int i = 0;
     private int j = 0;
@@ -33,8 +29,7 @@ public class ARC4 {
     }
 
     public void parse(byte[] b) {
-        for(int a = 0;a<b.length;a++)
-        {
+        for (int a = 0; a < b.length; a++) {
             this.i = (this.i + 1) % 256;
             this.j = (this.j + this.table[this.i]) % 256;
             this.swap(this.i, this.j);

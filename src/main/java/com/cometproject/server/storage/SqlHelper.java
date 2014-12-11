@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class SqlHelper {
     private static StorageManager storage;
     private static Logger log = Logger.getLogger(SqlHelper.class.getName());
@@ -75,9 +76,9 @@ public class SqlHelper {
     public static PreparedStatement prepare(String query, Connection con, boolean returnKeys) throws SQLException {
         return returnKeys ? con.prepareStatement(query, java.sql.Statement.RETURN_GENERATED_KEYS) : con.prepareStatement(query);
     }
-    
+
     public static void handleSqlException(SQLException e) {
-        if(e.getMessage().equals("Pool has been shutdown")) return;
+        if (e.getMessage().equals("Pool has been shutdown")) return;
         log.error("Error while executing query", e);
     }
 

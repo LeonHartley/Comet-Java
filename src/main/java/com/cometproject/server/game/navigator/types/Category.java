@@ -3,6 +3,7 @@ package com.cometproject.server.game.navigator.types;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class Category {
     public static int MISSING_CATEGORY_ID = 0;
     public static String MISSING_CATEGORY_TITLE = "Missing category";

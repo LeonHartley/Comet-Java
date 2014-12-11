@@ -3,22 +3,10 @@ package com.cometproject.server.network.messages.incoming.room.item;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
-import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.TileInstance;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.items.SendWallItemMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class PlaceItemMessageEvent implements IEvent {
     @Override

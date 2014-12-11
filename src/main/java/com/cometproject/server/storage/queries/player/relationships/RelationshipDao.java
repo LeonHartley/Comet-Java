@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
+
 public class RelationshipDao {
     public static Map<Integer, RelationshipLevel> getRelationshipsByPlayerId(int playerId) {
         Connection sqlConnection = null;

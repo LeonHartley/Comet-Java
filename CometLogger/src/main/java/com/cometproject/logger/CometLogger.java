@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import spark.ResponseTransformer;
 
+
 public class CometLogger {
     public static JSONTransformer JSON_TRANSFORMER = new JSONTransformer();
 

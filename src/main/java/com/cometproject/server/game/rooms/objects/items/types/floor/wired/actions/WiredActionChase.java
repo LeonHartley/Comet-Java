@@ -10,10 +10,10 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
-import com.cometproject.server.utilities.Direction;
 import com.cometproject.server.utilities.RandomInteger;
 
 import java.util.List;
+
 
 public class WiredActionChase extends WiredActionItem {
     /**
@@ -103,13 +103,13 @@ public class WiredActionChase extends WiredActionItem {
 
     private void moveToTile(RoomItemFloor floorItem, Position from, Position to) {
         if (to == null) {
-            for(int i = 0; i < 16; i++) {
-                if(to != null) break;
+            for (int i = 0; i < 16; i++) {
+                if (to != null) break;
 
                 to = this.random(floorItem, from);
             }
 
-            if(to == null) return;
+            if (to == null) return;
         }
 
         if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), to, floorItem.getRotation(), true)) {
@@ -123,7 +123,7 @@ public class WiredActionChase extends WiredActionItem {
         int randomDirection = RandomInteger.getRandom(0, 3) * 2;
         Position newPosition = from.squareInFront(randomDirection);
 
-        if(floorItem.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY()).isReachable(floorItem)) {
+        if (floorItem.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY()).isReachable(floorItem)) {
             return newPosition;
         }
 

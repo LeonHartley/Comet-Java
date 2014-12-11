@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.group.forums;
 
-import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+
 
 public class GroupForumPermissionsMessageComposer {
     public static Composer compose(int groupId) {

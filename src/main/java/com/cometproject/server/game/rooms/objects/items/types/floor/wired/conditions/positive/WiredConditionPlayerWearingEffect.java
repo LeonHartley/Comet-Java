@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
 import com.cometproject.server.game.rooms.types.Room;
 
+
 public class WiredConditionPlayerWearingEffect extends WiredConditionItem {
     public static int PARAM_EFFECT_ID = 0;
 
@@ -12,7 +13,7 @@ public class WiredConditionPlayerWearingEffect extends WiredConditionItem {
      *
      * @param id       The ID of the item
      * @param itemId   The ID of the item definition
-     * @param room   The ID of the room
+     * @param room     The ID of the room
      * @param owner    The ID of the owner
      * @param x        The position of the item on the X axis
      * @param y        The position of the item on the Y axis
@@ -31,9 +32,9 @@ public class WiredConditionPlayerWearingEffect extends WiredConditionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(entity == null) return false;
+        if (entity == null) return false;
 
-        if(this.getWiredData().getParams().size() != 1) {
+        if (this.getWiredData().getParams().size() != 1) {
             return false;
         }
 
@@ -41,8 +42,8 @@ public class WiredConditionPlayerWearingEffect extends WiredConditionItem {
         boolean isWearingEffect = false;
 
 
-        if(entity.getCurrentEffect() != null) {
-            if(entity.getCurrentEffect().getEffectId() == effectId) {
+        if (entity.getCurrentEffect() != null) {
+            if (entity.getCurrentEffect().getEffectId() == effectId) {
                 isWearingEffect = true;
             }
         }

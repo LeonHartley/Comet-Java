@@ -2,20 +2,20 @@ package com.cometproject.server.game.rooms.objects.entities;
 
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
-import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.TileInstance;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import javolution.util.FastMap;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 
 public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     private RoomEntityType entityType;
@@ -493,9 +493,9 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     }
 
     public GenericEntity getMountedEntity() {
-        if(this.mountedEntity == null) return null;
+        if (this.mountedEntity == null) return null;
 
-        if(this.getRoom().getEntities().getEntity(this.mountedEntity.getId()) == null) {
+        if (this.getRoom().getEntities().getEntity(this.mountedEntity.getId()) == null) {
             return null;
         }
 

@@ -6,6 +6,7 @@ import com.cometproject.server.storage.queries.groups.GroupMemberDao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class GroupMember {
     /**
      * The ID of the membership

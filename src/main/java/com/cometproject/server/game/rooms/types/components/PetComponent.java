@@ -1,10 +1,11 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
+
 
 public class PetComponent {
     private Room room;

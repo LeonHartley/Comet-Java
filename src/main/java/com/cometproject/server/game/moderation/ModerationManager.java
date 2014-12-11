@@ -1,10 +1,10 @@
 package com.cometproject.server.game.moderation;
 
 import com.cometproject.server.game.moderation.types.actions.ActionCategory;
-import com.cometproject.server.game.moderation.types.actions.ActionPreset;
 import com.cometproject.server.game.moderation.types.tickets.HelpTicket;
 import com.cometproject.server.storage.queries.moderation.PresetDao;
 import com.cometproject.server.storage.queries.moderation.TicketDao;
+import com.cometproject.server.utilities.Initializable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -12,17 +12,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ModerationManager {
+
+public class ModerationManager implements Initializable {
+    private static ModerationManager moderationManagerInstance;
+
     private List<String> userPresets;
     private List<String> roomPresets;
     private List<ActionCategory> actionCategories;
     private Map<Integer, HelpTicket> tickets;
 
-    private Logger logger = Logger.getLogger(ModerationManager.class.getName());
+    private Logger log = Logger.getLogger(ModerationManager.class.getName());
 
     public ModerationManager() {
+
+    }
+
+    @Override
+    public void initialize() {
         loadPresets();
         loadActiveTickets();
+
+        log.info("ModerationManager initialized");
+    }
+
+    public static ModerationManager getInstance() {
+        if (moderationManagerInstance == null)
+            moderationManagerInstance = new ModerationManager();
+
+        return moderationManagerInstance;
     }
 
     public void loadPresets() {
@@ -38,10 +55,10 @@ public class ModerationManager {
             roomPresets.clear();
         }
 
-        if(actionCategories == null) {
+        if (actionCategories == null) {
             actionCategories = new ArrayList<>();
         } else {
-            for(ActionCategory actionCategory : actionCategories) {
+            for (ActionCategory actionCategory : actionCategories) {
                 actionCategory.dispose();
             }
 
@@ -52,9 +69,9 @@ public class ModerationManager {
             PresetDao.getPresets(userPresets, roomPresets);
             PresetDao.getPresetActions(actionCategories);
 
-            logger.info("Loaded " + (this.getRoomPresets().size() + this.getUserPresets().size()) + this.getActionCategories().size() + " moderation presets");
+            log.info("Loaded " + (this.getRoomPresets().size() + this.getUserPresets().size()) + this.getActionCategories().size() + " moderation presets");
         } catch (Exception e) {
-            logger.error("Error while loading moderation presets", e);
+            log.error("Error while loading moderation presets", e);
         }
     }
 
@@ -67,9 +84,9 @@ public class ModerationManager {
 
         try {
             this.tickets = TicketDao.getOpenTickets();
-            logger.info("Loaded " + this.tickets.size() + " active help tickets");
+            log.info("Loaded " + this.tickets.size() + " active help tickets");
         } catch (Exception e) {
-            logger.error("Error while loading active tickets", e);
+            log.error("Error while loading active tickets", e);
         }
     }
 
@@ -77,8 +94,8 @@ public class ModerationManager {
         this.tickets.put(ticket.getTicketId(), ticket);
 
         // TODO: send ticket to all moderators.
-        /*synchronized (Comet.getServer().getNetwork().getSessions().getSessions()) {
-            for (Session session : Comet.getServer().getNetwork().getSessions().getSessions().values()) {
+        /*synchronized (NetworkManager.getInstance().getSessions().getSessions()) {
+            for (Session session : NetworkManager.getInstance().getSessions().getSessions().values()) {
                 if (session.getPlayer() != null) {
                     if (session.getPlayer().getPermissions().hasPermission("mod_tool")) {
                         session.send(HelpTicketMessageComposer.compose(ticket));

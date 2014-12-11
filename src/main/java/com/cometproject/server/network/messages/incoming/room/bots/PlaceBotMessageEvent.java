@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.incoming.room.bots;
 
 import com.cometproject.server.game.players.components.types.InventoryBot;
-import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
@@ -10,6 +10,7 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.BotInven
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
+
 
 public class PlaceBotMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {

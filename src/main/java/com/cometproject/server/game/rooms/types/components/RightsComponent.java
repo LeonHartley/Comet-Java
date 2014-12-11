@@ -8,6 +8,7 @@ import javolution.util.FastTable;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class RightsComponent {
     private Room room;
 
@@ -71,7 +72,7 @@ public class RightsComponent {
             }
         }
 
-        if(indexToRemove != -1) {
+        if (indexToRemove != -1) {
             this.bannedPlayers.remove(indexToRemove);
         }
     }

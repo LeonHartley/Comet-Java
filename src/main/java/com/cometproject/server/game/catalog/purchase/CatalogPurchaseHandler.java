@@ -1,17 +1,18 @@
 package com.cometproject.server.game.catalog.purchase;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.players.components.types.InventoryBot;
 import com.cometproject.server.game.players.components.types.InventoryItem;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoundMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.LimitedEditionSoldOutMessageComposer;
@@ -29,12 +30,12 @@ import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.utilities.JsonFactory;
-import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class CatalogPurchaseHandler {
     private CatalogManager catalogManager;
@@ -62,8 +63,8 @@ public class CatalogPurchaseHandler {
 
         final int playerIdToDeliver = giftData == null ? -1 : PlayerDao.getIdByUsername(giftData.getReceiver());
 
-        if(giftData != null) {
-            if(playerIdToDeliver == 0) {
+        if (giftData != null) {
+            if (playerIdToDeliver == 0) {
                 client.send(GiftUserNotFoundMessageComposer.compose());
                 return;
             }
@@ -74,7 +75,7 @@ public class CatalogPurchaseHandler {
         try {
             CatalogItem item;
 
-            if(pageId > 0) {
+            if (pageId > 0) {
                 item = this.catalogManager.getPage(pageId).getItems().get(itemId);
             } else {
                 item = this.catalogManager.getCatalogItemByItemId(itemId);
@@ -122,7 +123,7 @@ public class CatalogPurchaseHandler {
             client.getPlayer().getData().save();
 
             for (int newItemId : item.getItems()) {
-                ItemDefinition def = CometManager.getItems().getDefinition(newItemId);
+                ItemDefinition def = ItemManager.getInstance().getDefinition(newItemId);
                 if (def == null) {
                     continue;
                 }
@@ -205,7 +206,7 @@ public class CatalogPurchaseHandler {
 
                 if (giftData != null) {
                     giftData.setExtraData(extraData);
-                    purchases.add(new CatalogPurchase(playerIdToDeliver, CometManager.getItems().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData)));
+                    purchases.add(new CatalogPurchase(playerIdToDeliver, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData)));
                 } else {
                     for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
                         for (int itemCount = 0; itemCount != item.getAmount(); itemCount++) {
@@ -217,14 +218,14 @@ public class CatalogPurchaseHandler {
                 List<Integer> newItems = ItemDao.createItems(purchases);
 
                 for (Integer newItem : newItems) {
-                    if(item.getLimitedTotal() > 0) {
+                    if (item.getLimitedTotal() > 0) {
                         item.increaseLimitedSells(1);
                         CatalogDao.updateLimitSellsForItem(item.getId());
 
                         LimitedEditionDao.save(new LimitedEditionItem(newItem, item.getLimitedSells(), item.getLimitedTotal()));
                     }
 
-                    if(giftData == null)
+                    if (giftData == null)
                         unseenItems.add(client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData));
 
                     if (isTeleport)
@@ -248,7 +249,7 @@ public class CatalogPurchaseHandler {
                     }
                 }
 
-                if(giftData != null) {
+                if (giftData != null) {
                     this.deliverGift(playerIdToDeliver, giftData, newItemId, newItems);
                 } else {
                     if (item.hasBadge()) {
@@ -270,19 +271,20 @@ public class CatalogPurchaseHandler {
 
     /**
      * Deliver the gift
-     * @param playerId The ID of the player to deliver the item to
-     * @param giftData The data of the gift
+     *
+     * @param playerId     The ID of the player to deliver the item to
+     * @param giftData     The data of the gift
      * @param definitionId
-     * @param newItems List of items to deliver
+     * @param newItems     List of items to deliver
      */
     private void deliverGift(int playerId, GiftData giftData, int definitionId, List<Integer> newItems) {
-        Session client = Comet.getServer().getNetwork().getSessions().getByPlayerId(playerId);
+        Session client = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
-        if(client != null) {
+        if (client != null) {
             List<InventoryItem> unseenItems = new ArrayList<>();
 
-            for(int newItem : newItems) {
-                unseenItems.add(client.getPlayer().getInventory().add(newItem, CometManager.getItems().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData), giftData));
+            for (int newItem : newItems) {
+                unseenItems.add(client.getPlayer().getInventory().add(newItem, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData), giftData));
             }
 
             client.send(UnseenItemsMessageComposer.compose(unseenItems));

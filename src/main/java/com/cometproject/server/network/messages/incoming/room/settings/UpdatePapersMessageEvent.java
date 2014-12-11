@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import java.util.Map;
 
+
 public class UpdatePapersMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) {

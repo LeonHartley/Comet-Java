@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.notification;
 
-import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+
 
 public class AdvancedAlertMessageComposer {
     public static Composer compose(String title, String message, String hotelName, String hotelLink, String illustration) {

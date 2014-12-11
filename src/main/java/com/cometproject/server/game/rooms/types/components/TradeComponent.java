@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.types.components.types.Trade;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class TradeComponent {
     private List<Trade> trades;
 

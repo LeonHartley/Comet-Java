@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.types.Room;
 
 import java.util.Arrays;
 
+
 public class FootballGateFloorItem extends RoomItemFloor {
     private String maleFigure = "";
     private String femaleFigure = "";
@@ -16,7 +17,7 @@ public class FootballGateFloorItem extends RoomItemFloor {
 
         final String[] splittedData = data.split(";");
 
-        if(splittedData.length != 1 && splittedData.length != 2) {
+        if (splittedData.length != 1 && splittedData.length != 2) {
             return;
         }
 
@@ -26,38 +27,38 @@ public class FootballGateFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
-        if(!(entity instanceof PlayerEntity))
+        if (!(entity instanceof PlayerEntity))
             return;
 
         PlayerEntity playerEntity = ((PlayerEntity) entity);
 
         String newFigure = "";
 
-        for(String playerFigurePart : Arrays.asList(playerEntity.getFigure().split("\\."))) {
-            if(!playerFigurePart.startsWith("ch") && !playerFigurePart.startsWith("lg"))
+        for (String playerFigurePart : Arrays.asList(playerEntity.getFigure().split("\\."))) {
+            if (!playerFigurePart.startsWith("ch") && !playerFigurePart.startsWith("lg"))
                 newFigure += playerFigurePart + ".";
         }
 
         String newFigureParts = "";
 
-        switch(playerEntity.getGender()) {
+        switch (playerEntity.getGender()) {
             case "M":
-                if(this.maleFigure.equals("")) return;
+                if (this.maleFigure.equals("")) return;
                 newFigureParts = this.maleFigure;
                 break;
 
             case "F":
-                if(this.femaleFigure.equals("")) return;
+                if (this.femaleFigure.equals("")) return;
                 newFigureParts = this.femaleFigure;
                 break;
         }
 
-        for(String newFigurePart : Arrays.asList(newFigureParts.split("\\."))) {
-            if(newFigurePart.startsWith("hd"))
+        for (String newFigurePart : Arrays.asList(newFigureParts.split("\\."))) {
+            if (newFigurePart.startsWith("hd"))
                 newFigureParts = newFigureParts.replace(newFigurePart, "");
         }
 
-        if(newFigureParts.equals("")) return;
+        if (newFigureParts.equals("")) return;
 
         playerEntity.getPlayer().getData().setFigure(newFigure + newFigureParts);
         playerEntity.getPlayer().poof();
@@ -66,7 +67,7 @@ public class FootballGateFloorItem extends RoomItemFloor {
     }
 
     public void setFigure(String gender, String figure) {
-        if(gender.equals("M")) {
+        if (gender.equals("M")) {
             this.maleFigure = figure.split(";")[0];
             return;
         }

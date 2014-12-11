@@ -2,13 +2,14 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actio
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
-import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 
 import java.util.Random;
+
 
 public class WiredActionMoveRotate extends WiredActionItem {
     private static final int PARAM_MOVEMENT = 0;
@@ -43,9 +44,9 @@ public class WiredActionMoveRotate extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(this.hasTicks()) return false;
+        if (this.hasTicks()) return false;
 
-        if(this.getWiredData().getDelay() >= 1) {
+        if (this.getWiredData().getDelay() >= 1) {
             this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
         } else {
             this.onTickComplete();
@@ -56,23 +57,23 @@ public class WiredActionMoveRotate extends WiredActionItem {
 
     @Override
     public void onTickComplete() {
-        if(this.getWiredData().getParams().size() != 2) {
+        if (this.getWiredData().getParams().size() != 2) {
             return;
         }
 
         final int movement = this.getWiredData().getParams().get(PARAM_MOVEMENT);
         final int rotation = this.getWiredData().getParams().get(PARAM_ROTATION);
 
-        for(int itemId : this.getWiredData().getSelectedIds()) {
+        for (int itemId : this.getWiredData().getSelectedIds()) {
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
-            if(floorItem == null) continue;
+            if (floorItem == null) continue;
 
             final Position currentPosition = new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY());
             final Position newPosition = this.handleMovement(currentPosition, movement);
             final int newRotation = this.handleRotation(floorItem.getRotation(), rotation);
 
-            if(this.getRoom().getItems().moveFloorItem(floorItem.getId(), newPosition, newRotation, true)) {
+            if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), newPosition, newRotation, true)) {
                 this.getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(floorItem, this.getRoom().getData().getOwnerId()));
             }
         }

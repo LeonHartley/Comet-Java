@@ -6,6 +6,7 @@ import javolution.util.FastMap;
 
 import java.util.Map;
 
+
 public class BadgeInventoryMessageComposer {
     public static Composer compose(Map<String, Integer> badges) {
         Composer msg = new Composer(Composers.LoadBadgesWidgetMessageComposer);

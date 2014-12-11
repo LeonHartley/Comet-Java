@@ -5,6 +5,7 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.sessions.Session;
 import org.apache.commons.lang.StringUtils;
 
+
 public class SetSpeedCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
@@ -12,7 +13,7 @@ public class SetSpeedCommand extends ChatCommand {
             return;
         }
 
-        if(!StringUtils.isNumeric(params[0])) return;
+        if (!StringUtils.isNumeric(params[0])) return;
 
         if (client.getPlayer().getEntity() != null
                 && client.getPlayer().getEntity().getRoom() != null) {
@@ -22,9 +23,9 @@ public class SetSpeedCommand extends ChatCommand {
 
             int speed = Integer.parseInt(params[0]);
 
-            if(speed < 0) {
+            if (speed < 0) {
                 speed = 0;
-            } else if(speed > 20) {
+            } else if (speed > 20) {
                 speed = 20;
             }
 

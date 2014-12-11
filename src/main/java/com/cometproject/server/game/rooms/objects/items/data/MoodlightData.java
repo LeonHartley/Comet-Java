@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.data;
 
 import java.util.List;
 
+
 public class MoodlightData {
     private boolean enabled;
     private int activePreset;

@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
+
 public abstract class Bot {
     private int id, ownerId;
     private String owner, name, figure, gender, motto;

@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
 
+
 public class WiredActionKickUser extends WiredActionShowMessage {
 
     /**

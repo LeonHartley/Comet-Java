@@ -4,13 +4,20 @@ import com.cometproject.server.game.groups.items.GroupItemManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.storage.queries.groups.GroupDao;
+import com.cometproject.server.utilities.Initializable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 import org.apache.solr.util.ConcurrentLRUCache;
 
 import java.util.Map;
 
-public class GroupManager {
+
+public class GroupManager implements Initializable {
+    /**
+     * The global GroupManager instance
+     */
+    private static GroupManager groupManagerInstance;
+
     /**
      * The amount of group instances allowed in the cache, when this
      * is reached, the group cache will remove the oldest entries
@@ -62,16 +69,29 @@ public class GroupManager {
      */
     private Logger log = Logger.getLogger(GroupManager.class.getName());
 
+    public GroupManager() {
+
+    }
+
     /**
      * Initialize the group manager
      */
-    public GroupManager() {
+    @Override
+    public void initialize() {
         this.groupItems = new GroupItemManager();
 
         this.groupData = new ConcurrentLRUCache<>(DATA_LRU_MAX_ENTRIES, DATA_LRU_LOWER_WATERMARK);
         this.groupInstances = new ConcurrentLRUCache<>(INSTANCE_LRU_MAX_ENTRIES, INSTANCE_LRU_LOWER_WATERMARK);
 
         this.roomIdToGroupId = new FastMap<>();
+    }
+
+    public static GroupManager getInstance() {
+        if (groupManagerInstance == null) {
+            groupManagerInstance = new GroupManager();
+        }
+
+        return groupManagerInstance;
     }
 
     /**
@@ -157,15 +177,16 @@ public class GroupManager {
 
     /**
      * Removes a group from the system
+     *
      * @param id The ID of the group to remove
      */
     public void removeGroup(int id) {
         Group group = this.get(id);
 
-        if(group == null)
+        if (group == null)
             return;
 
-        if(this.roomIdToGroupId.containsKey(group.getData().getRoomId())) {
+        if (this.roomIdToGroupId.containsKey(group.getData().getRoomId())) {
             this.roomIdToGroupId.remove(group.getData().getRoomId());
         }
 

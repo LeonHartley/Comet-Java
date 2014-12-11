@@ -1,9 +1,10 @@
 package com.cometproject.server.game.players.queue;
 
-import com.cometproject.server.tasks.CometThreadManagement;
+import com.cometproject.server.tasks.CometThreadManager;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
 
 public class PlayerLoginQueueManager {
     private static final int WAIT_TIME = 100;
@@ -11,14 +12,14 @@ public class PlayerLoginQueueManager {
     private final PlayerLoginQueue loginQueue;
     private ScheduledFuture future;
 
-    public PlayerLoginQueueManager(boolean autoStart, CometThreadManagement threadMgr) {
+    public PlayerLoginQueueManager(boolean autoStart, CometThreadManager threadMgr) {
         this.loginQueue = new PlayerLoginQueue();
         if (autoStart) {
             this.start(threadMgr);
         }
     }
 
-    private void start(CometThreadManagement threadMgr) {
+    private void start(CometThreadManager threadMgr) {
         if (this.future != null) {
             return;
         }

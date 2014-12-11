@@ -1,4 +1,5 @@
 //package com.cometproject.server.logging.old;
+
 //
 //import com.cometproject.server.boot.Comet;
 //import com.cometproject.server.logging.old.objects.TestJSON;
@@ -20,6 +21,8 @@
 //import java.util.ArrayList;
 //import java.util.List;
 //import java.util.concurrent.atomic.AtomicBoolean;
+
+
 //
 //public class LoggingQueue implements CometTask {
 //    private final static Logger log = Logger.getLogger(LoggingQueue.class);

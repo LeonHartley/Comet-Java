@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MessengerSearchDao {
     public static List<PlayerData> performSearch(String query) {
         Connection sqlConnection = null;

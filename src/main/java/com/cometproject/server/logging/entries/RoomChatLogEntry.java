@@ -6,6 +6,7 @@ import com.cometproject.server.logging.LogEntryType;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
+
 public class RoomChatLogEntry extends AbstractLogEntry {
     private int roomId;
     private int userId;

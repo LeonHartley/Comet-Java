@@ -5,6 +5,7 @@ import com.sun.jna.Native;
 import com.sun.jna.platform.win32.Kernel32;
 import org.apache.log4j.Logger;
 
+
 public class CometRuntime {
     private static final Logger log = Logger.getLogger(CometRuntime.class.getName());
 

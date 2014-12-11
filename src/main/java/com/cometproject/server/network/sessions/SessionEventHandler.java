@@ -1,11 +1,12 @@
 package com.cometproject.server.network.sessions;
 
-import com.cometproject.server.boot.Comet;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.headers.Events;
 import com.cometproject.server.network.messages.types.Event;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class SessionEventHandler {
     /**
@@ -49,7 +50,7 @@ public class SessionEventHandler {
             }
         }
 
-        Comet.getServer().getNetwork().getMessages().handle(msg, this.session);
+        NetworkManager.getInstance().getMessages().handle(msg, this.session);
     }
 
     /**

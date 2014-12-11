@@ -1,11 +1,12 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
 import com.cometproject.server.game.rooms.types.Room;
+
 
 public class WiredConditionPlayerInGroup extends WiredConditionItem {
 
@@ -33,12 +34,12 @@ public class WiredConditionPlayerInGroup extends WiredConditionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(entity == null || !(entity instanceof PlayerEntity)) return false;
+        if (entity == null || !(entity instanceof PlayerEntity)) return false;
         final PlayerEntity playerEntity = ((PlayerEntity) entity);
 
-        final Group group = CometManager.getGroups().getGroupByRoomId(this.getRoom().getId());
+        final Group group = GroupManager.getInstance().getGroupByRoomId(this.getRoom().getId());
 
-        if(group != null) {
+        if (group != null) {
             final boolean isMember = playerEntity.getPlayer().getGroups().contains(group.getId());
             return isNegative ? !isMember : isMember;
         }

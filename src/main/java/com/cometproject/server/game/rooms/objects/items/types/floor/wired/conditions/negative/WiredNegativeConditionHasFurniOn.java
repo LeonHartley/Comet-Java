@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.condi
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.WiredConditionHasFurniOn;
 import com.cometproject.server.game.rooms.types.Room;
 
+
 public class WiredNegativeConditionHasFurniOn extends WiredConditionHasFurniOn {
     /**
      * The default constructor

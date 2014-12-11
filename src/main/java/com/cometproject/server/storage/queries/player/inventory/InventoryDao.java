@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+
 public class InventoryDao {
     public static String ITEMS_USERID_INDEX = "";
     private static Logger log = Logger.getLogger(InventoryDao.class.getName());
@@ -37,7 +38,7 @@ public class InventoryDao {
             while (resultSet.next()) {
                 InventoryItem inventoryItem = new InventoryItem(resultSet);
 
-                if(inventoryItem.getDefinition() != null) {
+                if (inventoryItem.getDefinition() != null) {
                     data.put(resultSet.getInt("id"), inventoryItem);
                 } else {
                     log.warn("InventoryItem: " + inventoryItem.getId() + " with invalid definition ID: " + inventoryItem.getBaseId());

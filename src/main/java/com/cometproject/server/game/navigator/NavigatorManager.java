@@ -3,23 +3,40 @@ package com.cometproject.server.game.navigator;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
 import com.cometproject.server.storage.queries.navigator.NavigatorDao;
+import com.cometproject.server.utilities.Initializable;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NavigatorManager {
+
+public class NavigatorManager implements Initializable {
+    private static NavigatorManager navigatorManagerInstance;
+
     public List<Category> categories;
     public List<FeaturedRoom> featuredRooms;
 
     Logger log = Logger.getLogger(NavigatorManager.class.getName());
 
     public NavigatorManager() {
+    }
+
+    @Override
+    public void initialize() {
         this.categories = new ArrayList<>();
         this.featuredRooms = new ArrayList<>();
 
         this.loadCategories();
         this.loadFeaturedRooms();
+
+        log.info("NavigatorManager initialized");
+    }
+
+    public static NavigatorManager getInstance() {
+        if (navigatorManagerInstance == null)
+            navigatorManagerInstance = new NavigatorManager();
+
+        return navigatorManagerInstance;
     }
 
     public void loadFeaturedRooms() {

@@ -5,6 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.Map;
 
+
 public class GroupBadgesMessageComposer {
     public static Composer compose(Map<Integer, String> badges) {
         Composer msg = new Composer(Composers.RoomGroupMessageComposer);

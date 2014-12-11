@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.outgoing.room.bots.BotConfigMess
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class BotConfigMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {

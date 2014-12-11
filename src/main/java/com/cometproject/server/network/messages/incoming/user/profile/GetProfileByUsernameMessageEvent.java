@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.incoming.user.profile;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.PlayerStatistics;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.user.profile.LoadProfileMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -11,6 +11,7 @@ import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.util.List;
+
 
 public class GetProfileByUsernameMessageEvent implements IEvent {
     @Override
@@ -22,10 +23,10 @@ public class GetProfileByUsernameMessageEvent implements IEvent {
         List<Integer> groups = data != null ? client.getPlayer().getGroups() : null;
 
         if (data == null) {
-            if (Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username) != null) {
-                data = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username).getPlayer().getData();
-                stats = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username).getPlayer().getStats();
-                groups = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username).getPlayer().getGroups();
+            if (NetworkManager.getInstance().getSessions().getByPlayerUsername(username) != null) {
+                data = NetworkManager.getInstance().getSessions().getByPlayerUsername(username).getPlayer().getData();
+                stats = NetworkManager.getInstance().getSessions().getByPlayerUsername(username).getPlayer().getStats();
+                groups = NetworkManager.getInstance().getSessions().getByPlayerUsername(username).getPlayer().getGroups();
             }
         }
 

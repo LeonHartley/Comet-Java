@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class CometWindow extends JFrame {
     public static final String WINDOW_TITLE = "Comet Tools";
     public static final Dimension WINDOW_DIMENSION = new Dimension(1024, 700);

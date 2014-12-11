@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.engine;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -20,6 +20,7 @@ import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
 
 import java.util.Map;
+
 
 public class AddUserToRoomMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
@@ -51,7 +52,7 @@ public class AddUserToRoomMessageEvent implements IEvent {
 
         for (PlayerEntity playerEntity : room.getEntities().getPlayerEntities()) {
             if (playerEntity.getPlayer().getData().getFavouriteGroup() != 0) {
-                GroupData groupData = CometManager.getGroups().getData(playerEntity.getPlayer().getData().getFavouriteGroup());
+                GroupData groupData = GroupManager.getInstance().getData(playerEntity.getPlayer().getData().getFavouriteGroup());
 
                 if (groupData == null)
                     continue;
@@ -71,7 +72,7 @@ public class AddUserToRoomMessageEvent implements IEvent {
         client.send(AvatarUpdateMessageComposer.compose(room.getEntities().count(), room.getEntities().getAllEntities().values()));
 
         for (GenericEntity av : client.getPlayer().getEntity().getRoom().getEntities().getAllEntities().values()) {
-            if(av.getCurrentEffect() != null) {
+            if (av.getCurrentEffect() != null) {
                 client.send(ApplyEffectMessageComposer.compose(av.getId(), av.getCurrentEffect().getEffectId()));
             }
 

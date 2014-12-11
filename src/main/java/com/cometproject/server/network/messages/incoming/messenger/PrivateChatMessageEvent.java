@@ -1,10 +1,10 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.components.types.MessengerFriend;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.messenger.InstantChatMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
@@ -12,13 +12,14 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.FloodF
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class PrivateChatMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int userId = msg.readInt();
         String message = msg.readString();
 
         if (userId == -1 && client.getPlayer().getPermissions().hasPermission("staff_chat")) {
-            for (Session user : Comet.getServer().getNetwork().getSessions().getByPlayerPermission("staff_chat")) {
+            for (Session user : NetworkManager.getInstance().getSessions().getByPlayerPermission("staff_chat")) {
                 if (user == client) continue;
                 user.send(InstantChatMessageComposer.compose(client.getPlayer().getData().getUsername() + ": " + message, -1));
             }
@@ -59,7 +60,7 @@ public class PrivateChatMessageEvent implements IEvent {
         }
 
         if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
-            FilterResult filterResult = CometManager.getRooms().getFilter().filter(message);
+            FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {
                 client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));

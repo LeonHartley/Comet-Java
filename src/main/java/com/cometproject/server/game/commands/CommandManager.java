@@ -2,7 +2,6 @@ package com.cometproject.server.game.commands;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.development.PositionCommand;
 import com.cometproject.server.game.commands.development.ReloadMappingCommand;
 import com.cometproject.server.game.commands.gimmicks.KissCommand;
@@ -28,13 +27,18 @@ import com.cometproject.server.game.commands.staff.rewards.mass.MassDucketsComma
 import com.cometproject.server.game.commands.staff.rewards.mass.MassPointsCommand;
 import com.cometproject.server.game.commands.user.*;
 import com.cometproject.server.game.commands.vip.*;
+import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.utilities.Initializable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
 
-public class CommandManager {
+
+public class CommandManager implements Initializable {
+    private static CommandManager commandManagerInstance;
+    private static Logger log = Logger.getLogger(CommandManager.class.getName());
 
     private NotificationManager notifications;
 
@@ -44,12 +48,26 @@ public class CommandManager {
      * Initialize the commands map and load all commands
      */
     public CommandManager() {
+
+    }
+
+    @Override
+    public void initialize() {
         this.commands = new FastMap<>();
         this.notifications = new NotificationManager();
 
         this.reloadAllCommands();
 
-        Logger.getLogger(CommandManager.class.getName()).info("Loaded " + commands.size() + " chat commands");
+        log.info("Loaded " + commands.size() + " chat commands");
+        log.info("CommandManager initialized");
+    }
+
+    public static CommandManager getInstance() {
+        if (commandManagerInstance == null) {
+            commandManagerInstance = new CommandManager();
+        }
+
+        return commandManagerInstance;
     }
 
     public void reloadAllCommands() {
@@ -58,7 +76,7 @@ public class CommandManager {
         this.loadUserCommands();
         this.loadStaffCommands();
 
-        if(Comet.isDebugging) {
+        if (Comet.isDebugging) {
             this.commands.put("reloadmapping", new ReloadMappingCommand());
             this.commands.put("position", new PositionCommand());
         }
@@ -157,15 +175,15 @@ public class CommandManager {
 
         if (client.getPlayer().getPermissions().hasCommand(commandName)) {
             this.commands.get(executor).execute(client, getParams(message.split(" ")));
-            CometManager.getLogger().debug(client.getPlayer().getData().getUsername() + " executed command: :" + message);
+            log.debug(client.getPlayer().getData().getUsername() + " executed command: :" + message);
             return true;
         } else {
-            if (CometManager.getPermissions().getCommands().containsKey(commandName) &&
-                    CometManager.getPermissions().getCommands().get(commandName).isVipOnly() &&
+            if (PermissionsManager.getInstance().getCommands().containsKey(commandName) &&
+                    PermissionsManager.getInstance().getCommands().get(commandName).isVipOnly() &&
                     !client.getPlayer().getData().isVip())
                 ChatCommand.sendChat(Locale.get("command.vip"), client);
 
-            CometManager.getLogger().debug(client.getPlayer().getData().getUsername() + " tried executing command: :" + message);
+            log.debug(client.getPlayer().getData().getUsername() + " tried executing command: :" + message);
             return false;
         }
     }

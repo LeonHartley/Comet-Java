@@ -1,7 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
@@ -9,6 +8,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.TeleporterFloorItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+
 
 public class EntityComponent {
     private static Logger log = Logger.getLogger(EntityComponent.class.getName());
@@ -113,7 +114,7 @@ public class EntityComponent {
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
-            if(playerEntity.getPlayer() != null)
+            if (playerEntity.getPlayer() != null)
                 this.playerIdToEntity.remove(playerEntity.getPlayerId());
         } else if (entity.getEntityType() == RoomEntityType.BOT) {
             BotEntity botEntity = (BotEntity) entity;
@@ -153,7 +154,7 @@ public class EntityComponent {
                 if (playerEntity.getPlayer() == null)
                     continue;
 
-                if(!playerEntity.getPlayer().ignores(sender.getPlayerId()))
+                if (!playerEntity.getPlayer().ignores(sender.getPlayerId()))
                     playerEntity.getPlayer().getSession().send(msg);
             }
         }
@@ -294,8 +295,8 @@ public class EntityComponent {
     public int count() {
         int count = 0;
 
-        for(GenericEntity entity : this.entities.values()) {
-            if(entity.isVisible()) count++;
+        for (GenericEntity entity : this.entities.values()) {
+            if (entity.isVisible()) count++;
         }
 
         return count;
@@ -303,8 +304,8 @@ public class EntityComponent {
 
     public int playerCount() {
         int counter = 0;
-        for(GenericEntity entity : this.entities.values()) {
-            if(entity.isVisible() && entity instanceof PlayerEntity) counter++;
+        for (GenericEntity entity : this.entities.values()) {
+            if (entity.isVisible() && entity instanceof PlayerEntity) counter++;
         }
 
         return counter;

@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.Map;
 
+
 public class PetInventoryMessageComposer {
     public static Composer compose(Map<Integer, PetData> pets) {
         Composer msg = new Composer(Composers.PetInventoryMessageComposer);

@@ -1,18 +1,19 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
-import com.cometproject.server.game.catalog.types.CatalogOffer;
 import com.cometproject.server.game.catalog.types.CatalogPage;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
+
 public class CataIndexMessageComposer {
 
     public static Composer compose(int rank) {
-        List<CatalogPage> pages = CometManager.getCatalog().getPagesForRank(rank);
+        List<CatalogPage> pages = CatalogManager.getInstance().getPagesForRank(rank);
 
         Composer msg = new Composer(Composers.CatalogIndexMessageComposer);
 
@@ -38,7 +39,7 @@ public class CataIndexMessageComposer {
             msg.writeInt(page.getOfferSize());
 
             for (CatalogItem item : page.getItems().values()) {
-                int offerId = CometManager.getItems().getDefinition(item.getItems().get(0)).getOfferId();
+                int offerId = ItemManager.getInstance().getDefinition(item.getItems().get(0)).getOfferId();
 
                 if (offerId != -1)
                     msg.writeInt(offerId);
@@ -59,7 +60,7 @@ public class CataIndexMessageComposer {
                 msg.writeInt(child.getOfferSize());
 
                 for (CatalogItem item : child.getItems().values()) {
-                    int offerId = CometManager.getItems().getDefinition(item.getItems().get(0)).getOfferId();
+                    int offerId = ItemManager.getInstance().getDefinition(item.getItems().get(0)).getOfferId();
 
                     if (offerId != -1 && offerId != 0)
                         msg.writeInt(offerId);

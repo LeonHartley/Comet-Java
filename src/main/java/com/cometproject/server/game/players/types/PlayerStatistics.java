@@ -6,6 +6,7 @@ import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class PlayerStatistics {
     private int userId;
     private int achievementPoints;

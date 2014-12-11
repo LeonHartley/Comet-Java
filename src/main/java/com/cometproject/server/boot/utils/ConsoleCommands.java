@@ -3,11 +3,17 @@ package com.cometproject.server.boot.utils;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.server.game.moderation.BanManager;
+import com.cometproject.server.game.navigator.NavigatorManager;
+import com.cometproject.server.game.permissions.PermissionsManager;
+import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.network.NetworkManager;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+
 
 public class ConsoleCommands {
     private static final Logger log = Logger.getLogger("Console Command Handler");
@@ -36,12 +42,12 @@ public class ConsoleCommands {
 
                                 case "/about":
                                     log.info("This server is powered by Comet (" + Comet.getBuild() + ")");
-                                    log.info("    Users online: " + Comet.getServer().getNetwork().getSessions().getUsersOnlineCount());
-                                    log.info("    Rooms online: " + CometManager.getRooms().getRoomInstances().size());
+                                    log.info("    Users online: " + NetworkManager.getInstance().getSessions().getUsersOnlineCount());
+                                    log.info("    Rooms online: " + RoomManager.getInstance().getRoomInstances().size());
                                     break;
 
                                 case "/reload_messages":
-                                    Comet.getServer().getNetwork().getMessages().load();
+                                    NetworkManager.getInstance().getMessages().load();
                                     log.info("Message handlers were reloaded");
                                     break;
 
@@ -57,30 +63,30 @@ public class ConsoleCommands {
                                     break;
 
                                 case "/reload_permissions":
-                                    CometManager.getPermissions().loadCommands();
-                                    CometManager.getPermissions().loadPerks();
-                                    CometManager.getPermissions().loadPermissions();
+                                    PermissionsManager.getInstance().loadCommands();
+                                    PermissionsManager.getInstance().loadPerks();
+                                    PermissionsManager.getInstance().loadPermissions();
                                     log.info("Permissions cache was reloaded.");
                                     break;
 
                                 case "/reload_catalog":
-                                    CometManager.getCatalog().loadPages();
+                                    CatalogManager.getInstance().loadPages();
                                     log.info("Catalog cache was reloaded.");
                                     break;
 
                                 case "/reload_bans":
-                                    CometManager.getBans().loadBans();
+                                    BanManager.getInstance().loadBans();
                                     log.info("Bans were reloaded.");
                                     break;
 
                                 case "/reload_navigator":
-                                    CometManager.getNavigator().loadFeaturedRooms();
-                                    CometManager.getNavigator().loadCategories();
+                                    NavigatorManager.getInstance().loadFeaturedRooms();
+                                    NavigatorManager.getInstance().loadCategories();
                                     log.info("Navigator was reloaded.");
                                     break;
 
                                 case "/reload_locale":
-                                    Locale.init();
+                                    Locale.initialize();
                                     log.info("Locale configuration was reloaded.");
                                     break;
 

@@ -1,10 +1,11 @@
 package com.cometproject.server.game.commands.vip;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+
 
 public class FollowCommand extends ChatCommand {
     @Override
@@ -13,13 +14,13 @@ public class FollowCommand extends ChatCommand {
             return;
         }
 
-        Session leader = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(params[0]);
+        Session leader = NetworkManager.getInstance().getSessions().getByPlayerUsername(params[0]);
 
         if (leader != null && leader.getPlayer() != null && leader.getPlayer().getEntity() != null) {
             // TODO: Does leader allow follow??
 
-            if(leader.getPlayer().getPermissions().hasPermission("mod_tool")) {
-                if(!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+            if (leader.getPlayer().getPermissions().hasPermission("mod_tool")) {
+                if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
                     return;
                 }
             }

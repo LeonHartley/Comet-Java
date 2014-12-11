@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.Map;
 
+
 public class BotInventoryMessageComposer {
     public static Composer compose(Map<Integer, InventoryBot> bots) {
         Composer msg = new Composer(Composers.BotInventoryMessageComposer);

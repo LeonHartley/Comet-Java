@@ -1,6 +1,6 @@
 package com.cometproject.server.storage.queries.rooms;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+
 
 public class RoomItemDao {
 
@@ -29,7 +30,7 @@ public class RoomItemDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                if (CometManager.getItems().getDefinition(resultSet.getInt("base_item")).getType().equals("s"))
+                if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")).getType().equals("s"))
                     floorItems.add(RoomItemFactory.createFloor(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data")));
                 else
                     wallItems.add(RoomItemFactory.createWall(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data")));

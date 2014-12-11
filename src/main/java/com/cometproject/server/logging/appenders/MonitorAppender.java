@@ -1,4 +1,5 @@
 //package com.cometproject.server.logging.appenders;
+
 //
 //import com.cometproject.server.boot.Comet;
 //import com.cometproject.server.network.monitor.MonitorClientHandler;
@@ -7,6 +8,8 @@
 //import com.google.gson.JsonObject;
 //import org.apache.log4j.AppenderSkeleton;
 //import org.apache.log4j.spi.LoggingEvent;
+
+
 //
 //public class MonitorAppender extends AppenderSkeleton {
 //    private Gson gson = new Gson();

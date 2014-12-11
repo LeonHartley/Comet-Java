@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.W
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public class WiredConditionMessageComposer {
     public static Composer compose(WiredConditionItem wiredAction) {
 
@@ -26,7 +27,7 @@ public class WiredConditionMessageComposer {
 
         msg.writeInt(wiredAction.getWiredData().getParams().size());
 
-        for(int param : wiredAction.getWiredData().getParams().values()) {
+        for (int param : wiredAction.getWiredData().getParams().values()) {
             msg.writeInt(param);
         }
 

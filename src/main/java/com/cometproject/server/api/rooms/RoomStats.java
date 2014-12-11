@@ -3,6 +3,7 @@ package com.cometproject.server.api.rooms;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 
+
 public class RoomStats {
     /**
      * The data of the room

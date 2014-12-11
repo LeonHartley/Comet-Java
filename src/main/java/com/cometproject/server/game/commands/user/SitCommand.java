@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class SitCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {

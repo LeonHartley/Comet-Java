@@ -7,11 +7,11 @@ import com.cometproject.tools.utils.ScriptsLoader;
 import com.google.common.base.Stopwatch;
 import javolution.util.FastList;
 import javolution.util.FastMap;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 
 public class PacketManager {
     private final String oldScriptsFilename = "Habbo_old.txt";

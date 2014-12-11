@@ -1,14 +1,15 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.AbstractWiredItem;
-import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.AbstractWiredItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.google.common.collect.Lists;
 
 import java.util.List;
+
 
 public class WiredActionToggleState extends WiredActionItem {
     /**

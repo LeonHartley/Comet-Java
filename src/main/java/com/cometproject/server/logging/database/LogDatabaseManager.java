@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.log4j.Logger;
 
+
 public class LogDatabaseManager {
     private static Logger log = Logger.getLogger(LogDatabaseHelper.class.getName());
     private HikariDataSource connections = null;

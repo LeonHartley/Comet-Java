@@ -2,6 +2,7 @@ package com.cometproject.tools.logger.proxy;
 
 import java.util.HashSet;
 
+
 /**
  * @author boboman13
  */

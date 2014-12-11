@@ -2,6 +2,7 @@ package com.cometproject.server.utilities;
 
 import java.util.Random;
 
+
 public class RandomInteger {
     public static int getRandom(int min, int max) {
         Random rand = new Random();

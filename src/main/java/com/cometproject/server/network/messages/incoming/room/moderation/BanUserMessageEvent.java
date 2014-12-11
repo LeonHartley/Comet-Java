@@ -7,21 +7,22 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class BanUserMessageEvent implements IEvent {
 
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(!room.getRights().hasRights(client.getPlayer().getId())) {
+        if (!room.getRights().hasRights(client.getPlayer().getId())) {
             return;
         }
 
-        if(client.getPlayer().getId() != room.getData().getOwnerId() && room.getData().getBanState() != RoomBanState.RIGHTS && !client.getPlayer().getPermissions().hasPermission("room_full_control"))
+        if (client.getPlayer().getId() != room.getData().getOwnerId() && room.getData().getBanState() != RoomBanState.RIGHTS && !client.getPlayer().getPermissions().hasPermission("room_full_control"))
             return;
 
 
@@ -31,7 +32,7 @@ public class BanUserMessageEvent implements IEvent {
 
         int banLength;
 
-        switch(time) {
+        switch (time) {
             case "RWUAM_BAN_USER_HOUR":
                 banLength = 3600;
                 break;

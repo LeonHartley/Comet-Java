@@ -5,6 +5,7 @@ import org.jboss.netty.buffer.ChannelBuffers;
 
 import java.nio.charset.Charset;
 
+
 public final class Event {
     private final short id;
     private final ChannelBuffer buffer;
@@ -41,7 +42,7 @@ public final class Event {
             byte[] data = this.getBuffer().readBytes((length)).array();
 
             return new String(data);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return null;
         }
     }

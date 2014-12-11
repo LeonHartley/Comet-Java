@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
@@ -16,9 +16,10 @@ import com.cometproject.server.network.messages.outgoing.room.settings.Configure
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class SaveRoomDataMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        if(client.getPlayer() == null || client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+        if (client.getPlayer() == null || client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
@@ -97,7 +98,7 @@ public class SaveRoomDataMessageEvent implements IEvent {
             return;
         }*/
 
-        Category category = CometManager.getNavigator().getCategory(categoryId);
+        Category category = NavigatorManager.getInstance().getCategory(categoryId);
 
         if (category == null) {
             return;

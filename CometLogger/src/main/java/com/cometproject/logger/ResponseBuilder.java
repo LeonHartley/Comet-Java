@@ -3,6 +3,7 @@ package com.cometproject.logger;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+
 public class ResponseBuilder {
     private final Map<String, Object> map = new LinkedHashMap<>();
 

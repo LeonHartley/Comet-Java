@@ -5,6 +5,7 @@ import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public class UpdateFriendStateMessageComposer {
     public static Composer compose(int action, int userId) {
         Composer msg = new Composer(Composers.FriendUpdateMessageComposer);

@@ -6,6 +6,7 @@ import org.jboss.netty.buffer.ChannelBuffers;
 
 import java.nio.charset.Charset;
 
+
 public class Composer {
     private final static Logger log = Logger.getLogger(Composer.class);
 
@@ -45,7 +46,7 @@ public class Composer {
         try {
             String string = "";
 
-            if(obj != null) {
+            if (obj != null) {
                 string = String.valueOf(obj);
             }
 

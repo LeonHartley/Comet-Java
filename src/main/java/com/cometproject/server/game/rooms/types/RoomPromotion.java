@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.server.boot.Comet;
 
+
 public class RoomPromotion {
     public static final int DEFAULT_PROMO_LENGTH = 120;
 

@@ -8,6 +8,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorI
 import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
 import com.cometproject.server.utilities.JsonFactory;
 
+
 public class GiftFloorItem extends RoomItemFloor {
     private GiftData giftData;
     private boolean isOpened = false;

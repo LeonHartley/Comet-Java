@@ -1,14 +1,23 @@
 package com.cometproject.server.game.commands.staff;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.commands.CommandManager;
+import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.landing.LandingManager;
+import com.cometproject.server.game.moderation.BanManager;
+import com.cometproject.server.game.moderation.ModerationManager;
+import com.cometproject.server.game.navigator.NavigatorManager;
+import com.cometproject.server.game.permissions.PermissionsManager;
+import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
+
 
 public class ReloadCommand extends ChatCommand {
 
@@ -37,68 +46,68 @@ public class ReloadCommand extends ChatCommand {
 
                 break;
             case "bans":
-                CometManager.getBans().loadBans();
+                BanManager.getInstance().loadBans();
 
                 sendChat(Locale.get("command.reload.bans"), client);
                 break;
 
             case "catalog":
-                CometManager.getCatalog().loadPages();
+                CatalogManager.getInstance().loadPages();
 
-                Comet.getServer().getNetwork().getSessions().broadcast(CatalogPublishMessageComposer.compose(true));
+                NetworkManager.getInstance().getSessions().broadcast(CatalogPublishMessageComposer.compose(true));
                 sendChat(Locale.get("command.reload.catalog"), client);
                 break;
 
             case "navigator":
-                CometManager.getNavigator().loadFeaturedRooms();
+                NavigatorManager.getInstance().loadFeaturedRooms();
                 sendChat(Locale.get("command.reload.navigator"), client);
                 break;
 
             case "permissions":
-                CometManager.getPermissions().loadPermissions();
-                CometManager.getPermissions().loadPerks();
-                CometManager.getPermissions().loadCommands();
+                PermissionsManager.getInstance().loadPermissions();
+                PermissionsManager.getInstance().loadPerks();
+                PermissionsManager.getInstance().loadCommands();
 
                 sendChat(Locale.get("command.reload.permissions"), client);
                 break;
 
             case "config":
-                CometSettings.init();
+                CometSettings.initialize();
 
                 sendChat(Locale.get("command.reload.config"), client);
                 break;
 
             case "news":
-                CometManager.getLanding().loadArticles();
+                LandingManager.getInstance().loadArticles();
 
                 sendChat(Locale.get("command.reload.news"), client);
                 break;
 
             case "items":
-                CometManager.getItems().loadItemDefinitions();
+                ItemManager.getInstance().loadItemDefinitions();
 
                 sendChat(Locale.get("command.reload.items"), client);
                 break;
 
             case "filter":
-                CometManager.getRooms().getFilter().loadFilter();
+                RoomManager.getInstance().getFilter().loadFilter();
 
                 sendChat(Locale.get("command.reload.filter"), client);
                 break;
 
             case "locale":
                 Locale.reload();
-                CometManager.getCommands().reloadAllCommands();
+                CommandManager.getInstance().reloadAllCommands();
 
                 sendChat(Locale.get("command.reload.locale"), client);
                 break;
 
             case "modpresets":
-                CometManager.getModeration().loadPresets();
+                ModerationManager.getInstance().loadPresets();
 
                 sendChat(Locale.get("command.reload.modpresets"), client);
 
-                for(Session session : Comet.getServer().getNetwork().getSessions().getByPlayerPermission("mod_tool")) {
+                for (Session session : NetworkManager.getInstance().getSessions().getByPlayerPermission("mod_tool")) {
                     session.send(ModToolMessageComposer.compose());
                 }
                 break;

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 public class GroupItemManager {
     private List<GroupBase> bases;
     private List<GroupSymbol> symbols;
@@ -40,7 +41,7 @@ public class GroupItemManager {
     }
 
     public String getBackgroundColour(int colour) {
-        if(this.backgroundColours.containsKey(colour)) {
+        if (this.backgroundColours.containsKey(colour)) {
             return this.backgroundColours.get(colour).getColour();
         }
 

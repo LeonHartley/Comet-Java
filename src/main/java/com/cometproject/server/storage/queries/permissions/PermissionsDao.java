@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class PermissionsDao {
 
     public static FastMap<Integer, Perk> getPerks() {

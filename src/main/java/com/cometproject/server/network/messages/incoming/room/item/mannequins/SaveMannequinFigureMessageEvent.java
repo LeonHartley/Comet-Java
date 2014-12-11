@@ -8,6 +8,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorE
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class SaveMannequinFigureMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
@@ -28,8 +29,8 @@ public class SaveMannequinFigureMessageEvent implements IEvent {
         String[] figureParts = client.getPlayer().getData().getFigure().split("\\.");
         String finalFigure = "";
 
-        for(String figurePart : figureParts) {
-            if(!figurePart.contains("hr") && !figurePart.contains("hd") && !figurePart.contains("he") && !figurePart.contains("ha")) {
+        for (String figurePart : figureParts) {
+            if (!figurePart.contains("hr") && !figurePart.contains("hd") && !figurePart.contains("he") && !figurePart.contains("ha")) {
                 finalFigure += figurePart + ".";
             }
         }

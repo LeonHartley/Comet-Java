@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class RightsDao {
     public static FastTable<Integer> getRightsByRoomId(int roomId) {
         Connection sqlConnection = null;

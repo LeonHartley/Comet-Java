@@ -8,6 +8,7 @@ import com.cometproject.server.network.sessions.Session;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class WalkMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int goalX = msg.readInt();
@@ -27,7 +28,7 @@ public class WalkMessageEvent implements IEvent {
                 List<Square> squares = new ArrayList<>();
                 squares.add(new Square(goalX, goalY));
 
-                if(client.getPlayer().getEntity().getMountedEntity() != null) {
+                if (client.getPlayer().getEntity().getMountedEntity() != null) {
                     client.getPlayer().getEntity().getMountedEntity().setWalkingPath(squares);
                     client.getPlayer().getEntity().getMountedEntity().setWalkingGoal(goalX, goalY);
                 }
@@ -40,7 +41,7 @@ public class WalkMessageEvent implements IEvent {
             if (!client.getPlayer().getEntity().isOverriden() && client.getPlayer().getEntity().isVisible()) {
                 client.getPlayer().getEntity().moveTo(goalX, goalY);
 
-                if(client.getPlayer().getEntity().getMountedEntity() != null) {
+                if (client.getPlayer().getEntity().getMountedEntity() != null) {
                     client.getPlayer().getEntity().getMountedEntity().moveTo(goalX, goalY);
                 }
             }

@@ -1,12 +1,15 @@
 package com.cometproject.server.game.rooms.types;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.game.navigator.NavigatorManager;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.types.Composer;
+
 
 public class RoomWriter {
     public static void write(RoomData room, Composer msg) {
-        boolean isActive = CometManager.getRooms().isActive(room.getId());
+        boolean isActive = RoomManager.getInstance().isActive(room.getId());
 
         msg.writeInt(room.getId());
         msg.writeString(room.getName());
@@ -14,7 +17,7 @@ public class RoomWriter {
         msg.writeInt(room.getOwnerId());
         msg.writeString(room.getOwner());
         msg.writeInt(RoomWriter.roomAccessToNumber(room.getAccess()));
-        msg.writeInt(!isActive ? 0 : CometManager.getRooms().get(room.getId()).getEntities().playerCount());
+        msg.writeInt(!isActive ? 0 : RoomManager.getInstance().get(room.getId()).getEntities().playerCount());
         msg.writeInt(room.getMaxUsers());
         msg.writeString(room.getDescription());
         msg.writeInt(0);
@@ -37,7 +40,7 @@ public class RoomWriter {
         msg.writeBoolean(false);
         msg.writeBoolean(false);
 
-        RoomPromotion promotion = CometManager.getRooms().getRoomPromotions().get(room.getId());
+        RoomPromotion promotion = RoomManager.getInstance().getRoomPromotions().get(room.getId());
 
         msg.writeInt(promotion != null ? 1 : 0); // has promo
         msg.writeString(promotion != null ? promotion.getPromotionName() : ""); // promo name
@@ -46,7 +49,7 @@ public class RoomWriter {
     }
 
     public static void writeData(RoomData room, Composer msg) {
-        boolean isActive = CometManager.getRooms().isActive(room.getId());
+        boolean isActive = RoomManager.getInstance().isActive(room.getId());
 
         msg.writeBoolean(true);
         msg.writeInt(room.getId());
@@ -55,7 +58,7 @@ public class RoomWriter {
         msg.writeInt(room.getOwnerId());
         msg.writeString(room.getOwner());
         msg.writeInt(RoomWriter.roomAccessToNumber(room.getAccess()));
-        msg.writeInt(!isActive ? 0 : CometManager.getRooms().get(room.getId()).getEntities().playerCount());
+        msg.writeInt(!isActive ? 0 : RoomManager.getInstance().get(room.getId()).getEntities().playerCount());
         msg.writeInt(room.getMaxUsers());
         msg.writeString(room.getDescription());
         msg.writeInt(room.getTradeState().getState());
@@ -82,7 +85,7 @@ public class RoomWriter {
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeBoolean(false);
-        msg.writeBoolean(CometManager.getNavigator().isFeatured(room.getId()));
+        msg.writeBoolean(NavigatorManager.getInstance().isFeatured(room.getId()));
         msg.writeBoolean(false);
 
         msg.writeBoolean(false); // IS_MUTED
@@ -102,7 +105,7 @@ public class RoomWriter {
     }
 
     public static void writeInfo(RoomData room, Composer msg) {
-        boolean isActive = CometManager.getRooms().isActive(room.getId());
+        boolean isActive = RoomManager.getInstance().isActive(room.getId());
 
         msg.writeInt(room.getId());
         msg.writeString(room.getName());
@@ -110,7 +113,7 @@ public class RoomWriter {
         msg.writeInt(room.getOwnerId());
         msg.writeString(room.getOwner());
         msg.writeInt(RoomWriter.roomAccessToNumber(room.getAccess()));
-        msg.writeInt(isActive ? CometManager.getRooms().get(room.getId()).getEntities().playerCount() : 0);
+        msg.writeInt(isActive ? RoomManager.getInstance().get(room.getId()).getEntities().playerCount() : 0);
         msg.writeInt(room.getMaxUsers());
         msg.writeString(room.getDescription());
         msg.writeInt(0);
@@ -151,11 +154,11 @@ public class RoomWriter {
     }
 
     private static void composeGroup(Composer msg, RoomData roomData) {
-        if (CometManager.getGroups().getGroupByRoomId(roomData.getId()) == null) {
+        if (GroupManager.getInstance().getGroupByRoomId(roomData.getId()) == null) {
             msg.writeInt(0);
             msg.writeInt(0);
         } else {
-            Group group = CometManager.getGroups().getGroupByRoomId(roomData.getId());
+            Group group = GroupManager.getInstance().getGroupByRoomId(roomData.getId());
 
             if (group == null) {
                 msg.writeInt(0);

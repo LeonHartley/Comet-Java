@@ -12,9 +12,9 @@ import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
-import javolution.util.FastMap;
 
 import java.util.Map;
+
 
 public class BanzaiGame extends RoomGame {
     private int startBanzaiTileCount = 0;
@@ -26,7 +26,7 @@ public class BanzaiGame extends RoomGame {
 
     @Override
     public void tick() {
-        if(this.startBanzaiTileCount != 0 && this.banzaiTileCount == 0) {
+        if (this.startBanzaiTileCount != 0 && this.banzaiTileCount == 0) {
             // Stop the game!
             this.timer = this.gameLength;
         }
@@ -58,8 +58,8 @@ public class BanzaiGame extends RoomGame {
         GameTeam winningTeam = this.winningTeam();
 
         for (RoomItemFloor item : this.room.getItems().getByInteraction("bb_patch")) {
-            if(item instanceof BanzaiTileFloorItem) {
-                if(((BanzaiTileFloorItem) item).getTeam() == winningTeam && winningTeam != GameTeam.NONE) {
+            if (item instanceof BanzaiTileFloorItem) {
+                if (((BanzaiTileFloorItem) item).getTeam() == winningTeam && winningTeam != GameTeam.NONE) {
                     ((BanzaiTileFloorItem) item).flash();
                 }
             }

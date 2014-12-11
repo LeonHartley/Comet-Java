@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.outgoing.catalog;
 
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public class ClubMessageComposer {
     public static Composer compose() {//List<CatalogClubOffer> offers) {
         /*Composer msg = new Composer(Composers.ClubMessageComposer);

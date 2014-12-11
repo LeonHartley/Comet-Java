@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.Map;
 
+
 public class PromoArticlesMessageComposer {
     public static Composer compose(Map<Integer, PromoArticle> articles) {
         Composer msg = new Composer(Composers.LandingPromosMessageComposer);

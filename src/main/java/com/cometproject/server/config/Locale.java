@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 
 import java.util.Map;
 
+
 public class Locale {
     /**
      * Logging for locale object
@@ -19,7 +20,7 @@ public class Locale {
     /**
      * Initialize the locale
      */
-    public static void init() {
+    public static void initialize() {
         reload();
     }
 

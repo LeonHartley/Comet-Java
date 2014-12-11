@@ -10,6 +10,7 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.JsonFactory;
 
+
 public class SaveFloorMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
@@ -45,12 +46,12 @@ public class SaveFloorMessageEvent implements IEvent {
         boolean hasTiles = false;
         boolean validDoor = false;
 
-        for(int y = 0; y < sizeY; y++) {
+        for (int y = 0; y < sizeY; y++) {
             String modelLine = modelData[y];
 
-            for(int x = 0; x < sizeX; x++) {
-                if(!Character.toString(modelLine.charAt(x)).equals("x")) {
-                    if(x == doorX && y == doorY) {
+            for (int x = 0; x < sizeX; x++) {
+                if (!Character.toString(modelLine.charAt(x)).equals("x")) {
+                    if (x == doorX && y == doorY) {
                         validDoor = true;
                     }
 
@@ -59,7 +60,7 @@ public class SaveFloorMessageEvent implements IEvent {
             }
         }
 
-        if(!hasTiles || !validDoor) {
+        if (!hasTiles || !validDoor) {
             client.send(AdvancedAlertMessageComposer.compose("Invalid Model", Locale.get("command.floor.invalid")));
             return;
         }

@@ -5,6 +5,7 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import org.apache.commons.lang.StringUtils;
 
+
 public class ManageGroupMessageComposer {
     public static Composer compose(Group group) {
         Composer msg = new Composer(Composers.GroupDataEditMessageComposer);
@@ -43,16 +44,16 @@ public class ManageGroupMessageComposer {
             msg.writeInt(num1);
             msg.writeInt(num2);
 
-            if(text.length() < 5) {
+            if (text.length() < 5) {
                 msg.writeInt(0);
-            } else if(text.length() >= 6) {
+            } else if (text.length() >= 6) {
                 msg.writeInt(Integer.parseInt(StringUtils.right(text, 1)));
             } else {
                 msg.writeInt(Integer.parseInt(StringUtils.right(text, 1)));
             }
         }
 
-        while(dataAppended != amountOfData) {
+        while (dataAppended != amountOfData) {
             msg.writeInt(0);
             msg.writeInt(0);
             msg.writeInt(0);

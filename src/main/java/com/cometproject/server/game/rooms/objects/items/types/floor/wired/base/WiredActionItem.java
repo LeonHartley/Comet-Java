@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
+
 public abstract class WiredActionItem extends AbstractWiredItem {
     protected GenericEntity entity;
 
@@ -45,9 +46,9 @@ public abstract class WiredActionItem extends AbstractWiredItem {
         List<WiredTriggerItem> incompatibleTriggers = Lists.newArrayList();
 
         if (this.requiresPlayer()) {
-            for(RoomItemFloor floorItem : this.getItemsOnStack()) {
-                if(floorItem instanceof WiredTriggerItem) {
-                    if(!((WiredTriggerItem) floorItem).suppliesPlayer()) {
+            for (RoomItemFloor floorItem : this.getItemsOnStack()) {
+                if (floorItem instanceof WiredTriggerItem) {
+                    if (!((WiredTriggerItem) floorItem).suppliesPlayer()) {
                         incompatibleTriggers.add(((WiredTriggerItem) floorItem));
                     }
                 }

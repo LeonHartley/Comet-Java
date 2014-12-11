@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredConditionMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public abstract class WiredConditionItem extends AbstractWiredItem {
     protected boolean isNegative;
 

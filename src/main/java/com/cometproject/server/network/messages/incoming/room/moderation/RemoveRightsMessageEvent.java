@@ -9,6 +9,7 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.Remove
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class RemoveRightsMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {

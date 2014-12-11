@@ -1,9 +1,11 @@
 package com.cometproject.server.game.groups.types;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.components.MembershipComponent;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.outgoing.group.GroupInformationMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+
 
 public class Group {
     /**
@@ -35,7 +37,7 @@ public class Group {
      * @return Packet containing the group information
      */
     public Composer composeInformation(boolean flag, int playerId) {
-        return GroupInformationMessageComposer.compose(this, CometManager.getRooms().getRoomData(this.getData().getRoomId()), flag, playerId == this.getData().getOwnerId(), this.getMembershipComponent().getAdministrators().contains(playerId),
+        return GroupInformationMessageComposer.compose(this, RoomManager.getInstance().getRoomData(this.getData().getRoomId()), flag, playerId == this.getData().getOwnerId(), this.getMembershipComponent().getAdministrators().contains(playerId),
                 this.getMembershipComponent().getMembers().containsKey(playerId) ? 1 : this.getMembershipComponent().getMembershipRequests().contains(playerId) ? 2 : 0);
     }
 
@@ -54,7 +56,7 @@ public class Group {
      * @return The data object
      */
     public GroupData getData() {
-        return CometManager.getGroups().getData(this.id);
+        return GroupManager.getInstance().getData(this.id);
     }
 
     /**

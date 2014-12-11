@@ -8,7 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ActionCategory implements MediaDisposer.Disposable{
+
+public class ActionCategory implements MediaDisposer.Disposable {
     private int categoryId;
     private String categoryName;
 

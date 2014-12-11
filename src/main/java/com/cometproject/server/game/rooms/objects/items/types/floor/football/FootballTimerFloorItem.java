@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameStarts;
 import com.cometproject.server.game.rooms.types.Room;
 
+
 public class FootballTimerFloorItem extends RoomItemFloor {
     private int time = 0;
 
@@ -31,7 +32,7 @@ public class FootballTimerFloorItem extends RoomItemFloor {
             }
         }
 
-        if(requestData == 1) {
+        if (requestData == 1) {
             int time = Integer.parseInt(this.getExtraData());
 
             if (time == 0 || time == 30 || time == 60 || time == 120 || time == 180 || time == 300 || time == 600) {
@@ -69,7 +70,7 @@ public class FootballTimerFloorItem extends RoomItemFloor {
             // Tell the room we have an active football game.
             this.getRoom().setAttribute("football", true);
 
-            for(RoomItemFloor scoreItem : this.getRoom().getItems().getByInteraction("football_score")) {
+            for (RoomItemFloor scoreItem : this.getRoom().getItems().getByInteraction("football_score")) {
                 ((FootballScoreFloorItem) scoreItem).reset();
             }
 
@@ -80,7 +81,7 @@ public class FootballTimerFloorItem extends RoomItemFloor {
 
     @Override
     public void onTickComplete() {
-        if(this.time > 0) {
+        if (this.time > 0) {
             this.time--;
 
             this.setExtraData(this.time + "");
@@ -88,7 +89,7 @@ public class FootballTimerFloorItem extends RoomItemFloor {
 
             this.setTicks(RoomItemFactory.getProcessTime(1.0));
         } else {
-            if(this.getRoom().hasAttribute("football")) {
+            if (this.getRoom().hasAttribute("football")) {
 
                 WiredTriggerGameEnds.executeTriggers(this.getRoom());
                 this.getRoom().removeAttribute("football");

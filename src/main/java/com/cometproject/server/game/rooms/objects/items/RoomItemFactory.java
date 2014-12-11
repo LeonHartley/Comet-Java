@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.objects.items.types.GenericFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.GenericWallItem;
@@ -19,13 +19,13 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.*;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.types.Room;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
+
 
 public class RoomItemFactory {
     private static final int processMs = 25;
@@ -132,7 +132,7 @@ public class RoomItemFactory {
     }
 
     public static RoomItemFloor createFloor(int id, int baseId, Room room, int ownerId, int x, int y, double height, int rot, String data) {
-        ItemDefinition def = CometManager.getItems().getDefinition(baseId);
+        ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
         RoomItemFloor floorItem = null;
 
         if (def == null) {
@@ -147,7 +147,7 @@ public class RoomItemFactory {
             floorItem = new MagicStackFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
         }
 
-        if(data.startsWith(GIFT_DATA)) {
+        if (data.startsWith(GIFT_DATA)) {
             return new GiftFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
         }
 
@@ -169,7 +169,7 @@ public class RoomItemFactory {
     }
 
     public static RoomItemWall createWall(int id, int baseId, Room room, int owner, String position, String data) {
-        ItemDefinition def = CometManager.getItems().getDefinition(baseId);
+        ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
         if (def == null) {
             return null;
         }

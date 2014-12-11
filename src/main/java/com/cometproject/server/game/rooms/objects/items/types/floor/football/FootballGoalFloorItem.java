@@ -1,9 +1,9 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.football;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerScoreAchieved;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
+
 
 public class FootballGoalFloorItem extends RoomItemFloor {
     private GameTeam gameTeam;
@@ -11,7 +11,7 @@ public class FootballGoalFloorItem extends RoomItemFloor {
     public FootballGoalFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
-        switch(this.getDefinition().getItemName()) {
+        switch (this.getDefinition().getItemName()) {
             case "fball_goal_b":
                 this.gameTeam = GameTeam.BLUE;
                 break;

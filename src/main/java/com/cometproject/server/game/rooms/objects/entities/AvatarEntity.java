@@ -1,13 +1,14 @@
 package com.cometproject.server.game.rooms.objects.entities;
 
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
-import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.attributes.Attributable;
 
 import java.util.List;
 import java.util.Map;
+
 
 public interface AvatarEntity extends Attributable {
     public int getId();

@@ -1,17 +1,14 @@
 package com.cometproject.server.game.rooms.types.components.games;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.GameComponent;
 import com.cometproject.server.tasks.CometTask;
-import javolution.util.FastMap;
+import com.cometproject.server.tasks.CometThreadManager;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
 
 public abstract class RoomGame implements CometTask {
     private GameType type;
@@ -66,7 +63,7 @@ public abstract class RoomGame implements CometTask {
             this.future.cancel(false);
         }
 
-        this.future = Comet.getServer().getThreadManagement().executePeriodic(this, 0, 1, TimeUnit.SECONDS);
+        this.future = CometThreadManager.getInstance().executePeriodic(this, 0, 1, TimeUnit.SECONDS);
 
         this.gameLength = amount;
         this.active = true;

@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
 import com.cometproject.server.game.rooms.types.Room;
 
+
 public class WiredTriggerWalksOnFurni extends WiredTriggerItem {
     /**
      * The default constructor

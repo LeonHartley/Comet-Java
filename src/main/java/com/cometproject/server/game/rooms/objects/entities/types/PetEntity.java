@@ -1,10 +1,10 @@
 package com.cometproject.server.game.rooms.objects.entities.types;
 
 import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.PetAI;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
@@ -12,6 +12,7 @@ import com.cometproject.server.storage.queries.pets.PetDao;
 import javolution.util.FastMap;
 
 import java.util.Map;
+
 
 public class PetEntity extends GenericEntity {
     private PetData data;

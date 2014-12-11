@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.types.Room;
 
 import java.util.Random;
 
+
 public class DiceFloorItem extends RoomItemFloor {
     private boolean isInUse = false;
 
@@ -16,7 +17,7 @@ public class DiceFloorItem extends RoomItemFloor {
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-        if(!isWiredTrigger) {
+        if (!isWiredTrigger) {
             if (!this.getPosition().touching(entity)) {
                 entity.moveTo(this.getPosition().squareInFront(this.rotation).getX(), this.getPosition().squareBehind(this.rotation).getY());
                 return;

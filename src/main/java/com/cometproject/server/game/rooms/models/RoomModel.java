@@ -7,6 +7,7 @@ import com.cometproject.server.network.messages.outgoing.room.engine.RelativeHei
 import com.cometproject.server.network.messages.types.Composer;
 import org.apache.log4j.Logger;
 
+
 public abstract class RoomModel {
     private String name;
     private String map = "";
@@ -48,7 +49,7 @@ public abstract class RoomModel {
 
                 int x = 0;
                 for (char tile : line) {
-                    if(x > mapSizeX) {
+                    if (x > mapSizeX) {
                         throw new InvalidModelException();
                     }
 
@@ -72,7 +73,7 @@ public abstract class RoomModel {
                 map += mapLine + (char) 13;
             }
         } catch (Exception e) {
-            if(e instanceof InvalidModelException) {
+            if (e instanceof InvalidModelException) {
                 throw e;
             }
 

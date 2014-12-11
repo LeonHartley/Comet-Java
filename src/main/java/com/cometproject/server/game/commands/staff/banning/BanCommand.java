@@ -2,12 +2,12 @@ package com.cometproject.server.game.commands.staff.banning;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.moderation.types.Ban;
+import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.types.BanType;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.moderation.BanDao;
+
 
 public class BanCommand extends ChatCommand {
     @Override
@@ -19,7 +19,7 @@ public class BanCommand extends ChatCommand {
         String username = params[0];
         int length = Integer.parseInt(params[1]);
 
-        Session user = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
+        Session user = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
         if (user == null) {
             return;
@@ -33,7 +33,7 @@ public class BanCommand extends ChatCommand {
 
         long expire = Comet.getTime() + (length * 3600);
 
-        CometManager.getBans().banPlayer(BanType.USER, user.getPlayer().getId() + "", length, expire, params.length > 2 ? this.merge(params, 2) : "", client.getPlayer().getId());
+        BanManager.getInstance().banPlayer(BanType.USER, user.getPlayer().getId() + "", length, expire, params.length > 2 ? this.merge(params, 2) : "", client.getPlayer().getId());
     }
 
     @Override

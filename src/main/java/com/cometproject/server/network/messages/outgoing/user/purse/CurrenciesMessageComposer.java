@@ -5,6 +5,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.Map;
 
+
 public class CurrenciesMessageComposer {
     public static Composer compose(Map<Integer, Integer> currencies) {
         Composer msg = new Composer(Composers.ActivityPointsMessageComposer);

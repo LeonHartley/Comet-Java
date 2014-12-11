@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.outgoing.room.settings.GetPowerL
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class UsersWithRightsMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         Room room = client.getPlayer().getEntity().getRoom();

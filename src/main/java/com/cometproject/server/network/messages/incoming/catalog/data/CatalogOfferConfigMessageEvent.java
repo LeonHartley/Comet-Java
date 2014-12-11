@@ -5,6 +5,7 @@ import com.cometproject.server.network.messages.outgoing.catalog.data.CatalogOff
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class CatalogOfferConfigMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         client.send(CatalogOfferConfigMessageComposer.compose());

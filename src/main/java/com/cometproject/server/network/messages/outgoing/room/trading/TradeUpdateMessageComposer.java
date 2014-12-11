@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
+
 public class TradeUpdateMessageComposer {
     public static Composer compose(int user1, int user2, List<InventoryItem> items1, List<InventoryItem> items2) {
         Composer msg = new Composer(Composers.TradeUpdateMessageComposer);

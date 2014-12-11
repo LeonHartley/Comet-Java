@@ -6,6 +6,7 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class MessengerRequest {
     private int fromId;
 

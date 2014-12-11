@@ -1,13 +1,14 @@
 package com.cometproject.server.game.players.components.types;
 
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.JsonFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 public class InventoryItem {
     private int id;
@@ -67,7 +68,7 @@ public class InventoryItem {
     }
 
     public ItemDefinition getDefinition() {
-        return CometManager.getItems().getDefinition(this.getBaseId());
+        return ItemManager.getInstance().getDefinition(this.getBaseId());
     }
 
     public int getBaseId() {

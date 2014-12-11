@@ -1,12 +1,13 @@
 package com.cometproject.server.game.navigator.types.featured;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 public class FeaturedRoom {
     private int id;
@@ -37,7 +38,7 @@ public class FeaturedRoom {
         this.isCategory = data.getString("type").equals("category");
 
         // cache the room data so we dont have to get it every time we load the nav
-        if (!isCategory) this.room = CometManager.getRooms().getRoomData(roomId);
+        if (!isCategory) this.room = RoomManager.getInstance().getRoomData(roomId);
     }
 
     public FeaturedRoom(int id, BannerType bannerType, String caption, String description, String image, ImageType imageType, int roomId, int categoryId, boolean enabled, boolean recommended, boolean isCategory) {
@@ -53,11 +54,11 @@ public class FeaturedRoom {
         this.recommended = recommended;
         this.isCategory = isCategory;
 
-        if (!isCategory) this.room = CometManager.getRooms().getRoomData(roomId);
+        if (!isCategory) this.room = RoomManager.getInstance().getRoomData(roomId);
     }
 
     public void compose(Composer msg) {
-        boolean isActive = !isCategory && CometManager.getRooms().isActive(room.getId());
+        boolean isActive = !isCategory && RoomManager.getInstance().isActive(room.getId());
 
         msg.writeInt(id);
         msg.writeString((!isCategory) ? room.getName() : caption);
@@ -68,7 +69,7 @@ public class FeaturedRoom {
         msg.writeString(imageType == ImageType.EXTERNAL ? image : "");
         msg.writeInt(categoryId);
 
-        msg.writeInt(isActive ? CometManager.getRooms().get(roomId).getEntities().playerCount() : 0);
+        msg.writeInt(isActive ? RoomManager.getInstance().get(roomId).getEntities().playerCount() : 0);
         msg.writeInt(isCategory ? 4 : 2); // is room
 
         if (isCategory) {

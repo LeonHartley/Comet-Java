@@ -8,6 +8,7 @@ import com.cometproject.server.network.sessions.Session;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class InviteFriendsMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {

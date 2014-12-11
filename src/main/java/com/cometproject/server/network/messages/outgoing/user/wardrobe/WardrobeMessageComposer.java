@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
+
 public class WardrobeMessageComposer {
     public static Composer compose(List<WardrobeItem> wardrobe) {
         Composer msg = new Composer(Composers.LoadWardrobeMessageComposer);

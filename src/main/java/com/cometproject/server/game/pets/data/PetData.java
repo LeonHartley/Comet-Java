@@ -1,10 +1,11 @@
 package com.cometproject.server.game.pets.data;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 public class PetData {
     private int id;
@@ -103,7 +104,7 @@ public class PetData {
     }
 
     public String[] getSpeech() {
-        return CometManager.getPets().getSpeech(this.typeId);
+        return PetManager.getInstance().getSpeech(this.typeId);
     }
 
     public Position getRoomPosition() {

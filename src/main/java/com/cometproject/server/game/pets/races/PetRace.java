@@ -3,6 +3,7 @@ package com.cometproject.server.game.pets.races;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class PetRace {
     private int raceId;
     private int colour1;

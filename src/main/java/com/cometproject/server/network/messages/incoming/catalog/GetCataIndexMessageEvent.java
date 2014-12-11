@@ -5,9 +5,10 @@ import com.cometproject.server.network.messages.outgoing.catalog.CataIndexMessag
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class GetCataIndexMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        if(msg.readString().equals("BUILDERS_CLUB")) {
+        if (msg.readString().equals("BUILDERS_CLUB")) {
             client.getPlayer().cancelPageOpen = true;
             return;
         }

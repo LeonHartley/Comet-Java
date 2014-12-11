@@ -7,12 +7,13 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class SavePostItMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
         int itemId = msg.readInt();
 
-        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
@@ -23,7 +24,7 @@ public class SavePostItMessageEvent implements IEvent {
 
         RoomItemWall wallItem = room.getItems().getWallItem(itemId);
 
-        if(wallItem == null || !(wallItem instanceof PostItWallItem)) return;
+        if (wallItem == null || !(wallItem instanceof PostItWallItem)) return;
 
         if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;

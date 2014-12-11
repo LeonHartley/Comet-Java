@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.group;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupMember;
@@ -11,6 +11,7 @@ import com.cometproject.server.network.sessions.Session;
 
 import java.util.ArrayList;
 
+
 public class AcceptMembershipMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
@@ -20,7 +21,7 @@ public class AcceptMembershipMessageEvent implements IEvent {
         if (!client.getPlayer().getGroups().contains(groupId))
             return;
 
-        Group group = CometManager.getGroups().get(groupId);
+        Group group = GroupManager.getInstance().get(groupId);
 
         if (group == null || group.getData().getOwnerId() != client.getPlayer().getId())
             return;

@@ -8,6 +8,7 @@ import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 
 import java.util.Map;
 
+
 public class WearBadgeMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {

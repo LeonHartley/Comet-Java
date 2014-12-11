@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
 import com.cometproject.server.game.rooms.types.Room;
 
+
 public class WiredTriggerPeriodicallyLong extends WiredTriggerItem {
     private static final int PARAM_TICK_LENGTH = 0;
 
@@ -24,7 +25,7 @@ public class WiredTriggerPeriodicallyLong extends WiredTriggerItem {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         if (this.getWiredData().getParams().get(PARAM_TICK_LENGTH) == null) {
-            this.getWiredData().getParams().put(PARAM_TICK_LENGTH, 1/2*10); // 5s
+            this.getWiredData().getParams().put(PARAM_TICK_LENGTH, 1 / 2 * 10); // 5s
         }
 
         this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10);

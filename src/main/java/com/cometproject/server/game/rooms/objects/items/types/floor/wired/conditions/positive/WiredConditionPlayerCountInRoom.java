@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
 import com.cometproject.server.game.rooms.types.Room;
 
+
 public class WiredConditionPlayerCountInRoom extends WiredConditionItem {
     private static final int PARAM_AT_LEAST = 0;
     private static final int PARAM_NO_MORE_THAN = 1;
@@ -13,7 +14,7 @@ public class WiredConditionPlayerCountInRoom extends WiredConditionItem {
      *
      * @param id       The ID of the item
      * @param itemId   The ID of the item definition
-     * @param room       The instance of the room
+     * @param room     The instance of the room
      * @param owner    The ID of the owner
      * @param x        The position of the item on the X axis
      * @param y        The position of the item on the Y axis
@@ -32,11 +33,11 @@ public class WiredConditionPlayerCountInRoom extends WiredConditionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(this.getWiredData().getParams().size() != 2) return true;
+        if (this.getWiredData().getParams().size() != 2) return true;
 
         final int playerCount = this.getRoom().getEntities().getPlayerEntities().size();
 
-        if(playerCount >= this.getWiredData().getParams().get(PARAM_AT_LEAST) && playerCount <= this.getWiredData().getParams().get(PARAM_NO_MORE_THAN)) {
+        if (playerCount >= this.getWiredData().getParams().get(PARAM_AT_LEAST) && playerCount <= this.getWiredData().getParams().get(PARAM_NO_MORE_THAN)) {
             // true if is not negative, false if is negative
             return !this.isNegative;
         }

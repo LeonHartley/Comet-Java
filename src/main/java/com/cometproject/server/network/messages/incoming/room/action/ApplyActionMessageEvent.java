@@ -5,6 +5,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessa
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class ApplyActionMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         if (client.getPlayer().getEntity().getRoom() != null) {

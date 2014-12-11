@@ -8,6 +8,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMe
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class TransformCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {

@@ -2,6 +2,7 @@ package com.cometproject.server.game.players.queue;
 
 import com.cometproject.server.network.sessions.Session;
 
+
 public class PlayerLoginQueueEntry {
     private Session connectingClient;
 

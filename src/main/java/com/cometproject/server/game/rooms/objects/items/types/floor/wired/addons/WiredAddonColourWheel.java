@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.RandomInteger;
 
+
 public class WiredAddonColourWheel extends RoomItemFloor {
     private static final int TIMEOUT = 4;
 
@@ -15,8 +16,8 @@ public class WiredAddonColourWheel extends RoomItemFloor {
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-        if(!isWiredTrigger && entity != null) {
-            if(!this.getPosition().touching(entity)) {
+        if (!isWiredTrigger && entity != null) {
+            if (!this.getPosition().touching(entity)) {
                 entity.moveTo(this.getPosition().squareBehind(this.getRotation()).getX(), this.getPosition().squareBehind(this.rotation).getY());
                 return;
             }

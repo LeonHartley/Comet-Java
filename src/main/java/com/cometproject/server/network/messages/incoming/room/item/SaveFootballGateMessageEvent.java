@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class SaveFootballGateMessageEvent implements IEvent {
 
     @Override
@@ -22,7 +23,8 @@ public class SaveFootballGateMessageEvent implements IEvent {
 
         int itemId = msg.readInt();
 
-        if(room.getItems().getFloorItem(itemId) == null || !(room.getItems().getFloorItem(itemId) instanceof FootballGateFloorItem)) return;
+        if (room.getItems().getFloorItem(itemId) == null || !(room.getItems().getFloorItem(itemId) instanceof FootballGateFloorItem))
+            return;
 
         FootballGateFloorItem floorItem = ((FootballGateFloorItem) room.getItems().getFloorItem(itemId));
 

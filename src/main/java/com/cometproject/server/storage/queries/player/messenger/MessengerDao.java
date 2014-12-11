@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 public class MessengerDao {
     public static Map<Integer, MessengerFriend> getFriendsByPlayerId(int playerId) {
         Connection sqlConnection = null;

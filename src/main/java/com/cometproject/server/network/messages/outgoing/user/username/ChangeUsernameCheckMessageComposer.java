@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.user.username;
 
-import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+
 
 public class ChangeUsernameCheckMessageComposer {
     public static Composer compose(boolean isAvailable, String username) {

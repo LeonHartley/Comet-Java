@@ -1,14 +1,15 @@
 package com.cometproject.server.network.messages.incoming.room.pets;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
+
 
 public class RemovePetMessageEvent implements IEvent {
     @Override
@@ -27,8 +28,8 @@ public class RemovePetMessageEvent implements IEvent {
             int ownerId = entity.getData().getOwnerId();
 
             if (room.getData().isAllowPets() || client.getPlayer().getId() != ownerId) {
-                if (Comet.getServer().getNetwork().getSessions().getByPlayerId(ownerId) != null) {
-                    Session petOwner = Comet.getServer().getNetwork().getSessions().getByPlayerId(ownerId);
+                if (NetworkManager.getInstance().getSessions().getByPlayerId(ownerId) != null) {
+                    Session petOwner = NetworkManager.getInstance().getSessions().getByPlayerId(ownerId);
 
                     givePetToPlayer(petOwner, entity.getData());
                 }

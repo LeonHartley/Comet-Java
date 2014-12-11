@@ -3,6 +3,7 @@ package com.cometproject.server.game.groups.items.types;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class GroupBackgroundColour {
     private int id;
     private String colour;

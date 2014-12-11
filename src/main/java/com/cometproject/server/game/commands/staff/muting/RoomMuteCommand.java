@@ -1,9 +1,9 @@
 package com.cometproject.server.game.commands.staff.muting;
 
-
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.sessions.Session;
+
 
 public class RoomMuteCommand extends ChatCommand {
     @Override

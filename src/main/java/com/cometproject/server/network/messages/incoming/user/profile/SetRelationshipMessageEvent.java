@@ -7,6 +7,7 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.relationships.RelationshipDao;
 
+
 public class SetRelationshipMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int user = msg.readInt();

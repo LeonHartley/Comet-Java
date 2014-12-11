@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
+
 public class ModToolRoomChatlogMessageComposer {
     public static Composer compose(int roomId, String roomName, List<RoomChatLogEntry> chatLogs) {
         Composer msg = new Composer(Composers.ModerationToolRoomChatlogMessageComposer);
@@ -27,7 +28,7 @@ public class ModToolRoomChatlogMessageComposer {
 
         msg.writeShort(chatLogs.size());
 
-        for(RoomChatLogEntry entry : chatLogs) {
+        for (RoomChatLogEntry entry : chatLogs) {
             entry.compose(msg);
         }
 

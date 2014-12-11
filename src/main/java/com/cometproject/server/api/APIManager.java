@@ -1,22 +1,20 @@
 package com.cometproject.server.api;
 
-import com.cometproject.server.api.rooms.RoomStats;
 import com.cometproject.server.api.routes.PlayerRoutes;
 import com.cometproject.server.api.routes.RoomRoutes;
 import com.cometproject.server.api.transformers.JsonTransformer;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
-import javolution.util.FastMap;
+import com.cometproject.server.utilities.Initializable;
 import org.apache.log4j.Logger;
 import spark.Spark;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
-public class APIManager {
+public class APIManager implements Initializable {
+    /**
+     * The global API Manager instance
+     */
+    private static APIManager apiManagerInstance;
+
     /**
      * Logger
      */
@@ -57,9 +55,24 @@ public class APIManager {
      * Construct the API manager
      */
     public APIManager() {
+
+    }
+
+    /**
+     * Initialize the API
+     */
+    @Override
+    public void initialize() {
         this.initializeConfiguration();
         this.initializeSpark();
         this.initializeRouting();
+    }
+
+    public static APIManager getInstance() {
+        if (apiManagerInstance == null)
+            apiManagerInstance = new APIManager();
+
+        return apiManagerInstance;
     }
 
     /**

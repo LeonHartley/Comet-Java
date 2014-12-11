@@ -17,7 +17,7 @@ public enum RoomKickState {
 
     public static RoomKickState valueOf(int state) {
         if (state == 0) return NONE;
-        else if(state == 1) return RIGHTS;
+        else if (state == 1) return RIGHTS;
         else return EVERYONE;
     }
 }

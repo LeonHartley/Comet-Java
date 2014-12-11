@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
+
 public class PetInformationMessageComposer {
     public static Composer compose(PetData data) {
         Composer msg = new Composer(Composers.PetInfoMessageComposer);

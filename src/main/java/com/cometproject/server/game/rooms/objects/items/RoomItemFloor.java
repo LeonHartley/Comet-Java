@@ -1,8 +1,9 @@
 package com.cometproject.server.game.rooms.objects.items;
 
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.data.PlayerData;
@@ -29,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
+
 
 public abstract class RoomItemFloor extends RoomItem implements Collidable {
     private String extraData;
@@ -65,7 +67,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         msg.writeString(this instanceof MagicStackFloorItem ? this.getExtraData() : Double.toString(this.getPosition().getZ()));
         msg.writeString(Double.toString(this.getPosition().getZ()));
 
-        if(this instanceof GiftFloorItem) {
+        if (this instanceof GiftFloorItem) {
             final GiftData giftData = ((GiftFloorItem) this).getGiftData();
             final PlayerData purchaser = PlayerDao.getDataById(giftData.getSenderId());
 
@@ -161,7 +163,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
             msg.writeString("THUMBNAIL_URL");
             msg.writeString("/deliver/" + this.getAttribute("video"));
         } else if (this instanceof GroupFloorItem) {
-            GroupData groupData = CometManager.getGroups().getData(((GroupFloorItem) this).getGroupId());
+            GroupData groupData = GroupManager.getInstance().getData(((GroupFloorItem) this).getGroupId());
 
             msg.writeInt(0);
             if (groupData == null) {
@@ -173,15 +175,15 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
                 msg.writeString(this.getExtraData());
                 msg.writeString(groupData.getBadge());
 
-                String colourA = CometManager.getGroups().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? CometManager.getGroups().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour() : "ffffff";
-                String colourB = CometManager.getGroups().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? CometManager.getGroups().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour() : "ffffff";
+                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour() : "ffffff";
+                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour() : "ffffff";
 
                 msg.writeString(colourA);
                 msg.writeString(colourB);
             }
 
-        } else if(CometManager.getItems().getLimitedEdition(this.getId()) != null) {
-            LimitedEditionItem limitedEditionItem = CometManager.getItems().getLimitedEdition(this.getId());
+        } else if (ItemManager.getInstance().getLimitedEdition(this.getId()) != null) {
+            LimitedEditionItem limitedEditionItem = ItemManager.getInstance().getLimitedEdition(this.getId());
 
             msg.writeInt(0);
             msg.writeString("");
@@ -214,7 +216,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
 
     public ItemDefinition getDefinition() {
         if (this.itemDefinition == null) {
-            this.itemDefinition = CometManager.getItems().getDefinition(this.getItemId());
+            this.itemDefinition = ItemManager.getInstance().getDefinition(this.getItemId());
         }
 
         return this.itemDefinition;
@@ -244,7 +246,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
             return true;
         }
 
-        if(!StringUtils.isNumeric(this.getExtraData())) {
+        if (!StringUtils.isNumeric(this.getExtraData())) {
             return true;
         }
 
@@ -313,10 +315,10 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
     }
 
     public Position getPartnerTile() {
-        if(this.getDefinition().getLength() != 2) return null;
+        if (this.getDefinition().getLength() != 2) return null;
 
         for (AffectedTile affTile : AffectedTile.getAffectedBothTilesAt(this.getDefinition().getLength(), this.getDefinition().getWidth(), this.getPosition().getX(), this.getPosition().getY(), this.getRotation())) {
-            if(affTile.x == this.getPosition().getX() && affTile.y == this.getPosition().getY()) continue;
+            if (affTile.x == this.getPosition().getX() && affTile.y == this.getPosition().getY()) continue;
 
             return new Position(affTile.x, affTile.y);
         }
@@ -331,7 +333,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
 
         Collections.sort(nearestEntities, positionComporator);
 
-        for(PlayerEntity playerEntity : nearestEntities) {
+        for (PlayerEntity playerEntity : nearestEntities) {
 //            if(playerEntity.getTile().isReachable(this)) {
             return playerEntity;
 //            }

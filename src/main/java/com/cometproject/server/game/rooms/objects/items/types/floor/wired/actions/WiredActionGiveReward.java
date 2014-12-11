@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 
 public class WiredActionGiveReward extends WiredActionItem {
     private static final Map<Integer, Map<Integer, Long>> rewardTimings = Maps.newConcurrentMap();
@@ -118,7 +119,7 @@ public class WiredActionGiveReward extends WiredActionItem {
             }
         }
 
-        if(errorCode != -1) {
+        if (errorCode != -1) {
             playerEntity.getPlayer().getSession().send(WiredRewardMessageComposer.compose(errorCode));
             return false;
         }
@@ -150,7 +151,7 @@ public class WiredActionGiveReward extends WiredActionItem {
 
                     int itemId = Integer.parseInt(itemData[0]);
 
-                    ItemDefinition itemDefinition = CometManager.getItems().getDefinition(itemId);
+                    ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(itemId);
 
                     if (itemDefinition != null) {
                         int newItem = ItemDao.createItem(playerEntity.getPlayerId(), itemId, extraData);
@@ -171,11 +172,11 @@ public class WiredActionGiveReward extends WiredActionItem {
         }
 
 
-        if(!receivedReward) {
+        if (!receivedReward) {
             playerEntity.getPlayer().getSession().send(WiredRewardMessageComposer.compose(4));
         }
 
-        if(rewardTimings.get(this.getId()).containsKey(playerEntity.getPlayerId())) {
+        if (rewardTimings.get(this.getId()).containsKey(playerEntity.getPlayerId())) {
             rewardTimings.get(this.getId()).replace(playerEntity.getPlayerId(), Comet.getTime());
         } else {
             rewardTimings.get(this.getId()).put(playerEntity.getPlayerId(), Comet.getTime());

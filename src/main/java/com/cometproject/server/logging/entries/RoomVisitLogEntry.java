@@ -2,6 +2,7 @@ package com.cometproject.server.logging.entries;
 
 import com.cometproject.server.boot.Comet;
 
+
 public class RoomVisitLogEntry {
     private int id;
     private int playerId;

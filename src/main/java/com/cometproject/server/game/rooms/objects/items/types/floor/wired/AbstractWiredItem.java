@@ -5,7 +5,6 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredActionItemData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredItemData;
@@ -13,12 +12,10 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.JsonFactory;
 import com.cometproject.server.utilities.attributes.Stateable;
-import com.cometproject.server.utilities.comporators.PositionComporator;
 import com.google.common.collect.Lists;
-import com.google.gson.Gson;
 
-import java.util.Collections;
 import java.util.List;
+
 
 /**
  * This system was inspired by Nillus' "habbod2".
@@ -124,7 +121,7 @@ public abstract class AbstractWiredItem extends RoomItemFloor implements WiredIt
             return;
         }
 
-        if(this.state) return; // already flashing
+        if (this.state) return; // already flashing
 
         this.flashTicks = RoomItemFactory.getProcessTime(0.5);
         this.state = true;

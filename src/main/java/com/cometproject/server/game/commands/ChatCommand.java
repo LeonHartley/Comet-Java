@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessa
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
 
+
 public abstract class ChatCommand {
     public abstract void execute(Session client, String[] params);
 

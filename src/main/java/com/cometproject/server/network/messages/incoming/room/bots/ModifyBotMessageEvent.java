@@ -1,10 +1,10 @@
 package com.cometproject.server.network.messages.incoming.room.bots;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
@@ -18,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
+
 
 public class ModifyBotMessageEvent implements IEvent {
     @Override
@@ -64,7 +65,7 @@ public class ModifyBotMessageEvent implements IEvent {
                 }
 
                 for (String message : messages) {
-                    FilterResult filterResult = CometManager.getRooms().getFilter().filter(message);
+                    FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
                     if (filterResult.isBlocked()) {
                         client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));

@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
 import com.cometproject.server.game.rooms.types.Room;
 
+
 public class WiredTriggerAtGivenTime extends WiredTriggerItem {
     private static final int PARAM_TICK_LENGTH = 0;
     private boolean reset = false;
@@ -33,7 +34,7 @@ public class WiredTriggerAtGivenTime extends WiredTriggerItem {
 
     @Override
     public void onTickComplete() {
-        if(this.isReset()) {
+        if (this.isReset()) {
             this.evaluate(null, null);
             this.reset = false;
         }

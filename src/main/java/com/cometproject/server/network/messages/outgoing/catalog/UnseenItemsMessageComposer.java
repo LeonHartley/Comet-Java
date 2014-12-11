@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
+
 public class UnseenItemsMessageComposer {
     public static Composer compose(List<InventoryItem> items) {
         Composer msg = new Composer(Composers.NewInventoryObjectMessageComposer);

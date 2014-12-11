@@ -7,10 +7,11 @@ import com.cometproject.server.network.messages.outgoing.room.pets.PetInformatio
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class PetInformationMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        if(client.getPlayer().getEntity() == null) return;
+        if (client.getPlayer().getEntity() == null) return;
 
         int petId = msg.readInt();
 
@@ -20,7 +21,7 @@ public class PetInformationMessageEvent implements IEvent {
             // its a player
             PlayerEntity playerEntity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPlayerId(petId);
 
-            if(playerEntity != null) {
+            if (playerEntity != null) {
                 client.send(PetInformationMessageComposer.compose(playerEntity));
             }
 

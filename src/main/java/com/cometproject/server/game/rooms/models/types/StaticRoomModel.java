@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.models.types;
 import com.cometproject.server.game.rooms.models.RoomModel;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
+
 
 public class StaticRoomModel extends RoomModel {
     public StaticRoomModel(ResultSet data) throws Exception {

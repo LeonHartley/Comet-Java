@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public class RoomPromotionMessageComposer {
     public static Composer compose(RoomData roomData, RoomPromotion roomPromotion) {
         Composer msg = new Composer(Composers.RoomEventMessageComposer);

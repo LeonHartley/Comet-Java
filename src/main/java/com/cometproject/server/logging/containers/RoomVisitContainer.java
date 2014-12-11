@@ -5,6 +5,7 @@ import com.cometproject.server.logging.entries.RoomVisitLogEntry;
 
 import java.util.List;
 
+
 public class RoomVisitContainer {
     public RoomVisitLogEntry put(int playerId, int roomId, long timeEnter) {
         return LogQueries.putRoomVisit(playerId, roomId, (int) timeEnter);

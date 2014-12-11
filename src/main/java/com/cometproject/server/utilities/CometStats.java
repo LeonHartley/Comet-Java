@@ -1,7 +1,9 @@
 package com.cometproject.server.utilities;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.network.NetworkManager;
+
 
 public class CometStats {
     private int players;
@@ -81,8 +83,8 @@ public class CometStats {
     public static CometStats get() {
         CometStats statsInstance = new CometStats();
 
-        statsInstance.setPlayers(Comet.getServer().getNetwork().getSessions().getUsersOnlineCount());
-        statsInstance.setRooms(CometManager.getRooms().getRoomInstances().size());
+        statsInstance.setPlayers(NetworkManager.getInstance().getSessions().getUsersOnlineCount());
+        statsInstance.setRooms(RoomManager.getInstance().getRoomInstances().size());
         statsInstance.setUptime(TimeSpan.millisecondsToDate(System.currentTimeMillis() - Comet.start));
 
         statsInstance.setProcessId(CometRuntime.processId);

@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.outgoing.navigator;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public class CanCreateRoomMessageComposer {
     public static Composer compose() {
         Composer msg = new Composer(Composers.CanCreateRoomMessageComposer);

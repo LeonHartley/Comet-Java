@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.items.data.MoodlightPresetData
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queries.items.MoodlightDao;
 
+
 public class MoodlightWallItem extends RoomItemWall {
     private MoodlightData moodlightData = null;
 

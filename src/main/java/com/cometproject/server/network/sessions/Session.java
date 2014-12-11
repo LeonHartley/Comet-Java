@@ -1,18 +1,17 @@
 package com.cometproject.server.network.sessions;
 
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.outgoing.notification.LogoutMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
-import com.cometproject.server.network.security.hurlant.ARC4;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
 
 import java.net.InetSocketAddress;
+
 
 public class Session {
     private Logger logger = Logger.getLogger("Session");
@@ -43,12 +42,12 @@ public class Session {
 
         int channelId = this.channel.getId();
 
-        CometManager.getPlayers().put(player.getId(), channelId, username);
+        PlayerManager.getInstance().put(player.getId(), channelId, username);
     }
 
     public void onDisconnect() {
         if (!isClone)
-            CometManager.getPlayers().remove(player.getId(), player.getData().getUsername());
+            PlayerManager.getInstance().remove(player.getId(), player.getData().getUsername());
 
         this.eventHandler.dispose();
         this.getPlayer().dispose();
@@ -62,13 +61,13 @@ public class Session {
     public String getIpAddress() {
         String ipAddress;
 
-        if(!CometSettings.useDatabaseIp) {
-            return ((InetSocketAddress)this.getChannel().getRemoteAddress()).getAddress().getHostAddress();
+        if (!CometSettings.useDatabaseIp) {
+            return ((InetSocketAddress) this.getChannel().getRemoteAddress()).getAddress().getHostAddress();
         } else {
             ipAddress = PlayerDao.getIpAddress(this.getPlayer().getId());
         }
 
-        if(ipAddress == null || ipAddress.isEmpty()) {
+        if (ipAddress == null || ipAddress.isEmpty()) {
             logger.warn("Could not retrieve IP address of player: " + this.getPlayer().getId());
         }
 
@@ -105,7 +104,7 @@ public class Session {
     }
 
     public void flush() {
-       // todo: bundling of packets
+        // todo: bundling of packets
     }
 
     public Object getEncryption() {

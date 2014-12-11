@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public class HeightmapMessageComposer {
     public static Composer compose(RoomModel roomModel) {
         Composer msg = new Composer(Composers.HeightMapMessageComposer);

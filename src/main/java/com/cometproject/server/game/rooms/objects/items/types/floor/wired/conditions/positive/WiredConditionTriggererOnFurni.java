@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
 import com.cometproject.server.game.rooms.types.Room;
 
+
 public class WiredConditionTriggererOnFurni extends WiredConditionItem {
     /**
      * The default constructor
@@ -25,13 +26,13 @@ public class WiredConditionTriggererOnFurni extends WiredConditionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(entity == null) return false;
+        if (entity == null) return false;
 
         boolean isOnFurni = false;
 
-        for(int itemId : this.getWiredData().getSelectedIds()) {
-            for(RoomItemFloor itemOnEntity : entity.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY())) {
-                if(itemOnEntity.getId() == itemId) isOnFurni = true;
+        for (int itemId : this.getWiredData().getSelectedIds()) {
+            for (RoomItemFloor itemOnEntity : entity.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY())) {
+                if (itemOnEntity.getId() == itemId) isOnFurni = true;
             }
         }
 

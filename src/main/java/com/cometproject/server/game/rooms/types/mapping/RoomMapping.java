@@ -1,14 +1,15 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
+import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.google.common.collect.Lists;
 
 import java.util.List;
+
 
 public class RoomMapping {
     private Room room;

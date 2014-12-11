@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 
+
 public class WiredItemData {
     private int selectionType = 0;
     private List<Integer> selectedIds;

@@ -1,11 +1,11 @@
 package com.cometproject.server.game.commands.staff.rewards;
 
-
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+
 
 public class CoinsCommand extends ChatCommand {
     @Override
@@ -17,7 +17,7 @@ public class CoinsCommand extends ChatCommand {
 
         try {
             int credits = Integer.parseInt(params[1]);
-            Session player = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
+            Session player = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
             player.getPlayer().getData().increaseCredits(credits);
             player.send(AdvancedAlertMessageComposer.compose(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(credits))));

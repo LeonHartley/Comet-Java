@@ -5,6 +5,7 @@ import com.cometproject.server.network.security.hurlant.RSAKey;
 
 import java.math.BigInteger;
 
+
 public class EncryptionManager {
     private final RSAKey rsaKey;
     private final DiffieHellman diffieHellman;
@@ -52,7 +53,7 @@ public class EncryptionManager {
             byte[] c = rsaKey.sign(m);
 
             return SecurityUtil.bytesToHex(c);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -62,7 +63,7 @@ public class EncryptionManager {
     private static EncryptionManager instance;
 
     public static EncryptionManager get() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new EncryptionManager();
         }
 

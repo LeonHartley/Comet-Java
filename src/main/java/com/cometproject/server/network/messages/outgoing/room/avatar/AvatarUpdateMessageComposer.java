@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+
 public class AvatarUpdateMessageComposer {
     public static Composer compose(int count, Collection<GenericEntity> list) {
         Composer msg = new Composer(Composers.UpdateUserStatusMessageComposer);

@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
+
 public class RedeemCreditsCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
@@ -35,11 +36,11 @@ public class RedeemCreditsCommand extends ChatCommand {
             }
         }
 
-        if(itemsToRemove.size() == 0) {
+        if (itemsToRemove.size() == 0) {
             return;
         }
 
-        for(int itemId : itemsToRemove) {
+        for (int itemId : itemsToRemove) {
             client.getPlayer().getInventory().removeFloorItem(itemId);
         }
 

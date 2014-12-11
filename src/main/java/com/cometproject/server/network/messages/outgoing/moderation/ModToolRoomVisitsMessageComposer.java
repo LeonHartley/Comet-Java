@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.moderation;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
 import com.cometproject.server.network.messages.headers.Composers;
@@ -8,6 +8,7 @@ import com.cometproject.server.network.messages.types.Composer;
 import org.joda.time.DateTime;
 
 import java.util.List;
+
 
 public class ModToolRoomVisitsMessageComposer {
     public static Composer compose(int userId, String username, List<RoomVisitLogEntry> roomVisits) {
@@ -19,7 +20,7 @@ public class ModToolRoomVisitsMessageComposer {
         msg.writeInt(roomVisits.size());
 
         for (RoomVisitLogEntry roomVisit : roomVisits) {
-            RoomData roomData = CometManager.getRooms().getRoomData(roomVisit.getRoomId());
+            RoomData roomData = RoomManager.getInstance().getRoomData(roomVisit.getRoomId());
             DateTime dateTime = new DateTime(roomVisit.getEntryTime() * 1000L);
 
 //            msg.writeBoolean(false); // is room public?

@@ -6,6 +6,7 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.util.List;
 
+
 public class GetPowerListMessageComposer {
     public static Composer compose(int roomId, List<Integer> usersWithRights) {
         Composer msg = new Composer(Composers.LoadRoomRightsListMessageComposer);

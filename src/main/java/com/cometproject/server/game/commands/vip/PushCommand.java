@@ -1,15 +1,16 @@
 package com.cometproject.server.game.commands.vip;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
-import com.cometproject.server.game.rooms.models.RoomModel;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
 import java.util.List;
+
 
 public class PushCommand extends ChatCommand {
     @Override
@@ -20,7 +21,7 @@ public class PushCommand extends ChatCommand {
         }
 
         String username = params[0];
-        Session user = Comet.getServer().getNetwork().getSessions().getByPlayerUsername(username);
+        Session user = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
         if (user == null) {
             return;

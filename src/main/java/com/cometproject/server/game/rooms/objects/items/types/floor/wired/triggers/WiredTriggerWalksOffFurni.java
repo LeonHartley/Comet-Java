@@ -1,10 +1,10 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers;
 
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
 import com.cometproject.server.game.rooms.types.Room;
+
 
 public class WiredTriggerWalksOffFurni extends WiredTriggerItem {
     /**
@@ -37,10 +37,10 @@ public class WiredTriggerWalksOffFurni extends WiredTriggerItem {
     public static boolean executeTriggers(GenericEntity entity, RoomItemFloor floorItem) {
         boolean wasExecuted = false;
 
-        for(RoomItemFloor wiredItem : entity.getRoom().getItems().getByInteraction("wf_trg_walks_off_furni")) {
+        for (RoomItemFloor wiredItem : entity.getRoom().getItems().getByInteraction("wf_trg_walks_off_furni")) {
             WiredTriggerWalksOffFurni trigger = ((WiredTriggerWalksOffFurni) wiredItem);
 
-            if(trigger.getWiredData().getSelectedIds().contains(floorItem.getId()))
+            if (trigger.getWiredData().getSelectedIds().contains(floorItem.getId()))
                 wasExecuted = trigger.evaluate(entity, floorItem);
         }
 

@@ -12,6 +12,7 @@ import com.cometproject.server.game.rooms.types.misc.settings.RoomTradeState;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
+import com.cometproject.server.utilities.Initializable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 import org.apache.solr.util.ConcurrentLRUCache;
@@ -21,7 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class RoomManager {
+
+public class RoomManager implements Initializable {
+    private static RoomManager roomManagerInstance;
     public static final Logger log = Logger.getLogger(RoomManager.class.getName());
 
     public static final int LRU_MAX_ENTRIES = Integer.parseInt(Comet.getServer().getConfig().getProperty("comet.game.rooms.data.max"));
@@ -43,6 +46,11 @@ public class RoomManager {
     private ChatEmotionsManager emotions;
 
     public RoomManager() {
+
+    }
+
+    @Override
+    public void initialize() {
         this.roomDataInstances = new ConcurrentLRUCache<>(LRU_MAX_ENTRIES, LRU_MAX_LOWER_WATERMARK);
 
         this.loadedRoomInstances = new FastMap<Integer, Room>().shared();
@@ -52,10 +60,19 @@ public class RoomManager {
         this.emotions = new ChatEmotionsManager();
         this.filterManager = new WordFilter();
 
-        this.globalCycle = new RoomCycle(Comet.getServer().getThreadManagement());
+        this.globalCycle = new RoomCycle();
 
         this.loadModels();
         this.globalCycle.start();
+
+        log.info("RoomManager initialized");
+    }
+
+    public static RoomManager getInstance() {
+        if (roomManagerInstance == null)
+            roomManagerInstance = new RoomManager();
+
+        return roomManagerInstance;
     }
 
     public void loadModels() {
@@ -85,7 +102,7 @@ public class RoomManager {
     }
 
     public Room get(int id) {
-        if(id == 0) return null;
+        if (id == 0) return null;
 
         if (this.getRoomInstances().containsKey(id)) {
             return this.getRoomInstances().get(id);
@@ -105,7 +122,7 @@ public class RoomManager {
 //            try {
             Room room = new Room(data).load();
 
-            if(room == null) return null;
+            if (room == null) return null;
 
             this.loadedRoomInstances.put(id, room);
 
@@ -193,7 +210,7 @@ public class RoomManager {
     public List<RoomData> getRoomByQuery(String query) {
         ArrayList<RoomData> rooms = new ArrayList<>();
 
-        if(query.equals("tag:")) return rooms;
+        if (query.equals("tag:")) return rooms;
 
         List<RoomData> roomSearchResults = RoomDao.getRoomsByQuery(query);
 
@@ -239,30 +256,30 @@ public class RoomManager {
     }
 
     public List<RoomData> getHighRatedRooms() {
-return null;
+        return null;
     }
 
     public void promoteRoom(int roomId, String name, String description) {
         // TODO: Save to db
 
-        if(this.roomPromotions.containsKey(roomId)) {
+        if (this.roomPromotions.containsKey(roomId)) {
             RoomPromotion promo = this.roomPromotions.get(roomId);
-            promo.setTimestampFinish(Comet.getTime() + (RoomPromotion.DEFAULT_PROMO_LENGTH  * 60));
+            promo.setTimestampFinish(Comet.getTime() + (RoomPromotion.DEFAULT_PROMO_LENGTH * 60));
         } else {
             this.roomPromotions.put(roomId, new RoomPromotion(roomId, name, description));
         }
 
-        if(this.get(roomId) != null) {
+        if (this.get(roomId) != null) {
             Room room = this.get(roomId);
 
-            if(room.getEntities() != null && room.getEntities().realPlayerCount() >= 1) {
+            if (room.getEntities() != null && room.getEntities().realPlayerCount() >= 1) {
                 room.getEntities().broadcastMessage(RoomPromotionMessageComposer.compose(room.getData(), this.roomPromotions.get(roomId)));
             }
         }
     }
 
     public boolean hasPromotion(int roomId) {
-        if(this.roomPromotions.containsKey(roomId) && !this.roomPromotions.get(roomId).isExpired()) {
+        if (this.roomPromotions.containsKey(roomId) && !this.roomPromotions.get(roomId).isExpired()) {
             return true;
         }
 

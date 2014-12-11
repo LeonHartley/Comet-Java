@@ -1,8 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative;
 
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredItemSnapshot;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.WiredConditionMatchSnapshot;
 import com.cometproject.server.game.rooms.types.Room;
+
 
 public class WiredNegativeMatchSnapshot extends WiredConditionMatchSnapshot {
     /**

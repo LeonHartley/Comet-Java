@@ -5,6 +5,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoM
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class ChangeMottoMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         String motto = msg.readString();

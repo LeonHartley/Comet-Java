@@ -1,15 +1,16 @@
 package com.cometproject.server.network.messages.incoming.group.settings;
 
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupMember;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.RoomUpdateMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+
 
 public class ModifyGroupTitleMessageEvent implements IEvent {
     @Override
@@ -21,7 +22,7 @@ public class ModifyGroupTitleMessageEvent implements IEvent {
         if (!client.getPlayer().getGroups().contains(groupId))
             return;
 
-        Group group = CometManager.getGroups().get(groupId);
+        Group group = GroupManager.getInstance().get(groupId);
 
         if (group == null)
             return;
@@ -35,8 +36,8 @@ public class ModifyGroupTitleMessageEvent implements IEvent {
         group.getData().setDescription(description);
         group.getData().save();
 
-        if (CometManager.getRooms().isActive(group.getData().getRoomId())) {
-            Room room = CometManager.getRooms().get(group.getData().getRoomId());
+        if (RoomManager.getInstance().isActive(group.getData().getRoomId())) {
+            Room room = RoomManager.getInstance().get(group.getData().getRoomId());
 
             room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
         }

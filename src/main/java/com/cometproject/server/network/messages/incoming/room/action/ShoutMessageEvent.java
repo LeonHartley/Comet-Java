@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
@@ -9,11 +9,11 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessag
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
+
 public class ShoutMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         String message = msg.readString();
         int colour = msg.readInt();
-
 
 
         if (!TalkMessageEvent.isValidColour(colour, client)) {
@@ -27,7 +27,7 @@ public class ShoutMessageEvent implements IEvent {
 
 
         if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
-            FilterResult filterResult = CometManager.getRooms().getFilter().filter(message);
+            FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {
                 client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
@@ -38,7 +38,7 @@ public class ShoutMessageEvent implements IEvent {
         }
 
         if (client.getPlayer().getEntity().onChat(filteredMessage)) {
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(ShoutMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage, CometManager.getRooms().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(ShoutMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
         }
     }
 }

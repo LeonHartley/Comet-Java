@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
@@ -16,7 +16,7 @@ public class TalkMessageEvent implements IEvent {
         String message = msg.readString();
         int colour = msg.readInt();
 
-        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null)
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null)
             return;
 
         if (!TalkMessageEvent.isValidColour(colour, client))
@@ -25,7 +25,7 @@ public class TalkMessageEvent implements IEvent {
         String filteredMessage = filterMessage(message);
 
         if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
-            FilterResult filterResult = CometManager.getRooms().getFilter().filter(message);
+            FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {
                 client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
@@ -36,7 +36,7 @@ public class TalkMessageEvent implements IEvent {
         }
 
         if (client.getPlayer().getEntity().onChat(filteredMessage)) {
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(TalkMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage, CometManager.getRooms().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(TalkMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
         }
     }
 

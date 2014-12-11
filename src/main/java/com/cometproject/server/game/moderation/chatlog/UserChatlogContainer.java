@@ -5,6 +5,7 @@ import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class UserChatlogContainer {
     //private Map<Integer, List<RoomChatLogEntry>> logs;
     private List<LogSet> logs;

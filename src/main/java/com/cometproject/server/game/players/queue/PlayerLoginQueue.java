@@ -1,20 +1,10 @@
 package com.cometproject.server.game.players.queue;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
-import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.network.messages.outgoing.handshake.AuthenticationOKMessageComposer;
-import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
-import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
-import com.cometproject.server.network.messages.outgoing.navigator.RoomCategoriesMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
-import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
-import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.tasks.CometTask;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayDeque;
+
 
 public class PlayerLoginQueue implements CometTask {
     private final int MAX_QUEUE_SIZE = 1000;
@@ -44,13 +34,13 @@ public class PlayerLoginQueue implements CometTask {
 //            return;
 //        }
 //
-//        Session cloneSession = Comet.getServer().getNetwork().getSessions().getByPlayerId(player.getId());
+//        Session cloneSession = NetworkManager.getInstance().getSessions().getByPlayerId(player.getId());
 //
 //        if (cloneSession != null) {
 //            cloneSession.disconnect();
 //        }
 //
-//        if (CometManager.getBans().hasBan(Integer.toString(player.getId())) || CometManager.getBans().hasBan(entry.getClient().getIpAddress())) {
+//        if (BanManager.getInstance().hasBan(Integer.toString(player.getId())) || BanManager.getInstance().hasBan(entry.getClient().getIpAddress())) {
 //            CometManager.getLogger().warn("Banned player: " + player.getId() + " tried logging in");
 //
 //            client.disconnect();
@@ -60,7 +50,7 @@ public class PlayerLoginQueue implements CometTask {
 //        player.setSession(client);
 //        client.setPlayer(player);
 //
-//        CometManager.getRooms().loadRoomsForUser(player);
+//        RoomManager.getInstance().loadRoomsForUser(player);
 //
 //        //client.getLogger().info(client.getPlayer().getData().getUsername() + " logged in");
 //
@@ -79,7 +69,7 @@ public class PlayerLoginQueue implements CometTask {
 //            client.send(ModToolMessageComposer.compose());
 //        }
 //
-//        client.send(RoomCategoriesMessageComposer.compose(CometManager.getNavigator().getCategories(), client.getPlayer().getData().getRank()));
+//        client.send(RoomCategoriesMessageComposer.compose(NavigatorManager.getInstance().getCategories(), client.getPlayer().getData().getRank()));
     }
 
     public boolean queue(PlayerLoginQueueEntry entry) {

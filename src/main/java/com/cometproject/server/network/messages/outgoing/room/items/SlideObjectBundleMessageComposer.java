@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
+
 public class SlideObjectBundleMessageComposer {
     public static Composer compose(Position from, Position to, int rollerItemId, int avatarId, int itemId) {
         Composer msg = new Composer(Composers.ItemAnimationMessageComposer);

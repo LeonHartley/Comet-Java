@@ -8,6 +8,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
+
 public class WiredTriggerMessageComposer {
     public static Composer compose(WiredTriggerItem wiredTrigger) {
 
@@ -31,7 +32,7 @@ public class WiredTriggerMessageComposer {
 
         msg.writeInt(wiredTrigger.getWiredData().getParams().size());
 
-        for(int param : wiredTrigger.getWiredData().getParams().values()) {
+        for (int param : wiredTrigger.getWiredData().getParams().values()) {
             msg.writeInt(param);
         }
 
@@ -40,7 +41,7 @@ public class WiredTriggerMessageComposer {
 
         msg.writeInt(incompatibleActions.size());
 
-        for(WiredActionItem incompatibleAction : incompatibleActions) {
+        for (WiredActionItem incompatibleAction : incompatibleActions) {
             msg.writeInt(incompatibleAction.getDefinition().getSpriteId());
         }
 

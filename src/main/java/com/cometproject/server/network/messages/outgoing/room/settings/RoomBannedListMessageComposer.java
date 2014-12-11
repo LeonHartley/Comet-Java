@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
+
 public class RoomBannedListMessageComposer {
     public static Composer compose(int roomId, List<RoomBan> bans) {
         Composer msg = new Composer(Composers.RoomBannedListMessageComposer);
@@ -13,7 +14,7 @@ public class RoomBannedListMessageComposer {
         msg.writeInt(roomId);
         msg.writeInt(bans.size());
 
-        for(RoomBan ban : bans) {
+        for (RoomBan ban : bans) {
             msg.writeInt(ban.getPlayerId());
             msg.writeString(ban.getPlayerName());
         }

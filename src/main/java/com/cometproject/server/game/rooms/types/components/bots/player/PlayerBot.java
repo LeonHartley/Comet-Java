@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class PlayerBot extends Bot {
     Logger log = Logger.getLogger("Player Bot (" + this.getName() + ")");
     int tickCount = 0;

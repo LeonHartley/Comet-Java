@@ -6,6 +6,7 @@ import com.cometproject.server.storage.queries.bots.PlayerBotDao;
 
 import java.util.Map;
 
+
 public class BotComponent {
     private Player player;
     private Map<Integer, InventoryBot> bots;

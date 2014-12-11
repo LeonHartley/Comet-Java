@@ -8,6 +8,7 @@ import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 
+
 public class RemoveBotMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {

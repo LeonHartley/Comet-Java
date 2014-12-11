@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.W
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerAtGivenTime;
 import com.cometproject.server.game.rooms.types.Room;
 
+
 public class WiredActionResetTimers extends WiredActionItem {
     /**
      * The default constructor
@@ -37,7 +38,7 @@ public class WiredActionResetTimers extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(this.getWiredData().getDelay() >= 1) {
+        if (this.getWiredData().getDelay() >= 1) {
             this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
         } else {
             this.onTickComplete();
@@ -47,8 +48,8 @@ public class WiredActionResetTimers extends WiredActionItem {
     }
 
     public void onTickComplete() {
-        for(RoomItemFloor floorItem : this.getRoom().getItems().getByInteraction("wf_trg_at_given_time")) {
-            if(floorItem instanceof WiredTriggerAtGivenTime) {
+        for (RoomItemFloor floorItem : this.getRoom().getItems().getByInteraction("wf_trg_at_given_time")) {
+            if (floorItem instanceof WiredTriggerAtGivenTime) {
                 ((WiredTriggerAtGivenTime) floorItem).reset();
                 ((WiredTriggerAtGivenTime) floorItem).flash();
             }

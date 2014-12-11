@@ -4,13 +4,13 @@ import com.cometproject.server.game.players.components.types.PlaylistItem;
 import com.cometproject.server.game.players.components.types.VolumeData;
 import com.cometproject.server.game.players.components.types.WardrobeItem;
 import com.cometproject.server.utilities.JsonFactory;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class PlayerSettings {
     private VolumeData volumes;

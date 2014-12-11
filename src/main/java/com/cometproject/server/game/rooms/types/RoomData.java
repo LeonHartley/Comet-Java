@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.rooms.types.misc.settings.RoomBanState;
 import com.cometproject.server.game.rooms.types.misc.settings.RoomKickState;
@@ -15,6 +15,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+
 
 public class RoomData {
     private int id;
@@ -154,7 +155,7 @@ public class RoomData {
     }
 
     public Category getCategory() {
-        Category category = CometManager.getNavigator().getCategory(this.category);
+        Category category = NavigatorManager.getInstance().getCategory(this.category);
 
         if (category == null) {
             // TODO: Dummy category :p

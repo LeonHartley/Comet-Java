@@ -3,16 +3,15 @@ package com.cometproject.server.game.rooms.types.mapping;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
-import com.cometproject.server.game.rooms.objects.items.types.floor.OneWayGateFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
-import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.BedFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GateFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 
 import java.util.List;
+
 
 public class TileInstance {
     private RoomMapping mappingInstance;
@@ -52,7 +51,7 @@ public class TileInstance {
         this.originalTopItem = 0;
         this.stackHeight = 0d;
 
-        if(this.mappingInstance.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()] == null) {
+        if (this.mappingInstance.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()] == null) {
             this.canPlaceItemHere = false;
         } else {
             this.canPlaceItemHere = this.mappingInstance.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()].equals(RoomTileState.VALID);
@@ -75,7 +74,7 @@ public class TileInstance {
 
             final double totalHeight = item.getPosition().getZ() + item.getDefinition().getHeight();
 
-            if(totalHeight > highestHeight) {
+            if (totalHeight > highestHeight) {
                 highestHeight = totalHeight;
                 highestItem = item.getId();
             }
@@ -112,7 +111,7 @@ public class TileInstance {
                     break;
             }
 
-            if(item instanceof SnowboardJumpFloorItem) {
+            if (item instanceof SnowboardJumpFloorItem) {
                 hasComponentItem = true;
             }
 
@@ -130,13 +129,13 @@ public class TileInstance {
                 this.canStack = false;
             }
 
-            if(item.getOverrideHeight() != -1d) {
+            if (item.getOverrideHeight() != -1d) {
                 overrideItem = item.getId();
                 overrideHeight = item.getOverrideHeight() + (hasComponentItem ? 1.0 : 0d);
             }
         }
 
-        if(overrideHeight != null) {
+        if (overrideHeight != null) {
             this.canStack = true;
             this.stackHeight = overrideHeight;
             this.topItem = overrideItem;
@@ -148,7 +147,7 @@ public class TileInstance {
             this.topItem = highestItem;
         }
 
-        if(this.stackHeight == 0d)
+        if (this.stackHeight == 0d)
             this.stackHeight = this.mappingInstance.getModel().getSquareHeight()[this.position.getX()][this.position.getY()];
     }
 
@@ -166,7 +165,7 @@ public class TileInstance {
         RoomItemFloor roomItemFloor = this.mappingInstance.getRoom().getItems().getFloorItem(this.topItem);
 
         if (roomItemFloor != null && (roomItemFloor.getDefinition().canSit || roomItemFloor instanceof BedFloorItem || roomItemFloor instanceof SnowboardJumpFloorItem)) {
-            if(roomItemFloor instanceof SnowboardJumpFloorItem) {
+            if (roomItemFloor instanceof SnowboardJumpFloorItem) {
                 height += 1.0;
             } else {
                 height -= roomItemFloor.getDefinition().getHeight();

@@ -1,12 +1,10 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
-import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+
 
 public class CataPageMessageComposer {
     public static Composer compose(CatalogPage page) {
@@ -19,13 +17,13 @@ public class CataPageMessageComposer {
 
         msg.writeInt(page.getImages().size());
 
-        for(String image : page.getImages()) {
+        for (String image : page.getImages()) {
             msg.writeString(image);
         }
 
         msg.writeInt(page.getTexts().size());
 
-        for(String text : page.getTexts()) {
+        for (String text : page.getTexts()) {
             msg.writeString(text);
         }
 
