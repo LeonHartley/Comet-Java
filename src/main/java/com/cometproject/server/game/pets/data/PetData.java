@@ -87,7 +87,7 @@ public class PetData {
     }
 
     public String getLook() {
-        return this.typeId + " " + this.raceId + " " + this.colour + ""; // TODO: this
+        return this.getTypeId() + " " + this.getRaceId() + " " + this.getColour();
     }
 
     public int getHairDye() {
@@ -95,7 +95,7 @@ public class PetData {
     }
 
     public int getHair() {
-        return hair;
+        return this.hair;
     }
 
     public int getTypeId() {
