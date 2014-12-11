@@ -88,7 +88,7 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
         this.preActionTrigger(entity, data);
 
         // if we can perform the action, let's perform it!
-        if (canExecute) {
+        if (canExecute && wiredActions.size() >= 1) {
             // if the execution was a success, this will be set to true and returned so that the
             // event that called this wired trigger can do what it needs to do
             boolean wasSuccess = false;

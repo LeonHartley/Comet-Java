@@ -99,7 +99,12 @@ public class PetEntity extends GenericEntity {
         msg.writeInt(this.data.getId());
         msg.writeString(this.data.getName());
         msg.writeString("PET_MOTTO");
-        msg.writeString(data.getLook() + " 2 2 " + data.getHair() + " " + data.getHairDye() + " 3 " + data.getHair() + " " + data.getHairDye());
+
+        String composer = data.getLook() + " 2 2 " + data.getHair() + " " + data.getHairDye() + " 3 " + data.getHair() + " " + data.getHairDye();
+
+        System.out.println(composer);
+
+        msg.writeString(composer);
         msg.writeInt(this.getId());
 
         msg.writeInt(this.getPosition().getX());
@@ -114,7 +119,7 @@ public class PetEntity extends GenericEntity {
         msg.writeInt(this.data.getOwnerId());
         msg.writeString("Leon"); // TODO: this :P
         msg.writeInt(1);
-        msg.writeBoolean(true); // has saddle
+        msg.writeBoolean(false); // has saddle
         msg.writeBoolean(false); // has rider?
 
         msg.writeInt(0);
