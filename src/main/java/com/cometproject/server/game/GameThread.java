@@ -8,14 +8,18 @@ import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
 import com.cometproject.server.tasks.CometTask;
+import com.cometproject.server.tasks.CometThread;
 import com.cometproject.server.tasks.CometThreadManager;
+import com.cometproject.server.utilities.Initializable;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 
-public class GameThread implements CometTask {
+public class GameThread implements CometTask, Initializable {
+    private static GameThread gameThreadInstance;
+
     private static Logger log = Logger.getLogger(GameThread.class.getName());
 
     private ScheduledFuture gameFuture;
@@ -24,10 +28,22 @@ public class GameThread implements CometTask {
 
     private int onlineRecord = 0;
 
-    public GameThread(CometThreadManager mgr) {
+    public GameThread() {
+
+    }
+
+    @Override
+    public void initialize() {
         int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.thread.interval"));
-        this.gameFuture = mgr.executePeriodic(this, interval, interval, TimeUnit.MINUTES);
+        this.gameFuture = CometThreadManager.getInstance().executePeriodic(this, interval, interval, TimeUnit.MINUTES);
         this.active = true;
+    }
+
+    public static GameThread getInstance() {
+        if(gameThreadInstance == null)
+            gameThreadInstance = new GameThread();
+
+        return gameThreadInstance;
     }
 
     private int cycleCount = 0;

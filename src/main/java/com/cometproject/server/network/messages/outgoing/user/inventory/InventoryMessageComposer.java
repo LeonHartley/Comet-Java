@@ -93,10 +93,10 @@ public class InventoryMessageComposer {
             msg.writeBoolean(!isGift && inventoryItem.getDefinition().canMarket);
 
             msg.writeInt(-1);
-            msg.writeBoolean(false);//??
+            msg.writeBoolean(true);//??
             msg.writeInt(-1);
             msg.writeString("");
-            msg.writeInt(0);
+            msg.writeInt(isGift ? inventoryItem.getGiftData().getWrappingPaper() * 1000 + inventoryItem.getGiftData().getDecorationType() : 0);
         }
 
         // Wall items

@@ -5,6 +5,7 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Configuration;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.GameThread;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.groups.GroupManager;
@@ -74,7 +75,7 @@ public class CometServer {
 
         NetworkManager.getInstance().initialize(ipAddress, port);
 
-        CometManager.startCycle();
+        GameThread.getInstance().initialize();
 
         if (Comet.isDebugging) {
             CometManager.getLogger().debug("Comet Server is debugging");

@@ -1,6 +1,8 @@
 package com.cometproject.server.game.items.rares;
 
 public class LimitedEditionItem {
+    public static final LimitedEditionItem NONE = new LimitedEditionItem(0, 0, 0);
+
     private int itemId;
     private int limitedRare;
     private int limitedRareTotal;

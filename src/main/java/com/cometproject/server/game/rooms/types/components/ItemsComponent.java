@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
+import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -186,10 +187,10 @@ public class ItemsComponent {
     }
 
     public void removeItem(RoomItemFloor item, Session client) {
-        removeItem(item, client, true);
+        removeItem(item, client, true, false);
     }
 
-    public void removeItem(RoomItemFloor item, Session client, boolean toInventory) {
+    public void removeItem(RoomItemFloor item, Session client, boolean toInventory, boolean delete) {
         List<GenericEntity> affectEntities = room.getEntities().getEntitiesAt(item.getPosition().getX(), item.getPosition().getY());
         List<Position> tilesToUpdate = new ArrayList<>();
 
@@ -214,10 +215,11 @@ public class ItemsComponent {
         if (toInventory) {
             RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
 
-            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
+            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null);
             client.send(UpdateInventoryMessageComposer.compose());
         } else {
-            RoomItemDao.deleteItem(item.getId());
+            if(delete)
+                RoomItemDao.deleteItem(item.getId());
         }
 
         for (Position tileToUpdate : tilesToUpdate) {
