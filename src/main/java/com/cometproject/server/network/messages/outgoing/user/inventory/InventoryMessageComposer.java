@@ -87,10 +87,10 @@ public class InventoryMessageComposer {
                 msg.writeInt(limitedEditionItem.getLimitedRareTotal());
             }
 
-            msg.writeBoolean(inventoryItem.getDefinition().canRecycle);
-            msg.writeBoolean(!isGift && inventoryItem.getDefinition().canTrade);
-            msg.writeBoolean(!isLimited && !isGift && inventoryItem.getDefinition().canInventoryStack);
-            msg.writeBoolean(!isGift && inventoryItem.getDefinition().canMarket);
+            msg.writeBoolean(inventoryItem.getDefinition().canRecycle());
+            msg.writeBoolean(!isGift && inventoryItem.getDefinition().canTrade());
+            msg.writeBoolean(!isLimited && !isGift && inventoryItem.getDefinition().canInventoryStack());
+            msg.writeBoolean(!isGift && inventoryItem.getDefinition().canMarket());
 
             msg.writeInt(-1);
             msg.writeBoolean(true);//??
@@ -119,10 +119,10 @@ public class InventoryMessageComposer {
             msg.writeInt(0);
             msg.writeString(i.getExtraData());
 
-            msg.writeBoolean(i.getDefinition().canRecycle);
-            msg.writeBoolean(i.getDefinition().canTrade);
-            msg.writeBoolean(i.getDefinition().canInventoryStack);
-            msg.writeBoolean(i.getDefinition().canMarket);
+            msg.writeBoolean(i.getDefinition().canRecycle());
+            msg.writeBoolean(i.getDefinition().canTrade());
+            msg.writeBoolean(i.getDefinition().canInventoryStack());
+            msg.writeBoolean(i.getDefinition().canMarket());
             msg.writeInt(-1);
             msg.writeBoolean(false);
             msg.writeInt(-1);

@@ -139,7 +139,7 @@ public class RoomItemFactory {
             return null;
         }
 
-        if (def.canSit) {
+        if (def.canSit()) {
             floorItem = new SeatFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
         }
 

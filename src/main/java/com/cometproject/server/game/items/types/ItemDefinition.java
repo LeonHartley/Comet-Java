@@ -14,14 +14,14 @@ public class ItemDefinition {
     private double height;
     private int spriteId;
 
-    public boolean canStack;
-    public boolean canSit;
-    public boolean canWalk;
-    public boolean canTrade;
-    public boolean canRecycle;
-    public boolean canMarket;
-    public boolean canGift;
-    public boolean canInventoryStack;
+    private boolean canStack;
+    private boolean canSit;
+    private boolean canWalk;
+    private boolean canTrade;
+    private boolean canRecycle;
+    private boolean canMarket;
+    private boolean canGift;
+    private boolean canInventoryStack;
 
     private int effectId;
     private int offerId;
@@ -49,7 +49,7 @@ public class ItemDefinition {
 
         this.canRecycle = true;
         this.canMarket = true;
-        this.canGift = true;
+        this.canGift = data.getString("allow_gift").equals("1");
 
         this.effectId = data.getInt("effectid");
         this.interaction = data.getString("interaction_type");
@@ -115,5 +115,37 @@ public class ItemDefinition {
 
     public int getOfferId() {
         return offerId;
+    }
+
+    public boolean canStack() {
+        return canStack;
+    }
+
+    public boolean canSit() {
+        return canSit;
+    }
+
+    public boolean canWalk() {
+        return canWalk;
+    }
+
+    public boolean canTrade() {
+        return canTrade;
+    }
+
+    public boolean canRecycle() {
+        return canRecycle;
+    }
+
+    public boolean canMarket() {
+        return canMarket;
+    }
+
+    public boolean canGift() {
+        return canGift;
+    }
+
+    public boolean canInventoryStack() {
+        return canInventoryStack;
     }
 }

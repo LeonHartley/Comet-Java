@@ -76,7 +76,7 @@ public class Position {
     public static double calculateHeight(RoomItemFloor item) {
         if (item.getDefinition().getInteraction().equals("gate")) {
             return 0;
-        } else if (item.getDefinition().canSit) {
+        } else if (item.getDefinition().canSit()) {
             return 0;
         }
 
