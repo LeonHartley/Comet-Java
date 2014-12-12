@@ -126,6 +126,8 @@ public class CatalogItem {
     }
 
     public void compose(Composer msg) {
+        final ItemDefinition firstItem = ItemManager.getInstance().getDefinition(this.getItems().get(0));
+
         msg.writeInt(this.getId());
         msg.writeString(this.getDisplayName());
         msg.writeBoolean(false);
@@ -142,7 +144,7 @@ public class CatalogItem {
             msg.writeInt(0);
         }
 
-        msg.writeBoolean(Comet.isDebugging); // Can gift
+        msg.writeBoolean(firstItem.canGift());
 
         if (!this.hasBadge()) {
             msg.writeInt(this.getItems().size());

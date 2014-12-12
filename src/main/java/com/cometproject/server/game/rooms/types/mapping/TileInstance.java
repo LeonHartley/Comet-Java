@@ -81,7 +81,7 @@ public class TileInstance {
 
             final boolean isGate = item instanceof GateFloorItem;
 
-            if (!item.getDefinition().canWalk && !isGate) {
+            if (!item.getDefinition().canWalk() && !isGate) {
                 movementNode = RoomEntityMovementNode.CLOSED;
             }
 
@@ -115,7 +115,7 @@ public class TileInstance {
                 hasComponentItem = true;
             }
 
-            if (item.getDefinition().canSit) {
+            if (item.getDefinition().canSit()) {
                 status = RoomTileStatusType.SIT;
                 movementNode = RoomEntityMovementNode.END_OF_ROUTE;
             }
@@ -125,7 +125,7 @@ public class TileInstance {
                 movementNode = RoomEntityMovementNode.END_OF_ROUTE;
             }
 
-            if (!item.getDefinition().canStack) {
+            if (!item.getDefinition().canStack()) {
                 this.canStack = false;
             }
 
@@ -164,7 +164,7 @@ public class TileInstance {
 
         RoomItemFloor roomItemFloor = this.mappingInstance.getRoom().getItems().getFloorItem(this.topItem);
 
-        if (roomItemFloor != null && (roomItemFloor.getDefinition().canSit || roomItemFloor instanceof BedFloorItem || roomItemFloor instanceof SnowboardJumpFloorItem)) {
+        if (roomItemFloor != null && (roomItemFloor.getDefinition().canSit() || roomItemFloor instanceof BedFloorItem || roomItemFloor instanceof SnowboardJumpFloorItem)) {
             if (roomItemFloor instanceof SnowboardJumpFloorItem) {
                 height += 1.0;
             } else {

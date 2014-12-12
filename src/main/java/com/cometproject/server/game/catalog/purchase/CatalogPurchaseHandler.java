@@ -206,6 +206,7 @@ public class CatalogPurchaseHandler {
 
                 if (giftData != null) {
                     giftData.setExtraData(extraData);
+
                     purchases.add(new CatalogPurchase(playerIdToDeliver, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData)));
                 } else {
                     for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
