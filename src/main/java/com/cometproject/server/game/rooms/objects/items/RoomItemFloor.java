@@ -71,7 +71,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
             final GiftData giftData = ((GiftFloorItem) this).getGiftData();
             final PlayerData purchaser = PlayerDao.getDataById(giftData.getSenderId());
 
-            msg.writeInt(giftData.getDecorationType() * 1000 + giftData.getWrappingPaper());
+            msg.writeInt(giftData.getWrappingPaper() * 1000 + giftData.getDecorationType());
             msg.writeInt(1);
             msg.writeInt(6);
             msg.writeString("EXTRA_PARAM");

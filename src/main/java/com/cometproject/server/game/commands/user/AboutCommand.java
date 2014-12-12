@@ -4,6 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
+import com.cometproject.server.game.GameThread;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -48,7 +49,7 @@ public class AboutCommand extends ChatCommand {
             about.append("Threads:  " + ManagementFactory.getThreadMXBean().getThreadCount() + "<br>");
 
             about.append("<br><br><b>Hotel Stats</b><br>");
-            about.append("Current online record: " + CometManager.getThread().getOnlineRecord());
+            about.append("Current online record: " + GameThread.getInstance().getOnlineRecord());
         }
 
         client.send(AdvancedAlertMessageComposer.compose(

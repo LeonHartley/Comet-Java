@@ -14,6 +14,7 @@ public class PlayerManager implements Initializable {
     private FastMap<String, Integer> playerUsernameToPlayerId;
 
     public PlayerManager() {
+
     }
 
     @Override

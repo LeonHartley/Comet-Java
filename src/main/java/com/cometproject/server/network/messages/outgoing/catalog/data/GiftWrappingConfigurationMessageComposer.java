@@ -25,6 +25,7 @@ public class GiftWrappingConfigurationMessageComposer {
         msg.writeInt(5);
         msg.writeInt(6);
         msg.writeInt(8);
+
         msg.writeInt(11); // count of array
         msg.writeInt(0);
         msg.writeInt(1);
@@ -37,6 +38,7 @@ public class GiftWrappingConfigurationMessageComposer {
         msg.writeInt(8);
         msg.writeInt(9);
         msg.writeInt(10);
+
         msg.writeInt(7); // count of array
 
         for (int i = 187; i <= 193; i++) {

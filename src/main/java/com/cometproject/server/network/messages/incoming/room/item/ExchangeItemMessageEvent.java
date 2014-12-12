@@ -30,7 +30,7 @@ public class ExchangeItemMessageEvent implements IEvent {
 
         int value = Integer.parseInt(item.getDefinition().getItemName().split("_")[1]);
 
-        room.getItems().removeItem(item, client, false);
+        room.getItems().removeItem(item, client, false, true);
 
         client.getPlayer().getData().increaseCredits(value);
         client.getPlayer().sendBalance();

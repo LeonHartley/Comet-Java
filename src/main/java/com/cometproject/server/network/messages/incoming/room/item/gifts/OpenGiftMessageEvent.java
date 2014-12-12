@@ -5,6 +5,7 @@ import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -35,6 +36,9 @@ public class OpenGiftMessageEvent implements IEvent {
         if (catalogItem == null) return;
 
         floorItem.onInteract(client.getPlayer().getEntity(), 0, false);
+
+        room.getItems().removeItem(floorItem, client);
+        client.getPlayer().getEntity().getRoom().getItems().placeFloorItem(new InventoryItem(floorItemId, Integer.parseInt(catalogItem.getItemId()), giftData.getExtraData()), floorItem.getPosition().getX(), floorItem.getPosition().getY(), floorItem.getRotation(), client.getPlayer());
         client.send(OpenGiftMessageComposer.compose(floorItemId, floorItem.getDefinition().getType(), ((GiftFloorItem) floorItem).getGiftData(), ItemManager.getInstance().getDefinition(Integer.parseInt(catalogItem.getItemId()))));
     }
 }
