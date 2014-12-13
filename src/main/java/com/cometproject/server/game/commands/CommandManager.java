@@ -93,6 +93,7 @@ public class CommandManager implements Initializable {
         this.commands.put(Locale.get("command.empty.name"), new EmptyCommand());
         this.commands.put(Locale.get("command.sit.name"), new SitCommand());
         this.commands.put(Locale.get("command.lay.name"), new LayCommand());
+        this.commands.put(Locale.get("command.home.name"), new HomeCommand());
 
         // VIP commands
         this.commands.put(Locale.get("command.push.name"), new PushCommand());
