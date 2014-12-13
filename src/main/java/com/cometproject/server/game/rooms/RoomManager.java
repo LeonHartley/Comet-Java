@@ -255,10 +255,6 @@ public class RoomManager implements Initializable {
         return rooms;
     }
 
-    public List<RoomData> getHighRatedRooms() {
-        return null;
-    }
-
     public void promoteRoom(int roomId, String name, String description) {
         // TODO: Save to db
 

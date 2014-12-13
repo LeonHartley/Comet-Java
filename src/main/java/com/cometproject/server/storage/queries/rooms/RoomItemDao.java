@@ -200,4 +200,25 @@ public class RoomItemDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+    public static void setBaseItem(int itemId, int baseId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE items set base_item = ? WHERE id = ?", sqlConnection);
+
+            preparedStatement.setInt(1, baseId);
+            preparedStatement.setInt(2, itemId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }

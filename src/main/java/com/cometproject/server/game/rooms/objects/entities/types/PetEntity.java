@@ -102,8 +102,6 @@ public class PetEntity extends GenericEntity {
 
         String composer = data.getLook() + " 2 2 " + data.getHair() + " " + data.getHairDye() + " 3 " + data.getHair() + " " + data.getHairDye();
 
-        System.out.println(composer);
-
         msg.writeString(composer);
         msg.writeInt(this.getId());
 
