@@ -38,6 +38,8 @@ public class InventoryItem {
 
     public InventoryItem(int id, int baseId, String extraData, GiftData giftData) {
         this.init(id, baseId, extraData, giftData);
+
+        this.limitedEditionItem = LimitedEditionDao.get(this.id);
     }
 
     public InventoryItem(int id, int baseId, String extraData) {
