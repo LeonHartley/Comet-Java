@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.entities.types;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.groups.GroupManager;
@@ -280,7 +281,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            CometManager.getLogger().error("Error while executing command", e);
             return false;
         }
 
