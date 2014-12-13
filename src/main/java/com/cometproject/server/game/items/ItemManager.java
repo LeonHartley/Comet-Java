@@ -20,6 +20,7 @@ public class ItemManager implements Initializable {
     private FastMap<Integer, LimitedEditionItem> limitedEditionItems;
 
     public ItemManager() {
+
     }
 
     @Override
