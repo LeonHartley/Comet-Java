@@ -13,6 +13,7 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.gifts.OpenGiftMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 
 public class OpenGiftMessageEvent implements IEvent {
@@ -38,7 +39,10 @@ public class OpenGiftMessageEvent implements IEvent {
         floorItem.onInteract(client.getPlayer().getEntity(), 0, false);
 
         room.getItems().removeItem(floorItem, client);
+
         client.getPlayer().getEntity().getRoom().getItems().placeFloorItem(new InventoryItem(floorItemId, Integer.parseInt(catalogItem.getItemId()), giftData.getExtraData()), floorItem.getPosition().getX(), floorItem.getPosition().getY(), floorItem.getRotation(), client.getPlayer());
-        client.send(OpenGiftMessageComposer.compose(floorItemId, floorItem.getDefinition().getType(), ((GiftFloorItem) floorItem).getGiftData(), ItemManager.getInstance().getDefinition(Integer.parseInt(catalogItem.getItemId()))));
+        client.send(OpenGiftMessageComposer.compose(floorItemId, floorItem.getDefinition().getType(), ((GiftFloorItem) floorItem).getGiftData(), ItemManager.getInstance().getDefinition(catalogItem.getItems().get(0))));
+
+        RoomItemDao.setBaseItem(floorItemId, catalogItem.getItems().get(0));
     }
 }

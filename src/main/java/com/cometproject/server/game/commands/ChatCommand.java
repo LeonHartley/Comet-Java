@@ -18,29 +18,29 @@ public abstract class ChatCommand {
         return AdvancedAlertMessageComposer.compose(Locale.get("command.successful"), msg);
     }
 
-    public static final void sendChat(String msg, Session c) {
+    public static void sendChat(String msg, Session c) {
         c.send(WisperMessageComposer.compose(c.getPlayer().getEntity().getId(), msg));
     }
 
     public final String merge(String[] params) {
-        String r = "";
+        final StringBuilder stringBuilder = new StringBuilder();
 
         for (String s : params) {
             if (!params[params.length - 1].equals(s))
-                r += s + " ";
+                stringBuilder.append(s).append(" ");
             else
-                r += s;
+                stringBuilder.append(s);
         }
 
-        return r;
+        return stringBuilder.toString();
     }
 
     public String merge(String[] params, int begin) {
-        StringBuilder mergedParams = new StringBuilder();
+        final StringBuilder mergedParams = new StringBuilder();
 
         for (int i = 0; i < params.length; i++) {
             if (i >= begin) {
-                mergedParams.append(params[i] + " ");
+                mergedParams.append(params[i]).append(" ");
             }
         }
 
