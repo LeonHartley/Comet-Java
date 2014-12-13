@@ -15,6 +15,7 @@ public class ShoutMessageEvent implements IEvent {
         String message = msg.readString();
         int colour = msg.readInt();
 
+        if(message.length() < 1) return;
 
         if (!TalkMessageEvent.isValidColour(colour, client)) {
             colour = 0;
