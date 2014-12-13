@@ -415,5 +415,7 @@ public class ItemsComponent {
         }
 
         room.getEntities().broadcastMessage(SendFloorItemMessageComposer.compose(floorItem, room));
+
+        floorItem.saveData();
     }
 }
