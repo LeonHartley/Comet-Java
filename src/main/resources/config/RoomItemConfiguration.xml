@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+    <item interaction-type="roller" class="com.cometproject.server.game.rooms.objects.items.types.floor.RollerFloorItem" />
+    <item interaction-type="dice" class="com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorItem" />
+    <item interaction-type="teleport" class="com.cometproject.server.game.rooms.objects.items.types.floor.TeleporterFloorItem" />
+    <item interaction-type="teleport_door" class="com.cometproject.server.game.rooms.objects.items.types.floor.TeleporterFloorItem" />
+    <item interaction-type="onewaygate" class="com.cometproject.server.game.rooms.objects.items.types.floor.OneWayGateFloorItem" />
+    <item interaction-type="gate" class="com.cometproject.server.game.rooms.objects.items.types.floor.GateFloorItem" />
+    <item interaction-type="roombg" class="com.cometproject.server.game.rooms.objects.items.types.floor.BackgroundTonerFloorItem" />
+    <item interaction-type="bed" class="com.cometproject.server.game.rooms.objects.items.types.floor.BedFloorItem" />
+    <item interaction-type="vendingmachine" class="com.cometproject.server.game.rooms.objects.items.types.floor.VendingMachineFloorItem" />
+    <item interaction-type="mannequin" class="com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem" />
+    <item interaction-type="beach_shower" class="com.cometproject.server.game.rooms.objects.items.types.floor.summer.SummerShowerFloorItem" />
+    <item interaction-type="halo_tile" class="com.cometproject.server.game.rooms.objects.items.types.floor.hollywood.HaloTileFloorItem" />
+    <item interaction-type="adjustable_height" class="com.cometproject.server.game.rooms.objects.items.types.floor.AdjustableHeightSeatFloorItem" />
+</items>
