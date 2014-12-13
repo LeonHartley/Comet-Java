@@ -3,7 +3,6 @@ package com.cometproject.server.game.items;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.queries.items.ItemDao;
-import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.Initializable;
@@ -95,16 +94,16 @@ public class ItemManager implements Initializable {
         }
 
         // TODO: LRU cache
-        LimitedEditionItem item = LimitedEditionDao.get(itemId);
+//        LimitedEditionItem item = LimitedEditionDao.get(itemId);
 
-        if (item != null) {
-            this.limitedEditionItems.put(itemId, item);
-        } else {
-            this.limitedEditionItems.put(itemId, LimitedEditionItem.NONE);
-            return null;
-        }
+//        if (item != null) {
+//            this.limitedEditionItems.put(itemId, item);
+//        } else {
+//            this.limitedEditionItems.put(itemId, LimitedEditionItem.NONE);
+//            return null;
+//        }
 
-        return item;
+        return null;
     }
 
     public FastMap<Integer, ItemDefinition> getItemDefinitions() {
