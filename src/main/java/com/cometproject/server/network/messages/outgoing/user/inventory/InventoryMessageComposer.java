@@ -2,7 +2,6 @@ package com.cometproject.server.network.messages.outgoing.user.inventory;
 
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
-import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.players.components.InventoryComponent;
 import com.cometproject.server.game.players.components.types.InventoryItem;
@@ -22,7 +21,7 @@ public class InventoryMessageComposer {
         for (InventoryItem inventoryItem : inventory.getFloorItems().values()) {
             final boolean isGift = inventoryItem.getGiftData() != null;
             final boolean isGroupItem = inventoryItem.getDefinition().getInteraction().equals("group_item") || inventoryItem.getDefinition().getInteraction().equals("group_gate");
-            final boolean isLimited = ItemManager.getInstance().getLimitedEdition(inventoryItem.getId()) != null;
+            final boolean isLimited = inventoryItem.getLimitedEditionItem() != null;
 
             msg.writeInt(inventoryItem.getId());
             msg.writeString(inventoryItem.getDefinition().getType().toUpperCase());
@@ -81,7 +80,7 @@ public class InventoryMessageComposer {
             }
 
             if (isLimited && !isGift) {
-                LimitedEditionItem limitedEditionItem = ItemManager.getInstance().getLimitedEdition(inventoryItem.getId());
+                LimitedEditionItem limitedEditionItem = inventoryItem.getLimitedEditionItem();
 
                 msg.writeInt(limitedEditionItem.getLimitedRare());
                 msg.writeInt(limitedEditionItem.getLimitedRareTotal());

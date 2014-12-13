@@ -2,8 +2,10 @@ package com.cometproject.server.game.players.components.types;
 
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.utilities.JsonFactory;
 
 import java.sql.ResultSet;
@@ -15,6 +17,8 @@ public class InventoryItem {
     private int baseId;
     private String extraData;
     private GiftData giftData;
+
+    private LimitedEditionItem limitedEditionItem;
 
     public InventoryItem(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
@@ -28,6 +32,8 @@ public class InventoryItem {
         } catch (Exception e) {
             this.giftData = null;
         }
+
+        this.limitedEditionItem = LimitedEditionDao.get(this.id);
     }
 
     public InventoryItem(int id, int baseId, String extraData, GiftData giftData) {
@@ -81,5 +87,9 @@ public class InventoryItem {
 
     public GiftData getGiftData() {
         return giftData;
+    }
+
+    public LimitedEditionItem getLimitedEditionItem() {
+        return limitedEditionItem;
     }
 }

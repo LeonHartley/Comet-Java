@@ -4,7 +4,6 @@ import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
@@ -182,16 +181,15 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
                 msg.writeString(colourB);
             }
 
-        } else if (ItemManager.getInstance().getLimitedEdition(this.getId()) != null) {
-            LimitedEditionItem limitedEditionItem = ItemManager.getInstance().getLimitedEdition(this.getId());
-
+        } else if (this.getLimitedEditionItem() != null) {
             msg.writeInt(0);
             msg.writeString("");
             msg.writeBoolean(true);
             msg.writeBoolean(false);
             msg.writeString(this.getExtraData());
-            msg.writeInt(limitedEditionItem.getLimitedRare());
-            msg.writeInt(limitedEditionItem.getLimitedRareTotal());
+
+            msg.writeInt(this.getLimitedEditionItem().getLimitedRare());
+            msg.writeInt(this.getLimitedEditionItem().getLimitedRareTotal());
         } else {
             msg.writeInt(0);
             msg.writeInt(0);
