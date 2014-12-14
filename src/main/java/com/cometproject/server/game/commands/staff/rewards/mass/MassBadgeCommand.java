@@ -20,8 +20,12 @@ public class MassBadgeCommand extends ChatCommand {
         List<Integer> playersToInsertBadge = Lists.newArrayList();
 
         for (Session session : NetworkManager.getInstance().getSessions().getSessions().values()) {
-            session.getPlayer().getInventory().addBadge(badgeCode, false);
-            playersToInsertBadge.add(session.getPlayer().getId());
+            try {
+                session.getPlayer().getInventory().addBadge(badgeCode, false);
+                playersToInsertBadge.add(session.getPlayer().getId());
+            } catch(Exception ignored) {
+
+            }
         }
 
         InventoryDao.addBadges(badgeCode, playersToInsertBadge);
