@@ -76,20 +76,24 @@ public class GameThread implements CometTask, Initializable {
     private void cycleRewards() throws Exception {
         if (CometSettings.quarterlyCreditsEnabled || CometSettings.quarterlyDucketsEnabled) {
             for (Session client : NetworkManager.getInstance().getSessions().getSessions().values()) {
-                if (client.getPlayer() == null || client.getPlayer().getData() == null) {
-                    continue;
-                }
+                try {
+                    if (client.getPlayer() == null || client.getPlayer().getData() == null) {
+                        continue;
+                    }
 
-                if (CometSettings.quarterlyCreditsEnabled) {
-                    client.getPlayer().getData().increaseCredits(CometSettings.quarterlyCreditsAmount);
-                }
+                    if (CometSettings.quarterlyCreditsEnabled) {
+                        client.getPlayer().getData().increaseCredits(CometSettings.quarterlyCreditsAmount);
+                    }
 
-                if (CometSettings.quarterlyDucketsEnabled) {
-                    client.getPlayer().getData().increaseActivityPoints(CometSettings.quarterlyDucketsAmount);
-                }
+                    if (CometSettings.quarterlyDucketsEnabled) {
+                        client.getPlayer().getData().increaseActivityPoints(CometSettings.quarterlyDucketsAmount);
+                    }
 
-                client.getPlayer().sendBalance();
-                client.getPlayer().getData().save();
+                    client.getPlayer().sendBalance();
+                    client.getPlayer().getData().save();
+                } catch(Exception e) {
+                    log.error("Error while cycling rewards", e);
+                }
             }
         }
 

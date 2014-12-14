@@ -6,6 +6,7 @@ import com.cometproject.server.game.catalog.types.CatalogOffer;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.utilities.Initializable;
+import com.google.common.collect.Lists;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -33,6 +34,16 @@ public class CatalogManager implements Initializable {
     private static final Map<Integer, CatalogOffer> catalogOffers = new FastMap<>();
 
     /**
+     * The new style of gift boxes
+     */
+    private final List<Integer> giftBoxesNew = Lists.newArrayList();
+
+    /**
+     * The old style of gift boxes
+     */
+    private final List<Integer> giftBoxesOld = Lists.newArrayList();
+
+    /**
      * The handler of everything catalog-purchase related
      */
     private CatalogPurchaseHandler purchaseHandler;
@@ -57,6 +68,8 @@ public class CatalogManager implements Initializable {
         this.purchaseHandler = new CatalogPurchaseHandler(this);
 
         this.loadPages();
+        this.loadGiftBoxes();
+
         log.info("CatalogManager initialized");
     }
 
@@ -96,6 +109,19 @@ public class CatalogManager implements Initializable {
         }
 
         log.info("Loaded " + this.getPages().size() + " catalog pages and " + this.catalogItemIdToPageId.size() + " catalog items");
+    }
+
+    public void loadGiftBoxes() {
+        if(this.giftBoxesNew.size() >= 1) {
+            this.giftBoxesNew.clear();
+        }
+
+        if(this.giftBoxesOld.size() >= 1) {
+            this.giftBoxesOld.clear();
+        }
+
+        CatalogDao.loadGiftBoxes(this.giftBoxesOld, this.giftBoxesNew);
+        log.info("Loaded " + (this.giftBoxesNew.size() + this.giftBoxesOld.size()) + " gift wrappings");
     }
 
     /**
@@ -186,5 +212,21 @@ public class CatalogManager implements Initializable {
      */
     public static Map<Integer, CatalogOffer> getCatalogOffers() {
         return catalogOffers;
+    }
+
+    /**
+     * Gift wrappings new
+     * @return The new style of gift wrapping boxes
+     */
+    public List<Integer> getGiftBoxesNew() {
+        return giftBoxesNew;
+    }
+
+    /**
+     * Gift wrappings old
+     * @return The old style of gift wrapping boxes
+     */
+    public List<Integer> getGiftBoxesOld() {
+        return giftBoxesOld;
     }
 }

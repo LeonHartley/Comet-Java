@@ -1,48 +1,46 @@
 package com.cometproject.server.network.messages.outgoing.catalog.data;
 
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
 public class GiftWrappingConfigurationMessageComposer {
+    private static final int[] giftColours = {
+            0, 1, 2, 3, 4, 5, 6, 8
+    };
+
+    private static final int[] giftDecorations = {
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+    };
+
     public static Composer compose() {
         Composer msg = new Composer(Composers.GiftWrappingConfigurationMessageComposer);
 
-        msg.writeBoolean(true);
-        msg.writeInt(1);
-        msg.writeInt(10);
+        msg.writeBoolean(true);//?
+        msg.writeInt(1);//?
+        msg.writeInt(CatalogManager.getInstance().getGiftBoxesNew().size());
 
-        for (int i = 3372; i <= 3381; i++) {
-            msg.writeInt(i);
+        for (int spriteId : CatalogManager.getInstance().getGiftBoxesNew()) {
+            msg.writeInt(spriteId);
         }
 
-        msg.writeInt(8); // count of array
-        msg.writeInt(0);
-        msg.writeInt(1);
-        msg.writeInt(2);
-        msg.writeInt(3);
-        msg.writeInt(4);
-        msg.writeInt(5);
-        msg.writeInt(6);
-        msg.writeInt(8);
+        msg.writeInt(giftColours.length);
 
-        msg.writeInt(11); // count of array
-        msg.writeInt(0);
-        msg.writeInt(1);
-        msg.writeInt(2);
-        msg.writeInt(3);
-        msg.writeInt(4);
-        msg.writeInt(5);
-        msg.writeInt(6);
-        msg.writeInt(7);
-        msg.writeInt(8);
-        msg.writeInt(9);
-        msg.writeInt(10);
+        for (int giftColour : giftColours) {
+            msg.writeInt(giftColour);
+        }
 
-        msg.writeInt(7); // count of array
+        msg.writeInt(giftDecorations.length);
 
-        for (int i = 187; i <= 193; i++) {
-            msg.writeInt(i);
+        for (int giftDecoration : giftDecorations) {
+            msg.writeInt(giftDecoration);
+        }
+
+        msg.writeInt(CatalogManager.getInstance().getGiftBoxesOld().size());
+
+        for (int spriteId : CatalogManager.getInstance().getGiftBoxesOld()) {
+            msg.writeInt(spriteId);
         }
 
         return msg;

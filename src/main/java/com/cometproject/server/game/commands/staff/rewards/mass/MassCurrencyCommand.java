@@ -17,26 +17,30 @@ public abstract class MassCurrencyCommand extends ChatCommand {
         final int amount = Integer.parseInt(params[0]);
 
         for (Session session : NetworkManager.getInstance().getSessions().getSessions().values()) {
+            try {
 
-            if (this instanceof MassCoinsCommand) {
-                session.getPlayer().getData().increaseCredits(amount);
-                session.send(AdvancedAlertMessageComposer.compose(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(amount))));
+                if (this instanceof MassCoinsCommand) {
+                    session.getPlayer().getData().increaseCredits(amount);
+                    session.send(AdvancedAlertMessageComposer.compose(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(amount))));
 
-            } else if (this instanceof MassDucketsCommand) {
-                session.getPlayer().getData().increaseActivityPoints(amount);
+                } else if (this instanceof MassDucketsCommand) {
+                    session.getPlayer().getData().increaseActivityPoints(amount);
 
-            } else if (this instanceof MassPointsCommand) {
-                session.getPlayer().getData().increasePoints(amount);
+                } else if (this instanceof MassPointsCommand) {
+                    session.getPlayer().getData().increasePoints(amount);
 
-                session.send(AdvancedAlertMessageComposer.compose(
-                        Locale.get("command.points.successtitle"),
-                        Locale.get("command.points.successmessage").replace("%amount%", String.valueOf(amount))
-                ));
+                    session.send(AdvancedAlertMessageComposer.compose(
+                            Locale.get("command.points.successtitle"),
+                            Locale.get("command.points.successmessage").replace("%amount%", String.valueOf(amount))
+                    ));
 
-                session.send(session.getPlayer().composeCurrenciesBalance());
+                    session.send(session.getPlayer().composeCurrenciesBalance());
+                }
+
+                session.getPlayer().sendBalance();
+            } catch(Exception ignored) {
+
             }
-
-            session.getPlayer().sendBalance();
         }
     }
 }
