@@ -9,6 +9,7 @@ import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerSearchResultsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerSearchDao;
 import org.apache.log4j.Logger;
@@ -100,7 +101,10 @@ public class MessengerComponent {
                 continue;
             }
 
-            NetworkManager.getInstance().getSessions().getByPlayerId(friend.getUserId()).send(msg);
+            Session session = NetworkManager.getInstance().getSessions().getByPlayerId(friend.getUserId());
+
+            if(session != null)
+                session.send(msg);
         }
     }
 
