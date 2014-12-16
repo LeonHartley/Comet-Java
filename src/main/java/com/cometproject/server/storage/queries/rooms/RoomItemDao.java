@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.SqlHelper;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +16,8 @@ import java.util.Collection;
 
 
 public class RoomItemDao {
+
+    private static Logger log = Logger.getLogger(RoomItemDao.class.getName());
 
     public static void getItems(Room room, Collection<RoomItemFloor> floorItems, Collection<RoomItemWall> wallItems) {
         Connection sqlConnection = null;
@@ -30,10 +33,15 @@ public class RoomItemDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")).getType().equals("s"))
-                    floorItems.add(RoomItemFactory.createFloor(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data")));
-                else
-                    wallItems.add(RoomItemFactory.createWall(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data")));
+                if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")) != null) {
+                    if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")).getType().equals("s"))
+                        floorItems.add(RoomItemFactory.createFloor(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data")));
+                    else
+                        wallItems.add(RoomItemFactory.createWall(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data")));
+
+                } else {
+                    log.warn("Item (" + resultSet.getInt("base_item") + ") with invalid definition ID: " + resultSet.getInt("base_item"));
+                }
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
