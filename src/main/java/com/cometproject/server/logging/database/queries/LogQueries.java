@@ -163,7 +163,7 @@ public class LogQueries {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                chatlogs.add(new RoomChatLogEntry(playerId, roomId, resultSet.getString("data"), resultSet.getInt("timestamp")));
+                chatlogs.add(new RoomChatLogEntry(roomId, playerId, resultSet.getString("data"), resultSet.getInt("timestamp")));
             }
         } catch (SQLException e) {
             LogDatabaseHelper.handleSqlException(e);

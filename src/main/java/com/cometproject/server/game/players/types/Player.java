@@ -123,6 +123,7 @@ public class Player {
 
         currencies.put(0, getData().getActivityPoints());
         currencies.put(105, getData().getVipPoints());
+        currencies.put(5, getData().getVipPoints());
 
         try {
             return CurrenciesMessageComposer.compose(currencies);
