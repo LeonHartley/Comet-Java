@@ -40,7 +40,7 @@ public class PrivateChatMessageEvent implements IEvent {
 
         long time = System.currentTimeMillis();
 
-        if (!client.getPlayer().getPermissions().hasCommand("bypass_flood")) {
+        if (!client.getPlayer().getPermissions().hasPermission("bypass_flood")) {
             if (time - client.getPlayer().getLastMessageTime() < 750) {
                 client.getPlayer().setFloodFlag(client.getPlayer().getFloodFlag() + 1);
 
