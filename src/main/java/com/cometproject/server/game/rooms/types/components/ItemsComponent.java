@@ -255,7 +255,8 @@ public class ItemsComponent {
             }
 
             if (!tile.canStack() && tile.getTopItem() != 0 && tile.getTopItem() != item.getId()) {
-                cancelAction = true;
+                if(!item.getDefinition().getItemName().startsWith(RoomItemFactory.STACK_TOOL))
+                    cancelAction = true;
             }
 
             if (tile.getPosition().getX() == this.getRoom().getModel().getDoorX() && tile.getPosition().getY() == this.getRoom().getModel().getDoorY()) {
@@ -372,7 +373,7 @@ public class ItemsComponent {
 
         double height = tile.getStackHeight();
 
-        if (!tile.canStack()) return;
+        if (!tile.canStack() && !item.getDefinition().getItemName().startsWith(RoomItemFactory.STACK_TOOL)) return;
 
         List<RoomItemFloor> floorItems = room.getItems().getItemsOnSquare(x, y);
 

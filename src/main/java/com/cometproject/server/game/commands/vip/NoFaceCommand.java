@@ -15,6 +15,7 @@ public class NoFaceCommand extends ChatCommand {
         if (client.getPlayer().getData().getTemporaryFigure() != null) {
             client.getPlayer().getData().setFigure(client.getPlayer().getData().getTemporaryFigure());
             client.getPlayer().getData().setTemporaryFigure(null);
+            client.getPlayer().getData().save();
         } else {
             if (figure.contains("hd-")) {
                 String[] head = ("hd-" + figure.split("hd-")[1].split("\\.")[0]).split("-");
@@ -29,8 +30,6 @@ public class NoFaceCommand extends ChatCommand {
 
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(client.getPlayer().getEntity()));
         client.send(UpdateInfoMessageComposer.compose(true, client.getPlayer().getEntity()));
-
-        client.getPlayer().getData().save();
     }
 
     @Override

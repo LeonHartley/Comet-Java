@@ -52,6 +52,7 @@ public class Player {
     private int teleportId = 0;
     private String lastMessage = "";
     private int notifCooldown = 0;
+    private int lastRoomId;
 
     public boolean cancelPageOpen = false;
 
@@ -305,5 +306,13 @@ public class Player {
 
     public void setNotifCooldown(int notifCooldown) {
         this.notifCooldown = notifCooldown;
+    }
+
+    public int getLastRoomId() {
+        return lastRoomId;
+    }
+
+    public void setLastRoomId(int lastRoomId) {
+        this.lastRoomId = lastRoomId;
     }
 }

@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 public class RoomItemFactory {
     private static final int processMs = 25;
     private static final String GIFT_DATA = "GIFT::##";
+    public static final String STACK_TOOL = "tile_stackmagic";
 
     private static final Logger log = Logger.getLogger(RoomItemFactory.class.getName());
 
@@ -143,7 +144,7 @@ public class RoomItemFactory {
             floorItem = new SeatFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
         }
 
-        if (def.getItemName().startsWith("tile_stackmagic")) {
+        if (def.getItemName().startsWith(STACK_TOOL)) {
             floorItem = new MagicStackFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
         }
 
