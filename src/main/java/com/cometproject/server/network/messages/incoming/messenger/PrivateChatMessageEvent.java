@@ -38,7 +38,7 @@ public class PrivateChatMessageEvent implements IEvent {
             return;
         }
 
-        long time = System.currentTimeMillis();
+        final long time = System.currentTimeMillis();
 
         if (!client.getPlayer().getPermissions().hasPermission("bypass_flood")) {
             if (time - client.getPlayer().getLastMessageTime() < 750) {
