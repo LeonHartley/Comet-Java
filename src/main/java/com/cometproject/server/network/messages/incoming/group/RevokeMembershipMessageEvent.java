@@ -53,7 +53,15 @@ public class RevokeMembershipMessageEvent implements IEvent {
                 Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
                 if (session != null) {
-                    session.getPlayer().getGroups().remove(session.getPlayer().getGroups().indexOf(groupId));
+                    if (session.getPlayer().getData().getFavouriteGroup() == groupId) {
+                        session.getPlayer().getData().setFavouriteGroup(0);
+                        session.getPlayer().getData().save();
+                    }
+
+
+                    if (session.getPlayer().getGroups().contains(groupId)) {
+                        session.getPlayer().getGroups().remove(session.getPlayer().getGroups().indexOf(groupId));
+                    }
                 }
             }
 
