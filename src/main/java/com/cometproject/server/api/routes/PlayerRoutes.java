@@ -64,4 +64,33 @@ public class PlayerRoutes {
         result.put("success", true);
         return result;
     }
+
+    public static Object disconnect(Request req, Response res) {
+        Map<String, Object> result = new FastMap<>();
+        res.type("application/json");
+
+        if (!StringUtils.isNumeric(req.params("id"))) {
+            result.put("error", "Invalid ID");
+            return result;
+        }
+
+        int playerId = Integer.parseInt(req.params("id"));
+
+        if (!PlayerManager.getInstance().isOnline(playerId)) {
+            result.put("error", "Player is not online");
+            return result;
+        }
+
+        Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
+
+        if (session == null) {
+            result.put("error", "Unable to find the player's session");
+            return result;
+        }
+
+        session.disconnect();
+
+        result.put("success", true);
+        return result;
+    }
 }
