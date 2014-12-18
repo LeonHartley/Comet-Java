@@ -21,7 +21,7 @@ public class InventoryBot {
         this.type = data.getString("type");
     }
 
-    public InventoryBot(int id, int ownerId, String ownerName, String name, String figure, String gender, String motto) {
+    public InventoryBot(int id, int ownerId, String ownerName, String name, String figure, String gender, String motto, String type) {
         this.id = id;
         this.ownerId = ownerId;
 
@@ -31,7 +31,7 @@ public class InventoryBot {
         this.motto = motto;
         this.ownerName = ownerName;
         this.mode = "default";
-        this.type = "generic";
+        this.type = type;
     }
 
     public int getId() {

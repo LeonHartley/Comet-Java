@@ -41,7 +41,7 @@ public class PlayerBotDao {
         return data;
     }
 
-    public static int createBot(int playerId, String name, String figure, String gender, String motto) {
+    public static int createBot(int playerId, String name, String figure, String gender, String motto, String type) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -49,14 +49,15 @@ public class PlayerBotDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("INSERT into bots (`owner_id`, `room_id`, `name`, `figure`, `gender`, `motto`, `x`, `y`, `z`, `messages`, `automatic_chat`, `chat_delay`) VALUES(" +
-                    "?, 0, ?, ?, ?, ?, 0, 0, 0, '[]', '1', '14');", sqlConnection, true);
+            preparedStatement = SqlHelper.prepare("INSERT into bots (`owner_id`, `room_id`, `name`, `figure`, `gender`, `motto`, `x`, `y`, `z`, `messages`, `automatic_chat`, `chat_delay`, `type`) VALUES(" +
+                    "?, 0, ?, ?, ?, ?, 0, 0, 0, '[]', '1', '14', ?);", sqlConnection, true);
 
             preparedStatement.setInt(1, playerId);
             preparedStatement.setString(2, name);
             preparedStatement.setString(3, figure);
             preparedStatement.setString(4, gender);
             preparedStatement.setString(5, motto);
+            preparedStatement.setString(6, type);
 
             preparedStatement.execute();
 
