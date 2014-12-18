@@ -38,7 +38,7 @@ public class BotComponent {
     public BotEntity addBot(InventoryBot bot, int x, int y) {
         int virtualId = room.getEntities().getFreeId();
 
-        BotData botData = new PlayerBotData(bot.getId(), bot.getName(), bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7);
+        BotData botData = new PlayerBotData(bot.getId(), bot.getName(), bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7, bot.getType(), bot.getMode());
         BotEntity botEntity = new BotEntity(botData, virtualId, new Position(x, y, 0), 1, 1, room);
 
         this.getRoom().getEntities().addEntity(botEntity);

@@ -5,11 +5,11 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 
 
-public class PetAI implements BotAI {
+public class PetAI extends AbstractBotAI {
     private PetEntity entity;
 
     public PetAI(GenericEntity entity) {
-        this.entity = (PetEntity) entity;
+        super(entity);
     }
 
     @Override
@@ -35,13 +35,4 @@ public class PetAI implements BotAI {
         return false;*/
     }
 
-    @Override
-    public void onPlayerEntityInRange(PlayerEntity entity) {
-
-    }
-
-    @Override
-    public void onProcess() {
-
-    }
 }

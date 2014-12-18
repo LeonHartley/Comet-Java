@@ -17,7 +17,6 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
@@ -261,7 +260,17 @@ public class ProcessComponent implements CometTask {
             int chance = RandomInteger.getRandom(1, (entity.hasStatus(RoomEntityStatus.SIT) || entity.hasStatus(RoomEntityStatus.LAY)) ? 20 : 6);
 
             if (!(entity instanceof PetEntity) || !entity.hasMount()) {
-                if (chance == 1) {
+                boolean newStep = true;
+
+                if(entity instanceof BotEntity) {
+                    BotEntity botEntity = ((BotEntity) entity);
+
+                    if(botEntity.getData().getMode().equals("relaxed")) {
+                        newStep = false;
+                    }
+                }
+
+                if (chance == 1 && newStep) {
                     if (!entity.isWalking()) {
                         int x = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeX());
                         int y = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeY());
@@ -278,7 +287,7 @@ public class ProcessComponent implements CometTask {
                     String message = ((BotEntity) entity).getData().getRandomMessage();
 
                     if (message != null && !message.isEmpty()) {
-                        this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(entity.getId(), message, 0, 2));
+                        this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(entity.getId(), message, 0, 2));
                     }
 
                     ((BotEntity) entity).resetCycleCount();

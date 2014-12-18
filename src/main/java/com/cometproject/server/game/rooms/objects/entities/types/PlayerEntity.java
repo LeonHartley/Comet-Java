@@ -301,18 +301,24 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         if (LogManager.ENABLED)
             LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
 
-        for (PetEntity entity : this.getRoom().getEntities().getPetEntities()) {
-            if (message.split(" ").length > 0) {
-                if (entity.getData().getName().toLowerCase().equals(message.split(" ")[0].toLowerCase())) {
-                    if (entity.getAI().onTalk(this, message)) {
-                        return false;
-                    }
-                }
-            }
-        }
+//        for (PetEntity entity : this.getRoom().getEntities().getPetEntities()) {
+//            if (message.split(" ").length > 0) {
+//                if (entity.getData().getName().toLowerCase().equals(message.split(" ")[0].toLowerCase())) {
+//                    if (entity.getAI().onTalk(this, message)) {
+//                        return false;
+//                    }
+//                }
+//            }
+//        }
 
         this.unIdle();
         return true;
+    }
+
+    public void postChat(String message) {
+        for (BotEntity entity : this.getRoom().getEntities().getBotEntities()) {
+            if(entity.getAI().onTalk(this, message)) break;
+        }
     }
 
     @Override

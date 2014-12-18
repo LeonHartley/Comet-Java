@@ -84,7 +84,17 @@ public class ModifyBotMessageEvent implements IEvent {
 
             case 3:
                 // Relax
-                // TODO: this
+                switch(botEntity.getData().getMode()) {
+                    case "default":
+                        botEntity.getData().setMode("relaxed");
+                        break;
+
+                    case "relaxed":
+                        botEntity.getData().setMode("default");
+                        break;
+                }
+
+                botEntity.getData().save();
                 break;
 
             case 4:
