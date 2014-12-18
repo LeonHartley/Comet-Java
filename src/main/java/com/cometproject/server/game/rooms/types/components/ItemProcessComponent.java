@@ -116,7 +116,6 @@ public class ItemProcessComponent implements CometTask {
             }
         }
 
-
         // Now lets process any queued events last
 //        try {
 //            this.eventQueue.tick();
