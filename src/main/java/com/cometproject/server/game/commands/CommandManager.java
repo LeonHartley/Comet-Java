@@ -149,6 +149,7 @@ public class CommandManager implements Initializable {
         this.commands.put(Locale.get("command.massbadge.name"), new MassBadgeCommand());
         this.commands.put(Locale.get("command.massduckets.name"), new MassDucketsCommand());
         this.commands.put(Locale.get("command.masspoints.name"), new MassPointsCommand());
+        this.commands.put(Locale.get("command.playerinfo.name"), new PlayerInfoCommand());
     }
 
     /**
