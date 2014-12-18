@@ -185,7 +185,7 @@ public class CatalogPurchaseHandler {
                     String type = "generic";
 
                     switch(item.getDisplayName()) {
-                        case "rentable_bot_waiter":
+                        case "bot_bartender":
                             type = "waiter";
                             break;
                     }
