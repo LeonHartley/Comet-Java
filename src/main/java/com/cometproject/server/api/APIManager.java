@@ -132,7 +132,7 @@ public class APIManager implements Initializable {
         Spark.get("/player/:id/disconnect", PlayerRoutes::disconnect, jsonTransformer);
         Spark.post("/player/:id/alert", PlayerRoutes::alert, jsonTransformer);
         Spark.get("/player/:id/badge/:badge", PlayerRoutes::giveBadge, jsonTransformer);
-        
+
         Spark.get("/rooms/active/all", RoomRoutes::getAllActiveRooms, jsonTransformer);
         Spark.get("/room/:id/:action", RoomRoutes::roomAction, jsonTransformer);
 

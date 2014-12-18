@@ -58,10 +58,12 @@ public abstract class BotData implements BotInformation {
      */
     private String[] messages;
 
+    private String botType;
+    private String mode;
+
     /**
      * Initialize the bot
-     *
-     * @param id            The ID of the bot
+     *  @param id            The ID of the bot
      * @param username      The name of the bot
      * @param motto         The motto of the bot
      * @param figure        The figure of the bot
@@ -71,8 +73,10 @@ public abstract class BotData implements BotInformation {
      * @param messages      The messages the bot can say
      * @param automaticChat Can the bot talk without being triggered?
      * @param chatDelay     How long before the bot will next talk
+     * @param botType
+     * @param mode
      */
-    public BotData(int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages, boolean automaticChat, int chatDelay) {
+    public BotData(int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages, boolean automaticChat, int chatDelay, String botType, String mode) {
         this.id = id;
         this.username = username;
         this.motto = motto;
@@ -80,6 +84,8 @@ public abstract class BotData implements BotInformation {
         this.gender = gender;
         this.ownerId = ownerId;
         this.ownerName = ownerName;
+        this.botType = botType;
+        this.mode = mode;
         this.messages = (messages == null || messages.isEmpty()) ? new String[0] : JsonFactory.getInstance().fromJson(messages, String[].class);
         this.chatDelay = chatDelay;
         this.isAutomaticChat = automaticChat;
@@ -275,6 +281,22 @@ public abstract class BotData implements BotInformation {
      */
     public void dispose() {
         Arrays.fill(messages, null);
+    }
+
+    public String getBotType() {
+        return botType;
+    }
+
+    public void setBotType(String botType) {
+        this.botType = botType;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 }
 

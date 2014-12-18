@@ -38,6 +38,8 @@ public class TalkMessageEvent implements IEvent {
         if (client.getPlayer().getEntity().onChat(filteredMessage)) {
             client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(TalkMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
         }
+
+        client.getPlayer().getEntity().postChat(filteredMessage);
     }
 
     private static int[] allowedColours = new int[]{

@@ -4,6 +4,7 @@ import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.DefaultAI;
+import com.cometproject.server.game.rooms.objects.entities.types.ai.WaiterAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
@@ -25,8 +26,15 @@ public class BotEntity extends GenericEntity {
 
         this.data = data;
 
-        // Currently only the default ai is supported - more will be added soon maybe
-        this.ai = new DefaultAI(this);
+        switch(data.getBotType()) {
+            default:
+                this.ai = new DefaultAI(this);
+                break;
+
+            case "waiter":
+                this.ai = new WaiterAI(this);
+                break;
+        }
     }
 
     @Override
@@ -122,11 +130,12 @@ public class BotEntity extends GenericEntity {
         msg.writeInt(this.getRoom().getData().getOwnerId());
         msg.writeString(this.getRoom().getData().getOwner());
 
-        msg.writeInt(4);
+        msg.writeInt(5);
         msg.writeShort(1);
         msg.writeShort(2);
-        msg.writeShort(5);
         msg.writeShort(4);
+        msg.writeShort(5);
+        msg.writeShort(3);
     }
 
     public BotData getData() {

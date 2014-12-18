@@ -41,5 +41,8 @@ public class ShoutMessageEvent implements IEvent {
         if (client.getPlayer().getEntity().onChat(filteredMessage)) {
             client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(ShoutMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
         }
+
+        client.getPlayer().getEntity().postChat(filteredMessage);
+
     }
 }
