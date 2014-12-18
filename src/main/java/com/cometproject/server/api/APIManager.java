@@ -2,6 +2,7 @@ package com.cometproject.server.api;
 
 import com.cometproject.server.api.routes.PlayerRoutes;
 import com.cometproject.server.api.routes.RoomRoutes;
+import com.cometproject.server.api.routes.SystemRoutes;
 import com.cometproject.server.api.transformers.JsonTransformer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.utilities.Initializable;
@@ -129,7 +130,12 @@ public class APIManager implements Initializable {
 
         Spark.get("/player/:id/reload", PlayerRoutes::reloadPlayerData, jsonTransformer);
         Spark.get("/player/:id/disconnect", PlayerRoutes::disconnect, jsonTransformer);
+        Spark.post("/player/:id/alert", PlayerRoutes::alert, jsonTransformer);
+        Spark.get("/player/:id/badge/:badge", PlayerRoutes::giveBadge, jsonTransformer);
+
         Spark.get("/rooms/active/all", RoomRoutes::getAllActiveRooms, jsonTransformer);
         Spark.get("/room/:id/:action", RoomRoutes::roomAction, jsonTransformer);
+
+        Spark.get("/system/reload/:type", SystemRoutes::reload, jsonTransformer);
     }
 }

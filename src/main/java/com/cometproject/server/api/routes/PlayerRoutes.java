@@ -3,8 +3,10 @@ package com.cometproject.server.api.routes;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 import javolution.util.FastMap;
 import org.apache.commons.lang.StringUtils;
 import spark.Request;
@@ -89,6 +91,74 @@ public class PlayerRoutes {
         }
 
         session.disconnect();
+
+        result.put("success", true);
+        return result;
+    }
+
+    public static Object alert(Request req, Response res) {
+        Map<String, Object> result = new FastMap<>();
+        res.type("application/json");
+
+        if (!StringUtils.isNumeric(req.params("id"))) {
+            result.put("error", "Invalid ID");
+            return result;
+        }
+
+        int playerId = Integer.parseInt(req.params("id"));
+
+        if (!PlayerManager.getInstance().isOnline(playerId)) {
+            result.put("error", "Player is not online");
+            return result;
+        }
+
+        Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
+
+        if (session == null) {
+            result.put("error", "Unable to find the player's session");
+            return result;
+        }
+
+        String title = req.queryParams("title");
+
+        if(title == null)
+            title = "Notification";
+
+        String alert = req.queryParams("message");
+
+        if(alert != null) {
+            session.send(AdvancedAlertMessageComposer.compose(title, alert));
+        }
+
+        result.put("success", true);
+        return result;
+    }
+
+
+    public static Object giveBadge(Request req, Response res) {
+        Map<String, Object> result = new FastMap<>();
+        res.type("application/json");
+
+        if (!StringUtils.isNumeric(req.params("id"))) {
+            result.put("error", "Invalid ID");
+            return result;
+        }
+
+        int playerId = Integer.parseInt(req.params("id"));
+        String badgeId = req.params("badge");
+
+        if (!PlayerManager.getInstance().isOnline(playerId)) {
+            if(badgeId != null) {
+                InventoryDao.addBadge(badgeId, playerId);
+            }
+        } else {
+            Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
+
+            if (badgeId != null) {
+                if (!session.getPlayer().getInventory().hasBadge(badgeId))
+                    session.getPlayer().getInventory().addBadge(badgeId, true);
+            }
+        }
 
         result.put("success", true);
         return result;
