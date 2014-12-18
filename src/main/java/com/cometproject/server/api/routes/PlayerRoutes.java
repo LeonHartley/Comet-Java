@@ -134,7 +134,6 @@ public class PlayerRoutes {
         return result;
     }
 
-
     public static Object giveBadge(Request req, Response res) {
         Map<String, Object> result = new FastMap<>();
         res.type("application/json");
