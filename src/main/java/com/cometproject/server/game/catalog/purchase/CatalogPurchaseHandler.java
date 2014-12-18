@@ -182,9 +182,17 @@ public class CatalogPurchaseHandler {
                     String botFigure = item.getPresetData();
                     String botGender = "m";
                     String botMotto = "Beeb beeb boop beep!";
+                    String type = "generic";
 
-                    int botId = PlayerBotDao.createBot(client.getPlayer().getId(), botName, botFigure, botGender, botMotto);
-                    client.getPlayer().getBots().addBot(new InventoryBot(botId, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), botName, botFigure, botGender, botMotto));
+                    switch(item.getDisplayName()) {
+                        case "rentable_bot_waiter":
+                            type = "waiter";
+                            break;
+                    }
+
+
+                    int botId = PlayerBotDao.createBot(client.getPlayer().getId(), botName, botFigure, botGender, botMotto, type);
+                    client.getPlayer().getBots().addBot(new InventoryBot(botId, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), botName, botFigure, botGender, botMotto, type));
                     client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
                     return;
                 } else if (def.getInteraction().equals("badge_display")) {
