@@ -190,7 +190,6 @@ public class CatalogPurchaseHandler {
                             break;
                     }
 
-
                     int botId = PlayerBotDao.createBot(client.getPlayer().getId(), botName, botFigure, botGender, botMotto, type);
                     client.getPlayer().getBots().addBot(new InventoryBot(botId, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), botName, botFigure, botGender, botMotto, type));
                     client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));

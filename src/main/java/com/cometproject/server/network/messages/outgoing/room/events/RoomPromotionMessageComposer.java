@@ -10,6 +10,19 @@ public class RoomPromotionMessageComposer {
     public static Composer compose(RoomData roomData, RoomPromotion roomPromotion) {
         Composer msg = new Composer(Composers.RoomEventMessageComposer);
 
+        if(roomData == null || roomPromotion == null) {
+            msg.writeInt(0);
+            msg.writeInt(0);
+            msg.writeString("");
+            msg.writeInt(0);
+            msg.writeInt(0);
+            msg.writeString("");
+            msg.writeString("");
+            msg.writeInt(0);
+            msg.writeInt(0);
+            return msg;
+        }
+
         msg.writeInt(roomData.getId());
         msg.writeInt(roomData.getOwnerId());
         msg.writeString(roomData.getOwner());
