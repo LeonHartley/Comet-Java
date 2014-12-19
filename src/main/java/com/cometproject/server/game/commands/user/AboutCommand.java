@@ -3,7 +3,6 @@ package com.cometproject.server.game.commands.user;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.GameThread;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
@@ -23,8 +22,6 @@ public class AboutCommand extends ChatCommand {
         NumberFormat format = NumberFormat.getInstance();
 
         CometStats cometStats = CometStats.get();
-
-        about.append("Comet Server is a unique Habbo emulator written in Java.<br><br>");
 
         if (CometSettings.showActiveRoomsInAbout || CometSettings.showActiveRoomsInAbout || CometSettings.showUptimeInAbout || client.getPlayer().getPermissions().hasPermission("about_detailed")) {
             about.append("<b>Server Status</b><br>");
