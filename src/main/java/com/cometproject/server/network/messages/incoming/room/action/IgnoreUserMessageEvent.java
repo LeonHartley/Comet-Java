@@ -19,8 +19,15 @@ public class IgnoreUserMessageEvent implements IEvent {
 
 
         PlayerEntity playerEntity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER);
-        client.getPlayer().ignorePlayer(playerEntity.getPlayerId());
-        client.send(UpdateIgnoreStatusMessageComposer.compose(1, username));
+
+        if(playerEntity != null) {
+            if (playerEntity.getPlayer().getPermissions().hasPermission("mod_tool")) {
+                return;
+            }
+
+            client.getPlayer().ignorePlayer(playerEntity.getPlayerId());
+            client.send(UpdateIgnoreStatusMessageComposer.compose(1, username));
+        }
 
     }
 }
