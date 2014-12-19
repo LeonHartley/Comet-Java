@@ -1,7 +1,9 @@
 package com.cometproject.server.storage.queries.rooms;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.RoomData;
+import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.game.rooms.types.misc.settings.RoomBanState;
 import com.cometproject.server.game.rooms.types.misc.settings.RoomKickState;
 import com.cometproject.server.game.rooms.types.misc.settings.RoomMuteState;
@@ -291,4 +293,94 @@ public class RoomDao {
         return roomData;
     }
 
+    public static void getActivePromotions(FastMap<Integer, RoomPromotion> roomPromotions) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT * FROM rooms_promoted WHERE time_expire > " + Comet.getTime(), sqlConnection);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                roomPromotions.put(resultSet.getInt("room_id"), new RoomPromotion(resultSet.getInt("room_id"), resultSet.getString("name"), resultSet.getString("description"), resultSet.getLong("time_start"), resultSet.getLong("time_expire")));
+            }
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void updatePromotedRoom(RoomPromotion roomPromotion) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE rooms_promoted SET name = ?, description = ?, time_expire = ? WHERE room_id = ?", sqlConnection);
+
+            preparedStatement.setString(1, roomPromotion.getPromotionName());
+            preparedStatement.setString(2, roomPromotion.getPromotionDescription());
+
+            preparedStatement.setLong(3, roomPromotion.getTimestampFinish());
+            preparedStatement.setInt(4, roomPromotion.getRoomId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void createPromotedRoom(RoomPromotion roomPromotion) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into rooms_promoted (room_id, name, description, time_start, time_expire) VALUES (?, ?, ?, ?, ?);", sqlConnection);
+
+            preparedStatement.setInt(1, roomPromotion.getRoomId());
+            preparedStatement.setString(2, roomPromotion.getPromotionName());
+            preparedStatement.setString(3, roomPromotion.getPromotionDescription());
+            preparedStatement.setLong(4, roomPromotion.getTimestampStart());
+            preparedStatement.setLong(5, roomPromotion.getTimestampFinish());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void deleteExpiredRoomPromotions() {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM rooms_promoted WHERE time_expire < " + Comet.getTime(), sqlConnection);
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }

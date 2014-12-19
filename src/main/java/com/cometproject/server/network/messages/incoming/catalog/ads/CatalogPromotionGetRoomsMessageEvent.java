@@ -14,13 +14,12 @@ import java.util.List;
 public class CatalogPromotionGetRoomsMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-
         List<RoomData> roomDataList = Lists.newArrayList();
 
         for (Integer roomId : client.getPlayer().getRooms()) {
             RoomData data = RoomManager.getInstance().getRoomData(roomId);
 
-            if (data != null && !RoomManager.getInstance().hasPromotion(roomId)) {
+            if (data != null && data.getAccess().toLowerCase().equals("open")) {
                 roomDataList.add(data);
             }
         }
