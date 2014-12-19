@@ -77,13 +77,12 @@ public class MannequinFloorItem extends RoomItemFloor {
         if (newFigureParts.equals("")) return;
 
         playerEntity.getPlayer().getData().setFigure(newFigure + newFigureParts);
-        ;
+        
         playerEntity.getPlayer().getData().setGender(this.gender);
 
         playerEntity.getPlayer().getData().save();
+        playerEntity.getPlayer().poof();
 
-        entity.getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(playerEntity));
-        ((PlayerEntity) entity).getPlayer().getSession().send(UpdateInfoMessageComposer.compose(true, playerEntity));
     }
 
     @Override

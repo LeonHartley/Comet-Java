@@ -159,6 +159,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         if (RoomManager.getInstance().hasPromotion(this.getRoom().getId())) {
             this.player.getSession().send(RoomPromotionMessageComposer.compose(this.getRoom().getData(), this.getRoom().getPromotion()));
+        } else {
+            this.player.getSession().send(RoomPromotionMessageComposer.compose(null, null));
         }
 
         this.isFinalized = true;
