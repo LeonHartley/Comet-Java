@@ -62,7 +62,9 @@ public class RoomManager implements Initializable {
 
         this.globalCycle = new RoomCycle();
 
+        this.loadPromotedRooms();
         this.loadModels();
+
         this.globalCycle.start();
 
         log.info("RoomManager initialized");
@@ -75,16 +77,19 @@ public class RoomManager implements Initializable {
         return roomManagerInstance;
     }
 
-    public void loadModels() {
-        try {
-            if (this.models != null && this.getModels().size() != 0) {
-                this.getModels().clear();
-            }
+    public void loadPromotedRooms() {
+        RoomDao.deleteExpiredRoomPromotions();
+        RoomDao.getActivePromotions(this.roomPromotions);
 
-            this.models = RoomDao.getModels();
-        } catch (Exception e) {
-            log.error("Error while loading room model", e);
+        log.info("Loaded " + this.getRoomPromotions().size() + " room promotions");
+    }
+
+    public void loadModels() {
+        if (this.models != null && this.getModels().size() != 0) {
+            this.getModels().clear();
         }
+
+        this.models = RoomDao.getModels();
 
         log.info("Loaded " + this.getModels().size() + " room models");
     }
@@ -256,13 +261,16 @@ public class RoomManager implements Initializable {
     }
 
     public void promoteRoom(int roomId, String name, String description) {
-        // TODO: Save to db
-
         if (this.roomPromotions.containsKey(roomId)) {
             RoomPromotion promo = this.roomPromotions.get(roomId);
-            promo.setTimestampFinish(Comet.getTime() + (RoomPromotion.DEFAULT_PROMO_LENGTH * 60));
+            promo.setTimestampFinish(promo.getTimestampFinish() + (RoomPromotion.DEFAULT_PROMO_LENGTH * 60));
+
+            RoomDao.updatePromotedRoom(promo);
         } else {
-            this.roomPromotions.put(roomId, new RoomPromotion(roomId, name, description));
+            RoomPromotion roomPromotion = new RoomPromotion(roomId, name, description);
+            RoomDao.createPromotedRoom(roomPromotion);
+
+            this.roomPromotions.put(roomId, roomPromotion);
         }
 
         if (this.get(roomId) != null) {

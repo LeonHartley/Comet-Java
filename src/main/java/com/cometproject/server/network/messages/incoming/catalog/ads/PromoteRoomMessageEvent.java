@@ -31,11 +31,13 @@ public class PromoteRoomMessageEvent implements IEvent {
 
         RoomData roomData = RoomManager.getInstance().getRoomData(msg.readInt());
 
-        if (roomData == null || roomData.getOwnerId() != client.getPlayer().getId()) return;
+        if (roomData == null || roomData.getOwnerId() != client.getPlayer().getId() || !roomData.getAccess().equals("open")) {
+            return;
+        }
 
-        int totalCostCredits = item.getCostCredits();
-        int totalCostPoints = item.getCostOther();
-        int totalCostActivityPoints = item.getCostActivityPoints();
+        final int totalCostCredits = item.getCostCredits();
+        final int totalCostPoints = item.getCostOther();
+        final int totalCostActivityPoints = item.getCostActivityPoints();
 
         if (client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getVipPoints() < totalCostPoints || client.getPlayer().getData().getActivityPoints() < totalCostActivityPoints) {
             CometManager.getLogger().warn("Player with ID: " + client.getPlayer().getId() + " tried to purchase item with ID: " + item.getId() + " with the incorrect amount of credits, points or activity points.");
@@ -56,6 +58,10 @@ public class PromoteRoomMessageEvent implements IEvent {
 
         if (promotionName == null || promotionDescription == null || promotionName.isEmpty() || promotionDescription.isEmpty()) {
             return;
+        }
+
+        if(item.getBadgeId() != null && !item.getBadgeId().isEmpty()) {
+            client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
         }
 
         RoomManager.getInstance().promoteRoom(roomData.getId(), promotionName, promotionDescription);

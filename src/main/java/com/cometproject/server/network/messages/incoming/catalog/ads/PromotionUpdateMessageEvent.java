@@ -6,6 +6,7 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.rooms.RoomDao;
 
 
 public class PromotionUpdateMessageEvent implements IEvent {
@@ -26,6 +27,8 @@ public class PromotionUpdateMessageEvent implements IEvent {
         if (roomPromotion != null) {
             roomPromotion.setPromotionName(promotionName);
             roomPromotion.setPromotionDescription(promotionDescription);
+
+            RoomDao.updatePromotedRoom(roomPromotion);
 
             room.getEntities().broadcastMessage(RoomPromotionMessageComposer.compose(room.getData(), roomPromotion));
         }

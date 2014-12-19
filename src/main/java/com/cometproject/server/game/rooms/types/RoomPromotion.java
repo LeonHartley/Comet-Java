@@ -23,6 +23,14 @@ public class RoomPromotion {
         this.timestampFinish = this.timestampStart + (DEFAULT_PROMO_LENGTH * 60);
     }
 
+    public RoomPromotion(int roomId, String name, String description, long start, long finish) {
+        this.roomId = roomId;
+        this.promotionName = name;
+        this.promotionDescription = description;
+        this.timestampStart = start;
+        this.timestampFinish = finish;
+    }
+
     public int getRoomId() {
         return this.roomId;
     }
