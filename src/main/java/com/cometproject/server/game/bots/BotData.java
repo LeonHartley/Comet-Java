@@ -113,7 +113,7 @@ public abstract class BotData implements BotInformation {
      * @return A filtered version of the chat message
      */
     private String stripNonAlphanumeric(String msg) {
-        return msg.replaceAll("[^A-Za-z0-9\\s]", "");
+        return msg.replace("<", "").replace(">", "");
     }
 
     /**

@@ -33,7 +33,7 @@ public class PlayerData {
 
     private boolean vip;
 
-    public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints,
+    public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints, int activityPoints,
                       String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress) {
         this.id = id;
         this.username = username;
@@ -42,6 +42,7 @@ public class PlayerData {
         this.rank = rank;
         this.credits = credits;
         this.vipPoints = vipPoints;
+        this.activityPoints = activityPoints;
         this.gender = gender;
         this.vip = vip;
         this.achievementPoints = achievementPoints;

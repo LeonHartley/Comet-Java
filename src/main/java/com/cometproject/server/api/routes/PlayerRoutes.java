@@ -53,6 +53,7 @@ public class PlayerRoutes {
         currentPlayerData.setEmail(newPlayerData.getEmail());
         currentPlayerData.setCredits(newPlayerData.getCredits());
         currentPlayerData.setVipPoints(newPlayerData.getVipPoints());
+
         currentPlayerData.setActivityPoints(newPlayerData.getActivityPoints());
         currentPlayerData.setFavouriteGroup(newPlayerData.getFavouriteGroup());
         currentPlayerData.setVip(newPlayerData.isVip());
