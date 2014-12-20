@@ -89,7 +89,7 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT id, username, motto, figure, gender, email, rank, credits, vip_points, reg_date, last_online, vip, achievement_points, reg_timestamp, favourite_group, last_ip FROM players WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT id, username, motto, figure, gender, email, rank, credits, vip_points, activity_points, reg_date, last_online, vip, achievement_points, reg_timestamp, favourite_group, last_ip FROM players WHERE id = ?", sqlConnection);
             preparedStatement.setInt(1, id);
 
             resultSet = preparedStatement.executeQuery();
@@ -97,8 +97,8 @@ public class PlayerDao {
             while (resultSet.next()) {
                 return new PlayerData(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("motto"), resultSet.getString("figure"), resultSet.getString("gender"),
                         resultSet.getString("email") == null ? "" : resultSet.getString("email"), resultSet.getInt("rank"), resultSet.getInt("credits"), resultSet.getInt("vip_points"),
-                        resultSet.getString("reg_date"), resultSet.getInt("last_online"), resultSet.getString("vip").equals("1"), resultSet.getInt("achievement_points"),
-                        resultSet.getInt("reg_timestamp"), resultSet.getInt("favourite_group"), resultSet.getString("last_ip"));
+                        resultSet.getInt("activity_points"), resultSet.getString("reg_date"), resultSet.getInt("last_online"), resultSet.getString("vip").equals("1"),
+                        resultSet.getInt("achievement_points"), resultSet.getInt("reg_timestamp"), resultSet.getInt("favourite_group"), resultSet.getString("last_ip"));
             }
 
         } catch (SQLException e) {

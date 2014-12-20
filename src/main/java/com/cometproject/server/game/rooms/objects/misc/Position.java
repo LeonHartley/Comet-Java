@@ -55,8 +55,8 @@ public class Position {
                 String[] width = data[0].substring(3).split(",");
                 int widthX = Integer.parseInt(width[0]);
                 int widthY = Integer.parseInt(width[1]);
-                if (widthX < 0 || widthY < 0 || widthX > 200 || widthY > 200)
-                    return null;
+//                if (widthX < 0 || widthY < 0 || widthX > 200 || widthY > 200)
+//                    return null;
 
                 String[] length = data[1].substring(2).split(",");
                 int lengthX = Integer.parseInt(length[0]);

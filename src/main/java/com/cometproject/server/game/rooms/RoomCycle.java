@@ -53,7 +53,7 @@ public class RoomCycle implements CometTask {
             TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
 
             if (span.toMilliseconds() > flag) {
-                log.warn("Global room processing took: " + span.toMilliseconds() + "ms to execute.");
+                log.warn("Global room processing (" + RoomManager.getInstance().getRoomInstances().size() + " rooms) took: " + span.toMilliseconds() + "ms to execute.");
             }
         } catch (Exception e) {
             log.error("Error while cycling rooms", e);
