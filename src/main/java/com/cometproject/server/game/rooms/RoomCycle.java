@@ -1,11 +1,14 @@
 package com.cometproject.server.game.rooms;
 
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
+import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
+import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -49,6 +52,22 @@ public class RoomCycle implements CometTask {
                     log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
                 }
             }
+
+            List<Integer> expiredPromotedRooms = Lists.newArrayList();
+
+            for(RoomPromotion roomPromotion : RoomManager.getInstance().getRoomPromotions().values()) {
+                if(roomPromotion.isExpired()) {
+                    expiredPromotedRooms.add(roomPromotion.getRoomId());
+                }
+            }
+
+            if(expiredPromotedRooms.size() != 0) {
+                for (int roomId : expiredPromotedRooms) {
+                    RoomManager.getInstance().getRoomPromotions().remove(roomId);
+                }
+            }
+
+            expiredPromotedRooms.clear();
 
             TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
 

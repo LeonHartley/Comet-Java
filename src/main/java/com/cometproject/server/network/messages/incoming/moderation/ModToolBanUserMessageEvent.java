@@ -17,12 +17,15 @@ public class ModToolBanUserMessageEvent implements IEvent {
         String category = msg.readString();
         String presetAction = msg.readString();
 
+        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+            client.disconnect();
+            return;
+        }
+
         boolean ipBan = msg.readBoolean();
         boolean machineBan = msg.readBoolean();
 
-
         Session user = NetworkManager.getInstance().getSessions().getByPlayerId(userId);
-
         if (user == null) {
             return;
         }

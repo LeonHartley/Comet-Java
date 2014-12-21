@@ -122,15 +122,6 @@ public class Room implements Attributable {
     }
 
     public void tick() {
-        if (this.getPromotion() != null) {
-            if (this.getPromotion().isExpired()) {
-                // The room isn't promoted anymore!
-                RoomManager.getInstance().getRoomPromotions().remove(this.getId());
-
-                // Remove the event from the room!
-            }
-        }
-
         if (useCycleForEntities && this.process != null) {
             this.process.tick();
         }

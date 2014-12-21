@@ -17,6 +17,11 @@ public class ModToolRoomActionMessageEvent implements IEvent {
     public void handle(Session client, Event msg) throws Exception {
         final int roomId = msg.readInt();
 
+        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+            client.disconnect();
+            return;
+        }
+
         final boolean lockDoor = msg.readInt() == 1;
         final boolean changeRoomName = msg.readInt() == 1;
         final boolean kickAll = msg.readInt() == 1;
