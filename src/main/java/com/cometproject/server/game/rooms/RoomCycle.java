@@ -65,9 +65,9 @@ public class RoomCycle implements CometTask {
                 for (int roomId : expiredPromotedRooms) {
                     RoomManager.getInstance().getRoomPromotions().remove(roomId);
                 }
-            }
 
-            expiredPromotedRooms.clear();
+                expiredPromotedRooms.clear();
+            }
 
             TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
 
