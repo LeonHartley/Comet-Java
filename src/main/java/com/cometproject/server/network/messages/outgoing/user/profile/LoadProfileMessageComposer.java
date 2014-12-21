@@ -38,7 +38,17 @@ public class LoadProfileMessageComposer {
         msg.writeBoolean(hasSentRequest);
         msg.writeBoolean(PlayerManager.getInstance().isOnline(player.getId()));
 
-        msg.writeInt(groups.size());
+        int groupCount = 0;
+
+        for (int groupId : groups) {
+            Group group = GroupManager.getInstance().get(groupId);
+
+            if (group != null) {
+                groupCount++;
+            }
+        }
+
+        msg.writeInt(groupCount);
 
         for (Integer groupId : groups) {
             Group group = GroupManager.getInstance().get(groupId);
@@ -50,7 +60,7 @@ public class LoadProfileMessageComposer {
             msg.writeString(group.getData().getColourB());
             msg.writeBoolean(player.getFavouriteGroup() == groupId);
             msg.writeInt(-1);
-            msg.writeBoolean(true); // has forum
+            msg.writeBoolean(false); // has forum
         }
 
         msg.writeInt((int) Comet.getTime() - player.getLastVisit());
