@@ -53,14 +53,16 @@ public class LoadProfileMessageComposer {
         for (Integer groupId : groups) {
             Group group = GroupManager.getInstance().get(groupId);
 
-            msg.writeInt(groupId);
-            msg.writeString(group.getData().getTitle());
-            msg.writeString(group.getData().getBadge());
-            msg.writeString(group.getData().getColourA());
-            msg.writeString(group.getData().getColourB());
-            msg.writeBoolean(player.getFavouriteGroup() == groupId);
-            msg.writeInt(-1);
-            msg.writeBoolean(false); // has forum
+            if(group != null) {
+                msg.writeInt(groupId);
+                msg.writeString(group.getData().getTitle());
+                msg.writeString(group.getData().getBadge());
+                msg.writeString(group.getData().getColourA());
+                msg.writeString(group.getData().getColourB());
+                msg.writeBoolean(player.getFavouriteGroup() == groupId);
+                msg.writeInt(-1);
+                msg.writeBoolean(false); // has forum
+            }
         }
 
         msg.writeInt((int) Comet.getTime() - player.getLastVisit());
