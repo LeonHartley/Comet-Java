@@ -189,10 +189,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             this.getMountedEntity().setHasMount(false);
         }
 
-        // Remove entity from the room
-        this.getRoom().getEntities().removeEntity(this);
-        this.getPlayer().setEntity(null);
-
         // Step off
         for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(this.getPosition().getX(), this.getPosition().getY())) {
             item.onEntityStepOff(this);
@@ -217,6 +213,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         if (trade != null) {
             trade.cancel(this.getPlayer().getId());
         }
+
+        // Remove entity from the room
+        this.getRoom().getEntities().removeEntity(this);
+        this.getPlayer().setEntity(null);
 
         if (this.visitLogEntry != null) {
             this.visitLogEntry.setExitTime((int) Comet.getTime());
