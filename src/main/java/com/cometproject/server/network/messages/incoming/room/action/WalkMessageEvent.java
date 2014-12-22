@@ -38,7 +38,7 @@ public class WalkMessageEvent implements IEvent {
                 return;
             }
 
-            if (!client.getPlayer().getEntity().isOverriden() && client.getPlayer().getEntity().isVisible()) {
+            if (client.getPlayer().getEntity().canWalk() && !client.getPlayer().getEntity().isOverriden() && client.getPlayer().getEntity().isVisible()) {
                 client.getPlayer().getEntity().moveTo(goalX, goalY);
 
                 if (client.getPlayer().getEntity().getMountedEntity() != null) {

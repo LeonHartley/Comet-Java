@@ -30,7 +30,7 @@ public class KickCommand extends ChatCommand {
             return;
         }
 
-        entity.leaveRoom(false, true, true);
+        entity.kick();
     }
 
     @Override

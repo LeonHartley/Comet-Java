@@ -34,7 +34,6 @@ public class KickUserMessageEvent implements IEvent {
             return;
         }
 
-        playerEntity.leaveRoom(false, true, true);
-
+        playerEntity.kick();
     }
 }

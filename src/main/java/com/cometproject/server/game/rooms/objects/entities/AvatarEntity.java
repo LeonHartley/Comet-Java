@@ -106,4 +106,6 @@ public interface AvatarEntity extends Attributable {
     public void compose(Composer msg);
 
     public void warp(Position position);
+
+    public void kick();
 }

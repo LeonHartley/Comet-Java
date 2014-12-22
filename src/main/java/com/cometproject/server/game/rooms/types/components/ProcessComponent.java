@@ -371,6 +371,15 @@ public class ProcessComponent implements CometTask {
             if (entity.getProcessingPath().size() > 1)
                 entity.setFutureSquare(entity.getProcessingPath().get(1));
 
+            if(isPlayer && ((PlayerEntity) entity).isKicked()) {
+
+                if(((PlayerEntity) entity).getKickWalkStage() > 5) {
+                    return true;
+                }
+
+                ((PlayerEntity) entity).increaseKickWalkStage();
+            }
+
             entity.getProcessingPath().remove(nextSq);
 
             boolean isLastStep = (entity.getProcessingPath().size() == 0);
