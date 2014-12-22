@@ -76,7 +76,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             return;
         }
 
-        // Room full slot available
+        // Room full, no slot available
         if (this.getPlayer().getId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() && !this.player.getPermissions().hasPermission("room_enter_full")) {
             this.player.getSession().send(RoomConnectionErrorMessageComposer.compose(1, ""));
             this.player.getSession().send(HotelViewMessageComposer.compose());
@@ -179,6 +179,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
+        if(isKick) {
+
+        }
+
         for (RoomItemFloor floorItem : this.getRoom().getItems().getFloorItems()) {
             if (floorItem == null) continue;
             floorItem.onEntityLeaveRoom(this);
@@ -191,6 +195,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         // Step off
         for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(this.getPosition().getX(), this.getPosition().getY())) {
+            if(item == null) continue;
             item.onEntityStepOff(this);
         }
 
@@ -216,7 +221,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         // Remove entity from the room
         this.getRoom().getEntities().removeEntity(this);
-        this.getPlayer().setEntity(null);
+
+        if(this.player != null) {
+            this.getPlayer().setEntity(null);
+        }
 
         if (this.visitLogEntry != null) {
             this.visitLogEntry.setExitTime((int) Comet.getTime());

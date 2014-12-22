@@ -66,6 +66,12 @@ public class RoomData {
         this.category = room.getInt("category");
         this.maxUsers = room.getInt("max_users");
         this.access = room.getString("access_type");
+
+        // TODO: Move this to enum...
+        if(!this.access.equals("open") && !this.access.equals("doorbell") && !this.access.equals("password")) {
+            this.access = "open";
+        }
+
         this.password = room.getString("password");
         this.originalPassword = this.password;
 
