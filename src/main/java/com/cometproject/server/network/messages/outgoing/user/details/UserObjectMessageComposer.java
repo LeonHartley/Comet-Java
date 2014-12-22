@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.user.details;
 
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
@@ -36,7 +37,7 @@ public class UserObjectMessageComposer {
 
     public static String getDate(int timestamp) {
         Date d = new Date(timestamp * 1000L);
-        SimpleDateFormat df = new SimpleDateFormat("MMM d 'at' HH:mm");
+        SimpleDateFormat df = new SimpleDateFormat(Locale.get("date.format"));
         df.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         return df.format(d);
