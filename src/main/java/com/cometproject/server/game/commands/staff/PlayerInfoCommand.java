@@ -26,6 +26,7 @@ public class PlayerInfoCommand extends ChatCommand {
 
         final StringBuilder userInfo = new StringBuilder();
 
+        userInfo.append("<b>ID</b>: " + playerData.getId() + "<br>");
         userInfo.append("<b>Username</b>: " + username + "<br>");
         userInfo.append("<b>Motto</b>: " + playerData.getMotto() + "<br>");
         userInfo.append("<b>Gender</b>: " + (playerData.getGender().toLowerCase().equals("m") ? "Male" : "Female") + "<br>");
