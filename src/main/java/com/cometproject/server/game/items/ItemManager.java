@@ -42,6 +42,7 @@ public class ItemManager implements Initializable {
     }
 
     public void loadItemDefinitions() {
+
         if (this.getItemDefinitions().size() >= 1) {
             this.getItemDefinitions().clear();
             this.itemSpriteIdToDefinitionId.clear();

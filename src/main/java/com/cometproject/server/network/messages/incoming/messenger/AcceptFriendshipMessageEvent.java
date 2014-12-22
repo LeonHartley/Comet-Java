@@ -22,6 +22,7 @@ public class AcceptFriendshipMessageEvent implements IEvent {
         }
 
         for (MessengerRequest request : requests) {
+            if(request == null) continue;
 
             MessengerDao.createFriendship(request.getFromId(), client.getPlayer().getId());
             MessengerDao.deleteRequestData(request.getFromId(), client.getPlayer().getId());
