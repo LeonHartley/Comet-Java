@@ -48,7 +48,7 @@ public class ModToolRoomActionMessageEvent implements IEvent {
                 for (PlayerEntity entity : room.getEntities().getPlayerEntities()) {
                     if (entity.getPlayer().getPermissions().hasPermission("room_unkickable")) continue;
 
-                    entity.leaveRoom(false, true, true);
+                    entity.kick();
                 }
             }
 

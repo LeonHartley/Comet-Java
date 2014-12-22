@@ -48,6 +48,14 @@ public class Locale {
             return key;
     }
 
+    public static String getOrDefault(String key, String defaultValue) {
+        if(!locale.containsKey(key)) {
+            return defaultValue;
+        }
+
+        return locale.get(key);
+    }
+
     public static Map<String, String> getAll() {
         return locale;
     }

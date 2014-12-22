@@ -53,8 +53,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     private RoomVisitLogEntry visitLogEntry;
 
     private boolean isFinalized = false;
+    private boolean isKicked = false;
 
     private GameTeam gameTeam = GameTeam.NONE;
+    private int kickWalkStage = 0;
 
     public PlayerEntity(Player player, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
@@ -179,10 +181,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
-        if(isKick) {
-
-        }
-
         for (RoomItemFloor floorItem : this.getRoom().getItems().getFloorItems()) {
             if (floorItem == null) continue;
             floorItem.onEntityLeaveRoom(this);
@@ -242,6 +240,18 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     @Override
     public void finalizeLeaveRoom() {
         // not used, could be removed?
+    }
+
+    @Override
+    public void kick() {
+        this.isKicked = true;
+        this.setCanWalk(false);
+
+        this.moveTo(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY());
+
+        if(this.getProcessingPath() == null) {
+            this.leaveRoom(false, true, true);
+        }
     }
 
     @Override
@@ -489,5 +499,17 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     public void setGameTeam(GameTeam gameTeam) {
         this.gameTeam = gameTeam;
+    }
+
+    public boolean isKicked() {
+        return isKicked;
+    }
+
+    public int getKickWalkStage() {
+        return kickWalkStage;
+    }
+
+    public void increaseKickWalkStage() {
+        this.kickWalkStage++;
     }
 }

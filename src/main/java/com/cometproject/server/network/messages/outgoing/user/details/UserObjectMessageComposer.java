@@ -37,7 +37,7 @@ public class UserObjectMessageComposer {
 
     public static String getDate(int timestamp) {
         Date d = new Date(timestamp * 1000L);
-        SimpleDateFormat df = new SimpleDateFormat(Locale.get("date.format"));
+        SimpleDateFormat df = new SimpleDateFormat(Locale.getOrDefault("date.format", "MMM d yyyy 'at' HH:mm"));
         df.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         return df.format(d);

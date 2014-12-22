@@ -53,10 +53,9 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     public int updatePhase = 0;
     public boolean needsForcedUpdate = false;
-
     private boolean doorbellAnswered;
-
     private boolean walkCancelled = false;
+    private boolean canWalk = true;
 
     private GenericEntity mountedEntity;
 
@@ -514,5 +513,18 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     public void setHasMount(boolean hasMount) {
         this.hasMount = hasMount;
+    }
+
+    @Override
+    public void kick() {
+        this.leaveRoom(false, true, true);
+    }
+
+    public boolean canWalk() {
+        return canWalk;
+    }
+
+    public void setCanWalk(boolean canWalk) {
+        this.canWalk = canWalk;
     }
 }
