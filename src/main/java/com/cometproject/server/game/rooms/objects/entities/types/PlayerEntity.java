@@ -79,7 +79,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         // Room full, no slot available
-        if (this.getPlayer().getId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() && !this.player.getPermissions().hasPermission("room_enter_full")) {
+        if (this.getPlayer().getId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() &&
+                !this.player.getPermissions().hasPermission("room_enter_full")) {
             this.player.getSession().send(RoomConnectionErrorMessageComposer.compose(1, ""));
             this.player.getSession().send(HotelViewMessageComposer.compose());
             return;

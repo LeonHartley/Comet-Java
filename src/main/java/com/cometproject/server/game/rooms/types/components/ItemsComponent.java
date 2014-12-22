@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
@@ -248,26 +249,7 @@ public class ItemsComponent {
 
         TileInstance tile = this.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
 
-        boolean cancelAction = false;
-
-        if (tile != null) {
-            if (!tile.canPlaceItemHere()) {
-                cancelAction = true;
-            }
-
-            if (!tile.canStack() && tile.getTopItem() != 0 && tile.getTopItem() != item.getId()) {
-                if(!item.getDefinition().getItemName().startsWith(RoomItemFactory.STACK_TOOL))
-                    cancelAction = true;
-            }
-
-            if (tile.getPosition().getX() == this.getRoom().getModel().getDoorX() && tile.getPosition().getY() == this.getRoom().getModel().getDoorY()) {
-                cancelAction = true;
-            }
-        } else {
-            cancelAction = true;
-        }
-
-        if (cancelAction) {
+        if(!this.verifyItemPosition(item.getDefinition(), tile)) {
             return false;
         }
 
@@ -339,6 +321,27 @@ public class ItemsComponent {
         return true;
     }
 
+    private boolean verifyItemPosition(ItemDefinition item, TileInstance tile) {
+        if (tile != null) {
+            if (!tile.canPlaceItemHere()) {
+                return false;
+            }
+
+            if (!tile.canStack() && tile.getTopItem() != 0 && tile.getTopItem() != item.getId()) {
+                if(!item.getItemName().startsWith(RoomItemFactory.STACK_TOOL))
+                    return false;
+            }
+
+            if (tile.getPosition().getX() == this.getRoom().getModel().getDoorX() && tile.getPosition().getY() == this.getRoom().getModel().getDoorY()) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+        return true;
+    }
+
     public void placeWallItem(InventoryItem item, String position, Player player) {
         int roomId = this.room.getId();
 
@@ -369,12 +372,13 @@ public class ItemsComponent {
     public void placeFloorItem(InventoryItem item, int x, int y, int rot, Player player) {
         TileInstance tile = room.getMapping().getTile(x, y);
 
-        if (tile == null || !tile.canPlaceItemHere())
+        if (tile == null)
             return;
 
         double height = tile.getStackHeight();
 
-        if (!tile.canStack() && !item.getDefinition().getItemName().startsWith(RoomItemFactory.STACK_TOOL)) return;
+        if(!this.verifyItemPosition(item.getDefinition(), tile))
+            return;
 
         List<RoomItemFloor> floorItems = room.getItems().getItemsOnSquare(x, y);
 

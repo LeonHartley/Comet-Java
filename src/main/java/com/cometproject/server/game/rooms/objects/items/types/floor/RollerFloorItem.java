@@ -81,6 +81,11 @@ public class RollerFloorItem extends RoomItemFloor {
                 continue;
             }
 
+            if (sqInfront.getX() == this.getRoom().getModel().getDoorX() && sqInfront.getY() == this.getRoom().getModel().getDoorY()) {
+                entity.leaveRoom(false, false, true);
+                continue;
+            }
+
             WiredTriggerWalksOffFurni.executeTriggers(entity, this);
 
             for (RoomItemFloor nextItem : this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
