@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
 public class Player {
     private int id;
 
@@ -84,7 +83,12 @@ public class Player {
 
     public void dispose() {
         if (this.getEntity() != null) {
-            this.getEntity().leaveRoom(true, false, false);
+            try {
+                this.getEntity().leaveRoom(true, false, false);
+            } catch(Exception e) {
+                // Player failed to leave room
+                this.getSession().getLogger().error("Error while disposing entity when player disconnects", e);
+            }
         }
 
         this.getPets().dispose();
