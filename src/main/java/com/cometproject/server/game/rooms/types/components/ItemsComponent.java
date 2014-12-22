@@ -112,6 +112,7 @@ public class ItemsComponent {
 
         for (RoomItemFloor item : this.getFloorItems()) {
             if (item == null) continue; // it's null!
+
             if (item.getPosition().getX() == x && item.getPosition().getY() == y) {
                 items.add(item);
             } else {
