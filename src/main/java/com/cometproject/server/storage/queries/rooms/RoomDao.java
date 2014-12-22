@@ -213,7 +213,7 @@ public class RoomDao {
             preparedStatement.setString(4, owner);
             preparedStatement.setInt(5, category);
             preparedStatement.setInt(6, maxUsers);
-            preparedStatement.setString(7, access);
+            preparedStatement.setString(7, access.toLowerCase());
             preparedStatement.setString(8, password);
             preparedStatement.setInt(9, score);
             preparedStatement.setString(10, tags);
