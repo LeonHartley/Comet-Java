@@ -22,6 +22,7 @@ public class CatalogPage {
     private int minRank;
     private String template;
     private int parentId;
+    private String linkName;
 
     private boolean enabled;
 
@@ -38,6 +39,7 @@ public class CatalogPage {
         this.minRank = data.getInt("min_rank");
         this.template = data.getString("page_layout");
         this.parentId = data.getInt("parent_id");
+        this.linkName = data.getString("link");
 
         if (data.getString("page_images") == null || data.getString("page_images").isEmpty()) {
             this.images = new ArrayList<>();
@@ -107,5 +109,9 @@ public class CatalogPage {
 
     public List<String> getTexts() {
         return texts;
+    }
+
+    public String getLinkName() {
+        return linkName;
     }
 }

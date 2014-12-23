@@ -33,7 +33,7 @@ public class CataIndexMessageComposer {
             msg.writeBoolean(true); // visible
             msg.writeInt(page.getIcon());
             msg.writeInt(page.getId());
-            msg.writeString(page.getCaption().toLowerCase().replace(" ", "_"));
+            msg.writeString(page.getLinkName().equals("undefined") ? page.getCaption().toLowerCase().replace(" ", "_") : page.getLinkName());
             msg.writeString(page.getCaption());
 
             msg.writeInt(page.getOfferSize());
