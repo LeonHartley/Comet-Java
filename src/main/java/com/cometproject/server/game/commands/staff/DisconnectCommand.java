@@ -18,12 +18,12 @@ public class DisconnectCommand extends ChatCommand {
         }
 
         if (session == client) {
-            sendChat(Locale.get("command.disconnect.himself"), client);
+            sendNotif(Locale.get("command.disconnect.himself"), client);
             return;
         }
 
         if (session.getPlayer().getPermissions().hasPermission("undisconnectable")) {
-            sendChat(Locale.get("command.disconnect.undisconnectable"), client);
+            sendNotif(Locale.get("command.disconnect.undisconnectable"), client);
             return;
         }
 

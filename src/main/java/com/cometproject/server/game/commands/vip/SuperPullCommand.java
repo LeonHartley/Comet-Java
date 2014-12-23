@@ -18,7 +18,7 @@ public class SuperPullCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length == 0) {
-            sendChat("Invalid username", client);
+            sendNotif("Invalid username", client);
             return;
         }
 
@@ -34,7 +34,7 @@ public class SuperPullCommand extends ChatCommand {
         }
 
         if (username.equals(client.getPlayer().getData().getUsername())) {
-            sendChat(Locale.get("command.pull.playerhimself"), client);
+            sendNotif(Locale.get("command.pull.playerhimself"), client);
             return;
         }
 

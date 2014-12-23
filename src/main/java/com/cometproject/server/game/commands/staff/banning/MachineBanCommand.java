@@ -35,12 +35,12 @@ public class MachineBanCommand extends ChatCommand {
         String uniqueId = user.getUniqueId();
 
         if (BanManager.getInstance().hasBan(uniqueId, BanType.MACHINE)) {
-            sendChat("Machine ID: " + uniqueId + " is already banned.", client);
+            sendNotif("Machine ID: " + uniqueId + " is already banned.", client);
             return;
         }
 
         BanManager.getInstance().banPlayer(BanType.MACHINE, user.getUniqueId(), length, expire, params.length > 2 ? this.merge(params, 2) : "", client.getPlayer().getId());
-        sendChat("User has been machine ID banned (" + uniqueId + ")", client);
+        sendNotif("User has been machine ID banned (" + uniqueId + ")", client);
 
         user.disconnect("banned");
     }

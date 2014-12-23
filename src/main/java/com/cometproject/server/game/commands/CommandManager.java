@@ -185,7 +185,7 @@ public class CommandManager implements Initializable {
             if (PermissionsManager.getInstance().getCommands().containsKey(commandName) &&
                     PermissionsManager.getInstance().getCommands().get(commandName).isVipOnly() &&
                     !client.getPlayer().getData().isVip())
-                ChatCommand.sendChat(Locale.get("command.vip"), client);
+                ChatCommand.sendNotif(Locale.get("command.vip"), client);
 
             log.debug(client.getPlayer().getData().getUsername() + " tried executing command: :" + message);
             return false;

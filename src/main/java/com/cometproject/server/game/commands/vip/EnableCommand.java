@@ -25,7 +25,7 @@ public class EnableCommand extends ChatCommand {
             entity.applyEffect(new PlayerEffect(effectId, 0));
 
         } catch (Exception e) {
-            sendChat(Locale.get("command.enable.invalidid"), client);
+            sendNotif(Locale.get("command.enable.invalidid"), client);
         }
     }
 

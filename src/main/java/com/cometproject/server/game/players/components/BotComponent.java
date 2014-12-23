@@ -50,4 +50,8 @@ public class BotComponent {
     public Player getPlayer() {
         return this.player;
     }
+
+    public void clearBots() {
+        this.bots.clear();
+    }
 }

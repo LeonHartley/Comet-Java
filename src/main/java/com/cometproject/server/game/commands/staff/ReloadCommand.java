@@ -48,7 +48,7 @@ public class ReloadCommand extends ChatCommand {
             case "bans":
                 BanManager.getInstance().loadBans();
 
-                sendChat(Locale.get("command.reload.bans"), client);
+                sendNotif(Locale.get("command.reload.bans"), client);
                 break;
 
             case "catalog":
@@ -56,12 +56,12 @@ public class ReloadCommand extends ChatCommand {
                 CatalogManager.getInstance().loadGiftBoxes();
 
                 NetworkManager.getInstance().getSessions().broadcast(CatalogPublishMessageComposer.compose(true));
-                sendChat(Locale.get("command.reload.catalog"), client);
+                sendNotif(Locale.get("command.reload.catalog"), client);
                 break;
 
             case "navigator":
                 NavigatorManager.getInstance().loadFeaturedRooms();
-                sendChat(Locale.get("command.reload.navigator"), client);
+                sendNotif(Locale.get("command.reload.navigator"), client);
                 break;
 
             case "permissions":
@@ -69,44 +69,44 @@ public class ReloadCommand extends ChatCommand {
                 PermissionsManager.getInstance().loadPerks();
                 PermissionsManager.getInstance().loadCommands();
 
-                sendChat(Locale.get("command.reload.permissions"), client);
+                sendNotif(Locale.get("command.reload.permissions"), client);
                 break;
 
             case "config":
                 CometSettings.initialize();
 
-                sendChat(Locale.get("command.reload.config"), client);
+                sendNotif(Locale.get("command.reload.config"), client);
                 break;
 
             case "news":
                 LandingManager.getInstance().loadArticles();
 
-                sendChat(Locale.get("command.reload.news"), client);
+                sendNotif(Locale.get("command.reload.news"), client);
                 break;
 
             case "items":
                 ItemManager.getInstance().loadItemDefinitions();
 
-                sendChat(Locale.get("command.reload.items"), client);
+                sendNotif(Locale.get("command.reload.items"), client);
                 break;
 
             case "filter":
                 RoomManager.getInstance().getFilter().loadFilter();
 
-                sendChat(Locale.get("command.reload.filter"), client);
+                sendNotif(Locale.get("command.reload.filter"), client);
                 break;
 
             case "locale":
                 Locale.reload();
                 CommandManager.getInstance().reloadAllCommands();
 
-                sendChat(Locale.get("command.reload.locale"), client);
+                sendNotif(Locale.get("command.reload.locale"), client);
                 break;
 
             case "modpresets":
                 ModerationManager.getInstance().loadPresets();
 
-                sendChat(Locale.get("command.reload.modpresets"), client);
+                sendNotif(Locale.get("command.reload.modpresets"), client);
 
                 for (Session session : NetworkManager.getInstance().getSessions().getByPlayerPermission("mod_tool")) {
                     session.send(ModToolMessageComposer.compose());
