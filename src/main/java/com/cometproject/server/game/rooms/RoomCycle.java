@@ -17,6 +17,7 @@ public class RoomCycle implements CometTask {
     private Logger log = Logger.getLogger(RoomCycle.class.getName());
 
     private final static int PERIOD = 500;
+    private final static int FLAG = 2000;
 
     private ScheduledFuture myFuture;
 
@@ -37,8 +38,6 @@ public class RoomCycle implements CometTask {
 
     @Override
     public void run() {
-        int flag = 450;
-
         try {
             long start = System.currentTimeMillis();
 
@@ -71,7 +70,7 @@ public class RoomCycle implements CometTask {
 
             TimeSpan span = new TimeSpan(start, System.currentTimeMillis());
 
-            if (span.toMilliseconds() > flag) {
+            if (span.toMilliseconds() > FLAG) {
                 log.warn("Global room processing (" + RoomManager.getInstance().getRoomInstances().size() + " rooms) took: " + span.toMilliseconds() + "ms to execute.");
             }
         } catch (Exception e) {

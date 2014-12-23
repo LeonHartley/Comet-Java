@@ -22,6 +22,9 @@ public class PlayerManager implements Initializable {
         this.playerIdToSessionId = new FastMap<>();
         this.playerUsernameToPlayerId = new FastMap<>();
 
+        log.info("Resetting player online status");
+
+
         log.info("PlayerManager initialized");
     }
 
