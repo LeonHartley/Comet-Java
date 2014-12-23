@@ -82,7 +82,6 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         List<Position> positions = Lists.newArrayList();
         Position currentPosition = new Position(this.getPosition().getX(), this.getPosition().getY());
         Position nextPosition = currentPosition.squareInFront(rotation);
-
         boolean needsReverse = false;
 
         for (int i = 0; i < power; i++) {
@@ -92,24 +91,32 @@ public abstract class RollableFloorItem extends RoomItemFloor {
                 continue;
             }
 
-//            if (!positions.isEmpty() && positions.get(positions.size() - 1).getX() == nextPosition.getX() && positions.get(positions.size() - 1).getY() == nextPosition.getY()) {
-//                nextPosition = nextPosition.squareBehind(this.getRotation());
-//                i--;
-//                continue;
-//            } else {
-            positions.add(nextPosition);
-//            }
+            Position lastPos = nextPosition.copy();
 
-            if (needsReverse) {
-                nextPosition = nextPosition.squareBehind(this.getRotation());
-            } else {
-                nextPosition = nextPosition.squareInFront(this.getRotation());
+            positions.add(nextPosition);
+
+            nextPosition = this.getNextPosition(lastPos, needsReverse);
+
+            if(nextPosition.equals(lastPos)) {
+                nextPosition = this.getNextPosition(nextPosition, false);
             }
         }
 
         this.setRollingPositions(positions);
 
         this.setTicks(RoomItemFactory.getProcessTime(0.075));
+    }
+
+    private Position getNextPosition(Position nextPosition, boolean needsReverse) {
+        Position newPosition;
+
+        if (needsReverse) {
+            newPosition = nextPosition.squareBehind(this.getRotation());
+        } else {
+            newPosition = nextPosition.squareInFront(this.getRotation());
+        }
+
+        return newPosition;
     }
 
     public static void roll(RoomItemFloor item, Position from, Position to, Room room) {
@@ -121,7 +128,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     public static Position calculatePosition(int x, int y, int playerRotation) {
-        return calculatePosition(x, y, playerRotation, false);
+        return Position.calculatePosition(x, y, playerRotation, false);
     }
 
     @Override
@@ -145,7 +152,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         if (entity.getRoom().getMapping().isValidStep(currentPosition, calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation()), false)) {
             newPosition = calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation());
         } else {
-            newPosition = calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation(), true);
+            newPosition = Position.calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation(), true);
         }
 
         newPosition.setZ(this.getRoom().getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()]);
@@ -213,80 +220,6 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         }
 
         RoomItemDao.saveItemPosition(this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), this.getRotation(), this.getId());
-    }
-
-    public static Position calculatePosition(int x, int y, int playerRotation, boolean isReversed) {
-        switch (playerRotation) {
-            case 0:
-                if (!isReversed)
-                    y--;
-                else
-                    y++;
-                break;
-
-            case 1:
-                if (!isReversed) {
-                    x++;
-                    y--;
-                } else {
-                    x--;
-                    y++;
-                }
-                break;
-
-            case 2:
-                if (!isReversed)
-                    x++;
-                else
-                    x--;
-                break;
-
-            case 3:
-                if (!isReversed) {
-                    x++;
-                    y++;
-                } else {
-                    x--;
-                    y--;
-                }
-                break;
-
-            case 4:
-                if (!isReversed)
-                    y++;
-                else
-                    y--;
-                break;
-
-            case 5:
-                if (!isReversed) {
-                    x--;
-                    y++;
-                } else {
-                    x++;
-                    y--;
-                }
-                break;
-
-            case 6:
-                if (!isReversed)
-                    x--;
-                else
-                    x++;
-                break;
-
-            case 7:
-                if (!isReversed) {
-                    x--;
-                    y--;
-                } else {
-                    x++;
-                    y++;
-                }
-                break;
-        }
-
-        return new Position(x, y);
     }
 
     private double getDelay(int i) {
