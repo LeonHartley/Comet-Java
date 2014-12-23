@@ -14,8 +14,6 @@ public class CatalogPromotionGetRoomsMessageComposer {
         msg.writeBoolean(false);
         msg.writeInt(rooms.size());
 
-        System.out.println(rooms.size());
-
         for (RoomData data : rooms) {
             msg.writeInt(data.getId());
             msg.writeString(data.getName());
