@@ -4,8 +4,12 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.players.components.types.InventoryItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 
 public class PlaceItemMessageEvent implements IEvent {
@@ -20,6 +24,11 @@ public class PlaceItemMessageEvent implements IEvent {
 
         if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId())
                 && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            Map<String, String> notificationParams = Maps.newHashMap();
+
+            notificationParams.put("message", "${room.error.cant_set_not_owner}");
+
+            client.send(RoomNotificationMessageComposer.compose("furni_placement_error", notificationParams));
             return;
         }
 

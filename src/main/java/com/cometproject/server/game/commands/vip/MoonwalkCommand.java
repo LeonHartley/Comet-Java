@@ -11,13 +11,13 @@ public class MoonwalkCommand extends ChatCommand {
         if (client.getPlayer().getEntity().isMoonwalking()) {
             client.getPlayer().getEntity().setIsMoonwalking(false);
 
-            sendChat(Locale.get("command.moonwalk.disabled"), client);
+            sendNotif(Locale.get("command.moonwalk.disabled"), client);
             return;
         }
 
         client.getPlayer().getEntity().setIsMoonwalking(true);
 
-        sendChat(Locale.get("command.moonwalk.enabled"), client);
+        sendNotif(Locale.get("command.moonwalk.enabled"), client);
     }
 
     @Override

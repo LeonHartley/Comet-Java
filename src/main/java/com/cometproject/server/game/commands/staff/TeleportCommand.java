@@ -11,10 +11,10 @@ public class TeleportCommand extends ChatCommand {
     public void execute(Session client, String[] message) {
         if (client.getPlayer().getEntity().hasAttribute("teleport")) {
             client.getPlayer().getEntity().removeAttribute("teleport");
-            sendChat(Locale.get("command.teleport.disabled"), client);
+            sendNotif(Locale.get("command.teleport.disabled"), client);
         } else {
             client.getPlayer().getEntity().setAttribute("teleport", true);
-            sendChat(Locale.get("command.teleport.enabled"), client);
+            sendNotif(Locale.get("command.teleport.enabled"), client);
         }
     }
 

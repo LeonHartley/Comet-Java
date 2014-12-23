@@ -34,14 +34,14 @@ public class IpBanCommand extends ChatCommand {
         String ipAddress = user.getIpAddress();
 
         if (BanManager.getInstance().hasBan(ipAddress, BanType.IP)) {
-            sendChat("IP: " + ipAddress + " is already banned.", client);
+            sendNotif("IP: " + ipAddress + " is already banned.", client);
             return;
         }
 
 
         BanManager.getInstance().banPlayer(BanType.IP, user.getIpAddress(), length, expire, params.length > 2 ? this.merge(params, 2) : "", client.getPlayer().getId());
 
-        sendChat("User has been IP banned (IP: " + ipAddress + ")", client);
+        sendNotif("User has been IP banned (IP: " + ipAddress + ")", client);
 
         user.disconnect("banned");
     }

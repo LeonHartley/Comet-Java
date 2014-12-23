@@ -25,6 +25,10 @@ public class PetComponent {
         return null;
     }
 
+    public void clearPets() {
+        this.pets.clear();
+    }
+
     public void addPet(PetData petData) {
         this.pets.put(petData.getId(), petData);
     }

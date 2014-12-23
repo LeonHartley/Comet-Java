@@ -16,7 +16,7 @@ public class PushCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (params.length == 0) {
-            sendChat(Locale.get("command.push.invalidusername"), client);
+            sendNotif(Locale.get("command.push.invalidusername"), client);
             return;
         }
 
@@ -32,7 +32,7 @@ public class PushCommand extends ChatCommand {
         }
 
         if (user == client) {
-            sendChat(Locale.get("command.push.playerhimself"), client);
+            sendNotif(Locale.get("command.push.playerhimself"), client);
             return;
         }
 
@@ -84,7 +84,7 @@ public class PushCommand extends ChatCommand {
             RoomModel model = client.getPlayer().getEntity().getRoom().getModel();
 
             if (model.getDoorX() == posX && model.getDoorY() == posY) {
-                sendChat(Locale.get(""), client);
+                sendNotif(Locale.get(""), client);
                 return;
             }
 

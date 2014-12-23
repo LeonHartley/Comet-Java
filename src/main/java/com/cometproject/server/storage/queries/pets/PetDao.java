@@ -131,4 +131,23 @@ public class PetDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+    public static void deletePets(int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM pet_data WHERE owner_id = ? AND room_id = 0;", sqlConnection);
+            preparedStatement.setInt(1, playerId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }

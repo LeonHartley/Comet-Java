@@ -18,6 +18,7 @@ import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoun
 import com.cometproject.server.network.messages.outgoing.catalog.LimitedEditionSoldOutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
@@ -258,7 +259,7 @@ public class CatalogPurchaseHandler {
                 }
 
                 if (giftData != null) {
-                    this.deliverGift(playerIdToDeliver, giftData, newItemId, newItems);
+                    this.deliverGift(playerIdToDeliver, giftData, newItemId, newItems, client.getPlayer().getData().getUsername());
                 } else {
                     if (item.hasBadge()) {
                         client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
@@ -285,7 +286,7 @@ public class CatalogPurchaseHandler {
      * @param definitionId
      * @param newItems     List of items to deliver
      */
-    private void deliverGift(int playerId, GiftData giftData, int definitionId, List<Integer> newItems) {
+    private void deliverGift(int playerId, GiftData giftData, int definitionId, List<Integer> newItems, String senderUsername) {
         Session client = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
         if (client != null) {
@@ -297,6 +298,7 @@ public class CatalogPurchaseHandler {
 
             client.send(UnseenItemsMessageComposer.compose(unseenItems));
             client.send(UpdateInventoryMessageComposer.compose());
+            client.send(RoomNotificationMessageComposer.bubble("gift_received", Locale.getOrDefault("notification.gift_received", "You have just received a gift from %username%!").replace("%username%", senderUsername)));
         }
     }
 
