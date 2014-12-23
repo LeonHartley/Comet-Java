@@ -249,7 +249,7 @@ public class ItemsComponent {
 
         TileInstance tile = this.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
 
-        if(!this.verifyItemPosition(item.getDefinition(), tile)) {
+        if(!this.verifyItemPosition(item.getDefinition(), tile, item.getPosition())) {
             return false;
         }
 
@@ -321,8 +321,11 @@ public class ItemsComponent {
         return true;
     }
 
-    private boolean verifyItemPosition(ItemDefinition item, TileInstance tile) {
+    private boolean verifyItemPosition(ItemDefinition item, TileInstance tile, Position currentPosition) {
         if (tile != null) {
+            if(currentPosition != null && currentPosition.getX() == tile.getPosition().getX() && currentPosition.getY() == tile.getPosition().getY())
+                return true;
+
             if (!tile.canPlaceItemHere()) {
                 return false;
             }
@@ -377,7 +380,7 @@ public class ItemsComponent {
 
         double height = tile.getStackHeight();
 
-        if(!this.verifyItemPosition(item.getDefinition(), tile))
+        if(!this.verifyItemPosition(item.getDefinition(), tile, null))
             return;
 
         List<RoomItemFloor> floorItems = room.getItems().getItemsOnSquare(x, y);
