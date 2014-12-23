@@ -115,47 +115,85 @@ public class Position {
     }
 
     public Position squareInFront(int angle) {
-        Position pos = new Position(x, y, 0);
-
-        int posX = pos.getX();
-        int posY = pos.getY();
-
-        if (angle == 0) {
-            posY--;
-        } else if (angle == 2) {
-            posX++;
-        } else if (angle == 4) {
-            posY++;
-        } else if (angle == 6) {
-            posX--;
-        }
-
-        pos.setX(posX);
-        pos.setY(posY);
-
-        return pos;
+        return calculatePosition(this.x, this.y, angle, false);
     }
 
     public Position squareBehind(int angle) {
-        Position pos = new Position(x, y, 0);
+        return calculatePosition(this.x, this.y, angle, true);
+    }
 
-        int posX = pos.getX();
-        int posY = pos.getY();
+    public static Position calculatePosition(int x, int y, int angle, boolean isReversed) {
+        switch (angle) {
+            case 0:
+                if (!isReversed)
+                    y--;
+                else
+                    y++;
+                break;
 
-        if (angle == 0) {
-            posY++;
-        } else if (angle == 2) {
-            posX--;
-        } else if (angle == 4) {
-            posY--;
-        } else if (angle == 6) {
-            posX++;
+            case 1:
+                if (!isReversed) {
+                    x++;
+                    y--;
+                } else {
+                    x--;
+                    y++;
+                }
+                break;
+
+            case 2:
+                if (!isReversed)
+                    x++;
+                else
+                    x--;
+                break;
+
+            case 3:
+                if (!isReversed) {
+                    x++;
+                    y++;
+                } else {
+                    x--;
+                    y--;
+                }
+                break;
+
+            case 4:
+                if (!isReversed)
+                    y++;
+                else
+                    y--;
+                break;
+
+            case 5:
+                if (!isReversed) {
+                    x--;
+                    y++;
+                } else {
+                    x++;
+                    y--;
+                }
+                break;
+
+            case 6:
+                if (!isReversed)
+                    x--;
+                else
+                    x++;
+                break;
+
+            case 7:
+                if (!isReversed) {
+                    x--;
+                    y--;
+                } else {
+                    x++;
+                    y++;
+                }
+                break;
         }
 
-        pos.setX(posX);
-        pos.setY(posY);
-
-        return pos;
+        return new Position(x, y);
     }
 
     public double distanceTo(Position pos) {
