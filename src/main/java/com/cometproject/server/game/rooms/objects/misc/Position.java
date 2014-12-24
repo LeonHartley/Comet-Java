@@ -167,8 +167,8 @@ public class Position {
 
             case 5:
                 if (!isReversed) {
-                    x--;
-                    y++;
+                    x++;
+                    y--;
                 } else {
                     x++;
                     y--;
@@ -188,7 +188,7 @@ public class Position {
                     y--;
                 } else {
                     x++;
-                    y++;
+                    y--;
                 }
                 break;
         }

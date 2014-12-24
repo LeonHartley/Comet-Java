@@ -249,10 +249,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.setCanWalk(false);
 
         this.moveTo(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY());
-
-        if(this.getWalkingPath() == null) {
-            this.leaveRoom(false, true, true);
-        }
     }
 
     @Override

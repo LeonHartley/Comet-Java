@@ -7,7 +7,7 @@ import com.cometproject.server.network.sessions.Session;
 public class PositionCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        sendNotif(client.getPlayer().getEntity().getPosition().toString(), client);
+        sendNotif(client.getPlayer().getEntity().getPosition().toString() + " R: " + client.getPlayer().getEntity().getBodyRotation(), client);
     }
 
     @Override
