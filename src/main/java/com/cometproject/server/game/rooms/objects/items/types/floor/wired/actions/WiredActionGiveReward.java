@@ -19,10 +19,12 @@ import org.apache.commons.lang.StringUtils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 
 public class WiredActionGiveReward extends WiredActionItem {
     private static final Map<Integer, Map<Integer, Long>> rewardTimings = Maps.newConcurrentMap();
+    private static final Random RANDOM = new Random();
 
     private static final int PARAM_HOW_OFTEN = 0;
     private static final int PARAM_UNIQUE = 1;
@@ -126,17 +128,15 @@ public class WiredActionGiveReward extends WiredActionItem {
 
         this.totalRewardCounter++;
 
-        final double probability = Math.random();
         boolean receivedReward = false;
 
         for (Reward reward : this.rewards) {
-            boolean giveReward = unique || (probability <= reward.probability);
+            boolean giveReward = unique ||  (RANDOM.nextDouble() <= (reward.probability / 100));
 
-            if (giveReward) {
+            if (giveReward && !receivedReward) {
                 if (reward.isBadge) {
                     if (!playerEntity.getPlayer().getInventory().hasBadge(reward.productCode)) {
                         playerEntity.getPlayer().getInventory().addBadge(reward.productCode, true);
-//                        continue;
                     }
                 } else {
                     String[] itemData = reward.productCode.split("%");
