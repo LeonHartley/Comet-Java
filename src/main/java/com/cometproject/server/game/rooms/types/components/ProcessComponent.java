@@ -450,6 +450,9 @@ public class ProcessComponent implements CometTask {
                 }
                 entity.getProcessingPath().clear();
             }
+        } else {
+            if(isPlayer && ((PlayerEntity) entity).isKicked())
+                return true;
         }
 
         // Handle expiring effects

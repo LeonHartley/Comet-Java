@@ -17,13 +17,13 @@ import java.util.List;
 
 
 public abstract class RollableFloorItem extends RoomItemFloor {
-    public static final int KICK_POWER = 6;
+    public static final int KICK_POWER = 100;
 
     private boolean isRolling = false;
-    private List<Position> rollingPositions;
-
     private PlayerEntity playerEntity;
     private boolean skipNext = false;
+    private int rollStage = -1;
+
     private boolean isDribbling = false;
 
     public RollableFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
@@ -43,7 +43,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
         if (entity.getWalkingGoal().getX() == this.getPosition().getX() && entity.getWalkingGoal().getY() == this.getPosition().getY()) {
             if (this.skipNext) {
-                if (isDribbling) {
+                if (this.isDribbling) {
                     this.onInteract(entity, 0, false);
                     this.isDribbling = false;
                 }
@@ -56,7 +56,8 @@ public abstract class RollableFloorItem extends RoomItemFloor {
                 this.playerEntity = (PlayerEntity) entity;
             }
 
-            this.rollBall(entity.getPosition(), KICK_POWER, entity.getBodyRotation());
+            this.rollStage = 0;
+            this.rollBall(entity.getPosition(), entity.getBodyRotation());
         } else {
             if (entity.getWalkingGoal().distanceTo(this.getPosition()) > 1) {
                 this.isDribbling = true;
@@ -69,42 +70,54 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOff(GenericEntity entity) {
-        this.rollBall(this.getPosition(), KICK_POWER, Direction.get(entity.getBodyRotation()).invert().num);
+        this.rollBall(this.getPosition(), Direction.get(entity.getBodyRotation()).invert().num);
     }
 
-    private void rollBall(Position from, int power, int rotation) {
+    private void rollBall(Position from, int rotation) {
         if (!DistanceCalculator.tilesTouching(this.getPosition().getX(), this.getPosition().getY(), from.getX(), from.getY())) {
             return;
         }
 
-        this.setRotation(rotation);
-
-        List<Position> positions = Lists.newArrayList();
-        Position currentPosition = new Position(this.getPosition().getX(), this.getPosition().getY());
-        Position nextPosition = currentPosition.squareInFront(rotation);
-        boolean needsReverse = false;
-
-        for (int i = 0; i < power; i++) {
-            if (!this.getRoom().getMapping().isValidStep(currentPosition, nextPosition, false, true) || !this.getRoom().getEntities().isSquareAvailable(nextPosition.getX(), nextPosition.getY())) {
-                needsReverse = true;
-                nextPosition = nextPosition.squareBehind(this.getRotation());
-                continue;
-            }
-
-            Position lastPos = nextPosition.copy();
-
-            positions.add(nextPosition);
-
-            nextPosition = this.getNextPosition(lastPos, needsReverse);
-
-            if(nextPosition.equals(lastPos)) {
-                nextPosition = this.getNextPosition(nextPosition, false);
-            }
-        }
-
-        this.setRollingPositions(positions);
+        this.rotation = rotation;
+        this.isRolling = true;
+        this.rollStage = 0;
 
         this.setTicks(RoomItemFactory.getProcessTime(0.075));
+    }
+
+    @Override
+    public void onTickComplete() {
+        if (!this.isRolling || this.rollStage == -1 || this.rollStage >= KICK_POWER) {
+            this.isRolling = false;
+            this.rollStage = -1;
+            return;
+        }
+
+        this.rollStage++;
+
+        Position nextPosition;
+
+        if (this.isValidRoll(this.getNextPosition(this.getPosition(), false))) {
+            nextPosition = this.getNextPosition(this.getPosition(), false);
+        } else {
+            nextPosition = this.getNextPosition(this.getPosition(), true);
+            this.setRotation(Direction.get(this.getRotation()).invert().num);
+        }
+
+        this.moveTo(nextPosition, this.getRotation());
+        this.setTicks(RoomItemFactory.getProcessTime(this.getDelay(this.rollStage)));
+    }
+
+    private boolean isValidRoll(Position nextPosition) {
+        if (this.playerEntity.getRoom().getMapping().isValidStep(0, this.getPosition(), this.getNextPosition(this.getPosition(), false), false, true)) {
+            if (this.playerEntity.getWalkingGoal().getX() == nextPosition.getX() && this.playerEntity.getWalkingGoal().getY() == nextPosition.getY()) {
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     private Position getNextPosition(Position nextPosition, boolean needsReverse) {
@@ -120,11 +133,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     public static void roll(RoomItemFloor item, Position from, Position to, Room room) {
-        room.getEntities().broadcastMessage(
-                SlideObjectBundleMessageComposer.compose(
-                        from,
-                        to, item.getId(), 0, item.getId())
-        );
+        room.getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(from, to, item.getId(), 0, item.getId()));
     }
 
     public static Position calculatePosition(int x, int y, int playerRotation) {
@@ -149,76 +158,29 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
         Position newPosition;
 
-        if (entity.getRoom().getMapping().isValidStep(currentPosition, calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation()), false)) {
+        if (entity.getRoom().getMapping().isValidStep(currentPosition, calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation()), false, true)) {
             newPosition = calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation());
         } else {
             newPosition = Position.calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation(), true);
         }
 
-        newPosition.setZ(this.getRoom().getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()]);
-
-        roll(this, currentPosition, newPosition, entity.getRoom());
-
-        this.setRotation(entity.getBodyRotation());
-        this.getPosition().setX(newPosition.getX());
-        this.getPosition().setY(newPosition.getY());
-
-        // tell all other items on the new square that there's a new item. (good method of updating score...)
-        for (RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(newPosition.getX(), newPosition.getY())) {
-            floorItem.onItemAddedToStack(this);
-        }
-
-        this.getPosition().setZ(newPosition.getZ());
-
+        this.moveTo(newPosition, this.playerEntity.getBodyRotation());
         this.isRolling = false;
-
-        RoomItemDao.saveItemPosition(this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), this.getRotation(), this.getId());
     }
 
-    private int rollCount = 0;
+    private void moveTo(Position pos, int rotation) {
+        roll(this, this.getPosition(), pos, this.getRoom());
 
-    @Override
-    public void onTickComplete() {
-        this.rollCount++;
-
-        if (this.rollingPositions.isEmpty()) return;
-
-        Position newPosition = this.rollingPositions.get(0);
-        Position currentPosition = new Position(this.getPosition().getX(), this.getPosition().getY());
-
-//        if(newPosition.getX() == currentPosition.getX() && newPosition.getY() == currentPosition.getY()) {
-//
-//        }
-
-        currentPosition.setZ(this.getRoom().getModel().getSquareHeight()[currentPosition.getX()][currentPosition.getY()]);
-        newPosition.setZ(this.getRoom().getModel().getSquareHeight()[newPosition.getX()][newPosition.getY()]);
-
-        if (!this.getRoom().getMapping().isValidStep(currentPosition, newPosition, false, true) || !this.getRoom().getEntities().isSquareAvailable(newPosition.getX(), newPosition.getY())) {
-            newPosition = currentPosition.squareBehind(this.rotation);
-        }
-
-        if (this.getRoom().getMapping().isValidStep(currentPosition, newPosition, false, true)) {
-            roll(this, currentPosition, newPosition, this.getRoom());
-
-            this.getPosition().setX(newPosition.getX());
-            this.getPosition().setY(newPosition.getY());
-            this.getPosition().setZ(newPosition.getZ());
-        }
-
-        this.rollingPositions.remove(newPosition);
-
-        if (this.rollingPositions.size() != 0) {
-            this.setTicks(RoomItemFactory.getProcessTime(this.getDelay(this.rollCount)));
-        } else {
-            this.rollCount = 0;
-        }
-
+        this.setRotation(rotation);
+        this.getPosition().setX(pos.getX());
+        this.getPosition().setY(pos.getY());
 
         // tell all other items on the new square that there's a new item. (good method of updating score...)
-        for (RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(newPosition.getX(), newPosition.getY())) {
+        for (RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(pos.getX(), pos.getY())) {
             floorItem.onItemAddedToStack(this);
         }
 
+        this.getPosition().setZ(pos.getZ());
         RoomItemDao.saveItemPosition(this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), this.getRotation(), this.getId());
     }
 
@@ -234,22 +196,10 @@ public abstract class RollableFloorItem extends RoomItemFloor {
                 return 0.3;
             default:
                 if (i != 5) {
-                    return ((i != 6) ? 0.2 : 3.5);
+                    return ((i != 6) ? 0.2 : 0.35);
                 }
                 return 0.35;
         }
-    }
-
-    public boolean isRolling() {
-        return (this.rollingPositions != null && this.rollingPositions.size() > 0);
-    }
-
-    public List<Position> getRollingPositions() {
-        return this.rollingPositions;
-    }
-
-    public void setRollingPositions(List<Position> positions) {
-        this.rollingPositions = positions;
     }
 
     public PlayerEntity getPusher() {
