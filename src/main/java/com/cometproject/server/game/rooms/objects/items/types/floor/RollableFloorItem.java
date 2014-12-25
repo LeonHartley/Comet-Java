@@ -120,6 +120,9 @@ public abstract class RollableFloorItem extends RoomItemFloor {
                 return false;
             }
 
+            if(this.getRoom().getMapping().getTile(nextPosition.getX(), nextPosition.getY()).getWalkHeight() >= 0.5)
+                return false;
+
             return true;
         }
 
@@ -164,7 +167,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
         Position newPosition;
 
-        if (entity.getRoom().getMapping().isValidStep(currentPosition, calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation()), false, true)) {
+        if (this.isValidRoll(this.getNextPosition(currentPosition, false))) {
             newPosition = calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation());
         } else {
             newPosition = Position.calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation(), true);
