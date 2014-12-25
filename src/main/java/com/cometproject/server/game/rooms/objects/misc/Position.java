@@ -167,8 +167,8 @@ public class Position {
 
             case 5:
                 if (!isReversed) {
-                    x--;
-                    y++;
+                    x++;
+                    y--;
                 } else {
                     x++;
                     y--;
@@ -188,7 +188,7 @@ public class Position {
                     y--;
                 } else {
                     x++;
-                    y++;
+                    y--;
                 }
                 break;
         }
@@ -267,5 +267,14 @@ public class Position {
 
     public void setZ(double z) {
         this.z = z;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Position) {
+            return ((Position) o).getX() == this.getX() && ((Position) o).getY() == ((Position) o).getY();
+        }
+
+        return false;
     }
 }

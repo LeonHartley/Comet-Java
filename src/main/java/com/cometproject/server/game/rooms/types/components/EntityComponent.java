@@ -41,10 +41,16 @@ public class EntityComponent {
         this.entityGrid = new ArrayList[room.getModel().getSizeX()][room.getModel().getSizeY()];
     }
 
+    public List<GenericEntity> getEntitiesAt(Position pos) {
+        return this.getEntitiesAt(pos.getX(), pos.getY());
+    }
+
     public List<GenericEntity> getEntitiesAt(int x, int y) {
-        if (x < entityGrid.length) {
-            if (y < entityGrid[x].length) {
-                return this.entityGrid[x][y] != null ? this.entityGrid[x][y] : new ArrayList<>();
+        if(x <= 0 && y <= 0) {
+            if (x < entityGrid.length) {
+                if (y < entityGrid[x].length) {
+                    return this.entityGrid[x][y] != null ? this.entityGrid[x][y] : new ArrayList<>();
+                }
             }
         }
 
