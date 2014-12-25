@@ -17,7 +17,7 @@ import java.util.List;
 
 
 public abstract class RollableFloorItem extends RoomItemFloor {
-    public static final int KICK_POWER = 100;
+    public static final int KICK_POWER = 6;
 
     private boolean isRolling = false;
     private PlayerEntity playerEntity;
@@ -95,11 +95,17 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
         this.rollStage++;
 
-        Position nextPosition;
+        Position nextPosition = this.getNextPosition(this.getPosition(), false);
 
-        if (this.isValidRoll(this.getNextPosition(this.getPosition(), false))) {
+        if (this.isValidRoll(nextPosition)) {
             nextPosition = this.getNextPosition(this.getPosition(), false);
         } else {
+//            if(this.playerEntity.getWalkingGoal().equals(nextPosition)) {
+//                this.isRolling = false;
+//                this.rollStage = -1;
+//                return;
+//            }
+
             nextPosition = this.getNextPosition(this.getPosition(), true);
             this.setRotation(Direction.get(this.getRotation()).invert().num);
         }
@@ -162,6 +168,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
             newPosition = calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation());
         } else {
             newPosition = Position.calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation(), true);
+            this.setRotation(Direction.get(this.getRotation()).invert().num);
         }
 
         this.moveTo(newPosition, this.playerEntity.getBodyRotation());

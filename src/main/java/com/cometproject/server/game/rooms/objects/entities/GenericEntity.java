@@ -527,4 +527,13 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     public void setCanWalk(boolean canWalk) {
         this.canWalk = canWalk;
     }
+
+    @Override
+    public boolean equals(Object entity) {
+        if(entity instanceof GenericEntity) {
+            return ((GenericEntity) entity).getId() == this.getId();
+        }
+
+        return false;
+    }
 }
