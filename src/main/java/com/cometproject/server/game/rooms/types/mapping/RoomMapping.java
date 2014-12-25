@@ -63,20 +63,23 @@ public class RoomMapping {
         int entitySize = 0;
         boolean hasMe = false;
 
-        if (entityId == null) return false;
+        if (entityId == null || entityId == -1) return false;
 
         for (GenericEntity entity : this.room.getEntities().getEntitiesAt(position.getX(), position.getY())) {
             entitySize++;
 
-            if (entity instanceof PetEntity && ((PetEntity) entity).hasMount()) {
+            if (entity instanceof PetEntity && entity.hasMount()) {
                 hasMountedPet = true;
             }
 
             // Do we need a null check here? Not sure yet..
-            if (entity.getId() == entityId) {
+            if (entityId != 0 && entity.getId() == entityId) {
                 hasMe = true;
             }
         }
+
+        System.out.println(entityId);
+        System.out.println(entitySize);
 
         return !(hasMe && entitySize == 1) && !hasMountedPet && entitySize > 0;
     }
@@ -86,7 +89,7 @@ public class RoomMapping {
     }
 
     public boolean isValidEntityStep(GenericEntity entity, Position currentPosition, Position toPosition, boolean isFinalMove) {
-        return isValidStep(entity, currentPosition, toPosition, isFinalMove, false);
+        return isValidStep(entity.getId(), currentPosition, toPosition, isFinalMove, false);
     }
 
     public boolean isValidStep(Position from, Position to, boolean lastStep) {
@@ -97,7 +100,7 @@ public class RoomMapping {
         return isValidStep(null, from, to, lastStep, isFloorItem);
     }
 
-    public boolean isValidStep(GenericEntity entity, Position from, Position to, boolean lastStep, boolean isFloorItem) {
+    public boolean isValidStep(Integer entity, Position from, Position to, boolean lastStep, boolean isFloorItem) {
         if (from.getX() == to.getX() && from.getY() == to.getY()) {
             return true;
         }
@@ -111,7 +114,18 @@ public class RoomMapping {
         }
 
         final boolean isAtDoor = this.getModel().getDoorX() == from.getX() && this.getModel().getDoorY() == from.getY();
-        final boolean positionHasUser = positionHasUser(entity == null ? null : entity.getId(), to);
+
+        int entityId;
+
+        if(entity == null) {
+            entityId = -1;
+        } else if(isFloorItem) {
+            entityId = 0;
+        } else {
+            entityId = entity;
+        }
+
+        final boolean positionHasUser = positionHasUser(entityId, to);
 
         if (positionHasUser) {
             if ((!room.getData().getAllowWalkthrough() || isFloorItem) && !isAtDoor) {
