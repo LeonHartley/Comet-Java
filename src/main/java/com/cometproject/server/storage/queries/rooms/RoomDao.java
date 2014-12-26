@@ -351,7 +351,8 @@ public class RoomDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("INSERT into rooms_promoted (room_id, name, description, time_start, time_expire) VALUES (?, ?, ?, ?, ?);", sqlConnection);
+            preparedStatement = SqlHelper.prepare("INSERT into rooms_promoted (room_id, name, description, time_start, time_expire) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name), " +
+                    "description = VALUES(description), time_start = VALUES(time_start), time_expire = VALUES(time_expire);", sqlConnection);
 
             preparedStatement.setInt(1, roomPromotion.getRoomId());
             preparedStatement.setString(2, roomPromotion.getPromotionName());
