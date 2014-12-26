@@ -152,6 +152,8 @@ public class RoomMapping {
     }
 
     public double getStepHeight(Position position) {
+        if(this.tiles.length <= position.getX() || this.tiles[position.getX()].length <= position.getY()) return 0.0;
+
         TileInstance instance = this.tiles[position.getX()][position.getY()];
 
         if (!isValidPosition(instance.getPosition())) {
