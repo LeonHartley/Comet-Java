@@ -78,9 +78,6 @@ public class RoomMapping {
             }
         }
 
-        System.out.println(entityId);
-        System.out.println(entitySize);
-
         return !(hasMe && entitySize == 1) && !hasMountedPet && entitySize > 0;
     }
 

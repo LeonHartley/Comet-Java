@@ -42,12 +42,9 @@ public class ItemManager implements Initializable {
     }
 
     public void loadItemDefinitions() {
-
-        if (this.getItemDefinitions().size() >= 1) {
-            this.getItemDefinitions().clear();
-            this.itemSpriteIdToDefinitionId.clear();
-        }
-
+        FastMap<Integer, ItemDefinition> tempMap = this.itemDefinitions;
+        FastMap<Integer, Integer> tempSpriteIdItemMap = this.itemSpriteIdToDefinitionId;
+        
         try {
             this.itemDefinitions = ItemDao.getDefinitions();
             this.itemSpriteIdToDefinitionId = new FastMap<>();
@@ -55,7 +52,12 @@ public class ItemManager implements Initializable {
             log.error("Error while loading item definitions", e);
         }
 
-        if (itemDefinitions != null) {
+        if (tempMap.size() >= 1) {
+            tempMap.clear();
+            tempSpriteIdItemMap.clear();
+        }
+
+        if (this.itemDefinitions != null) {
             for (ItemDefinition itemDefinition : this.itemDefinitions.values()) {
                 this.itemSpriteIdToDefinitionId.put(itemDefinition.getSpriteId(), itemDefinition.getId());
             }
