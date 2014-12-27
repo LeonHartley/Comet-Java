@@ -16,7 +16,11 @@ public class GiftFloorItem extends RoomItemFloor {
     public GiftFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
-        this.giftData = JsonFactory.getInstance().fromJson(data.split("GIFT::##")[1], GiftData.class);
+        try {
+            this.giftData = JsonFactory.getInstance().fromJson(data.split("GIFT::##")[1], GiftData.class);
+        } catch(Exception e) {
+            this.getRoom().log.error("Error while loading GiftData for item: " + this.getId(), e);
+        }
     }
 
     @Override

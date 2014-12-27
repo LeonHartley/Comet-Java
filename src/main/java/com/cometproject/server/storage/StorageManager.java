@@ -31,7 +31,13 @@ public class StorageManager implements Initializable {
             config.addDataSourceProperty("user", Comet.getServer().getConfig().get("comet.db.username"));
             config.addDataSourceProperty("password", Comet.getServer().getConfig().get("comet.db.password"));
             config.setMaximumPoolSize(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
-            config.setLeakDetectionThreshold(300000);
+
+            config.addDataSourceProperty("cachePrepStmts", "true");
+            config.addDataSourceProperty("prepStmtCacheSize", "250");
+            config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+            config.addDataSourceProperty("useServerPrepStmts", "true");
+
+            config.setConnectionTimeout(1000);
 
             config.setInitializationFailFast(true);
 

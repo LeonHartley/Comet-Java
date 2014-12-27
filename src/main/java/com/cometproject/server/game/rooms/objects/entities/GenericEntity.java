@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.TileInstance;
+import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import javolution.util.FastMap;
 
@@ -122,15 +122,15 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     @Override
     public void moveTo(int x, int y) {
-        TileInstance tileInstance = this.getRoom().getMapping().getTile(x, y);
+        Tile tile = this.getRoom().getMapping().getTile(x, y);
 
-        if (tileInstance == null)
+        if (tile == null)
             return;
 
         // reassign the position values if they're set to redirect
-        if (tileInstance.getRedirect() != null) {
-            x = tileInstance.getRedirect().getX();
-            y = tileInstance.getRedirect().getY();
+        if (tile.getRedirect() != null) {
+            x = tile.getRedirect().getX();
+            y = tile.getRedirect().getY();
         }
 
         if (this.getPositionToSet() != null) {
