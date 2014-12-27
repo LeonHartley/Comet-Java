@@ -21,15 +21,14 @@ public class ModToolUserChatlogMessageComposer {
 
         for (UserChatlogContainer.LogSet logSet : logContainer.getLogs()) {
             RoomData roomData = RoomManager.getInstance().getRoomData(logSet.getRoomId());
-
             msg.writeByte(1);
             msg.writeShort(2);
             msg.writeString("roomName");
             msg.writeByte(2); // type of following data (string = 2)
-            msg.writeString(roomData.getName());
+            msg.writeString(roomData == null ? "Unknown Room" : roomData.getName());
             msg.writeString("roomId");
             msg.writeByte(1); //type of following data i guess (int = 1)
-            msg.writeInt(roomData.getId());
+            msg.writeInt(roomData == null ? 0 : roomData.getId());
 
             msg.writeShort(logSet.getLogs().size());
 

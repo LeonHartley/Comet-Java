@@ -13,7 +13,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorIte
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.TileInstance;
+import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
@@ -247,7 +247,7 @@ public class ItemsComponent {
         RoomItemFloor item = this.getFloorItem(itemId);
         if (item == null) return false;
 
-        TileInstance tile = this.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
+        Tile tile = this.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
 
         if(!this.verifyItemPosition(item.getDefinition(), tile, item.getPosition())) {
             return false;
@@ -321,7 +321,7 @@ public class ItemsComponent {
         return true;
     }
 
-    private boolean verifyItemPosition(ItemDefinition item, TileInstance tile, Position currentPosition) {
+    private boolean verifyItemPosition(ItemDefinition item, Tile tile, Position currentPosition) {
         if (tile != null) {
             if(currentPosition != null && currentPosition.getX() == tile.getPosition().getX() && currentPosition.getY() == tile.getPosition().getY())
                 return true;
@@ -373,7 +373,7 @@ public class ItemsComponent {
     }
 
     public void placeFloorItem(InventoryItem item, int x, int y, int rot, Player player) {
-        TileInstance tile = room.getMapping().getTile(x, y);
+        Tile tile = room.getMapping().getTile(x, y);
 
         if (tile == null)
             return;

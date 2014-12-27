@@ -44,14 +44,6 @@ public class RoomCycle implements CometTask {
             // run this before ticking
             RoomManager.getInstance().unloadIdleRooms();
 
-            for (Room room : RoomManager.getInstance().getRoomInstances().values()) {
-                try {
-                    room.tick();
-                } catch (Exception e) {
-                    log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
-                }
-            }
-
             List<Integer> expiredPromotedRooms = Lists.newArrayList();
 
             for(RoomPromotion roomPromotion : RoomManager.getInstance().getRoomPromotions().values()) {

@@ -13,7 +13,7 @@ import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import java.util.List;
 
 
-public class TileInstance {
+public class Tile {
     private RoomMapping mappingInstance;
     private Position position;
 
@@ -33,7 +33,7 @@ public class TileInstance {
     private boolean canPlaceItemHere = false;
     private boolean hasItems = false;
 
-    public TileInstance(RoomMapping mappingInstance, Position position) {
+    public Tile(RoomMapping mappingInstance, Position position) {
         this.mappingInstance = mappingInstance;
         this.position = position;
         this.reload();

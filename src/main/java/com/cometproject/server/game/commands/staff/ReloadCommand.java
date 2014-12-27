@@ -31,6 +31,7 @@ public class ReloadCommand extends ChatCommand {
         switch (command) {
             case "list":
                 client.send(MotdNotificationComposer.compose(
+                        "Here's a list of what you can reload using the :reload command!\n\n" +
                         "- bans\n" +
                                 "- catalog\n" +
                                 "- navigator\n" +
@@ -41,7 +42,7 @@ public class ReloadCommand extends ChatCommand {
                                 "- items\n" +
                                 "- filter\n" +
                                 "- locale\n" +
-                                " - modpresets\n"
+                                "- modpresets\n"
                 ));
 
                 break;

@@ -44,7 +44,7 @@ public class ItemManager implements Initializable {
     public void loadItemDefinitions() {
         FastMap<Integer, ItemDefinition> tempMap = this.itemDefinitions;
         FastMap<Integer, Integer> tempSpriteIdItemMap = this.itemSpriteIdToDefinitionId;
-        
+
         try {
             this.itemDefinitions = ItemDao.getDefinitions();
             this.itemSpriteIdToDefinitionId = new FastMap<>();
