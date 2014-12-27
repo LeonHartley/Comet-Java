@@ -37,8 +37,6 @@ public class RoomManager implements Initializable {
 
     private FastMap<Integer, RoomPromotion> roomPromotions;
 
-    private final Object syncObj = new Object();
-
     private Set<StaticRoomModel> models;
     private WordFilter filterManager;
 
@@ -113,31 +111,25 @@ public class RoomManager implements Initializable {
             return this.getRoomInstances().get(id);
         }
 
-        synchronized (this.syncObj) {
-            if (this.getRoomInstances().containsKey(id)) {
-                return this.getRoomInstances().get(id);
-            }
-
-            RoomData data = this.getRoomData(id);
-
-            if (data == null) {
-                return null;
-            }
-
-//            try {
-            Room room = new Room(data).load();
-
-            if (room == null) return null;
-
-            this.loadedRoomInstances.put(id, room);
-
-            this.finalizeRoomLoad(room);
-
-            return room;
-//            } finally {
-//                this.finalizeRoomLoad(this.getRoomInstances().get(id));
-//            }
+        if (this.getRoomInstances().containsKey(id)) {
+            return this.getRoomInstances().get(id);
         }
+
+        RoomData data = this.getRoomData(id);
+
+        if (data == null) {
+            return null;
+        }
+
+        Room room = new Room(data).load();
+
+        if (room == null) return null;
+
+        this.loadedRoomInstances.put(id, room);
+
+        this.finalizeRoomLoad(room);
+
+        return room;
     }
 
     private void finalizeRoomLoad(Room room) {
@@ -168,19 +160,17 @@ public class RoomManager implements Initializable {
 
         this.unloadingRoomInstances.clear();
 
-        synchronized (this.syncObj) {
-            List<Room> idleRooms = new ArrayList<>();
+        List<Room> idleRooms = new ArrayList<>();
 
-            for (Room room : this.loadedRoomInstances.values()) {
-                if (room.isIdle()) {
-                    idleRooms.add(room);
-                }
+        for (Room room : this.loadedRoomInstances.values()) {
+            if (room.isIdle()) {
+                idleRooms.add(room);
             }
+        }
 
-            for (Room room : idleRooms) {
-                this.loadedRoomInstances.remove(room.getId());
-                this.unloadingRoomInstances.put(room.getId(), room);
-            }
+        for (Room room : idleRooms) {
+            this.loadedRoomInstances.remove(room.getId());
+            this.unloadingRoomInstances.put(room.getId(), room);
         }
     }
 

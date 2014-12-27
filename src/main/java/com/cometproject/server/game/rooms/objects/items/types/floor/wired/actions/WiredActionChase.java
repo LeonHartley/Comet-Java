@@ -9,6 +9,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.W
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerCollision;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.utilities.RandomInteger;
 
@@ -122,8 +123,9 @@ public class WiredActionChase extends WiredActionItem {
     private Position random(RoomItemFloor floorItem, Position from) {
         int randomDirection = RandomInteger.getRandom(0, 3) * 2;
         Position newPosition = from.squareInFront(randomDirection);
+        Tile tile = floorItem.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
 
-        if (floorItem.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY()).isReachable(floorItem)) {
+        if (tile != null && tile.isReachable(floorItem)) {
             return newPosition;
         }
 
