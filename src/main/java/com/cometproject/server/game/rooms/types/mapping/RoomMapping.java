@@ -14,7 +14,7 @@ import java.util.List;
 public class RoomMapping {
     private Room room;
 
-    private TileInstance[][] tiles;
+    private Tile[][] tiles;
 
     public RoomMapping(Room roomInstance) {
         this.room = roomInstance;
@@ -24,13 +24,13 @@ public class RoomMapping {
         int sizeX = this.getModel().getSizeX();
         int sizeY = this.getModel().getSizeY();
 
-        this.tiles = new TileInstance[sizeX][sizeY];
+        this.tiles = new Tile[sizeX][sizeY];
 
         for (int x = 0; x < sizeX; x++) {
-            TileInstance[] xArray = new TileInstance[sizeY];
+            Tile[] xArray = new Tile[sizeY];
 
             for (int y = 0; y < sizeY; y++) {
-                TileInstance instance = new TileInstance(this, new Position(x, y, 0d));
+                Tile instance = new Tile(this, new Position(x, y, 0d));
                 instance.reload();
 
                 xArray[y] = instance;
@@ -47,7 +47,7 @@ public class RoomMapping {
         }
     }
 
-    public TileInstance getTile(int x, int y) {
+    public Tile getTile(int x, int y) {
         if (x < 0 || y < 0) return null;
         if (x >= this.tiles.length || y >= this.tiles[x].length) return null;
 
@@ -133,7 +133,7 @@ public class RoomMapping {
             }
         }
 
-        TileInstance tile = tiles[to.getX()][to.getY()];
+        Tile tile = tiles[to.getX()][to.getY()];
 
         if (tile == null) {
             return false;
@@ -154,7 +154,7 @@ public class RoomMapping {
     public double getStepHeight(Position position) {
         if(this.tiles.length <= position.getX() || this.tiles[position.getX()].length <= position.getY()) return 0.0;
 
-        TileInstance instance = this.tiles[position.getX()][position.getY()];
+        Tile instance = this.tiles[position.getX()][position.getY()];
 
         if (!isValidPosition(instance.getPosition())) {
             return 0.0;

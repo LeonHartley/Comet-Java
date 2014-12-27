@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
@@ -45,6 +46,12 @@ public class ProcessComponent implements CometTask {
     public void tick() {
         if (!this.active) {
             return;
+        }
+
+        try {
+            this.getRoom().tick();
+        } catch (Exception e) {
+            log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
         }
 
         try {

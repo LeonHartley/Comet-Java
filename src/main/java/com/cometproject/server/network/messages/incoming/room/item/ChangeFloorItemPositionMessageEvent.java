@@ -25,23 +25,24 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
 
         if (room == null) return;
 
-        boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
-        boolean hasRights = room.getRights().hasRights(client.getPlayer().getId());
 
-        if ((isOwner || hasRights) || client.getPlayer().getPermissions().hasPermission("room_full_control")) {
-            try {
-                if (room.getItems().moveFloorItem(id, new Position(x, y), rot, true)) {
-                    // success!
-                }
+        if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId())
+                && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            return;
+        }
 
-                RoomItemFloor floorItem = room.getItems().getFloorItem(id);
-
-                if (floorItem != null) {
-                    room.getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(floorItem, room.getData().getOwnerId()));
-                }
-            } catch (Exception e) {
-                log.error("Error whilst changing floor item position!", e);
+        try {
+            if (room.getItems().moveFloorItem(id, new Position(x, y), rot, true)) {
+                // success!
             }
+
+            RoomItemFloor floorItem = room.getItems().getFloorItem(id);
+
+            if (floorItem != null) {
+                room.getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(floorItem, room.getData().getOwnerId()));
+            }
+        } catch (Exception e) {
+            log.error("Error whilst changing floor item position!", e);
         }
     }
 }
