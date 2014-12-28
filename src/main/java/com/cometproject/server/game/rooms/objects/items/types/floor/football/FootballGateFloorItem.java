@@ -9,20 +9,13 @@ import java.util.Arrays;
 
 
 public class FootballGateFloorItem extends RoomItemFloor {
-    private String maleFigure = "";
-    private String femaleFigure = "";
-
     public FootballGateFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
-        final String[] splittedData = data.split(";");
-
-        if (splittedData.length != 1 && splittedData.length != 2) {
-            return;
+        if(this.getExtraData().equals("0")) {
+            this.setExtraData("hd-99999-99999.ch-3030-63.lg-275-1408;hd-99999-99999.ch-3030-63.lg-275-1408");
+            this.saveData();
         }
-
-        this.maleFigure = splittedData[0].replace(";", "");
-        this.femaleFigure = splittedData.length > 1 ? splittedData[1].replace(";", "") : "";
     }
 
     @Override
@@ -39,19 +32,7 @@ public class FootballGateFloorItem extends RoomItemFloor {
                 newFigure += playerFigurePart + ".";
         }
 
-        String newFigureParts = "";
-
-        switch (playerEntity.getGender()) {
-            case "M":
-                if (this.maleFigure.equals("")) return;
-                newFigureParts = this.maleFigure;
-                break;
-
-            case "F":
-                if (this.femaleFigure.equals("")) return;
-                newFigureParts = this.femaleFigure;
-                break;
-        }
+        String newFigureParts = this.getFigure(playerEntity.getGender());
 
         for (String newFigurePart : Arrays.asList(newFigureParts.split("\\."))) {
             if (newFigurePart.startsWith("hd"))
@@ -67,16 +48,30 @@ public class FootballGateFloorItem extends RoomItemFloor {
     }
 
     public void setFigure(String gender, String figure) {
-        if (gender.equals("M")) {
-            this.maleFigure = figure.split(";")[0];
-            return;
-        }
+        switch(gender.toUpperCase()) {
+            case "M":
+                this.setExtraData(figure + "," + this.getFigure("F"));
+                break;
 
-        this.femaleFigure = figure.split(";")[1];
+            case "F":
+                this.setExtraData(this.getFigure("M") + "," + figure);
+                break;
+        }
     }
 
-    public void saveFigures() {
-        this.setExtraData(maleFigure + ";" + femaleFigure);
-        this.saveData();
+    public String getFigure(String gender) {
+        if(this.getExtraData().length() < 2) {
+            return "hd-99999-99999.ch-3030-63.lg-275-1408";
+        }
+
+        String figure;
+
+        if(gender.toUpperCase().equals("M")) {
+            figure = this.getExtraData().split(",")[0];
+        } else {
+            figure = this.getExtraData().split(",")[1];
+        }
+
+        return figure.isEmpty() ? "hd-99999-99999.ch-3030-63.lg-275-1408" : figure.replace(",", "");
     }
 }
