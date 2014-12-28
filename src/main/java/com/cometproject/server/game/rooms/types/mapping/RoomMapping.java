@@ -63,7 +63,8 @@ public class RoomMapping {
         int entitySize = 0;
         boolean hasMe = false;
 
-        if (entityId == null || entityId == -1) return false;
+        if (entityId == null || entityId == -1)
+            return false;
 
         for (GenericEntity entity : this.room.getEntities().getEntitiesAt(position.getX(), position.getY())) {
             entitySize++;
@@ -86,7 +87,10 @@ public class RoomMapping {
     }
 
     public boolean isValidEntityStep(GenericEntity entity, Position currentPosition, Position toPosition, boolean isFinalMove) {
-        return isValidStep(entity.getId(), currentPosition, toPosition, isFinalMove, false);
+        if(entity != null)
+            return isValidStep(entity.getId(), currentPosition, toPosition, isFinalMove, false);
+        else
+            return isValidStep(0, currentPosition, toPosition, isFinalMove, true);
     }
 
     public boolean isValidStep(Position from, Position to, boolean lastStep) {

@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.entities.pathfinding;
 
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MinMaxPriorityQueue;
@@ -66,9 +67,10 @@ public class Pathfinder {
 
             for (int i = 0; i < (pathfinderMode == ALLOW_DIAGONAL ? diagonalMovePoints().length : movePoints().length); i++) {
                 tmp = current.getPosition().add((pathfinderMode == ALLOW_DIAGONAL ? diagonalMovePoints() : movePoints())[i]);
-                boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
+                final boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
+                final boolean isFloorItem = roomObject instanceof RoomItemFloor;
 
-                if (roomObject.getRoom().getMapping().isValidEntityStep(roomObject instanceof GenericEntity ? ((GenericEntity) roomObject) : null, new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove) || (roomObject instanceof GenericEntity && ((GenericEntity) roomObject).isOverriden())) {
+                if (roomObject.getRoom().getMapping().isValidStep(roomObject instanceof GenericEntity ? roomObject.getId() : 0, new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove, isFloorItem) || (roomObject instanceof GenericEntity && ((GenericEntity) roomObject).isOverriden())) {
                     try {
                         if (map[tmp.getX()][tmp.getY()] == null) {
                             node = new PathfinderNode(tmp);
