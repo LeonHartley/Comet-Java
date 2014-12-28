@@ -1,10 +1,12 @@
 package com.cometproject.server.network.messages.incoming.moderation;
 
 import com.cometproject.server.game.moderation.chatlog.UserChatlogContainer;
+import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.database.queries.LogQueries;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolUserChatlogMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -16,6 +18,9 @@ public class ModToolUserChatlogMessageEvent implements IEvent {
         if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             return;
         }
+
+        if(!LogManager.ENABLED)
+            client.send(AdvancedAlertMessageComposer.compose("Notice", "Logging is not currently enabled, please contact your system administrator to enable it."));
 
         UserChatlogContainer chatlogContainer = new UserChatlogContainer();
 

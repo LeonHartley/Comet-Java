@@ -46,7 +46,7 @@ public class EntityComponent {
     }
 
     public List<GenericEntity> getEntitiesAt(int x, int y) {
-        if(x <= 0 && y <= 0) {
+        if(x >= 0 && y >= 0) {
             if (x < entityGrid.length) {
                 if (y < entityGrid[x].length) {
                     return this.entityGrid[x][y] != null ? this.entityGrid[x][y] : new ArrayList<>();
