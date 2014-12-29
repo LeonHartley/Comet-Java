@@ -123,6 +123,15 @@ public class CatalogPurchaseHandler {
             client.getPlayer().sendBalance();
             client.getPlayer().getData().save();
 
+            if(item.isBadgeOnly()) {
+                if (item.hasBadge()) {
+                    client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
+                }
+
+                client.send(BoughtItemMessageComposer.badge());
+                return;
+            }
+
             for (int newItemId : item.getItems()) {
                 ItemDefinition def = ItemManager.getInstance().getDefinition(newItemId);
                 if (def == null) {

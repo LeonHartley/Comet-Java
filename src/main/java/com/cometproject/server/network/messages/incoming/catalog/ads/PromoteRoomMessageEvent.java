@@ -65,6 +65,6 @@ public class PromoteRoomMessageEvent implements IEvent {
         }
 
         RoomManager.getInstance().promoteRoom(roomData.getId(), promotionName, promotionDescription);
-        client.send(BoughtItemMessageComposer.promoteRoom());
+        client.send(BoughtItemMessageComposer.badge());
     }
 }

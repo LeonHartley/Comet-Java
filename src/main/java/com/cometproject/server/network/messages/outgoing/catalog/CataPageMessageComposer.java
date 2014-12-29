@@ -38,9 +38,7 @@ public class CataPageMessageComposer {
         }
 
         msg.writeInt(0);
-
-        msg.writeBoolean(false);
-        msg.writeBoolean(false);
+        msg.writeBoolean(false); // allow seasonal currency as credits
 
         return msg;
     }

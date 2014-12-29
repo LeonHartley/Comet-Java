@@ -46,7 +46,7 @@ public class BoughtItemMessageComposer {
         return msg;
     }
 
-    public static Composer promoteRoom() {
+    public static Composer badge() {
         Composer msg = new Composer(Composers.PurchaseOKMessageComposer);
 
         msg.writeInt(0);

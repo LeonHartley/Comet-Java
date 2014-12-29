@@ -55,7 +55,9 @@ public class CatalogDao {
 
             while (resultSet.next()) {
                 try {
-                    if (!ItemManager.getInstance().getItemDefinitions().containsKey(Integer.parseInt(resultSet.getString("item_ids")))) {
+                    int itemId = Integer.parseInt(resultSet.getString("item_ids"));
+
+                    if (itemId != -1 && !ItemManager.getInstance().getItemDefinitions().containsKey(itemId)) {
                         continue;
                     }
                 } catch (Exception e) {

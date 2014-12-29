@@ -4,6 +4,7 @@ import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
@@ -33,16 +34,21 @@ public class CataIndexMessageComposer {
             msg.writeBoolean(true); // visible
             msg.writeInt(page.getIcon());
             msg.writeInt(page.getId());
-            msg.writeString(page.getLinkName().equals("undefined") ? page.getCaption().toLowerCase().replace(" ", "_") : page.getLinkName());
+
+            msg.writeString(page.getLinkName().equals("undefined") ? page.getCaption().toLowerCase().replaceAll("[^A-Za-z0-9]", "").replace(" ", "_") : page.getLinkName());
             msg.writeString(page.getCaption());
 
             msg.writeInt(page.getOfferSize());
 
             for (CatalogItem item : page.getItems().values()) {
-                int offerId = ItemManager.getInstance().getDefinition(item.getItems().get(0)).getOfferId();
+                ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0));
 
-                if (offerId != -1)
-                    msg.writeInt(offerId);
+                if(itemDefinition != null) {
+                    int offerId = itemDefinition.getOfferId();
+
+                    if (offerId != -1)
+                        msg.writeInt(offerId);
+                }
             }
 
             msg.writeInt(count(page.getId(), pages));
@@ -55,15 +61,16 @@ public class CataIndexMessageComposer {
                 msg.writeBoolean(true); // visible
                 msg.writeInt(child.getIcon());
                 msg.writeInt(child.getId());
-                msg.writeString(page.getLinkName().equals("undefined") ? page.getCaption().toLowerCase().replace(" ", "_") : page.getLinkName());
+                msg.writeString(page.getLinkName().equals("undefined") ? page.getCaption().toLowerCase().replaceAll("[^A-Za-z0-9]", "").replace(" ", "_") : page.getLinkName());
                 msg.writeString(child.getCaption());
                 msg.writeInt(child.getOfferSize());
 
                 for (CatalogItem item : child.getItems().values()) {
-                    int offerId = ItemManager.getInstance().getDefinition(item.getItems().get(0)).getOfferId();
+                    ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0));
 
-                    if (offerId != -1 && offerId != 0)
-                        msg.writeInt(offerId);
+                    if (itemDefinition != null && itemDefinition.getOfferId() != -1 && itemDefinition.getOfferId() != 0) {
+                        msg.writeInt(itemDefinition.getOfferId());
+                    }
                 }
 
 
