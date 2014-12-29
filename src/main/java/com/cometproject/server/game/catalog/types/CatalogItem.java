@@ -118,6 +118,8 @@ public class CatalogItem {
             this.items.add(Integer.valueOf(this.itemId));
         }
 
+        if(ItemManager.getInstance().getDefinition(this.getItems().get(0)) == null) return;
+
         int offerId = ItemManager.getInstance().getDefinition(this.getItems().get(0)).getOfferId();
 
         if (!CatalogManager.getCatalogOffers().containsKey(offerId)) {
@@ -144,41 +146,41 @@ public class CatalogItem {
             msg.writeInt(0);
         }
 
-        msg.writeBoolean(firstItem.canGift());
+        msg.writeBoolean(firstItem != null && firstItem.canGift());
 
         if (!this.hasBadge()) {
             msg.writeInt(this.getItems().size());
         } else {
-            msg.writeInt(this.getItems().size() + 1);
+            msg.writeInt(this.isBadgeOnly() ? 1 : this.getItems().size() + 1);
             msg.writeString("b");
             msg.writeString(this.getBadgeId());
         }
 
-        for (int i : this.getItems()) {
-            ItemDefinition def = ItemManager.getInstance().getDefinition(i);
-            msg.writeString(def.getType());
-            msg.writeInt(def.getSpriteId());
+        if(!this.isBadgeOnly()) {
+            for (int i : this.getItems()) {
+                ItemDefinition def = ItemManager.getInstance().getDefinition(i);
 
-            if (this.getDisplayName().contains("wallpaper_single") || this.getDisplayName().contains("floor_single") || this.getDisplayName().contains("landscape_single")) {
-                msg.writeString(this.getDisplayName().split("_")[2]);
-            } else {
-                msg.writeString(this.getPresetData());
+                msg.writeString(def.getType());
+                msg.writeInt(def.getSpriteId());
+
+                if (this.getDisplayName().contains("wallpaper_single") || this.getDisplayName().contains("floor_single") || this.getDisplayName().contains("landscape_single")) {
+                    msg.writeString(this.getDisplayName().split("_")[2]);
+                } else {
+                    msg.writeString(this.getPresetData());
+                }
+
+                msg.writeInt(this.getAmount());
+
+                msg.writeBoolean(this.getLimitedTotal() != 0);
+
+                if (this.getLimitedTotal() > 0) {
+                    msg.writeInt(this.getLimitedTotal());
+                    msg.writeInt(this.getLimitedTotal() - this.getLimitedSells());
+                }
             }
-
-            msg.writeInt(this.getAmount());
-
-            if (this.getLimitedTotal() == 0)
-                msg.writeInt(0);
         }
 
-        msg.writeBoolean(this.getLimitedTotal() != 0);
-
-        if (this.getLimitedTotal() > 0) {
-            msg.writeInt(this.getLimitedTotal());
-            msg.writeInt(this.getLimitedTotal() - this.getLimitedSells());
-            msg.writeInt(0);
-        }
-
+        msg.writeInt(0); // club level
         msg.writeBoolean(!(this.getLimitedTotal() > 0) && this.allowOffer());
     }
 
@@ -236,6 +238,10 @@ public class CatalogItem {
 
     public boolean hasBadge() {
         return !(this.badgeId.isEmpty());
+    }
+
+    public boolean isBadgeOnly() {
+        return this.getItems().get(0) == -1 && this.hasBadge();
     }
 
     public String getBadgeId() {
