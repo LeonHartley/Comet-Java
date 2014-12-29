@@ -13,11 +13,14 @@ import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.RandomInteger;
 import com.google.common.collect.Lists;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
 
 public abstract class WiredTriggerItem extends AbstractWiredItem {
+    private static Logger log = Logger.getLogger(WiredTriggerItem.class.getName());
+
     /**
      * The default constructor
      *
@@ -37,95 +40,99 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        // create empty list for all wired actions on the current tile
-        List<WiredActionItem> wiredActions = Lists.newArrayList();
+        try {
+            // create empty list for all wired actions on the current tile
+            List<WiredActionItem> wiredActions = Lists.newArrayList();
 
-        // create empty list for all wired conditions on current tile
-        List<WiredConditionItem> wiredConditions = Lists.newArrayList();
+            // create empty list for all wired conditions on current tile
+            List<WiredConditionItem> wiredConditions = Lists.newArrayList();
 
-        // used by addons
-        boolean useRandomEffect = false;
-        WiredAddonUnseenEffect unseenEffectItem = null;
+            // used by addons
+            boolean useRandomEffect = false;
+            WiredAddonUnseenEffect unseenEffectItem = null;
 
-        boolean canExecute = true;
+            boolean canExecute = true;
 
-        // Wired animation
-        this.flash();
+            // Wired animation
+            this.flash();
 
-        // loop through all items on this tile
-        for (RoomItemFloor floorItem : this.getItemsOnStack()) {
-            if (floorItem instanceof WiredActionItem) {
+            // loop through all items on this tile
+            for (RoomItemFloor floorItem : this.getItemsOnStack()) {
+                if (floorItem instanceof WiredActionItem) {
 
-                // if the item is a wired action, add it to the list of actions
-                wiredActions.add(((WiredActionItem) floorItem));
-            } else if (floorItem instanceof WiredConditionItem) {
+                    // if the item is a wired action, add it to the list of actions
+                    wiredActions.add(((WiredActionItem) floorItem));
+                } else if (floorItem instanceof WiredConditionItem) {
 
-                // if the item is a wired condition, add it to the list of conditions
-                wiredConditions.add((WiredConditionItem) floorItem);
-            } else if (floorItem instanceof WiredAddonUnseenEffect && unseenEffectItem == null) {
+                    // if the item is a wired condition, add it to the list of conditions
+                    wiredConditions.add((WiredConditionItem) floorItem);
+                } else if (floorItem instanceof WiredAddonUnseenEffect && unseenEffectItem == null) {
 
-                unseenEffectItem = ((WiredAddonUnseenEffect) floorItem);
-            } else if (floorItem instanceof WiredAddonRandomEffect) {
-                useRandomEffect = true;
-            }
-        }
-
-        if (unseenEffectItem != null && unseenEffectItem.getSeenEffects().size() >= wiredActions.size()) {
-            unseenEffectItem.getSeenEffects().clear();
-        }
-
-        // loop through the conditions and check whether or not we can perform the action
-        for (WiredConditionItem conditionItem : wiredConditions) {
-            conditionItem.flash();
-
-            if (!conditionItem.evaluate(entity, data)) {
-                canExecute = false;
-            }
-        }
-
-        // tell the trigger that the item can execute, but hasn't executed just yet!
-        // (just incase you wanna cancel the event that triggered this or do something else... who knows?!?!)
-        this.preActionTrigger(entity, data);
-
-        // if we can perform the action, let's perform it!
-        if (canExecute && wiredActions.size() >= 1) {
-            // if the execution was a success, this will be set to true and returned so that the
-            // event that called this wired trigger can do what it needs to do
-            boolean wasSuccess = false;
-
-            if (useRandomEffect) {
-                int itemIndex = RandomInteger.getRandom(0, wiredActions.size() - 1);
-
-                WiredActionItem actionItem = wiredActions.get(itemIndex);
-
-                if (actionItem != null) {
-                    if (this.executeEffect(actionItem, entity, data)) {
-                        wasSuccess = true;
-                    }
+                    unseenEffectItem = ((WiredAddonUnseenEffect) floorItem);
+                } else if (floorItem instanceof WiredAddonRandomEffect) {
+                    useRandomEffect = true;
                 }
+            }
 
-                return wasSuccess;
-            } else if (unseenEffectItem != null) {
-                for (WiredActionItem actionItem : wiredActions) {
-                    if (!unseenEffectItem.getSeenEffects().contains(actionItem.getId())) {
-                        unseenEffectItem.getSeenEffects().add(actionItem.getId());
+            if (unseenEffectItem != null && unseenEffectItem.getSeenEffects().size() >= wiredActions.size()) {
+                unseenEffectItem.getSeenEffects().clear();
+            }
 
-                        if (this.executeEffect(actionItem, entity, data))
+            // loop through the conditions and check whether or not we can perform the action
+            for (WiredConditionItem conditionItem : wiredConditions) {
+                conditionItem.flash();
+
+                if (!conditionItem.evaluate(entity, data)) {
+                    canExecute = false;
+                }
+            }
+
+            // tell the trigger that the item can execute, but hasn't executed just yet!
+            // (just incase you wanna cancel the event that triggered this or do something else... who knows?!?!)
+            this.preActionTrigger(entity, data);
+
+            // if we can perform the action, let's perform it!
+            if (canExecute && wiredActions.size() >= 1) {
+                // if the execution was a success, this will be set to true and returned so that the
+                // event that called this wired trigger can do what it needs to do
+                boolean wasSuccess = false;
+
+                if (useRandomEffect) {
+                    int itemIndex = RandomInteger.getRandom(0, wiredActions.size() - 1);
+
+                    WiredActionItem actionItem = wiredActions.get(itemIndex);
+
+                    if (actionItem != null) {
+                        if (this.executeEffect(actionItem, entity, data)) {
                             wasSuccess = true;
-                        break;
+                        }
+                    }
+
+                    return wasSuccess;
+                } else if (unseenEffectItem != null) {
+                    for (WiredActionItem actionItem : wiredActions) {
+                        if (!unseenEffectItem.getSeenEffects().contains(actionItem.getId())) {
+                            unseenEffectItem.getSeenEffects().add(actionItem.getId());
+
+                            if (this.executeEffect(actionItem, entity, data))
+                                wasSuccess = true;
+                            break;
+                        }
+                    }
+
+                    return wasSuccess;
+                } else {
+                    for (WiredActionItem actionItem : wiredActions) {
+                        if (this.executeEffect(actionItem, entity, data)) {
+                            wasSuccess = true;
+                        }
                     }
                 }
 
                 return wasSuccess;
-            } else {
-                for (WiredActionItem actionItem : wiredActions) {
-                    if (this.executeEffect(actionItem, entity, data)) {
-                        wasSuccess = true;
-                    }
-                }
             }
-
-            return wasSuccess;
+        } catch(Exception e) {
+            log.error("Error during WiredTrigger evaluation", e);
         }
 
         // tell the event that called the trigger that it was not a success!
