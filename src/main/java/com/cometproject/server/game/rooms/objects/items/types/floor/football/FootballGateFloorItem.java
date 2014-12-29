@@ -64,12 +64,17 @@ public class FootballGateFloorItem extends RoomItemFloor {
             return "hd-99999-99999.ch-3030-63.lg-275-1408";
         }
 
+        String[] figureData = this.getExtraData().split(",");
         String figure;
 
         if(gender.toUpperCase().equals("M")) {
-            figure = this.getExtraData().split(",")[0];
+            figure = figureData[0];
         } else {
-            figure = this.getExtraData().split(",")[1];
+            if(figureData.length != 2) {
+                figure = "";
+            } else {
+                figure = figureData[1];
+            }
         }
 
         return figure.isEmpty() ? "hd-99999-99999.ch-3030-63.lg-275-1408" : figure.replace(",", "");
