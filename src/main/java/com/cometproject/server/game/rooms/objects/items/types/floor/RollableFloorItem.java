@@ -115,8 +115,8 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     private boolean isValidRoll(Position nextPosition) {
-        if (this.playerEntity.getRoom().getMapping().isValidStep(0, this.getPosition(), this.getNextPosition(this.getPosition(), false), false, true)) {
-            if (this.playerEntity.getWalkingGoal().getX() == nextPosition.getX() && this.playerEntity.getWalkingGoal().getY() == nextPosition.getY()) {
+        if (this.getRoom().getMapping().isValidStep(0, this.getPosition(), this.getNextPosition(this.getPosition(), false), false, true)) {
+            if (this.playerEntity != null && this.playerEntity.getWalkingGoal().getX() == nextPosition.getX() && this.playerEntity.getWalkingGoal().getY() == nextPosition.getY()) {
                 return false;
             }
 
