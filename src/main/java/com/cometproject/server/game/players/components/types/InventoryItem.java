@@ -137,14 +137,72 @@ public class InventoryItem {
     }
 
     public void serializeTrade(Composer msg) {
+        final boolean isGift = this.getGiftData() != null;
+        final boolean isGroupItem = this.getDefinition().getInteraction().equals("group_item") || this.getDefinition().getInteraction().equals("group_gate");
+        final boolean isLimited = this.getLimitedEditionItem() != null;
+
         msg.writeInt(this.id);
         msg.writeString(this.getDefinition().getType().toLowerCase());
         msg.writeInt(this.id);
         msg.writeInt(this.getDefinition().getSpriteId());
         msg.writeInt(0);
         msg.writeBoolean(true);
-        msg.writeInt(0);
-        msg.writeString("");
+
+        if (isGroupItem) {
+            // Append the group data...
+            int groupId = 0;
+
+            msg.writeInt(17);
+
+            if (StringUtils.isNumeric(this.getExtraData())) {
+                groupId = Integer.parseInt(this.getExtraData());
+            }
+
+            GroupData groupData = groupId == 0 ? null : GroupManager.getInstance().getData(groupId);
+
+            if (groupData == null) {
+                msg.writeInt(0);
+            } else {
+                msg.writeInt(2);
+                msg.writeInt(5);
+                msg.writeString("0"); //state
+                msg.writeString(groupId);
+                msg.writeString(groupData.getBadge());
+
+                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour() : "ffffff";
+                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour() : "ffffff";
+
+                msg.writeString(colourA);
+                msg.writeString(colourB);
+            }
+        } else if (isLimited) {
+            msg.writeString("");
+            msg.writeBoolean(true);
+            msg.writeBoolean(false);
+        } else if (this.getDefinition().getInteraction().equals("badge_display") && !isGift) {
+            msg.writeInt(2);
+        } else {
+            msg.writeInt(0);
+        }
+
+        if (this.getDefinition().getInteraction().equals("badge_display") && !isGift) {
+            msg.writeInt(4);
+
+            msg.writeString("0");
+            msg.writeString(this.getExtraData());
+            msg.writeString(""); // creator
+            msg.writeString(""); // date
+        } else if (!isGroupItem) {
+            msg.writeString(!isGift ? this.getExtraData() : "");
+        }
+
+        if (isLimited && !isGift) {
+            LimitedEditionItem limitedEditionItem = this.getLimitedEditionItem();
+
+            msg.writeInt(limitedEditionItem.getLimitedRare());
+            msg.writeInt(limitedEditionItem.getLimitedRareTotal());
+        }
+
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeInt(0);
