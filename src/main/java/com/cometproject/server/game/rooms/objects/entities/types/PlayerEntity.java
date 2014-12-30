@@ -42,7 +42,6 @@ import javolution.util.FastMap;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Map;
-import java.util.Set;
 
 
 public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, Attributable {
@@ -155,7 +154,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             this.player.getSession().send(OwnerRightsMessageComposer.compose());
         }
 
-        this.player.getSession().send(RoomRatingMessageComposer.compose(this.getRoom().getData().getScore(), canRateRoom()));
+        this.player.getSession().send(RoomRatingMessageComposer.compose(this.getRoom().getData().getScore(), this.canRateRoom()));
 
         InitializeRoomMessageEvent.heightmapMessageEvent.handle(this.player.getSession(), null);
         InitializeRoomMessageEvent.addUserToRoomMessageEvent.handle(this.player.getSession(), null);
@@ -170,14 +169,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     }
 
     public boolean canRateRoom() {
-        if (!this.getRoom().hasAttribute("ratings") || !(this.getRoom().getAttribute("ratings") instanceof Set)) {
-            return true;
-        }
-
-        Set<Integer> ratings = (Set<Integer>) this.getRoom().getAttribute("ratings");
-
-        return !ratings.contains(this.getPlayerId());
-
+        return !this.getRoom().getRatings().contains(this.getPlayerId());
     }
 
     @Override

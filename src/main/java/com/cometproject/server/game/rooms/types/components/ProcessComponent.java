@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
@@ -16,6 +15,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
@@ -59,8 +59,6 @@ public class ProcessComponent implements CometTask {
 
             Map<Integer, GenericEntity> entities = this.room.getEntities().getAllEntities();
 
-            List<GenericEntity>[][] entityGrid = new ArrayList[this.getRoom().getModel().getSizeX()][this.getRoom().getModel().getSizeY()];
-
             List<PlayerEntity> playersToRemove = new ArrayList<>();
             List<GenericEntity> entitiesToUpdate = new ArrayList<>();
 
@@ -91,15 +89,6 @@ public class ProcessComponent implements CometTask {
                     processEntity(entity);
                 }
 
-                // Create the new entity grid
-                if (entity.getPosition().getX() <= this.room.getModel().getSizeX() && entity.getPosition().getY() <= this.getRoom().getModel().getSizeY()) {
-                    if (entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] == null) {
-                        entityGrid[entity.getPosition().getX()][entity.getPosition().getY()] = new ArrayList<>();
-                    }
-
-                    entityGrid[entity.getPosition().getX()][entity.getPosition().getY()].add(entity);
-                }
-
                 if ((entity.needsUpdate() && !entity.needsUpdateCancel() || entity.needsForcedUpdate) && entity.isVisible()) {
                     if (entity.needsForcedUpdate && entity.updatePhase == 1) {
                         entity.needsForcedUpdate = false;
@@ -119,9 +108,6 @@ public class ProcessComponent implements CometTask {
                     }
                 }
             }
-
-            // Update the entity grid
-            this.getRoom().getEntities().replaceEntityGrid(entityGrid);
 
             // only send the updates if we need to
             if (entitiesToUpdate.size() > 0)
@@ -205,8 +191,19 @@ public class ProcessComponent implements CometTask {
             List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
             List<RoomItemFloor> itemsOnOldSq = this.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY());
 
+            final Tile oldTile = this.getRoom().getMapping().getTile(entity.getPosition().getX(), entity.getPosition().getY());
+            final Tile newTile = this.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
+
+            if(oldTile != null) {
+                oldTile.getEntities().remove(entity);
+            }
+
             entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
+
+            if(newTile != null) {
+                newTile.getEntities().add(entity);
+            }
 
             // Step off
             for (RoomItemFloor item : itemsOnOldSq) {

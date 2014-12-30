@@ -52,13 +52,7 @@ public abstract class RoomObject {
     public void setPosition(Position newPosition) {
         if (newPosition == null) return;
 
-        if (this.position == null) {
-            this.position = newPosition.copy();
-        } else {
-            this.position.setX(newPosition.getX());
-            this.position.setY(newPosition.getY());
-            this.position.setZ(newPosition.getZ());
-        }
+        this.position = newPosition.copy();
     }
 
     /**

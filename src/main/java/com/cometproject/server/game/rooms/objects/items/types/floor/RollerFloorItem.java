@@ -62,7 +62,7 @@ public class RollerFloorItem extends RoomItemFloor {
             return;
         }
 
-        List<GenericEntity> entities = this.getRoom().getEntities().getEntitiesAt(this.getPosition().getX(), this.getPosition().getY());
+        List<GenericEntity> entities = this.getRoom().getEntities().getEntitiesAt(this.getPosition());
 
         for (GenericEntity entity : entities) {
             if (entity.getPosition().getX() != this.getPosition().getX() && entity.getPosition().getY() != this.getPosition().getY()) {
@@ -73,7 +73,7 @@ public class RollerFloorItem extends RoomItemFloor {
                 continue;
             }
 
-            if (!this.getRoom().getMapping().isValidStep(entity.getPosition(), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
+            if (!this.getRoom().getMapping().isValidStep(entity.getPosition(), sqInfront, true) || !this.getRoom().getEntities().positionHasEntity(sqInfront)) {
                 break;
             }
 
@@ -161,13 +161,13 @@ public class RollerFloorItem extends RoomItemFloor {
 //            }
 //
 //            if (heightDiff > -2) {
-//                if (!this.getRoom().getMapping().isValidStep(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
+//                if (!this.getRoom().getMapping().isValidStep(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), sqInfront, true) || !this.getRoom().getEntities().positionHasEntity(sqInfront.getX(), sqInfront.getY())) {
 //                    this.setTicks(3);
 //                    break;
 //                }
 //            }
 
-            if (!this.getRoom().getMapping().isValidStep(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), sqInfront, true) || !this.getRoom().getEntities().isSquareAvailable(sqInfront.getX(), sqInfront.getY())) {
+            if (!this.getRoom().getMapping().isValidStep(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), sqInfront, true) || !this.getRoom().getEntities().positionHasEntity(sqInfront)) {
                 this.setTicks(this.getTickCount());
                 return;
             }

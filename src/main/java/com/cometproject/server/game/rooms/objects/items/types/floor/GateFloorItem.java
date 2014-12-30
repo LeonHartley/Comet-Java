@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 
 
@@ -28,12 +29,12 @@ public class GateFloorItem extends RoomItemFloor {
         }
 
         for (AffectedTile tile : AffectedTile.getAffectedTilesAt(this.getDefinition().getLength(), this.getDefinition().getWidth(), this.getPosition().getX(), this.getPosition().getY(), this.getRotation())) {
-            if (this.getRoom().getEntities().getEntitiesAt(tile.x, tile.y).size() > 0) {
+            if (this.getRoom().getEntities().getEntitiesAt(new Position(tile.x, tile.y)).size() > 0) {
                 return;
             }
         }
 
-        if (this.getRoom().getEntities().getEntitiesAt(this.getPosition().getX(), this.getPosition().getY()).size() > 0) {
+        if (this.getRoom().getEntities().getEntitiesAt(this.getPosition()).size() > 0) {
             return;
         }
 

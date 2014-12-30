@@ -57,7 +57,7 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
         tilesToUpdate.add(new Position(item.getPosition().getX(), item.getPosition().getY(), 0d));
 
         for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation())) {
-            if (room.getEntities().getEntitiesAt(tile.x, tile.y).size() >= 0)
+            if (room.getEntities().getEntitiesAt(new Position(tile.x, tile.y)).size() >= 0)
                 tilesToUpdate.add(new Position(tile.x, tile.y, 0d));
         }
 

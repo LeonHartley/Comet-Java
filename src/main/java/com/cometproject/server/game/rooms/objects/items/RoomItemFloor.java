@@ -301,10 +301,10 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
     public List<GenericEntity> getEntitiesOnItem() {
         List<GenericEntity> entities = Lists.newArrayList();
 
-        entities.addAll(this.getRoom().getEntities().getEntitiesAt(this.getPosition().getX(), this.getPosition().getY()));
+        entities.addAll(this.getRoom().getEntities().getEntitiesAt(this.getPosition()));
 
         for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(this.getDefinition().getLength(), this.getDefinition().getWidth(), this.getPosition().getX(), this.getPosition().getY(), this.getRotation())) {
-            List<GenericEntity> entitiesOnTile = this.getRoom().getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
+            List<GenericEntity> entitiesOnTile = this.getRoom().getEntities().getEntitiesAt(new Position(affectedTile.x, affectedTile.y));
 
             entities.addAll(entitiesOnTile);
         }

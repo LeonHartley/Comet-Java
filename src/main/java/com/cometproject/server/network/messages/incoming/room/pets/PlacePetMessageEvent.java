@@ -38,7 +38,9 @@ public class PlacePetMessageEvent implements IEvent {
                 return;
             }
 
-            if ((!atDoor && client.getPlayer().getEntity().getRoom().getEntities().getEntitiesAt(x, y).size() >= 1) || !room.getMapping().isValidPosition(new Position(x, y, room.getModel().getSquareHeight()[x][y]))) {
+            Position position = new Position(x, y, room.getModel().getSquareHeight()[x][y]);
+
+            if ((!atDoor && client.getPlayer().getEntity().getRoom().getEntities().getEntitiesAt(position).size() >= 1) || !room.getMapping().isValidPosition(position)) {
                 return;
             }
 

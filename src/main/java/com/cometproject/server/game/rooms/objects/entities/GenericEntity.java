@@ -108,12 +108,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     @Override
     public void setWalkingGoal(int x, int y) {
-        if (this.walkingGoal == null) {
-            this.walkingGoal = new Position(x, y, 0.0);
-        } else {
-            this.walkingGoal.setX(x);
-            this.walkingGoal.setY(y);
-        }
+        this.walkingGoal = new Position(x, y, 0.0);
     }
 
     public int getStepsToGoal() {
@@ -134,7 +129,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         }
 
         if (this.getPositionToSet() != null) {
-            this.getRoom().getEntities().getEntitiesAt(this.getPosition().getX(), this.getPosition().getY()).remove(this);
+            this.getRoom().getEntities().getEntitiesAt(this.getPosition()).remove(this);
             this.setPosition(this.getPositionToSet());
         }
 
@@ -530,7 +525,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     @Override
     public boolean equals(Object entity) {
-        if(entity instanceof GenericEntity) {
+        if (entity instanceof GenericEntity) {
             return ((GenericEntity) entity).getId() == this.getId();
         }
 
