@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -20,29 +21,31 @@ public class WalkMessageEvent implements IEvent {
                 return;
             }
 
-            if (goalX == client.getPlayer().getEntity().getPosition().getX() && goalY == client.getPlayer().getEntity().getPosition().getY()) {
+            PlayerEntity entity = client.getPlayer().getEntity();
+
+            if (goalX == entity.getPosition().getX() && goalY == entity.getPosition().getY()) {
                 return;
             }
 
-            if (client.getPlayer().getEntity().hasAttribute("teleport")) {
+            if (entity.hasAttribute("teleport")) {
                 List<Square> squares = new ArrayList<>();
                 squares.add(new Square(goalX, goalY));
 
-                if (client.getPlayer().getEntity().getMountedEntity() != null) {
-                    client.getPlayer().getEntity().getMountedEntity().setWalkingPath(squares);
-                    client.getPlayer().getEntity().getMountedEntity().setWalkingGoal(goalX, goalY);
+                if (entity.getMountedEntity() != null) {
+                    entity.getMountedEntity().setWalkingPath(squares);
+                    entity.getMountedEntity().setWalkingGoal(goalX, goalY);
                 }
 
-                client.getPlayer().getEntity().setWalkingPath(squares);
-                client.getPlayer().getEntity().setWalkingGoal(goalX, goalY);
+                entity.setWalkingPath(squares);
+                entity.setWalkingGoal(goalX, goalY);
                 return;
             }
 
-            if (client.getPlayer().getEntity().canWalk() && !client.getPlayer().getEntity().isOverriden() && client.getPlayer().getEntity().isVisible()) {
-                client.getPlayer().getEntity().moveTo(goalX, goalY);
+            if (entity.canWalk() && !entity.isOverriden() && entity.isVisible()) {
+                   entity.moveTo(goalX, goalY);
 
-                if (client.getPlayer().getEntity().getMountedEntity() != null) {
-                    client.getPlayer().getEntity().getMountedEntity().moveTo(goalX, goalY);
+                if (entity.getMountedEntity() != null) {
+                    entity.getMountedEntity().moveTo(goalX, goalY);
                 }
             }
         } catch (Exception e) {
