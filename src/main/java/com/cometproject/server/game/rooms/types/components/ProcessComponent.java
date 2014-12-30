@@ -390,6 +390,7 @@ public class ProcessComponent implements CometTask {
 
             if (nextSq != null && entity.getRoom().getMapping().isValidEntityStep(entity, entity.getPosition(), new Position(nextSq.x, nextSq.y, 0), isLastStep) || entity.isOverriden()) {
                 Position currentPos = entity.getPosition() != null ? entity.getPosition() : new Position(0, 0, 0);
+                Position nextPos = new Position(nextSq.x, nextSq.y);
                 entity.setBodyRotation(Position.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
                 entity.setHeadRotation(entity.getBodyRotation());
 
@@ -426,6 +427,17 @@ public class ProcessComponent implements CometTask {
 
                 if (effectNeedsRemove && entity.getCurrentEffect() != null && entity.getCurrentEffect().isItemEffect()) {
                     entity.applyEffect(entity.getLastEffect());
+                }
+
+                if(this.getRoom().getEntities().positionHasEntity(nextPos)) {
+                    final boolean allowWalkthrough = this.getRoom().getData().getAllowWalkthrough();
+                    final boolean isFinalStep = entity.getWalkingGoal().equals(nextPos);
+
+                    if(isFinalStep && allowWalkthrough) {
+                        isCancelled = true;
+                    } else if(!allowWalkthrough) {
+                        isCancelled = true;
+                    }
                 }
 
                 if (!isCancelled) {
