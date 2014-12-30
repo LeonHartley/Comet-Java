@@ -216,22 +216,6 @@ public class Position {
         return false;
     }
 
-    public void increaseX() {
-        this.x = this.x + 1;
-    }
-
-    public void decreaseX() {
-        this.x = this.x - 1;
-    }
-
-    public void increaseY() {
-        this.y = this.y + 1;
-    }
-
-    public void decreaseY() {
-        this.y = this.y - 1;
-    }
-
     public boolean touching(RoomObject roomObject) {
         return this.touching(roomObject.getPosition());
     }
@@ -272,9 +256,14 @@ public class Position {
     @Override
     public boolean equals(Object o) {
         if(o instanceof Position) {
-            return ((Position) o).getX() == this.getX() && ((Position) o).getY() == ((Position) o).getY();
+            return ((Position) o).getX() == this.getX() && ((Position) o).getY() == this.getY();
         }
 
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

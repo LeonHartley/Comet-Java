@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
 import com.cometproject.server.game.rooms.objects.RoomObject;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -10,6 +11,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,9 +35,13 @@ public class Tile {
     private boolean canPlaceItemHere = false;
     private boolean hasItems = false;
 
+    public List<GenericEntity> entities;
+
     public Tile(RoomMapping mappingInstance, Position position) {
         this.mappingInstance = mappingInstance;
         this.position = position;
+        this.entities = new ArrayList<>();
+
         this.reload();
     }
 
@@ -178,6 +184,10 @@ public class Tile {
     public boolean isReachable(RoomObject object) {
         List<Square> path = Pathfinder.getInstance().makePath(object, this.position);
         return path != null && path.size() > 0;
+    }
+
+    public List<GenericEntity> getEntities() {
+        return this.entities;
     }
 
     public RoomTileStatusType getStatus() {

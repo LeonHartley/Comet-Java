@@ -12,7 +12,9 @@ import com.cometproject.server.utilities.attributes.Attributable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 
 public class Room implements Attributable {
@@ -36,6 +38,7 @@ public class Room implements Attributable {
     private EntityComponent entities;
 
     private Map<String, Object> attributes;
+    private Set<Integer> ratings;
 
     private boolean isDisposed = false;
     private int idleTicks = 0;
@@ -66,6 +69,7 @@ public class Room implements Attributable {
         }
 
         this.attributes = new FastMap<>();
+        this.ratings = new HashSet<>();
 
         this.mapping = new RoomMapping(this);
         this.itemProcess = new ItemProcessComponent(CometThreadManager.getInstance(), this);
@@ -122,14 +126,6 @@ public class Room implements Attributable {
     }
 
     public void tick() {
-        if (useCycleForEntities && this.process != null) {
-            this.process.tick();
-        }
-
-        if (useCycleForItems && this.itemProcess != null) {
-            this.itemProcess.tick();
-        }
-
         if (this.rights != null) {
             this.rights.tick();
         }
@@ -225,5 +221,9 @@ public class Room implements Attributable {
         } else {
             this.attributes.put("room_muted", mute);
         }
+    }
+
+    public Set<Integer> getRatings() {
+        return ratings;
     }
 }

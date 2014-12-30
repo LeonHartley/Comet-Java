@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.TeleporterFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import javolution.util.FastMap;
@@ -33,38 +34,26 @@ public class EntityComponent {
     private final Map<Integer, Integer> botIdToEntity = new FastMap<>();
     private final Map<Integer, Integer> petIdToEntity = new FastMap<>();
 
-    private List<GenericEntity>[][] entityGrid;
-
     public EntityComponent(Room room) {
         this.room = room;
-
-        this.entityGrid = new ArrayList[room.getModel().getSizeX()][room.getModel().getSizeY()];
     }
 
-    public List<GenericEntity> getEntitiesAt(Position pos) {
-        return this.getEntitiesAt(pos.getX(), pos.getY());
-    }
+    public List<GenericEntity> getEntitiesAt(Position position) {
+        Tile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
 
-    public List<GenericEntity> getEntitiesAt(int x, int y) {
-        if(x >= 0 && y >= 0) {
-            if (x < entityGrid.length) {
-                if (y < entityGrid[x].length) {
-                    return this.entityGrid[x][y] != null ? this.entityGrid[x][y] : new ArrayList<>();
-                }
-            }
+        if(tile != null) {
+            return tile.getEntities();
         }
 
         return new ArrayList<>();
     }
 
-    public void replaceEntityGrid(List<GenericEntity>[][] entityGrid) {
-        this.entityGrid = entityGrid;
-    }
+    public boolean positionHasEntity(Position position) {
+        Tile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
 
-    public boolean isSquareAvailable(int x, int y) {
-        if (x < entityGrid.length) {
-            if (y < entityGrid[x].length)
-                return this.entityGrid[x][y] == null || this.entityGrid[x][y].isEmpty();
+        if(tile != null) {
+            if(tile.getEntities().size() != 0)
+                return true;
         }
 
         return false;

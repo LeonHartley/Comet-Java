@@ -66,7 +66,7 @@ public class RoomMapping {
         if (entityId == null || entityId == -1)
             return false;
 
-        for (GenericEntity entity : this.room.getEntities().getEntitiesAt(position.getX(), position.getY())) {
+        for (GenericEntity entity : this.room.getEntities().getEntitiesAt(position)) {
             entitySize++;
 
             if (entity instanceof PetEntity && entity.hasMount()) {

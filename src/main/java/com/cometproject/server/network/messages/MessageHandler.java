@@ -233,6 +233,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetFloorPlanDoorMessageEvent, new GetFloorPlanDoorMessageEvent());
         this.getMessages().put(Events.IgnoreUserMessageEvent, new IgnoreUserMessageEvent());
         this.getMessages().put(Events.UnignoreUserMessageEvent, new UnignoreUserMessageEvent());
+        this.getMessages().put(Events.RemoveOwnRightsMessageEvent, new RemoveOwnRightsMessageEvent());
     }
 
     public void registerRoomTrade() {

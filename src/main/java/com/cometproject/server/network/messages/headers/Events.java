@@ -283,6 +283,7 @@ public class Events {
     public static final short AddToStaffPickedRoomsMessageEvent = 537;
     public static final short DeletePostItMessageEvent = 2547;
     public static final short LoadProfileByUsernameMessageEvent = 3590;
+    public static final short RemoveOwnRightsMessageEvent = 260;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 

@@ -193,7 +193,7 @@ public class ItemsComponent {
     }
 
     public void removeItem(RoomItemFloor item, Session client, boolean toInventory, boolean delete) {
-        List<GenericEntity> affectEntities = room.getEntities().getEntitiesAt(item.getPosition().getX(), item.getPosition().getY());
+        List<GenericEntity> affectEntities = room.getEntities().getEntitiesAt(item.getPosition());
         List<Position> tilesToUpdate = new ArrayList<>();
 
         tilesToUpdate.add(new Position(item.getPosition().getX(), item.getPosition().getY(), 0d));
@@ -203,7 +203,7 @@ public class ItemsComponent {
         }
 
         for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation())) {
-            List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(tile.x, tile.y);
+            List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(new Position(tile.x, tile.y));
             tilesToUpdate.add(new Position(tile.x, tile.y, 0d));
 
             for (GenericEntity entity0 : affectEntities0) {
@@ -263,7 +263,7 @@ public class ItemsComponent {
             }
         }
 
-        List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(item.getPosition().getX(), item.getPosition().getY());
+        List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(item.getPosition());
 
         for (GenericEntity entity0 : affectEntities0) {
             item.onEntityStepOff(entity0);
@@ -279,7 +279,7 @@ public class ItemsComponent {
             for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation())) {
                 tilesToUpdate.add(new Position(affectedTile.x, affectedTile.y));
 
-                List<GenericEntity> affectEntities1 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
+                List<GenericEntity> affectEntities1 = room.getEntities().getEntitiesAt(new Position(affectedTile.x, affectedTile.y));
 
                 for (GenericEntity entity1 : affectEntities1) {
                     item.onEntityStepOff(entity1);
@@ -289,7 +289,7 @@ public class ItemsComponent {
             for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), newPosition.getX(), newPosition.getY(), item.getRotation())) {
                 tilesToUpdate.add(new Position(affectedTile.x, affectedTile.y));
 
-                List<GenericEntity> affectEntities2 = room.getEntities().getEntitiesAt(affectedTile.x, affectedTile.y);
+                List<GenericEntity> affectEntities2 = room.getEntities().getEntitiesAt(new Position(affectedTile.x, affectedTile.y));
 
                 for (GenericEntity entity2 : affectEntities2) {
                     item.onEntityStepOn(entity2);
@@ -305,7 +305,7 @@ public class ItemsComponent {
         item.getPosition().setZ(height);
         item.setRotation(rotation);
 
-        List<GenericEntity> affectEntities3 = room.getEntities().getEntitiesAt(newPosition.getX(), newPosition.getY());
+        List<GenericEntity> affectEntities3 = room.getEntities().getEntitiesAt(newPosition);
 
         for (GenericEntity entity3 : affectEntities3) {
             item.onEntityStepOn(entity3);
@@ -408,7 +408,7 @@ public class ItemsComponent {
         for (AffectedTile affTile : AffectedTile.getAffectedBothTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), floorItem.getPosition().getX(), floorItem.getPosition().getY(), floorItem.getRotation())) {
             tilesToUpdate.add(new Position(affTile.x, affTile.y, 0d));
 
-            List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(affTile.x, affTile.y);
+            List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(new Position(affTile.x, affTile.y));
 
             for (GenericEntity entity0 : affectEntities0) {
                 floorItem.onEntityStepOn(entity0);
