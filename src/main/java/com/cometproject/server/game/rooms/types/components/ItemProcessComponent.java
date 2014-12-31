@@ -87,7 +87,7 @@ public class ItemProcessComponent implements CometTask {
 
         for (RoomItemFloor item : this.getRoom().getItems().getFloorItems()) {
             try {
-                if (item.requiresTick() || item instanceof RollerFloorItem) {
+                if (item != null && item.requiresTick() || item instanceof RollerFloorItem) {
                     item.tick();
                 }
             } catch (Exception e) {
@@ -97,7 +97,7 @@ public class ItemProcessComponent implements CometTask {
 
         for (RoomItemWall item : this.getRoom().getItems().getWallItems()) {
             try {
-                if (item.requiresTick()) {
+                if (item != null && item.requiresTick()) {
                     item.tick();
                 }
             } catch (Exception e) {
@@ -125,8 +125,6 @@ public class ItemProcessComponent implements CometTask {
     }
 
     protected void handleException(RoomItem item, Exception e) {
-//        if (item instanceof RollerFloorItem) return; // TODO: Find stack trace for this.
-
         log.error("Error while processing item: " + item.getId() + " (" + item.getClass().getSimpleName(), e);
     }
 

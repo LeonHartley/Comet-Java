@@ -179,6 +179,13 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             floorItem.onEntityLeaveRoom(this);
         }
 
+        // Check and cancel any active trades
+        Trade trade = this.getRoom().getTrade().get(this);
+
+        if (trade != null) {
+            trade.cancel(this.getPlayer().getId());
+        }
+
         if (this.getMountedEntity() != null) {
             this.getMountedEntity().setOverriden(false);
             this.getMountedEntity().setHasMount(false);
@@ -201,13 +208,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         if (!isOffline && toHotelView) {
             this.getPlayer().getSession().send(HotelViewMessageComposer.compose());
             this.getPlayer().getSession().getPlayer().getMessenger().sendStatus(true, false);
-        }
-
-        // Check and cancel any active trades
-        Trade trade = this.getRoom().getTrade().get(this.getPlayer().getEntity());
-
-        if (trade != null) {
-            trade.cancel(this.getPlayer().getId());
         }
 
         // Remove entity from the room
@@ -343,7 +343,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.getPlayer().getSession().getPlayer().getMessenger().sendStatus(true, false);
 
         // Check and cancel any active trades
-        Trade trade = this.getRoom().getTrade().get(this.getPlayer().getEntity());
+        Trade trade = this.getRoom().getTrade().get(this);
 
         if (trade != null) {
             trade.cancel(this.getPlayer().getId());
