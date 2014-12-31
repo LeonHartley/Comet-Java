@@ -41,16 +41,6 @@ public class RollerFloorItem extends RoomItemFloor {
 
     @Override
     public void onTickComplete() {
-//        final int rollerSpeed = this.getRoom().hasAttribute("customRollerSpeed") ? (int) this.getRoom().getAttribute("customRollerSpeed") : 3;
-//
-//        if(this.ticker > rollerSpeed) // reset the ticker if the roller speed has been manaully edited
-//            this.ticker = 0;
-//
-//        if(ticker != rollerSpeed) {
-//            ticker++;
-//            return;
-//        }
-
         this.handleEntities();
         this.handleItems();
     }
