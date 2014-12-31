@@ -11,53 +11,54 @@ public class ChatEmotionsManager {
 
     public ChatEmotionsManager() {
         emotions = new FastMap<String, ChatEmotion>() {{
-            put(":)", ChatEmotion.Smile);
-            put(";)", ChatEmotion.Smile);
-            put(":]", ChatEmotion.Smile);
-            put(";]", ChatEmotion.Smile);
-            put("=)", ChatEmotion.Smile);
-            put("=]", ChatEmotion.Smile);
-            put(":-)", ChatEmotion.Smile);
+            put(":)", ChatEmotion.SMILE);
+            put(";)", ChatEmotion.SMILE);
+            put(":]", ChatEmotion.SMILE);
+            put(";]", ChatEmotion.SMILE);
+            put("=)", ChatEmotion.SMILE);
+            put("=]", ChatEmotion.SMILE);
+            put(":-)", ChatEmotion.SMILE);
 
-            put(">:(", ChatEmotion.Angry);
-            put(">:[", ChatEmotion.Angry);
-            put(">;[", ChatEmotion.Angry);
-            put(">;(", ChatEmotion.Angry);
-            put(">=(", ChatEmotion.Angry);
+            put(">:(", ChatEmotion.ANGRY);
+            put(">:[", ChatEmotion.ANGRY);
+            put(">;[", ChatEmotion.ANGRY);
+            put(">;(", ChatEmotion.ANGRY);
+            put(">=(", ChatEmotion.ANGRY);
 
-            put(":o", ChatEmotion.Shocked);
-            put(";o", ChatEmotion.Shocked);
-            put(">;o", ChatEmotion.Shocked);
-            put(">:o", ChatEmotion.Shocked);
-            put(">=o", ChatEmotion.Shocked);
-            put("=o", ChatEmotion.Shocked);
+            put(":o", ChatEmotion.SHOCKED);
+            put(";o", ChatEmotion.SHOCKED);
+            put(">;o", ChatEmotion.SHOCKED);
+            put(">:o", ChatEmotion.SHOCKED);
+            put(">=o", ChatEmotion.SHOCKED);
+            put("=o", ChatEmotion.SHOCKED);
 
-            put(";'(", ChatEmotion.Sad);
-            put(";[", ChatEmotion.Sad);
-            put(":[", ChatEmotion.Sad);
-            put(";(", ChatEmotion.Sad);
-            put("=(", ChatEmotion.Sad);
-            put("='(", ChatEmotion.Sad);
-            put(":(", ChatEmotion.Sad);
-            put(":-(", ChatEmotion.Sad);
+            put(";'(", ChatEmotion.SAD);
+            put(";[", ChatEmotion.SAD);
+            put(":[", ChatEmotion.SAD);
+            put(";(", ChatEmotion.SAD);
+            put("=(", ChatEmotion.SAD);
+            put("='(", ChatEmotion.SAD);
+            put(":(", ChatEmotion.SAD);
+            put(":-(", ChatEmotion.SAD);
 
-            put(";D", ChatEmotion.Laugh);
-            put(":D", ChatEmotion.Laugh);
-            put(":L", ChatEmotion.Laugh);
+            put(";D", ChatEmotion.LAUGH);
+            put(":D", ChatEmotion.LAUGH);
+            put(":L", ChatEmotion.LAUGH);
 
             //hehe ;-)
-            put("leon", ChatEmotion.Smile);
-            put("comet", ChatEmotion.Smile);
-            put("java", ChatEmotion.Smile);
-            put("meesha", ChatEmotion.Smile);
+            put("leon", ChatEmotion.SMILE);
+            put("alex", ChatEmotion.SMILE);//quackfag
+            put("comet", ChatEmotion.SMILE);
+            put("java", ChatEmotion.SMILE);
+            put("meesha", ChatEmotion.SMILE);
 
-            put("phoenix", ChatEmotion.Sad);
-            put("butterfly", ChatEmotion.Sad);
+            put("phoenix", ChatEmotion.SAD);
+            put("butterfly", ChatEmotion.SAD);
 
-            put("matou19", ChatEmotion.Angry);
-            put("mathis", ChatEmotion.Angry);
+            put("matou19", ChatEmotion.ANGRY);
+            put("mathis", ChatEmotion.ANGRY);
 
-            put("minette", ChatEmotion.Shocked); // mathis' cat
+            put("minette", ChatEmotion.SHOCKED); // mathis' cat
         }};
 
         RoomManager.log.info("Loaded " + this.emotions.size() + " chat emotions");
