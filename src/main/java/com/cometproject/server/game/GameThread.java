@@ -8,7 +8,6 @@ import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
 import com.cometproject.server.tasks.CometTask;
-import com.cometproject.server.tasks.CometThread;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.Initializable;
 import org.apache.log4j.Logger;
@@ -26,6 +25,7 @@ public class GameThread implements CometTask, Initializable {
 
     private boolean active = false;
 
+    private int currentOnlineRecord = 0;
     private int onlineRecord = 0;
 
     public GameThread() {
@@ -37,6 +37,8 @@ public class GameThread implements CometTask, Initializable {
         int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.thread.interval"));
         this.gameFuture = CometThreadManager.getInstance().executePeriodic(this, interval, interval, TimeUnit.MINUTES);
         this.active = true;
+
+        this.onlineRecord = StatisticsDao.getPlayerRecord();
     }
 
     public static GameThread getInstance() {
@@ -58,15 +60,24 @@ public class GameThread implements CometTask, Initializable {
             BanManager.getInstance().tick();
 
             int usersOnline = NetworkManager.getInstance().getSessions().getUsersOnlineCount();
+            boolean updateOnlineRecord = false;
 
-            if (usersOnline > this.onlineRecord)
-                onlineRecord = usersOnline;
+            if (usersOnline > this.currentOnlineRecord)
+                this.currentOnlineRecord = usersOnline;
+
+            if(usersOnline > this.onlineRecord) {
+                this.onlineRecord = usersOnline;
+                updateOnlineRecord = true;
+            }
 
             if (cycleCount >= 15) {
                 this.cycleRewards();
             }
 
-            StatisticsDao.saveStatistics(usersOnline, RoomManager.getInstance().getRoomInstances().size(), Comet.getBuild());
+            if(!updateOnlineRecord)
+                StatisticsDao.saveStatistics(usersOnline, RoomManager.getInstance().getRoomInstances().size(), Comet.getBuild());
+            else
+                StatisticsDao.saveStatistics(usersOnline, RoomManager.getInstance().getRoomInstances().size(), Comet.getBuild(), onlineRecord);
             cycleCount++;
         } catch (Exception e) {
             log.error("Error during game thread", e);
@@ -105,7 +116,11 @@ public class GameThread implements CometTask, Initializable {
         this.gameFuture.cancel(false);
     }
 
-    public int getOnlineRecord() {
+    public int getCurrentOnlineRecord() {
         return this.onlineRecord;
+    }
+
+    public int getOnlineRecord() {
+        return 0;
     }
 }

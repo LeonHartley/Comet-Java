@@ -83,7 +83,11 @@ public class Position {
         return item.getDefinition().getHeight();
     }
 
-    public static int calculateRotation(int x, int y, int newX, int newY, boolean moonwalk) {
+    public static int calculateRotation(Position from, Position to) {
+        return calculateRotation(from.x, from.y, to.x, to.y, false);
+    }
+
+    public static int calculateRotation(int x, int y, int newX, int newY, boolean reversed) {
         int rotation = 0;
 
         if (x > newX && y > newY)
@@ -103,7 +107,7 @@ public class Position {
         else if (y > newY)
             rotation = 0;
 
-        if (moonwalk) {
+        if (reversed) {
             if (rotation > 3) {
                 rotation = rotation - 4;
             } else {

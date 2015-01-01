@@ -248,7 +248,7 @@ public class Events {
     public static final short GetGroupMembersMessageEvent = 1373;
     public static final short GetGroupPurchaseBoxMessageEvent = 2354;
     public static final short GetGroupPurchasingInfoMessageEvent = 489;
-    public static final short GroupDeclineMembershipRequestMessageEvent = 1728;
+    public static final short DeclineMembershipMessageEvent = 1728;
     public static final short GroupMakeAdministratorMessageEvent = 1142;
     public static final short GroupManageMessageEvent = 576;
     public static final short GroupUpdateBadgeMessageEvent = 2999;

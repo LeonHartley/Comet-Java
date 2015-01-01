@@ -336,6 +336,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.SetFavoriteGroupMessageEvent, new SetFavouriteGroupMessageEvent());
         this.getMessages().put(Events.GroupFurnitureWidgetMessageEvent, new GroupFurnitureWidgetMessageEvent());
         this.getMessages().put(Events.GroupUpdateColoursMessageEvent, new GroupUpdateColoursMessageEvent());
+        this.getMessages().put(Events.DeclineMembershipMessageEvent, new DeclineMembershipMessageEvent());
+
 
 //        this.getMessages().put(Events.GroupForumPermissionsMessageEvent, new GroupForumPermissionsMessageEvent());
 //        this.getMessages().put(Events.GroupForumThreadsMessageEvent, new GroupForumThreadsMessageEvent());

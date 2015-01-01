@@ -22,6 +22,7 @@ public class ExchangeItemMessageEvent implements IEvent {
             return;
         }
 
+
         RoomItemFloor item = room.getItems().getFloorItem(itemId);
 
         if (item == null) {

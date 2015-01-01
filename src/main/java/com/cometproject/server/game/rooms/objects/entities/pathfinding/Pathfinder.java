@@ -70,7 +70,10 @@ public class Pathfinder {
                 final boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
                 final boolean isFloorItem = roomObject instanceof RoomItemFloor;
 
-                if (roomObject.getRoom().getMapping().isValidStep(roomObject instanceof GenericEntity ? roomObject.getId() : 0, new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove, isFloorItem) || (roomObject instanceof GenericEntity && ((GenericEntity) roomObject).isOverriden())) {
+                if (roomObject.getRoom().getMapping().isValidStep(roomObject instanceof GenericEntity ? roomObject.getId() : 0,
+                        new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove, isFloorItem) ||
+                        (roomObject instanceof GenericEntity && ((GenericEntity) roomObject).isOverriden())) {
+
                     try {
                         if (map[tmp.getX()][tmp.getY()] == null) {
                             node = new PathfinderNode(tmp);

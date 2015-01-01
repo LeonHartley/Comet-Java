@@ -42,7 +42,7 @@ public class EntityComponent {
         Tile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
 
         if(tile != null) {
-            return tile.getEntities();
+            return new ArrayList<>(tile.getEntities());
         }
 
         return new ArrayList<>();

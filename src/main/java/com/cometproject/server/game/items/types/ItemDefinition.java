@@ -58,7 +58,7 @@ public class ItemDefinition {
     }
 
     public boolean isAdFurni() {
-        return itemName.equals("ads_mpu_720") || this.itemName.equals("ads_background") || this.itemName.equals("ads_mpu_300") || this.itemName.equals("ads_mpu_160");
+        return itemName.equals("ads_mpu_720") || this.itemName.equals("ads_background") || this.itemName.equals("ads_mpu_300") || this.itemName.equals("ads_mpu_160") || this.itemName.equals("backgroundk");
     }
 
     public boolean isRoomDecor() {
