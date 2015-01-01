@@ -34,5 +34,7 @@ public class ExchangeItemMessageEvent implements IEvent {
 
         client.getPlayer().getData().increaseCredits(value);
         client.getPlayer().sendBalance();
+
+        client.getPlayer().getData().save();
     }
 }
