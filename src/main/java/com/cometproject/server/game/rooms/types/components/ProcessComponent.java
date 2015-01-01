@@ -128,12 +128,6 @@ public class ProcessComponent implements CometTask {
             playersToRemove.clear();
             entitiesToUpdate.clear();
 
-//            TimeSpan span = new TimeSpan(timeStart, System.currentTimeMillis());
-
-//            if (span.toMilliseconds() > 400)
-//                log.info("ProcessComponent process took: " + span.toMilliseconds() + "ms to execute.");
-        } catch (NullPointerException | IndexOutOfBoundsException e) {
-            this.handleSupressedExceptions(e);
         } catch (Exception e) {
             log.warn("Error during room entity processing", e);
         }
@@ -488,15 +482,6 @@ public class ProcessComponent implements CometTask {
         }
 
         return false;
-    }
-
-    protected void handleSupressedExceptions(Exception e) {
-//        if(e instanceof NullPointerException || e instanceof IndexOutOfBoundsException) {
-//            // TODO: Rewrite entity grid
-//            return;
-//        }
-
-        log.error("Error while processing entity", e);
     }
 
     public boolean isActive() {
