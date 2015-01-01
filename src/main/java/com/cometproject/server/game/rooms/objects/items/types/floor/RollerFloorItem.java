@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
@@ -63,7 +64,7 @@ public class RollerFloorItem extends RoomItemFloor {
                 continue;
             }
 
-            if (!this.getRoom().getMapping().isValidStep(entity.getPosition(), sqInfront, true) || !this.getRoom().getEntities().positionHasEntity(sqInfront)) {
+            if (!this.getRoom().getMapping().isValidStep(entity.getId(), entity.getPosition(), sqInfront, true, false) || this.getRoom().getEntities().positionHasEntity(sqInfront)) {
                 break;
             }
 
@@ -86,9 +87,19 @@ public class RollerFloorItem extends RoomItemFloor {
 
             final double toHeight = this.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY()).getWalkHeight();
 
+            final Tile oldTile = this.getRoom().getMapping().getTile(entity.getPosition().getX(), entity.getPosition().getY());
+            final Tile newTile = this.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY());
+
+            if(oldTile != null) {
+                oldTile.getEntities().remove(entity);
+            }
+
+            if(newTile != null) {
+                newTile.getEntities().add(entity);
+            }
+
             this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position(sqInfront.getX(), sqInfront.getY(), toHeight), this.getId(), entity.getId(), 0));
             entity.setPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
-//            entity.cancelNextUpdate();
         }
     }
 
@@ -157,7 +168,7 @@ public class RollerFloorItem extends RoomItemFloor {
 //                }
 //            }
 
-            if (!this.getRoom().getMapping().isValidStep(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), sqInfront, true) || !this.getRoom().getEntities().positionHasEntity(sqInfront)) {
+            if (!this.getRoom().getMapping().isValidStep(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), sqInfront, true) || this.getRoom().getEntities().positionHasEntity(sqInfront)) {
                 this.setTicks(this.getTickCount());
                 return;
             }

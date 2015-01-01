@@ -47,6 +47,10 @@ public class RoomMapping {
         }
     }
 
+    public Tile getTile(Position position) {
+        return this.getTile(position.getX(), position.getY());
+    }
+
     public Tile getTile(int x, int y) {
         if (x < 0 || y < 0) return null;
         if (x >= this.tiles.length || y >= this.tiles[x].length) return null;
@@ -87,7 +91,8 @@ public class RoomMapping {
     }
 
     public boolean isValidEntityStep(GenericEntity entity, Position currentPosition, Position toPosition, boolean isFinalMove) {
-        if(entity != null)
+
+        if (entity != null)
             return isValidStep(entity.getId(), currentPosition, toPosition, isFinalMove, false);
         else
             return isValidStep(0, currentPosition, toPosition, isFinalMove, true);
@@ -118,12 +123,48 @@ public class RoomMapping {
 
         int entityId;
 
-        if(entity == null) {
+        if (entity == null) {
             entityId = -1;
-        } else if(isFloorItem) {
+        } else if (isFloorItem) {
             entityId = 0;
         } else {
             entityId = entity;
+        }
+
+        final int rotation = Position.calculateRotation(from, to);
+
+        if (rotation == 1 || rotation == 3 || rotation == 5 || rotation == 7) {
+            // Get all tiles at passing corners
+            Tile left = null;
+            Tile right = null;
+
+            switch (rotation) {
+                case 1:
+                    left = this.getTile(from.squareInFront(rotation + 1));
+                    right = this.getTile(to.squareBehind(rotation + 1));
+                    break;
+
+                case 3:
+                    left = this.getTile(to.squareBehind(rotation + 1));
+                    right = this.getTile(to.squareBehind(rotation - 1));
+                    break;
+
+                case 5:
+                    left = this.getTile(from.squareInFront(rotation - 1));
+                    right = this.getTile(to.squareBehind(rotation - 1));
+                    break;
+
+                case 7:
+                    System.out.println(from + ", " + to + ", rot: " + rotation);
+                    left = this.getTile(to.squareBehind(0));
+                    right = this.getTile(from.squareInFront(rotation - 1));
+                    break;
+            }
+
+            if (left != null && right != null) {
+                if (left.getMovementNode() == RoomEntityMovementNode.CLOSED && right.getMovementNode() == RoomEntityMovementNode.CLOSED)
+                    return false;
+            }
         }
 
         final boolean positionHasUser = positionHasUser(entityId, to);
@@ -156,7 +197,7 @@ public class RoomMapping {
     }
 
     public double getStepHeight(Position position) {
-        if(this.tiles.length <= position.getX() || this.tiles[position.getX()].length <= position.getY()) return 0.0;
+        if (this.tiles.length <= position.getX() || this.tiles[position.getX()].length <= position.getY()) return 0.0;
 
         Tile instance = this.tiles[position.getX()][position.getY()];
 

@@ -11,9 +11,6 @@ import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.Direction;
-import com.google.common.collect.Lists;
-
-import java.util.List;
 
 
 public abstract class RollableFloorItem extends RoomItemFloor {

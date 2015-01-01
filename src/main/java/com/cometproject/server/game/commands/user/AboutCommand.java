@@ -44,9 +44,12 @@ public class AboutCommand extends ChatCommand {
             about.append("OS: " + cometStats.getOperatingSystem() + "<br>");
             about.append("CPU cores:  " + cometStats.getCpuCores() + "<br>");
             about.append("Threads:  " + ManagementFactory.getThreadMXBean().getThreadCount() + "<br>");
+        }
 
+        if(client.getPlayer().getPermissions().hasPermission("about_stats")) {
             about.append("<br><br><b>Hotel Stats</b><br>");
-            about.append("Current online record: " + GameThread.getInstance().getOnlineRecord());
+            about.append("Online record: " + GameThread.getInstance().getOnlineRecord());
+            about.append("Current online record: " + GameThread.getInstance().getCurrentOnlineRecord() + " <i>Since last reboot</i>");
         }
 
         client.send(AdvancedAlertMessageComposer.compose(

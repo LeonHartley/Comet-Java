@@ -3,7 +3,6 @@ package com.cometproject.server.network.sessions;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.outgoing.notification.LogoutMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
@@ -99,7 +98,7 @@ public class Session {
             return;
         }
 
-        logger.debug("Sent message: " + Composers.valueOfId(msg.getId()) + " / " + msg.getId());
+//        logger.debug("Sent message: " + Composers.valueOfId(msg.getId()) + " / " + msg.getId());
 
         this.getChannel().write(msg);
     }

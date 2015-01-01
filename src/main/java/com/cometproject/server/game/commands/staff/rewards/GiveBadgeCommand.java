@@ -12,12 +12,17 @@ public class GiveBadgeCommand extends ChatCommand {
         if (params.length < 2)
             return;
 
-        String username = params[0];
+        final String username = params[0];
+        final String badge = params[1];
 
         Session session = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
-        if (session != null)
-            session.getPlayer().getInventory().addBadge(params[1], true);
+        if (session != null) {
+            session.getPlayer().getInventory().addBadge(badge, true);
+            sendNotif(Locale.get("command.givebadge.success").replace("%username%", username).replace("%badge%", badge), client);
+        } else {
+            sendNotif(Locale.get("command.givebadge.fail").replace("%username%", username).replace("%badge%", badge), client);
+        }
     }
 
     @Override
