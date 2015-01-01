@@ -155,7 +155,6 @@ public class RoomMapping {
                     break;
 
                 case 7:
-                    System.out.println(from + ", " + to + ", rot: " + rotation);
                     left = this.getTile(to.squareBehind(0));
                     right = this.getTile(from.squareInFront(rotation - 1));
                     break;
