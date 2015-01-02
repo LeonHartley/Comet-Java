@@ -105,6 +105,12 @@ public class EntityComponent {
     }
 
     public void removeEntity(GenericEntity entity) {
+        final Tile tile = this.getRoom().getMapping().getTile(entity.getPosition());
+
+        if(tile != null) {
+            tile.getEntities().remove(entity);
+        }
+
         // Handle removing entity specifics
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;

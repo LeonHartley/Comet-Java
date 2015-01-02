@@ -161,7 +161,7 @@ public class RoomMapping {
             }
 
             if (left != null && right != null) {
-                if (left.getMovementNode() == RoomEntityMovementNode.CLOSED && right.getMovementNode() == RoomEntityMovementNode.CLOSED)
+                if (left.getMovementNode() != RoomEntityMovementNode.OPEN && right.getMovementNode() != RoomEntityMovementNode.OPEN)
                     return false;
             }
         }
