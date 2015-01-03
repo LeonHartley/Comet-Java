@@ -275,6 +275,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.WiredSaveConditionMessageEvent, new SaveWiredDataMessageEvent());
         this.getMessages().put(Events.ReedemExchangeItemMessageEvent, new ExchangeItemMessageEvent());
         this.getMessages().put(Events.TriggerWallItemMessageEvent, new UseWallItemMessageEvent());
+        this.getMessages().put(Events.UseHabboWheelMessageEvent, new UseWallItemMessageEvent());
         this.getMessages().put(Events.MannequinSaveDataMessageEvent, new SaveMannequinMessageEvent());
         this.getMessages().put(Events.MannequinUpdateDataMessageEvent, new SaveMannequinFigureMessageEvent());
         this.getMessages().put(Events.SaveRoomBackgroundTonerMessageEvent, new SaveTonerMessageEvent());

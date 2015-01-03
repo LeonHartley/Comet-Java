@@ -38,7 +38,6 @@ public class StorageManager implements Initializable {
             config.addDataSourceProperty("useServerPrepStmts", "true");
 
             config.setConnectionTimeout(1000);
-
             config.setInitializationFailFast(true);
 
             this.connections = new HikariDataSource(config);
