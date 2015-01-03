@@ -254,6 +254,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.RoomRemoveAllRightsMessageEvent, new RemoveAllRightsMessageEvent());
         this.getMessages().put(Events.GetRoomBannedUsersMessageEvent, new GetBannedUsersMessageEvent());
         this.getMessages().put(Events.RoomUnbanUserMessageEvent, new RoomUnbanUserMessageEvent());
+        this.getMessages().put(Events.RoomSettingsMuteUserMessageEvent, new MutePlayerMessageEvent());
     }
 
     public void registerRoomAccess() {
