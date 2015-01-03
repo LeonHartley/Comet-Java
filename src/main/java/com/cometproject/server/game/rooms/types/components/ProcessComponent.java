@@ -218,21 +218,28 @@ public class ProcessComponent implements CometTask {
 
                 index0++;
 
-                if (item.getDefinition().getEffectId() != 0) {
-                    if (oldItem != null) {
-                        if (oldItem.getDefinition().getEffectId() != item.getDefinition().getEffectId()) {
-                            entity.applyEffect(new PlayerEffect(item.getDefinition().getEffectId(), true));
-                        }
-                    } else {
-                        entity.applyEffect(new PlayerEffect(item.getDefinition().getEffectId(), true));
-                    }
-                }
-
-//                if (!itemsOnOldSq.contains(item)) {
                 item.onEntityStepOn(entity);
                 WiredTriggerWalksOnFurni.executeTriggers(entity, item);
-//                }
             }
+            
+            if(newTile != null && newTile.getTopItem() != 0) {
+                RoomItemFloor topItem = this.getRoom().getItems().getFloorItem(newTile.getTopItem());
+                
+                if(topItem != null) {
+                    if (topItem.getDefinition().getEffectId() != 0) {
+                        if (oldItem != null) {
+                            if (oldItem.getDefinition().getEffectId() != topItem.getDefinition().getEffectId()) {
+                                entity.applyEffect(new PlayerEffect(topItem.getDefinition().getEffectId(), true));
+                            }
+                        } else {
+                            entity.applyEffect(new PlayerEffect(topItem.getDefinition().getEffectId(), true));
+                        }
+                    }
+                }
+            }
+
+          
+
         }
 
         return false;
@@ -390,16 +397,18 @@ public class ProcessComponent implements CometTask {
 
                 final double mountHeight = entity.getMountedEntity() != null ? 1.0 : 0;//(entity.getMountedEntity() != null) ? (((String) entity.getAttribute("transform")).startsWith("15 ") ? 1.0 : 0.5) : 0;
 
-                final double height = this.room.getMapping().getTile(nextSq.x, nextSq.y).getWalkHeight() + mountHeight;
+                final Tile tile = this.room.getMapping().getTile(nextSq.x, nextSq.y);
+                final double height = tile.getWalkHeight() + mountHeight;
                 boolean isCancelled = entity.isWalkCancelled();
                 boolean effectNeedsRemove = true;
 
                 List<RoomItemFloor> preItems = this.getRoom().getItems().getItemsOnSquare(nextSq.x, nextSq.y);
 
                 for (RoomItemFloor item : preItems) {
-                    if (entity.getCurrentEffect() != null
-                            && entity.getCurrentEffect().getEffectId() == item.getDefinition().getEffectId()) {
-                        effectNeedsRemove = false;
+                    if (entity.getCurrentEffect() != null && entity.getCurrentEffect().getEffectId() == item.getDefinition().getEffectId()) {
+                        if(item.getId() == tile.getTopItem()) {
+                            effectNeedsRemove = false;
+                        }
                     }
 
                     if (item instanceof GateFloorItem && !((GateFloorItem) item).isOpen()) {
