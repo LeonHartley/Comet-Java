@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.RoomBan;
+import com.cometproject.server.game.rooms.types.components.types.RoomMute;
 import com.cometproject.server.storage.queries.rooms.RightsDao;
 import javolution.util.FastTable;
 
@@ -14,6 +15,7 @@ public class RightsComponent {
 
     private FastTable<Integer> rights;
     private FastTable<RoomBan> bannedPlayers;
+    private FastTable<RoomMute> mutedPlayers;
 
     public RightsComponent(Room room) {
         this.room = room;
@@ -26,6 +28,7 @@ public class RightsComponent {
         }
 
         this.bannedPlayers = new FastTable<RoomBan>().shared();
+        this.mutedPlayers = new FastTable<RoomMute>().shared();
     }
 
     public void dispose() {
@@ -53,6 +56,10 @@ public class RightsComponent {
         this.bannedPlayers.add(new RoomBan(playerId, playerName, length != -1 ? length * 2 : -1));
     }
 
+    public void addMute(int playerId, int minutes) {
+        this.mutedPlayers.add(new RoomMute(playerId, (minutes * 60) * 2));
+    }
+
     public boolean hasBan(int userId) {
         for (RoomBan ban : this.bannedPlayers) {
             if (ban.getPlayerId() == userId) {
@@ -77,8 +84,19 @@ public class RightsComponent {
         }
     }
 
+    public boolean hasMute(int playerId) {
+        for(RoomMute mute : this.mutedPlayers) {
+            if(mute.getPlayerId() == playerId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void tick() {
         List<RoomBan> bansToRemove = new ArrayList<>();
+        List<RoomMute> mutesToRemove = new ArrayList<>();
 
         for (RoomBan ban : this.bannedPlayers) {
             if (ban.getTicksLeft() <= 0 && !ban.isPermanent()) {
@@ -88,11 +106,25 @@ public class RightsComponent {
             ban.decreaseTicks();
         }
 
+        for (RoomMute mute : this.mutedPlayers) {
+            if (mute.getTicksLeft() <= 0) {
+                mutesToRemove.add(mute);
+            }
+
+            mute.decreaseTicks();
+        }
+
+
         for (RoomBan ban : bansToRemove) {
             this.bannedPlayers.remove(ban);
         }
 
+        for (RoomMute mute : mutesToRemove) {
+            this.mutedPlayers.remove(mute);
+        }
+
         bansToRemove.clear();
+        mutesToRemove.clear();
     }
 
     public List<RoomBan> getBannedPlayers() {

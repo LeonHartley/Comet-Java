@@ -78,7 +78,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         // Room full, no slot available
-        if (this.getPlayer().getId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() &&
+        if (this.getPlayerId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() &&
                 !this.player.getPermissions().hasPermission("room_enter_full")) {
             this.player.getSession().send(RoomConnectionErrorMessageComposer.compose(1, ""));
             this.player.getSession().send(HotelViewMessageComposer.compose());
@@ -86,12 +86,12 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         // Room bans
-        if (this.getRoom().getRights().hasBan(this.player.getId()) && !this.player.getPermissions().hasPermission("room_unkickable")) {
+        if (this.getRoom().getRights().hasBan(this.getPlayerId()) && !this.player.getPermissions().hasPermission("room_unkickable")) {
             this.player.getSession().send(RoomConnectionErrorMessageComposer.compose(4, ""));
             return;
         }
 
-        boolean isOwner = (this.getRoom().getData().getOwnerId() == this.player.getId());
+        boolean isOwner = (this.getRoom().getData().getOwnerId() == this.getPlayerId());
 
         if ((!isOwner && !this.player.getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered()) && !this.getPlayer().isTeleporting()) {
             if (this.getRoom().getData().getAccess().equals("password")) {
@@ -140,17 +140,17 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         int accessLevel = 0;
 
-        if (this.getRoom().getData().getOwnerId() == this.player.getId() || this.player.getPermissions().hasPermission("room_full_control")) {
+        if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.player.getPermissions().hasPermission("room_full_control")) {
             this.addStatus(RoomEntityStatus.CONTROLLER, "4");
             accessLevel = 4;
-        } else if (this.getRoom().getRights().hasRights(this.player.getId())) {
+        } else if (this.getRoom().getRights().hasRights(this.getPlayerId())) {
             this.addStatus(RoomEntityStatus.CONTROLLER, "1");
             accessLevel = 1;
         }
 
         this.player.getSession().send(AccessLevelMessageComposer.compose(accessLevel));
 
-        if (this.getRoom().getData().getOwnerId() == this.player.getId() || this.player.getPermissions().hasPermission("room_full_control")) {
+        if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.player.getPermissions().hasPermission("room_full_control")) {
             this.player.getSession().send(OwnerRightsMessageComposer.compose());
         }
 
@@ -183,7 +183,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         Trade trade = this.getRoom().getTrade().get(this);
 
         if (trade != null) {
-            trade.cancel(this.getPlayer().getId());
+            trade.cancel(this.getPlayerId());
         }
 
         if (this.getMountedEntity() != null) {
@@ -295,11 +295,11 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
 
-        if (this.getRoom().hasRoomMute() && !this.getPlayer().getPermissions().hasPermission("bypass_roommute") && this.getRoom().getData().getOwnerId() != this.player.getId()) {
+        if (this.getRoom().hasRoomMute() && !this.getPlayer().getPermissions().hasPermission("bypass_roommute") && this.getRoom().getData().getOwnerId() != this.getPlayerId()) {
             return false;
         }
 
-        if (BanManager.getInstance().isMuted(this.getPlayerId()) && !this.getPlayer().getPermissions().hasPermission("bypass_roommute")) {
+        if ((this.getRoom().getRights().hasMute(this.getPlayerId()) || BanManager.getInstance().isMuted(this.getPlayerId())) && !this.getPlayer().getPermissions().hasPermission("bypass_roommute")) {
             return false;
         }
 
@@ -346,7 +346,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         Trade trade = this.getRoom().getTrade().get(this);
 
         if (trade != null) {
-            trade.cancel(this.getPlayer().getId());
+            trade.cancel(this.getPlayerId());
         }
 
         if (this.visitLogEntry != null) {
@@ -366,7 +366,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     public void setIdle() {
         super.setIdle();
 
-        this.getRoom().getEntities().broadcastMessage(IdleStatusMessageComposer.compose(this.player.getId(), true));
+        this.getRoom().getEntities().broadcastMessage(IdleStatusMessageComposer.compose(this.getPlayerId(), true));
     }
 
     public int getPlayerId() {
