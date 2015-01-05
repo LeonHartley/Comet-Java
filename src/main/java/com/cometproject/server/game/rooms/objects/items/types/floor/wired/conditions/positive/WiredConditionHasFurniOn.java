@@ -38,7 +38,7 @@ public class WiredConditionHasFurniOn extends WiredConditionItem {
 
             if (floorItem != null) {
                 for (RoomItemFloor itemOnSq : floorItem.getItemsOnStack()) {
-                    if (itemOnSq.getPosition().getZ() >= floorItem.getPosition().getZ() && itemOnSq.getId() != floorItem.getId())
+                    if (itemOnSq.getPosition().getZ() != 0.0 && itemOnSq.getPosition().getZ() > floorItem.getPosition().getZ() && itemOnSq.getId() != floorItem.getId())
                         selectedItemsWithFurni++;
                 }
             }
