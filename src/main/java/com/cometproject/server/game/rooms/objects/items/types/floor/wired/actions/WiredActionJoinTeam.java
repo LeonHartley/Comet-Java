@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -58,6 +59,7 @@ public class WiredActionJoinTeam extends WiredActionItem {
 
         playerEntity.setGameTeam(this.getTeam());
         this.getRoom().getGame().getTeams().get(this.getTeam()).add(playerEntity.getPlayerId());
+        playerEntity.applyEffect(new PlayerEffect(this.getTeam().getFreezeEffect(), true));
         return true;
     }
 

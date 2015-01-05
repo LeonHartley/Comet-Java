@@ -129,6 +129,10 @@ public class Room implements Attributable {
         if (this.rights != null) {
             this.rights.tick();
         }
+
+        if(this.mapping != null) {
+            this.mapping.tick();
+        }
     }
 
     public RoomPromotion getPromotion() {

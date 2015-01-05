@@ -33,6 +33,8 @@ public class PermissionComponent {
             }
         } else if (key.equals("debug") && Comet.isDebugging) {
             return true;
+        } else if(key.equals("dev")) {
+            return true;
         }
 
         return false;

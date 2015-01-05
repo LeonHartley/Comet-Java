@@ -129,7 +129,17 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         }
 
         if (this.getPositionToSet() != null) {
-            this.getRoom().getEntities().getEntitiesAt(this.getPosition()).remove(this);
+            Tile oldTile = this.getRoom().getMapping().getTile(this.getPosition());
+            Tile newTile = this.getRoom().getMapping().getTile(this.getPositionToSet());
+
+            if(oldTile != null) {
+                oldTile.getEntities().remove(this);
+            }
+
+            if(newTile != null) {
+                newTile.getEntities().add(this);
+            }
+
             this.setPosition(this.getPositionToSet());
         }
 

@@ -11,8 +11,9 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class Tile {
@@ -35,12 +36,12 @@ public class Tile {
     private boolean canPlaceItemHere = false;
     private boolean hasItems = false;
 
-    public List<GenericEntity> entities;
+    public Set<GenericEntity> entities;
 
     public Tile(RoomMapping mappingInstance, Position position) {
         this.mappingInstance = mappingInstance;
         this.position = position;
-        this.entities = new ArrayList<>();
+        this.entities = new HashSet<>();
 
         this.reload();
     }
@@ -186,7 +187,7 @@ public class Tile {
         return path != null && path.size() > 0;
     }
 
-    public List<GenericEntity> getEntities() {
+    public Set<GenericEntity> getEntities() {
         return this.entities;
     }
 

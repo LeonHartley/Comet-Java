@@ -302,7 +302,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         if ((this.getRoom().getRights().hasMute(this.getPlayerId()) || BanManager.getInstance().isMuted(this.getPlayerId())) && !this.getPlayer().getPermissions().hasPermission("bypass_roommute")) {
             this.getPlayer().getSession().send(MutedMessageComposer.compose(this.getRoom().getRights().getMuteTime(this.getPlayerId())));
-            
+
             return false;
         }
 
