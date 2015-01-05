@@ -171,7 +171,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
             this.setRotation(Direction.get(this.getRotation()).invert().num);
         }
 
-        this.moveTo(newPosition, this.playerEntity.getBodyRotation());
+        this.moveTo(newPosition, entity.getBodyRotation());
         this.isRolling = false;
     }
 
