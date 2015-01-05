@@ -24,7 +24,7 @@ public class WiredAddonPyramid extends RoomItemFloor {
 
     @Override
     public void onEntityStepOff(GenericEntity entity) {
-        this.hasEntity = true;
+        this.hasEntity = false;
     }
 
     @Override
