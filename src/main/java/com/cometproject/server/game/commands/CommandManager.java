@@ -2,6 +2,7 @@ package com.cometproject.server.game.commands;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.commands.development.EntityGridCommand;
 import com.cometproject.server.game.commands.development.PositionCommand;
 import com.cometproject.server.game.commands.development.ReloadMappingCommand;
 import com.cometproject.server.game.commands.gimmicks.KissCommand;
@@ -80,6 +81,8 @@ public class CommandManager implements Initializable {
             this.commands.put("reloadmapping", new ReloadMappingCommand());
             this.commands.put("position", new PositionCommand());
         }
+
+        this.commands.put("entitygrid", new EntityGridCommand());
     }
 
     /**

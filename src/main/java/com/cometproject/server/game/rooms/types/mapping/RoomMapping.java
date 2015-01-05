@@ -3,11 +3,13 @@ package com.cometproject.server.game.rooms.types.mapping;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.google.common.collect.Lists;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,6 +39,32 @@ public class RoomMapping {
             }
 
             this.tiles[x] = xArray;
+        }
+    }
+
+    public void tick() {
+        // clear out the entity grid
+        for(int x = 0; x < tiles.length; x++) {
+            for(int y = 0; y < tiles[x].length; y++) {
+                Tile tile = this.tiles[x][y];
+
+                List<GenericEntity> entitiesToRemove = new ArrayList<>();
+
+                for(GenericEntity entity : tile.getEntities()) {
+                    if(entity instanceof PlayerEntity) {
+                        if(((PlayerEntity) entity).getPlayer() == null) {
+                            entitiesToRemove.add(entity);
+                            continue;
+                        }
+                    }
+                }
+
+                for(GenericEntity entityToRemove : entitiesToRemove) {
+                    tile.getEntities().remove(entityToRemove);
+                }
+
+                entitiesToRemove.clear();
+            }
         }
     }
 
@@ -255,5 +283,23 @@ public class RoomMapping {
         }
 
         return mapString;
+    }
+
+    public String visualiseEntityGrid() {
+        final StringBuilder builder = new StringBuilder();
+
+        for (int y = 0; y < this.tiles.length; y++) {
+            for (int x = 0; x < this.tiles[y].length; x++) {
+                if (this.tiles[y][x].getEntities().size() != 0) {
+                    builder.append("E");
+                } else {
+                    builder.append("[]");
+                }
+            }
+
+            builder.append("\n");
+        }
+
+        return builder.toString();
     }
 }

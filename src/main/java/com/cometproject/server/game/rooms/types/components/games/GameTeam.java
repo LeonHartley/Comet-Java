@@ -37,4 +37,22 @@ public enum GameTeam {
 
         return 0;
     }
+
+    public int getFreezeEffect() {
+        switch (teamId) {
+            case 1:
+                return UserEffectType.ES_RED.getEffectId();
+
+            case 2:
+                return UserEffectType.ES_GREEN.getEffectId();
+
+            case 3:
+                return UserEffectType.ES_BLUE.getEffectId();
+
+            case 4:
+                return UserEffectType.ES_YELLOW.getEffectId();
+        }
+
+        return 0;
+    }
 }

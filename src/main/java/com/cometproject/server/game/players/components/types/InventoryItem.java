@@ -152,7 +152,7 @@ public class InventoryItem {
             // Append the group data...
             int groupId = 0;
 
-            msg.writeInt(17);
+//            msg.writeInt(17);
 
             if (StringUtils.isNumeric(this.getExtraData())) {
                 groupId = Integer.parseInt(this.getExtraData());
