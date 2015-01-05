@@ -29,6 +29,7 @@ import com.cometproject.server.network.messages.outgoing.room.alerts.RoomConnect
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomErrorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
@@ -300,6 +301,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         if ((this.getRoom().getRights().hasMute(this.getPlayerId()) || BanManager.getInstance().isMuted(this.getPlayerId())) && !this.getPlayer().getPermissions().hasPermission("bypass_roommute")) {
+            this.getPlayer().getSession().send(MutedMessageComposer.compose(this.getRoom().getRights().getMuteTime(this.getPlayerId())));
+            
             return false;
         }
 

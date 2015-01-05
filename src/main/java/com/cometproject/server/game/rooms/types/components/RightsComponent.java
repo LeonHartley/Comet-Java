@@ -94,6 +94,16 @@ public class RightsComponent {
         return false;
     }
 
+    public int getMuteTime(int playerId) {
+        for(RoomMute mute : this.mutedPlayers) {
+            if(mute.getPlayerId() == playerId) {
+                return (mute.getTicksLeft() / 2);
+            }
+        }
+
+        return 0;
+    }
+
     public void tick() {
         List<RoomBan> bansToRemove = new ArrayList<>();
         List<RoomMute> mutesToRemove = new ArrayList<>();

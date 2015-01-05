@@ -273,6 +273,7 @@ public class Composers {
     public static final short LogoutMessageComposer = 4000;
     public static final short GiftUserNotFoundMessageComposer = 2517;
     public static final short RoomNotificationMessageComposer = 2273;
+    public static final short MutedMessageComposer = 3871;
 
     private static Map<Short, String> composerNames = new FastMap<>();
 
