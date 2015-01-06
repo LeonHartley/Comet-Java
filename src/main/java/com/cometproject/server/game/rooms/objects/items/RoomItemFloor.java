@@ -221,18 +221,24 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
     }
 
     public void onItemAddedToStack(RoomItemFloor floorItem) {
-
+        // override me
     }
 
     public void onEntityPreStepOn(GenericEntity entity) {
-
+        // override me
     }
 
     public void onEntityStepOn(GenericEntity entity) {
-
+        // override me
     }
 
     public void onEntityStepOff(GenericEntity entity) {
+        // override me
+    }
+
+
+    public void onPositionChanged(Position newPosition) {
+        // override me
     }
 
     @Override

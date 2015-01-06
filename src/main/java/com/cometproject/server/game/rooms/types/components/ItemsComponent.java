@@ -263,6 +263,8 @@ public class ItemsComponent {
             }
         }
 
+        item.onPositionChanged(newPosition);
+
         List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(item.getPosition());
 
         for (GenericEntity entity0 : affectEntities0) {
