@@ -14,6 +14,9 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.hollywood.Ha
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardSlopeFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.summer.SummerShowerFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.totem.TotemBodyFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.totem.TotemHeadFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.totem.TotemPlanetFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative.*;
@@ -129,6 +132,10 @@ public class RoomItemFactory {
             put("snowb_slope", SnowboardSlopeFloorItem.class);
             put("snowb_rail", SnowboardJumpFloorItem.class);
             put("snowb_jump", SnowboardJumpFloorItem.class);
+
+            put("totem_planet", TotemPlanetFloorItem.class);
+            put("totem_head", TotemHeadFloorItem.class);
+            put("totem_body", TotemBodyFloorItem.class);
         }};
     }
 

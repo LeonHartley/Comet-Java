@@ -24,6 +24,7 @@ public class GenericFloorItem extends RoomItemFloor {
                     && !pEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
                 return;
             }
+
         }
 
         this.toggleInteract(true);
