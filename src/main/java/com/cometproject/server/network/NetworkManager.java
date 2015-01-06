@@ -46,8 +46,9 @@ public class NetworkManager {
 
         ServerBootstrap bootstrap = new ServerBootstrap(
                 new NioServerSocketChannelFactory(
-                        Executors.newCachedThreadPool(),
-                        Executors.newCachedThreadPool()));
+                        Executors.newFixedThreadPool(poolSize),
+                        Executors.newFixedThreadPool(poolSize)
+                ));
 
         bootstrap.setOption("backlog", 100);
         bootstrap.setOption("tcpNoDelay", true);
