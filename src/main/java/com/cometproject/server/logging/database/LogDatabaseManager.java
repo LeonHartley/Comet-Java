@@ -1,33 +1,30 @@
 package com.cometproject.server.logging.database;
 
 import com.cometproject.server.boot.Comet;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import com.jolbox.bonecp.BoneCP;
+import com.jolbox.bonecp.BoneCPConfig;
 import org.apache.log4j.Logger;
 
 
 public class LogDatabaseManager {
     private static Logger log = Logger.getLogger(LogDatabaseHelper.class.getName());
-    private HikariDataSource connections = null;
+    private BoneCP connections = null;
 
     public LogDatabaseManager() {
         boolean isConnectionFailed = false;
 
         try {
-            String[] connectionDetails = Comet.getServer().getConfig().get("comet.game.logging.database.host").split(":");
+            BoneCPConfig config = new BoneCPConfig();
 
-            HikariConfig config = new HikariConfig();
-            config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-            config.addDataSourceProperty("serverName", connectionDetails[0]);
-            config.addDataSourceProperty("port", connectionDetails.length > 1 ? Integer.parseInt(connectionDetails[1]) : 3306);
-            config.addDataSourceProperty("databaseName", Comet.getServer().getConfig().get("comet.game.logging.database.name"));
-            config.addDataSourceProperty("user", Comet.getServer().getConfig().get("comet.game.logging.database.username"));
-            config.addDataSourceProperty("password", Comet.getServer().getConfig().get("comet.game.logging.database.password"));
-            config.setMaximumPoolSize(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
-            config.setLeakDetectionThreshold(300000);
-            config.setInitializationFailFast(true);
+            config.setJdbcUrl("jdbc:mysql://" + Comet.getServer().getConfig().get("comet.game.logging.database.host") + "/" + Comet.getServer().getConfig().get("comet.game.logging.database.name"));
+            config.setUsername(Comet.getServer().getConfig().get("comet.game.logging.database.username"));
+            config.setPassword(Comet.getServer().getConfig().get("comet.game.logging.database.password"));
 
-            this.connections = new HikariDataSource(config);
+            config.setMinConnectionsPerPartition(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.min")));
+            config.setMaxConnectionsPerPartition(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
+            config.setPartitionCount(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.count")));
+
+            this.connections = new BoneCP(config);
         } catch (Exception e) {
             isConnectionFailed = true;
             log.error("Failed to connect to MySQL server", e);
@@ -39,7 +36,7 @@ public class LogDatabaseManager {
         }
     }
 
-    public HikariDataSource getConnections() {
+    public BoneCP getConnections() {
         return this.connections;
     }
 }

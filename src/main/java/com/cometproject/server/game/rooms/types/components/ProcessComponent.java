@@ -308,22 +308,24 @@ public class ProcessComponent implements CometTask {
                     String message = ((PetEntity) entity).getData().getSpeech()[messageKey];
 
                     if (message != null && !message.isEmpty()) {
-                        final String status = "" + this.room.getModel().getSquareHeight()[entity.getPosition().getX()][entity.getPosition().getY()];
+                        if (entity.getPosition().getX() < this.getRoom().getModel().getSquareHeight().length && entity.getPosition().getY() < this.getRoom().getModel().getSquareHeight()[entity.getPosition().getX()].length) {
+                            final String status = "" + this.room.getModel().getSquareHeight()[entity.getPosition().getX()][entity.getPosition().getY()];
 
-                        switch (message) {
-                            case "sit":
-                                entity.addStatus(RoomEntityStatus.SIT, status);
-                                entity.markNeedsUpdate();
-                                break;
+                            switch (message) {
+                                case "sit":
+                                    entity.addStatus(RoomEntityStatus.SIT, status);
+                                    entity.markNeedsUpdate();
+                                    break;
 
-                            case "lay":
-                                entity.addStatus(RoomEntityStatus.LAY, status);
-                                entity.markNeedsUpdate();
-                                break;
+                                case "lay":
+                                    entity.addStatus(RoomEntityStatus.LAY, status);
+                                    entity.markNeedsUpdate();
+                                    break;
 
-                            default:
-                                this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(entity.getId(), message, 0, 0));
-                                break;
+                                default:
+                                    this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(entity.getId(), message, 0, 0));
+                                    break;
+                            }
                         }
                     }
 
