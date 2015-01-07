@@ -6,6 +6,8 @@ import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 import org.apache.log4j.Logger;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class StorageManager implements Initializable {
     private static StorageManager storageManagerInstance;
@@ -42,13 +44,15 @@ public class StorageManager implements Initializable {
 
             BoneCPConfig config = new BoneCPConfig();
 
-            config.setJdbcUrl("jdbc:mysql://" + Comet.getServer().getConfig().get("comet.db.host") + "/" + Comet.getServer().getConfig().get("comet.db.name"));
+            config.setJdbcUrl("jdbc:mysql://" + Comet.getServer().getConfig().get("comet.db.host") + "/" + Comet.getServer().getConfig().get("comet.db.name") + "?tcpKeepAlive=true");
             config.setUsername(Comet.getServer().getConfig().get("comet.db.username"));
             config.setPassword(Comet.getServer().getConfig().get("comet.db.password"));
 
             config.setMinConnectionsPerPartition(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.min")));
             config.setMaxConnectionsPerPartition(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
             config.setPartitionCount(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.count")));
+
+            config.setIdleMaxAge(60, TimeUnit.SECONDS);
 
             log.info("Connecting to the MySQL server");
             this.connections = new BoneCP(config);
