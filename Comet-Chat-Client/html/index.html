@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>Chat</title>
+
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/socket.io.min.js"></script>
+
+		<script src="assets/js/app/packets.js"></script>
+		<script src="assets/js/app/application.js"></script>
+
+		<script>
+			$(document).ready(function() {
+				if(!window.location.hash) {
+					window.location.replace("error.html");
+					return;
+				}
+
+				var authTicket = CometIM.getAuthTicket();
+
+				// Create connection, grab friends list.
+				var socket = io.connect("http://192.168.0.11:30002", {
+					'reconnection delay': 1000,
+					'force new connection': true
+				});
+
+				socket.emit(Packet.AUTH_REQUEST, {"ticket": authTicket});
+
+				socket.on("message", function(data) {
+					PacketHandler.handlePacket(socket, data);
+				});
+			});
+		</script>
+	</head>
+
+ 	<body>
+ 		<div class="row">
+			<div class="col-md-3" id="contactContainer">
+
+
+			</div>
+
+			<div class="col-md-9">
+				CHAT MESSAGES ERMHA GERHDFHDHDHD
+			</div>
+ 		</div>
+  </body>
+</html>
