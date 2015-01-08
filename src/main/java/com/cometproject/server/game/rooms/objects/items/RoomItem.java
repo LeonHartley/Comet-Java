@@ -83,7 +83,6 @@ public abstract class RoomItem extends RoomObject implements Attributable {
     }
 
     public void onPlaced() {
-        System.out.println("onplaced");
         // Override this
     }
 
