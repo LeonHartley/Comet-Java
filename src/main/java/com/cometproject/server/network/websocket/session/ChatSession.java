@@ -6,11 +6,11 @@ import com.cometproject.server.storage.queries.webchat.WebChatDao.WebChatDao;
 import com.corundumstudio.socketio.SocketIOClient;
 
 public class ChatSession {
-    private SocketIOClient webSocketClient;
+    private SocketIOClient socketIOClient;
     private PlayerData playerData;
 
     public ChatSession(String authTicket, SocketIOClient webSocketClient) {
-        this.webSocketClient = webSocketClient;
+        this.socketIOClient = webSocketClient;
 
         int playerId = WebChatDao.findPlayerIdByAuthTicket(authTicket);
 
@@ -27,7 +27,7 @@ public class ChatSession {
         return playerData;
     }
 
-    public SocketIOClient getWebSocketClient() {
-        return webSocketClient;
+    public SocketIOClient getSocketIOClient() {
+        return socketIOClient;
     }
 }
