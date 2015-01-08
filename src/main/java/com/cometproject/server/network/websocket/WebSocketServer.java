@@ -1,6 +1,7 @@
 package com.cometproject.server.network.websocket;
 
 import com.cometproject.server.network.websocket.listeners.AuthListener;
+import com.cometproject.server.network.websocket.listeners.DisconnectionListener;
 import com.cometproject.server.network.websocket.listeners.MessageListener;
 import com.cometproject.server.network.websocket.listeners.types.AuthenticationRequest;
 import com.cometproject.server.utilities.Initializable;
@@ -66,6 +67,7 @@ public class WebSocketServer implements Initializable {
      * Adds all available listeners to the server instance
      */
     private void setupListeners() {
+        this.server.addDisconnectListener(new DisconnectionListener());
         this.server.addMessageListener(new MessageListener());
         this.server.addEventListener(AuthListener.EVENT_NAME, AuthenticationRequest.class, new AuthListener());
     }
