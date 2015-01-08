@@ -20,6 +20,7 @@ import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.websocket.WebSocketServer;
 import com.cometproject.server.storage.StorageManager;
 import com.cometproject.server.tasks.CometThreadManager;
 
@@ -48,6 +49,8 @@ public class CometServer {
      */
     public void init() {
         APIManager.getInstance().initialize();
+        WebSocketServer.getInstance().initialize();
+
         CometThreadManager.getInstance().initialize();
         StorageManager.getInstance().initialize();
         LogManager.getInstance().initialize();
