@@ -20,7 +20,7 @@ public class ChatSession {
     }
 
     public void dispose() {
-
+        // send to our friends that we've gone offline!
     }
 
     public PlayerData getPlayerData() {
