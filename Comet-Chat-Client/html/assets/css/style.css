@@ -1,0 +1,191 @@
+#main {
+	font-family: 'Ubuntu';
+	height: 100vh;
+}
+
+#bar {
+	background: #24211c;
+	height: 20px;
+	height: 100%;
+}
+
+#chat {
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	background: #e2e2e2;
+}
+
+#messages {
+	padding: 20px;
+	position: relative;
+	height: 90%;
+	clear: both;
+}
+
+#message-input {
+	position: relative;
+	width: 100%;
+	height: 10%;
+}
+
+#messages > .message-container {
+	clear: both;
+	width: 65%;
+	padding-top: 5px;
+	position: relative;
+}
+
+.message-container-to {
+	float: right;
+}
+
+.message-container-from {
+	float: left;
+}
+
+.name {
+	position: absolute;
+	top: -2px;
+	font-weight: 700;
+}
+
+.name-friend {
+	left: 54px;
+}
+
+.sender {
+	width: 54px;
+}
+
+.sender-me {
+	float: right;
+}
+
+.sender-friend {
+	float: left;
+}
+
+.message {
+	background: #fff;
+	color: #333;
+	border-radius: 4px;
+	padding: 8px;
+	width: 85%;
+	margin-top: 15px;
+	position:relative;
+}
+
+.message-me {
+	float: left;
+}
+
+.message-friend {
+	float: right;
+}
+
+.message:after, .message:before {
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.message:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-width: 3px;
+	margin-top: -3px;
+}
+
+.message:before {
+	border-color: rgba(245, 245, 245, 0);
+	border-width: 9px;
+	margin-top: -9px;
+}
+
+.message-me:after, .message-me:before {
+	left: 100%;
+}
+
+.message-me:after {
+	border-left-color: #ffffff;
+}
+
+.message-me:before {
+	border-left-color: #fff;
+}
+
+.message-friend:after, .message-friend:before {
+	right: 100%;
+}
+
+.message-friend:after {
+	border-right-color: #ffffff;
+}
+
+.message-friend:before {
+	border-right-color: #fff;
+}
+
+.time {
+	font-size: 13px;
+	text-transform: uppercase;
+	color: #c1c1c1;
+	text-shadow: 0px 1px #fff;
+}
+
+.time-me {
+	padding-right: 5px;
+	text-align: right;
+	float: right;
+}
+
+.time-friend {
+	padding-left: 5px;
+	text-align: left;
+	float: left;
+}
+
+#message-input {
+	position: relative;
+	width: 100%;
+	height: 10%;
+}
+
+#message-input > textarea {
+	background: 0;
+	outline: none;
+	border: 0;
+	resize: none;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	background: #fff;
+	width: 100%;
+	height: 100%;
+	padding: 10px;
+	font-size: 16px;
+}
+
+@media(max-width:1000px) {
+	#bar {
+		height: 20%;
+	}
+
+	#chat {
+		height: 80%;
+	}
+
+	#messages > .message-container {
+		width: 392px;
+	}
+
+
+	#message-input > textarea {
+		padding-left: 20px;
+	}
+}
