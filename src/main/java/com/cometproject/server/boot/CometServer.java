@@ -49,7 +49,7 @@ public class CometServer {
      */
     public void init() {
         APIManager.getInstance().initialize();
-        WebSocketServer.getInstance().initialize();
+//        WebSocketServer.getInstance().initialize();
 
         CometThreadManager.getInstance().initialize();
         StorageManager.getInstance().initialize();

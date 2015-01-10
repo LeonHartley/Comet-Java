@@ -9,6 +9,9 @@
 
 		<title>Chat</title>
 
+		<link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700' rel='stylesheet' type='text/css'>
+
+		<link href="assets/css/style.css" rel="stylesheet" />
 		<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 
 		<script src="assets/js/jquery.min.js"></script>
@@ -28,7 +31,7 @@
 				var authTicket = CometIM.getAuthTicket();
 
 				// Create connection, grab friends list.
-				var socket = io.connect("http://192.168.0.11:30002", {
+				var socket = io.connect("http://127.0.0.1:30002", {
 					'reconnection delay': 1000,
 					'force new connection': true
 				});
@@ -43,14 +46,39 @@
 	</head>
 
  	<body>
- 		<div class="row">
-			<div class="col-md-3" id="contactContainer">
-
+ 		<div class="row" id="main">
+			<div class="col-md-4" id="bar">
 
 			</div>
 
-			<div class="col-md-9">
-				CHAT MESSAGES ERMHA GERHDFHDHDHD
+			<div class="col-md-8" id="chat">
+				<div id="messages">
+					<div class="message-container message-container-to">
+
+						<div class="name">You: </div>
+						<div class="sender sender-me"><img src="assets/images/head.gif" /></div>
+						<div class="message message-me">haha :D</div>
+						<div class="time time-me">2 minutes ago</div>
+					</div>
+
+					<div class="message-container message-container-from">
+						<div class="name name-friend">Mark: </div>
+						<div class="sender sender-friend"><img src="assets/images/head.gif" /></div>
+						<div class="message message-friend">haha :D</div>
+						<div class="time time-friend">1 minute ago</div>
+					</div>
+
+					<div class="message-container message-container-to">
+						<div class="name">You: </div>
+						<div class="sender sender-me"><img src="assets/images/head.gif" /></div>
+						<div class="message message-me">haha :D</div>
+						<div class="time time-me">21 seconds ago</div>
+					</div>
+				</div>
+
+				<div id="message-input">
+					<textarea></textarea>
+				</div>
 			</div>
  		</div>
   </body>

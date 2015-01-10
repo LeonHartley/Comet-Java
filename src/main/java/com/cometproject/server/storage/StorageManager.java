@@ -23,28 +23,9 @@ public class StorageManager implements Initializable {
         boolean isConnectionFailed = false;
 
         try {
-//            String[] connectionDetails = Comet.getServer().getConfig().get("comet.db.host").split(":");
-
-//            HikariConfig config = new HikariConfig();
-//            config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-//            config.addDataSourceProperty("serverName", connectionDetails[0]);
-//            config.addDataSourceProperty("port", connectionDetails.length > 1 ? Integer.parseInt(connectionDetails[1]) : 3306);
-//            config.addDataSourceProperty("databaseName", Comet.getServer().getConfig().get("comet.db.name"));
-//            config.addDataSourceProperty("user", Comet.getServer().getConfig().get("comet.db.username"));
-//            config.addDataSourceProperty("password", Comet.getServer().getConfig().get("comet.db.password"));
-//            config.setMaximumPoolSize(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
-//
-//            config.addDataSourceProperty("cachePrepStmts", "true");
-//            config.addDataSourceProperty("prepStmtCacheSize", "250");
-//            config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-//            config.addDataSourceProperty("useServerPrepStmts", "true");
-//
-//            config.setConnectionTimeout(1000);
-//            config.setInitializationFailFast(true);
-
             BoneCPConfig config = new BoneCPConfig();
 
-            config.setJdbcUrl("jdbc:mysql://" + Comet.getServer().getConfig().get("comet.db.host") + "/" + Comet.getServer().getConfig().get("comet.db.name") + "?tcpKeepAlive=true");
+            config.setJdbcUrl("jdbc:mysql://" + Comet.getServer().getConfig().get("comet.db.host") + "/" + Comet.getServer().getConfig().get("comet.db.name") + "?tcpKeepAlive=true&autoReconnect=true");
             config.setUsername(Comet.getServer().getConfig().get("comet.db.username"));
             config.setPassword(Comet.getServer().getConfig().get("comet.db.password"));
 
