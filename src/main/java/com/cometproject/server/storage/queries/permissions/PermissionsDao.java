@@ -82,7 +82,11 @@ public class PermissionsDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.put(resultSet.getString("command_id"), new CommandPermission(resultSet));
+                try {
+                    data.put(resultSet.getString("command_id"), new CommandPermission(resultSet));
+                } catch (Exception ignored) {
+
+                }
             }
 
         } catch (SQLException e) {
