@@ -84,6 +84,7 @@ public class GroupManager implements Initializable {
         this.groupInstances = new ConcurrentLRUCache<>(INSTANCE_LRU_MAX_ENTRIES, INSTANCE_LRU_LOWER_WATERMARK);
 
         this.roomIdToGroupId = new FastMap<>();
+        log.info("GroupManager initialized");
     }
 
     public static GroupManager getInstance() {
