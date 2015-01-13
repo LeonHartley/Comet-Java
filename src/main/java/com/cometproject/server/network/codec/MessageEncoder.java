@@ -3,12 +3,9 @@ package com.cometproject.server.network.codec;
 import com.cometproject.server.network.messages.types.Composer;
 import org.apache.log4j.Logger;
 import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.channel.ChannelHandlerContext;
-import org.jboss.netty.channel.Channels;
-import org.jboss.netty.channel.MessageEvent;
-import org.jboss.netty.channel.SimpleChannelDownstreamHandler;
+import org.jboss.netty.channel.*;
 
-
+@ChannelHandler.Sharable
 public class MessageEncoder extends SimpleChannelDownstreamHandler {
     private static Logger log = Logger.getLogger(MessageEncoder.class.getName());
 

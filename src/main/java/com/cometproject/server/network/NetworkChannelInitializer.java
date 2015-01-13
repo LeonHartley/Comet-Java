@@ -7,6 +7,7 @@ import com.cometproject.server.network.codec.XMLPolicyDecoder;
 import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.jboss.netty.channel.Channels;
+import org.jboss.netty.handler.codec.string.StringDecoder;
 import org.jboss.netty.handler.codec.string.StringEncoder;
 import org.jboss.netty.handler.execution.ExecutionHandler;
 import org.jboss.netty.handler.execution.OrderedMemoryAwareThreadPoolExecutor;
@@ -14,30 +15,27 @@ import org.jboss.netty.util.CharsetUtil;
 
 
 public class NetworkChannelInitializer implements ChannelPipelineFactory {
-//    private final Timer idleTimer;
-//    private final ClientIdleHandler idleHandler;
+    private final ExecutionHandler executionHandler;
 
-    private final OrderedMemoryAwareThreadPoolExecutor executor;
+    private final StringEncoder stringEncoder = new StringEncoder(CharsetUtil.UTF_8);
+    private final MessageDecoder messageDecoder = new MessageDecoder();
+    private final MessageEncoder messageEncoder = new MessageEncoder();
+    private final ClientHandler clientHandler = new ClientHandler();
 
     public NetworkChannelInitializer(OrderedMemoryAwareThreadPoolExecutor executionExecutor) {
-//        this.idleTimer = new HashedWheelTimer();
-//        this.idleHandler = new ClientIdleHandler();
-
-        this.executor = executionExecutor;
+        this.executionHandler = new ExecutionHandler(executionExecutor);
     }
 
     @Override
     public ChannelPipeline getPipeline() throws Exception {
         ChannelPipeline pipeline = Channels.pipeline();
 
-        pipeline.addLast("xmlDecoder", new XMLPolicyDecoder());
-        pipeline.addLast("messageDecoder", new MessageDecoder());
-        pipeline.addLast("messageEncoder", new MessageEncoder());
-        pipeline.addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8));
-//        pipeline.addLast("idleStateHandler", new IdleStateHandler(this.idleTimer, 60, 30, 0));
-//        pipeline.addLast("clientIdleHandler", this.idleHandler);
-        pipeline.addLast("executionHandler", new ExecutionHandler(this.executor));
-        pipeline.addLast("handler", new ClientHandler());
+        pipeline.addLast("xmlDecoder", new XMLPolicyDecoder()); // if this obj isn't created now, it causes issues; TODO: find out why
+        pipeline.addLast("messageDecoder", this.messageDecoder);
+        pipeline.addLast("messageEncoder", this.messageEncoder);
+        pipeline.addLast("stringEncoder", this.stringEncoder);
+        pipeline.addLast("executionHandler", this.executionHandler);
+        pipeline.addLast("handler", this.clientHandler);
 
         return pipeline;
     }

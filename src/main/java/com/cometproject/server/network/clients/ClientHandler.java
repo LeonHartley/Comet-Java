@@ -9,8 +9,13 @@ import org.jboss.netty.channel.*;
 import java.io.IOException;
 
 
+@ChannelHandler.Sharable
 public class ClientHandler extends SimpleChannelUpstreamHandler {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
+
+    public ClientHandler() {
+        log.info("Instantiated");
+    }
 
     @Override
     public void messageReceived(final ChannelHandlerContext ctx, MessageEvent ev) throws Exception {
