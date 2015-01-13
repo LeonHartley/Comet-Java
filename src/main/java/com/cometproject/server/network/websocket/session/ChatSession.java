@@ -2,7 +2,7 @@ package com.cometproject.server.network.websocket.session;
 
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import com.cometproject.server.storage.queries.webchat.WebChatDao.WebChatDao;
+import com.cometproject.server.storage.queries.webchat.WebChatDao;
 import com.corundumstudio.socketio.SocketIOClient;
 
 public class ChatSession {
