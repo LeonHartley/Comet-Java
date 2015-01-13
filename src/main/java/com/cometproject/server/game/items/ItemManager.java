@@ -17,7 +17,6 @@ public class ItemManager implements Initializable {
 
     private FastMap<Integer, ItemDefinition> itemDefinitions;
     private FastMap<Integer, Integer> itemSpriteIdToDefinitionId;
-    private FastMap<Integer, LimitedEditionItem> limitedEditionItems;
 
     public ItemManager() {
 
@@ -26,8 +25,6 @@ public class ItemManager implements Initializable {
     @Override
     public void initialize() {
         this.itemDefinitions = new FastMap<>();
-        this.limitedEditionItems = new FastMap<>();
-
         this.loadItemDefinitions();
 
         log.info("ItemManager initialized");
@@ -86,28 +83,6 @@ public class ItemManager implements Initializable {
 
     public ItemDefinition getBySpriteId(int spriteId) {
         return this.itemDefinitions.get(this.itemSpriteIdToDefinitionId.get(spriteId));
-    }
-
-    public LimitedEditionItem getLimitedEdition(int itemId) {
-        if (this.limitedEditionItems.containsKey(itemId)) {
-            if(this.limitedEditionItems.get(itemId) == LimitedEditionItem.NONE) {
-                return null;
-            }
-
-            return this.limitedEditionItems.get(itemId);
-        }
-
-        // TODO: LRU cache
-//        LimitedEditionItem item = LimitedEditionDao.get(itemId);
-
-//        if (item != null) {
-//            this.limitedEditionItems.put(itemId, item);
-//        } else {
-//            this.limitedEditionItems.put(itemId, LimitedEditionItem.NONE);
-//            return null;
-//        }
-
-        return null;
     }
 
     public FastMap<Integer, ItemDefinition> getItemDefinitions() {
