@@ -25,7 +25,7 @@ public class StorageManager implements Initializable {
         try {
             BoneCPConfig config = new BoneCPConfig();
 
-            config.setJdbcUrl("jdbc:mysql://" + Comet.getServer().getConfig().get("comet.db.host") + "/" + Comet.getServer().getConfig().get("comet.db.name") + "?tcpKeepAlive=true&autoReconnect=true");
+            config.setJdbcUrl("jdbc:mysql://" + Comet.getServer().getConfig().get("comet.db.host") + "/" + Comet.getServer().getConfig().get("comet.db.name") + "?tcpKeepAlive=" + Comet.getServer().getConfig().get("comet.db.pool.tcpKeepAlive") + "&autoReconnect=" + Comet.getServer().getConfig().get("comet.db.pool.autoReconnect"));
             config.setUsername(Comet.getServer().getConfig().get("comet.db.username"));
             config.setPassword(Comet.getServer().getConfig().get("comet.db.password"));
 
@@ -33,10 +33,10 @@ public class StorageManager implements Initializable {
             config.setMaxConnectionsPerPartition(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.max")));
             config.setPartitionCount(Integer.parseInt(Comet.getServer().getConfig().get("comet.db.pool.count")));
 
-            config.setIdleMaxAge(30, TimeUnit.SECONDS);
-            config.setMaxConnectionAge(60, TimeUnit.SECONDS);
+            config.setIdleMaxAge(Integer.valueOf(Comet.getServer().getConfig().get("comet.db.pool.idleMaxAgeSeconds")), TimeUnit.SECONDS);
+            config.setMaxConnectionAge(Integer.valueOf(Comet.getServer().getConfig().get("comet.db.pool.maxConnectionAgeSeconds")), TimeUnit.SECONDS);
 
-            config.setAcquireRetryAttempts(50);
+            config.setAcquireRetryAttempts(Integer.valueOf(Comet.getServer().getConfig().get("comet.db.pool.acquireRetryAttempts")));
 
             log.info("Connecting to the MySQL server");
             this.connections = new BoneCP(config);

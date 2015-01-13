@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class GameThread implements CometTask, Initializable {
+    private static final int interval = 1;
     private static GameThread gameThreadInstance;
 
     private static Logger log = Logger.getLogger(GameThread.class.getName());
@@ -34,7 +35,6 @@ public class GameThread implements CometTask, Initializable {
 
     @Override
     public void initialize() {
-        int interval = Integer.parseInt(Comet.getServer().getConfig().get("comet.game.thread.interval"));
         this.gameFuture = CometThreadManager.getInstance().executePeriodic(this, interval, interval, TimeUnit.MINUTES);
         this.active = true;
 

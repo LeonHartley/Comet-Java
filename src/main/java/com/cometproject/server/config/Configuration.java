@@ -45,8 +45,6 @@ public class Configuration extends Properties {
             if (this.containsKey(configOverride.getKey())) {
                 this.remove(configOverride.getKey());
                 this.put(configOverride.getKey(), configOverride.getValue());
-
-                // TODO: Finish this stuff...
             } else {
                 log.warn("Invalid override config key: " + configOverride.getKey());
             }

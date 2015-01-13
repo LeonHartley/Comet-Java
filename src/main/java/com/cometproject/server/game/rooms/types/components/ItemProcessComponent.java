@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class ItemProcessComponent implements CometTask {
     //    private final int INTERVAL = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.interval"));
     private static final int INTERVAL = 25;
-    private static final int FLAG = Integer.parseInt(Comet.getServer().getConfig().get("comet.system.item_process.flag"));
+    private static final int FLAG = 400;
 
     private final Room room;
     private final Logger log;
