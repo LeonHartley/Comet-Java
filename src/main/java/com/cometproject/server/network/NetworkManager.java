@@ -65,7 +65,7 @@ public class NetworkManager {
 
         //int channelMemory = 65536;
         //int totalMemory = (poolSize * channelMemory);
-        OrderedMemoryAwareThreadPoolExecutor handlerExecutor = new OrderedMemoryAwareThreadPoolExecutor(poolSize, 0, 0);
+        OrderedMemoryAwareThreadPoolExecutor handlerExecutor = new OrderedMemoryAwareThreadPoolExecutor(poolSize, 1048576, 1048576);
 
         bootstrap.setPipelineFactory(new NetworkChannelInitializer(handlerExecutor));
 
