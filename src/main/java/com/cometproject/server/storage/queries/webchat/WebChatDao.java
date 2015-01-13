@@ -1,4 +1,4 @@
-package com.cometproject.server.storage.queries.webchat.WebChatDao;
+package com.cometproject.server.storage.queries.webchat;
 
 import com.cometproject.server.storage.SqlHelper;
 
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class WebChatDao {
     public static int findPlayerIdByAuthTicket(String authTicket) {
-        if(authTicket == null || authTicket.isEmpty()) {
+        if (authTicket == null || authTicket.isEmpty()) {
             return 0;
         }
 
@@ -25,7 +25,7 @@ public class WebChatDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 return resultSet.getInt("id");
             }
         } catch (SQLException e) {

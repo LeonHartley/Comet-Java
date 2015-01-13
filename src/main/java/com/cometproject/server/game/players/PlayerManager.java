@@ -1,5 +1,6 @@
 package com.cometproject.server.game.players;
 
+import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.utilities.Initializable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
@@ -23,7 +24,7 @@ public class PlayerManager implements Initializable {
         this.playerUsernameToPlayerId = new FastMap<>();
 
         log.info("Resetting player online status");
-
+        PlayerDao.resetOnlineStatus();
 
         log.info("PlayerManager initialized");
     }
