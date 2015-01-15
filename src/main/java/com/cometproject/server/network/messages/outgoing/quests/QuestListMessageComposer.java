@@ -17,7 +17,7 @@ public class QuestListMessageComposer {
 
         for(Map.Entry<String, Quest> quest : quests.entrySet()) {
             msg.writeString(quest.getValue().getCategory());
-            msg.writeInt(quest.getValue().getSeriesNumber());
+            msg.writeInt(quest.getValue().getSeriesNumber() - 1);
             msg.writeInt(QuestManager.getInstance().amountOfQuestsInCategory(quest.getValue().getCategory()));
             msg.writeInt(105); // reward type
             msg.writeInt(quest.getValue().getId());
