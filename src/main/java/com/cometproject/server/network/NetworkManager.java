@@ -50,10 +50,10 @@ public class NetworkManager {
                         Executors.newFixedThreadPool(poolSize)
                 ));
 
-        bootstrap.setOption("backlog", 100);
+        bootstrap.setOption("backlog", 500);
         bootstrap.setOption("tcpNoDelay", true);
         bootstrap.setOption("child.tcpNoDelay", true);
-        bootstrap.setOption("keepAlive", true);
+//        bootstrap.setOption("keepAlive", true);
 
         // better to have an receive buffer predictor
         bootstrap.setOption("receiveBufferSizePredictorFactory", new AdaptiveReceiveBufferSizePredictorFactory(128, 1024, 8192));
