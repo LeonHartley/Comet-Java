@@ -49,7 +49,7 @@ public class AboutCommand extends ChatCommand {
         if(client.getPlayer().getPermissions().hasPermission("about_stats")) {
             about.append("<br><br><b>Hotel Stats</b><br>");
             about.append("Online record: " + GameThread.getInstance().getOnlineRecord() + "<br>");
-            about.append("Current online record: " + GameThread.getInstance().getCurrentOnlineRecord() + "   <i>Since last reboot</i>");
+            about.append("Record since last reboot: " + GameThread.getInstance().getCurrentOnlineRecord() + " ");
         }
 
         client.send(AdvancedAlertMessageComposer.compose(

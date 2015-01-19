@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.system;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
@@ -15,12 +16,13 @@ public class StatisticsDao {
 
         try {
             sqlConnection = SqlHelper.getConnection();
-            preparedStatement = SqlHelper.prepare("UPDATE server_status SET active_players = ?, active_rooms = ?, server_version = ?, player_record = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE server_status SET active_players = ?, active_rooms = ?, server_version = ?, player_record = ?, player_record_timestamp = ?", sqlConnection);
 
             preparedStatement.setInt(1, players);
             preparedStatement.setInt(2, rooms);
             preparedStatement.setString(3, version);
             preparedStatement.setInt(4, onlineRecord);
+            preparedStatement.setInt(5, (int) Comet.getTime());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
