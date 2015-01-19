@@ -59,26 +59,28 @@ public class GameThread implements CometTask, Initializable {
 
             BanManager.getInstance().tick();
 
-            int usersOnline = NetworkManager.getInstance().getSessions().getUsersOnlineCount();
+            final int usersOnline = NetworkManager.getInstance().getSessions().getUsersOnlineCount();
             boolean updateOnlineRecord = false;
 
-            if (usersOnline > this.currentOnlineRecord)
+            if (usersOnline > this.currentOnlineRecord) {
                 this.currentOnlineRecord = usersOnline;
+            }
 
             if(usersOnline > this.onlineRecord) {
                 this.onlineRecord = usersOnline;
                 updateOnlineRecord = true;
             }
 
-            if (cycleCount >= 15) {
+            if (this.cycleCount >= 15) {
                 this.cycleRewards();
             }
 
             if(!updateOnlineRecord)
                 StatisticsDao.saveStatistics(usersOnline, RoomManager.getInstance().getRoomInstances().size(), Comet.getBuild());
             else
-                StatisticsDao.saveStatistics(usersOnline, RoomManager.getInstance().getRoomInstances().size(), Comet.getBuild(), onlineRecord);
-            cycleCount++;
+                StatisticsDao.saveStatistics(usersOnline, RoomManager.getInstance().getRoomInstances().size(), Comet.getBuild(), this.onlineRecord);
+
+            this.cycleCount++;
         } catch (Exception e) {
             log.error("Error during game thread", e);
         }
@@ -117,10 +119,10 @@ public class GameThread implements CometTask, Initializable {
     }
 
     public int getCurrentOnlineRecord() {
-        return this.onlineRecord;
+        return this.currentOnlineRecord;
     }
 
     public int getOnlineRecord() {
-        return 0;
+        return this.onlineRecord;
     }
 }
