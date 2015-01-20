@@ -142,6 +142,11 @@ public class CometSettings {
      */
     public static boolean disableWiredFlash = false;
 
+    /**
+     * If enabled, the player will have infinite credits & duckets.
+     */
+    public static boolean infiniteBalance = false;
+
     // TODO: Catch missing-config exceptions and fallback to the defaults...
 
     /**
@@ -190,6 +195,10 @@ public class CometSettings {
 
         if (config.containsKey("comet.game.rooms.disableWiredFlash")) {
             storeAccess = Boolean.parseBoolean(config.get("comet.game.rooms.disableWiredFlash"));
+        }
+
+        if(config.containsKey("comet.game.infiniteBalance")) {
+            infiniteBalance = Boolean.parseBoolean(config.get("comet.game.infiniteBalance"));
         }
     }
 

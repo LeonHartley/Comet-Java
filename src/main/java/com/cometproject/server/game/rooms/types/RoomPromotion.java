@@ -77,6 +77,5 @@ public class RoomPromotion {
 
     public int minutesLeft() {
         return (int) Math.floor(this.getTimestampFinish() - Comet.getTime()) / 60;
-
     }
 }
