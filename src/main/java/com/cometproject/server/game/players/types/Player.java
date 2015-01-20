@@ -1,5 +1,6 @@
 package com.cometproject.server.game.players.types;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -23,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Player {
+    public static final int INFINITE_BALANCE = 999999;
+
     private int id;
 
     private PlayerSettings settings;
@@ -120,13 +123,13 @@ public class Player {
     }
 
     public Composer composeCreditBalance() {
-        return SendCreditsMessageComposer.compose(session.getPlayer().getData().getCredits());
+        return SendCreditsMessageComposer.compose(CometSettings.infiniteBalance ? Player.INFINITE_BALANCE : session.getPlayer().getData().getCredits());
     }
 
     public Composer composeCurrenciesBalance() {
         Map<Integer, Integer> currencies = new FastMap<>();
 
-        currencies.put(0, getData().getActivityPoints());
+        currencies.put(0, CometSettings.infiniteBalance ? Player.INFINITE_BALANCE : getData().getActivityPoints());
         currencies.put(105, getData().getVipPoints());
         currencies.put(5, getData().getVipPoints());
 

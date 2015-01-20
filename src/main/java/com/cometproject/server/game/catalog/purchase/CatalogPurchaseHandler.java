@@ -1,5 +1,6 @@
 package com.cometproject.server.game.catalog.purchase;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.CatalogManager;
@@ -110,15 +111,18 @@ public class CatalogPurchaseHandler {
                 totalCostActivityPoints = item.getCostActivityPoints();
             }
 
-            if (client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getVipPoints() < totalCostPoints || client.getPlayer().getData().getActivityPoints() < totalCostActivityPoints) {
+            if ((!CometSettings.infiniteBalance && (client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getActivityPoints() < totalCostActivityPoints)) || client.getPlayer().getData().getVipPoints() < totalCostPoints) {
                 CometManager.getLogger().warn("Player with ID: " + client.getPlayer().getId() + " tried to purchase item with ID: " + item.getId() + " with the incorrect amount of credits or points.");
                 client.send(AlertMessageComposer.compose(Locale.get("catalog.error.notenough")));
                 return;
             }
 
-            client.getPlayer().getData().decreaseCredits(totalCostCredits);
+            if(!CometSettings.infiniteBalance) {
+                client.getPlayer().getData().decreaseCredits(totalCostCredits);
+                client.getPlayer().getData().decreaseActivityPoints(totalCostActivityPoints);
+            }
+
             client.getPlayer().getData().decreasePoints(totalCostPoints);
-            client.getPlayer().getData().decreaseActivityPoints(totalCostActivityPoints);
 
             client.getPlayer().sendBalance();
             client.getPlayer().getData().save();

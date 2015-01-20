@@ -19,12 +19,12 @@ public class QuestListMessageComposer {
             msg.writeString(quest.getValue().getCategory());
             msg.writeInt(quest.getValue().getSeriesNumber() - 1);
             msg.writeInt(QuestManager.getInstance().amountOfQuestsInCategory(quest.getValue().getCategory()));
-            msg.writeInt(105); // reward type
+            msg.writeInt(3); // reward type
             msg.writeInt(quest.getValue().getId());
             msg.writeBoolean(false); // started
             msg.writeString(quest.getValue().getType().getAction());
             msg.writeString(quest.getValue().getDataBit());
-            msg.writeInt(quest.getValue().getReward());//reward???
+            msg.writeInt(0);//reward
             msg.writeString(quest.getKey());
             msg.writeInt(0); // progress
             msg.writeInt(quest.getValue().getGoalData());
