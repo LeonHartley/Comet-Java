@@ -39,15 +39,15 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         }
 
         if (entity.getWalkingGoal().getX() == this.getPosition().getX() && entity.getWalkingGoal().getY() == this.getPosition().getY()) {
-            if (this.skipNext) {
-                if (this.isDribbling) {
-                    this.onInteract(entity, 0, false);
-                    this.isDribbling = false;
-                }
-
-                this.skipNext = false;
-                return;
-            }
+//            if (this.skipNext) {
+//                if (this.isDribbling) {
+//                    this.onInteract(entity, 0, false);
+//                    this.isDribbling = false;
+//                }
+//
+//                this.skipNext = false;
+//                return;
+//            }
 
             if (entity instanceof PlayerEntity) {
                 this.playerEntity = (PlayerEntity) entity;
@@ -67,7 +67,8 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOff(GenericEntity entity) {
-        this.rollBall(this.getPosition(), Direction.get(entity.getBodyRotation()).invert().num);
+        if(!this.skipNext)
+            this.rollBall(this.getPosition(), Direction.get(entity.getBodyRotation()).invert().num);
     }
 
     private void rollBall(Position from, int rotation) {
@@ -121,6 +122,15 @@ public abstract class RollableFloorItem extends RoomItemFloor {
                 return false;
 
             return true;
+        } else {
+//            if(this.playerEntity != null) {
+//                List<GenericEntity> entities = this.getRoom().getEntities().getEntitiesAt(nextPosition);
+//                if(entities.size() == 1) {
+//                    if(entities.get(0).getId() == this.playerEntity.getId()) {
+//                        return true;
+//                    }
+//                }
+//            }
         }
 
         return false;
