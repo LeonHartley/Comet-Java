@@ -1,8 +1,10 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import org.apache.commons.lang.StringUtils;
 
@@ -27,8 +29,16 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
             }
         }
 
-        this.toggleInteract(true);
+        for(GenericEntity entityOnItem : this.getEntitiesOnItem()) {
+            if(entityOnItem.hasStatus(RoomEntityStatus.SIT)) {
+                entityOnItem.removeStatus(RoomEntityStatus.SIT);
+            }
 
+            entityOnItem.updateAndSetPosition(new Position(entityOnItem.getPosition().getX(), entity.getPosition().getY(), this.getOverrideHeight()));
+            entityOnItem.markNeedsUpdate();
+        }
+
+        this.toggleInteract(true);
         this.sendUpdate();
 
         // TODO: Move item saving to a queue for batch saving or something. :P
