@@ -14,7 +14,7 @@ public class ClientHandler extends SimpleChannelUpstreamHandler {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
 
     public ClientHandler() {
-        log.info("Instantiated");
+
     }
 
     @Override

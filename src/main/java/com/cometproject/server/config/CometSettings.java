@@ -2,6 +2,7 @@ package com.cometproject.server.config;
 
 import com.cometproject.server.game.rooms.filter.FilterMode;
 import com.cometproject.server.storage.queries.config.ConfigDao;
+import org.apache.log4j.Logger;
 
 import java.util.Map;
 
@@ -150,10 +151,17 @@ public class CometSettings {
     // TODO: Catch missing-config exceptions and fallback to the defaults...
 
     /**
+     * Logging
+     */
+    private static final Logger log = Logger.getLogger(CometSettings.class.getName());
+
+    /**
      * Initialize the configuration
      */
     public static void initialize() {
         Map<String, String> config = ConfigDao.getAll();
+
+        log.info("Loaded " + config.size() + " config strings");
 
         messageOfTheDayEnabled = Boolean.parseBoolean(config.get("comet.game.motd.enabled"));
         messageOfTheDayText = config.get("comet.game.motd.text");
