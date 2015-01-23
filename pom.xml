@@ -315,5 +315,10 @@
             <artifactId>netty-socketio</artifactId>
             <version>1.6.5</version>
         </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty</artifactId>
+            <version>3.9.2.Final</version>
+        </dependency>
     </dependencies>
 </project>

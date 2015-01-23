@@ -23,6 +23,7 @@ import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.websocket.WebSocketServer;
 import com.cometproject.server.storage.StorageManager;
+import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.tasks.CometThreadManager;
 
 import java.util.Map;
@@ -55,6 +56,7 @@ public class CometServer {
         CometThreadManager.getInstance().initialize();
         StorageManager.getInstance().initialize();
         LogManager.getInstance().initialize();
+        CacheManager.getInstance().initialize();
 
         // Locale & config
         CometSettings.initialize();

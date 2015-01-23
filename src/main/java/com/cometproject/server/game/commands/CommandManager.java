@@ -55,11 +55,11 @@ public class CommandManager implements Initializable {
     @Override
     public void initialize() {
         this.commands = new FastMap<>();
-        this.notifications = new NotificationManager();
 
         this.reloadAllCommands();
-
         log.info("Loaded " + commands.size() + " chat commands");
+
+        this.notifications = new NotificationManager();
         log.info("CommandManager initialized");
     }
 

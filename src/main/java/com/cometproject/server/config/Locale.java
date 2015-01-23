@@ -32,7 +32,7 @@ public class Locale {
             locale.clear();
 
         locale = LocaleDao.getAll();
-        log.info("Loaded " + locale.size() + " config strings");
+        log.info("Loaded " + locale.size() + " locale strings");
     }
 
     /**
