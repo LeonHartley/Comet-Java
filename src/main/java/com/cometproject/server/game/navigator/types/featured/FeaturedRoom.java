@@ -58,7 +58,7 @@ public class FeaturedRoom {
     }
 
     public void compose(Composer msg) {
-        boolean isActive = !isCategory && RoomManager.getInstance().isActive(room.getId());
+        final boolean isActive = !isCategory && room != null && RoomManager.getInstance().isActive(room.getId());
 
         msg.writeInt(id);
         msg.writeString((!isCategory) ? room.getName() : caption);
