@@ -2,6 +2,7 @@ package com.cometproject.server.storage.queries.player.messenger;
 
 import com.cometproject.server.game.players.components.types.MessengerFriend;
 import com.cometproject.server.game.players.components.types.MessengerRequest;
+import com.cometproject.server.game.players.components.types.messenger.MessengerFriendData;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
 
@@ -211,5 +212,32 @@ public class MessengerDao {
         }
 
         return 0;
+    }
+
+    public static MessengerFriendData getFriendDataByPlayerId(int userId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT `username`, `figure`, `motto` FROM players WHERE `id` = ?", sqlConnection);
+            preparedStatement.setInt(1, userId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return new MessengerFriendData(resultSet.getString("username"), resultSet.getString("figure"), resultSet.getString("motto"));
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return new MessengerFriendData("", "", "");
     }
 }

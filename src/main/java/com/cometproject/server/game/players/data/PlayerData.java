@@ -1,5 +1,6 @@
 package com.cometproject.server.game.players.data;
 
+import com.cometproject.server.game.players.components.types.messenger.MessengerFriendData;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.sql.ResultSet;
@@ -233,5 +234,9 @@ public class PlayerData {
 
     public void setTemporaryFigure(String temporaryFigure) {
         this.temporaryFigure = temporaryFigure;
+    }
+
+    public MessengerFriendData toFriendData() {
+        return new MessengerFriendData(this.getUsername(), this.getFigure(), this.getMotto());
     }
 }
