@@ -168,7 +168,6 @@ public class Player {
     }
 
     public void poof() {
-        // poof
         this.getSession().send(UpdateInfoMessageComposer.compose(-1, this.getData().getFigure(), this.getData().getGender(), this.getData().getMotto(), this.getData().getAchievementPoints()));
         this.getSession().send(UpdateAvatarAspectMessageComposer.compose(this.getData().getFigure(), this.getData().getGender()));
 
@@ -176,7 +175,6 @@ public class Player {
             this.getEntity().unIdle();
             this.getEntity().getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(this.getEntity()));
         }
-
     }
 
     public void ignorePlayer(int playerId) {

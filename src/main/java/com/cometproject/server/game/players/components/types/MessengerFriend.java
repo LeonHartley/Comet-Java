@@ -1,10 +1,12 @@
 package com.cometproject.server.game.players.components.types;
 
 import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.server.game.players.components.types.messenger.MessengerFriendData;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +15,7 @@ import java.sql.SQLException;
 public class MessengerFriend {
     private int userId;
 
-    private PlayerData playerData;
+    private MessengerFriendData friendData;
 
     public MessengerFriend(ResultSet data) throws SQLException {
         this.userId = data.getInt("user_two_id");
@@ -21,9 +23,9 @@ public class MessengerFriend {
         if (NetworkManager.getInstance().getSessions().getByPlayerId(userId) != null) {
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(userId);
 
-            this.playerData = session.getPlayer() == null || session.getPlayer().getData() == null ? PlayerDao.getDataById(userId) : session.getPlayer().getData();
+            this.friendData = session.getPlayer() == null || session.getPlayer().getData() == null ? MessengerDao.getFriendDataByPlayerId(userId) : session.getPlayer().getData().toFriendData();
         } else {
-            this.playerData = PlayerDao.getDataById(userId);
+            this.friendData = MessengerDao.getFriendDataByPlayerId(userId);
         }
     }
 
@@ -53,8 +55,8 @@ public class MessengerFriend {
         return this.userId;
     }
 
-    public PlayerData getData() {
-        return this.playerData;
+    public MessengerFriendData getData() {
+        return this.friendData;
     }
 
     public boolean isOnline() {
