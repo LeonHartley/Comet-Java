@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.user.youtube;
 
-import com.cometproject.server.game.players.components.types.PlaylistItem;
+import com.cometproject.server.game.players.components.types.settings.PlaylistItem;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 

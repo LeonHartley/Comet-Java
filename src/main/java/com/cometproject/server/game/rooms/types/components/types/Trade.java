@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.types.components.types;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.players.components.types.InventoryItem;
+import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.components.TradeComponent;

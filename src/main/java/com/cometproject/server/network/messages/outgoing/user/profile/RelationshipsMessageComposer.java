@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.user.profile;
 
 import com.cometproject.server.game.players.components.RelationshipComponent;
-import com.cometproject.server.game.players.components.types.RelationshipLevel;
+import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;

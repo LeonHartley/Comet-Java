@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
-import com.cometproject.server.game.players.components.types.InventoryItem;
+import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessageComposer;

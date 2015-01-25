@@ -1,8 +1,8 @@
 package com.cometproject.server.game.players.components;
 
-import com.cometproject.server.game.players.components.types.MessengerFriend;
-import com.cometproject.server.game.players.components.types.MessengerRequest;
-import com.cometproject.server.game.players.components.types.MessengerSearchResult;
+import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
+import com.cometproject.server.game.players.components.types.messenger.MessengerRequest;
+import com.cometproject.server.game.players.components.types.messenger.MessengerSearchResult;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.NetworkManager;

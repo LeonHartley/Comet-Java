@@ -1,4 +1,4 @@
-package com.cometproject.server.game.players.components.types;
+package com.cometproject.server.game.players.components.types.inventory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

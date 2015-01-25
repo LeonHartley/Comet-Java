@@ -1020,9 +1020,9 @@ com.cometproject.server.game.players.PlayerManager -> com.cometproject.server.ga
 com.cometproject.server.game.players.components.BotComponent -> com.cometproject.server.game.players.components.a:
     com.cometproject.server.game.players.types.Player player -> a
     java.util.Map bots -> a
-    20:21:void addBot(com.cometproject.server.game.players.components.types.InventoryBot) -> a
+    20:21:void addBot(com.cometproject.server.game.players.components.types.inventory.InventoryBot) -> a
     24:27:void dispose() -> a
-    30:34:com.cometproject.server.game.players.components.types.InventoryBot getBot(int) -> a
+    30:34:com.cometproject.server.game.players.components.types.inventory.InventoryBot getBot(int) -> a
     38:39:void remove(int) -> a
     42:42:boolean isBot(int) -> a
     46:46:java.util.Map getBots() -> a
@@ -1042,13 +1042,13 @@ com.cometproject.server.game.players.components.InventoryComponent -> com.cometp
     106:113:java.util.Map equippedBadges() -> a
     117:125:void add(int,int,java.lang.String,com.cometproject.server.game.catalog.types.gifts.GiftData) -> a
     128:129:void add(int,int,java.lang.String) -> a
-    132:136:void addItem(com.cometproject.server.game.players.components.types.InventoryItem) -> a
-    139:143:void removeItem(com.cometproject.server.game.players.components.types.InventoryItem) -> b
+    132:136:void addItem(com.cometproject.server.game.players.components.types.inventory.InventoryItem) -> a
+    139:143:void removeItem(com.cometproject.server.game.players.components.types.inventory.InventoryItem) -> b
     146:148:void removeFloorItem(int) -> a
     151:153:void removeWallItem(int) -> b
-    156:156:com.cometproject.server.game.players.components.types.InventoryItem getFloorItem(int) -> a
-    160:160:com.cometproject.server.game.players.components.types.InventoryItem getWallItem(int) -> b
-    164:170:com.cometproject.server.game.players.components.types.InventoryItem getItem(int) -> c
+    156:156:com.cometproject.server.game.players.components.types.inventory.InventoryItem getFloorItem(int) -> a
+    160:160:com.cometproject.server.game.players.components.types.inventory.InventoryItem getWallItem(int) -> b
+    164:170:com.cometproject.server.game.players.components.types.inventory.InventoryItem getItem(int) -> c
     174:182:void dispose() -> b
     185:185:int getTotalSize() -> a
     189:189:java.util.Map getWallItems() -> b
@@ -1061,15 +1061,15 @@ com.cometproject.server.game.players.components.MessengerComponent -> com.cometp
     java.util.List requests -> a
     37:44:void dispose() -> a
     47:62:com.cometproject.server.network.messages.types.Composer search(java.lang.String) -> a
-    66:67:void addRequest(com.cometproject.server.game.players.components.types.MessengerRequest) -> a
-    70:71:void addFriend(com.cometproject.server.game.players.components.types.MessengerFriend) -> a
+    66:67:void addRequest(com.cometproject.server.game.players.components.types.messenger.MessengerRequest) -> a
+    70:71:void addFriend(com.cometproject.server.game.players.components.types.messenger.MessengerFriend) -> a
     75:83:void removeFriend(int) -> a
-    86:92:com.cometproject.server.game.players.components.types.MessengerRequest getRequestBySender(int) -> a
+    86:92:com.cometproject.server.game.players.components.types.messenger.MessengerRequest getRequestBySender(int) -> a
     97:106:void broadcast(com.cometproject.server.network.messages.types.Composer) -> a
     111:126:void broadcast(java.util.List,com.cometproject.server.network.messages.types.Composer) -> a
-    130:135:void sendOffline(com.cometproject.server.game.players.components.types.MessengerRequest,boolean,boolean) -> a
+    130:135:void sendOffline(com.cometproject.server.game.players.components.types.messenger.MessengerRequest,boolean,boolean) -> a
     138:142:void sendStatus(boolean,boolean) -> a
-    146:146:com.cometproject.server.game.players.components.types.MessengerFriend getFriendById(int) -> a
+    146:146:com.cometproject.server.game.players.components.types.messenger.MessengerFriend getFriendById(int) -> a
     150:150:java.util.Map getFriends() -> a
     154:154:java.util.List getRequests() -> a
     158:158:com.cometproject.server.game.players.types.Player getPlayer() -> a
@@ -1093,7 +1093,7 @@ com.cometproject.server.game.players.components.RelationshipComponent -> com.com
     com.cometproject.server.game.players.types.Player player -> a
     java.util.Map relationships -> a
     20:23:void dispose() -> a
-    26:33:int countByLevel(com.cometproject.server.game.players.components.types.RelationshipLevel) -> a
+    26:33:int countByLevel(com.cometproject.server.game.players.components.types.messenger.RelationshipLevel) -> a
     37:37:int count() -> a
     41:41:java.util.Map getRelationships() -> a
     45:45:com.cometproject.server.game.players.types.Player getPlayer() -> a
@@ -1110,7 +1110,7 @@ com.cometproject.server.game.players.components.SubscriptionComponent -> com.com
     69:69:int getExpire() -> a
     73:73:com.cometproject.server.game.players.types.Player getPlayer() -> a
     8:12:com.cometproject.server.network.messages.types.Composer compose() -> a
-com.cometproject.server.game.players.components.types.InventoryBot -> com.cometproject.server.game.players.components.types.a:
+com.cometproject.server.game.players.components.types.inventory.InventoryBot -> com.cometproject.server.game.players.components.types.a:
     int id -> a
     int ownerId -> b
     java.lang.String name -> a
@@ -1126,7 +1126,7 @@ com.cometproject.server.game.players.components.types.InventoryBot -> com.cometp
     53:53:java.lang.String getMotto() -> d
     57:57:java.lang.String getOwnerName() -> e
     8:12:com.cometproject.server.network.messages.types.Composer compose() -> a
-com.cometproject.server.game.players.components.types.InventoryItem -> com.cometproject.server.game.players.components.types.b:
+com.cometproject.server.game.players.components.types.inventory.InventoryItem -> com.cometproject.server.game.players.components.types.b:
     int id -> a
     int baseId -> b
     java.lang.String extraData -> a
@@ -1139,7 +1139,7 @@ com.cometproject.server.game.players.components.types.InventoryItem -> com.comet
     69:69:java.lang.String getExtraData() -> a
     73:73:com.cometproject.server.game.catalog.types.gifts.GiftData getGiftData() -> a
     8:13:com.cometproject.server.network.messages.types.Composer compose(java.lang.String,java.lang.String) -> a
-com.cometproject.server.game.players.components.types.MessengerFriend -> com.cometproject.server.game.players.components.types.c:
+com.cometproject.server.game.players.components.types.messenger.MessengerFriend -> com.cometproject.server.game.players.components.types.c:
     int userId -> a
     com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer client$299e3c6a -> a
     com.cometproject.server.game.players.data.PlayerData userData -> a
@@ -1150,7 +1150,7 @@ com.cometproject.server.game.players.components.types.MessengerFriend -> com.com
     79:79:com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer getClient$2e7e59a9() -> b
     83:83:com.cometproject.server.game.players.data.PlayerData getData() -> a
     11:25:com.cometproject.server.network.messages.types.Composer compose(java.util.Map) -> a
-com.cometproject.server.game.players.components.types.MessengerRequest -> com.cometproject.server.game.players.components.types.d:
+com.cometproject.server.game.players.components.types.messenger.MessengerRequest -> com.cometproject.server.game.players.components.types.d:
     int fromId -> a
     java.lang.String username -> a
     java.lang.String look -> b
@@ -1160,7 +1160,7 @@ com.cometproject.server.game.players.components.types.MessengerRequest -> com.co
     42:42:java.lang.String getLook() -> b
     46:46:java.lang.String getMotto() -> c
     8:13:com.cometproject.server.network.messages.types.Composer compose(int) -> a
-com.cometproject.server.game.players.components.types.MessengerSearchResult -> com.cometproject.server.game.players.components.types.e:
+com.cometproject.server.game.players.components.types.messenger.MessengerSearchResult -> com.cometproject.server.game.players.components.types.e:
     int id -> a
     java.lang.String username -> a
     java.lang.String figure -> b
@@ -1172,8 +1172,8 @@ com.cometproject.server.game.players.components.types.MessengerSearchResult -> c
     42:42:java.lang.String getFigure() -> b
     46:46:java.lang.String getMotto() -> c
     50:50:java.lang.String getLastOnline() -> d
-    9:15:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.components.types.MessengerRequest) -> a
-com.cometproject.server.game.players.components.types.PlaylistItem -> com.cometproject.server.game.players.components.types.PlaylistItem:
+    9:15:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.components.types.messenger.MessengerRequest) -> a
+com.cometproject.server.game.players.components.types.settings.PlaylistItem -> com.cometproject.server.game.players.components.types.settings.PlaylistItem:
     java.lang.String videoId -> videoId
     java.lang.String title -> title
     java.lang.String description -> description
@@ -1186,16 +1186,16 @@ com.cometproject.server.game.players.components.types.PlaylistItem -> com.cometp
     37:38:void setDescription(java.lang.String) -> setDescription
     41:41:int getDuration() -> getDuration
     45:46:void setDuration(int) -> setDuration
-com.cometproject.server.game.players.components.types.RelationshipLevel -> com.cometproject.server.game.players.components.types.f:
-    com.cometproject.server.game.players.components.types.RelationshipLevel BOBBA -> a
-    com.cometproject.server.game.players.components.types.RelationshipLevel SMILE -> b
-    com.cometproject.server.game.players.components.types.RelationshipLevel HEART -> c
-    com.cometproject.server.game.players.components.types.RelationshipLevel[] $VALUES -> a
-    3:3:com.cometproject.server.game.players.components.types.RelationshipLevel[] values() -> values
-    3:3:com.cometproject.server.game.players.components.types.RelationshipLevel valueOf(java.lang.String) -> valueOf
-    9:15:com.cometproject.server.game.players.components.types.RelationshipLevel getLevel(java.lang.String) -> a
-    19:27:int getInt(com.cometproject.server.game.players.components.types.RelationshipLevel) -> a
-com.cometproject.server.game.players.components.types.VolumeData -> com.cometproject.server.game.players.components.types.g:
+com.cometproject.server.game.players.components.types.messenger.RelationshipLevel -> com.cometproject.server.game.players.components.types.f:
+    com.cometproject.server.game.players.components.types.messenger.RelationshipLevel BOBBA -> a
+    com.cometproject.server.game.players.components.types.messenger.RelationshipLevel SMILE -> b
+    com.cometproject.server.game.players.components.types.messenger.RelationshipLevel HEART -> c
+    com.cometproject.server.game.players.components.types.messenger.RelationshipLevel[] $VALUES -> a
+    3:3:com.cometproject.server.game.players.components.types.messenger.RelationshipLevel[] values() -> values
+    3:3:com.cometproject.server.game.players.components.types.messenger.RelationshipLevel valueOf(java.lang.String) -> valueOf
+    9:15:com.cometproject.server.game.players.components.types.messenger.RelationshipLevel getLevel(java.lang.String) -> a
+    19:27:int getInt(com.cometproject.server.game.players.components.types.messenger.RelationshipLevel) -> a
+com.cometproject.server.game.players.components.types.settings.VolumeData -> com.cometproject.server.game.players.components.types.g:
     int systemVolume -> a
     int furniVolume -> b
     int traxVolume -> c
@@ -1205,7 +1205,7 @@ com.cometproject.server.game.players.components.types.VolumeData -> com.cometpro
     27:28:void setFurniVolume(int) -> b
     31:31:int getTraxVolume() -> c
     35:36:void setTraxVolume(int) -> c
-com.cometproject.server.game.players.components.types.WardrobeItem -> com.cometproject.server.game.players.components.types.WardrobeItem:
+com.cometproject.server.game.players.components.types.settings.WardrobeItem -> com.cometproject.server.game.players.components.types.settings.WardrobeItem:
     int slot -> slot
     java.lang.String gender -> gender
     java.lang.String figure -> figure
@@ -1347,7 +1347,7 @@ com.cometproject.server.game.players.types.Player -> com.cometproject.server.gam
     252:253:void setLastMessage(java.lang.String) -> a
     8:13:com.cometproject.server.network.messages.types.Composer compose(int,java.lang.String) -> a
 com.cometproject.server.game.players.types.PlayerSettings -> com.cometproject.server.game.players.c.b:
-    com.cometproject.server.game.players.components.types.VolumeData volumes -> a
+    com.cometproject.server.game.players.components.types.settings.VolumeData volumes -> a
     java.util.List wardrobe -> a
     java.util.List playlist -> b
     boolean hideOnline -> a
@@ -1356,7 +1356,7 @@ com.cometproject.server.game.players.types.PlayerSettings -> com.cometproject.se
     boolean allowTrade -> d
     int homeRoom -> a
     boolean useOldChat -> e
-    78:78:com.cometproject.server.game.players.components.types.VolumeData getVolumes() -> a
+    78:78:com.cometproject.server.game.players.components.types.settings.VolumeData getVolumes() -> a
     82:82:boolean getHideOnline() -> b
     86:86:boolean getHideInRoom() -> c
     90:90:boolean getAllowFriendRequests() -> d
@@ -1651,7 +1651,7 @@ com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile -> 
     16:60:java.util.List getAffectedBothTilesAt(int,int,int,int,int) -> a
     64:106:java.util.List getAffectedTilesAt(int,int,int,int,int) -> b
     10:17:com.cometproject.server.network.messages.types.Composer compose(int,int) -> a
-    21:21:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.components.types.MessengerRequest,boolean,boolean) -> a
+    21:21:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.components.types.messenger.MessengerRequest,boolean,boolean) -> a
     25:25:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.data.PlayerData,boolean,boolean) -> a
     29:50:com.cometproject.server.network.messages.types.Composer compose(int,java.lang.String,java.lang.String,java.lang.String,boolean,boolean) -> a
 com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder -> com.cometproject.server.game.rooms.a.d.b:
@@ -2448,7 +2448,7 @@ com.cometproject.server.game.rooms.types.RoomWriter -> com.cometproject.server.g
 com.cometproject.server.game.rooms.types.components.BotComponent -> com.cometproject.server.game.rooms.f.a.a:
     com.cometproject.server.game.rooms.types.Room room -> a
     24:35:void load() -> b
-    38:44:com.cometproject.server.game.rooms.objects.entities.types.BotEntity addBot(com.cometproject.server.game.players.components.types.InventoryBot,int,int) -> a
+    38:44:com.cometproject.server.game.rooms.objects.entities.types.BotEntity addBot(com.cometproject.server.game.players.components.types.inventory.InventoryBot,int,int) -> a
     48:49:void dispose() -> a
     52:52:com.cometproject.server.game.rooms.types.Room getRoom() -> a
     14:46:com.cometproject.server.network.messages.types.Composer compose(int,com.cometproject.server.game.moderation.chatlog.UserChatlogContainer) -> a
@@ -2717,9 +2717,9 @@ com.cometproject.server.game.rooms.types.components.types.Trade -> com.cometproj
     73:80:void dispose() -> a
     87:88:void cancel(int) -> a
     96:122:void cancel(int,boolean) -> a
-    130:150:void addItem(int,com.cometproject.server.game.players.components.types.InventoryItem) -> a
+    130:150:void addItem(int,com.cometproject.server.game.players.components.types.inventory.InventoryItem) -> a
     158:158:int getUserNumber(com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity) -> a
-    167:178:void removeItem(int,com.cometproject.server.game.players.components.types.InventoryItem) -> b
+    167:178:void removeItem(int,com.cometproject.server.game.players.components.types.inventory.InventoryItem) -> b
     185:198:void accept(int) -> b
     205:235:void confirm(int) -> c
     241:272:void complete() -> b
@@ -3643,7 +3643,7 @@ com.cometproject.server.network.messages.outgoing.landing.PromoArticlesMessageCo
 com.cometproject.server.network.messages.outgoing.messenger.FollowFriendMessageComposer -> com.cometproject.server.f.d.c.e.a:
     8:13:com.cometproject.server.network.messages.types.Composer compose(int) -> a
 com.cometproject.server.network.messages.outgoing.messenger.FriendRequestMessageComposer -> com.cometproject.server.f.d.c.e.b:
-    9:15:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.components.types.MessengerRequest) -> a
+    9:15:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.components.types.messenger.MessengerRequest) -> a
 com.cometproject.server.network.messages.outgoing.messenger.FriendRequestsMessageComposer -> com.cometproject.server.f.d.c.e.c:
     11:22:com.cometproject.server.network.messages.types.Composer compose(java.util.List) -> a
 com.cometproject.server.network.messages.outgoing.messenger.InstantChatMessageComposer -> com.cometproject.server.f.d.c.e.d:
@@ -3656,7 +3656,7 @@ com.cometproject.server.network.messages.outgoing.messenger.MessengerSearchResul
     11:25:com.cometproject.server.network.messages.types.Composer compose(java.util.List,java.util.List) -> a
 com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer -> com.cometproject.server.f.d.c.e.h:
     10:17:com.cometproject.server.network.messages.types.Composer compose(int,int) -> a
-    21:21:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.components.types.MessengerRequest,boolean,boolean) -> a
+    21:21:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.components.types.messenger.MessengerRequest,boolean,boolean) -> a
     25:25:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.data.PlayerData,boolean,boolean) -> a
     29:50:com.cometproject.server.network.messages.types.Composer compose(int,java.lang.String,java.lang.String,java.lang.String,boolean,boolean) -> a
 com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer -> com.cometproject.server.f.d.c.f.a:

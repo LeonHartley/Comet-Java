@@ -1,13 +1,9 @@
 package com.cometproject.server.network.messages.outgoing.user.inventory;
 
-import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.GroupData;
-import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.players.components.InventoryComponent;
-import com.cometproject.server.game.players.components.types.InventoryItem;
+import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
-import org.apache.commons.lang.StringUtils;
 
 
 public class InventoryMessageComposer {

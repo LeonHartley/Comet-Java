@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.messenger;
 
-import com.cometproject.server.game.players.components.types.MessengerRequest;
+import com.cometproject.server.game.players.components.types.messenger.MessengerRequest;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 

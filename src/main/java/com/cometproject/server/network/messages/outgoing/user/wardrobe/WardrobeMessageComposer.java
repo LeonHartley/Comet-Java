@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.user.wardrobe;
 
-import com.cometproject.server.game.players.components.types.WardrobeItem;
+import com.cometproject.server.game.players.components.types.settings.WardrobeItem;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 

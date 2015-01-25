@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.details;
 
-import com.cometproject.server.game.players.components.types.VolumeData;
+import com.cometproject.server.game.players.components.types.settings.VolumeData;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
