@@ -1,4 +1,6 @@
 {
+    "enabled": true,
+
     "servers": [
         {
             "host": "127.0.0.1",

@@ -6,10 +6,16 @@ import java.util.List;
 import java.util.Set;
 
 public class CacheConfiguration {
+    private boolean enabled;
     private Set<HostAndPort> servers;
 
-    public CacheConfiguration(Set<HostAndPort> servers) {
+    public CacheConfiguration(boolean enabled, Set<HostAndPort> servers) {
+        this.enabled = enabled;
         this.servers = servers;
+    }
+
+    public boolean isEnabled() {
+        return this.enabled;
     }
 
     public Set<HostAndPort> getServers() {
