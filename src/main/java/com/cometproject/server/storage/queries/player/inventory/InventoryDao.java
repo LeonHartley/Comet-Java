@@ -1,6 +1,6 @@
 package com.cometproject.server.storage.queries.player.inventory;
 
-import com.cometproject.server.game.players.components.types.InventoryItem;
+import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;

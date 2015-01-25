@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.youtube;
 
-import com.cometproject.server.game.players.components.types.PlaylistItem;
+import com.cometproject.server.game.players.components.types.settings.PlaylistItem;
 import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.network.messages.incoming.IEvent;

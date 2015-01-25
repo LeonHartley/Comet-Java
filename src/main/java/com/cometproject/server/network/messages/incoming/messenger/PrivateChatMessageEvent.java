@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.players.components.types.MessengerFriend;
+import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.NetworkManager;

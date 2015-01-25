@@ -1,4 +1,4 @@
-package com.cometproject.server.game.players.components.types;
+package com.cometproject.server.game.players.components.types.messenger;
 
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.storage.queries.player.PlayerDao;

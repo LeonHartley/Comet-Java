@@ -1,4 +1,4 @@
-package com.cometproject.server.game.players.components.types;
+package com.cometproject.server.game.players.components.types.messenger;
 
 public enum RelationshipLevel {
     BOBBA(3),

@@ -1,6 +1,6 @@
 package com.cometproject.server.game.players.components;
 
-import com.cometproject.server.game.players.components.types.RelationshipLevel;
+import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.storage.queries.player.relationships.RelationshipDao;
 

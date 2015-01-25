@@ -1,8 +1,8 @@
 package com.cometproject.server.game.players.types;
 
-import com.cometproject.server.game.players.components.types.PlaylistItem;
-import com.cometproject.server.game.players.components.types.VolumeData;
-import com.cometproject.server.game.players.components.types.WardrobeItem;
+import com.cometproject.server.game.players.components.types.settings.PlaylistItem;
+import com.cometproject.server.game.players.components.types.settings.VolumeData;
+import com.cometproject.server.game.players.components.types.settings.WardrobeItem;
 import com.cometproject.server.utilities.JsonFactory;
 import com.google.gson.reflect.TypeToken;
 

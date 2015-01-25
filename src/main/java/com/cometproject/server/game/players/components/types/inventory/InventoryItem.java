@@ -1,4 +1,4 @@
-package com.cometproject.server.game.players.components.types;
+package com.cometproject.server.game.players.components.types.inventory;
 
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.groups.GroupManager;

@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.user.inventory;
 
-import com.cometproject.server.game.players.components.types.InventoryBot;
+import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 

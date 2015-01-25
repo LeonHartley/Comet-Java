@@ -1,7 +1,7 @@
 package com.cometproject.server.storage.queries.player.messenger;
 
-import com.cometproject.server.game.players.components.types.MessengerFriend;
-import com.cometproject.server.game.players.components.types.MessengerRequest;
+import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
+import com.cometproject.server.game.players.components.types.messenger.MessengerRequest;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriendData;
 import com.cometproject.server.storage.SqlHelper;
 import javolution.util.FastMap;

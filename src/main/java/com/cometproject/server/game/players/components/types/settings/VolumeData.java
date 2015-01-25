@@ -1,4 +1,4 @@
-package com.cometproject.server.game.players.components.types;
+package com.cometproject.server.game.players.components.types.settings;
 
 public class VolumeData {
     private int systemVolume;
