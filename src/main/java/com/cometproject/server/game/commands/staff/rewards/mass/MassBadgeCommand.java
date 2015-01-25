@@ -29,6 +29,7 @@ public class MassBadgeCommand extends ChatCommand {
         }
 
         InventoryDao.addBadges(badgeCode, playersToInsertBadge);
+        playersToInsertBadge.clear();
     }
 
     @Override
