@@ -84,7 +84,6 @@ public class PushCommand extends ChatCommand {
             RoomModel model = client.getPlayer().getEntity().getRoom().getModel();
 
             if (model.getDoorX() == posX && model.getDoorY() == posY) {
-                sendNotif(Locale.get(""), client);
                 return;
             }
 
