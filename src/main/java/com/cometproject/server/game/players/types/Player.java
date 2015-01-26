@@ -56,6 +56,8 @@ public class Player {
     private int notifCooldown = 0;
     private int lastRoomId;
 
+    private int lastGift = 0;
+
     public boolean cancelPageOpen = false;
 
     public Player(ResultSet data, boolean isFallback) throws SQLException {
@@ -319,5 +321,13 @@ public class Player {
 
     public void setLastRoomId(int lastRoomId) {
         this.lastRoomId = lastRoomId;
+    }
+
+    public int getLastGift() {
+        return lastGift;
+    }
+
+    public void setLastGift(int lastGift) {
+        this.lastGift = lastGift;
     }
 }

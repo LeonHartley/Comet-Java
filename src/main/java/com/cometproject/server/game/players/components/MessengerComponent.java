@@ -37,7 +37,7 @@ public class MessengerComponent {
     }
 
     public void dispose() {
-        sendStatus(false, false);
+        this.sendStatus(false, false);
 
         this.requests.clear();
         this.friends.clear();
