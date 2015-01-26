@@ -1,5 +1,6 @@
 package com.cometproject.server.game.catalog.purchase;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.CometManager;
@@ -18,6 +19,7 @@ import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessa
 import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoundMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.LimitedEditionSoldOutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
@@ -40,12 +42,6 @@ import java.util.List;
 
 
 public class CatalogPurchaseHandler {
-    private CatalogManager catalogManager;
-
-    public CatalogPurchaseHandler(CatalogManager catalogManager) {
-        this.catalogManager = catalogManager;
-    }
-
     /**
      * Handle the catalog purchase
      *
@@ -78,9 +74,36 @@ public class CatalogPurchaseHandler {
             CatalogItem item;
 
             if (pageId > 0) {
-                item = this.catalogManager.getPage(pageId).getItems().get(itemId);
+                item = CatalogManager.getInstance().getPage(pageId).getItems().get(itemId);
             } else {
-                item = this.catalogManager.getCatalogItemByItemId(itemId);
+                item = CatalogManager.getInstance().getCatalogItemByItemId(itemId);
+            }
+
+            if (item == null) {
+                return;
+            }
+
+            if(giftData != null) {
+                try {
+                    final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0));
+
+                    if(itemDefinition != null && !itemDefinition.canGift()) {
+                        return;
+                    }
+                } catch(Exception e) {
+                    return;
+                }
+
+                if(client.getPlayer().getLastGift() != 0) {
+                    if(((int) Comet.getTime() - client.getPlayer().getLastGift()) < 5000) {
+                        client.send(AdvancedAlertMessageComposer.compose(Locale.get("catalog.error.gifttoofast")));
+
+                        client.send(BoughtItemMessageComposer.badge());
+                        return;
+                    }
+                }
+
+                client.getPlayer().setLastGift((int) Comet.getTime());
             }
 
             if (amount > 1 && !item.allowOffer()) {
@@ -88,9 +111,6 @@ public class CatalogPurchaseHandler {
 
                 return;
             }
-
-            if (item == null)
-                return;
 
             int totalCostCredits;
             int totalCostPoints;
@@ -272,7 +292,7 @@ public class CatalogPurchaseHandler {
                 }
 
                 if (giftData != null) {
-                    this.deliverGift(playerIdToDeliver, giftData, newItemId, newItems, client.getPlayer().getData().getUsername());
+                    this.deliverGift(playerIdToDeliver, giftData, newItems, client.getPlayer().getData().getUsername());
                 } else {
                     if (item.hasBadge()) {
                         client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
@@ -296,10 +316,9 @@ public class CatalogPurchaseHandler {
      *
      * @param playerId     The ID of the player to deliver the item to
      * @param giftData     The data of the gift
-     * @param definitionId
      * @param newItems     List of items to deliver
      */
-    private void deliverGift(int playerId, GiftData giftData, int definitionId, List<Integer> newItems, String senderUsername) {
+    private void deliverGift(int playerId, GiftData giftData, List<Integer> newItems, String senderUsername) {
         Session client = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
         if (client != null) {

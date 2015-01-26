@@ -65,7 +65,7 @@ public class CatalogManager implements Initializable {
         this.pages = new FastMap<>();
         this.catalogItemIdToPageId = new FastMap<>();
 
-        this.purchaseHandler = new CatalogPurchaseHandler(this);
+        this.purchaseHandler = new CatalogPurchaseHandler();
 
         this.loadPages();
         this.loadGiftBoxes();
