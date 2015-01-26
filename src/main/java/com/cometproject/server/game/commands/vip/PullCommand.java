@@ -48,6 +48,10 @@ public class PullCommand extends ChatCommand {
 
         Position squareInFront = client.getPlayer().getEntity().getPosition().squareInFront(client.getPlayer().getEntity().getBodyRotation());
 
+        if (room.getModel().getDoorX() == squareInFront.getX() && room.getModel().getDoorY() == squareInFront.getY()) {
+            return;
+        }
+
         pulledEntity.setWalkingGoal(squareInFront.getX(), squareInFront.getY());
 
         List<Square> path = Pathfinder.getInstance().makePath(pulledEntity, pulledEntity.getWalkingGoal());

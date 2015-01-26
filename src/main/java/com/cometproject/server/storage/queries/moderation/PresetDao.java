@@ -85,7 +85,6 @@ public class PresetDao {
             while (resultSet.next()) {
                 presets.add(new ActionPreset(resultSet));
             }
-
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
