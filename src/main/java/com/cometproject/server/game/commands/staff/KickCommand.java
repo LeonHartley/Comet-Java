@@ -15,7 +15,7 @@ public class KickCommand extends ChatCommand {
         }
         String username = params[0];
 
-        PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER); //NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
+        PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER);
 
         if (entity == null)
             return;
@@ -23,6 +23,7 @@ public class KickCommand extends ChatCommand {
         if (entity.getUsername().equals(client.getPlayer().getData().getUsername())) {
             return;
         }
+
 
         if (entity.getPlayer().getPermissions().hasPermission("room_unkickable")) {
 
