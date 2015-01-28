@@ -3,7 +3,6 @@ package com.cometproject.server.network.messages.incoming.group;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupMember;
-import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -45,9 +44,9 @@ public class GroupMembersMessageEvent implements IEvent {
             List<Object> toRemove = new ArrayList<>();
 
             for (Object obj : groupMembers) {
-                PlayerData playerData = PlayerDao.getDataById(obj instanceof GroupMember ? ((GroupMember) obj).getPlayerId() : (int) obj);
+                String username = PlayerDao.getUsernameByPlayerId(obj instanceof GroupMember ? ((GroupMember) obj).getPlayerId() : (int) obj);
 
-                if (!playerData.getUsername().toLowerCase().startsWith(searchQuery.toLowerCase()))
+                if (!username.toLowerCase().startsWith(searchQuery.toLowerCase()))
                     toRemove.add(obj);
             }
 

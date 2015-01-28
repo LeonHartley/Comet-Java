@@ -2,12 +2,13 @@ package com.cometproject.server.game.players.components;
 
 import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.storage.queries.player.relationships.RelationshipDao;
 
 import java.util.Map;
 
 
-public class RelationshipComponent {
+public class RelationshipComponent implements PlayerComponent {
     private Player player;
     private Map<Integer, RelationshipLevel> relationships;
 

@@ -3,8 +3,8 @@ package com.cometproject.server.game.players.components;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.players.components.types.messenger.MessengerRequest;
 import com.cometproject.server.game.players.components.types.messenger.MessengerSearchResult;
-import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerSearchResultsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
@@ -12,15 +12,14 @@ import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerSearchDao;
+import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 
-public class MessengerComponent {
+public class MessengerComponent implements PlayerComponent {
     private Player player;
     private Map<Integer, MessengerFriend> friends;
     private List<MessengerRequest> requests;
@@ -47,15 +46,15 @@ public class MessengerComponent {
     }
 
     public Composer search(String query) {
-        List<MessengerSearchResult> currentFriends = new ArrayList<>();
-        List<MessengerSearchResult> otherPeople = new ArrayList<>();
+        List<MessengerSearchResult> currentFriends = Lists.newArrayList();
+        List<MessengerSearchResult> otherPeople = Lists.newArrayList();
 
         try {
-            for (PlayerData playerData : MessengerSearchDao.performSearch(query)) {
-                if (this.getFriendById(playerData.getId()) != null) {
-                    currentFriends.add(new MessengerSearchResult(playerData.getId(), playerData.getUsername(), playerData.getFigure(), playerData.getMotto(), new Date(playerData.getLastVisit() * 1000L).toString()));
+            for (MessengerSearchResult searchResult : MessengerSearchDao.performSearch(query)) {
+                if (this.getFriendById(searchResult.getId()) != null) {
+                    currentFriends.add(searchResult);
                 } else {
-                    otherPeople.add(new MessengerSearchResult(playerData.getId(), playerData.getUsername(), playerData.getFigure(), playerData.getMotto(), new Date(playerData.getLastVisit() * 1000L).toString()));
+                    otherPeople.add(searchResult);
                 }
             }
         } catch (Exception e) {

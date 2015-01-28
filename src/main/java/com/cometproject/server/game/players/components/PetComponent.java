@@ -2,12 +2,13 @@ package com.cometproject.server.game.players.components;
 
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.storage.queries.pets.PetDao;
 
 import java.util.Map;
 
 
-public class PetComponent {
+public class PetComponent implements PlayerComponent {
     private Player player;
     private Map<Integer, PetData> pets;
 
@@ -35,6 +36,11 @@ public class PetComponent {
 
     public void removePet(int id) {
         this.pets.remove(id);
+    }
+
+    @Override
+    public Player getPlayer() {
+        return this.player;
     }
 
     public void dispose() {

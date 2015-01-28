@@ -42,6 +42,7 @@ public class Player {
     private RelationshipComponent relationships;
     private BotComponent bots;
     private PetComponent pets;
+    private QuestComponent quests;
 
     private List<Integer> rooms = new ArrayList<>();
     private List<Integer> groups = new ArrayList<>();
@@ -80,6 +81,7 @@ public class Player {
         this.relationships = new RelationshipComponent(this);
         this.bots = new BotComponent(this);
         this.pets = new PetComponent(this);
+        this.quests = new QuestComponent(this);
 
         this.groups = GroupDao.getIdsByPlayerId(this.id);
 
@@ -101,6 +103,7 @@ public class Player {
         this.getInventory().dispose();
         this.getMessenger().dispose();
         this.getRelationships().dispose();
+        this.getQuests().dispose();
 
         this.session.getLogger().debug(this.getData().getUsername() + " logged out");
 
@@ -329,5 +332,9 @@ public class Player {
 
     public void setLastGift(int lastGift) {
         this.lastGift = lastGift;
+    }
+
+    public QuestComponent getQuests() {
+        return quests;
     }
 }
