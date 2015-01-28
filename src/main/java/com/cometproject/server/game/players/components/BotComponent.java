@@ -2,12 +2,13 @@ package com.cometproject.server.game.players.components;
 
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.storage.queries.bots.PlayerBotDao;
 
 import java.util.Map;
 
 
-public class BotComponent {
+public class BotComponent implements PlayerComponent {
     private Player player;
     private Map<Integer, InventoryBot> bots;
 

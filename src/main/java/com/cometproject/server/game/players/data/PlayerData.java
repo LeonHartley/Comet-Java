@@ -33,9 +33,10 @@ public class PlayerData {
     private String temporaryFigure;
 
     private boolean vip;
+    private int questId;
 
     public PlayerData(int id, String username, String motto, String figure, String gender, String email, int rank, int credits, int vipPoints, int activityPoints,
-                      String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress) {
+                      String reg, int lastVisit, boolean vip, int achievementPoints, int regTimestamp, int favouriteGroup, String ipAddress, int questId) {
         this.id = id;
         this.username = username;
         this.motto = motto;
@@ -48,13 +49,12 @@ public class PlayerData {
         this.vip = vip;
         this.achievementPoints = achievementPoints;
         this.email = email;
-
         this.regDate = reg;
         this.lastVisit = lastVisit;
         this.regTimestamp = regTimestamp;
-
         this.favouriteGroup = favouriteGroup;
         this.ipAddress = ipAddress;
+        this.questId = questId;
     }
 
     public PlayerData(ResultSet data) throws SQLException {
@@ -74,6 +74,7 @@ public class PlayerData {
         this.regTimestamp = data.getInt("playerData_regTimestamp");
         this.favouriteGroup = data.getInt("playerData_favouriteGroup");
         this.activityPoints = data.getInt("playerData_activityPoints");
+        this.questId = data.getInt("playerData_questId");
     }
 
     public void save() {
@@ -238,5 +239,9 @@ public class PlayerData {
 
     public MessengerFriendData toFriendData() {
         return new MessengerFriendData(this.getUsername(), this.getFigure(), this.getMotto());
+    }
+
+    public int getQuestId() {
+        return questId;
     }
 }

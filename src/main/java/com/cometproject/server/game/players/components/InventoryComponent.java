@@ -4,6 +4,7 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
@@ -15,7 +16,7 @@ import org.apache.log4j.Logger;
 import java.util.Map;
 
 
-public class InventoryComponent {
+public class InventoryComponent implements PlayerComponent {
     private Player player;
 
     private Map<Integer, InventoryItem> floorItems;

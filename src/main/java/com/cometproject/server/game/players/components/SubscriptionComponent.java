@@ -2,9 +2,10 @@ package com.cometproject.server.game.players.components;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.game.players.types.PlayerComponent;
 
 
-public class SubscriptionComponent {
+public class SubscriptionComponent implements PlayerComponent {
     private Player player;
 
     private boolean hasSub;
@@ -30,6 +31,11 @@ public class SubscriptionComponent {
     public void delete() {
         this.hasSub = false;
         this.expire = 0;
+    }
+
+    @Override
+    public void dispose() {
+
     }
 
     public boolean isValid() {

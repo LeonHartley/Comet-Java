@@ -27,6 +27,15 @@ public class QuestManager implements Initializable {
         return questManagerInstance;
     }
 
+    public Quest getById(int questId) {
+        for(Quest quest : this.quests.values()) {
+            if(quest.getId() == questId)
+                return quest;
+        }
+
+        return null;
+    }
+
     public int amountOfQuestsInCategory(String category) {
         int count = 0;
 
