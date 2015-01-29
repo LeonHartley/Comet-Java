@@ -288,7 +288,7 @@ public class ItemsComponent {
                 }
             }
 
-            for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), newPosition.getX(), newPosition.getY(), item.getRotation())) {
+            for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), newPosition.getX(), newPosition.getY(), rotation)) {
                 tilesToUpdate.add(new Position(affectedTile.x, affectedTile.y));
 
                 List<GenericEntity> affectEntities2 = room.getEntities().getEntitiesAt(new Position(affectedTile.x, affectedTile.y));
