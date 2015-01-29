@@ -19,6 +19,8 @@ public class VendingMachineFloorItem extends RoomItemFloor {
 
     @Override
     public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+        if(isWiredTrigger || entity == null) return;
+
         if (!this.getPosition().touching(entity)) {
             entity.moveTo(this.getPosition().getX(), this.getPosition().getY());
             return;
