@@ -30,6 +30,8 @@ public class ModToolRoomChatlogMessageEvent implements IEvent {
 
         if (roomData != null) {
             client.send(ModToolRoomChatlogMessageComposer.compose(roomData.getId(), roomData.getName(), LogQueries.getChatlogsForRoom(roomData.getId())));
+        } else {
+            client.send(AdvancedAlertMessageComposer.compose("Notice", "There seems to be an issue with fetching the logs for this room (ID: " + roomId + ", Context: " + context + ")"));
         }
     }
 }
