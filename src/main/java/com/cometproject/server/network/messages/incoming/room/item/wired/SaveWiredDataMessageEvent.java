@@ -1,7 +1,11 @@
 package com.cometproject.server.network.messages.incoming.room.item.wired;
 
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.AbstractWiredItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredItemSnapshot;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionMatchToSnapshot;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative.WiredNegativeConditionMatchSnapshot;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.WiredConditionMatchSnapshot;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.SaveWiredMessageComposer;
@@ -52,6 +56,11 @@ public class SaveWiredDataMessageEvent implements IEvent {
 
         wiredItem.getWiredData().setSelectionType(msg.readInt());
         wiredItem.save();
+
+        if(wiredItem instanceof WiredActionMatchToSnapshot ||
+           wiredItem instanceof WiredConditionMatchSnapshot) {
+            wiredItem.refreshSnapshots();
+        }
 
         client.send(SaveWiredMessageComposer.compose());
         wiredItem.onDataRefresh();
