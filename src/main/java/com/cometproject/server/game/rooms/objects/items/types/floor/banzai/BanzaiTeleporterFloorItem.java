@@ -40,10 +40,16 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
             return;
         }
 
+        final Position teleportPosition = this.findPosition();
+
+        if(teleportPosition == null) {
+            return;
+        }
+
+        this.teleportPosition = teleportPosition;
+
         this.floorItem = floorItem;
         this.floorItem.setAttribute("warp", true);
-
-        this.teleportPosition = this.findPosition();
 
         this.setTicks(RoomItemFactory.getProcessTime(0.5));
     }
@@ -60,10 +66,17 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
             return;
         }
 
+
+        final Position teleportPosition = this.findPosition();
+
+        if(teleportPosition == null) {
+            return;
+        }
+
+        this.teleportPosition = teleportPosition;
+
         this.entity = entity;
         this.entity.setAttribute("warp", true);
-
-        this.teleportPosition = this.findPosition();
 
         this.setExtraData("1");
         this.sendUpdate();
