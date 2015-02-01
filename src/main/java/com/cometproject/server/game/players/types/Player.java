@@ -58,6 +58,7 @@ public class Player {
     private int lastRoomId;
 
     private int lastGift = 0;
+    private int lastRoomCreated;
 
     public boolean cancelPageOpen = false;
 

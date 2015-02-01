@@ -2,6 +2,7 @@ package com.cometproject.server.storage.queries.player;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerSettings;
@@ -119,7 +120,7 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT id, username, motto, figure, gender, email, rank, credits, vip_points, activity_points, reg_date, last_online, vip, achievement_points, reg_timestamp, favourite_group, last_ip FROM players WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT id, username, motto, figure, gender, email, rank, credits, vip_points, activity_points, reg_date, last_online, vip, achievement_points, reg_timestamp, favourite_group, last_ip, quest_id FROM players WHERE id = ?", sqlConnection);
             preparedStatement.setInt(1, id);
 
             resultSet = preparedStatement.executeQuery();
@@ -141,6 +142,38 @@ public class PlayerDao {
 
         return null;
     }
+
+    public static PlayerAvatar getAvatarById(int id, boolean needsMotto) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT id, username, " + ((needsMotto) ? "," : "") + " FROM players WHERE id = ?", sqlConnection);
+            preparedStatement.setInt(1, id);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return new PlayerData(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("motto"), resultSet.getString("figure"), resultSet.getString("gender"),
+                        resultSet.getString("email") == null ? "" : resultSet.getString("email"), resultSet.getInt("rank"), resultSet.getInt("credits"), resultSet.getInt("vip_points"),
+                        resultSet.getInt("activity_points"), resultSet.getString("reg_date"), resultSet.getInt("last_online"), resultSet.getString("vip").equals("1"),
+                        resultSet.getInt("achievement_points"), resultSet.getInt("reg_timestamp"), resultSet.getInt("favourite_group"), resultSet.getString("last_ip"), resultSet.getInt("quest_id"));
+            }
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return null;
+    }
+
 
     public static PlayerSettings getSettingsById(int id) {
         // TODO: Cache, cache, cache!

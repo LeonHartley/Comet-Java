@@ -33,9 +33,6 @@ public class InventoryComponent implements PlayerComponent {
         this.floorItems = new FastMap<>();
         this.wallItems = new FastMap<>();
         this.badges = new FastMap<>();
-
-        this.loadBadges();
-        this.loadItems();
     }
 
     public void loadItems() {
