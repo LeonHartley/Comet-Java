@@ -22,6 +22,7 @@ public class CreateRoomMessageEvent implements IEvent {
             return;
         }
 
+
         int roomId = RoomManager.getInstance().createRoom(name, description, model, category, maxVisitors, tradeState, client);
         client.send(CreateRoomMessageComposer.compose(roomId, name));
     }
