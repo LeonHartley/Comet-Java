@@ -49,6 +49,8 @@ public class NextVideoMessageEvent implements IEvent {
             }
         }
 
+        if(playerSettings.getPlaylist().size() == 0) return;
+
         PlaylistItem playlistItem = playerSettings.getPlaylist().get(currentVideoIndex);
         client.send(PlaylistMessageComposer.compose(itemId, playerSettings.getPlaylist(), currentVideoIndex));
 
