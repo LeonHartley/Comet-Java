@@ -55,7 +55,7 @@ public class GroupMembersMessageComposer {
                     joinDate = ((GroupMember) memberObject).getDateJoined();
                 }
 
-                PlayerAvatar playerAvatar = PlayerDao.getAvatarById(playerId, false);
+                PlayerAvatar playerAvatar = PlayerDao.getAvatarById(playerId, PlayerAvatar.USERNAME_FIGURE);
 
                 if(playerAvatar != null) {
                     msg.writeInt(playerId);

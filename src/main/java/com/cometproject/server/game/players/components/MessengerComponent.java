@@ -139,7 +139,7 @@ public class MessengerComponent implements PlayerComponent {
         List<PlayerAvatar> avatars = Lists.newArrayList();
 
         for(int playerId : this.requests) {
-            PlayerAvatar playerAvatar = PlayerDao.getAvatarById(playerId, false);
+            PlayerAvatar playerAvatar = PlayerDao.getAvatarById(playerId, PlayerAvatar.USERNAME_FIGURE);
 
             if(playerAvatar != null) {
                 avatars.add(playerAvatar);
@@ -154,7 +154,7 @@ public class MessengerComponent implements PlayerComponent {
     }
 
     public void sendOffline(int friend, boolean online, boolean inRoom) {
-        this.getPlayer().getSession().send(UpdateFriendStateMessageComposer.compose(PlayerDao.getAvatarById(friend, true), online, inRoom));
+        this.getPlayer().getSession().send(UpdateFriendStateMessageComposer.compose(PlayerDao.getAvatarById(friend, PlayerAvatar.USERNAME_FIGURE_MOTTO), online, inRoom));
     }
 
     public void sendStatus(boolean online, boolean inRoom) {
