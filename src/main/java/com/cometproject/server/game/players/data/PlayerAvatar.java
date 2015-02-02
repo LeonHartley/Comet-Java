@@ -1,53 +1,17 @@
 package com.cometproject.server.game.players.data;
 
-public class PlayerAvatar {
-    private int id;
-    private String username;
-    private String figure;
-    private String motto;
+public interface PlayerAvatar {
+    public int getId();
 
-    public PlayerAvatar(int id, String username, String figure) {
-        this.id = id;
-        this.username = username;
-        this.figure = figure;
-    }
+    public String getUsername();
 
-    public PlayerAvatar(int id, String username, String figure, String motto) {
-        this.id = id;
-        this.username = username;
-        this.figure = figure;
-        this.motto = motto;
-    }
+    public void setUsername(String username);
 
-    public int getId() {
-        return id;
-    }
+    public String getFigure();
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setFigure(String figure);
 
-    public String getUsername() {
-        return username;
-    }
+    public String getMotto();
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFigure() {
-        return figure;
-    }
-
-    public void setFigure(String figure) {
-        this.figure = figure;
-    }
-
-    public String getMotto() {
-        return motto;
-    }
-
-    public void setMotto(String motto) {
-        this.motto = motto;
-    }
+    public void setMotto(String motto);
 }

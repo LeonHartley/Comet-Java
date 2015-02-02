@@ -3,6 +3,7 @@ package com.cometproject.server.storage.queries.player;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.server.game.players.data.PlayerAvatarData;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerSettings;
@@ -151,16 +152,20 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT id, username, " + ((needsMotto) ? "," : "") + " FROM players WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT username, figure" + ((needsMotto) ? ", motto" : "") + " FROM players WHERE id = ?", sqlConnection);
+
             preparedStatement.setInt(1, id);
 
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                return new PlayerData(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("motto"), resultSet.getString("figure"), resultSet.getString("gender"),
-                        resultSet.getString("email") == null ? "" : resultSet.getString("email"), resultSet.getInt("rank"), resultSet.getInt("credits"), resultSet.getInt("vip_points"),
-                        resultSet.getInt("activity_points"), resultSet.getString("reg_date"), resultSet.getInt("last_online"), resultSet.getString("vip").equals("1"),
-                        resultSet.getInt("achievement_points"), resultSet.getInt("reg_timestamp"), resultSet.getInt("favourite_group"), resultSet.getString("last_ip"), resultSet.getInt("quest_id"));
+                final PlayerAvatar playerAvatar = new PlayerAvatarData(id, resultSet.getString("username"), resultSet.getString("figure"));
+
+                if(needsMotto) {
+                    playerAvatar.setMotto(resultSet.getString("motto"));
+                }
+
+                return playerAvatar;
             }
 
         } catch (SQLException e) {

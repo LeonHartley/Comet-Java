@@ -24,7 +24,9 @@ public class InfoRetrieveMessageEvent implements IEvent {
         client.send(CitizenshipStatusMessageComposer.compose());
         client.send(AchievementPointsMessageComposer.compose(client.getPlayer().getData().getAchievementPoints()));
         client.send(LoadFriendsMessageComposer.compose(client.getPlayer().getMessenger().getFriends(), client.getPlayer().getPermissions().hasPermission("staff_chat")));
-        client.send(FriendRequestsMessageComposer.compose(client.getPlayer().getMessenger().getRequests()));
+
+        client.send(FriendRequestsMessageComposer.compose(client.getPlayer().getMessenger().getRequestAvatars()));
+
         client.send(BadgeInventoryMessageComposer.compose(client.getPlayer().getInventory().getBadges()));
 
         client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);

@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.messenger;
 
-import com.cometproject.server.game.players.components.types.messenger.MessengerRequest;
+import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
@@ -18,8 +18,8 @@ public class UpdateFriendStateMessageComposer {
         return msg;
     }
 
-    public static Composer compose(MessengerRequest request, boolean online, boolean inRoom) {
-        return compose(request.getFromId(), request.getUsername(), request.getLook(), request.getMotto(), online, inRoom);
+    public static Composer compose(PlayerAvatar request, boolean online, boolean inRoom) {
+        return compose(request.getId(), request.getUsername(), request.getFigure(), request.getMotto(), online, inRoom);
     }
 
     public static Composer compose(PlayerData player, boolean online, boolean inRoom) {

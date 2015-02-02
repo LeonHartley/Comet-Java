@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.players.components.types.messenger.MessengerRequest;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.messenger.FriendRequestMessageComposer;
@@ -31,10 +30,8 @@ public class RequestFriendshipMessageEvent implements IEvent {
         if (request.getPlayer().getMessenger().hasRequestFrom(client.getPlayer().getId()))
             return;
 
-        MessengerRequest req = new MessengerRequest(client.getPlayer().getId(), client.getPlayer().getData().getUsername(), client.getPlayer().getData().getFigure(), client.getPlayer().getData().getMotto());
-
-        request.getPlayer().getMessenger().addRequest(req);
-        request.send(FriendRequestMessageComposer.compose(req));
+        request.getPlayer().getMessenger().addRequest(client.getPlayer().getId());
+        request.send(FriendRequestMessageComposer.compose(client.getPlayer().getData()));
 
         int userId = PlayerDao.getIdByUsername(username);
 

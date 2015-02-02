@@ -1,6 +1,5 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
-import com.cometproject.server.game.players.components.types.messenger.MessengerRequest;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -20,10 +19,10 @@ public class DeclineFriendshipMessageEvent implements IEvent {
         }
 
         final int sender = msg.readInt();
-        final MessengerRequest messengerRequest = client.getPlayer().getMessenger().getRequestBySender(sender);
+        final Integer messengerRequest = client.getPlayer().getMessenger().getRequestBySender(sender);
 
         if (messengerRequest != null) {
-            MessengerDao.deleteRequestData(messengerRequest.getFromId(), client.getPlayer().getId());
+            MessengerDao.deleteRequestData(messengerRequest, client.getPlayer().getId());
             client.getPlayer().getMessenger().removeRequest(messengerRequest);
         }
     }

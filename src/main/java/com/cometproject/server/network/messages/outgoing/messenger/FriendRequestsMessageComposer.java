@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.messenger;
 
-import com.cometproject.server.game.players.components.types.messenger.MessengerRequest;
+import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
@@ -8,16 +8,20 @@ import java.util.List;
 
 
 public class FriendRequestsMessageComposer {
-    public static Composer compose(List<MessengerRequest> requests) {
+    public static Composer compose(List<PlayerAvatar> requests) {
         Composer msg = new Composer(Composers.FriendRequestsMessageComposer);
 
-        msg.writeInt(requests.size());
-        msg.writeInt(requests.size());
+        try {
+            msg.writeInt(requests.size());
+            msg.writeInt(requests.size());
 
-        for (MessengerRequest request : requests) {
-            msg.writeInt(request.getFromId());
-            msg.writeString(request.getUsername());
-            msg.writeString(request.getLook());
+            for (PlayerAvatar avatar : requests) {
+                msg.writeInt(avatar.getId());
+                msg.writeString(avatar.getUsername());
+                msg.writeString(avatar.getFigure());
+            }
+        } finally {
+            requests.clear();
         }
 
         return msg;

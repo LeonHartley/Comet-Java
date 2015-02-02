@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
-import com.cometproject.server.game.players.components.types.messenger.MessengerRequest;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
@@ -15,19 +14,19 @@ import java.util.List;
 public class AcceptFriendshipMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int amount = msg.readInt();
-        List<MessengerRequest> requests = new ArrayList<>();
+        List<Integer> requests = new ArrayList<>();
 
         for (int i = 0; i < amount; i++) {
             requests.add(client.getPlayer().getMessenger().getRequestBySender(msg.readInt()));
         }
 
-        for (MessengerRequest request : requests) {
+        for (Integer request : requests) {
             if(request == null) continue;
 
-            MessengerDao.createFriendship(request.getFromId(), client.getPlayer().getId());
-            MessengerDao.deleteRequestData(request.getFromId(), client.getPlayer().getId());
+            MessengerDao.createFriendship(request, client.getPlayer().getId());
+            MessengerDao.deleteRequestData(request, client.getPlayer().getId());
 
-            Session friend = NetworkManager.getInstance().getSessions().getByPlayerId(request.getFromId());
+            Session friend = NetworkManager.getInstance().getSessions().getByPlayerId(request);
 
             if (friend != null) {
                 friend.getPlayer().getMessenger().addFriend(new MessengerFriend(client.getPlayer().getId()));
@@ -36,7 +35,7 @@ public class AcceptFriendshipMessageEvent implements IEvent {
                 client.getPlayer().getMessenger().sendOffline(request, false, false);
             }
 
-            client.getPlayer().getMessenger().addFriend(new MessengerFriend(request.getFromId()));
+            client.getPlayer().getMessenger().addFriend(new MessengerFriend(request));
             client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
         }
 
