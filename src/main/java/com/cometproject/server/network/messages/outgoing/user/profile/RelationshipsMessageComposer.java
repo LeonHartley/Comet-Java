@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.outgoing.user.profile;
 
 import com.cometproject.server.game.players.components.RelationshipComponent;
 import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
-import com.cometproject.server.game.players.data.PlayerData;
+import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -36,7 +36,7 @@ public class RelationshipsMessageComposer {
         for (Integer relationshipKey : relationshipKeys) {
             RelationshipLevel level = relationships.get(relationshipKey);
 
-            PlayerData data = PlayerDao.getDataById(relationshipKey);
+            PlayerAvatar data = PlayerDao.getAvatarById(relationshipKey, PlayerAvatar.USERNAME_FIGURE);
 
             if (data == null) {
                 msg.writeInt(0);

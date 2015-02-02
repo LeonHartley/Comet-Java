@@ -144,7 +144,7 @@ public class PlayerDao {
         return null;
     }
 
-    public static PlayerAvatar getAvatarById(int id, boolean needsMotto) {
+    public static PlayerAvatar getAvatarById(int id, byte mode) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -152,7 +152,21 @@ public class PlayerDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT username, figure" + ((needsMotto) ? ", motto" : "") + " FROM players WHERE id = ?", sqlConnection);
+            String query;
+
+            switch(mode) {
+                case PlayerAvatar.USERNAME_FIGURE:
+                    query = "SELECT username, figure FROM players WHERE id = ?";
+                    break;
+
+
+                default:
+                case PlayerAvatar.USERNAME_FIGURE_MOTTO:
+                    query = "SELECT username, figure, motto FROM players WHERE id = ?";
+                    break;
+            }
+
+            preparedStatement = SqlHelper.prepare(query, sqlConnection);
 
             preparedStatement.setInt(1, id);
 
@@ -161,7 +175,7 @@ public class PlayerDao {
             while (resultSet.next()) {
                 final PlayerAvatar playerAvatar = new PlayerAvatarData(id, resultSet.getString("username"), resultSet.getString("figure"));
 
-                if(needsMotto) {
+                if(mode == PlayerAvatar.USERNAME_FIGURE_MOTTO) {
                     playerAvatar.setMotto(resultSet.getString("motto"));
                 }
 
