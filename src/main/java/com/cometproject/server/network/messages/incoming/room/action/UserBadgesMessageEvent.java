@@ -22,6 +22,8 @@ public class UserBadgesMessageEvent implements IEvent {
         PlayerEntity playerEntity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPlayerId(userId);
 
         if (playerEntity != null) {
+            if(playerEntity.getPlayer() == null || playerEntity.getPlayer().getInventory() == null) return;
+
             client.send(UserBadgesMessageComposer.compose(playerEntity.getPlayerId(), playerEntity.getPlayer().getInventory().equippedBadges()));
         }
     }
