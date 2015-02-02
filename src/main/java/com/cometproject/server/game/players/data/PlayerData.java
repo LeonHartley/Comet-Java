@@ -1,13 +1,12 @@
 package com.cometproject.server.game.players.data;
 
-import com.cometproject.server.game.players.components.types.messenger.MessengerFriendData;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class PlayerData {
+public class PlayerData implements PlayerAvatar {
     private int id;
     private int rank;
 
@@ -119,6 +118,10 @@ public class PlayerData {
 
     public String getUsername() {
         return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getAchievementPoints() {
@@ -235,10 +238,6 @@ public class PlayerData {
 
     public void setTemporaryFigure(String temporaryFigure) {
         this.temporaryFigure = temporaryFigure;
-    }
-
-    public MessengerFriendData toFriendData() {
-        return new MessengerFriendData(this.getUsername(), this.getFigure(), this.getMotto());
     }
 
     public int getQuestId() {

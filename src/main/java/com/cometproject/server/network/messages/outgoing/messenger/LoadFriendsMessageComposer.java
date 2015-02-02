@@ -1,9 +1,12 @@
 package com.cometproject.server.network.messages.outgoing.messenger;
 
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
+import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import com.google.common.collect.Lists;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -17,25 +20,29 @@ public class LoadFriendsMessageComposer {
         msg.writeInt(1100);
         msg.writeInt(0);
 
-        int counter = 0;
+        List<PlayerAvatar> avatars = Lists.newArrayList();
 
         for (Map.Entry<Integer, MessengerFriend> friend : friends.entrySet()) {
-            if (friend.getValue() != null && friend.getValue().getData() != null)
-                counter++;
+            if (friend.getValue() != null) {
+                final PlayerAvatar playerAvatar = friend.getValue().getAvatar();
+
+                if(playerAvatar != null) {
+                    avatars.add(playerAvatar);
+                }
+            }
         }
 
-        msg.writeInt(counter + (hasStaffChat ? 1 : 0));
+        msg.writeInt(avatars.size() + (hasStaffChat ? 1 : 0));
 
-        for (Map.Entry<Integer, MessengerFriend> friend : friends.entrySet()) {
-            if (friend.getValue() != null && friend.getValue().getData() != null) {
-                msg.writeInt(friend.getValue().getUserId());
-                msg.writeString(friend.getValue().getData().getUsername());
+        for (PlayerAvatar playerAvatar : avatars) {
+                msg.writeInt(playerAvatar.getId());
+                msg.writeString(playerAvatar.getUsername());
                 msg.writeInt(1);
-                msg.writeBoolean(friend.getValue().isOnline());
-                msg.writeBoolean(friend.getValue().isInRoom());
-                msg.writeString(friend.getValue().getData().getFigure());
+                msg.writeBoolean(friends.get(playerAvatar.getId()).isOnline());
+                msg.writeBoolean(friends.get(playerAvatar.getId()).isInRoom());
+                msg.writeString(playerAvatar.getFigure());
                 msg.writeInt(0);
-                msg.writeString(friend.getValue().getData().getMotto());
+                msg.writeString(playerAvatar.getMotto());
                 msg.writeString("");
                 msg.writeString("");
                 msg.writeBoolean(true);
@@ -43,7 +50,6 @@ public class LoadFriendsMessageComposer {
                 msg.writeBoolean(false);
                 msg.writeBoolean(false);
                 msg.writeBoolean(false);
-            }
         }
 
         if (hasStaffChat) {

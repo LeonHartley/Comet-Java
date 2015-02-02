@@ -1,8 +1,8 @@
 package com.cometproject.server.game.players.components;
 
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
-import com.cometproject.server.game.players.components.types.messenger.MessengerRequest;
 import com.cometproject.server.game.players.components.types.messenger.MessengerSearchResult;
+import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.network.NetworkManager;
@@ -10,6 +10,7 @@ import com.cometproject.server.network.messages.outgoing.messenger.MessengerSear
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerSearchDao;
 import com.google.common.collect.Lists;
@@ -21,8 +22,10 @@ import java.util.Map;
 
 public class MessengerComponent implements PlayerComponent {
     private Player player;
+
     private Map<Integer, MessengerFriend> friends;
-    private List<MessengerRequest> requests;
+
+    private List<Integer> requests;
 
     public MessengerComponent(Player player) {
         this.player = player;
@@ -64,8 +67,8 @@ public class MessengerComponent implements PlayerComponent {
         return MessengerSearchResultsMessageComposer.compose(currentFriends, otherPeople);
     }
 
-    public void addRequest(MessengerRequest request) {
-        this.getRequests().add(request);
+    public void addRequest(int playerId) {
+        this.getRequests().add(playerId);
     }
 
     public void addFriend(MessengerFriend friend) {
@@ -84,9 +87,9 @@ public class MessengerComponent implements PlayerComponent {
         this.player.getSession().send(UpdateFriendStateMessageComposer.compose(-1, userId));
     }
 
-    public MessengerRequest getRequestBySender(int sender) {
-        for (MessengerRequest request : requests) {
-            if (request.getFromId() == sender) {
+    public Integer getRequestBySender(int sender) {
+        for (Integer request : requests) {
+            if (request == sender) {
                 return request;
             }
         }
@@ -124,20 +127,34 @@ public class MessengerComponent implements PlayerComponent {
     }
 
     public boolean hasRequestFrom(int playerId) {
-        for (MessengerRequest messengerRequest : this.requests) {
-            if (messengerRequest.getFromId() == playerId)
+        for (Integer messengerRequest : this.requests) {
+            if (messengerRequest == playerId)
                 return true;
         }
 
         return false;
     }
 
+    public List<PlayerAvatar> getRequestAvatars() {
+        List<PlayerAvatar> avatars = Lists.newArrayList();
+
+        for(int playerId : this.requests) {
+            PlayerAvatar playerAvatar = PlayerDao.getAvatarById(playerId, false);
+
+            if(playerAvatar != null) {
+                avatars.add(playerAvatar);
+            }
+        }
+
+        return avatars;
+    }
+
     public void clearRequests() {
         this.requests.clear();
     }
 
-    public void sendOffline(MessengerRequest friend, boolean online, boolean inRoom) {
-        this.getPlayer().getSession().send(UpdateFriendStateMessageComposer.compose(friend, online, inRoom));
+    public void sendOffline(int friend, boolean online, boolean inRoom) {
+        this.getPlayer().getSession().send(UpdateFriendStateMessageComposer.compose(PlayerDao.getAvatarById(friend, true), online, inRoom));
     }
 
     public void sendStatus(boolean online, boolean inRoom) {
@@ -152,7 +169,7 @@ public class MessengerComponent implements PlayerComponent {
         return this.friends;
     }
 
-    public List<MessengerRequest> getRequests() {
+    public List<Integer> getRequests() {
         return this.requests;
     }
 
@@ -160,7 +177,8 @@ public class MessengerComponent implements PlayerComponent {
         return this.player;
     }
 
-    public void removeRequest(MessengerRequest request) {
+    public void removeRequest(Integer request) {
         this.requests.remove(request);
     }
+
 }
