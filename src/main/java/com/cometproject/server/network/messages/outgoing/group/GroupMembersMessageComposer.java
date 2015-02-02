@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.outgoing.group;
 
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
-import com.cometproject.server.game.players.data.PlayerData;
+import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -55,11 +55,18 @@ public class GroupMembersMessageComposer {
                     joinDate = ((GroupMember) memberObject).getDateJoined();
                 }
 
-                PlayerData playerData = PlayerDao.getDataById(playerId);
+                PlayerAvatar playerAvatar = PlayerDao.getAvatarById(playerId, false);
 
-                msg.writeInt(playerData.getId());
-                msg.writeString(playerData.getUsername());
-                msg.writeString(playerData.getFigure());
+                if(playerAvatar != null) {
+                    msg.writeInt(playerId);
+                    msg.writeString(playerAvatar.getUsername());
+                    msg.writeString(playerAvatar.getFigure());
+                } else {
+                    msg.writeInt(playerId);
+                    msg.writeString("Unknown Player");
+                    msg.writeString("");
+                }
+
                 msg.writeString(joinDate != 0 ? GroupInformationMessageComposer.getDate(joinDate) : "");
             }
         }
