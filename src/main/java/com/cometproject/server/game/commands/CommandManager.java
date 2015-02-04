@@ -161,8 +161,8 @@ public class CommandManager implements Initializable {
      * @param message The requested command alias
      * @return The result of the check
      */
-    public boolean isCommand(String message) {
-        if(message.length() >= 1) return false;
+    public boolean isCommand(String message) {;
+        if(message.length() <= 1) return false;
 
         String executor = message.split(" ")[0];
 

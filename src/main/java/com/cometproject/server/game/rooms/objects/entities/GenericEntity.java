@@ -57,6 +57,8 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     private boolean walkCancelled = false;
     private boolean canWalk = true;
 
+    private boolean isRoomMuted = false;
+
     private GenericEntity mountedEntity;
 
     private Map<RoomEntityStatus, String> statuses = new FastMap<>();
@@ -91,6 +93,10 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.doorbellAnswered = false;
 
         this.stepsToGoal = 0;
+
+        if(this.getRoom().hasRoomMute()) {
+            this.isRoomMuted = true;
+        }
     }
 
     public RoomEntityType getEntityType() {
@@ -540,5 +546,13 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         }
 
         return false;
+    }
+
+    public boolean isRoomMuted() {
+        return isRoomMuted;
+    }
+
+    public void setRoomMuted(boolean isRoomMuted) {
+        this.isRoomMuted = isRoomMuted;
     }
 }
