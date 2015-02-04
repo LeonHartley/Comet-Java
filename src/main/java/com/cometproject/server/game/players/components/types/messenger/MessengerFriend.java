@@ -44,7 +44,7 @@ public class MessengerFriend {
             return this.getSession().getPlayer().getData();
         }
 
-        return PlayerDao.getAvatarById(this.userId, true);
+        return PlayerDao.getAvatarById(this.userId, PlayerAvatar.USERNAME_FIGURE_MOTTO);
     }
 
     public int getUserId() {

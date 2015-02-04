@@ -296,7 +296,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
 
-        if (this.getRoom().hasRoomMute() && !this.getPlayer().getPermissions().hasPermission("bypass_roommute") && this.getRoom().getData().getOwnerId() != this.getPlayerId()) {
+        if (this.isRoomMuted() && !this.getPlayer().getPermissions().hasPermission("bypass_roommute") && this.getRoom().getData().getOwnerId() != this.getPlayerId()) {
             return false;
         }
 
