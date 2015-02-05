@@ -1,0 +1,16 @@
+Comet 0.15.1-ALPHA1
+      [*][Addition] Quests
+      [*][Addition] Achievements
+      [*][Addition] Server now responds to the "LatencyRequest" event with the ping composer.
+      [*][Addition] Added support for infinite credits & duckets.
+
+      [*][Improvement] Item and team effects can no longer be overridden via :enable command
+      [*][Improvement] Various memory optimisations related to Player data.
+      [*][Improvement] Gifting cool-down (players cannot abuse the gifting system)
+      [*][Improvement] Wired snapshots are now taken once you save the wired, no need to press the “Apply” button!
+      [*][Improvement] Room creation cool-down (Players cannot create rooms extremely quickly)
+
+      [*][Bug] Fixed bug where “can_gift” would not stop the item from being gifted
+      [*][Bug] Players cannot be removed from the room via :pull command
+      [*][Bug] Items with a length > 1 would become walkable when rotated (Example: Dividers)
+      [*][Bug] Banzai teleports would stop the player from being able to walk if there was only 1 teleport in the room.
