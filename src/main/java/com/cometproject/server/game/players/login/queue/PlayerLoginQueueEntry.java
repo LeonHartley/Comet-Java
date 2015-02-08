@@ -1,4 +1,4 @@
-package com.cometproject.server.game.players.queue;
+package com.cometproject.server.game.players.login.queue;
 
 import com.cometproject.server.network.sessions.Session;
 
