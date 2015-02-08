@@ -55,6 +55,16 @@ public class Comet {
 
         log.info("Comet Server - " + getBuild());
 
+        log.info("  /$$$$$$                                      /$$    ");
+        log.info("( /$$__  $$                                    | $$    ");
+        log.info("| $$  \\__/  /$$$$$$  /$$$$$$/$$$$   /$$$$$$  /$$$$$$  ");
+        log.info("| $$       /$$__  $$| $$_  $$_  $$ /$$__  $$|_  $$_/  ");
+        log.info("| $$      | $$  \\ $$| $$ \\ $$ \\ $$| $$$$$$$$  | $$    ");
+        log.info("| $$    $$| $$  | $$| $$ | $$ | $$| $$_____/  | $$ /$$");
+        log.info("|  $$$$$$/|  $$$$$$/| $$ | $$ | $$|  $$$$$$$  |  $$$/");
+        log.info(" \\______/  \\______/ |__/ |__/ |__/ \\_______/   \\___/  ");
+
+
         for (String arg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
             if (arg.contains("dt_")) {
                 isDebugging = true;
