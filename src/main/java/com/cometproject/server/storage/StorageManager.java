@@ -25,7 +25,12 @@ public class StorageManager implements Initializable {
         try {
             BoneCPConfig config = new BoneCPConfig();
 
-            config.setJdbcUrl("jdbc:mysql://" + Comet.getServer().getConfig().get("comet.db.host") + "/" + Comet.getServer().getConfig().get("comet.db.name") + "?tcpKeepAlive=" + Comet.getServer().getConfig().get("comet.db.pool.tcpKeepAlive") + "&autoReconnect=" + Comet.getServer().getConfig().get("comet.db.pool.autoReconnect"));
+            config.setJdbcUrl(
+                    "jdbc:mysql://" + Comet.getServer().getConfig().get("comet.db.host") +
+                    "/" + Comet.getServer().getConfig().get("comet.db.name") + "?tcpKeepAlive=" + Comet.getServer().getConfig().get("comet.db.pool.tcpKeepAlive") +
+                    "&autoReconnect=" + Comet.getServer().getConfig().get("comet.db.pool.autoReconnect")
+            );
+
             config.setUsername(Comet.getServer().getConfig().get("comet.db.username"));
             config.setPassword(Comet.getServer().getConfig().get("comet.db.password"));
 
@@ -39,6 +44,7 @@ public class StorageManager implements Initializable {
             config.setAcquireRetryAttempts(Integer.valueOf(Comet.getServer().getConfig().get("comet.db.pool.acquireRetryAttempts")));
 
             log.info("Connecting to the MySQL server");
+
             this.connections = new BoneCP(config);
         } catch (Exception e) {
             isConnectionFailed = true;
