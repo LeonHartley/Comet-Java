@@ -26,11 +26,14 @@ public class XMLPolicyDecoder extends FrameDecoder {
                             + "<allow-access-from domain=\"*\" to-ports=\"*\" />\r\n"
                             + "</cross-domain-policy>\0"
             ).addListener(ChannelFutureListener.CLOSE);
-
             return null;
-        } else {
+        } else if(delimiter == 0) {
             ctx.getPipeline().remove(this);
             return ChannelBuffers.wrappedBuffer(buffer.readBytes(buffer.readableBytes()));
+        } else {
+            channel.disconnect();
         }
+
+        return null;
     }
 }
