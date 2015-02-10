@@ -194,7 +194,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         // Step off
         for (RoomItemFloor item : this.getRoom().getItems().getItemsOnSquare(this.getPosition().getX(), this.getPosition().getY())) {
-            if(item == null) continue;
+            if (item == null) continue;
             item.onEntityStepOff(this);
         }
 
@@ -214,7 +214,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         // Remove entity from the room
         this.getRoom().getEntities().removeEntity(this);
 
-        if(this.player != null) {
+        if (this.player != null) {
             this.getPlayer().setEntity(null);
         }
 
@@ -252,23 +252,17 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             if (time - this.player.getLastMessageTime() < 750) {
                 this.player.setFloodFlag(this.player.getFloodFlag() + 1);
 
-                if (this.player.getFloodFlag() >= 4) {
+                if (this.player.getFloodFlag() >= 5) {
                     this.player.setFloodTime(30);
                     this.player.setFloodFlag(0);
 
                     this.player.getSession().send(FloodFilterMessageComposer.compose(player.getFloodTime()));
                 }
+            } else {
+                this.player.setFloodFlag(0);
             }
 
             if (player.getFloodTime() >= 1) {
-                return false;
-            }
-
-            if (player.getLastMessage().equals(message) && message.length() > 15) {
-                this.player.setFloodFlag(0);
-                this.player.setFloodTime(30);
-
-                this.player.getSession().send(FloodFilterMessageComposer.compose(player.getFloodTime()));
                 return false;
             }
 
@@ -295,7 +289,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             return false;
         }
 
-
         if (this.isRoomMuted() && !this.getPlayer().getPermissions().hasPermission("bypass_roommute") && this.getRoom().getData().getOwnerId() != this.getPlayerId()) {
             return false;
         }
@@ -310,8 +303,12 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             return false;
         }
 
-        if (LogManager.ENABLED)
-            LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
+        try {
+            if (LogManager.ENABLED)
+                LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
+        } catch (Exception ignored) {
+
+        }
 
 //        for (PetEntity entity : this.getRoom().getEntities().getPetEntities()) {
 //            if (message.split(" ").length > 0) {
@@ -329,7 +326,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     public void postChat(String message) {
         for (BotEntity entity : this.getRoom().getEntities().getBotEntities()) {
-            if(entity.getAI().onTalk(this, message)) break;
+            if (entity.getAI().onTalk(this, message)) break;
         }
     }
 
