@@ -7,8 +7,8 @@ import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
-import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.utilities.CometStats;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
@@ -41,9 +41,15 @@ public class ConsoleCommands {
                                     break;
 
                                 case "/about":
+                                    final CometStats stats = CometStats.get();
+
                                     log.info("This server is powered by Comet (" + Comet.getBuild() + ")");
-                                    log.info("    Users online: " + NetworkManager.getInstance().getSessions().getUsersOnlineCount());
-                                    log.info("    Rooms online: " + RoomManager.getInstance().getRoomInstances().size());
+                                    log.info("    Users online: " + stats.getPlayers());
+                                    log.info("    Rooms online: " + stats.getRooms());
+                                    log.info("    Uptime: " + stats.getUptime());
+                                    log.info("    Process ID: " + stats.getProcessId());
+                                    log.info("    Memory allocated: " + stats.getAllocatedMemory() + "MB");
+                                    log.info("    Memory usage: " + stats.getUsedMemory() + "MB");
                                     break;
 
                                 case "/reload_messages":
