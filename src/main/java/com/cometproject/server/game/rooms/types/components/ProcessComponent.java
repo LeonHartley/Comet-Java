@@ -55,8 +55,6 @@ public class ProcessComponent implements CometTask {
         }
 
         try {
-            long timeStart = System.currentTimeMillis();
-
             Map<Integer, GenericEntity> entities = this.room.getEntities().getAllEntities();
 
             List<PlayerEntity> playersToRemove = new ArrayList<>();
