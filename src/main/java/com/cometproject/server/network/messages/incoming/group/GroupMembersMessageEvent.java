@@ -16,10 +16,10 @@ import java.util.List;
 public class GroupMembersMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        int groupId = msg.readInt();
-        int page = msg.readInt();
-        String searchQuery = msg.readString();
-        int requestType = msg.readInt();
+        final int groupId = msg.readInt();
+        final int page = msg.readInt();
+        final String searchQuery = msg.readString();
+        final int requestType = msg.readInt();
 
         Group group = GroupManager.getInstance().get(groupId);
 
@@ -46,8 +46,12 @@ public class GroupMembersMessageEvent implements IEvent {
             for (Object obj : groupMembers) {
                 String username = PlayerDao.getUsernameByPlayerId(obj instanceof GroupMember ? ((GroupMember) obj).getPlayerId() : (int) obj);
 
-                if (!username.toLowerCase().startsWith(searchQuery.toLowerCase()))
+                if (username == null) {
                     toRemove.add(obj);
+                } else {
+                    if (!username.toLowerCase().startsWith(searchQuery.toLowerCase()))
+                        toRemove.add(obj);
+                }
             }
 
             for (Object obj : toRemove) {

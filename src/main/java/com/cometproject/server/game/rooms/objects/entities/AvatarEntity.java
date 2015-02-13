@@ -87,6 +87,8 @@ public interface AvatarEntity extends Attributable {
 
     public void carryItem(int id);
 
+    public void carryItem(int id, boolean timer);
+
     public int getHandItem();
 
     public boolean handItemNeedsRemove();

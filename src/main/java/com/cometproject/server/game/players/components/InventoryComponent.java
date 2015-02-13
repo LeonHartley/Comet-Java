@@ -13,6 +13,7 @@ import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -30,9 +31,9 @@ public class InventoryComponent implements PlayerComponent {
     public InventoryComponent(Player player) {
         this.player = player;
 
-        this.floorItems = new FastMap<>();
-        this.wallItems = new FastMap<>();
-        this.badges = new FastMap<>();
+        this.floorItems = new HashMap<>();
+        this.wallItems = new HashMap<>();
+        this.badges = new HashMap<>();
 
         this.loadBadges();
     }
@@ -204,7 +205,7 @@ public class InventoryComponent implements PlayerComponent {
         this.wallItems = null;
 
         this.badges.clear();
-        this.badges.clear();
+        this.badges = null;
     }
 
     public int getTotalSize() {
