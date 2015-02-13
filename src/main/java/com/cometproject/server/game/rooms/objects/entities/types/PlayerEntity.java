@@ -198,7 +198,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             item.onEntityStepOff(this);
         }
 
-        if (isKick && !isOffline) {
+        if (isKick && !isOffline && this.getPlayer() != null && this.getPlayer().getSession() != null) {
             this.getPlayer().getSession().send(RoomErrorMessageComposer.compose(4008));
         }
 
@@ -206,7 +206,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
 
         // Sending this user to the hotel view?
-        if (!isOffline && toHotelView) {
+        if (!isOffline && toHotelView && this.getPlayer() != null && this.getPlayer().getSession() != null) {
             this.getPlayer().getSession().send(HotelViewMessageComposer.compose());
             this.getPlayer().getSession().getPlayer().getMessenger().sendStatus(true, false);
         }
