@@ -69,6 +69,10 @@ public class RoomMapping {
     }
 
     public void updateTile(int x, int y) {
+        if(x < 0 || y < 0) {
+            return;
+        }
+
         if (this.tiles.length > x) {
             if (tiles[x].length > y)
                 this.tiles[x][y].reload();

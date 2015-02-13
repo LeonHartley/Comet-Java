@@ -78,6 +78,19 @@ public class GiftData {
         this.extraData = extraData;
     }
 
+    public GiftData() {
+        this.pageId = 0;
+        this.itemId = 0;
+        this.senderId = 0;
+        this.receiver = "";
+        this.message = "";
+        this.spriteId = 0;
+        this.wrappingPaper = 0;
+        this.decorationType= 0;
+        this.showUsername = false;
+        this.extraData = "0";
+    }
+
     public int getPageId() {
         return pageId;
     }

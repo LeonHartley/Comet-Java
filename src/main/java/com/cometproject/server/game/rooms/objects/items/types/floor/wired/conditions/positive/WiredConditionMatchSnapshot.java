@@ -36,6 +36,11 @@ public class WiredConditionMatchSnapshot extends WiredConditionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
+
+        if(this.getWiredData().getParams().size() != 3) {
+            return false;
+        }
+
         final boolean matchState = this.getWiredData().getParams().get(PARAM_MATCH_STATE) == 1;
         final boolean matchRotation = this.getWiredData().getParams().get(PARAM_MATCH_ROTATION) == 1;
         final boolean matchPosition = this.getWiredData().getParams().get(PARAM_MATCH_POSITION) == 1;
