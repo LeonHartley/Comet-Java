@@ -46,20 +46,24 @@ public class SaveFloorMessageEvent implements IEvent {
         boolean hasTiles = false;
         boolean validDoor = false;
 
-        for (int y = 0; y < sizeY; y++) {
-            String modelLine = modelData[y];
+        try {
+            for (int y = 0; y < sizeY; y++) {
+                String modelLine = modelData[y];
 
-            for (int x = 0; x < sizeX; x++) {
-                if(x < (modelLine.length() + 1) ) {
-                    if (!Character.toString(modelLine.charAt(x)).equals("x")) {
-                        if (x == doorX && y == doorY) {
-                            validDoor = true;
+                for (int x = 0; x < sizeX; x++) {
+                    if (x < (modelLine.length() + 1)) {
+                        if (!Character.toString(modelLine.charAt(x)).equals("x")) {
+                            if (x == doorX && y == doorY) {
+                                validDoor = true;
+                            }
+
+                            hasTiles = true;
                         }
-
-                        hasTiles = true;
                     }
                 }
             }
+        } catch(Exception e) {
+            client.send(AdvancedAlertMessageComposer.compose("Invalid Model", "There seems to be a problem parsing this floor plan, please either try again or contact an admin!"));
         }
 
         if (!hasTiles || !validDoor) {
