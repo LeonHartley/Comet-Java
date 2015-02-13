@@ -24,7 +24,7 @@ public class NoFaceCommand extends ChatCommand {
                     return;
 
                 client.getPlayer().getData().setTemporaryFigure(figure);
-                client.getPlayer().getData().setFigure(figure.replace(StringUtils.join(head, "-"), "hd-" + 99999 + "-" + head[2]));
+                client.getPlayer().getData().setFigure(figure.replace(StringUtils.join(head, "-"), "hd-" + 99999 + "-" + (head.length != 3 ? head.length == 0 ? "" : head[head.length - 1] : head[2])));
             }
         }
 
