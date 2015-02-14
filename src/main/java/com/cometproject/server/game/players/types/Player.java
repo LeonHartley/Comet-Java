@@ -49,9 +49,14 @@ public class Player {
 
     private List<Integer> ignoredPlayers = new ArrayList<>();
 
-    private long lastMessageTime = 0;
-    private double floodTime = 0;
-    private int floodFlag = 0;
+    private long roomLastMessageTime = 0;
+    private double roomFloodTime = 0;
+    private int roomFloodFlag = 0;
+
+    private long messengerLastMessageTime = 0;
+    private double messengerFloodTime = 0;
+    private int messengerFloodFlag = 0;
+
     private int teleportId = 0;
     private String lastMessage = "";
     private int notifCooldown = 0;
@@ -255,6 +260,10 @@ public class Player {
         return this.pets;
     }
 
+    public QuestComponent getQuests() {
+        return quests;
+    }
+
     public PlayerSettings getSettings() {
         return this.settings;
     }
@@ -275,28 +284,28 @@ public class Player {
         this.teleportId = teleportId;
     }
 
-    public long getLastMessageTime() {
-        return lastMessageTime;
+    public long getRoomLastMessageTime() {
+        return roomLastMessageTime;
     }
 
-    public void setLastMessageTime(long lastMessageTime) {
-        this.lastMessageTime = lastMessageTime;
+    public void setRoomLastMessageTime(long roomLastMessageTime) {
+        this.roomLastMessageTime = roomLastMessageTime;
     }
 
-    public double getFloodTime() {
-        return floodTime;
+    public double getRoomFloodTime() {
+        return roomFloodTime;
     }
 
-    public void setFloodTime(double floodTime) {
-        this.floodTime = floodTime;
+    public void setRoomFloodTime(double roomFloodTime) {
+        this.roomFloodTime = roomFloodTime;
     }
 
-    public int getFloodFlag() {
-        return floodFlag;
+    public int getRoomFloodFlag() {
+        return roomFloodFlag;
     }
 
-    public void setFloodFlag(int floodFlag) {
-        this.floodFlag = floodFlag;
+    public void setRoomFloodFlag(int roomFloodFlag) {
+        this.roomFloodFlag = roomFloodFlag;
     }
 
     public String getLastMessage() {
@@ -335,7 +344,27 @@ public class Player {
         this.lastGift = lastGift;
     }
 
-    public QuestComponent getQuests() {
-        return quests;
+    public long getMessengerLastMessageTime() {
+        return messengerLastMessageTime;
+    }
+
+    public void setMessengerLastMessageTime(long messengerLastMessageTime) {
+        this.messengerLastMessageTime = messengerLastMessageTime;
+    }
+
+    public double getMessengerFloodTime() {
+        return messengerFloodTime;
+    }
+
+    public void setMessengerFloodTime(double messengerFloodTime) {
+        this.messengerFloodTime = messengerFloodTime;
+    }
+
+    public int getMessengerFloodFlag() {
+        return messengerFloodFlag;
+    }
+
+    public void setMessengerFloodFlag(int messengerFloodFlag) {
+        this.messengerFloodFlag = messengerFloodFlag;
     }
 }

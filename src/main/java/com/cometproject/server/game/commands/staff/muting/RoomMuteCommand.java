@@ -10,15 +10,14 @@ public class RoomMuteCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if (client.getPlayer().getEntity().getRoom().hasRoomMute()) {
-
             for(PlayerEntity playerEntity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
-                playerEntity.setRoomMuted(true);
+                playerEntity.setRoomMuted(false);
             }
 
             client.getPlayer().getEntity().getRoom().setRoomMute(false);
         } else {
             for(PlayerEntity playerEntity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
-                playerEntity.setRoomMuted(false);
+                playerEntity.setRoomMuted(true);
             }
 
             client.getPlayer().getEntity().getRoom().setRoomMute(true);

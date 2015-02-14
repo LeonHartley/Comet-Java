@@ -44,8 +44,8 @@ public class AddUserToRoomMessageEvent implements IEvent {
             room.getItemProcess().start();
         }
 
-        if (client.getPlayer().getFloodTime() >= 1) {
-            client.send(FloodFilterMessageComposer.compose(client.getPlayer().getFloodTime()));
+        if (client.getPlayer().getRoomFloodTime() >= 1) {
+            client.send(FloodFilterMessageComposer.compose(client.getPlayer().getRoomFloodTime()));
         }
 
         Map<Integer, String> groupsInRoom = new FastMap<>();

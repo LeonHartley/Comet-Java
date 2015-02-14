@@ -41,22 +41,21 @@ public class PrivateChatMessageEvent implements IEvent {
         final long time = System.currentTimeMillis();
 
         if (!client.getPlayer().getPermissions().hasPermission("bypass_flood")) {
-            if (time - client.getPlayer().getLastMessageTime() < 750) {
-                client.getPlayer().setFloodFlag(client.getPlayer().getFloodFlag() + 1);
+            if (time - client.getPlayer().getMessengerLastMessageTime() < 750) {
+                client.getPlayer().setMessengerFloodFlag(client.getPlayer().getMessengerFloodFlag() + 1);
 
-                if (client.getPlayer().getFloodFlag() >= 4) {
-                    client.getPlayer().setFloodTime(30);
-                    client.getPlayer().setFloodFlag(0);
+                if (client.getPlayer().getMessengerFloodFlag() >= 4) {
+                    client.getPlayer().setMessengerFloodTime(30);
+                    client.getPlayer().setMessengerFloodFlag(0);
 
-                    client.send(FloodFilterMessageComposer.compose(client.getPlayer().getFloodTime()));
                 }
             }
 
-            if (client.getPlayer().getFloodTime() >= 1) {
+            if (client.getPlayer().getMessengerFloodTime() >= 1) {
                 return;
             }
 
-            client.getPlayer().setLastMessageTime(time);
+            client.getPlayer().setMessengerLastMessageTime(time);
         }
 
         if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
