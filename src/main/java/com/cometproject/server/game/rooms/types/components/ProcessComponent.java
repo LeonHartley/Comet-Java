@@ -252,11 +252,11 @@ public class ProcessComponent implements CometTask {
 
         if (isPlayer) {
             // Handle flood
-            if (((PlayerEntity) entity).getPlayer().getFloodTime() >= 0.5) {
-                ((PlayerEntity) entity).getPlayer().setFloodTime(((PlayerEntity) entity).getPlayer().getFloodTime() - 0.5);
+            if (((PlayerEntity) entity).getPlayer().getRoomFloodTime() >= 0.5) {
+                ((PlayerEntity) entity).getPlayer().setRoomFloodTime(((PlayerEntity) entity).getPlayer().getRoomFloodTime() - 0.5);
 
-                if (((PlayerEntity) entity).getPlayer().getFloodTime() < 0) {
-                    ((PlayerEntity) entity).getPlayer().setFloodTime(0);
+                if (((PlayerEntity) entity).getPlayer().getRoomFloodTime() < 0) {
+                    ((PlayerEntity) entity).getPlayer().setRoomFloodTime(0);
                 }
             }
         } else {

@@ -1307,9 +1307,9 @@ com.cometproject.server.game.players.types.Player -> com.cometproject.server.gam
     com.cometproject.server.game.players.components.BotComponent bots -> a
     com.cometproject.server.game.players.components.PetComponent pets -> a
     java.util.List rooms -> a
-    long lastMessageTime -> a
-    double floodTime -> a
-    int floodFlag -> b
+    long roomLastMessageTime -> a
+    double roomFloodTime -> a
+    int roomFloodFlag -> b
     int teleportId -> c
     java.lang.String lastMessage -> a
     66:85:void dispose() -> a

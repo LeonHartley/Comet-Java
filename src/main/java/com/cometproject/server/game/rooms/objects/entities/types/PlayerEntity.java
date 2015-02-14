@@ -249,24 +249,24 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         long time = System.currentTimeMillis();
 
         if (!this.player.getPermissions().hasPermission("bypass_flood")) {
-            if (time - this.player.getLastMessageTime() < 750) {
-                this.player.setFloodFlag(this.player.getFloodFlag() + 1);
+            if (time - this.player.getRoomLastMessageTime() < 750) {
+                this.player.setRoomFloodFlag(this.player.getRoomFloodFlag() + 1);
 
-                if (this.player.getFloodFlag() >= 5) {
-                    this.player.setFloodTime(30);
-                    this.player.setFloodFlag(0);
+                if (this.player.getRoomFloodFlag() >= 5) {
+                    this.player.setRoomFloodTime(30);
+                    this.player.setRoomFloodFlag(0);
 
-                    this.player.getSession().send(FloodFilterMessageComposer.compose(player.getFloodTime()));
+                    this.player.getSession().send(FloodFilterMessageComposer.compose(player.getRoomFloodTime()));
                 }
             } else {
-                this.player.setFloodFlag(0);
+                this.player.setRoomFloodFlag(0);
             }
 
-            if (player.getFloodTime() >= 1) {
+            if (player.getRoomFloodTime() >= 1) {
                 return false;
             }
 
-            player.setLastMessageTime(time);
+            player.setRoomLastMessageTime(time);
             player.setLastMessage(message);
         }
 

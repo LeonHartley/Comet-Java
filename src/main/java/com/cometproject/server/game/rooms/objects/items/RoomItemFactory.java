@@ -156,7 +156,11 @@ public class RoomItemFactory {
         }
 
         if (data.startsWith(GIFT_DATA)) {
-            return new GiftFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
+            try {
+                return new GiftFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
+            } catch(Exception e) {
+                return new GenericFloorItem(id, baseId, room, ownerId, x, y, height, rot, "");
+            }
         }
 
         if (itemDefinitionMap.containsKey(def.getInteraction())) {

@@ -16,15 +16,12 @@ public class EmptyCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if(params.length != 1) {
-            for (Map.Entry<Integer, InventoryItem> floorItem : client.getPlayer().getInventory().getFloorItems().entrySet()) {
-                client.getPlayer().getInventory().removeFloorItem(floorItem.getKey());
-            }
-
-            for (Map.Entry<Integer, InventoryItem> wallItem : client.getPlayer().getInventory().getWallItems().entrySet()) {
-                client.getPlayer().getInventory().removeWallItem(wallItem.getKey());
-            }
+            client.getPlayer().getInventory().getFloorItems().clear();
+            client.getPlayer().getInventory().getWallItems().clear();
 
             InventoryDao.clearInventory(client.getPlayer().getId());
+
+            client.send(UpdateInventoryMessageComposer.compose());
             sendNotif(Locale.getOrDefault("command.empty.emptied", "Your inventory was cleared."), client);
         } else {
             switch(params[0]) {
