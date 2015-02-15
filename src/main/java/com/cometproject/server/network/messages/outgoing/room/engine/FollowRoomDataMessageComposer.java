@@ -12,7 +12,7 @@ public class FollowRoomDataMessageComposer {
 
         msg.writeBoolean(false);
 
-        RoomWriter.writeInfo(room.getData(), msg);
+        RoomWriter.write(room.getData(), msg);
 
         msg.writeBoolean(true);
         msg.writeBoolean(false);

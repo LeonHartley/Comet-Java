@@ -164,7 +164,7 @@ public class RoomData {
         Category category = NavigatorManager.getInstance().getCategory(this.category);
 
         if (category == null) {
-            // TODO: Dummy category :p
+            return Category.MISSING_CATEGORY;
         }
 
         return category;

@@ -20,7 +20,7 @@ public class RoomWriter {
         msg.writeInt(room.getMaxUsers());
         msg.writeString(room.getDescription());
         msg.writeInt(0);
-        msg.writeInt(room.getCategory().canTrade() ? 2 : 0);
+        msg.writeInt(room.getTradeState().getState());
         msg.writeInt(room.getScore());
         msg.writeInt(room.getCategory().getId());
 
@@ -33,38 +33,13 @@ public class RoomWriter {
         RoomPromotion promotion = RoomManager.getInstance().getRoomPromotions().get(room.getId());
         Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
 
-        if(promotion != null && group != null) {
-            msg.writeInt(62);
-
-            msg.writeInt(group.getId());
-            msg.writeString(group.getData().getTitle());
-            msg.writeString(group.getData().getBadge());
-
-            msg.writeString(promotion.getPromotionName()); // promo name
-            msg.writeString(promotion.getPromotionDescription()); // promo description
-            msg.writeInt(promotion.minutesLeft()); // promo minutes left
-        } else if(group != null) {
-            msg.writeInt(58);
-
-            msg.writeInt(group.getId());
-            msg.writeString(group.getData().getTitle());
-            msg.writeString(group.getData().getBadge());
-
-        } else if(promotion != null) {
-            msg.writeInt(60);
-
-            msg.writeString(promotion.getPromotionName()); // promo name
-            msg.writeString(promotion.getPromotionDescription()); // promo description
-            msg.writeInt(promotion.minutesLeft()); // promo minutes left
-        } else {
-            msg.writeInt(56);
-        }
+        composeRoomSpecials(msg, promotion, group);
     }
 
     public static void writeData(RoomData room, Composer msg) {
         boolean isActive = RoomManager.getInstance().isActive(room.getId());
 
-        msg.writeBoolean(false);
+        msg.writeBoolean(true);
         msg.writeInt(room.getId());
         msg.writeString(room.getName());
         msg.writeInt(room.getOwnerId());
@@ -87,6 +62,27 @@ public class RoomWriter {
         RoomPromotion promotion = RoomManager.getInstance().getRoomPromotions().get(room.getId());
         Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
 
+        composeRoomSpecials(msg, promotion, group);
+
+        msg.writeBoolean(true); // check entry??
+        msg.writeBoolean(NavigatorManager.getInstance().isFeatured(room.getId()));
+        msg.writeBoolean(false);
+        msg.writeBoolean(false);
+
+        msg.writeInt(room.getMuteState().getState());
+        msg.writeInt(room.getKickState().getState());
+        msg.writeInt(room.getBanState().getState());
+
+        msg.writeBoolean(true); // room muting
+
+        msg.writeInt(room.getBubbleMode());
+        msg.writeInt(room.getBubbleType());
+        msg.writeInt(room.getBubbleScroll());
+        msg.writeInt(room.getChatDistance());
+        msg.writeInt(room.getAntiFloodSettings());
+    }
+
+    public static void composeRoomSpecials(Composer msg, RoomPromotion promotion, Group group) {
         if(promotion != null && group != null) {
             msg.writeInt(62);
 
@@ -114,47 +110,6 @@ public class RoomWriter {
             msg.writeInt(56);
         }
 
-        msg.writeBoolean(false); // check entry??
-        msg.writeBoolean(NavigatorManager.getInstance().isFeatured(room.getId()));
-        msg.writeBoolean(false);
-        msg.writeBoolean(false);
-
-        msg.writeInt(room.getMuteState().getState());
-        msg.writeInt(room.getKickState().getState());
-        msg.writeInt(room.getBanState().getState());
-
-        msg.writeBoolean(true); // room muting
-
-        msg.writeInt(room.getBubbleMode());
-        msg.writeInt(room.getBubbleType());
-        msg.writeInt(room.getBubbleScroll());
-        msg.writeInt(room.getChatDistance());
-        msg.writeInt(room.getAntiFloodSettings());
-    }
-
-    public static void writeInfo(RoomData room, Composer msg) {
-        boolean isActive = RoomManager.getInstance().isActive(room.getId());
-
-        msg.writeInt(room.getId());
-        msg.writeString(room.getName());
-        msg.writeInt(room.getOwnerId());
-        msg.writeString(room.getOwner());
-        msg.writeInt(RoomWriter.roomAccessToNumber(room.getAccess()));
-        msg.writeInt(isActive ? RoomManager.getInstance().get(room.getId()).getEntities().playerCount() : 0);
-        msg.writeInt(room.getMaxUsers());
-        msg.writeString(room.getDescription());
-        msg.writeInt(0);
-        msg.writeInt(room.getCategory().canTrade() ? 2 : 0);
-        msg.writeInt(room.getScore());
-        msg.writeInt(room.getCategory().getId());
-
-        msg.writeInt(room.getTags().length);
-
-        for (String tag : room.getTags()) {
-            msg.writeString(tag);
-        }
-
-        msg.writeInt(56);
     }
 
     public static int roomAccessToNumber(String access) {

@@ -5,9 +5,12 @@ import java.sql.SQLException;
 
 
 public class Category {
-    public static int MISSING_CATEGORY_ID = 0;
-    public static String MISSING_CATEGORY_TITLE = "Missing category";
-    public static boolean MISSING_CATEGORY_ALLOW_TRADE = true;
+    public static final int MISSING_CATEGORY_ID = 0;
+    public static final String MISSING_CATEGORY_TITLE = "Missing category";
+    public static final int MISSING_CATEGORY_RANK = 1;
+    public static final boolean MISSING_CATEGORY_ALLOW_TRADE = true;
+
+    public static final Category MISSING_CATEGORY = new Category();
 
     private int id;
     private String title;
@@ -21,9 +24,12 @@ public class Category {
         this.allowTrade = result.getString("can_trade").equals("1");
     }
 
-    //public Category(int id, String title, int rank, boolean allowTrade) {
-    // TODO: Manual constructor
-    //}
+    public Category() {
+        this.id = MISSING_CATEGORY_ID;
+        this.title = MISSING_CATEGORY_TITLE;
+        this.rank = MISSING_CATEGORY_RANK;
+        this.allowTrade = MISSING_CATEGORY_ALLOW_TRADE;
+    }
 
     public int getId() {
         return id;
