@@ -20,6 +20,7 @@ public class RoomPromotionMessageComposer {
             msg.writeString("");
             msg.writeInt(0);
             msg.writeInt(0);
+            msg.writeInt(0);
             return msg;
         }
 
@@ -35,6 +36,7 @@ public class RoomPromotionMessageComposer {
         msg.writeInt(0);
 
         msg.writeInt((int) ((roomPromotion.getTimestampFinish() - roomPromotion.getTimestampStart()) / 60));
+        msg.writeInt(0);
 
         return msg;
     }

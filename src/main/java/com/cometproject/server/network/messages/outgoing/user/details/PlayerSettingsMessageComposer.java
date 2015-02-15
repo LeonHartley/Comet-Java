@@ -15,7 +15,8 @@ public class PlayerSettingsMessageComposer {
         msg.writeBoolean(player.getSettings().isUseOldChat()); // old chat enabled?
         msg.writeBoolean(player.getSettings().isIgnoreInvites()); // ignore room invites
         msg.writeBoolean(false); //disable_room_camera_follow_checkbox
-        msg.writeInt(0); //no idea
+        msg.writeInt(0); //??
+        msg.writeInt(0); //??
 
         return msg;
     }

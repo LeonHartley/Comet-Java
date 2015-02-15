@@ -20,6 +20,7 @@ public class RoomCategoriesMessageComposer {
             msg.writeBoolean(false);
             msg.writeString("NONE");
             msg.writeString("");
+            msg.writeBoolean(false);
         }
 
         return msg;
