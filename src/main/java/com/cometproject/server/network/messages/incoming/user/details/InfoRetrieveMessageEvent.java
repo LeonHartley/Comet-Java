@@ -1,8 +1,9 @@
 package com.cometproject.server.network.messages.incoming.user.details;
 
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.messenger.BuddyListMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.FriendRequestsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.messenger.LoadFriendsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.messenger.MessengerConfigMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementPointsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.buildersclub.BuildersClubMembershipMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.UserObjectMessageComposer;
@@ -23,7 +24,9 @@ public class InfoRetrieveMessageEvent implements IEvent {
         client.send(AllowancesMessageComposer.compose(client.getPlayer().getData().getRank()));
         client.send(CitizenshipStatusMessageComposer.compose());
         client.send(AchievementPointsMessageComposer.compose(client.getPlayer().getData().getAchievementPoints()));
-        client.send(LoadFriendsMessageComposer.compose(client.getPlayer().getMessenger().getFriends(), client.getPlayer().getPermissions().hasPermission("staff_chat")));
+
+        client.send(MessengerConfigMessageComposer.compose());
+        client.send(BuddyListMessageComposer.compose(client.getPlayer().getMessenger().getFriends(), client.getPlayer().getPermissions().hasPermission("staff_chat")));
 
         client.send(FriendRequestsMessageComposer.compose(client.getPlayer().getMessenger().getRequestAvatars()));
 

@@ -30,11 +30,11 @@ public class SSOTicketMessageEvent implements IEvent {
     public static final String TICKET_DELIMITER = ":";
 
     public void handle(Session client, Event msg) {
-        if (client.getEncryption() == null) {
-            CometManager.getLogger().warn("Session was disconnected because RC4 was not initialized!");
-            client.disconnect();
-            return;
-        }
+//        if (client.getEncryption() == null) {
+//            CometManager.getLogger().warn("Session was disconnected because RC4 was not initialized!");
+//            client.disconnect();
+//            return;
+//        }
 
         if (client.getUniqueId().isEmpty() || client.getUniqueId().length() < 10) {
             CometManager.getLogger().warn("Session was disconnected because it did not have a valid machine ID!");
