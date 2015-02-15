@@ -172,13 +172,14 @@ public class Composers {
     public static final short WiredEffectMessageComposer = 3893;//178
     public static final short ModerationToolRoomVisitsMessageComposer = 408;//1587
     public static final short BuddyListMessageComposer = 2472; // new
+    public static final short EventCategoriesMessageComposer = 1686;
 
 
     private static Map<Short, String> composerPacketNames = new FastMap<>();
 
     static {
         try {
-            for (Field field : Events.class.getDeclaredFields()) {
+            for (Field field : Composers.class.getDeclaredFields()) {
                 if (!Modifier.isPrivate(field.getModifiers()))
                     composerPacketNames.put(field.getShort(field.getName()), field.getName());
             }
