@@ -2,8 +2,11 @@ package com.cometproject.server.network.messages.outgoing.messenger;
 
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.network.sessions.SessionManager;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -34,7 +37,27 @@ public class BuddyListMessageComposer {
             msg.writeInt(playerAvatar.getId());
             msg.writeString(playerAvatar.getUsername());
             msg.writeInt(1);
-            msg.writeBoolean(friends.get(playerAvatar.getId()).isOnline());
+
+            boolean isOnline = friends.get(playerAvatar.getId()).isOnline();
+            boolean isInRoom = friends.get(playerAvatar.getId()).isInRoom();
+
+            if(friends.get(playerAvatar.getId()).isOnline()) {
+                Session playerSession = NetworkManager.getInstance().getSessions().getByPlayerId(playerAvatar.getId());
+
+                if(playerSession.getPlayer() != null) {
+                    if(playerSession.getPlayer().getSettings().getHideInRoom()) {
+                        isInRoom = false;
+                    }
+
+                    if(playerSession.getPlayer().getSettings().getHideOnline()) {
+                        isOnline = false;
+                    }
+                }
+            }
+
+            msg.writeBoolean(isOnline);
+            msg.writeBoolean(isInRoom);
+
             msg.writeBoolean(friends.get(playerAvatar.getId()).isInRoom());
             msg.writeString(playerAvatar.getFigure());
             msg.writeInt(0);
