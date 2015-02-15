@@ -99,9 +99,9 @@ public class Composers {
     public static final short EnableNotificationsMessageComposer = 2077;//114
     public static final short FloodFilterMessageComposer = 25;//3180
     public static final short ShoutMessageComposer = 1526;//1419
-    public static final short GroupDataMessageComposer = 1441;//2527
+    public static final short GroupDataMessageComposer = 3372;//2527
     public static final short ItemAnimationMessageComposer = 3165;//215
-    public static final short PickUpWallItemMessageComposer = 2970;//1596
+    public static final short PickUpWallItemMessageComposer = 2428;//1596
     public static final short UserBadgesMessageComposer = 3144;//2711
     public static final short UserClubRightsMessageComposer = 639;//757
     public static final short LoadWardrobeMessageComposer = 591;//1618
@@ -109,7 +109,7 @@ public class Composers {
     public static final short NavigatorListingsMessageComposer = 3127;//2825
     public static final short LoadBadgesWidgetMessageComposer = 153;//2569
     public static final short GiveRespectsMessageComposer = 2106;//1447
-    public static final short LoadRoomRightsListMessageComposer = 2157;//798
+    public static final short LoadRoomRightsListMessageComposer = 1182;//798
     public static final short AuthenticationOKMessageComposer = 1988;//97
     public static final short BotInventoryMessageComposer = 428;//1346
     public static final short RoomUserActionMessageComposer = 3529;//3685
@@ -144,12 +144,12 @@ public class Composers {
     public static final short UserLeftRoomMessageComposer = 2441;//658
     public static final short PickUpFloorItemMessageComposer = 1492;//1899
     public static final short OnCreateRoomInfoMessageComposer = 3217;//1361
-    public static final short UpdateAvatarAspectMessageComposer = 1321;//2551
+    public static final short UpdateAvatarAspectMessageComposer = 1150;//2551
     public static final short TradeCloseMessageComposer = 3987;//3670
     public static final short ConsoleInvitationMessageComposer = 677;//1551
-    public static final short RemoveRightsMessageComposer = 1781;//867
+    public static final short RemoveRightsMessageComposer = 3134;//867
     public static final short FavouriteRoomsMessageComposer = 3905;//1974
-    public static final short GiveRoomRightsMessageComposer = 3107;//6
+    public static final short GiveRoomRightsMessageComposer = 1781;//6
     public static final short GroupFurnitureWidgetMessageComposer = 1789;//1674
     public static final short DoorbellNoOneMessageComposer = 1042;//2149
     public static final short CatalogPromotionGetRoomsMessageComposer = 2425;//2555

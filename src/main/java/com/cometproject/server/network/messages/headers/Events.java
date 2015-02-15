@@ -39,7 +39,7 @@ public class Events {
     public static final short CatalogPromotionGetRoomsMessageEvent = 1503;//2795
     public static final short InfoRetrieveMessageEvent = 2781;//235
     public static final short RoomSettingsMuteUserMessageEvent = 3211;//3067
-    public static final short PickUpPetMessageEvent = 773;//2002
+    public static final short PickUpPetMessageEvent = 269;//2002
     public static final short PickUpBotMessageEvent = 3284;//1261
     public static final short GiveRespectMessageEvent = 1870;//838
     public static final short SavePostItMessageEvent = 1338;//1842
@@ -189,6 +189,8 @@ public class Events {
     public static final short RemoveOwnRightsMessageEvent = 1021;//260
     public static final short SetActivatedBadgesMessageEvent = 836;//2701
     public static final short SaveClientSettingsMessageEvent = 414;//3624
+    public static final short SitMessageEvent = 514;
+    public static final short KickCommandMessageEvent = 676;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 

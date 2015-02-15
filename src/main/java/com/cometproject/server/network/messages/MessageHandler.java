@@ -234,6 +234,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.IgnoreUserMessageEvent, new IgnoreUserMessageEvent());
         this.getMessages().put(Events.UnignoreUserMessageEvent, new UnignoreUserMessageEvent());
         this.getMessages().put(Events.RemoveOwnRightsMessageEvent, new RemoveOwnRightsMessageEvent());
+        this.getMessages().put(Events.SitMessageEvent, new SitMessageEvent());
     }
 
     public void registerRoomTrade() {
@@ -255,6 +256,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetRoomBannedUsersMessageEvent, new GetBannedUsersMessageEvent());
         this.getMessages().put(Events.RoomUnbanUserMessageEvent, new RoomUnbanUserMessageEvent());
         this.getMessages().put(Events.RoomSettingsMuteUserMessageEvent, new MutePlayerMessageEvent());
+        this.getMessages().put(Events.KickCommandMessageEvent, new KickCommandMessageEvent());
     }
 
     public void registerRoomAccess() {
@@ -339,7 +341,6 @@ public final class MessageHandler {
         this.getMessages().put(Events.GroupFurnitureWidgetMessageEvent, new GroupFurnitureWidgetMessageEvent());
         this.getMessages().put(Events.GroupUpdateColoursMessageEvent, new GroupUpdateColoursMessageEvent());
         this.getMessages().put(Events.DeclineMembershipMessageEvent, new DeclineMembershipMessageEvent());
-
 
 //        this.getMessages().put(Events.GroupForumPermissionsMessageEvent, new GroupForumPermissionsMessageEvent());
 //        this.getMessages().put(Events.GroupForumThreadsMessageEvent, new GroupForumThreadsMessageEvent());
