@@ -64,17 +64,19 @@ public class WiredActionMoveRotate extends WiredActionItem {
         final int movement = this.getWiredData().getParams().get(PARAM_MOVEMENT);
         final int rotation = this.getWiredData().getParams().get(PARAM_ROTATION);
 
-        for (int itemId : this.getWiredData().getSelectedIds()) {
-            RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
+        synchronized (this.getWiredData().getSelectedIds()) {
+            for (int itemId : this.getWiredData().getSelectedIds()) {
+                RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
-            if (floorItem == null) continue;
+                if (floorItem == null) continue;
 
-            final Position currentPosition = new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY());
-            final Position newPosition = this.handleMovement(currentPosition, movement);
-            final int newRotation = this.handleRotation(floorItem.getRotation(), rotation);
+                final Position currentPosition = new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY());
+                final Position newPosition = this.handleMovement(currentPosition, movement);
+                final int newRotation = this.handleRotation(floorItem.getRotation(), rotation);
 
-            if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), newPosition, newRotation, true)) {
-                this.getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(floorItem, this.getRoom().getData().getOwnerId()));
+                if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), newPosition, newRotation, true)) {
+                    this.getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(floorItem, this.getRoom().getData().getOwnerId()));
+                }
             }
         }
     }
