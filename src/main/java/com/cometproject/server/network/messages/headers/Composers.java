@@ -45,7 +45,7 @@ public class Composers {
     public static final short ConsoleSearchFriendMessageComposer = 251;//909
     public static final short InitHelpToolMessageComposer = 302;//1140
     public static final short CameraTokenMessageComposer = 2917;//2137 -> could be wrong, 2 new composers there, so I chose the first one.
-    public static final short RoomBannedListMessageComposer = 1182;//3997
+    public static final short RoomBannedListMessageComposer = 1844;//3997
     public static final short SendPerkAllowancesMessageComposer = 93;//2903
     public static final short RelationshipMessageComposer = 1217;//1485
     public static final short UserProfileMessageComposer = 691;//3031
