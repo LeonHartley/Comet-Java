@@ -110,6 +110,7 @@ public class CommandManager implements Initializable {
         this.commands.put(Locale.get("command.follow.name"), new FollowCommand());
         this.commands.put(Locale.get("command.superpull.name"), new SuperPullCommand());
         this.commands.put(Locale.get("command.redeemcredits.name"), new RedeemCreditsCommand());
+        this.commands.put(Locale.get("command.handitem.name"), new HandItemCommand());
 
         // Gimmick commands
         this.commands.put(Locale.get("command.slap.name"), new SlapCommand());

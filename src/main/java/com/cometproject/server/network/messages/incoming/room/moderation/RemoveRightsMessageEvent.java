@@ -5,7 +5,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.permissions.RemovePowersMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.RemoveRightsMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -28,7 +28,7 @@ public class RemoveRightsMessageEvent implements IEvent {
         }
 
         room.getRights().removeRights(playerId);
-        client.send(RemovePowersMessageComposer.compose(room.getId(), playerId));
+        client.send(RemoveRightsMessageComposer.compose(room.getId(), playerId));
 
         if (playerEntity != null) {
             playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(0));
