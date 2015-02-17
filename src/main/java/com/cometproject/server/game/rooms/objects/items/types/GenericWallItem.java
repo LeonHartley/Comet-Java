@@ -12,13 +12,13 @@ public final class GenericWallItem extends RoomItemWall {
     }
 
     @Override
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         if (!isWiredTrigger) {
             if (!(entity instanceof PlayerEntity))
-                return;
+                return false;
 
             if (!entity.getRoom().getRights().hasRights(((PlayerEntity) entity).getPlayerId())) {
-                return;
+                return false;
             }
         }
 
@@ -27,5 +27,6 @@ public final class GenericWallItem extends RoomItemWall {
 
         // TODO: Move item saving to a queue for batch saving or something. :P
         this.saveData();
+        return true;
     }
 }

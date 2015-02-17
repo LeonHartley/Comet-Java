@@ -18,12 +18,12 @@ public class VendingMachineFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-        if(isWiredTrigger || entity == null) return;
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+        if(isWiredTrigger || entity == null) return false;
 
         if (!this.getPosition().touching(entity)) {
             entity.moveTo(this.getPosition().getX(), this.getPosition().getY());
-            return;
+            return false;
         }
 
         // if(this.vendingEntity != null) {
@@ -43,6 +43,7 @@ public class VendingMachineFloorItem extends RoomItemFloor {
 
         this.state = 0;
         this.setTicks(RoomItemFactory.getProcessTime(1));
+        return true;
     }
 
     @Override

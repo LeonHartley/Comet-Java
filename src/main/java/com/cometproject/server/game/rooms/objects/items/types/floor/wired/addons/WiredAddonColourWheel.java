@@ -15,11 +15,11 @@ public class WiredAddonColourWheel extends RoomItemFloor {
     }
 
     @Override
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         if (!isWiredTrigger && entity != null) {
             if (!this.getPosition().touching(entity)) {
                 entity.moveTo(this.getPosition().squareBehind(this.getRotation()).getX(), this.getPosition().squareBehind(this.rotation).getY());
-                return;
+                return true;
             }
         }
 
@@ -27,6 +27,7 @@ public class WiredAddonColourWheel extends RoomItemFloor {
         this.sendUpdate();
 
         this.setTicks(RoomItemFactory.getProcessTime(TIMEOUT / 2));
+        return true;
     }
 
     @Override

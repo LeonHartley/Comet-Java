@@ -16,26 +16,25 @@ public class OneWayGateFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         if (this.isInUse) {
-            return;
+            return false;
         }
 
         if (this.getPosition().squareInFront(this.getRotation()).getX() != entity.getPosition().getX() && this.getPosition().squareInFront(this.getRotation()).getY() != entity.getPosition().getY()) {
             entity.moveTo(this.getPosition().squareInFront(this.getRotation()).getX(), this.getPosition().squareInFront(this.getRotation()).getY());
-            return;
+            return false;
         }
 
         Position squareBehind = this.getPosition().squareBehind(this.rotation);
 
         if (!this.getRoom().getMapping().isValidStep(this.getPosition(), squareBehind, true)) {
-            return;
+            return false;
         }
 
         this.isInUse = true;
 
         entity.setOverriden(true);
-
         entity.moveTo(squareBehind.getX(), squareBehind.getY());
 
         this.setExtraData("1");
@@ -45,6 +44,7 @@ public class OneWayGateFloorItem extends RoomItemFloor {
         this.setTicks(RoomItemFactory.getProcessTime(2.0));
 
 
+        return true;
     }
 
     @Override

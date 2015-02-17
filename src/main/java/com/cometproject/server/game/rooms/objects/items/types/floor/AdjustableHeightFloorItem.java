@@ -15,17 +15,17 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         if (!isWiredTrigger) {
             if (!(entity instanceof PlayerEntity)) {
-                return;
+                return false;
             }
 
             PlayerEntity pEntity = (PlayerEntity) entity;
 
             if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
                     && !pEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
-                return;
+                return false;
             }
         }
 
@@ -43,6 +43,7 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
 
         // TODO: Move item saving to a queue for batch saving or something. :P
         this.saveData();
+        return true;
     }
 
     @Override

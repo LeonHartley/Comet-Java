@@ -30,20 +30,20 @@ public class TeleporterFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-        if (isWiredTrigger) return; //go away u canny use fkin teleport via wired
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+        if (isWiredTrigger) return false;
 
         Position posInFront = this.getPosition().squareInFront(this.getRotation());
 
-        if (entity.isOverriden()) return;
+        if (entity.isOverriden()) return false;
 
         if (entity.getPosition().getX() != posInFront.getX() || entity.getPosition().getY() != posInFront.getY()) {
             entity.moveTo(posInFront.getX(), posInFront.getY());
-            return;
+            return false;
         }
 
         if (this.inUse) {
-            return;
+            return false;
         }
 
         this.inUse = true;
@@ -52,6 +52,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
         this.state = 0;
         this.setTicks(RoomItemFactory.getProcessTime(1));
+        return true;
     }
 
     @Override

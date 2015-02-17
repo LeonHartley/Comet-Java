@@ -16,7 +16,7 @@ public abstract class TotemPartFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         if (this.isComplete()) {
             // find combinations then give the effect depending on it!
         } else {
@@ -33,6 +33,8 @@ public abstract class TotemPartFloorItem extends RoomItemFloor {
             this.sendUpdate();
             this.saveData();
         }
+
+        return true;
     }
 
     @Override

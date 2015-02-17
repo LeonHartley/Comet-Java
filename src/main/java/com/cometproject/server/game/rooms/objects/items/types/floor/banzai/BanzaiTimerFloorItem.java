@@ -14,17 +14,17 @@ public class BanzaiTimerFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTriggered) {
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTriggered) {
         if (!isWiredTriggered) {
             if (!(entity instanceof PlayerEntity)) {
-                return;
+                return false;
             }
 
             PlayerEntity pEntity = (PlayerEntity) entity;
 
             if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
                     && !pEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
-                return;
+                return false;
             }
         }
 
@@ -73,5 +73,7 @@ public class BanzaiTimerFloorItem extends RoomItemFloor {
                 this.getRoom().getGame().getInstance().startTimer(gameLength);
             }
         }
+
+        return true;
     }
 }

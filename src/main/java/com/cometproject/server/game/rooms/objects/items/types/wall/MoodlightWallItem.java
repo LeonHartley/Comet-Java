@@ -16,8 +16,8 @@ public class MoodlightWallItem extends RoomItemWall {
     }
 
     @Override
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+        return true;
     }
 
     @Override
