@@ -40,8 +40,7 @@ public class PointsCommand extends ChatCommand {
 
     @Override
     public String getPermission() {
-        return "" +
-                "";
+        return "points_command";
     }
 
     @Override
