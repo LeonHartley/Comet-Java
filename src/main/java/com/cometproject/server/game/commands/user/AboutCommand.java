@@ -50,6 +50,8 @@ public class AboutCommand extends ChatCommand {
             about.append("<br><br><b>Hotel Stats</b><br>");
             about.append("Online record: " + GameThread.getInstance().getOnlineRecord() + "<br>");
             about.append("Record since last reboot: " + GameThread.getInstance().getCurrentOnlineRecord() + " ");
+            about.append("<br><br>");
+            about.append("<b><center>" + Session.CLIENT_VERSION + "</center></b>");
         }
 
         client.send(AdvancedAlertMessageComposer.compose(

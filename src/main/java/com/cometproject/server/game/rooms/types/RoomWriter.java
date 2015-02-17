@@ -64,7 +64,7 @@ public class RoomWriter {
 
         composeRoomSpecials(msg, promotion, group);
 
-        msg.writeBoolean(true); // check entry??
+        msg.writeBoolean(false); // check entry??
         msg.writeBoolean(NavigatorManager.getInstance().isFeatured(room.getId()));
         msg.writeBoolean(false);
         msg.writeBoolean(false);
