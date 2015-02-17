@@ -324,10 +324,12 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     }
 
     public boolean handItemNeedsRemove() {
+        if(this.handItemTimer == -999)
+            return false;
+
         this.handItemTimer--;
 
         return this.handItemTimer <= 0;
-
     }
 
     public void unIdle() {
@@ -400,7 +402,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         }
 
         this.handItem = id;
-        this.handItemTimer = -1;
+        this.handItemTimer = -999;
 
         this.getRoom().getEntities().broadcastMessage(HandItemMessageComposer.compose(this.getId(), handItem));
     }
