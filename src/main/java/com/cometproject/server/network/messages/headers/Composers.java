@@ -8,6 +8,9 @@ import java.util.Map;
 
 
 public class Composers {
+    public static final short InitCryptoMessageComposer = 2409;//3084
+    public static final short SecretKeyMessageComposer = 1345;//1297
+    public static final short UniqueMachineIDMessageComposer = 2456;//550
     public static final short RoomRightsLevelMessageComposer = 811;//512
     public static final short CanCreateRoomMessageComposer = 133;//3877
     public static final short ModerationToolUserChatlogMessageComposer = 3132;//1054
@@ -16,10 +19,9 @@ public class Composers {
     public static final short ApplyEffectMessageComposer = 982;//1083
     public static final short GroupPurchasePageMessageComposer = 68;//3194
     public static final short LogoutMessageComposer = 4000;//4000
-    public static final short UpdateUserStatusMessageComposer = 1579;//167
+    public static final short AvatarUpdateMessageComposer = 1579;//167
     public static final short ModerationToolUserToolMessageComposer = 3809;//2070
     public static final short EnableTradingMessageComposer = 1561;//2654
-    public static final short InitCryptoMessageComposer = 2409;//3084
     public static final short UserObjectMessageComposer = 3693;//426
     public static final short OfficialRoomsMessageComposer = 327;//2056
     public static final short TradeStartMessageComposer = 3376;//3541
@@ -35,7 +37,6 @@ public class Composers {
     public static final short RoomNotificationMessageComposer = 693;//351
     public static final short GroupPurchasePartsMessageComposer = 1009;//3024
     public static final short YouTubeLoadPlaylistsMessageComposer = 589;//3555
-    public static final short UniqueMachineIDMessageComposer = 2456;//550
     public static final short GiftUserNotFoundMessageComposer = 3911;//418
     public static final short RoomConnectionErrorMessageComposer = 621;//3958
     public static final short RoomPlayerUnbannedMessageComposer = 866;//1781
@@ -133,7 +134,6 @@ public class Composers {
     public static final short RoomUserIdleMessageComposer = 517;//800
     public static final short BuddyListMessageComposer = 115;//2472
     public static final short ActivityPointsMessageComposer = 379;//1566
-    public static final short SecretKeyMessageComposer = 1345;//1297
     public static final short PetInventoryMessageComposer = 2936;//1091
     public static final short OpenGiftMessageComposer = 2872;//1224
     public static final short FloorMapMessageComposer = 2499;//3872
