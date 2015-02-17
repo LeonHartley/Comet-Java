@@ -29,40 +29,20 @@ public class ChangeFloorItemStateMessageEvent implements IEvent {
             return;
         }
 
-        // Can't close gate when a user is on same tile?
-        /*if (item.getDefinition().getInteraction().equals("gate")) {
+        if(item.onInteract(client.getPlayer().getEntity(), msg.readInt(), false)) {
+            WiredTriggerStateChanged.executeTriggers(client.getPlayer().getEntity(), item);
+
+            List<Position> tilesToUpdate = new ArrayList<>();
+            tilesToUpdate.add(new Position(item.getPosition().getX(), item.getPosition().getY(), 0d));
+
             for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation())) {
-                if (room.getEntities().getEntitiesAt(tile.x, tile.y).size() > 0) {
-                    return;
-                }
+                if (room.getEntities().getEntitiesAt(new Position(tile.x, tile.y)).size() >= 0)
+                    tilesToUpdate.add(new Position(tile.x, tile.y, 0d));
             }
 
-            if (room.getEntities().getEntitiesAt(item.getPosition().getX(), item.getPosition().getY()).size() > 0) {
-                return;
+            for (Position tileToUpdate : tilesToUpdate) {
+                room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
             }
-
-            for (GenericEntity entity : room.getEntities().getAllEntities().values()) {
-                if (Position3D.distanceBetween(client.getPlayer().getEntity().getPosition(), new Position3D(item.getPosition().getX(), item.getPosition().getY(), 0d)) <= 1 && entity.isWalking()) {
-                    return;
-                }
-            }
-        }*/
-
-        item.onInteract(client.getPlayer().getEntity(), msg.readInt(), false);
-        WiredTriggerStateChanged.executeTriggers(client.getPlayer().getEntity(), item);
-
-        // to-do: move below into each onInteract or turn onInteract into a boolean (i prefer the latter) no biggie for now
-
-        List<Position> tilesToUpdate = new ArrayList<>();
-        tilesToUpdate.add(new Position(item.getPosition().getX(), item.getPosition().getY(), 0d));
-
-        for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation())) {
-            if (room.getEntities().getEntitiesAt(new Position(tile.x, tile.y)).size() >= 0)
-                tilesToUpdate.add(new Position(tile.x, tile.y, 0d));
-        }
-
-        for (Position tileToUpdate : tilesToUpdate) {
-            room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
         }
     }
 }

@@ -18,17 +18,17 @@ public class FootballTimerFloorItem extends RoomItemFloor {
 
 
     @Override
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTriggered) {
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTriggered) {
         if (!isWiredTriggered) {
             if (!(entity instanceof PlayerEntity)) {
-                return;
+                return false;
             }
 
             PlayerEntity pEntity = (PlayerEntity) entity;
 
             if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
                     && !pEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
-                return;
+                return true;
             }
         }
 
@@ -77,6 +77,7 @@ public class FootballTimerFloorItem extends RoomItemFloor {
             WiredTriggerGameStarts.executeTriggers(this.getRoom());
             this.setTicks(RoomItemFactory.getProcessTime(1.0));
         }
+        return true;
     }
 
     @Override

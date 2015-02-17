@@ -157,11 +157,11 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTriggered) {
-        if (isWiredTriggered) return;
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTriggered) {
+        if (isWiredTriggered) return false;
 
         if (this.isRolling || !entity.getPosition().touching(this.getPosition())) {
-            return;
+            return false;
         }
 
         if (entity instanceof PlayerEntity) {
@@ -183,6 +183,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
         this.moveTo(newPosition, entity.getBodyRotation());
         this.isRolling = false;
+        return true;
     }
 
     private void moveTo(Position pos, int rotation) {

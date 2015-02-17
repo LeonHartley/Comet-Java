@@ -90,8 +90,9 @@ public abstract class RoomItem extends RoomObject implements Attributable {
         // Override this
     }
 
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         // Override this
+        return true;
     }
 
     public void onLoad() {

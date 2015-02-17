@@ -4,7 +4,6 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 
 import java.util.Arrays;
 
@@ -39,13 +38,13 @@ public class MannequinFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         if (isWiredTrigger || !(entity instanceof PlayerEntity))
-            return;
+            return isWiredTrigger;
 
         PlayerEntity playerEntity = (PlayerEntity) entity;
 
-        if (this.name == null || this.gender == null || this.figure == null) return;
+        if (this.name == null || this.gender == null || this.figure == null) return false;
 
 
         String newFigure = "";
@@ -59,12 +58,12 @@ public class MannequinFloorItem extends RoomItemFloor {
 
         switch (playerEntity.getGender().toUpperCase()) {
             case "M":
-                if (this.figure.equals("")) return;
+                if (this.figure.equals("")) return false;
                 newFigureParts = this.figure;
                 break;
 
             case "F":
-                if (this.figure.equals("")) return;
+                if (this.figure.equals("")) return false;
                 newFigureParts = this.figure;
                 break;
         }
@@ -74,7 +73,7 @@ public class MannequinFloorItem extends RoomItemFloor {
                 newFigureParts = newFigureParts.replace(newFigurePart, "");
         }
 
-        if (newFigureParts.equals("")) return;
+        if (newFigureParts.equals("")) return false;
 
         playerEntity.getPlayer().getData().setFigure(newFigure + newFigureParts);
         
@@ -83,6 +82,7 @@ public class MannequinFloorItem extends RoomItemFloor {
         playerEntity.getPlayer().getData().save();
         playerEntity.getPlayer().poof();
 
+        return true;
     }
 
     @Override

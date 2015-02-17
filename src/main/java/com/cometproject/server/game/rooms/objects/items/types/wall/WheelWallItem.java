@@ -19,15 +19,15 @@ public class WheelWallItem extends RoomItemWall {
     }
 
     @Override
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         if (this.isInUse) {
-            return;
+            return false;
         }
 
         if (entity instanceof PlayerEntity) {
             PlayerEntity pEntity = (PlayerEntity) entity;
             if (!this.getRoom().getRights().hasRights(pEntity.getPlayerId())) {
-                return;
+                return false;
             }
         }
 
@@ -37,6 +37,7 @@ public class WheelWallItem extends RoomItemWall {
         this.sendUpdate();
 
         this.setTicks(RoomItemFactory.getProcessTime(4));
+        return true;
     }
 
     @Override

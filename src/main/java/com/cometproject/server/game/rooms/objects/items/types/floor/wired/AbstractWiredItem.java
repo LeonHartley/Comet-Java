@@ -78,18 +78,19 @@ public abstract class AbstractWiredItem extends RoomItemFloor implements WiredIt
     }
 
     @Override
-    public void onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         if (!(entity instanceof PlayerEntity)) {
-            return;
+            return true;
         }
 
         PlayerEntity p = (PlayerEntity) entity;
 
         if (!this.getRoom().getRights().hasRights(p.getPlayerId()) && !p.getPlayer().getPermissions().hasPermission("room_full_control")) {
-            return;
+            return true;
         }
 
         ((PlayerEntity) entity).getPlayer().getSession().send(this.getDialog());
+        return true;
     }
 
 
