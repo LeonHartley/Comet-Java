@@ -35,7 +35,8 @@ import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessa
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.permissions.OwnerRightsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreNotControllerMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.attributes.Attributable;
@@ -152,7 +153,9 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.player.getSession().send(AccessLevelMessageComposer.compose(accessLevel));
 
         if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.player.getPermissions().hasPermission("room_full_control")) {
-            this.player.getSession().send(OwnerRightsMessageComposer.compose());
+            this.player.getSession().send(YouAreControllerMessageComposer.compose());
+        } else {
+            this.player.getSession().send(YouAreNotControllerMessageComposer.compose());
         }
 
         this.player.getSession().send(RoomRatingMessageComposer.compose(this.getRoom().getData().getScore(), this.canRateRoom()));

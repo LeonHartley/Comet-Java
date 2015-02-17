@@ -9,6 +9,10 @@ import com.cometproject.server.network.sessions.Session;
 public class CheckReleaseMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) {
-        CometManager.getLogger().debug("Client running on release: " + msg.readString());
+        if(Session.CLIENT_VERSION == null) {
+            Session.CLIENT_VERSION = msg.readString();
+        }
+
+        CometManager.getLogger().debug("Client running on release: " + Session.CLIENT_VERSION);
     }
 }
