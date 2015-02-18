@@ -38,7 +38,7 @@ public class Events {
     public static final short ModerationToolUserChatlogMessageEvent = 314;//546
     public static final short TriggerWallItemMessageEvent = 399;//2379
     public static final short InfoRetrieveMessageEvent = 2650;//2781
-    public static final short CatalogPromotionGetRoomsMessageEvent = 2563;//1503
+    public static final short CatalogPromotionGetRoomsMessageEvent = 3979;//1503
     public static final short RoomSettingsMuteUserMessageEvent = 202;//3211
     public static final short PickUpPetMessageEvent = 3190;//269
     public static final short PickUpBotMessageEvent = 1722;//3284
@@ -84,7 +84,6 @@ public class Events {
     public static final short PetGetInformationMessageEvent = 2602;//2147
     public static final short LandingLoadWidgetMessageEvent = 3986;//3375
     public static final short OpenPostItMessageEvent = 1144;//1133
-    public static final short KickCommandMessageEvent = 3454;//676
     public static final short UserWhisperMessageEvent = 1015;//1612
     public static final short NavigatorGetHighRatedRoomsMessageEvent = 115;//2240
     public static final short PlaceBotMessageEvent = 1925;//3782
@@ -160,7 +159,7 @@ public class Events {
     public static final short RoomApplySpaceMessageEvent = 3427;//358
     public static final short RequestLatencyTestMessageEvent = 1968;//1873
     public static final short CheckPetNameMessageEvent = 3824;//1545
-    public static final short RoomKickUserMessageEvent = 3021;//1518
+    public static final short RoomKickUserMessageEvent = 3454;//1518
     public static final short MannequinSaveDataMessageEvent = 3031;//1079
     public static final short LoadUserProfileMessageEvent = 3719;//672
     public static final short BotActionsMessageEvent = 1243;//2905

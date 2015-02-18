@@ -16,7 +16,7 @@ import java.net.InetSocketAddress;
 
 public class Session {
     private Logger logger = Logger.getLogger("Session");
-    public static String CLIENT_VERSION;
+    public static int CLIENT_VERSION = 0;
 
     private final Channel channel;
     private final SessionEventHandler eventHandler;

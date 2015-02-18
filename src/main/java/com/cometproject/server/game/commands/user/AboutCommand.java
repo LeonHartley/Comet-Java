@@ -34,13 +34,16 @@ public class AboutCommand extends ChatCommand {
 
             if (CometSettings.showUptimeInAbout || client.getPlayer().getPermissions().hasPermission("about_detailed"))
                 about.append("Uptime: " + cometStats.getUptime() + "<br>");
+
+            about.append("Client version: " + Session.CLIENT_VERSION + "<br>");
         }
 
         if (client.getPlayer().getPermissions().hasPermission("about_detailed")) {
             about.append("<br><b>Server Info</b><br>");
-            about.append("Process ID: " + CometRuntime.processId + "<br>");
             about.append("Allocated memory: " + format.format(cometStats.getAllocatedMemory()) + "MB<br>");
             about.append("Used memory: " + format.format(cometStats.getUsedMemory()) + "MB<br>");
+
+            about.append("Process ID: " + CometRuntime.processId + "<br>");
             about.append("OS: " + cometStats.getOperatingSystem() + "<br>");
             about.append("CPU cores:  " + cometStats.getCpuCores() + "<br>");
             about.append("Threads:  " + ManagementFactory.getThreadMXBean().getThreadCount() + "<br>");
@@ -50,8 +53,6 @@ public class AboutCommand extends ChatCommand {
             about.append("<br><br><b>Hotel Stats</b><br>");
             about.append("Online record: " + GameThread.getInstance().getOnlineRecord() + "<br>");
             about.append("Record since last reboot: " + GameThread.getInstance().getCurrentOnlineRecord() + " ");
-            about.append("<br><br>");
-            about.append("<b><center>" + Session.CLIENT_VERSION + "</center></b>");
         }
 
         client.send(AdvancedAlertMessageComposer.compose(
