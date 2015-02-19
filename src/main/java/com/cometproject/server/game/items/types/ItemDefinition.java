@@ -29,6 +29,8 @@ public class ItemDefinition {
     private int interactionCycleCount;
     private String[] vendingIds;
 
+    private Double[] variableHeights;
+
     public ItemDefinition(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
         this.publicName = data.getString("public_name");
@@ -55,6 +57,21 @@ public class ItemDefinition {
         this.interaction = data.getString("interaction_type");
         this.interactionCycleCount = data.getInt("interaction_modes_count");
         this.vendingIds = data.getString("vending_ids").isEmpty() ? new String[0] : data.getString("vending_ids").split(",");
+
+        final String variableHeightData = data.getString("variable_heights");
+
+        if(variableHeightData.contains(",")) {
+            String[] variableHeightArray = variableHeightData.split(",");
+            this.variableHeights = new Double[variableHeightArray.length];
+
+            for(int i = 0; i < variableHeightArray.length; i++) {
+                try {
+                    this.variableHeights[i] = Double.parseDouble(variableHeightArray[i]);
+                } catch (Exception ignored) {
+                    ignored.printStackTrace();
+                }
+            }
+        }
     }
 
     public boolean isAdFurni() {
@@ -148,4 +165,13 @@ public class ItemDefinition {
     public boolean canInventoryStack() {
         return canInventoryStack;
     }
+
+    public Double[] getVariableHeights() {
+        return variableHeights;
+    }
+
+    public void setVariableHeights(Double[] variableHeights) {
+        this.variableHeights = variableHeights;
+    }
+
 }
