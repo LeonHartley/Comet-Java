@@ -69,6 +69,7 @@ public class RoomItemFactory {
             put("wf_act_join_team", WiredActionJoinTeam.class);
             put("wf_act_leave_team", WiredActionLeaveTeam.class);
             put("wf_act_give_score", WiredActionGiveScore.class);
+            put("wf_act_bot_talk", WiredActionBotTalk.class);
 
             put("wf_trg_says_something", WiredTriggerPlayerSaysKeyword.class);//new
             put("wf_trg_enter_room", WiredTriggerEnterRoom.class);//new
@@ -100,6 +101,7 @@ public class RoomItemFactory {
             put("wf_cnd_not_user_count", WiredConditionPlayerCountInRoom.class);//new
             put("wf_cnd_match_snapshot", WiredConditionMatchSnapshot.class);//new
             put("wf_cnd_not_match_snap", WiredNegativeConditionMatchSnapshot.class);//new
+            put("wf_cnd_has_handitem", WiredConditionHasHandItem.class);//new
 
             put("wf_xtra_random", WiredAddonRandomEffect.class);
             put("wf_xtra_unseen", WiredAddonUnseenEffect.class);
