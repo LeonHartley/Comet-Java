@@ -20,6 +20,10 @@ public class GroupItemManager {
     private static final Logger log = Logger.getLogger(GroupItemManager.class.getName());
 
     public GroupItemManager() {
+        this.load();
+    }
+
+    public void load() {
         if (bases == null) {
             // If bases is null, gotta assume all the others are...
             bases = new ArrayList<>();

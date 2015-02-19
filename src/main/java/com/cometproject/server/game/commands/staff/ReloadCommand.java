@@ -5,6 +5,7 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.commands.CommandManager;
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.landing.LandingManager;
 import com.cometproject.server.game.moderation.BanManager;
@@ -42,7 +43,8 @@ public class ReloadCommand extends ChatCommand {
                                 "- items\n" +
                                 "- filter\n" +
                                 "- locale\n" +
-                                "- modpresets\n"
+                                "- modpresets\n" +
+                                "- groupitems\n"
                 ));
 
                 break;
@@ -114,6 +116,10 @@ public class ReloadCommand extends ChatCommand {
                 }
                 break;
 
+            case "groupitems":
+                GroupManager.getInstance().getGroupItems().load();
+                sendNotif(Locale.get("command.reload.groupitems"), client);
+                break;
         }
     }
 
