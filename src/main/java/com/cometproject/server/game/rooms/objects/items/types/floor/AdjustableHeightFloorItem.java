@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -29,33 +30,50 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
             }
         }
 
-        for(GenericEntity entityOnItem : this.getEntitiesOnItem()) {
-            if(entityOnItem.hasStatus(RoomEntityStatus.SIT)) {
-                entityOnItem.removeStatus(RoomEntityStatus.SIT);
-            }
-
-            entityOnItem.updateAndSetPosition(new Position(entityOnItem.getPosition().getX(), entity.getPosition().getY(), this.getOverrideHeight()));
-            entityOnItem.markNeedsUpdate();
-        }
+        final double oldHeight = this.getOverrideHeight();
 
         this.toggleInteract(true);
         this.sendUpdate();
 
-        // TODO: Move item saving to a queue for batch saving or something. :P
+        final double newHeight = this.getOverrideHeight();
+
+        for (GenericEntity entityOnItem : this.getEntitiesOnItem()) {
+            if (entityOnItem.hasStatus(RoomEntityStatus.SIT)) {
+                entityOnItem.removeStatus(RoomEntityStatus.SIT);
+            }
+
+            double entityHeight = (newHeight > oldHeight) ? entityOnItem.getPosition().getZ() + (newHeight - oldHeight) : 0.0;
+
+            entityOnItem.setPosition(new Position(entityOnItem.getPosition().getX(), entity.getPosition().getY(), entityHeight));
+            this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entityOnItem));
+        }
+
         this.saveData();
         return true;
     }
 
     @Override
     public double getOverrideHeight() {
-        double height;
+        if (this.getDefinition().getVariableHeights() != null && !this.getExtraData().isEmpty()) {
+            if(!StringUtils.isNumeric(this.getExtraData())) {
+                return 0;
+            }
 
-        if (this.getExtraData().isEmpty() || !StringUtils.isNumeric(this.getExtraData())) {
-            height = 0.5;
+            int heightIndex = Integer.parseInt(this.getExtraData());
+
+            if(heightIndex > this.getDefinition().getVariableHeights().length) {
+                return 0;
+            }
+
+            return this.getDefinition().getVariableHeights()[heightIndex];
+        } else if (this.getDefinition().getVariableHeights() != null) {
+            return this.getDefinition().getVariableHeights()[0];
         } else {
-            height = Double.parseDouble(this.getExtraData());
+            if (this.getExtraData().isEmpty() || !StringUtils.isNumeric(this.getExtraData())) {
+                return 0.5;
+            } else {
+                return Double.parseDouble(this.getExtraData());
+            }
         }
-
-        return height;
     }
 }

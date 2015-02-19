@@ -53,7 +53,8 @@ public class RoomItemFactory {
             put("mannequin", MannequinFloorItem.class);
             put("beach_shower", SummerShowerFloorItem.class);
             put("halo_tile", HaloTileFloorItem.class);
-            put("adjustable_height", AdjustableHeightSeatFloorItem.class);
+            put("adjustable_height_seat", AdjustableHeightSeatFloorItem.class);
+            put("adjustable_height", AdjustableHeightFloorItem.class);
 
             put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);//new
             put("wf_act_teleport_to", WiredActionTeleportPlayer.class);//new
