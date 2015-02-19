@@ -34,6 +34,7 @@ public class ModToolMessageComposer {
                 msg.writeInt(preset.getMuteLength());
                 msg.writeInt(preset.getTradeLockLength());
                 msg.writeString(preset.getDescription());
+                msg.writeBoolean(false); // show habbo way
             }
         }
 
