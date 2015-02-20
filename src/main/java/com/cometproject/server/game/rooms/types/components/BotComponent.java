@@ -56,7 +56,7 @@ public class BotComponent {
         }
 
         if(usedCount == 0) return name;
-        
+
         return name + usedCount;
     }
 
@@ -75,6 +75,14 @@ public class BotComponent {
 
         this.getRoom().getEntities().addEntity(botEntity);
         return botEntity;
+    }
+
+    public BotEntity getBotByName(String name) {
+        if(this.botNameToId.containsKey(name)) {
+            return this.getRoom().getEntities().getEntityByBotId(this.botNameToId.get(name));
+        }
+
+        return null;
     }
 
     public Room getRoom() {
