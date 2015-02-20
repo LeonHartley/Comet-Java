@@ -107,7 +107,10 @@ public class ModifyBotMessageEvent implements IEvent {
 
             case 5:
                 // Change name
-                botEntity.getData().setUsername(data);
+                final String botName = room.getBots().getAvailableName(data);
+                room.getBots().changeBotName(botEntity.getUsername(), botName);
+
+                botEntity.getData().setUsername(botName);
 
                 room.getEntities().broadcastMessage(AvatarsMessageComposer.compose(botEntity));
                 break;
