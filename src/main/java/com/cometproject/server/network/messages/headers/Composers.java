@@ -121,7 +121,7 @@ public class Composers {
     public static final short ApplyHanditemMessageComposer = 2394;//1596
     public static final short FriendRequestsMessageComposer = 9;//1011
     public static final short GroupFurniturePageMessageComposer = 1975;//3713
-    public static final short AlertNotificationMessageComposer = 381;//2503
+    public static final short AlertNotificationMessageComposer = 531;//2000;//2503
     public static final short MinimailCountMessageComposer = 1013;//2030
     public static final short RemoveInventoryObjectMessageComposer = 2197;//1737
     public static final short CatalogLimitedItemSoldOutMessageComposer = 3053;//1645
@@ -174,6 +174,7 @@ public class Composers {
     public static final short ModerationToolRoomVisitsMessageComposer = 792;//408
     public static final short WiredEffectMessageComposer = 2946;//3893
     public static final short YouAreNotControllerMessageComposer = 3287;//new
+    public static final short NotificationMessageComposer = 531;//new
 
 
     private static Map<Short, String> composerPacketNames = new FastMap<>();

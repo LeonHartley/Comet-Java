@@ -30,7 +30,7 @@ public class PlayerInfoCommand extends ChatCommand {
         userInfo.append("<b>Username</b>: " + username + "<br>");
         userInfo.append("<b>Motto</b>: " + playerData.getMotto() + "<br>");
         userInfo.append("<b>Gender</b>: " + (playerData.getGender().toLowerCase().equals("m") ? "Male" : "Female") + "<br>");
-        userInfo.append("<b>Status</b>: " + (session == null ? "Offline" : "Offline") + "<br>");
+        userInfo.append("<b>Status</b>: " + (session == null ? "Offline" : "Online") + "<br>");
         userInfo.append("<b>Achievement Points</b>: " + playerData.getAchievementPoints() + "<br>");
         userInfo.append("<b>Rank</b>: " + playerData.getRank() + "<br><br>");
 

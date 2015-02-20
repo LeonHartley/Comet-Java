@@ -3,7 +3,7 @@ package com.cometproject.server.game.commands.staff.alerts;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
 
@@ -18,7 +18,7 @@ public class AlertCommand extends ChatCommand {
         if (user == null)
             return;
 
-        user.send(AdvancedAlertMessageComposer.compose(Locale.get("command.alert.title"), this.merge(params, 1)));
+        user.send(AlertMessageComposer.compose(this.merge(params, 1)));
     }
 
     @Override
