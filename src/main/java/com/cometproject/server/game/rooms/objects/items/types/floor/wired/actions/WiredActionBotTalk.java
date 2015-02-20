@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actio
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
@@ -49,10 +50,14 @@ public class WiredActionBotTalk extends WiredActionItem {
         }
 
         final String botName = talkData[0];
-        final String message = talkData[1];
+        String message = talkData[1];
 
         if(botName.isEmpty() || message.isEmpty()) {
             return false;
+        }
+
+        if(entity instanceof PlayerEntity) {
+            message = message.replace("%username%", entity.getUsername());
         }
 
         final BotEntity botEntity = this.getRoom().getBots().getBotByName(botName);

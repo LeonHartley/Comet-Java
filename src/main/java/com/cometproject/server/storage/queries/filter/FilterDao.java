@@ -26,7 +26,7 @@ public class FilterDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.put(resultSet.getString("word"), resultSet.getString("replacement"));
+                data.put(resultSet.getString("word").toLowerCase(), resultSet.getString("replacement"));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
