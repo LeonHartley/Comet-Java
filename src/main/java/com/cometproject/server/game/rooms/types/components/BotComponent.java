@@ -32,32 +32,45 @@ public class BotComponent {
 
             for (BotData data : botData) {
 
-                if(botNameToId.containsKey(data.getUsername())) {
-                    data.setUsername(dat);
+                if(this.botNameToId.containsKey(data.getUsername())) {
+                    data.setUsername(this.getAvailableName(data.getUsername()));
                 }
 
                 BotEntity botEntity = new BotEntity(data, room.getEntities().getFreeId(), ((PlayerBotData) data).getPosition(), 2, 2, room);
-
-                this.botNameToId.put(botEntity)
+                this.botNameToId.put(botEntity.getUsername(), botEntity.getBotId());
 
                 this.getRoom().getEntities().addEntity(botEntity);
             }
-
         } catch (Exception e) {
             room.log.error("Error while deploying bots", e);
         }
     }
 
-    private String getAvailableName(String name) {
-        if(this.botNameToId.containsKey(name)) {
-            if(this.getAvailableName(name + "1").equals(name)) {
+    public String getAvailableName(String name) {
+        int usedCount = 0;
+
+        for(String usedName : this.botNameToId.keySet()) {
+            if(name.startsWith(usedName)) {
+                usedCount++;
+            }
         }
+
+        if(usedCount == 0) return name;
+        
+        return name + usedCount;
     }
 
     public BotEntity addBot(InventoryBot bot, int x, int y) {
         int virtualId = room.getEntities().getFreeId();
+        String name;
 
-        BotData botData = new PlayerBotData(bot.getId(), bot.getName(), bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7, bot.getType(), bot.getMode());
+        if(this.botNameToId.containsKey(bot.getName())) {
+            name = this.getAvailableName(bot.getName());
+        } else {
+            name = bot.getName();
+        }
+
+        BotData botData = new PlayerBotData(bot.getId(), name, bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7, bot.getType(), bot.getMode());
         BotEntity botEntity = new BotEntity(botData, virtualId, new Position(x, y, 0), 1, 1, room);
 
         this.getRoom().getEntities().addEntity(botEntity);
@@ -66,5 +79,14 @@ public class BotComponent {
 
     public Room getRoom() {
         return this.room;
+    }
+
+    public void changeBotName(String currentName, String newName) {
+        if(!this.botNameToId.containsKey(currentName)) return;
+
+        int botId = this.botNameToId.get(currentName);
+
+        this.botNameToId.remove(currentName);
+        this.botNameToId.put(newName, botId);
     }
 }
