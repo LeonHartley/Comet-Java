@@ -3,7 +3,7 @@ package com.cometproject.server.network.messages.incoming.moderation;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -26,7 +26,7 @@ public class ModToolUserAlertMessageEvent implements IEvent {
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
             if (session != null) {
-                session.send(AdvancedAlertMessageComposer.compose(message));
+                session.send(AlertMessageComposer.compose(message));
             }
         }
     }
