@@ -20,6 +20,10 @@ public class PushCommand extends ChatCommand {
             return;
         }
 
+        if(client.getPlayer().getEntity().isRoomMuted() || client.getPlayer().getEntity().getRoom().getRights().hasMute(client.getPlayer().getId())) {
+            return;
+        }
+
         String username = params[0];
         Session user = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 

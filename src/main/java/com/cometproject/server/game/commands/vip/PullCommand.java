@@ -23,6 +23,10 @@ public class PullCommand extends ChatCommand {
             return;
         }
 
+        if(client.getPlayer().getEntity().isRoomMuted() || client.getPlayer().getEntity().getRoom().getRights().hasMute(client.getPlayer().getId())) {
+            return;
+        }
+
         String username = params[0];
         Session pulledSession = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
