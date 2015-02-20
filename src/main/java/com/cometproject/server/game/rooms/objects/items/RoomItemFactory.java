@@ -66,10 +66,12 @@ public class RoomItemFactory {
             put("wf_act_chase", WiredActionChase.class);//new
             put("wf_act_kick_user", WiredActionKickUser.class);//new
             put("wf_act_reset_timers", WiredActionResetTimers.class);//new
-            put("wf_act_join_team", WiredActionJoinTeam.class);
-            put("wf_act_leave_team", WiredActionLeaveTeam.class);
-            put("wf_act_give_score", WiredActionGiveScore.class);
-            put("wf_act_bot_talk", WiredActionBotTalk.class);
+            put("wf_act_join_team", WiredActionJoinTeam.class);//new
+            put("wf_act_leave_team", WiredActionLeaveTeam.class);//new
+            put("wf_act_give_score", WiredActionGiveScore.class);//new
+            put("wf_act_bot_talk", WiredActionBotTalk.class);//new
+            put("wf_act_bot_give_handitem", WiredActionBotGiveHandItem.class);//new
+            put("wf_act_bot_move", WiredActionBotMove.class);//new
 
             put("wf_trg_says_something", WiredTriggerPlayerSaysKeyword.class);//new
             put("wf_trg_enter_room", WiredTriggerEnterRoom.class);//new
