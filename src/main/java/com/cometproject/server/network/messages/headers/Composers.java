@@ -174,7 +174,7 @@ public class Composers {
     public static final short ModerationToolRoomVisitsMessageComposer = 792;//408
     public static final short WiredEffectMessageComposer = 2946;//3893
     public static final short YouAreNotControllerMessageComposer = 3287;//new
-    public static final short NotificationMessageComposer = 531;//new
+    public static final short PhotoCostMessageComposer = 716;//new
 
 
     private static Map<Short, String> composerPacketNames = new FastMap<>();

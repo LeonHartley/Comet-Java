@@ -190,6 +190,7 @@ public class Events {
     public static final short SaveClientSettingsMessageEvent = 620;//414
     public static final short SetActivatedBadgesMessageEvent = 1333;//836
     public static final short RemoveOwnRightsMessageEvent = 2529;//1021
+    public static final short RenderRoomMessageEvent = 1810;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 
