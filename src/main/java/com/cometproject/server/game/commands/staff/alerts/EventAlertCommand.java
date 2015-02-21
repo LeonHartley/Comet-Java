@@ -18,8 +18,7 @@ public class EventAlertCommand extends ChatCommand {
                 AdvancedAlertMessageComposer.compose(
                         Locale.get("command.eventalert.alerttitle"),
                         this.merge(params) + "<br><br><i> " + client.getPlayer().getData().getUsername() + "</i>",
-                        Locale.get("command.eventalert.buttontitle"), "http://youtube.com", "game_promo_small"));
-        //event:navigator/goto/" + client.getPlayer().getEntity().getRoom().getId()
+                        Locale.get("command.eventalert.buttontitle"), "event:navigator/goto/" + client.getPlayer().getEntity().getRoom().getId(), "game_promo_small"));
     }
 
     @Override
