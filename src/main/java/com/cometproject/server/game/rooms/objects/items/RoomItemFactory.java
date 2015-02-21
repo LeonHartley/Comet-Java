@@ -56,13 +56,13 @@ public class RoomItemFactory {
             put("adjustable_height_seat", AdjustableHeightSeatFloorItem.class);
             put("adjustable_height", AdjustableHeightFloorItem.class);
 
+            put("wf_act_flee", WiredActionFlee.class);//new
             put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);//new
             put("wf_act_teleport_to", WiredActionTeleportPlayer.class);//new
             put("wf_act_show_message", WiredActionShowMessage.class);//new
             put("wf_act_toggle_state", WiredActionToggleState.class);//new
             put("wf_act_give_reward", WiredActionGiveReward.class);//new
             put("wf_act_move_rotate", WiredActionMoveRotate.class);//new
-            put("wf_act_flee", WiredActionFlee.class);//new
             put("wf_act_chase", WiredActionChase.class);//new
             put("wf_act_kick_user", WiredActionKickUser.class);//new
             put("wf_act_reset_timers", WiredActionResetTimers.class);//new
@@ -88,7 +88,7 @@ public class RoomItemFactory {
             put("wf_trg_score_achieved", WiredTriggerScoreAchieved.class);//new
 
             put("wf_cnd_trggrer_on_frn", WiredConditionTriggererOnFurni.class);//new
-            put("wf_cnd_not_trggrer_on", WiredNegativeConditionPlayerInGroup.class);//new
+            put("wf_cnd_not_trggrer_on", WiredNegativeConditionTriggererOnFurni.class);//new
             put("wf_cnd_actor_in_group", WiredConditionPlayerInGroup.class);//new
             put("wf_cnd_not_in_group", WiredNegativeConditionPlayerInGroup.class);//new
             put("wf_cnd_furnis_hv_avtrs", WiredConditionFurniHasPlayers.class);//new
