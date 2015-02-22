@@ -98,11 +98,15 @@ public class ModifyBotMessageEvent implements IEvent {
                 break;
 
             case 4:
-                // Dance
-                int danceId = RandomInteger.getRandom(1, 4);
-                botEntity.setDanceId(danceId);
+                if(botEntity.getDanceId() != 0) {
+                    botEntity.setDanceId(0);
+                } else {
+                    // Dance
+                    int danceId = RandomInteger.getRandom(1, 4);
 
-                room.getEntities().broadcastMessage(DanceMessageComposer.compose(botEntity.getId(), danceId));
+                    botEntity.setDanceId(danceId);
+                    room.getEntities().broadcastMessage(DanceMessageComposer.compose(botEntity.getId(), danceId));
+                }
                 break;
 
             case 5:

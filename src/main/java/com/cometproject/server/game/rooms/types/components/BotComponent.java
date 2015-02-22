@@ -26,6 +26,10 @@ public class BotComponent {
         this.load();
     }
 
+    public void dispose() {
+        this.botNameToId.clear();
+    }
+
     public void load() {
         try {
             List<BotData> botData = RoomBotDao.getBotsByRoomId(this.room.getId());
@@ -69,6 +73,8 @@ public class BotComponent {
         } else {
             name = bot.getName();
         }
+
+        this.botNameToId.put(bot.getName(), bot.getId());
 
         BotData botData = new PlayerBotData(bot.getId(), name, bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7, bot.getType(), bot.getMode());
         BotEntity botEntity = new BotEntity(botData, virtualId, new Position(x, y, 0), 1, 1, room);
