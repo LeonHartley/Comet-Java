@@ -121,6 +121,7 @@ public class Room implements Attributable {
         this.game.dispose();
         this.entities.dispose();
         this.items.dispose();
+        this.bots.dispose();
 
         this.log.debug("Room has been disposed");
     }
