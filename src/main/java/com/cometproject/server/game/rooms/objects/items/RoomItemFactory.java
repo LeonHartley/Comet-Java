@@ -55,8 +55,9 @@ public class RoomItemFactory {
             put("halo_tile", HaloTileFloorItem.class);
             put("adjustable_height_seat", AdjustableHeightSeatFloorItem.class);
             put("adjustable_height", AdjustableHeightFloorItem.class);
+            put("lovelock", LoveLockFloorItem.class);
 
-            put("wf_act_flee", WiredActionFlee.class);//new
+            put("wf_act_flee", WiredActionFlee.class);//todo: this
             put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);//new
             put("wf_act_teleport_to", WiredActionTeleportPlayer.class);//new
             put("wf_act_show_message", WiredActionShowMessage.class);//new
