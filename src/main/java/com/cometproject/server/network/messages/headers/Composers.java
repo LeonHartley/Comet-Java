@@ -175,6 +175,9 @@ public class Composers {
     public static final short WiredEffectMessageComposer = 2946;//3893
     public static final short YouAreNotControllerMessageComposer = 3287;//new
     public static final short PhotoCostMessageComposer = 716;//new
+    public static final short LoveLockWidgetMessageComposer = 3979;//new
+    public static final short LoveLockConfirmedMessageComposer = 289;//new
+    public static final short LoveLockCloseWidgetMessageComposer = 1221;//new
 
 
     private static Map<Short, String> composerPacketNames = new FastMap<>();

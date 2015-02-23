@@ -40,11 +40,12 @@ import com.cometproject.server.network.messages.incoming.room.floor.GetTilesInUs
 import com.cometproject.server.network.messages.incoming.room.floor.SaveFloorMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.*;
 import com.cometproject.server.network.messages.incoming.room.item.gifts.OpenGiftMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.lovelock.ConfirmLoveLockMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinFigureMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.mannequins.SaveMannequinMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.stickies.DeletePostItMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.stickies.OpenPostItMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.item.stickies.PlacePostItMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.stickies.PlacePostitMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.stickies.SavePostItMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.wired.SaveWiredDataMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.wired.UpdateSnapshotsMessageEvent;
@@ -290,13 +291,14 @@ public final class MessageHandler {
         this.getMessages().put(Events.TileStackMagicSetHeightMessageEvent, new SaveStackToolMessageEvent());
         this.getMessages().put(Events.SaveFootballGateOutfitMessageEvent, new SaveFootballGateMessageEvent());
         this.getMessages().put(Events.WiredSaveMatchingMessageEvent, new UpdateSnapshotsMessageEvent());
-        this.getMessages().put(Events.RoomAddPostItMessageEvent, new PlacePostItMessageEvent());
+        this.getMessages().put(Events.RoomAddPostItMessageEvent, new PlacePostitMessageEvent());
         this.getMessages().put(Events.OpenPostItMessageEvent, new OpenPostItMessageEvent());
         this.getMessages().put(Events.SavePostItMessageEvent, new SavePostItMessageEvent());
         this.getMessages().put(Events.DeletePostItMessageEvent, new DeletePostItMessageEvent());
         this.getMessages().put(Events.YouTubeGetPlayerMessageEvent, new LoadPlaylistMessageEvent());
         this.getMessages().put(Events.YouTubeGetPlaylistGetMessageEvent, new PlayVideoMessageEvent());
         this.getMessages().put(Events.YouTubeChoosePlaylistVideoMessageEvent, new NextVideoMessageEvent());
+        this.getMessages().put(Events.ConfirmLoveLockMessageEvent, new ConfirmLoveLockMessageEvent());
     }
 
     public void registerPromotions() {

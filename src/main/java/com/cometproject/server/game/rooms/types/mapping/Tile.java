@@ -187,6 +187,14 @@ public class Tile {
         return path != null && path.size() > 0;
     }
 
+    public GenericEntity getEntity() {
+        for(GenericEntity entity : this.getEntities()) {
+            return entity;
+        }
+
+        return null;
+    }
+
     public Set<GenericEntity> getEntities() {
         return this.entities;
     }
