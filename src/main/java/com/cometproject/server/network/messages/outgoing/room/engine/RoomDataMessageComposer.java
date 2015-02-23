@@ -11,7 +11,7 @@ public class RoomDataMessageComposer {
         Composer msg = new Composer(Composers.RoomDataMessageComposer);
 
 
-        RoomWriter.writeData(room.getData(), msg);
+        RoomWriter.entryData(room.getData(), msg);
 
         return msg;
     }

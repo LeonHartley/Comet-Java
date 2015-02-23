@@ -91,7 +91,6 @@ public class AddUserToRoomMessageEvent implements IEvent {
         client.send(FloorItemsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
         client.send(WallItemsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
 
-//        client.getPlayer().getEntity().getRoom().getWired().trigger(TriggerType.ENTER_ROOM, null, client.getPlayer().getEntity());
         WiredTriggerEnterRoom.executeTriggers(client.getPlayer().getEntity());
 
         avatar.markNeedsUpdate();

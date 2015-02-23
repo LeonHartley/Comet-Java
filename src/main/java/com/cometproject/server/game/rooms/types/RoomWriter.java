@@ -36,38 +36,15 @@ public class RoomWriter {
         composeRoomSpecials(msg, promotion, group);
     }
 
-    public static void writeData(RoomData room, Composer msg) {
-        boolean isActive = RoomManager.getInstance().isActive(room.getId());
+    public static void entryData(RoomData room, Composer msg) {
+        msg.writeBoolean(true); // is loading
 
-        msg.writeBoolean(true);
-        msg.writeInt(room.getId());
-        msg.writeString(room.getName());
-        msg.writeInt(room.getOwnerId());
-        msg.writeString(room.getOwner());
-        msg.writeInt(RoomWriter.roomAccessToNumber(room.getAccess()));
-        msg.writeInt(!isActive ? 0 : RoomManager.getInstance().get(room.getId()).getEntities().playerCount());
-        msg.writeInt(room.getMaxUsers());
-        msg.writeString(room.getDescription());
-        msg.writeInt(0);
-        msg.writeInt(room.getTradeState().getState());
-        msg.writeInt(room.getScore());
-        msg.writeInt(room.getCategory().getId());
-
-        msg.writeInt(room.getTags().length);
-
-        for (String tag : room.getTags()) {
-            msg.writeString(tag);
-        }
-
-        RoomPromotion promotion = RoomManager.getInstance().getRoomPromotions().get(room.getId());
-        Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
-
-        composeRoomSpecials(msg, promotion, group);
+        write(room, msg);
 
         msg.writeBoolean(false); // check entry??
         msg.writeBoolean(NavigatorManager.getInstance().isFeatured(room.getId()));
-        msg.writeBoolean(false);
-        msg.writeBoolean(false);
+        msg.writeBoolean(false); // ??
+        msg.writeBoolean(false); // ??
 
         msg.writeInt(room.getMuteState().getState());
         msg.writeInt(room.getKickState().getState());
