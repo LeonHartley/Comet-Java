@@ -63,7 +63,7 @@ public class WiredConditionMatchSnapshot extends WiredConditionItem {
                 }
 
                 if (matchPosition) {
-                    if (floorItem.getPosition().getX() != snapshot.getX() && floorItem.getPosition().getY() != snapshot.getY())
+                    if (floorItem.getPosition().getX() != snapshot.getX() || floorItem.getPosition().getY() != snapshot.getY())
                         result = false;
                 }
             }
