@@ -19,6 +19,10 @@ public class PlaceItemMessageEvent implements IEvent {
             return;
         }
 
+        String data = msg.readString();
+
+        if(data == null) return;
+
         String[] parts = msg.readString().split(" ");
         int id = Integer.parseInt(parts[0].replace("-", ""));
 

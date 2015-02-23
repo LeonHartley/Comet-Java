@@ -286,17 +286,21 @@ public class ProcessComponent implements CometTask {
             }
 
             if (entity instanceof BotEntity) {
-                if (((BotEntity) entity).getCycleCount() == ((BotEntity) entity).getData().getChatDelay() * 2) {
-                    String message = ((BotEntity) entity).getData().getRandomMessage();
+                try {
+                    if (((BotEntity) entity).getCycleCount() == ((BotEntity) entity).getData().getChatDelay() * 2) {
+                        String message = ((BotEntity) entity).getData().getRandomMessage();
 
-                    if (message != null && !message.isEmpty()) {
-                        this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(entity.getId(), message, 0, 2));
+                        if (message != null && !message.isEmpty()) {
+                            this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(entity.getId(), message, 0, 2));
+                        }
+
+                        ((BotEntity) entity).resetCycleCount();
                     }
 
-                    ((BotEntity) entity).resetCycleCount();
-                }
+                    ((BotEntity) entity).incrementCycleCount();
+                } catch(Exception ignored) {
 
-                ((BotEntity) entity).incrementCycleCount();
+                }
             } else {
                 // It's a pet.
                 PetEntity petEntity = (PetEntity) entity;
