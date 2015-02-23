@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
@@ -38,17 +37,6 @@ public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
         return 0;
     }
 
-    @Override
-    public void preActionTrigger(GenericEntity entity, Object data) {
-        if (!(entity instanceof PlayerEntity)) return;
-
-        PlayerEntity playerEntity = ((PlayerEntity) entity);
-
-        if (data instanceof String && !((String) data).isEmpty()) {
-            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(playerEntity.getId(), ((String) data)));
-        }
-    }
-
     public static boolean executeTriggers(PlayerEntity playerEntity, String message) {
         boolean wasExecuted = false;
 
@@ -59,11 +47,14 @@ public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
             final boolean isOwner = playerEntity.getPlayerId() == trigger.getRoom().getData().getOwnerId();
 
             if (!ownerOnly || isOwner) {
-                // TODO: Find out if it's contains or equals ;P
                 if (!trigger.getWiredData().getText().isEmpty() && message.equals(trigger.getWiredData().getText())) {
                     wasExecuted = trigger.evaluate(playerEntity, message);
                 }
             }
+        }
+
+        if (wasExecuted) {
+            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(playerEntity.getId(), message));
         }
 
         return wasExecuted;
