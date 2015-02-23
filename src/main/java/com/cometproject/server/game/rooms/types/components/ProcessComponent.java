@@ -347,7 +347,6 @@ public class ProcessComponent implements CometTask {
 
         if (entity.isIdleAndIncrement()) {
             if (entity.getIdleTime() >= 2400) {
-                // Remove entity
                 return true;
             } else {
                 // Set idle status!
