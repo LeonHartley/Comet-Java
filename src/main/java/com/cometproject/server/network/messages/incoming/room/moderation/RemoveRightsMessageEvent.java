@@ -13,7 +13,7 @@ import com.cometproject.server.network.sessions.Session;
 public class RemoveRightsMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        int playerId = msg.readInt();
+        int count = msg.readInt();
 
         Room room = client.getPlayer().getEntity().getRoom();
 
@@ -21,20 +21,24 @@ public class RemoveRightsMessageEvent implements IEvent {
             return;
         }
 
-        PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(playerId);
+        for(int i = 0; i < count; i++) {
+            final int playerId = msg.readInt();
 
-        if (!room.getRights().hasRights(playerId)) {
-            return;
-        }
+            PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(playerId);
 
-        room.getRights().removeRights(playerId);
-        client.send(RemoveRightsMessageComposer.compose(room.getId(), playerId));
+            if (!room.getRights().hasRights(playerId)) {
+                return;
+            }
 
-        if (playerEntity != null) {
-            playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(0));
-            playerEntity.removeStatus(RoomEntityStatus.CONTROLLER);
-            playerEntity.addStatus(RoomEntityStatus.CONTROLLER, "0");
-            playerEntity.markNeedsUpdate();
+            room.getRights().removeRights(playerId);
+            client.send(RemoveRightsMessageComposer.compose(room.getId(), playerId));
+
+            if (playerEntity != null) {
+                playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(0));
+                playerEntity.removeStatus(RoomEntityStatus.CONTROLLER);
+                playerEntity.addStatus(RoomEntityStatus.CONTROLLER, "0");
+                playerEntity.markNeedsUpdate();
+            }
         }
     }
 }

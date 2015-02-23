@@ -5,7 +5,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.permissions.GivePowersMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.GiveRoomRighsMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -14,7 +14,6 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 public class GiveRightsMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int playerId = msg.readInt();
-
 
         if (playerId == -1) return;
 
@@ -31,7 +30,7 @@ public class GiveRightsMessageEvent implements IEvent {
         }
 
         room.getRights().addRights(playerId);
-        client.send(GivePowersMessageComposer.compose(room.getId(), playerId, playerEntity != null ? playerEntity.getUsername() : PlayerDao.getUsernameByPlayerId(playerId)));
+        client.send(GiveRoomRighsMessageComposer.compose(room.getId(), playerId, playerEntity != null ? playerEntity.getUsername() : PlayerDao.getUsernameByPlayerId(playerId)));
 
         if (playerEntity != null) {
             playerEntity.removeStatus(RoomEntityStatus.CONTROLLER);
