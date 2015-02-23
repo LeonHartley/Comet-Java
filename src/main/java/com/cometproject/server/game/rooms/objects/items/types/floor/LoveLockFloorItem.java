@@ -27,6 +27,8 @@ public class LoveLockFloorItem extends RoomItemFloor {
             return false;
         }
 
+        if(this.getExtraData().startsWith("1")) return false;
+
         Position leftPosition = null;
         Position rightPosition = null;
 
