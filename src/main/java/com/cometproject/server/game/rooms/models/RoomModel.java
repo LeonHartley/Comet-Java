@@ -51,7 +51,7 @@ public abstract class RoomModel {
 
                 int x = 0;
                 for (char tile : line) {
-                    if (x > mapSizeX) {
+                    if (x >= mapSizeX) {
                         throw new InvalidModelException();
                     }
 

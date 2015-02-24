@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
 import com.cometproject.server.game.rooms.types.Room;
 
@@ -31,6 +32,8 @@ public class WiredConditionHasHandItem extends WiredConditionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
+        if(entity == null || !(entity instanceof PlayerEntity)) return false;
+
         if(this.getWiredData().getParams().size() != 1) {
             return false;
         }

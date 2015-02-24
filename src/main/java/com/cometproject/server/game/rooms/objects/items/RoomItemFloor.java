@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.data.BackgroundTonerData;
+import com.cometproject.server.game.rooms.objects.items.types.floor.AdjustableHeightFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
@@ -57,14 +58,15 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         // This needs cleaning up immensely.
 
         msg.writeInt(this.getId());
-        //msg.writeInt(isGift ? giftData.getSpriteId() : this.getDefinition().getSpriteId());
         msg.writeInt(this.getDefinition().getSpriteId());
         msg.writeInt(this.getPosition().getX());
         msg.writeInt(this.getPosition().getY());
         msg.writeInt(this.getRotation());
 
-        msg.writeString(this instanceof MagicStackFloorItem ? this.getExtraData() : Double.toString(this.getPosition().getZ()));
-        msg.writeString(Double.toString(this.getPosition().getZ()));
+        msg.writeString(this instanceof MagicStackFloorItem ? this.getExtraData() : this.getPosition().getZ());
+
+        final double walkHeight = this instanceof AdjustableHeightFloorItem ? this.getOverrideHeight() : this.getDefinition().getHeight();
+        msg.writeString(this.getDefinition().canWalk() ? walkHeight : "0");
 
         if (this instanceof GiftFloorItem) {
             final GiftData giftData = ((GiftFloorItem) this).getGiftData();
@@ -142,7 +144,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
 
             return;
         } else if (this.getDefinition().getInteraction().equals("roombg")) {
-            BackgroundTonerData data = BackgroundTonerData.get(extraData);
+            BackgroundTonerData data = BackgroundTonerData.get(this.extraData);
 
             boolean enabled = (data != null);
 

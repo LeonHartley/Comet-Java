@@ -4,6 +4,7 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
@@ -47,6 +48,8 @@ public class WiredActionBotGiveHandItem extends WiredActionItem {
         if(this.getWiredData().getText().isEmpty()) {
             return false;
         }
+
+        if(entity == null || !(entity instanceof PlayerEntity)) return false;
 
         int param = this.getWiredData().getParams().get(PARAM_HANDITEM);
 

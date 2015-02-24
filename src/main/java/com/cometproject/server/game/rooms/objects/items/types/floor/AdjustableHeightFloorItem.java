@@ -61,7 +61,7 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
 
             int heightIndex = Integer.parseInt(this.getExtraData());
 
-            if(heightIndex > this.getDefinition().getVariableHeights().length) {
+            if(heightIndex >= this.getDefinition().getVariableHeights().length) {
                 return 0;
             }
 
