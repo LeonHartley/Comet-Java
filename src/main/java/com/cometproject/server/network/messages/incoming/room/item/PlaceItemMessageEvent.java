@@ -23,7 +23,7 @@ public class PlaceItemMessageEvent implements IEvent {
 
         if(data == null) return;
 
-        String[] parts = msg.readString().split(" ");
+        String[] parts = data.split(" ");
         int id = Integer.parseInt(parts[0].replace("-", ""));
 
         if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId())
