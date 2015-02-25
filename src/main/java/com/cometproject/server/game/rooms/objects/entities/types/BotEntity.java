@@ -48,6 +48,7 @@ public class BotEntity extends GenericEntity {
     }
 
     public void leaveRoom() {
+
         this.leaveRoom(false, false, false);
     }
 
@@ -58,6 +59,7 @@ public class BotEntity extends GenericEntity {
 
         // Remove entity from the room
         this.getRoom().getEntities().removeEntity(this);
+        this.getRoom().getBots().removeBot(this.getUsername());
 
         this.data.dispose();
         this.data = null;
