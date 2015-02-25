@@ -103,4 +103,8 @@ public class BotComponent {
         this.botNameToId.remove(currentName);
         this.botNameToId.put(newName, botId);
     }
+
+    public void removeBot(String name) {
+        this.botNameToId.remove(name);
+    }
 }
