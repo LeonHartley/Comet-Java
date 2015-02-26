@@ -120,6 +120,13 @@ public class ReloadCommand extends ChatCommand {
                 GroupManager.getInstance().getGroupItems().load();
                 sendNotif(Locale.get("command.reload.groupitems"), client);
                 break;
+
+            case "models":
+
+                RoomManager.getInstance().loadModels();
+                sendNotif(Locale.get("command.reload.models"), client);
+                break;
+
         }
     }
 

@@ -21,9 +21,9 @@ public class Room implements Attributable {
     public static final boolean useCycleForItems = false;
     public static final boolean useCycleForEntities = false;
 
-    public Logger log;
+    public final Logger log;
 
-    private RoomData data;
+    private final RoomData data;
     private RoomModel model;
     private RoomMapping mapping;
 
