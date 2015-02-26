@@ -5,31 +5,31 @@ import java.sql.SQLException;
 
 
 public class ItemDefinition {
-    private int id;
-    private String publicName;
-    private String itemName;
-    private String type;
-    private int width;
-    private int length;
-    private double height;
-    private int spriteId;
+    private final int id;
+    private final String publicName;
+    private final String itemName;
+    private final String type;
+    private final int width;
+    private final int length;
+    private final double height;
+    private final int spriteId;
 
-    private boolean canStack;
-    private boolean canSit;
-    private boolean canWalk;
-    private boolean canTrade;
-    private boolean canRecycle;
-    private boolean canMarket;
-    private boolean canGift;
-    private boolean canInventoryStack;
+    private final boolean canStack;
+    private final boolean canSit;
+    private final boolean canWalk;
+    private final boolean canTrade;
+    private final boolean canRecycle;
+    private final boolean canMarket;
+    private final boolean canGift;
+    private final boolean canInventoryStack;
 
-    private int effectId;
-    private int offerId;
-    private String interaction;
-    private int interactionCycleCount;
-    private String[] vendingIds;
+    private final int effectId;
+    private final int offerId;
+    private final String interaction;
+    private final int interactionCycleCount;
+    private final String[] vendingIds;
 
-    private Double[] variableHeights;
+    private final Double[] variableHeights;
 
     public ItemDefinition(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
@@ -71,6 +71,8 @@ public class ItemDefinition {
                     ignored.printStackTrace();
                 }
             }
+        } else {
+            this.variableHeights = new Double[0];
         }
     }
 
@@ -168,10 +170,6 @@ public class ItemDefinition {
 
     public Double[] getVariableHeights() {
         return variableHeights;
-    }
-
-    public void setVariableHeights(Double[] variableHeights) {
-        this.variableHeights = variableHeights;
     }
 
 }
