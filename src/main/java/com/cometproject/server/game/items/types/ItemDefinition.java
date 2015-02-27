@@ -28,6 +28,7 @@ public class ItemDefinition {
     private final String interaction;
     private final int interactionCycleCount;
     private final String[] vendingIds;
+    private final boolean requiresRights;
 
     private final Double[] variableHeights;
 
@@ -58,6 +59,8 @@ public class ItemDefinition {
         this.interactionCycleCount = data.getInt("interaction_modes_count");
         this.vendingIds = data.getString("vending_ids").isEmpty() ? new String[0] : data.getString("vending_ids").split(",");
 
+        this.requiresRights = data.getString("requires_rights").equals("1");
+
         final String variableHeightData = data.getString("variable_heights");
 
         if(variableHeightData.contains(",")) {
@@ -82,6 +85,10 @@ public class ItemDefinition {
 
     public boolean isRoomDecor() {
         return itemName.startsWith("wallpaper") || itemName.startsWith("landscape") || itemName.startsWith("a2 ");
+    }
+
+    public boolean isTeleporter() {
+        return this.getInteraction().equals("teleport") || this.getInteraction().equals("teleport_door") || this.getInteraction().equals("teleport_pad");
     }
 
     public int getId() {

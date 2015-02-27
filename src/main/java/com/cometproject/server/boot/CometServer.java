@@ -21,9 +21,7 @@ import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.websocket.WebSocketServer;
 import com.cometproject.server.storage.StorageManager;
-import com.cometproject.server.storage.cache.CacheManager;
 import com.cometproject.server.tasks.CometThreadManager;
 
 import java.util.Map;
@@ -35,9 +33,6 @@ public class CometServer {
      */
     private Configuration config;
 
-    /**
-     * Empty constructor
-     */
     public CometServer(Map<String, String> overridenConfig) {
         this.config = new Configuration("./config/comet.properties");
 
@@ -56,7 +51,6 @@ public class CometServer {
         CometThreadManager.getInstance().initialize();
         StorageManager.getInstance().initialize();
         LogManager.getInstance().initialize();
-        CacheManager.getInstance().initialize();
 
         // Locale & config
         CometSettings.initialize();
