@@ -5,7 +5,6 @@ import com.cometproject.server.game.quests.Quest;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
-import com.cometproject.server.utilities.Counter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -16,24 +15,24 @@ public class QuestListMessageComposer {
     public static Composer compose(Map<String, Quest> quests, Player player) {
         Composer msg = new Composer(Composers.QuestListMessageComposer);
 
-        Map<String, Counter> categoryCounters = Maps.newHashMap();
+        Map<String, Quest> categoryCounters = Maps.newHashMap();
 
         List<Quest> activeQuests = Lists.newArrayList();
         List<Quest> inactiveQuests = Lists.newArrayList();
 
         try {
             for (Quest quest : quests.values()) {
-                if(!categoryCounters.containsKey(quest.getCategory())) {
-                    categoryCounters.put(quest.getCategory(), new Counter(1));
-                }
-
-                if(quest.getSeriesNumber() >= categoryCounters.get(quest.getCategory()).get()) {
-                    if (player.getQuests().hasStartedQuest(quest.getId())) {
-                        activeQuests.add(quest);
-                    } else {
-                        inactiveQuests.add(quest);
+                if(categoryCounters.containsKey(quest.getCategory())) {
+                    if(categoryCounters.get(quest.getCategory()).getSeriesNumber() < quest.getSeriesNumber()) {
+                        categoryCounters.replace(quest.getCategory(), quest);
                     }
+                } else {
+                    categoryCounters.put(quest.getCategory(), quest);
                 }
+            }
+
+            for(Quest quest : categoryCounters.values()) {
+                activeQuests.add(quest);
             }
 
             msg.writeInt(activeQuests.size() + inactiveQuests.size());
@@ -42,7 +41,7 @@ public class QuestListMessageComposer {
                 composeQuest(activeQuest, msg);
             }
 
-            for (Quest inactiveQuest : activeQuests) {
+            for (Quest inactiveQuest : inactiveQuests) {
                 composeQuest(inactiveQuest, msg);
             }
 
@@ -60,7 +59,7 @@ public class QuestListMessageComposer {
     
     private static void composeQuest(Quest quest, Composer msg) {
         msg.writeString(quest.getCategory());
-        msg.writeInt(quest.getSeriesNumber() - 1);
+        msg.writeInt(0);
         msg.writeInt(QuestManager.getInstance().amountOfQuestsInCategory(quest.getCategory()));
         msg.writeInt(3); // reward type
         msg.writeInt(quest.getId());
