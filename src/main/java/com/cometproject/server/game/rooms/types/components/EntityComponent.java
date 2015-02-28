@@ -41,7 +41,7 @@ public class EntityComponent {
     public List<GenericEntity> getEntitiesAt(Position position) {
         Tile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
 
-        if(tile != null) {
+        if (tile != null) {
             return new ArrayList<>(tile.getEntities());
         }
 
@@ -51,8 +51,8 @@ public class EntityComponent {
     public boolean positionHasEntity(Position position) {
         Tile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
 
-        if(tile != null) {
-            if(tile.getEntities().size() != 0)
+        if (tile != null) {
+            if (tile.getEntities().size() != 0)
                 return true;
         }
 
@@ -77,9 +77,8 @@ public class EntityComponent {
         if (player.isTeleporting()) {
             RoomItemFloor flItem = this.room.getItems().getFloorItem(player.getTeleportId());
 
-            if (flItem != null && flItem instanceof TeleporterFloorItem) {
-                TeleporterFloorItem item = (TeleporterFloorItem) flItem;
-                item.handleIncomingEntity(entity, null);
+            if (flItem != null && (flItem instanceof TeleporterFloorItem)) {
+                ((TeleporterFloorItem) flItem).handleIncomingEntity(entity, null);
             }
         }
 
@@ -107,7 +106,7 @@ public class EntityComponent {
     public void removeEntity(GenericEntity entity) {
         final Tile tile = this.getRoom().getMapping().getTile(entity.getPosition());
 
-        if(tile != null) {
+        if (tile != null) {
             tile.getEntities().remove(entity);
         }
 

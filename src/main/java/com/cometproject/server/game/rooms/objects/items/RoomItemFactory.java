@@ -118,6 +118,8 @@ public class RoomItemFactory {
             put("wf_ringplate", WiredAddonPressurePlate.class);//new
             put("wf_pyramid", WiredAddonPyramid.class);//new
 
+            put("pressureplate_seat", PressurePlateSeatFloorItem.class);
+
             put("bb_teleport", BanzaiTeleporterFloorItem.class);
             put("bb_red_gate", BanzaiGateFloorItem.class);
             put("bb_yellow_gate", BanzaiGateFloorItem.class);
