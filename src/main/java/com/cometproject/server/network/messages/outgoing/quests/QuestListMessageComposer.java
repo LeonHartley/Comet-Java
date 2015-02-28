@@ -59,7 +59,7 @@ public class QuestListMessageComposer {
     
     private static void composeQuest(Quest quest, Composer msg) {
         msg.writeString(quest.getCategory());
-        msg.writeInt(0);
+        msg.writeInt(quest.getSeriesNumber());
         msg.writeInt(QuestManager.getInstance().amountOfQuestsInCategory(quest.getCategory()));
         msg.writeInt(3); // reward type
         msg.writeInt(quest.getId());

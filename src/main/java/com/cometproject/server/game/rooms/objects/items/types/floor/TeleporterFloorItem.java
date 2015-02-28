@@ -56,6 +56,20 @@ public class TeleporterFloorItem extends RoomItemFloor {
     }
 
     @Override
+    public void onEntityStepOn(GenericEntity entity) {
+        if(this.inUse) {
+            return;
+        }
+
+        this.inUse = true;
+        this.outgoingEntity = entity;
+        this.outgoingEntity.setOverriden(true);
+
+        this.state = 1;
+        this.setTicks(RoomItemFactory.getProcessTime(1));
+    }
+
+    @Override
     public void onTickComplete() {
         switch (this.state) {
             case 0: {
