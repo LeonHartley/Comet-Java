@@ -44,7 +44,8 @@ public class ReloadCommand extends ChatCommand {
                                 "- filter\n" +
                                 "- locale\n" +
                                 "- modpresets\n" +
-                                "- groupitems\n"
+                                "- groupitems\n" +
+                                "- models"
                 ));
 
                 break;
@@ -122,7 +123,6 @@ public class ReloadCommand extends ChatCommand {
                 break;
 
             case "models":
-
                 RoomManager.getInstance().loadModels();
                 sendNotif(Locale.get("command.reload.models"), client);
                 break;

@@ -179,4 +179,7 @@ public class ItemDefinition {
         return variableHeights;
     }
 
+    public boolean requiresRights() {
+        return requiresRights;
+    }
 }
