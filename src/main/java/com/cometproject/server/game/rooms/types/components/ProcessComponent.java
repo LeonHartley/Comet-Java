@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GateFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.TeleportPadFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
@@ -169,8 +170,19 @@ public class ProcessComponent implements CometTask {
     private boolean updateEntityStuff(GenericEntity entity) {
         if (entity.getPositionToSet() != null) {
             if ((entity.getPositionToSet().getX() == this.room.getModel().getDoorX()) && (entity.getPositionToSet().getY() == this.room.getModel().getDoorY())) {
-                entity.updateAndSetPosition(null);
-                return true;
+                boolean leaveRoom = true;
+                final List<RoomItemFloor> floorItemsAtDoor = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
+
+                if(!floorItemsAtDoor.isEmpty()) {
+                    for(RoomItemFloor floorItem : floorItemsAtDoor) {
+                        if(floorItem instanceof TeleportPadFloorItem) leaveRoom = false;
+                    }
+                }
+
+                if(leaveRoom) {
+                    entity.updateAndSetPosition(null);
+                    return true;
+                }
             }
 
             if (entity.hasStatus(RoomEntityStatus.SIT)) {
