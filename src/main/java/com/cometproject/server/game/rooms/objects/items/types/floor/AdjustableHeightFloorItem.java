@@ -66,7 +66,7 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
             }
 
             return this.getDefinition().getVariableHeights()[heightIndex];
-        } else if (this.getDefinition().getVariableHeights() != null) {
+        } else if (this.getDefinition().getVariableHeights() != null && this.getDefinition().getVariableHeights().length != 0) {
             return this.getDefinition().getVariableHeights()[0];
         } else {
             if (this.getExtraData().isEmpty() || !StringUtils.isNumeric(this.getExtraData())) {

@@ -40,7 +40,7 @@ public class MessengerFriend {
     }
 
     public PlayerAvatar getAvatar() {
-        if(this.isOnline()) {
+        if(this.getSession() != null && this.getSession().getPlayer() != null) {
             return this.getSession().getPlayer().getData();
         }
 
