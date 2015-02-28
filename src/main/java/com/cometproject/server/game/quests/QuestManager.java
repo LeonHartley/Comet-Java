@@ -1,8 +1,8 @@
 package com.cometproject.server.game.quests;
 
-import com.cometproject.server.storage.queries.quests.QuestsDao;
 import com.cometproject.server.utilities.Initializable;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class QuestManager implements Initializable {
@@ -16,7 +16,8 @@ public class QuestManager implements Initializable {
 
     @Override
     public void initialize() {
-        this.quests = QuestsDao.getAllQuests();
+//        this.quests = QuestsDao.getAllQuests();
+        this.quests = new HashMap<>();
     }
 
     public static QuestManager getInstance() {
