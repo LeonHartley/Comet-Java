@@ -20,11 +20,12 @@ public class GenericFloorItem extends RoomItemFloor {
 
             PlayerEntity pEntity = (PlayerEntity) entity;
 
-            if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
-                    && !pEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
-                return false;
+            if(this.getDefinition().requiresRights()) {
+                if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
+                        && !pEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
+                    return false;
+                }
             }
-
         }
 
         this.toggleInteract(true);
