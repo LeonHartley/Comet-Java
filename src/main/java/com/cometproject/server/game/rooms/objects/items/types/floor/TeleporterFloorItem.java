@@ -17,6 +17,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
     private GenericEntity incomingEntity;
 
     private int state = -1;
+    private int pairId = -1;
     boolean isDoor = false;
 
     public TeleporterFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
@@ -57,7 +58,11 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
-        if(this.inUse) {
+        if (this.inUse) {
+            return;
+        }
+
+        if(this.incomingEntity != null && this.incomingEntity.getId() == entity.getId()) {
             return;
         }
 
@@ -66,7 +71,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
         this.outgoingEntity.setOverriden(true);
 
         this.state = 1;
-        this.setTicks(RoomItemFactory.getProcessTime(1));
+        this.setTicks(RoomItemFactory.getProcessTime(0.01));
     }
 
     @Override
@@ -76,7 +81,9 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
                 this.outgoingEntity.moveTo(this.getPosition().getX(), this.getPosition().getY());
 
-                this.toggleDoor(true);
+                if (!(this instanceof TeleportPadFloorItem)) {
+                    this.toggleDoor(true);
+                }
 
                 this.state = 1;
                 this.setTicks(RoomItemFactory.getProcessTime(1));
@@ -84,8 +91,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
             }
 
             case 1: {
-                int pairId = ItemManager.getInstance().getTeleportPartner(this.getId());
-                RoomItemFloor pairItem = this.getPartner(pairId);
+                RoomItemFloor pairItem = this.getPartner(this.getPairId());
 
                 if (pairItem == null) {
                     int roomId = ItemManager.getInstance().roomIdByItemId(pairId);
@@ -97,11 +103,11 @@ public class TeleporterFloorItem extends RoomItemFloor {
                     }
                 }
 
-                if (!this.isDoor)
+                if (!this.isDoor && !(this instanceof TeleportPadFloorItem))
                     this.toggleDoor(false);
 
                 this.state = 2;
-                this.setTicks(RoomItemFactory.getProcessTime(0.5));
+                this.setTicks(RoomItemFactory.getProcessTime(this instanceof TeleportPadFloorItem ? 0.1 : 0.5));
                 break;
             }
 
@@ -119,7 +125,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
             }
 
             case 3: {
-                int pairId = ItemManager.getInstance().getTeleportPartner(this.getId());
+                int pairId = this.getPairId();
 
                 if (pairId == 0) {
                     this.state = 8;
@@ -171,7 +177,8 @@ public class TeleporterFloorItem extends RoomItemFloor {
             }
 
             case 6: {
-                this.toggleDoor(true);
+                if (!(this instanceof TeleportPadFloorItem))
+                    this.toggleDoor(true);
 
                 if (this.incomingEntity != null) {
                     this.incomingEntity.moveTo(this.getPosition().squareInFront(this.getRotation()).getX(), this.getPosition().squareInFront(this.getRotation()).getY());
@@ -183,7 +190,8 @@ public class TeleporterFloorItem extends RoomItemFloor {
             }
 
             case 7: {
-                this.toggleDoor(false);
+                if (!(this instanceof TeleportPadFloorItem))
+                    this.toggleDoor(false);
 
                 if (this.incomingEntity != null) {
                     this.incomingEntity.setOverriden(false);
@@ -196,7 +204,8 @@ public class TeleporterFloorItem extends RoomItemFloor {
             }
 
             case 8: {
-                this.toggleDoor(true);
+                if (!(this instanceof TeleportPadFloorItem))
+                    this.toggleDoor(true);
 
                 if (this.outgoingEntity != null) {
                     this.outgoingEntity.moveTo(this.getPosition().squareBehind(this.rotation).getX(), this.getPosition().squareBehind(this.rotation).getY());
@@ -218,6 +227,14 @@ public class TeleporterFloorItem extends RoomItemFloor {
         this.setExtraData("0");
     }
 
+    private int getPairId() {
+        if (this.pairId == -1) {
+            this.pairId = ItemManager.getInstance().getTeleportPartner(this.getId());
+        }
+
+        return this.pairId;
+    }
+
     public void endTeleporting() {
         this.toggleAnimation(false);
 
@@ -230,8 +247,9 @@ public class TeleporterFloorItem extends RoomItemFloor {
         if (otherItem != null)
             otherItem.endTeleporting();
 
-        this.toggleAnimation(true);
         entity.updateAndSetPosition(this.getPosition().copy());
+        this.toggleAnimation(true);
+
 
         this.incomingEntity = entity;
 
@@ -254,11 +272,11 @@ public class TeleporterFloorItem extends RoomItemFloor {
     }
 
     protected void toggleAnimation(boolean state) {
-
-        if (state)
+        if (state) {
             this.setExtraData("2");
-        else
+        } else {
             this.setExtraData("0");
+        }
 
         this.sendUpdate();
     }

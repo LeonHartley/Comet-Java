@@ -64,7 +64,7 @@ public class BotComponent {
         return name + usedCount;
     }
 
-    public BotEntity addBot(InventoryBot bot, int x, int y) {
+    public BotEntity addBot(InventoryBot bot, int x, int y, double height) {
         int virtualId = room.getEntities().getFreeId();
         String name;
 
@@ -77,7 +77,7 @@ public class BotComponent {
         this.botNameToId.put(bot.getName(), bot.getId());
 
         BotData botData = new PlayerBotData(bot.getId(), name, bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7, bot.getType(), bot.getMode());
-        BotEntity botEntity = new BotEntity(botData, virtualId, new Position(x, y, 0), 1, 1, room);
+        BotEntity botEntity = new BotEntity(botData, virtualId, new Position(x, y, height), 1, 1, room);
 
         this.getRoom().getEntities().addEntity(botEntity);
         return botEntity;

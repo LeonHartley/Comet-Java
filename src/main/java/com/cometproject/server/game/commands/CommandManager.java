@@ -79,7 +79,6 @@ public class CommandManager implements Initializable {
 
         if (Comet.isDebugging) {
             this.commands.put("reloadmapping", new ReloadMappingCommand());
-            this.commands.put("position", new PositionCommand());
         }
 
         this.commands.put("entitygrid", new EntityGridCommand());
@@ -98,6 +97,7 @@ public class CommandManager implements Initializable {
         this.commands.put(Locale.get("command.lay.name"), new LayCommand());
         this.commands.put(Locale.get("command.home.name"), new HomeCommand());
         this.commands.put(Locale.get("command.setmax.name"), new SetMaxCommand());
+        this.commands.put(Locale.get("command.position.name"), new PositionCommand());
 
         // VIP commands
         this.commands.put(Locale.get("command.push.name"), new PushCommand());
