@@ -27,13 +27,14 @@ public class PlaceBotMessageEvent implements IEvent {
 
         double height = room.getModel().getSquareHeight()[x][y];
         final Position position = new Position(x, y, height);
+
         if (room.getEntities().getEntitiesAt(position).size() >= 1 || !room.getMapping().isValidPosition(position)) {
             return;
         }
 
         RoomBotDao.savePosition(x, y, height, botId, room.getId());
 
-        BotEntity botEntity = room.getBots().addBot(bot, x, y);
+        BotEntity botEntity = room.getBots().addBot(bot, x, y, height);
         client.getPlayer().getBots().remove(botId);
 
         room.getEntities().broadcastMessage(AvatarsMessageComposer.compose(botEntity));

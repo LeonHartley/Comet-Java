@@ -58,6 +58,10 @@ public class TalkMessageEvent implements IEvent {
     }
 
     public static String filterMessage(String message) {
+        if(message.endsWith("You can type here to talk!")) {
+            message = message.replace("You can type here to talk!", "");
+        }
+
         return message.replace((char) 13 + "", "");
     }
 }

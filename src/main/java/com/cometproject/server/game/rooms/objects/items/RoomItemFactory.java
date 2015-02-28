@@ -45,6 +45,7 @@ public class RoomItemFactory {
             put("dice", DiceFloorItem.class);
             put("teleport", TeleporterFloorItem.class);
             put("teleport_door", TeleporterFloorItem.class);
+            put("teleport_pad", TeleportPadFloorItem.class);
             put("onewaygate", OneWayGateFloorItem.class);
             put("gate", GateFloorItem.class);
             put("roombg", BackgroundTonerFloorItem.class);
