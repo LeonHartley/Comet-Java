@@ -50,8 +50,8 @@ public class ItemDefinition {
 
         this.offerId = data.getInt("flat_id");
 
-        this.canRecycle = true;
-        this.canMarket = true;
+        this.canRecycle = false;
+        this.canMarket = false;
         this.canGift = data.getString("allow_gift").equals("1");
 
         this.effectId = data.getInt("effectid");
@@ -63,7 +63,7 @@ public class ItemDefinition {
 
         final String variableHeightData = data.getString("variable_heights");
 
-        if(variableHeightData.contains(",")) {
+        if(!variableHeightData.isEmpty() && variableHeightData.contains(",")) {
             String[] variableHeightArray = variableHeightData.split(",");
             this.variableHeights = new Double[variableHeightArray.length];
 
@@ -75,7 +75,7 @@ public class ItemDefinition {
                 }
             }
         } else {
-            this.variableHeights = new Double[0];
+            this.variableHeights = null;
         }
     }
 
