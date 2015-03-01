@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.moderation;
 
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
@@ -36,7 +37,7 @@ public class ModToolRoomActionMessageEvent implements IEvent {
         }
 
         if (changeRoomName) {
-            roomData.setName(INAPPROPRIATE_ROOM_NAME);
+            roomData.setName(Locale.getOrDefault("game.room.inappropriate", INAPPROPRIATE_ROOM_NAME));
         }
 
         if (isActive) {
