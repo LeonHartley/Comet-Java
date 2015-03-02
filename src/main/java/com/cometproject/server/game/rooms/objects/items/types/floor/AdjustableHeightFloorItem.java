@@ -44,7 +44,7 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
 
             double entityHeight = (newHeight > oldHeight) ? entityOnItem.getPosition().getZ() + (newHeight - oldHeight) : 0.0;
 
-            entityOnItem.setPosition(new Position(entityOnItem.getPosition().getX(), entity.getPosition().getY(), entityHeight));
+            entityOnItem.setPosition(new Position(entityOnItem.getPosition().getX(), entityOnItem.getPosition().getY(), entityHeight));
             this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entityOnItem));
         }
 

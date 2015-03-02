@@ -23,6 +23,10 @@ public class RoomMapping {
     }
 
     public void init() {
+        if(this.getModel() == null) {
+            return;
+        }
+
         int sizeX = this.getModel().getSizeX();
         int sizeY = this.getModel().getSizeY();
 

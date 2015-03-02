@@ -38,6 +38,8 @@ public abstract class RoomModel {
 
         String[] axes = heightmap.split("\r");
 
+        if(axes.length == 0) throw new InvalidModelException();
+
         this.mapSizeX = axes[0].length();
         this.mapSizeY = axes.length;
         this.squareHeight = new double[mapSizeX][mapSizeY];

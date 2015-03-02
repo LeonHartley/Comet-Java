@@ -73,10 +73,14 @@ public class CatalogPurchaseHandler {
         try {
             CatalogItem item;
 
-            if (pageId > 0) {
-                item = CatalogManager.getInstance().getPage(pageId).getItems().get(itemId);
-            } else {
-                item = CatalogManager.getInstance().getCatalogItemByItemId(itemId);
+            try {
+                if (pageId > 0) {
+                    item = CatalogManager.getInstance().getPage(pageId).getItems().get(itemId);
+                } else {
+                    item = CatalogManager.getInstance().getCatalogItemByItemId(itemId);
+                }
+            } catch(Exception e) {
+                return;
             }
 
             if (item == null) {
