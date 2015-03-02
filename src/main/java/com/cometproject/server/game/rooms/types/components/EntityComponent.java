@@ -32,9 +32,9 @@ public class EntityComponent {
     private AtomicInteger entityIdGenerator = new AtomicInteger();
     private final Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().shared();
 
-    private final Map<Integer, Integer> playerIdToEntity = new ConcurrentHashMap<>();
-    private final Map<Integer, Integer> botIdToEntity = new ConcurrentHashMap<>();
-    private final Map<Integer, Integer> petIdToEntity = new ConcurrentHashMap<>();
+    private final Map<Integer, Integer> playerIdToEntity = new FastMap<Integer, Integer>().shared();
+    private final Map<Integer, Integer> botIdToEntity = new FastMap<Integer, Integer>().shared();
+    private final Map<Integer, Integer> petIdToEntity = new FastMap<Integer, Integer>().shared();
 
     private final AtomicInteger playerCount = new AtomicInteger(0);
 

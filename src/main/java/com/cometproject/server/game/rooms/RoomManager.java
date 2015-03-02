@@ -52,8 +52,8 @@ public class RoomManager implements Initializable {
     public void initialize() {
         this.roomDataInstances = new ConcurrentLRUCache<>(LRU_MAX_ENTRIES, LRU_MAX_LOWER_WATERMARK);
 
-        this.loadedRoomInstances = new ConcurrentHashMap<>();
-        this.unloadingRoomInstances = new ConcurrentHashMap<>();
+        this.loadedRoomInstances = new FastMap<Integer, Room>().shared();
+        this.unloadingRoomInstances = new FastMap<Integer, Room>().shared();
         this.roomPromotions = new ConcurrentHashMap<>();
 
         this.emotions = new ChatEmotionsManager();
