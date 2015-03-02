@@ -6,6 +6,9 @@ import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.logging.LogManager;
+import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
@@ -20,7 +23,13 @@ public class WhisperMessageEvent implements IEvent {
         String user = text.split(" ")[0];
         String message = text.replace(user + " ", "");
 
-        GenericEntity userTo = client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(user, RoomEntityType.PLAYER);
+        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+            return;
+        }
+
+        final Room room = client.getPlayer().getEntity().getRoom();
+
+        GenericEntity userTo = room.getEntities().getEntityByName(user, RoomEntityType.PLAYER);
 
         if (userTo == null || user.equals(client.getPlayer().getData().getUsername()))
             return;
@@ -40,6 +49,13 @@ public class WhisperMessageEvent implements IEvent {
 
         if (!client.getPlayer().getEntity().onChat(filteredMessage))
             return;
+
+        try {
+            if (LogManager.ENABLED)
+                LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(room.getId(), client.getPlayer().getId(), "<Whisper to " + user + "> "+ message));
+        } catch (Exception ignored) {
+
+        }
 
         client.send(WisperMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage));
 

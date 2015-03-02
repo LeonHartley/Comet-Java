@@ -21,7 +21,6 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.logging.LogManager;
-import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
@@ -304,13 +303,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         if (WiredTriggerPlayerSaysKeyword.executeTriggers(this, message)) {
             return false;
-        }
-
-        try {
-            if (LogManager.ENABLED)
-                LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(this.getRoom().getId(), this.getPlayerId(), message));
-        } catch (Exception ignored) {
-
         }
 
 //        for (PetEntity entity : this.getRoom().getEntities().getPetEntities()) {

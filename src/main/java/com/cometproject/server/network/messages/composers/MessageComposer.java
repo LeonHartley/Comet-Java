@@ -12,7 +12,6 @@ public abstract class MessageComposer {
         // write the header
         buffer.writeShort(this.getHeader());
 
-        this.compose(buffer);
     }
 
     public abstract void compose(ByteBuf buffer);
