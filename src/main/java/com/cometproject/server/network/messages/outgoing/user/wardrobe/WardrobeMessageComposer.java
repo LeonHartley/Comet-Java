@@ -17,7 +17,12 @@ public class WardrobeMessageComposer {
         for (WardrobeItem item : wardrobe) {
             msg.writeInt(item.getSlot());
             msg.writeString(item.getFigure());
-            msg.writeString(item.getGender().toUpperCase());
+
+            if(item.getGender() != null) {
+                msg.writeString(item.getGender().toUpperCase());
+            } else {
+                msg.writeString("M");
+            }
         }
 
         return msg;
