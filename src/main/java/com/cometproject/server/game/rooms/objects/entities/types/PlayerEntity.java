@@ -8,6 +8,7 @@ import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.moderation.BanManager;
+import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
@@ -47,7 +48,7 @@ import java.util.Map;
 
 public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, Attributable {
     private Player player;
-    private int playerId;
+    private PlayerData playerData;
 
     private Map<String, Object> attributes = new FastMap<>();
     private RoomVisitLogEntry visitLogEntry;
@@ -62,7 +63,9 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.player = player;
-        this.playerId = player.getId();
+
+        // create reference to the PlayerDa
+        this.playerData = player.getData();
 
         if (this.player.isTeleporting())
             this.setOverriden(true);
@@ -370,27 +373,27 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     }
 
     public int getPlayerId() {
-        return this.playerId;
+        return this.playerData.getId();
     }
 
     @Override
     public String getUsername() {
-        return this.player.getData().getUsername();
+        return this.playerData.getUsername();
     }
 
     @Override
     public String getMotto() {
-        return this.player.getData().getMotto();
+        return this.playerData.getMotto();
     }
 
     @Override
     public String getFigure() {
-        return this.player.getData().getFigure();
+        return this.playerData.getFigure();
     }
 
     @Override
     public String getGender() {
-        return this.player.getData().getGender();
+        return this.playerData.getGender();
     }
 
     @Override
