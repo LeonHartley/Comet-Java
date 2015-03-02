@@ -295,7 +295,7 @@ public class RoomDao {
         return roomData;
     }
 
-    public static void getActivePromotions(FastMap<Integer, RoomPromotion> roomPromotions) {
+    public static void getActivePromotions(Map<Integer, RoomPromotion> roomPromotions) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

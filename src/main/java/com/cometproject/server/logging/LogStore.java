@@ -9,7 +9,7 @@ import com.cometproject.server.tasks.CometTask;
 import java.util.concurrent.TimeUnit;
 
 
-public class LogStore implements CometTask {
+public class LogStore {
     private static final TimeUnit QUEUE_FLUSH_UNIT = TimeUnit.MINUTES;
     private static final int QUEUE_FLUSH_TIME = 1;
 
@@ -21,16 +21,9 @@ public class LogStore implements CometTask {
         if (!LogManager.ENABLED)
             return;
 
-        LogDatabaseHelper.init(new LogDatabaseManager());
-
         // Register the containers
         roomVisitContainer = new RoomVisitContainer();
         logEntryContainer = new LogEntryContainer();
-    }
-
-    @Override
-    public void run() {
-        // For the queue shit...
     }
 
     public RoomVisitContainer getRoomVisitContainer() {

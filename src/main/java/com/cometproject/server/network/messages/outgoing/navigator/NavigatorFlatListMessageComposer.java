@@ -18,15 +18,12 @@ public class NavigatorFlatListMessageComposer {
 
         if (order) {
             try {
-                Collections.sort((List<RoomData>) activeRooms, new Comparator<RoomData>() {
-                    @Override
-                    public int compare(RoomData o1, RoomData o2) {
-                        boolean is1Active = RoomManager.getInstance().isActive(o1.getId());
-                        boolean is2Active = RoomManager.getInstance().isActive(o2.getId());
+                Collections.sort((List<RoomData>) activeRooms, (o1, o2) -> {
+                    boolean is1Active = RoomManager.getInstance().isActive(o1.getId());
+                    boolean is2Active = RoomManager.getInstance().isActive(o2.getId());
 
-                        return ((!is2Active ? 0 : RoomManager.getInstance().get(o2.getId()).getEntities().playerCount()) -
-                                (!is1Active ? 0 : RoomManager.getInstance().get(o1.getId()).getEntities().playerCount()));
-                    }
+                    return ((!is2Active ? 0 : RoomManager.getInstance().get(o2.getId()).getEntities().playerCount()) -
+                            (!is1Active ? 0 : RoomManager.getInstance().get(o1.getId()).getEntities().playerCount()));
                 });
             } catch (Exception ignored) {
 
