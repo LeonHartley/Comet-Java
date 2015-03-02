@@ -52,7 +52,7 @@ public class WhisperMessageEvent implements IEvent {
 
         try {
             if (LogManager.ENABLED)
-                LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(room.getId(), client.getPlayer().getId(), "<Whisper to " + user + "> "+ message));
+                LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(room.getId(), client.getPlayer().getId(), Locale.getOrDefault("game.logging.whisper", "<Whisper to %username%>").replace("%username%", user) + " " + message));
         } catch (Exception ignored) {
 
         }
