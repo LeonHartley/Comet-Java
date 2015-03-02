@@ -89,6 +89,10 @@ public class GameComponent {
     }
 
     public void increaseScore(GameTeam team, int amount) {
+        if(!this.scores.containsKey(team)) {
+            return;
+        }
+
         this.scores.replace(team, this.scores.get(team) + amount);
 
         for (RoomItemFloor scoreItem : this.getRoom().getItems().getByInteraction("football_score")) {
