@@ -3,6 +3,8 @@ package com.cometproject.server.network.messages.incoming.room.action;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
+import com.cometproject.server.logging.LogManager;
+import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
@@ -36,6 +38,13 @@ public class TalkMessageEvent implements IEvent {
         }
 
         if (client.getPlayer().getEntity().onChat(filteredMessage)) {
+            try {
+                if (LogManager.ENABLED)
+                    LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(client.getPlayer().getEntity().getRoom().getId(), client.getPlayer().getId(), message));
+            } catch (Exception ignored) {
+
+            }
+
             client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(TalkMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
         }
 
