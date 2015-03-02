@@ -19,7 +19,7 @@ public class LogEntryContainer implements CometTask {
     private boolean isWriting = false;
 
     public LogEntryContainer() {
-        CometThreadManager.getInstance().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
+//        CometThreadManager.getInstance().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -46,10 +46,12 @@ public class LogEntryContainer implements CometTask {
     }
 
     public void put(AbstractLogEntry logEntry) {
-        if (this.isWriting) {
-            this.entriesPending.add(logEntry);
-        } else {
-            this.entriesToSave.add(logEntry);
-        }
+        LogQueries.putEntry(logEntry);
+//
+//        if (this.isWriting) {
+//            this.entriesPending.add(logEntry);
+//        } else {
+//            this.entriesToSave.add(logEntry);
+//        }
     }
 }
