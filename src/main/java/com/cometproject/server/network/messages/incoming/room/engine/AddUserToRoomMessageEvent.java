@@ -51,13 +51,15 @@ public class AddUserToRoomMessageEvent implements IEvent {
         Map<Integer, String> groupsInRoom = new FastMap<>();
 
         for (PlayerEntity playerEntity : room.getEntities().getPlayerEntities()) {
-            if (playerEntity.getPlayer().getData().getFavouriteGroup() != 0) {
-                GroupData groupData = GroupManager.getInstance().getData(playerEntity.getPlayer().getData().getFavouriteGroup());
+            if(playerEntity.getPlayer() != null && playerEntity.getPlayer().getData() != null) {
+                if (playerEntity.getPlayer().getData().getFavouriteGroup() != 0) {
+                    GroupData groupData = GroupManager.getInstance().getData(playerEntity.getPlayer().getData().getFavouriteGroup());
 
-                if (groupData == null)
-                    continue;
+                    if (groupData == null)
+                        continue;
 
-                groupsInRoom.put(playerEntity.getPlayer().getData().getFavouriteGroup(), groupData.getBadge());
+                    groupsInRoom.put(playerEntity.getPlayer().getData().getFavouriteGroup(), groupData.getBadge());
+                }
             }
         }
 

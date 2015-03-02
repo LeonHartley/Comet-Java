@@ -9,6 +9,8 @@ import java.util.List;
 
 public class PlaylistMessageComposer {
     public static Composer compose(int itemId, List<PlaylistItem> playlist, int videoId) {
+        if(playlist == null) return null;
+
         Composer msg = new Composer(Composers.YouTubeLoadPlaylistsMessageComposer);
 
         msg.writeInt(itemId);
