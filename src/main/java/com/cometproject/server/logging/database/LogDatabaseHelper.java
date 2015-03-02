@@ -1,6 +1,7 @@
 package com.cometproject.server.logging.database;
 
 import com.cometproject.server.logging.database.queries.LogQueries;
+import com.cometproject.server.storage.SqlHelper;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -10,17 +11,14 @@ import java.sql.SQLException;
 
 
 public class LogDatabaseHelper {
-    private static LogDatabaseManager storage;
     private static Logger log = Logger.getLogger(LogDatabaseHelper.class.getName());
 
     public static void init(LogDatabaseManager storageEngine) {
-        storage = storageEngine;
-
         LogQueries.updateRoomEntries();
     }
 
     public static Connection getConnection() throws SQLException {
-        return storage.getConnections().getConnection();
+        return SqlHelper.getConnection();
     }
 
     public static void closeSilently(Connection connection) {

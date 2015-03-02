@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class RoomManager implements Initializable {
@@ -32,10 +33,10 @@ public class RoomManager implements Initializable {
 
     private ConcurrentLRUCache<Integer, RoomData> roomDataInstances;
 
-    private FastMap<Integer, Room> loadedRoomInstances;
-    private FastMap<Integer, Room> unloadingRoomInstances;
+    private Map<Integer, Room> loadedRoomInstances;
+    private Map<Integer, Room> unloadingRoomInstances;
 
-    private FastMap<Integer, RoomPromotion> roomPromotions;
+    private Map<Integer, RoomPromotion> roomPromotions;
 
     private Set<StaticRoomModel> models;
     private WordFilter filterManager;
@@ -51,9 +52,9 @@ public class RoomManager implements Initializable {
     public void initialize() {
         this.roomDataInstances = new ConcurrentLRUCache<>(LRU_MAX_ENTRIES, LRU_MAX_LOWER_WATERMARK);
 
-        this.loadedRoomInstances = new FastMap<Integer, Room>().shared();
-        this.unloadingRoomInstances = new FastMap<Integer, Room>().shared();
-        this.roomPromotions = new FastMap<Integer, RoomPromotion>().shared();
+        this.loadedRoomInstances = new ConcurrentHashMap<>();
+        this.unloadingRoomInstances = new ConcurrentHashMap<>();
+        this.roomPromotions = new ConcurrentHashMap<>();
 
         this.emotions = new ChatEmotionsManager();
         this.filterManager = new WordFilter();
@@ -284,7 +285,7 @@ public class RoomManager implements Initializable {
         return this.emotions;
     }
 
-    public final FastMap<Integer, Room> getRoomInstances() {
+    public final Map<Integer, Room> getRoomInstances() {
         return this.loadedRoomInstances;
     }
 
@@ -304,7 +305,7 @@ public class RoomManager implements Initializable {
         return filterManager;
     }
 
-    public FastMap<Integer, RoomPromotion> getRoomPromotions() {
+    public Map<Integer, RoomPromotion> getRoomPromotions() {
         return roomPromotions;
     }
 }

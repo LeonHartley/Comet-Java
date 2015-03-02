@@ -69,7 +69,7 @@ public class ModerationManager implements Initializable {
             PresetDao.getPresets(userPresets, roomPresets);
             PresetDao.getPresetActions(actionCategories);
 
-            log.info("Loaded " + (this.getRoomPresets().size() + this.getUserPresets().size()) + this.getActionCategories().size() + " moderation presets");
+            log.info("Loaded " + (this.getRoomPresets().size() + this.getUserPresets().size() + this.getActionCategories().size()) + " moderation presets");
         } catch (Exception e) {
             log.error("Error while loading moderation presets", e);
         }
@@ -94,15 +94,6 @@ public class ModerationManager implements Initializable {
         this.tickets.put(ticket.getTicketId(), ticket);
 
         // TODO: send ticket to all moderators.
-        /*synchronized (NetworkManager.getInstance().getSessions().getSessions()) {
-            for (Session session : NetworkManager.getInstance().getSessions().getSessions().values()) {
-                if (session.getPlayer() != null) {
-                    if (session.getPlayer().getPermissions().hasPermission("mod_tool")) {
-                        session.send(HelpTicketMessageComposer.compose(ticket));
-                    }
-                }
-            }
-        }*/
     }
 
     public HelpTicket getTicket(int id) {

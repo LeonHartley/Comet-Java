@@ -31,6 +31,14 @@ public class Counter {
         return this.currentCount;
     }
 
+    public void decrease() {
+        this.decrease(1);
+    }
+
+    public void decrease(int delta) {
+        this.currentCount -= delta;
+    }
+
     public void set(int newCounter) {
         this.currentCount = newCounter;
     }

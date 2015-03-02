@@ -13,12 +13,14 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.utilities.Counter;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -30,9 +32,11 @@ public class EntityComponent {
     private AtomicInteger entityIdGenerator = new AtomicInteger();
     private final Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().shared();
 
-    private final Map<Integer, Integer> playerIdToEntity = new FastMap<>();
-    private final Map<Integer, Integer> botIdToEntity = new FastMap<>();
-    private final Map<Integer, Integer> petIdToEntity = new FastMap<>();
+    private final Map<Integer, Integer> playerIdToEntity = new ConcurrentHashMap<>();
+    private final Map<Integer, Integer> botIdToEntity = new ConcurrentHashMap<>();
+    private final Map<Integer, Integer> petIdToEntity = new ConcurrentHashMap<>();
+
+    private final AtomicInteger playerCount = new AtomicInteger(0);
 
     public EntityComponent(Room room) {
         this.room = room;
@@ -61,6 +65,8 @@ public class EntityComponent {
 
     public PlayerEntity createEntity(Player player) {
         Position startPosition = new Position(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY(), this.getRoom().getModel().getDoorZ());
+
+        this.playerCount.incrementAndGet();
 
         if (player.isTeleporting()) {
             RoomItemFloor item = this.room.getItems().getFloorItem(player.getTeleportId());
@@ -113,6 +119,10 @@ public class EntityComponent {
         // Handle removing entity specifics
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
+
+            if(playerEntity.isVisible()) {
+                this.playerCount.decrementAndGet();
+            }
 
             if (playerEntity.getPlayer() != null)
                 this.playerIdToEntity.remove(playerEntity.getPlayerId());
@@ -303,12 +313,11 @@ public class EntityComponent {
     }
 
     public int playerCount() {
-        int counter = 0;
-        for (GenericEntity entity : this.entities.values()) {
-            if (entity.isVisible() && entity instanceof PlayerEntity) counter++;
-        }
+        return this.playerCount.get();
+    }
 
-        return counter;
+    public AtomicInteger getPlayerCounter() {
+        return playerCount;
     }
 
     public int realPlayerCount() {
