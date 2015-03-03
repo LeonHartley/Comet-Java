@@ -50,21 +50,24 @@ public class RoomMapping {
         // clear out the entity grid
         for(int x = 0; x < tiles.length; x++) {
             for(int y = 0; y < tiles[x].length; y++) {
-                Tile tile = this.tiles[x][y];
-
                 List<GenericEntity> entitiesToRemove = new ArrayList<>();
 
-                for(GenericEntity entity : tile.getEntities()) {
-                    if(entity instanceof PlayerEntity) {
-                        if(((PlayerEntity) entity).getPlayer() == null) {
-                            entitiesToRemove.add(entity);
-                            continue;
+                try {
+                    Tile tile = this.tiles[x][y];
+
+                    for (GenericEntity entity : tile.getEntities()) {
+                        if (entity instanceof PlayerEntity) {
+                            if (((PlayerEntity) entity).getPlayer() == null) {
+                                entitiesToRemove.add(entity);
+                            }
                         }
                     }
-                }
 
-                for(GenericEntity entityToRemove : entitiesToRemove) {
-                    tile.getEntities().remove(entityToRemove);
+                    for (GenericEntity entityToRemove : entitiesToRemove) {
+                        tile.getEntities().remove(entityToRemove);
+                    }
+                } catch(Exception e) {
+                    // TODO: Look into why this would cause an exception...
                 }
 
                 entitiesToRemove.clear();

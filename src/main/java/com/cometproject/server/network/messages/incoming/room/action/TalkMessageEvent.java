@@ -18,7 +18,7 @@ public class TalkMessageEvent implements IEvent {
         String message = msg.readString();
         int colour = msg.readInt();
 
-        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null)
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null || client.getPlayer().getEntity().getRoom().getEntities() == null)
             return;
 
         if (!TalkMessageEvent.isValidColour(colour, client))
@@ -45,7 +45,15 @@ public class TalkMessageEvent implements IEvent {
 
             }
 
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(TalkMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(
+                    TalkMessageComposer.compose(
+                            client.getPlayer().getEntity().getId(),
+                            filteredMessage,
+                            RoomManager.getInstance().getEmotions().getEmotion(filteredMessage),
+                            colour
+                    ),
+
+                    client.getPlayer().getEntity());
         }
 
         client.getPlayer().getEntity().postChat(filteredMessage);

@@ -46,7 +46,6 @@ public class MannequinFloorItem extends RoomItemFloor {
 
         if (this.name == null || this.gender == null || this.figure == null) return false;
 
-
         String newFigure = "";
 
         for (String playerFigurePart : Arrays.asList(playerEntity.getFigure().split("\\."))) {
@@ -75,8 +74,12 @@ public class MannequinFloorItem extends RoomItemFloor {
 
         if (newFigureParts.equals("")) return false;
 
-        playerEntity.getPlayer().getData().setFigure(newFigure + newFigureParts);
-        
+        final String figure = newFigure + newFigureParts;
+
+        if(figure.length() > 512)
+            return false;
+
+        playerEntity.getPlayer().getData().setFigure(figure);
         playerEntity.getPlayer().getData().setGender(this.gender);
 
         playerEntity.getPlayer().getData().save();
