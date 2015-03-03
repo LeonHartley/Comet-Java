@@ -50,6 +50,8 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
 
     @Override
     public void onTickComplete() {
+        if(this.entity == null) return;
+
         if (this.getWiredData() == null || this.getWiredData().getSelectedIds() == null || this.getWiredData().getSelectedIds().isEmpty()) {
             this.entity = null;
             return;

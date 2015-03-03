@@ -53,6 +53,8 @@ public class CatalogPurchaseHandler {
      * @param giftData Gift data (if-any)
      */
     public void handle(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
+        if(client == null || client.getPlayer() == null) return;
+
         // TODO: redo all of this, it sucks so bad ;P, maybe add purchase handlers for each item or some crap
         if (amount > 100) {
             client.send(AlertMessageComposer.compose(Locale.get("catalog.error.toomany")));

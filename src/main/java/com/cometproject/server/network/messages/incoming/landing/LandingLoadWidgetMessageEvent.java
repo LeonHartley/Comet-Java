@@ -9,15 +9,16 @@ import com.cometproject.server.network.sessions.Session;
 public class LandingLoadWidgetMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        String text = msg.readString();
+        final String text = msg.readString();
+        final String[] splitText = text.split(",");
 
-        if (text.isEmpty()) {
+        if (text.isEmpty() || splitText.length < 2) {
             client.sendQueue(HotelViewItemMessageComposer.compose("", ""));
             return;
         }
 
-        if (text.split(",")[1].equals("gamesmaker")) return;
+        if (splitText[1].equals("gamesmaker")) return;
 
-        client.sendQueue(HotelViewItemMessageComposer.compose(text, text.split(",")[1]));
+        client.sendQueue(HotelViewItemMessageComposer.compose(text, splitText[1]));
     }
 }
