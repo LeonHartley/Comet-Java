@@ -1,6 +1,8 @@
 package com.cometproject.server.game.players.components.types.settings;
 
-public class PlaylistItem {
+import com.cometproject.server.utilities.JsonData;
+
+public class PlaylistItem implements JsonData {
     private String videoId;
     private String title;
     private String description;
