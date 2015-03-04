@@ -94,3 +94,5 @@ classes
 Comet.iml
 
 CometTools/scripts/
+*.jar
+run.bat

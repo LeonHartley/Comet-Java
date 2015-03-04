@@ -1,6 +1,8 @@
 package com.cometproject.server.game.catalog.types.gifts;
 
-public class GiftData {
+import com.cometproject.server.utilities.JsonData;
+
+public class GiftData implements JsonData {
     /**
      * The page ID of the item
      */
@@ -17,7 +19,7 @@ public class GiftData {
     private int senderId;
 
     /**
-     * The username of the player who will recieve the item
+     * The username of the player who will receive the item
      */
     private String receiver;
 
