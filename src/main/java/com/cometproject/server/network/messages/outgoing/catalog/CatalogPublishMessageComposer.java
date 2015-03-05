@@ -1,14 +1,25 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class CatalogPublishMessageComposer {
-    public static Composer compose(boolean b) {
-        Composer msg = new Composer(Composers.PublishShopMessageComposer);
-        msg.writeBoolean(b);
+public class CatalogPublishMessageComposer extends MessageComposer {
 
-        return msg;
+    private final boolean showNotification;
+
+    public CatalogPublishMessageComposer(final boolean showNotification) {
+        this.showNotification = showNotification;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.CatalogPublishMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeBoolean(this.showNotification);
     }
 }

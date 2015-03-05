@@ -5,6 +5,12 @@ import com.cometproject.server.network.messages.types.Composer;
 
 
 public class WisperMessageComposer {
+    private int playerId;
+    private int message;
+    private int bubbleId;
+    public WisperMessageComposer(int playerId, String message, int bubbleId) {
+
+    }
     public static Composer compose(int userId, String message, int bubbleId) {
         Composer msg = new Composer(Composers.WhisperMessageComposer);
 

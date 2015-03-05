@@ -3,6 +3,7 @@ package com.cometproject.server.network.sessions;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.outgoing.notification.LogoutMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
@@ -89,12 +90,13 @@ public class Session {
         this.eventHandler.handle(msg);
     }
 
-    public Session sendQueue(Composer msg) {
+    public Session sendQueue(final MessageComposer msg) {
         this.send(msg);
+
         return this;
     }
 
-    public void send(Composer msg) {
+    public void send(final MessageComposer msg) {
         if (msg == null) {
             logger.debug("Message was null!");
             return;
@@ -102,7 +104,7 @@ public class Session {
 
         logger.debug("Sent message: " + Composers.valueOfId(msg.getId()) + " / " + msg.getId());
 
-        this.getChannel().write(msg);
+        this.getChannel().writeAndFlush(msg);
     }
 
     public void flush() {

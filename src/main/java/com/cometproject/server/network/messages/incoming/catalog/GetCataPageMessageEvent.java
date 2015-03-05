@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.incoming.catalog;
 
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.catalog.CataPageMessageComposer;
+import com.cometproject.server.network.messages.outgoing.catalog.CatalogPageMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -17,7 +17,7 @@ public class GetCataPageMessageEvent implements IEvent {
         }
 
         if (CatalogManager.getInstance().pageExists(pageId) && CatalogManager.getInstance().getPage(pageId).isEnabled()) {
-            client.send(CataPageMessageComposer.compose(CatalogManager.getInstance().getPage(pageId)));
+            client.send(CatalogPageMessageComposer.compose(CatalogManager.getInstance().getPage(pageId)));
         }
     }
 }

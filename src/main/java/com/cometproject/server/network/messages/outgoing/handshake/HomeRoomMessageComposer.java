@@ -1,16 +1,25 @@
 package com.cometproject.server.network.messages.outgoing.handshake;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class HomeRoomMessageComposer {
-    public static Composer compose(int roomId) {
-        Composer msg = new Composer(Composers.HomeRoomMessageComposer);
+public class HomeRoomMessageComposer extends MessageComposer {
+    private final int roomId;
 
-        msg.writeInt(roomId);
-        msg.writeInt(roomId);
+    public HomeRoomMessageComposer(final int roomId) {
+        this.roomId = roomId;
+    }
 
-        return msg;
+    @Override
+    public short getId() {
+        return Composers.HomeRoomMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeInt(this.roomId);
+        msg.writeInt(this.roomId);
     }
 }

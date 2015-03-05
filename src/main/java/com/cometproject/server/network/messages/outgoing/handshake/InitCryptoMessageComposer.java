@@ -1,16 +1,27 @@
 package com.cometproject.server.network.messages.outgoing.handshake;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class InitCryptoMessageComposer {
-    public static Composer compose(String prime, String generator) {
-        Composer msg = new Composer(Composers.InitCryptoMessageComposer);
+public class InitCryptoMessageComposer extends MessageComposer {
+    private final String prime;
+    private final String generator;
 
-        msg.writeString(prime);
-        msg.writeString(generator);
+    public InitCryptoMessageComposer(final String prime, final String generator) {
+        this.prime = prime;
+        this.generator = generator;
+    }
 
-        return msg;
+    @Override
+    public short getId() {
+        return Composers.InitCryptoMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeString(this.prime);
+        msg.writeString(this.generator);
     }
 }
