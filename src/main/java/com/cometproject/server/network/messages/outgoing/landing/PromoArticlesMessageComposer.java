@@ -1,16 +1,27 @@
 package com.cometproject.server.network.messages.outgoing.landing;
 
 import com.cometproject.server.game.landing.types.PromoArticle;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.Map;
 
 
-public class PromoArticlesMessageComposer {
-    public static Composer compose(Map<Integer, PromoArticle> articles) {
-        Composer msg = new Composer(Composers.LandingPromosMessageComposer);
+public class PromoArticlesMessageComposer extends MessageComposer {
+    private final Map<Integer, PromoArticle> articles;
 
+    public PromoArticlesMessageComposer(final Map<Integer, PromoArticle> articles) {
+        this.articles = articles;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.LandingPromosMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(articles.size());
 
         for (PromoArticle article : articles.values()) {
@@ -22,7 +33,5 @@ public class PromoArticlesMessageComposer {
             msg.writeString(article.getButtonLink());
             msg.writeString(article.getImagePath());
         }
-
-        return msg;
     }
 }

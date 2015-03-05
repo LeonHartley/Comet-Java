@@ -158,7 +158,7 @@ public class Composers {
     public static final short RoomUpdateMessageComposer = 2921;//2157
     public static final short RoomOwnershipMessageComposer = 2101;//1951
     public static final short NewInventoryObjectMessageComposer = 1429;//787
-    public static final short PublishShopMessageComposer = 3581;//1843
+    public static final short CatalogPublishMessageComposer = 3581;//1843
     public static final short PopularRoomTagsMessageComposer = 2084;//2438
     public static final short DoorbellOpenedMessageComposer = 1736;//1251
     public static final short TradeAcceptMessageComposer = 173;//1442

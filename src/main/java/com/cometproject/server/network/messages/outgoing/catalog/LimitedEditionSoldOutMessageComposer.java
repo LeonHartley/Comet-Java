@@ -1,13 +1,18 @@
 package com.cometproject.server.network.messages.outgoing.catalog;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class LimitedEditionSoldOutMessageComposer {
-    public static Composer compose() {
-        Composer msg = new Composer(Composers.CatalogLimitedItemSoldOutMessageComposer);
+public class LimitedEditionSoldOutMessageComposer extends MessageComposer {
+    @Override
+    public short getId() {
+        return Composers.CatalogLimitedItemSoldOutMessageComposer;
+    }
 
-        return msg;
+    @Override
+    public void compose(Composer msg) {
+
     }
 }

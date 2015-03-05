@@ -1,22 +1,21 @@
 package com.cometproject.server.network.messages.composers;
 
+import com.cometproject.server.network.messages.types.Composer;
 import io.netty.buffer.ByteBuf;
 
 public abstract class MessageComposer {
-    private final short header;
-    public MessageComposer(short header) {
-        this.header = header;
+    public MessageComposer() {
     }
 
     public final void writeMessage(ByteBuf buffer) {
-        // write the header
-        buffer.writeShort(this.getHeader());
+        final Composer composer = new Composer(this.getId(), buffer);
 
+        // Do anything we need to do with the buffer.
+
+        this.compose(composer);
     }
 
-    public abstract void compose(ByteBuf buffer);
+    public abstract short getId();
 
-    public short getHeader() {
-        return this.header;
-    }
+    public abstract void compose(Composer msg);
 }

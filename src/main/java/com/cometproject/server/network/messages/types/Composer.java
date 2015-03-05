@@ -1,8 +1,7 @@
 package com.cometproject.server.network.messages.types;
 
+import io.netty.buffer.ByteBuf;
 import org.apache.log4j.Logger;
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBuffers;
 
 import java.nio.charset.Charset;
 
@@ -10,12 +9,12 @@ import java.nio.charset.Charset;
 public class Composer {
     private final static Logger log = Logger.getLogger(Composer.class);
 
-    protected final int id;
-    protected ChannelBuffer body;
+    private final Short composerId;
+    protected ByteBuf body;
 
-    public Composer(int id) {
-        this.id = id;
-        this.body = ChannelBuffers.dynamicBuffer(1024);
+    public Composer(short id, ByteBuf buffer) {
+        this.composerId = id;
+        this.body = buffer;
 
         try {
             this.body.writeInt(-1); // reserve this space for message length
@@ -25,20 +24,11 @@ public class Composer {
         }
     }
 
-    public Composer(int id, ChannelBuffer buf) {
-        this.id = id;
-        this.body = buf;
-    }
-
     public short getId() {
-        return (short) this.id;
+        return this.composerId;
     }
 
-    public void clear() {
-        this.body.clear();
-    }
-
-    public boolean hasLength() {
+    private boolean hasLength() {
         return (this.body.getInt(0) > -1);
     }
 
@@ -102,7 +92,7 @@ public class Composer {
         }
     }
 
-    public ChannelBuffer get() {
+    public ByteBuf get() {
         if (!this.hasLength()) {
             body.setInt(0, body.writerIndex() - 4);
         }
