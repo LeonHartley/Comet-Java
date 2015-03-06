@@ -26,7 +26,7 @@ public class DucketsCommand extends ChatCommand {
         session.getPlayer().getData().increaseActivityPoints(duckets);
         session.getPlayer().getData().save();
 
-        session.send(AdvancedAlertMessageComposer.compose(
+        session.send(new AdvancedAlertMessageComposer(
                 Locale.get("command.duckets.successtitle"),
                 Locale.get("command.duckets.successmessage").replace("%amount%", String.valueOf(duckets))
         ));

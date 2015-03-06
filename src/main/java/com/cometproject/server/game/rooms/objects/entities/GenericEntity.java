@@ -334,7 +334,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     public void unIdle() {
         this.resetIdleTime();
-        this.getRoom().getEntities().broadcastMessage(IdleStatusMessageComposer.compose(this.getId(), false));
+        this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer(this.getId(), false));
     }
 
     @Override
@@ -391,7 +391,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.handItem = id;
 
         this.handItemTimer = 240;
-        this.getRoom().getEntities().broadcastMessage(HandItemMessageComposer.compose(this.getId(), handItem));
+        this.getRoom().getEntities().broadcastMessage(new HandItemMessageComposer(this.getId(), handItem));
     }
 
     @Override
@@ -404,7 +404,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.handItem = id;
         this.handItemTimer = -999;
 
-        this.getRoom().getEntities().broadcastMessage(HandItemMessageComposer.compose(this.getId(), handItem));
+        this.getRoom().getEntities().broadcastMessage(new HandItemMessageComposer(this.getId(), handItem));
     }
 
     @Override
@@ -420,9 +420,9 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     @Override
     public void applyEffect(PlayerEffect effect) {
         if (effect == null) {
-            this.getRoom().getEntities().broadcastMessage(ApplyEffectMessageComposer.compose(this.getId(), 0));
+            this.getRoom().getEntities().broadcastMessage(new ApplyEffectMessageComposer(this.getId(), 0));
         } else {
-            this.getRoom().getEntities().broadcastMessage(ApplyEffectMessageComposer.compose(this.getId(), effect.getEffectId()));
+            this.getRoom().getEntities().broadcastMessage(new ApplyEffectMessageComposer(this.getId(), effect.getEffectId()));
         }
 
         if (effect != null && effect.expires()) {
@@ -462,9 +462,9 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     public void updateVisibility(boolean isVisible) {
         if (isVisible && !this.isVisible) {
-            this.getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(this));
+            this.getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(this));
         } else {
-            this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
+            this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
         }
 
         this.isVisible = isVisible;

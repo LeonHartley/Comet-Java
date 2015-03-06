@@ -41,7 +41,7 @@ public class ConfirmLoveLockMessageEvent implements IEvent {
 
         if(leftPlayer == null || rightPlayer == null) return;
 
-        client.send(LoveLockConfirmedMessageComposer.compose(floorItem.getId()));
+        client.send(new LoveLockConfirmedMessageComposer(floorItem.getId()));
 
         if(confirmed) {
             boolean bothConfirmed = false;
@@ -71,11 +71,11 @@ public class ConfirmLoveLockMessageEvent implements IEvent {
 
                 floorItem.setExtraData(itemData);
 
-                room.getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(floorItem));
+                room.getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem));
                 floorItem.saveData();
 
-                leftPlayer.getPlayer().getSession().send(LoveLockCloseWidgetMessageComposer.compose(floorItem.getId()));
-                rightPlayer.getPlayer().getSession().send(LoveLockCloseWidgetMessageComposer.compose(floorItem.getId()));
+                leftPlayer.getPlayer().getSession().send(new LoveLockCloseWidgetMessageComposer(floorItem.getId()));
+                rightPlayer.getPlayer().getSession().send(new LoveLockCloseWidgetMessageComposer(floorItem.getId()));
             }
         }
     }

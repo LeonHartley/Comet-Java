@@ -16,7 +16,7 @@ public class RemoveOwnRightsMessageEvent implements IEvent {
         if(client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId())) {
             client.getPlayer().getEntity().getRoom().getRights().removeRights(client.getPlayer().getId());
 
-            client.send(AccessLevelMessageComposer.compose(0));
+            client.send(new AccessLevelMessageComposer(0));
 
             client.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);
             client.getPlayer().getEntity().addStatus(RoomEntityStatus.CONTROLLER, "0");

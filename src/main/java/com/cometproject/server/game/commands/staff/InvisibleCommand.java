@@ -2,7 +2,7 @@ package com.cometproject.server.game.commands.staff;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
 
@@ -18,7 +18,7 @@ public class InvisibleCommand extends ChatCommand {
             client.getPlayer().getEntity().getRoom().getEntities().getPlayerCounter().decrementAndGet();
         }
 
-        client.send(WisperMessageComposer.compose(client.getPlayer().getEntity().getId(), Locale.get("command.invisible." + (isVisible ? "disabled" : "enabled"))));
+        client.send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), Locale.get("command.invisible." + (isVisible ? "disabled" : "enabled"))));
         client.getPlayer().getEntity().updateVisibility(isVisible);
     }
 

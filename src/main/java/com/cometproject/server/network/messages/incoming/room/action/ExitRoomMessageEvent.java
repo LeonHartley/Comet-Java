@@ -9,7 +9,7 @@ import com.cometproject.server.network.sessions.Session;
 public class ExitRoomMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         if (client.getPlayer() == null || client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
-            client.send(HotelViewMessageComposer.compose());
+            client.send(new HotelViewMessageComposer());
             return;
         }
 

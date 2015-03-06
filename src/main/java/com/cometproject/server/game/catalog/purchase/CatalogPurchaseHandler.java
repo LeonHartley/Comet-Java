@@ -57,7 +57,7 @@ public class CatalogPurchaseHandler {
 
         // TODO: redo all of this, it sucks so bad ;P, maybe add purchase handlers for each item or some crap
         if (amount > 100) {
-            client.send(AlertMessageComposer.compose(Locale.get("catalog.error.toomany")));
+            client.send(new AlertMessageComposer(Locale.get("catalog.error.toomany")));
             return;
         }
 
@@ -65,7 +65,7 @@ public class CatalogPurchaseHandler {
 
         if (giftData != null) {
             if (playerIdToDeliver == 0) {
-                client.send(GiftUserNotFoundMessageComposer.compose());
+                client.send(new GiftUserNotFoundMessageComposer());
                 return;
             }
         }
@@ -102,9 +102,9 @@ public class CatalogPurchaseHandler {
 
                 if(client.getPlayer().getLastGift() != 0) {
                     if(((int) Comet.getTime() - client.getPlayer().getLastGift()) < 5000) {
-                        client.send(AdvancedAlertMessageComposer.compose(Locale.get("catalog.error.gifttoofast")));
+                        client.send(new AdvancedAlertMessageComposer(Locale.get("catalog.error.gifttoofast")));
 
-                        client.send(BoughtItemMessageComposer.badge());
+                        client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
                         return;
                     }
                 }
@@ -113,7 +113,7 @@ public class CatalogPurchaseHandler {
             }
 
             if (amount > 1 && !item.allowOffer()) {
-                client.send(AlertMessageComposer.compose(Locale.get("catalog.error.nooffer")));
+                client.send(new AlertMessageComposer(Locale.get("catalog.error.nooffer")));
 
                 return;
             }
@@ -123,7 +123,7 @@ public class CatalogPurchaseHandler {
             int totalCostActivityPoints;
 
             if (item.getLimitedSells() >= item.getLimitedTotal() && item.getLimitedTotal() != 0) {
-                client.send(LimitedEditionSoldOutMessageComposer.compose());
+                client.send(new LimitedEditionSoldOutMessageComposer());
                 return;
             }
 
@@ -139,7 +139,7 @@ public class CatalogPurchaseHandler {
 
             if ((!CometSettings.infiniteBalance && (client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getActivityPoints() < totalCostActivityPoints)) || client.getPlayer().getData().getVipPoints() < totalCostPoints) {
                 CometManager.getLogger().warn("Player with ID: " + client.getPlayer().getId() + " tried to purchase item with ID: " + item.getId() + " with the incorrect amount of credits or points.");
-                client.send(AlertMessageComposer.compose(Locale.get("catalog.error.notenough")));
+                client.send(new AlertMessageComposer(Locale.get("catalog.error.notenough")));
                 return;
             }
 
@@ -158,7 +158,7 @@ public class CatalogPurchaseHandler {
                     client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
                 }
 
-                client.send(BoughtItemMessageComposer.badge());
+                client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
                 return;
             }
 
@@ -168,7 +168,7 @@ public class CatalogPurchaseHandler {
                     continue;
                 }
 
-                client.send(BoughtItemMessageComposer.compose(item, def));
+                client.send(new BoughtItemMessageComposer(item, def));
 
                 if (def.getItemName().equals("DEAL_HC_1")) {
                     // TODO: HC buying
@@ -196,7 +196,7 @@ public class CatalogPurchaseHandler {
                     int petId = PetDao.createPet(client.getPlayer().getId(), petData[0], Integer.parseInt(petRace), Integer.parseInt(petData[1]), petData[2]);
 
                     client.getPlayer().getPets().addPet(new PetData(petId, petData[0], StaticPetProperties.DEFAULT_LEVEL, StaticPetProperties.DEFAULT_HAPPINESS, StaticPetProperties.DEFAULT_EXPERIENCE, StaticPetProperties.DEFAULT_ENERGY, client.getPlayer().getId(), petData[2], Integer.parseInt(petData[1]), Integer.parseInt(petRace)));
-                    client.send(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));
+                    client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));
                     return;
                 } else if (def.getInteraction().equals("postit")) {
                     amount = 20; // we want 20 stickies
@@ -232,7 +232,7 @@ public class CatalogPurchaseHandler {
 
                     int botId = PlayerBotDao.createBot(client.getPlayer().getId(), botName, botFigure, botGender, botMotto, type);
                     client.getPlayer().getBots().addBot(new InventoryBot(botId, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), botName, botFigure, botGender, botMotto, type));
-                    client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
+                    client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));
                     return;
                 } else if (def.getInteraction().equals("badge_display")) {
                     if (client.getPlayer().getInventory().getBadges().get(data) == null) {
@@ -304,8 +304,8 @@ public class CatalogPurchaseHandler {
                         client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
                     }
 
-                    client.send(UnseenItemsMessageComposer.compose(unseenItems));
-                    client.send(UpdateInventoryMessageComposer.compose());
+                    client.send(new UnseenItemsMessageComposer(unseenItems));
+                    client.send(new UpdateInventoryMessageComposer());
                 }
 
             }
@@ -334,9 +334,9 @@ public class CatalogPurchaseHandler {
                 unseenItems.add(client.getPlayer().getInventory().add(newItem, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData), giftData));
             }
 
-            client.send(UnseenItemsMessageComposer.compose(unseenItems));
-            client.send(UpdateInventoryMessageComposer.compose());
-            client.send(RoomNotificationMessageComposer.bubble("gift_received", Locale.getOrDefault("notification.gift_received", "You have just received a gift from %username%!").replace("%username%", senderUsername)));
+            client.send(new UnseenItemsMessageComposer(unseenItems));
+            client.send(new UpdateInventoryMessageComposer());
+            client.send(new RoomNotificationMessageComposer("gift_received", Locale.getOrDefault("notification.gift_received", "You have just received a gift from %username%!").replace("%username%", senderUsername)));
         }
     }
 

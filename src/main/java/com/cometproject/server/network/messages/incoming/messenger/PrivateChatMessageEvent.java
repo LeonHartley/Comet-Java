@@ -8,7 +8,6 @@ import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.messenger.InstantChatMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -21,7 +20,7 @@ public class PrivateChatMessageEvent implements IEvent {
         if (userId == -1 && client.getPlayer().getPermissions().hasPermission("staff_chat")) {
             for (Session user : NetworkManager.getInstance().getSessions().getByPlayerPermission("staff_chat")) {
                 if (user == client) continue;
-                user.send(InstantChatMessageComposer.compose(client.getPlayer().getData().getUsername() + ": " + message, -1));
+                user.send(new InstantChatMessageComposer(client.getPlayer().getData().getUsername() + ": " + message, -1));
             }
             return;
         }
@@ -62,13 +61,13 @@ public class PrivateChatMessageEvent implements IEvent {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {
-                client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
+                client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
                 return;
             } else if (filterResult.wasModified()) {
                 message = filterResult.getChatMessage();
             }
         }
 
-        friendClient.send(InstantChatMessageComposer.compose(message, client.getPlayer().getId()));
+        friendClient.send(new InstantChatMessageComposer(message, client.getPlayer().getId()));
     }
 }

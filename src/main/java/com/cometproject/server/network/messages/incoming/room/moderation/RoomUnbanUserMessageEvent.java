@@ -22,6 +22,6 @@ public class RoomUnbanUserMessageEvent implements IEvent {
             room.getRights().removeBan(playerId);
         }
 
-        client.send(RoomPlayerUnbannedMessageComposer.compose(room.getId(), playerId));
+        client.send(new RoomPlayerUnbannedMessageComposer(room.getId(), playerId));
     }
 }

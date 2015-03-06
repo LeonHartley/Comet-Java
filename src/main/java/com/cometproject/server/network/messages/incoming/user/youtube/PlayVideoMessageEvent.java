@@ -38,8 +38,8 @@ public class PlayVideoMessageEvent implements IEvent {
                     if (playerSettings.getPlaylist().get(i).getVideoId().equals(item.getAttribute("video"))) {
                         PlaylistItem playlistItem = playerSettings.getPlaylist().get(i);
 
-                        //client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(PlayVideoMessageComposer.compose(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
-                        client.send(PlayVideoMessageComposer.compose(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
+                        //client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new PlayVideoMessageComposer(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
+                        client.send(new PlayVideoMessageComposer(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
                     }
                 }
             }
@@ -48,13 +48,13 @@ public class PlayVideoMessageEvent implements IEvent {
         }
 
         PlaylistItem playlistItem = playerSettings.getPlaylist().get(videoId);
-        client.send(PlaylistMessageComposer.compose(itemId, playerSettings.getPlaylist(), videoId));
+        client.send(new PlaylistMessageComposer(itemId, playerSettings.getPlaylist(), videoId));
 
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(PlayVideoMessageComposer.compose(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new PlayVideoMessageComposer(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
 
         item.setAttribute("video", playlistItem.getVideoId());
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(item, client.getPlayer().getEntity().getRoom().getData().getOwnerId()));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(item, client.getPlayer().getEntity().getRoom().getData().getOwnerId()));
     }
 }

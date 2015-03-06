@@ -34,9 +34,9 @@ public class WearBadgeMessageEvent implements IEvent {
         }
 
         if (client.getPlayer().getEntity() != null) {
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UserBadgesMessageComposer.compose(client.getPlayer().getId(), client.getPlayer().getInventory().equippedBadges()));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UserBadgesMessageComposer(client.getPlayer().getId(), client.getPlayer().getInventory().equippedBadges()));
         } else {
-            client.send(UserBadgesMessageComposer.compose(client.getPlayer().getId(), client.getPlayer().getInventory().equippedBadges()));
+            client.send(new UserBadgesMessageComposer(client.getPlayer().getId(), client.getPlayer().getInventory().equippedBadges()));
         }
     }
 }

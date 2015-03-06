@@ -11,6 +11,6 @@ public class PopularRoomsMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
         int categoryId = Integer.parseInt(msg.readString());
 
-        client.send(NavigatorFlatListMessageComposer.compose(categoryId, 2, "", RoomManager.getInstance().getRoomsByCategory(categoryId)));
+        client.send(new NavigatorFlatListMessageComposer(2, "", RoomManager.getInstance().getRoomsByCategory(categoryId)));
     }
 }

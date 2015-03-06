@@ -31,7 +31,7 @@ public class RespectUserMessageEvent implements IEvent {
         user.getPlayer().getStats().incrementRespectPoints(1);
         client.getPlayer().getStats().decrementDailyRespects(1);
 
-        room.getEntities().broadcastMessage(ActionMessageComposer.compose(client.getPlayer().getEntity().getId(), 7));
-        room.getEntities().broadcastMessage(GiveRespectMessageComposer.compose(user.getPlayer().getId(), user.getPlayer().getStats().getRespectPoints()));
+        room.getEntities().broadcastMessage(new ActionMessageComposer(client.getPlayer().getEntity().getId(), 7));
+        room.getEntities().broadcastMessage(new GiveRespectMessageComposer(user.getPlayer().getId(), user.getPlayer().getStats().getRespectPoints()));
     }
 }

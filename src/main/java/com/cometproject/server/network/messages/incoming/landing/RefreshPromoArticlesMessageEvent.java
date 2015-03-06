@@ -10,6 +10,6 @@ import com.cometproject.server.network.sessions.Session;
 public class RefreshPromoArticlesMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        client.send(PromoArticlesMessageComposer.compose(LandingManager.getInstance().getArticles()));
+        client.send(new PromoArticlesMessageComposer(LandingManager.getInstance().getArticles()));
     }
 }

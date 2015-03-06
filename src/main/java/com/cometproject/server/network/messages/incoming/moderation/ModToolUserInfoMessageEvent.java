@@ -27,6 +27,6 @@ public class ModToolUserInfoMessageEvent implements IEvent {
             return;
         }
 
-        client.send(ModToolUserInfoMessageComposer.compose(playerData, playerStatistics));
+        client.send(new ModToolUserInfoMessageComposer(playerData, playerStatistics));
     }
 }

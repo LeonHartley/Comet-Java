@@ -24,6 +24,6 @@ public class CatalogPromotionGetRoomsMessageEvent implements IEvent {
             }
         }
 
-        client.send(CatalogPromotionGetRoomsMessageComposer.compose(roomDataList));
+        client.send(new CatalogPromotionGetRoomsMessageComposer(roomDataList));
     }
 }

@@ -20,7 +20,7 @@ public class RespectPetMessageEvent implements IEvent {
 
         if (petEntity == null) return;
 
-        room.getEntities().broadcastMessage(ActionMessageComposer.compose(client.getPlayer().getEntity().getId(), 7));
+        room.getEntities().broadcastMessage(new ActionMessageComposer(client.getPlayer().getEntity().getId(), 7));
         // TODO: Flesh this out more
     }
 }

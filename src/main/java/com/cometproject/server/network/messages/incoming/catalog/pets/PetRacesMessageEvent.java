@@ -18,6 +18,6 @@ public class PetRacesMessageEvent implements IEvent {
 
         List<PetRace> races = PetManager.getInstance().getRacesByRaceId(raceId);
 
-        client.send(PetRacesMessageComposer.compose(petRace, races));
+        client.send(new PetRacesMessageComposer(petRace, races));
     }
 }

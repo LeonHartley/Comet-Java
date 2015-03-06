@@ -28,8 +28,8 @@ public class TransformCommand extends ChatCommand {
             client.getPlayer().getEntity().setAttribute("transformation", type.getData());
         }
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(client.getPlayer().getEntity().getId()));
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity()));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
     }
 
     @Override

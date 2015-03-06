@@ -23,7 +23,7 @@ public class RequestFriendshipMessageEvent implements IEvent {
         if (request == null || request.getPlayer() == null) return;
 
         if (!request.getPlayer().getSettings().getAllowFriendRequests()) {
-            client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.messenger.friendrequests.disabled")));
+            client.send(new AdvancedAlertMessageComposer(Locale.get("game.messenger.friendrequests.disabled")));
             return;
         }
 
@@ -31,7 +31,7 @@ public class RequestFriendshipMessageEvent implements IEvent {
             return;
 
         request.getPlayer().getMessenger().addRequest(client.getPlayer().getId());
-        request.send(FriendRequestMessageComposer.compose(client.getPlayer().getData()));
+        request.send(new FriendRequestMessageComposer(client.getPlayer().getData()));
 
         int userId = PlayerDao.getIdByUsername(username);
 

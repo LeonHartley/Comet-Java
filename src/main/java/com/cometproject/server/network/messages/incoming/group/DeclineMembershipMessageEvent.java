@@ -28,6 +28,6 @@ public class DeclineMembershipMessageEvent implements IEvent {
 
         group.getMembershipComponent().removeRequest(playerId);
 
-        client.send(GroupMembersMessageComposer.compose(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getMembershipRequests()), 2, "", true));
+        client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getMembershipRequests()), 2, "", true));
     }
 }

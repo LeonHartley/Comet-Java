@@ -43,7 +43,7 @@ public class SnowboardJumpFloorItem extends RoomItemFloor {
             }
 
             entity.moveTo(tileGoal.getX() + (increaseX ? 1 : decreaseX ? -1 : 0), tileGoal.getY() + (increaseY ? 1 : decreaseY ? -1 : 0));
-            this.getRoom().getEntities().broadcastMessage(ActionMessageComposer.compose(entity.getId(), 8));
+            this.getRoom().getEntities().broadcastMessage(new ActionMessageComposer(entity.getId(), 8));
         }
     }
 
@@ -57,6 +57,6 @@ public class SnowboardJumpFloorItem extends RoomItemFloor {
 
         // Random!
         int actionId = RandomInteger.getRandom(9, 10);
-        this.getRoom().getEntities().broadcastMessage(ActionMessageComposer.compose(playerEntity.getId(), actionId));
+        this.getRoom().getEntities().broadcastMessage(new ActionMessageComposer(playerEntity.getId(), actionId));
     }
 }

@@ -25,7 +25,7 @@ public class FollowCommand extends ChatCommand {
                 }
             }
 
-            client.send(RoomForwardMessageComposer.compose(leader.getPlayer().getEntity().getRoom().getId()));
+            client.send(new RoomForwardMessageComposer(leader.getPlayer().getEntity().getRoom().getId()));
         } else {
             if (leader == null || leader.getPlayer() == null)
                 sendNotif(Locale.get("command.follow.online"), client);

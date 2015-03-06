@@ -39,6 +39,6 @@ public class GetProfileMessageEvent implements IEvent {
             return;
         }
 
-        client.send(LoadProfileMessageComposer.compose(data, stats, groups, client.getPlayer().getMessenger().getFriendById(userId) != null, false));
+        client.send(new LoadProfileMessageComposer(data, stats, groups, client.getPlayer().getMessenger().getFriendById(userId) != null, false));
     }
 }

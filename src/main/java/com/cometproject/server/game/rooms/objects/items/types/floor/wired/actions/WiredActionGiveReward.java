@@ -122,7 +122,7 @@ public class WiredActionGiveReward extends WiredActionItem {
         }
 
         if (errorCode != -1) {
-            playerEntity.getPlayer().getSession().send(WiredRewardMessageComposer.compose(errorCode));
+            playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(errorCode));
             return false;
         }
 
@@ -160,10 +160,10 @@ public class WiredActionGiveReward extends WiredActionItem {
 
                         playerEntity.getPlayer().getInventory().addItem(inventoryItem);
 
-                        playerEntity.getPlayer().getSession().send(UpdateInventoryMessageComposer.compose());
-                        playerEntity.getPlayer().getSession().send(UnseenItemsMessageComposer.compose(Arrays.asList(inventoryItem)));
+                        playerEntity.getPlayer().getSession().send(new UpdateInventoryMessageComposer());
+                        playerEntity.getPlayer().getSession().send(new UnseenItemsMessageComposer(Arrays.asList(inventoryItem)));
 
-                        playerEntity.getPlayer().getSession().send(WiredRewardMessageComposer.compose(6));
+                        playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(6));
                     }
                 }
 
@@ -173,7 +173,7 @@ public class WiredActionGiveReward extends WiredActionItem {
 
 
         if (!receivedReward) {
-            playerEntity.getPlayer().getSession().send(WiredRewardMessageComposer.compose(4));
+            playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(4));
         }
 
         if (rewardTimings.get(this.getId()).containsKey(playerEntity.getPlayerId())) {

@@ -26,6 +26,6 @@ public class ModToolRoomInfoMessageEvent implements IEvent {
         if (room == null)
             return;
 
-        client.send(ModToolRoomInfoMessageComposer.compose(room));
+        client.send(new ModToolRoomInfoMessageComposer(room));
     }
 }

@@ -28,6 +28,6 @@ public class RemoveBotMessageEvent implements IEvent {
         RoomBotDao.setRoomId(0, entity.getBotId());
 
         entity.leaveRoom();
-        client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
+        client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));
     }
 }

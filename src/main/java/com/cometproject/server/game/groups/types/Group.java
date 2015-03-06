@@ -3,8 +3,8 @@ package com.cometproject.server.game.groups.types;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.components.MembershipComponent;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupInformationMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 
 
 public class Group {
@@ -36,8 +36,8 @@ public class Group {
      * @param playerId The ID of the player to receive this message
      * @return Packet containing the group information
      */
-    public Composer composeInformation(boolean flag, int playerId) {
-        return GroupInformationMessageComposer.compose(this, RoomManager.getInstance().getRoomData(this.getData().getRoomId()), flag, playerId == this.getData().getOwnerId(), this.getMembershipComponent().getAdministrators().contains(playerId),
+    public MessageComposer composeInformation(boolean flag, int playerId) {
+        return new GroupInformationMessageComposer(this, RoomManager.getInstance().getRoomData(this.getData().getRoomId()), flag, playerId == this.getData().getOwnerId(), this.getMembershipComponent().getAdministrators().contains(playerId),
                 this.getMembershipComponent().getMembers().containsKey(playerId) ? 1 : this.getMembershipComponent().getMembershipRequests().contains(playerId) ? 2 : 0);
     }
 

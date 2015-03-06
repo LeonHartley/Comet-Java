@@ -70,7 +70,7 @@ public class BanzaiGame extends RoomGame {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 
                 if (this.getGameComponent().getTeam(playerEntity.getPlayerId()).equals(winningTeam) && winningTeam != GameTeam.NONE) {
-                    this.room.getEntities().broadcastMessage(ActionMessageComposer.compose(playerEntity.getId(), 1)); // wave o/
+                    this.room.getEntities().broadcastMessage(new ActionMessageComposer(playerEntity.getId(), 1)); // wave o/
                 }
             }
         }

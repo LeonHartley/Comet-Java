@@ -11,10 +11,21 @@ public class UpdateFriendStateMessageComposer extends MessageComposer {
     private final boolean online;
     private final boolean inRoom;
 
+    private int action;
+    private int playerId;
+
     public UpdateFriendStateMessageComposer(final PlayerAvatar playerAvatar, final boolean online, final boolean inRoom) {
         this.playerAvatar = playerAvatar;
         this.online = online;
         this.inRoom = inRoom;
+    }
+
+    public UpdateFriendStateMessageComposer(int action, int playerId) {
+        this.playerAvatar = null;
+        this.online = false;
+        this.inRoom = false;
+        this.action = action;
+        this.playerId = playerId;
     }
 
     @Override
@@ -24,6 +35,15 @@ public class UpdateFriendStateMessageComposer extends MessageComposer {
 
     @Override
     public void compose(Composer msg) {
+        if(this.playerAvatar == null) {
+            msg.writeInt(0);
+            msg.writeInt(1);
+            msg.writeInt(this.action);
+            msg.writeInt(this.playerId);
+
+            return;
+        }
+
         msg.writeInt(0);
         msg.writeInt(1);
         msg.writeInt(0);

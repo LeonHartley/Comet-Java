@@ -30,7 +30,7 @@ public class BuyGroupMessageEvent implements IEvent {
         }
 
         client.getPlayer().getData().decreaseCredits(CometSettings.groupCost);
-        client.send(SendCreditsMessageComposer.compose(client.getPlayer().getData().getCredits()));
+        client.send(new SendCreditsMessageComposer(client.getPlayer().getData().getCredits()));
         client.getPlayer().getData().save();
 
         String name = msg.readString();
@@ -58,7 +58,7 @@ public class BuyGroupMessageEvent implements IEvent {
 
         String badge = BadgeUtil.generate(groupBase, groupBaseColour, groupItems);
 
-        client.send(BoughtItemMessageComposer.group());
+        client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.GROUP));
 
         Group group = GroupManager.getInstance().createGroup(new GroupData(name, desc, badge, client.getPlayer().getId(), roomId, GroupManager.getInstance().getGroupItems().getSymbolColours().containsKey(colour1) ? colour1 : 1,
                 GroupManager.getInstance().getGroupItems().getBackgroundColours().containsKey(colour2) ? colour2 : 1));
@@ -70,14 +70,14 @@ public class BuyGroupMessageEvent implements IEvent {
         client.getPlayer().getData().save();
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom().getId() != roomId) {
-            client.send(RoomForwardMessageComposer.compose(roomId));
+            client.send(new RoomForwardMessageComposer(roomId));
         } else {
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(GroupBadgesMessageComposer.compose(group.getId(), group.getData().getBadge()));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new GroupBadgesMessageComposer(group.getId(), group.getData().getBadge()));
 
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(client.getPlayer().getEntity().getId()));
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity()));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
         }
 
-        client.send(GroupRoomMessageComposer.compose(roomId, group.getId()));
+        client.send(new GroupRoomMessageComposer(roomId, group.getId()));
     }
 }

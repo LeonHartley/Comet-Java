@@ -52,7 +52,7 @@ public class SeatFloorItem extends RoomItemFloor {
         entity.addStatus(RoomEntityStatus.SIT, String.valueOf(height).replace(',', '.'));
 
         if (instantUpdate)
-            this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entity));
+            this.getRoom().getEntities().broadcastMessage(new AvatarUpdateMessageComposer(entity));
         else
             entity.markNeedsUpdate();
     }

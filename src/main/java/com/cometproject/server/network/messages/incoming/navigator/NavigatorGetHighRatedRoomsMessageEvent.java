@@ -10,6 +10,6 @@ import com.cometproject.server.storage.queries.rooms.RoomDao;
 public class NavigatorGetHighRatedRoomsMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        client.send(NavigatorFlatListMessageComposer.compose(0, 0, "", RoomDao.getHighestScoredRooms(), true, true));
+        client.send(new NavigatorFlatListMessageComposer(0, "", RoomDao.getHighestScoredRooms(), true, true));
     }
 }

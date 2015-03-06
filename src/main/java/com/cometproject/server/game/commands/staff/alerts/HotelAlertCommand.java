@@ -14,7 +14,7 @@ public class HotelAlertCommand extends ChatCommand {
             return;
         }
 
-        NetworkManager.getInstance().getSessions().broadcast(AdvancedAlertMessageComposer.compose(Locale.get("command.hotelalert.title"), this.merge(message) + "<br><br><i> " + client.getPlayer().getData().getUsername() + "</i>"));
+        NetworkManager.getInstance().getSessions().broadcast(new AdvancedAlertMessageComposer(Locale.get("command.hotelalert.title"), this.merge(message) + "<br><br><i> " + client.getPlayer().getData().getUsername() + "</i>"));
     }
 
     @Override

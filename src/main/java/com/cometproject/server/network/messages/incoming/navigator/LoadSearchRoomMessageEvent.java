@@ -37,7 +37,7 @@ public class LoadSearchRoomMessageEvent implements IEvent {
         TreeMap<String, Integer> treeMap = new TreeMap<>(new ValueComparator(tagsPlayerCount));
         treeMap.putAll(tagsPlayerCount);
 
-        client.send(PopularTagsMessageComposer.compose(treeMap));
+        client.send(new PopularTagsMessageComposer(treeMap));
 
         tagsPlayerCount.clear();
         treeMap.clear();

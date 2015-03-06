@@ -180,12 +180,12 @@ public class ItemsComponent {
     public void removeItem(RoomItemWall item, Session client) {
         RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
 
-        room.getEntities().broadcastMessage(RemoveWallItemMessageComposer.compose(item.getId(), room.getData().getOwnerId()));
+        room.getEntities().broadcastMessage(new RemoveWallItemMessageComposer(item.getId(), room.getData().getOwnerId()));
         this.getWallItems().remove(item);
 
         client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
-        client.send(UpdateInventoryMessageComposer.compose());
-        //client.send(InventoryMessageComposer.compose(client.getPlayer().getInventory()));
+        client.send(new UpdateInventoryMessageComposer());
+        //client.send(new InventoryMessageComposer(client.getPlayer().getInventory()));
     }
 
     public void removeItem(RoomItemFloor item, Session client) {
@@ -211,14 +211,14 @@ public class ItemsComponent {
             }
         }
 
-        room.getEntities().broadcastMessage(RemoveFloorItemMessageComposer.compose(item.getId(), client != null ? client.getPlayer().getId() : 0));
+        room.getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(item.getId(), client != null ? client.getPlayer().getId() : 0));
         this.getFloorItems().remove(item);
 
         if (toInventory && client != null) {
             RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
 
             client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null);
-            client.send(UpdateInventoryMessageComposer.compose());
+            client.send(new UpdateInventoryMessageComposer());
         } else {
             if(delete)
                 RoomItemDao.deleteItem(item.getId());
@@ -230,14 +230,14 @@ public class ItemsComponent {
     }
 
     public void removeItem(RoomItemWall item, Session client, boolean toInventory) {
-        this.getRoom().getEntities().broadcastMessage(RemoveWallItemMessageComposer.compose(item.getId(), client.getPlayer().getId()));
+        this.getRoom().getEntities().broadcastMessage(new RemoveWallItemMessageComposer(item.getId(), client.getPlayer().getId()));
         this.getWallItems().remove(item);
 
         if (toInventory) {
             RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
 
             client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
-            client.send(UpdateInventoryMessageComposer.compose());
+            client.send(new UpdateInventoryMessageComposer());
         } else {
             RoomItemDao.deleteItem(item.getId());
         }
@@ -356,7 +356,7 @@ public class ItemsComponent {
         RoomItemWall wallItem = this.addWallItem(item.getId(), item.getBaseId(), this.room, player.getId(), position, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
 
         this.room.getEntities().broadcastMessage(
-                SendWallItemMessageComposer.compose(wallItem)
+                new SendWallItemMessageComposer(wallItem)
         );
 
         wallItem.onPlaced();
@@ -425,7 +425,7 @@ public class ItemsComponent {
             room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
         }
 
-        room.getEntities().broadcastMessage(SendFloorItemMessageComposer.compose(floorItem, room));
+        room.getEntities().broadcastMessage(new SendFloorItemMessageComposer(floorItem));
 
         floorItem.saveData();
     }

@@ -49,7 +49,7 @@ public class ModifyBotMessageEvent implements IEvent {
                 botEntity.getData().setFigure(figure);
                 botEntity.getData().setGender(gender);
 
-                room.getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(botEntity));
+                room.getEntities().broadcastMessage(new UpdateInfoMessageComposer(botEntity));
                 break;
 
             case 2:
@@ -68,7 +68,7 @@ public class ModifyBotMessageEvent implements IEvent {
                     FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
                     if (filterResult.isBlocked()) {
-                        client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
+                        client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
                         return;
                     }
 //                    else if (filterResult.wasModified()) {
@@ -105,7 +105,7 @@ public class ModifyBotMessageEvent implements IEvent {
                     int danceId = RandomInteger.getRandom(1, 4);
 
                     botEntity.setDanceId(danceId);
-                    room.getEntities().broadcastMessage(DanceMessageComposer.compose(botEntity.getId(), danceId));
+                    room.getEntities().broadcastMessage(new DanceMessageComposer(botEntity.getId(), danceId));
                 }
                 break;
 
@@ -116,7 +116,7 @@ public class ModifyBotMessageEvent implements IEvent {
 
                 botEntity.getData().setUsername(botName);
 
-                room.getEntities().broadcastMessage(AvatarsMessageComposer.compose(botEntity));
+                room.getEntities().broadcastMessage(new AvatarsMessageComposer(botEntity));
                 break;
         }
 

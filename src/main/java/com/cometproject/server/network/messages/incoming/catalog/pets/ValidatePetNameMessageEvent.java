@@ -34,6 +34,6 @@ public class ValidatePetNameMessageEvent implements IEvent {
                 break;
         }
 
-        client.send(ValidatePetNameMessageComposer.compose(errorCode, data));
+        client.send(new ValidatePetNameMessageComposer(errorCode, data));
     }
 }

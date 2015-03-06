@@ -22,12 +22,12 @@ public class PetInformationMessageEvent implements IEvent {
             PlayerEntity playerEntity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPlayerId(petId);
 
             if (playerEntity != null) {
-                client.send(PetInformationMessageComposer.compose(playerEntity));
+                client.send(new PetInformationMessageComposer(playerEntity));
             }
 
             return;
         }
 
-        client.send(PetInformationMessageComposer.compose(petEntity.getData()));
+        client.send(new PetInformationMessageComposer(petEntity.getData()));
     }
 }

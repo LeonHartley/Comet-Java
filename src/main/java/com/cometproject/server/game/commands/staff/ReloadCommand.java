@@ -31,7 +31,7 @@ public class ReloadCommand extends ChatCommand {
 
         switch (command) {
             case "list":
-                client.send(MotdNotificationComposer.compose(
+                client.send(new MotdNotificationComposer(
                         "Here's a list of what you can reload using the :reload command!\n\n" +
                         "- bans\n" +
                                 "- catalog\n" +
@@ -59,7 +59,7 @@ public class ReloadCommand extends ChatCommand {
                 CatalogManager.getInstance().loadPages();
                 CatalogManager.getInstance().loadGiftBoxes();
 
-                NetworkManager.getInstance().getSessions().broadcast(CatalogPublishMessageComposer.compose(true));
+                NetworkManager.getInstance().getSessions().broadcast(new CatalogPublishMessageComposer(true));
                 sendNotif(Locale.get("command.reload.catalog"), client);
                 break;
 
@@ -113,7 +113,7 @@ public class ReloadCommand extends ChatCommand {
                 sendNotif(Locale.get("command.reload.modpresets"), client);
 
                 for (Session session : NetworkManager.getInstance().getSessions().getByPlayerPermission("mod_tool")) {
-                    session.send(ModToolMessageComposer.compose());
+                    session.send(new ModToolMessageComposer());
                 }
                 break;
 

@@ -18,11 +18,11 @@ public class CreateRoomMessageEvent implements IEvent {
         int tradeState = msg.readInt();
 
         if (RoomManager.getInstance().getModel(model) == null) {
-            client.send(MotdNotificationComposer.compose("Invalid room model"));
+            client.send(new MotdNotificationComposer("Invalid room model"));
             return;
         }
 
         int roomId = RoomManager.getInstance().createRoom(name, description, model, category, maxVisitors, tradeState, client);
-        client.send(CreateRoomMessageComposer.compose(roomId, name));
+        client.send(new CreateRoomMessageComposer(roomId, name));
     }
 }

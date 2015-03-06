@@ -65,7 +65,7 @@ public abstract class RoomItemWall extends RoomItem {
         Room r = this.getRoom();
 
         if (r != null && r.getEntities() != null) {
-            r.getEntities().broadcastMessage(UpdateWallItemMessageComposer.compose(this, this.ownerId, this.getRoom().getData().getOwner()));
+            r.getEntities().broadcastMessage(new UpdateWallItemMessageComposer(this, this.ownerId, this.getRoom().getData().getOwner()));
         }
     }
 

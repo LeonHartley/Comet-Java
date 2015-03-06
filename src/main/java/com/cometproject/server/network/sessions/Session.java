@@ -82,7 +82,7 @@ public class Session {
     }
 
     public void disconnect(String reason) {
-        this.send(LogoutMessageComposer.compose(reason));
+        this.send(new LogoutMessageComposer(reason));
         this.disconnect();
     }
 

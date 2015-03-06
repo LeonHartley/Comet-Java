@@ -26,7 +26,7 @@ public class IgnoreUserMessageEvent implements IEvent {
             }
 
             client.getPlayer().ignorePlayer(playerEntity.getPlayerId());
-            client.send(UpdateIgnoreStatusMessageComposer.compose(1, username));
+            client.send(new UpdateIgnoreStatusMessageComposer(1, username));
         }
 
     }

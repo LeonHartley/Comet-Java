@@ -139,8 +139,8 @@ public class SaveRoomDataMessageEvent implements IEvent {
         try {
             data.save();
 
-            room.getEntities().broadcastMessage(ConfigureWallAndFloorMessageComposer.compose(hideWall, wallThick, floorThick));
-            room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
+            room.getEntities().broadcastMessage(new ConfigureWallAndFloorMessageComposer(hideWall, wallThick, floorThick));
+            room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));
         } catch (Exception e) {
             RoomManager.log.error("Error while saving room data", e);
         }

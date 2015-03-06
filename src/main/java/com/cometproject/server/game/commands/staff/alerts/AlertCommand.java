@@ -18,7 +18,7 @@ public class AlertCommand extends ChatCommand {
         if (user == null)
             return;
 
-        user.send(AlertMessageComposer.compose(this.merge(params, 1)));
+        user.send(new AlertMessageComposer(this.merge(params, 1)));
     }
 
     @Override

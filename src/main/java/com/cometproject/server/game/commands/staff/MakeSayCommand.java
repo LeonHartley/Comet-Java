@@ -21,7 +21,7 @@ public class MakeSayCommand extends ChatCommand {
         Room room = client.getPlayer().getEntity().getRoom();
         PlayerEntity playerEntity = (PlayerEntity) room.getEntities().getEntityByName(player, RoomEntityType.PLAYER);
 
-        room.getEntities().broadcastMessage(TalkMessageComposer.compose(playerEntity.getId(), message, RoomManager.getInstance().getEmotions().getEmotion(message), 0));
+        room.getEntities().broadcastMessage(new TalkMessageComposer(playerEntity.getId(), message, RoomManager.getInstance().getEmotions().getEmotion(message), 0));
     }
 
     @Override

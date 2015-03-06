@@ -30,7 +30,7 @@ public class TalkMessageEvent implements IEvent {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {
-                client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
+                client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
                 return;
             } else if (filterResult.wasModified()) {
                 filteredMessage = filterResult.getChatMessage();
@@ -46,7 +46,7 @@ public class TalkMessageEvent implements IEvent {
             }
 
             client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(
-                    TalkMessageComposer.compose(
+                    new TalkMessageComposer(
                             client.getPlayer().getEntity().getId(),
                             filteredMessage,
                             RoomManager.getInstance().getEmotions().getEmotion(filteredMessage),

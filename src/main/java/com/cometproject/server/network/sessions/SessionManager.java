@@ -2,6 +2,7 @@ package com.cometproject.server.network.sessions;
 
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
@@ -104,7 +105,7 @@ public final class SessionManager {
         return this.sessions.unmodifiable();
     }
 
-    public void broadcast(Composer msg) {
+    public void broadcast(MessageComposer msg) {
         this.getChannelGroup().write(msg);
 //
 //        for (Session client : sessions.values()) {

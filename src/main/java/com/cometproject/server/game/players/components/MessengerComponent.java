@@ -6,9 +6,9 @@ import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerSearchResultsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
@@ -48,7 +48,7 @@ public class MessengerComponent implements PlayerComponent {
         this.player = null;
     }
 
-    public Composer search(String query) {
+    public MessageComposer search(String query) {
         List<MessengerSearchResult> currentFriends = Lists.newArrayList();
         List<MessengerSearchResult> otherPeople = Lists.newArrayList();
 
@@ -64,7 +64,7 @@ public class MessengerComponent implements PlayerComponent {
             player.getSession().getLogger().error("Error while searching for players", e);
         }
 
-        return MessengerSearchResultsMessageComposer.compose(currentFriends, otherPeople);
+        return new MessengerSearchResultsMessageComposer(currentFriends, otherPeople);
     }
 
     public void addRequest(int playerId) {
@@ -84,7 +84,7 @@ public class MessengerComponent implements PlayerComponent {
         this.friends.remove(userId);
 
         MessengerDao.deleteFriendship(this.player.getId(), userId);
-        this.player.getSession().send(UpdateFriendStateMessageComposer.compose(-1, userId));
+        this.player.getSession().send(new UpdateFriendStateMessageComposer(-1, userId));
     }
 
     public Integer getRequestBySender(int sender) {
@@ -97,7 +97,7 @@ public class MessengerComponent implements PlayerComponent {
         return null;
     }
 
-    public void broadcast(Composer msg) {
+    public void broadcast(MessageComposer msg) {
         for (MessengerFriend friend : this.getFriends().values()) {
             if (!friend.isOnline() || friend.getUserId() == this.getPlayer().getId()) {
                 continue;
@@ -105,12 +105,12 @@ public class MessengerComponent implements PlayerComponent {
 
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(friend.getUserId());
 
-            if(session != null)
+            if (session != null)
                 session.send(msg);
         }
     }
 
-    public void broadcast(List<Integer> friends, Composer msg) {
+    public void broadcast(List<Integer> friends, MessageComposer msg) {
         for (int friendId : friends) {
             if (friendId == this.player.getId() || !this.friends.containsKey(friendId) || !this.friends.get(friendId).isOnline()) {
                 continue;
@@ -138,10 +138,10 @@ public class MessengerComponent implements PlayerComponent {
     public List<PlayerAvatar> getRequestAvatars() {
         List<PlayerAvatar> avatars = Lists.newArrayList();
 
-        for(int playerId : this.requests) {
+        for (int playerId : this.requests) {
             PlayerAvatar playerAvatar = PlayerDao.getAvatarById(playerId, PlayerAvatar.USERNAME_FIGURE);
 
-            if(playerAvatar != null) {
+            if (playerAvatar != null) {
                 avatars.add(playerAvatar);
             }
         }
@@ -154,11 +154,11 @@ public class MessengerComponent implements PlayerComponent {
     }
 
     public void sendOffline(int friend, boolean online, boolean inRoom) {
-        this.getPlayer().getSession().send(UpdateFriendStateMessageComposer.compose(PlayerDao.getAvatarById(friend, PlayerAvatar.USERNAME_FIGURE_MOTTO), online, inRoom));
+        this.getPlayer().getSession().send(new UpdateFriendStateMessageComposer(PlayerDao.getAvatarById(friend, PlayerAvatar.USERNAME_FIGURE_MOTTO), online, inRoom));
     }
 
     public void sendStatus(boolean online, boolean inRoom) {
-        this.broadcast(UpdateFriendStateMessageComposer.compose(this.getPlayer().getData(), online, inRoom));
+        this.broadcast(new UpdateFriendStateMessageComposer(this.getPlayer().getData(), online, inRoom));
     }
 
     public MessengerFriend getFriendById(int id) {

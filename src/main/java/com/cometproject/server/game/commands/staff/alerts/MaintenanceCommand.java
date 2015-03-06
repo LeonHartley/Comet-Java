@@ -31,7 +31,7 @@ public class MaintenanceCommand extends ChatCommand {
             minute = calendar.get(Calendar.MINUTE) + 10;
         }
 
-        NetworkManager.getInstance().getSessions().broadcast(HotelMaintenanceMessageComposer.compose(hour, minute, false));
+        NetworkManager.getInstance().getSessions().broadcast(new HotelMaintenanceMessageComposer(hour, minute, false));
     }
 
     @Override

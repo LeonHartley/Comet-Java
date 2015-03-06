@@ -28,7 +28,7 @@ public class ModToolUserCautionMessageEvent implements IEvent {
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
             if (session != null) {
-                session.send(AdvancedAlertMessageComposer.compose(message));
+                session.send(new AdvancedAlertMessageComposer(message));
             }
         }
 

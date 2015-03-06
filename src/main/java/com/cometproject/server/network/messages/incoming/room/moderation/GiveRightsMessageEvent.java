@@ -30,14 +30,14 @@ public class GiveRightsMessageEvent implements IEvent {
         }
 
         room.getRights().addRights(playerId);
-        client.send(GiveRoomRighsMessageComposer.compose(room.getId(), playerId, playerEntity != null ? playerEntity.getUsername() : PlayerDao.getUsernameByPlayerId(playerId)));
+        client.send(new GiveRoomRighsMessageComposer(room.getId(), playerId, playerEntity != null ? playerEntity.getUsername() : PlayerDao.getUsernameByPlayerId(playerId)));
 
         if (playerEntity != null) {
             playerEntity.removeStatus(RoomEntityStatus.CONTROLLER);
             playerEntity.addStatus(RoomEntityStatus.CONTROLLER, "1");
 
             playerEntity.markNeedsUpdate();
-            playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(1));
+            playerEntity.getPlayer().getSession().send(new AccessLevelMessageComposer(1));
         }
     }
 }

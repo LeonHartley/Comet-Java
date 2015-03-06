@@ -56,13 +56,13 @@ public class NextVideoMessageEvent implements IEvent {
 
         PlaylistItem playlistItem = playerSettings.getPlaylist().get(currentVideoIndex);
         if(playerSettings.getPlaylist() != null) {
-            client.send(PlaylistMessageComposer.compose(itemId, playerSettings.getPlaylist(), currentVideoIndex));
+            client.send(new PlaylistMessageComposer(itemId, playerSettings.getPlaylist(), currentVideoIndex));
         }
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(PlayVideoMessageComposer.compose(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new PlayVideoMessageComposer(itemId, playlistItem.getVideoId(), playlistItem.getDuration()));
 
         item.setAttribute("video", playlistItem.getVideoId());
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(item, client.getPlayer().getEntity().getRoom().getData().getOwnerId()));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(item, client.getPlayer().getEntity().getRoom().getData().getOwnerId()));
     }
 }

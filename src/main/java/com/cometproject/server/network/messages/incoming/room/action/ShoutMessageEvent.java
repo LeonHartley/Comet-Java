@@ -33,7 +33,7 @@ public class ShoutMessageEvent implements IEvent {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {
-                client.send(AdvancedAlertMessageComposer.compose(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
+                client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
                 return;
             } else if (filterResult.wasModified()) {
                 filteredMessage = filterResult.getChatMessage();
@@ -48,7 +48,7 @@ public class ShoutMessageEvent implements IEvent {
 
             }
 
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(ShoutMessageComposer.compose(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(new ShoutMessageComposer(client.getPlayer().getEntity().getId(), filteredMessage, RoomManager.getInstance().getEmotions().getEmotion(filteredMessage), colour), client.getPlayer().getEntity());
         }
 
         client.getPlayer().getEntity().postChat(filteredMessage);

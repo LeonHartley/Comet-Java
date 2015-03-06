@@ -54,7 +54,7 @@ public class RoomRoutes {
                 if (message == null || message.isEmpty()) {
                     result.put("success", false);
                 } else {
-                    room.getEntities().broadcastMessage(AdvancedAlertMessageComposer.compose(message));
+                    room.getEntities().broadcastMessage(new AdvancedAlertMessageComposer(message));
                     result.put("success", true);
                 }
                 break;
@@ -64,7 +64,7 @@ public class RoomRoutes {
                 String message = request.headers("message");
 
                 if (message != null && !message.isEmpty()) {
-                    room.getEntities().broadcastMessage(AdvancedAlertMessageComposer.compose(message));
+                    room.getEntities().broadcastMessage(new AdvancedAlertMessageComposer(message));
                 }
 
                 room.setIdleNow();

@@ -31,11 +31,11 @@ public class Notification {
 
         switch (this.type) {
             case GLOBAL:
-                NetworkManager.getInstance().getSessions().broadcast(AdvancedAlertMessageComposer.compose(this.text + "\n\n-" + player.getData().getUsername()));
+                NetworkManager.getInstance().getSessions().broadcast(new AdvancedAlertMessageComposer(this.text + "\n\n-" + player.getData().getUsername()));
                 break;
 
             case LOCAL:
-                player.getSession().send(AdvancedAlertMessageComposer.compose(this.text));
+                player.getSession().send(new AdvancedAlertMessageComposer(this.text));
                 break;
         }
 

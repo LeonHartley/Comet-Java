@@ -22,7 +22,7 @@ public class GroupFurnitureWidgetMessageEvent implements IEvent {
                 Group group = GroupManager.getInstance().get(((GroupFloorItem) floorItem).getGroupId());
 
                 if (group != null) {
-                    client.send(GroupFurnitureWidgetMessageComposer.compose(itemId, group.getId(), group.getData().getTitle(), group.getData().getRoomId(), client.getPlayer().getGroups().contains(group.getId()), false));
+                    client.send(new GroupFurnitureWidgetMessageComposer(itemId, group.getId(), group.getData().getTitle(), group.getData().getRoomId(), client.getPlayer().getGroups().contains(group.getId()), false));
                 }
             }
         }

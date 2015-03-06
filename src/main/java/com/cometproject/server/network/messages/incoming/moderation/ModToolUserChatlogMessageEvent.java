@@ -20,7 +20,7 @@ public class ModToolUserChatlogMessageEvent implements IEvent {
         }
 
         if(!LogManager.ENABLED)
-            client.send(AdvancedAlertMessageComposer.compose("Notice", "Logging is not currently enabled, please contact your system administrator to enable it."));
+            client.send(new AdvancedAlertMessageComposer("Notice", "Logging is not currently enabled, please contact your system administrator to enable it."));
 
         UserChatlogContainer chatlogContainer = new UserChatlogContainer();
 
@@ -28,6 +28,6 @@ public class ModToolUserChatlogMessageEvent implements IEvent {
             chatlogContainer.addAll(visit.getRoomId(), LogQueries.getChatlogsByCriteria(visit.getPlayerId(), visit.getRoomId(), visit.getEntryTime(), visit.getExitTime()));
         }
 
-        client.send(ModToolUserChatlogMessageComposer.compose(userId, chatlogContainer));
+        client.send(new ModToolUserChatlogMessageComposer(userId, chatlogContainer));
     }
 }

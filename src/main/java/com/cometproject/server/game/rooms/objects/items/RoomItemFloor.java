@@ -293,7 +293,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         Room r = this.getRoom();
 
         if (r != null) {
-            r.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(this.getId(), this));
+            r.getEntities().broadcastMessage(new UpdateFloorExtraDataMessageComposer(this.getId(), this));
         }
     }
 

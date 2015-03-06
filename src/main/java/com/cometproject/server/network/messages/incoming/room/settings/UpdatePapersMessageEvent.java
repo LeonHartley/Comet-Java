@@ -48,11 +48,11 @@ public class UpdatePapersMessageEvent implements IEvent {
 
             client.getPlayer().getInventory().removeItem(item);
             RoomItemDao.deleteItem(itemId);
-            client.send(UpdateInventoryMessageComposer.compose());
+            client.send(new UpdateInventoryMessageComposer());
 
             try {
                 room.getData().save();
-                room.getEntities().broadcastMessage(PapersMessageComposer.compose(type, data));
+                room.getEntities().broadcastMessage(new PapersMessageComposer(type, data));
             } catch (Exception e) {
                 Logger.getLogger(UpdatePapersMessageEvent.class.getName()).error("Error while saving room data", e);
             }

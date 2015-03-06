@@ -21,6 +21,6 @@ public class OwnRoomsMessageEvent implements IEvent {
             rooms.add(RoomManager.getInstance().getRoomData(roomId));
         }
 
-        client.send(NavigatorFlatListMessageComposer.compose(0, 5, "", rooms, false, false));
+        client.send(new NavigatorFlatListMessageComposer(5, "", rooms, false, false));
     }
 }

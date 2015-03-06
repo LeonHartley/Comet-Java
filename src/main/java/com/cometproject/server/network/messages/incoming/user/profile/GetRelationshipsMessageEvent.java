@@ -13,15 +13,15 @@ public class GetRelationshipsMessageEvent implements IEvent {
         int userId = msg.readInt();
 
         if (userId == client.getPlayer().getId()) {
-            client.send(RelationshipsMessageComposer.compose(client.getPlayer().getId(), client.getPlayer().getRelationships().getRelationships()));
+            client.send(new RelationshipsMessageComposer(client.getPlayer().getId(), client.getPlayer().getRelationships().getRelationships()));
             return;
         }
 
         if (NetworkManager.getInstance().getSessions().getByPlayerId(userId) != null) {
-            client.send(RelationshipsMessageComposer.compose(userId, NetworkManager.getInstance().getSessions().getByPlayerId(userId).getPlayer().getRelationships().getRelationships()));
+            client.send(new RelationshipsMessageComposer(userId, NetworkManager.getInstance().getSessions().getByPlayerId(userId).getPlayer().getRelationships().getRelationships()));
             return;
         }
 
-        client.send(RelationshipsMessageComposer.compose(userId, RelationshipDao.getRelationshipsByPlayerId(userId)));
+        client.send(new RelationshipsMessageComposer(userId, RelationshipDao.getRelationshipsByPlayerId(userId)));
     }
 }

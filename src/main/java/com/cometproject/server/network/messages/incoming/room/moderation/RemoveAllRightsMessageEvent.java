@@ -30,11 +30,11 @@ public class RemoveAllRightsMessageEvent implements IEvent {
             PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(id);
 
             if (playerEntity != null) {
-                playerEntity.getPlayer().getSession().send(AccessLevelMessageComposer.compose(0));
+                playerEntity.getPlayer().getSession().send(new AccessLevelMessageComposer(0));
             }
 
             // Remove rights from the player id
-            client.send(RemoveRightsMessageComposer.compose(id, room.getId()));
+            client.send(new RemoveRightsMessageComposer(id, room.getId()));
             toRemove.add(id);
         }
 

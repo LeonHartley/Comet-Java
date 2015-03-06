@@ -50,10 +50,10 @@ public class AnswerDoorbellMessageEvent implements IEvent {
 
         if (answered) {
             requestingClient.getPlayer().getEntity().setDoorbellAnswered(true);
-            requestingClient.send(DoorbellAcceptedComposer.compose());
+            requestingClient.send(new DoorbellAcceptedComposer());
         } else {
-            requestingClient.send(DoorbellNoAnswerComposer.compose());
-            requestingClient.send(HotelViewMessageComposer.compose());
+            requestingClient.send(new DoorbellNoAnswerComposer());
+            requestingClient.send(new HotelViewMessageComposer());
         }
     }
 }

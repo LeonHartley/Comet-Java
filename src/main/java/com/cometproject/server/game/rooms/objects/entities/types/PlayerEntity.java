@@ -76,21 +76,21 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     @Override
     public void joinRoom(Room room, String password) {
         if (this.getRoom() == null) {
-            this.player.getSession().send(HotelViewMessageComposer.compose());
+            this.player.getSession().send(new HotelViewMessageComposer());
             return;
         }
 
         // Room full, no slot available
         if (this.getPlayerId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() &&
                 !this.player.getPermissions().hasPermission("room_enter_full")) {
-            this.player.getSession().send(RoomConnectionErrorMessageComposer.compose(1, ""));
-            this.player.getSession().send(HotelViewMessageComposer.compose());
+            this.player.getSession().send(new RoomConnectionErrorMessageComposer(1, ""));
+            this.player.getSession().send(new HotelViewMessageComposer());
             return;
         }
 
         // Room bans
         if (this.getRoom().getRights().hasBan(this.getPlayerId()) && !this.player.getPermissions().hasPermission("room_unkickable")) {
-            this.player.getSession().send(RoomConnectionErrorMessageComposer.compose(4, ""));
+            this.player.getSession().send(new RoomConnectionErrorMessageComposer(4, ""));
             return;
         }
 
@@ -107,17 +107,17 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 }
 
                 if (!matched) {
-                    this.player.getSession().send(RoomErrorMessageComposer.compose(-100002));
-                    this.player.getSession().send(HotelViewMessageComposer.compose());
+                    this.player.getSession().send(new RoomErrorMessageComposer(-100002));
+                    this.player.getSession().send(new HotelViewMessageComposer());
                     return;
                 }
             } else if (this.getRoom().getData().getAccess().equals("doorbell")) {
                 if (this.getRoom().getEntities().playerCount() < 1) {
-                    this.player.getSession().send(DoorbellNoAnswerComposer.compose());
+                    this.player.getSession().send(new DoorbellNoAnswerComposer());
                     return;
                 } else {
-                    this.getRoom().getEntities().broadcastMessage(DoorbellRequestComposer.compose(this.getUsername()), true);
-                    this.player.getSession().send(DoorbellRequestComposer.compose(""));
+                    this.getRoom().getEntities().broadcastMessage(new DoorbellRequestComposer(this.getUsername()), true);
+                    this.player.getSession().send(new DoorbellRequestComposer(""));
                     return;
                 }
             }
@@ -138,7 +138,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 }
             }
 
-            this.player.getSession().send(PapersMessageComposer.compose(decoration.getKey(), decoration.getValue()));
+            this.player.getSession().send(new PapersMessageComposer(decoration.getKey(), decoration.getValue()));
         }
 
         int accessLevel = 0;
@@ -151,21 +151,21 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             accessLevel = 1;
         }
 
-        this.player.getSession().send(AccessLevelMessageComposer.compose(accessLevel));
+        this.player.getSession().send(new AccessLevelMessageComposer(accessLevel));
 
         if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.player.getPermissions().hasPermission("room_full_control")) {
-            this.player.getSession().send(YouAreControllerMessageComposer.compose());
+            this.player.getSession().send(new YouAreControllerMessageComposer());
         }
 
-        this.player.getSession().send(RoomRatingMessageComposer.compose(this.getRoom().getData().getScore(), this.canRateRoom()));
+        this.player.getSession().send(new RoomRatingMessageComposer(this.getRoom().getData().getScore(), this.canRateRoom()));
 
         InitializeRoomMessageEvent.heightmapMessageEvent.handle(this.player.getSession(), null);
         InitializeRoomMessageEvent.addUserToRoomMessageEvent.handle(this.player.getSession(), null);
 
         if (RoomManager.getInstance().hasPromotion(this.getRoom().getId())) {
-            this.player.getSession().send(RoomPromotionMessageComposer.compose(this.getRoom().getData(), this.getRoom().getPromotion()));
+            this.player.getSession().send(new RoomPromotionMessageComposer(this.getRoom().getData(), this.getRoom().getPromotion()));
         } else {
-            this.player.getSession().send(RoomPromotionMessageComposer.compose(null, null));
+            this.player.getSession().send(new RoomPromotionMessageComposer(null, null));
         }
 
         this.isFinalized = true;
@@ -201,15 +201,15 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         if (isKick && !isOffline && this.getPlayer() != null && this.getPlayer().getSession() != null) {
-            this.getPlayer().getSession().send(RoomErrorMessageComposer.compose(4008));
+            this.getPlayer().getSession().send(new RoomErrorMessageComposer(4008));
         }
 
         // Send leave room message to all current entities
-        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
+        this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
 
         // Sending this user to the hotel view?
         if (!isOffline && toHotelView && this.getPlayer() != null && this.getPlayer().getSession() != null) {
-            this.getPlayer().getSession().send(HotelViewMessageComposer.compose());
+            this.getPlayer().getSession().send(new HotelViewMessageComposer());
             this.getPlayer().getSession().getPlayer().getMessenger().sendStatus(true, false);
         }
 
@@ -258,7 +258,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                     this.player.setRoomFloodTime(30);
                     this.player.setRoomFloodFlag(0);
 
-                    this.player.getSession().send(FloodFilterMessageComposer.compose(player.getRoomFloodTime()));
+                    this.player.getSession().send(new FloodFilterMessageComposer(player.getRoomFloodTime()));
                 }
             } else {
                 this.player.setRoomFloodFlag(0);
@@ -296,7 +296,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         if ((this.getRoom().getRights().hasMute(this.getPlayerId()) || BanManager.getInstance().isMuted(this.getPlayerId())) && !this.getPlayer().getPermissions().hasPermission("bypass_roommute")) {
-            this.getPlayer().getSession().send(MutedMessageComposer.compose(this.getRoom().getRights().getMuteTime(this.getPlayerId())));
+            this.getPlayer().getSession().send(new MutedMessageComposer(this.getRoom().getRights().getMuteTime(this.getPlayerId())));
 
             return false;
         }
@@ -331,10 +331,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.getStatuses().clear();
 
         // Send leave room message to all current entities
-        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
+        this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
 
         // Sending this user to the hotel view?
-        this.getPlayer().getSession().send(HotelViewMessageComposer.compose());
+        this.getPlayer().getSession().send(new HotelViewMessageComposer());
         this.getPlayer().getSession().getPlayer().getMessenger().sendStatus(true, false);
 
         // Check and cancel any active trades
@@ -361,7 +361,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     public void setIdle() {
         super.setIdle();
 
-        this.getRoom().getEntities().broadcastMessage(IdleStatusMessageComposer.compose(this.getPlayerId(), true));
+        this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer(this.getPlayerId(), true));
     }
 
     public int getPlayerId() {

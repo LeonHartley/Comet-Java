@@ -28,7 +28,7 @@ public class BoughtItemMessageComposer extends MessageComposer {
         this(null, null, type == PurchaseType.GROUP);
     }
 
-    private enum PurchaseType {
+    public enum PurchaseType {
         GROUP,
         BADGE
     }
