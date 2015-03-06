@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.outgoing.group;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -11,12 +12,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GroupMembersMessageComposer {
+public class GroupMembersMessageComposer extends MessageComposer {
     private static final int MEMBERS_PER_PAGE = 14;
 
-    public static Composer compose(GroupData group, int page, List<Object> groupMembers, int requestType, String searchQuery, boolean isAdmin) {
-        Composer msg = new Composer(Composers.GroupMembersMessageComposer);
+    private final GroupData group;
+    private final int page;
+    private final List<Object> groupMembers;
+    private final int requestType;
+    private final String searchQuery;
+    private final boolean isAdmin;
 
+    public GroupMembersMessageComposer(final GroupData group, final int page, final List<Object> groupMembers, final int requestType, final String searchQuery, final boolean isAdmin) {
+        this.group = group;
+        this.page = page;
+        this.groupMembers = groupMembers;
+        this.requestType = requestType;
+        this.searchQuery = searchQuery;
+        this.isAdmin = isAdmin;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.GroupMembersMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(group.getId());
         msg.writeString(group.getTitle());
         msg.writeInt(group.getRoomId());
@@ -77,10 +98,9 @@ public class GroupMembersMessageComposer {
 
         msg.writeInt(requestType);
         msg.writeString(searchQuery);
-        return msg;
     }
 
-    private static List<List<Object>> paginateMembers(List<Object> originalList, int chunkSize) {
+    private List<List<Object>> paginateMembers(List<Object> originalList, int chunkSize) {
         List<List<Object>> listOfChunks = new ArrayList<>();
 
         for (int i = 0; i < originalList.size() / chunkSize; i++) {

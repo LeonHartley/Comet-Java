@@ -48,7 +48,7 @@ public class Composers {
     public static final short RoomBannedListMessageComposer = 3170;//1844
     public static final short CameraTokenMessageComposer = 3920;//2917
     public static final short InitHelpToolMessageComposer = 3470;//302
-    public static final short CatalogueOfferConfigMessageComposer = 2347;//1811
+    public static final short CatalogOfferConfigMessageComposer = 2347;//1811
     public static final short UserProfileMessageComposer = 1538;//691
     public static final short RelationshipMessageComposer = 1822;//1217
     public static final short RoomSpacesMessageComposer = 3135;//744

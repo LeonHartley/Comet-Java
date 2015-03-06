@@ -2,16 +2,29 @@ package com.cometproject.server.network.messages.outgoing.group;
 
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
 
-public class GroupDataMessageComposer {
-    public static Composer compose(List<Integer> groups, int userId) {
-        Composer msg = new Composer(Composers.GroupFurniturePageMessageComposer);
+public class GroupDataMessageComposer extends MessageComposer {
+    private final List<Integer> groups;
+    private final int playerId;
 
+    public GroupDataMessageComposer(final List<Integer> groups, final int playerId) {
+        this.groups = groups;
+        this.playerId = playerId;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.GroupFurniturePageMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         int count = 0;
 
         for (Integer groupId : groups) {
@@ -34,12 +47,10 @@ public class GroupDataMessageComposer {
                 msg.writeString(colourA);
                 msg.writeString(colourB);
 
-                msg.writeBoolean(group.getOwnerId() == userId);
+                msg.writeBoolean(group.getOwnerId() == this.playerId);
                 msg.writeInt(group.getOwnerId());
                 msg.writeBoolean(false); // has forum
             }
         }
-
-        return msg;
     }
 }

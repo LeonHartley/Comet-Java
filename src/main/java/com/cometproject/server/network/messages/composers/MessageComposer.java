@@ -18,4 +18,8 @@ public abstract class MessageComposer {
     public abstract short getId();
 
     public abstract void compose(Composer msg);
+
+    public void dispose() {
+
+    }
 }
