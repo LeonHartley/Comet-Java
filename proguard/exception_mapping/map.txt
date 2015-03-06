@@ -3722,7 +3722,7 @@ com.cometproject.server.network.messages.outgoing.room.access.DoorbellAcceptedCo
     11:14:com.cometproject.server.network.messages.types.Composer compose() -> a
 com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer -> com.cometproject.server.f.d.c.i.a.b:
     11:14:com.cometproject.server.network.messages.types.Composer compose(java.lang.String) -> a
-com.cometproject.server.network.messages.outgoing.room.access.LoadRoomByDoorBellMessageEvent -> com.cometproject.server.f.d.c.i.a.c:
+com.cometproject.server.network.messages.incoming.room.access.LoadRoomByDoorBellMessageEvent -> com.cometproject.server.f.d.c.i.a.c:
     13:19:void handle$4eefe864(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,com.cometproject.server.network.messages.types.Event) -> a
 com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer -> com.cometproject.server.f.d.c.i.b.a:
     11:14:com.cometproject.server.network.messages.types.Composer compose() -> a

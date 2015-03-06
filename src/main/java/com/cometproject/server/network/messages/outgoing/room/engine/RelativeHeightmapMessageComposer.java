@@ -2,24 +2,35 @@ package com.cometproject.server.network.messages.outgoing.room.engine;
 
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class RelativeHeightmapMessageComposer {
+public class RelativeHeightmapMessageComposer extends MessageComposer {
     private static char[] characters;
 
     private static void init() {
         characters = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
     }
 
-    public static Composer compose(RoomModel model) {
-        if (characters == null) {
+    private final RoomModel model;
+
+    public RelativeHeightmapMessageComposer(final RoomModel model) {
+        this.model = model;
+
+        if(characters == null) {
             init();
         }
+    }
 
-        Composer msg = new Composer(Composers.FloorMapMessageComposer);
+    @Override
+    public short getId() {
+        return Composers.FloorMapMessageComposer;
+    }
 
+    @Override
+    public void compose(Composer msg) {
         msg.writeBoolean(true); // ??
         msg.writeInt(model.getWallHeight()); // wall-height
 
@@ -40,6 +51,5 @@ public class RelativeHeightmapMessageComposer {
         }
 
         msg.writeString(builder.toString());
-        return msg;
     }
 }

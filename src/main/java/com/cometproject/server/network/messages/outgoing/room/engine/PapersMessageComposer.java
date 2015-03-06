@@ -1,16 +1,27 @@
 package com.cometproject.server.network.messages.outgoing.room.engine;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class PapersMessageComposer {
-    public static Composer compose(String key, String value) {
-        Composer msg = new Composer(Composers.RoomSpacesMessageComposer);
+public class PapersMessageComposer extends MessageComposer {
+    private final String key;
+    private final String value;
 
-        msg.writeString(key);
-        msg.writeString(value);
+    public PapersMessageComposer(final String key, final String value) {
+        this.key = key;
+        this.value = value;
+    }
 
-        return msg;
+    @Override
+    public short getId() {
+        return Composers.RoomSpacesMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeString(this.key);
+        msg.writeString(this.value);
     }
 }

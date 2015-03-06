@@ -2,24 +2,34 @@ package com.cometproject.server.network.messages.outgoing.user.inventory;
 
 import com.cometproject.server.game.players.components.InventoryComponent;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class InventoryMessageComposer {
-    public static Composer compose(InventoryComponent inventory) {
-        Composer msg = new Composer(Composers.LoadInventoryMessageComposer);
+public class InventoryMessageComposer extends MessageComposer {
+    private final InventoryComponent inventoryComponent;
+    public InventoryMessageComposer(final InventoryComponent inventoryComponent) {
+        this.inventoryComponent = inventoryComponent;
+    }
 
+    @Override
+    public short getId() {
+        return Composers.LoadInventoryMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(1);
         msg.writeInt(1);
-        msg.writeInt(inventory.getTotalSize());
+        msg.writeInt(inventoryComponent.getTotalSize());
 
-        for (InventoryItem inventoryItem : inventory.getFloorItems().values()) {
+        for (InventoryItem inventoryItem : inventoryComponent.getFloorItems().values()) {
             inventoryItem.compose(msg);
         }
 
         // Wall items
-        for (InventoryItem i : inventory.getWallItems().values()) {
+        for (InventoryItem i : inventoryComponent.getWallItems().values()) {
             msg.writeInt(i.getId());
             msg.writeString(i.getDefinition().getType().toUpperCase());
             msg.writeInt(i.getId());
@@ -46,7 +56,5 @@ public class InventoryMessageComposer {
             msg.writeBoolean(false);
             msg.writeInt(-1);
         }
-
-        return msg;
     }
 }

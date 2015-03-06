@@ -1,18 +1,31 @@
 package com.cometproject.server.network.messages.outgoing.user.youtube;
 
 import com.cometproject.server.game.players.components.types.settings.PlaylistItem;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
 
-public class PlaylistMessageComposer {
-    public static Composer compose(int itemId, List<PlaylistItem> playlist, int videoId) {
-        if(playlist == null) return null;
+public class PlaylistMessageComposer extends MessageComposer {
+    private final int itemId;
+    private final List<PlaylistItem> playlist;
+    private final int videoId;
 
-        Composer msg = new Composer(Composers.YouTubeLoadPlaylistsMessageComposer);
+    public PlaylistMessageComposer(final int itemId, final List<PlaylistItem> playlist, final int videoId) {
+        this.itemId = itemId;
+        this.playlist = playlist;
+        this.videoId = videoId;
+    }
 
+    @Override
+    public short getId() {
+        return Composers.YouTubeLoadPlaylistsMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(itemId);
 
         msg.writeInt(playlist.size());
@@ -23,10 +36,6 @@ public class PlaylistMessageComposer {
             msg.writeString(playListItem.getDescription());
         }
 
-//        if (playlist.size() > 0) {
         msg.writeString(videoId);
-//        }
-
-        return msg;
     }
 }

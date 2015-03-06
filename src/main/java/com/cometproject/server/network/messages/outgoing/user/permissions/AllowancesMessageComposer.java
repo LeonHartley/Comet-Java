@@ -2,20 +2,30 @@ package com.cometproject.server.network.messages.outgoing.user.permissions;
 
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.permissions.types.Perk;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.Map;
 
 
-public class AllowancesMessageComposer {
-    public static Composer compose(int rank) {
-        Composer msg = new Composer(Composers.SendPerkAllowancesMessageComposer);
+public class AllowancesMessageComposer extends MessageComposer {
+    private final int rank;
 
+    public AllowancesMessageComposer(final int rank) {
+        this.rank = rank;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.SendPerkAllowancesMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         if (rank == -1) {
             msg.writeInt(0);
-
-            return msg;
+            return;
         }
 
         msg.writeInt(PermissionsManager.getInstance().getPerks().size());
@@ -30,8 +40,5 @@ public class AllowancesMessageComposer {
                 msg.writeBoolean(perk.getValue().getRank() <= rank);
             }
         }
-
-
-        return msg;
     }
 }

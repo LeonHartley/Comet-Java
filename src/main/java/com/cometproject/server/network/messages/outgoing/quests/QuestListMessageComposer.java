@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.outgoing.quests;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.quests.Quest;
 import com.cometproject.server.game.quests.QuestManager;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.google.common.collect.Lists;
@@ -11,10 +12,22 @@ import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 
-public class QuestListMessageComposer {
-    public static Composer compose(Map<String, Quest> quests, Player player) {
-        Composer msg = new Composer(Composers.QuestListMessageComposer);
+public class QuestListMessageComposer extends MessageComposer {
+    private final Map<String, Quest> quests;
+    private final Player player;
 
+    public QuestListMessageComposer(final Map<String, Quest> quests, Player player) {
+        this.quests = quests;
+        this.player = player;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.QuestListMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         Map<String, Quest> categoryCounters = Maps.newHashMap();
 
         List<Quest> activeQuests = Lists.newArrayList();
@@ -46,9 +59,6 @@ public class QuestListMessageComposer {
             }
 
             msg.writeBoolean(true);  // send ??
-
-            return msg;
-            
         } finally {
             categoryCounters.clear();
 
@@ -56,8 +66,8 @@ public class QuestListMessageComposer {
             inactiveQuests.clear();
         }
     }
-    
-    private static void composeQuest(Quest quest, Composer msg) {
+
+    private void composeQuest(final Quest quest, final Composer msg) {
         msg.writeString(quest.getCategory());
         msg.writeInt(quest.getSeriesNumber());
         msg.writeInt(QuestManager.getInstance().amountOfQuestsInCategory(quest.getCategory()));

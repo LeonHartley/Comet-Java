@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.outgoing.user.profile;
 import com.cometproject.server.game.players.components.RelationshipComponent;
 import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
 import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -13,15 +14,32 @@ import java.util.List;
 import java.util.Map;
 
 
-public class RelationshipsMessageComposer {
-    public static Composer compose(int playerId, Map<Integer, RelationshipLevel> relationships) {
-        Composer msg = new Composer(Composers.RelationshipMessageComposer);
+public class RelationshipsMessageComposer extends MessageComposer {
+    private final int playerId;
+    private final Map<Integer, RelationshipLevel> relationships;
 
+    public RelationshipsMessageComposer(final int playerId, final Map<Integer, RelationshipLevel> relationships) {
+        this.playerId = playerId;
+        this.relationships = relationships;
+    }
+
+    public RelationshipsMessageComposer(final int playerId) {
+        this.playerId = playerId;
+        this.relationships = null;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.RelationshipMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(playerId);
 
-        if (relationships.size() == 0) {
+        if (relationships == null || relationships.size() == 0) {
             msg.writeInt(0);
-            return msg;
+            return;
         }
 
         msg.writeInt(relationships.size());
@@ -53,16 +71,5 @@ public class RelationshipsMessageComposer {
             }
 
         }
-
-        return msg;
-    }
-
-    public static Composer compose(int id) {
-        Composer msg = new Composer(Composers.RelationshipMessageComposer);
-
-        msg.writeInt(id);
-        msg.writeInt(0);
-
-        return msg;
     }
 }

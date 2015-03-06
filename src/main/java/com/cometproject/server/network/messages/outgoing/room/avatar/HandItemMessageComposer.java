@@ -1,16 +1,27 @@
 package com.cometproject.server.network.messages.outgoing.room.avatar;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class HandItemMessageComposer {
-    public static Composer compose(int avatarId, int handItemId) {
-        Composer msg = new Composer(Composers.ApplyHanditemMessageComposer);
+public class HandItemMessageComposer extends MessageComposer {
+    private final int avatarId;
+    private final int handItemId;
 
+    public HandItemMessageComposer(final int avatarId, final int handItemId) {
+        this.avatarId = avatarId;
+        this.handItemId = handItemId;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.ApplyHanditemMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(avatarId);
         msg.writeInt(handItemId);
-
-        return msg;
     }
 }

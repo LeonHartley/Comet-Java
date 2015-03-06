@@ -3,14 +3,24 @@ package com.cometproject.server.network.messages.outgoing.moderation;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.moderation.types.actions.ActionCategory;
 import com.cometproject.server.game.moderation.types.actions.ActionPreset;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class ModToolMessageComposer {
-    public static Composer compose() {
-        Composer msg = new Composer(Composers.LoadModerationToolMessageComposer);
+public class ModToolMessageComposer extends MessageComposer {
 
+    public ModToolMessageComposer() {
+
+    }
+
+    @Override
+    public short getId() {
+        return Composers.LoadModerationToolMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
 //        msg.writeInt(1); // issues
 //
 //        {
@@ -75,8 +85,5 @@ public class ModToolMessageComposer {
         }
 
         msg.writeInt(0);
-
-
-        return msg;
     }
 }

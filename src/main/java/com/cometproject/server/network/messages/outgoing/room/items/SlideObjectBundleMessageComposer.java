@@ -1,15 +1,34 @@
 package com.cometproject.server.network.messages.outgoing.room.items;
 
 import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class SlideObjectBundleMessageComposer {
-    public static Composer compose(Position from, Position to, int rollerItemId, int avatarId, int itemId) {
-        Composer msg = new Composer(Composers.ItemAnimationMessageComposer);
+public class SlideObjectBundleMessageComposer extends MessageComposer {
+    private final Position from;
+    private final Position to;
+    private final int rollerItemId;
+    private final int avatarId;
+    private final int itemId;
 
-        boolean isItem = itemId > 0;
+    public SlideObjectBundleMessageComposer(Position from, Position to, int rollerItemId, int avatarId, int itemId) {
+        this.from = from;
+        this.to = to;
+        this.rollerItemId = rollerItemId;
+        this.avatarId = avatarId;
+        this.itemId = itemId;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.ItemAnimationMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        final boolean isItem = itemId > 0;
 
         msg.writeInt(from.getX());
         msg.writeInt(from.getY());
@@ -32,6 +51,5 @@ public class SlideObjectBundleMessageComposer {
             msg.writeInt(rollerItemId);
         }
 
-        return msg;
     }
 }

@@ -1,16 +1,27 @@
 package com.cometproject.server.network.messages.outgoing.room.items;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class RemoveWallItemMessageComposer {
-    public static Composer compose(int itemId, int userId) {
-        Composer msg = new Composer(Composers.PickUpWallItemMessageComposer);
+public class RemoveWallItemMessageComposer extends MessageComposer {
+    private final int itemId;
+    private final int playerId;
 
-        msg.writeString(itemId);
-        msg.writeInt(userId);
+    public RemoveWallItemMessageComposer(final int itemId, final int playerId) {
+        this.itemId = itemId;
+        this.playerId = playerId;
+    }
 
-        return msg;
+    @Override
+    public short getId() {
+        return Composers.PickUpWallItemMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeInt(this.itemId);
+        msg.writeInt(this.playerId);
     }
 }

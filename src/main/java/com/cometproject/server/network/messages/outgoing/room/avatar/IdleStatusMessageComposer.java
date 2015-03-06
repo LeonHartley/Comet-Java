@@ -1,16 +1,27 @@
 package com.cometproject.server.network.messages.outgoing.room.avatar;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class IdleStatusMessageComposer {
-    public static Composer compose(int userId, boolean isIdle) {
-        Composer msg = new Composer(Composers.RoomUserIdleMessageComposer);
+public class IdleStatusMessageComposer extends MessageComposer {
+    private final int playerId;
+    private final boolean isIdle;
 
-        msg.writeInt(userId);
-        msg.writeBoolean(isIdle);
+    public IdleStatusMessageComposer(final int playerId, final boolean isIdle) {
+        this.playerId = playerId;
+        this.isIdle = isIdle;
+    }
 
-        return msg;
+    @Override
+    public short getId() {
+        return Composers.RoomUserIdleMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeInt(this.playerId);
+        msg.writeBoolean(this.isIdle);
     }
 }

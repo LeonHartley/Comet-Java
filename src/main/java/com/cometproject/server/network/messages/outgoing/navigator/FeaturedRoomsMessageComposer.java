@@ -1,25 +1,36 @@
 package com.cometproject.server.network.messages.outgoing.navigator;
 
 import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.Collection;
 
 
-public class FeaturedRoomsMessageComposer {
-    public static Composer compose(Collection<FeaturedRoom> rooms) {
-        Composer msg = new Composer(Composers.OfficialRoomsMessageComposer);
+public class FeaturedRoomsMessageComposer extends MessageComposer {
+    private final Collection<FeaturedRoom> featuredRooms;
 
-        msg.writeInt(rooms.size());
+    public FeaturedRoomsMessageComposer(Collection<FeaturedRoom> featuredRooms) {
+        this.featuredRooms = featuredRooms;
+    }
 
-        for (FeaturedRoom room : rooms) {
+    @Override
+    public short getId() {
+        return Composers.OfficialRoomsMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeInt(this.featuredRooms.size());
+
+        for (FeaturedRoom room : this.featuredRooms) {
             if (room.getCategoryId() > 0)
                 continue;
 
             room.compose(msg);
 
-            for (FeaturedRoom room1 : rooms) {
+            for (FeaturedRoom room1 : this.featuredRooms) {
                 if (room1.getCategoryId() != room.getId()) {
                     continue;
                 }
@@ -28,19 +39,17 @@ public class FeaturedRoomsMessageComposer {
             }
         }
 
-        for (FeaturedRoom room : rooms) {
+        for (FeaturedRoom room : this.featuredRooms) {
             if (!room.isCategory() && room.isRecommended()) {
                 msg.writeInt(1);
                 room.compose(msg);
                 msg.writeInt(0);
 
-                return msg;
+                return;
             }
         }
 
         msg.writeInt(0);
         msg.writeInt(0);
-
-        return msg;
     }
 }

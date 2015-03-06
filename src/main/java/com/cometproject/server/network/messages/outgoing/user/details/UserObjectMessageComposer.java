@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.outgoing.user.details;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
@@ -10,10 +11,21 @@ import java.util.Date;
 import java.util.TimeZone;
 
 
-public class UserObjectMessageComposer {
-    public static Composer compose(Player player) {
-        Composer msg = new Composer(Composers.UserObjectMessageComposer);
+public class UserObjectMessageComposer extends MessageComposer {
 
+    private final Player player;
+
+    public UserObjectMessageComposer(final Player player) {
+        this.player = player;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.UserObjectMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(player.getId());
         msg.writeString(player.getData().getUsername());
         msg.writeString(player.getData().getFigure());
@@ -32,7 +44,6 @@ public class UserObjectMessageComposer {
 
         msg.writeBoolean(false); // can change username
         msg.writeBoolean(false);
-        return msg;
     }
 
     public static String getDate(int timestamp) {

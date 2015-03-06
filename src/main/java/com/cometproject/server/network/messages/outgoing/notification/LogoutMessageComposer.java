@@ -1,15 +1,28 @@
 package com.cometproject.server.network.messages.outgoing.notification;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class LogoutMessageComposer {
-    public static Composer compose(String reason) {
-        Composer msg = new Composer(Composers.LogoutMessageComposer);
+public class LogoutMessageComposer extends MessageComposer {
+    private final int reason;
 
-        msg.writeInt(reason.equals("banned") ? 1 : 0);
+    public LogoutMessageComposer(final String reason) {
+        if(reason.equals("banned")) {
+            this.reason = 1;
+        } else {
+            this.reason = 0;
+        }
+    }
 
-        return msg;
+    @Override
+    public short getId() {
+        return Composers.LogoutMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeInt(this.reason);
     }
 }
