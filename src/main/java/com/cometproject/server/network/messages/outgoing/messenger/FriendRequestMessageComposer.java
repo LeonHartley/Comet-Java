@@ -1,18 +1,27 @@
 package com.cometproject.server.network.messages.outgoing.messenger;
 
 import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class FriendRequestMessageComposer {
-    public static Composer compose(PlayerAvatar avatar) {
-        Composer msg = new Composer(Composers.ConsoleSendFriendRequestMessageComposer);
+public class FriendRequestMessageComposer extends MessageComposer {
+    private final PlayerAvatar playerAvatar;
 
-        msg.writeInt(avatar.getId());
-        msg.writeString(avatar.getUsername());
-        msg.writeString(avatar.getFigure());
+    public FriendRequestMessageComposer(final PlayerAvatar playerAvatar) {
+        this.playerAvatar = playerAvatar;
+    }
 
-        return msg;
+    @Override
+    public short getId() {
+        return Composers.ConsoleSendFriendRequestMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeInt(this.playerAvatar.getId());
+        msg.writeString(this.playerAvatar.getUsername());
+        msg.writeString(this.playerAvatar.getFigure());
     }
 }

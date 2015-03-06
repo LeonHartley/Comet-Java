@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.outgoing.messenger;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
@@ -11,14 +12,16 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Map;
 
-public class BuddyListMessageComposer {
-    public static Composer compose(Map<Integer, MessengerFriend> friends, boolean hasStaffChat) {
-        Composer msg = new Composer(Composers.BuddyListMessageComposer);
+public class BuddyListMessageComposer extends MessageComposer {
+    private final Map<Integer, MessengerFriend> friends;
+    private final List<PlayerAvatar> avatars;
+    private final boolean hasStaffChat;
 
-        msg.writeInt(0);///??
-        msg.writeInt(0);///??
+    public BuddyListMessageComposer(Map<Integer, MessengerFriend> friends, final boolean hasStaffChat) {
+        this.hasStaffChat = hasStaffChat;
 
-        List<PlayerAvatar> avatars = Lists.newArrayList();
+        this.friends = friends;
+        this.avatars = Lists.newArrayList();
 
         for (Map.Entry<Integer, MessengerFriend> friend : friends.entrySet()) {
             if (friend.getValue() != null) {
@@ -29,7 +32,15 @@ public class BuddyListMessageComposer {
                 }
             }
         }
+    }
 
+    @Override
+    public short getId() {
+        return Composers.BuddyListMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(avatars.size() + (hasStaffChat ? 1 : 0));
 
         for (PlayerAvatar playerAvatar : avatars) {
@@ -85,8 +96,10 @@ public class BuddyListMessageComposer {
             msg.writeBoolean(false);
             msg.writeShort(0);
         }
+    }
 
-        avatars.clear();
-        return msg;
+    @Override
+    public void dispose() {
+        this.avatars.clear();
     }
 }
