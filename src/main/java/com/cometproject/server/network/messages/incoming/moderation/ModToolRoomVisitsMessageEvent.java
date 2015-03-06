@@ -18,11 +18,11 @@ public class ModToolRoomVisitsMessageEvent implements IEvent {
         int playerId = msg.readInt();
 
         if(!LogManager.ENABLED) {
-            client.send(AdvancedAlertMessageComposer.compose("Notice", "Logging is not currently enabled, please contact your system administrator to enable it."));
-            client.send(ModToolRoomVisitsMessageComposer.compose(playerId, PlayerDao.getUsernameByPlayerId(playerId), Lists.newArrayList()));
+            client.send(new AdvancedAlertMessageComposer("Notice", "Logging is not currently enabled, please contact your system administrator to enable it."));
+            client.send(new ModToolRoomVisitsMessageComposer(playerId, PlayerDao.getUsernameByPlayerId(playerId), Lists.newArrayList()));
         }
 
         if (LogManager.ENABLED)
-            client.send(ModToolRoomVisitsMessageComposer.compose(playerId, PlayerDao.getUsernameByPlayerId(playerId), LogQueries.getLastRoomVisits(playerId, 100)));
+            client.send(new ModToolRoomVisitsMessageComposer(playerId, PlayerDao.getUsernameByPlayerId(playerId), LogQueries.getLastRoomVisits(playerId, 100)));
     }
 }

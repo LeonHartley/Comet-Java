@@ -18,6 +18,6 @@ public class LoadRoomInfoMessageEvent implements IEvent {
             return;
         }
 
-        client.send(GetRoomDataMessageComposer.compose(room, client.getPlayer().getPermissions().hasPermission("mod_tool")));
+        client.send(new GetRoomDataMessageComposer(room, client.getPlayer().getPermissions().hasPermission("mod_tool")));
     }
 }

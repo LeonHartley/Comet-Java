@@ -2,9 +2,9 @@ package com.cometproject.server.game.rooms.models;
 
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.game.utilities.ModelUtils;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.HeightmapMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RelativeHeightmapMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import org.apache.log4j.Logger;
 
 
@@ -23,8 +23,8 @@ public abstract class RoomModel {
     private double[][] squareHeight;
     private RoomTileState[][] squareState;
 
-    private final Composer heightmapMessageComposer;
-    private final Composer floorMapMessageComposer;
+    private final MessageComposer heightmapMessageComposer;
+    private final MessageComposer floorMapMessageComposer;
 
     private int wallHeight;
 
@@ -92,8 +92,8 @@ public abstract class RoomModel {
             this.wallHeight = 15;
         }
 
-        this.heightmapMessageComposer = HeightmapMessageComposer.compose(this);
-        this.floorMapMessageComposer = RelativeHeightmapMessageComposer.compose(this);
+        this.heightmapMessageComposer = new HeightmapMessageComposer(this);
+        this.floorMapMessageComposer = new RelativeHeightmapMessageComposer(this);
     }
 
     public String getId() {
@@ -140,11 +140,11 @@ public abstract class RoomModel {
         return this.squareHeight;
     }
 
-    public Composer getHeightmapMessage() {
+    public MessageComposer getHeightmapMessage() {
         return this.heightmapMessageComposer;
     }
 
-    public Composer getRelativeHeightmapMessage() {
+    public MessageComposer getRelativeHeightmapMessage() {
         return this.floorMapMessageComposer;
     }
 

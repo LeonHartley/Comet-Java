@@ -17,6 +17,6 @@ public class GetBannedUsersMessageEvent implements IEvent {
             return;
         }
 
-        client.send(RoomBannedListMessageComposer.compose(room.getId(), room.getRights().getBannedPlayers()));
+        client.send(new RoomBannedListMessageComposer(room.getId(), room.getRights().getBannedPlayers()));
     }
 }

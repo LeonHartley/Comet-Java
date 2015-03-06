@@ -55,7 +55,7 @@ public class BotEntity extends GenericEntity {
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
         // Send leave room message to all current entities
-        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
+        this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
 
         // Remove entity from the room
         this.getRoom().getEntities().removeEntity(this);
@@ -80,7 +80,7 @@ public class BotEntity extends GenericEntity {
     @Override
     public boolean onRoomDispose() {
         // Send leave room message to all current entities
-        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
+        this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
 
         this.data.dispose();
         this.data = null;

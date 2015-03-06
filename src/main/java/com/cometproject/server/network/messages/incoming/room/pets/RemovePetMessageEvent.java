@@ -46,6 +46,6 @@ public class RemovePetMessageEvent implements IEvent {
 
     private void givePetToPlayer(Session client, PetData petData) {
         client.getPlayer().getPets().addPet(petData);
-        client.send(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));
+        client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));
     }
 }

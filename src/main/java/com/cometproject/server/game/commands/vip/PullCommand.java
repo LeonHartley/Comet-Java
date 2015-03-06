@@ -67,7 +67,7 @@ public class PullCommand extends ChatCommand {
         pulledEntity.setWalkingPath(path);
 
         room.getEntities().broadcastMessage(
-                TalkMessageComposer.compose(client.getPlayer().getEntity().getId(), Locale.get("command.pull.message").replace("%playername%", pulledEntity.getUsername()), 0, 0)
+                new TalkMessageComposer(client.getPlayer().getEntity().getId(), Locale.get("command.pull.message").replace("%playername%", pulledEntity.getUsername()), 0, 0)
         );
     }
 

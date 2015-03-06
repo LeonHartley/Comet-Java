@@ -21,7 +21,7 @@ public abstract class MassCurrencyCommand extends ChatCommand {
 
                 if (this instanceof MassCoinsCommand) {
                     session.getPlayer().getData().increaseCredits(amount);
-                    session.send(AdvancedAlertMessageComposer.compose(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(amount))));
+                    session.send(new AdvancedAlertMessageComposer(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(amount))));
 
                 } else if (this instanceof MassDucketsCommand) {
                     session.getPlayer().getData().increaseActivityPoints(amount);
@@ -29,7 +29,7 @@ public abstract class MassCurrencyCommand extends ChatCommand {
                 } else if (this instanceof MassPointsCommand) {
                     session.getPlayer().getData().increasePoints(amount);
 
-                    session.send(AdvancedAlertMessageComposer.compose(
+                    session.send(new AdvancedAlertMessageComposer(
                             Locale.get("command.points.successtitle"),
                             Locale.get("command.points.successmessage").replace("%amount%", String.valueOf(amount))
                     ));

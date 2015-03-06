@@ -24,6 +24,6 @@ public class FollowFriendMessageEvent implements IEvent {
             return;
         }
 
-        client.send(RoomForwardMessageComposer.compose(room.getId()));
+        client.send(new RoomForwardMessageComposer(room.getId()));
     }
 }

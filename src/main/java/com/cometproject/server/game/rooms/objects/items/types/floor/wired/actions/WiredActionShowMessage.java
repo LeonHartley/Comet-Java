@@ -4,7 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 
 
 public class WiredActionShowMessage extends WiredActionItem {
@@ -45,7 +45,7 @@ public class WiredActionShowMessage extends WiredActionItem {
         PlayerEntity playerEntity = ((PlayerEntity) entity);
 
         if (!this.getWiredData().getText().isEmpty()) {
-            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(entity.getId(), this.getWiredData().getText(), isWisperBubble ? 0 : 34));
+            playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(entity.getId(), this.getWiredData().getText(), isWisperBubble ? 0 : 34));
         }
 
         return true;

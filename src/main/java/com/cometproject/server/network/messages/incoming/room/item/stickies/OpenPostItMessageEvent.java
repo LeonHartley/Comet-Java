@@ -24,6 +24,6 @@ public class OpenPostItMessageEvent implements IEvent {
 
         if (wallItem == null || !(wallItem instanceof PostItWallItem)) return;
 
-        client.send(PostItMessageComposer.compose(itemId, ((PostItWallItem) wallItem).getColour() + " " + ((PostItWallItem) wallItem).getMessage()));
+        client.send(new PostItMessageComposer(itemId, ((PostItWallItem) wallItem).getColour() + " " + ((PostItWallItem) wallItem).getMessage()));
     }
 }

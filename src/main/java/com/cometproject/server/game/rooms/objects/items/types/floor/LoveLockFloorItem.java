@@ -60,8 +60,8 @@ public class LoveLockFloorItem extends RoomItemFloor {
         if(leftEntity.getEntityType() != RoomEntityType.PLAYER || rightEntity.getEntityType() != RoomEntityType.PLAYER) return false;
 
         try {
-            ((PlayerEntity) leftEntity).getPlayer().getSession().send(LoveLockWidgetMessageComposer.compose(this.getId()));
-            ((PlayerEntity) rightEntity).getPlayer().getSession().send(LoveLockWidgetMessageComposer.compose(this.getId()));
+            ((PlayerEntity) leftEntity).getPlayer().getSession().send(new LoveLockWidgetMessageComposer(this.getId()));
+            ((PlayerEntity) rightEntity).getPlayer().getSession().send(new LoveLockWidgetMessageComposer(this.getId()));
 
             this.leftEntity = ((PlayerEntity) leftEntity).getPlayerId();
             this.rightEntity = ((PlayerEntity) rightEntity).getPlayerId();

@@ -27,6 +27,6 @@ public class UseMoodlightMessageEvent implements IEvent {
         }
 
         if (moodlight.getMoodlightData() == null) return;
-        client.send(MoodlightMessageComposer.compose(moodlight));
+        client.send(new MoodlightMessageComposer(moodlight));
     }
 }

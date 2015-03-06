@@ -29,7 +29,7 @@ public class SaveMannequinMessageEvent implements IEvent {
         ((MannequinFloorItem) item).setName(msg.readString());
         ((MannequinFloorItem) item).setGender(client.getPlayer().getData().getGender());
 
-        room.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(item.getId(), item));
+        room.getEntities().broadcastMessage(new UpdateFloorExtraDataMessageComposer(item.getId(), item));
         item.saveData();
     }
 }

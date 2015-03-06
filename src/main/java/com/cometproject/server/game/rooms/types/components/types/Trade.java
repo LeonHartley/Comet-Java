@@ -5,11 +5,11 @@ import com.cometproject.server.game.players.components.types.inventory.Inventory
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.components.TradeComponent;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.trading.*;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.items.TradeDao;
 
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class Trade {
             user2.markNeedsUpdate();
         }
 
-        sendToUsers(TradeStartMessageComposer.compose(user1.getPlayer().getId(), user2.getPlayer().getId()));
+        sendToUsers(new TradeStartMessageComposer(user1.getPlayer().getId(), user2.getPlayer().getId()));
     }
 
     /**
@@ -108,7 +108,7 @@ public class Trade {
             user2.markNeedsUpdate();
         }
 
-        this.sendToUsers(TradeCloseMessageComposer.compose(userId));
+        this.sendToUsers(new TradeCloseMessageComposer(userId));
         this.tradeComponent.remove(this);
     }
 
@@ -131,12 +131,12 @@ public class Trade {
 
 
         if (user1 != null && user1.getPlayer() != null) {
-            this.sendToUsers(TradeAcceptUpdateMessageComposer.compose(user1.getPlayer().getId(), false));
+            this.sendToUsers(new TradeAcceptUpdateMessageComposer(user1.getPlayer().getId(), false));
             this.user1Accepted = false;
         }
 
         if (user2 != null && user2.getPlayer() != null) {
-            this.sendToUsers(TradeAcceptUpdateMessageComposer.compose(user2.getPlayer().getId(), false));
+            this.sendToUsers(new TradeAcceptUpdateMessageComposer(user2.getPlayer().getId(), false));
             this.user2Accepted = false;
         }
 
@@ -187,11 +187,11 @@ public class Trade {
         else
             this.user2Accepted = true;
 
-        this.sendToUsers(TradeAcceptUpdateMessageComposer.compose(((user == 1) ? user1 : user2).getPlayer().getId(), true));
+        this.sendToUsers(new TradeAcceptUpdateMessageComposer(((user == 1) ? user1 : user2).getPlayer().getId(), true));
 
         if (user1Accepted && user2Accepted) {
             this.stage++;
-            this.sendToUsers(TradeConfirmationMessageComposer.compose());
+            this.sendToUsers(new TradeConfirmationMessageComposer());
             this.user1Accepted = false;
             this.user2Accepted = false;
         }
@@ -207,7 +207,7 @@ public class Trade {
         else
             this.user2Accepted = false;
 
-        this.sendToUsers(TradeAcceptUpdateMessageComposer.compose(((user == 1) ? user1 : user2).getPlayer().getId(), false));
+        this.sendToUsers(new TradeAcceptUpdateMessageComposer(((user == 1) ? user1 : user2).getPlayer().getId(), false));
     }
 
     /**
@@ -225,7 +225,7 @@ public class Trade {
         else
             this.user2Accepted = true;
 
-        sendToUsers(TradeAcceptUpdateMessageComposer.compose(((user == 1) ? user1 : user2).getPlayer().getId(), true));
+        sendToUsers(new TradeAcceptUpdateMessageComposer(((user == 1) ? user1 : user2).getPlayer().getId(), true));
 
         if (user1Accepted && user2Accepted) {
             complete();
@@ -251,7 +251,7 @@ public class Trade {
     public void complete() {
         for (InventoryItem item : this.user1Items) {
             if (user1.getPlayer().getInventory().getItem(item.getId()) == null) {
-                sendToUsers(AlertMessageComposer.compose(Locale.get("game.trade.error")));
+                sendToUsers(new AlertMessageComposer(Locale.get("game.trade.error")));
                 return;
             } else {
                 user1.getPlayer().getInventory().removeItem(item);
@@ -263,7 +263,7 @@ public class Trade {
 
         for (InventoryItem item : this.user2Items) {
             if (user2.getPlayer().getInventory().getItem(item.getId()) == null) {
-                sendToUsers(AlertMessageComposer.compose(Locale.get("game.trade.error")));
+                sendToUsers(new AlertMessageComposer(Locale.get("game.trade.error")));
                 return;
             } else {
                 user2.getPlayer().getInventory().removeItem(item);
@@ -273,11 +273,11 @@ public class Trade {
             }
         }
 
-        user1.getPlayer().getSession().send(UnseenItemsMessageComposer.compose(user2Items));
-        user2.getPlayer().getSession().send(UnseenItemsMessageComposer.compose(user1Items));
+        user1.getPlayer().getSession().send(new UnseenItemsMessageComposer(user2Items));
+        user2.getPlayer().getSession().send(new UnseenItemsMessageComposer(user1Items));
 
-        sendToUsers(UpdateInventoryMessageComposer.compose());
-        sendToUsers(TradeCloseCleanMessageComposer.compose());
+        sendToUsers(new UpdateInventoryMessageComposer());
+        sendToUsers(new TradeCloseCleanMessageComposer());
 
         this.tradeComponent.remove(this);
     }
@@ -286,7 +286,7 @@ public class Trade {
      * Send the packet which updates the trade window
      */
     public void updateWindow() {
-        this.sendToUsers(TradeUpdateMessageComposer.compose(
+        this.sendToUsers(new TradeUpdateMessageComposer(
                 this.user1.getPlayerId(),
                 this.user2.getPlayerId(),
                 this.user1Items,
@@ -299,7 +299,7 @@ public class Trade {
      *
      * @param msg The packet
      */
-    public void sendToUsers(Composer msg) {
+    public void sendToUsers(MessageComposer msg) {
         if (user1 != null && user1.getPlayer() != null && user1.getPlayer().getSession() != null) {
             user1.getPlayer().getSession().send(msg);
         }

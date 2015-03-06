@@ -56,20 +56,20 @@ public class PlayerLoginQueue implements CometTask {
 //
 //        PlayerDao.updatePlayerStatus(player, true, true);
 //
-//        client.send(AuthenticationOKMessageComposer.compose());
+//        client.send(new AuthenticationOKMessageComposer());
 //        client.getPlayer().sendBalance();
-//        client.send(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));
-//        client.send(MotdNotificationComposer.compose());
+//        client.send(new FuserightsMessageComposer(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank()));
+//        client.send(new MotdNotificationComposer());
 //
 //        if (player.getSettings().getHomeRoom() > 0) {
-//            client.send(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
+//            client.send(new HomeRoomMessageComposer(player.getSettings().getHomeRoom()));
 //        }
 //
 //        if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
-//            client.send(ModToolMessageComposer.compose());
+//            client.send(new ModToolMessageComposer());
 //        }
 //
-//        client.send(RoomCategoriesMessageComposer.compose(NavigatorManager.getInstance().getCategories(), client.getPlayer().getData().getRank()));
+//        client.send(new RoomCategoriesMessageComposer(NavigatorManager.getInstance().getCategories(), client.getPlayer().getData().getRank()));
     }
 
     public boolean queue(PlayerLoginQueueEntry entry) {

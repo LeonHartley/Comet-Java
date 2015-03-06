@@ -76,7 +76,7 @@ public class WiredActionMoveRotate extends WiredActionItem {
                 final int newRotation = this.handleRotation(floorItem.getRotation(), rotation);
 
                 if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), newPosition, newRotation, true)) {
-                    this.getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(floorItem, this.getRoom().getData().getOwnerId()));
+                    this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem, this.getRoom().getData().getOwnerId()));
                 }
             }
         }

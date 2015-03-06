@@ -22,16 +22,16 @@ public class ModToolRoomChatlogMessageEvent implements IEvent {
         }
 
         if(!LogManager.ENABLED) {
-            client.send(AdvancedAlertMessageComposer.compose("Notice", "Logging is not currently enabled, please contact your system administrator to enable it."));
+            client.send(new AdvancedAlertMessageComposer("Notice", "Logging is not currently enabled, please contact your system administrator to enable it."));
             return;
         }
 
         RoomData roomData = RoomManager.getInstance().getRoomData(roomId);
 
         if (roomData != null) {
-            client.send(ModToolRoomChatlogMessageComposer.compose(roomData.getId(), roomData.getName(), LogQueries.getChatlogsForRoom(roomData.getId())));
+            client.send(new ModToolRoomChatlogMessageComposer(roomData.getId(), roomData.getName(), LogQueries.getChatlogsForRoom(roomData.getId())));
         } else {
-            client.send(AdvancedAlertMessageComposer.compose("Notice", "There seems to be an issue with fetching the logs for this room (ID: " + roomId + ", Context: " + context + ")"));
+            client.send(new AdvancedAlertMessageComposer("Notice", "There seems to be an issue with fetching the logs for this room (ID: " + roomId + ", Context: " + context + ")"));
         }
     }
 }

@@ -17,6 +17,6 @@ public class ApplyDanceMessageEvent implements IEvent {
         client.getPlayer().getEntity().unIdle();
 
         client.getPlayer().getEntity().setDanceId(danceId);
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(DanceMessageComposer.compose(client.getPlayer().getEntity().getId(), danceId));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new DanceMessageComposer(client.getPlayer().getEntity().getId(), danceId));
     }
 }

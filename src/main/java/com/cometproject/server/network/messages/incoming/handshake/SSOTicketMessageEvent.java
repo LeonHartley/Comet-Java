@@ -122,25 +122,25 @@ public class SSOTicketMessageEvent implements IEvent {
 
         PlayerDao.updatePlayerStatus(player, true, true);
 
-        client.sendQueue(UniqueIDMessageComposer.compose(client.getUniqueId())).
-                sendQueue(AuthenticationOKMessageComposer.compose()).
-                sendQueue(FuserightsMessageComposer.compose(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank())).
-                sendQueue(MotdNotificationComposer.compose()).
-                sendQueue(FavouriteRoomsMessageComposer.compose()).
-                sendQueue(UnreadMinimailsMessageComposer.compose(0)).
-                sendQueue(EnableTradingMessageComposer.compose(true)).
-                sendQueue(EnableNotificationsMessageComposer.compose())
-                .sendQueue(PlayerSettingsMessageComposer.compose(player));
+        client.sendQueue(new UniqueIDMessageComposer(client.getUniqueId())).
+                sendQueue(new AuthenticationOKMessageComposer()).
+                sendQueue(new FuserightsMessageComposer(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank())).
+                sendQueue(new MotdNotificationComposer()).
+                sendQueue(new FavouriteRoomsMessageComposer()).
+                sendQueue(new UnreadMinimailsMessageComposer()).
+                sendQueue(new EnableTradingMessageComposer(true)).
+                sendQueue(new EnableNotificationsMessageComposer())
+                .sendQueue(new PlayerSettingsMessageComposer(player.getSettings()));
 
 //        if (player.getSettings().getHomeRoom() > 0) {
-        client.sendQueue(HomeRoomMessageComposer.compose(player.getSettings().getHomeRoom()));
+        client.sendQueue(new HomeRoomMessageComposer(player.getSettings().getHomeRoom()));
 //        }
 
         if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
-            client.sendQueue(ModToolMessageComposer.compose());
+            client.sendQueue(new ModToolMessageComposer());
         }
 
-        client.send(EffectsInventoryMessageComposer.compose());
+        client.send(new EffectsInventoryMessageComposer());
 
         client.flush();
     }

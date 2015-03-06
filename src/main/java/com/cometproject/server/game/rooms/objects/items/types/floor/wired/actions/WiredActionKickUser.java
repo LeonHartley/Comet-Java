@@ -5,7 +5,7 @@ import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 
 
 public class WiredActionKickUser extends WiredActionShowMessage {
@@ -60,7 +60,7 @@ public class WiredActionKickUser extends WiredActionShowMessage {
                 this.setTicks(RoomItemFactory.getProcessTime(0.9));
             }
         } else {
-            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(entity.getId(), "Wired kick exception: " + kickException));
+            playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(entity.getId(), "Wired kick exception: " + kickException));
         }
 
         return true;

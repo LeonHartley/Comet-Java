@@ -18,19 +18,19 @@ public class BeginTradeMessageEvent implements IEvent {
         int userId = msg.readInt();
 
         if (client.getPlayer().getEntity().getRoom().getData().getTradeState() == RoomTradeState.DISABLED) {
-            client.send(TradeErrorMessageComposer.compose(6, ""));
+            client.send(new TradeErrorMessageComposer(6, ""));
             return;
         }
 
         PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntity(userId);
 
         if (entity == null || entity.hasStatus(RoomEntityStatus.TRADE)) {
-            client.send(TradeErrorMessageComposer.compose(8, entity != null ? entity.getUsername() : "Unknown Player"));
+            client.send(new TradeErrorMessageComposer(8, entity != null ? entity.getUsername() : "Unknown Player"));
             return;
         }
 
         if (client.getPlayer().getEntity().getRoom().getData().getOwnerId() != client.getPlayer().getId() && entity.getRoom().getData().getTradeState() == RoomTradeState.OWNER_ONLY) {
-            client.send(TradeErrorMessageComposer.compose(6, ""));
+            client.send(new TradeErrorMessageComposer(6, ""));
             return;
         }
 

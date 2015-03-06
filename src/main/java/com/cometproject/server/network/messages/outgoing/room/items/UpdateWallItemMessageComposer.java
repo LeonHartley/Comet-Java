@@ -11,10 +11,10 @@ public class UpdateWallItemMessageComposer extends MessageComposer {
     private final int ownerId;
     private final String owner;
 
-    public UpdateWallItemMessageComposer(String owner, int ownerId, RoomItemWall item) {
+    public UpdateWallItemMessageComposer(RoomItemWall item, int ownerId, String owner) {
+        this.item = item;
         this.owner = owner;
         this.ownerId = ownerId;
-        this.item = item;
     }
 
     @Override

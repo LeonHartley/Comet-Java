@@ -4,7 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 
 
 public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
@@ -54,7 +54,7 @@ public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
         }
 
         if (wasExecuted) {
-            playerEntity.getPlayer().getSession().send(WisperMessageComposer.compose(playerEntity.getId(), message));
+            playerEntity.getPlayer().getSession().send(new WhisperMessageComposer(playerEntity.getId(), message));
         }
 
         return wasExecuted;

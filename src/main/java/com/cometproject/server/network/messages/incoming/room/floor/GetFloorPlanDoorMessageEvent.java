@@ -16,7 +16,7 @@ public class GetFloorPlanDoorMessageEvent implements IEvent {
 
             if (model == null) return;
 
-            client.send(FloorPlanDoorMessageComposer.compose(model.getDoorX(), model.getDoorY(), model.getDoorRotation()));
+            client.send(new FloorPlanDoorMessageComposer(model.getDoorX(), model.getDoorY(), model.getDoorRotation()));
         }
     }
 }

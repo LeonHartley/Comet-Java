@@ -29,14 +29,14 @@ public class SetFavouriteGroupMessageEvent implements IEvent {
         client.getPlayer().getData().save();
 
         if (client.getPlayer().getEntity() != null) {
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(GroupBadgesMessageComposer.compose(groupId, group.getData().getBadge()));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new GroupBadgesMessageComposer(groupId, group.getData().getBadge()));
 
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(client.getPlayer().getEntity().getId()));
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity()));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
         } else {
-            client.send(GroupBadgesMessageComposer.compose(groupId, group.getData().getBadge()));
+            client.send(new GroupBadgesMessageComposer(groupId, group.getData().getBadge()));
         }
 
-        client.send(UpdateFavouriteGroupMessageComposer.compose(client.getPlayer().getId()));
+        client.send(new UpdateFavouriteGroupMessageComposer(client.getPlayer().getId()));
     }
 }

@@ -8,6 +8,6 @@ import com.cometproject.server.network.sessions.Session;
 
 public class GetGiftWrappingConfigurationMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        client.send(GiftWrappingConfigurationMessageComposer.compose());
+        client.send(new GiftWrappingConfigurationMessageComposer());
     }
 }

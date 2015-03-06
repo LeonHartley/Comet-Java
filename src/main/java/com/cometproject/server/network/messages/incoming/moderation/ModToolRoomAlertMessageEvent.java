@@ -25,7 +25,7 @@ public class ModToolRoomAlertMessageEvent implements IEvent {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        room.getEntities().broadcastMessage(AlertMessageComposer.compose(alert));
+        room.getEntities().broadcastMessage(new AlertMessageComposer(alert));
         // TODO: Log these
     }
 }

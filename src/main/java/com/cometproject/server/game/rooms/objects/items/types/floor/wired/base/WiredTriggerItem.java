@@ -9,8 +9,8 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonUnseenEffect;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredTriggerMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.RandomInteger;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
@@ -156,8 +156,8 @@ public abstract class WiredTriggerItem extends AbstractWiredItem {
     }
 
     @Override
-    public Composer getDialog() {
-        return WiredTriggerMessageComposer.compose(this);
+    public MessageComposer getDialog() {
+        return new WiredTriggerMessageComposer(this);
     }
 
     public List<WiredActionItem> getIncompatibleActions() {

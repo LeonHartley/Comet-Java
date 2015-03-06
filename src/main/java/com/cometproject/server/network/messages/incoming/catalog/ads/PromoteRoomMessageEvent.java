@@ -41,7 +41,7 @@ public class PromoteRoomMessageEvent implements IEvent {
 
         if (client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getVipPoints() < totalCostPoints || client.getPlayer().getData().getActivityPoints() < totalCostActivityPoints) {
             CometManager.getLogger().warn("Player with ID: " + client.getPlayer().getId() + " tried to purchase item with ID: " + item.getId() + " with the incorrect amount of credits, points or activity points.");
-            client.send(AlertMessageComposer.compose(Locale.get("catalog.error.notenough")));
+            client.send(new AlertMessageComposer(Locale.get("catalog.error.notenough")));
             return;
         }
 
@@ -65,6 +65,6 @@ public class PromoteRoomMessageEvent implements IEvent {
         }
 
         RoomManager.getInstance().promoteRoom(roomData.getId(), promotionName, promotionDescription);
-        client.send(BoughtItemMessageComposer.badge());
+        client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
     }
 }

@@ -6,9 +6,9 @@ import com.cometproject.server.network.messages.types.Composer;
 
 
 public class FloodFilterMessageComposer extends MessageComposer {
-    private final int seconds;
+    private final double seconds;
 
-    public FloodFilterMessageComposer(int seconds) {
+    public FloodFilterMessageComposer(double seconds) {
         this.seconds = seconds;
     }
 
@@ -19,6 +19,6 @@ public class FloodFilterMessageComposer extends MessageComposer {
 
     @Override
     public void compose(Composer msg) {
-
+        msg.writeInt(((int) Math.round(this.seconds)));
     }
 }

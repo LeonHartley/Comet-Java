@@ -13,10 +13,10 @@ public class BadgeInventoryMessageEvent implements IEvent {
         int userId = msg.readInt();
 
         if (userId == client.getPlayer().getId()) {
-            client.send(BadgeInventoryMessageComposer.compose(client.getPlayer().getInventory().getBadges()));
+            client.send(new BadgeInventoryMessageComposer(client.getPlayer().getInventory().getBadges()));
             return;
         }
 
-        client.send(UserBadgesMessageComposer.compose(userId, InventoryDao.getWornBadgesByPlayerId(userId)));
+        client.send(new UserBadgesMessageComposer(userId, InventoryDao.getWornBadgesByPlayerId(userId)));
     }
 }

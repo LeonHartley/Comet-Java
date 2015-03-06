@@ -50,7 +50,7 @@ public class PetEntity extends GenericEntity {
         }
 
         this.getRoom().getEntities().removeEntity(this);
-        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
+        this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
         this.attributes.clear();
     }
 
@@ -68,7 +68,7 @@ public class PetEntity extends GenericEntity {
     public boolean onRoomDispose() {
         PetDao.savePet(this.getPosition().getX(), this.getPosition().getY(), this.data.getId());
 
-        this.getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(this.getId()));
+        this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
 
         this.attributes.clear();
         return true;

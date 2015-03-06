@@ -26,7 +26,7 @@ public class ModToolUserAlertMessageEvent implements IEvent {
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
             if (session != null) {
-                session.send(AlertMessageComposer.compose(message));
+                session.send(new AlertMessageComposer(message));
             }
         }
     }

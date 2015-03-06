@@ -19,6 +19,6 @@ public class UnignoreUserMessageEvent implements IEvent {
 
         PlayerEntity playerEntity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER);
         client.getPlayer().unignorePlayer(playerEntity.getPlayerId());
-        client.send(UpdateIgnoreStatusMessageComposer.compose(3, username));
+        client.send(new UpdateIgnoreStatusMessageComposer(3, username));
     }
 }

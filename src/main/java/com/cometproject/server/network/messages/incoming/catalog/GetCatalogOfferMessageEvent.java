@@ -19,7 +19,7 @@ public class GetCatalogOfferMessageEvent implements IEvent {
         CatalogItem catalogItem = CatalogManager.getInstance().getCatalogItemByOfferId(offerId);
 
         if (catalogItem != null) {
-            client.send(CatalogOfferMessageComposer.compose(catalogItem));
+            client.send(new CatalogOfferMessageComposer(catalogItem));
         }
     }
 }

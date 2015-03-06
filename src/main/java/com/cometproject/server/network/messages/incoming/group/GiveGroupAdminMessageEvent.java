@@ -43,6 +43,6 @@ public class GiveGroupAdminMessageEvent implements IEvent {
 
         group.getMembershipComponent().getAdministrators().add(groupMember.getPlayerId());
 
-        client.send(GroupMembersMessageComposer.compose(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getAdministrators()), 1, "", group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())));
+        client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getAdministrators()), 1, "", group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())));
     }
 }

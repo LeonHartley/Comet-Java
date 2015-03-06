@@ -123,7 +123,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
                 }
 
                 this.floorItem.getPosition().setZ(this.teleportPosition.getZ());
-                this.getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(floorItem, this.getRoom().getData().getOwnerId()));
+                this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem, this.getRoom().getData().getOwnerId()));
             }
 
             this.teleportPosition = null;

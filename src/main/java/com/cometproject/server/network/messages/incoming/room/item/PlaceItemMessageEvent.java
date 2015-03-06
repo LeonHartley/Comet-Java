@@ -32,7 +32,7 @@ public class PlaceItemMessageEvent implements IEvent {
 
             notificationParams.put("message", "${room.error.cant_set_not_owner}");
 
-            client.send(RoomNotificationMessageComposer.compose("furni_placement_error", notificationParams));
+            client.send(new RoomNotificationMessageComposer("furni_placement_error", notificationParams));
             return;
         }
 

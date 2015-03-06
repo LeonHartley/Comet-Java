@@ -46,10 +46,10 @@ public class PlacePetMessageEvent implements IEvent {
 
             PetEntity petEntity = client.getPlayer().getEntity().getRoom().getPets().addPet(pet, x, y);
 
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(petEntity));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(petEntity));
 
             client.getPlayer().getPets().removePet(pet.getId());
-            client.send(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));
+            client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));
         }
     }
 }

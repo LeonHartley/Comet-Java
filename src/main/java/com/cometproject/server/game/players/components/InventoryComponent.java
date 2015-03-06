@@ -82,8 +82,8 @@ public class InventoryComponent implements PlayerComponent {
             // 0 = slot
             this.badges.put(code, 0);
 
-            this.player.getSession().send(WiredRewardMessageComposer.compose(7));
-            this.player.getSession().send(BadgeInventoryMessageComposer.compose(this.badges));
+            this.player.getSession().send(new WiredRewardMessageComposer(7));
+            this.player.getSession().send(new BadgeInventoryMessageComposer(this.badges));
         }
     }
 
@@ -99,8 +99,8 @@ public class InventoryComponent implements PlayerComponent {
 
             this.badges.remove(code);
 
-            this.player.getSession().send(AlertMessageComposer.compose(Locale.get("badge.deleted")));
-            this.player.getSession().send(BadgeInventoryMessageComposer.compose(this.badges));
+            this.player.getSession().send(new AlertMessageComposer(Locale.get("badge.deleted")));
+            this.player.getSession().send(new BadgeInventoryMessageComposer(this.badges));
         }
     }
 
@@ -157,12 +157,12 @@ public class InventoryComponent implements PlayerComponent {
 
     public void removeFloorItem(int itemId) {
         this.getFloorItems().remove(itemId);
-        this.getPlayer().getSession().send(RemoveObjectFromInventoryMessageComposer.compose(itemId));
+        this.getPlayer().getSession().send(new RemoveObjectFromInventoryMessageComposer(itemId));
     }
 
     public void removeWallItem(int itemId) {
         this.getWallItems().remove(itemId);
-        this.getPlayer().getSession().send(RemoveObjectFromInventoryMessageComposer.compose(itemId));
+        this.getPlayer().getSession().send(new RemoveObjectFromInventoryMessageComposer(itemId));
     }
 
     public boolean hasFloorItem(int id) {

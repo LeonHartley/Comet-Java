@@ -30,15 +30,15 @@ public class AddToStaffPickedRoomsMessageEvent implements IEvent {
             NavigatorDao.disableFeaturedRoom(room.getId());
 
             NavigatorManager.getInstance().getFeaturedRooms().remove(NavigatorManager.getInstance().getFeaturedRoomById(room.getId()));
-            client.send(AdvancedAlertMessageComposer.compose(Locale.get("navigator.staff.picks.removed.title"), Locale.get("navigator.staff.picks.removed.message")));
-            room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
+            client.send(new AdvancedAlertMessageComposer(Locale.get("navigator.staff.picks.removed.title"), Locale.get("navigator.staff.picks.removed.message")));
+            room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));
             return;
         }
 
         int id = NavigatorDao.staffPick(room.getId(), room.getData().getName(), room.getData().getDescription());
 
         NavigatorManager.getInstance().getFeaturedRooms().add(new FeaturedRoom(id, BannerType.SMALL, room.getData().getName(), room.getData().getDescription(), "", ImageType.INTERNAL, room.getId(), 1, true, false, false));
-        client.send(AdvancedAlertMessageComposer.compose(Locale.get("navigator.staff.picks.added.title"), Locale.get("navigator.staff.picks.added.message")));
-        room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
+        client.send(new AdvancedAlertMessageComposer(Locale.get("navigator.staff.picks.added.title"), Locale.get("navigator.staff.picks.added.message")));
+        room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));
     }
 }

@@ -17,7 +17,7 @@ public class ApplyActionMessageEvent implements IEvent {
                 client.getPlayer().getEntity().unIdle();
             }
 
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(ActionMessageComposer.compose(client.getPlayer().getEntity().getId(), actionId));
+            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new ActionMessageComposer(client.getPlayer().getEntity().getId(), actionId));
         }
     }
 }

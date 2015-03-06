@@ -15,7 +15,7 @@ public class BackgroundTonerFloorItem extends RoomItemFloor {
     public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         this.setExtraData("");
         this.saveData();
-        this.getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(this, this.getOwner()));
+        this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(this, this.getOwner()));
 
         return true;
     }

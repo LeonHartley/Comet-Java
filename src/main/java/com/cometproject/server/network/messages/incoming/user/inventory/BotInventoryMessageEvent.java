@@ -8,6 +8,6 @@ import com.cometproject.server.network.sessions.Session;
 
 public class BotInventoryMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
+        client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));
     }
 }

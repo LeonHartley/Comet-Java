@@ -27,7 +27,7 @@ public class PlayerInfoCommand extends ChatCommand {
 
         if(PermissionsManager.getInstance().getPermissions().get("mod_tool").getRank() <= playerData.getRank() && !client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             // send player info failed alert
-            client.send(AdvancedAlertMessageComposer.compose(Locale.getOrDefault("command.playerinfo.title", "Player Information") + ": " + username, Locale.getOrDefault("command.playerinfo.staff", "You cannot view the information of a staff member!")));
+            client.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.playerinfo.title", "Player Information") + ": " + username, Locale.getOrDefault("command.playerinfo.staff", "You cannot view the information of a staff member!")));
             return;
         }
 
@@ -58,7 +58,7 @@ public class PlayerInfoCommand extends ChatCommand {
                 userInfo.append("<i>" + Locale.getOrDefault("command.playerinfo.notInRoom", "This player is not in a room!") + "</i>");
         }
 
-        client.send(AdvancedAlertMessageComposer.compose(Locale.getOrDefault("command.playerinfo.title", "Player Information") + ": " + username, userInfo.toString()));
+        client.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.playerinfo.title", "Player Information") + ": " + username, userInfo.toString()));
     }
 
     @Override

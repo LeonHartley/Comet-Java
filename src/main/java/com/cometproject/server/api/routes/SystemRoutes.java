@@ -42,7 +42,7 @@ public class SystemRoutes {
                 CatalogManager.getInstance().loadPages();
                 CatalogManager.getInstance().loadGiftBoxes();
 
-                NetworkManager.getInstance().getSessions().broadcast(CatalogPublishMessageComposer.compose(true));
+                NetworkManager.getInstance().getSessions().broadcast(new CatalogPublishMessageComposer(true));
                 break;
 
             case "navigator":
@@ -80,7 +80,7 @@ public class SystemRoutes {
                 ModerationManager.getInstance().loadPresets();
 
                 for (Session session : NetworkManager.getInstance().getSessions().getByPlayerPermission("mod_tool")) {
-                    session.send(ModToolMessageComposer.compose());
+                    session.send(new ModToolMessageComposer());
                 }
 
                 break;

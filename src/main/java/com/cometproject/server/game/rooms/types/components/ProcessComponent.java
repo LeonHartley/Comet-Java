@@ -110,7 +110,7 @@ public class ProcessComponent implements CometTask {
 
             // only send the updates if we need to
             if (entitiesToUpdate.size() > 0)
-                this.getRoom().getEntities().broadcastMessage(AvatarUpdateMessageComposer.compose(entitiesToUpdate));
+                this.getRoom().getEntities().broadcastMessage(new AvatarUpdateMessageComposer(entitiesToUpdate));
 
             for (GenericEntity entity : entitiesToUpdate) {
                 if (entity.updatePhase == 1) continue;
@@ -303,7 +303,7 @@ public class ProcessComponent implements CometTask {
                         String message = ((BotEntity) entity).getData().getRandomMessage();
 
                         if (message != null && !message.isEmpty()) {
-                            this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(entity.getId(), message, 0, 2));
+                            this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(entity.getId(), message, 0, 2));
                         }
 
                         ((BotEntity) entity).resetCycleCount();
@@ -337,7 +337,7 @@ public class ProcessComponent implements CometTask {
                                     break;
 
                                 default:
-                                    this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(entity.getId(), message, 0, 0));
+                                    this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(entity.getId(), message, 0, 0));
                                     break;
                             }
                         }
@@ -366,7 +366,7 @@ public class ProcessComponent implements CometTask {
                 return true;
             } else {
                 // Set idle status!
-                this.room.getEntities().broadcastMessage(IdleStatusMessageComposer.compose(entity.getId(), true));
+                this.room.getEntities().broadcastMessage(new IdleStatusMessageComposer(entity.getId(), true));
                 entity.resetIdleTime();
             }
         }

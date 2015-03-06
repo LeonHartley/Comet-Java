@@ -10,6 +10,6 @@ import com.cometproject.server.network.sessions.Session;
 public class FeaturedRoomsMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) {
-        client.send(FeaturedRoomsMessageComposer.compose(NavigatorManager.getInstance().getFeaturedRooms()));
+        client.send(new FeaturedRoomsMessageComposer(NavigatorManager.getInstance().getFeaturedRooms()));
     }
 }

@@ -38,6 +38,6 @@ public class BotConfigMessageEvent implements IEvent {
                 break;
         }
 
-        client.send(BotConfigMessageComposer.compose(entity.getBotId(), skillId, message));
+        client.send(new BotConfigMessageComposer(entity.getBotId(), skillId, message));
     }
 }

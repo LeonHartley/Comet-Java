@@ -11,7 +11,7 @@ public class RoomAlertCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         for (PlayerEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
-            entity.getPlayer().getSession().send(AlertMessageComposer.compose(this.merge(params)));
+            entity.getPlayer().getSession().send(new AlertMessageComposer(this.merge(params)));
         }
     }
 

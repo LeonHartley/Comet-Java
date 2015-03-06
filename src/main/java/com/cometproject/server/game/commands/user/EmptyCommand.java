@@ -21,7 +21,7 @@ public class EmptyCommand extends ChatCommand {
 
             InventoryDao.clearInventory(client.getPlayer().getId());
 
-            client.send(UpdateInventoryMessageComposer.compose());
+            client.send(new UpdateInventoryMessageComposer());
             sendNotif(Locale.getOrDefault("command.empty.emptied", "Your inventory was cleared."), client);
         } else {
             switch(params[0]) {
@@ -45,7 +45,7 @@ public class EmptyCommand extends ChatCommand {
             }
         }
 
-        client.send(UpdateInventoryMessageComposer.compose());
+        client.send(new UpdateInventoryMessageComposer());
     }
 
     @Override

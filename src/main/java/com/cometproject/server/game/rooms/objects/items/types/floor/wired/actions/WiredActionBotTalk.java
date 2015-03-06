@@ -66,9 +66,9 @@ public class WiredActionBotTalk extends WiredActionItem {
             boolean isShout = (this.getWiredData().getParams().size() == 1 && (this.getWiredData().getParams().get(PARAM_MESSAGE_TYPE) == 1));
 
             if(isShout) {
-                this.getRoom().getEntities().broadcastMessage(ShoutMessageComposer.compose(botEntity.getId(), message, 0, 2));
+                this.getRoom().getEntities().broadcastMessage(new ShoutMessageComposer(botEntity.getId(), message, 0, 2));
             } else {
-                this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(botEntity.getId(), message, 0, 2));
+                this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(botEntity.getId(), message, 0, 2));
             }
         }
 

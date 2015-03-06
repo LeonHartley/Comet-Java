@@ -2,8 +2,8 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.base;
 
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.AbstractWiredItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredConditionMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 
 
 public abstract class WiredConditionItem extends AbstractWiredItem {
@@ -28,7 +28,7 @@ public abstract class WiredConditionItem extends AbstractWiredItem {
     }
 
     @Override
-    public Composer getDialog() {
-        return WiredConditionMessageComposer.compose(this);
+    public MessageComposer getDialog() {
+        return new WiredConditionMessageComposer(this);
     }
 }

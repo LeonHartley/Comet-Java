@@ -98,7 +98,7 @@ public class RollerFloorItem extends RoomItemFloor {
                 newTile.getEntities().add(entity);
             }
 
-            this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(entity.getPosition(), new Position(sqInfront.getX(), sqInfront.getY(), toHeight), this.getId(), entity.getId(), 0));
+            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(entity.getPosition(), new Position(sqInfront.getX(), sqInfront.getY(), toHeight), this.getId(), entity.getId(), 0));
             entity.setPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
         }
     }
@@ -173,7 +173,7 @@ public class RollerFloorItem extends RoomItemFloor {
                 return;
             }
 
-            this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), new Position(sqInfront.getX(), sqInfront.getY(), height), this.getId(), 0, floor.getId()));
+            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(new Position(floor.getPosition().getX(), floor.getPosition().getY(), floor.getPosition().getZ()), new Position(sqInfront.getX(), sqInfront.getY(), height), this.getId(), 0, floor.getId()));
 
             floor.getPosition().setX(sqInfront.getX());
             floor.getPosition().setY(sqInfront.getY());

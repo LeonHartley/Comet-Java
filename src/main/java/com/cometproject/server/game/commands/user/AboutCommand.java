@@ -55,7 +55,7 @@ public class AboutCommand extends ChatCommand {
             about.append("Record since last reboot: " + GameThread.getInstance().getCurrentOnlineRecord() + " ");
         }
 
-        client.send(AdvancedAlertMessageComposer.compose(
+        client.send(new AdvancedAlertMessageComposer(
                 "Comet Server - " + Comet.getBuild(),
                 about.toString(),
                 CometSettings.aboutImg

@@ -10,6 +10,6 @@ public class GetTilesInUseMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
         if (client.getPlayer().getEntity() != null)
-            client.send(TilesInUseMessageComposer.compose(client.getPlayer().getEntity().getRoom().getMapping().tilesWithFurniture()));
+            client.send(new TilesInUseMessageComposer(client.getPlayer().getEntity().getRoom().getMapping().tilesWithFurniture()));
     }
 }

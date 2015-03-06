@@ -30,7 +30,7 @@ public class PromotionUpdateMessageEvent implements IEvent {
 
             RoomDao.updatePromotedRoom(roomPromotion);
 
-            room.getEntities().broadcastMessage(RoomPromotionMessageComposer.compose(room.getData(), roomPromotion));
+            room.getEntities().broadcastMessage(new RoomPromotionMessageComposer(room.getData(), roomPromotion));
         }
     }
 }

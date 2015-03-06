@@ -41,7 +41,7 @@ public class GetProfileByUsernameMessageEvent implements IEvent {
             return;
         }
 
-        client.send(LoadProfileMessageComposer.compose(data, stats, groups, client.getPlayer().getMessenger().getFriendById(data.getId()) != null, false));
+        client.send(new LoadProfileMessageComposer(data, stats, groups, client.getPlayer().getMessenger().getFriendById(data.getId()) != null, false));
 
     }
 }

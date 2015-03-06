@@ -13,6 +13,6 @@ public class GetCataIndexMessageEvent implements IEvent {
             return;
         }
 
-        client.send(CatalogIndexMessageComposer.compose(client.getPlayer().getData().getRank()));
+        client.send(new CatalogIndexMessageComposer(client.getPlayer().getData().getRank()));
     }
 }

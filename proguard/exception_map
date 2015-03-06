@@ -3134,7 +3134,7 @@ com.cometproject.server.network.messages.headers.Composers -> com.cometproject.s
     short UserInfoMessageComposer -> as
     short WallItemsMessageComposer -> at
     short WelcomeUserMessageComposer -> au
-    short WisperMessageComposer -> av
+    short WhisperMessageComposer -> av
     short UnseenItemsMessageComposer -> aw
     short ClubMessageComposer -> ax
     short FeaturedRoomsMessageComposer -> ay
@@ -3792,7 +3792,7 @@ com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageC
     10:18:com.cometproject.server.network.messages.types.Composer compose(int,java.lang.String,java.lang.String,java.lang.String,int) -> a
     22:22:com.cometproject.server.network.messages.types.Composer compose$41dd1c8d(com.cometproject.server.game.rooms.entities.AvatarEntity) -> a
     26:26:com.cometproject.server.network.messages.types.Composer compose$701b863d(boolean,com.cometproject.server.game.rooms.entities.AvatarEntity) -> a
-com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer -> com.cometproject.server.f.d.c.i.c.n:
+com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer -> com.cometproject.server.f.d.c.i.c.n:
     8:17:com.cometproject.server.network.messages.types.Composer compose(int,java.lang.String) -> a
 com.cometproject.server.network.messages.outgoing.room.bots.BotConfigMessageComposer -> com.cometproject.server.f.d.c.i.d.a:
     8:14:com.cometproject.server.network.messages.types.Composer compose(int,int,java.lang.String) -> a

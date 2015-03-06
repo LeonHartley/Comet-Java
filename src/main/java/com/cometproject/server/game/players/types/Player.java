@@ -6,12 +6,12 @@ import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateAvatarAspectMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.CurrenciesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -133,11 +133,11 @@ public class Player {
         session.send(composeCreditBalance());
     }
 
-    public Composer composeCreditBalance() {
-        return SendCreditsMessageComposer.compose(CometSettings.infiniteBalance ? Player.INFINITE_BALANCE : session.getPlayer().getData().getCredits());
+    public MessageComposer composeCreditBalance() {
+        return new SendCreditsMessageComposer(CometSettings.infiniteBalance ? Player.INFINITE_BALANCE : session.getPlayer().getData().getCredits());
     }
 
-    public Composer composeCurrenciesBalance() {
+    public MessageComposer composeCurrenciesBalance() {
         Map<Integer, Integer> currencies = new FastMap<>();
 
         currencies.put(0, CometSettings.infiniteBalance ? Player.INFINITE_BALANCE : getData().getActivityPoints());
@@ -145,7 +145,7 @@ public class Player {
         currencies.put(5, getData().getVipPoints());
 
         try {
-            return CurrenciesMessageComposer.compose(currencies);
+            return new CurrenciesMessageComposer(currencies);
         } finally {
             currencies.clear();
         }
@@ -160,7 +160,7 @@ public class Player {
         Room room = RoomManager.getInstance().get(id);
 
         if (room == null) {
-            session.send(HotelViewMessageComposer.compose());
+            session.send(new HotelViewMessageComposer());
             return;
         }
 
@@ -179,12 +179,12 @@ public class Player {
     }
 
     public void poof() {
-        this.getSession().send(UpdateInfoMessageComposer.compose(-1, this.getData().getFigure(), this.getData().getGender(), this.getData().getMotto(), this.getData().getAchievementPoints()));
-        this.getSession().send(UpdateAvatarAspectMessageComposer.compose(this.getData().getFigure(), this.getData().getGender()));
+        this.getSession().send(new UpdateInfoMessageComposer(-1, this.getData().getFigure(), this.getData().getGender(), this.getData().getMotto(), this.getData().getAchievementPoints()));
+        this.getSession().send(new UpdateAvatarAspectMessageComposer(this.getData().getFigure(), this.getData().getGender()));
 
         if (this.getEntity() != null && this.getEntity().getRoom() != null && this.getEntity().getRoom().getEntities() != null) {
             this.getEntity().unIdle();
-            this.getEntity().getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(this.getEntity()));
+            this.getEntity().getRoom().getEntities().broadcastMessage(new UpdateInfoMessageComposer(this.getEntity()));
         }
     }
 

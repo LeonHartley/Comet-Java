@@ -54,7 +54,7 @@ public class ModToolRoomActionMessageEvent implements IEvent {
             }
 
             if (lockDoor || changeRoomName && !kickAll) {
-                room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
+                room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));
             }
         }
 

@@ -268,7 +268,7 @@ public class RoomManager implements Initializable {
             Room room = this.get(roomId);
 
             if (room.getEntities() != null && room.getEntities().realPlayerCount() >= 1) {
-                room.getEntities().broadcastMessage(RoomPromotionMessageComposer.compose(room.getData(), this.roomPromotions.get(roomId)));
+                room.getEntities().broadcastMessage(new RoomPromotionMessageComposer(room.getData(), this.roomPromotions.get(roomId)));
             }
         }
     }

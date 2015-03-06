@@ -9,7 +9,7 @@ public class HomeCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         if(client.getPlayer().getSettings().getHomeRoom() > 0) {
-            client.send(RoomForwardMessageComposer.compose(client.getPlayer().getSettings().getHomeRoom()));
+            client.send(new RoomForwardMessageComposer(client.getPlayer().getSettings().getHomeRoom()));
         }
     }
 

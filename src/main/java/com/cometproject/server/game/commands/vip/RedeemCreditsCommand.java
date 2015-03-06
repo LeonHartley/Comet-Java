@@ -51,7 +51,7 @@ public class RedeemCreditsCommand extends ChatCommand {
 
         itemsToRemove.clear();
 
-        client.send(UpdateInventoryMessageComposer.compose());
+        client.send(new UpdateInventoryMessageComposer());
         client.getPlayer().getData().increaseCredits(coinsToGive);
         client.getPlayer().sendBalance();
 

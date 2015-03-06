@@ -38,7 +38,7 @@ public class SaveMannequinFigureMessageEvent implements IEvent {
         ((MannequinFloorItem) item).setFigure(finalFigure.substring(0, finalFigure.length() - 1));
         ((MannequinFloorItem) item).setGender(client.getPlayer().getData().getGender());
 
-        room.getEntities().broadcastMessage(UpdateFloorExtraDataMessageComposer.compose(item.getId(), item));
+        room.getEntities().broadcastMessage(new UpdateFloorExtraDataMessageComposer(item.getId(), item));
         item.saveData();
     }
 }

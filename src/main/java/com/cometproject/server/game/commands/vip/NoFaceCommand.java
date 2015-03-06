@@ -28,8 +28,8 @@ public class NoFaceCommand extends ChatCommand {
             }
         }
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UpdateInfoMessageComposer.compose(client.getPlayer().getEntity()));
-        client.send(UpdateInfoMessageComposer.compose(true, client.getPlayer().getEntity()));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UpdateInfoMessageComposer(client.getPlayer().getEntity()));
+        client.send(new UpdateInfoMessageComposer(-1, client.getPlayer().getEntity()));
     }
 
     @Override

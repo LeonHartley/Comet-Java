@@ -39,7 +39,7 @@ public class ModifyGroupSettingsMessageEvent implements IEvent {
         if (RoomManager.getInstance().isActive(group.getData().getRoomId())) {
             Room room = RoomManager.getInstance().get(group.getData().getRoomId());
 
-            room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
+            room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));
         }
     }
 }

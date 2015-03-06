@@ -58,7 +58,7 @@ public class SaveStackToolMessageEvent implements IEvent {
             magicStackFloorItem.getRoom().getMapping().getTile(affectedTile.x, affectedTile.y).reload();
         }
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(magicStackFloorItem));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(magicStackFloorItem));
         magicStackFloorItem.saveData();
     }
 }

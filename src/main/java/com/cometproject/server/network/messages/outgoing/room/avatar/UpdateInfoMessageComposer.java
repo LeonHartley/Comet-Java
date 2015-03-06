@@ -1,5 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.room.avatar;
 
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
@@ -21,6 +23,14 @@ public class UpdateInfoMessageComposer extends MessageComposer {
         this.achievementPoints = achievementPoints;
     }
 
+    public UpdateInfoMessageComposer(GenericEntity entity) {
+        this(entity.getId(), entity.getFigure(), entity.getGender(), entity.getMotto(), (entity instanceof PlayerEntity) ? ((PlayerEntity) entity).getPlayer().getData().getAchievementPoints() : 0);
+    }
+
+    public UpdateInfoMessageComposer(int id, GenericEntity entity) {
+        this(id, entity.getFigure(), entity.getGender(), entity.getMotto(), (entity instanceof PlayerEntity) ? ((PlayerEntity) entity).getPlayer().getData().getAchievementPoints() : 0);
+    }
+
     @Override
     public short getId() {
         return Composers.UpdateUserDataMessageComposer;
@@ -34,7 +44,6 @@ public class UpdateInfoMessageComposer extends MessageComposer {
         msg.writeString(motto);
         msg.writeInt(achievementPoints);
     }
-
 
 //    public static Composer compose(GenericEntity entity) {
 //        return compose(entity.getId(), entity.getFigure(), entity.getGender(), entity.getMotto(), (entity instanceof PlayerEntity) ? ((PlayerEntity) entity).getPlayer().getData().getAchievementPoints() : 0);

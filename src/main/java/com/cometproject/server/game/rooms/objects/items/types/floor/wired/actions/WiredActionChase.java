@@ -114,7 +114,7 @@ public class WiredActionChase extends WiredActionItem {
         }
 
         if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), to, floorItem.getRotation(), true)) {
-            this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(from, from, this.getId(), 0, floorItem.getId()));
+            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(from, from, this.getId(), 0, floorItem.getId()));
         }
 
         floorItem.nullifyCollision();

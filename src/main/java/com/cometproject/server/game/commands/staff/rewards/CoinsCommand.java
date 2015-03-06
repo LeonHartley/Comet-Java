@@ -20,11 +20,11 @@ public class CoinsCommand extends ChatCommand {
             Session player = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
             player.getPlayer().getData().increaseCredits(credits);
-            player.send(AdvancedAlertMessageComposer.compose(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(credits))));
+            player.send(new AdvancedAlertMessageComposer(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(credits))));
 
             player.getPlayer().sendBalance();
         } catch (Exception e) {
-            client.send(AdvancedAlertMessageComposer.compose(Locale.get("command.coins.errortitle"), Locale.get("command.coins.formaterror")));
+            client.send(new AdvancedAlertMessageComposer(Locale.get("command.coins.errortitle"), Locale.get("command.coins.formaterror")));
         }
     }
 

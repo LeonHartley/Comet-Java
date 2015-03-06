@@ -41,7 +41,7 @@ public class OpenGiftMessageEvent implements IEvent {
         room.getItems().removeItem(floorItem, client);
 
         client.getPlayer().getEntity().getRoom().getItems().placeFloorItem(new InventoryItem(floorItemId, Integer.parseInt(catalogItem.getItemId()), giftData.getExtraData()), floorItem.getPosition().getX(), floorItem.getPosition().getY(), floorItem.getRotation(), client.getPlayer());
-        client.send(OpenGiftMessageComposer.compose(floorItemId, floorItem.getDefinition().getType(), ((GiftFloorItem) floorItem).getGiftData(), ItemManager.getInstance().getDefinition(catalogItem.getItems().get(0))));
+        client.send(new OpenGiftMessageComposer(floorItemId, floorItem.getDefinition().getType(), ((GiftFloorItem) floorItem).getGiftData(), ItemManager.getInstance().getDefinition(catalogItem.getItems().get(0))));
 
 
         RoomItemDao.setBaseItem(floorItemId, catalogItem.getItems().get(0));

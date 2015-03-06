@@ -15,6 +15,6 @@ public class UsersWithRightsMessageEvent implements IEvent {
             return;
         }
 
-        client.send(GetPowerListMessageComposer.compose(room.getId(), room.getRights().getAll()));
+        client.send(new GetPowerListMessageComposer(room.getId(), room.getRights().getAll()));
     }
 }

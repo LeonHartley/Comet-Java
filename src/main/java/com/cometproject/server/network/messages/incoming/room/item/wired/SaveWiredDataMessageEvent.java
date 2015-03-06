@@ -62,7 +62,7 @@ public class SaveWiredDataMessageEvent implements IEvent {
             wiredItem.refreshSnapshots();
         }
 
-        client.send(SaveWiredMessageComposer.compose());
+        client.send(new SaveWiredMessageComposer());
         wiredItem.onDataRefresh();
         wiredItem.onDataChange();
     }

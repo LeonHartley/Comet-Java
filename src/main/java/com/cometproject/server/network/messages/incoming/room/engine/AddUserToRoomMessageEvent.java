@@ -45,7 +45,7 @@ public class AddUserToRoomMessageEvent implements IEvent {
         }
 
         if (client.getPlayer().getRoomFloodTime() >= 1) {
-            client.send(FloodFilterMessageComposer.compose(client.getPlayer().getRoomFloodTime()));
+            client.send(new FloodFilterMessageComposer(client.getPlayer().getRoomFloodTime()));
         }
 
         Map<Integer, String> groupsInRoom = new FastMap<>();
@@ -63,35 +63,35 @@ public class AddUserToRoomMessageEvent implements IEvent {
             }
         }
 
-        client.send(GroupBadgesMessageComposer.compose(groupsInRoom));
+        client.send(new GroupBadgesMessageComposer(groupsInRoom));
 
-        client.send(RoomPanelMessageComposer.compose(room.getId(), room.getData().getOwnerId() == client.getPlayer().getId() || client.getPlayer().getPermissions().hasPermission("room_full_control")));
-        client.send(RoomDataMessageComposer.compose(room));
+        client.send(new RoomPanelMessageComposer(room.getId(), room.getData().getOwnerId() == client.getPlayer().getId() || client.getPlayer().getPermissions().hasPermission("room_full_control")));
+        client.send(new RoomDataMessageComposer(room));
 
-        client.send(AvatarsMessageComposer.compose(room));
-        room.getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity()));
+        client.send(new AvatarsMessageComposer(room));
+        room.getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
 
-        client.send(AvatarUpdateMessageComposer.compose(room.getEntities().count(), room.getEntities().getAllEntities().values()));
+        client.send(new AvatarUpdateMessageComposer(room.getEntities().count(), room.getEntities().getAllEntities().values()));
 
         for (GenericEntity av : client.getPlayer().getEntity().getRoom().getEntities().getAllEntities().values()) {
             if (av.getCurrentEffect() != null) {
-                client.send(ApplyEffectMessageComposer.compose(av.getId(), av.getCurrentEffect().getEffectId()));
+                client.send(new ApplyEffectMessageComposer(av.getId(), av.getCurrentEffect().getEffectId()));
             }
 
             if (av.getDanceId() != 0) {
-                client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(DanceMessageComposer.compose(av.getId(), av.getDanceId()));
+                client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new DanceMessageComposer(av.getId(), av.getDanceId()));
             }
 
             if (av.getHandItem() != 0) {
-                client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(HandItemMessageComposer.compose(av.getId(), av.getHandItem()));
+                client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new HandItemMessageComposer(av.getId(), av.getHandItem()));
             }
         }
 
-        client.send(ConfigureWallAndFloorMessageComposer.compose(client.getPlayer().getEntity().getRoom().getData().getHideWalls(), client.getPlayer().getEntity().getRoom().getData().getWallThickness(), client.getPlayer().getEntity().getRoom().getData().getFloorThickness()));
+        client.send(new ConfigureWallAndFloorMessageComposer(client.getPlayer().getEntity().getRoom().getData().getHideWalls(), client.getPlayer().getEntity().getRoom().getData().getWallThickness(), client.getPlayer().getEntity().getRoom().getData().getFloorThickness()));
         client.getPlayer().getMessenger().sendStatus(true, true);
 
-        client.send(FloorItemsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
-        client.send(WallItemsMessageComposer.compose(client.getPlayer().getEntity().getRoom()));
+        client.send(new FloorItemsMessageComposer(client.getPlayer().getEntity().getRoom()));
+        client.send(new WallItemsMessageComposer(client.getPlayer().getEntity().getRoom()));
 
         WiredTriggerEnterRoom.executeTriggers(client.getPlayer().getEntity());
 

@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.W
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredActionItemData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredItemData;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.utilities.JsonFactory;
 import com.cometproject.server.utilities.attributes.Stateable;
 import com.google.common.collect.Lists;
@@ -165,7 +165,7 @@ public abstract class AbstractWiredItem extends RoomItemFloor implements WiredIt
      *
      * @return The dialog message composer
      */
-    public abstract Composer getDialog();
+    public abstract MessageComposer getDialog();
 
     /**
      * Evaluate the wired trigger/action/condition

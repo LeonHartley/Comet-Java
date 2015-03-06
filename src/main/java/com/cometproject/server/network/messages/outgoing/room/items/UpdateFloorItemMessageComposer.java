@@ -10,13 +10,13 @@ public class UpdateFloorItemMessageComposer extends MessageComposer {
     private final int ownerId;
     private final RoomItemFloor item;
 
-    public UpdateFloorItemMessageComposer(int ownerId, RoomItemFloor item) {
+    public UpdateFloorItemMessageComposer(RoomItemFloor item, int ownerId) {
         this.ownerId = ownerId;
         this.item = item;
     }
 
     public UpdateFloorItemMessageComposer(RoomItemFloor item) {
-        this(item.getRoom().getData().getOwnerId(), item);
+        this(item, item.getRoom().getData().getOwnerId());
     }
 
     @Override

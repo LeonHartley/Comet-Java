@@ -10,7 +10,7 @@ import com.cometproject.server.network.sessions.Session;
 
 public class LoadCategoriesMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        client.send(RoomCategoriesMessageComposer.compose(NavigatorManager.getInstance().getCategories(), client.getPlayer().getData().getRank()));
-        client.send(EventCategoriesMessageComposer.compose());
+        client.send(new RoomCategoriesMessageComposer(NavigatorManager.getInstance().getCategories(), client.getPlayer().getData().getRank()));
+        client.send(new EventCategoriesMessageComposer());
     }
 }

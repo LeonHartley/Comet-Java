@@ -50,17 +50,17 @@ public class ModifyGroupBadgeMessageEvent implements IEvent {
         if (client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
             Room room = client.getPlayer().getEntity().getRoom();
 
-            room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
+            room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));
 
             for (RoomItemFloor roomItemFloor : room.getItems().getByInteraction("group_item")) {
                 if (roomItemFloor instanceof GroupFloorItem) {
-                    room.getEntities().broadcastMessage(RemoveFloorItemMessageComposer.compose(roomItemFloor.getId(), 0));
-                    room.getEntities().broadcastMessage(SendFloorItemMessageComposer.compose(roomItemFloor, room));
+                    room.getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(roomItemFloor.getId(), 0));
+                    room.getEntities().broadcastMessage(new SendFloorItemMessageComposer(roomItemFloor, room));
                 }
             }
 
         }
 
-//        client.send(ManageGroupMessageComposer.compose(group));
+//        client.send(new ManageGroupMessageComposer(group));
     }
 }

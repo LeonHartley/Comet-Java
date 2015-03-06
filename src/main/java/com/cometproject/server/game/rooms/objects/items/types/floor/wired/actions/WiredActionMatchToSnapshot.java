@@ -86,12 +86,12 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
                     newPosition.setZ(floorItem.getPosition().getZ());
 
                     if (!matchRotation)
-                        this.getRoom().getEntities().broadcastMessage(SlideObjectBundleMessageComposer.compose(currentPosition, newPosition, 0, 0, floorItem.getId()));
+                        this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, newPosition, 0, 0, floorItem.getId()));
                 }
             }
 
             if (matchRotation)
-                this.getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(floorItem, this.getRoom().getData().getOwnerId()));
+                this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem, this.getRoom().getData().getOwnerId()));
 
             floorItem.sendUpdate();
         }

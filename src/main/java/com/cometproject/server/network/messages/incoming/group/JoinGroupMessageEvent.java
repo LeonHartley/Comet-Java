@@ -34,17 +34,17 @@ public class JoinGroupMessageEvent implements IEvent {
                 client.getPlayer().getData().save();
 
                 if (client.getPlayer().getEntity() != null) {
-                    client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(GroupBadgesMessageComposer.compose(groupId, group.getData().getBadge()));
+                    client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new GroupBadgesMessageComposer(groupId, group.getData().getBadge()));
                 }
             }
 
             client.getPlayer().getGroups().add(groupId);
 
             group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
-            client.send(group.composeInformation(true, client.getPlayer().getId()));
+            client.send(new groupInformation(true, client.getPlayer().getId()));
         } else {
             group.getMembershipComponent().createRequest(client.getPlayer().getId());
-            client.send(group.composeInformation(true, client.getPlayer().getId()));
+            client.send(new groupInformation(true, client.getPlayer().getId()));
         }
     }
 }

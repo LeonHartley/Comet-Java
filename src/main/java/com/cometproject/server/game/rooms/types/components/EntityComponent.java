@@ -11,16 +11,14 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.TeleporterFl
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
-import com.cometproject.server.utilities.Counter;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -139,7 +137,7 @@ public class EntityComponent {
         this.entities.remove(entity.getId());
     }
 
-    public void broadcastMessage(Composer msg, boolean usersWithRightsOnly) {
+    public void broadcastMessage(MessageComposer msg, boolean usersWithRightsOnly) {
         for (GenericEntity entity : this.entities.values()) {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
@@ -156,7 +154,7 @@ public class EntityComponent {
         }
     }
 
-    public void broadcastChatMessage(Composer msg, PlayerEntity sender) {
+    public void broadcastChatMessage(MessageComposer msg, PlayerEntity sender) {
         for (GenericEntity entity : this.entities.values()) {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
@@ -170,7 +168,7 @@ public class EntityComponent {
         }
     }
 
-    public void broadcastMessage(Composer msg) {
+    public void broadcastMessage(MessageComposer msg) {
         broadcastMessage(msg, false);
     }
 
@@ -294,7 +292,7 @@ public class EntityComponent {
 
     public void refreshScore() {
         for (PlayerEntity entity : getPlayerEntities()) {
-            entity.getPlayer().getSession().send(RoomRatingMessageComposer.compose(room.getData().getScore(), entity.canRateRoom()));
+            entity.getPlayer().getSession().send(new RoomRatingMessageComposer(room.getData().getScore(), entity.canRateRoom()));
         }
     }
 

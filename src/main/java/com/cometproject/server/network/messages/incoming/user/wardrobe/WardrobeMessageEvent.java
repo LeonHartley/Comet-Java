@@ -9,6 +9,6 @@ import com.cometproject.server.network.sessions.Session;
 public class WardrobeMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        client.send(WardrobeMessageComposer.compose(client.getPlayer().getSettings().getWardrobe()));
+        client.send(new WardrobeMessageComposer(client.getPlayer().getSettings().getWardrobe()));
     }
 }

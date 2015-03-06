@@ -13,7 +13,7 @@ public class HelpTicketMessageEvent implements IEvent {
         boolean hasActiveTicket = ModerationManager.getInstance().getTicketByUserId(client.getPlayer().getId()) != null;
 
 //        if (hasActiveTicket) {
-//            client.send(AdvancedAlertMessageComposer.compose(Locale.get("help.ticket.pending.title"), Locale.get("help.ticket.pending.message")));
+//            client.send(new AdvancedAlertMessageComposer(Locale.get("help.ticket.pending.title"), Locale.get("help.ticket.pending.message")));
 //            return;
 //        }
 
@@ -30,6 +30,6 @@ public class HelpTicketMessageEvent implements IEvent {
             int sayerId = msg.readInt();
         }
 
-        client.send(TicketSentMessageComposer.compose());
+        client.send(new TicketSentMessageComposer());
     }
 }

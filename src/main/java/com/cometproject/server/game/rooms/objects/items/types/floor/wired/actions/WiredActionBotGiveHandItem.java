@@ -57,7 +57,7 @@ public class WiredActionBotGiveHandItem extends WiredActionItem {
         final BotEntity botEntity = this.getRoom().getBots().getBotByName(botName);
 
         if(botEntity != null) {
-            this.getRoom().getEntities().broadcastMessage(TalkMessageComposer.compose(botEntity.getId(), Locale.get("bots.chat.giveItemMessage").replace("%username%", entity.getUsername()), RoomManager.getInstance().getEmotions().getEmotion(":)"), 2));
+            this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(botEntity.getId(), Locale.get("bots.chat.giveItemMessage").replace("%username%", entity.getUsername()), RoomManager.getInstance().getEmotions().getEmotion(":)"), 2));
             entity.carryItem(param);
         }
 

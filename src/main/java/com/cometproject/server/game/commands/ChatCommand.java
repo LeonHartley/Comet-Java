@@ -1,10 +1,9 @@
 package com.cometproject.server.game.commands;
 
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.WisperMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
 
 
@@ -15,13 +14,13 @@ public abstract class ChatCommand {
 
     public abstract String getDescription();
 
-    public final Composer success(String msg) {
-        return AdvancedAlertMessageComposer.compose(Locale.get("command.successful"), msg);
+    public final MessageComposer success(String msg) {
+        return new AdvancedAlertMessageComposer(Locale.get("command.successful"), msg);
     }
 
     public static void sendNotif(String msg, Session c) {
-//        c.send(WisperMessageComposer.compose(c.getPlayer().getEntity().getId(), msg));
-        c.send(RoomNotificationMessageComposer.bubble("generic", msg));
+//        c.send(WhisperMessageComposer.compose(c.getPlayer().getEntity().getId(), msg));
+        c.send(new RoomNotificationMessageComposer("generic", msg));
     }
 
     public final String merge(String[] params) {

@@ -34,7 +34,7 @@ public class SetMaxCommand extends ChatCommand {
                 room.getData().save();
 
                 sendNotif(Locale.get("command.setmax.done").replace("%i", maxPlayers + ""), client);
-                room.getEntities().broadcastMessage(RoomDataMessageComposer.compose(room));
+                room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));
             } catch (Exception e) {
 
             }

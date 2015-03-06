@@ -100,8 +100,8 @@ public class DeleteRoomMessageEvent implements IEvent {
                         groupMemberSession.getPlayer().getData().setFavouriteGroup(0);
 
                         if (groupMemberSession.getPlayer().getEntity() != null) {
-                            groupMemberSession.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(LeaveRoomMessageComposer.compose(client.getPlayer().getEntity().getId()));
-                            groupMemberSession.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(AvatarsMessageComposer.compose(client.getPlayer().getEntity()));
+                            groupMemberSession.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));
+                            groupMemberSession.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
                         }
                     }
                 }
@@ -112,7 +112,7 @@ public class DeleteRoomMessageEvent implements IEvent {
 
         if (client.getPlayer().getSettings().getHomeRoom() == roomId) {
             client.getPlayer().getSettings().setHomeRoom(0);
-            client.send(HomeRoomMessageComposer.compose(0));
+            client.send(new HomeRoomMessageComposer(0));
         }
 
         PlayerDao.resetHomeRoom(roomId);
@@ -121,8 +121,8 @@ public class DeleteRoomMessageEvent implements IEvent {
         CometManager.getLogger().debug("Room deleted: " + room.getId() + " by " + client.getPlayer().getId() + " / " + client.getPlayer().getData().getUsername());
         RoomDao.deleteRoom(room.getId());
 
-        client.send(UpdateInventoryMessageComposer.compose());
-        client.send(PetInventoryMessageComposer.compose(client.getPlayer().getPets().getPets()));
-        client.send(BotInventoryMessageComposer.compose(client.getPlayer().getBots().getBots()));
+        client.send(new UpdateInventoryMessageComposer());
+        client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));
+        client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));
     }
 }

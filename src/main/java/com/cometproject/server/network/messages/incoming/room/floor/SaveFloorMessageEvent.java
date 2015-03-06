@@ -39,7 +39,7 @@ public class SaveFloorMessageEvent implements IEvent {
         int sizeX = modelData[0].length();
 
         if (sizeX < 2 || sizeY < 2 || sizeX > CometSettings.floorMaxX || sizeY > CometSettings.floorMaxY || CometSettings.floorMaxTotal < (sizeX * sizeY)) {
-            client.send(AdvancedAlertMessageComposer.compose("Invalid Model", Locale.get("command.floor.size")));
+            client.send(new AdvancedAlertMessageComposer("Invalid Model", Locale.get("command.floor.size")));
             return;
         }
 
@@ -63,11 +63,11 @@ public class SaveFloorMessageEvent implements IEvent {
                 }
             }
         } catch(Exception e) {
-            client.send(AdvancedAlertMessageComposer.compose("Invalid Model", "There seems to be a problem parsing this floor plan, please either try again or contact an admin!"));
+            client.send(new AdvancedAlertMessageComposer("Invalid Model", "There seems to be a problem parsing this floor plan, please either try again or contact an admin!"));
         }
 
         if (!hasTiles || !validDoor) {
-            client.send(AdvancedAlertMessageComposer.compose("Invalid Model", Locale.get("command.floor.invalid")));
+            client.send(new AdvancedAlertMessageComposer("Invalid Model", Locale.get("command.floor.invalid")));
             return;
         }
 
@@ -79,7 +79,7 @@ public class SaveFloorMessageEvent implements IEvent {
         room.getData().setHeightmap(JsonFactory.getInstance().toJson(floorMapData));
         room.getData().save();
 
-        client.send(AdvancedAlertMessageComposer.compose("Model Saved", Locale.get("command.floor.complete"), "Go", "event:navigator/goto/" + client.getPlayer().getEntity().getRoom().getId(), ""));
+        client.send(new AdvancedAlertMessageComposer("Model Saved", Locale.get("command.floor.complete"), "Go", "event:navigator/goto/" + client.getPlayer().getEntity().getRoom().getId(), ""));
 
         room.setIdleNow();
     }
