@@ -1,26 +1,32 @@
 package com.cometproject.server.network.messages.outgoing.room.items;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class UpdateFloorItemMessageComposer {
-    public static Composer compose(RoomItemFloor item, int ownerId) {
-        Composer msg = new Composer(Composers.UpdateRoomItemMessageComposer);
+public class UpdateFloorItemMessageComposer extends MessageComposer {
+    private final int ownerId;
+    private final RoomItemFloor item;
 
-        item.serialize(msg);
-        msg.writeInt(ownerId);
-
-        return msg;
+    public UpdateFloorItemMessageComposer(int ownerId, RoomItemFloor item) {
+        this.ownerId = ownerId;
+        this.item = item;
     }
 
-    public static Composer compose(RoomItemFloor item) {
-        Composer msg = new Composer(Composers.UpdateRoomItemMessageComposer);
+    public UpdateFloorItemMessageComposer(RoomItemFloor item) {
+        this(item.getRoom().getData().getOwnerId(), item);
+    }
 
-        item.serialize(msg);
-        msg.writeInt(item.getRoom().getData().getOwnerId());
+    @Override
+    public short getId() {
+        return Composers.UpdateRoomItemMessageComposer;
+    }
 
-        return msg;
+    @Override
+    public void compose(Composer msg) {
+        this.item.serialize(msg);
+        msg.writeInt(this.ownerId);
     }
 }

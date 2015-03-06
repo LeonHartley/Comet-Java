@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.outgoing.moderation;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import org.joda.time.DateTime;
@@ -10,16 +11,30 @@ import org.joda.time.DateTime;
 import java.util.List;
 
 
-public class ModToolRoomVisitsMessageComposer {
-    public static Composer compose(int userId, String username, List<RoomVisitLogEntry> roomVisits) {
-        Composer msg = new Composer(Composers.ModerationToolRoomVisitsMessageComposer);
+public class ModToolRoomVisitsMessageComposer extends MessageComposer {
+    private final int playerId;
+    private final String playerUsername;
+    private final List<RoomVisitLogEntry> roomVisitLogEntries;
 
-        msg.writeInt(userId);
-        msg.writeString(username);
+    public ModToolRoomVisitsMessageComposer(final int playerId, final String playerUsername, final List<RoomVisitLogEntry> roomVisits) {
+        this.playerId = playerId;
+        this.playerUsername = playerUsername;
+        this.roomVisitLogEntries = roomVisits;
+    }
 
-        msg.writeInt(roomVisits.size());
+    @Override
+    public short getId() {
+        return Composers.ModerationToolRoomVisitsMessageComposer;
+    }
 
-        for (RoomVisitLogEntry roomVisit : roomVisits) {
+    @Override
+    public void compose(Composer msg) {
+        msg.writeInt(playerId);
+        msg.writeString(playerUsername);
+
+        msg.writeInt(roomVisitLogEntries.size());
+
+        for (RoomVisitLogEntry roomVisit : roomVisitLogEntries) {
             RoomData roomData = RoomManager.getInstance().getRoomData(roomVisit.getRoomId());
             DateTime dateTime = new DateTime(roomVisit.getEntryTime() * 1000L);
 
@@ -29,7 +44,10 @@ public class ModToolRoomVisitsMessageComposer {
             msg.writeInt(dateTime.hourOfDay().get());
             msg.writeInt(dateTime.getMinuteOfHour());
         }
+    }
 
-        return msg;
+    @Override
+    public void dispose() {
+        this.roomVisitLogEntries.clear();
     }
 }

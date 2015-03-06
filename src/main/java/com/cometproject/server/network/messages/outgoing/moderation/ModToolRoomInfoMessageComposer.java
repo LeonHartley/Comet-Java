@@ -2,14 +2,25 @@ package com.cometproject.server.network.messages.outgoing.moderation;
 
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class ModToolRoomInfoMessageComposer {
-    public static Composer compose(Room room) {
-        Composer msg = new Composer(Composers.ModerationRoomToolMessageComposer);
+public class ModToolRoomInfoMessageComposer extends MessageComposer {
+    private final Room room;
 
+    public ModToolRoomInfoMessageComposer(final Room room) {
+        this.room = room;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.ModerationRoomToolMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(room.getId());
         msg.writeInt(room.getEntities().playerCount());
 
@@ -27,7 +38,5 @@ public class ModToolRoomInfoMessageComposer {
         }
 
         msg.writeBoolean(false); // has event
-
-        return msg;
     }
 }

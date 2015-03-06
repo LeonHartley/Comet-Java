@@ -1,16 +1,27 @@
 package com.cometproject.server.network.messages.outgoing.user.wardrobe;
 
 import com.cometproject.server.game.players.components.types.settings.WardrobeItem;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
 
-public class WardrobeMessageComposer {
-    public static Composer compose(List<WardrobeItem> wardrobe) {
-        Composer msg = new Composer(Composers.LoadWardrobeMessageComposer);
+public class WardrobeMessageComposer extends MessageComposer {
+    private final List<WardrobeItem> wardrobe;
 
+    public WardrobeMessageComposer(final List<WardrobeItem> wardrobe) {
+        this.wardrobe = wardrobe;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.LoadWardrobeMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(1);
         msg.writeInt(wardrobe.size());
 
@@ -24,7 +35,5 @@ public class WardrobeMessageComposer {
                 msg.writeString("M");
             }
         }
-
-        return msg;
     }
 }

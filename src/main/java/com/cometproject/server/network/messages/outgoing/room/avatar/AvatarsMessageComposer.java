@@ -2,31 +2,47 @@ package com.cometproject.server.network.messages.outgoing.room.avatar;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class AvatarsMessageComposer {
-    public static Composer compose(Room room) {
-        Composer msg = new Composer(Composers.SetRoomUserMessageComposer);
+public class AvatarsMessageComposer extends MessageComposer {
+    private final Room room;
+    private final GenericEntity singleEntity;
 
-        msg.writeInt(room.getEntities().count());
-
-        for (GenericEntity entity : room.getEntities().getAllEntities().values()) {
-            if (!entity.isVisible()) continue;
-
-            entity.compose(msg);
-        }
-
-        return msg;
+    private AvatarsMessageComposer(final Room room, final GenericEntity singleEntity) {
+        this.room = room;
+        this.singleEntity = singleEntity;
     }
 
-    public static Composer compose(GenericEntity entity) {
-        Composer msg = new Composer(Composers.SetRoomUserMessageComposer);
+    public AvatarsMessageComposer(final Room room) {
+        this(room, null);
+    }
 
-        msg.writeInt(1);
-        entity.compose(msg);
+    public AvatarsMessageComposer(final GenericEntity singleEntity) {
+        this(null, singleEntity);
+    }
 
-        return msg;
+    @Override
+    public short getId() {
+        return Composers.SetRoomUserMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        if(this.singleEntity != null) {
+            msg.writeInt(1);
+
+            this.singleEntity.compose(msg);
+        } else {
+            msg.writeInt(room.getEntities().count());
+
+            for (GenericEntity entity : room.getEntities().getAllEntities().values()) {
+                if (!entity.isVisible()) continue;
+
+                entity.compose(msg);
+            }
+        }
     }
 }

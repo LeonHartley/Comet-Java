@@ -1,4 +1,4 @@
-package com.cometproject.server.network.messages.outgoing.room.access;
+package com.cometproject.server.network.messages.incoming.room.access;
 
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;

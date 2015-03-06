@@ -1,16 +1,25 @@
 package com.cometproject.server.network.messages.outgoing.room.items;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class SendWallItemMessageComposer {
-    public static Composer compose(RoomItemWall item) {
-        Composer msg = new Composer(Composers.AddWallItemMessageComposer);
+public class SendWallItemMessageComposer extends MessageComposer  {
+    private final RoomItemWall itemWall;
 
-        item.serialize(msg);
+    public SendWallItemMessageComposer(RoomItemWall itemWall) {
+        this.itemWall = itemWall;
+    }
 
-        return msg;
+    @Override
+    public short getId() {
+        return Composers.AddWallItemMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        this.itemWall.serialize(msg);
     }
 }

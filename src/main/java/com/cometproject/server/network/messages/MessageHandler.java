@@ -70,7 +70,7 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeM
 import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlaylistMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.NextVideoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoMessageEvent;
-import com.cometproject.server.network.messages.outgoing.room.access.LoadRoomByDoorBellMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.access.LoadRoomByDoorBellMessageEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;

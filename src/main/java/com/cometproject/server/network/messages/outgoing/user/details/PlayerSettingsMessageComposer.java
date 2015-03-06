@@ -1,23 +1,32 @@
 package com.cometproject.server.network.messages.outgoing.user.details;
 
-import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.game.players.types.PlayerSettings;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class PlayerSettingsMessageComposer {
-    public static Composer compose(Player player) {
-        Composer msg = new Composer(Composers.LoadVolumeMessageComposer);
+public class PlayerSettingsMessageComposer extends MessageComposer {
+    private final PlayerSettings playerSettings;
 
-        msg.writeInt(player.getSettings().getVolumes().getSystemVolume());
-        msg.writeInt(player.getSettings().getVolumes().getFurniVolume());
-        msg.writeInt(player.getSettings().getVolumes().getTraxVolume());
-        msg.writeBoolean(player.getSettings().isUseOldChat()); // old chat enabled?
-        msg.writeBoolean(player.getSettings().isIgnoreInvites()); // ignore room invites
+    public PlayerSettingsMessageComposer(final PlayerSettings playerSettings) {
+        this.playerSettings = playerSettings;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.LoadVolumeMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeInt(this.playerSettings.getVolumes().getSystemVolume());
+        msg.writeInt(this.playerSettings.getVolumes().getFurniVolume());
+        msg.writeInt(this.playerSettings.getVolumes().getTraxVolume());
+        msg.writeBoolean(this.playerSettings.isUseOldChat()); // old chat enabled?
+        msg.writeBoolean(this.playerSettings.isIgnoreInvites()); // ignore room invites
         msg.writeBoolean(false); //disable_room_camera_follow_checkbox
         msg.writeInt(0); //??
         msg.writeInt(0); //??
-
-        return msg;
     }
 }

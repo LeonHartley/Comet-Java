@@ -48,16 +48,17 @@ public class LoadPlaylistMessageEvent implements IEvent {
         }
 
         List<PlaylistItem> playlist = playerSettings.getPlaylist();
+        if(playlist != null) {
+            client.send(PlaylistMessageComposer.compose(itemId, playlist, playingId));
 
-        client.send(PlaylistMessageComposer.compose(itemId, playlist, playingId));
+            if (playlist.size() > 0) {
+                PlaylistItem video = playlist.get(playingId);
+                client.send(PlayVideoMessageComposer.compose(itemId, video.getVideoId(), video.getDuration()));
 
-        if (playlist.size() > 0) {
-            PlaylistItem video = playlist.get(playingId);
-            client.send(PlayVideoMessageComposer.compose(itemId, video.getVideoId(), video.getDuration()));
+                item.setAttribute("video", video.getVideoId());
 
-            item.setAttribute("video", video.getVideoId());
-
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(item, client.getPlayer().getEntity().getRoom().getData().getOwnerId()));
+                client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(UpdateFloorItemMessageComposer.compose(item, client.getPlayer().getEntity().getRoom().getData().getOwnerId()));
+            }
         }
     }
 }

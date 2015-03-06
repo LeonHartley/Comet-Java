@@ -3,19 +3,29 @@ package com.cometproject.server.network.messages.outgoing.room.items.wired.dialo
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
 
-public class WiredTriggerMessageComposer {
-    public static Composer compose(WiredTriggerItem wiredTrigger) {
+public class WiredTriggerMessageComposer extends MessageComposer {
+    private final List<WiredActionItem> incompatibleActions;
+    private final WiredTriggerItem wiredTrigger;
 
-        List<WiredActionItem> incompatibleActions = wiredTrigger.getIncompatibleActions();
+    public WiredTriggerMessageComposer(final WiredTriggerItem wiredTriggerItem) {
+        this.wiredTrigger = wiredTriggerItem;
+        this.incompatibleActions = wiredTriggerItem.getIncompatibleActions();
+    }
 
-        Composer msg = new Composer(Composers.WiredTriggerMessageComposer);
+    @Override
+    public short getId() {
+        return Composers.WiredTriggerMessageComposer;
+    }
 
+    @Override
+    public void compose(Composer msg) {
         msg.writeBoolean(false); // advanced
         msg.writeInt(WiredUtil.MAX_FURNI_SELECTION);
 
@@ -46,7 +56,10 @@ public class WiredTriggerMessageComposer {
         }
 
         msg.writeString(""); //no idea
+    }
 
-        return msg;
+    @Override
+    public void dispose() {
+        this.incompatibleActions.clear();
     }
 }

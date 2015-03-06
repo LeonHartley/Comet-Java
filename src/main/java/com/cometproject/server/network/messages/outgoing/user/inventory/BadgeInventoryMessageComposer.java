@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.user.inventory;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import javolution.util.FastMap;
@@ -7,10 +8,21 @@ import javolution.util.FastMap;
 import java.util.Map;
 
 
-public class BadgeInventoryMessageComposer {
-    public static Composer compose(Map<String, Integer> badges) {
-        Composer msg = new Composer(Composers.LoadBadgesWidgetMessageComposer);
+public class BadgeInventoryMessageComposer extends MessageComposer {
 
+    private final Map<String, Integer> badges;
+
+    public BadgeInventoryMessageComposer(final Map<String, Integer> badges) {
+        this.badges = badges;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.LoadBadgesWidgetMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         Map<String, Integer> activeBadges = new FastMap<>();
 
         msg.writeInt(badges.size());
@@ -32,6 +44,5 @@ public class BadgeInventoryMessageComposer {
         }
 
         activeBadges.clear();
-        return msg;
     }
 }

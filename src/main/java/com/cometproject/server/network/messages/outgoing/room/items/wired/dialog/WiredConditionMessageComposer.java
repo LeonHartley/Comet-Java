@@ -2,38 +2,47 @@ package com.cometproject.server.network.messages.outgoing.room.items.wired.dialo
 
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class WiredConditionMessageComposer {
-    public static Composer compose(WiredConditionItem wiredAction) {
+public class WiredConditionMessageComposer extends MessageComposer {
 
-        Composer msg = new Composer(Composers.WiredConditionMessageComposer);
+    private final WiredConditionItem wiredConditionItem;
 
+    public WiredConditionMessageComposer(final WiredConditionItem wiredConditionItem) {
+        this.wiredConditionItem = wiredConditionItem;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.WiredConditionMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeBoolean(false); // advanced
         msg.writeInt(WiredUtil.MAX_FURNI_SELECTION);
 
-        msg.writeInt(wiredAction.getWiredData().getSelectedIds().size());
+        msg.writeInt(wiredConditionItem.getWiredData().getSelectedIds().size());
 
-        for (Integer itemId : wiredAction.getWiredData().getSelectedIds()) {
+        for (Integer itemId : wiredConditionItem.getWiredData().getSelectedIds()) {
             msg.writeInt(itemId);
         }
 
-        msg.writeInt(wiredAction.getDefinition().getSpriteId());
-        msg.writeInt(wiredAction.getId());
+        msg.writeInt(wiredConditionItem.getDefinition().getSpriteId());
+        msg.writeInt(wiredConditionItem.getId());
 
-        msg.writeString(wiredAction.getWiredData().getText());
+        msg.writeString(wiredConditionItem.getWiredData().getText());
 
-        msg.writeInt(wiredAction.getWiredData().getParams().size());
+        msg.writeInt(wiredConditionItem.getWiredData().getParams().size());
 
-        for (int param : wiredAction.getWiredData().getParams().values()) {
+        for (int param : wiredConditionItem.getWiredData().getParams().values()) {
             msg.writeInt(param);
         }
 
-        msg.writeInt(wiredAction.getWiredData().getSelectionType());
-        msg.writeInt(wiredAction.getInterface());
-
-        return msg;
+        msg.writeInt(wiredConditionItem.getWiredData().getSelectionType());
+        msg.writeInt(wiredConditionItem.getInterface());
     }
 }

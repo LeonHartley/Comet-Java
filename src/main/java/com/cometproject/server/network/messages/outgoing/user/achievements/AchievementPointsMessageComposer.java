@@ -1,15 +1,24 @@
 package com.cometproject.server.network.messages.outgoing.user.achievements;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class AchievementPointsMessageComposer {
-    public static Composer compose(int points) {
-        Composer msg = new Composer(Composers.AchievementPointsMessageComposer);
+public class AchievementPointsMessageComposer extends MessageComposer {
+    private final int points;
 
-        msg.writeInt(points);
+    public AchievementPointsMessageComposer(final int points) {
+        this.points = points;
+    }
 
-        return msg;
+    @Override
+    public short getId() {
+        return Composers.AchievementPointsMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeInt(this.points);
     }
 }

@@ -2,14 +2,25 @@ package com.cometproject.server.network.messages.outgoing.room.engine;
 
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class HeightmapMessageComposer {
-    public static Composer compose(RoomModel roomModel) {
-        Composer msg = new Composer(Composers.HeightMapMessageComposer);
+public class HeightmapMessageComposer extends MessageComposer {
+    private final RoomModel roomModel;
 
+    public HeightmapMessageComposer(final RoomModel roomModel) {
+        this.roomModel = roomModel;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.HeightMapMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(roomModel.getSizeX());
         msg.writeInt(roomModel.getSizeY() * roomModel.getSizeX());
 
@@ -24,7 +35,5 @@ public class HeightmapMessageComposer {
                 }
             }
         }
-
-        return msg;
     }
 }

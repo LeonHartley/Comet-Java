@@ -5,15 +5,34 @@ import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.attributes.Stateable;
 
 
-public class UpdateFloorExtraDataMessageComposer {
-    public static Composer compose(int id, RoomItemFloor floorItem, boolean useGroupItem) {
-        Composer msg = new Composer(Composers.UpdateFloorItemExtraDataMessageComposer);
+public class UpdateFloorExtraDataMessageComposer extends MessageComposer {
+    private final int id;
+    private final RoomItemFloor floorItem;
+    private final boolean useGroupItem;
 
+    public UpdateFloorExtraDataMessageComposer(int id, RoomItemFloor floorItem, boolean useGroupItem) {
+        this.id = id;
+        this.floorItem = floorItem;
+        this.useGroupItem = useGroupItem;
+    }
+
+    public UpdateFloorExtraDataMessageComposer(int id, RoomItemFloor floorItem) {
+        this(id, floorItem, true);
+    }
+
+    @Override
+    public short getId() {
+        return Composers.UpdateFloorItemExtraDataMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         if (floorItem instanceof MannequinFloorItem) {
             msg.writeString(String.valueOf(id));
 
@@ -52,11 +71,5 @@ public class UpdateFloorExtraDataMessageComposer {
             msg.writeInt(0);
             msg.writeString(floorItem instanceof Stateable ? (((Stateable) floorItem).getState() ? "1" : "0") : floorItem.getExtraData());
         }
-
-        return msg;
-    }
-
-    public static Composer compose(int id, RoomItemFloor floorItem) {
-        return compose(id, floorItem, true);
     }
 }

@@ -1,15 +1,25 @@
 package com.cometproject.server.network.messages.outgoing.user.details;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class EnableTradingMessageComposer {
-    public static Composer compose(boolean enableTrading) {
-        Composer msg = new Composer(Composers.EnableTradingMessageComposer);
+public class EnableTradingMessageComposer extends MessageComposer {
 
-        msg.writeBoolean(enableTrading);
+    private final boolean tradingEnabled;
 
-        return msg;
+    public EnableTradingMessageComposer(final boolean tradingEnabled) {
+        this.tradingEnabled = tradingEnabled;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.EnableTradingMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeBoolean(this.tradingEnabled);
     }
 }

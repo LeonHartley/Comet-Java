@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.outgoing.room.avatar;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
@@ -10,34 +11,47 @@ import java.util.List;
 import java.util.Map;
 
 
-public class AvatarUpdateMessageComposer {
-    public static Composer compose(int count, Collection<GenericEntity> list) {
-        Composer msg = new Composer(Composers.AvatarUpdateMessageComposer);
+public class AvatarUpdateMessageComposer extends MessageComposer {
 
-        msg.writeInt(count);
+    private final int count;
+    private final GenericEntity singleEntity;
+    private final Collection<GenericEntity> entities;
 
-        for (GenericEntity entity : list) {
-            composeEntity(msg, entity);
+    public AvatarUpdateMessageComposer(final int count, final Collection<GenericEntity> entities) {
+        this.count = count;
+        this.entities = entities;
+        this.singleEntity = null;
+    }
+
+    public AvatarUpdateMessageComposer(final GenericEntity entity) {
+        this.count = 1;
+        this.singleEntity = entity;
+        this.entities = null;
+    }
+
+    public AvatarUpdateMessageComposer(final List<GenericEntity> entities) {
+        this(entities.size(), entities);
+    }
+
+    @Override
+    public short getId() {
+        return Composers.AvatarUpdateMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeInt(this.count);
+
+        if(this.singleEntity != null) {
+            this.composeEntity(msg, this.singleEntity);
+        } else {
+            for(final GenericEntity entity : this.entities) {
+                this.composeEntity(msg, entity);
+            }
         }
-
-        return msg;
     }
 
-    public static Composer compose(List<GenericEntity> list) {
-        return compose(list.size(), list);
-    }
-
-    public static Composer compose(GenericEntity entity) {
-        Composer msg = new Composer(Composers.AvatarUpdateMessageComposer);
-
-        msg.writeInt(1);
-
-        composeEntity(msg, entity);
-
-        return msg;
-    }
-
-    private static void composeEntity(Composer msg, GenericEntity entity) {
+    private void composeEntity(Composer msg, GenericEntity entity) {
         if (!entity.isVisible()) return;
 
         msg.writeInt(entity.getId());
