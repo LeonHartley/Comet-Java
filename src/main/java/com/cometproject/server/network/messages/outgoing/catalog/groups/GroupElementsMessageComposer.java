@@ -2,14 +2,23 @@ package com.cometproject.server.network.messages.outgoing.catalog.groups;
 
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.items.types.*;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class GroupElementsMessageComposer {
-    public static Composer compose() {
-        Composer msg = new Composer(Composers.GroupPurchasePartsMessageComposer);
+public class GroupElementsMessageComposer extends MessageComposer {
+    public GroupElementsMessageComposer() {
 
+    }
+
+    @Override
+    public short getId() {
+        return Composers.GroupPurchasePartsMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(GroupManager.getInstance().getGroupItems().getBases().size());
 
         for (GroupBase base : GroupManager.getInstance().getGroupItems().getBases()) {
@@ -46,7 +55,5 @@ public class GroupElementsMessageComposer {
             msg.writeInt(colour.getId());
             msg.writeString(colour.getColour());
         }
-
-        return msg;
     }
 }

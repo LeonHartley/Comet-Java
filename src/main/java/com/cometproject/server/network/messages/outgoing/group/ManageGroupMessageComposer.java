@@ -1,20 +1,28 @@
 package com.cometproject.server.network.messages.outgoing.group;
 
 import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import org.apache.commons.lang.StringUtils;
 
 
-public class ManageGroupMessageComposer {
-    public static Composer compose(Group group) {
-        Composer msg = new Composer(Composers.GroupDataEditMessageComposer);
+public class ManageGroupMessageComposer extends MessageComposer {
 
-        msg.writeInt(1); // Array for something related to rooms (int:roomId, String:roomName, Boolean:Unk)
+    private final Group group;
 
-        msg.writeInt(1);
-        msg.writeString("Yes");
-        msg.writeBoolean(false);
+    public ManageGroupMessageComposer(final Group group) {
+        this.group = group;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.GroupDataEditMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeInt(0); // Array for something related to rooms (int:roomId, String:roomName, Boolean:Unk)
 
         msg.writeBoolean(true);
         msg.writeInt(group.getId());
@@ -62,15 +70,5 @@ public class ManageGroupMessageComposer {
 
         msg.writeString(group.getData().getBadge());
         msg.writeInt(group.getMembershipComponent().getMembers().size());
-
-        return msg;
-    }
-
-    private static int getInt(String badgePart) {
-        if (badgePart.isEmpty()) {
-            return 0;
-        }
-
-        return Integer.parseInt(badgePart);
     }
 }

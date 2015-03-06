@@ -1,11 +1,12 @@
 package com.cometproject.server.network.messages.outgoing.catalog.data;
 
 import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class GiftWrappingConfigurationMessageComposer {
+public class GiftWrappingConfigurationMessageComposer extends MessageComposer {
     private static final int[] giftColours = {
             0, 1, 2, 3, 4, 5, 6, 8
     };
@@ -14,9 +15,17 @@ public class GiftWrappingConfigurationMessageComposer {
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
     };
 
-    public static Composer compose() {
-        Composer msg = new Composer(Composers.GiftWrappingConfigurationMessageComposer);
+    public GiftWrappingConfigurationMessageComposer() {
 
+    }
+
+    @Override
+    public short getId() {
+        return Composers.GiftWrappingConfigurationMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeBoolean(true);//?
         msg.writeInt(1);//?
         msg.writeInt(CatalogManager.getInstance().getGiftBoxesNew().size());
@@ -42,7 +51,5 @@ public class GiftWrappingConfigurationMessageComposer {
         for (int spriteId : CatalogManager.getInstance().getGiftBoxesOld()) {
             msg.writeInt(spriteId);
         }
-
-        return msg;
     }
 }

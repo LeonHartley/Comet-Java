@@ -1,15 +1,24 @@
 package com.cometproject.server.network.messages.outgoing.group;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class UpdateFavouriteGroupMessageComposer {
-    public static Composer compose(int playerId) {
-        Composer msg = new Composer(Composers.ChangeFavouriteGroupMessageComposer);
+public class UpdateFavouriteGroupMessageComposer extends MessageComposer {
+    private final int playerId;
 
-        msg.writeInt(playerId);
+    public UpdateFavouriteGroupMessageComposer(final int playerId) {
+        this.playerId = playerId;
+    }
 
-        return msg;
+    @Override
+    public short getId() {
+        return Composers.ChangeFavouriteGroupMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeInt(this.playerId);
     }
 }

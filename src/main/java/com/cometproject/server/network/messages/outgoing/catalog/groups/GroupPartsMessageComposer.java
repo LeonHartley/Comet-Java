@@ -4,24 +4,35 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class GroupPartsMessageComposer {
-    public static Composer compose(List<Integer> rooms) {
-        Composer msg = new Composer(Composers.GroupPurchasePageMessageComposer);
+public class GroupPartsMessageComposer extends MessageComposer {
 
-        List<Integer> availableRooms = new ArrayList<>();
+    private final List<Integer> availableRooms;
+
+    public GroupPartsMessageComposer(final List<Integer> rooms) {
+        this.availableRooms = Lists.newArrayList();
 
         for (Integer room : rooms) {
             if (GroupManager.getInstance().getGroupByRoomId(room) == null)
                 availableRooms.add(room);
         }
+    }
 
+    @Override
+    public short getId() {
+        return Composers.GroupPurchasePartsMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(CometSettings.groupCost);
         msg.writeInt(availableRooms.size());
 
@@ -34,6 +45,7 @@ public class GroupPartsMessageComposer {
             }
         }
 
+        // TODO: Stop hardcoding this
         msg.writeInt(5);
         msg.writeInt(10);
         msg.writeInt(3);
@@ -50,9 +62,10 @@ public class GroupPartsMessageComposer {
         msg.writeInt(0);
         msg.writeInt(0);
         msg.writeInt(0);
+    }
 
-        availableRooms.clear();
-
-        return msg;
+    @Override
+    public void dispose() {
+        this.availableRooms.clear();
     }
 }

@@ -1,33 +1,52 @@
 package com.cometproject.server.network.messages.outgoing.group;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.Map;
 
 
-public class GroupBadgesMessageComposer {
-    public static Composer compose(Map<Integer, String> badges) {
-        Composer msg = new Composer(Composers.RoomGroupMessageComposer);
+public class GroupBadgesMessageComposer extends MessageComposer {
+    private final Map<Integer, String> badges;
 
-        msg.writeInt(badges.size());
+    private final int groupId;
+    private final String badge;
 
-        for (Map.Entry<Integer, String> badge : badges.entrySet()) {
-            msg.writeInt(badge.getKey());
-            msg.writeString(badge.getValue());
-        }
-
-        return msg;
+    public GroupBadgesMessageComposer(final Map<Integer, String> badges) {
+        this.badges = badges;
+        this.groupId = 0;
+        this.badge = null;
     }
 
-    public static Composer compose(int groupId, String badge) {
-        Composer msg = new Composer(Composers.RoomGroupMessageComposer);
+    public GroupBadgesMessageComposer(final int groupId, final String badge) {
+        this.badges = null;
+        this.groupId = groupId;
+        this.badge = badge;
+    }
 
-        msg.writeInt(1); // Count
+    @Override
+    public short getId() {
+        return Composers.RoomGroupMessageComposer;
+    }
 
+    @Override
+    public void compose(Composer msg) {
+        if(this.badges != null) {
+            msg.writeInt(badges.size());
+
+            for (Map.Entry<Integer, String> badge : badges.entrySet()) {
+                this.composeGroupBadge(msg, badge.getKey(), badge.getValue());
+            }
+        } else {
+            msg.writeInt(1);
+
+            this.composeGroupBadge(msg, this.groupId, this.badge);
+        }
+    }
+
+    private void composeGroupBadge(final Composer msg, final int groupId, final String badge) {
         msg.writeInt(groupId);
         msg.writeString(badge);
-
-        return msg;
     }
 }

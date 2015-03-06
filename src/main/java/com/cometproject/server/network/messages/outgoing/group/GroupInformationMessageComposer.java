@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.outgoing.group;
 
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.types.RoomData;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -10,10 +11,30 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class GroupInformationMessageComposer {
-    public static Composer compose(Group group, RoomData roomData, boolean flag, boolean isOwner, boolean isAdmin, int membership) {
-        Composer msg = new Composer(Composers.GroupDataMessageComposer);
+public class GroupInformationMessageComposer extends MessageComposer {
+    private final Group group;
+    private final RoomData roomData;
+    private final boolean flag;
+    private final boolean isOwner;
+    private final boolean isAdmin;
+    private final int membership;
 
+    public GroupInformationMessageComposer(final Group group, final RoomData roomData, final boolean flag, final boolean isOwner, final boolean isAdmin, final int membership) {
+        this.group = group;
+        this.roomData = roomData;
+        this.flag = flag;
+        this.isOwner = isOwner;
+        this.isAdmin = isAdmin;
+        this.membership = membership;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.GroupDataMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(group.getId());
         msg.writeBoolean(true); //is visible
         msg.writeInt(group.getData().getType().getTypeId());
@@ -36,8 +57,6 @@ public class GroupInformationMessageComposer {
 
         msg.writeInt((isOwner || isAdmin) ? group.getMembershipComponent().getMembershipRequests().size() : 0);
         msg.writeBoolean(true);
-
-        return msg;
     }
 
     public static String getDate(int timestamp) {
