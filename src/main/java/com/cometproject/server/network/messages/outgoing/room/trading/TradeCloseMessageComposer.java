@@ -1,16 +1,24 @@
 package com.cometproject.server.network.messages.outgoing.room.trading;
 
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class TradeCloseMessageComposer {
-    public static Composer compose(int userId) {
-        Composer msg = new Composer(Composers.TradeCloseMessageComposer);
+public class TradeCloseMessageComposer extends MessageComposer {
+    private final int playerId;
 
-        msg.writeInt(userId);
-        msg.writeInt(2);
+    public TradeCloseMessageComposer(int playerId) {
+        this.playerId = playerId;
+    }
 
-        return msg;
+    @Override
+    public short getId() {
+        return Composers.TradeCloseMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
+        msg.writeInt(playerId);
     }
 }

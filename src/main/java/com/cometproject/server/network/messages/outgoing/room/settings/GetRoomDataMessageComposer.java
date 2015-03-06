@@ -3,14 +3,27 @@ package com.cometproject.server.network.messages.outgoing.room.settings;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomWriter;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 
 
-public class GetRoomDataMessageComposer {
-    public static Composer compose(Room room, boolean staff) {
-        Composer msg = new Composer(Composers.RoomSettingsDataMessageComposer);
+public class GetRoomDataMessageComposer extends MessageComposer {
+    private final Room room;
+    private final boolean staff;
 
+    public GetRoomDataMessageComposer(Room room, boolean staff) {
+        this.room = room;
+        this.staff = staff;
+    }
+
+    @Override
+    public short getId() {
+        return Composers.RoomSettingsDataMessageComposer;
+    }
+
+    @Override
+    public void compose(Composer msg) {
         msg.writeInt(room.getId());
         msg.writeString(room.getData().getName());
         msg.writeString(room.getData().getDescription());
@@ -40,7 +53,5 @@ public class GetRoomDataMessageComposer {
         msg.writeInt(room.getData().getMuteState().getState());
         msg.writeInt(room.getData().getKickState().getState());
         msg.writeInt(room.getData().getBanState().getState());
-
-        return msg;
     }
 }
