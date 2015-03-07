@@ -8,10 +8,6 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import org.apache.log4j.Logger;
 
 public class MessageEncoder extends MessageToByteEncoder<MessageComposer> {
-    public MessageEncoder() {
-        super(true);
-    }
-
     private final Logger log = Logger.getLogger(MessageEncoder.class.getName());
 
     @Override
