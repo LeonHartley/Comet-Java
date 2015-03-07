@@ -109,8 +109,9 @@ public class ProcessComponent implements CometTask {
             }
 
             // only send the updates if we need to
-            if (entitiesToUpdate.size() > 0)
+            if (entitiesToUpdate.size() > 0) {
                 this.getRoom().getEntities().broadcastMessage(new AvatarUpdateMessageComposer(entitiesToUpdate));
+            }
 
             for (GenericEntity entity : entitiesToUpdate) {
                 if (entity.updatePhase == 1) continue;

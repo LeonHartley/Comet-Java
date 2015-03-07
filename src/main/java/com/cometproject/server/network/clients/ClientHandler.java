@@ -1,29 +1,38 @@
 package com.cometproject.server.network.clients;
 
 import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.network.sessions.SessionManager;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.socket.ChannelInputShutdownEvent;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
 import org.apache.log4j.Logger;
-import org.jboss.netty.channel.*;
-
-import java.io.IOException;
-
 
 @ChannelHandler.Sharable
-public class ClientHandler extends SimpleChannelUpstreamHandler {
+public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
 
-    public ClientHandler() {
+    private static ClientHandler clientHandlerInstance;
 
+    public static ClientHandler getInstance() {
+        if(clientHandlerInstance == null)
+            clientHandlerInstance = new ClientHandler();
+
+        return clientHandlerInstance;
     }
 
     @Override
-    public void messageReceived(final ChannelHandlerContext ctx, MessageEvent ev) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, Event msg) throws Exception {
         try {
-            Session client = (Session) ctx.getChannel().getAttachment();
+            Session session = ctx.attr(SessionManager.SESSION_ATTR).get();
 
-            if (client != null && ev.getMessage() instanceof Event) {
-                NetworkManager.getInstance().getMessages().handle((Event) ev.getMessage(), client);
+            if (session != null) {
+                session.handleMessageEvent(msg);
             }
         } catch (Exception e) {
             log.error("Error while receiving message", e);
@@ -31,40 +40,53 @@ public class ClientHandler extends SimpleChannelUpstreamHandler {
     }
 
     @Override
-    public void channelOpen(final ChannelHandlerContext ctx, ChannelStateEvent ev) throws Exception {
-        if (!NetworkManager.getInstance().getSessions().add(ctx.getChannel())) {
-            ctx.getChannel().disconnect();
-            return;
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        if (!NetworkManager.getInstance().getSessions().add(ctx)) {
+            ctx.channel().disconnect();
         }
-
-        super.channelOpen(ctx, ev);
     }
 
     @Override
-    public void channelClosed(final ChannelHandlerContext ctx, ChannelStateEvent ev) throws Exception {
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         try {
-            Session session = (Session) ctx.getChannel().getAttachment();
+            Session session = ctx.attr(SessionManager.SESSION_ATTR).get();
             session.onDisconnect();
         } catch (Exception e) {
         }
 
-        NetworkManager.getInstance().getSessions().remove(ctx.getChannel());
-
-        super.channelClosed(ctx, ev);
+        NetworkManager.getInstance().getSessions().remove(ctx.channel());
     }
 
     @Override
-    public void exceptionCaught(final ChannelHandlerContext ctx, ExceptionEvent ev) throws Exception {
-        if (ctx.getChannel().isConnected()) {
-            if (ev.getCause() instanceof IOException) {
-                ctx.getChannel().disconnect();
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        if (evt instanceof IdleStateEvent) {
+            IdleStateEvent e = (IdleStateEvent) evt;
+            if (e.state() == IdleState.READER_IDLE) {
+                ctx.close();
+            } else if (e.state() == IdleState.WRITER_IDLE) {
+                ctx.writeAndFlush(new PingMessageComposer());
+            }
+        }
+
+        if (evt instanceof ChannelInputShutdownEvent) {
+            ctx.close();
+        }
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        if (ctx.channel().isActive()) {
+            /*if (cause instanceof IOException) {
+//                log.error("IOException in ClientHandler", cause);
+                return;
+            } else if(cause instanceof IllegalArgumentException) {
+                ctx.close();
                 return;
             }
+            log.error("Exception in ClientHandler : " + cause.getMessage());
+            cause.printStackTrace();*/
 
-            log.error("Exception in ClientHandler: " + ev.getCause().getMessage());
-
-            ev.getCause().printStackTrace();
-            ctx.getChannel().close();
+            ctx.close();
         }
     }
 }

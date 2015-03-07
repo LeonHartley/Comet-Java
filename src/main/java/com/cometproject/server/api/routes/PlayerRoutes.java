@@ -128,7 +128,7 @@ public class PlayerRoutes {
         String alert = req.queryParams("message");
 
         if(alert != null) {
-            session.send(AdvancedAlertMessageComposer.compose(title, alert));
+            session.send(new AdvancedAlertMessageComposer(title, alert));
         }
 
         result.put("success", true);
