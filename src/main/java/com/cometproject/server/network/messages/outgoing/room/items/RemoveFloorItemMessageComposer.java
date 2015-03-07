@@ -8,10 +8,16 @@ import com.cometproject.server.network.messages.types.Composer;
 public class RemoveFloorItemMessageComposer extends MessageComposer {
     private final int id;
     private final int ownerId;
+    private final int delay;
 
-    public RemoveFloorItemMessageComposer(final int id, final int ownerId) {
+    public RemoveFloorItemMessageComposer(final int id, final int ownerId, final int delay) {
         this.id = id;
         this.ownerId = ownerId;
+        this.delay = delay;
+    }
+
+    public RemoveFloorItemMessageComposer(final int id, final int ownerId) {
+        this(id, ownerId, 0);
     }
 
     @Override
@@ -21,9 +27,9 @@ public class RemoveFloorItemMessageComposer extends MessageComposer {
 
     @Override
     public void compose(Composer msg) {
-        msg.writeInt(this.id);
-        msg.writeBoolean(false);
-        msg.writeInt(this.ownerId);
-        msg.writeInt(0);
+        msg.writeString(this.id);
+        msg.writeBoolean(false); // Is expired
+        msg.writeInt(this.ownerId); // Picker ID
+        msg.writeInt(this.delay);
     }
 }

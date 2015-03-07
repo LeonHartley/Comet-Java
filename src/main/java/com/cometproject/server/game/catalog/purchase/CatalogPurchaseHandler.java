@@ -313,7 +313,7 @@ public class CatalogPurchaseHandler {
             CometManager.getLogger().error("Error while buying catalog item", e);
         } finally {
             // Clean up the purchase - even if there was an exception!!
-            unseenItems.clear();
+//            unseenItems.clear();
         }
     }
 
