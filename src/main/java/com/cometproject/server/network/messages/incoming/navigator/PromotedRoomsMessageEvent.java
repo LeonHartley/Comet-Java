@@ -28,6 +28,6 @@ public class PromotedRoomsMessageEvent implements IEvent {
         }
 
 
-        client.send(new NavigatorFlatListMessageComposer(-1, 0, "", promotedRooms));
+        client.send(new NavigatorFlatListMessageComposer(0, "", promotedRooms));
     }
 }

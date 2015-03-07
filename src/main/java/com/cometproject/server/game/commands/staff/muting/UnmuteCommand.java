@@ -23,7 +23,7 @@ public class UnmuteCommand extends ChatCommand {
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
             if (session != null) {
-                session.send(AdvancedAlertMessageComposer.compose(Locale.get("command.unmute.unmuted")));
+                session.send(new AdvancedAlertMessageComposer(Locale.get("command.unmute.unmuted")));
 
                 if(BanManager.getInstance().isMuted(playerId)) {
                     BanManager.getInstance().unmute(playerId);

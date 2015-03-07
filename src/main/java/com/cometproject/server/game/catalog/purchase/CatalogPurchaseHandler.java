@@ -101,7 +101,7 @@ public class CatalogPurchaseHandler {
                 }
 
                 if(client.getPlayer().getLastGift() != 0) {
-                    if(((int) Comet.getTime() - client.getPlayer().getLastGift()) < 5000) {
+                    if(((int) Comet.getTime() - client.getPlayer().getLastGift()) < 300) {
                         client.send(new AdvancedAlertMessageComposer(Locale.get("catalog.error.gifttoofast")));
 
                         client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));

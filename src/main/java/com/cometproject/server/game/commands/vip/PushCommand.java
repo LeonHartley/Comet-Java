@@ -102,7 +102,7 @@ public class PushCommand extends ChatCommand {
             user.getPlayer().getEntity().setWalkingPath(path);
 
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(
-                    TalkMessageComposer.compose(client.getPlayer().getEntity().getId(), Locale.get("command.push.message").replace("%playername%", user.getPlayer().getData().getUsername()), 0, 0)
+                    new TalkMessageComposer(client.getPlayer().getEntity().getId(), Locale.get("command.push.message").replace("%playername%", user.getPlayer().getData().getUsername()), 0, 0)
             );
         }
     }

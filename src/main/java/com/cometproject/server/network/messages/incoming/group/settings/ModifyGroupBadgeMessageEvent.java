@@ -55,7 +55,7 @@ public class ModifyGroupBadgeMessageEvent implements IEvent {
             for (RoomItemFloor roomItemFloor : room.getItems().getByInteraction("group_item")) {
                 if (roomItemFloor instanceof GroupFloorItem) {
                     room.getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(roomItemFloor.getId(), 0));
-                    room.getEntities().broadcastMessage(new SendFloorItemMessageComposer(roomItemFloor, room));
+                    room.getEntities().broadcastMessage(new SendFloorItemMessageComposer(roomItemFloor));
                 }
             }
 
