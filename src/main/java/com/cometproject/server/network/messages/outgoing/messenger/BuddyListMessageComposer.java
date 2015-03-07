@@ -41,6 +41,9 @@ public class BuddyListMessageComposer extends MessageComposer {
 
     @Override
     public void compose(Composer msg) {
+        msg.writeInt(0);//?
+        msg.writeInt(0);//?
+
         msg.writeInt(avatars.size() + (hasStaffChat ? 1 : 0));
 
         for (PlayerAvatar playerAvatar : avatars) {

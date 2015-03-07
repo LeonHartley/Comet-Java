@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
+import com.google.common.collect.Lists;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,11 +16,11 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
 
     private final int count;
     private final GenericEntity singleEntity;
-    private final Collection<GenericEntity> entities;
+    private final List<GenericEntity> entities;
 
     public AvatarUpdateMessageComposer(final int count, final Collection<GenericEntity> entities) {
         this.count = count;
-        this.entities = entities;
+        this.entities = Lists.newArrayList(entities);
         this.singleEntity = null;
     }
 
@@ -30,7 +31,7 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
     }
 
     public AvatarUpdateMessageComposer(final List<GenericEntity> entities) {
-        this(entities.size(), entities);
+        this(entities.size(), Lists.newArrayList(entities));
     }
 
     @Override
@@ -52,7 +53,9 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
     }
 
     private void composeEntity(Composer msg, GenericEntity entity) {
-        if (!entity.isVisible()) return;
+        if (!entity.isVisible()) {
+            this.cancel();
+        }
 
         msg.writeInt(entity.getId());
 
@@ -81,5 +84,12 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
         statusString.append("/");
 
         msg.writeString(statusString.toString());
+    }
+
+    @Override
+    public void dispose() {
+        if(this.entities != null) {
+            this.entities.clear();
+        }
     }
 }

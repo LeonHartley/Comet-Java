@@ -4,38 +4,36 @@ import com.cometproject.server.network.clients.ClientHandler;
 import com.cometproject.server.network.codec.MessageDecoder;
 import com.cometproject.server.network.codec.MessageEncoder;
 import com.cometproject.server.network.codec.XMLPolicyDecoder;
-import org.jboss.netty.channel.ChannelPipeline;
-import org.jboss.netty.channel.ChannelPipelineFactory;
-import org.jboss.netty.channel.Channels;
-import org.jboss.netty.handler.codec.string.StringEncoder;
-import org.jboss.netty.handler.execution.ExecutionHandler;
-import org.jboss.netty.handler.execution.OrderedMemoryAwareThreadPoolExecutor;
-import org.jboss.netty.util.CharsetUtil;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.timeout.IdleStateHandler;
+import io.netty.util.CharsetUtil;
+import io.netty.util.concurrent.DefaultEventExecutorGroup;
+import io.netty.util.concurrent.EventExecutorGroup;
 
+import java.util.concurrent.TimeUnit;
 
-public class NetworkChannelInitializer implements ChannelPipelineFactory {
-    private final ExecutionHandler executionHandler;
+public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel> {
+    private final EventExecutorGroup executor;
 
-    private final StringEncoder stringEncoder = new StringEncoder(CharsetUtil.UTF_8);
-    private final MessageDecoder messageDecoder = new MessageDecoder();
-    private final MessageEncoder messageEncoder = new MessageEncoder();
-    private final ClientHandler clientHandler = new ClientHandler();
+    public NetworkChannelInitializer(int threadSize) {
+        if (threadSize == 0) {
+            threadSize = (Runtime.getRuntime().availableProcessors() * 2);
+        }
 
-    public NetworkChannelInitializer(OrderedMemoryAwareThreadPoolExecutor executionExecutor) {
-        this.executionHandler = new ExecutionHandler(executionExecutor);
+        this.executor = new DefaultEventExecutorGroup(threadSize, new ThreadFactoryBuilder().setNameFormat("Netty Event Thread #%1$d").setPriority(Thread.MAX_PRIORITY).build());
     }
 
     @Override
-    public ChannelPipeline getPipeline() throws Exception {
-        ChannelPipeline pipeline = Channels.pipeline();
-
-        pipeline.addLast("xmlDecoder", new XMLPolicyDecoder()); // if this obj isn't created now, it causes issues; TODO: find out why
-        pipeline.addLast("messageDecoder", this.messageDecoder);
-        pipeline.addLast("messageEncoder", this.messageEncoder);
-        pipeline.addLast("stringEncoder", this.stringEncoder);
-        pipeline.addLast("executionHandler", this.executionHandler);
-        pipeline.addLast("handler", this.clientHandler);
-
-        return pipeline;
+    protected void initChannel(SocketChannel ch) throws Exception {
+        ch.pipeline().addLast("xmlDecoder", new XMLPolicyDecoder())
+                .addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8))
+                .addLast("messageDecoder", new MessageDecoder())
+                .addLast("messageEncoder", new MessageEncoder())
+//                .addLast("idleHandler", new IdleStateHandler(60, 30, 0, TimeUnit.SECONDS))
+                .addLast(this.executor, "clientHandler", ClientHandler.getInstance());
     }
 }

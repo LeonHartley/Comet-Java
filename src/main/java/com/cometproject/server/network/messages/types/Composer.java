@@ -1,34 +1,83 @@
 package com.cometproject.server.network.messages.types;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufHolder;
 import org.apache.log4j.Logger;
 
 import java.nio.charset.Charset;
 
-
-public class Composer {
+public class Composer implements ByteBufHolder {
     private final static Logger log = Logger.getLogger(Composer.class);
 
-    private final Short composerId;
-    protected ByteBuf body;
+    protected final int id;
+    protected final ByteBuf body;
 
-    public Composer(short id, ByteBuf buffer) {
-        this.composerId = id;
-        this.body = buffer;
+    public Composer(short id, ByteBuf body) {
+        this.id = id;
+        this.body = body;
 
         try {
-            this.body.writeInt(-1); // reserve this space for message length
+            this.body.writeInt(-1);
             this.body.writeShort(id);
         } catch (Exception e) {
             exceptionCaught(e);
         }
     }
 
-    public short getId() {
-        return this.composerId;
+    public Composer(int id, ByteBuf body) {
+        this.id = id;
+        this.body = body;
     }
 
-    private boolean hasLength() {
+    @Override
+    public ByteBuf content() {
+        return this.body;
+    }
+
+    @Override
+    public Composer copy() {
+        return new Composer(this.id, this.body.copy());
+    }
+
+    @Override
+    public Composer duplicate() {
+        return new Composer(this.id, this.body.duplicate());
+    }
+
+    @Override
+    public int refCnt() {
+        return this.body.refCnt();
+    }
+
+    @Override
+    public Composer retain() {
+        return new Composer(this.id, this.body.retain());
+    }
+
+    @Override
+    public Composer retain(int increment) {
+        return new Composer(this.id, this.body.retain(increment));
+    }
+
+    @Override
+    public boolean release() {
+        return this.body.release();
+    }
+
+    @Override
+    public boolean release(int decrement) {
+        return this.body.release(decrement);
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void clear() {
+        this.body.clear();
+    }
+
+    public boolean hasLength() {
         return (this.body.getInt(0) > -1);
     }
 
@@ -76,14 +125,6 @@ public class Composer {
         }
     }
 
-    public void writeShort(int s) {
-        try {
-            this.body.writeShort((short) s);
-        } catch (Exception e) {
-            exceptionCaught(e);
-        }
-    }
-
     public void writeByte(int b) {
         try {
             this.body.writeByte(b);
@@ -92,12 +133,13 @@ public class Composer {
         }
     }
 
-    public ByteBuf get() {
-        if (!this.hasLength()) {
-            body.setInt(0, body.writerIndex() - 4);
-        }
 
-        return this.body;
+    public void writeShort(int s) {
+        try {
+            this.body.writeShort((short) s);
+        } catch (Exception e) {
+            exceptionCaught(e);
+        }
     }
 
     protected static void exceptionCaught(Throwable t) {

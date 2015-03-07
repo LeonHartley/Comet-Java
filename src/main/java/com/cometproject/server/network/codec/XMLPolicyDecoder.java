@@ -1,39 +1,34 @@
 package com.cometproject.server.network.codec;
 
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBuffers;
-import org.jboss.netty.channel.Channel;
-import org.jboss.netty.channel.ChannelFutureListener;
-import org.jboss.netty.channel.ChannelHandler;
-import org.jboss.netty.channel.ChannelHandlerContext;
-import org.jboss.netty.handler.codec.frame.FrameDecoder;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.ByteToMessageDecoder;
 
-@ChannelHandler.Sharable
-public class XMLPolicyDecoder extends FrameDecoder {
+import java.util.List;
+
+public class XMLPolicyDecoder extends ByteToMessageDecoder {
+
     @Override
-    protected Object decode(ChannelHandlerContext ctx, Channel channel, ChannelBuffer buffer) throws Exception {
-        buffer.markReaderIndex();
-        byte delimiter = buffer.readByte();
-        buffer.resetReaderIndex();
+    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+        in.markReaderIndex();
+        byte delimiter = in.readByte();
+
+        in.resetReaderIndex();
 
         if (delimiter == 0x3C) {
-            buffer.discardReadBytes();
-
-            channel.write(
+            ctx.channel().writeAndFlush(
                     "<?xml version=\"1.0\"?>\r\n"
                             + "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\r\n"
                             + "<cross-domain-policy>\r\n"
                             + "<allow-access-from domain=\"*\" to-ports=\"*\" />\r\n"
                             + "</cross-domain-policy>\0"
             ).addListener(ChannelFutureListener.CLOSE);
-            return null;
-        } else if(delimiter == 0) {
-            ctx.getPipeline().remove(this);
-            return ChannelBuffers.wrappedBuffer(buffer.readBytes(buffer.readableBytes()));
         } else {
-            channel.disconnect();
-        }
+            ctx.channel().pipeline().remove(this);
 
-        return null;
+            MessageDecoder decoder = ctx.pipeline().get(MessageDecoder.class);
+            decoder.decode(ctx, in, out);
+        }
     }
 }
