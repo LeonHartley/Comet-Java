@@ -47,15 +47,15 @@ public class NetworkManager {
         System.setProperty("java.net.preferIPv4Stack", "true");
         System.setProperty("io.netty.selectorAutoRebuildThreshold", "0");
 
-        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.PARANOID);
+        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED);
 
-        EventLoopGroup acceptGroup = new NioEventLoopGroup(4, new ThreadFactoryBuilder().setNameFormat("Netty NIO Accept Thread #%1$d").build());
-        EventLoopGroup ioGroup = new NioEventLoopGroup(4, new ThreadFactoryBuilder().setNameFormat("Netty NIO IO Thread #%1$d").build());
+        EventLoopGroup acceptGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO Accept Thread #%1$d").build());
+        EventLoopGroup ioGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO IO Thread #%1$d").build());
 
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(acceptGroup, ioGroup)
                 .channelFactory(NioServerSocketChannel::new)
-                .childHandler(new NetworkChannelInitializer(8))
+                .childHandler(new NetworkChannelInitializer(0))
                 .option(ChannelOption.SO_BACKLOG, 1024)
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)

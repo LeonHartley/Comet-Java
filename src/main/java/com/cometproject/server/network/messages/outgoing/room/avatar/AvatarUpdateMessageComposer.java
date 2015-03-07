@@ -15,18 +15,23 @@ import java.util.Map;
 
 public class AvatarUpdateMessageComposer extends MessageComposer {
 
-    private final int count;
-    private final AvatarState singleEntity;
-    private final List<AvatarState> entities;
+    private int count;
+    private AvatarState singleEntity;
+    private List<AvatarState> entities;
 
     public AvatarUpdateMessageComposer(final Collection<GenericEntity> entities) {
-        this.count = entities.size();
+        System.out.println("Constructed");
         this.entities = Lists.newArrayList();
 
         for(GenericEntity entity : entities) {
+            if(!entity.isVisible()) {
+                continue;
+            }
+
             this.entities.add(new AvatarState(entity));
         }
 
+        this.count = this.entities.size();
         this.singleEntity = null;
     }
 
@@ -44,6 +49,8 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
     @Override
     public void compose(Composer msg) {
         msg.writeInt(this.count);
+
+        System.out.println(this.count);
 
         if(this.singleEntity != null) {
             this.composeEntity(msg, this.singleEntity);
@@ -65,13 +72,6 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
         msg.writeInt(entity.getBodyRotation());
 
         msg.writeString(entity.getStatusString());
-    }
-
-    @Override
-    public void dispose() {
-        if(this.entities != null) {
-            this.entities.clear();
-        }
     }
 
     private class AvatarState {
@@ -111,40 +111,25 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
             return id;
         }
 
-        public void setId(int id) {
-            this.id = id;
-        }
-
         public Position getPosition() {
             return position;
-        }
-
-        public void setPosition(Position position) {
-            this.position = position;
         }
 
         public int getHeadRotation() {
             return headRotation;
         }
 
-        public void setHeadRotation(int headRotation) {
-            this.headRotation = headRotation;
-        }
-
         public int getBodyRotation() {
             return bodyRotation;
-        }
-
-        public void setBodyRotation(int bodyRotation) {
-            this.bodyRotation = bodyRotation;
         }
 
         public String getStatusString() {
             return statusString;
         }
 
-        public void setStatusString(String statusString) {
-            this.statusString = statusString;
+        @Override
+        public String toString() {
+            return String.format("AvatatState[%s, %s, %s, %s, %s]", this.id, this.position, this.headRotation, this.bodyRotation, this.statusString);
         }
     }
 }
