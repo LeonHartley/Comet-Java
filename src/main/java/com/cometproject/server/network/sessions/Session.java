@@ -113,14 +113,6 @@ public class Session {
         this.channel.flush();
     }
 
-    public Object getEncryption() {
-        return this.arc4;
-    }
-
-    public void initEncryption(byte[] key) {
-        this.arc4 = new Object();
-    }
-
     public Logger getLogger() {
         return this.logger;
     }
