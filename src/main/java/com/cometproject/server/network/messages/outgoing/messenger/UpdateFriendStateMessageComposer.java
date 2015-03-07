@@ -48,7 +48,7 @@ public class UpdateFriendStateMessageComposer extends MessageComposer {
         msg.writeInt(1);
         msg.writeInt(0);
         msg.writeInt(this.playerAvatar.getId());
-        msg.writeString(this.playerAvatar.getFigure());
+        msg.writeString(this.playerAvatar.getUsername());
         msg.writeInt(1);
         msg.writeBoolean(online);
         msg.writeBoolean(inRoom);
