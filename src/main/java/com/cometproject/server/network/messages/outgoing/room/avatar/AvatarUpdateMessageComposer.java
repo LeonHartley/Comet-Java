@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.outgoing.room.avatar;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
@@ -15,23 +16,24 @@ import java.util.Map;
 public class AvatarUpdateMessageComposer extends MessageComposer {
 
     private final int count;
-    private final GenericEntity singleEntity;
-    private final List<GenericEntity> entities;
+    private final AvatarState singleEntity;
+    private final List<AvatarState> entities;
 
-    public AvatarUpdateMessageComposer(final int count, final Collection<GenericEntity> entities) {
-        this.count = count;
-        this.entities = Lists.newArrayList(entities);
+    public AvatarUpdateMessageComposer(final Collection<GenericEntity> entities) {
+        this.count = entities.size();
+        this.entities = Lists.newArrayList();
+
+        for(GenericEntity entity : entities) {
+            this.entities.add(new AvatarState(entity));
+        }
+
         this.singleEntity = null;
     }
 
     public AvatarUpdateMessageComposer(final GenericEntity entity) {
         this.count = 1;
-        this.singleEntity = entity;
+        this.singleEntity = new AvatarState(entity);
         this.entities = null;
-    }
-
-    public AvatarUpdateMessageComposer(final List<GenericEntity> entities) {
-        this(entities.size(), Lists.newArrayList(entities));
     }
 
     @Override
@@ -46,17 +48,13 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
         if(this.singleEntity != null) {
             this.composeEntity(msg, this.singleEntity);
         } else {
-            for(final GenericEntity entity : this.entities) {
+            for(final AvatarState entity : this.entities) {
                 this.composeEntity(msg, entity);
             }
         }
     }
 
-    private void composeEntity(Composer msg, GenericEntity entity) {
-        if (!entity.isVisible()) {
-            this.cancel();
-        }
-
+    private void composeEntity(Composer msg, AvatarState entity) {
         msg.writeInt(entity.getId());
 
         msg.writeInt(entity.getPosition().getX());
@@ -66,30 +64,87 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
         msg.writeInt(entity.getHeadRotation());
         msg.writeInt(entity.getBodyRotation());
 
-        StringBuilder statusString = new StringBuilder();
-        statusString.append("/");
-
-        for (Map.Entry<RoomEntityStatus, String> status : entity.getStatuses().entrySet()) {
-
-            statusString.append(status.getKey().getStatusCode());
-
-            if (!status.getValue().isEmpty()) {
-                statusString.append(" ");
-                statusString.append(status.getValue());
-            }
-
-            statusString.append("/");
-        }
-
-        statusString.append("/");
-
-        msg.writeString(statusString.toString());
+        msg.writeString(entity.getStatusString());
     }
 
     @Override
     public void dispose() {
         if(this.entities != null) {
             this.entities.clear();
+        }
+    }
+
+    private class AvatarState {
+        private int id;
+        private Position position;
+        private int headRotation;
+        private int bodyRotation;
+        private String statusString;
+
+        public AvatarState(GenericEntity entity) {
+            this.id = entity.getId();
+            this.position = entity.getPosition().copy();
+            this.headRotation = entity.getHeadRotation();
+            this.bodyRotation = entity.getBodyRotation();
+
+            StringBuilder statusString = new StringBuilder();
+            statusString.append("/");
+
+            for (Map.Entry<RoomEntityStatus, String> status : entity.getStatuses().entrySet()) {
+
+                statusString.append(status.getKey().getStatusCode());
+
+                if (!status.getValue().isEmpty()) {
+                    statusString.append(" ");
+                    statusString.append(status.getValue());
+                }
+
+                statusString.append("/");
+            }
+
+            statusString.append("/");
+
+            this.statusString = statusString.toString();
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public Position getPosition() {
+            return position;
+        }
+
+        public void setPosition(Position position) {
+            this.position = position;
+        }
+
+        public int getHeadRotation() {
+            return headRotation;
+        }
+
+        public void setHeadRotation(int headRotation) {
+            this.headRotation = headRotation;
+        }
+
+        public int getBodyRotation() {
+            return bodyRotation;
+        }
+
+        public void setBodyRotation(int bodyRotation) {
+            this.bodyRotation = bodyRotation;
+        }
+
+        public String getStatusString() {
+            return statusString;
+        }
+
+        public void setStatusString(String statusString) {
+            this.statusString = statusString;
         }
     }
 }

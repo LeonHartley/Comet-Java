@@ -4,13 +4,11 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.sessions.SessionManager;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import io.netty.bootstrap.ChannelFactory;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.DefaultMessageSizeEstimator;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.ServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.ResourceLeakDetector;
@@ -49,15 +47,15 @@ public class NetworkManager {
         System.setProperty("java.net.preferIPv4Stack", "true");
         System.setProperty("io.netty.selectorAutoRebuildThreshold", "0");
 
-        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED);
+        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.PARANOID);
 
-        EventLoopGroup acceptGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO Accept Thread #%1$d").build());
-        EventLoopGroup ioGroup = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty NIO IO Thread #%1$d").build());
+        EventLoopGroup acceptGroup = new NioEventLoopGroup(4, new ThreadFactoryBuilder().setNameFormat("Netty NIO Accept Thread #%1$d").build());
+        EventLoopGroup ioGroup = new NioEventLoopGroup(4, new ThreadFactoryBuilder().setNameFormat("Netty NIO IO Thread #%1$d").build());
 
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(acceptGroup, ioGroup)
                 .channelFactory(NioServerSocketChannel::new)
-                .childHandler(new NetworkChannelInitializer(0))
+                .childHandler(new NetworkChannelInitializer(8))
                 .option(ChannelOption.SO_BACKLOG, 1024)
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)

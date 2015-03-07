@@ -50,6 +50,5 @@ public class SlideObjectBundleMessageComposer extends MessageComposer {
         if (isItem) {
             msg.writeInt(rollerItemId);
         }
-
     }
 }

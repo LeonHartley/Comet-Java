@@ -38,4 +38,9 @@ public class UnseenItemsMessageComposer extends MessageComposer {
             msg.writeInt(item.getId());
         }
     }
+
+    @Override
+    public void dispose() {
+        this.inventoryItems.clear();
+    }
 }

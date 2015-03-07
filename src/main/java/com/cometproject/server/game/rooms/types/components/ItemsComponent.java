@@ -211,7 +211,7 @@ public class ItemsComponent {
             }
         }
 
-        room.getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(item.getId(), client != null ? client.getPlayer().getId() : 0));
+        this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(item.getId(), client != null ? client.getPlayer().getId() : 0));
         this.getFloorItems().remove(item);
 
         if (toInventory && client != null) {

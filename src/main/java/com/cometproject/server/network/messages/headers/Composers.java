@@ -96,7 +96,6 @@ public class Composers {
     public static final short SetRoomUserMessageComposer = 1541;//3761
     public static final short UpdateInventoryMessageComposer = 912;//2316
     public static final short MOTDNotificationMessageComposer = 2713;//2855
-    public static final short PollQuestionsMessageComposer = -2525;//-2525
     public static final short EnableNotificationsMessageComposer = 495;//2077
     public static final short FloodFilterMessageComposer = 2385;//25
     public static final short ShoutMessageComposer = 1886;//1526
