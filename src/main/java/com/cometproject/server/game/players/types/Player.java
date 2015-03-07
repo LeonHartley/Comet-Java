@@ -98,7 +98,7 @@ public class Player {
         if (this.getEntity() != null) {
             try {
                 this.getEntity().leaveRoom(true, false, false);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 // Player failed to leave room
                 this.getSession().getLogger().error("Error while disposing entity when player disconnects", e);
             }
@@ -144,11 +144,7 @@ public class Player {
         currencies.put(105, getData().getVipPoints());
         currencies.put(5, getData().getVipPoints());
 
-        try {
-            return new CurrenciesMessageComposer(currencies);
-        } finally {
-            currencies.clear();
-        }
+        return new CurrenciesMessageComposer(currencies);
     }
 
     public void loadRoom(int id, String password) {

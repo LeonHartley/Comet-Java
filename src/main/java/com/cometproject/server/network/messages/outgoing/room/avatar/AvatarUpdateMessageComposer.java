@@ -20,7 +20,6 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
     private List<AvatarState> entities;
 
     public AvatarUpdateMessageComposer(final Collection<GenericEntity> entities) {
-        System.out.println("Constructed");
         this.entities = Lists.newArrayList();
 
         for(GenericEntity entity : entities) {
@@ -49,8 +48,6 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
     @Override
     public void compose(Composer msg) {
         msg.writeInt(this.count);
-
-        System.out.println(this.count);
 
         if(this.singleEntity != null) {
             this.composeEntity(msg, this.singleEntity);
