@@ -30,12 +30,4 @@ public abstract class MessageComposer {
     public void dispose() {
 
     }
-
-    public void cancel() {
-        this.isCancelled = true;
-    }
-
-    public boolean isCancelled() {
-        return this.isCancelled;
-    }
 }

@@ -277,7 +277,7 @@ public class Trade {
         user2.getPlayer().getSession().send(new UnseenItemsMessageComposer(user1Items));
 
         sendToUsers(new UpdateInventoryMessageComposer());
-        sendToUsers(new TradeCloseCleanMessageComposer());
+        sendToUsers(new TradeCompletedMessageComposer());
 
         this.tradeComponent.remove(this);
     }
