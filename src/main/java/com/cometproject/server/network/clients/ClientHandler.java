@@ -52,9 +52,10 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             Session session = ctx.attr(SessionManager.SESSION_ATTR).get();
             session.onDisconnect();
         } catch (Exception e) {
+
         }
 
-        NetworkManager.getInstance().getSessions().remove(ctx.channel());
+        NetworkManager.getInstance().getSessions().remove(ctx);
     }
 
     @Override

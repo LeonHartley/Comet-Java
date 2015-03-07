@@ -35,9 +35,9 @@ public final class SessionManager {
         return (this.sessions.putIfAbsent(channel.attr(CHANNEL_ID_ATTR).get(), session) == null);
     }
 
-    public boolean remove(Channel channel) {
+    public boolean remove(ChannelHandlerContext channel) {
         if (this.sessions.containsKey(channel.attr(CHANNEL_ID_ATTR).get())) {
-            this.channelGroup.remove(channel);
+            this.channelGroup.remove(channel.channel());
             this.sessions.remove(channel.attr(CHANNEL_ID_ATTR).get());
 
             return true;
