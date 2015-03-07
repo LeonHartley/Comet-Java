@@ -63,7 +63,6 @@ import com.cometproject.server.network.messages.incoming.user.inventory.BotInven
 import com.cometproject.server.network.messages.incoming.user.inventory.OpenInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.inventory.PetInventoryMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.profile.*;
-import com.cometproject.server.network.messages.incoming.user.username.ChangeUsernameCheckMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.ChangeLooksMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardrobeMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeMessageEvent;
@@ -182,7 +181,6 @@ public final class MessageHandler {
         this.getMessages().put(Events.WardrobeMessageEvent, new WardrobeMessageEvent());
         this.getMessages().put(Events.WardrobeUpdateMessageEvent, new SaveWardrobeMessageEvent());
         this.getMessages().put(Events.SetHomeRoomMessageEvent, new ChangeHomeRoomMessageEvent());
-        this.getMessages().put(Events.ChangeUsernameMessageEvent, new ChangeUsernameCheckMessageEvent());
         this.getMessages().put(Events.SaveClientSettingsMessageEvent, new UpdateAudioSettingsMessageEvent());
         this.getMessages().put(Events.SetChatPreferenceMessageEvent, new UpdateChatStyleMessageEvent());
         this.getMessages().put(Events.IgnoreInvitationsMessageEvent, new IgnoreInvitationsMessageEvent());

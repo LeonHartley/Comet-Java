@@ -23,7 +23,7 @@ public class MuteCommand extends ChatCommand {
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
             if (session != null) {
-                session.send(AdvancedAlertMessageComposer.compose(Locale.get("command.mute.muted")));
+                session.send(new AdvancedAlertMessageComposer(Locale.get("command.mute.muted")));
             }
 
             BanManager.getInstance().mute(playerId);

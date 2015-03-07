@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.room.engine.FollowRoomDataMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -22,31 +23,7 @@ public class FollowRoomInfoMessageEvent implements IEvent {
                 return;
             }
 
-            Composer composer = new Composer(Composers.RoomDataMessageComposer);
-
-            composer.writeBoolean(false);
-
-            RoomWriter.write(roomData, composer);
-
-            composer.writeBoolean(true);
-            composer.writeBoolean(false);
-            composer.writeBoolean(true);
-            composer.writeInt(0);
-            composer.writeInt(0);
-            composer.writeInt(0);
-            composer.writeBoolean(false);
-            composer.writeBoolean(true);
-            composer.writeBoolean(true);
-            composer.writeInt(1);
-            composer.writeInt(0);
-            composer.writeInt(1);
-            composer.writeInt(14);
-            composer.writeBoolean(false);
-            composer.writeBoolean(false);
-            composer.writeBoolean(false);
-            composer.writeBoolean(true);
-
-            client.send(composer);
+            client.send(new FollowRoomDataMessageComposer(roomData));
         }
     }
 }

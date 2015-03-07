@@ -25,7 +25,7 @@ public class ModToolUserKickMessageEvent implements IEvent {
 
             if (session != null) {
                 if (!message.isEmpty())
-                    session.send(AdvancedAlertMessageComposer.compose(message));
+                    session.send(new AdvancedAlertMessageComposer(message));
 
                 if (session.getPlayer().getEntity() != null) {
                     session.getPlayer().getEntity().kick();

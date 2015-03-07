@@ -41,10 +41,10 @@ public class JoinGroupMessageEvent implements IEvent {
             client.getPlayer().getGroups().add(groupId);
 
             group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
-            client.send(new groupInformation(true, client.getPlayer().getId()));
+            client.send(group.composeInformation(true, client.getPlayer().getId()));
         } else {
             group.getMembershipComponent().createRequest(client.getPlayer().getId());
-            client.send(new groupInformation(true, client.getPlayer().getId()));
+            client.send(group.composeInformation(true, client.getPlayer().getId()));
         }
     }
 }
