@@ -27,19 +27,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Event msg) throws Exception {
-        try {
-            Session session = ctx.attr(SessionManager.SESSION_ATTR).get();
-
-            if (session != null) {
-                session.handleMessageEvent(msg);
-            }
-        } catch (Exception e) {
-            log.error("Error while receiving message", e);
-        }
-    }
-
-    @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         if (!NetworkManager.getInstance().getSessions().add(ctx)) {
             ctx.channel().disconnect();
@@ -88,6 +75,19 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
             cause.printStackTrace();*/
 
             ctx.close();
+        }
+    }
+
+    @Override
+    protected void messageReceived(ChannelHandlerContext ctx, Event event) throws Exception {
+        try {
+            Session session = ctx.attr(SessionManager.SESSION_ATTR).get();
+
+            if (session != null) {
+                session.handleMessageEvent(event);
+            }
+        } catch (Exception e) {
+            log.error("Error while receiving message", e);
         }
     }
 }

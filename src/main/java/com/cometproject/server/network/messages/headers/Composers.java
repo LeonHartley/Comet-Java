@@ -39,7 +39,7 @@ public class Composers {
     public static final short YouTubeLoadPlaylistsMessageComposer = 589;//3555
     public static final short GiftUserNotFoundMessageComposer = 3911;//418
     public static final short RoomConnectionErrorMessageComposer = 621;//3958
-    public static final short RoomPlayerUnbannedMessageComposer = 866;//1781
+    public static final short RoomPlayerUnbannedMessageComposer = 2311;//1781
     public static final short CatalogPageMessageComposer = 3163;//3563
     public static final short GroupMembersMessageComposer = 3355;//2933
     public static final short ConsoleSearchFriendMessageComposer = 2423;//251
