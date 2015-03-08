@@ -64,7 +64,6 @@ public class Comet {
         log.info("|  $$$$$$/|  $$$$$$/| $$ | $$ | $$|  $$$$$$$  |  $$$/");
         log.info(" \\______/  \\______/ |__/ |__/ |__/ \\_______/   \\___/  ");
 
-
         for (String arg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
             if (arg.contains("dt_")) {
                 isDebugging = true;
