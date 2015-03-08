@@ -20,5 +20,6 @@ public class TradeCloseMessageComposer extends MessageComposer {
     @Override
     public void compose(Composer msg) {
         msg.writeInt(playerId);
+        msg.writeInt(2);
     }
 }

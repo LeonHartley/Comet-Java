@@ -10,8 +10,10 @@ import java.util.List;
 
 public class TradeComponent {
     private List<Trade> trades;
+    private final Room room;
 
     public TradeComponent(Room room) {
+        this.room = room;
         this.trades = new ArrayList<>();
     }
 
@@ -36,5 +38,9 @@ public class TradeComponent {
 
     public synchronized List<Trade> getTrades() {
         return this.trades;
+    }
+
+    public Room getRoom() {
+        return room;
     }
 }
