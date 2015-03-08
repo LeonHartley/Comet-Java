@@ -40,7 +40,5 @@ public class LoadSearchRoomMessageEvent implements IEvent {
         client.send(new PopularTagsMessageComposer(treeMap));
 
         tagsPlayerCount.clear();
-        treeMap.clear();
-
     }
 }
