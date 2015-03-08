@@ -36,7 +36,7 @@ public class WiredTriggerEnterRoom extends WiredTriggerItem {
     }
 
     public static void executeTriggers(PlayerEntity playerEntity) {
-        for (RoomItemFloor floorItem : playerEntity.getRoom().getItems().getByInteraction("wf_trg_enter_room")) {
+        for (RoomItemFloor floorItem : playerEntity.getRoom().getItems().getByClass(WiredTriggerEnterRoom.class)) {
             if (!(floorItem instanceof WiredTriggerEnterRoom)) continue;
 
             WiredTriggerEnterRoom trigger = ((WiredTriggerEnterRoom) floorItem);

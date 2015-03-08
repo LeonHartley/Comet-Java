@@ -177,6 +177,20 @@ public class ItemsComponent {
         return items;
     }
 
+    public List<RoomItemFloor> getByClass(Class<? extends RoomItemFloor> clazz) {
+        List<RoomItemFloor> items = new ArrayList<>();
+
+        for (RoomItemFloor floorItem : this.floorItems) {
+            if (floorItem == null || floorItem.getDefinition() == null) continue;
+
+            if (floorItem.getClass().equals(clazz)) {
+                items.add(floorItem);
+            }
+        }
+
+        return items;
+    }
+
     public void removeItem(RoomItemWall item, Session client) {
         RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
 
