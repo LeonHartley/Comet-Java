@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.incoming.room.settings;
 
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.outgoing.room.settings.GetPowerListMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.settings.RightsListMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -15,6 +15,6 @@ public class UsersWithRightsMessageEvent implements IEvent {
             return;
         }
 
-        client.send(new GetPowerListMessageComposer(room.getId(), room.getRights().getAll()));
+        client.send(new RightsListMessageComposer(room.getId(), room.getRights().getAll()));
     }
 }

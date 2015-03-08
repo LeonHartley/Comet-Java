@@ -60,6 +60,16 @@ public class Composer implements ByteBufHolder {
     }
 
     @Override
+    public ByteBufHolder touch() {
+        return null;
+    }
+
+    @Override
+    public ByteBufHolder touch(Object o) {
+        return null;
+    }
+
+    @Override
     public boolean release() {
         return this.body.release();
     }
