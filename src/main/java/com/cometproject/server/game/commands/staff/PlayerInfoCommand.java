@@ -19,7 +19,7 @@ public class PlayerInfoCommand extends ChatCommand {
 
         PlayerData playerData;
 
-        if(session == null) {
+        if(session == null || session.getPlayer() == null || session.getPlayer().getData() == null) {
             playerData = PlayerDao.getDataByUsername(username);
         } else {
             playerData = session.getPlayer().getData();

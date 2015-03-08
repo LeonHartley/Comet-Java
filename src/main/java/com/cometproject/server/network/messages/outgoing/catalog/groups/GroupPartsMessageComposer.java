@@ -9,7 +9,6 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,7 +27,7 @@ public class GroupPartsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.GroupPurchasePartsMessageComposer;
+        return Composers.GroupPurchasePageMessageComposer;
     }
 
     @Override

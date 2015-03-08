@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorIte
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 
 import java.util.Random;
@@ -71,12 +72,16 @@ public class WiredActionMoveRotate extends WiredActionItem {
 
                 if (floorItem == null || floorItem instanceof DiceFloorItem) continue;
 
-                final Position currentPosition = new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY());
-                final Position newPosition = this.handleMovement(currentPosition, movement);
+                final Position currentPosition = floorItem.getPosition().copy();
+                final Position newPosition = this.handleMovement(currentPosition.copy(), movement);
                 final int newRotation = this.handleRotation(floorItem.getRotation(), rotation);
+                final boolean rotationChanged = newRotation != floorItem.getRotation();
 
                 if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), newPosition, newRotation, true)) {
-                    this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem, this.getRoom().getData().getOwnerId()));
+                    if(!rotationChanged)
+                        this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, newPosition, 0, 0, floorItem.getId()));
+                    else
+                        this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem, this.getRoom().getData().getOwnerId()));
                 }
             }
         }
