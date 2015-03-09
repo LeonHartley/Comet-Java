@@ -47,7 +47,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
             final List<BanzaiTileFloorItem> rectangle = buildBanzaiRectangle(this, this.getPosition().getX(), this.getPosition().getY(), 0, 0, -1, 4, gameTeam);
 
             if (rectangle != null) {
-                for (RoomItemFloor floorItem : this.getRoom().getItems().getByInteraction("bb_patch")) {
+                for (RoomItemFloor floorItem : this.getRoom().getItems().getByClass(BanzaiTileFloorItem.class)) {
                     BanzaiTileFloorItem tileItem = ((BanzaiTileFloorItem) floorItem);
                     if (tileItem.getPoints() == 3) continue;
 
