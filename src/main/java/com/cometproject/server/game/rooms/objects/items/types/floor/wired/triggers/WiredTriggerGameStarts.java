@@ -36,7 +36,7 @@ public class WiredTriggerGameStarts extends WiredTriggerItem {
     public static boolean executeTriggers(Room room) {
         boolean wasExecuted = false;
 
-        for (RoomItemFloor floorItem : room.getItems().getByInteraction("wf_trg_game_starts")) {
+        for (RoomItemFloor floorItem : room.getItems().getByClass(WiredTriggerGameStarts.class)) {
             WiredTriggerGameStarts trigger = ((WiredTriggerGameStarts) floorItem);
 
             wasExecuted = trigger.evaluate(null, null);

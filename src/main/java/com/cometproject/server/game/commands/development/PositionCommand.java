@@ -8,14 +8,11 @@ import com.cometproject.server.network.sessions.Session;
 public class PositionCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        final StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("X: " + client.getPlayer().getEntity().getPosition().getX() + "\r\n");
-        stringBuilder.append("Y: " + client.getPlayer().getEntity().getPosition().getY() + "\r\n");
-        stringBuilder.append("Z: " + client.getPlayer().getEntity().getPosition().getZ() + "\r\n");
-        stringBuilder.append("Rotation: " + client.getPlayer().getEntity().getBodyRotation() + "\r\n");
-
-        sendNotif(stringBuilder.toString(), client);
+        sendNotif(("X: " + client.getPlayer().getEntity().getPosition().getX() + "\r\n") +
+                "Y: " + client.getPlayer().getEntity().getPosition().getY() + "\r\n" +
+                "Z: " + client.getPlayer().getEntity().getPosition().getZ() + "\r\n" +
+                "Rotation: " + client.getPlayer().getEntity().getBodyRotation() + "\r\n",
+        client);
     }
 
     @Override

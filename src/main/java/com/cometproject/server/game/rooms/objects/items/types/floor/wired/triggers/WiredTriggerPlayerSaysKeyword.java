@@ -40,7 +40,7 @@ public class WiredTriggerPlayerSaysKeyword extends WiredTriggerItem {
     public static boolean executeTriggers(PlayerEntity playerEntity, String message) {
         boolean wasExecuted = false;
 
-        for (RoomItemFloor floorItem : playerEntity.getRoom().getItems().getByInteraction("wf_trg_says_something")) {
+        for (RoomItemFloor floorItem : playerEntity.getRoom().getItems().getByClass(WiredTriggerPlayerSaysKeyword.class)) {
             WiredTriggerPlayerSaysKeyword trigger = ((WiredTriggerPlayerSaysKeyword) floorItem);
 
             final boolean ownerOnly = trigger.getWiredData().getParams().containsKey(PARAM_OWNERONLY) && trigger.getWiredData().getParams().get(PARAM_OWNERONLY) != 0;

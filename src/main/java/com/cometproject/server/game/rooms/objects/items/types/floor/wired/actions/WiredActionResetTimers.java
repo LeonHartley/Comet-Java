@@ -48,7 +48,7 @@ public class WiredActionResetTimers extends WiredActionItem {
     }
 
     public void onTickComplete() {
-        for (RoomItemFloor floorItem : this.getRoom().getItems().getByInteraction("wf_trg_at_given_time")) {
+        for (RoomItemFloor floorItem : this.getRoom().getItems().getByClass(WiredTriggerAtGivenTime.class)) {
             if (floorItem instanceof WiredTriggerAtGivenTime) {
                 ((WiredTriggerAtGivenTime) floorItem).reset();
                 ((WiredTriggerAtGivenTime) floorItem).flash();

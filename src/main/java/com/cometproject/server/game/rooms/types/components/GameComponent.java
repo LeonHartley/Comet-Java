@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballScoreFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerScoreAchieved;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
@@ -95,7 +96,7 @@ public class GameComponent {
 
         this.scores.replace(team, this.scores.get(team) + amount);
 
-        for (RoomItemFloor scoreItem : this.getRoom().getItems().getByInteraction("football_score")) {
+        for (RoomItemFloor scoreItem : this.getRoom().getItems().getByClass(FootballScoreFloorItem.class)) {
             scoreItem.sendUpdate();
         }
 

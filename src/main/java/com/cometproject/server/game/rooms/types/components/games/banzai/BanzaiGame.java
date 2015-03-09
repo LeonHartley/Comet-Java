@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTileFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameEnds;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameStarts;
 import com.cometproject.server.game.rooms.types.Room;
@@ -31,7 +32,7 @@ public class BanzaiGame extends RoomGame {
             this.timer = this.gameLength;
         }
 
-        for (RoomItemFloor item : room.getItems().getByInteraction("bb_timer")) {
+        for (RoomItemFloor item : room.getItems().getByClass(BanzaiTimerFloorItem.class)) {
             item.setExtraData((gameLength - timer) + "");
             item.sendUpdate();
         }
@@ -43,7 +44,7 @@ public class BanzaiGame extends RoomGame {
 
         this.banzaiTileCount = 0;
 
-        for (RoomItemFloor item : this.room.getItems().getByInteraction("bb_patch")) {
+        for (RoomItemFloor item : this.room.getItems().getByClass(BanzaiTileFloorItem.class)) {
             this.banzaiTileCount++;
             ((BanzaiTileFloorItem) item).onGameStarts();
         }
@@ -57,7 +58,7 @@ public class BanzaiGame extends RoomGame {
     public void gameEnds() {
         GameTeam winningTeam = this.winningTeam();
 
-        for (RoomItemFloor item : this.room.getItems().getByInteraction("bb_patch")) {
+        for (RoomItemFloor item : this.room.getItems().getByClass(BanzaiTileFloorItem.class)) {
             if (item instanceof BanzaiTileFloorItem) {
                 if (((BanzaiTileFloorItem) item).getTeam() == winningTeam && winningTeam != GameTeam.NONE) {
                     ((BanzaiTileFloorItem) item).flash();

@@ -47,7 +47,7 @@ public class WiredTriggerScoreAchieved extends WiredTriggerItem {
     public static boolean executeTriggers(int score, GameTeam team, Room room) {
         boolean wasExecuted = false;
 
-        for (RoomItemFloor floorItem : room.getItems().getByInteraction("wf_trg_score_achieved")) {
+        for (RoomItemFloor floorItem : room.getItems().getByClass(WiredTriggerScoreAchieved.class)) {
             WiredTriggerScoreAchieved trigger = ((WiredTriggerScoreAchieved) floorItem);
 
             if (trigger.scoreToAchieve() == score) {

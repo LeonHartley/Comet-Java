@@ -70,7 +70,7 @@ public class FootballTimerFloorItem extends RoomItemFloor {
             // Tell the room we have an active football game.
             this.getRoom().setAttribute("football", true);
 
-            for (RoomItemFloor scoreItem : this.getRoom().getItems().getByInteraction("football_score")) {
+            for (RoomItemFloor scoreItem : this.getRoom().getItems().getByClass(FootballScoreFloorItem.class)) {
                 ((FootballScoreFloorItem) scoreItem).reset();
             }
 

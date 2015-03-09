@@ -37,7 +37,7 @@ public class WiredTriggerStateChanged extends WiredTriggerItem {
     public static boolean executeTriggers(GenericEntity entity, RoomItemFloor floorItem) {
         boolean wasExecuted = false;
 
-        for (RoomItemFloor wiredItem : entity.getRoom().getItems().getByInteraction("wf_trg_state_changed")) {
+        for (RoomItemFloor wiredItem : entity.getRoom().getItems().getByClass(WiredTriggerStateChanged.class)) {
             WiredTriggerStateChanged trigger = ((WiredTriggerStateChanged) wiredItem);
 
             if (trigger.getWiredData().getSelectedIds().contains(floorItem.getId()))
