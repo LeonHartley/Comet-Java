@@ -46,9 +46,7 @@ public class NetworkManager {
 
         InternalLoggerFactory.setDefaultFactory(new Log4JLoggerFactory());
 
-//        System.setProperty("java.net.preferIPv4Stack", "true");
-//        System.setProperty("io.netty.selectorAutoRebuildThreshold", "0");
-
+        System.setProperty("io.netty.leakDetectionLevel", "disabled");
         ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED);
 
         EventLoopGroup acceptGroup;
