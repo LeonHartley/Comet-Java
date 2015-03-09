@@ -22,6 +22,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     private int rollStage = -1;
 
     private boolean isDribbling = false;
+    private boolean lastTileFail = false;
 
     public RollableFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
@@ -38,16 +39,21 @@ public abstract class RollableFloorItem extends RoomItemFloor {
             this.sendUpdate();
         }
 
+        if(this.lastTileFail) {
+            this.lastTileFail = false;
+            return;
+        }
+
         if (entity.getWalkingGoal().getX() == this.getPosition().getX() && entity.getWalkingGoal().getY() == this.getPosition().getY()) {
-//            if (this.skipNext) {
+            if (this.skipNext) {
 //                if (this.isDribbling) {
-//                    this.onInteract(entity, 0, false);
+                    this.onInteract(entity, 0, false);
 //                    this.isDribbling = false;
 //                }
-//
-//                this.skipNext = false;
-//                return;
-//            }
+
+                this.skipNext = false;
+                return;
+            }
 
             if (entity instanceof PlayerEntity) {
                 this.playerEntity = (PlayerEntity) entity;
@@ -59,7 +65,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
             if (entity.getWalkingGoal().distanceTo(this.getPosition()) > 1) {
                 this.isDribbling = true;
             }
-
+//
             this.skipNext = true;
             this.onInteract(entity, 0, false);
         }
@@ -98,11 +104,13 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         if (this.isValidRoll(nextPosition)) {
             nextPosition = this.getNextPosition(this.getPosition(), false);
         } else {
-//            if(this.playerEntity.getWalkingGoal().equals(nextPosition)) {
-//                this.isRolling = false;
-//                this.rollStage = -1;
-//                return;
-//            }
+            this.lastTileFail = true;
+
+            if(this.playerEntity.getWalkingGoal().equals(nextPosition)) {
+                this.isRolling = false;
+                this.rollStage = -1;
+                return;
+            }
 
             nextPosition = this.getNextPosition(this.getPosition(), true);
             this.setRotation(Direction.get(this.getRotation()).invert().num);
@@ -114,9 +122,9 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
     private boolean isValidRoll(Position nextPosition) {
         if (this.getRoom().getMapping().isValidStep(0, this.getPosition(), this.getNextPosition(this.getPosition(), false), false, true)) {
-            if (this.playerEntity != null && this.playerEntity.getWalkingGoal().getX() == nextPosition.getX() && this.playerEntity.getWalkingGoal().getY() == nextPosition.getY()) {
-                return false;
-            }
+//            if (this.playerEntity != null && this.playerEntity.getWalkingGoal().getX() == nextPosition.getX() && this.playerEntity.getWalkingGoal().getY() == nextPosition.getY()) {
+//                return false;
+//            }
 
             if(this.getRoom().getMapping().getTile(nextPosition.getX(), nextPosition.getY()).getWalkHeight() >= 0.5)
                 return false;
