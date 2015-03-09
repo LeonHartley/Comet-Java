@@ -62,7 +62,7 @@ public class FeaturedRoom {
 
         msg.writeInt(id);
         msg.writeString((!isCategory) ? room.getName() : caption);
-        msg.writeString((!isCategory) ? room.getDescription() : description);
+        msg.writeString((!isCategory) ? (description.isEmpty() ? room.getDescription() : description) : description);
 
         msg.writeInt(bannerType == BannerType.BIG ? 0 : 1);
         msg.writeString(!isCategory ? caption : "");
