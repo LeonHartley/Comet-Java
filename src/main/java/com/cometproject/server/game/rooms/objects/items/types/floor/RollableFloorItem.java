@@ -149,7 +149,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     public static void roll(RoomItemFloor item, Position from, Position to, Room room) {
-        room.getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(from, to, item.getId(), 0, item.getId()));
+        room.getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(from.copy(), to.copy(), item.getId(), 0, item.getId()));
     }
 
     public static Position calculatePosition(int x, int y, int playerRotation) {

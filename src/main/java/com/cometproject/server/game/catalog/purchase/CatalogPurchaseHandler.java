@@ -100,10 +100,9 @@ public class CatalogPurchaseHandler {
                     return;
                 }
 
-                if(client.getPlayer().getLastGift() != 0) {
-                    if(((int) Comet.getTime() - client.getPlayer().getLastGift()) < 300) {
+                if(client.getPlayer().getLastGift() != 0 && !client.getPlayer().getPermissions().hasPermission("bypass_flood")) {
+                    if(((int) Comet.getTime() - client.getPlayer().getLastGift()) < CometSettings.giftCooldown) {
                         client.send(new AdvancedAlertMessageComposer(Locale.get("catalog.error.gifttoofast")));
-
                         client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
                         return;
                     }
