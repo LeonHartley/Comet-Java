@@ -23,7 +23,7 @@ public class NavigatorDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM navigator_featured_rooms WHERE enabled = '1'", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM navigator_featured_rooms WHERE enabled = '1' ORDER BY order_num", sqlConnection);
 
             resultSet = preparedStatement.executeQuery();
 
