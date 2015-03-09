@@ -148,6 +148,11 @@ public class CometSettings {
      */
     public static boolean infiniteBalance = false;
 
+    /**
+     * The amount of seconds players need to wait until they can send another gift.
+     */
+    public static int giftCooldown = 30;
+
     // TODO: Catch missing-config exceptions and fallback to the defaults...
 
     /**
@@ -207,6 +212,10 @@ public class CometSettings {
 
         if(config.containsKey("comet.game.infiniteBalance")) {
             infiniteBalance = Boolean.parseBoolean(config.get("comet.game.infiniteBalance"));
+        }
+
+        if(config.containsKey("comet.game.gift.cooldown")) {
+            giftCooldown = Integer.parseInt(config.get("comet.game.gift.cooldown"));
         }
     }
 
