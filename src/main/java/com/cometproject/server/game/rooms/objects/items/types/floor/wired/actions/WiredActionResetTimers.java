@@ -5,7 +5,10 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerAtGivenTime;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerAtGivenTimeLong;
 import com.cometproject.server.game.rooms.types.Room;
+
+import java.util.List;
 
 
 public class WiredActionResetTimers extends WiredActionItem {
@@ -48,11 +51,15 @@ public class WiredActionResetTimers extends WiredActionItem {
     }
 
     public void onTickComplete() {
-        for (RoomItemFloor floorItem : this.getRoom().getItems().getByClass(WiredTriggerAtGivenTime.class)) {
-            if (floorItem instanceof WiredTriggerAtGivenTime) {
-                ((WiredTriggerAtGivenTime) floorItem).reset();
-                ((WiredTriggerAtGivenTime) floorItem).flash();
+        final List<RoomItemFloor> items = this.getRoom().getItems().getByClass(WiredTriggerAtGivenTime.class);
+        items.addAll(this.getRoom().getItems().getByClass(WiredTriggerAtGivenTimeLong.class));
+
+        for(RoomItemFloor floorItem : items) {
+            if(floorItem instanceof WiredTriggerAtGivenTime) {
+                ((WiredTriggerAtGivenTime) floorItem).setNeedsReset(false);
             }
         }
+
+        this.getRoom().resetWiredTimer();
     }
 }

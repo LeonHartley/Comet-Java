@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.models.types.DynamicRoomModel;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerAtGivenTime;
 import com.cometproject.server.game.rooms.types.components.*;
 import com.cometproject.server.game.rooms.types.mapping.RoomMapping;
 import com.cometproject.server.tasks.CometThreadManager;
@@ -15,6 +16,7 @@ import org.apache.log4j.Logger;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Room implements Attributable {
@@ -42,6 +44,7 @@ public class Room implements Attributable {
 
     private boolean isDisposed = false;
     private int idleTicks = 0;
+    private final AtomicInteger wiredTimer = new AtomicInteger(0);
 
     public Room(RoomData data) {
         this.data = data;
@@ -127,6 +130,8 @@ public class Room implements Attributable {
     }
 
     public void tick() {
+        WiredTriggerAtGivenTime.executeTriggers(this, this.wiredTimer.incrementAndGet());
+
         if (this.rights != null) {
             this.rights.tick();
         }
@@ -134,6 +139,14 @@ public class Room implements Attributable {
         if(this.mapping != null) {
             this.mapping.tick();
         }
+    }
+
+    public int getWiredTimer() {
+        return this.wiredTimer.get();
+    }
+
+    public void resetWiredTimer() {
+        this.wiredTimer.set(0);
     }
 
     public RoomPromotion getPromotion() {

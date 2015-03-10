@@ -1,13 +1,14 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers;
 
-import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
 import com.cometproject.server.game.rooms.types.Room;
 
 
 public class WiredTriggerAtGivenTime extends WiredTriggerItem {
     private static final int PARAM_TICK_LENGTH = 0;
-    private boolean reset = false;
+
+    private boolean needsReset = false;
 
     /**
      * The default constructor
@@ -28,18 +29,6 @@ public class WiredTriggerAtGivenTime extends WiredTriggerItem {
         if (this.getWiredData().getParams().get(PARAM_TICK_LENGTH) == null) {
             this.getWiredData().getParams().put(PARAM_TICK_LENGTH, 2); // 1s
         }
-
-        this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2));
-    }
-
-    @Override
-    public void onTickComplete() {
-        if (this.isReset()) {
-            this.evaluate(null, null);
-            this.reset = false;
-        }
-
-        this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2));
     }
 
     @Override
@@ -52,12 +41,33 @@ public class WiredTriggerAtGivenTime extends WiredTriggerItem {
         return 6;
     }
 
-    public boolean isReset() {
-        return this.reset;
+    public int getTime() {
+        return this.getWiredData().getParams().get(PARAM_TICK_LENGTH);
     }
 
-    public void reset() {
-        this.reset = true;
-        this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2));
+    public static boolean executeTriggers(Room room, int timer) {
+        boolean wasExecuted = false;
+
+        for (RoomItemFloor wiredItem : room.getItems().getByClass(WiredTriggerAtGivenTime.class)) {
+            WiredTriggerAtGivenTime trigger = ((WiredTriggerAtGivenTime) wiredItem);
+
+            if(timer <= trigger.getTime() && !trigger.needsReset) {
+                if(trigger.evaluate(null, null)) {
+                    wasExecuted = true;
+
+                    trigger.needsReset = true;
+                }
+            }
+        }
+
+        return wasExecuted;
+    }
+
+    public void setNeedsReset(boolean needsReset) {
+        this.needsReset = needsReset;
+    }
+
+    public boolean needsReset() {
+        return this.needsReset;
     }
 }
