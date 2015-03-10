@@ -108,6 +108,8 @@ public class RoomItemFactory {
             put("wf_cnd_match_snapshot", WiredConditionMatchSnapshot.class);//new
             put("wf_cnd_not_match_snap", WiredNegativeConditionMatchSnapshot.class);//new
             put("wf_cnd_has_handitem", WiredConditionHasHandItem.class);//new
+            put("wf_cnd_time_more_than", WiredConditionTimeMoreThan.class);//new
+            put("wf_cnd_time_less_than", WiredConditionTimeLessThan.class);//new
 
             put("wf_xtra_random", WiredAddonRandomEffect.class);
             put("wf_xtra_unseen", WiredAddonUnseenEffect.class);

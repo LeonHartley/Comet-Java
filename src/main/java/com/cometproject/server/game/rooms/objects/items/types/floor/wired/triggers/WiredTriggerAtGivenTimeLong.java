@@ -1,13 +1,11 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers;
 
-import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 
 
-public class WiredTriggerAtGivenTimeLong extends WiredTriggerItem {
+public class WiredTriggerAtGivenTimeLong extends WiredTriggerAtGivenTime {
     private static final int PARAM_TICK_LENGTH = 0;
-    private boolean reset = false;
 
     /**
      * The default constructor
@@ -28,36 +26,24 @@ public class WiredTriggerAtGivenTimeLong extends WiredTriggerItem {
         if (this.getWiredData().getParams().get(PARAM_TICK_LENGTH) == null) {
             this.getWiredData().getParams().put(PARAM_TICK_LENGTH, 2); // 1s
         }
-
-        this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10);
     }
 
     @Override
-    public void onTickComplete() {
-        if (this.isReset()) {
-            this.evaluate(null, null);
-            this.reset = false;
+    public int getTime() {
+        return this.getWiredData().getParams().get(PARAM_TICK_LENGTH) * 10;
+    }
 
-            this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10);
+    public static boolean executeTriggers(Room room, int timer) {
+        boolean wasExecuted = false;
+
+        for (RoomItemFloor wiredItem : room.getItems().getByClass(WiredTriggerAtGivenTime.class)) {
+            WiredTriggerAtGivenTimeLong trigger = ((WiredTriggerAtGivenTimeLong) wiredItem);
+
+            if(timer >= trigger.getTime()) {
+                wasExecuted = trigger.evaluate(null, null);
+            }
         }
-    }
 
-    @Override
-    public boolean suppliesPlayer() {
-        return false;
-    }
-
-    @Override
-    public int getInterface() {
-        return 6;
-    }
-
-    public boolean isReset() {
-        return this.reset;
-    }
-
-    public void reset() {
-        this.reset = true;
-        this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getParams().get(PARAM_TICK_LENGTH) / 2) * 10);
+        return wasExecuted;
     }
 }
