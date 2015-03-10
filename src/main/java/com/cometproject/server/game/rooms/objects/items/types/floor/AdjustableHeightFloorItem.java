@@ -30,6 +30,11 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
             }
         }
 
+        for(RoomItemFloor floorItem : this.getItemsOnStack()) {
+            if(floorItem.getId() != this.getId() && floorItem.getPosition().getZ() >= this.getPosition().getZ())
+                return false;
+        }
+
         final double oldHeight = this.getOverrideHeight();
 
         this.toggleInteract(true);
