@@ -540,11 +540,11 @@ com.cometproject.server.game.commands.user.LayCommand -> com.cometproject.server
     12:20:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     24:24:java.lang.String getPermission() -> a
     29:29:java.lang.String getDescription() -> b
-com.cometproject.server.game.commands.user.PickAllCommand -> com.cometproject.server.game.c.b.e:
+com.cometproject.server.game.commands.user.room.PickAllCommand -> com.cometproject.server.game.c.b.e:
     17:34:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     38:38:java.lang.String getPermission() -> a
     43:43:java.lang.String getDescription() -> b
-com.cometproject.server.game.commands.user.SetSpeedCommand -> com.cometproject.server.game.c.b.f:
+com.cometproject.server.game.commands.user.room.SetSpeedCommand -> com.cometproject.server.game.c.b.f:
     10:32:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     36:36:java.lang.String getPermission() -> a
     41:41:java.lang.String getDescription() -> b
