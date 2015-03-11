@@ -1,4 +1,4 @@
-package com.cometproject.server.game.commands.user;
+package com.cometproject.server.game.commands.user.room;
 
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;

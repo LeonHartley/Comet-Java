@@ -27,6 +27,9 @@ import com.cometproject.server.game.commands.staff.rewards.mass.MassCoinsCommand
 import com.cometproject.server.game.commands.staff.rewards.mass.MassDucketsCommand;
 import com.cometproject.server.game.commands.staff.rewards.mass.MassPointsCommand;
 import com.cometproject.server.game.commands.user.*;
+import com.cometproject.server.game.commands.user.room.PickAllCommand;
+import com.cometproject.server.game.commands.user.room.SetMaxCommand;
+import com.cometproject.server.game.commands.user.room.SetSpeedCommand;
 import com.cometproject.server.game.commands.vip.*;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.network.sessions.Session;
