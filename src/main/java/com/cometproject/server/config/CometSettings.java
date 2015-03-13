@@ -207,7 +207,7 @@ public class CometSettings {
         }
 
         if (config.containsKey("comet.game.rooms.disableWiredFlash")) {
-            storeAccess = Boolean.parseBoolean(config.get("comet.game.rooms.disableWiredFlash"));
+            disableWiredFlash = Boolean.parseBoolean(config.get("comet.game.rooms.disableWiredFlash"));
         }
 
         if(config.containsKey("comet.game.infiniteBalance")) {
