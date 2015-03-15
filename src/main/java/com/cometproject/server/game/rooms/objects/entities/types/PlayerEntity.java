@@ -398,7 +398,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         msg.writeInt(this.getPlayerId());
-        msg.writeString(this.getUsername());
+        msg.writeString(this.getUsername().replace("<", "").replace(">", "")); // Client sometimes parses the username as HTML...
         msg.writeString(this.getMotto());
         msg.writeString(this.getFigure());
         msg.writeInt(this.getId());
