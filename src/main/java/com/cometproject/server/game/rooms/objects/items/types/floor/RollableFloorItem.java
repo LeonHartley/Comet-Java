@@ -12,6 +12,8 @@ import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectB
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.Direction;
 
+import java.util.List;
+
 
 public abstract class RollableFloorItem extends RoomItemFloor {
     public static final int KICK_POWER = 6;
@@ -117,23 +119,23 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
     private boolean isValidRoll(Position nextPosition) {
         if (this.getRoom().getMapping().isValidStep(0, this.getPosition(), this.getNextPosition(this.getPosition(), false), false, true)) {
-            if (this.playerEntity != null && this.playerEntity.getWalkingGoal().getX() == nextPosition.getX() && this.playerEntity.getWalkingGoal().getY() == nextPosition.getY()) {
-                return false;
-            }
+//            if (this.playerEntity != null && this.playerEntity.getWalkingGoal().getX() == nextPosition.getX() && this.playerEntity.getWalkingGoal().getY() == nextPosition.getY()) {
+//                return false;
+//            }
 
             if(this.getRoom().getMapping().getTile(nextPosition.getX(), nextPosition.getY()).getWalkHeight() >= 0.5)
                 return false;
 
             return true;
         } else {
-//            if(this.playerEntity != null) {
-//                List<GenericEntity> entities = this.getRoom().getEntities().getEntitiesAt(nextPosition);
-//                if(entities.size() == 1) {
-//                    if(entities.get(0).getId() == this.playerEntity.getId()) {
-//                        return true;
-//                    }
-//                }
-//            }
+            if(this.playerEntity != null) {
+                List<GenericEntity> entities = this.getRoom().getEntities().getEntitiesAt(nextPosition);
+                if(entities.size() == 1) {
+                    if(entities.get(0).getId() == this.playerEntity.getId()) {
+                        return true;
+                    }
+                }
+            }
         }
 
         return false;
