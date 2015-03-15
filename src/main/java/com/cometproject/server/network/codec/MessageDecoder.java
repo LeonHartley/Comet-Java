@@ -29,6 +29,7 @@ public class MessageDecoder extends ByteToMessageDecoder {
             }
 
             out.add(new Event(in.readBytes(length)));
+            ctx.fireChannelReadComplete();
         } catch (Exception e) {
             e.printStackTrace();
         }

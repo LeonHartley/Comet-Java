@@ -115,7 +115,7 @@ public final class SessionManager {
     }
 
     public void broadcast(MessageComposer msg) {
-        this.getChannelGroup().write(msg);
+        this.getChannelGroup().writeAndFlush(msg);
 //
 //        for (Session client : sessions.values()) {
 //            client.getChannel().write(msg);
