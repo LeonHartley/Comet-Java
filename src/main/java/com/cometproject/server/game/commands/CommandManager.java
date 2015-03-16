@@ -18,10 +18,7 @@ import com.cometproject.server.game.commands.staff.banning.MachineBanCommand;
 import com.cometproject.server.game.commands.staff.muting.MuteCommand;
 import com.cometproject.server.game.commands.staff.muting.RoomMuteCommand;
 import com.cometproject.server.game.commands.staff.muting.UnmuteCommand;
-import com.cometproject.server.game.commands.staff.rewards.CoinsCommand;
-import com.cometproject.server.game.commands.staff.rewards.DucketsCommand;
-import com.cometproject.server.game.commands.staff.rewards.GiveBadgeCommand;
-import com.cometproject.server.game.commands.staff.rewards.PointsCommand;
+import com.cometproject.server.game.commands.staff.rewards.*;
 import com.cometproject.server.game.commands.staff.rewards.mass.MassBadgeCommand;
 import com.cometproject.server.game.commands.staff.rewards.mass.MassCoinsCommand;
 import com.cometproject.server.game.commands.staff.rewards.mass.MassDucketsCommand;
@@ -160,6 +157,7 @@ public class CommandManager implements Initializable {
         this.commands.put(Locale.get("command.massduckets.name"), new MassDucketsCommand());
         this.commands.put(Locale.get("command.masspoints.name"), new MassPointsCommand());
         this.commands.put(Locale.get("command.playerinfo.name"), new PlayerInfoCommand());
+        this.commands.put(Locale.get("command.roombadge.name"), new RoomBadgeCommand());
     }
 
     /**

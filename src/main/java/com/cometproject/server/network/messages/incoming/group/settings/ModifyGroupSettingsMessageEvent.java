@@ -36,9 +36,6 @@ public class ModifyGroupSettingsMessageEvent implements IEvent {
         // 0 = members, 1 = admins only.
         group.getData().setCanMembersDecorate(rightsType == 0);
 
-
-        System.out.println(rightsType);
-
         group.getData().save();
 
         if (RoomManager.getInstance().isActive(group.getData().getRoomId())) {
