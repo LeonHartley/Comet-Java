@@ -67,6 +67,9 @@ public class Player {
 
     public boolean cancelPageOpen = false;
 
+    private boolean isDeletingGroup = false;
+    private long deletingGroupAttempt = 0;
+
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
@@ -362,5 +365,21 @@ public class Player {
 
     public void setMessengerFloodFlag(int messengerFloodFlag) {
         this.messengerFloodFlag = messengerFloodFlag;
+    }
+
+    public boolean isDeletingGroup() {
+        return isDeletingGroup;
+    }
+
+    public void setDeletingGroup(boolean isDeletingGroup) {
+        this.isDeletingGroup = isDeletingGroup;
+    }
+
+    public long getDeletingGroupAttempt() {
+        return deletingGroupAttempt;
+    }
+
+    public void setDeletingGroupAttempt(long deletingGroupAttempt) {
+        this.deletingGroupAttempt = deletingGroupAttempt;
     }
 }
