@@ -43,8 +43,10 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
 
         this.itemId = itemId;
         this.ownerId = owner;
+        this.ownerName = PlayerDao.getUsernameByPlayerId(this.ownerId);
         this.rotation = rotation;
         this.extraData = data;
+
     }
 
     public void serialize(Composer msg, boolean isNew) {
@@ -211,10 +213,10 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         msg.writeInt(-1);
         //msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
         msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
-        msg.writeInt(this.getRoom().getData().getOwnerId());
+        msg.writeInt(this.ownerId);
 
-        if (isNew)
-            msg.writeString(this.getRoom().getData().getOwner());
+        if(isNew)
+            msg.writeString(this.ownerName);
     }
 
     @Override

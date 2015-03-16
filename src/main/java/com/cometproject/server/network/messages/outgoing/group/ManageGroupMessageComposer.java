@@ -32,7 +32,7 @@ public class ManageGroupMessageComposer extends MessageComposer {
         msg.writeInt(group.getData().getColourA());
         msg.writeInt(group.getData().getColourB());
         msg.writeInt(group.getData().getType().getTypeId());
-        msg.writeInt(group.getData().canAdminsDecorate() ? 0 : 1);
+        msg.writeInt(group.getData().canMembersDecorate() ? 0 : 1);
         msg.writeBoolean(false);
         msg.writeString(""); // url
 

@@ -60,7 +60,7 @@ public class GroupDao {
             preparedStatement.setString(7, groupData.getType().toString().toLowerCase());
             preparedStatement.setInt(8, groupData.getColourA());
             preparedStatement.setInt(9, groupData.getColourB());
-            preparedStatement.setString(10, groupData.canAdminsDecorate() ? "1" : "0");
+            preparedStatement.setString(10, groupData.canMembersDecorate() ? "1" : "0");
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
 
@@ -119,7 +119,7 @@ public class GroupDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE groups SET name = ?, description = ?, badge = ?, owner_id = ?, room_id = ?, type = ?, colour1 = ?, colour2 = ?, admindeco = ? WHERE id = ?", sqlConnection, true);
+            preparedStatement = SqlHelper.prepare("UPDATE groups SET name = ?, description = ?, badge = ?, owner_id = ?, room_id = ?, type = ?, colour1 = ?, colour2 = ?, members_deco = ? WHERE id = ?", sqlConnection, true);
             preparedStatement.setString(1, groupData.getTitle());
             preparedStatement.setString(2, groupData.getDescription());
             preparedStatement.setString(3, groupData.getBadge());
@@ -128,7 +128,7 @@ public class GroupDao {
             preparedStatement.setString(6, groupData.getType().toString().toLowerCase());
             preparedStatement.setInt(7, groupData.getColourA());
             preparedStatement.setInt(8, groupData.getColourB());
-            preparedStatement.setString(9, groupData.canAdminsDecorate() ? "1" : "0");
+            preparedStatement.setString(9, groupData.canMembersDecorate() ? "1" : "0");
             preparedStatement.setInt(10, groupData.getId());
 
             SqlHelper.executeStatementSilently(preparedStatement, false);

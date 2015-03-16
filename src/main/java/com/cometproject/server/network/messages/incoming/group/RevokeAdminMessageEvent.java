@@ -4,8 +4,11 @@ import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupMember;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -41,9 +44,18 @@ public class RevokeAdminMessageEvent implements IEvent {
         groupMember.setAccessLevel(GroupAccessLevel.MEMBER);
         groupMember.save();
 
+        if (!group.getData().canMembersDecorate()) {
+            Session session = NetworkManager.getInstance().getSessions().getByPlayerId(groupMember.getPlayerId());
+
+            if (session != null && session.getPlayer().getEntity() != null && session.getPlayer().getEntity().getRoom().getId() == group.getData().getRoomId()) {
+                session.send(new AccessLevelMessageComposer(0));
+                session.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);
+                session.getPlayer().getEntity().addStatus(RoomEntityStatus.CONTROLLER, "0");
+                session.getPlayer().getEntity().markNeedsUpdate();
+            }
+        }
+
         group.getMembershipComponent().getAdministrators().remove(groupMember.getPlayerId());
-
         client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getAdministrators()), 1, "", group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())));
-
     }
 }

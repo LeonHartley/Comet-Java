@@ -29,7 +29,7 @@ public class SaveTonerMessageEvent implements IEvent {
 
         item.setExtraData(stringData);
 
-        item.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(item, item.getOwner()));
+        item.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(item));
         item.saveData();
     }
 }

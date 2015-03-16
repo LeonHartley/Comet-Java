@@ -63,6 +63,6 @@ public class NextVideoMessageEvent implements IEvent {
 
         item.setAttribute("video", playlistItem.getVideoId());
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(item, client.getPlayer().getEntity().getRoom().getData().getOwnerId()));
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(item));
     }
 }

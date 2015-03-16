@@ -1,5 +1,7 @@
 package com.cometproject.server.game.rooms.types;
 
+import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.models.RoomModel;
@@ -227,6 +229,10 @@ public class Room implements Attributable {
 
     public RoomMapping getMapping() {
         return this.mapping;
+    }
+
+    public Group getGroup() {
+        return GroupManager.getInstance().get(this.getId());
     }
 
     public boolean hasRoomMute() {

@@ -32,7 +32,12 @@ public class ModifyGroupSettingsMessageEvent implements IEvent {
         }
 
         group.getData().setType(GroupType.valueOf(type));
-        group.getData().setAdminDeco(rightsType == 1);
+
+        // 0 = members, 1 = admins only.
+        group.getData().setCanMembersDecorate(rightsType == 0);
+
+
+        System.out.println(rightsType);
 
         group.getData().save();
 

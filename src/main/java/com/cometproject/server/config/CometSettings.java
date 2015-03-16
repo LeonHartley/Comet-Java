@@ -187,16 +187,24 @@ public class CometSettings {
         showActiveRoomsInAbout = Boolean.parseBoolean(config.get("comet.about.command.activeRooms"));
         showUsersOnlineInAbout = Boolean.parseBoolean(config.get("comet.about.command.usersOnline"));
 
-        floorMaxX = Integer.parseInt(config.get("comet.floor.command.max.x"));
-        floorMaxY = Integer.parseInt(config.get("comet.floor.command.max.y"));
-        floorMaxTotal = Integer.parseInt(config.get("comet.floor.command.max.total"));
+        if(config.containsKey("comet.floor.command.max.x") && config.containsKey("comet.floor.command.max.y") && config.containsKey("comet.floor.command.max.total")) {
+            floorMaxX = Integer.parseInt(config.get("comet.floor.command.max.x"));
+            floorMaxY = Integer.parseInt(config.get("comet.floor.command.max.y"));
+            floorMaxTotal = Integer.parseInt(config.get("comet.floor.command.max.total"));
+        }
 
-        maxPlayersInRoom = Integer.parseInt(config.get("comet.game.rooms.maxPlayers"));
+        if(config.containsKey("comet.game.rooms.maxPlayers")) {
+            maxPlayersInRoom = Integer.parseInt(config.get("comet.game.rooms.maxPlayers"));
+        }
 
-        roomPasswordEncryptionEnabled = Boolean.parseBoolean(config.get("comet.game.rooms.hashpasswords"));
-        roomPasswordEncryptionRounds = Integer.parseInt(config.get("comet.game.rooms.hashrounds"));
+        if(config.containsKey("comet.game.rooms.hashpasswords") && config.containsKey("comet.game.rooms.hashrounds")) {
+            roomPasswordEncryptionEnabled = Boolean.parseBoolean(config.get("comet.game.rooms.hashpasswords"));
+            roomPasswordEncryptionRounds = Integer.parseInt(config.get("comet.game.rooms.hashrounds"));
+        }
 
-        wordFilterMode = FilterMode.valueOf(config.get("comet.game.filter.mode").toUpperCase());
+        if(config.containsKey("comet.game.filter.mode")) {
+            wordFilterMode = FilterMode.valueOf(config.get("comet.game.filter.mode").toUpperCase());
+        }
 
         if (config.containsKey("config.security.use_database_ip")) {
             useDatabaseIp = Boolean.parseBoolean(config.get("config.security.use_database_ip"));

@@ -60,10 +60,10 @@ public class GroupData {
     private int colourB;
 
     /**
-     * Can administrators of the group decorate the room
+     * Can members of the group decorate the room
      * assigned to it?
      */
-    private boolean adminDeco;
+    private boolean canMembersDecorate;
 
     /**
      * Load the group data straight from the database
@@ -82,7 +82,7 @@ public class GroupData {
         this.type = GroupType.valueOf(data.getString("type").toUpperCase());
         this.colourA = data.getInt("colour1");
         this.colourB = data.getInt("colour2");
-        this.adminDeco = data.getString("admindeco").equals("1");
+        this.canMembersDecorate = data.getString("members_deco").equals("1");
     }
 
     /**
@@ -108,7 +108,7 @@ public class GroupData {
         this.type = GroupType.REGULAR;
         this.colourA = colourA;
         this.colourB = colourB;
-        this.adminDeco = false;
+        this.canMembersDecorate = false;
     }
 
     /**
@@ -237,21 +237,21 @@ public class GroupData {
     }
 
     /**
-     * Can the group administrators decorate the room?
+     * Can the group members decorate the room?
      *
-     * @return Can the group administrators decorate the room?
+     * @return Can the group members decorate the room?
      */
-    public boolean canAdminsDecorate() {
-        return adminDeco;
+    public boolean canMembersDecorate() {
+        return canMembersDecorate;
     }
 
     /**
      * Set whether or not the group administrators can decorate the room
      *
-     * @param adminDeco Can the group administrators decorate the room?
+     * @param canMembersDecorate Can the group administrators decorate the room?
      */
-    public void setAdminDeco(boolean adminDeco) {
-        this.adminDeco = adminDeco;
+    public void setCanMembersDecorate(boolean canMembersDecorate) {
+        this.canMembersDecorate = canMembersDecorate;
     }
 
     /**
