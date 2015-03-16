@@ -42,11 +42,10 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         super(id, new Position(x, y, z), room);
 
         this.itemId = itemId;
-        this.ownerId = owner;
-        this.ownerName = PlayerDao.getUsernameByPlayerId(this.ownerId);
+        this.ownerId = this.getRoom().getGroup() == null ? this.getRoom().getData().getOwnerId() : owner;
+        this.ownerName = this.getRoom().getGroup() == null ? this.getRoom().getData().getOwner() : PlayerDao.getUsernameByPlayerId(this.ownerId);
         this.rotation = rotation;
         this.extraData = data;
-
     }
 
     public void serialize(Composer msg, boolean isNew) {

@@ -192,6 +192,7 @@ public class Events {
     public static final short RemoveOwnRightsMessageEvent = 2529;//1021
     public static final short RenderRoomMessageEvent = 1810;
     public static final short ConfirmLoveLockMessageEvent = 2482;
+    public static final short ClearFavouriteGroupMessageEvent = 360;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 
