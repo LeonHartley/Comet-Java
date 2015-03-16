@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
@@ -17,9 +18,11 @@ public class PickUpItemMessageEvent implements IEvent {
         int id = msg.readInt();
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if (room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
+        if (room == null) {
             return;
         }
+
+        boolean eject = false;
 
         RoomItemFloor item = room.getItems().getFloorItem(id);
 
@@ -30,12 +33,32 @@ public class PickUpItemMessageEvent implements IEvent {
                 return;
             }
 
-            room.getItems().removeItem(wItem, client);
+            if(wItem.getOwner() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+                eject = true;
+            }
+
+            if(!eject) {
+                room.getItems().removeItem(wItem, client);
+            } else {
+                Session owner = NetworkManager.getInstance().getSessions().getByPlayerId(wItem.getOwner());
+                room.getItems().removeItem(wItem, owner);
+            }
+
             client.send(new RemoveWallItemMessageComposer(wItem.getId(), client.getPlayer().getId()));
             return;
         }
 
+        if(item.getOwner() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            eject = true;
+        }
+
         item.onPickup();
-        room.getItems().removeItem(item, client);
+
+        if(!eject) {
+            room.getItems().removeItem(item, client);
+        } else {
+            Session owner = NetworkManager.getInstance().getSessions().getByPlayerId(item.getOwner());
+            room.getItems().removeItem(item, owner);
+        }
     }
 }

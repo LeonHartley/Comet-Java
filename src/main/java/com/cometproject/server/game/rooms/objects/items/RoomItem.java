@@ -18,6 +18,7 @@ import java.util.Map;
 public abstract class RoomItem extends RoomObject implements Attributable {
     protected int itemId;
     protected int ownerId;
+    protected String ownerName;
 
     protected int rotation;
 
@@ -25,6 +26,13 @@ public abstract class RoomItem extends RoomObject implements Attributable {
 
     private LimitedEditionItem limitedEditionItem;
     private final Map<String, Object> attributes = new HashMap<>();
+
+    public RoomItem(int id, Position position, Room room) {
+        super(id, position, room);
+        this.ticksTimer = -1;
+
+        this.limitedEditionItem = LimitedEditionDao.get(this.getId());
+    }
 
     public int getItemId() {
         return this.itemId;
@@ -36,13 +44,6 @@ public abstract class RoomItem extends RoomObject implements Attributable {
 
     public int getRotation() {
         return this.rotation;
-    }
-
-    public RoomItem(int id, Position position, Room room) {
-        super(id, position, room);
-        this.ticksTimer = -1;
-
-        this.limitedEditionItem = LimitedEditionDao.get(this.getId());
     }
 
     public final boolean requiresTick() {

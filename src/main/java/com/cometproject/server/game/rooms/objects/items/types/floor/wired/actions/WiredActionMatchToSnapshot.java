@@ -91,7 +91,7 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
             }
 
             if (matchRotation)
-                this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem, this.getRoom().getData().getOwnerId()));
+                this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem));
 
             floorItem.sendUpdate();
         }

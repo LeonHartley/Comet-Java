@@ -81,7 +81,7 @@ public class WiredActionMoveRotate extends WiredActionItem {
                     if(!rotationChanged)
                         this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, newPosition, 0, 0, floorItem.getId()));
                     else
-                        this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem, this.getRoom().getData().getOwnerId()));
+                        this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem));
                 }
             }
         }

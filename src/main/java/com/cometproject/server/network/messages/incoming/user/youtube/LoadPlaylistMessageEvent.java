@@ -57,7 +57,7 @@ public class LoadPlaylistMessageEvent implements IEvent {
 
                 item.setAttribute("video", video.getVideoId());
 
-                client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(item, client.getPlayer().getEntity().getRoom().getData().getOwnerId()));
+                client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(item));
             }
         }
     }
