@@ -2,7 +2,6 @@ package com.cometproject.server.network.messages.incoming.room.settings;
 
 import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -16,8 +15,6 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
@@ -48,6 +45,10 @@ public class DeleteRoomMessageEvent implements IEvent {
         }
 
         final int roomId = room.getId();
+
+        if (GroupManager.getInstance().getGroupByRoomId(room.getId()) != null) {
+            return;
+        }
 
         List<RoomItem> itemsToRemove = new ArrayList<>();
         itemsToRemove.addAll(room.getItems().getFloorItems());
@@ -87,28 +88,28 @@ public class DeleteRoomMessageEvent implements IEvent {
             }
         }
 
-        if (GroupManager.getInstance().getGroupByRoomId(room.getId()) != null) {
-            Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
-
-            for (Integer groupMemberId : group.getMembershipComponent().getMembers().keySet()) {
-                Session groupMemberSession = NetworkManager.getInstance().getSessions().getByPlayerId(groupMemberId);
-
-                if (groupMemberSession != null && groupMemberSession.getPlayer() != null) {
-                    groupMemberSession.getPlayer().getGroups().remove(new Integer(group.getId()));
-
-                    if (groupMemberSession.getPlayer().getData().getFavouriteGroup() == group.getId()) {
-                        groupMemberSession.getPlayer().getData().setFavouriteGroup(0);
-
-                        if (groupMemberSession.getPlayer().getEntity() != null) {
-                            groupMemberSession.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));
-                            groupMemberSession.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
-                        }
-                    }
-                }
-            }
-
-            GroupManager.getInstance().removeGroup(group.getId());
-        }
+//        if (GroupManager.getInstance().getGroupByRoomId(room.getId()) != null) {
+//            Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
+//
+//            for (Integer groupMemberId : group.getMembershipComponent().getMembers().keySet()) {
+//                Session groupMemberSession = NetworkManager.getInstance().getSessions().getByPlayerId(groupMemberId);
+//
+//                if (groupMemberSession != null && groupMemberSession.getPlayer() != null) {
+//                    groupMemberSession.getPlayer().getGroups().remove(new Integer(group.getId()));
+//
+//                    if (groupMemberSession.getPlayer().getData().getFavouriteGroup() == group.getId()) {
+//                        groupMemberSession.getPlayer().getData().setFavouriteGroup(0);
+//
+//                        if (groupMemberSession.getPlayer().getEntity() != null) {
+//                            groupMemberSession.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));
+//                            groupMemberSession.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
+//                        }
+//                    }
+//                }
+//            }
+//
+//            GroupManager.getInstance().removeGroup(group.getId());
+//        }
 
         if (client.getPlayer().getSettings().getHomeRoom() == roomId) {
             client.getPlayer().getSettings().setHomeRoom(0);

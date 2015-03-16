@@ -2,12 +2,79 @@ package com.cometproject.server.game.commands.user.group;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.game.rooms.objects.items.RoomItem;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
+import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.google.common.collect.Lists;
+
+import java.util.List;
 
 public class DeleteGroupCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
+        if (client.getPlayer().getId() != client.getPlayer().getEntity().getRoom().getData().getOwnerId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            client.send(new AlertMessageComposer(Locale.getOrDefault("command.deletegroup.permission", "You don't have permission to delete this group!")));
+            return;
+        }
 
+        final Room room = client.getPlayer().getEntity().getRoom();
+
+        if (GroupManager.getInstance().getGroupByRoomId(room.getId()) != null) {
+            Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
+
+            for (Integer groupMemberId : group.getMembershipComponent().getMembers().keySet()) {
+                Session groupMemberSession = NetworkManager.getInstance().getSessions().getByPlayerId(groupMemberId);
+
+                List<RoomItem> floorItemsOwnedByPlayer = Lists.newArrayList();
+
+                if(groupMemberId != group.getData().getOwnerId()) {
+                    for (RoomItemFloor floorItem : room.getItems().getFloorItems()) {
+                        if (floorItem.getOwner() == groupMemberId) {
+                            floorItemsOwnedByPlayer.add(floorItem);
+                        }
+                    }
+
+                    for (RoomItemWall wallItem : room.getItems().getWallItems()) {
+                        if (wallItem.getOwner() == groupMemberId) {
+                            floorItemsOwnedByPlayer.add(wallItem);
+                        }
+                    }
+                }
+
+                if (groupMemberSession != null && groupMemberSession.getPlayer() != null) {
+                    groupMemberSession.getPlayer().getGroups().remove(new Integer(group.getId()));
+
+                    if (groupMemberSession.getPlayer().getData().getFavouriteGroup() == group.getId()) {
+                        groupMemberSession.getPlayer().getData().setFavouriteGroup(0);
+                    }
+
+                    for (RoomItem roomItem : floorItemsOwnedByPlayer) {
+                        if (roomItem instanceof RoomItemFloor)
+                            room.getItems().removeItem(((RoomItemFloor) roomItem), groupMemberSession);
+                        else if (roomItem instanceof RoomItemWall)
+                            room.getItems().removeItem(((RoomItemWall) roomItem), groupMemberSession);
+                    }
+                } else {
+                    for (RoomItem roomItem : floorItemsOwnedByPlayer) {
+                        RoomItemDao.removeItemFromRoom(roomItem.getId(), groupMemberId);
+                    }
+                }
+
+                floorItemsOwnedByPlayer.clear();
+            }
+
+            GroupManager.getInstance().removeGroup(group.getId());
+            room.setIdleNow();
+        } else {
+            client.send(new AlertMessageComposer(Locale.getOrDefault("command.deletegroup.nogroup", "This room doesn't have a group to delete!")));
+        }
     }
 
     @Override
