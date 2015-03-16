@@ -27,6 +27,7 @@ import com.cometproject.server.game.commands.staff.rewards.mass.MassCoinsCommand
 import com.cometproject.server.game.commands.staff.rewards.mass.MassDucketsCommand;
 import com.cometproject.server.game.commands.staff.rewards.mass.MassPointsCommand;
 import com.cometproject.server.game.commands.user.*;
+import com.cometproject.server.game.commands.user.group.DeleteGroupCommand;
 import com.cometproject.server.game.commands.user.room.PickAllCommand;
 import com.cometproject.server.game.commands.user.room.SetMaxCommand;
 import com.cometproject.server.game.commands.user.room.SetSpeedCommand;
@@ -101,6 +102,7 @@ public class CommandManager implements Initializable {
         this.commands.put(Locale.get("command.home.name"), new HomeCommand());
         this.commands.put(Locale.get("command.setmax.name"), new SetMaxCommand());
         this.commands.put(Locale.get("command.position.name"), new PositionCommand());
+        this.commands.put(Locale.get("command.deletegroup.name"), new DeleteGroupCommand());
 
         // VIP commands
         this.commands.put(Locale.get("command.push.name"), new PushCommand());

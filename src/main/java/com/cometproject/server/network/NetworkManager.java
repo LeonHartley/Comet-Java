@@ -88,7 +88,12 @@ public class NetworkManager {
 
     private void bind(ServerBootstrap bootstrap, String ip, int port) {
         try {
-            bootstrap.bind(new InetSocketAddress(ip, port));
+            bootstrap.bind(new InetSocketAddress(ip, port)).addListener(objectFuture -> {
+                if(!objectFuture.isSuccess()) {
+                    Comet.exit("Failed to initialize sockets on address: " + ip + ":" + port);
+                }
+            });
+
             log.info("CometServer listening on port: " + port);
         } catch (Exception e) {
             Comet.exit("Failed to initialize sockets on address: " + ip + ":" + port);
