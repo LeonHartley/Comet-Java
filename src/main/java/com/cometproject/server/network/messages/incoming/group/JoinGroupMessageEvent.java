@@ -5,8 +5,10 @@ import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.groups.types.GroupType;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
@@ -24,7 +26,6 @@ public class JoinGroupMessageEvent implements IEvent {
         Group group = GroupManager.getInstance().get(groupId);
 
         if (group == null || group.getData().getType() == GroupType.PRIVATE) {
-            // fuck off haxor
             return;
         }
 
@@ -42,6 +43,14 @@ public class JoinGroupMessageEvent implements IEvent {
 
             group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
             client.send(group.composeInformation(true, client.getPlayer().getId()));
+
+            if(client.getPlayer().getEntity() != null && group.getData().canMembersDecorate()) {
+                client.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);
+                client.getPlayer().getEntity().addStatus(RoomEntityStatus.CONTROLLER, "1");
+
+                client.getPlayer().getEntity().markNeedsUpdate();
+                client.send(new AccessLevelMessageComposer(1));
+            }
         } else {
             group.getMembershipComponent().createRequest(client.getPlayer().getId());
             client.send(group.composeInformation(true, client.getPlayer().getId()));

@@ -49,7 +49,7 @@ public class NetworkManager {
         System.setProperty("io.netty.leakDetectionLevel", "disabled");
         ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED);
 
-//        EventLoopGroup acceptGroup;
+        EventLoopGroup acceptGroup;
         EventLoopGroup ioGroup;
 
         final boolean isEpollAvailable = Epoll.isAvailable();
@@ -57,16 +57,16 @@ public class NetworkManager {
 
         if(isEpollAvailable) {
             log.info("Epoll is available");
-//            acceptGroup = new EpollEventLoopGroup(threadCount);//new ThreadFactoryBuilder().setNameFormat("Netty Epoll Accept Thread #%1$d").build());
+            acceptGroup = new EpollEventLoopGroup(threadCount);//new ThreadFactoryBuilder().setNameFormat("Netty Epoll Accept Thread #%1$d").build());
             ioGroup = new EpollEventLoopGroup(threadCount);//, new ThreadFactoryBuilder().setNameFormat("Netty Epoll IO Thread #%1$d").build());
         } else {
             log.info("Epoll is not available");
-//            acceptGroup = new NioEventLoopGroup(threadCount);//, new ThreadFactoryBuilder().setNameFormat("Netty NIO Accept Thread #%1$d").build());
+            acceptGroup = new NioEventLoopGroup(threadCount);//, new ThreadFactoryBuilder().setNameFormat("Netty NIO Accept Thread #%1$d").build());
             ioGroup = new NioEventLoopGroup(threadCount);//, new ThreadFactoryBuilder().setNameFormat("Netty NIO IO Thread #%1$d").build());
         }
 
         ServerBootstrap bootstrap = new ServerBootstrap()
-                .group(ioGroup)
+                .group(acceptGroup, ioGroup)
                 .channel(isEpollAvailable ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer(threadCount))
                 .option(ChannelOption.SO_BACKLOG, 5000)

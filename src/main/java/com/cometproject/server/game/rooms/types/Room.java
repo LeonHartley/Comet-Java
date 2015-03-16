@@ -232,7 +232,7 @@ public class Room implements Attributable {
     }
 
     public Group getGroup() {
-        return GroupManager.getInstance().get(this.getId());
+        return GroupManager.getInstance().getGroupByRoomId(this.getId());
     }
 
     public boolean hasRoomMute() {

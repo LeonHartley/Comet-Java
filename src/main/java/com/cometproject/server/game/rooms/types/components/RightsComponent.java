@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.RoomBan;
@@ -19,11 +18,8 @@ public class RightsComponent {
     private FastTable<RoomBan> bannedPlayers;
     private FastTable<RoomMute> mutedPlayers;
 
-    private Group group;
-
     public RightsComponent(Room room) {
         this.room = room;
-        this.group = GroupManager.getInstance().get(room.getId());
 
         try {
             this.rights = RightsDao.getRightsByRoomId(room.getId());
@@ -42,13 +38,14 @@ public class RightsComponent {
     }
 
     public boolean hasRights(int playerId) {
+        final Group group = this.getRoom().getGroup();
 
-        if(this.group != null) {
-            if(this.group.getData().canMembersDecorate() && this.group.getMembershipComponent().getMembers().containsKey(playerId)) {
+        if(group != null) {
+            if(group.getData().canMembersDecorate() && group.getMembershipComponent().getMembers().containsKey(playerId)) {
                 return true;
             }
 
-            if(this.group.getMembershipComponent().getAdministrators().contains(playerId)) {
+            if(group.getMembershipComponent().getAdministrators().contains(playerId)) {
                 return true;
             }
         }

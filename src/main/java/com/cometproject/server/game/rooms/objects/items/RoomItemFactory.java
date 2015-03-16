@@ -181,8 +181,7 @@ public class RoomItemFactory {
                 floorItem = itemDefinitionMap.get(def.getInteraction()).getConstructor(int.class, int.class, Room.class, int.class, int.class, int.class, double.class, int.class, String.class)
                         .newInstance(id, baseId, room, ownerId, x, y, height, rot, data);
             } catch (Exception e) {
-                log.warn("Failed to create instance for item: " + id + ", type: " + def.getInteraction());
-                e.printStackTrace();
+                log.warn("Failed to create instance for item: " + id + ", type: " + def.getInteraction(), e);
             }
         }
 
