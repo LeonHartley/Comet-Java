@@ -117,6 +117,8 @@ public class RevokeMembershipMessageEvent implements IEvent {
 
             client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getMembersAsList()), 0, "", group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())));
         }
+
+        itemsToRemove.clear();
     }
 
     private void ejectItems(List<RoomItem> items, Session player) {
