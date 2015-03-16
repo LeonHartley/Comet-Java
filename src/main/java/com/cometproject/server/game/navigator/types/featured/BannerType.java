@@ -2,7 +2,7 @@ package com.cometproject.server.game.navigator.types.featured;
 
 public enum BannerType {
     BIG,
-    SMALL, Locale, Locale;
+    SMALL;
 
     public static BannerType get(String t) {
         if (t.equals("big")) {
