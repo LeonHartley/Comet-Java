@@ -32,10 +32,6 @@ public class ModToolRoomActionMessageEvent implements IEvent {
 
         if (roomData == null) return;
 
-        if (lockDoor) {
-            roomData.setAccess("doorbell");
-        }
-
         if (changeRoomName) {
             roomData.setName(Locale.getOrDefault("game.room.inappropriate", INAPPROPRIATE_ROOM_NAME));
         }
@@ -44,6 +40,11 @@ public class ModToolRoomActionMessageEvent implements IEvent {
             Room room = RoomManager.getInstance().get(roomData.getId());
 
             if (room == null) return;
+
+            if(lockDoor)
+                room.getData().setAccess("doorbell");
+
+            room.getData().save();
 
             if (kickAll) {
                 for (PlayerEntity entity : room.getEntities().getPlayerEntities()) {
@@ -55,6 +56,10 @@ public class ModToolRoomActionMessageEvent implements IEvent {
 
             if (lockDoor || changeRoomName && !kickAll) {
                 room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));
+            }
+        } else {
+            if (lockDoor) {
+                roomData.setAccess("doorbell");
             }
         }
 
