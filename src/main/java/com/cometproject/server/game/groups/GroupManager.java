@@ -5,7 +5,6 @@ import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.utilities.Initializable;
-import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 import org.apache.solr.util.ConcurrentLRUCache;
 
@@ -216,5 +215,21 @@ public class GroupManager implements Initializable {
      */
     public GroupItemManager getGroupItems() {
         return groupItems;
+    }
+
+    /**
+     * Gets the group instance cache
+     * @return Group cache
+     */
+    public ConcurrentLRUCache<Integer, Group> getGroupInstances() {
+        return groupInstances;
+    }
+
+    /**
+     * Gets the group data cache
+     * @return GroupData cache
+     */
+    public ConcurrentLRUCache<Integer, GroupData> getGroupData() {
+        return groupData;
     }
 }

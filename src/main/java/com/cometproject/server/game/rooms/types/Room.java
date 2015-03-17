@@ -40,6 +40,7 @@ public class Room implements Attributable {
     private PetComponent pets;
     private GameComponent game;
     private EntityComponent entities;
+    private Group group;
 
     private Map<String, Object> attributes;
     private Set<Integer> ratings;
@@ -86,6 +87,9 @@ public class Room implements Attributable {
         this.entities = new EntityComponent(this);
         this.bots = new BotComponent(this);
         this.pets = new PetComponent(this);
+
+        // Cache the group.
+        this.group = GroupManager.getInstance().get(this.getId());
 
         this.mapping.init();
 
@@ -232,7 +236,14 @@ public class Room implements Attributable {
     }
 
     public Group getGroup() {
-        return GroupManager.getInstance().getGroupByRoomId(this.getId());
+        if(this.group != null)
+            return this.group;
+
+        return null;
+    }
+
+    public void setGroup(final Group group) {
+        this.group = group;
     }
 
     public boolean hasRoomMute() {
