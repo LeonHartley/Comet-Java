@@ -103,10 +103,12 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         } else {
             this.lastTileFail = true;
 
-            if(this.playerEntity.getWalkingGoal().equals(nextPosition)) {
-                this.isRolling = false;
-                this.rollStage = -1;
-                return;
+            if(this.playerEntity != null) {
+                if (this.playerEntity.getWalkingGoal().equals(nextPosition)) {
+                    this.isRolling = false;
+                    this.rollStage = -1;
+                    return;
+                }
             }
 
             nextPosition = this.getNextPosition(this.getPosition(), true);

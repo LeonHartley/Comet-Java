@@ -83,6 +83,7 @@ public class InventoryItem {
 
             if (groupData == null) {
                 msg.writeInt(0);
+                msg.writeInt(0);
             } else {
                 msg.writeInt(2);
                 msg.writeInt(5);
