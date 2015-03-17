@@ -26,6 +26,10 @@ public class PickUpItemMessageEvent implements IEvent {
 
         RoomItemFloor item = room.getItems().getFloorItem(id);
 
+        if(!room.getRights().hasRights(client.getPlayer().getId())) {
+            return;
+        }
+
         if (item == null) {
             RoomItemWall wItem = room.getItems().getWallItem(id);
 
@@ -34,6 +38,9 @@ public class PickUpItemMessageEvent implements IEvent {
             }
 
             if(wItem.getOwner() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+                if(wItem.getRoom().getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))
+                    return;
+
                 eject = true;
             }
 
@@ -49,6 +56,9 @@ public class PickUpItemMessageEvent implements IEvent {
         }
 
         if(item.getOwner() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            if(item.getRoom().getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))
+                return;
+
             eject = true;
         }
 
