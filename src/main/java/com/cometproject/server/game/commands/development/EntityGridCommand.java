@@ -19,4 +19,9 @@ public class EntityGridCommand extends ChatCommand {
     public String getDescription() {
         return "";
     }
+
+    @Override
+    public boolean isHidden() {
+        return true;
+    }
 }

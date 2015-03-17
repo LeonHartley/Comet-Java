@@ -72,6 +72,7 @@ public class BuyGroupMessageEvent implements IEvent {
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom().getId() != roomId) {
             client.send(new RoomForwardMessageComposer(roomId));
         } else {
+            client.getPlayer().getEntity().getRoom().setGroup(group);
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new GroupBadgesMessageComposer(group.getId(), group.getData().getBadge()));
 
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));

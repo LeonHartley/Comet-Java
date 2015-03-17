@@ -19,7 +19,6 @@ public abstract class ChatCommand {
     }
 
     public static void sendNotif(String msg, Session c) {
-//        c.send(WhisperMessageComposer.compose(c.getPlayer().getEntity().getId(), msg));
         c.send(new RoomNotificationMessageComposer("generic", msg));
     }
 
@@ -46,5 +45,9 @@ public abstract class ChatCommand {
         }
 
         return mergedParams.toString();
+    }
+
+    public boolean isHidden() {
+        return false;
     }
 }

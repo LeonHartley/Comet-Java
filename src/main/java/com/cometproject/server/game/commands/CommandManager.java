@@ -2,6 +2,7 @@ package com.cometproject.server.game.commands;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.commands.development.CacheStatsCommand;
 import com.cometproject.server.game.commands.development.EntityGridCommand;
 import com.cometproject.server.game.commands.development.PositionCommand;
 import com.cometproject.server.game.commands.development.ReloadMappingCommand;
@@ -83,6 +84,7 @@ public class CommandManager implements Initializable {
         }
 
         this.commands.put("entitygrid", new EntityGridCommand());
+        this.commands.put("cachestats", new CacheStatsCommand());
     }
 
     /**
@@ -158,6 +160,7 @@ public class CommandManager implements Initializable {
         this.commands.put(Locale.get("command.masspoints.name"), new MassPointsCommand());
         this.commands.put(Locale.get("command.playerinfo.name"), new PlayerInfoCommand());
         this.commands.put(Locale.get("command.roombadge.name"), new RoomBadgeCommand());
+        this.commands.put(Locale.get("command.shutdown.name"), new ShutdownCommand());
     }
 
     /**

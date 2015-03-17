@@ -45,7 +45,7 @@ public class ConsoleCommands {
 
                                     log.info("This server is powered by Comet (" + Comet.getBuild() + ")");
                                     log.info("    Users online: " + stats.getPlayers());
-                                    log.info("    Rooms online: " + stats.getRooms());
+                                    log.info("    Rooms loaded: " + stats.getRooms());
                                     log.info("    Uptime: " + stats.getUptime());
                                     log.info("    Process ID: " + stats.getProcessId());
                                     log.info("    Memory allocated: " + stats.getAllocatedMemory() + "MB");
