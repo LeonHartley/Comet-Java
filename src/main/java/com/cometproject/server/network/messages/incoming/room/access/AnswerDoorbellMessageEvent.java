@@ -48,6 +48,10 @@ public class AnswerDoorbellMessageEvent implements IEvent {
             return;
         }
 
+        if(!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            return;
+        }
+
         if (answered) {
             requestingClient.getPlayer().getEntity().setDoorbellAnswered(true);
             requestingClient.send(new DoorbellAcceptedComposer());

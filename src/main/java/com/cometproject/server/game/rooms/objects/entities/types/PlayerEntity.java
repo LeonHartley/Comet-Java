@@ -123,8 +123,9 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             }
         }
 
-        player.setTeleportId(0);
+        this.getPlayer().setTeleportId(0);
 
+        this.getRoom().getEntities().increasePlayerCount();
         this.getRoom().getEntities().addEntity(this);
         this.finalizeJoinRoom();
     }
