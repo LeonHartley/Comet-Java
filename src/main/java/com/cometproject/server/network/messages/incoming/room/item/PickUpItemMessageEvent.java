@@ -26,7 +26,7 @@ public class PickUpItemMessageEvent implements IEvent {
 
         RoomItemFloor item = room.getItems().getFloorItem(id);
 
-        if(!room.getRights().hasRights(client.getPlayer().getId())) {
+        if(!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;
         }
 
