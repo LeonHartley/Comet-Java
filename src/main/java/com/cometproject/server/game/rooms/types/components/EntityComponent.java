@@ -61,10 +61,12 @@ public class EntityComponent {
         return false;
     }
 
+    public void increasePlayerCount() {
+        this.playerCount.incrementAndGet();
+    }
+
     public PlayerEntity createEntity(Player player) {
         Position startPosition = new Position(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY(), this.getRoom().getModel().getDoorZ());
-
-        this.playerCount.incrementAndGet();
 
         if (player.isTeleporting()) {
             RoomItemFloor item = this.room.getItems().getFloorItem(player.getTeleportId());
@@ -145,7 +147,7 @@ public class EntityComponent {
                 if (playerEntity.getPlayer() == null)
                     continue;
 
-                if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId())) {
+                if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()) && !playerEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
                     continue;
                 }
 
