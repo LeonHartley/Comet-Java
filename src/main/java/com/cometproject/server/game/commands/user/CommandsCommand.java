@@ -18,8 +18,17 @@ public class CommandsCommand extends ChatCommand {
         for (Map.Entry<String, ChatCommand> command : CommandManager.getInstance().getChatCommands().entrySet()) {
             if(command.getValue().isHidden()) continue;
 
-            if (client.getPlayer().getPermissions().hasCommand(command.getValue().getPermission()))
-                list.append(":" + command.getKey() + " - " + command.getValue().getDescription() + "\n");
+            if (client.getPlayer().getPermissions().hasCommand(command.getValue().getPermission())) {
+                if(command.getKey().contains(",")) {
+                    final String[] keys = command.getKey().split(",");
+
+                    for(String key : keys) {
+                        list.append(":" + key + " - " + command.getValue().getDescription() + "\n");
+                    }
+                } else {
+                    list.append(":" + command.getKey() + " - " + command.getValue().getDescription() + "\n");
+                }
+            }
         }
 
         client.send(new MotdNotificationComposer(Locale.get("command.commands.title") + " - Comet " + Comet.getBuild() + "\n================================================\n" + list.toString()));

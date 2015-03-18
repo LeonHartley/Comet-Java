@@ -16,6 +16,7 @@ import com.cometproject.server.game.commands.staff.alerts.*;
 import com.cometproject.server.game.commands.staff.banning.BanCommand;
 import com.cometproject.server.game.commands.staff.banning.IpBanCommand;
 import com.cometproject.server.game.commands.staff.banning.MachineBanCommand;
+import com.cometproject.server.game.commands.staff.fun.RollCommand;
 import com.cometproject.server.game.commands.staff.muting.MuteCommand;
 import com.cometproject.server.game.commands.staff.muting.RoomMuteCommand;
 import com.cometproject.server.game.commands.staff.muting.UnmuteCommand;
@@ -33,9 +34,11 @@ import com.cometproject.server.game.commands.vip.*;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.Initializable;
+import com.google.common.collect.Lists;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -102,6 +105,7 @@ public class CommandManager implements Initializable {
         this.commands.put(Locale.get("command.setmax.name"), new SetMaxCommand());
         this.commands.put(Locale.get("command.position.name"), new PositionCommand());
         this.commands.put(Locale.get("command.deletegroup.name"), new DeleteGroupCommand());
+        this.commands.put("screenshot", new ScreenshotCommand());
 
         // VIP commands
         this.commands.put(Locale.get("command.push.name"), new PushCommand());
@@ -116,6 +120,7 @@ public class CommandManager implements Initializable {
         this.commands.put(Locale.get("command.superpull.name"), new SuperPullCommand());
         this.commands.put(Locale.get("command.redeemcredits.name"), new RedeemCreditsCommand());
         this.commands.put(Locale.get("command.handitem.name"), new HandItemCommand());
+        this.commands.put(Locale.get("command.togglediagonal.name"), new ToggleDiagonalCommand());
 
         // Gimmick commands
         this.commands.put(Locale.get("command.slap.name"), new SlapCommand());
@@ -161,6 +166,10 @@ public class CommandManager implements Initializable {
         this.commands.put(Locale.get("command.playerinfo.name"), new PlayerInfoCommand());
         this.commands.put(Locale.get("command.roombadge.name"), new RoomBadgeCommand());
         this.commands.put(Locale.get("command.shutdown.name"), new ShutdownCommand());
+        this.commands.put(Locale.get("command.summon.name"), new SummonCommand());
+
+        // Fun
+        this.commands.put(Locale.get("command.roll.name"), new RollCommand());
     }
 
     /**
@@ -169,12 +178,24 @@ public class CommandManager implements Initializable {
      * @param message The requested command alias
      * @return The result of the check
      */
-    public boolean isCommand(String message) {;
+    public boolean isCommand(String message) {
         if(message.length() <= 1) return false;
 
         String executor = message.split(" ")[0];
 
-        return executor.equals(Locale.get("command.commands.name")) || commands.containsKey(executor);
+        boolean isCommand = executor.equals(Locale.get("command.commands.name")) || commands.containsKey(executor);
+
+        if(!isCommand) {
+            for(String keys : this.commands.keySet()) {
+                final List<String> keyList = Lists.newArrayList(keys.split(","));
+
+                if(keyList.contains(executor)) {
+                    return true;
+                }
+            }
+        }
+
+        return isCommand;
     }
 
     /**
@@ -186,10 +207,18 @@ public class CommandManager implements Initializable {
      */
     public boolean parse(String message, Session client) throws Exception {
         String executor = message.split(" ")[0].toLowerCase();
-        String commandName = this.commands.get(executor).getPermission();
+
+        final ChatCommand chatCommand = this.get(executor);
+
+        if(chatCommand == null) {
+            log.debug(client.getPlayer().getData().getUsername() + " executed command: :" + message);
+            return false;
+        }
+
+        String commandName = chatCommand.getPermission();
 
         if (client.getPlayer().getPermissions().hasCommand(commandName)) {
-            this.commands.get(executor).execute(client, getParams(message.split(" ")));
+            chatCommand.execute(client, getParams(message.split(" ")));
             log.debug(client.getPlayer().getData().getUsername() + " executed command: :" + message);
             return true;
         } else {
@@ -221,6 +250,21 @@ public class CommandManager implements Initializable {
         }
 
         return a;
+    }
+
+    private ChatCommand get(final String executor) {
+        if(this.commands.containsKey(executor))
+            return this.commands.get(executor);
+
+            for(String keys : this.commands.keySet()) {
+                final List<String> keyList = Lists.newArrayList(keys.split(","));
+
+                if(keyList.contains(executor)) {
+                    return this.commands.get(keys);
+                }
+            }
+
+        return null;
     }
 
     public NotificationManager getNotifications() {

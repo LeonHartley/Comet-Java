@@ -63,6 +63,8 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     private Map<RoomEntityStatus, String> statuses = new FastMap<>();
 
+    private boolean disableDiagonal;
+
     public GenericEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, roomInstance);
 
@@ -153,7 +155,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.setWalkingGoal(x, y);
 
         // Create a walking path
-        List<Square> path = Pathfinder.getInstance().makePath(this, new Position(x, y));
+        List<Square> path = Pathfinder.getInstance().makePath(this, new Position(x, y), this.getRoom().hasAttribute("disableDiagonal") ? (byte) 0 : (byte) 1);
 
         // Check returned path to see if it calculated one
         if (path == null || path.size() == 0) {
@@ -579,5 +581,13 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     public void setRoomMuted(boolean isRoomMuted) {
         this.isRoomMuted = isRoomMuted;
+    }
+
+    public void setDisableDiagonal(boolean disableDiagonal) {
+        this.disableDiagonal = disableDiagonal;
+    }
+
+    public boolean isDisableDiagonal() {
+        return disableDiagonal;
     }
 }
