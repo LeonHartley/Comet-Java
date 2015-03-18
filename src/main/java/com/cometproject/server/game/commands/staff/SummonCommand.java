@@ -27,6 +27,8 @@ public class SummonCommand extends ChatCommand {
         if(session == null) return;
 
         session.send(new RoomForwardMessageComposer(client.getPlayer().getEntity().getRoom().getId()));
+
+        session.getPlayer().bypassRoomAuth(true);
     }
 
     @Override

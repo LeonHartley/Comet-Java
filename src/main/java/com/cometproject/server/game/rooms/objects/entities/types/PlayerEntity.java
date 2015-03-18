@@ -66,7 +66,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         // create reference to the PlayerDa
         this.playerData = player.getData();
 
-        if (this.player.isTeleporting())
+        if (this.getPlayer().isTeleporting())
             this.setOverriden(true);
 
         if (LogManager.ENABLED)
@@ -76,27 +76,27 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     @Override
     public void joinRoom(Room room, String password) {
         if (this.getRoom() == null) {
-            this.player.getSession().send(new HotelViewMessageComposer());
+            this.getPlayer().getSession().send(new HotelViewMessageComposer());
             return;
         }
 
         // Room full, no slot available
         if (this.getPlayerId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() &&
-                !this.player.getPermissions().hasPermission("room_enter_full")) {
-            this.player.getSession().send(new RoomConnectionErrorMessageComposer(1, ""));
-            this.player.getSession().send(new HotelViewMessageComposer());
+                !this.getPlayer().getPermissions().hasPermission("room_enter_full")) {
+            this.getPlayer().getSession().send(new RoomConnectionErrorMessageComposer(1, ""));
+            this.getPlayer().getSession().send(new HotelViewMessageComposer());
             return;
         }
 
         // Room bans
-        if (this.getRoom().getRights().hasBan(this.getPlayerId()) && !this.player.getPermissions().hasPermission("room_unkickable")) {
-            this.player.getSession().send(new RoomConnectionErrorMessageComposer(4, ""));
+        if (this.getRoom().getRights().hasBan(this.getPlayerId()) && !this.getPlayer().getPermissions().hasPermission("room_unkickable")) {
+            this.getPlayer().getSession().send(new RoomConnectionErrorMessageComposer(4, ""));
             return;
         }
 
         boolean isOwner = (this.getRoom().getData().getOwnerId() == this.getPlayerId());
 
-        if ((!isOwner && !this.player.getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered()) && !this.getPlayer().isTeleporting()) {
+        if (!this.getPlayer().isBypassingRoomAuth() && (!isOwner && !this.getPlayer().getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered()) && !this.getPlayer().isTeleporting()) {
             if (this.getRoom().getData().getAccess().equals("password")) {
                 boolean matched;
 
@@ -107,22 +107,23 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 }
 
                 if (!matched) {
-                    this.player.getSession().send(new RoomErrorMessageComposer(-100002));
-                    this.player.getSession().send(new HotelViewMessageComposer());
+                    this.getPlayer().getSession().send(new RoomErrorMessageComposer(-100002));
+                    this.getPlayer().getSession().send(new HotelViewMessageComposer());
                     return;
                 }
             } else if (this.getRoom().getData().getAccess().equals("doorbell")) {
                 if (this.getRoom().getEntities().playerCount() < 1) {
-                    this.player.getSession().send(new DoorbellNoAnswerComposer());
+                    this.getPlayer().getSession().send(new DoorbellNoAnswerComposer());
                     return;
                 } else {
                     this.getRoom().getEntities().broadcastMessage(new DoorbellRequestComposer(this.getUsername()), true);
-                    this.player.getSession().send(new DoorbellRequestComposer(""));
+                    this.getPlayer().getSession().send(new DoorbellRequestComposer(""));
                     return;
                 }
             }
         }
 
+        this.getPlayer().bypassRoomAuth(false);
         this.getPlayer().setTeleportId(0);
 
         this.getRoom().getEntities().increasePlayerCount();
@@ -139,12 +140,12 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 }
             }
 
-            this.player.getSession().send(new PapersMessageComposer(decoration.getKey(), decoration.getValue()));
+            this.getPlayer().getSession().send(new PapersMessageComposer(decoration.getKey(), decoration.getValue()));
         }
 
         int accessLevel = 0;
 
-        if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.player.getPermissions().hasPermission("room_full_control")) {
+        if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.getPlayer().getPermissions().hasPermission("room_full_control")) {
             this.addStatus(RoomEntityStatus.CONTROLLER, "4");
             accessLevel = 4;
         } else if (this.getRoom().getRights().hasRights(this.getPlayerId())) {
@@ -152,21 +153,21 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             accessLevel = 1;
         }
 
-        this.player.getSession().send(new AccessLevelMessageComposer(accessLevel));
+        this.getPlayer().getSession().send(new AccessLevelMessageComposer(accessLevel));
 
-        if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.player.getPermissions().hasPermission("room_full_control")) {
-            this.player.getSession().send(new YouAreControllerMessageComposer());
+        if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            this.getPlayer().getSession().send(new YouAreControllerMessageComposer());
         }
 
-        this.player.getSession().send(new RoomRatingMessageComposer(this.getRoom().getData().getScore(), this.canRateRoom()));
+        this.getPlayer().getSession().send(new RoomRatingMessageComposer(this.getRoom().getData().getScore(), this.canRateRoom()));
 
-        InitializeRoomMessageEvent.heightmapMessageEvent.handle(this.player.getSession(), null);
-        InitializeRoomMessageEvent.addUserToRoomMessageEvent.handle(this.player.getSession(), null);
+        InitializeRoomMessageEvent.heightmapMessageEvent.handle(this.getPlayer().getSession(), null);
+        InitializeRoomMessageEvent.addUserToRoomMessageEvent.handle(this.getPlayer().getSession(), null);
 
         if (RoomManager.getInstance().hasPromotion(this.getRoom().getId())) {
-            this.player.getSession().send(new RoomPromotionMessageComposer(this.getRoom().getData(), this.getRoom().getPromotion()));
+            this.getPlayer().getSession().send(new RoomPromotionMessageComposer(this.getRoom().getData(), this.getRoom().getPromotion()));
         } else {
-            this.player.getSession().send(new RoomPromotionMessageComposer(null, null));
+            this.getPlayer().getSession().send(new RoomPromotionMessageComposer(null, null));
         }
 
         this.isFinalized = true;
@@ -251,18 +252,18 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     public boolean onChat(String message) {
         long time = System.currentTimeMillis();
 
-        if (!this.player.getPermissions().hasPermission("bypass_flood")) {
-            if (time - this.player.getRoomLastMessageTime() < 750) {
-                this.player.setRoomFloodFlag(this.player.getRoomFloodFlag() + 1);
+        if (!this.getPlayer().getPermissions().hasPermission("bypass_flood")) {
+            if (time - this.getPlayer().getRoomLastMessageTime() < 750) {
+                this.getPlayer().setRoomFloodFlag(this.getPlayer().getRoomFloodFlag() + 1);
 
-                if (this.player.getRoomFloodFlag() >= 5) {
-                    this.player.setRoomFloodTime(30);
-                    this.player.setRoomFloodFlag(0);
+                if (this.getPlayer().getRoomFloodFlag() >= 5) {
+                    this.getPlayer().setRoomFloodTime(30);
+                    this.getPlayer().setRoomFloodFlag(0);
 
-                    this.player.getSession().send(new FloodFilterMessageComposer(player.getRoomFloodTime()));
+                    this.getPlayer().getSession().send(new FloodFilterMessageComposer(player.getRoomFloodTime()));
                 }
             } else {
-                this.player.setRoomFloodFlag(0);
+                this.getPlayer().setRoomFloodFlag(0);
             }
 
             if (player.getRoomFloodTime() >= 1) {
@@ -281,9 +282,9 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 String cmd = message.substring(1);
 
                 if (CommandManager.getInstance().isCommand(cmd)) {
-                    if (CommandManager.getInstance().parse(cmd, this.player.getSession()))
+                    if (CommandManager.getInstance().parse(cmd, this.getPlayer().getSession()))
                         return false;
-                } else if (CommandManager.getInstance().getNotifications().isNotificationExecutor(cmd, this.player.getData().getRank())) {
+                } else if (CommandManager.getInstance().getNotifications().isNotificationExecutor(cmd, this.getPlayer().getData().getRank())) {
                     CommandManager.getInstance().getNotifications().execute(this.player, cmd);
                 }
             }
@@ -413,20 +414,20 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         msg.writeString(this.getGender().toLowerCase());
 
-        if (this.player.getData().getFavouriteGroup() == 0) {
+        if (this.getPlayer().getData().getFavouriteGroup() == 0) {
             msg.writeInt(-1);
             msg.writeInt(-1);
             msg.writeInt(0);
         } else {
-            Group group = GroupManager.getInstance().get(this.player.getData().getFavouriteGroup());
+            Group group = GroupManager.getInstance().get(this.getPlayer().getData().getFavouriteGroup());
 
             if (group == null) {
                 msg.writeInt(-1);
                 msg.writeInt(-1);
                 msg.writeInt(0);
 
-                this.player.getData().setFavouriteGroup(0);
-                this.player.getData().save();
+                this.getPlayer().getData().setFavouriteGroup(0);
+                this.getPlayer().getData().save();
             } else {
                 msg.writeInt(group.getId());
                 msg.writeInt(2);

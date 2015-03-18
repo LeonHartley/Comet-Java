@@ -16,6 +16,7 @@ import com.cometproject.server.game.commands.staff.alerts.*;
 import com.cometproject.server.game.commands.staff.banning.BanCommand;
 import com.cometproject.server.game.commands.staff.banning.IpBanCommand;
 import com.cometproject.server.game.commands.staff.banning.MachineBanCommand;
+import com.cometproject.server.game.commands.staff.cache.ReloadGroupCommand;
 import com.cometproject.server.game.commands.staff.fun.RollCommand;
 import com.cometproject.server.game.commands.staff.muting.MuteCommand;
 import com.cometproject.server.game.commands.staff.muting.RoomMuteCommand;
@@ -168,6 +169,9 @@ public class CommandManager implements Initializable {
         this.commands.put(Locale.get("command.shutdown.name"), new ShutdownCommand());
         this.commands.put(Locale.get("command.summon.name"), new SummonCommand());
         this.commands.put(Locale.get("command.hotelalertlink.name"), new HotelAlertLinkCommand());
+
+        // Cache
+        this.commands.put(Locale.get("command.reloadgroup.name"), new ReloadGroupCommand());
 
         // Fun
         this.commands.put(Locale.get("command.roll.name"), new RollCommand());

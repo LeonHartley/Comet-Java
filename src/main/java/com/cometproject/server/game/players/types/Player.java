@@ -70,6 +70,8 @@ public class Player {
     private boolean isDeletingGroup = false;
     private long deletingGroupAttempt = 0;
 
+    private boolean bypassRoomAuth;
+
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
@@ -381,5 +383,13 @@ public class Player {
 
     public void setDeletingGroupAttempt(long deletingGroupAttempt) {
         this.deletingGroupAttempt = deletingGroupAttempt;
+    }
+
+    public void bypassRoomAuth(final boolean bypassRoomAuth) {
+        this.bypassRoomAuth = bypassRoomAuth;
+    }
+
+    public boolean isBypassingRoomAuth() {
+        return bypassRoomAuth;
     }
 }
