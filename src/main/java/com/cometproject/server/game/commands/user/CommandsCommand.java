@@ -19,15 +19,15 @@ public class CommandsCommand extends ChatCommand {
             if(command.getValue().isHidden()) continue;
 
             if (client.getPlayer().getPermissions().hasCommand(command.getValue().getPermission())) {
-                if(command.getKey().contains(",")) {
-                    final String[] keys = command.getKey().split(",");
-
-                    for(String key : keys) {
-                        list.append(":" + key + " - " + command.getValue().getDescription() + "\n");
-                    }
-                } else {
-                    list.append(":" + command.getKey() + " - " + command.getValue().getDescription() + "\n");
-                }
+//                if(command.getKey().contains(",")) {
+//                    final String[] keys = command.getKey().split(",");
+//
+//                    for(String key : keys) {
+//                        list.append(":" + key + " - " + command.getValue().getDescription() + "\n");
+//                    }
+//                } else {
+                    list.append(":" + command.getKey().split(",")[0] + " - " + command.getValue().getDescription() + "\n");
+//                }
             }
         }
 
