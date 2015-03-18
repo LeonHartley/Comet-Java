@@ -10,6 +10,7 @@ import java.util.Random;
 
 public class DiceFloorItem extends RoomItemFloor {
     private boolean isInUse = false;
+    private int rigNumber = -1;
 
     public DiceFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
@@ -34,6 +35,13 @@ public class DiceFloorItem extends RoomItemFloor {
                 this.sendUpdate();
 
                 this.isInUse = true;
+
+                if(entity != null) {
+                    if(entity.hasAttribute("diceRoll")) {
+                        this.rigNumber = (int) entity.getAttribute("diceRoll");
+                        entity.removeAttribute("diceRoll");
+                    }
+                }
 
                 this.setTicks(RoomItemFactory.getProcessTime(2.5));
             }
@@ -61,9 +69,11 @@ public class DiceFloorItem extends RoomItemFloor {
     public void onTickComplete() {
         int num = new Random().nextInt(6) + 1;
 
-        this.setExtraData(Integer.toString(num));
+        this.setExtraData(Integer.toString(this.rigNumber == -1 ? num : this.rigNumber));
         this.sendUpdate();
         this.saveData();
+
+        if(this.rigNumber != -1) this.rigNumber = -1;
 
         this.isInUse = false;
     }
