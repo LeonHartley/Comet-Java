@@ -8,15 +8,15 @@ import com.cometproject.server.network.messages.types.Composer;
 public class AdvancedAlertMessageComposer extends MessageComposer {
     private final String title;
     private final String message;
-    private final String hotelName;
-    private final String hotelLink;
+    private final String linkName;
+    private final String linkLocation;
     private final String illustration;
 
-    public AdvancedAlertMessageComposer(final String title, final String message, final String hotelName, final String hotelLink, final String illustration) {
+    public AdvancedAlertMessageComposer(final String title, final String message, final String linkName, final String linkLocation, final String illustration) {
         this.title = title;
         this.message = message;
-        this.hotelName = hotelName;
-        this.hotelLink = hotelLink;
+        this.linkName = linkName;
+        this.linkLocation = linkLocation;
         this.illustration = illustration;
     }
 
@@ -40,18 +40,18 @@ public class AdvancedAlertMessageComposer extends MessageComposer {
     @Override
     public void compose(Composer msg) {
         msg.writeString(illustration);
-        msg.writeInt(hotelLink.isEmpty() ? 2 : 4);
+
+        msg.writeInt(linkLocation.isEmpty() ? 2 : 4);
         msg.writeString("title");
         msg.writeString(title);
         msg.writeString("message");
         msg.writeString(message);
 
-        if (!hotelLink.isEmpty()) {
+        if (!linkLocation.isEmpty()) {
             msg.writeString("linkUrl");
-            msg.writeString(hotelLink);
+            msg.writeString(linkLocation);
             msg.writeString("linkTitle");
-            msg.writeString(hotelName);
+            msg.writeString(linkName);
         }
-
     }
 }
