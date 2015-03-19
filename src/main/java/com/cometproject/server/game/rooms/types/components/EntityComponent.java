@@ -313,7 +313,7 @@ public class EntityComponent {
     }
 
     public int playerCount() {
-        return this.playerCount.get();
+        return this.playerIdToEntity.size();
     }
 
     public AtomicInteger getPlayerCounter() {

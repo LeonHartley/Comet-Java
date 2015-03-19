@@ -50,7 +50,7 @@ public class RoomWriter {
         msg.writeInt(room.getKickState().getState());
         msg.writeInt(room.getBanState().getState());
 
-        msg.writeBoolean(true); // room muting
+        msg.writeBoolean(false); // room muting
 
         msg.writeInt(room.getBubbleMode());
         msg.writeInt(room.getBubbleType());
