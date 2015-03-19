@@ -3,7 +3,6 @@ package com.cometproject.server.network.sessions;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
@@ -124,5 +123,13 @@ public final class SessionManager {
 
     public ChannelGroup getChannelGroup() {
         return channelGroup;
+    }
+
+    public void broadcastByPermission(MessageComposer messageComposer, String permission) {
+        for(Session session : this.sessions.values()) {
+            if(session.getPlayer() != null && session.getPlayer().getPermissions() != null && session.getPlayer().getPermissions().hasPermission(permission)) {
+                session.send(messageComposer);
+            }
+        }
     }
 }

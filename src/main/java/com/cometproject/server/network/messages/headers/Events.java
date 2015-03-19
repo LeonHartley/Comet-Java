@@ -193,6 +193,11 @@ public class Events {
     public static final short RenderRoomMessageEvent = 1810;
     public static final short ConfirmLoveLockMessageEvent = 2482;
     public static final short ClearFavouriteGroupMessageEvent = 360;
+    public static final short WordFilterListMessageEvent = 649;
+    public static final short EditWordFilterMessageEvent = 1340;
+    public static final short DeletePendingTicketMessageEvent = 3504;
+    public static final short ModerationToolPickTicketMessageEvent = 303;
+    public static final short ModerationToolTicketChatlogMessageEvent = 2032;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 

@@ -31,7 +31,7 @@ public class HeightmapMessageComposer extends MessageComposer {
                 } else if (roomModel.getDoorY() == y && roomModel.getDoorX() == x) {
                     msg.writeShort(0);
                 } else {
-                    msg.writeShort((short) roomModel.getSquareHeight()[x][y]);
+                    msg.writeShort((short) roomModel.getSquareHeight()[x][y] * 256);
                 }
             }
         }

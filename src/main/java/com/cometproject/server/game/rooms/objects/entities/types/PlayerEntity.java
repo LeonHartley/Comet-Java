@@ -45,7 +45,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.util.Map;
 
 
-public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, Attributable {
+public class    PlayerEntity extends GenericEntity implements PlayerEntityAccess, Attributable {
     private Player player;
     private PlayerData playerData;
 

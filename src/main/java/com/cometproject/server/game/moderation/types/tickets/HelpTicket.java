@@ -1,53 +1,111 @@
 package com.cometproject.server.game.moderation.types.tickets;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.types.components.types.ChatMessage;
+import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.storage.queries.moderation.TicketDao;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.util.List;
 
 
 public class HelpTicket {
-    private int ticketId;
+
+    private int id;
+    private int categoryId;
     private int roomId;
-    private int openerId;
+
+    private int dateSubmitted;
+    private int dateClosed;
+
+    private int submitterId;
     private int reportedId;
     private int moderatorId;
-    private int categoryId;
+
+    private String message;
+
+    private String submitterUsername;
+    private String reportedUsername;
+    private String moderatorUsername;
+
     private HelpTicketState state;
     private List<ChatMessage> chatMessages;
 
-    public HelpTicket(int ticketId, int roomId, int openerId, int reportedId, int moderatorId, int categoryId, HelpTicketState state, List<ChatMessage> chatMessages) {
-        this.ticketId = ticketId;
-        this.roomId = roomId;
-        this.openerId = openerId;
+    public HelpTicket(int id, int categoryId, int dateSubmitted, int dateClosed, int submitterId, int reportedId, int moderatorId, String message, HelpTicketState state, List<ChatMessage> chatMessages, int roomId) {
+        this.id = id;
+        this.categoryId = categoryId;
+        this.dateSubmitted = dateSubmitted;
+        this.dateClosed = dateClosed;
+        this.submitterId = submitterId;
         this.reportedId = reportedId;
         this.moderatorId = moderatorId;
-        this.categoryId = categoryId;
+        this.message = message;
         this.state = state;
         this.chatMessages = chatMessages;
-    }
-
-    public int getTicketId() {
-        return ticketId;
-    }
-
-    public void setTicketId(int ticketId) {
-        this.ticketId = ticketId;
-    }
-
-    public int getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(int roomId) {
         this.roomId = roomId;
     }
 
-    public int getOpenerId() {
-        return openerId;
+    public void save() {
+        // Queue to be saved ??
+
+        TicketDao.saveTicket(this);
+    }
+    
+    public void compose(Composer msg) {
+        msg.writeInt(this.getId());
+        msg.writeInt(this.getState().getTabId());
+        msg.writeInt(3); // style
+        msg.writeInt(this.getCategoryId());
+        msg.writeInt((int) (Comet.getTime() - this.getDateSubmitted()) * 1000);
+        msg.writeInt(1); // Priority.
+        msg.writeInt(1); // Priority.
+        msg.writeInt(this.getSubmitterId());
+        msg.writeString(this.getSubmitterUsername());
+        msg.writeInt(this.getReportedId());
+        msg.writeString(this.getReportedUsername());
+        msg.writeInt(this.getModeratorId());
+        msg.writeString(this.getModeratorId() != 0 ? this.getModeratorUsername() : "");
+        msg.writeString(this.getMessage());
+        msg.writeInt(0); // Public room?
+        msg.writeInt(this.getChatMessages().size());
+
+        for(ChatMessage chatMessage : this.getChatMessages()) {
+            msg.writeString(chatMessage.getMessage());
+            msg.writeInt(-1);
+            msg.writeInt(-1);
+        }
     }
 
-    public void setOpenerId(int openerId) {
-        this.openerId = openerId;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getDateSubmitted() {
+        return dateSubmitted;
+    }
+
+    public void setDateSubmitted(int dateSubmitted) {
+        this.dateSubmitted = dateSubmitted;
+    }
+
+    public int getDateClosed() {
+        return dateClosed;
+    }
+
+    public void setDateClosed(int dateClosed) {
+        this.dateClosed = dateClosed;
+    }
+
+    public int getSubmitterId() {
+        return submitterId;
+    }
+
+    public void setSubmitterId(int submitterId) {
+        this.submitterId = submitterId;
     }
 
     public int getReportedId() {
@@ -66,12 +124,12 @@ public class HelpTicket {
         this.moderatorId = moderatorId;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public String getMessage() {
+        return message;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public HelpTicketState getState() {
@@ -88,5 +146,45 @@ public class HelpTicket {
 
     public void setChatMessages(List<ChatMessage> chatMessages) {
         this.chatMessages = chatMessages;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+
+    public String getSubmitterUsername() {
+        if(this.submitterUsername == null) {
+            this.submitterUsername = PlayerDao.getUsernameByPlayerId(this.getSubmitterId());
+        }
+
+        return submitterUsername;
+    }
+
+    public String getReportedUsername() {
+        if(this.reportedUsername == null) {
+            this.reportedUsername = PlayerDao.getUsernameByPlayerId(this.getSubmitterId());
+        }
+
+        return reportedUsername;
+    }
+
+    public String getModeratorUsername() {
+        if(this.moderatorUsername == null) {
+            this.moderatorUsername = PlayerDao.getUsernameByPlayerId(this.getSubmitterId());
+        }
+
+        return moderatorUsername;
     }
 }
