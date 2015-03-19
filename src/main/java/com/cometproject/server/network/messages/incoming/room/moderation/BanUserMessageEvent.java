@@ -18,7 +18,7 @@ public class BanUserMessageEvent implements IEvent {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if (!room.getRights().hasRights(client.getPlayer().getId())) {
+        if (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;
         }
 
