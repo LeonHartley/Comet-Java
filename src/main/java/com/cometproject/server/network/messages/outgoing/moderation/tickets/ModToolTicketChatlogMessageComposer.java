@@ -56,9 +56,4 @@ public class ModToolTicketChatlogMessageComposer extends MessageComposer {
             entry.compose(msg);
         }
     }
-
-    @Override
-    public void dispose() {
-        this.roomChatLogEntries.clear();
-    }
 }
