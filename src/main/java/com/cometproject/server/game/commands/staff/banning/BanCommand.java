@@ -29,6 +29,8 @@ public class BanCommand extends ChatCommand {
             return;
         }
 
+        client.getPlayer().getStats().setBans(client.getPlayer().getStats().getBans() + 1);
+
         user.disconnect("banned");
 
         long expire = Comet.getTime() + (length * 3600);
