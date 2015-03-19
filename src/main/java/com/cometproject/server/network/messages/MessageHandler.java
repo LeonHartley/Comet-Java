@@ -19,6 +19,7 @@ import com.cometproject.server.network.messages.incoming.group.favourite.ClearFa
 import com.cometproject.server.network.messages.incoming.group.favourite.SetFavouriteGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.*;
 import com.cometproject.server.network.messages.incoming.handshake.*;
+import com.cometproject.server.network.messages.incoming.help.DeletePendingTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.LandingLoadWidgetMessageEvent;
@@ -26,9 +27,11 @@ import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArt
 import com.cometproject.server.network.messages.incoming.latency.RequestLatencyTestMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.*;
 import com.cometproject.server.network.messages.incoming.moderation.*;
+import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolPickTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.navigator.*;
 import com.cometproject.server.network.messages.incoming.quests.OpenQuestsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.AnswerDoorbellMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.access.LoadRoomByDoorBellMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.action.*;
 import com.cometproject.server.network.messages.incoming.room.bots.BotConfigMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMessageEvent;
@@ -36,6 +39,8 @@ import com.cometproject.server.network.messages.incoming.room.bots.PlaceBotMessa
 import com.cometproject.server.network.messages.incoming.room.bots.RemoveBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.FollowRoomInfoMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.filter.EditWordFilterMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.filter.WordFilterListMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.floor.GetFloorPlanDoorMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.floor.GetTilesInUseMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.floor.SaveFloorMessageEvent;
@@ -70,7 +75,7 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeM
 import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlaylistMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.NextVideoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.access.LoadRoomByDoorBellMessageEvent;
+import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolTicketChatlogMessageEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
@@ -134,11 +139,14 @@ public final class MessageHandler {
         this.getMessages().put(Events.ModerationKickUserMessageEvent, new ModToolUserKickMessageEvent());
         this.getMessages().put(Events.ModerationToolSendRoomAlertMessageEvent, new ModToolRoomAlertMessageEvent());
         this.getMessages().put(Events.ModerationToolPerformRoomActionMessageEvent, new ModToolRoomActionMessageEvent());
+        this.getMessages().put(Events.ModerationToolPickTicketMessageEvent, new ModToolPickTicketMessageEvent());
+        this.getMessages().put(Events.ModerationToolTicketChatlogMessageEvent, new ModToolTicketChatlogMessageEvent());
     }
 
     public void registerHelpTool() {
         this.getMessages().put(Events.OpenHelpToolMessageEvent, new InitHelpToolMessageEvent());
         this.getMessages().put(Events.SubmitHelpTicketMessageEvent, new HelpTicketMessageEvent());
+        this.getMessages().put(Events.DeletePendingTicketMessageEvent, new DeletePendingTicketMessageEvent());
     }
 
     public void registerMessenger() {
@@ -257,6 +265,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetRoomBannedUsersMessageEvent, new GetBannedUsersMessageEvent());
         this.getMessages().put(Events.RoomUnbanUserMessageEvent, new RoomUnbanUserMessageEvent());
         this.getMessages().put(Events.RoomSettingsMuteUserMessageEvent, new MutePlayerMessageEvent());
+        this.getMessages().put(Events.WordFilterListMessageEvent, new WordFilterListMessageEvent());
+        this.getMessages().put(Events.EditWordFilterMessageEvent, new EditWordFilterMessageEvent());
     }
 
     public void registerRoomAccess() {

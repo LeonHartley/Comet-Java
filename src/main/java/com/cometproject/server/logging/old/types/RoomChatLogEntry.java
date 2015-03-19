@@ -41,7 +41,7 @@
 //    }
 //
 //    @Override
-//    public int getUserId() {
+//    public int getPlayerId() {
 //        return this.userId;
 //    }
 //}

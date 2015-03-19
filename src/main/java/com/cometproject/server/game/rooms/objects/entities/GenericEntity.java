@@ -96,7 +96,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
         this.stepsToGoal = 0;
 
-        if(this.getRoom().hasRoomMute()) {
+        if (this.getRoom().hasRoomMute()) {
             this.isRoomMuted = true;
         }
     }
@@ -140,11 +140,11 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
             Tile oldTile = this.getRoom().getMapping().getTile(this.getPosition());
             Tile newTile = this.getRoom().getMapping().getTile(this.getPositionToSet());
 
-            if(oldTile != null) {
+            if (oldTile != null) {
                 oldTile.getEntities().remove(this);
             }
 
-            if(newTile != null) {
+            if (newTile != null) {
                 newTile.getEntities().add(this);
             }
 
@@ -326,7 +326,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     }
 
     public boolean handItemNeedsRemove() {
-        if(this.handItemTimer == -999)
+        if (this.handItemTimer == -999)
             return false;
 
         this.handItemTimer--;
@@ -335,11 +335,9 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     }
 
     public void unIdle() {
-        if(this.isIdleAndIncrement()) {
-            this.resetIdleTime();
+        this.resetIdleTime();
 
-            this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer(this.getId(), false));
-        }
+        this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer(this.getId(), false));
     }
 
     @Override
@@ -401,7 +399,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     @Override
     public void carryItem(int id, boolean timer) {
-        if(timer) {
+        if (timer) {
             this.carryItem(id);
             return;
         }
@@ -481,7 +479,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     }
 
     public void warp(Position position, boolean cancelNextUpdate) {
-        if(cancelNextUpdate) {
+        if (cancelNextUpdate) {
             this.cancelNextUpdate();
         } else {
             this.updatePhase = 1;

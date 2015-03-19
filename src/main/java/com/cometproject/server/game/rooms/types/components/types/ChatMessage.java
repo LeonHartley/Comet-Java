@@ -1,25 +1,19 @@
 package com.cometproject.server.game.rooms.types.components.types;
 
 public class ChatMessage {
-    private int userId;
+    private int playerId;
     private String message;
-    private long time;
 
-    public ChatMessage(int userId, String message, long time) {
-        this.userId = userId;
+    public ChatMessage(int userId, String message) {
+        this.playerId = userId;
         this.message = message;
-        this.time = time;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getPlayerId() {
+        return playerId;
     }
 
     public String getMessage() {
         return message;
-    }
-
-    public long getTime() {
-        return time;
     }
 }

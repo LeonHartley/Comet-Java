@@ -177,7 +177,8 @@ public class Composers {
     public static final short LoveLockWidgetMessageComposer = 3979;//new
     public static final short LoveLockConfirmedMessageComposer = 289;//new
     public static final short LoveLockCloseWidgetMessageComposer = 1221;//new
-
+    public static final short HelpTicketMessageComposer = 2840;
+    public static final short ModerationToolTicketChatlogMessageComposer = 2484;
 
     private static Map<Short, String> composerPacketNames = new FastMap<>();
 

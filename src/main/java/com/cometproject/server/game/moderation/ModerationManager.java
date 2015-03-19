@@ -2,6 +2,10 @@ package com.cometproject.server.game.moderation;
 
 import com.cometproject.server.game.moderation.types.actions.ActionCategory;
 import com.cometproject.server.game.moderation.types.tickets.HelpTicket;
+import com.cometproject.server.game.moderation.types.tickets.HelpTicketState;
+import com.cometproject.server.game.rooms.types.components.types.ChatMessage;
+import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.messages.outgoing.moderation.tickets.HelpTicketMessageComposer;
 import com.cometproject.server.storage.queries.moderation.PresetDao;
 import com.cometproject.server.storage.queries.moderation.TicketDao;
 import com.cometproject.server.utilities.Initializable;
@@ -19,6 +23,7 @@ public class ModerationManager implements Initializable {
     private List<String> userPresets;
     private List<String> roomPresets;
     private List<ActionCategory> actionCategories;
+
     private Map<Integer, HelpTicket> tickets;
 
     private Logger log = Logger.getLogger(ModerationManager.class.getName());
@@ -90,10 +95,17 @@ public class ModerationManager implements Initializable {
         }
     }
 
-    public void addTicket(HelpTicket ticket) {
-        this.tickets.put(ticket.getTicketId(), ticket);
+    private void addTicket(HelpTicket ticket) {
+        this.tickets.put(ticket.getId(), ticket);
 
-        // TODO: send ticket to all moderators.
+        NetworkManager.getInstance().getSessions().broadcastByPermission(new HelpTicketMessageComposer(ticket), "mod_tool");
+    }
+
+    public void createTicket(int submitterId, String message, int category, int reportedId, int timestamp, int roomId, List<ChatMessage> chatMessages) {
+        int ticketId = TicketDao.createTicket(submitterId, message, category, reportedId, timestamp, roomId, chatMessages);
+
+        final HelpTicket ticket = new HelpTicket(ticketId, category, timestamp, 0, submitterId, reportedId, 0, message, HelpTicketState.OPEN, chatMessages, roomId);
+        this.addTicket(ticket);
     }
 
     public HelpTicket getTicket(int id) {
@@ -102,7 +114,7 @@ public class ModerationManager implements Initializable {
 
     public HelpTicket getTicketByUserId(int id) {
         for (HelpTicket ticket : tickets.values()) {
-            if (ticket.getOpenerId() == id)
+            if (ticket.getSubmitterId() == id)
                 return ticket;
         }
 
@@ -119,5 +131,21 @@ public class ModerationManager implements Initializable {
 
     public List<ActionCategory> getActionCategories() {
         return this.actionCategories;
+    }
+
+    public HelpTicket getActiveTicketByPlayerId(int playerId) {
+        HelpTicket ticket = this.getTicketByUserId(playerId);
+
+        if(ticket != null) {
+            if(ticket.getState() != HelpTicketState.CLOSED) {
+                return ticket;
+            }
+        }
+
+        return null;
+    }
+
+    public Map<Integer, HelpTicket> getTickets() {
+        return tickets;
     }
 }

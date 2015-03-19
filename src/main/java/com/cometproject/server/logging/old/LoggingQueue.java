@@ -129,7 +129,7 @@
 //        try {
 //            HttpPost postRequest = new HttpPost(BASE_URL + "/v1/chatlogs/room/add");
 //            int roomId = entry.getRoomId();
-//            int userId = entry.getUserId();
+//            int userId = entry.getPlayerId();
 //            String message = entry.getString();
 //
 //            List<NameValuePair> postParameters = new ArrayList<>();

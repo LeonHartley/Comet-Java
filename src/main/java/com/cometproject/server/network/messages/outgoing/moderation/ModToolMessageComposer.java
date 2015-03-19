@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.outgoing.moderation;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.moderation.types.actions.ActionCategory;
 import com.cometproject.server.game.moderation.types.actions.ActionPreset;
+import com.cometproject.server.game.moderation.types.tickets.HelpTicket;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
@@ -22,7 +23,6 @@ public class ModToolMessageComposer extends MessageComposer {
     @Override
     public void compose(Composer msg) {
 //        msg.writeInt(1); // issues
-//
 //        {
 //            msg.writeInt(1);//id
 //            msg.writeInt(1);//state
@@ -42,7 +42,11 @@ public class ModToolMessageComposer extends MessageComposer {
 //            msg.writeInt(0);//chatmsg???
 //        }
 
-        msg.writeInt(0);
+        msg.writeInt(ModerationManager.getInstance().getTickets().size());
+
+        for(HelpTicket helpTicket : ModerationManager.getInstance().getTickets().values()) {
+            helpTicket.compose(msg);
+        }
 
         msg.writeInt(ModerationManager.getInstance().getUserPresets().size());
 
