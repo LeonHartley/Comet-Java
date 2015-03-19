@@ -34,7 +34,7 @@ public class EntityComponent {
     private final Map<Integer, Integer> botIdToEntity = new FastMap<Integer, Integer>().shared();
     private final Map<Integer, Integer> petIdToEntity = new FastMap<Integer, Integer>().shared();
 
-    private final AtomicInteger playerCount = new AtomicInteger(0);
+//    private final AtomicInteger playerCount = new AtomicInteger(0);
 
     public EntityComponent(Room room) {
         this.room = room;
@@ -61,9 +61,9 @@ public class EntityComponent {
         return false;
     }
 
-    public void increasePlayerCount() {
-        this.playerCount.incrementAndGet();
-    }
+//    public void increasePlayerCount() {
+//        this.playerCount.incrementAndGet();
+//    }
 
     public PlayerEntity createEntity(Player player) {
         Position startPosition = new Position(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY(), this.getRoom().getModel().getDoorZ());
@@ -120,9 +120,9 @@ public class EntityComponent {
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
-            if(playerEntity.isVisible()) {
-                this.playerCount.decrementAndGet();
-            }
+//            if(playerEntity.isVisible()) {
+//                this.playerCount.decrementAndGet();
+//            }
 
             if (playerEntity.getPlayer() != null)
                 this.playerIdToEntity.remove(playerEntity.getPlayerId());
@@ -316,9 +316,9 @@ public class EntityComponent {
         return this.playerIdToEntity.size();
     }
 
-    public AtomicInteger getPlayerCounter() {
-        return playerCount;
-    }
+//    public AtomicInteger getPlayerCounter() {
+//        return playerCount;
+//    }
 
     public int realPlayerCount() {
         return this.playerIdToEntity.size();
