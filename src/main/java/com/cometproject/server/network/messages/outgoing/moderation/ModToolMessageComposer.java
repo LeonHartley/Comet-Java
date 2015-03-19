@@ -22,26 +22,6 @@ public class ModToolMessageComposer extends MessageComposer {
 
     @Override
     public void compose(Composer msg) {
-//        msg.writeInt(1); // issues
-//        {
-//            msg.writeInt(1);//id
-//            msg.writeInt(1);//state
-//            msg.writeInt(1);//cat
-//            msg.writeInt(1);
-//            msg.writeInt(11);
-//            msg.writeInt(1);
-//            msg.writeInt(0);
-//            msg.writeInt(2);
-//            msg.writeString("Entity");
-//            msg.writeInt(1);
-//            msg.writeString("Leon");
-//            msg.writeInt(3);
-//            msg.writeString("MOD-Leon");
-//            msg.writeString("Help me help me he touched my bottom");
-//            msg.writeInt(1);
-//            msg.writeInt(0);//chatmsg???
-//        }
-
         msg.writeInt(ModerationManager.getInstance().getTickets().size());
 
         for(HelpTicket helpTicket : ModerationManager.getInstance().getTickets().values()) {
