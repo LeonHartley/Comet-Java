@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.incoming.room.bots;
 
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -39,5 +40,9 @@ public class PlaceBotMessageEvent implements IEvent {
 
         room.getEntities().broadcastMessage(new AvatarsMessageComposer(botEntity));
         client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));
+
+        for(RoomItemFloor floorItem : room.getItems().getItemsOnSquare(x, y)) {
+            floorItem.onEntityStepOn(botEntity);
+        }
     }
 }
