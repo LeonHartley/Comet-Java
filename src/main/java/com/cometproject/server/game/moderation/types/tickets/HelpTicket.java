@@ -174,7 +174,7 @@ public class HelpTicket {
 
     public String getReportedUsername() {
         if(this.reportedUsername == null) {
-            this.reportedUsername = PlayerDao.getUsernameByPlayerId(this.getSubmitterId());
+            this.reportedUsername = PlayerDao.getUsernameByPlayerId(this.getReportedId());
         }
 
         return reportedUsername;
@@ -182,7 +182,7 @@ public class HelpTicket {
 
     public String getModeratorUsername() {
         if(this.moderatorUsername == null) {
-            this.moderatorUsername = PlayerDao.getUsernameByPlayerId(this.getSubmitterId());
+            this.moderatorUsername = PlayerDao.getUsernameByPlayerId(this.getModeratorId());
         }
 
         return moderatorUsername;

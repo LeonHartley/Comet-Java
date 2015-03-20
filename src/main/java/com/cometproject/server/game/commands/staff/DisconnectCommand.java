@@ -9,7 +9,9 @@ import com.cometproject.server.network.sessions.Session;
 public class DisconnectCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        String username = params[1];
+        if(params.length != 1) return;
+
+        String username = params[0];
 
         Session session = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 

@@ -48,6 +48,6 @@ public class ModToolUserInfoMessageComposer extends MessageComposer {
         // TODO: Find banned accounts using this IP address or linked to this e-mail address (for hotels that use the Habbo ID system)
 
         msg.writeString("Email: " + playerData.getEmail());
-        msg.writeString("IP Address: " + playerData.getIpAddress());
+        msg.writeString(playerData.getIpAddress());
     }
 }
