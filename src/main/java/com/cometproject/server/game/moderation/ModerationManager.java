@@ -97,7 +97,10 @@ public class ModerationManager implements Initializable {
 
     private void addTicket(HelpTicket ticket) {
         this.tickets.put(ticket.getId(), ticket);
+        this.broadcastTicket(ticket);
+    }
 
+    public void broadcastTicket(final HelpTicket ticket) {
         NetworkManager.getInstance().getSessions().broadcastByPermission(new HelpTicketMessageComposer(ticket), "mod_tool");
     }
 

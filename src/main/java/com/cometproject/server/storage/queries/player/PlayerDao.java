@@ -409,18 +409,23 @@ public class PlayerDao {
         }
     }
 
-    public static boolean updatePlayerStatistics(int achievementPoints, int respectPoints, int dailyRespects, int userId) {
+    public static boolean updatePlayerStatistics(PlayerStatistics playerStatistics) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE player_stats SET achievement_score = ?, total_respect_points = ?, daily_respects = ? WHERE player_id = ?", sqlConnection);
-            preparedStatement.setInt(1, achievementPoints);
-            preparedStatement.setInt(2, respectPoints);
-            preparedStatement.setInt(3, dailyRespects);
-            preparedStatement.setInt(4, userId);
+            preparedStatement = SqlHelper.prepare("UPDATE player_stats SET achievement_score = ?, total_respect_points = ?, daily_respects = ?, help_tickets = ?, help_tickets_abusive = ?, cautions = ?, bans = ? WHERE player_id = ?", sqlConnection);
+            preparedStatement.setInt(1, playerStatistics.getAchievementPoints());
+            preparedStatement.setInt(2, playerStatistics.getRespectPoints());
+            preparedStatement.setInt(3, playerStatistics.getDailyRespects());
+            preparedStatement.setInt(4, playerStatistics.getHelpTickets());
+            preparedStatement.setInt(5, playerStatistics.getAbusiveHelpTickets());
+            preparedStatement.setInt(6, playerStatistics.getCautions());
+            preparedStatement.setInt(7, playerStatistics.getBans());
+
+            preparedStatement.setInt(8, playerStatistics.getPlayerId());
 
             return preparedStatement.execute();
         } catch (SQLException e) {

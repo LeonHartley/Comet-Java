@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 
 public class PlayerStatistics {
-    private int userId;
+    private int playerId;
     private int achievementPoints;
     private int dailyRespects;
     private int respectPoints;
@@ -20,7 +20,7 @@ public class PlayerStatistics {
 
     public PlayerStatistics(ResultSet data, boolean isLogin) throws SQLException {
         if (isLogin) {
-            this.userId = data.getInt("playerId");
+            this.playerId = data.getInt("playerId");
             this.achievementPoints = data.getInt("playerStats_achievementPoints");
             this.dailyRespects = data.getInt("playerStats_dailyRespects") > 3 ? 3 : data.getInt("playerStats_dailyRespects");
             this.respectPoints = data.getInt("playerStats_totalRespectPoints");
@@ -29,7 +29,7 @@ public class PlayerStatistics {
             this.cautions = data.getInt("playerStats_cautions");
             this.bans = data.getInt("playerStats_bans");
         } else {
-            this.userId = data.getInt("player_id");
+            this.playerId = data.getInt("player_id");
             this.achievementPoints = data.getInt("achievement_score");
             this.dailyRespects = data.getInt("daily_respects") > 3 ? 3 : data.getInt("daily_respects");
             this.respectPoints = data.getInt("total_respect_points");
@@ -41,7 +41,7 @@ public class PlayerStatistics {
     }
 
     public PlayerStatistics(int userId) {
-        this.userId = userId;
+        this.playerId = userId;
         this.achievementPoints = 0;
         this.respectPoints = 0;
         this.dailyRespects = 3;
@@ -52,7 +52,7 @@ public class PlayerStatistics {
     }
 
     public void save() {
-        PlayerDao.updatePlayerStatistics(achievementPoints, respectPoints, dailyRespects, userId);
+        PlayerDao.updatePlayerStatistics(this);
     }
 
     public void incrementAchievementPoints(int amount) {
@@ -75,6 +75,18 @@ public class PlayerStatistics {
         this.save();
     }
 
+    public void incrementBans(int amount) {
+        this.bans += amount;
+    }
+
+    public void incrementAbusiveHelpTickets(int amount) {
+        this.abusiveHelpTickets += amount;
+    }
+
+    public int getPlayerId() {
+        return this.playerId;
+    }
+
     public int getDailyRespects() {
         return this.dailyRespects;
     }
@@ -88,7 +100,7 @@ public class PlayerStatistics {
     }
 
     public int getFriendCount() {
-        return MessengerDao.getFriendCount(this.userId);
+        return MessengerDao.getFriendCount(this.playerId);
     }
 
     public int getHelpTickets() {

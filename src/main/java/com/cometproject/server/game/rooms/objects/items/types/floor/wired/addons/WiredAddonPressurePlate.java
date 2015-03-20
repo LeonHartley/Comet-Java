@@ -1,11 +1,11 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.GenericFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 
 
-public class WiredAddonPressurePlate extends RoomItemFloor {
+public class WiredAddonPressurePlate extends GenericFloorItem {
     public WiredAddonPressurePlate(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
