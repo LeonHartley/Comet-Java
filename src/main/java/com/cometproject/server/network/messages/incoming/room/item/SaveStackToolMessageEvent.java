@@ -4,7 +4,9 @@ import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedT
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.room.engine.UpdateStackMapMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -55,7 +57,13 @@ public class SaveStackToolMessageEvent implements IEvent {
                 magicStackFloorItem.getPosition().getY(),
                 magicStackFloorItem.getRotation())) {
 
-            magicStackFloorItem.getRoom().getMapping().getTile(affectedTile.x, affectedTile.y).reload();
+            Tile tile = magicStackFloorItem.getRoom().getMapping().getTile(affectedTile.x, affectedTile.y);
+
+            if(tile != null) {
+                tile.reload();
+
+                client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UpdateStackMapMessageComposer(tile));
+            }
         }
 
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(magicStackFloorItem));

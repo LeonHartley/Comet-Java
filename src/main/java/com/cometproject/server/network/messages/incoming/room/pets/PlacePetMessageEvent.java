@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.incoming.room.pets;
 
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
@@ -38,15 +39,21 @@ public class PlacePetMessageEvent implements IEvent {
                 return;
             }
 
-            Position position = new Position(x, y, room.getModel().getSquareHeight()[x][y]);
+            Position position = new Position(x, y, room.getMapping().getTile(x, y).getWalkHeight());
+//            Position position = new Position(x, y, room.getModel().getSquareHeight()[x][y]);
+
 
             if ((!atDoor && client.getPlayer().getEntity().getRoom().getEntities().getEntitiesAt(position).size() >= 1) || !room.getMapping().isValidPosition(position)) {
                 return;
             }
 
-            PetEntity petEntity = client.getPlayer().getEntity().getRoom().getPets().addPet(pet, x, y);
+            PetEntity petEntity = client.getPlayer().getEntity().getRoom().getPets().addPet(pet, position);
 
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(petEntity));
+
+            for(RoomItemFloor floorItem : room.getItems().getItemsOnSquare(x, y)) {
+                floorItem.onEntityStepOn(petEntity);
+            }
 
             client.getPlayer().getPets().removePet(pet.getId());
             client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));

@@ -180,6 +180,7 @@ public class Composers {
     public static final short HelpTicketMessageComposer = 2840;
     public static final short ModerationToolTicketChatlogMessageComposer = 2484;
     public static final short HelpTicketResponseMessageComposer = 1721;
+    public static final short UpdateStackMapMessageComposer = 1163;
 
     private static Map<Short, String> composerPacketNames = new FastMap<>();
 

@@ -14,6 +14,7 @@ import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWall
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.network.messages.outgoing.room.engine.UpdateStackMapMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
@@ -239,7 +240,13 @@ public class ItemsComponent {
         }
 
         for (Position tileToUpdate : tilesToUpdate) {
-            room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
+            final Tile tileInstance = this.room.getMapping().getTile(tileToUpdate.getX(), tileToUpdate.getY());
+
+            if(tileInstance != null) {
+                tileInstance.reload();
+
+                room.getEntities().broadcastMessage(new UpdateStackMapMessageComposer(tileInstance));
+            }
         }
     }
 
@@ -331,9 +338,16 @@ public class ItemsComponent {
             RoomItemDao.saveItemPosition(newPosition.getX(), newPosition.getY(), height, rotation, itemId);
 
         for (Position tileToUpdate : tilesToUpdate) {
-            room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
+            final Tile tileInstance = this.room.getMapping().getTile(tileToUpdate.getX(), tileToUpdate.getY());
+
+            if(tileInstance != null) {
+                tileInstance.reload();
+
+                room.getEntities().broadcastMessage(new UpdateStackMapMessageComposer(tileInstance));
+            }
         }
 
+        tilesToUpdate.clear();
         return true;
     }
 
@@ -436,7 +450,13 @@ public class ItemsComponent {
         RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getId());
 
         for (Position tileToUpdate : tilesToUpdate) {
-            room.getMapping().updateTile(tileToUpdate.getX(), tileToUpdate.getY());
+            final Tile tileInstance = this.room.getMapping().getTile(tileToUpdate.getX(), tileToUpdate.getY());
+
+            if(tileInstance != null) {
+                tileInstance.reload();
+
+                room.getEntities().broadcastMessage(new UpdateStackMapMessageComposer(tileInstance));
+            }
         }
 
         room.getEntities().broadcastMessage(new SendFloorItemMessageComposer(floorItem));

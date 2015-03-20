@@ -1,7 +1,6 @@
 package com.cometproject.server.network.clients;
 
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
@@ -9,8 +8,6 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.ChannelInputShutdownEvent;
-import io.netty.handler.timeout.IdleState;
-import io.netty.handler.timeout.IdleStateEvent;
 import org.apache.log4j.Logger;
 
 @ChannelHandler.Sharable
@@ -47,14 +44,14 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        if (evt instanceof IdleStateEvent) {
-            IdleStateEvent e = (IdleStateEvent) evt;
-            if (e.state() == IdleState.READER_IDLE) {
-                ctx.close();
-            } else if (e.state() == IdleState.WRITER_IDLE) {
-                ctx.writeAndFlush(new PingMessageComposer());
-            }
-        }
+//        if (evt instanceof IdleStateEvent) {
+//            IdleStateEvent e = (IdleStateEvent) evt;
+//            if (e.state() == IdleState.READER_IDLE) {
+//                ctx.close();
+//            } else if (e.state() == IdleState.WRITER_IDLE) {
+//                ctx.writeAndFlush(new PingMessageComposer());
+//            }
+//        }
 
         if (evt instanceof ChannelInputShutdownEvent) {
             ctx.close();

@@ -26,7 +26,7 @@ public class PlaceBotMessageEvent implements IEvent {
             return;
         }
 
-        double height = room.getModel().getSquareHeight()[x][y];
+        double height = room.getMapping().getTile(x, y).getWalkHeight();
         final Position position = new Position(x, y, height);
 
         if (room.getEntities().getEntitiesAt(position).size() >= 1 || !room.getMapping().isValidPosition(position)) {

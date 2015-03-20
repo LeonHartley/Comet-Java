@@ -22,7 +22,7 @@ public class HeightmapMessageComposer extends MessageComposer {
     @Override
     public void compose(Composer msg) {
         msg.writeInt(roomModel.getSizeX());
-        msg.writeInt(roomModel.getSizeY() * roomModel.getSizeX());
+        msg.writeInt(roomModel.getSizeX() * roomModel.getSizeY());
 
         for (int y = 0; y < roomModel.getSizeY(); y++) {
             for (int x = 0; x < roomModel.getSizeX(); x++) {

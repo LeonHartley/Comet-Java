@@ -23,11 +23,11 @@ public class PetComponent {
         }
     }
 
-    public PetEntity addPet(PetData pet, int x, int y) {
-        RoomPetDao.updatePet(this.room.getId(), x, y, pet.getId());
+    public PetEntity addPet(PetData pet, Position position) {
+        RoomPetDao.updatePet(this.room.getId(), position.getX(), position.getY(), pet.getId());
 
         int virtualId = room.getEntities().getFreeId();
-        PetEntity petEntity = new PetEntity(pet, virtualId, new Position(x, y, 0), 3, 3, room);
+        PetEntity petEntity = new PetEntity(pet, virtualId, position, 3, 3, room);
         this.getRoom().getEntities().addEntity(petEntity);
 
         return petEntity;
