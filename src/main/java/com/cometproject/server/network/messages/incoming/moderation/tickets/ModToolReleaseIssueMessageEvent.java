@@ -7,28 +7,28 @@ import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 
-public class ModToolPickTicketMessageEvent implements IEvent {
+public class ModToolReleaseIssueMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
-        msg.readInt();
-        int ticketId = msg.readInt();
-
+        int ticketCount = msg.readInt();
         if(!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             client.disconnect();
             return;
         }
 
-        final HelpTicket helpTicket = ModerationManager.getInstance().getTicket(ticketId);
+        for(int i = 0; i < ticketCount; i++) {
+            int ticketId = msg.readInt();
 
-        if(helpTicket == null || helpTicket.getModeratorId() != 0) {
-            // Doesn't exist or already picked!
-            return;
+            final HelpTicket helpTicket = ModerationManager.getInstance().getTicket(ticketId);
+
+            if (helpTicket == null || helpTicket.getModeratorId() != client.getPlayer().getId()) return;
+
+            helpTicket.setState(HelpTicketState.OPEN);
+            helpTicket.setModeratorId(0);
+
+            helpTicket.save();
+
+            ModerationManager.getInstance().broadcastTicket(helpTicket);
         }
-
-        helpTicket.setModeratorId(client.getPlayer().getId());
-        helpTicket.setState(HelpTicketState.IN_PROGRESS);
-        helpTicket.save();
-
-        ModerationManager.getInstance().broadcastTicket(helpTicket);
     }
 }

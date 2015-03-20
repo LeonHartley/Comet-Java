@@ -27,7 +27,9 @@ import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArt
 import com.cometproject.server.network.messages.incoming.latency.RequestLatencyTestMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.*;
 import com.cometproject.server.network.messages.incoming.moderation.*;
+import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolCloseIssueMessageEvent;
 import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolPickTicketMessageEvent;
+import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolReleaseIssueMessageEvent;
 import com.cometproject.server.network.messages.incoming.navigator.*;
 import com.cometproject.server.network.messages.incoming.quests.OpenQuestsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.AnswerDoorbellMessageEvent;
@@ -141,6 +143,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.ModerationToolPerformRoomActionMessageEvent, new ModToolRoomActionMessageEvent());
         this.getMessages().put(Events.ModerationToolPickTicketMessageEvent, new ModToolPickTicketMessageEvent());
         this.getMessages().put(Events.ModerationToolTicketChatlogMessageEvent, new ModToolTicketChatlogMessageEvent());
+        this.getMessages().put(Events.ModerationToolCloseIssueMessageEvent, new ModToolCloseIssueMessageEvent());
+        this.getMessages().put(Events.ModerationToolReleaseIssueMessageEvent, new ModToolReleaseIssueMessageEvent());
     }
 
     public void registerHelpTool() {

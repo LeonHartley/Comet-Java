@@ -2,8 +2,11 @@ package com.cometproject.server.game.moderation.types.tickets;
 
 public enum HelpTicketState {
     OPEN(1),
+    IN_PROGRESS(2),
     CLOSED(0),
-    IN_PROGRESS(2);
+    INVALID(0),
+    RESOLVED(0),
+    ABUSIVE(0);
 
     private int tabId;
 

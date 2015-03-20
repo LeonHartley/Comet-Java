@@ -58,7 +58,7 @@ public class HelpTicket {
         msg.writeInt(this.getCategoryId());
         msg.writeInt((int) (Comet.getTime() - this.getDateSubmitted()) * 1000);
         msg.writeInt(1); // Priority.
-        msg.writeInt(1); // Priority.
+        msg.writeInt(0);
         msg.writeInt(this.getSubmitterId());
         msg.writeString(this.getSubmitterUsername());
         msg.writeInt(this.getReportedId());

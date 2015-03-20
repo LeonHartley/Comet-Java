@@ -29,7 +29,7 @@ public class TicketDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM moderation_help_tickets WHERE state != 'CLOSED'", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM moderation_help_tickets WHERE state = 'OPEN' OR state = 'IN_PROGRESS'", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
