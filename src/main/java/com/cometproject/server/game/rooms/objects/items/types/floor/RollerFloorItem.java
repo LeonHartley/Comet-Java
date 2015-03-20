@@ -185,7 +185,6 @@ public class RollerFloorItem extends RoomItemFloor {
         this.getRoom().getMapping().updateTile(this.getPosition().getX(), this.getPosition().getY());
         this.getRoom().getMapping().updateTile(sqInfront.getX(), sqInfront.getY());
 
-
         for (RoomItemFloor nextItem : this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY())) {
             for (RoomItemFloor floor : floorItems) {
                 nextItem.onItemAddedToStack(floor);

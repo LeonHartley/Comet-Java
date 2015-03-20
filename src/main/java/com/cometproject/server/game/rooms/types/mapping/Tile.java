@@ -242,4 +242,8 @@ public class Tile {
     public boolean hasItems() {
         return hasItems;
     }
+
+    public double getTileHeight() {
+        return this.mappingInstance.getModel().getSquareHeight()[this.position.getX()][this.position.getY()];
+    }
 }

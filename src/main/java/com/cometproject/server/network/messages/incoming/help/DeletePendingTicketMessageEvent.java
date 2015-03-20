@@ -17,6 +17,8 @@ public class DeletePendingTicketMessageEvent implements IEvent {
             helpTicket.setState(HelpTicketState.CLOSED);
             helpTicket.save();
 
+            ModerationManager.getInstance().broadcastTicket(helpTicket);
+
             ModerationManager.getInstance().getTickets().remove(helpTicket.getId());
             client.send(new InitHelpToolMessageComposer(null));
         }
