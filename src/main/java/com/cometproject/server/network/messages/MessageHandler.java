@@ -22,6 +22,7 @@ import com.cometproject.server.network.messages.incoming.handshake.*;
 import com.cometproject.server.network.messages.incoming.help.DeletePendingTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
+import com.cometproject.server.network.messages.incoming.help.tool.OpenGuideToolMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.LandingLoadWidgetMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArticlesMessageEvent;
 import com.cometproject.server.network.messages.incoming.latency.RequestLatencyTestMessageEvent;
@@ -30,6 +31,7 @@ import com.cometproject.server.network.messages.incoming.moderation.*;
 import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolCloseIssueMessageEvent;
 import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolPickTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolReleaseIssueMessageEvent;
+import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolTicketChatlogMessageEvent;
 import com.cometproject.server.network.messages.incoming.navigator.*;
 import com.cometproject.server.network.messages.incoming.quests.OpenQuestsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.AnswerDoorbellMessageEvent;
@@ -77,7 +79,6 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeM
 import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlaylistMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.NextVideoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoMessageEvent;
-import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolTicketChatlogMessageEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
@@ -151,6 +152,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.OpenHelpToolMessageEvent, new InitHelpToolMessageEvent());
         this.getMessages().put(Events.SubmitHelpTicketMessageEvent, new HelpTicketMessageEvent());
         this.getMessages().put(Events.DeletePendingTicketMessageEvent, new DeletePendingTicketMessageEvent());
+
+        this.getMessages().put(Events.OpenGuideToolMessageEvent, new OpenGuideToolMessageEvent());
     }
 
     public void registerMessenger() {
