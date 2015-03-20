@@ -90,8 +90,7 @@ public class Session {
     }
 
     public Session sendQueue(final MessageComposer msg) {
-        this.send(msg);
-
+        this.channel.write(msg);
         return this;
     }
 
