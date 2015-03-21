@@ -31,7 +31,7 @@ public class RemoveRightsMessageEvent implements IEvent {
             }
 
             room.getRights().removeRights(playerId);
-            client.send(new RemoveRightsMessageComposer(room.getId(), playerId));
+            client.send(new RemoveRightsMessageComposer(playerId, room.getId()));
 
             if (playerEntity != null) {
                 playerEntity.getPlayer().getSession().send(new AccessLevelMessageComposer(0));
@@ -40,5 +40,7 @@ public class RemoveRightsMessageEvent implements IEvent {
                 playerEntity.markNeedsUpdate();
             }
         }
+
+//        client.send(new RightsListMessageComposer(room.getId(), room.getRights().getAll()));
     }
 }
