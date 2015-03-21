@@ -28,6 +28,10 @@ public class OpenGiftMessageEvent implements IEvent {
 
         if (floorItem == null || !(floorItem instanceof GiftFloorItem)) return;
 
+        if(floorItem.getOwner() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_controll")) {
+            return;
+        }
+
         final GiftData giftData = ((GiftFloorItem) floorItem).getGiftData();
 
         final CatalogPage catalogPage = CatalogManager.getInstance().getPage(giftData.getPageId());
@@ -42,7 +46,6 @@ public class OpenGiftMessageEvent implements IEvent {
 
         client.getPlayer().getEntity().getRoom().getItems().placeFloorItem(new InventoryItem(floorItemId, Integer.parseInt(catalogItem.getItemId()), giftData.getExtraData()), floorItem.getPosition().getX(), floorItem.getPosition().getY(), floorItem.getRotation(), client.getPlayer());
         client.send(new OpenGiftMessageComposer(floorItemId, floorItem.getDefinition().getType(), ((GiftFloorItem) floorItem).getGiftData(), ItemManager.getInstance().getDefinition(catalogItem.getItems().get(0))));
-
 
         RoomItemDao.setBaseItem(floorItemId, catalogItem.getItems().get(0));
     }
