@@ -47,7 +47,7 @@ public class Pathfinder {
         MinMaxPriorityQueue<PathfinderNode> openList = MinMaxPriorityQueue.maximumSize(256).create();
 
         PathfinderNode[][] map = new PathfinderNode[roomObject.getRoom().getMapping().getModel().getSizeX()][roomObject.getRoom().getMapping().getModel().getSizeY()];
-        PathfinderNode node;
+        PathfinderNode node = null;
         Position tmp;
 
         int cost;
@@ -61,6 +61,8 @@ public class Pathfinder {
         map[current.getPosition().getX()][current.getPosition().getY()] = current;
         openList.add(current);
 
+        final boolean isFloorItem = roomObject instanceof RoomItemFloor;
+
         while (openList.size() > 0) {
             current = openList.pollFirst();
             current.setInClosed(true);
@@ -68,7 +70,6 @@ public class Pathfinder {
             for (int i = 0; i < (pathfinderMode == ALLOW_DIAGONAL ? diagonalMovePoints().length : movePoints().length); i++) {
                 tmp = current.getPosition().add((pathfinderMode == ALLOW_DIAGONAL ? diagonalMovePoints() : movePoints())[i]);
                 final boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
-                final boolean isFloorItem = roomObject instanceof RoomItemFloor;
 
                 if (roomObject.getRoom().getMapping().isValidStep(roomObject instanceof GenericEntity ? roomObject.getId() : 0,
                         new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove, isFloorItem) ||
