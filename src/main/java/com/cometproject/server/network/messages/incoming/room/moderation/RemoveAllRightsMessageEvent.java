@@ -42,6 +42,7 @@ public class RemoveAllRightsMessageEvent implements IEvent {
             room.getRights().removeRights(id);
         }
 
+//        client.send(new RightsListMessageComposer(room.getId(), room.getRights().getAll()));
         toRemove.clear();
     }
 }
