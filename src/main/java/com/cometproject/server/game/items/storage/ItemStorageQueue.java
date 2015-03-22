@@ -17,7 +17,6 @@ public class ItemStorageQueue implements Initializable, CometTask {
 
     private List<RoomItem> itemsToStore;
 
-
     public ItemStorageQueue() {
         this.itemsToStore = new CopyOnWriteArrayList<>();
     }
