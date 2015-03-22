@@ -53,7 +53,7 @@ public class GroupInformationMessageComposer extends MessageComposer {
         msg.writeString(PlayerDao.getUsernameByPlayerId(group.getData().getOwnerId()));
 
         msg.writeBoolean(flag);
-        msg.writeBoolean(flag);
+        msg.writeBoolean(group.getData().canMembersDecorate());
 
         msg.writeInt((isOwner || isAdmin) ? group.getMembershipComponent().getMembershipRequests().size() : 0);
         msg.writeBoolean(true);

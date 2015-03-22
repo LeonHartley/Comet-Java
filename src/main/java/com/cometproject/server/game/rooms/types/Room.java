@@ -89,7 +89,7 @@ public class Room implements Attributable {
         this.pets = new PetComponent(this);
 
         // Cache the group.
-        this.group = GroupManager.getInstance().get(this.getId());
+        this.group = GroupManager.getInstance().getGroupByRoomId(this.getId());
 
         this.mapping.init();
 
