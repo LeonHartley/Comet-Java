@@ -1,6 +1,7 @@
 package com.cometproject.server.storage.queries.rooms;
 
 import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
@@ -13,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 
 
 public class RoomItemDao {
@@ -222,6 +224,41 @@ public class RoomItemDao {
             preparedStatement.setInt(2, itemId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void processBatch(List<RoomItem> itemsToStore) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+            sqlConnection.setAutoCommit(false);
+
+            preparedStatement = SqlHelper.prepare("UPDATE items SET extra_data = ? WHERE id = ?", sqlConnection);
+
+            for(RoomItem roomItem : itemsToStore) {
+                String data;
+
+                if(roomItem instanceof RoomItemFloor) {
+                    data = ((RoomItemFloor) roomItem).getDataObject();
+                } else {
+                    data = roomItem.getExtraData();
+                }
+
+                preparedStatement.setString(1, data);
+                preparedStatement.setInt(2, roomItem.getId());
+
+                preparedStatement.addBatch();
+            }
+
+            preparedStatement.executeBatch();
+            sqlConnection.commit();
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
