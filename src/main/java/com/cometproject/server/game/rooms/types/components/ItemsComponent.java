@@ -193,6 +193,8 @@ public class ItemsComponent {
     }
 
     public void removeItem(RoomItemWall item, Session client) {
+        if(item == null || client.getPlayer() == null) return;
+
         RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
 
         room.getEntities().broadcastMessage(new RemoveWallItemMessageComposer(item.getId(), room.getData().getOwnerId()));
@@ -200,7 +202,6 @@ public class ItemsComponent {
 
         client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
         client.send(new UpdateInventoryMessageComposer());
-        //client.send(new InventoryMessageComposer(client.getPlayer().getInventory()));
     }
 
     public void removeItem(RoomItemFloor item, Session client) {

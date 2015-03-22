@@ -13,12 +13,12 @@ public class LandingLoadWidgetMessageEvent implements IEvent {
         final String[] splitText = text.split(",");
 
         if (text.isEmpty() || splitText.length < 2) {
-            client.sendQueue(new HotelViewItemMessageComposer("", ""));
+            client.send(new HotelViewItemMessageComposer("", ""));
             return;
         }
 
         if (splitText[1].equals("gamesmaker")) return;
 
-        client.sendQueue(new HotelViewItemMessageComposer(text, splitText[1]));
+        client.send(new HotelViewItemMessageComposer(text, splitText[1]));
     }
 }

@@ -87,6 +87,8 @@ public class RoomMapping {
     }
 
     public Tile getTile(Position position) {
+        if(position == null) return null;
+
         return this.getTile(position.getX(), position.getY());
     }
 

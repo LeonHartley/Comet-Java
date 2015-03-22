@@ -1,5 +1,6 @@
 package com.cometproject.server.game.items;
 
+import com.cometproject.server.game.items.storage.ItemStorageQueue;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
@@ -25,6 +26,8 @@ public class ItemManager implements Initializable {
     public void initialize() {
         this.itemDefinitions = new FastMap<>();
         this.loadItemDefinitions();
+
+        ItemStorageQueue.getInstance().initialize();
 
         log.info("ItemManager initialized");
     }
