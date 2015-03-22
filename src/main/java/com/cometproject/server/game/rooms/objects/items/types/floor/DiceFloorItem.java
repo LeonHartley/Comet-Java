@@ -48,6 +48,8 @@ public class DiceFloorItem extends RoomItemFloor {
         } else {
             this.setExtraData("0");
             this.sendUpdate();
+
+            this.saveData();
         }
 
         return true;
@@ -71,6 +73,7 @@ public class DiceFloorItem extends RoomItemFloor {
 
         this.setExtraData(Integer.toString(this.rigNumber == -1 ? num : this.rigNumber));
         this.sendUpdate();
+        
         this.saveData();
 
         if(this.rigNumber != -1) this.rigNumber = -1;
