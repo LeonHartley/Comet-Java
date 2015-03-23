@@ -54,16 +54,6 @@ public final class Event implements ByteBufHolder {
     }
 
     @Override
-    public ByteBufHolder touch() {
-        return null;
-    }
-
-    @Override
-    public ByteBufHolder touch(Object o) {
-        return null;
-    }
-
-    @Override
     public boolean release() {
         return this.buffer.release();
     }

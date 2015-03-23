@@ -51,6 +51,7 @@ public class NetworkManager {
 
         EventLoopGroup acceptGroup;
         EventLoopGroup ioGroup;
+        EventLoopGroup channelGroup;
 
         final boolean isEpollAvailable = Epoll.isAvailable();
         final int threadCount = 16; // TODO: Find the best count.
@@ -59,16 +60,18 @@ public class NetworkManager {
             log.info("Epoll is available");
             acceptGroup = new EpollEventLoopGroup(threadCount);//new ThreadFactoryBuilder().setNameFormat("Netty Epoll Accept Thread #%1$d").build());
             ioGroup = new EpollEventLoopGroup(threadCount);//, new ThreadFactoryBuilder().setNameFormat("Netty Epoll IO Thread #%1$d").build());
+            channelGroup = new EpollEventLoopGroup(threadCount);//, new ThreadFactoryBuilder().setNameFormat("Netty Epoll Channel Thread #%1$d").build());1
         } else {
             log.info("Epoll is not available");
             acceptGroup = new NioEventLoopGroup(threadCount);//, new ThreadFactoryBuilder().setNameFormat("Netty NIO Accept Thread #%1$d").build());
             ioGroup = new NioEventLoopGroup(threadCount);//, new ThreadFactoryBuilder().setNameFormat("Netty NIO IO Thread #%1$d").build());
+            channelGroup = new NioEventLoopGroup(threadCount);//, new ThreadFactoryBuilder().setNameFormat("Netty NIO Channel Thread #%1$d").build());
         }
 
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(acceptGroup, ioGroup)
                 .channel(isEpollAvailable ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
-                .childHandler(new NetworkChannelInitializer(threadCount))
+                .childHandler(new NetworkChannelInitializer(channelGroup))
                 .option(ChannelOption.SO_BACKLOG, 5000)
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
