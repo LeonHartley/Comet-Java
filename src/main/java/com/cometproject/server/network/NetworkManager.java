@@ -4,7 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.sessions.SessionManager;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.buffer.UnpooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.DefaultMessageSizeEstimator;
 import io.netty.channel.EventLoopGroup;
@@ -53,32 +53,33 @@ public class NetworkManager {
         EventLoopGroup ioGroup;
         EventLoopGroup channelGroup;
 
-        final boolean isEpollAvailable = Epoll.isAvailable();
+        final boolean isEpollAvailable = Epoll.isAvailable() && Boolean.parseBoolean(Comet.getServer().getConfig().get("comet.network.epoll", "false"));
         final int threadCount = 16; // TODO: Find the best count.
 
         if(isEpollAvailable) {
             log.info("Epoll is available");
-            acceptGroup = new EpollEventLoopGroup(threadCount);//new ThreadFactoryBuilder().setNameFormat("Netty Epoll Accept Thread #%1$d").build());
-            ioGroup = new EpollEventLoopGroup(threadCount);//, new ThreadFactoryBuilder().setNameFormat("Netty Epoll IO Thread #%1$d").build());
-            channelGroup = new EpollEventLoopGroup(threadCount);//, new ThreadFactoryBuilder().setNameFormat("Netty Epoll Channel Thread #%1$d").build());1
+            acceptGroup = new EpollEventLoopGroup(threadCount);
+            ioGroup = new EpollEventLoopGroup(threadCount);
+            channelGroup = new EpollEventLoopGroup(threadCount);
         } else {
             log.info("Epoll is not available");
-            acceptGroup = new NioEventLoopGroup(threadCount);//, new ThreadFactoryBuilder().setNameFormat("Netty NIO Accept Thread #%1$d").build());
-            ioGroup = new NioEventLoopGroup(threadCount);//, new ThreadFactoryBuilder().setNameFormat("Netty NIO IO Thread #%1$d").build());
-            channelGroup = new NioEventLoopGroup(threadCount);//, new ThreadFactoryBuilder().setNameFormat("Netty NIO Channel Thread #%1$d").build());
+            acceptGroup = new NioEventLoopGroup(threadCount);
+            ioGroup = new NioEventLoopGroup(threadCount);
+            channelGroup = new NioEventLoopGroup(threadCount);
         }
 
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(acceptGroup, ioGroup)
                 .channel(isEpollAvailable ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer(channelGroup))
-                .option(ChannelOption.SO_BACKLOG, 5000)
+                .option(ChannelOption.SO_BACKLOG, Integer.parseInt(Comet.getServer().getConfig().get("comet.network.backlog", "500")))
                 .option(ChannelOption.SO_KEEPALIVE, true)
+                .option(ChannelOption.TCP_NODELAY, true)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
                 .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)
-                .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
-                .option(ChannelOption.MESSAGE_SIZE_ESTIMATOR, new DefaultMessageSizeEstimator(256))
-                .option(ChannelOption.TCP_NODELAY, true);
+                .option(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)
+                .option(ChannelOption.MESSAGE_SIZE_ESTIMATOR, DefaultMessageSizeEstimator.DEFAULT)
+                .childOption(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT);
 
         if (ports.contains(",")) {
             for (String s : ports.split(",")) {

@@ -23,7 +23,6 @@ public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel>
                 .addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8))
                 .addLast("messageDecoder", new MessageDecoder())
                 .addLast("messageEncoder", new MessageEncoder())
-//                .addLast("idleHandler", new IdleStateHandler(60, 30, 0, TimeUnit.SECONDS))
                 .addLast(this.executor, "clientHandler", ClientHandler.getInstance());
     }
 }
