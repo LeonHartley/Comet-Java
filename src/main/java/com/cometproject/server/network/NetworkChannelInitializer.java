@@ -8,20 +8,13 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
-import io.netty.util.concurrent.DefaultEventExecutorGroup;
 import io.netty.util.concurrent.EventExecutorGroup;
 
 public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel> {
     private final EventExecutorGroup executor;
 
-    public NetworkChannelInitializer(int threadSize) {
-        if (threadSize == 0) {
-            threadSize = (Runtime.getRuntime().availableProcessors() * 2);
-        }
-
-
-
-        this.executor = new DefaultEventExecutorGroup(threadSize);//, new ThreadFactoryBuilder().setNameFormat("Netty Event Thread #%1$d").setPriority(Thread.MAX_PRIORITY).build());
+    public NetworkChannelInitializer(EventExecutorGroup executorGroup) {
+        this.executor = executorGroup;
     }
 
     @Override

@@ -7,7 +7,6 @@ import com.cometproject.server.network.sessions.SessionManager;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.socket.ChannelInputShutdownEvent;
 import org.apache.log4j.Logger;
 
 @ChannelHandler.Sharable
@@ -43,42 +42,16 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     }
 
     @Override
-    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-//        if (evt instanceof IdleStateEvent) {
-//            IdleStateEvent e = (IdleStateEvent) evt;
-//            if (e.state() == IdleState.READER_IDLE) {
-//                ctx.close();
-//            } else if (e.state() == IdleState.WRITER_IDLE) {
-//                ctx.writeAndFlush(new PingMessageComposer());
-//            }
-//        }
-
-        if (evt instanceof ChannelInputShutdownEvent) {
-            ctx.close();
-        }
-    }
-
-    @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         if (ctx.channel().isActive()) {
-            /*if (cause instanceof IOException) {
-//                log.error("IOException in ClientHandler", cause);
-                return;
-            } else if(cause instanceof IllegalArgumentException) {
-                ctx.close();
-                return;
-            }
-            log.error("Exception in ClientHandler : " + cause.getMessage());
-            cause.printStackTrace();*/
-
             ctx.close();
         }
     }
 
     @Override
-    protected void messageReceived(ChannelHandlerContext ctx, Event event) throws Exception {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Event event) throws Exception {
         try {
-            Session session = ctx.attr(SessionManager.SESSION_ATTR).get();
+            Session session = channelHandlerContext.attr(SessionManager.SESSION_ATTR).get();
 
             if (session != null) {
                 session.handleMessageEvent(event);

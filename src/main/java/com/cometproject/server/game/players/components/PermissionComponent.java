@@ -15,10 +15,16 @@ public class PermissionComponent implements PlayerComponent {
     }
 
     public boolean hasPermission(String key) {
-        if (PermissionsManager.getInstance().getPermissions().containsKey(key)) {
-            if (PermissionsManager.getInstance().getPermissions().get(key).getRank() <= this.getPlayer().getData().getRank()) {
-                return true;
+        try {
+            if (PermissionsManager.getInstance().getPermissions().containsKey(key)) {
+                if (this.getPlayer() == null || this.getPlayer().getData() == null) return false;
+
+                if (PermissionsManager.getInstance().getPermissions().get(key).getRank() <= this.getPlayer().getData().getRank()) {
+                    return true;
+                }
             }
+        } catch(Exception ignored) {
+            return false;
         }
 
         return false;
