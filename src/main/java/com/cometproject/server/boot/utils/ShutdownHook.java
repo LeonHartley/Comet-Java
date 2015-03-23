@@ -1,6 +1,7 @@
 package com.cometproject.server.boot.utils;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.items.storage.ItemStorageQueue;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.database.queries.LogQueries;
 import com.cometproject.server.storage.StorageManager;
@@ -19,6 +20,7 @@ public class ShutdownHook {
 
                 Comet.isRunning = false;
 
+                ItemStorageQueue.getInstance().shutdown();
                 StatisticsDao.saveStatistics(0, 0, Comet.getBuild());
 
                 if (LogManager.ENABLED)

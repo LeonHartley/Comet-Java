@@ -22,6 +22,7 @@ public class CoinsCommand extends ChatCommand {
             player.getPlayer().getData().increaseCredits(credits);
             player.send(new AdvancedAlertMessageComposer(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(credits))));
 
+            player.getPlayer().getData().save();
             player.getPlayer().sendBalance();
         } catch (Exception e) {
             client.send(new AdvancedAlertMessageComposer(Locale.get("command.coins.errortitle"), Locale.get("command.coins.formaterror")));
