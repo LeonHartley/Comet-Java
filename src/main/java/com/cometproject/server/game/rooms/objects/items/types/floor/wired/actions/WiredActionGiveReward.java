@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
@@ -9,6 +10,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.storage.queries.items.ItemDao;
@@ -27,12 +29,17 @@ public class WiredActionGiveReward extends WiredActionItem {
     private static final Random RANDOM = new Random();
 
     private static final int PARAM_HOW_OFTEN = 0;
+
     private static final int PARAM_UNIQUE = 1;
     private static final int PARAM_TOTAL_REWARD_LIMIT = 2;
-
     private static final int REWARD_LIMIT_ONCE = 0;
+
     private static final int REWARD_LIMIT_DAY = 1;
     private static final int REWARD_LIMIT_HOUR = 2;
+
+    public static final String REWARD_DIAMONDS = "diamonds";
+    public static final String REWARD_COINS = "coins";
+    public static final String REWARD_DUCKETS = "duckets";
 
     private static final long ONE_DAY = 86400;
     private static final long ONE_HOUR = 3600;
@@ -139,31 +146,69 @@ public class WiredActionGiveReward extends WiredActionItem {
                         playerEntity.getPlayer().getInventory().addBadge(reward.productCode, true);
                     }
                 } else {
-                    String[] itemData = reward.productCode.split("%");
-                    String extraData = "0";
+                    String[] itemData = reward.productCode.contains("%") ? reward.productCode.split("%") : reward.productCode.split(":");
 
-                    if (itemData.length == 2) {
-                        extraData = itemData[1];
-                    }
+                    if(isCurrencyReward(itemData[0])) {
+                        // handle currency reward
+                        if(itemData.length != 2) continue;
 
-                    if (!StringUtils.isNumeric(itemData[0]))
-                        continue;
+                        if(!StringUtils.isNumeric(itemData[1])) {
+                            continue;
+                        }
 
-                    int itemId = Integer.parseInt(itemData[0]);
+                        int amount = Integer.parseInt(itemData[1]);
 
-                    ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(itemId);
+                        switch(itemData[0]) {
+                            case REWARD_COINS:
+                                playerEntity.getPlayer().getData().increaseCredits(amount);
+                                playerEntity.getPlayer().getSession().send(new AlertMessageComposer(
+                                        Locale.getOrDefault("wired.reward.coins", "You received %s coin(s)!").replace("%s", amount + "")));
+                                break;
 
-                    if (itemDefinition != null) {
-                        int newItem = ItemDao.createItem(playerEntity.getPlayerId(), itemId, extraData);
+                            case REWARD_DIAMONDS:
+                                playerEntity.getPlayer().getData().increasePoints(amount);
+                                playerEntity.getPlayer().getSession().send(new AlertMessageComposer(
+                                        Locale.getOrDefault("wired.reward.diamonds", "You received %s diamond(s)!").replace("%s", amount + "")));
+                                break;
 
-                        InventoryItem inventoryItem = new InventoryItem(newItem, itemId, extraData);
+                            case REWARD_DUCKETS:
+                                playerEntity.getPlayer().getData().increaseActivityPoints(amount);
+                                playerEntity.getPlayer().getSession().send(new AlertMessageComposer(
+                                        Locale.getOrDefault("wired.reward.duckets", "You received %s ducket(s)!").replace("%s", amount + "")));
+                                break;
+                        }
 
-                        playerEntity.getPlayer().getInventory().addItem(inventoryItem);
+                        playerEntity.getPlayer().getData().save();
+                        playerEntity.getPlayer().sendBalance();
 
-                        playerEntity.getPlayer().getSession().send(new UpdateInventoryMessageComposer());
-                        playerEntity.getPlayer().getSession().send(new UnseenItemsMessageComposer(Arrays.asList(inventoryItem)));
+//                        playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(6));
+                    } else {
 
-                        playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(6));
+                        String extraData = "0";
+
+                        if (itemData.length == 2) {
+                            extraData = itemData[1];
+                        }
+
+                        if (!StringUtils.isNumeric(itemData[0]))
+                            continue;
+
+                        int itemId = Integer.parseInt(itemData[0]);
+
+                        ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(itemId);
+
+                        if (itemDefinition != null) {
+                            int newItem = ItemDao.createItem(playerEntity.getPlayerId(), itemId, extraData);
+
+                            InventoryItem inventoryItem = new InventoryItem(newItem, itemId, extraData);
+
+                            playerEntity.getPlayer().getInventory().addItem(inventoryItem);
+
+                            playerEntity.getPlayer().getSession().send(new UpdateInventoryMessageComposer());
+                            playerEntity.getPlayer().getSession().send(new UnseenItemsMessageComposer(Arrays.asList(inventoryItem)));
+
+                            playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(6));
+                        }
                     }
                 }
 
@@ -182,6 +227,10 @@ public class WiredActionGiveReward extends WiredActionItem {
             rewardTimings.get(this.getId()).put(playerEntity.getPlayerId(), Comet.getTime());
         }
         return false;
+    }
+
+    private boolean isCurrencyReward(final String key) {
+        return (key.equals(REWARD_COINS) || key.equals(REWARD_DIAMONDS) || key.equals(REWARD_DUCKETS));
     }
 
     @Override

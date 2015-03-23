@@ -37,6 +37,7 @@ public abstract class MassCurrencyCommand extends ChatCommand {
                     session.send(session.getPlayer().composeCurrenciesBalance());
                 }
 
+                session.getPlayer().getData().save();
                 session.getPlayer().sendBalance();
             } catch(Exception ignored) {
 
