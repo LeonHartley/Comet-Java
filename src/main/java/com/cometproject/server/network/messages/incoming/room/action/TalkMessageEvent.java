@@ -30,10 +30,10 @@ public class TalkMessageEvent implements IEvent {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {
-                client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getChatMessage())));
+                client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
                 return;
             } else if (filterResult.wasModified()) {
-                filteredMessage = filterResult.getChatMessage();
+                filteredMessage = filterResult.getMessage();
             }
         }
 
