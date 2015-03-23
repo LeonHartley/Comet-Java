@@ -153,6 +153,11 @@ public class CometSettings {
      */
     public static int giftCooldown = 30;
 
+    /**
+     * Is the item storage queue enabled?
+     */
+    public static boolean itemStorageQueueEnabled = false;
+
     // TODO: Catch missing-config exceptions and fallback to the defaults...
 
     /**
@@ -224,6 +229,10 @@ public class CometSettings {
 
         if(config.containsKey("comet.game.gift.cooldown")) {
             giftCooldown = Integer.parseInt(config.get("comet.game.gift.cooldown"));
+        }
+
+        if(config.containsKey("comet.data.itemStorageQueue")) {
+            itemStorageQueueEnabled = Boolean.parseBoolean(config.get("comet.data.itemStorageQueue"));
         }
     }
 

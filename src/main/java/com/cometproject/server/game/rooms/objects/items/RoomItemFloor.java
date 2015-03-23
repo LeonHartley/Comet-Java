@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
@@ -23,6 +24,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.attributes.Collidable;
 import com.cometproject.server.utilities.comporators.PositionComporator;
 import com.google.common.collect.Lists;
@@ -287,7 +289,11 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
 
     @Override
     public void saveData() {
-        ItemStorageQueue.getInstance().queueSaveData(this);
+        if(CometSettings.itemStorageQueueEnabled) {
+            ItemStorageQueue.getInstance().queueSaveData(this);
+        } else {
+            RoomItemDao.saveData(this.getId(), this.getDataObject());
+        }
     }
 
     @Override
