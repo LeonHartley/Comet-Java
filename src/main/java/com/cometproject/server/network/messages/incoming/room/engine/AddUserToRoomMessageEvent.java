@@ -97,6 +97,5 @@ public class AddUserToRoomMessageEvent implements IEvent {
         WiredTriggerEnterRoom.executeTriggers(client.getPlayer().getEntity());
 
         avatar.markNeedsUpdate();
-        groupsInRoom.clear();
     }
 }
