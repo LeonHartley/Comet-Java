@@ -2,6 +2,7 @@ package com.cometproject.server.config;
 
 import com.cometproject.server.game.rooms.filter.FilterMode;
 import com.cometproject.server.storage.queries.config.ConfigDao;
+import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
@@ -158,6 +159,8 @@ public class CometSettings {
      */
     public static boolean itemStorageQueueEnabled = false;
 
+    public static final Map<String, String> strictFilterCharacters = Maps.newHashMap();
+
     // TODO: Catch missing-config exceptions and fallback to the defaults...
 
     /**
@@ -233,6 +236,24 @@ public class CometSettings {
 
         if(config.containsKey("comet.data.itemStorageQueue")) {
             itemStorageQueueEnabled = Boolean.parseBoolean(config.get("comet.data.itemStorageQueue"));
+        }
+
+        if(config.containsKey("comet.game.filter.characters")) {
+            strictFilterCharacters.clear();
+
+            final String characters = config.get("comet.game.filter.characters");
+
+            for(String charSet : characters.split(",")) {
+                if(!charSet.contains(":")) continue;
+
+                final String[] chars = charSet.split(":");
+
+                if(chars.length == 2) {
+                    strictFilterCharacters.put(chars[0], chars[1]);
+                } else {
+                    strictFilterCharacters.put(chars[0], "");
+                }
+            }
         }
     }
 

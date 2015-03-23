@@ -49,7 +49,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Event event) throws Exception {
+    public void channelRead0(ChannelHandlerContext channelHandlerContext, Event event) throws Exception {
         try {
             Session session = channelHandlerContext.attr(SessionManager.SESSION_ATTR).get();
 
@@ -59,5 +59,10 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
         } catch (Exception e) {
             log.error("Error while receiving message", e);
         }
+    }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext context) {
+        context.flush();
     }
 }
