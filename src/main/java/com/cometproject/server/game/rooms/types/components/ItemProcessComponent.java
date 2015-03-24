@@ -125,7 +125,7 @@ public class ItemProcessComponent implements CometTask {
     }
 
     protected void handleException(RoomItem item, Exception e) {
-        log.error("Error while processing item: " + item.getId() + " (" + item.getClass().getSimpleName(), e);
+        log.error("Error while processing item: " + item.getId() + " (" + item.getClass().getSimpleName() + ")", e);
     }
 
     public Room getRoom() {
