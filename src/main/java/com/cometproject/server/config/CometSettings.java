@@ -161,8 +161,6 @@ public class CometSettings {
 
     public static final Map<String, String> strictFilterCharacters = Maps.newHashMap();
 
-    // TODO: Catch missing-config exceptions and fallback to the defaults...
-
     /**
      * Logging
      */

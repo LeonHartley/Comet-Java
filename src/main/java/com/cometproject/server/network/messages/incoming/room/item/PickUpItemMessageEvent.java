@@ -45,10 +45,10 @@ public class PickUpItemMessageEvent implements IEvent {
             }
 
             if(!eject) {
-                room.getItems().removeItem(wItem, client);
+                room.getItems().removeItem(wItem, client.getPlayer().getId(), client);
             } else {
                 Session owner = NetworkManager.getInstance().getSessions().getByPlayerId(wItem.getOwner());
-                room.getItems().removeItem(wItem, owner);
+                room.getItems().removeItem(wItem, wItem.getOwner(), owner);
             }
 
             client.send(new RemoveWallItemMessageComposer(wItem.getId(), client.getPlayer().getId()));

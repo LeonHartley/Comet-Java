@@ -41,6 +41,7 @@ public class WiredAddonPyramid extends RoomItemFloor {
 
         this.sendUpdate();
         this.setTicks(RoomItemFactory.getProcessTime(RandomInteger.getRandom(5, 8)));
-        this.getRoom().getMapping().getTile(this.getPosition().getX(), this.getPosition().getY()).reload();
+
+        this.getRoom().getMapping().updateTile(this.getPosition().getX(), this.getPosition().getY());
     }
 }
