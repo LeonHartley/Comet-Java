@@ -12,6 +12,27 @@ import java.util.List;
 public class InviteFriendsMessageEvent implements IEvent {
     @Override
     public void handle(Session client, Event msg) throws Exception {
+        final long time = System.currentTimeMillis();
+
+        if (!client.getPlayer().getPermissions().hasPermission("bypass_flood")) {
+            if (time - client.getPlayer().getMessengerLastMessageTime() < 750) {
+                client.getPlayer().setMessengerFloodFlag(client.getPlayer().getMessengerFloodFlag() + 1);
+
+                if (client.getPlayer().getMessengerFloodFlag() >= 4) {
+                    client.getPlayer().setMessengerFloodTime(30);
+                    client.getPlayer().setMessengerFloodFlag(0);
+
+                }
+            }
+
+            if (client.getPlayer().getMessengerFloodTime() >= 1) {
+                return;
+            }
+
+            client.getPlayer().setMessengerLastMessageTime(time);
+        }
+
+
         int friendCount = msg.readInt();
         List<Integer> friends = new ArrayList<>();
 
