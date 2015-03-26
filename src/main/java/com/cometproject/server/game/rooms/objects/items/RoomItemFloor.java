@@ -18,7 +18,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFl
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.AbstractWiredItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
@@ -209,7 +209,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
             msg.writeInt(0);
 
             //msg.writeString(isGift ? giftData.toString() : this.getExtraData());
-            msg.writeString((this instanceof FootballGateFloorItem) ? "" : (this instanceof AbstractWiredItem) ? "0" : this.getExtraData());
+            msg.writeString((this instanceof FootballGateFloorItem) ? "" : (this instanceof WiredFloorItem) ? "0" : this.getExtraData());
         }
 
         msg.writeInt(-1);
@@ -258,7 +258,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
     @Override
     public boolean toggleInteract(boolean state) {
         if (!state) {
-            if (!(this instanceof AbstractWiredItem))
+            if (!(this instanceof WiredFloorItem))
                 this.setExtraData("0");
 
             return true;

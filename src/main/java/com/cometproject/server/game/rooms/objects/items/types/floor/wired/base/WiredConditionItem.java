@@ -1,12 +1,12 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.base;
 
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.AbstractWiredItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredConditionMessageComposer;
 
 
-public abstract class WiredConditionItem extends AbstractWiredItem {
+public abstract class WiredConditionItem extends WiredFloorItem {
     protected boolean isNegative;
 
     /**

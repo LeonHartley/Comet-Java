@@ -70,7 +70,7 @@ public class DeleteGroupCommand extends ChatCommand {
                         if (roomItem instanceof RoomItemFloor)
                             room.getItems().removeItem(((RoomItemFloor) roomItem), groupMemberSession);
                         else if (roomItem instanceof RoomItemWall)
-                            room.getItems().removeItem(((RoomItemWall) roomItem), groupMemberSession);
+                            room.getItems().removeItem(((RoomItemWall) roomItem), groupMemberSession, true);
                     }
                 } else {
                     for (RoomItem roomItem : floorItemsOwnedByPlayer) {

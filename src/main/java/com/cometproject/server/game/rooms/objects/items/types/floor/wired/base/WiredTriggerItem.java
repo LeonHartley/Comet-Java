@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.base;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.AbstractWiredItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionKickUser;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonRandomEffect;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.WiredAddonUnseenEffect;
@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 import java.util.List;
 
 
-public abstract class WiredTriggerItem extends AbstractWiredItem {
+public abstract class WiredTriggerItem extends WiredFloorItem {
     private static Logger log = Logger.getLogger(WiredTriggerItem.class.getName());
 
     /**
