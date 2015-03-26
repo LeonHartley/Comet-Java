@@ -31,6 +31,7 @@ import com.cometproject.server.game.commands.user.group.DeleteGroupCommand;
 import com.cometproject.server.game.commands.user.room.PickAllCommand;
 import com.cometproject.server.game.commands.user.room.SetMaxCommand;
 import com.cometproject.server.game.commands.user.room.SetSpeedCommand;
+import com.cometproject.server.game.commands.user.settings.ToggleFriendsCommand;
 import com.cometproject.server.game.commands.vip.*;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.network.sessions.Session;
@@ -106,6 +107,7 @@ public class CommandManager implements Initializable {
         this.commands.put(Locale.get("command.setmax.name"), new SetMaxCommand());
         this.commands.put(Locale.get("command.position.name"), new PositionCommand());
         this.commands.put(Locale.get("command.deletegroup.name"), new DeleteGroupCommand());
+        this.commands.put(Locale.get("command.togglefriends.name"), new ToggleFriendsCommand());
         this.commands.put("screenshot", new ScreenshotCommand());
 
         // VIP commands

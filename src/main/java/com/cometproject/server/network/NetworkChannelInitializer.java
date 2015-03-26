@@ -19,9 +19,10 @@ public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel>
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
-        System.out.println(ch.config().getTrafficClass());
+        ch.config().setTrafficClass(0x18);
 
-        ch.pipeline().addLast("xmlDecoder", new XMLPolicyDecoder())
+        ch.pipeline()
+                .addLast("xmlDecoder", new XMLPolicyDecoder())
                 .addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8))
                 .addLast("messageDecoder", new MessageDecoder())
                 .addLast("messageEncoder", new MessageEncoder())
