@@ -36,7 +36,7 @@ public class Room implements Attributable {
     private ItemsComponent items;
     private ItemProcessComponent itemProcess;
     private TradeComponent trade;
-    private BotComponent bots;
+    private RoomBotComponent bots;
     private PetComponent pets;
     private GameComponent game;
     private EntityComponent entities;
@@ -85,7 +85,7 @@ public class Room implements Attributable {
         this.trade = new TradeComponent(this);
         this.game = new GameComponent(this);
         this.entities = new EntityComponent(this);
-        this.bots = new BotComponent(this);
+        this.bots = new RoomBotComponent(this);
         this.pets = new PetComponent(this);
 
         // Cache the group.
@@ -215,7 +215,7 @@ public class Room implements Attributable {
         return this.rights;
     }
 
-    public BotComponent getBots() {
+    public RoomBotComponent getBots() {
         return this.bots;
     }
 

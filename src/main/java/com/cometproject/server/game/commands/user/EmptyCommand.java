@@ -55,7 +55,6 @@ public class EmptyCommand extends ChatCommand {
 
     @Override
     public String getDescription() {
-
         return Locale.get("command.empty.description");
     }
 }

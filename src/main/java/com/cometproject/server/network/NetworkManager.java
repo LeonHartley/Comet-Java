@@ -54,7 +54,7 @@ public class NetworkManager {
         EventLoopGroup channelGroup;
 
         final boolean isEpollAvailable = Epoll.isAvailable() && Boolean.parseBoolean(Comet.getServer().getConfig().get("comet.network.epoll", "false"));
-        final int threadCount = 16; // TODO: Find the best count.
+        final int threadCount = 0; // TODO: Find the best count.
 
         if(isEpollAvailable) {
             log.info("Epoll is available");

@@ -138,7 +138,12 @@ public class Tile {
 
             if (item.getOverrideHeight() != -1d) {
                 overrideItem = item.getId();
-                overrideHeight = item.getOverrideHeight() + (hasComponentItem ? 1.0 : 0d);
+
+                if(overrideHeight != null) {
+                    overrideHeight += item.getOverrideHeight() + (hasComponentItem ? 1.0 : 0d);
+                } else {
+                    overrideHeight = item.getOverrideHeight() + (hasComponentItem ? 1.0 : 0d);
+                }
             }
         }
 
@@ -163,6 +168,8 @@ public class Tile {
     }
 
     public double getStackHeight() {
+        if(this.originalHeight > this.stackHeight) return this.originalHeight;
+
         return this.stackHeight;
     }
 

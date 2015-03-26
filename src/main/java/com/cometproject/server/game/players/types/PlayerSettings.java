@@ -131,6 +131,10 @@ public class PlayerSettings {
         return this.allowFriendRequests;
     }
 
+    public void setAllowFriendRequests(boolean allowFriendRequests) {
+        this.allowFriendRequests = allowFriendRequests;
+    }
+
     public boolean getAllowTrade() {
         return this.allowTrade;
     }

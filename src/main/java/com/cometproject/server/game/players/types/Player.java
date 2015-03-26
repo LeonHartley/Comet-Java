@@ -40,7 +40,7 @@ public class Player {
     private SubscriptionComponent subscription;
     private MessengerComponent messenger;
     private RelationshipComponent relationships;
-    private BotComponent bots;
+    private InventoryBotComponent bots;
     private PetComponent pets;
     private QuestComponent quests;
 
@@ -90,7 +90,7 @@ public class Player {
         this.messenger = new MessengerComponent(this);
         this.subscription = new SubscriptionComponent(this);
         this.relationships = new RelationshipComponent(this);
-        this.bots = new BotComponent(this);
+        this.bots = new InventoryBotComponent(this);
         this.pets = new PetComponent(this);
         this.quests = new QuestComponent(this);
 
@@ -253,7 +253,7 @@ public class Player {
         return this.relationships;
     }
 
-    public BotComponent getBots() {
+    public InventoryBotComponent getBots() {
         return this.bots;
     }
 
