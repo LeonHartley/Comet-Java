@@ -275,7 +275,7 @@ public class ItemsComponent {
             return false;
         }
 
-        double height = item.getId() == tile.getTopItem() ? item.getPosition().getZ() : tile.getStackHeight();
+        double height = tile.getStackHeight(item);
 
         List<RoomItemFloor> floorItemsAt = this.getItemsOnSquare(newPosition.getX(), newPosition.getY());
 
@@ -367,6 +367,10 @@ public class ItemsComponent {
             }
 
             if (!item.getInteraction().equals(RoomItemFactory.TELEPORT_PAD) && tile.getPosition().getX() == this.getRoom().getModel().getDoorX() && tile.getPosition().getY() == this.getRoom().getModel().getDoorY()) {
+                return false;
+            }
+
+            if(tile.getEntities().size() != 0) {
                 return false;
             }
         } else {
