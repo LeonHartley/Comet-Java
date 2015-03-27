@@ -5,8 +5,10 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.AdjustableHeightFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.BedFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GateFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
@@ -35,6 +37,7 @@ public class Tile {
 
     private boolean canPlaceItemHere = false;
     private boolean hasItems = false;
+    private boolean hasMagicTile = false;
 
     public Set<GenericEntity> entities;
 
@@ -53,6 +56,7 @@ public class Tile {
         this.movementNode = RoomEntityMovementNode.OPEN;
         this.status = RoomTileStatusType.NONE;
         this.canStack = true;
+        this.hasMagicTile = false;
         this.topItem = 0;
         this.originalHeight = 0d;
         this.originalTopItem = 0;
@@ -70,6 +74,7 @@ public class Tile {
         double highestHeight = 0d;
         int highestItem = 0;
 
+        Double staticOverrideHeight = null;
         Double overrideHeight = null;
         int overrideItem = 0;
 
@@ -79,7 +84,7 @@ public class Tile {
 
             this.hasItems = true;
 
-            final double totalHeight = item.getPosition().getZ() + item.getDefinition().getHeight();
+            final double totalHeight = item.getPosition().getZ() + (item.getOverrideHeight() != -1d ? item.getOverrideHeight() : item.getDefinition().getHeight());
 
             if (totalHeight > highestHeight) {
                 highestHeight = totalHeight;
@@ -87,6 +92,10 @@ public class Tile {
             }
 
             final boolean isGate = item instanceof GateFloorItem;
+
+            if(item instanceof MagicStackFloorItem) {
+                this.hasMagicTile = true;
+            }
 
             if (!item.getDefinition().canWalk() && !isGate) {
                 movementNode = RoomEntityMovementNode.CLOSED;
@@ -139,6 +148,10 @@ public class Tile {
             if (item.getOverrideHeight() != -1d) {
                 overrideItem = item.getId();
 
+                if(item instanceof MagicStackFloorItem) {
+                    staticOverrideHeight = item.getOverrideHeight();
+                }
+
                 if(overrideHeight != null) {
                     overrideHeight += item.getOverrideHeight() + (hasComponentItem ? 1.0 : 0d);
                 } else {
@@ -149,15 +162,16 @@ public class Tile {
 
         if (overrideHeight != null) {
             this.canStack = true;
-            this.stackHeight = overrideHeight;
-            this.topItem = overrideItem;
+            this.stackHeight = staticOverrideHeight != null ? staticOverrideHeight : overrideHeight;
+//            this.topItem = overrideItem;
 
             this.originalHeight = highestHeight;
-            this.originalTopItem = highestItem;
+//            this.originalTopItem = highestItem;
         } else {
             this.stackHeight = highestHeight;
-            this.topItem = highestItem;
         }
+
+        this.topItem = highestItem;
 
         if (this.stackHeight == 0d)
             this.stackHeight = this.mappingInstance.getModel().getSquareHeight()[this.position.getX()][this.position.getY()];
@@ -168,9 +182,17 @@ public class Tile {
     }
 
     public double getStackHeight() {
-        if(this.originalHeight > this.stackHeight) return this.originalHeight;
+        return this.getStackHeight(null);
+    }
 
-        return this.stackHeight;
+    public double getStackHeight(RoomItemFloor itemToStack) {
+        RoomItemFloor topItem = this.getTopItemInstance();
+
+        if(this.hasMagicTile() || (topItem != null && topItem instanceof AdjustableHeightFloorItem)) {
+            return this.stackHeight;
+        } else {
+            return itemToStack != null && itemToStack.getId() == this.getTopItem() ? itemToStack.getPosition().getZ() : this.getOriginalHeight();
+        }
     }
 
     public double getWalkHeight() {
@@ -222,6 +244,10 @@ public class Tile {
         return this.topItem;
     }
 
+    public RoomItemFloor getTopItemInstance() {
+        return this.mappingInstance.getRoom().getItems().getFloorItem(this.getTopItem());
+    }
+
     public void setTopItem(int topItem) {
         this.topItem = topItem;
     }
@@ -252,5 +278,9 @@ public class Tile {
 
     public double getTileHeight() {
         return this.mappingInstance.getModel().getSquareHeight()[this.position.getX()][this.position.getY()];
+    }
+
+    public boolean hasMagicTile() {
+        return this.hasMagicTile;
     }
 }
