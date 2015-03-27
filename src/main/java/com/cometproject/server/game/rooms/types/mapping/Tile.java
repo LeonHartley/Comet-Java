@@ -76,7 +76,6 @@ public class Tile {
 
         Double staticOverrideHeight = null;
         Double overrideHeight = null;
-        int overrideItem = 0;
 
         for (RoomItemFloor item : mappingInstance.getRoom().getItems().getItemsOnSquare(this.position.getX(), this.position.getY())) {
             if (item.getDefinition() == null)
@@ -146,8 +145,6 @@ public class Tile {
             }
 
             if (item.getOverrideHeight() != -1d) {
-                overrideItem = item.getId();
-
                 if(item instanceof MagicStackFloorItem) {
                     staticOverrideHeight = item.getOverrideHeight();
                 }
@@ -171,6 +168,9 @@ public class Tile {
             this.stackHeight = highestHeight;
         }
 
+        if(this.originalHeight == 0)
+            this.originalHeight = stackHeight;
+
         this.topItem = highestItem;
 
         if (this.stackHeight == 0d)
@@ -188,11 +188,15 @@ public class Tile {
     public double getStackHeight(RoomItemFloor itemToStack) {
         RoomItemFloor topItem = this.getTopItemInstance();
 
+        double stackHeight;
+
         if(this.hasMagicTile() || (topItem != null && topItem instanceof AdjustableHeightFloorItem)) {
-            return this.stackHeight;
+            stackHeight = this.stackHeight;
         } else {
-            return itemToStack != null && itemToStack.getId() == this.getTopItem() ? itemToStack.getPosition().getZ() : this.getOriginalHeight();
+            stackHeight = itemToStack != null && itemToStack.getId() == this.getTopItem() ? itemToStack.getPosition().getZ() : this.originalHeight;
         }
+
+        return stackHeight;
     }
 
     public double getWalkHeight() {
