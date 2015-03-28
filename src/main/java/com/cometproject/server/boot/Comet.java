@@ -2,6 +2,7 @@ package com.cometproject.server.boot;
 
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.server.boot.utils.ShutdownHook;
+import com.cometproject.server.utilities.FilterUtil;
 import javolution.util.FastMap;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;

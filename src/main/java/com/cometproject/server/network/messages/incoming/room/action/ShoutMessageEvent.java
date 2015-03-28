@@ -34,6 +34,7 @@ public class ShoutMessageEvent implements IEvent {
 
             if (filterResult.isBlocked()) {
                 client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
+                client.getLogger().info("Filter detected a blacklisted word in message: \"" + message + "\"");
                 return;
             } else if (filterResult.wasModified()) {
                 filteredMessage = filterResult.getMessage();

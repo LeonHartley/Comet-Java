@@ -29,7 +29,7 @@ public class WordFilter {
         String filteredMessage = message;
 
         if (CometSettings.wordFilterMode == FilterMode.STRICT) {
-            message = FilterUtil.normalize(message.toLowerCase());
+            message = FilterUtil.process(message.toLowerCase());
         }
 
         for (Map.Entry<String, String> word : wordfilter.entrySet()) {
