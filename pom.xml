@@ -302,5 +302,12 @@
             <artifactId>netty-socketio</artifactId>
             <version>1.6.5</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.0</version>
+        </dependency>
+
     </dependencies>
 </project>
