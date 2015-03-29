@@ -134,6 +134,7 @@ public class RoomItemFactory {
             put("bb_puck", BanzaiPuckFloorItem.class);
 
             put("group_item", GroupFloorItem.class);
+            put("group_forum", GroupFloorItem.class);
             put("group_gate", GroupGateFloorItem.class);
 
             put("football_timer", FootballTimerFloorItem.class);

@@ -49,7 +49,7 @@ public class GroupDataMessageComposer extends MessageComposer {
 
                 msg.writeBoolean(group.getOwnerId() == this.playerId);
                 msg.writeInt(group.getOwnerId());
-                msg.writeBoolean(false); // has forum
+                msg.writeBoolean(group.hasForum());
             }
         }
     }
