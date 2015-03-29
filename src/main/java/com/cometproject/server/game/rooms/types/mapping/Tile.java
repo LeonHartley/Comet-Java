@@ -160,21 +160,20 @@ public class Tile {
         if (overrideHeight != null) {
             this.canStack = true;
             this.stackHeight = staticOverrideHeight != null ? staticOverrideHeight : overrideHeight;
-//            this.topItem = overrideItem;
 
             this.originalHeight = highestHeight;
-//            this.originalTopItem = highestItem;
         } else {
             this.stackHeight = highestHeight;
         }
 
-        if(this.originalHeight == 0)
-            this.originalHeight = stackHeight;
-
         this.topItem = highestItem;
 
-        if (this.stackHeight == 0d)
+        if (this.stackHeight == 0d) {
             this.stackHeight = this.mappingInstance.getModel().getSquareHeight()[this.position.getX()][this.position.getY()];
+        }
+
+        if(this.originalHeight == 0)
+            this.originalHeight = this.stackHeight;
     }
 
     public RoomEntityMovementNode getMovementNode() {

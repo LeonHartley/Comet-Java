@@ -159,7 +159,16 @@ public class CometSettings {
      */
     public static boolean itemStorageQueueEnabled = false;
 
+    /**
+     * Filter characters... These are used to replace custom
+     * characters from user messages to be parsed by the filter.
+     */
     public static final Map<String, String> strictFilterCharacters = Maps.newHashMap();
+
+    /**
+     * Whether or not we're allowed to place furniture on room entities or not.
+     */
+    public static boolean placeItemOnEntity = false;
 
     /**
      * Logging
@@ -252,6 +261,10 @@ public class CometSettings {
                     strictFilterCharacters.put(chars[0], "");
                 }
             }
+        }
+
+        if(config.containsKey("comet.game.furni.placeOnPlayer")) {
+            placeItemOnEntity = Boolean.parseBoolean(config.get("comet.game.furni.placeOnPlayer"));
         }
     }
 
