@@ -7,7 +7,9 @@ import java.util.Map;
 
 public class FilterUtil {
     public static String process(String string) {
-        String result = StringUtils.stripAccents(string).replace(".", "")
+        String result = StringUtils.stripAccents(string)
+                .replaceAll("[^A-Za-z0-9]", "")
+                .replace(".", "")
                 .replace(" ", "")
                 .replace("$", "s")
                 .replace("µ", "u")

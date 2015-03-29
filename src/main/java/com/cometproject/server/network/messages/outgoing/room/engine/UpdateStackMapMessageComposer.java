@@ -44,6 +44,6 @@ public class UpdateStackMapMessageComposer extends MessageComposer {
         msg.writeByte(tile.getPosition().getX());
         msg.writeByte(tile.getPosition().getY());
 
-        msg.writeShort((int) ((tile.getTileHeight() + tile.getStackHeight()) * 256));
+        msg.writeShort((int) ((tile.getStackHeight()) * 256));
     }
 }

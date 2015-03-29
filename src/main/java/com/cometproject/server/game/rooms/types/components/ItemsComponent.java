@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
@@ -370,8 +371,10 @@ public class ItemsComponent {
                 return false;
             }
 
-            if(tile.getEntities().size() != 0) {
-                return false;
+            if(!CometSettings.placeItemOnEntity) {
+                if (tile.getEntities().size() != 0) {
+                    return false;
+                }
             }
         } else {
             return false;

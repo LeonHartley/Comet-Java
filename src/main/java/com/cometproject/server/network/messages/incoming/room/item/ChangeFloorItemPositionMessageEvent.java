@@ -4,10 +4,14 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
+import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
+
+import java.util.Map;
 
 
 public class ChangeFloorItemPositionMessageEvent implements IEvent {
@@ -33,6 +37,12 @@ public class ChangeFloorItemPositionMessageEvent implements IEvent {
         try {
             if (room.getItems().moveFloorItem(id, new Position(x, y), rot, true)) {
                 // success!
+            } else {
+                Map<String, String> notificationParams = Maps.newHashMap();
+
+                notificationParams.put("message", "${room.error.cant_set_item}");
+
+                client.send(new RoomNotificationMessageComposer("furni_placement_error", notificationParams));
             }
 
             RoomItemFloor floorItem = room.getItems().getFloorItem(id);
