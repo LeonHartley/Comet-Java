@@ -66,6 +66,11 @@ public class GroupData {
     private boolean canMembersDecorate;
 
     /**
+     * Does the group have a forum?
+     */
+    private boolean hasForum;
+
+    /**
      * Load the group data straight from the database
      *
      * @param data The set of data from the database
@@ -83,6 +88,7 @@ public class GroupData {
         this.colourA = data.getInt("colour1");
         this.colourB = data.getInt("colour2");
         this.canMembersDecorate = data.getString("members_deco").equals("1");
+        this.hasForum = data.getString("has_forum").equals("1");
     }
 
     /**
@@ -306,5 +312,17 @@ public class GroupData {
      */
     public void setColourB(int colourB) {
         this.colourB = colourB;
+    }
+
+    /**
+     * Does the group have a forum?
+     * @return Whether or not the group has a forum
+     */
+    public boolean hasForum() {
+        return this.hasForum;
+    }
+
+    private void setHasForum(boolean hasForum) {
+        this.hasForum = hasForum;
     }
 }

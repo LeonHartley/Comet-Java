@@ -235,11 +235,26 @@ public class CatalogPurchaseHandler {
                     return;
                 } else if (def.getInteraction().equals("badge_display")) {
                     if (client.getPlayer().getInventory().getBadges().get(data) == null) {
-                        // Fuck off.
                         return;
                     }
 
                     extraData = data;
+                } else if(def.getInteraction().equals("group_forum")) {
+//                    Map<String, String> notificationParams = Maps.newHashMap();
+//
+//                    if (data.isEmpty() || !StringUtils.isNumeric(data)) return;
+//
+//                    if (!client.getPlayer().getGroups().contains(new Integer(data))) {
+//                        return;
+//                    }
+//
+//                    int groupId = Integer.parseInt(data);
+//                    Group group = GroupManager.getInstance().get(groupId);
+//
+//                    notificationParams.put("groupId", groupId + "");
+//                    notificationParams.put("groupName", group.getData().getTitle());
+//
+//                    client.send(new RoomNotificationMessageComposer("forums.delivered", notificationParams));
                 }
 
                 int[] teleportIds = null;
