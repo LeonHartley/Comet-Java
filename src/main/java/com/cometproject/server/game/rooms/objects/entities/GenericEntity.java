@@ -63,8 +63,6 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     private Map<RoomEntityStatus, String> statuses = new FastMap<>();
 
-    private boolean disableDiagonal;
-
     public GenericEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, roomInstance);
 
@@ -581,13 +579,5 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     public void setRoomMuted(boolean isRoomMuted) {
         this.isRoomMuted = isRoomMuted;
-    }
-
-    public void setDisableDiagonal(boolean disableDiagonal) {
-        this.disableDiagonal = disableDiagonal;
-    }
-
-    public boolean isDisableDiagonal() {
-        return disableDiagonal;
     }
 }
