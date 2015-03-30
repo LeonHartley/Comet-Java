@@ -2,10 +2,14 @@ package com.cometproject.server.game.commands.staff;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
+import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -65,6 +69,26 @@ public class RoomActionCommand extends ChatCommand {
 
                     playerEntity.markDisplayingSign();
                     playerEntity.markNeedsUpdate();
+                }
+                break;
+
+            case "bots":
+                if (!StringUtils.isNumeric(params[1])) {
+                    return;
+                }
+
+                int count = Integer.parseInt(params[1]);
+                final Position entityPosition = client.getPlayer().getEntity().getPosition();
+
+                if (count > 1000) {
+                    count = 1000;
+                } else if (count < 0) {
+                    count = 1;
+                }
+
+                for (int i = 0; i < count; i++) {
+                    final BotEntity botEntity = client.getPlayer().getEntity().getRoom().getBots().addBot(new InventoryBot(0 - (i + 1), client.getPlayer().getId(), client.getPlayer().getData().getUsername(), client.getPlayer().getData().getUsername() + "Minion" + i, client.getPlayer().getData().getFigure(), client.getPlayer().getData().getGender(), client.getPlayer().getData().getMotto(), "mimic"), entityPosition.getX(), entityPosition.getY(), entityPosition.getZ());
+                    client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(botEntity));
                 }
                 break;
         }

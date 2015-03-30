@@ -23,6 +23,11 @@ public class RoomBotComponent {
         this.room = room;
 
         this.botNameToId = Maps.newHashMap();
+//
+//        for(int i = 1; i < 1000; i++) {
+//            System.out.format("Added bot %s\n", i);
+//            this.addBot(new InventoryBot(i, 1, "Leon", "Bot" + i, "", "M", "Yes!", "generic"), this.room.getModel().getDoorX(), this.room.getModel().getDoorY(), this.room.getModel().getDoorZ());
+//        }
 
         this.load();
     }

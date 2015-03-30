@@ -2,10 +2,7 @@ package com.cometproject.server.game.commands;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.commands.development.CacheStatsCommand;
-import com.cometproject.server.game.commands.development.EntityGridCommand;
-import com.cometproject.server.game.commands.development.PositionCommand;
-import com.cometproject.server.game.commands.development.ReloadMappingCommand;
+import com.cometproject.server.game.commands.development.*;
 import com.cometproject.server.game.commands.gimmicks.KissCommand;
 import com.cometproject.server.game.commands.gimmicks.PunchCommand;
 import com.cometproject.server.game.commands.gimmicks.SexCommand;
@@ -90,9 +87,10 @@ public class CommandManager implements Initializable {
 
         this.commands.put("entitygrid", new EntityGridCommand());
         this.commands.put("cachestats", new CacheStatsCommand());
+        this.commands.put("processtimes", new ProcessTimesCommand());
     }
 
-    /**
+    /**xa
      * Loads all user commands
      */
     public void loadUserCommands() {
