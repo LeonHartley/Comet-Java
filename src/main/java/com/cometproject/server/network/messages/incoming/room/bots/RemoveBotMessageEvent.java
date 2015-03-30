@@ -22,12 +22,15 @@ public class RemoveBotMessageEvent implements IEvent {
             return;
         }
 
-        InventoryBot bot = new InventoryBot(entity.getBotId(), entity.getData().getOwnerId(), entity.getData().getOwnerName(), entity.getUsername(), entity.getFigure(), entity.getGender(), entity.getMotto(), entity.getData().getBotType());
-        client.getPlayer().getBots().addBot(bot);
+        if(entity.getBotId() > 0) {
+            InventoryBot bot = new InventoryBot(entity.getBotId(), entity.getData().getOwnerId(), entity.getData().getOwnerName(), entity.getUsername(), entity.getFigure(), entity.getGender(), entity.getMotto(), entity.getData().getBotType());
 
-        RoomBotDao.setRoomId(0, entity.getBotId());
+            client.getPlayer().getBots().addBot(bot);
+
+            RoomBotDao.setRoomId(0, entity.getBotId());
+            client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));
+        }
 
         entity.leaveRoom();
-        client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));
     }
 }
