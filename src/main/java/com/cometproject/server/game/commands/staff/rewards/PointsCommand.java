@@ -2,9 +2,11 @@ package com.cometproject.server.game.commands.staff.rewards;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
 
 public class PointsCommand extends ChatCommand {
@@ -24,8 +26,15 @@ public class PointsCommand extends ChatCommand {
 
         Session session = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
-        if (session == null)
+        if (session == null) {
+            PlayerData playerData = PlayerDao.getDataByUsername(username);
+
+            if(playerData == null) return;
+
+            playerData.increasePoints(points);
+            playerData.save();
             return;
+        }
 
         session.getPlayer().getData().increasePoints(points);
         session.getPlayer().getData().save();

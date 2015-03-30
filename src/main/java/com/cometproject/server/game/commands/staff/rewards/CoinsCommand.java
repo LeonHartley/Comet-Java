@@ -2,9 +2,11 @@ package com.cometproject.server.game.commands.staff.rewards;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 
 
 public class CoinsCommand extends ChatCommand {
@@ -18,6 +20,16 @@ public class CoinsCommand extends ChatCommand {
         try {
             int credits = Integer.parseInt(params[1]);
             Session player = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
+
+            if(player == null) {
+                PlayerData playerData = PlayerDao.getDataByUsername(username);
+
+                if(playerData == null) return;
+
+                playerData.increaseCredits(credits);
+                playerData.save();
+                return;
+            }
 
             player.getPlayer().getData().increaseCredits(credits);
             player.send(new AdvancedAlertMessageComposer(Locale.get("command.coins.title"), Locale.get("command.coins.received").replace("%amount%", String.valueOf(credits))));
