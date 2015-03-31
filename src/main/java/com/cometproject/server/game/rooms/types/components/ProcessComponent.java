@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
@@ -21,6 +22,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdat
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.tasks.CometTask;
+import com.cometproject.server.tasks.CometThread;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.RandomInteger;
 import com.cometproject.server.utilities.TimeSpan;
@@ -40,11 +42,14 @@ public class ProcessComponent implements CometTask {
     private ScheduledFuture processFuture;
     private boolean active = false;
 
+    private boolean adaptiveProcessTimes = false;
     private List<Long> processTimes;
 
     public ProcessComponent(Room room) {
         this.room = room;
         this.log = Logger.getLogger("Room Process [" + room.getData().getName() + "]");
+
+        this.adaptiveProcessTimes = CometSettings.adaptiveEntityProcessDelay;
     }
 
     public void tick() {
@@ -143,6 +148,10 @@ public class ProcessComponent implements CometTask {
             if (this.getProcessTimes().size() < 30)
                 this.getProcessTimes().add(span.toMilliseconds());
         }
+
+        if(CometSettings.adaptiveEntityProcessDelay) {
+            CometThreadManager.getInstance().executeSchedule(this, 500 - span.toMilliseconds(), TimeUnit.MILLISECONDS);
+        }
     }
 
     public void start() {
@@ -155,7 +164,12 @@ public class ProcessComponent implements CometTask {
             stop();
         }
 
-        this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
+        if(this.adaptiveProcessTimes) {
+            CometThreadManager.getInstance().executeSchedule(this, 500, TimeUnit.MILLISECONDS);
+        } else {
+            this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
+        }
+
         this.active = true;
 
         log.debug("Processing started");
@@ -173,7 +187,9 @@ public class ProcessComponent implements CometTask {
 
         if (this.processFuture != null) {
             this.active = false;
-            this.processFuture.cancel(false);
+
+            if(!this.adaptiveProcessTimes)
+                this.processFuture.cancel(false);
 
             log.debug("Processing stopped");
         }
