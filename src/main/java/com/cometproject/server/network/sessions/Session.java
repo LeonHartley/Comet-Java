@@ -5,30 +5,31 @@ import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.LogoutMessageComposer;
+import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
+import org.jboss.netty.channel.Channel;
 
 import java.net.InetSocketAddress;
 
 
 public class Session {
     private Logger logger = Logger.getLogger("Session");
+
     public static int CLIENT_VERSION = 0;
 
-    private final ChannelHandlerContext channel;
+    private final Channel channel;
     private final SessionEventHandler eventHandler;
 
     private boolean isClone = false;
     private String uniqueId = "";
 
     private Player player;
+    private Object arc4;
 
-    public Session(ChannelHandlerContext channel) {
+    public Session(Channel channel) {
         this.channel = channel;
-
-        this.channel.attr(SessionManager.SESSION_ATTR).set(this);
         this.eventHandler = new SessionEventHandler(this);
     }
 
@@ -42,7 +43,7 @@ public class Session {
         this.logger = Logger.getLogger("[" + username + "][" + player.getId() + "]");
         this.player = player;
 
-        int channelId = this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get();
+        int channelId = this.channel.getId();
 
         PlayerManager.getInstance().put(player.getId(), channelId, username);
     }
@@ -64,7 +65,7 @@ public class Session {
         String ipAddress;
 
         if (!CometSettings.useDatabaseIp) {
-            return ((InetSocketAddress) this.getChannel().channel().remoteAddress()).getAddress().getHostAddress();
+            return ((InetSocketAddress) this.getChannel().getRemoteAddress()).getAddress().getHostAddress();
         } else {
             ipAddress = PlayerDao.getIpAddress(this.getPlayer().getId());
         }
@@ -89,24 +90,24 @@ public class Session {
         this.eventHandler.handle(msg);
     }
 
-    public Session sendQueue(final MessageComposer msg) {
-        this.channel.write(msg);
+    public Session sendQueue(MessageComposer msg) {
+        this.send(msg);
         return this;
     }
 
-    public void send(final MessageComposer msg) {
+    public void send(MessageComposer msg) {
         if (msg == null) {
             logger.debug("Message was null!");
             return;
         }
 
-        logger.debug("Sent message: " + msg.getClass().getSimpleName() + " / " + msg.getId());
+//        logger.debug("Sent message: " + Composers.valueOfId(msg.getId()) + " / " + msg.getId());
 
-        this.channel.writeAndFlush(msg);
+        this.getChannel().write(msg);
     }
 
     public void flush() {
-        this.channel.flush();
+        // todo: bundling of packets
     }
 
     public Logger getLogger() {
@@ -117,7 +118,7 @@ public class Session {
         return this.player;
     }
 
-    public ChannelHandlerContext getChannel() {
+    public Channel getChannel() {
         return this.channel;
     }
 

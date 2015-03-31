@@ -9,7 +9,7 @@
 
     <packaging>jar</packaging>
 
-    <version>0.16.2-ALPHA2</version>
+    <version>0.16.2-ALPHA3-N3</version>
 
     <name>Comet</name>
     <url>http://www.comet.im</url>
@@ -177,10 +177,16 @@
             <version>0.8.0.RELEASE</version>
         </dependency>
 
+        <!--<dependency>-->
+            <!--<groupId>io.netty</groupId>-->
+            <!--<artifactId>netty-all</artifactId>-->
+            <!--<version>4.0.26.Final</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.0.26.Final</version>
+            <artifactId>netty</artifactId>
+            <version>3.10.0.Final</version>
         </dependency>
 
         <dependency>

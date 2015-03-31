@@ -3,22 +3,16 @@ package com.cometproject.server.network;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.sessions.SessionManager;
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.UnpooledByteBufAllocator;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.DefaultMessageSizeEstimator;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.epoll.Epoll;
-import io.netty.channel.epoll.EpollEventLoopGroup;
-import io.netty.channel.epoll.EpollServerSocketChannel;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.util.ResourceLeakDetector;
-import io.netty.util.internal.logging.InternalLoggerFactory;
-import io.netty.util.internal.logging.Log4JLoggerFactory;
 import org.apache.log4j.Logger;
+import org.jboss.netty.bootstrap.ServerBootstrap;
+import org.jboss.netty.channel.AdaptiveReceiveBufferSizePredictorFactory;
+import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
+import org.jboss.netty.handler.execution.OrderedMemoryAwareThreadPoolExecutor;
+import org.jboss.netty.logging.InternalLoggerFactory;
+import org.jboss.netty.logging.Log4JLoggerFactory;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.Executors;
 
 
 public class NetworkManager {
@@ -44,41 +38,37 @@ public class NetworkManager {
         this.sessions = new SessionManager();
         this.messageHandler = new MessageHandler();
 
+
+        // set the logger to our logger
         InternalLoggerFactory.setDefaultFactory(new Log4JLoggerFactory());
 
-        System.setProperty("io.netty.leakDetectionLevel", "disabled");
-        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED);
+//        int poolSize = (Runtime.getRuntime().availableProcessors() * 2);
+        int poolSize = 16;
 
-        EventLoopGroup acceptGroup;
-        EventLoopGroup ioGroup;
-        EventLoopGroup channelGroup;
+        ServerBootstrap bootstrap = new ServerBootstrap(
+                new NioServerSocketChannelFactory(
+                        Executors.newFixedThreadPool(poolSize),
+                        Executors.newFixedThreadPool(poolSize)
+                ));
 
-        final boolean isEpollAvailable = Epoll.isAvailable() && Boolean.parseBoolean(Comet.getServer().getConfig().get("comet.network.epoll", "false"));
-        final int threadCount = 0; // TODO: Find the best count.
+        bootstrap.setOption("backlog", 500);
+        bootstrap.setOption("tcpNoDelay", true);
+        bootstrap.setOption("child.tcpNoDelay", true);
+//        bootstrap.setOption("keepAlive", true);
 
-        if(isEpollAvailable) {
-            log.info("Epoll is available");
-            acceptGroup = new EpollEventLoopGroup(threadCount);
-            ioGroup = new EpollEventLoopGroup(threadCount);
-            channelGroup = new EpollEventLoopGroup(threadCount);
-        } else {
-            log.info("Epoll is not available");
-            acceptGroup = new NioEventLoopGroup(threadCount);
-            ioGroup = new NioEventLoopGroup(threadCount);
-            channelGroup = new NioEventLoopGroup(threadCount);
-        }
+        // better to have an receive buffer predictor
+        bootstrap.setOption("receiveBufferSizePredictorFactory", new AdaptiveReceiveBufferSizePredictorFactory(128, 1024, 8192));
 
-        ServerBootstrap bootstrap = new ServerBootstrap()
-                .group(acceptGroup, ioGroup)
-                .channel(isEpollAvailable ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
-                .childHandler(new NetworkChannelInitializer(channelGroup))
-                .option(ChannelOption.SO_BACKLOG, Integer.parseInt(Comet.getServer().getConfig().get("comet.network.backlog", "500")))
-                .option(ChannelOption.TCP_NODELAY, true)
-                .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
-                .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)
-                .option(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)
-                .option(ChannelOption.MESSAGE_SIZE_ESTIMATOR, DefaultMessageSizeEstimator.DEFAULT)
-                .childOption(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT);
+        //if the server is sending 1000 messages per sec, optimum write buffer water marks will
+        //prevent unnecessary throttling, Check NioSocketChannelConfig doc
+        bootstrap.setOption("writeBufferLowWaterMark", 32 * 1024);
+        bootstrap.setOption("writeBufferHighWaterMark", 64 * 1024);
+
+        //int channelMemory = 65536;
+        //int totalMemory = (poolSize * channelMemory);
+        OrderedMemoryAwareThreadPoolExecutor handlerExecutor = new OrderedMemoryAwareThreadPoolExecutor(poolSize, 1048576, 1048576);
+
+        bootstrap.setPipelineFactory(new NetworkChannelInitializer(handlerExecutor));
 
         if (ports.contains(",")) {
             for (String s : ports.split(",")) {
@@ -91,11 +81,13 @@ public class NetworkManager {
 
     private void bind(ServerBootstrap bootstrap, String ip, int port) {
         try {
-            bootstrap.bind(new InetSocketAddress(ip, port)).addListener(objectFuture -> {
-                if(!objectFuture.isSuccess()) {
-                    Comet.exit("Failed to initialize sockets on address: " + ip + ":" + port);
-                }
-            });
+            bootstrap.bind(new InetSocketAddress(ip, port));
+
+//          .addListener(objectFuture -> {
+//                if (!objectFuture.isSuccess()) {
+//                    Comet.exit("Failed to initialize sockets on address: " + ip + ":" + port);
+//                }
+//            });
 
             log.info("CometServer listening on port: " + port);
         } catch (Exception e) {

@@ -9,8 +9,8 @@ public abstract class MessageComposer {
     public MessageComposer() {
     }
 
-    public final Composer writeMessage(ByteBuf buffer) {
-        final Composer composer = new Composer(this.getId(), buffer);
+    public final Composer writeMessage() {
+        final Composer composer = new Composer(this.getId());
 
         // Do anything we need to do with the buffer.
 

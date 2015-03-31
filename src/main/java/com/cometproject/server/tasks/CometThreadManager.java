@@ -29,7 +29,11 @@ public class CometThreadManager implements Initializable {
     public void initialize() {
         int poolSize = Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.system.threads", "8"));
 
-        this.scheduledExecutorService = Executors.newScheduledThreadPool(poolSize, r -> {
+        this.scheduledExecutorService = this.initializePool(poolSize);
+    }
+
+    private ScheduledExecutorService initializePool(int poolSize) {
+        return Executors.newScheduledThreadPool(poolSize, r -> {
             POOL_SIZE++;
 
             UUID randomId = UUID.randomUUID();
@@ -54,9 +58,5 @@ public class CometThreadManager implements Initializable {
 
     public ScheduledFuture executeSchedule(CometTask task, long delay, TimeUnit unit) {
         return this.scheduledExecutorService.schedule(task, delay, unit);
-    }
-
-    public ScheduledExecutorService getScheduledExecutorService() {
-        return scheduledExecutorService;
     }
 }

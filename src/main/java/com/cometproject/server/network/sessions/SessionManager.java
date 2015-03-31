@@ -3,42 +3,34 @@ package com.cometproject.server.network.sessions;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.util.AttributeKey;
-import io.netty.util.concurrent.GlobalEventExecutor;
+import com.cometproject.server.network.messages.types.Composer;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
+import org.jboss.netty.channel.Channel;
+import org.jboss.netty.channel.group.ChannelGroup;
+import org.jboss.netty.channel.group.DefaultChannelGroup;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public final class SessionManager {
-    public static final AttributeKey<Session> SESSION_ATTR = AttributeKey.valueOf("Session.attr");
-    public static final AttributeKey<Integer> CHANNEL_ID_ATTR = AttributeKey.valueOf("ChannelId.attr");
-
-    private final AtomicInteger idGenerator = new AtomicInteger();
     private final FastMap<Integer, Session> sessions = new FastMap<Integer, Session>().shared();
 
-    private final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    private final ChannelGroup channelGroup = new DefaultChannelGroup(SessionManager.class.getName());
 
-    public boolean add(ChannelHandlerContext channel) {
+    public boolean add(Channel channel) {
         Session session = new Session(channel);
 
-        this.channelGroup.add(channel.channel());
-        channel.attr(CHANNEL_ID_ATTR).set(this.idGenerator.incrementAndGet());
-
-        return (this.sessions.putIfAbsent(channel.attr(CHANNEL_ID_ATTR).get(), session) == null);
+        this.channelGroup.add(channel);
+        channel.setAttachment(session);
+        return (this.sessions.putIfAbsent(channel.getId(), session) == null);
     }
 
-    public boolean remove(ChannelHandlerContext channel) {
-        if (this.sessions.containsKey(channel.attr(CHANNEL_ID_ATTR).get())) {
-            this.channelGroup.remove(channel.channel());
-            this.sessions.remove(channel.attr(CHANNEL_ID_ATTR).get());
-
+    public boolean remove(Channel channel) {
+        if (this.sessions.containsKey(channel.getId())) {
+            this.channelGroup.remove(channel);
+            this.sessions.remove(channel.getId());
             return true;
         }
 
@@ -114,15 +106,11 @@ public final class SessionManager {
     }
 
     public void broadcast(MessageComposer msg) {
-        this.getChannelGroup().writeAndFlush(msg);
+        this.getChannelGroup().write(msg);
 //
 //        for (Session client : sessions.values()) {
 //            client.getChannel().write(msg);
 //        }
-    }
-
-    public ChannelGroup getChannelGroup() {
-        return channelGroup;
     }
 
     public void broadcastByPermission(MessageComposer messageComposer, String permission) {
@@ -131,5 +119,9 @@ public final class SessionManager {
                 session.send(messageComposer);
             }
         }
+    }
+
+    public ChannelGroup getChannelGroup() {
+        return channelGroup;
     }
 }
