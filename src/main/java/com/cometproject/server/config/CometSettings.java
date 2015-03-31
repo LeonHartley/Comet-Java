@@ -171,6 +171,11 @@ public class CometSettings {
     public static boolean placeItemOnEntity = false;
 
     /**
+     * Calculate entity process delays on the fly, rather than using a set in stone 500ms
+     */
+    public static boolean adaptiveEntityProcessDelay = false;
+
+    /**
      * Logging
      */
     private static final Logger log = Logger.getLogger(CometSettings.class.getName());
@@ -265,6 +270,10 @@ public class CometSettings {
 
         if(config.containsKey("comet.game.furni.placeOnPlayer")) {
             placeItemOnEntity = Boolean.parseBoolean(config.get("comet.game.furni.placeOnPlayer"));
+        }
+
+        if(config.containsKey("comet.game.rooms.adaptiveProcessDelay")) {
+            placeItemOnEntity = Boolean.parseBoolean(config.get("comet.game.rooms.adaptiveProcessDelay"));
         }
     }
 
