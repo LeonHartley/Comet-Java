@@ -22,7 +22,6 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdat
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.tasks.CometTask;
-import com.cometproject.server.tasks.CometThread;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.RandomInteger;
 import com.cometproject.server.utilities.TimeSpan;
@@ -149,7 +148,7 @@ public class ProcessComponent implements CometTask {
                 this.getProcessTimes().add(span.toMilliseconds());
         }
 
-        if(CometSettings.adaptiveEntityProcessDelay) {
+        if(this.adaptiveProcessTimes) {
             CometThreadManager.getInstance().executeSchedule(this, 500 - span.toMilliseconds(), TimeUnit.MILLISECONDS);
         }
     }
