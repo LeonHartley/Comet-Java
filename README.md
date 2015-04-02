@@ -2,5 +2,3 @@
 
 Comet Server
 ---
-Comet is a super secret project that no one should ever know about.
-
