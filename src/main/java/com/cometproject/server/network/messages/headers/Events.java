@@ -201,6 +201,7 @@ public class Events {
     public static final short ModerationToolCloseIssueMessageEvent = 2388;
     public static final short ModerationToolReleaseIssueMessageEvent = 2730;
     public static final short OpenGuideToolMessageEvent = 1124;
+    public static final short SaveForumSettingsMessageEvent = 3152;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 

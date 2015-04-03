@@ -17,6 +17,7 @@ import com.cometproject.server.network.messages.incoming.catalog.pets.ValidatePe
 import com.cometproject.server.network.messages.incoming.group.*;
 import com.cometproject.server.network.messages.incoming.group.favourite.ClearFavouriteGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.favourite.SetFavouriteGroupMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.forum.settings.SaveForumSettingsMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.*;
 import com.cometproject.server.network.messages.incoming.handshake.*;
 import com.cometproject.server.network.messages.incoming.help.DeletePendingTicketMessageEvent;
@@ -360,6 +361,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.GroupUpdateColoursMessageEvent, new GroupUpdateColoursMessageEvent());
         this.getMessages().put(Events.DeclineMembershipMessageEvent, new DeclineMembershipMessageEvent());
         this.getMessages().put(Events.ClearFavouriteGroupMessageEvent, new ClearFavouriteGroupMessageEvent());
+
+        this.getMessages().put(Events.SaveForumSettingsMessageEvent, new SaveForumSettingsMessageEvent());
 
 //        this.getMessages().put(Events.GroupForumPermissionsMessageEvent, new GroupForumPermissionsMessageEvent());
 //        this.getMessages().put(Events.GroupForumThreadsMessageEvent, new GroupForumThreadsMessageEvent());

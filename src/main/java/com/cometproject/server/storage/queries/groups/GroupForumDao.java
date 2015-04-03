@@ -64,4 +64,30 @@ public class GroupForumDao {
 
         return null;
     }
+
+    public static void saveSettings(ForumSettings forumSettings) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE group_forum_settings SET read_permission = ?, " +
+                    "post_permission = ?, thread_permission = ?, moderate_permission = ? WHERE group_id = ?", sqlConnection);
+
+            preparedStatement.setString(1, forumSettings.getReadPermission().toString());
+            preparedStatement.setString(2, forumSettings.getPostPermission().toString());
+            preparedStatement.setString(3, forumSettings.getStartThreadsPermission().toString());
+            preparedStatement.setString(4, forumSettings.getModeratePermission().toString());
+
+            preparedStatement.setInt(5, forumSettings.getGroupId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }
