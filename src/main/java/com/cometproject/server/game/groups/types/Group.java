@@ -1,11 +1,13 @@
 package com.cometproject.server.game.groups.types;
 
 import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.components.forum.ForumComponent;
+import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
 import com.cometproject.server.game.groups.types.components.membership.MembershipComponent;
-import com.cometproject.server.game.groups.types.components.forum.ForumComponent.ForumComponent;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupInformationMessageComposer;
+import com.cometproject.server.storage.queries.groups.GroupForumDao;
 
 
 public class Group {
@@ -32,7 +34,11 @@ public class Group {
     public Group(int id) {
         this.id = id;
 
-        this.membershipComponent = new MembershipComponent(this.id);
+        this.membershipComponent = new MembershipComponent(this);
+
+        if (this.getData().hasForum()) {
+            this.initializeForum();
+        }
     }
 
     /**
@@ -45,6 +51,16 @@ public class Group {
     public MessageComposer composeInformation(boolean flag, int playerId) {
         return new GroupInformationMessageComposer(this, RoomManager.getInstance().getRoomData(this.getData().getRoomId()), flag, playerId == this.getData().getOwnerId(), this.getMembershipComponent().getAdministrators().contains(playerId),
                 this.getMembershipComponent().getMembers().containsKey(playerId) ? 1 : this.getMembershipComponent().getMembershipRequests().contains(playerId) ? 2 : 0);
+    }
+
+    public void initializeForum() {
+        ForumSettings forumSettings = GroupForumDao.getSettings(this.id);
+
+        if (forumSettings == null) {
+            forumSettings = GroupForumDao.createSettings(this.id);
+        }
+
+        this.forumComponent = new ForumComponent(this, forumSettings);
     }
 
     /**
@@ -72,5 +88,14 @@ public class Group {
      */
     public MembershipComponent getMembershipComponent() {
         return membershipComponent;
+    }
+
+    /**
+     * Get the group forum component
+     *
+     * @return The group forumc component
+     */
+    public ForumComponent getForumComponent() {
+        return forumComponent;
     }
 }
