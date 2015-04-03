@@ -322,7 +322,7 @@ public class GroupData {
         return this.hasForum;
     }
 
-    private void setHasForum(boolean hasForum) {
+    public void setHasForum(boolean hasForum) {
         this.hasForum = hasForum;
     }
 }

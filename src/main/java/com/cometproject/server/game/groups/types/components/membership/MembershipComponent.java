@@ -1,8 +1,8 @@
 package com.cometproject.server.game.groups.types.components.membership;
 
-import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupMember;
+import com.cometproject.server.game.groups.types.components.GroupComponent;
 import com.cometproject.server.storage.queries.groups.GroupMemberDao;
 import javolution.util.FastMap;
 import javolution.util.FastSet;
@@ -13,11 +13,11 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class MembershipComponent {
+public class MembershipComponent implements GroupComponent {
     /**
-     * The ID of the group
+     * The instance of the group
      */
-    private int groupId;
+    private Group group;
 
     /**
      * All members of this group
@@ -37,10 +37,10 @@ public class MembershipComponent {
     /**
      * Initialize the MembershipComponent
      *
-     * @param groupId The ID of the group
+     * @param group The ID of the group
      */
-    public MembershipComponent(int groupId) {
-        this.groupId = groupId;
+    public MembershipComponent(Group group) {
+        this.group = group;
 
         this.groupMembers = new FastMap<>();
         this.groupAdministrators = new FastSet<>();
@@ -53,11 +53,11 @@ public class MembershipComponent {
      * Load members of this group from the database
      */
     private void loadMemberships() {
-        for (GroupMember groupMember : GroupMemberDao.getAllByGroupId(this.groupId)) {
+        for (GroupMember groupMember : GroupMemberDao.getAllByGroupId(this.group.getId())) {
             this.createMembership(groupMember);
         }
 
-        for (Integer playerId : GroupMemberDao.getAllRequestsByGroupId(groupId)) {
+        for (Integer playerId : GroupMemberDao.getAllRequestsByGroupId(this.group.getId())) {
             this.groupMembershipRequests.add(playerId);
         }
     }
@@ -112,7 +112,7 @@ public class MembershipComponent {
             return;
 
         groupMembershipRequests.add(playerId);
-        GroupMemberDao.createRequest(groupId, playerId);
+        GroupMemberDao.createRequest(this.group.getId(), playerId);
     }
 
     /**
@@ -123,7 +123,7 @@ public class MembershipComponent {
             return;
 
         groupMembershipRequests.clear();
-        GroupMemberDao.clearRequests(groupId);
+        GroupMemberDao.clearRequests(this.group.getId());
     }
 
     /**
@@ -135,12 +135,13 @@ public class MembershipComponent {
 
         groupMembershipRequests.remove(playerId);
 
-        GroupMemberDao.deleteRequest(groupId, playerId);
+        GroupMemberDao.deleteRequest(this.group.getId(), playerId);
     }
 
     /**
      * Clears all lists associated with this object
      */
+    @Override
     public void dispose() {
         groupMembers.clear();
         groupAdministrators.clear();
@@ -194,7 +195,8 @@ public class MembershipComponent {
      *
      * @return The group that this component is assigned to
      */
-    private Group getGroup() {
-        return GroupManager.getInstance().get(this.groupId);
+    @Override
+    public Group getGroup() {
+        return this.group;
     }
 }

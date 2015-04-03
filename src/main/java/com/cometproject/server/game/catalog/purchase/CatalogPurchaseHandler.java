@@ -7,6 +7,8 @@ import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
+import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
@@ -34,11 +36,13 @@ import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.utilities.JsonFactory;
+import com.google.common.collect.Maps;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class CatalogPurchaseHandler {
@@ -240,21 +244,29 @@ public class CatalogPurchaseHandler {
 
                     extraData = data;
                 } else if(def.getInteraction().equals("group_forum")) {
-//                    Map<String, String> notificationParams = Maps.newHashMap();
-//
-//                    if (data.isEmpty() || !StringUtils.isNumeric(data)) return;
-//
-//                    if (!client.getPlayer().getGroups().contains(new Integer(data))) {
-//                        return;
-//                    }
-//
-//                    int groupId = Integer.parseInt(data);
-//                    Group group = GroupManager.getInstance().get(groupId);
-//
-//                    notificationParams.put("groupId", groupId + "");
-//                    notificationParams.put("groupName", group.getData().getTitle());
-//
-//                    client.send(new RoomNotificationMessageComposer("forums.delivered", notificationParams));
+                    Map<String, String> notificationParams = Maps.newHashMap();
+
+                    if (data.isEmpty() || !StringUtils.isNumeric(data)) return;
+
+                    if (!client.getPlayer().getGroups().contains(new Integer(data))) {
+                        return;
+                    }
+
+                    int groupId = Integer.parseInt(data);
+                    Group group = GroupManager.getInstance().get(groupId);
+
+                    notificationParams.put("groupId", groupId + "");
+                    notificationParams.put("groupName", group.getData().getTitle());
+
+                    if(!group.getData().hasForum() && group.getData().getOwnerId() == client.getPlayer().getId()) {
+                        group.getData().setHasForum(true);
+                        group.getData().save();
+
+                        group.initializeForum();
+
+                        client.send(new RoomNotificationMessageComposer("forums.delivered", notificationParams));
+                    }
+
                 }
 
                 int[] teleportIds = null;

@@ -22,7 +22,11 @@ public class ForumComponent implements GroupComponent {
 
     @Override
     public void dispose() {
+        for(ForumThread thread : this.forumThreads.values()) {
+            thread.dispose();
+        }
 
+        this.forumThreads.clear();
     }
 
     @Override
@@ -31,10 +35,10 @@ public class ForumComponent implements GroupComponent {
     }
 
     public ForumSettings getForumSettings() {
-        return forumSettings;
+        return this.forumSettings;
     }
 
     public Map<Integer, ForumThread> getForumThreads() {
-        return forumThreads;
+        return this.forumThreads;
     }
 }
