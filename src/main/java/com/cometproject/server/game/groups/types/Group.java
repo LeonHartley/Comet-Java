@@ -1,7 +1,8 @@
 package com.cometproject.server.game.groups.types;
 
 import com.cometproject.server.game.groups.GroupManager;
-import com.cometproject.server.game.groups.types.components.MembershipComponent;
+import com.cometproject.server.game.groups.types.components.membership.MembershipComponent;
+import com.cometproject.server.game.groups.types.components.forum.ForumComponent.ForumComponent;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupInformationMessageComposer;
@@ -17,6 +18,11 @@ public class Group {
      * The component which will handle everything member-related
      */
     private MembershipComponent membershipComponent;
+
+    /**
+     * The component which will handle the group forum data
+     */
+    private ForumComponent forumComponent;
 
     /**
      * Initialize the group instance
