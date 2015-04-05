@@ -37,7 +37,7 @@ public class WordFilter {
                 if (CometSettings.wordFilterMode == FilterMode.STRICT)
                     return new FilterResult(true, word.getKey());
 
-                filteredMessage = filteredMessage.replace(word.getKey(), word.getValue());
+                filteredMessage = filteredMessage.replace("(?i)" + word.getKey(), word.getValue());
             }
         }
 
