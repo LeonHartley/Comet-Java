@@ -55,7 +55,7 @@ public class PermissionsDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.put(resultSet.getString("fuse"), new Permission(resultSet));
+                data.putIfAbsent(resultSet.getString("fuse"), new Permission(resultSet));
             }
 
         } catch (SQLException e) {
@@ -83,7 +83,7 @@ public class PermissionsDao {
 
             while (resultSet.next()) {
                 try {
-                    data.put(resultSet.getString("command_id"), new CommandPermission(resultSet));
+                    data.putIfAbsent(resultSet.getString("command_id"), new CommandPermission(resultSet));
                 } catch (Exception ignored) {
 
                 }
