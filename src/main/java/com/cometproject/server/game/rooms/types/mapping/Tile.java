@@ -97,7 +97,8 @@ public class Tile {
             }
 
             if (!item.getDefinition().canWalk() && !isGate) {
-                movementNode = RoomEntityMovementNode.CLOSED;
+                if(highestItem == item.getId())
+                    movementNode = RoomEntityMovementNode.CLOSED;
             }
 
             switch (item.getDefinition().getInteraction().toLowerCase()) {

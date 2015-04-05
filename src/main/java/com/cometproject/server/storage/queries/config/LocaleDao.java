@@ -26,7 +26,7 @@ public class LocaleDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.put(resultSet.getString("key"), resultSet.getString("value"));
+                data.putIfAbsent(resultSet.getString("key"), resultSet.getString("value"));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
