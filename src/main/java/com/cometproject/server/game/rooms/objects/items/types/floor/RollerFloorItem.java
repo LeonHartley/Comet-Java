@@ -47,6 +47,10 @@ public class RollerFloorItem extends RoomItemFloor {
     }
 
     private void handleEntities() {
+        Tile tile = this.getTile();
+
+        if(tile.getTopItem() != this.getId()) return;
+
         Position sqInfront = this.getPosition().squareInFront(this.getRotation());
 
         if (!this.getRoom().getMapping().isValidPosition(sqInfront)) {
