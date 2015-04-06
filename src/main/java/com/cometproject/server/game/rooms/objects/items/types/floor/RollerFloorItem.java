@@ -135,6 +135,8 @@ public class RollerFloorItem extends RoomItemFloor {
                 continue;
             }
 
+            if(!floor.getDefinition().canStack()) continue;
+
             double height = floor.getPosition().getZ();
 
             List<RoomItemFloor> itemsSq = this.getRoom().getItems().getItemsOnSquare(sqInfront.getX(), sqInfront.getY());
