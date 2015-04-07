@@ -1,7 +1,6 @@
 package com.cometproject.server.storage.queries.rooms;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
@@ -240,7 +239,7 @@ public class RoomDao {
 
             preparedStatement.execute();
         } catch (SQLException e) {
-            CometManager.getLogger().error("Failed to save room data" + (e.getMessage().contains("access_type") ? " - Access type: " + access.toLowerCase() : ""));
+            Comet.getServer().getLogger().error("Failed to save room data" + (e.getMessage().contains("access_type") ? " - Access type: " + access.toLowerCase() : ""));
             SqlHelper.handleSqlException(e);
         } finally {
             SqlHelper.closeSilently(preparedStatement);
