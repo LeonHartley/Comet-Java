@@ -1,6 +1,5 @@
 package com.cometproject.server.network.messages.incoming.handshake;
 
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.network.messages.incoming.IEvent;
 import com.cometproject.server.network.messages.types.Event;
 import com.cometproject.server.network.sessions.Session;
@@ -17,7 +16,7 @@ public class CheckReleaseMessageEvent implements IEvent {
             Session.CLIENT_VERSION = this.getReleaseNumber(release);
         }
 
-        CometManager.getLogger().debug("Client running on release: " + Session.CLIENT_VERSION);
+        client.getLogger().debug("Client running on release: " + Session.CLIENT_VERSION);
     }
 
     private int getReleaseNumber(String releaseString) {

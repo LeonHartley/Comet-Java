@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.catalog.ads;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
@@ -40,7 +40,7 @@ public class PromoteRoomMessageEvent implements IEvent {
         final int totalCostActivityPoints = item.getCostActivityPoints();
 
         if (client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getVipPoints() < totalCostPoints || client.getPlayer().getData().getActivityPoints() < totalCostActivityPoints) {
-            CometManager.getLogger().warn("Player with ID: " + client.getPlayer().getId() + " tried to purchase item with ID: " + item.getId() + " with the incorrect amount of credits, points or activity points.");
+            Comet.getServer().getLogger().warn("Player with ID: " + client.getPlayer().getId() + " tried to purchase item with ID: " + item.getId() + " with the incorrect amount of credits, points or activity points.");
             client.send(new AlertMessageComposer(Locale.get("catalog.error.notenough")));
             return;
         }
