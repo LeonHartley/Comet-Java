@@ -106,8 +106,6 @@ public class Tile {
             if (item.getDefinition() == null)
                 continue;
 
-            System.out.println(item.getId());
-
             this.hasItems = true;
 
             final double totalHeight = item.getPosition().getZ() + (item.getOverrideHeight() != -1d ? item.getOverrideHeight() : item.getDefinition().getHeight());

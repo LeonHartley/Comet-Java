@@ -15,13 +15,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 
 public class RoomItemDao {
 
     private static Logger log = Logger.getLogger(RoomItemDao.class.getName());
 
-    public static void getItems(Room room, Collection<RoomItemFloor> floorItems, Collection<RoomItemWall> wallItems) {
+    public static void getItems(Room room, Map<Integer, RoomItemFloor> floorItems, Collection<RoomItemWall> wallItems) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -37,7 +38,7 @@ public class RoomItemDao {
             while (resultSet.next()) {
                 if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")) != null) {
                     if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")).getType().equals("s"))
-                        floorItems.add(RoomItemFactory.createFloor(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data")));
+                        floorItems.put(resultSet.getInt("id"), RoomItemFactory.createFloor(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data")));
                     else
                         wallItems.add(RoomItemFactory.createWall(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data")));
 
