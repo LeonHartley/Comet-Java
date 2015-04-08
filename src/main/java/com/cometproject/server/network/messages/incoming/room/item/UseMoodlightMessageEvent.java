@@ -10,11 +10,11 @@ import com.cometproject.server.network.sessions.Session;
 
 public class UseMoodlightMessageEvent implements IEvent {
     public void handle(Session client, Event msg) {
-        Room room = client.getPlayer().getEntity().getRoom();
+        if(client.getPlayer() == null || client.getPlayer().getEntity() == null) return;
 
-        if (room == null) {
-            return;
-        }
+        if(client.getPlayer().getEntity().getRoom() == null) return;
+
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if (!room.getRights().hasRights(client.getPlayer().getEntity().getPlayerId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;
