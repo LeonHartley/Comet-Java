@@ -2,19 +2,19 @@ package com.cometproject.server.network.messages.incoming.group.favourite;
 
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.UpdateFavouriteGroupMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class SetFavouriteGroupMessageEvent implements IEvent {
+public class SetFavouriteGroupMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         int groupId = msg.readInt();
 
         if (!client.getPlayer().getGroups().contains(groupId)) {

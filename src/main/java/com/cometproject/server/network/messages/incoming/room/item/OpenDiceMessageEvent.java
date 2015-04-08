@@ -1,15 +1,15 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.incoming.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class OpenDiceMessageEvent implements IEvent {
+public class OpenDiceMessageEvent implements Event {
 
     @Override
-    public void handle(Session client, Event msg) {
+    public void handle(Session client, MessageEvent msg) {
         int itemId = msg.readInt();
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {

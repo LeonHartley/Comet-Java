@@ -2,18 +2,18 @@ package com.cometproject.server.network.messages.incoming.catalog.pets;
 
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.pets.races.PetRace;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.pets.PetRacesMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
 
-public class PetRacesMessageEvent implements IEvent {
+public class PetRacesMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) {
+    public void handle(Session client, MessageEvent msg) {
         final String petRace = msg.readString();
         final String[] splitRace = petRace.split("a0 pet");
 

@@ -2,7 +2,7 @@ package com.cometproject.server.network.sessions;
 
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.headers.Events;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +39,7 @@ public class SessionEventHandler {
      *
      * @param msg The incoming event
      */
-    public void handle(Event msg) {
+    public void handle(MessageEvent msg) {
         // Checks if the event is a login event, if it is then check if it is enabled, if it is then disable it because the
         // event can only be called once!
         if (this.loginEvents.containsKey(msg.getId())) {

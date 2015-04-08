@@ -1,14 +1,14 @@
 package com.cometproject.server.network.messages.incoming.catalog.groups;
 
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupDataMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class GroupFurnitureCatalogMessageEvent implements IEvent {
+public class GroupFurnitureCatalogMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         client.send(new GroupDataMessageComposer(client.getPlayer().getGroups(), client.getPlayer().getId()));
     }
 }

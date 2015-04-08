@@ -5,15 +5,15 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class ShoutMessageEvent implements IEvent {
-    public void handle(Session client, Event msg) {
+public class ShoutMessageEvent implements Event {
+    public void handle(Session client, MessageEvent msg) {
         String message = msg.readString();
         int colour = msg.readInt();
 

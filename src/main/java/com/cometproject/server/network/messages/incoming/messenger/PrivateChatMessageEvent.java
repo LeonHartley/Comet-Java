@@ -5,15 +5,15 @@ import com.cometproject.server.game.players.components.types.messenger.Messenger
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.InstantChatMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class PrivateChatMessageEvent implements IEvent {
-    public void handle(Session client, Event msg) {
+public class PrivateChatMessageEvent implements Event {
+    public void handle(Session client, MessageEvent msg) {
         int userId = msg.readInt();
         String message = msg.readString();
 

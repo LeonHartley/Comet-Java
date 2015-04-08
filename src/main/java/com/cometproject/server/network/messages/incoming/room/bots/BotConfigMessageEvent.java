@@ -1,15 +1,15 @@
 package com.cometproject.server.network.messages.incoming.room.bots;
 
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.bots.BotConfigMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class BotConfigMessageEvent implements IEvent {
+public class BotConfigMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         int botId = msg.readInt();
         int skillId = msg.readInt();
 

@@ -3,18 +3,18 @@ package com.cometproject.server.network.messages.incoming.user.youtube;
 import com.cometproject.server.game.players.components.types.settings.PlaylistItem;
 import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.youtube.PlayVideoMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.youtube.PlaylistMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 
-public class NextVideoMessageEvent implements IEvent {
+public class NextVideoMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         int itemId = msg.readInt();
         int direction = msg.readInt(); // 0 = previous, 1 = next
 

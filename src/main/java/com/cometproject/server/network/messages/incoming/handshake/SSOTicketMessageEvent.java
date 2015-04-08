@@ -7,7 +7,7 @@ import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.handshake.AuthenticationOKMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.handshake.UniqueIDMessageComposer;
@@ -20,16 +20,16 @@ import com.cometproject.server.network.messages.outgoing.user.details.PlayerSett
 import com.cometproject.server.network.messages.outgoing.user.details.UnreadMinimailsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.EffectsInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerAccessDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 
-public class SSOTicketMessageEvent implements IEvent {
+public class SSOTicketMessageEvent implements Event {
     public static final String TICKET_DELIMITER = ":";
 
-    public void handle(Session client, Event msg) {
+    public void handle(Session client, MessageEvent msg) {
 //        if (client.getEncryption() == null) {
 //            CometManager.getLogger().warn("Session was disconnected because RC4 was not initialized!");
 //            client.disconnect();

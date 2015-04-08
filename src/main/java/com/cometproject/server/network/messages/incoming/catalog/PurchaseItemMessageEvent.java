@@ -1,13 +1,13 @@
 package com.cometproject.server.network.messages.incoming.catalog;
 
 import com.cometproject.server.game.catalog.CatalogManager;
-import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.incoming.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class PurchaseItemMessageEvent implements IEvent {
-    public void handle(Session client, Event msg) {
+public class PurchaseItemMessageEvent implements Event {
+    public void handle(Session client, MessageEvent msg) {
         int pageId = msg.readInt();
         int itemId = msg.readInt();
         String data = msg.readString();

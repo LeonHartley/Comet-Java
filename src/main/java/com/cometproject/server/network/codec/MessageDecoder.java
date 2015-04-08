@@ -1,6 +1,6 @@
 package com.cometproject.server.network.codec;
 
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -28,7 +28,7 @@ public class MessageDecoder extends ByteToMessageDecoder {
                 return;
             }
 
-            out.add(new Event(in.readBytes(length)));
+            out.add(new MessageEvent(in.readBytes(length)));
 //            ctx.fireChannelReadComplete();
         } catch (Exception e) {
             e.printStackTrace();

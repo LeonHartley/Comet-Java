@@ -1,14 +1,14 @@
 package com.cometproject.server.network.messages.incoming.catalog;
 
 import com.cometproject.server.game.catalog.CatalogManager;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPageMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class GetCataPageMessageEvent implements IEvent {
-    public void handle(Session client, Event msg) {
+public class GetCataPageMessageEvent implements Event {
+    public void handle(Session client, MessageEvent msg) {
         int pageId = msg.readInt();
 
         if (client.getPlayer().cancelPageOpen) {

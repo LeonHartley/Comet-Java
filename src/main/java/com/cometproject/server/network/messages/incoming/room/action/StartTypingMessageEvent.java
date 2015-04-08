@@ -1,13 +1,13 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TypingStatusMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class StartTypingMessageEvent implements IEvent {
-    public void handle(Session client, Event msg) {
+public class StartTypingMessageEvent implements Event {
+    public void handle(Session client, MessageEvent msg) {
         if (client.getPlayer() == null || client.getPlayer().getEntity() == null)
             return;
 

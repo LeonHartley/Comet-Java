@@ -6,18 +6,18 @@ import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 import java.util.ArrayList;
 
 
-public class AcceptMembershipMessageEvent implements IEvent {
+public class AcceptMembershipMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         int groupId = msg.readInt();
         int playerId = msg.readInt();
 

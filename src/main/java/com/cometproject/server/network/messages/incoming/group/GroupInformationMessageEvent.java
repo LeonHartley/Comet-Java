@@ -2,14 +2,14 @@ package com.cometproject.server.network.messages.incoming.group;
 
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.incoming.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class GroupInformationMessageEvent implements IEvent {
+public class GroupInformationMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         int groupId = msg.readInt();
         boolean flag = msg.readBoolean();
 

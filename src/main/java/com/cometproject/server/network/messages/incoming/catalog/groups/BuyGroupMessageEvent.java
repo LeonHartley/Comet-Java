@@ -7,7 +7,7 @@ import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupRoomMessageComposer;
@@ -15,7 +15,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMess
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.BadgeUtil;
 
@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class BuyGroupMessageEvent implements IEvent {
-    public void handle(Session client, Event msg) {
+public class BuyGroupMessageEvent implements Event {
+    public void handle(Session client, MessageEvent msg) {
         if (client.getPlayer().getData().getCredits() < CometSettings.groupCost) {
             return;
         }
