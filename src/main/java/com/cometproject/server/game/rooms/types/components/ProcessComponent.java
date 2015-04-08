@@ -392,7 +392,7 @@ public class ProcessComponent implements CometTask {
             entity.markNeedsUpdate();
         }
 
-        if (entity.isIdleAndIncrement()) {
+        if (entity instanceof PlayerEntity && entity.isIdleAndIncrement()) {
             if (entity.getIdleTime() >= 2400) {
                 return true;
             } else {

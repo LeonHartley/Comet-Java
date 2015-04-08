@@ -3,7 +3,6 @@ package com.cometproject.server.game.catalog.purchase;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
@@ -38,6 +37,7 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.utilities.JsonFactory;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -46,6 +46,8 @@ import java.util.Map;
 
 
 public class CatalogPurchaseHandler {
+    private final Logger log = Logger.getLogger(CatalogPurchaseHandler.class.getName());
+
     /**
      * Handle the catalog purchase
      *
@@ -57,7 +59,7 @@ public class CatalogPurchaseHandler {
      * @param giftData Gift data (if-any)
      */
     public void handle(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
-        if(client == null || client.getPlayer() == null) return;
+        if (client == null || client.getPlayer() == null) return;
 
         // TODO: redo all of this, it sucks so bad ;P, maybe add purchase handlers for each item or some crap
         if (amount > 100) {
@@ -85,7 +87,7 @@ public class CatalogPurchaseHandler {
                 } else {
                     item = CatalogManager.getInstance().getCatalogItemByItemId(itemId);
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 return;
             }
 
@@ -93,19 +95,19 @@ public class CatalogPurchaseHandler {
                 return;
             }
 
-            if(giftData != null) {
+            if (giftData != null) {
                 try {
                     final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0));
 
-                    if(itemDefinition != null && !itemDefinition.canGift()) {
+                    if (itemDefinition != null && !itemDefinition.canGift()) {
                         return;
                     }
-                } catch(Exception e) {
+                } catch (Exception e) {
                     return;
                 }
 
-                if(client.getPlayer().getLastGift() != 0 && !client.getPlayer().getPermissions().hasPermission("bypass_flood")) {
-                    if(((int) Comet.getTime() - client.getPlayer().getLastGift()) < CometSettings.giftCooldown) {
+                if (client.getPlayer().getLastGift() != 0 && !client.getPlayer().getPermissions().hasPermission("bypass_flood")) {
+                    if (((int) Comet.getTime() - client.getPlayer().getLastGift()) < CometSettings.giftCooldown) {
                         client.send(new AdvancedAlertMessageComposer(Locale.get("catalog.error.gifttoofast")));
                         client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
                         return;
@@ -141,12 +143,12 @@ public class CatalogPurchaseHandler {
             }
 
             if ((!CometSettings.infiniteBalance && (client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getActivityPoints() < totalCostActivityPoints)) || client.getPlayer().getData().getVipPoints() < totalCostPoints) {
-                CometManager.getLogger().warn("Player with ID: " + client.getPlayer().getId() + " tried to purchase item with ID: " + item.getId() + " with the incorrect amount of credits or points.");
+                client.getLogger().warn("Player with ID: " + client.getPlayer().getId() + " tried to purchase item with ID: " + item.getId() + " with the incorrect amount of credits or points.");
                 client.send(new AlertMessageComposer(Locale.get("catalog.error.notenough")));
                 return;
             }
 
-            if(!CometSettings.infiniteBalance) {
+            if (!CometSettings.infiniteBalance) {
                 client.getPlayer().getData().decreaseCredits(totalCostCredits);
                 client.getPlayer().getData().decreaseActivityPoints(totalCostActivityPoints);
             }
@@ -156,7 +158,7 @@ public class CatalogPurchaseHandler {
             client.getPlayer().sendBalance();
             client.getPlayer().getData().save();
 
-            if(item.isBadgeOnly()) {
+            if (item.isBadgeOnly()) {
                 if (item.hasBadge()) {
                     client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
                 }
@@ -227,7 +229,7 @@ public class CatalogPurchaseHandler {
                     String botMotto = "Beeb beeb boop beep!";
                     String type = "generic";
 
-                    switch(item.getDisplayName()) {
+                    switch (item.getDisplayName()) {
                         case "bot_bartender":
                             type = "waiter";
                             break;
@@ -243,7 +245,7 @@ public class CatalogPurchaseHandler {
                     }
 
                     extraData = data;
-                } else if(def.getInteraction().equals("group_forum")) {
+                } else if (def.getInteraction().equals("group_forum")) {
                     Map<String, String> notificationParams = Maps.newHashMap();
 
                     if (data.isEmpty() || !StringUtils.isNumeric(data)) return;
@@ -258,7 +260,7 @@ public class CatalogPurchaseHandler {
                     notificationParams.put("groupId", groupId + "");
                     notificationParams.put("groupName", group.getData().getTitle());
 
-                    if(!group.getData().hasForum() && group.getData().getOwnerId() == client.getPlayer().getId()) {
+                    if (!group.getData().hasForum() && group.getData().getOwnerId() == client.getPlayer().getId()) {
                         group.getData().setHasForum(true);
                         group.getData().save();
 
@@ -336,7 +338,7 @@ public class CatalogPurchaseHandler {
 
             }
         } catch (Exception e) {
-            CometManager.getLogger().error("Error while buying catalog item", e);
+            log.error("Error while buying catalog item", e);
         } finally {
             // Clean up the purchase - even if there was an exception!!
 //            unseenItems.clear();
@@ -346,9 +348,9 @@ public class CatalogPurchaseHandler {
     /**
      * Deliver the gift
      *
-     * @param playerId     The ID of the player to deliver the item to
-     * @param giftData     The data of the gift
-     * @param newItems     List of items to deliver
+     * @param playerId The ID of the player to deliver the item to
+     * @param giftData The data of the gift
+     * @param newItems List of items to deliver
      */
     private void deliverGift(int playerId, GiftData giftData, List<Integer> newItems, String senderUsername) {
         Session client = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);

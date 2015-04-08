@@ -2,7 +2,6 @@ package com.cometproject.server.game.rooms.objects.entities.types;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.groups.GroupManager;
@@ -40,12 +39,14 @@ import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatin
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.attributes.Attributable;
 import javolution.util.FastMap;
+import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Map;
 
 
-public class    PlayerEntity extends GenericEntity implements PlayerEntityAccess, Attributable {
+public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, Attributable {
+    private static final Logger log = Logger.getLogger(PlayerEntity.class.getName());
     private Player player;
     private PlayerData playerData;
 
@@ -289,7 +290,7 @@ public class    PlayerEntity extends GenericEntity implements PlayerEntityAccess
                 }
             }
         } catch (Exception e) {
-            CometManager.getLogger().error("Error while executing command", e);
+            log.error("Error while executing command", e);
             return false;
         }
 

@@ -1,6 +1,5 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
-import com.cometproject.server.game.CometManager;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
@@ -119,7 +118,7 @@ public class DeleteRoomMessageEvent implements Event {
         PlayerDao.resetHomeRoom(roomId);
 
 
-        CometManager.getLogger().debug("Room deleted: " + room.getId() + " by " + client.getPlayer().getId() + " / " + client.getPlayer().getData().getUsername());
+        client.getLogger().debug("Room deleted: " + room.getId() + " by " + client.getPlayer().getId() + " / " + client.getPlayer().getData().getUsername());
         RoomDao.deleteRoom(room.getId());
 
         client.send(new UpdateInventoryMessageComposer());
