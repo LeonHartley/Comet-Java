@@ -24,31 +24,38 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.google.common.collect.Lists;
+import javolution.util.FastMap;
 import javolution.util.FastTable;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 
 public class ItemsComponent {
     private Room room;
     private final Logger log;
 
-    private final FastTable<RoomItemFloor> floorItems = new FastTable<RoomItemFloor>().shared();
+    private final Map<Integer, RoomItemFloor> floorItems = new FastMap<Integer, RoomItemFloor>().shared();
     private final FastTable<RoomItemWall> wallItems = new FastTable<RoomItemWall>().shared();
+
+    private Map<Class<? extends RoomItemFloor>, Set<Integer>> itemClassIndex = new FastMap<Class<? extends RoomItemFloor>, Set<Integer>>().shared();
+    private Map<String, Set<Integer>> itemInteractionIndex = new FastMap<String, Set<Integer>>().shared();
 
     private int moodlightId;
 
     public ItemsComponent(Room room) {
         this.room = room;
         this.log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
+
         RoomItemDao.getItems(this.room, this.floorItems, this.wallItems);
+
+        for(RoomItemFloor floorItem : this.floorItems.values()) {
+            this.indexItem(floorItem);
+        }
     }
 
     public void onLoaded() {
-        for (RoomItemFloor floorItem : floorItems) {
+        for (RoomItemFloor floorItem : floorItems.values()) {
             floorItem.onLoad();
         }
 
@@ -58,13 +65,22 @@ public class ItemsComponent {
     }
 
     public void dispose() {
-        for (RoomItemFloor floorItem : floorItems) {
+        for (RoomItemFloor floorItem : floorItems.values()) {
             floorItem.onUnload();
         }
 
         for (RoomItemWall wallItem : wallItems) {
             wallItem.onUnload();
         }
+
+        this.floorItems.clear();
+        this.wallItems.clear();
+
+        for(Set<Integer> itemIds : this.itemClassIndex.values()) {
+            itemIds.clear();
+        }
+
+        this.itemClassIndex.clear();
     }
 
     public boolean setMoodlight(int moodlight) {
@@ -98,7 +114,8 @@ public class ItemsComponent {
     public RoomItemFloor addFloorItem(int id, int baseId, Room room, int ownerId, int x, int y, int rot, double height, String data) {
         RoomItemFloor floor = RoomItemFactory.createFloor(id, baseId, room, ownerId, x, y, height, rot, data);
 
-        this.getFloorItems().add(floor);
+        this.floorItems.put(floor.getId(), floor);
+        this.indexItem(floor);
 
         return floor;
     }
@@ -121,15 +138,7 @@ public class ItemsComponent {
     }
 
     public RoomItemFloor getFloorItem(int id) {
-        for (RoomItemFloor item : this.getFloorItems()) {
-            if (item == null) continue;
-
-            if (item.getId() == id) {
-                return item;
-            }
-        }
-
-        return null;
+        return this.floorItems.get(id);
     }
 
     public RoomItemWall getWallItem(int id) {
@@ -145,7 +154,7 @@ public class ItemsComponent {
     public List<RoomItemFloor> getByInteraction(String interaction) {
         List<RoomItemFloor> items = new ArrayList<>();
 
-        for (RoomItemFloor floorItem : this.floorItems) {
+        for (RoomItemFloor floorItem : this.floorItems.values()) {
             if (floorItem == null || floorItem.getDefinition() == null) continue;
 
             if (floorItem.getDefinition().getInteraction().equals(interaction)) {
@@ -165,11 +174,13 @@ public class ItemsComponent {
     public List<RoomItemFloor> getByClass(Class<? extends RoomItemFloor> clazz) {
         List<RoomItemFloor> items = new ArrayList<>();
 
-        for (RoomItemFloor floorItem : this.floorItems) {
-            if (floorItem == null || floorItem.getDefinition() == null) continue;
+        if(this.itemClassIndex.containsKey(clazz)) {
+            for(Integer itemId : this.itemClassIndex.get(clazz)) {
+                RoomItemFloor floorItem = this.getFloorItem(itemId);
 
-            if (floorItem.getClass().equals(clazz)) {
-                items.add(floorItem);
+                if(floorItem == null || floorItem.getDefinition() == null) continue;
+
+                items.add(this.getFloorItem(itemId));
             }
         }
 
@@ -386,7 +397,7 @@ public class ItemsComponent {
     }
 
     public Collection<RoomItemFloor> getFloorItems() {
-        return this.floorItems;
+        return this.floorItems.values();
     }
 
     public Collection<RoomItemWall> getWallItems() {
@@ -453,5 +464,18 @@ public class ItemsComponent {
         room.getEntities().broadcastMessage(new SendFloorItemMessageComposer(floorItem));
 
         floorItem.saveData();
+    }
+
+    private void indexItem(RoomItemFloor floorItem) {
+        if(!this.itemClassIndex.containsKey(floorItem.getClass())) {
+            itemClassIndex.put(floorItem.getClass(), new HashSet<>());
+        }
+
+        if(!this.itemInteractionIndex.containsKey(floorItem.getDefinition().getInteraction())) {
+            this.itemInteractionIndex.put(floorItem.getDefinition().getInteraction(), new HashSet<>());
+        }
+
+        this.itemClassIndex.get(floorItem.getClass()).add(floorItem.getId());
+        this.itemInteractionIndex.get(floorItem.getDefinition().getInteraction()).add(floorItem.getId());
     }
 }

@@ -76,28 +76,30 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void joinRoom(Room room, String password) {
+        boolean isAuthFailed = false;
+
         if (this.getRoom() == null) {
             this.getPlayer().getSession().send(new HotelViewMessageComposer());
-            return;
+            isAuthFailed = true;
         }
 
         // Room full, no slot available
-        if (this.getPlayerId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() &&
+        if (!isAuthFailed && this.getPlayerId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() &&
                 !this.getPlayer().getPermissions().hasPermission("room_enter_full")) {
             this.getPlayer().getSession().send(new RoomConnectionErrorMessageComposer(1, ""));
             this.getPlayer().getSession().send(new HotelViewMessageComposer());
-            return;
+            isAuthFailed = true;
         }
 
         // Room bans
-        if (this.getRoom().getRights().hasBan(this.getPlayerId()) && !this.getPlayer().getPermissions().hasPermission("room_unkickable")) {
+        if (!isAuthFailed && this.getRoom().getRights().hasBan(this.getPlayerId()) && !this.getPlayer().getPermissions().hasPermission("room_unkickable")) {
             this.getPlayer().getSession().send(new RoomConnectionErrorMessageComposer(4, ""));
-            return;
+            isAuthFailed = true;
         }
 
         boolean isOwner = (this.getRoom().getData().getOwnerId() == this.getPlayerId());
 
-        if (!this.getPlayer().isBypassingRoomAuth() && (!isOwner && !this.getPlayer().getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered()) && !this.getPlayer().isTeleporting()) {
+        if (!isAuthFailed && !this.getPlayer().isBypassingRoomAuth() && (!isOwner && !this.getPlayer().getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered()) && !this.getPlayer().isTeleporting()) {
             if (this.getRoom().getData().getAccess().equals("password")) {
                 boolean matched;
 
@@ -110,22 +112,27 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 if (!matched) {
                     this.getPlayer().getSession().send(new RoomErrorMessageComposer(-100002));
                     this.getPlayer().getSession().send(new HotelViewMessageComposer());
-                    return;
+                    isAuthFailed = true;
                 }
             } else if (this.getRoom().getData().getAccess().equals("doorbell")) {
                 if (this.getRoom().getEntities().playerCount() < 1) {
                     this.getPlayer().getSession().send(new DoorbellNoAnswerComposer());
-                    return;
+                    isAuthFailed = true;
                 } else {
                     this.getRoom().getEntities().broadcastMessage(new DoorbellRequestComposer(this.getUsername()), true);
                     this.getPlayer().getSession().send(new DoorbellRequestComposer(""));
-                    return;
+                    isAuthFailed = true;
                 }
             }
         }
 
+
         this.getPlayer().bypassRoomAuth(false);
         this.getPlayer().setTeleportId(0);
+
+        if(isAuthFailed) {
+            return;
+        }
 
 //        this.getRoom().getEntities().increasePlayerCount();
         this.getRoom().getEntities().addEntity(this);
