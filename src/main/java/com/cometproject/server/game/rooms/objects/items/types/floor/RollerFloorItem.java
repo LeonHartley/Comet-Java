@@ -47,6 +47,10 @@ public class RollerFloorItem extends RoomItemFloor {
     }
 
     private void handleEntities() {
+        Tile tile = this.getTile();
+
+        if(tile.getTopItem() != this.getId()) return;
+
         Position sqInfront = this.getPosition().squareInFront(this.getRotation());
 
         if (!this.getRoom().getMapping().isValidPosition(sqInfront)) {
@@ -134,6 +138,8 @@ public class RollerFloorItem extends RoomItemFloor {
             if (floor instanceof RollerFloorItem || floor.getPosition().getZ() <= this.getPosition().getZ()) {
                 continue;
             }
+
+            if(!floor.getDefinition().canStack()) continue;
 
             double height = floor.getPosition().getZ();
 
