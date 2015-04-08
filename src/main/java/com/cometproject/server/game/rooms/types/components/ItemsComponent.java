@@ -111,30 +111,13 @@ public class ItemsComponent {
     }
 
     public List<RoomItemFloor> getItemsOnSquare(int x, int y) {
-        List<RoomItemFloor> items = Lists.newArrayList();
+        Tile tile = this.getRoom().getMapping().getTile(x, y);
 
-        for (RoomItemFloor item : this.getFloorItems()) {
-            if (item == null) continue; // it's null!
-
-            if (item.getPosition().getX() == x && item.getPosition().getY() == y) {
-                items.add(item);
-            } else {
-                if (item.getDefinition() == null) continue;
-
-                List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(
-                        item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation());
-
-                for (AffectedTile tile : affectedTiles) {
-                    if (x == tile.x && y == tile.y) {
-                        if (!items.contains(item)) {
-                            items.add(item);
-                        }
-                    }
-                }
-            }
+        if(tile == null) {
+            return Lists.newArrayList();
         }
 
-        return items;
+        return tile.getItems();
     }
 
     public RoomItemFloor getFloorItem(int id) {

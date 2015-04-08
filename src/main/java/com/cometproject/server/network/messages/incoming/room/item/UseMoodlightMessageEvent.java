@@ -7,17 +7,9 @@ import com.cometproject.server.network.messages.outgoing.room.items.moodlight.Mo
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
-
-<<<<<<< HEAD
 public class UseMoodlightMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
-        Room room = client.getPlayer().getEntity().getRoom();
-=======
-public class UseMoodlightMessageEvent implements IEvent {
-    public void handle(Session client, Event msg) {
         if(client.getPlayer() == null || client.getPlayer().getEntity() == null) return;
->>>>>>> origin/master
-
         if(client.getPlayer().getEntity().getRoom() == null) return;
 
         Room room = client.getPlayer().getEntity().getRoom();

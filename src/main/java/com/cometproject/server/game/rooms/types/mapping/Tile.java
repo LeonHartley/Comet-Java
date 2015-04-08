@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.types.mapping;
 
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -13,6 +14,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,12 +41,14 @@ public class Tile {
     private boolean hasItems = false;
     private boolean hasMagicTile = false;
 
+    private List<RoomItemFloor> items;
     public Set<GenericEntity> entities;
 
     public Tile(RoomMapping mappingInstance, Position position) {
         this.mappingInstance = mappingInstance;
         this.position = position;
         this.entities = new HashSet<>();
+        this.items = new ArrayList<>(); // maybe change this in the future..
 
         this.reload();
     }
@@ -77,9 +81,32 @@ public class Tile {
         Double staticOverrideHeight = null;
         Double overrideHeight = null;
 
-        for (RoomItemFloor item : mappingInstance.getRoom().getItems().getItemsOnSquare(this.position.getX(), this.position.getY())) {
+        this.items.clear();
+
+        for (RoomItemFloor item : mappingInstance.getRoom().getItems().getFloorItems()) {
+            if (item == null || item.getDefinition() == null) continue; // it's null!
+
+            if (item.getPosition().getX() == this.position.getX() && item.getPosition().getY() == this.position.getY()) {
+                items.add(item);
+            } else {
+                List<AffectedTile> affectedTiles = AffectedTile.getAffectedTilesAt(
+                        item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation());
+
+                for (AffectedTile tile : affectedTiles) {
+                    if (this.position.getX() == tile.x && this.position.getY() == tile.y) {
+                        if (!items.contains(item)) {
+                            items.add(item);
+                        }
+                    }
+                }
+            }
+        }
+
+        for (RoomItemFloor item : items) {
             if (item.getDefinition() == null)
                 continue;
+
+            System.out.println(item.getId());
 
             this.hasItems = true;
 
@@ -286,5 +313,9 @@ public class Tile {
 
     public boolean hasMagicTile() {
         return this.hasMagicTile;
+    }
+
+    public List<RoomItemFloor> getItems() {
+        return items;
     }
 }
