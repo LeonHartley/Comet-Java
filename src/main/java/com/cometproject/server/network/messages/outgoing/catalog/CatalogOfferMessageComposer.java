@@ -15,7 +15,7 @@ public class CatalogOfferMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.CatalogOfferConfigMessageComposer;
+        return Composers.CatalogOfferMessageComposer;
     }
 
     @Override
