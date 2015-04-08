@@ -1,14 +1,14 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
-import com.cometproject.server.network.messages.incoming.IEvent;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.incoming.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 
 
-public class DeclineFriendshipMessageEvent implements IEvent {
+public class DeclineFriendshipMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         final boolean allRequests = msg.readBoolean();
         final int mode = msg.readInt();
 

@@ -5,7 +5,7 @@ import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.LogoutMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
@@ -85,7 +85,7 @@ public class Session {
         this.disconnect();
     }
 
-    public void handleMessageEvent(Event msg) {
+    public void handleMessageEvent(MessageEvent msg) {
         this.eventHandler.handle(msg);
     }
 

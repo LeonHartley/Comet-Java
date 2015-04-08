@@ -1,17 +1,17 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.InviteFriendMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class InviteFriendsMessageEvent implements IEvent {
+public class InviteFriendsMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         final long time = System.currentTimeMillis();
 
         if (!client.getPlayer().getPermissions().hasPermission("bypass_flood")) {

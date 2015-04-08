@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.headers.Events;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.incoming.catalog.*;
 import com.cometproject.server.network.messages.incoming.catalog.ads.CatalogPromotionGetRoomsMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.ads.PromoteRoomMessageEvent;
@@ -80,15 +80,17 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeM
 import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlaylistMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.NextVideoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoMessageEvent;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
+import com.cometproject.server.network.messages.types.tasks.MessageEventTask;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.tasks.CometThreadManager;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 
 public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
-    private final FastMap<Short, IEvent> messages = new FastMap<>();
+    private final FastMap<Short, Event> messages = new FastMap<>();
 
     public MessageHandler() {
         this.load();
@@ -363,9 +365,6 @@ public final class MessageHandler {
         this.getMessages().put(Events.ClearFavouriteGroupMessageEvent, new ClearFavouriteGroupMessageEvent());
 
         this.getMessages().put(Events.SaveForumSettingsMessageEvent, new SaveForumSettingsMessageEvent());
-
-//        this.getMessages().put(Events.GroupForumPermissionsMessageEvent, new GroupForumPermissionsMessageEvent());
-//        this.getMessages().put(Events.GroupForumThreadsMessageEvent, new GroupForumThreadsMessageEvent());
     }
 
     public void registerQuests() {
@@ -377,7 +376,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.RenderRoomMessageEvent, new RenderRoomMessageEvent());
     }
 
-    public void handle(Event message, Session client) {
+    public void handle(MessageEvent message, Session client) {
         final Short header = message.getId();
 
         if (Comet.isDebugging) {
@@ -385,14 +384,23 @@ public final class MessageHandler {
         }
 
         if (this.getMessages().containsKey(header)) {
-            final long start = System.currentTimeMillis();
-
-            log.debug("Started packet process for packet: [" + Events.valueOfId(header) + "][" + header + "]");
 
             try {
-                this.getMessages().get(header).handle(client, message);
+                final Event event = this.getMessages().get(header);
 
-                log.debug("Finished packet process for packet: [" + Events.valueOfId(header) + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
+                if(event != null) {
+                    if(Boolean.parseBoolean((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling", false))) {
+                        CometThreadManager.getInstance().executeOnce(new MessageEventTask(event, client, message));
+                    } else {
+                        final long start = System.currentTimeMillis();
+                        log.debug("Started packet process for packet: [" + event.getClass().getSimpleName() + "][" + header + "]");
+
+                        event.handle(client, message);
+
+                        log.debug("Finished packet process for packet: [" + event.getClass().getSimpleName() + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
+                    }
+                }
+
             } catch (Exception e) {
                 if (client.getLogger() != null)
                     client.getLogger().error("Error while handling event: " + this.getMessages().get(header).getClass().getSimpleName(), e);
@@ -401,11 +409,10 @@ public final class MessageHandler {
             }
         } else if (Comet.isDebugging) {
             log.debug("Unhandled message: " + Events.valueOfId(header) + " / " + header);
-
         }
     }
 
-    public FastMap<Short, IEvent> getMessages() {
+    public FastMap<Short, Event> getMessages() {
         return this.messages;
     }
 }

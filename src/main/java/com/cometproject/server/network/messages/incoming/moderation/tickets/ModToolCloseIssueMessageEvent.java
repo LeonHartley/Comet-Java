@@ -7,15 +7,15 @@ import com.cometproject.server.game.moderation.types.tickets.HelpTicketState;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.moderation.tickets.HelpTicketResponseMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
-public class ModToolCloseIssueMessageEvent implements IEvent {
+public class ModToolCloseIssueMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         final int result = msg.readInt();
         final int unk = msg.readInt();
         final int ticketId = msg.readInt();

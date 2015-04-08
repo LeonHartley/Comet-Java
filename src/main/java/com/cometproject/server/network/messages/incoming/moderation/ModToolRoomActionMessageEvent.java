@@ -5,17 +5,17 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class ModToolRoomActionMessageEvent implements IEvent {
+public class ModToolRoomActionMessageEvent implements Event {
     private final static String INAPPROPRIATE_ROOM_NAME = "Inappropriate to hotel management";
 
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         final int roomId = msg.readInt();
 
         if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {

@@ -5,15 +5,15 @@ import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class ModifyGroupSettingsMessageEvent implements IEvent {
+public class ModifyGroupSettingsMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         int groupId = msg.readInt();
 
         if (!client.getPlayer().getGroups().contains(groupId))

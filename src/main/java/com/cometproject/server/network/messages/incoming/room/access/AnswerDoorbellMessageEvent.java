@@ -1,17 +1,17 @@
 package com.cometproject.server.network.messages.incoming.room.access;
 
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellAcceptedComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class AnswerDoorbellMessageEvent implements IEvent {
+public class AnswerDoorbellMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         if (client.getPlayer().getEntity() == null) {
             return;
         }

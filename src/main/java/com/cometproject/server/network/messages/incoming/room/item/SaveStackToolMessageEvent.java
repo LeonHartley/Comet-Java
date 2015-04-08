@@ -5,16 +5,16 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.UpdateStackMapMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class SaveStackToolMessageEvent implements IEvent {
+public class SaveStackToolMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null) {

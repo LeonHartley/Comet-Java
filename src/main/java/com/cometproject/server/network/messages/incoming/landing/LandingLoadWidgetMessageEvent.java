@@ -1,14 +1,14 @@
 package com.cometproject.server.network.messages.incoming.landing;
 
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.landing.HotelViewItemMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class LandingLoadWidgetMessageEvent implements IEvent {
+public class LandingLoadWidgetMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         final String text = msg.readString();
         final String[] splitText = text.split(",");
 

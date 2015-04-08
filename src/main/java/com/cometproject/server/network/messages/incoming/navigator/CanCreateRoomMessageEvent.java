@@ -1,13 +1,13 @@
 package com.cometproject.server.network.messages.incoming.navigator;
 
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.navigator.CanCreateRoomMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class CanCreateRoomMessageEvent implements IEvent {
-    public void handle(Session client, Event msg) {
+public class CanCreateRoomMessageEvent implements Event {
+    public void handle(Session client, MessageEvent msg) {
         client.send(new CanCreateRoomMessageComposer());
     }
 }

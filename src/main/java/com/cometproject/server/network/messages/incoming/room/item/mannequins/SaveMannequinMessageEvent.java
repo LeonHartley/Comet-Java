@@ -3,15 +3,15 @@ package com.cometproject.server.network.messages.incoming.room.item.mannequins;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class SaveMannequinMessageEvent implements IEvent {
+public class SaveMannequinMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         int id = msg.readInt();
 
         Room room = client.getPlayer().getEntity().getRoom();

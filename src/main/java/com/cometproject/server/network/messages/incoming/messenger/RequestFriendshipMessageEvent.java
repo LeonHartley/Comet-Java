@@ -2,17 +2,17 @@ package com.cometproject.server.network.messages.incoming.messenger;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.FriendRequestMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 
 
-public class RequestFriendshipMessageEvent implements IEvent {
-    public void handle(Session client, Event msg) {
+public class RequestFriendshipMessageEvent implements Event {
+    public void handle(Session client, MessageEvent msg) {
         String username = msg.readString();
 
         if (username.equals(client.getPlayer().getData().getUsername()))

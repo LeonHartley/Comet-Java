@@ -2,7 +2,7 @@ package com.cometproject.server.network.clients;
 
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
 import io.netty.channel.ChannelHandler;
@@ -14,7 +14,7 @@ import io.netty.handler.timeout.IdleStateEvent;
 import org.apache.log4j.Logger;
 
 @ChannelHandler.Sharable
-public class ClientHandler extends SimpleChannelInboundHandler<Event> {
+public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
     private static Logger log = Logger.getLogger(ClientHandler.class.getName());
 
     private static ClientHandler clientHandlerInstance;
@@ -69,7 +69,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Event> {
     }
 
     @Override
-    public void channelRead0(ChannelHandlerContext channelHandlerContext, Event event) throws Exception {
+    public void channelRead0(ChannelHandlerContext channelHandlerContext, MessageEvent event) throws Exception {
         try {
             Session session = channelHandlerContext.attr(SessionManager.SESSION_ATTR).get();
 

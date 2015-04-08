@@ -3,15 +3,15 @@ package com.cometproject.server.network.messages.incoming.user.details;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class ChangeMottoMessageEvent implements IEvent {
-    public void handle(Session client, Event msg) {
+public class ChangeMottoMessageEvent implements Event {
+    public void handle(Session client, MessageEvent msg) {
         String motto = msg.readString();
 
         if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {

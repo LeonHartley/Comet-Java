@@ -5,16 +5,16 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class PlacePetMessageEvent implements IEvent {
+public class PlacePetMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         int petId = msg.readInt();
         int x = msg.readInt();
         int y = msg.readInt();

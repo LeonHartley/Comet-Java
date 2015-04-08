@@ -6,17 +6,17 @@ import com.cometproject.server.game.navigator.types.featured.BannerType;
 import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
 import com.cometproject.server.game.navigator.types.featured.ImageType;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.navigator.NavigatorDao;
 
 
-public class AddToStaffPickedRoomsMessageEvent implements IEvent {
+public class AddToStaffPickedRoomsMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         if (!client.getPlayer().getPermissions().hasPermission("room_staff_pick")) {
             return;
         }

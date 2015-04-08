@@ -2,15 +2,15 @@ package com.cometproject.server.network.messages.incoming.moderation;
 
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class ModToolUserAlertMessageEvent implements IEvent {
+public class ModToolUserAlertMessageEvent implements Event {
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         int playerId = msg.readInt();
         String message = msg.readString();
 

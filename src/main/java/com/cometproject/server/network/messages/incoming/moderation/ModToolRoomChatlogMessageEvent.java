@@ -4,15 +4,15 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.database.queries.LogQueries;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolRoomChatlogMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class ModToolRoomChatlogMessageEvent implements IEvent {
-    public void handle(Session client, Event msg) {
+public class ModToolRoomChatlogMessageEvent implements Event {
+    public void handle(Session client, MessageEvent msg) {
         int context = msg.readInt();
         int roomId = msg.readInt();
 

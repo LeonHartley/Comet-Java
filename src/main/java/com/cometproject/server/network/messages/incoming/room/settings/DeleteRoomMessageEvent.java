@@ -13,12 +13,12 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.incoming.IEvent;
+import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
-import com.cometproject.server.network.messages.types.Event;
+import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
@@ -29,10 +29,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DeleteRoomMessageEvent implements IEvent {
+public class DeleteRoomMessageEvent implements Event {
 
     @Override
-    public void handle(Session client, Event msg) throws Exception {
+    public void handle(Session client, MessageEvent msg) throws Exception {
         PlayerEntity entity = client.getPlayer().getEntity();
 
         if (entity == null)
