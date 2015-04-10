@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actio
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.EntityPathfinder;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -67,7 +68,7 @@ public class WiredActionChase extends WiredActionItem {
                     continue;
                 }
 
-                List<Square> tilesToEntity = Pathfinder.getInstance().makePath(floorItem, nearestEntity.getPosition(), Pathfinder.DISABLE_DIAGONAL);
+                List<Square> tilesToEntity = EntityPathfinder.getInstance().makePath(floorItem, nearestEntity.getPosition(), Pathfinder.DISABLE_DIAGONAL);
 
                 if (tilesToEntity != null && tilesToEntity.size() != 0) {
                     Position positionTo = new Position(tilesToEntity.get(0).x, tilesToEntity.get(0).y);

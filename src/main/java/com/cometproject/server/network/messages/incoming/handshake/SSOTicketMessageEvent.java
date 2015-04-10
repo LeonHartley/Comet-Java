@@ -35,11 +35,11 @@ public class SSOTicketMessageEvent implements Event {
 //            return;
 //        }
 
-        if (client.getUniqueId().isEmpty() || client.getUniqueId().length() < 10) {
-            client.getLogger().warn("Session was disconnected because it did not have a valid machine ID!");
-            client.disconnect();
-            return;
-        }
+//        if (client.getUniqueId().isEmpty() || client.getUniqueId().length() < 10) {
+//            client.getLogger().warn("Session was disconnected because it did not have a valid machine ID!");
+//            client.disconnect();
+//            return;
+//        }
 
         if (BanManager.getInstance().hasBan(client.getUniqueId(), BanType.MACHINE)) {
             client.getLogger().warn("Banned player: " + client.getUniqueId() + " tried logging in");

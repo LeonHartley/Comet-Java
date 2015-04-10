@@ -2,8 +2,8 @@ package com.cometproject.server.game.rooms.objects.entities;
 
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
-import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.EntityPathfinder;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -153,7 +153,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.setWalkingGoal(x, y);
 
         // Create a walking path
-        List<Square> path = Pathfinder.getInstance().makePath(this, new Position(x, y), this.getRoom().hasAttribute("disableDiagonal") ? (byte) 0 : (byte) 1);
+        List<Square> path = EntityPathfinder.getInstance().makePath(this, new Position(x, y), this.getRoom().hasAttribute("disableDiagonal") ? (byte) 0 : (byte) 1);
 
         // Check returned path to see if it calculated one
         if (path == null || path.size() == 0) {

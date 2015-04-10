@@ -72,6 +72,8 @@ public class Player {
 
     private boolean bypassRoomAuth;
 
+    private int lastFigureUpdate = 0;
+
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
@@ -190,6 +192,10 @@ public class Player {
     }
 
     public void ignorePlayer(int playerId) {
+        if(this.ignoredPlayers == null) {
+            this.ignoredPlayers = new ArrayList<>();
+        }
+
         this.ignoredPlayers.add(playerId);
     }
 
@@ -198,7 +204,7 @@ public class Player {
     }
 
     public boolean ignores(int playerId) {
-        return this.ignoredPlayers.contains(playerId);
+        return this.ignoredPlayers != null && this.ignoredPlayers.contains(playerId);
     }
 
     public List<Integer> getRooms() {
@@ -391,5 +397,13 @@ public class Player {
 
     public boolean isBypassingRoomAuth() {
         return bypassRoomAuth;
+    }
+
+    public int getLastFigureUpdate() {
+        return lastFigureUpdate;
+    }
+
+    public void setLastFigureUpdate(int lastFigureUpdate) {
+        this.lastFigureUpdate = lastFigureUpdate;
     }
 }
