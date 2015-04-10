@@ -389,7 +389,7 @@ public final class MessageHandler {
                 final Event event = this.getMessages().get(header);
 
                 if(event != null) {
-                    if(Boolean.parseBoolean((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling", false))) {
+                    if(Boolean.parseBoolean((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling", "false"))) {
                         CometThreadManager.getInstance().executeOnce(new MessageEventTask(event, client, message));
                     } else {
                         final long start = System.currentTimeMillis();
