@@ -42,14 +42,15 @@ public class RollerFloorItem extends RoomItemFloor {
 
     @Override
     public void onTickComplete() {
-        this.handleEntities();
         this.handleItems();
+        this.handleEntities();
     }
 
     private void handleEntities() {
         Tile tile = this.getTile();
 
-        if(tile.getTopItem() != this.getId()) return;
+//        if(tile.getTopItem() != this.getId())
+//            return;
 
         Position sqInfront = this.getPosition().squareInFront(this.getRotation());
 
@@ -200,6 +201,6 @@ public class RollerFloorItem extends RoomItemFloor {
 
     private int getTickCount() {
 //        return RoomItemFactory.getProcessTime(this.getRoom().hasAttribute("customRollerSpeed") ? (int) this.getRoom().getAttribute("customRollerSpeed") : 3);
-        return RoomItemFactory.getProcessTime((this.getRoom().hasAttribute("customRollerSpeed") ? (int) this.getRoom().getAttribute("customRollerSpeed") : 3) / 2);
+        return RoomItemFactory.getProcessTime((this.getRoom().hasAttribute("customRollerSpeed") ? (int) this.getRoom().getAttribute("customRollerSpeed") : 4) / 2);
     }
 }
