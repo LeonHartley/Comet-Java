@@ -2,6 +2,8 @@ Comet Pre-1.0 Changelog
 ==================
 
 ## 10/04/2015
+* Rollers: Alter the default speed
+* Rollers: Process items before entities
 * Allow support for separate path finding for room entities and items.
 * Configurable timeout for updating player figure
 
