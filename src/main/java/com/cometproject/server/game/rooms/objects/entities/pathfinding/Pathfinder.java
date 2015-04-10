@@ -11,18 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class Pathfinder {
+public abstract class Pathfinder {
     public static final byte DISABLE_DIAGONAL = 0;
     public static final byte ALLOW_DIAGONAL = 1;
-
-    private static Pathfinder instance;
-
-    public static Pathfinder getInstance() {
-        if (instance == null)
-            instance = new Pathfinder();
-
-        return instance;
-    }
 
     public List<Square> makePath(RoomObject roomObject, Position end) {
         return this.makePath(roomObject, end, ALLOW_DIAGONAL);
@@ -71,10 +62,7 @@ public class Pathfinder {
                 tmp = current.getPosition().add((pathfinderMode == ALLOW_DIAGONAL ? diagonalMovePoints() : movePoints())[i]);
                 final boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
 
-                if (roomObject.getRoom().getMapping().isValidStep(roomObject instanceof GenericEntity ? roomObject.getId() : 0,
-                        new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove, isFloorItem) ||
-                        (roomObject instanceof GenericEntity && ((GenericEntity) roomObject).isOverriden())) {
-
+                if (this.isValidStep(roomObject, new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove)) {
                     try {
                         if (map[tmp.getX()][tmp.getY()] == null) {
                             node = new PathfinderNode(tmp);
@@ -119,6 +107,12 @@ public class Pathfinder {
         }
 
         return null;
+    }
+
+    public boolean isValidStep(RoomObject roomObject, Position from, Position to, boolean lastStep) {
+        return (roomObject.getRoom().getMapping().isValidStep(roomObject instanceof GenericEntity ? roomObject.getId() : 0,
+                from, to, lastStep, roomObject instanceof RoomItemFloor) ||
+                (roomObject instanceof GenericEntity && ((GenericEntity) roomObject).isOverriden()));
     }
 
     private Position[] diagonalMovePoints() {

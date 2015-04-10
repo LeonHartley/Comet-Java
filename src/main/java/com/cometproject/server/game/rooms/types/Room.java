@@ -82,6 +82,9 @@ public class Room implements Attributable {
         this.process = new ProcessComponent(this);
         this.rights = new RightsComponent(this);
         this.items = new ItemsComponent(this);
+
+        this.mapping.init();
+
         this.trade = new TradeComponent(this);
         this.game = new GameComponent(this);
         this.entities = new EntityComponent(this);
@@ -90,8 +93,6 @@ public class Room implements Attributable {
 
         // Cache the group.
         this.group = GroupManager.getInstance().getGroupByRoomId(this.getId());
-
-        this.mapping.init();
 
         this.setAttribute("loadTime", System.currentTimeMillis());
 

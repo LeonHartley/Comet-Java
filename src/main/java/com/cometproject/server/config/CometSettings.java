@@ -176,6 +176,11 @@ public class CometSettings {
     public static boolean adaptiveEntityProcessDelay = false;
 
     /**
+     *
+     */
+    public static int playerFigureUpdateTimeout = 5;
+
+    /**
      * Logging
      */
     private static final Logger log = Logger.getLogger(CometSettings.class.getName());
@@ -274,6 +279,10 @@ public class CometSettings {
 
         if(config.containsKey("comet.game.rooms.adaptiveProcessDelay")) {
             placeItemOnEntity = Boolean.parseBoolean(config.get("comet.game.rooms.adaptiveProcessDelay"));
+        }
+
+        if(config.containsKey("comet.game.figureUpdateTimeout")) {
+            playerFigureUpdateTimeout = Integer.parseInt(config.get("comet.game.figureUpdateTimeout"));
         }
     }
 

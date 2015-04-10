@@ -316,10 +316,6 @@ public class EntityComponent {
         return this.playerIdToEntity.size();
     }
 
-//    public AtomicInteger getPlayerCounter() {
-//        return playerCount;
-//    }
-
     public int realPlayerCount() {
         return this.playerIdToEntity.size();
     }
