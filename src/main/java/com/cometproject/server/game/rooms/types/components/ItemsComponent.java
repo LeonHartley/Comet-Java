@@ -134,7 +134,7 @@ public class ItemsComponent {
             return Lists.newArrayList();
         }
 
-        return tile.getItems();
+        return new ArrayList<>(tile.getItems());
     }
 
     public RoomItemFloor getFloorItem(int id) {

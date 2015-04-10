@@ -94,7 +94,7 @@ public class RoomMapping {
 
     public Tile getTile(int x, int y) {
         if (x < 0 || y < 0) return null;
-        if (x >= this.tiles.length || y >= this.tiles[x].length) return null;
+        if (x >= this.tiles.length || (this.tiles[x] == null || y >= this.tiles[x].length)) return null;
 
         return this.tiles[x][y];
     }
