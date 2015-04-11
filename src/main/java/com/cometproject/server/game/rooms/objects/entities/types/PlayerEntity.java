@@ -50,6 +50,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     private Player player;
     private PlayerData playerData;
 
+    private int playerId;
+
     private Map<String, Object> attributes = new FastMap<>();
     private RoomVisitLogEntry visitLogEntry;
 
@@ -65,6 +67,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.player = player;
 
         // create reference to the PlayerDa
+        this.playerId = player.getId();
         this.playerData = player.getData();
 
         if (this.getPlayer().isTeleporting())
@@ -220,7 +223,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         // Sending this user to the hotel view?
         if (!isOffline && toHotelView && this.getPlayer() != null && this.getPlayer().getSession() != null) {
             this.getPlayer().getSession().send(new HotelViewMessageComposer());
-            this.getPlayer().getSession().getPlayer().getMessenger().sendStatus(true, false);
+
+            if(this.getPlayer().getData() != null) {
+                this.getPlayer().getMessenger().sendStatus(true, false);
+            }
         }
 
         // Remove entity from the room
@@ -376,7 +382,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     }
 
     public int getPlayerId() {
-        return this.playerData.getId();
+        return this.playerId;
     }
 
     @Override
@@ -506,5 +512,9 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     public void increaseKickWalkStage() {
         this.kickWalkStage++;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
     }
 }

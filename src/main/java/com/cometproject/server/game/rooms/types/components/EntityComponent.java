@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class EntityComponent {
+
     private static Logger log = Logger.getLogger(EntityComponent.class.getName());
 
     private Room room;
@@ -120,9 +121,7 @@ public class EntityComponent {
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
-            if (playerEntity.getPlayer() != null) {
-                this.playerIdToEntity.remove(playerEntity.getPlayerId());
-            }
+            this.playerIdToEntity.remove(playerEntity.getPlayerId());
         } else if (entity.getEntityType() == RoomEntityType.BOT) {
             BotEntity botEntity = (BotEntity) entity;
 
