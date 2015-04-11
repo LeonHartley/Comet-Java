@@ -102,7 +102,7 @@ public class Tile {
             }
         }
 
-        for (RoomItemFloor item : items) {
+        for (RoomItemFloor item : new ArrayList<>(items)) {
             if (item.getDefinition() == null)
                 continue;
 

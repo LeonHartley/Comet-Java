@@ -120,12 +120,9 @@ public class EntityComponent {
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
-//            if(playerEntity.isVisible()) {
-//                this.playerCount.decrementAndGet();
-//            }
-
-            if (playerEntity.getPlayer() != null)
+            if (playerEntity.getPlayer() != null) {
                 this.playerIdToEntity.remove(playerEntity.getPlayerId());
+            }
         } else if (entity.getEntityType() == RoomEntityType.BOT) {
             BotEntity botEntity = (BotEntity) entity;
 
@@ -332,5 +329,9 @@ public class EntityComponent {
         for (GenericEntity entity : entities.values()) {
             entity.onRoomDispose();
         }
+    }
+
+    public boolean isPlayerIdIndexed(int playerId) {
+        return this.playerIdToEntity.containsKey(playerId);
     }
 }

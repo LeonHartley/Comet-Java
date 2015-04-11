@@ -126,6 +126,7 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
 
         this.flashTicks = RoomItemFactory.getProcessTime(0.5);
         this.state = true;
+
         this.sendUpdate();
     }
 
@@ -137,6 +138,7 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
         if (this.state) {
             if (this.flashTicks <= 0) {
                 this.state = false;
+
                 this.sendUpdate();
             } else {
                 this.flashTicks--;

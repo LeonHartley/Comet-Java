@@ -74,6 +74,8 @@ public class Player {
 
     private int lastFigureUpdate = 0;
 
+    public boolean isDisposed = false;
+
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
@@ -133,6 +135,8 @@ public class Player {
 
         this.settings = null;
         this.data = null;
+
+        this.isDisposed = true;
     }
 
     public void sendBalance() {
