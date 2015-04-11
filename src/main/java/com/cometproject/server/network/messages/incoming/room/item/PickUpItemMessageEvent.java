@@ -13,6 +13,10 @@ import com.cometproject.server.network.sessions.Session;
 
 public class PickUpItemMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
+        if(client.getPlayer() == null || client.getPlayer().getEntity() == null) {
+            return;
+        }
+
         boolean isFloorItem = msg.readInt() == 2;
 
         int id = msg.readInt();

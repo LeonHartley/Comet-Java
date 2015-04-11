@@ -2,7 +2,8 @@ Comet Pre-1.0 Changelog
 ==================
 
 ## 11/04/2015
-* Many improvements made
+* Load friend requests only when needed (Takes some stress away from initial login process)
+* Fix rare problem where room actors would not be visible in room
 
 ## 10/04/2015
 * Rollers: Alter the default speed
