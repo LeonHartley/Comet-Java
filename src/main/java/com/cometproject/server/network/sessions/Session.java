@@ -53,6 +53,7 @@ public class Session {
 
         this.eventHandler.dispose();
         this.getPlayer().dispose();
+        this.setPlayer(null);
     }
 
     public void disconnect(boolean isClone) {

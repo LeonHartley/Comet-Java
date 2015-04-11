@@ -75,7 +75,7 @@ public class ProcessComponent implements CometTask {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
 
                     try {
-                        if (playerEntity.getPlayer() == null) {
+                        if (playerEntity.getPlayer() == null || playerEntity.getPlayer().isDisposed || playerEntity.getPlayer().getSession() == null) {
                             playersToRemove.add(playerEntity);
                             continue;
                         }

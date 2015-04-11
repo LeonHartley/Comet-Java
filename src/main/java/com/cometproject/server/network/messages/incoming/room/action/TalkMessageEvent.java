@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.incoming.room.action;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -18,7 +19,9 @@ public class TalkMessageEvent implements Event {
         String message = msg.readString();
         int colour = msg.readInt();
 
-        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null || client.getPlayer().getEntity().getRoom().getEntities() == null)
+        PlayerEntity playerEntity = client.getPlayer().getEntity();
+
+        if (playerEntity == null || playerEntity.getRoom() == null || playerEntity.getRoom().getEntities() == null)
             return;
 
         if (!TalkMessageEvent.isValidColour(colour, client))
@@ -37,26 +40,26 @@ public class TalkMessageEvent implements Event {
             }
         }
 
-        if (client.getPlayer().getEntity().onChat(filteredMessage)) {
+        if (playerEntity.onChat(filteredMessage)) {
             try {
                 if (LogManager.ENABLED)
-                    LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(client.getPlayer().getEntity().getRoom().getId(), client.getPlayer().getId(), message));
+                    LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(playerEntity.getRoom().getId(), client.getPlayer().getId(), message));
             } catch (Exception ignored) {
 
             }
 
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastChatMessage(
+            playerEntity.getRoom().getEntities().broadcastChatMessage(
                     new TalkMessageComposer(
-                            client.getPlayer().getEntity().getId(),
+                            playerEntity.getId(),
                             filteredMessage,
                             RoomManager.getInstance().getEmotions().getEmotion(filteredMessage),
                             colour
                     ),
 
-                    client.getPlayer().getEntity());
+                    playerEntity);
         }
 
-        client.getPlayer().getEntity().postChat(filteredMessage);
+        playerEntity.postChat(filteredMessage);
     }
 
     private static int[] allowedColours = new int[]{

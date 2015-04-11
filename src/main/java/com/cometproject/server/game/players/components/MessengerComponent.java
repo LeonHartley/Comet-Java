@@ -32,7 +32,6 @@ public class MessengerComponent implements PlayerComponent {
 
         try {
             this.friends = MessengerDao.getFriendsByPlayerId(player.getId());
-            this.requests = MessengerDao.getRequestsByPlayerId(player.getId());
         } catch (Exception e) {
             Logger.getLogger(MessengerComponent.class.getName()).error("Error while loading messenger friends", e);
         }
@@ -137,6 +136,10 @@ public class MessengerComponent implements PlayerComponent {
 
     public List<PlayerAvatar> getRequestAvatars() {
         List<PlayerAvatar> avatars = Lists.newArrayList();
+
+        if(this.requests == null) {
+            this.requests = MessengerDao.getRequestsByPlayerId(player.getId());
+        }
 
         for (int playerId : this.requests) {
             PlayerAvatar playerAvatar = PlayerDao.getAvatarById(playerId, PlayerAvatar.USERNAME_FIGURE);

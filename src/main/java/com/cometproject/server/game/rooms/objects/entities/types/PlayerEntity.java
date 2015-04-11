@@ -241,6 +241,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         // De-reference things
         this.player = null;
+        this.playerData = null;
     }
 
     @Override
