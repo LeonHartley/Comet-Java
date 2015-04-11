@@ -26,8 +26,9 @@ public class AcceptMembershipMessageEvent implements Event {
 
         Group group = GroupManager.getInstance().get(groupId);
 
-        if (group == null || group.getData().getOwnerId() != client.getPlayer().getId())
+        if (group == null || (group.getData().getOwnerId() != client.getPlayer().getId() &&  !group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId()))) {
             return;
+        }
 
         if (!group.getMembershipComponent().getMembershipRequests().contains(playerId))
             return;
@@ -38,12 +39,16 @@ public class AcceptMembershipMessageEvent implements Event {
         if(group.getData().canMembersDecorate()) {
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
-            if(session != null && session.getPlayer() != null && session.getPlayer().getEntity() != null && group.getData().canMembersDecorate()) {
-                session.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);
-                session.getPlayer().getEntity().addStatus(RoomEntityStatus.CONTROLLER, "1");
+            if(session.getPlayer() != null) {
+                session.getPlayer().getGroups().add(groupId);
 
-                session.getPlayer().getEntity().markNeedsUpdate();
-                session.send(new AccessLevelMessageComposer(1));
+                if(session.getPlayer().getEntity() != null && group.getData().canMembersDecorate()) {
+                    session.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);
+                    session.getPlayer().getEntity().addStatus(RoomEntityStatus.CONTROLLER, "1");
+
+                    session.getPlayer().getEntity().markNeedsUpdate();
+                    session.send(new AccessLevelMessageComposer(1));
+                }
             }
         }
 
