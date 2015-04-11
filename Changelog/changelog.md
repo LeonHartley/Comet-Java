@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 ==================
 
+## 11/04/2015
+* Many improvements made
+
 ## 10/04/2015
 * Rollers: Alter the default speed
 * Rollers: Process items before entities
