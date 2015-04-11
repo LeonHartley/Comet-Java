@@ -4,6 +4,8 @@ Comet Pre-1.0 Changelog
 ## 11/04/2015
 * Load friend requests only when needed (Takes some stress away from initial login process)
 * Fix rare problem where room actors would not be visible in room
+* Show badges on profiles whether the player is online or not
+* Group administrators can now accept membership requests
 
 ## 10/04/2015
 * Rollers: Alter the default speed
