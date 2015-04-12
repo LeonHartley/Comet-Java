@@ -68,64 +68,9 @@ public class ProcessComponent implements CometTask {
             Map<Integer, GenericEntity> entities = this.room.getEntities().getAllEntities();
 
             List<PlayerEntity> playersToRemove = new ArrayList<>();
-            List<GenericEntity> entitiesToUpdate = new ArrayList<>();
 
             for (GenericEntity entity : entities.values()) {
-                if (entity.getEntityType() == RoomEntityType.PLAYER) {
-                    PlayerEntity playerEntity = (PlayerEntity) entity;
-
-                    try {
-                        if (playerEntity.getPlayer() == null || playerEntity.getPlayer().isDisposed || playerEntity.getPlayer().getSession() == null) {
-                            playersToRemove.add(playerEntity);
-                            continue;
-                        }
-                    } catch (Exception e) {
-                        log.warn("Failed to remove null player from room - user data was null");
-                        continue;
-                    }
-
-                    boolean playerNeedsRemove = processEntity(playerEntity);
-
-                    if (playerNeedsRemove) {
-                        playersToRemove.add(playerEntity);
-                    }
-                } else if (entity.getEntityType() == RoomEntityType.BOT) {
-                    // do anything special here for bots?
-                    processEntity(entity);
-                } else if (entity.getEntityType() == RoomEntityType.PET) {
-                    // do anything special here for pets?
-                    processEntity(entity);
-                }
-
-                if ((entity.needsUpdate() && !entity.needsUpdateCancel() || entity.needsForcedUpdate) && entity.isVisible()) {
-                    if (entity.needsForcedUpdate && entity.updatePhase == 1) {
-                        entity.needsForcedUpdate = false;
-                        entity.updatePhase = 0;
-
-                        entitiesToUpdate.add(entity);
-                    } else if (entity.needsForcedUpdate) {
-                        if (entity.hasStatus(RoomEntityStatus.MOVE)) {
-                            entity.removeStatus(RoomEntityStatus.MOVE);
-                        }
-
-                        entity.updatePhase = 1;
-                        entitiesToUpdate.add(entity);
-                    } else {
-                        entity.markUpdateComplete();
-                        entitiesToUpdate.add(entity);
-                    }
-                }
-            }
-
-            // only send the updates if we need to
-            if (entitiesToUpdate.size() > 0) {
-                this.getRoom().getEntities().broadcastMessage(new AvatarUpdateMessageComposer(entitiesToUpdate));
-            }
-
-            for (GenericEntity entity : entitiesToUpdate) {
-                if (entity.updatePhase == 1) continue;
-
-                if (this.updateEntityStuff(entity) && entity instanceof PlayerEntity) {
+                if (entity.isNeedsRemove() && entity instanceof PlayerEntity) {
                     playersToRemove.add((PlayerEntity) entity);
                 }
             }
@@ -135,7 +80,6 @@ public class ProcessComponent implements CometTask {
             }
 
             playersToRemove.clear();
-            entitiesToUpdate.clear();
 
         } catch (Exception e) {
             log.warn("Error during room entity processing", e);
@@ -148,7 +92,7 @@ public class ProcessComponent implements CometTask {
                 this.getProcessTimes().add(span.toMilliseconds());
         }
 
-        if(this.adaptiveProcessTimes) {
+        if (this.adaptiveProcessTimes) {
             CometThreadManager.getInstance().executeSchedule(this, 500 - span.toMilliseconds(), TimeUnit.MILLISECONDS);
         }
     }
@@ -163,7 +107,7 @@ public class ProcessComponent implements CometTask {
             stop();
         }
 
-        if(this.adaptiveProcessTimes) {
+        if (this.adaptiveProcessTimes) {
             CometThreadManager.getInstance().executeSchedule(this, 500, TimeUnit.MILLISECONDS);
         } else {
             this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
@@ -187,7 +131,7 @@ public class ProcessComponent implements CometTask {
         if (this.processFuture != null) {
             this.active = false;
 
-            if(!this.adaptiveProcessTimes)
+            if (!this.adaptiveProcessTimes)
                 this.processFuture.cancel(false);
 
             log.debug("Processing stopped");
@@ -199,7 +143,7 @@ public class ProcessComponent implements CometTask {
         this.tick();
     }
 
-    private boolean updateEntityStuff(GenericEntity entity) {
+    public boolean updateEntityStuff(GenericEntity entity) {
         if (entity.getPositionToSet() != null) {
             if ((entity.getPositionToSet().getX() == this.room.getModel().getDoorX()) && (entity.getPositionToSet().getY() == this.room.getModel().getDoorY())) {
                 boolean leaveRoom = true;
@@ -286,7 +230,7 @@ public class ProcessComponent implements CometTask {
         return false;
     }
 
-    protected boolean processEntity(GenericEntity entity) {
+    public boolean processEntity(GenericEntity entity) {
         boolean isPlayer = entity instanceof PlayerEntity;
 
         if (isPlayer && ((PlayerEntity) entity).getPlayer() == null || entity.getRoom() == null) {
