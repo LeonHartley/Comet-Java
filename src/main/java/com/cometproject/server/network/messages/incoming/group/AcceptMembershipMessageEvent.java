@@ -26,7 +26,7 @@ public class AcceptMembershipMessageEvent implements Event {
 
         Group group = GroupManager.getInstance().get(groupId);
 
-        if (group == null || (group.getData().getOwnerId() != client.getPlayer().getId() &&  !group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId()))) {
+        if (group == null || (group.getData().getOwnerId() != client.getPlayer().getId() && !group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId()))) {
             return;
         }
 
@@ -36,13 +36,13 @@ public class AcceptMembershipMessageEvent implements Event {
         group.getMembershipComponent().removeRequest(playerId);
         group.getMembershipComponent().createMembership(new GroupMember(playerId, groupId, GroupAccessLevel.MEMBER));
 
-        if(group.getData().canMembersDecorate()) {
-            Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
+        Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
-            if(session.getPlayer() != null) {
-                session.getPlayer().getGroups().add(groupId);
+        if (session != null && session.getPlayer() != null) {
+            session.getPlayer().getGroups().add(groupId);
 
-                if(session.getPlayer().getEntity() != null && group.getData().canMembersDecorate()) {
+            if (group.getData().canMembersDecorate()) {
+                if (session.getPlayer().getEntity() != null && group.getData().canMembersDecorate()) {
                     session.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);
                     session.getPlayer().getEntity().addStatus(RoomEntityStatus.CONTROLLER, "1");
 
@@ -51,6 +51,7 @@ public class AcceptMembershipMessageEvent implements Event {
                 }
             }
         }
+
 
         client.send(new GroupMembersMessageComposer(group.getData(), 0, new ArrayList<>(group.getMembershipComponent().getMembershipRequests()), 2, "", true));
     }
