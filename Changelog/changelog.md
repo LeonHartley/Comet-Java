@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 ==================
 
+## 12/04/2015
+* Groups: When membership is accepted, it will now instantly show in profiles, no need to reload client.
+
 ## 11/04/2015
 * Load friend requests only when needed (Takes some stress away from initial login process)
 * Fix rare problem where room actors would not be visible in room
