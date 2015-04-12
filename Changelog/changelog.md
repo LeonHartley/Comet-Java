@@ -3,6 +3,9 @@ Comet Pre-1.0 Changelog
 
 ## 12/04/2015
 * Groups: When membership is accepted, it will now instantly show in profiles, no need to reload client.
+* Improve performance of the processing of room actors
+* Re-introduce the idle timer, now if players haven't sent a request to the server in a while, they'll be disconnected.
+* You can now give a hand item to all players in the room via the roomaction command (:roomaction handitem <item ID>)
 
 ## 11/04/2015
 * Load friend requests only when needed (Takes some stress away from initial login process)

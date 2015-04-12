@@ -7,8 +7,11 @@ import com.cometproject.server.network.codec.XMLPolicyDecoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.EventExecutorGroup;
+
+import java.util.concurrent.TimeUnit;
 
 public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel> {
     private final EventExecutorGroup executor;
@@ -26,7 +29,7 @@ public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel>
                 .addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8))
                 .addLast("messageDecoder", new MessageDecoder())
                 .addLast("messageEncoder", new MessageEncoder())
-//                .addLast("idleHandler", new IdleStateHandler(60, 30, 0, TimeUnit.SECONDS))
+                .addLast("idleHandler", new IdleStateHandler(60, 30, 0, TimeUnit.SECONDS))
                 .addLast(this.executor, "clientHandler", ClientHandler.getInstance());
     }
 }
