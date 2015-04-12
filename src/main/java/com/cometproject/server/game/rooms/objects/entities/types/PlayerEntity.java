@@ -189,7 +189,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     }
 
     @Override
-    public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
+    public void onLeaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
         for (RoomItemFloor floorItem : this.getRoom().getItems().getFloorItems()) {
             if (floorItem == null) continue;
             floorItem.onEntityLeaveRoom(this);

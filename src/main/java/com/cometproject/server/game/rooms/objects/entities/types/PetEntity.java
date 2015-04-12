@@ -40,7 +40,7 @@ public class PetEntity extends GenericEntity {
     }
 
     @Override
-    public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
+    public void onLeaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
         this.leaveRoom(false);
     }
 
