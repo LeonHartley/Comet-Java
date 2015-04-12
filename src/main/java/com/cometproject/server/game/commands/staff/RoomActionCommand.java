@@ -91,6 +91,15 @@ public class RoomActionCommand extends ChatCommand {
                     client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(botEntity));
                 }
                 break;
+
+            case "handitem":
+                int handItem = Integer.parseInt(params[1]);
+
+                for (PlayerEntity playerEntity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
+                    playerEntity.carryItem(handItem, false);
+                }
+
+                break;
         }
     }
 
