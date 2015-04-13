@@ -52,8 +52,6 @@ public abstract class Pathfinder {
         map[current.getPosition().getX()][current.getPosition().getY()] = current;
         openList.add(current);
 
-        final boolean isFloorItem = roomObject instanceof RoomItemFloor;
-
         while (openList.size() > 0) {
             current = openList.pollFirst();
             current.setInClosed(true);
