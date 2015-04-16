@@ -2,6 +2,9 @@ Comet Pre-1.0 Changelog
 ==================
 
 ## 16/04/2015
+* wf_act_chase is now working as intended.
+* New item pathfinder implementation
+* Disabled football temporarily
 * Implemented an ordered task executor, should stop issues such as not correctly loading friends list
 
 ## 15/04/2015
