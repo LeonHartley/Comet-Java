@@ -1,0 +1,47 @@
+package com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons;
+
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.utilities.RandomInteger;
+
+
+public class WiredAddonPyramid extends RoomItemFloor {
+    private boolean hasEntity = false;
+
+    public WiredAddonPyramid(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+        super(id, itemId, room, owner, x, y, z, rotation, data);
+
+        this.setTicks(RandomInteger.getRandom(5, 8) * 2);
+    }
+
+    @Override
+    public void onEntityStepOn(GenericEntity entity) {
+        this.hasEntity = true;
+    }
+
+    @Override
+    public void onEntityStepOff(GenericEntity entity) {
+        this.hasEntity = false;
+    }
+
+    @Override
+    public void onTickComplete() {
+        if (this.hasEntity) {
+            this.setTicks(RoomItemFactory.getProcessTime(1.0));
+            return;
+        }
+
+        if (this.getExtraData().equals("1")) {
+            this.setExtraData("0");
+        } else {
+            this.setExtraData("1");
+        }
+
+        this.sendUpdate();
+        this.setTicks(RoomItemFactory.getProcessTime(RandomInteger.getRandom(5, 8)));
+
+        this.getRoom().getMapping().updateTile(this.getPosition().getX(), this.getPosition().getY());
+    }
+}
