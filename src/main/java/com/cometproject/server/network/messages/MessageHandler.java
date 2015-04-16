@@ -83,23 +83,23 @@ import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoM
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.messages.types.tasks.MessageEventTask;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.tasks.OrderedExecutor;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.util.concurrent.ExecutorService;
+import java.util.UUID;
 import java.util.concurrent.Executors;
-
 
 public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
     private final FastMap<Short, Event> messages = new FastMap<>();
 
-    private final ExecutorService eventExecutor;
+    private final OrderedExecutor eventExecutor;
     private final boolean asyncEventExecution;
 
     public MessageHandler() {
         this.asyncEventExecution = Boolean.parseBoolean((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling", "false"));
-        this.eventExecutor = asyncEventExecution ? Executors.newCachedThreadPool() : null;
+        this.eventExecutor = asyncEventExecution ? new OrderedExecutor(Executors.newCachedThreadPool()) : null;
 
         this.load();
     }
@@ -398,7 +398,7 @@ public final class MessageHandler {
 
                 if (event != null) {
                     if (this.asyncEventExecution) {
-                        this.eventExecutor.submit(new MessageEventTask(event, client, message));
+                        this.eventExecutor.submit("MessageHandler", new MessageEventTask(event, client, message));
                     } else {
                         final long start = System.currentTimeMillis();
                         log.debug("Started packet process for packet: [" + event.getClass().getSimpleName() + "][" + header + "]");
