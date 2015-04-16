@@ -219,7 +219,7 @@ public class RoomItemFactory {
         long realTime = Math.round(time * 1000 / processMs);
 
         if (realTime < 1) {
-            realTime = 20; //0.5s
+            realTime = 1; //0.5s
         }
 
         return (int) realTime;

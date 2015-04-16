@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.EntityPathfinder;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.ItemPathfinder;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -18,6 +19,8 @@ import java.util.List;
 
 
 public class WiredActionChase extends WiredActionItem {
+    private int targetId = -1;
+
     /**
      * The default constructor
      *
@@ -68,7 +71,8 @@ public class WiredActionChase extends WiredActionItem {
                     continue;
                 }
 
-                List<Square> tilesToEntity = EntityPathfinder.getInstance().makePath(floorItem, nearestEntity.getPosition(), Pathfinder.DISABLE_DIAGONAL);
+                this.targetId = nearestEntity.getId();
+                List<Square> tilesToEntity = ItemPathfinder.getInstance().makePath(floorItem, nearestEntity.getPosition(), Pathfinder.DISABLE_DIAGONAL);
 
                 if (tilesToEntity != null && tilesToEntity.size() != 0) {
                     Position positionTo = new Position(tilesToEntity.get(0).x, tilesToEntity.get(0).y);
@@ -131,5 +135,9 @@ public class WiredActionChase extends WiredActionItem {
         }
 
         return null;
+    }
+
+    public int getTargetId() {
+        return this.targetId;
     }
 }
