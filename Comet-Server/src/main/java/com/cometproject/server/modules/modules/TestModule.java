@@ -1,5 +1,6 @@
 package com.cometproject.server.modules.modules;
 
+import com.cometproject.api.events.EventListener;
 import com.cometproject.api.events.listeners.modules.ModuleEventListener;
 import com.cometproject.api.events.modules.OnModuleLoadEvent;
 import com.cometproject.api.events.modules.OnModuleUnloadEvent;
@@ -11,12 +12,13 @@ public class TestModule extends CometModule implements ModuleEventListener {
         super(gameService);
     }
 
-    @Override
+
+    @EventListener(event = OnModuleLoadEvent.class)
     public void onModuleLoad(OnModuleLoadEvent event) {
 
     }
 
-    @Override
+    @EventListener(event = OnModuleUnloadEvent.class)
     public void onModuleUnload(OnModuleUnloadEvent event) {
 
     }
