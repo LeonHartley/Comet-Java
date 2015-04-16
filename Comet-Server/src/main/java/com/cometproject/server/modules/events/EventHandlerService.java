@@ -4,7 +4,9 @@ import com.cometproject.api.events.Event;
 import com.cometproject.api.events.EventHandler;
 import com.cometproject.api.events.EventListener;
 import com.cometproject.api.events.EventListenerContainer;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.apache.log4j.Logger;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -15,6 +17,7 @@ import java.util.concurrent.Executors;
 
 public class EventHandlerService implements EventHandler {
     private final ExecutorService asyncEventExecutor;
+    private final Logger log = Logger.getLogger(EventHandlerService.class);
 
     private final Map<Class<?>, List<Method>> listeners;
 
@@ -25,10 +28,19 @@ public class EventHandlerService implements EventHandler {
 
     public boolean addListenerContainer(EventListenerContainer listener) {
         for (Method method : listener.getClass().getMethods()) {
-            System.out.println("Method: " + method.getName() + " has: " + method.getAnnotations().length + " annotations");
-            for(Annotation annotation : method.getAnnotations()) {
-                if(annotation instanceof EventListener) {
-                    System.out.format("Registered event listener for %s: %s\n", (((EventListener) annotation)).event().getSimpleName(), listener.getClass().getSimpleName());
+            for (Annotation annotation : method.getAnnotations()) {
+                if (annotation instanceof EventListener) {
+                    EventListener eventListener = (((EventListener) annotation));
+
+                    if (this.listeners.containsKey(eventListener.event())) {
+                        this.listeners.get(eventListener.event()).add(method);
+                    } else {
+                        List<Method> methods = Lists.newArrayList(method);
+
+                        this.listeners.put(eventListener.event(), methods);
+                    }
+
+                    log.debug(String.format("Registered event listener for %s: %s", eventListener.event().getSimpleName(), listener.getClass().getName()));
                 }
             }
         }
