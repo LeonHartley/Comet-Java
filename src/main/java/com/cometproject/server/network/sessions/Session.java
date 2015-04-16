@@ -11,6 +11,7 @@ import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
 
 import java.net.InetSocketAddress;
+import java.util.UUID;
 
 
 public class Session {
@@ -22,6 +23,8 @@ public class Session {
 
     private boolean isClone = false;
     private String uniqueId = "";
+
+    private final UUID uuid = UUID.randomUUID();
 
     private Player player;
 
@@ -128,5 +131,9 @@ public class Session {
 
     public void setUniqueId(String uniqueId) {
         this.uniqueId = uniqueId;
+    }
+
+    public UUID getSessionId() {
+        return uuid;
     }
 }

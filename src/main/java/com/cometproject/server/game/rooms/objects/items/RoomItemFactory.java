@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
 
 
 public class RoomItemFactory {
-    private static final int processMs = 25;
+    private static final int processMs = 500;
     private static final String GIFT_DATA = "GIFT::##";
     public static final String STACK_TOOL = "tile_stackmagic";
     public static final String TELEPORT_PAD = "teleport_pad";
