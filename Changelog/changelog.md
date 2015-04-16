@@ -1,6 +1,15 @@
 Comet Pre-1.0 Changelog
 ==================
 
+## 16/04/2015
+* Implemented an ordered task executor, should stop issues such as not correctly loading friends list
+
+## 15/04/2015
+* Asynchronous incoming packet handling is now segregated from any other thread pools.
+
+## 14/04/2015
+* Limit bots per room (Configurable)
+
 ## 12/04/2015
 * Groups: When membership is accepted, it will now instantly show in profiles, no need to reload client.
 * Improve performance of the processing of room actors
