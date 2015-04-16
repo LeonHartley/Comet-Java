@@ -1,6 +1,5 @@
 package com.cometproject.api.server;
 
-import com.cometproject.api.events.Event;
 import com.cometproject.api.events.EventHandler;
 
 public class CometGameService {
@@ -12,8 +11,8 @@ public class CometGameService {
     /**
      * Default constructor
      */
-    public CometGameService() {
-        this.eventHandler = new EventHandler();
+    public CometGameService(EventHandler eventHandler) {
+        this.eventHandler = eventHandler;
     }
 
     /**

@@ -1,11 +1,13 @@
 package com.cometproject.api.modules;
 
-import com.cometproject.api.events.listeners.modules.ModuleEventListener;
+import com.cometproject.api.events.EventListenerContainer;
+import com.cometproject.api.events.modules.OnModuleLoadEvent;
+import com.cometproject.api.events.modules.OnModuleUnloadEvent;
 import com.cometproject.api.server.CometGameService;
 
 import java.util.UUID;
 
-public abstract class CometModule implements ModuleEventListener {
+public abstract class CometModule implements EventListenerContainer {
     /**
      * Assign a random UUD to the module at runtime, so the system can tell it apart from other modules.
      */
@@ -21,20 +23,22 @@ public abstract class CometModule implements ModuleEventListener {
     public CometModule(CometGameService gameService) {
         this.moduleId = UUID.randomUUID();
         this.gameService = gameService;
+
+        this.gameService.getEventHandler().addListenerContainer(this);
     }
 
     /**
      * Load all the module resources and then fire the "onModuleLoad" event.
      */
     public void loadModule() {
-        this.onModuleLoad();
+        this.gameService.getEventHandler().handleEvent(new OnModuleLoadEvent());
     }
 
     /**
      * Unload all module resources and then fire the "onModuleUnload" event.
      */
     public void unloadModule() {
-        this.onModuleUnload();
+        this.gameService.getEventHandler().handleEvent(new OnModuleUnloadEvent());
     }
 
     public UUID getModuleId() {

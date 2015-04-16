@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types;
 
+import com.cometproject.api.game.rooms.RoomCategory;
 import com.cometproject.api.game.rooms.RoomData;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
@@ -161,7 +162,7 @@ public class RoomDataInstance implements RoomData {
         return this.owner;
     }
 
-    public Category getCategory() {
+    public RoomCategory getCategory() {
         Category category = NavigatorManager.getInstance().getCategory(this.category);
 
         if (category == null) {

@@ -1,7 +1,13 @@
 package com.cometproject.api.events.listeners.modules;
 
-public interface ModuleEventListener {
-    void onModuleLoad();
+import com.cometproject.api.events.EventListener;
+import com.cometproject.api.events.modules.OnModuleLoadEvent;
+import com.cometproject.api.events.modules.OnModuleUnloadEvent;
 
-    void onModuleUnload();
+public interface ModuleEventListener {
+    @EventListener(event = OnModuleLoadEvent.class)
+    void onModuleLoad(OnModuleLoadEvent event);
+
+    @EventListener(event = OnModuleUnloadEvent.class)
+    void onModuleUnload(OnModuleUnloadEvent event);
 }
