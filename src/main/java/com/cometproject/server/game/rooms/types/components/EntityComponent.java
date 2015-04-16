@@ -35,8 +35,6 @@ public class EntityComponent {
     private final Map<Integer, Integer> botIdToEntity = new FastMap<Integer, Integer>().shared();
     private final Map<Integer, Integer> petIdToEntity = new FastMap<Integer, Integer>().shared();
 
-//    private final AtomicInteger playerCount = new AtomicInteger(0);
-
     public EntityComponent(Room room) {
         this.room = room;
     }
@@ -44,7 +42,7 @@ public class EntityComponent {
     public List<GenericEntity> getEntitiesAt(Position position) {
         Tile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
 
-        if (tile != null) {
+        if (tile != null && tile.getEntities().size() >= 1) {
             return new ArrayList<>(tile.getEntities());
         }
 
@@ -61,10 +59,6 @@ public class EntityComponent {
 
         return false;
     }
-
-//    public void increasePlayerCount() {
-//        this.playerCount.incrementAndGet();
-//    }
 
     public PlayerEntity createEntity(Player player) {
         Position startPosition = new Position(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY(), this.getRoom().getModel().getDoorZ());
@@ -328,9 +322,5 @@ public class EntityComponent {
         for (GenericEntity entity : entities.values()) {
             entity.onRoomDispose();
         }
-    }
-
-    public boolean isPlayerIdIndexed(int playerId) {
-        return this.playerIdToEntity.containsKey(playerId);
     }
 }
