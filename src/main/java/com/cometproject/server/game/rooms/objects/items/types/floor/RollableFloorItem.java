@@ -23,11 +23,16 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     private boolean skipNext = false;
     private int rollStage = -1;
 
-    private boolean isDribbling = false;
-    private boolean lastTileFail = false;
-
     public RollableFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
+    }
+
+    public static void roll(RoomItemFloor item, Position from, Position to, Room room) {
+        room.getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(from.copy(), to.copy(), item.getId(), 0, item.getId()));
+    }
+
+    public static Position calculatePosition(int x, int y, int playerRotation) {
+        return Position.calculatePosition(x, y, playerRotation, false);
     }
 
     @Override
@@ -43,10 +48,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
         if (entity.getWalkingGoal().getX() == this.getPosition().getX() && entity.getWalkingGoal().getY() == this.getPosition().getY()) {
             if (this.skipNext) {
-//                if (this.isDribbling) {
                     this.onInteract(entity, 0, false);
-//                    this.isDribbling = false;
-//                }
 
                 this.skipNext = false;
                 return;
@@ -59,10 +61,6 @@ public abstract class RollableFloorItem extends RoomItemFloor {
             this.rollStage = 0;
             this.rollBall(entity.getPosition(), entity.getBodyRotation());
         } else {
-            if (entity.getWalkingGoal().distanceTo(this.getPosition()) > 1) {
-                this.isDribbling = true;
-            }
-//
             this.skipNext = true;
             this.onInteract(entity, 0, false);
         }
@@ -101,8 +99,6 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         if (this.isValidRoll(nextPosition)) {
             nextPosition = this.getNextPosition(this.getPosition(), false);
         } else {
-            this.lastTileFail = true;
-
             if(this.playerEntity != null) {
                 if (this.playerEntity.getWalkingGoal().equals(nextPosition)) {
                     this.isRolling = false;
@@ -155,14 +151,6 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         return newPosition;
     }
 
-    public static void roll(RoomItemFloor item, Position from, Position to, Room room) {
-        room.getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(from.copy(), to.copy(), item.getId(), 0, item.getId()));
-    }
-
-    public static Position calculatePosition(int x, int y, int playerRotation) {
-        return Position.calculatePosition(x, y, playerRotation, false);
-    }
-
     @Override
     public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTriggered) {
         if (isWiredTriggered) return false;
@@ -199,9 +187,6 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         this.playerEntity = null;
         this.skipNext = false;
         this.rollStage = -1;
-
-        this.isDribbling = false;
-        this.lastTileFail = false;
     }
 
     private void moveTo(Position pos, int rotation) {
@@ -221,21 +206,22 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     private double getDelay(int i) {
-        switch (i) {
-            case 1:
-                return 0.075;
-            case 2:
-                return 0.1;
-            case 3:
-                return 0.125;
-            case 4:
-                return 0.3;
-            default:
-                if (i != 5) {
-                    return ((i != 6) ? 0.2 : 0.35);
-                }
-                return 0.35;
-        }
+        return RoomItemFactory.getProcessTime(0.5);
+//        switch (i) {
+//            case 1:
+//                return 0.075;
+//            case 2:
+//                return 0.1;
+//            case 3:
+//                return 0.125;
+//            case 4:
+//                return 0.3;
+//            default:
+//                if (i != 5) {
+//                    return ((i != 6) ? 0.2 : 0.35);
+//                }
+//                return 0.35;
+//        }
     }
 
     public PlayerEntity getPusher() {

@@ -94,12 +94,12 @@ public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
     private final FastMap<Short, Event> messages = new FastMap<>();
 
-    private final OrderedExecutor eventExecutor;
+    private final OrderedExecutor<UUID> eventExecutor;
     private final boolean asyncEventExecution;
 
     public MessageHandler() {
         this.asyncEventExecution = Boolean.parseBoolean((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling", "false"));
-        this.eventExecutor = asyncEventExecution ? new OrderedExecutor(Executors.newCachedThreadPool()) : null;
+        this.eventExecutor = asyncEventExecution ? new OrderedExecutor<>(Executors.newCachedThreadPool()) : null;
 
         this.load();
     }
@@ -398,7 +398,7 @@ public final class MessageHandler {
 
                 if (event != null) {
                     if (this.asyncEventExecution) {
-                        this.eventExecutor.submit("MessageHandler", new MessageEventTask(event, client, message));
+                        this.eventExecutor.submit(client.getSessionId(), new MessageEventTask(event, client, message));
                     } else {
                         final long start = System.currentTimeMillis();
                         log.debug("Started packet process for packet: [" + event.getClass().getSimpleName() + "][" + header + "]");
