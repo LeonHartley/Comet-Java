@@ -42,7 +42,6 @@ public class RollerFloorItem extends RoomItemFloor {
 
     @Override
     public void onTickComplete() {
-        System.out.println("Kek");
         this.handleItems();
         this.handleEntities();
     }
