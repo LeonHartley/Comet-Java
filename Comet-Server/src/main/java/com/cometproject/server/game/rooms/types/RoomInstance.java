@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types;
 
+import com.cometproject.api.game.rooms.Room;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -21,7 +22,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class RoomInstance implements Attributable {
+public class RoomInstance implements Attributable, Room {
     public static final boolean useCycleForItems = false;
     public static final boolean useCycleForEntities = false;
 
