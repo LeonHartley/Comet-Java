@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Created-By: 1.0 (Comet Development Team)
+Main-Class: com.boot.Main
+Class-Path: *
+
