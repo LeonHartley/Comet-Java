@@ -9,6 +9,8 @@ import java.util.Map;
 
 public interface RoomData {
 
+    public void save();
+
     int getId();
 
     String getName();
