@@ -10,10 +10,6 @@
 
     <version>0.16.5-ALPHA1</version>
 
-    <name>Comet</name>
-    <url>http://www.comet.im</url>
-    <description>Comet Server developed by the Comet Team</description>
-
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>

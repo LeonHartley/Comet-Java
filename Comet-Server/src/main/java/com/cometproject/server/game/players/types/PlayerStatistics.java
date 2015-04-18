@@ -92,7 +92,7 @@ public class PlayerStatistics {
     }
 
     public int getRespectPoints() {
-        return this.dailyRespects;
+        return this.respectPoints;
     }
 
     public int getAchievementPoints() {
