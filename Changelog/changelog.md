@@ -1,11 +1,20 @@
 Comet Pre-1.0 Changelog
 ==================
 
+## 18/04/2015
+* Threading changes
+* Changes to room actor processing
+
+## 17/04/2015
+* Restructure project into modules
+* Implement a Module API
+* Asynchronous module event execution
+* Fixed: When a player is respected, the count is not updated in the database.
+
 ## 16/04/2015
 * wf_act_chase is now working as intended.
 * New item pathfinder implementation
 * Disabled football temporarily
-* Implemented an ordered task executor, should stop issues such as not correctly loading friends list
 
 ## 15/04/2015
 * Asynchronous incoming packet handling is now segregated from any other thread pools.
