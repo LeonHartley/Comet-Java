@@ -62,8 +62,6 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     private Map<RoomEntityStatus, String> statuses = new FastMap<>();
 
-    private boolean needsRemove;
-
     public GenericEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, RoomInstance roomInstance) {
         super(identifier, startPosition, roomInstance);
 
@@ -116,10 +114,6 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     @Override
     public void setWalkingGoal(int x, int y) {
         this.walkingGoal = new Position(x, y, 0.0);
-    }
-
-    public int getStepsToGoal() {
-        return this.stepsToGoal;
     }
 
     @Override
@@ -448,18 +442,12 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     public abstract void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView);
 
-    protected abstract void finalizeLeaveRoom();
-
     public abstract boolean onChat(String message);
 
     public abstract boolean onRoomDispose();
 
     public boolean isVisible() {
         return isVisible;
-    }
-
-    public void setVisible(boolean isVisible) {
-        this.isVisible = isVisible;
     }
 
     public void updateVisibility(boolean isVisible) {

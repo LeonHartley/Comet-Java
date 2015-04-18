@@ -73,11 +73,6 @@ public class BotEntity extends GenericEntity {
     }
 
     @Override
-    public void finalizeLeaveRoom() {
-
-    }
-
-    @Override
     public boolean onChat(String message) {
         return false;
     }

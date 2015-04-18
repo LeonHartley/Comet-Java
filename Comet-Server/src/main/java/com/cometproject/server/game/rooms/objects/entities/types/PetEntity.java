@@ -55,11 +55,6 @@ public class PetEntity extends GenericEntity {
     }
 
     @Override
-    protected void finalizeLeaveRoom() {
-
-    }
-
-    @Override
     public boolean onChat(String message) {
         return false;
     }

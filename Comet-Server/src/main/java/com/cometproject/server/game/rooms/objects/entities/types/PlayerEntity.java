@@ -251,11 +251,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     }
 
     @Override
-    public void finalizeLeaveRoom() {
-        // not used, could be removed?
-    }
-
-    @Override
     public void kick() {
         this.isKicked = true;
         this.setCanWalk(false);
