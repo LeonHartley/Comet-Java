@@ -182,6 +182,8 @@ public class CometSettings {
 
     public static int maxBotsInRoom = 15;
 
+    public static int maxFriends = 1100;
+
     /**
      * Logging
      */
@@ -289,6 +291,10 @@ public class CometSettings {
 
         if(config.containsKey("comet.game.bots.maxBotsInRoom")) {
             maxBotsInRoom = Integer.parseInt(config.get("comet.game.bots.maxBotsInRoom"));
+        }
+
+        if(config.containsKey("comet.game.messenger.maxFriends")) {
+            maxFriends = Integer.parseInt(config.get("comet.game.messenger.maxFriends"));
         }
     }
 

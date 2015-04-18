@@ -4,6 +4,7 @@ Comet Pre-1.0 Changelog
 ## 18/04/2015
 * Threading changes
 * Changes to room actor processing
+* Move the client-side friend list limit to config (comet.game.messenger.maxFriends)
 
 ## 17/04/2015
 * Restructure project into modules

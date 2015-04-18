@@ -1,5 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.messenger;
 
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.messages.types.Composer;
@@ -14,7 +16,7 @@ public class MessengerConfigMessageComposer extends MessageComposer {
 
     @Override
     public void compose(Composer msg) {
-        msg.writeInt(1100); // TODO: put this stuff in static config somewhere :P
+        msg.writeInt(CometSettings.maxFriends);
         msg.writeInt(300);
         msg.writeInt(800);
         msg.writeInt(1100);
