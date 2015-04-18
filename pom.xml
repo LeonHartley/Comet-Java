@@ -9,7 +9,12 @@
 
     <packaging>pom</packaging>
 
-    <version>0.16.5-ALPHA1</version>
+    <version>0.16.6-ALPHA1</version>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 
     <name>Comet</name>
     <url>http://www.comet.im</url>
