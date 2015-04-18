@@ -53,11 +53,12 @@ public class BotEntity extends GenericEntity {
     }
 
     public void leaveRoom() {
+
         this.leaveRoom(false, false, false);
     }
 
     @Override
-    public void onLeaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
+    public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
         // Send leave room message to all current entities
         this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
 
