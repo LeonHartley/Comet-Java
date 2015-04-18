@@ -11,14 +11,10 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.RoomInstance;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
-import com.cometproject.server.tasks.CometThreadManager;
 import javolution.util.FastMap;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-
 
 public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     private RoomEntityType entityType;
@@ -66,8 +62,6 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     private Map<RoomEntityStatus, String> statuses = new FastMap<>();
 
-    private ScheduledFuture entityProcessingFuture;
-
     private boolean needsRemove;
 
     public GenericEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, RoomInstance roomInstance) {
@@ -104,63 +98,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         if (this.getRoom().hasRoomMute()) {
             this.isRoomMuted = true;
         }
-
-        this.entityProcessingFuture = CometThreadManager.getInstance().executePeriodic(this::process, 500, 500, TimeUnit.MILLISECONDS);
     }
-
-    private void process() {
-        boolean needsUpdate = false;
-
-        if (this.getEntityType() == RoomEntityType.PLAYER) {
-            PlayerEntity playerEntity = (PlayerEntity) this;
-
-            if (playerEntity.getPlayer() == null || playerEntity.getPlayer().isDisposed || playerEntity.getPlayer().getSession() == null) {
-                this.needsRemove = true;
-            }
-
-            boolean playerNeedsRemove = this.getRoom().getProcess().processEntity(playerEntity);
-
-            if (playerNeedsRemove) {
-                this.needsRemove = true;
-            }
-        } else if (this.getEntityType() == RoomEntityType.BOT) {
-            // do anything special here for bots?
-            this.getRoom().getProcess().processEntity(this);
-        } else if (this.getEntityType() == RoomEntityType.PET) {
-            // do anything special here for pets?
-            this.getRoom().getProcess().processEntity(this);
-        }
-
-        if ((this.needsUpdate() && !this.needsUpdateCancel() || this.needsForcedUpdate) && this.isVisible()) {
-            if (this.needsForcedUpdate && this.updatePhase == 1) {
-                this.needsForcedUpdate = false;
-                this.updatePhase = 0;
-
-                needsUpdate = true;
-            } else if (this.needsForcedUpdate) {
-                if (this.hasStatus(RoomEntityStatus.MOVE)) {
-                    this.removeStatus(RoomEntityStatus.MOVE);
-                }
-
-                this.updatePhase = 1;
-                needsUpdate = true;
-            } else {
-                this.markUpdateComplete();
-                needsUpdate = true;
-            }
-        }
-
-
-        if (needsUpdate)
-            this.getRoom().getEntities().broadcastMessage(new AvatarUpdateMessageComposer(this));
-
-        if (this.updatePhase == 1) return;
-
-        if (this.getRoom().getProcess().updateEntityStuff(this) && this instanceof PlayerEntity) {
-            this.needsRemove = true;
-        }
-    }
-
 
     public RoomEntityType getEntityType() {
         return this.entityType;
@@ -508,13 +446,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     protected abstract void finalizeJoinRoom();
 
-    public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
-        this.entityProcessingFuture.cancel(false);
-
-        this.onLeaveRoom(isOffline, isKick, toHotelView);
-    }
-
-    public abstract void onLeaveRoom(boolean isOffline, boolean isKick, boolean toHotelView);
+    public abstract void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView);
 
     protected abstract void finalizeLeaveRoom();
 
@@ -610,7 +542,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.mountedEntity = mountedEntity;
     }
 
-private boolean hasMount = false;
+    private boolean hasMount = false;
 
     public boolean hasMount() {
         return hasMount;
@@ -648,13 +580,5 @@ private boolean hasMount = false;
 
     public void setRoomMuted(boolean isRoomMuted) {
         this.isRoomMuted = isRoomMuted;
-    }
-
-    public boolean isNeedsRemove() {
-        return needsRemove;
-    }
-
-    public void setNeedsRemove(boolean needsRemove) {
-        this.needsRemove = needsRemove;
     }
 }

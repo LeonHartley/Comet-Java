@@ -48,7 +48,7 @@ public class CometServer {
      * Initialize Comet Server
      */
     public void init() {
-        ModuleManager.getInstance().initialize();
+//        ModuleManager.getInstance().initialize();
         APIManager.getInstance().initialize();
 //        WebSocketServer.getInstance().initialize();
 
