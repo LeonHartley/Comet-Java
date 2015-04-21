@@ -12,7 +12,7 @@ public class MessageEncoder extends MessageToByteEncoder<MessageComposer> {
         final Composer composer = msg.writeMessage(out);
 
         if (!composer.hasLength()) {
-                composer.content().setInt(0, composer.content().writerIndex() - 4);
+            composer.content().setInt(0, composer.content().writerIndex() - 4);
         }
     }
 }
