@@ -24,6 +24,11 @@ import java.net.InetSocketAddress;
 public class NetworkManager {
     private static NetworkManager networkManagerInstance;
 
+    public static boolean IDLE_TIMER_ENABLED = Boolean.parseBoolean(Comet.getServer().getConfig().get("comet.network.idleTimer.enabled", "false"));
+    public static int IDLE_TIMER_READER_TIME = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.idleTimer.readerIdleTime", "30"));
+    public static int IDLE_TIMER_WRITER_TIME = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.idleTimer.writerIdleTime", "30"));
+    public static int IDLE_TIMER_ALL_TIME = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.idleTimer.allIdleTime", "30"));
+
     private SessionManager sessions;
     private MessageHandler messageHandler;
 

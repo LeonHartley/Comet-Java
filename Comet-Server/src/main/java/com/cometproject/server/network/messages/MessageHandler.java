@@ -393,7 +393,6 @@ public final class MessageHandler {
         }
 
         if (this.getMessages().containsKey(header)) {
-
             try {
                 final Event event = this.getMessages().get(header);
 

@@ -22,7 +22,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
     private static ClientHandler clientHandlerInstance;
 
     public static ClientHandler getInstance() {
-        if(clientHandlerInstance == null)
+        if (clientHandlerInstance == null)
             clientHandlerInstance = new ClientHandler();
 
         return clientHandlerInstance;
@@ -49,12 +49,14 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        if (evt instanceof IdleStateEvent) {
-            IdleStateEvent e = (IdleStateEvent) evt;
-            if (e.state() == IdleState.READER_IDLE) {
-                ctx.close();
-            } else if (e.state() == IdleState.WRITER_IDLE) {
-                ctx.writeAndFlush(new PingMessageComposer());
+        if (NetworkManager.IDLE_TIMER_ENABLED) {
+            if (evt instanceof IdleStateEvent) {
+                IdleStateEvent e = (IdleStateEvent) evt;
+                if (e.state() == IdleState.READER_IDLE) {
+                    ctx.close();
+                } else if (e.state() == IdleState.WRITER_IDLE) {
+                    ctx.writeAndFlush(new PingMessageComposer());
+                }
             }
         }
 
@@ -69,7 +71,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
             ctx.close();
         }
 
-        if(cause instanceof IOException) return;
+        if (cause instanceof IOException) return;
 
         log.error("Exception caught in ClientHandler", cause);
     }
