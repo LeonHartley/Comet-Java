@@ -28,8 +28,17 @@ public class NetworkChannelInitializer extends ChannelInitializer<SocketChannel>
                 .addLast("xmlDecoder", new XMLPolicyDecoder())
                 .addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8))
                 .addLast("messageDecoder", new MessageDecoder())
-                .addLast("messageEncoder", new MessageEncoder())
-                .addLast("idleHandler", new IdleStateHandler(60, 30, 0, TimeUnit.SECONDS))
-                .addLast(this.executor, "clientHandler", ClientHandler.getInstance());
+                .addLast("messageEncoder", new MessageEncoder());
+
+        if (NetworkManager.IDLE_TIMER_ENABLED) {
+            ch.pipeline().addLast("idleHandler",
+                    new IdleStateHandler(
+                            NetworkManager.IDLE_TIMER_READER_TIME,
+                            NetworkManager.IDLE_TIMER_WRITER_TIME,
+                            NetworkManager.IDLE_TIMER_ALL_TIME,
+                            TimeUnit.SECONDS));
+        }
+
+        ch.pipeline().addLast(this.executor, "clientHandler", ClientHandler.getInstance());
     }
 }

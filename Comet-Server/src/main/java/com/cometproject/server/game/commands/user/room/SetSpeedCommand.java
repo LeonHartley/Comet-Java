@@ -13,7 +13,7 @@ public class SetSpeedCommand extends ChatCommand {
             return;
         }
 
-        if (!StringUtils.isNumeric(params[0])) return;
+        if (!StringUtils.isNumeric(params[0]) || params[0].length() >= 10) return;
 
         if (client.getPlayer().getEntity() != null
                 && client.getPlayer().getEntity().getRoom() != null) {

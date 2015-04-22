@@ -1,6 +1,10 @@
 Comet Pre-1.0 Changelog
 ==================
 
+## 22/04/2015
+* Enable TCP_NODELAY for client connections
+* Configurable idle timer (Cleaning up idle connections)
+
 ## 18/04/2015
 * Threading changes
 * Changes to room actor processing
