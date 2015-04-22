@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
@@ -37,7 +38,13 @@ public class PlaceBotMessageEvent implements Event {
         double height = room.getMapping().getTile(x, y).getWalkHeight();
         final Position position = new Position(x, y, height);
 
-        if (room.getEntities().getEntitiesAt(position).size() >= 1 || !room.getMapping().isValidPosition(position)) {
+        final Tile tile = room.getMapping().getTile(x, y);
+
+        if(tile == null || !room.getMapping().isValidPosition(position)) {
+            return;
+        }
+
+        if (tile.getEntities().size() >= 1) {
             return;
         }
 
@@ -46,11 +53,14 @@ public class PlaceBotMessageEvent implements Event {
         BotEntity botEntity = room.getBots().addBot(bot, x, y, height);
         client.getPlayer().getBots().remove(botId);
 
+        tile.getEntities().add(botEntity);
+
         room.getEntities().broadcastMessage(new AvatarsMessageComposer(botEntity));
         client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));
 
         for(RoomItemFloor floorItem : room.getItems().getItemsOnSquare(x, y)) {
             floorItem.onEntityStepOn(botEntity);
         }
+
     }
 }

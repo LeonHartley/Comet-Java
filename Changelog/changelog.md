@@ -1,9 +1,14 @@
 Comet Pre-1.0 Changelog
-==================
+=======================
 
 ## 22/04/2015
 * Enable TCP_NODELAY for client connections
 * Configurable idle timer (Cleaning up idle connections)
+* wf_cnd_match_snapshot now works as intended.
+* wf_cnd_not_match_snap now works as intended.
+* Update entity grid when bot is placed.
+* Update entity grid when pet is placed.
+* Remove the ability to modify an active Banzai timer using wf_act_match_to_sshot
 
 ## 18/04/2015
 * Threading changes
