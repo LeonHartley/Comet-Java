@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredItemSnapshot;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -69,7 +70,7 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
 
         for (int itemId : this.getWiredData().getSelectedIds()) {
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
-            if (floorItem == null) continue;
+            if (floorItem == null || (floorItem instanceof BanzaiTimerFloorItem && matchState)) continue;
 
             WiredItemSnapshot itemSnapshot = this.getWiredData().getSnapshots().get(itemId);
             if (itemSnapshot == null) continue;
