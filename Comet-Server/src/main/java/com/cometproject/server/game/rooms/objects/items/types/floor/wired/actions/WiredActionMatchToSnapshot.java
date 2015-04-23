@@ -69,6 +69,8 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
         final boolean matchPosition = this.getWiredData().getParams().get(PARAM_MATCH_POSITION) == 1;
 
         for (int itemId : this.getWiredData().getSelectedIds()) {
+            boolean rotationChanged = false;
+
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
             if (floorItem == null || (floorItem instanceof BanzaiTimerFloorItem && matchState)) continue;
 
@@ -83,15 +85,22 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
                 Position currentPosition = new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY(), floorItem.getPosition().getZ());
                 Position newPosition = new Position(itemSnapshot.getX(), itemSnapshot.getY());
 
+                int currentRotation = floorItem.getRotation();
+
                 if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), !matchPosition ? currentPosition : newPosition, matchRotation ? itemSnapshot.getRotation() : floorItem.getRotation(), true)) {
+                    if(currentRotation != floorItem.getRotation()) {
+                        rotationChanged = true;
+                    }
+
                     newPosition.setZ(floorItem.getPosition().getZ());
 
-                    if (!matchRotation)
+                    if (!matchRotation || !rotationChanged) {
                         this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, newPosition, 0, 0, floorItem.getId()));
+                    }
                 }
             }
 
-            if (matchRotation)
+            if (matchRotation && rotationChanged)
                 this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem));
 
             floorItem.sendUpdate();
