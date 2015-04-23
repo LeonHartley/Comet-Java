@@ -12,7 +12,6 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.PetInven
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
-
 public class PlacePetMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
@@ -50,9 +49,9 @@ public class PlacePetMessageEvent implements Event {
                 return;
             }
 
-            PetEntity petEntity = client.getPlayer().getEntity().getRoom().getPets().addPet(pet, position);
+            PetEntity petEntity = room.getPets().addPet(pet, position);
 
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(petEntity));
+            room.getEntities().broadcastMessage(new AvatarsMessageComposer(petEntity));
 
             for(RoomItemFloor floorItem : room.getItems().getItemsOnSquare(x, y)) {
                 floorItem.onEntityStepOn(petEntity);
