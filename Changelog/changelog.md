@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 23/04/2015
+* Fix item movement animation with wf_act_chase
+
 ## 22/04/2015
 * Enable TCP_NODELAY for client connections
 * Configurable idle timer (Cleaning up idle connections)

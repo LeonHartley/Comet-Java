@@ -57,7 +57,7 @@ public class WiredActionChase extends WiredActionItem {
             if (floorItem == null) continue;
 
             PlayerEntity nearestEntity = floorItem.nearestPlayerEntity();
-            Position positionFrom = floorItem.getPosition();
+            Position positionFrom = floorItem.getPosition().copy();
 
             if (nearestEntity != null) {
                 if (this.isCollided(nearestEntity, floorItem)) {
@@ -118,7 +118,9 @@ public class WiredActionChase extends WiredActionItem {
         }
 
         if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), to, floorItem.getRotation(), true)) {
-            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(from, from, this.getId(), 0, floorItem.getId()));
+            to.setZ(floorItem.getPosition().getZ());
+
+            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(from, to, 0, 0, floorItem.getId()));
         }
 
         floorItem.nullifyCollision();
