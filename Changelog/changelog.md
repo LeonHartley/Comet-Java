@@ -1,6 +1,12 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 24/04/2015
+* Async command support (for heavy commands such as massbadge, masscoins etc.)
+* Ability to enable and disable several commands in your rooms (Example: Push, Pull)
+* Fixed issue where sometimes where the player would appear online even when "hideOnline" is '1'.
+* Fixed client-side cloning with following friend in same room.
+
 ## 23/04/2015
 * Fix item movement animation with wf_act_chase
 
