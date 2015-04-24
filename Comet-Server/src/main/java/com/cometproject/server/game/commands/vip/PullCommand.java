@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.types.RoomInstance;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.util.List;
 
@@ -80,5 +81,10 @@ public class PullCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return Locale.get("command.pull.description");
+    }
+
+    @Override
+    public boolean canDisable() {
+        return true;
     }
 }

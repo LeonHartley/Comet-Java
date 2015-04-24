@@ -116,4 +116,9 @@ public class PushCommand extends ChatCommand {
     public String getDescription() {
         return Locale.get("command.push.description");
     }
+
+    @Override
+    public boolean canDisable() {
+        return true;
+    }
 }

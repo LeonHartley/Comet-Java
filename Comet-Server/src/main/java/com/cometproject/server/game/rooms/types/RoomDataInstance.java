@@ -12,10 +12,13 @@ import com.cometproject.api.game.rooms.settings.RoomMuteState;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import javolution.util.FastMap;
+import org.apache.commons.lang3.StringUtils;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -57,6 +60,8 @@ public class RoomDataInstance implements RoomData {
 
     private int antiFloodSettings;
 
+    private List<String> disabledCommands;
+
     private long lastReferenced = Comet.getTime();
 
     public RoomDataInstance(ResultSet room) throws SQLException {
@@ -70,7 +75,7 @@ public class RoomDataInstance implements RoomData {
         this.access = room.getString("access_type");
 
         // TODO: Move this to enum...
-        if(!this.access.equals("open") && !this.access.equals("doorbell") && !this.access.equals("password")) {
+        if (!this.access.equals("open") && !this.access.equals("doorbell") && !this.access.equals("password")) {
             this.access = "open";
         }
 
@@ -110,6 +115,8 @@ public class RoomDataInstance implements RoomData {
         this.bubbleType = room.getInt("bubble_type");
         this.antiFloodSettings = room.getInt("flood_level");
         this.chatDistance = room.getInt("chat_distance");
+
+        this.disabledCommands = Arrays.asList(room.getString("disabled_commands").split(","));
     }
 
     public void save() {
@@ -138,7 +145,7 @@ public class RoomDataInstance implements RoomData {
         RoomDao.updateRoom(id, name, description, ownerId, owner, category, maxUsers, access, password, score,
                 tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1),
                 model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, allowPets, heightmap, tradeState,
-                muteState, kickState, banState, bubbleMode, bubbleType, bubbleScroll, chatDistance, antiFloodSettings
+                muteState, kickState, banState, bubbleMode, bubbleType, bubbleScroll, chatDistance, antiFloodSettings, this.disabledCommands.isEmpty() ? "" : StringUtils.join(this.disabledCommands, ",")
         );
     }
 
@@ -380,5 +387,10 @@ public class RoomDataInstance implements RoomData {
 
     public void setBanState(RoomBanState banState) {
         this.banState = banState;
+    }
+
+    @Override
+    public List<String> getDisabledCommands() {
+        return this.disabledCommands;
     }
 }

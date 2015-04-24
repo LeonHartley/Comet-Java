@@ -552,7 +552,7 @@ com.cometproject.server.game.commands.user.SitCommand -> com.cometproject.server
     11:39:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     43:43:java.lang.String getPermission() -> a
     48:48:java.lang.String getDescription() -> b
-com.cometproject.server.game.commands.vip.EnableCommand -> com.cometproject.server.game.c.c.a:
+com.cometproject.server.game.commands.vip.EffectCommand -> com.cometproject.server.game.c.c.a:
     12:24:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     28:28:java.lang.String getPermission() -> a
     33:33:java.lang.String getDescription() -> b

@@ -28,6 +28,8 @@ import com.cometproject.server.game.commands.user.group.DeleteGroupCommand;
 import com.cometproject.server.game.commands.user.room.PickAllCommand;
 import com.cometproject.server.game.commands.user.room.SetMaxCommand;
 import com.cometproject.server.game.commands.user.room.SetSpeedCommand;
+import com.cometproject.server.game.commands.user.settings.DisableCommand;
+import com.cometproject.server.game.commands.user.settings.EnableCommand;
 import com.cometproject.server.game.commands.user.settings.ToggleFriendsCommand;
 import com.cometproject.server.game.commands.vip.*;
 import com.cometproject.server.game.permissions.PermissionsManager;
@@ -85,6 +87,7 @@ public class CommandManager implements Initializable {
             this.commands.put("reloadmapping", new ReloadMappingCommand());
         }
 
+        this.commands.put("serverinfo", new EntityGridCommand());
         this.commands.put("entitygrid", new EntityGridCommand());
         this.commands.put("cachestats", new CacheStatsCommand());
         this.commands.put("processtimes", new ProcessTimesCommand());
@@ -106,13 +109,15 @@ public class CommandManager implements Initializable {
         this.commands.put(Locale.get("command.position.name"), new PositionCommand());
         this.commands.put(Locale.get("command.deletegroup.name"), new DeleteGroupCommand());
         this.commands.put(Locale.get("command.togglefriends.name"), new ToggleFriendsCommand());
+        this.commands.put(Locale.get("command.enablecommand.name"), new EnableCommand());
+        this.commands.put(Locale.get("command.disablecommand.name"), new DisableCommand());
         this.commands.put("screenshot", new ScreenshotCommand());
 
         // VIP commands
         this.commands.put(Locale.get("command.push.name"), new PushCommand());
         this.commands.put(Locale.get("command.pull.name"), new PullCommand());
         this.commands.put(Locale.get("command.moonwalk.name"), new MoonwalkCommand());
-        this.commands.put(Locale.get("command.enable.name"), new EnableCommand());
+        this.commands.put(Locale.get("command.enable.name"), new EffectCommand());
         this.commands.put(Locale.get("command.setspeed.name"), new SetSpeedCommand());
         this.commands.put(Locale.get("command.mimic.name"), new MimicCommand());
         this.commands.put(Locale.get("command.transform.name"), new TransformCommand());

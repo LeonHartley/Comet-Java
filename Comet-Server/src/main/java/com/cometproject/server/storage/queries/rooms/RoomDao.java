@@ -194,7 +194,7 @@ public class RoomDao {
                                   String password, int score, String tags, String decor, String model, boolean hideWalls, int thicknessWall,
                                   int thicknessFloor, boolean allowWalkthrough, boolean allowPets, String heightmap, RoomTradeState tradeState, RoomMuteState whoCanMute,
                                   RoomKickState whoCanKick, RoomBanState whoCanBan, int bubbleMode, int bubbleType, int bubbleScroll,
-                                  int chatDistance, int antiFloodSettings) {
+                                  int chatDistance, int antiFloodSettings, String disabledCommands) {
 
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
@@ -234,8 +234,9 @@ public class RoomDao {
             preparedStatement.setInt(25, chatDistance);
             preparedStatement.setInt(26, antiFloodSettings);
             preparedStatement.setString(27, tradeState.toString());
+            preparedStatement.setString(28, tradeState.toString());
 
-            preparedStatement.setInt(28, roomId);
+            preparedStatement.setInt(29, roomId);
 
             preparedStatement.execute();
         } catch (SQLException e) {
