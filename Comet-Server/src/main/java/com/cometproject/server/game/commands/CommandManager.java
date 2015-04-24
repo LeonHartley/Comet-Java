@@ -39,6 +39,8 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class CommandManager implements Initializable {
@@ -46,8 +48,8 @@ public class CommandManager implements Initializable {
     private static Logger log = Logger.getLogger(CommandManager.class.getName());
 
     private NotificationManager notifications;
-
     private FastMap<String, ChatCommand> commands;
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     /**
      * Initialize the commands map and load all commands
@@ -223,7 +225,7 @@ public class CommandManager implements Initializable {
         String commandName = chatCommand.getPermission();
 
         if (client.getPlayer().getPermissions().hasCommand(commandName)) {
-            chatCommand.execute(client, getParams(message.split(" ")));
+            this.executorService.submit(() -> chatCommand.execute(client, getParams(message.split(" "))));
             log.debug(client.getPlayer().getData().getUsername() + " executed command: :" + message);
             return true;
         } else {
