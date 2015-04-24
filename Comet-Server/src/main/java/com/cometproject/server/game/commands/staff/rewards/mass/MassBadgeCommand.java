@@ -41,4 +41,9 @@ public class MassBadgeCommand extends ChatCommand {
     public String getDescription() {
         return Locale.get("command.massbadge.description");
     }
+
+    @Override
+    public boolean isAsync() {
+        return true;
+    }
 }

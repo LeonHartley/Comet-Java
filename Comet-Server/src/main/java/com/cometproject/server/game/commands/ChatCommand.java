@@ -18,8 +18,8 @@ public abstract class ChatCommand {
         return new AdvancedAlertMessageComposer(Locale.get("command.successful"), msg);
     }
 
-    public static void sendNotif(String msg, Session c) {
-        c.send(new RoomNotificationMessageComposer("generic", msg));
+    public static void sendNotif(String msg, Session session) {
+        session.send(new RoomNotificationMessageComposer("generic", msg));
     }
 
     public final String merge(String[] params) {
@@ -48,6 +48,14 @@ public abstract class ChatCommand {
     }
 
     public boolean isHidden() {
+        return false;
+    }
+
+    public boolean canDisable() {
+        return false;
+    }
+
+    public boolean isAsync() {
         return false;
     }
 }

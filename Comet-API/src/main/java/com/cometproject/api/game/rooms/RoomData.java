@@ -5,6 +5,7 @@ import com.cometproject.api.game.rooms.settings.RoomKickState;
 import com.cometproject.api.game.rooms.settings.RoomMuteState;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
 
+import java.util.List;
 import java.util.Map;
 
 public interface RoomData {
@@ -124,4 +125,6 @@ public interface RoomData {
     RoomBanState getBanState();
 
     void setBanState(RoomBanState banState);
+
+    List<String> getDisabledCommands();
 }

@@ -44,4 +44,9 @@ public abstract class MassCurrencyCommand extends ChatCommand {
             }
         }
     }
+
+    @Override
+    public boolean isAsync() {
+        return true;
+    }
 }
