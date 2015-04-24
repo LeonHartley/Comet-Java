@@ -29,7 +29,7 @@ public class MessengerFriend {
         Session client = NetworkManager.getInstance().getSessions().getByPlayerId(this.userId);
 
         // Could have these in 1 statement, but to make it easier to read - lets just leave it like this. :P
-        if (client.getPlayer() == null || client.getPlayer().getEntity() == null) {
+        if (client == null || client.getPlayer() == null || client.getPlayer().getEntity() == null) {
             return false;
         }
 

@@ -24,6 +24,14 @@ public class FollowFriendMessageEvent implements Event {
             return;
         }
 
+        if(client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
+            RoomInstance roomInstance = client.getPlayer().getEntity().getRoom();
+
+            if(roomInstance.getId() == room.getId()) {
+                client.getPlayer().getEntity().leaveRoom(false, false, false);
+            }
+        }
+
         client.send(new RoomForwardMessageComposer(room.getId()));
     }
 }

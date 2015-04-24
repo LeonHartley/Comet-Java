@@ -51,7 +51,7 @@ public class CommandManager implements Initializable {
 
     private NotificationManager notifications;
     private FastMap<String, ChatCommand> commands;
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     /**
      * Initialize the commands map and load all commands
@@ -89,7 +89,7 @@ public class CommandManager implements Initializable {
             this.commands.put("reloadmapping", new ReloadMappingCommand());
         }
 
-        this.commands.put("serverinfo", new EntityGridCommand());
+        this.commands.put("serverinfo", new ServerInfoCommand());
         this.commands.put("entitygrid", new EntityGridCommand());
         this.commands.put("cachestats", new CacheStatsCommand());
         this.commands.put("processtimes", new ProcessTimesCommand());
@@ -230,8 +230,17 @@ public class CommandManager implements Initializable {
         String commandName = chatCommand.getPermission();
 
         if (client.getPlayer().getPermissions().hasCommand(commandName)) {
-            this.executorService.submit(() -> chatCommand.execute(client, getParams(message.split(" "))));
-            log.debug(client.getPlayer().getData().getUsername() + " executed command: :" + message);
+            if(client.getPlayer().getEntity().getRoom().getData().getDisabledCommands().contains(executor)) {
+                return false;
+            }
+
+            final String[] params = getParams(message.split(" "));
+
+            if(chatCommand.isAsync()) {
+                this.executorService.submit(new ChatCommand.Execution(chatCommand, params, client));
+            } else {
+                chatCommand.execute(client, params);
+            }
             return true;
         } else {
             if (PermissionsManager.getInstance().getCommands().containsKey(commandName) &&

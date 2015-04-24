@@ -26,9 +26,6 @@ public class InfoRetrieveMessageEvent implements Event {
         client.send(new AchievementPointsMessageComposer(client.getPlayer().getData().getAchievementPoints()));
 
         client.send(new MessengerConfigMessageComposer());
-        client.send(new BuddyListMessageComposer(client.getPlayer().getMessenger().getFriends(), client.getPlayer().getPermissions().hasPermission("staff_chat")));
-
-        client.send(new FriendRequestsMessageComposer(client.getPlayer().getMessenger().getRequestAvatars()));
 
         client.send(new BadgeInventoryMessageComposer(client.getPlayer().getInventory().getBadges()));
 

@@ -169,6 +169,7 @@ public final class MessageHandler {
     }
 
     public void registerMessenger() {
+        this.getMessages().put(Events.InitializeFriendListMessageEvent, new InitializeFriendListMessageEvent());
         this.getMessages().put(Events.ConsoleInstantChatMessageEvent, new PrivateChatMessageEvent());
         this.getMessages().put(Events.RequestFriendMessageEvent, new RequestFriendshipMessageEvent());
         this.getMessages().put(Events.AcceptFriendMessageEvent, new AcceptFriendshipMessageEvent());

@@ -49,7 +49,7 @@ public class BuddyListMessageComposer extends MessageComposer {
         for (PlayerAvatar playerAvatar : avatars) {
             msg.writeInt(playerAvatar.getId());
             msg.writeString(playerAvatar.getUsername());
-            msg.writeInt(1);
+            msg.writeInt(77); // Male.
 
             boolean isOnline = friends.get(playerAvatar.getId()).isOnline();
             boolean isInRoom = friends.get(playerAvatar.getId()).isInRoom();
@@ -57,7 +57,7 @@ public class BuddyListMessageComposer extends MessageComposer {
             if(friends.get(playerAvatar.getId()).isOnline()) {
                 Session playerSession = NetworkManager.getInstance().getSessions().getByPlayerId(playerAvatar.getId());
 
-                if(playerSession.getPlayer() != null) {
+                if(playerSession != null && playerSession.getPlayer() != null) {
                     if(playerSession.getPlayer().getSettings().getHideInRoom()) {
                         isInRoom = false;
                     }

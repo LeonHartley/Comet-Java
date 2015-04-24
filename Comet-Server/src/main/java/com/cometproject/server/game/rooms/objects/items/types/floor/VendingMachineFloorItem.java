@@ -59,8 +59,10 @@ public class VendingMachineFloorItem extends RoomItemFloor {
             }
 
             case 1: {
-                int vendingId = Integer.parseInt(this.getDefinition().getVendingIds()[RandomInteger.getRandom(0, this.getDefinition().getVendingIds().length - 1)].trim());
-                vendingEntity.carryItem(vendingId);
+                if(this.getDefinition().getVendingIds().length != 0) {
+                    int vendingId = Integer.parseInt(this.getDefinition().getVendingIds()[RandomInteger.getRandom(0, this.getDefinition().getVendingIds().length - 1)].trim());
+                    vendingEntity.carryItem(vendingId);
+                }
 
                 this.state = 2;
                 this.setTicks(RoomItemFactory.getProcessTime(0.5));

@@ -58,4 +58,21 @@ public abstract class ChatCommand {
     public boolean isAsync() {
         return false;
     }
+
+    public static class Execution implements Runnable {
+        private ChatCommand command;
+        private String[] params;
+        private Session session;
+
+        public Execution(ChatCommand command, String[] params, Session session) {
+            this.command = command;
+            this.params = params;
+            this.session = session;
+        }
+
+        @Override
+        public void run() {
+            command.execute(session, params);
+        }
+    }
 }
