@@ -161,6 +161,10 @@ public class MessengerComponent implements PlayerComponent {
     }
 
     public void sendStatus(boolean online, boolean inRoom) {
+        if(this.getPlayer().getSettings().getHideOnline()) {
+            return;
+        }
+
         this.broadcast(new UpdateFriendStateMessageComposer(this.getPlayer().getData(), online, inRoom));
     }
 
