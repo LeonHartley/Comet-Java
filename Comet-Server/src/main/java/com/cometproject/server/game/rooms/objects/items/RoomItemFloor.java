@@ -12,9 +12,11 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.data.BackgroundTonerData;
+import com.cometproject.server.game.rooms.objects.items.types.GenericFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.AdjustableHeightFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
@@ -214,7 +216,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
 
         msg.writeInt(-1);
         //msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
-        msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);
+        msg.writeInt(!(this instanceof GenericFloorItem) && !(this instanceof SoundMachineFloorItem) ? 1 : 0);
         msg.writeInt(this.ownerId);
 
         if(isNew)

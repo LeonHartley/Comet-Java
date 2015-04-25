@@ -30,6 +30,8 @@ public class ItemDefinition {
     private final String[] vendingIds;
     private final boolean requiresRights;
 
+    private int songId;
+
     private final Double[] variableHeights;
 
     public ItemDefinition(ResultSet data) throws SQLException {
@@ -61,6 +63,8 @@ public class ItemDefinition {
 
         this.requiresRights = data.getString("requires_rights").equals("1");
 
+        this.songId = data.getInt("song_id");
+
         final String variableHeightData = data.getString("variable_heights");
 
         if(!variableHeightData.isEmpty() && variableHeightData.contains(",")) {
@@ -71,7 +75,7 @@ public class ItemDefinition {
                 try {
                     this.variableHeights[i] = Double.parseDouble(variableHeightArray[i]);
                 } catch (Exception ignored) {
-                    ignored.printStackTrace();
+
                 }
             }
         } else {
@@ -89,6 +93,10 @@ public class ItemDefinition {
 
     public boolean isTeleporter() {
         return this.getInteraction().equals("teleport") || this.getInteraction().equals("teleport_door") || this.getInteraction().equals("teleport_pad");
+    }
+
+    public boolean isSong() {
+        return this.songId != 0;
     }
 
     public int getId() {
@@ -181,5 +189,9 @@ public class ItemDefinition {
 
     public boolean requiresRights() {
         return requiresRights;
+    }
+
+    public int getSongId() {
+        return this.songId;
     }
 }

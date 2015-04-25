@@ -1,13 +1,17 @@
 package com.cometproject.server.game.items;
 
+import com.cometproject.server.game.items.music.MusicData;
 import com.cometproject.server.game.items.storage.ItemStorageQueue;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.queries.items.ItemDao;
+import com.cometproject.server.storage.queries.items.MusicDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.Initializable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
+
+import javax.jws.soap.SOAPBinding;
 
 
 public class ItemManager implements Initializable {
@@ -18,6 +22,8 @@ public class ItemManager implements Initializable {
     private FastMap<Integer, ItemDefinition> itemDefinitions;
     private FastMap<Integer, Integer> itemSpriteIdToDefinitionId;
 
+    private FastMap<Integer, MusicData> musicData;
+
     public ItemManager() {
 
     }
@@ -25,7 +31,10 @@ public class ItemManager implements Initializable {
     @Override
     public void initialize() {
         this.itemDefinitions = new FastMap<>();
+        this.musicData = new FastMap<>();
+
         this.loadItemDefinitions();
+        this.loadMusicData();
 
         ItemStorageQueue.getInstance().initialize();
 
@@ -65,6 +74,15 @@ public class ItemManager implements Initializable {
         log.info("Loaded " + this.getItemDefinitions().size() + " item definitions");
     }
 
+    public void loadMusicData() {
+        if(!this.musicData.isEmpty()) {
+            this.musicData.clear();
+        }
+
+        MusicDao.getMusicData(this.musicData);
+        log.info("Loaded " + this.musicData.size() + " songs");
+    }
+
     public int getTeleportPartner(int itemId) {
         return TeleporterDao.getPairId(itemId);
     }
@@ -83,12 +101,19 @@ public class ItemManager implements Initializable {
         return null;
     }
 
+    public MusicData getMusicData(int songId) {
+        if(this.musicData.containsKey(songId)) {
+            return this.musicData.get(songId);
+        }
+
+        return null;
+    }
+
     public ItemDefinition getBySpriteId(int spriteId) {
         return this.itemDefinitions.get(this.itemSpriteIdToDefinitionId.get(spriteId));
     }
 
     public FastMap<Integer, ItemDefinition> getItemDefinitions() {
         return this.itemDefinitions;
-
     }
 }

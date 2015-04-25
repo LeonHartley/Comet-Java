@@ -2,18 +2,22 @@ package com.cometproject.server.game.players.components;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
+import com.cometproject.server.game.items.music.SongItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
+import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
+import com.google.common.collect.Lists;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -135,6 +139,18 @@ public class InventoryComponent implements PlayerComponent {
         }
 
         return item;
+    }
+
+    public List<SongItem> getSongs() {
+        List<SongItem> songItems = Lists.newArrayList();
+
+        for (InventoryItem inventoryItem : this.floorItems.values()) {
+            if (inventoryItem.getDefinition().isSong()) {
+                songItems.add(new SongItem(inventoryItem.getId(), inventoryItem.getDefinition().getSongId()));
+            }
+        }
+
+        return songItems;
     }
 
     public void add(int id, int itemId, String extraData) {

@@ -40,7 +40,7 @@ public class BuyGroupMessageEvent implements Event {
         int colour1 = msg.readInt();
         int colour2 = msg.readInt();
 
-        if (!client.getPlayer().getRooms().contains(roomId) || RoomManager.getInstance().getRoomData(roomId) == null) {
+        if (!client.getPlayer().getRooms().contains(roomId) || RoomManager.getInstance().getRoomData(roomId) == null || GroupManager.getInstance().getGroupByRoomId(roomId) != null) {
             return;
         }
 

@@ -58,6 +58,7 @@ public class RoomItemFactory {
             put("adjustable_height_seat", AdjustableHeightSeatFloorItem.class);
             put("adjustable_height", AdjustableHeightFloorItem.class);
             put("lovelock", LoveLockFloorItem.class);
+            put("soundmachine", SoundMachineFloorItem.class);
 
 //            put("wf_act_flee", WiredActionFlee.class);//todo: this
             put("wf_act_match_to_sshot", WiredActionMatchToSnapshot.class);//new
