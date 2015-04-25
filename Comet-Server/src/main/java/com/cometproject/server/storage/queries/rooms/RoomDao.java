@@ -204,7 +204,7 @@ public class RoomDao {
             preparedStatement = SqlHelper.prepare("UPDATE rooms SET name = ?, description = ?, owner_id = ?, owner = ?, category = ?," +
                             " max_users = ?, access_type = ?, password = ?, score = ?, tags = ?, decorations = ?, model = ?, hide_walls = ?, thickness_wall = ?," +
                             " thickness_floor = ?, allow_walkthrough = ?, allow_pets = ?, heightmap = ?, mute_state = ?, ban_state = ?, kick_state = ?," +
-                            "bubble_mode = ?, bubble_type = ?, bubble_scroll = ?, chat_distance = ?, flood_level = ?, trade_state = ? WHERE id = ?",
+                            "bubble_mode = ?, bubble_type = ?, bubble_scroll = ?, chat_distance = ?, flood_level = ?, trade_state = ?, disabled_commands = ? WHERE id = ?",
                     sqlConnection);
 
             preparedStatement.setString(1, name);
@@ -234,7 +234,7 @@ public class RoomDao {
             preparedStatement.setInt(25, chatDistance);
             preparedStatement.setInt(26, antiFloodSettings);
             preparedStatement.setString(27, tradeState.toString());
-            preparedStatement.setString(28, tradeState.toString());
+            preparedStatement.setString(28, disabledCommands);
 
             preparedStatement.setInt(29, roomId);
 
