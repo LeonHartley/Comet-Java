@@ -78,6 +78,6 @@ Comet Pre-1.0 Changelog
 ## 03/04/2015
 * Work on group forums
 
-## 31/04/2015
+## 31/03/2015
 * Bot Mimic AI (If the bot owner says something, the bot will echo)
 * Spawn bots using roomaction
