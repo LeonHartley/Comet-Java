@@ -69,10 +69,7 @@ import com.cometproject.server.network.messages.incoming.user.camera.RenderRoomM
 import com.cometproject.server.network.messages.incoming.user.citizenship.CitizenshipStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.*;
-import com.cometproject.server.network.messages.incoming.user.inventory.BadgeInventoryMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.inventory.BotInventoryMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.inventory.OpenInventoryMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.inventory.PetInventoryMessageEvent;
+import com.cometproject.server.network.messages.incoming.user.inventory.*;
 import com.cometproject.server.network.messages.incoming.user.profile.*;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.ChangeLooksMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.wardrobe.SaveWardrobeMessageEvent;
@@ -125,6 +122,7 @@ public final class MessageHandler {
         this.registerQuests();
         this.registerCamera();
         this.registerPromotions();
+        this.registerMusic();
         this.registerMisc();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
@@ -384,6 +382,10 @@ public final class MessageHandler {
     public void registerCamera() {
         this.getMessages().put(Events.CameraTokenMessageEvent, new CameraTokenMessageEvent());
         this.getMessages().put(Events.RenderRoomMessageEvent, new RenderRoomMessageEvent());
+    }
+
+    public void registerMusic() {
+        this.getMessages().put(Events.SongInventoryMessageEvent, new SongInventoryMessageEvent());
     }
 
     public void handle(MessageEvent message, Session client) {

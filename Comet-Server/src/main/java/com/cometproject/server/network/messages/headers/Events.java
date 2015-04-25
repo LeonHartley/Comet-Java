@@ -203,6 +203,7 @@ public class Events {
     public static final short OpenGuideToolMessageEvent = 1124;
     public static final short SaveForumSettingsMessageEvent = 3152;
     public static final short InitializeFriendListMessageEvent = 996;
+    public static final short SongInventoryMessageEvent = 2753;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 

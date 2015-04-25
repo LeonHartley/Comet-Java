@@ -1,6 +1,10 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 25/04/2015
+* No longer possible for rooms to have multiple groups.
+* Start initial work on sound machine.
+
 ## 24/04/2015
 * Async command support (for heavy commands such as massbadge, masscoins etc.)
 * Ability to enable and disable several commands in your rooms (Example: Push, Pull)
