@@ -1,6 +1,10 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 26/04/2015
+* More work on sound machine-related stuff
+* Fix a bug where a session would not correctly be disposed if the user logs in from 2 locations.
+
 ## 25/04/2015
 * No longer possible for rooms to have multiple groups.
 * Start initial work on sound machine.

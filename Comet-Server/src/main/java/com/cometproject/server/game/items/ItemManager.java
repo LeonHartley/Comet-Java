@@ -109,6 +109,16 @@ public class ItemManager implements Initializable {
         return null;
     }
 
+    public MusicData getMusicDataByName(String name) {
+        for(MusicData musicData : this.musicData.values()) {
+            if(musicData.getName().equals(name)) {
+                return musicData;
+            }
+        }
+
+        return null;
+    }
+
     public ItemDefinition getBySpriteId(int spriteId) {
         return this.itemDefinitions.get(this.itemSpriteIdToDefinitionId.get(spriteId));
     }
