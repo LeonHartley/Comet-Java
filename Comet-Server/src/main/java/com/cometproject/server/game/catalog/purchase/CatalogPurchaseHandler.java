@@ -9,6 +9,7 @@ import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.items.music.MusicData;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.pets.data.PetData;
@@ -35,12 +36,14 @@ import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.utilities.JsonFactory;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -268,7 +271,21 @@ public class CatalogPurchaseHandler {
 
                         client.send(new RoomNotificationMessageComposer("forums.delivered", notificationParams));
                     }
+                } else if (def.isSong()) {
+                    final String songName = item.getPresetData();
 
+                    if (songName != null && !songName.isEmpty()) {
+                        MusicData musicData = ItemManager.getInstance().getMusicDataByName(songName);
+
+                        if (musicData != null) {
+                            extraData = String.format("%s\n%s\n%s\n%s\n%s\n",
+                                    client.getPlayer().getData().getUsername(),
+                                    Calendar.getInstance().get(Calendar.YEAR),
+                                    Calendar.getInstance().get(Calendar.MONTH),
+                                    Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
+                                    musicData.getLengthMilliseconds());
+                        }
+                    }
                 }
 
                 int[] teleportIds = null;

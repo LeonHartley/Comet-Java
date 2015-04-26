@@ -146,6 +146,7 @@ public class InventoryComponent implements PlayerComponent {
 
         for (InventoryItem inventoryItem : this.floorItems.values()) {
             if (inventoryItem.getDefinition().isSong()) {
+                System.out.println("Song: " + inventoryItem.getId());
                 songItems.add(new SongItem(inventoryItem.getId(), inventoryItem.getDefinition().getSongId()));
             }
         }

@@ -49,7 +49,11 @@ public class PlayerManager implements Initializable {
         this.playerUsernameToPlayerId.put(username.toLowerCase(), playerId);
     }
 
-    public void remove(int playerId, String username) {
+    public void remove(int playerId, String username, int sessionId) {
+        if(this.getSessionIdByPlayerId(playerId) != sessionId) {
+            return;
+        }
+
         this.playerIdToSessionId.remove(playerId);
         this.playerUsernameToPlayerId.remove(username.toLowerCase());
     }

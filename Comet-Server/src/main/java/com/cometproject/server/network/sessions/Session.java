@@ -36,7 +36,7 @@ public class Session {
     }
 
     public void setPlayer(Player player) {
-        if (player.getData() == null) {
+        if (player == null || player.getData() == null) {
             return;
         }
 
@@ -51,11 +51,15 @@ public class Session {
     }
 
     public void onDisconnect() {
-        if (!isClone)
-            PlayerManager.getInstance().remove(player.getId(), player.getData().getUsername());
+        if (!isClone && player != null && player.getData() != null)
+            PlayerManager.getInstance().remove(player.getId(), player.getData().getUsername(), this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get());
 
         this.eventHandler.dispose();
-        this.getPlayer().dispose();
+
+        if(this.player != null) {
+            this.getPlayer().dispose();
+        }
+
         this.setPlayer(null);
     }
 

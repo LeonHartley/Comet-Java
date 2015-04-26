@@ -80,7 +80,7 @@ public class DeleteRoomMessageEvent implements Event {
         if (PlayerManager.getInstance().isOnline(room.getData().getOwnerId())) {
             Session owner = NetworkManager.getInstance().getSessions().getByPlayerId(room.getData().getOwnerId());
 
-            if (owner.getPlayer() != null && owner.getPlayer().getRooms() != null) {
+            if (owner != null && owner.getPlayer() != null && owner.getPlayer().getRooms() != null) {
                 if (owner.getPlayer().getRooms().contains(room.getId())) {
                     owner.getPlayer().getRooms().remove(owner.getPlayer().getRooms().indexOf(room.getId()));
                 }
