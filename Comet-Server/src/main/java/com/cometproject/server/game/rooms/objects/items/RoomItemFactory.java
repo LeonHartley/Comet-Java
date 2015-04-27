@@ -122,6 +122,7 @@ public class RoomItemFactory {
             put("wf_arrowplate", WiredAddonPressurePlate.class);//new
             put("wf_ringplate", WiredAddonPressurePlate.class);//new
             put("wf_pyramid", WiredAddonPyramid.class);//new
+            put("wf_visual_timer", WiredAddonVisualTimer.class);//new
 
             put("pressureplate_seat", PressurePlateSeatFloorItem.class);
 
@@ -139,7 +140,7 @@ public class RoomItemFactory {
             put("group_gate", GroupGateFloorItem.class);
 
             put("football_timer", FootballTimerFloorItem.class);
-            put("ball", FootballFloorItem.class);
+//            put("ball", FootballFloorItem.class);
             put("football_gate", FootballGateFloorItem.class);
             put("football_goal", FootballGoalFloorItem.class);
             put("football_score", FootballScoreFloorItem.class);
