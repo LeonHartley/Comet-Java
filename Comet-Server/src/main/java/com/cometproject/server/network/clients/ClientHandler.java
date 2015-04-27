@@ -41,7 +41,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
             Session session = ctx.attr(SessionManager.SESSION_ATTR).get();
             session.onDisconnect();
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
         NetworkManager.getInstance().getSessions().remove(ctx);
@@ -71,7 +71,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageEvent> {
             ctx.close();
         }
 
-//        if (cause instanceof IOException) return;
+        if (cause instanceof IOException) return;
 
         log.error("Exception caught in ClientHandler", cause);
     }

@@ -81,7 +81,7 @@ public class NetworkManager {
 
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(acceptGroup, ioGroup)
-                .channel(isEpollAvailable ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
+                .channel(isEpollAvailable && isEpollEnabled ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
                 .childHandler(new NetworkChannelInitializer(channelGroup))
                 .option(ChannelOption.SO_BACKLOG, Integer.parseInt(Comet.getServer().getConfig().get("comet.network.backlog", "500")))
                 .option(ChannelOption.TCP_NODELAY, true)
@@ -105,12 +105,14 @@ public class NetworkManager {
         try {
             bootstrap.bind(new InetSocketAddress(ip, port)).addListener(objectFuture -> {
                 if(!objectFuture.isSuccess()) {
+                    System.out.println(objectFuture.cause().toString());
                     Comet.exit("Failed to initialize sockets on address: " + ip + ":" + port);
                 }
             });
 
             log.info("CometServer listening on port: " + port);
         } catch (Exception e) {
+            e.printStackTrace();
             Comet.exit("Failed to initialize sockets on address: " + ip + ":" + port);
         }
     }
