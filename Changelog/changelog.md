@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 27/04/2015
+* Created a timer interaction which can be interacted with via wired.
+
 ## 26/04/2015
 * More work on sound machine-related stuff
 * Fix a bug where a session would not correctly be disposed if the user logs in from 2 locations.
