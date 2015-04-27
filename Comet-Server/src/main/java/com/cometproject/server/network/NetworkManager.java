@@ -58,16 +58,22 @@ public class NetworkManager {
         EventLoopGroup ioGroup;
         EventLoopGroup channelGroup;
 
-        final boolean isEpollAvailable = Epoll.isAvailable() && Boolean.parseBoolean(Comet.getServer().getConfig().get("comet.network.epoll", "false"));
+        final boolean isEpollEnabled = Boolean.parseBoolean(Comet.getServer().getConfig().get("comet.network.epoll", "false");
+        final boolean isEpollAvailable = Epoll.isAvailable();
         final int threadCount = 16; // TODO: Find the best count.
 
-        if(isEpollAvailable) {
-            log.info("Epoll is available");
+        if(isEpollAvailable && isEpollEnabled) {
+            log.info("Epoll is enabled");
             acceptGroup = new EpollEventLoopGroup(threadCount);
             ioGroup = new EpollEventLoopGroup(threadCount);
             channelGroup = new EpollEventLoopGroup(threadCount);
         } else {
-            log.info("Epoll is not available");
+            if(isEpollAvailable) {
+                log.info("Epoll is available but not enabled");
+            } else {
+                log.info("Epoll is not available");
+            }
+            
             acceptGroup = new NioEventLoopGroup(threadCount);
             ioGroup = new NioEventLoopGroup(threadCount);
             channelGroup = new NioEventLoopGroup(threadCount);

@@ -6,7 +6,7 @@ import com.cometproject.server.game.rooms.types.RoomInstance;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
-public class EnableCommand extends ChatCommand{
+public class EnableCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         RoomInstance room = client.getPlayer().getEntity().getRoom();
@@ -33,11 +33,11 @@ public class EnableCommand extends ChatCommand{
 
     @Override
     public String getPermission() {
-        return null;
+        return "enablecommand_command";
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return Locale.get("command.enablecommand.description");
     }
 }

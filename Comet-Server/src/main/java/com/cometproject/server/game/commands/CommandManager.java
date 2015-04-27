@@ -231,7 +231,8 @@ public class CommandManager implements Initializable {
 
         if (client.getPlayer().getPermissions().hasCommand(commandName)) {
             if(client.getPlayer().getEntity().getRoom().getData().getDisabledCommands().contains(executor)) {
-                return false;
+                ChatCommand.sendNotif(Locale.get("command.disabled"), client);
+                return true;
             }
 
             final String[] params = getParams(message.split(" "));
@@ -241,6 +242,7 @@ public class CommandManager implements Initializable {
             } else {
                 chatCommand.execute(client, params);
             }
+
             return true;
         } else {
             if (PermissionsManager.getInstance().getCommands().containsKey(commandName) &&

@@ -16,6 +16,8 @@ INSERT INTO `server_locale` (`key`, `value`) VALUES ('command.enablecommand.erro
 INSERT INTO `permission_commands` (`command_id`, `vip_only`) VALUES ('enablecommand_command', '0');
 INSERT INTO `permission_commands` (`command_id`, `vip_only`) VALUES ('disablecommand_command', '0');
 
+INSERT INTO `server_locale` (`key`, `value`) VALUES ('command.disabled', 'This command is disabled in this room!');
+
 /* 25/04/2015 */
 CREATE TABLE `furniture_music` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,

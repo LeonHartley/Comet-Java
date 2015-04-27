@@ -31,6 +31,8 @@ public class PermissionComponent implements PlayerComponent {
     }
 
     public boolean hasCommand(String key) {
+        System.out.println(key);
+
         if (PermissionsManager.getInstance().getCommands().containsKey(key)) {
             CommandPermission permission = PermissionsManager.getInstance().getCommands().get(key);
 

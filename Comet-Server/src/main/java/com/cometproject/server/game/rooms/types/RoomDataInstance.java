@@ -11,12 +11,14 @@ import com.cometproject.api.game.rooms.settings.RoomKickState;
 import com.cometproject.api.game.rooms.settings.RoomMuteState;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
+import com.google.common.collect.Lists;
 import javolution.util.FastMap;
 import org.apache.commons.lang3.StringUtils;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -116,7 +118,7 @@ public class RoomDataInstance implements RoomData {
         this.antiFloodSettings = room.getInt("flood_level");
         this.chatDistance = room.getInt("chat_distance");
 
-        this.disabledCommands = Arrays.asList(room.getString("disabled_commands").split(","));
+        this.disabledCommands = Lists.newArrayList(room.getString("disabled_commands").split(","));
     }
 
     public void save() {
