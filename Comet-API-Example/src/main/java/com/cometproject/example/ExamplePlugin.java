@@ -1,6 +1,5 @@
 package com.cometproject.example;
 
-import com.cometproject.api.events.Event;
 import com.cometproject.api.events.EventListener;
 import com.cometproject.api.events.modules.OnModuleLoadEvent;
 import com.cometproject.api.events.modules.OnModuleUnloadEvent;
