@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.condi
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 
 public class WiredConditionHasHandItem extends WiredConditionItem {
     private final static int PARAM_HANDITEM = 0;
@@ -21,7 +21,7 @@ public class WiredConditionHasHandItem extends WiredConditionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredConditionHasHandItem(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredConditionHasHandItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

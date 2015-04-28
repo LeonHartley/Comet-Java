@@ -12,7 +12,7 @@ public class EffectsInventoryMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(0);// TODO: Effects inventory.
     }
 }

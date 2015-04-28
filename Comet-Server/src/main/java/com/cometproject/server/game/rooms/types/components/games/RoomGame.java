@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.types.components.games;
 
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.GameComponent;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
@@ -17,12 +17,12 @@ public abstract class RoomGame implements CometTask {
     protected int gameLength;
     protected boolean active;
     protected boolean finished = false;
-    protected RoomInstance room;
+    protected Room room;
 
     private ScheduledFuture future;
     private Logger log;
 
-    public RoomGame(RoomInstance room, GameType gameType) {
+    public RoomGame(Room room, GameType gameType) {
         this.type = gameType;
         this.log = Logger.getLogger("RoomGame [" + room.getData().getName() + "][" + room.getData().getId() + "][" + this.type + "]");
         this.room = room;

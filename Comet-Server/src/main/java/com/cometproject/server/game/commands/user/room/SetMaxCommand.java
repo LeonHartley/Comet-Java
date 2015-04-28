@@ -3,7 +3,7 @@ package com.cometproject.server.game.commands.user.room;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import org.apache.commons.lang.StringUtils;
@@ -16,7 +16,7 @@ public class SetMaxCommand extends ChatCommand {
             return;
         }
 
-        final RoomInstance room = client.getPlayer().getEntity().getRoom();
+        final Room room = client.getPlayer().getEntity().getRoom();
         final boolean hasRights = room.getRights().hasRights(client.getPlayer().getId());
         final boolean isStaff = client.getPlayer().getPermissions().hasPermission("room_full_control");
 

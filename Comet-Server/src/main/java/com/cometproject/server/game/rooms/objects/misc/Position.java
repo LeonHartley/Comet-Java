@@ -1,10 +1,11 @@
 package com.cometproject.server.game.rooms.objects.misc;
 
+import com.cometproject.api.game.rooms.util.IPosition;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 
 
-public class Position {
+public class Position implements IPosition {
     private int x;
     private int y;
     private double z;
@@ -200,7 +201,7 @@ public class Position {
         return new Position(x, y);
     }
 
-    public double distanceTo(Position pos) {
+    public double distanceTo(IPosition pos) {
         return Math.abs(this.getX() - pos.getX()) + Math.abs(this.getY() - pos.getY());
     }
 

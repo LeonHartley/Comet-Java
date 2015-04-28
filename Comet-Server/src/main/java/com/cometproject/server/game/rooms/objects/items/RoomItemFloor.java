@@ -22,7 +22,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.football.Foo
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -42,7 +42,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
     private ItemDefinition itemDefinition;
     private GenericEntity collidedEntity;
 
-    public RoomItemFloor(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public RoomItemFloor(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, new Position(x, y, z), room);
 
         this.itemId = itemId;
@@ -300,7 +300,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
 
     @Override
     public void sendUpdate() {
-        RoomInstance r = this.getRoom();
+        Room r = this.getRoom();
 
         if (r != null) {
             r.getEntities().broadcastMessage(new UpdateFloorExtraDataMessageComposer(this.getId(), this));

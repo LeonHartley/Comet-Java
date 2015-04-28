@@ -35,7 +35,7 @@ public class LoadProfileMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(player.getId());
         msg.writeString(player.getUsername());
         msg.writeString(player.getFigure());

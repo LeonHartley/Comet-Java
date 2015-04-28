@@ -5,7 +5,7 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.sessions.Session;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
 public class PickAllCommand extends ChatCommand {
     @Override
     public void execute(Session client, String message[]) {
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null || !room.getData().getOwner().equals(client.getPlayer().getData().getUsername())) {
             return;

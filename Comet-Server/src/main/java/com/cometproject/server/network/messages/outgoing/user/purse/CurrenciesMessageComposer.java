@@ -20,7 +20,7 @@ public class CurrenciesMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(currencies.size());
 
         for (Map.Entry<Integer, Integer> currency : currencies.entrySet()) {

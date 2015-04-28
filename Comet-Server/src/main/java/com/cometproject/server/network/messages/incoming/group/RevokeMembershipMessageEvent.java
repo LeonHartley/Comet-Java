@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessageComposer;
@@ -51,7 +51,7 @@ public class RevokeMembershipMessageEvent implements Event {
 
 
         if(RoomManager.getInstance().isActive(group.getData().getRoomId())) {
-            final RoomInstance room = RoomManager.getInstance().get(group.getData().getRoomId());
+            final Room room = RoomManager.getInstance().get(group.getData().getRoomId());
 
 
             for(RoomItemFloor floorItem : room.getItems().getFloorItems()) {

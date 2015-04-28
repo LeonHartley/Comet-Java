@@ -3,7 +3,7 @@ package com.cometproject.server.network.messages.incoming.moderation.tickets;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.moderation.types.tickets.HelpTicket;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomDataInstance;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.logging.database.queries.LogQueries;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.moderation.tickets.ModToolTicketChatlogMessageComposer;
@@ -26,7 +26,7 @@ public class ModToolTicketChatlogMessageEvent implements Event {
             return;
         }
 
-        final RoomDataInstance roomData = RoomManager.getInstance().getRoomData(helpTicket.getRoomId());
+        final RoomData roomData = RoomManager.getInstance().getRoomData(helpTicket.getRoomId());
 
         if(roomData == null) return;
 

@@ -15,14 +15,14 @@ com.cometproject.server.api.APIManager -> com.cometproject.server.a.a:
     110:111:java.lang.Object lambda$initializeRouting$1$56025a87() -> a
     101:107:void lambda$initializeRouting$0$1fe00bf5(spark.Request) -> a
 com.cometproject.server.api.rooms.RoomStats -> com.cometproject.server.a.a.a:
-    com.cometproject.server.game.rooms.types.RoomDataInstance data -> a
+    com.cometproject.server.game.rooms.types.RoomData data -> a
     int players -> a
     int bots -> b
     int pets -> c
     long loadTime -> a
     com.cometproject.server.cache.CometCacheManager mgr -> a
-    25:25:com.cometproject.server.game.rooms.types.RoomDataInstance getData() -> a
-    29:30:void setData(com.cometproject.server.game.rooms.types.RoomDataInstance) -> a
+    25:25:com.cometproject.server.game.rooms.types.RoomData getData() -> a
+    29:30:void setData(com.cometproject.server.game.rooms.types.RoomData) -> a
     33:33:int getPlayers() -> a
     37:38:void setPlayers(int) -> a
     41:41:int getBots() -> b
@@ -243,7 +243,7 @@ com.cometproject.server.game.bots.PetData -> com.cometproject.server.game.a.d:
     double z -> a
     javolution.util.FastMap statuses -> a
     boolean needsRemove -> a
-    com.cometproject.server.game.rooms.types.RoomInstance room -> a
+    com.cometproject.server.game.rooms.types.Room room -> a
     void tick() -> a
     72:73:void setNeedsRemove(boolean) -> a
     76:76:boolean needsRemove() -> a
@@ -261,7 +261,7 @@ com.cometproject.server.game.bots.PetData -> com.cometproject.server.game.a.d:
     124:124:int getX() -> f
     128:128:int getY() -> g
     132:132:double getZ() -> a
-    136:136:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    136:136:com.cometproject.server.game.rooms.types.Room getRoom() -> a
 com.cometproject.server.game.catalog.CatalogManager -> com.cometproject.server.game.b.a:
     java.util.List clubOffers -> a
     java.util.Map pages -> a
@@ -370,9 +370,9 @@ com.cometproject.server.game.catalog.types.CatalogItem -> com.cometproject.serve
     114:114:boolean hasBadge() -> b
     118:118:java.lang.String getBadgeId() -> b
     122:122:java.lang.String getPresetData() -> c
-    8:42:void write(com.cometproject.server.game.rooms.types.RoomDataInstance,com.cometproject.server.network.messages.types.Composer) -> a
-    45:98:void writeData(com.cometproject.server.game.rooms.types.RoomDataInstance,com.cometproject.server.network.messages.types.Composer) -> b
-    101:133:void writeInfo(com.cometproject.server.game.rooms.types.RoomDataInstance,com.cometproject.server.network.messages.types.Composer) -> c
+    8:42:void write(com.cometproject.server.game.rooms.types.RoomData,com.cometproject.server.network.messages.types.Composer) -> a
+    45:98:void writeData(com.cometproject.server.game.rooms.types.RoomData,com.cometproject.server.network.messages.types.Composer) -> b
+    101:133:void writeInfo(com.cometproject.server.game.rooms.types.RoomData,com.cometproject.server.network.messages.types.Composer) -> c
     136:145:int roomAccessToNumber(java.lang.String) -> a
     149:158:java.lang.String roomAccessToString(int) -> a
 com.cometproject.server.game.catalog.types.CatalogPage -> com.cometproject.server.game.b.b.c:
@@ -882,7 +882,7 @@ com.cometproject.server.game.navigator.types.featured.FeaturedRoom -> com.cometp
     int categoryId -> e
     boolean enabled -> b
     boolean recommended -> c
-    com.cometproject.server.game.rooms.types.RoomDataInstance room -> a
+    com.cometproject.server.game.rooms.types.RoomData room -> a
     60:79:void compose(com.cometproject.server.network.messages.types.Composer) -> a
     82:82:int getId() -> a
     86:86:int getBannerType$5669e540() -> d
@@ -1417,14 +1417,14 @@ com.cometproject.server.game.rooms.RoomManager -> com.cometproject.server.game.r
     com.cometproject.server.game.rooms.filter.WordFilter filterManager -> a
     com.cometproject.server.game.rooms.RoomCycle globalCycle -> a
     com.cometproject.server.game.rooms.types.misc.ChatEmotionsManager emotions -> a
-    50:59:com.cometproject.server.game.rooms.types.RoomInstance createRoomInstance(com.cometproject.server.game.rooms.types.RoomDataInstance) -> a
+    50:59:com.cometproject.server.game.rooms.types.Room createRoomInstance(com.cometproject.server.game.rooms.types.RoomData) -> a
     64:80:void removeInstance(int) -> a
     83:93:void removeData(int) -> b
     97:107:void loadModels() -> a
     110:118:com.cometproject.server.game.rooms.models.types.StaticRoomModel getModel(java.lang.String) -> a
-    122:123:com.cometproject.server.game.rooms.types.RoomInstance retrieve(int) -> a
-    128:151:com.cometproject.server.game.rooms.types.RoomInstance get(int) -> b
-    155:165:com.cometproject.server.game.rooms.types.RoomDataInstance getRoomData(int) -> a
+    122:123:com.cometproject.server.game.rooms.types.Room retrieve(int) -> a
+    128:151:com.cometproject.server.game.rooms.types.Room get(int) -> b
+    155:165:com.cometproject.server.game.rooms.types.RoomData getRoomData(int) -> a
     169:180:void loadRoomsForUser(com.cometproject.server.game.players.types.Player) -> a
     183:199:java.util.List getRoomByQuery(java.lang.String) -> a
     203:205:boolean isActive(int) -> a
@@ -1768,7 +1768,7 @@ com.cometproject.server.game.rooms.objects.entities.AvatarEntity -> com.cometpro
     344:346:boolean handItemNeedsRemove() -> f
     410:410:int getHandItemTimer() -> h
     415:416:void setHandItemTimer(int) -> e
-    216:216:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    216:216:com.cometproject.server.game.rooms.types.Room getRoom() -> a
     java.lang.String getUsername() -> a
     java.lang.String getMotto() -> b
     java.lang.String getFigure() -> c
@@ -1835,7 +1835,7 @@ com.cometproject.server.game.rooms.objects.entities.GenericEntity -> com.cometpr
     201:202:void setBodyRotation(int) -> a
     206:206:int getHeadRotation() -> c
     211:212:void setHeadRotation(int) -> b
-    216:216:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    216:216:com.cometproject.server.game.rooms.types.Room getRoom() -> a
     221:221:java.util.List getProcessingPath() -> b
     226:227:void setProcessingPath(java.util.List) -> b
     231:231:java.util.List getWalkingPath() -> a
@@ -2068,7 +2068,7 @@ com.cometproject.server.game.rooms.objects.items.RoomItemFloor -> com.cometproje
     187:187:void onEntityStepOn$1461f880(com.cometproject.server.game.rooms.objects.entities.AvatarEntity) -> b
     191:191:void onEntityStepOff$1461f880(com.cometproject.server.game.rooms.objects.entities.AvatarEntity) -> c
     195:219:boolean toggleInteract(boolean) -> a
-    224:234:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    224:234:com.cometproject.server.game.rooms.types.Room getRoom() -> a
     239:240:void saveData() -> j
     244:249:void sendUpdate() -> i
     252:252:double getHeight() -> a
@@ -2085,7 +2085,7 @@ com.cometproject.server.game.rooms.objects.items.RoomItemWall -> com.cometprojec
     java.lang.ref.WeakReference room -> a
     30:41:void serialize(com.cometproject.server.network.messages.types.Composer) -> a
     45:60:boolean toggleInteract(boolean) -> a
-    65:75:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    65:75:com.cometproject.server.game.rooms.types.Room getRoom() -> a
     80:85:void sendUpdate() -> i
     89:90:void saveData() -> j
     94:94:com.cometproject.server.game.items.types.ItemDefinition getDefinition() -> a
@@ -2122,7 +2122,7 @@ com.cometproject.server.game.rooms.objects.items.data.MannequinData -> com.comet
     35:36:void setGender(java.lang.String) -> c
     39:49:com.cometproject.server.game.rooms.objects.items.data.MannequinData get(java.lang.String) -> a
     53:53:java.lang.String get(com.cometproject.server.game.rooms.objects.items.data.MannequinData) -> a
-    10:30:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.RoomInstance) -> a
+    10:30:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.Room) -> a
 com.cometproject.server.game.rooms.objects.items.data.MoodlightData -> com.cometproject.server.game.rooms.objects.items.data.c:
     boolean enabled -> a
     int activePreset -> a
@@ -2179,7 +2179,7 @@ com.cometproject.server.game.rooms.objects.items.types.floor.BallFloorItem -> co
     java.util.List rollingPositions -> a
     int KICK_POWER -> h
     25:51:void onEntityPreStepOn$1461f880(com.cometproject.server.game.rooms.objects.entities.AvatarEntity) -> a
-    54:59:void roll(com.cometproject.server.game.rooms.objects.items.RoomItemFloor,com.cometproject.server.game.rooms.objects.misc.Position3D,com.cometproject.server.game.rooms.objects.misc.Position3D,com.cometproject.server.game.rooms.types.RoomInstance) -> a
+    54:59:void roll(com.cometproject.server.game.rooms.objects.items.RoomItemFloor,com.cometproject.server.game.rooms.objects.misc.Position3D,com.cometproject.server.game.rooms.objects.misc.Position3D,com.cometproject.server.game.rooms.types.Room) -> a
     62:62:com.cometproject.server.game.rooms.objects.misc.Position3D calculatePosition(int,int,int) -> a
     66:136:com.cometproject.server.game.rooms.objects.misc.Position3D calculatePosition(int,int,int,boolean) -> a
     143:179:void onInteract$7c48c7b1(com.cometproject.server.game.rooms.objects.entities.AvatarEntity,int,boolean) -> a
@@ -2323,7 +2323,7 @@ com.cometproject.server.game.rooms.models.RoomModel -> com.cometproject.server.g
     121:121:com.cometproject.server.network.messages.types.Composer getRelativeHeightmapMessage() -> b
 com.cometproject.server.game.rooms.models.types.DynamicRoomModel -> com.cometproject.server.game.rooms.e.a.a:
 com.cometproject.server.game.rooms.models.types.StaticRoomModel -> com.cometproject.server.game.rooms.e.a.b:
-com.cometproject.server.game.rooms.types.RoomInstance -> com.cometproject.server.game.rooms.f.a:
+com.cometproject.server.game.rooms.types.Room -> com.cometproject.server.game.rooms.f.a:
     org.apache.log4j.Logger log -> a
     int id -> a
     com.cometproject.server.game.rooms.models.RoomModel model -> a
@@ -2368,12 +2368,12 @@ com.cometproject.server.game.rooms.types.RoomInstance -> com.cometproject.server
     219:219:com.cometproject.server.game.rooms.types.components.EntityComponent getEntities() -> a
     223:223:com.cometproject.server.game.rooms.types.mapping.RoomMapping getMapping() -> a
     227:227:int getId() -> a
-    231:231:com.cometproject.server.game.rooms.types.RoomDataInstance getData() -> a
+    231:231:com.cometproject.server.game.rooms.types.RoomData getData() -> a
     235:238:com.cometproject.server.game.rooms.models.RoomModel getModel() -> a
     243:243:boolean hasRoomMute() -> c
     247:248:void setRoomMute(boolean) -> a
     251:251:boolean isDisposed() -> d
-com.cometproject.server.game.rooms.types.RoomDataInstance -> com.cometproject.server.game.rooms.f.b:
+com.cometproject.server.game.rooms.types.RoomData -> com.cometproject.server.game.rooms.f.b:
     boolean ENCRYPT_PASSWORDS -> a
     int ENCRYPT_ROUNDS -> a
     int id -> b
@@ -2438,23 +2438,23 @@ com.cometproject.server.game.rooms.types.RoomDataInstance -> com.cometproject.se
     263:263:boolean isAllowPets() -> c
     267:268:void setAllowPets(boolean) -> c
     271:271:long getLastReferenced() -> a
-    275:277:com.cometproject.server.game.rooms.types.RoomDataInstance setLastReferenced(long) -> a
+    275:277:com.cometproject.server.game.rooms.types.RoomData setLastReferenced(long) -> a
 com.cometproject.server.game.rooms.types.RoomWriter -> com.cometproject.server.game.rooms.f.c:
-    8:42:void write(com.cometproject.server.game.rooms.types.RoomDataInstance,com.cometproject.server.network.messages.types.Composer) -> a
-    45:98:void writeData(com.cometproject.server.game.rooms.types.RoomDataInstance,com.cometproject.server.network.messages.types.Composer) -> b
-    101:133:void writeInfo(com.cometproject.server.game.rooms.types.RoomDataInstance,com.cometproject.server.network.messages.types.Composer) -> c
+    8:42:void write(com.cometproject.server.game.rooms.types.RoomData,com.cometproject.server.network.messages.types.Composer) -> a
+    45:98:void writeData(com.cometproject.server.game.rooms.types.RoomData,com.cometproject.server.network.messages.types.Composer) -> b
+    101:133:void writeInfo(com.cometproject.server.game.rooms.types.RoomData,com.cometproject.server.network.messages.types.Composer) -> c
     136:145:int roomAccessToNumber(java.lang.String) -> a
     149:158:java.lang.String roomAccessToString(int) -> a
 com.cometproject.server.game.rooms.types.components.BotComponent -> com.cometproject.server.game.rooms.f.a.a:
-    com.cometproject.server.game.rooms.types.RoomInstance room -> a
+    com.cometproject.server.game.rooms.types.Room room -> a
     24:35:void load() -> b
     38:44:com.cometproject.server.game.rooms.objects.entities.types.BotEntity addBot(com.cometproject.server.game.players.components.types.inventory.InventoryBot,int,int) -> a
     48:49:void dispose() -> a
-    52:52:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    52:52:com.cometproject.server.game.rooms.types.Room getRoom() -> a
     14:46:com.cometproject.server.network.messages.types.Composer compose(int,com.cometproject.server.game.moderation.chatlog.UserChatlogContainer) -> a
 com.cometproject.server.game.rooms.types.components.EntityComponent -> com.cometproject.server.game.rooms.f.a.b:
     org.apache.log4j.Logger log -> a
-    com.cometproject.server.game.rooms.types.RoomInstance room -> a
+    com.cometproject.server.game.rooms.types.Room room -> a
     java.util.concurrent.atomic.AtomicInteger entityIdGenerator -> a
     java.util.Map entities -> a
     java.util.Map playerIdToEntity -> b
@@ -2482,21 +2482,21 @@ com.cometproject.server.game.rooms.types.components.EntityComponent -> com.comet
     270:270:int count() -> b
     274:274:int playerCount() -> c
     278:278:java.util.Map getEntitiesCollection() -> a
-    282:282:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    282:282:com.cometproject.server.game.rooms.types.Room getRoom() -> a
     286:289:void dispose() -> b
 com.cometproject.server.game.rooms.types.components.GameComponent -> com.cometproject.server.game.rooms.f.a.c:
-    com.cometproject.server.game.rooms.types.RoomInstance room -> a
+    com.cometproject.server.game.rooms.types.Room room -> a
     com.cometproject.server.game.rooms.types.components.games.RoomGame instance -> a
     17:22:void stop() -> a
     25:28:void dispose() -> b
     31:36:void createNew(com.cometproject.server.game.rooms.types.components.games.GameType) -> a
     39:39:com.cometproject.server.game.rooms.types.components.games.RoomGame getInstance() -> a
-    43:43:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    43:43:com.cometproject.server.game.rooms.types.Room getRoom() -> a
     12:36:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.players.data.PlayerData,com.cometproject.server.game.players.types.PlayerStatistics) -> a
 com.cometproject.server.game.rooms.types.components.ItemProcessComponent -> com.cometproject.server.game.rooms.f.a.d:
     int INTERVAL -> a
     int FLAG -> b
-    com.cometproject.server.game.rooms.types.RoomInstance room -> a
+    com.cometproject.server.game.rooms.types.Room room -> a
     org.apache.log4j.Logger log -> a
     java.util.concurrent.ScheduledFuture myFuture -> a
     com.cometproject.server.tasks.CometThreadManagement mgr -> a
@@ -2510,9 +2510,9 @@ com.cometproject.server.game.rooms.types.components.ItemProcessComponent -> com.
     138:139:void run() -> run
     143:144:void handleSupressedExceptions(java.lang.Throwable) -> a
     281:285:void dispose() -> d
-    288:288:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    288:288:com.cometproject.server.game.rooms.types.Room getRoom() -> a
 com.cometproject.server.game.rooms.types.components.ItemsComponent -> com.cometproject.server.game.rooms.f.a.e:
-    com.cometproject.server.game.rooms.types.RoomInstance room -> a
+    com.cometproject.server.game.rooms.types.Room room -> a
     org.apache.log4j.Logger log -> a
     javolution.util.FastTable floorItems -> a
     javolution.util.FastTable wallItems -> b
@@ -2532,21 +2532,21 @@ com.cometproject.server.game.rooms.types.components.ItemsComponent -> com.cometp
     173:181:void removeItem$4a1272db(com.cometproject.server.game.rooms.objects.items.RoomItemWall,com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer) -> a
     184:185:void removeItem$34001dd5(com.cometproject.server.game.rooms.objects.items.RoomItemFloor,com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer) -> a
     188:240:void removeItem$4c02e9f7(com.cometproject.server.game.rooms.objects.items.RoomItemFloor,com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,boolean) -> a
-    243:243:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    243:243:com.cometproject.server.game.rooms.types.Room getRoom() -> a
     247:247:java.util.Collection getFloorItems() -> a
     251:251:java.util.Collection getWallItems() -> b
     8:13:com.cometproject.server.network.messages.types.Composer compose() -> a
 com.cometproject.server.game.rooms.types.components.PetComponent -> com.cometproject.server.game.rooms.f.a.f:
-    com.cometproject.server.game.rooms.types.RoomInstance room -> a
+    com.cometproject.server.game.rooms.types.Room room -> a
     19:23:void load() -> b
     26:32:com.cometproject.server.game.rooms.objects.entities.types.PetEntity addPet(com.cometproject.server.game.pets.data.PetData,int,int) -> a
     36:37:void dispose() -> a
-    40:40:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    40:40:com.cometproject.server.game.rooms.types.Room getRoom() -> a
     8:13:com.cometproject.server.network.messages.types.Composer compose(int,java.lang.String) -> a
 com.cometproject.server.game.rooms.types.components.ProcessComponent -> com.cometproject.server.game.rooms.f.a.g:
     int disposeCycles -> a
     java.util.ArrayList usersToUpdate -> a
-    com.cometproject.server.game.rooms.types.RoomInstance room -> a
+    com.cometproject.server.game.rooms.types.Room room -> a
     org.apache.log4j.Logger log -> a
     java.util.concurrent.ScheduledFuture processFuture -> a
     boolean active -> a
@@ -2559,9 +2559,9 @@ com.cometproject.server.game.rooms.types.components.ProcessComponent -> com.come
     423:426:void handleSupressedExceptions(java.lang.Throwable) -> a
     429:433:void dispose() -> d
     436:436:boolean isActive() -> a
-    440:440:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    440:440:com.cometproject.server.game.rooms.types.Room getRoom() -> a
 com.cometproject.server.game.rooms.types.components.RightsComponent -> com.cometproject.server.game.rooms.f.a.h:
-    com.cometproject.server.game.rooms.types.RoomInstance room -> a
+    com.cometproject.server.game.rooms.types.Room room -> a
     javolution.util.FastTable rights -> a
     javolution.util.FastTable bannedUsers -> b
     31:33:void dispose() -> a
@@ -2572,10 +2572,10 @@ com.cometproject.server.game.rooms.types.components.RightsComponent -> com.comet
     56:62:boolean hasBan(int) -> b
     66:80:void cycle() -> b
     83:83:java.util.List getAll() -> a
-    87:87:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    87:87:com.cometproject.server.game.rooms.types.Room getRoom() -> a
     11:48:com.cometproject.server.network.messages.types.Composer compose(java.util.Collection) -> a
 com.cometproject.server.game.rooms.types.components.TradeComponent -> com.cometproject.server.game.rooms.f.a.i:
-    com.cometproject.server.game.rooms.types.RoomInstance room -> a
+    com.cometproject.server.game.rooms.types.Room room -> a
     java.util.List trades -> a
     22:28:void dispose() -> a
     31:34:void add(com.cometproject.server.game.rooms.types.components.types.Trade) -> a
@@ -2584,7 +2584,7 @@ com.cometproject.server.game.rooms.types.components.TradeComponent -> com.cometp
     51:51:java.util.List getTrades() -> a
     8:13:com.cometproject.server.network.messages.types.Composer compose() -> a
 com.cometproject.server.game.rooms.types.components.WiredComponent -> com.cometproject.server.game.rooms.f.a.j:
-    com.cometproject.server.game.rooms.types.RoomInstance room -> a
+    com.cometproject.server.game.rooms.types.Room room -> a
     javolution.util.FastSet squares -> a
     30:31:void dispose() -> a
     34:40:boolean isWiredSquare(int,int) -> a
@@ -2595,7 +2595,7 @@ com.cometproject.server.game.rooms.types.components.WiredComponent -> com.cometp
     128:129:void disposeSquare(com.cometproject.server.game.wired.misc.WiredSquare) -> a
     132:132:javolution.util.FastSet getSquares() -> a
     136:137:void add(int,int) -> a
-    140:140:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    140:140:com.cometproject.server.game.rooms.types.Room getRoom() -> a
     11:21:com.cometproject.server.network.messages.types.Composer compose(java.util.List,int) -> a
 com.cometproject.server.game.rooms.types.components.bots.Bot -> com.cometproject.server.game.rooms.f.a.a.a:
     int id -> a
@@ -2613,7 +2613,7 @@ com.cometproject.server.game.rooms.types.components.bots.Bot -> com.cometproject
     double z -> a
     javolution.util.FastMap statuses -> a
     boolean needsRemove -> a
-    com.cometproject.server.game.rooms.types.RoomInstance room -> a
+    com.cometproject.server.game.rooms.types.Room room -> a
     void tick() -> a
     72:73:void setNeedsRemove(boolean) -> a
     76:76:boolean needsRemove() -> a
@@ -2631,7 +2631,7 @@ com.cometproject.server.game.rooms.types.components.bots.Bot -> com.cometproject
     124:124:int getX() -> f
     128:128:int getY() -> g
     132:132:double getZ() -> a
-    136:136:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    136:136:com.cometproject.server.game.rooms.types.Room getRoom() -> a
 com.cometproject.server.game.rooms.types.components.bots.player.PlayerBot -> com.cometproject.server.game.rooms.f.a.a.a.a:
     org.apache.log4j.Logger log -> a
     int tickCount -> a
@@ -2666,7 +2666,7 @@ com.cometproject.server.game.rooms.types.components.games.RoomGame -> com.cometp
     int gameLength -> b
     boolean active -> a
     boolean finished -> b
-    com.cometproject.server.game.rooms.types.RoomInstance room -> a
+    com.cometproject.server.game.rooms.types.Room room -> a
     java.util.concurrent.ScheduledFuture future -> a
     org.apache.log4j.Logger log -> a
     39:54:void run() -> run
@@ -2737,7 +2737,7 @@ com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode -> com.c
     int[] $VALUES$61e2b926 -> a
     3:3:int[] values$3995719() -> a
 com.cometproject.server.game.rooms.types.mapping.RoomMapping -> com.cometproject.server.game.rooms.f.b.b:
-    com.cometproject.server.game.rooms.types.RoomInstance room -> a
+    com.cometproject.server.game.rooms.types.Room room -> a
     com.cometproject.server.game.rooms.types.mapping.TileInstance[][] tiles -> a
     com.cometproject.server.game.rooms.objects.misc.Position3D[][] redirectionGrid -> a
     21:39:void init() -> a
@@ -2750,7 +2750,7 @@ com.cometproject.server.game.rooms.types.mapping.RoomMapping -> com.cometproject
     73:105:boolean isValidStep(com.cometproject.server.game.rooms.objects.misc.Position3D,com.cometproject.server.game.rooms.objects.misc.Position3D,boolean,boolean) -> a
     109:122:double getStepHeight(com.cometproject.server.game.rooms.objects.misc.Position3D) -> a
     126:126:boolean isValidPosition(com.cometproject.server.game.rooms.objects.misc.Position3D) -> a
-    130:130:com.cometproject.server.game.rooms.types.RoomInstance getRoom() -> a
+    130:130:com.cometproject.server.game.rooms.types.Room getRoom() -> a
     134:134:com.cometproject.server.game.rooms.models.RoomModel getModel() -> a
     138:138:com.cometproject.server.game.rooms.objects.misc.Position3D[][] getRedirectionGrid() -> a
     11:14:com.cometproject.server.network.messages.types.Composer compose() -> a
@@ -3674,7 +3674,7 @@ com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer -> co
 com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer -> com.cometproject.server.f.d.c.g.a:
     9:36:com.cometproject.server.network.messages.types.Composer compose() -> a
 com.cometproject.server.network.messages.outgoing.moderation.ModToolRoomInfoMessageComposer -> com.cometproject.server.f.d.c.g.b:
-    10:30:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.RoomInstance) -> a
+    10:30:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.Room) -> a
 com.cometproject.server.network.messages.outgoing.moderation.ModToolRoomVisitsMessageComposer -> com.cometproject.server.f.d.c.g.c:
     14:33:com.cometproject.server.network.messages.types.Composer compose(int,java.lang.String,java.util.List) -> a
 com.cometproject.server.network.messages.outgoing.moderation.ModToolUserChatlogMessageComposer -> com.cometproject.server.f.d.c.g.d:
@@ -3712,7 +3712,7 @@ com.cometproject.server.network.messages.outgoing.navigator.NavigatorFlatListMes
     83:85:void generateSharedKey(java.lang.String) -> a
     88:94:java.lang.String generateRandomHexString(int) -> a
 com.cometproject.server.network.messages.outgoing.navigator.NavigatorFlatListMessageComposer$1 -> com.cometproject.server.f.d.c.h.d$1:
-    21:25:int compare(com.cometproject.server.game.rooms.types.RoomDataInstance,com.cometproject.server.game.rooms.types.RoomDataInstance) -> a
+    21:25:int compare(com.cometproject.server.game.rooms.types.RoomData,com.cometproject.server.game.rooms.types.RoomData) -> a
     18:18:int compare(java.lang.Object,java.lang.Object) -> compare
 com.cometproject.server.network.messages.outgoing.navigator.PopularTagsMessageComposer -> com.cometproject.server.f.d.c.h.e:
     8:13:com.cometproject.server.network.messages.types.Composer compose() -> a
@@ -3739,7 +3739,7 @@ com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessag
     io.netty.channel.ChannelHandlerContext ctx -> a
     com.cometproject.server.network.sessions.SessionEventHandler eventHandler -> a
     com.cometproject.server.game.players.types.Player player -> a
-    14:48:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.RoomInstance) -> a
+    14:48:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.Room) -> a
     52:86:com.cometproject.server.network.messages.types.Composer compose(java.util.List) -> a
     90:122:com.cometproject.server.network.messages.types.Composer compose$41dd1c8d(com.cometproject.server.game.rooms.objects.entities.AvatarEntity) -> a
     126:158:com.cometproject.server.network.messages.types.Composer compose$7f42ed6(com.cometproject.server.game.bots.PetData) -> a
@@ -3755,7 +3755,7 @@ com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessag
     80:80:io.netty.channel.Channel getChannel() -> a
 com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer -> com.cometproject.server.f.d.c.i.c.d:
     com.cometproject.server.game.players.types.Player playerInstance -> a
-    10:18:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.RoomInstance) -> a
+    10:18:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.Room) -> a
     22:27:com.cometproject.server.network.messages.types.Composer compose$41dd1c8d(com.cometproject.server.game.rooms.objects.entities.AvatarEntity) -> a
     14:15:void sendAlert(java.lang.String,java.lang.String) -> a
     18:18:int getId() -> a
@@ -3795,7 +3795,7 @@ com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComp
 com.cometproject.server.network.messages.outgoing.room.bots.BotConfigMessageComposer -> com.cometproject.server.f.d.c.i.d.a:
     8:14:com.cometproject.server.network.messages.types.Composer compose(int,int,java.lang.String) -> a
 com.cometproject.server.network.messages.outgoing.room.engine.FollowRoomDataMessageComposer -> com.cometproject.server.f.d.c.i.e.a:
-    10:25:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.RoomInstance) -> a
+    10:25:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.Room) -> a
 com.cometproject.server.network.messages.outgoing.room.engine.HeightmapMessageComposer -> com.cometproject.server.f.d.c.i.e.b:
     10:27:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.models.RoomModel) -> a
 com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer -> com.cometproject.server.f.d.c.i.e.c:
@@ -3809,11 +3809,11 @@ com.cometproject.server.network.messages.outgoing.room.engine.RelativeHeightmapM
     12:13:void init() -> a
     16:41:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.models.RoomModel) -> a
 com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer -> com.cometproject.server.f.d.c.i.e.g:
-    10:15:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.RoomInstance) -> a
+    10:15:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.Room) -> a
 com.cometproject.server.network.messages.outgoing.room.engine.RoomPanelMessageComposer -> com.cometproject.server.f.d.c.i.e.h:
     8:12:com.cometproject.server.network.messages.types.Composer compose(int,boolean) -> a
 com.cometproject.server.network.messages.outgoing.room.items.FloorItemsMessageComposer -> com.cometproject.server.f.d.c.i.f.a:
-    10:27:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.RoomInstance) -> a
+    10:27:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.Room) -> a
 com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer -> com.cometproject.server.f.d.c.i.f.b:
     8:15:com.cometproject.server.network.messages.types.Composer compose(int,int) -> a
 com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer -> com.cometproject.server.f.d.c.i.f.c:
@@ -3831,7 +3831,7 @@ com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMess
 com.cometproject.server.network.messages.outgoing.room.items.UpdateWallItemMessageComposer -> com.cometproject.server.f.d.c.i.f.i:
     9:19:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.objects.items.RoomItemWall,int,java.lang.String) -> a
 com.cometproject.server.network.messages.outgoing.room.items.WallItemsMessageComposer -> com.cometproject.server.f.d.c.i.f.j:
-    10:45:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.RoomInstance) -> a
+    10:45:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.Room) -> a
 com.cometproject.server.network.messages.outgoing.room.items.moodlight.MoodlightMessageComposer -> com.cometproject.server.f.d.c.i.f.a.a:
     10:24:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem) -> a
 com.cometproject.server.network.messages.outgoing.room.items.wired.SaveWiredMessageComposer -> com.cometproject.server.f.d.c.i.f.b.a:
@@ -3857,7 +3857,7 @@ com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAnd
 com.cometproject.server.network.messages.outgoing.room.settings.GetPowerListMessageComposer -> com.cometproject.server.f.d.c.i.j.b:
     11:24:com.cometproject.server.network.messages.types.Composer compose(int,java.util.List) -> a
 com.cometproject.server.network.messages.outgoing.room.settings.GetRoomDataMessageComposer -> com.cometproject.server.f.d.c.i.j.c:
-    11:43:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.RoomInstance,boolean) -> a
+    11:43:com.cometproject.server.network.messages.types.Composer compose(com.cometproject.server.game.rooms.types.Room,boolean) -> a
 com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer -> com.cometproject.server.f.d.c.i.j.d:
     8:13:com.cometproject.server.network.messages.types.Composer compose(int,boolean) -> a
 com.cometproject.server.network.messages.outgoing.room.trading.TradeAcceptUpdateMessageComposer -> com.cometproject.server.f.d.c.i.k.a:
@@ -4226,7 +4226,7 @@ com.cometproject.server.storage.queries.rooms.RightsDao -> com.cometproject.serv
     62:78:void add(int,int) -> b
 com.cometproject.server.storage.queries.rooms.RoomDao -> com.cometproject.server.h.d.l.b:
     20:44:java.util.Set getModels() -> a
-    48:72:com.cometproject.server.game.rooms.types.RoomDataInstance getRoomDataById(int) -> a
+    48:72:com.cometproject.server.game.rooms.types.RoomData getRoomDataById(int) -> a
     76:102:java.util.Map getRoomsByPlayerId(int) -> a
     106:140:java.util.List getRoomsByQuery(java.lang.String) -> a
     144:172:int createRoom(java.lang.String,java.lang.String,int,java.lang.String) -> a

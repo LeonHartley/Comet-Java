@@ -37,7 +37,7 @@ public class GroupMembersMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(group.getId());
         msg.writeString(group.getTitle());
         msg.writeInt(group.getRoomId());

@@ -5,7 +5,7 @@ import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -37,7 +37,7 @@ public class ModifyGroupTitleMessageEvent implements Event {
         group.getData().save();
 
         if (RoomManager.getInstance().isActive(group.getData().getRoomId())) {
-            RoomInstance room = RoomManager.getInstance().get(group.getData().getRoomId());
+            Room room = RoomManager.getInstance().get(group.getData().getRoomId());
 
             room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));
         }

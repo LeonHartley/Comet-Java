@@ -3,10 +3,9 @@ package com.cometproject.server.network.messages.outgoing.catalog.groups;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomDataInstance;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -31,12 +30,12 @@ public class GroupPartsMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(CometSettings.groupCost);
         msg.writeInt(availableRooms.size());
 
         for (Integer room : availableRooms) {
-            RoomDataInstance roomData = RoomManager.getInstance().getRoomData(room);
+            RoomData roomData = RoomManager.getInstance().getRoomData(room);
             if (GroupManager.getInstance().getGroupByRoomId(room) == null) {
                 msg.writeInt(roomData.getId());
                 msg.writeString(roomData.getName());

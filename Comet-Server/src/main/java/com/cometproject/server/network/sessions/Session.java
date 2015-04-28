@@ -1,8 +1,10 @@
 package com.cometproject.server.network.sessions;
 
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.LogoutMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -14,7 +16,7 @@ import java.net.InetSocketAddress;
 import java.util.UUID;
 
 
-public class Session {
+public class Session implements ISession {
     private Logger logger = Logger.getLogger("Session");
     public static int CLIENT_VERSION = 0;
 
@@ -97,7 +99,7 @@ public class Session {
         this.eventHandler.handle(msg);
     }
 
-    public Session sendQueue(final MessageComposer msg) {
+    public Session sendQueue(final IMessageComposer msg) {
         this.channel.write(msg);
         return this;
     }

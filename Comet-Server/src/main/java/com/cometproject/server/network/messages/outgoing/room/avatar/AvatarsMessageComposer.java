@@ -1,22 +1,21 @@
 package com.cometproject.server.network.messages.outgoing.room.avatar;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 
 
 public class AvatarsMessageComposer extends MessageComposer {
-    private final RoomInstance room;
+    private final Room room;
     private final GenericEntity singleEntity;
 
-    private AvatarsMessageComposer(final RoomInstance room, final GenericEntity singleEntity) {
+    private AvatarsMessageComposer(final Room room, final GenericEntity singleEntity) {
         this.room = room;
         this.singleEntity = singleEntity;
     }
 
-    public AvatarsMessageComposer(final RoomInstance room) {
+    public AvatarsMessageComposer(final Room room) {
         this(room, null);
     }
 
@@ -30,7 +29,7 @@ public class AvatarsMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         if(this.singleEntity != null) {
             msg.writeInt(1);
 

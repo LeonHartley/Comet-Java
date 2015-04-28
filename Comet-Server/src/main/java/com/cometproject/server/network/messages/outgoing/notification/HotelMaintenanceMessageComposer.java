@@ -22,7 +22,7 @@ public class HotelMaintenanceMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(hour);
         msg.writeInt(minute);
         msg.writeBoolean(logout);

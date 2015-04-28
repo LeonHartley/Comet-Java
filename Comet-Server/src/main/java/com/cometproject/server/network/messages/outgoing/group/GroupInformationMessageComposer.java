@@ -1,10 +1,9 @@
 package com.cometproject.server.network.messages.outgoing.group;
 
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.rooms.types.RoomDataInstance;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.text.SimpleDateFormat;
@@ -13,13 +12,13 @@ import java.util.Date;
 
 public class GroupInformationMessageComposer extends MessageComposer {
     private final Group group;
-    private final RoomDataInstance roomData;
+    private final RoomData roomData;
     private final boolean flag;
     private final boolean isOwner;
     private final boolean isAdmin;
     private final int membership;
 
-    public GroupInformationMessageComposer(final Group group, final RoomDataInstance roomData, final boolean flag, final boolean isOwner, final boolean isAdmin, final int membership) {
+    public GroupInformationMessageComposer(final Group group, final RoomData roomData, final boolean flag, final boolean isOwner, final boolean isAdmin, final int membership) {
         this.group = group;
         this.roomData = roomData;
         this.flag = flag;
@@ -34,7 +33,7 @@ public class GroupInformationMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(group.getId());
         msg.writeBoolean(true); //is visible
         msg.writeInt(group.getData().getType().getTypeId());
@@ -42,7 +41,7 @@ public class GroupInformationMessageComposer extends MessageComposer {
         msg.writeString(group.getData().getDescription());
         msg.writeString(group.getData().getBadge());
         msg.writeInt(roomData == null ? 0 : roomData.getId());
-        msg.writeString(roomData == null ? "Unknown RoomInstance" : roomData.getName());
+        msg.writeString(roomData == null ? "Unknown Room" : roomData.getName());
         msg.writeInt(membership);
         msg.writeInt(group.getMembershipComponent().getMembers().size());
         msg.writeBoolean(false);

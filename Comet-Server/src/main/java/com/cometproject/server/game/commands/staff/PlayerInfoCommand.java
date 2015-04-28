@@ -46,11 +46,11 @@ public class PlayerInfoCommand extends ChatCommand {
         userInfo.append("<i>" + playerData.getVipPoints() + " " + Locale.getOrDefault("command.playerinfo.diamonds", "diamonds") + "</i><br>");
         userInfo.append("<i>" + playerData.getActivityPoints() + " " + Locale.getOrDefault("command.playerinfo.activityPoints", "duckets") + "</i><br><br>");
 
-        userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomInfo", "RoomInstance Info") + "</b><br>");
+        userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomInfo", "Room Info") + "</b><br>");
         if(session != null && session.getPlayer().getEntity() != null) {
-            userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomId", "RoomInstance ID") + "</b>: " + session.getPlayer().getEntity().getRoom().getData().getId() + "<br>");
-            userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomName", "RoomInstance Name") + "</b>: " + session.getPlayer().getEntity().getRoom().getData().getName() + "<br>");
-            userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomOwner", "RoomInstance Owner") + "</b>: " + session.getPlayer().getEntity().getRoom().getData().getOwner() + "<br>");
+            userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomId", "Room ID") + "</b>: " + session.getPlayer().getEntity().getRoom().getData().getId() + "<br>");
+            userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomName", "Room Name") + "</b>: " + session.getPlayer().getEntity().getRoom().getData().getName() + "<br>");
+            userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomOwner", "Room Owner") + "</b>: " + session.getPlayer().getEntity().getRoom().getData().getOwner() + "<br>");
         } else {
             if(session == null)
                 userInfo.append("<i>" + Locale.getOrDefault("command.playerinfo.notOnline", "This player is not online!") + "</i>");

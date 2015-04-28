@@ -1,7 +1,7 @@
 package com.cometproject.server.game.commands.development;
 
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
@@ -12,7 +12,7 @@ public class ProcessTimesCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         final StringBuilder processTimesBuilder = new StringBuilder();
 
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if (room.getProcess().getProcessTimes() == null) {
             room.getProcess().setProcessTimes(new ArrayList<>());

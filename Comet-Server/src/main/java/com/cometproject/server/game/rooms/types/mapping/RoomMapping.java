@@ -5,7 +5,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.google.common.collect.Lists;
 
@@ -14,11 +14,11 @@ import java.util.List;
 
 
 public class RoomMapping {
-    private RoomInstance room;
+    private Room room;
 
     private Tile[][] tiles;
 
-    public RoomMapping(RoomInstance roomInstance) {
+    public RoomMapping(Room roomInstance) {
         this.room = roomInstance;
     }
 
@@ -271,7 +271,7 @@ public class RoomMapping {
         return ((position.getX() >= 0) && (position.getY() >= 0) && (position.getX() < this.getModel().getSizeX()) && (position.getY() < this.getModel().getSizeY()));
     }
 
-    public final RoomInstance getRoom() {
+    public final Room getRoom() {
         return this.room;
     }
 

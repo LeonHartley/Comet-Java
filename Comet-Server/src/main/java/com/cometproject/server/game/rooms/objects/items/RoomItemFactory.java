@@ -25,7 +25,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.WheelWallItem;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
@@ -155,7 +155,7 @@ public class RoomItemFactory {
         }};
     }
 
-    public static RoomItemFloor createFloor(int id, int baseId, RoomInstance room, int ownerId, int x, int y, double height, int rot, String data) {
+    public static RoomItemFloor createFloor(int id, int baseId, Room room, int ownerId, int x, int y, double height, int rot, String data) {
         ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
         RoomItemFloor floorItem = null;
 
@@ -181,7 +181,7 @@ public class RoomItemFactory {
 
         if (itemDefinitionMap.containsKey(def.getInteraction())) {
             try {
-                floorItem = itemDefinitionMap.get(def.getInteraction()).getConstructor(int.class, int.class, RoomInstance.class, int.class, int.class, int.class, double.class, int.class, String.class)
+                floorItem = itemDefinitionMap.get(def.getInteraction()).getConstructor(int.class, int.class, Room.class, int.class, int.class, int.class, double.class, int.class, String.class)
                         .newInstance(id, baseId, room, ownerId, x, y, height, rot, data);
             } catch (Exception e) {
                 log.warn("Failed to create instance for item: " + id + ", type: " + def.getInteraction(), e);
@@ -195,7 +195,7 @@ public class RoomItemFactory {
         return floorItem;
     }
 
-    public static RoomItemWall createWall(int id, int baseId, RoomInstance room, int owner, String position, String data) {
+    public static RoomItemWall createWall(int id, int baseId, Room room, int owner, String position, String data) {
         ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
         if (def == null) {
             return null;

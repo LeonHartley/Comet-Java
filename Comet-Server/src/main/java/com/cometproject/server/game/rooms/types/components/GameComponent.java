@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.types.components;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballScoreFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerScoreAchieved;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
@@ -16,13 +16,13 @@ import java.util.Map;
 
 
 public class GameComponent {
-    private RoomInstance room;
+    private Room room;
     private RoomGame instance;
 
     private Map<GameTeam, List<Integer>> teams;
     private Map<GameTeam, Integer> scores;
 
-    public GameComponent(RoomInstance room) {
+    public GameComponent(Room room) {
         this.teams = new FastMap<GameTeam, List<Integer>>() {{
             put(GameTeam.BLUE, Lists.newArrayList());
             put(GameTeam.YELLOW, Lists.newArrayList());
@@ -123,7 +123,7 @@ public class GameComponent {
         return this.instance;
     }
 
-    public RoomInstance getRoom() {
+    public Room getRoom() {
         return this.room;
     }
 

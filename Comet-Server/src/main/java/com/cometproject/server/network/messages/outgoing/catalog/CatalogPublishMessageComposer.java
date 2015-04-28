@@ -19,7 +19,7 @@ public class CatalogPublishMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeBoolean(this.showNotification);
     }
 }

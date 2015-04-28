@@ -21,7 +21,7 @@ public class CatalogPageMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(this.catalogPage.getId());
 
         msg.writeString("NORMAL"); // builders club or not

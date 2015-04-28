@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.moderation;
 
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -23,7 +23,7 @@ public class ModToolRoomAlertMessageEvent implements Event {
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null)
             return;
 
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         room.getEntities().broadcastMessage(new AlertMessageComposer(alert));
         // TODO: Log these

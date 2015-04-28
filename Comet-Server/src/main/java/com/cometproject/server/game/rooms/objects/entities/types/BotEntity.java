@@ -7,9 +7,8 @@ import com.cometproject.server.game.rooms.objects.entities.types.ai.DefaultAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.MimicAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.WaiterAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import javolution.util.FastMap;
 
 import java.util.Map;
@@ -22,7 +21,7 @@ public class BotEntity extends GenericEntity {
 
     private Map<String, Object> attributes = new FastMap<>();
 
-    public BotEntity(BotData data, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, RoomInstance roomInstance) {
+    public BotEntity(BotData data, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.data = data;
@@ -43,7 +42,7 @@ public class BotEntity extends GenericEntity {
     }
 
     @Override
-    public void joinRoom(RoomInstance room, String password) {
+    public void joinRoom(Room room, String password) {
 
     }
 
@@ -115,7 +114,7 @@ public class BotEntity extends GenericEntity {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(this.getBotId());
         msg.writeString(this.getUsername());
         msg.writeString(this.getMotto());

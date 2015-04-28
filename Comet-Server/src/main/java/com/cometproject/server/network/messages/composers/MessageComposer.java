@@ -1,15 +1,21 @@
 package com.cometproject.server.network.messages.composers;
 
+import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import io.netty.buffer.ByteBuf;
 
-public abstract class MessageComposer {
+public abstract class MessageComposer implements IMessageComposer {
     private boolean isCancelled = false;
 
     public MessageComposer() {
     }
 
-    public final Composer writeMessage(ByteBuf buffer) {
+    public final IComposer writeMessage(ByteBuf buf) {
+        return this.writeMessageImpl(buf);
+    }
+
+    public final Composer writeMessageImpl(ByteBuf buffer) {
         final Composer composer = new Composer(this.getId(), buffer);
 
         // Do anything we need to do with the buffer.
@@ -25,7 +31,7 @@ public abstract class MessageComposer {
 
     public abstract short getId();
 
-    public abstract void compose(Composer msg);
+    public abstract void compose(IComposer msg);
 
     public void dispose() {
 

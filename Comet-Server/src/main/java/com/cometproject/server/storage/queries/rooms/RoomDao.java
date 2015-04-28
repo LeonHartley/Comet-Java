@@ -2,7 +2,7 @@ package com.cometproject.server.storage.queries.rooms;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
-import com.cometproject.server.game.rooms.types.RoomDataInstance;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.api.game.rooms.settings.RoomBanState;
 import com.cometproject.api.game.rooms.settings.RoomKickState;
@@ -53,7 +53,7 @@ public class RoomDao {
         return data;
     }
 
-    public static RoomDataInstance getRoomDataById(int id) {
+    public static RoomData getRoomDataById(int id) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -67,7 +67,7 @@ public class RoomDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                return new RoomDataInstance(resultSet);
+                return new RoomData(resultSet);
             }
 
         } catch (SQLException e) {
@@ -81,12 +81,12 @@ public class RoomDao {
         return null;
     }
 
-    public static Map<Integer, RoomDataInstance> getRoomsByPlayerId(int playerId) {
+    public static Map<Integer, RoomData> getRoomsByPlayerId(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, RoomDataInstance> rooms = new FastMap<>();
+        Map<Integer, RoomData> rooms = new FastMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -97,7 +97,7 @@ public class RoomDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                rooms.put(resultSet.getInt("id"), new RoomDataInstance(resultSet));
+                rooms.put(resultSet.getInt("id"), new RoomData(resultSet));
             }
 
         } catch (SQLException e) {
@@ -111,12 +111,12 @@ public class RoomDao {
         return rooms;
     }
 
-    public static List<RoomDataInstance> getRoomsByQuery(String query) {
+    public static List<RoomData> getRoomsByQuery(String query) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        List<RoomDataInstance> rooms = new ArrayList<>();
+        List<RoomData> rooms = new ArrayList<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -140,7 +140,7 @@ public class RoomDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                rooms.add(new RoomDataInstance(resultSet));
+                rooms.add(new RoomData(resultSet));
             }
 
         } catch (SQLException e) {
@@ -266,12 +266,12 @@ public class RoomDao {
         }
     }
 
-    public static List<RoomDataInstance> getHighestScoredRooms() {
+    public static List<RoomData> getHighestScoredRooms() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        List<RoomDataInstance> roomData = Lists.newArrayList();
+        List<RoomData> roomData = Lists.newArrayList();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -281,7 +281,7 @@ public class RoomDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                roomData.add(new RoomDataInstance(resultSet));
+                roomData.add(new RoomData(resultSet));
             }
 
         } catch (SQLException e) {

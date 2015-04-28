@@ -5,7 +5,7 @@ import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.featured.BannerType;
 import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
 import com.cometproject.server.game.navigator.types.featured.ImageType;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
@@ -24,7 +24,7 @@ public class AddToStaffPickedRoomsMessageEvent implements Event {
         if (client.getPlayer().getEntity() == null)
             return;
 
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if (NavigatorManager.getInstance().isFeatured(room.getId())) {
             NavigatorDao.disableFeaturedRoom(room.getId());

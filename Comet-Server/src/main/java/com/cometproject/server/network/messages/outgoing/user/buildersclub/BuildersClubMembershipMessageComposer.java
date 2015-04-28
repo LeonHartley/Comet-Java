@@ -12,7 +12,7 @@ public class BuildersClubMembershipMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(999999999);
         msg.writeInt(100);
         msg.writeInt(2);

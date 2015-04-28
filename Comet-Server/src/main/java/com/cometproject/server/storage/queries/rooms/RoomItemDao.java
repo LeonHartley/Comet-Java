@@ -5,7 +5,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.SqlHelper;
 import org.apache.log4j.Logger;
 
@@ -22,7 +22,7 @@ public class RoomItemDao {
 
     private static Logger log = Logger.getLogger(RoomItemDao.class.getName());
 
-    public static void getItems(RoomInstance room, Map<Integer, RoomItemFloor> floorItems, Collection<RoomItemWall> wallItems) {
+    public static void getItems(Room room, Map<Integer, RoomItemFloor> floorItems, Collection<RoomItemWall> wallItems) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

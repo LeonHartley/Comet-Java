@@ -1,17 +1,16 @@
 package com.cometproject.server.network.messages.outgoing.room.engine;
 
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 
 
 public class HeightmapMessageComposer extends MessageComposer {
-    private final RoomInstance room;
+    private final Room room;
 
-    public HeightmapMessageComposer(final RoomInstance room) {
+    public HeightmapMessageComposer(final Room room) {
         this.room = room;
     }
 
@@ -21,7 +20,7 @@ public class HeightmapMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(room.getModel().getSizeX());
         msg.writeInt(room.getModel().getSizeX() * room.getModel().getSizeY());
 

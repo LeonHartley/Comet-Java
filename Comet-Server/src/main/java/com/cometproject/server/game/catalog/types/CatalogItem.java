@@ -126,7 +126,7 @@ public class CatalogItem {
         }
     }
 
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         final ItemDefinition firstItem = ItemManager.getInstance().getDefinition(this.getItems().get(0));
 
         msg.writeInt(this.getId());

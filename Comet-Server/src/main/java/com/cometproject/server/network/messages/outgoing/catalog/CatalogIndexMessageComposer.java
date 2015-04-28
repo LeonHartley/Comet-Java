@@ -26,7 +26,7 @@ public class CatalogIndexMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         List<CatalogPage> pages = CatalogManager.getInstance().getPagesForRank(this.playerRank);
 
         msg.writeBoolean(true);

@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.incoming.room.pets;
 
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
@@ -22,7 +22,7 @@ public class RemovePetMessageEvent implements Event {
             return;
         }
 
-        RoomInstance room = entity.getRoom();
+        Room room = entity.getRoom();
 
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
 

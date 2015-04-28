@@ -24,7 +24,7 @@ public class GroupDataMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         int count = 0;
 
         for (Integer groupId : groups) {

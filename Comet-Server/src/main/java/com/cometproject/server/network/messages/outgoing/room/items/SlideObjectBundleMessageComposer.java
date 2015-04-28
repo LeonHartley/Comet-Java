@@ -27,7 +27,7 @@ public class SlideObjectBundleMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         final boolean isItem = itemId > 0;
 
         msg.writeInt(from.getX());

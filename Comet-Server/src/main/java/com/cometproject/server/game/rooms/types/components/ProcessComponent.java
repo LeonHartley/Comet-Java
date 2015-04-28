@@ -16,7 +16,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.groups.Group
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class ProcessComponent implements CometTask {
-    private RoomInstance room;
+    private Room room;
 
     private Logger log;
     private ScheduledFuture processFuture;
@@ -44,9 +44,9 @@ public class ProcessComponent implements CometTask {
     private boolean adaptiveProcessTimes = false;
     private List<Long> processTimes;
 
-    public ProcessComponent(RoomInstance room) {
+    public ProcessComponent(Room room) {
         this.room = room;
-        this.log = Logger.getLogger("Room Process [" + room.getData().getName() + "]");
+        this.log = Logger.getLogger("IRoom Process [" + room.getData().getName() + "]");
 
         this.adaptiveProcessTimes = CometSettings.adaptiveEntityProcessDelay;
     }
@@ -154,7 +154,7 @@ public class ProcessComponent implements CometTask {
     }
 
     public void start() {
-        if (RoomInstance.useCycleForEntities) {
+        if (Room.useCycleForEntities) {
             this.active = true;
             return;
         }
@@ -175,7 +175,7 @@ public class ProcessComponent implements CometTask {
     }
 
     public void stop() {
-        if (RoomInstance.useCycleForEntities) {
+        if (Room.useCycleForEntities) {
             this.active = false;
             return;
         }
@@ -543,7 +543,7 @@ public class ProcessComponent implements CometTask {
         return this.active;
     }
 
-    public RoomInstance getRoom() {
+    public Room getRoom() {
         return this.room;
     }
 

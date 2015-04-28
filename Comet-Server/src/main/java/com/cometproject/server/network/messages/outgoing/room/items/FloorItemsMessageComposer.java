@@ -3,17 +3,16 @@ package com.cometproject.server.network.messages.outgoing.room.items;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 
 public class FloorItemsMessageComposer extends MessageComposer {
-    private final RoomInstance room;
+    private final Room room;
 
-    public FloorItemsMessageComposer(final RoomInstance room) {
+    public FloorItemsMessageComposer(final Room room) {
         this.room = room;
     }
 
@@ -23,7 +22,7 @@ public class FloorItemsMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         if (room.getItems().getFloorItems().size() > 0) {
 
             if (room.getGroup() == null) {

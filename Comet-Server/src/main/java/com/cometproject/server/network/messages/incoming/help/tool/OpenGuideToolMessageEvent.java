@@ -27,7 +27,7 @@ public class OpenGuideToolMessageEvent implements Event {
             }
 
             @Override
-            public void compose(Composer msg) {
+            public void compose(IComposer msg) {
                 msg.writeBoolean(onDuty);
                 msg.writeInt(onDuty ? 1 : 0);
                 msg.writeInt(0);

@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.engine;
 
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomDataInstance;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.FollowRoomDataMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -14,7 +14,7 @@ public class FollowRoomInfoMessageEvent implements Event {
         boolean isInSameRoom = msg.readInt() == 1;
 
         if (roomId != 0 && !isInSameRoom) {
-            RoomDataInstance roomData = RoomManager.getInstance().getRoomData(roomId);
+            RoomData roomData = RoomManager.getInstance().getRoomData(roomId);
 
             if (roomData == null) {
                 return;

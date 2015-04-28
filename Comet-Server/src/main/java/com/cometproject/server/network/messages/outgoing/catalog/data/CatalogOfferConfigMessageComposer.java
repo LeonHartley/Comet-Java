@@ -17,7 +17,7 @@ public class CatalogOfferConfigMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(100);
         msg.writeInt(6);
         msg.writeInt(1);

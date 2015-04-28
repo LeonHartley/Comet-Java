@@ -25,7 +25,7 @@ public class WiredTriggerMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeBoolean(false); // advanced
         msg.writeInt(WiredUtil.MAX_FURNI_SELECTION);
 

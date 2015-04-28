@@ -1,9 +1,9 @@
 package com.cometproject.server.network.messages.outgoing.user.wardrobe;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.components.types.settings.WardrobeItem;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class WardrobeMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(1);
         msg.writeInt(wardrobe.size());
 

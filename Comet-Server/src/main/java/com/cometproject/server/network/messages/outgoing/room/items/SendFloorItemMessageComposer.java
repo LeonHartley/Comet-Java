@@ -19,7 +19,7 @@ public class SendFloorItemMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         this.itemFloor.serialize(msg, true);
     }
 }

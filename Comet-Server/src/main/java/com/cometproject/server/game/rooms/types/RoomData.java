@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.api.game.rooms.RoomCategory;
-import com.cometproject.api.game.rooms.RoomData;
+import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.navigator.NavigatorManager;
@@ -18,13 +18,11 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 
-public class RoomDataInstance implements RoomData {
+public class RoomData implements IRoomData {
     private int id;
     private String name;
     private String description;
@@ -66,7 +64,7 @@ public class RoomDataInstance implements RoomData {
 
     private long lastReferenced = Comet.getTime();
 
-    public RoomDataInstance(ResultSet room) throws SQLException {
+    public RoomData(ResultSet room) throws SQLException {
         this.id = room.getInt("id");
         this.name = room.getString("name");
         this.description = room.getString("description");
@@ -313,7 +311,7 @@ public class RoomDataInstance implements RoomData {
         return lastReferenced;
     }
 
-    public RoomDataInstance setLastReferenced(long lastReferenced) {
+    public RoomData setLastReferenced(long lastReferenced) {
         this.lastReferenced = lastReferenced;
 
         return this;

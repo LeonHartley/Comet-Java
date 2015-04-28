@@ -27,7 +27,7 @@ public class RoomChatLogEntry extends AbstractLogEntry {
         this.timestamp = timestamp;
     }
 
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt((int) (Comet.getTime() - this.getTimestamp()) * 1000);
 
         msg.writeInt(this.getUserId());

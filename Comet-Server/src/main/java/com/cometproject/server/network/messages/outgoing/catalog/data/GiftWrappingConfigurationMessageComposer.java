@@ -25,7 +25,7 @@ public class GiftWrappingConfigurationMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeBoolean(true);//?
         msg.writeInt(1);//?
         msg.writeInt(CatalogManager.getInstance().getGiftBoxesNew().size());

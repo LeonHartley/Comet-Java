@@ -8,7 +8,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import javolution.util.FastMap;
@@ -62,7 +62,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     private Map<RoomEntityStatus, String> statuses = new FastMap<>();
 
-    public GenericEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, RoomInstance roomInstance) {
+    public GenericEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, roomInstance);
 
         if (this instanceof PlayerEntity) {
@@ -436,7 +436,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.overriden = overriden;
     }
 
-    public abstract void joinRoom(RoomInstance room, String password);
+    public abstract void joinRoom(Room room, String password);
 
     protected abstract void finalizeJoinRoom();
 

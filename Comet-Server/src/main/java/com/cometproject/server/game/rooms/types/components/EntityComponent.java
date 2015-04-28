@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.TeleporterFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
@@ -26,7 +26,7 @@ public class EntityComponent {
 
     private static Logger log = Logger.getLogger(EntityComponent.class.getName());
 
-    private RoomInstance room;
+    private Room room;
 
     private AtomicInteger entityIdGenerator = new AtomicInteger();
     private final Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().shared();
@@ -35,7 +35,7 @@ public class EntityComponent {
     private final Map<Integer, Integer> botIdToEntity = new FastMap<Integer, Integer>().shared();
     private final Map<Integer, Integer> petIdToEntity = new FastMap<Integer, Integer>().shared();
 
-    public EntityComponent(RoomInstance room) {
+    public EntityComponent(Room room) {
         this.room = room;
     }
 
@@ -314,7 +314,7 @@ public class EntityComponent {
         return this.entities;
     }
 
-    public RoomInstance getRoom() {
+    public Room getRoom() {
         return this.room;
     }
 

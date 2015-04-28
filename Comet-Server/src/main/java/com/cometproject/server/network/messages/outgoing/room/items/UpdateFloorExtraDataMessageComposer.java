@@ -32,7 +32,7 @@ public class UpdateFloorExtraDataMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         if (floorItem instanceof MannequinFloorItem) {
             msg.writeString(String.valueOf(id));
 

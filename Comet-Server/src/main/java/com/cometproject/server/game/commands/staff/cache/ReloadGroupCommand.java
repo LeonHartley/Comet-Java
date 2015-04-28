@@ -5,7 +5,7 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.groups.GroupDao;
@@ -29,7 +29,7 @@ public class ReloadGroupCommand extends ChatCommand {
 
         if(groupData.getRoomId() != newGroupData.getRoomId()) {
             if(RoomManager.getInstance().isActive(groupData.getRoomId())) {
-                RoomInstance oldRoom = RoomManager.getInstance().get(groupData.getRoomId());
+                Room oldRoom = RoomManager.getInstance().get(groupData.getRoomId());
 
                 if(oldRoom != null) {
                     oldRoom.setIdleNow();
@@ -37,7 +37,7 @@ public class ReloadGroupCommand extends ChatCommand {
             }
 
             if(RoomManager.getInstance().isActive(newGroupData.getRoomId())) {
-                RoomInstance newRoom = RoomManager.getInstance().get(newGroupData.getRoomId());
+                Room newRoom = RoomManager.getInstance().get(newGroupData.getRoomId());
 
                 if(newRoom != null) {
                     newRoom.setIdleNow();

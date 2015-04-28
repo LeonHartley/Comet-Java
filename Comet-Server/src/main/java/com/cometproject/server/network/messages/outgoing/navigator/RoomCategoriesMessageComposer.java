@@ -23,7 +23,7 @@ public class RoomCategoriesMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(categories.size());
 
         for (Category cat : categories) {

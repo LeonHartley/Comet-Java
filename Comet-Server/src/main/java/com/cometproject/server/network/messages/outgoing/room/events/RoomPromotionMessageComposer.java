@@ -1,17 +1,16 @@
 package com.cometproject.server.network.messages.outgoing.room.events;
 
-import com.cometproject.server.game.rooms.types.RoomDataInstance;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 
 
 public class RoomPromotionMessageComposer extends MessageComposer {
-    private final RoomDataInstance roomData;
+    private final RoomData roomData;
     private final RoomPromotion roomPromotion;
 
-    public RoomPromotionMessageComposer(final RoomDataInstance roomData, final RoomPromotion roomPromotion) {
+    public RoomPromotionMessageComposer(final RoomData roomData, final RoomPromotion roomPromotion) {
         this.roomData = roomData;
         this.roomPromotion = roomPromotion;
     }
@@ -22,7 +21,7 @@ public class RoomPromotionMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         if(roomData == null || roomPromotion == null) {
             msg.writeInt(0);
             msg.writeInt(0);

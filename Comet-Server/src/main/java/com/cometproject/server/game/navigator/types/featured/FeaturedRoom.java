@@ -1,9 +1,8 @@
 package com.cometproject.server.game.navigator.types.featured;
 
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomDataInstance;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
-import com.cometproject.server.network.messages.types.Composer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +21,7 @@ public class FeaturedRoom {
     private boolean enabled;
     private boolean recommended;
 
-    private RoomDataInstance room;
+    private RoomData room;
 
     public FeaturedRoom(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
@@ -57,7 +56,7 @@ public class FeaturedRoom {
         if (!isCategory) this.room = RoomManager.getInstance().getRoomData(roomId);
     }
 
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         final boolean isActive = !isCategory && room != null && RoomManager.getInstance().isActive(room.getId());
 
         msg.writeInt(id);

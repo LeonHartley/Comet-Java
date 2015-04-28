@@ -28,7 +28,7 @@ public class GroupFurnitureWidgetMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(furnitureId);
         msg.writeInt(groupId);
         msg.writeString(groupTitle);

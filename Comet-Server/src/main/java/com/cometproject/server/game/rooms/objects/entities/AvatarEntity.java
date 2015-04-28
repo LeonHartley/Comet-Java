@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -105,7 +106,7 @@ public interface AvatarEntity extends Attributable {
 
     public String getGender();
 
-    public void compose(Composer msg);
+    public void compose(IComposer msg);
 
     public void warp(Position position);
 

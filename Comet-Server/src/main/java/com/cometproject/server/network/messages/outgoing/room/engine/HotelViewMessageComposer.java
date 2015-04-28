@@ -12,7 +12,7 @@ public class HotelViewMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeShort(2);
     }
 }

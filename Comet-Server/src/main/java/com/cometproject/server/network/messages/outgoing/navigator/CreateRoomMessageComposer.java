@@ -19,7 +19,7 @@ public class CreateRoomMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(this.roomId);
         msg.writeString(this.roomName);
     }

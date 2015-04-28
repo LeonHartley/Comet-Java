@@ -25,7 +25,7 @@ public class UserObjectMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(player.getId());
         msg.writeString(player.getData().getUsername());
         msg.writeString(player.getData().getFigure());

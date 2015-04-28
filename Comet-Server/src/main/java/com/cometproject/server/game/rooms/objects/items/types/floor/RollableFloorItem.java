@@ -6,7 +6,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiPuckFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
@@ -23,11 +23,11 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     private boolean skipNext = false;
     private int rollStage = -1;
 
-    public RollableFloorItem(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public RollableFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
-    public static void roll(RoomItemFloor item, Position from, Position to, RoomInstance room) {
+    public static void roll(RoomItemFloor item, Position from, Position to, Room room) {
         room.getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(from.copy(), to.copy(), item.getId(), 0, item.getId()));
     }
 

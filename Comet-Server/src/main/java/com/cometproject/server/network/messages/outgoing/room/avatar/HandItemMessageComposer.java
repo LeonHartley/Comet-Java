@@ -20,7 +20,7 @@ public class HandItemMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(avatarId);
         msg.writeInt(handItemId);
     }

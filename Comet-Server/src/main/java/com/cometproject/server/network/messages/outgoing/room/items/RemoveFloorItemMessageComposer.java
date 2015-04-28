@@ -26,7 +26,7 @@ public class RemoveFloorItemMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeString(this.id);
         msg.writeBoolean(false); // Is expired
         msg.writeInt(this.ownerId); // Picker ID

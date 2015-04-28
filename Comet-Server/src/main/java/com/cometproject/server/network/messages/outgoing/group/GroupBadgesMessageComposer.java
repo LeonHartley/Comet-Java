@@ -31,7 +31,7 @@ public class GroupBadgesMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         if(this.badges != null) {
             msg.writeInt(badges.size());
 

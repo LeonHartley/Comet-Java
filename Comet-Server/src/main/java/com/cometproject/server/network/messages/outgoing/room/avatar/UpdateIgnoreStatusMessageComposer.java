@@ -20,7 +20,7 @@ public class UpdateIgnoreStatusMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(result);
         msg.writeString(username);
     }

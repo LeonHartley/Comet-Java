@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.moderation;
 
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.api.game.rooms.settings.RoomMuteState;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -17,7 +17,7 @@ public class MutePlayerMessageEvent implements Event {
             return;
         }
 
-        final RoomInstance room = client.getPlayer().getEntity().getRoom();
+        final Room room = client.getPlayer().getEntity().getRoom();
 
         if (client.getPlayer().getId() != room.getData().getOwnerId() && room.getData().getMuteState() != RoomMuteState.RIGHTS && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;

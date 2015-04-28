@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.settings.GetRoomDataMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -12,7 +12,7 @@ public class LoadRoomInfoMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         int roomId = msg.readInt();
 
-        RoomInstance room = RoomManager.getInstance().get(roomId);
+        Room room = RoomManager.getInstance().get(roomId);
 
         if (room == null) {
             return;

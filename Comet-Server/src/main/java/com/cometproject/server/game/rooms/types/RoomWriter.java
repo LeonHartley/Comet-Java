@@ -8,7 +8,7 @@ import com.cometproject.server.network.messages.types.Composer;
 
 
 public class RoomWriter {
-    public static void write(RoomDataInstance room, Composer msg) {
+    public static void write(RoomData room, Composer msg) {
         boolean isActive = RoomManager.getInstance().isActive(room.getId());
 
         msg.writeInt(room.getId());
@@ -36,7 +36,7 @@ public class RoomWriter {
         composeRoomSpecials(msg, promotion, group);
     }
 
-    public static void entryData(RoomDataInstance room, Composer msg) {
+    public static void entryData(RoomData room, Composer msg) {
         msg.writeBoolean(true); // is loading
 
         write(room, msg);

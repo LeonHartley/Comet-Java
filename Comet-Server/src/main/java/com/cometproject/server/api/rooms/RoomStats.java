@@ -1,14 +1,14 @@
 package com.cometproject.server.api.rooms;
 
-import com.cometproject.server.game.rooms.types.RoomDataInstance;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.RoomData;
 
 
 public class RoomStats {
     /**
      * The data of the room
      */
-    private RoomDataInstance data;
+    private RoomData data;
 
     /**
      * The amount of players in the room
@@ -35,7 +35,7 @@ public class RoomStats {
      *
      * @param room The room
      */
-    public RoomStats(RoomInstance room) {
+    public RoomStats(Room room) {
         this.data = room.getData();
         this.players = room.getEntities().playerCount();
         this.bots = room.getEntities().getBotEntities().size();
@@ -49,7 +49,7 @@ public class RoomStats {
      *
      * @return The data of the room
      */
-    public RoomDataInstance getData() {
+    public RoomData getData() {
         return data;
     }
 
@@ -58,7 +58,7 @@ public class RoomStats {
      *
      * @param data The data of the room
      */
-    public void setData(RoomDataInstance data) {
+    public void setData(RoomData data) {
         this.data = data;
     }
 

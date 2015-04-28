@@ -1,11 +1,14 @@
 package com.cometproject.server.game.players.types;
 
+import com.cometproject.api.game.players.IPlayer;
+import com.cometproject.api.game.players.Player;
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateAvatarAspectMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
@@ -23,8 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Player {
-    public static final int INFINITE_BALANCE = 999999;
+public class Player implements IPlayer {
 
     private int id;
 
@@ -103,6 +105,7 @@ public class Player {
         this.avatar = null;
     }
 
+    @Override
     public void dispose() {
         if (this.getEntity() != null) {
             try {
@@ -139,15 +142,18 @@ public class Player {
         this.isDisposed = true;
     }
 
+    @Override
     public void sendBalance() {
         session.send(composeCurrenciesBalance());
         session.send(composeCreditBalance());
     }
 
+    @Override
     public MessageComposer composeCreditBalance() {
         return new SendCreditsMessageComposer(CometSettings.infiniteBalance ? Player.INFINITE_BALANCE : session.getPlayer().getData().getCredits());
     }
 
+    @Override
     public MessageComposer composeCurrenciesBalance() {
         Map<Integer, Integer> currencies = new FastMap<>();
 
@@ -158,13 +164,14 @@ public class Player {
         return new CurrenciesMessageComposer(currencies);
     }
 
+    @Override
     public void loadRoom(int id, String password) {
         if (avatar != null && avatar.getRoom() != null) {
             avatar.leaveRoom(true, false, false);
             setEntity(null);
         }
 
-        RoomInstance room = RoomManager.getInstance().get(id);
+        Room room = RoomManager.getInstance().get(id);
 
         if (room == null) {
             session.send(new HotelViewMessageComposer());
@@ -185,6 +192,7 @@ public class Player {
         playerEntity.joinRoom(room, password);
     }
 
+    @Override
     public void poof() {
         this.getSession().send(new UpdateInfoMessageComposer(-1, this.getData().getFigure(), this.getData().getGender(), this.getData().getMotto(), this.getData().getAchievementPoints()));
         this.getSession().send(new UpdateAvatarAspectMessageComposer(this.getData().getFigure(), this.getData().getGender()));
@@ -195,6 +203,7 @@ public class Player {
         }
     }
 
+    @Override
     public void ignorePlayer(int playerId) {
         if(this.ignoredPlayers == null) {
             this.ignoredPlayers = new ArrayList<>();
@@ -203,210 +212,262 @@ public class Player {
         this.ignoredPlayers.add(playerId);
     }
 
+    @Override
     public void unignorePlayer(int playerId) {
         this.ignoredPlayers.remove((Integer) playerId);
     }
 
+    @Override
     public boolean ignores(int playerId) {
         return this.ignoredPlayers != null && this.ignoredPlayers.contains(playerId);
     }
 
+    @Override
     public List<Integer> getRooms() {
         return rooms;
     }
 
+    @Override
     public void setRooms(List<Integer> rooms) {
         this.rooms = rooms;
     }
 
-    public void setSession(Session client) {
-        this.session = client;
+    @Override
+    public void setSession(ISession client) {
+        this.session = ((Session) client);
     }
 
+    @Override
     public void setEntity(PlayerEntity avatar) {
         this.avatar = avatar;
     }
 
+    @Override
     public PlayerEntity getEntity() {
         return this.avatar;
     }
 
+    @Override
     public Session getSession() {
         return this.session;
     }
 
+    @Override
     public PlayerData getData() {
         return this.data;
     }
 
+    @Override
     public PlayerStatistics getStats() {
         return this.stats;
     }
 
+    @Override
     public PermissionComponent getPermissions() {
         return this.permissions;
     }
 
+    @Override
     public MessengerComponent getMessenger() {
         return this.messenger;
     }
 
+    @Override
     public InventoryComponent getInventory() {
         return this.inventory;
     }
 
+    @Override
     public SubscriptionComponent getSubscription() {
         return this.subscription;
     }
 
+    @Override
     public RelationshipComponent getRelationships() {
         return this.relationships;
     }
 
+    @Override
     public InventoryBotComponent getBots() {
         return this.bots;
     }
 
+    @Override
     public PetComponent getPets() {
         return this.pets;
     }
 
+    @Override
     public QuestComponent getQuests() {
         return quests;
     }
 
+    @Override
     public PlayerSettings getSettings() {
         return this.settings;
     }
 
+    @Override
     public int getId() {
         return this.id;
     }
 
+    @Override
     public boolean isTeleporting() {
         return this.teleportId != 0;
     }
 
+    @Override
     public int getTeleportId() {
         return this.teleportId;
     }
 
+    @Override
     public void setTeleportId(int teleportId) {
         this.teleportId = teleportId;
     }
 
+    @Override
     public long getRoomLastMessageTime() {
         return roomLastMessageTime;
     }
 
+    @Override
     public void setRoomLastMessageTime(long roomLastMessageTime) {
         this.roomLastMessageTime = roomLastMessageTime;
     }
 
+    @Override
     public double getRoomFloodTime() {
         return roomFloodTime;
     }
 
+    @Override
     public void setRoomFloodTime(double roomFloodTime) {
         this.roomFloodTime = roomFloodTime;
     }
 
+    @Override
     public int getRoomFloodFlag() {
         return roomFloodFlag;
     }
 
+    @Override
     public void setRoomFloodFlag(int roomFloodFlag) {
         this.roomFloodFlag = roomFloodFlag;
     }
 
+    @Override
     public String getLastMessage() {
         return lastMessage;
     }
 
+    @Override
     public void setLastMessage(String lastMessage) {
         this.lastMessage = lastMessage;
     }
 
+    @Override
     public List<Integer> getGroups() {
         return groups;
     }
 
+    @Override
     public int getNotifCooldown() {
         return this.notifCooldown;
     }
 
+    @Override
     public void setNotifCooldown(int notifCooldown) {
         this.notifCooldown = notifCooldown;
     }
 
+    @Override
     public int getLastRoomId() {
         return lastRoomId;
     }
 
+    @Override
     public void setLastRoomId(int lastRoomId) {
         this.lastRoomId = lastRoomId;
     }
 
+    @Override
     public int getLastGift() {
         return lastGift;
     }
 
+    @Override
     public void setLastGift(int lastGift) {
         this.lastGift = lastGift;
     }
 
+    @Override
     public long getMessengerLastMessageTime() {
         return messengerLastMessageTime;
     }
 
+    @Override
     public void setMessengerLastMessageTime(long messengerLastMessageTime) {
         this.messengerLastMessageTime = messengerLastMessageTime;
     }
 
+    @Override
     public double getMessengerFloodTime() {
         return messengerFloodTime;
     }
 
+    @Override
     public void setMessengerFloodTime(double messengerFloodTime) {
         this.messengerFloodTime = messengerFloodTime;
     }
 
+    @Override
     public int getMessengerFloodFlag() {
         return messengerFloodFlag;
     }
 
+    @Override
     public void setMessengerFloodFlag(int messengerFloodFlag) {
         this.messengerFloodFlag = messengerFloodFlag;
     }
 
+    @Override
     public boolean isDeletingGroup() {
         return isDeletingGroup;
     }
 
+    @Override
     public void setDeletingGroup(boolean isDeletingGroup) {
         this.isDeletingGroup = isDeletingGroup;
     }
 
+    @Override
     public long getDeletingGroupAttempt() {
         return deletingGroupAttempt;
     }
 
+    @Override
     public void setDeletingGroupAttempt(long deletingGroupAttempt) {
         this.deletingGroupAttempt = deletingGroupAttempt;
     }
 
+    @Override
     public void bypassRoomAuth(final boolean bypassRoomAuth) {
         this.bypassRoomAuth = bypassRoomAuth;
     }
 
+    @Override
     public boolean isBypassingRoomAuth() {
         return bypassRoomAuth;
     }
 
+    @Override
     public int getLastFigureUpdate() {
         return lastFigureUpdate;
     }
 
+    @Override
     public void setLastFigureUpdate(int lastFigureUpdate) {
         this.lastFigureUpdate = lastFigureUpdate;
     }

@@ -19,7 +19,7 @@ public class SendWallItemMessageComposer extends MessageComposer  {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         this.itemWall.serialize(msg);
     }
 }

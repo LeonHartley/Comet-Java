@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigg
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 
 
 public class WiredTriggerAtGivenTime extends WiredTriggerItem {
@@ -23,7 +23,7 @@ public class WiredTriggerAtGivenTime extends WiredTriggerItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredTriggerAtGivenTime(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredTriggerAtGivenTime(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         if (this.getWiredData().getParams().get(PARAM_TICK_LENGTH) == null) {
@@ -45,7 +45,7 @@ public class WiredTriggerAtGivenTime extends WiredTriggerItem {
         return this.getWiredData().getParams().get(PARAM_TICK_LENGTH);
     }
 
-    public static boolean executeTriggers(RoomInstance room, int timer) {
+    public static boolean executeTriggers(Room room, int timer) {
         boolean wasExecuted = false;
 
         for (RoomItemFloor wiredItem : room.getItems().getByClass(WiredTriggerAtGivenTime.class)) {

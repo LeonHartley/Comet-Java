@@ -19,7 +19,7 @@ public class UpdateFloorItemMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         this.item.serialize(msg);
         msg.writeInt(this.item.getOwner());
     }

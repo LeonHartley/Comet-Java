@@ -37,7 +37,7 @@ public class UpdateInfoMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(playerId);
         msg.writeString(figure);
         msg.writeString(gender.toLowerCase());

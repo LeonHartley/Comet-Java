@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.models;
 
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.game.utilities.ModelUtils;
-import com.cometproject.server.network.messages.composers.MessageComposer;
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RelativeHeightmapMessageComposer;
 import org.apache.log4j.Logger;
 
@@ -22,7 +22,7 @@ public abstract class RoomModel {
     private double[][] squareHeight;
     private RoomTileState[][] squareState;
 
-    private final MessageComposer floorMapMessageComposer;
+    private final IMessageComposer floorMapMessageComposer;
 
     private int wallHeight;
 
@@ -137,7 +137,7 @@ public abstract class RoomModel {
         return this.squareHeight;
     }
 
-    public MessageComposer getRelativeHeightmapMessage() {
+    public IMessageComposer getRelativeHeightmapMessage() {
         return this.floorMapMessageComposer;
     }
 

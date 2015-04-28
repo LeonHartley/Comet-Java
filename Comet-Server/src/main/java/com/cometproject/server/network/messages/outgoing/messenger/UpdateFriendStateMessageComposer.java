@@ -34,7 +34,7 @@ public class UpdateFriendStateMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         if(this.playerAvatar == null) {
             msg.writeInt(0);
             msg.writeInt(1);

@@ -1,7 +1,10 @@
 package com.cometproject.server.network.sessions;
 
+import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.api.networking.sessions.ISessionManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
@@ -16,12 +19,12 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public final class SessionManager {
+public final class SessionManager implements ISessionManager {
     public static final AttributeKey<Session> SESSION_ATTR = AttributeKey.valueOf("Session.attr");
     public static final AttributeKey<Integer> CHANNEL_ID_ATTR = AttributeKey.valueOf("ChannelId.attr");
 
     private final AtomicInteger idGenerator = new AtomicInteger();
-    private final FastMap<Integer, Session> sessions = new FastMap<Integer, Session>().shared();
+    private final FastMap<Integer, ISession> sessions = new FastMap<Integer, ISession>().shared();
 
     private final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
@@ -51,7 +54,7 @@ public final class SessionManager {
         }
 
         int sessionId = PlayerManager.getInstance().getSessionIdByPlayerId(id);
-        Session session = sessions.get(sessionId);
+        Session session = (Session) sessions.get(sessionId);
 
         if (session != null) {
             session.disconnect();
@@ -65,21 +68,21 @@ public final class SessionManager {
         if (PlayerManager.getInstance().getSessionIdByPlayerId(id) != -1) {
             int sessionId = PlayerManager.getInstance().getSessionIdByPlayerId(id);
 
-            return sessions.get(sessionId);
+            return (Session) sessions.get(sessionId);
         }
 
         return null;
     }
 
-    public Set<Session> getByPlayerPermission(String permission) {
+    public Set<ISession> getByPlayerPermission(String permission) {
         // TODO: Optimize this
-        Set<Session> sessions = new FastSet<>();
+        Set<ISession> sessions = new FastSet<>();
 
         int rank = PermissionsManager.getInstance().getPermissions().get(permission).getRank();
 
-        for (Map.Entry<Integer, Session> session : this.sessions.entrySet()) {
+        for (Map.Entry<Integer, ISession> session : this.sessions.entrySet()) {
             if (session.getValue().getPlayer() != null) {
-                if (session.getValue().getPlayer().getData().getRank() >= rank) {
+                if (((Session) session.getValue()).getPlayer().getData().getRank() >= rank) {
                     sessions.add(session.getValue());
                 }
             }
@@ -100,7 +103,7 @@ public final class SessionManager {
             return null;
 
         if (this.sessions.containsKey(sessionId))
-            return this.sessions.get(sessionId);
+            return (Session) this.sessions.get(sessionId);
 
         return null;
     }
@@ -109,11 +112,11 @@ public final class SessionManager {
         return PlayerManager.getInstance().size();
     }
 
-    public Map<Integer, Session> getSessions() {
+    public Map<Integer, ISession> getSessions() {
         return this.sessions.unmodifiable();
     }
 
-    public void broadcast(MessageComposer msg) {
+    public void broadcast(IMessageComposer msg) {
         this.getChannelGroup().writeAndFlush(msg);
 //
 //        for (Session client : sessions.values()) {
@@ -125,8 +128,8 @@ public final class SessionManager {
         return channelGroup;
     }
 
-    public void broadcastByPermission(MessageComposer messageComposer, String permission) {
-        for(Session session : this.sessions.values()) {
+    public void broadcastByPermission(IMessageComposer messageComposer, String permission) {
+        for(ISession session : this.sessions.values()) {
             if(session.getPlayer() != null && session.getPlayer().getPermissions() != null && session.getPlayer().getPermissions().hasPermission(permission)) {
                 session.send(messageComposer);
             }

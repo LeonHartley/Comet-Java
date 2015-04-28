@@ -28,7 +28,7 @@ public class TradeUpdateMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(user1);
         msg.writeInt(items1.size());
 

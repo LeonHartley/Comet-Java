@@ -18,7 +18,7 @@ public class GroupElementsMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(GroupManager.getInstance().getGroupItems().getBases().size());
 
         for (GroupBase base : GroupManager.getInstance().getGroupItems().getBases()) {

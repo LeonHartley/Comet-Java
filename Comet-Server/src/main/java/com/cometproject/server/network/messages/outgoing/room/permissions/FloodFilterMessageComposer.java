@@ -18,7 +18,7 @@ public class FloodFilterMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(((int) Math.round(this.seconds)));
     }
 }

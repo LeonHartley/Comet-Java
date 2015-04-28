@@ -3,8 +3,8 @@ package com.cometproject.server.network.messages.incoming.moderation;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.types.RoomInstance;
-import com.cometproject.server.game.rooms.types.RoomDataInstance;
+import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -27,7 +27,7 @@ public class ModToolRoomActionMessageEvent implements Event {
         final boolean changeRoomName = msg.readInt() == 1;
         final boolean kickAll = msg.readInt() == 1;
 
-        RoomDataInstance roomData = RoomManager.getInstance().getRoomData(roomId);
+        RoomData roomData = RoomManager.getInstance().getRoomData(roomId);
         boolean isActive = RoomManager.getInstance().isActive(roomId);
 
         if (roomData == null) return;
@@ -37,7 +37,7 @@ public class ModToolRoomActionMessageEvent implements Event {
         }
 
         if (isActive) {
-            RoomInstance room = RoomManager.getInstance().get(roomData.getId());
+            Room room = RoomManager.getInstance().get(roomData.getId());
 
             if (room == null) return;
 

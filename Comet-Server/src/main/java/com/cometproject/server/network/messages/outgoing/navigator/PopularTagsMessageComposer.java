@@ -20,7 +20,7 @@ public class PopularTagsMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(popularTags.size() > 50 ? 50 : popularTags.size());
 
         for (Map.Entry<String, Integer> entry : popularTags.entrySet()) {

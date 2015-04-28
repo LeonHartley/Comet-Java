@@ -24,7 +24,7 @@ public class ModToolUserInfoMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(playerData.getId());
         msg.writeString(playerData.getUsername());
         msg.writeString(playerData.getFigure());
