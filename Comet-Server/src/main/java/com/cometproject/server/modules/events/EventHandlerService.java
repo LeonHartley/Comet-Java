@@ -6,9 +6,12 @@ import com.cometproject.api.events.EventListener;
 import com.cometproject.api.events.EventListenerContainer;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +22,7 @@ public class EventHandlerService implements EventHandler {
     private final ExecutorService asyncEventExecutor;
     private final Logger log = Logger.getLogger(EventHandlerService.class);
 
-    private final Map<Class<?>, List<Method>> listeners;
+    private final Map<Class<?>, List<Pair<Object, Method>>> listeners;
 
     public EventHandlerService() {
         this.asyncEventExecutor = Executors.newCachedThreadPool();
@@ -33,9 +36,9 @@ public class EventHandlerService implements EventHandler {
                     EventListener eventListener = (((EventListener) annotation));
 
                     if (this.listeners.containsKey(eventListener.event())) {
-                        this.listeners.get(eventListener.event()).add(method);
+                        this.listeners.get(eventListener.event()).add(new ImmutablePair<>(listener, method));
                     } else {
-                        List<Method> methods = Lists.newArrayList(method);
+                        List<Pair<Object, Method>> methods = Lists.newArrayList(new ImmutablePair<>(listener, method));
 
                         this.listeners.put(eventListener.event(), methods);
                     }
@@ -51,12 +54,26 @@ public class EventHandlerService implements EventHandler {
     public void handleEvent(Event event) {
         if (this.listeners.containsKey(event.getClass())) {
             if (event.isAsync()) {
-                this.asyncEventExecutor.submit(() -> System.out.format("Async event handled: %s\n", event.getClass().getSimpleName()));
+                this.asyncEventExecutor.submit(() -> {
+                    this.invoke(event);
+                    System.out.format("Async event handled: %s\n", event.getClass().getSimpleName());
+                });
             } else {
+                this.invoke(event);
                 System.out.format("Event handled: %s\n", event.getClass().getSimpleName());
             }
         } else {
             System.out.format("Unhandled event: %s\n", event.getClass().getSimpleName());
+        }
+    }
+
+    private void invoke(Event event) {
+        for(Pair<Object, Method> method : this.listeners.get(event.getClass())) {
+            try {
+                method.getValue().invoke(method.getKey(), event);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
