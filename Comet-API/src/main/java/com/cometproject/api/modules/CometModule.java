@@ -3,7 +3,7 @@ package com.cometproject.api.modules;
 import com.cometproject.api.events.EventListenerContainer;
 import com.cometproject.api.events.modules.OnModuleLoadEvent;
 import com.cometproject.api.events.modules.OnModuleUnloadEvent;
-import com.cometproject.api.server.CometGameService;
+import com.cometproject.api.server.IGameService;
 
 import java.util.UUID;
 
@@ -18,9 +18,9 @@ public abstract class CometModule implements EventListenerContainer {
      * attach listeners to specific events which are fired within the server and also allows you to access
      * the game server's main components.
      */
-    private final CometGameService gameService;
+    private final IGameService gameService;
 
-    public CometModule(CometGameService gameService) {
+    public CometModule(IGameService gameService) {
         this.moduleId = UUID.randomUUID();
         this.gameService = gameService;
 

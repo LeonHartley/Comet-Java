@@ -5,7 +5,7 @@ import com.cometproject.api.events.listeners.modules.ModuleEventListener;
 import com.cometproject.api.events.modules.OnModuleLoadEvent;
 import com.cometproject.api.events.modules.OnModuleUnloadEvent;
 import com.cometproject.api.modules.CometModule;
-import com.cometproject.api.server.CometGameService;
+import com.cometproject.server.modules.CometGameService;
 
 public class TestModule extends CometModule implements ModuleEventListener {
     public TestModule(CometGameService gameService) {
