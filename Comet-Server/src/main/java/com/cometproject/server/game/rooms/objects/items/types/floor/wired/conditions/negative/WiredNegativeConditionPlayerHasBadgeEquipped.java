@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative;
 
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.WiredConditionPlayerHasBadgeEquipped;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 
 
 public class WiredNegativeConditionPlayerHasBadgeEquipped extends WiredConditionPlayerHasBadgeEquipped {
@@ -18,7 +18,7 @@ public class WiredNegativeConditionPlayerHasBadgeEquipped extends WiredCondition
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredNegativeConditionPlayerHasBadgeEquipped(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredNegativeConditionPlayerHasBadgeEquipped(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 }

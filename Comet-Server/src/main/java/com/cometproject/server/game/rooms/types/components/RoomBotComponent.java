@@ -6,7 +6,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.data.PlayerBotData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.google.common.collect.Maps;
 
@@ -15,11 +15,11 @@ import java.util.Map;
 
 
 public class RoomBotComponent {
-    private RoomInstance room;
+    private Room room;
 
     private Map<String, Integer> botNameToId;
 
-    public RoomBotComponent(RoomInstance room) {
+    public RoomBotComponent(Room room) {
         this.room = room;
 
         this.botNameToId = Maps.newHashMap();
@@ -101,7 +101,7 @@ public class RoomBotComponent {
         return null;
     }
 
-    public RoomInstance getRoom() {
+    public Room getRoom() {
         return this.room;
     }
 

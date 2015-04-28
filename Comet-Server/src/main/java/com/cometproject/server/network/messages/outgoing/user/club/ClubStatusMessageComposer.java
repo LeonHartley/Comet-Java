@@ -20,7 +20,7 @@ public class ClubStatusMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         int timeLeft = 0;
         int days = 0;
         int months = 0;

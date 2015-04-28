@@ -22,7 +22,7 @@ public class BotConfigMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(botId);
         msg.writeInt(skill);
         msg.writeString(message);

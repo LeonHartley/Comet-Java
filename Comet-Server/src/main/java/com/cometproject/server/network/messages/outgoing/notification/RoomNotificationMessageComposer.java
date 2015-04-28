@@ -38,7 +38,7 @@ public class RoomNotificationMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeString(type);
 
         if(parameters == null || parameters.size() == 0) {

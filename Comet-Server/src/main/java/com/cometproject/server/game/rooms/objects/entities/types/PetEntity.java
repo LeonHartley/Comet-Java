@@ -5,9 +5,8 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.PetAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import javolution.util.FastMap;
 
@@ -22,7 +21,7 @@ public class PetEntity extends GenericEntity {
 
     private Map<String, Object> attributes = new FastMap<>();
 
-    public PetEntity(PetData data, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, RoomInstance roomInstance) {
+    public PetEntity(PetData data, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.data = data;
@@ -30,7 +29,7 @@ public class PetEntity extends GenericEntity {
     }
 
     @Override
-    public void joinRoom(RoomInstance room, String password) {
+    public void joinRoom(Room room, String password) {
 
     }
 
@@ -90,7 +89,7 @@ public class PetEntity extends GenericEntity {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(this.data.getId());
         msg.writeString(this.data.getName());
         msg.writeString("PET_MOTTO");

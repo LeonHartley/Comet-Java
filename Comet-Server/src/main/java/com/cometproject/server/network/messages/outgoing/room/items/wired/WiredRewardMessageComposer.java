@@ -18,7 +18,7 @@ public class WiredRewardMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         // 1-5 = error
         // 6-7 = success (rewardMisc, rewardBadge)
         msg.writeInt(reason);

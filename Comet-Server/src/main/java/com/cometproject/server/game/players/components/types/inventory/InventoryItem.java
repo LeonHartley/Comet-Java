@@ -56,7 +56,7 @@ public class InventoryItem {
         this.giftData = giftData;
     }
 
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         final boolean isGift = this.getGiftData() != null;
         final boolean isGroupItem = this.getDefinition().getInteraction().equals("group_item") || this.getDefinition().getInteraction().equals("group_gate");
         final boolean isLimited = this.getLimitedEditionItem() != null;

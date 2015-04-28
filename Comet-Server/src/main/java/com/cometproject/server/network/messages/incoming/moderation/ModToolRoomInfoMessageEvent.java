@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.moderation;
 
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolRoomInfoMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -21,7 +21,7 @@ public class ModToolRoomInfoMessageEvent implements Event {
             return;
         }
 
-        RoomInstance room = RoomManager.getInstance().get(roomId);
+        Room room = RoomManager.getInstance().get(roomId);
 
         if (room == null)
             return;

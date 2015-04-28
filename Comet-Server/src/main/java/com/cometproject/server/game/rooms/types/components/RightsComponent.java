@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.RoomBan;
 import com.cometproject.server.game.rooms.types.components.types.RoomMute;
 import com.cometproject.server.storage.queries.rooms.RightsDao;
@@ -12,13 +12,13 @@ import java.util.List;
 
 
 public class RightsComponent {
-    private RoomInstance room;
+    private Room room;
 
     private FastTable<Integer> rights;
     private FastTable<RoomBan> bannedPlayers;
     private FastTable<RoomMute> mutedPlayers;
 
-    public RightsComponent(RoomInstance room) {
+    public RightsComponent(Room room) {
         this.room = room;
 
         try {
@@ -158,7 +158,7 @@ public class RightsComponent {
         return this.rights;
     }
 
-    public RoomInstance getRoom() {
+    public Room getRoom() {
         return this.room;
     }
 }

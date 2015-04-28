@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.incoming.room.item;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateWallItemMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -15,7 +15,7 @@ public class ChangeWallItemPositionMessageEvent implements Event {
         int itemId = msg.readInt();
         String position = Position.validateWallPosition(msg.readString());
 
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null || position == null) {
             return;

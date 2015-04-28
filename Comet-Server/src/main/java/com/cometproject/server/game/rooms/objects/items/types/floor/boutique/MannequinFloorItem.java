@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.boutique;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 
 import java.util.Arrays;
 
@@ -13,7 +13,7 @@ public class MannequinFloorItem extends RoomItemFloor {
     private String figure = "ch-210-62.lg-270-62";
     private String gender = "m";
 
-    public MannequinFloorItem(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public MannequinFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         if (!this.getExtraData().isEmpty()) {

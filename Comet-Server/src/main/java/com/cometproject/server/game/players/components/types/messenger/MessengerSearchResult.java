@@ -19,7 +19,7 @@ public class MessengerSearchResult {
         this.lastOnline = lastOnline;
     }
 
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(id);
         msg.writeString(username);
         msg.writeString(motto);

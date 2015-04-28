@@ -38,7 +38,7 @@ public class AdvancedAlertMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeString(illustration);
 
         msg.writeInt(linkLocation.isEmpty() ? 2 : 4);

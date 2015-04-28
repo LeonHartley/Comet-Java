@@ -3,7 +3,7 @@ package com.cometproject.server.network.messages.incoming.room.item;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
@@ -20,7 +20,7 @@ public class PickUpItemMessageEvent implements Event {
         boolean isFloorItem = msg.readInt() == 2;
 
         int id = msg.readInt();
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null) {
             return;

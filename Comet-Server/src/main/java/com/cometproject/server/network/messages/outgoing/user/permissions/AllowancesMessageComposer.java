@@ -22,7 +22,7 @@ public class AllowancesMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         if (rank == -1) {
             msg.writeInt(0);
             return;

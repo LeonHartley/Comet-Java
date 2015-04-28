@@ -1,12 +1,13 @@
 package com.cometproject.server.network.messages.types;
 
+import com.cometproject.api.networking.messages.IComposer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufHolder;
 import org.apache.log4j.Logger;
 
 import java.nio.charset.Charset;
 
-public class Composer implements ByteBufHolder {
+public class Composer implements ByteBufHolder, IComposer {
     private final static Logger log = Logger.getLogger(Composer.class);
 
     protected final int id;

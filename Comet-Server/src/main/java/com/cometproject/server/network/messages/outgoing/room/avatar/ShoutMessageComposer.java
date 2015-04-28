@@ -24,7 +24,7 @@ public class ShoutMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(playerId);
         msg.writeString(message);
         msg.writeInt(emoticon);

@@ -21,7 +21,7 @@ public class ManageGroupMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(0); // Array for something related to rooms (int:roomId, String:roomName, Boolean:Unk)
 
         msg.writeBoolean(true);

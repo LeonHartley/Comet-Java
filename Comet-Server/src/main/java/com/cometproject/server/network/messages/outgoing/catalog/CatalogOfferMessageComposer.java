@@ -19,7 +19,7 @@ public class CatalogOfferMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         this.catalogItem.compose(msg);
     }
 }

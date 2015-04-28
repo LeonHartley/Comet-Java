@@ -22,7 +22,7 @@ public class UnseenItemsMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         int inventoryTab = 1;
         for (InventoryItem item : this.inventoryItems) {
             if (!item.getDefinition().getType().equals("s"))

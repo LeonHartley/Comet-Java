@@ -5,7 +5,7 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
@@ -29,7 +29,7 @@ public class ModifyBotMessageEvent implements Event {
             return;
         }
 
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null || (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;

@@ -20,7 +20,7 @@ public class UnseenItemsMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(items.size());
 
         for (Map.Entry<Integer, Integer> i : items.entrySet()) {

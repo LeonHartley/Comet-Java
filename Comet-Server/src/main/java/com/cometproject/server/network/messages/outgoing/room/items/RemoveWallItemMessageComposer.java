@@ -20,7 +20,7 @@ public class RemoveWallItemMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeString(this.itemId);
         msg.writeInt(this.playerId);
     }

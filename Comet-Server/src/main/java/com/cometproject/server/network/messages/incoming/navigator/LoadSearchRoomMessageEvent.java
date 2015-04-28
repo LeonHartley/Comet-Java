@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.incoming.navigator;
 
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomInstance;
-import com.cometproject.server.game.rooms.types.RoomDataInstance;
+import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.navigator.PopularTagsMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -18,11 +18,11 @@ public class LoadSearchRoomMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         Map<String, Integer> tagsPlayerCount = Maps.newHashMap();
 
-        for (RoomDataInstance roomData : RoomManager.getInstance().getRoomsByCategory(-1)) {
+        for (RoomData roomData : RoomManager.getInstance().getRoomsByCategory(-1)) {
             if (roomData.getTags().length != 0) {
                 if (!RoomManager.getInstance().isActive(roomData.getId())) continue;
 
-                RoomInstance room = RoomManager.getInstance().get(roomData.getId());
+                Room room = RoomManager.getInstance().get(roomData.getId());
 
                 for (String tag : roomData.getTags()) {
                     if (tagsPlayerCount.containsKey(tag)) {

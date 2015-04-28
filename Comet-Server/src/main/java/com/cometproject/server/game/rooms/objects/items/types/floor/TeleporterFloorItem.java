@@ -7,7 +7,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 
 
@@ -20,7 +20,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
     private int pairId = -1;
     boolean isDoor = false;
 
-    public TeleporterFloorItem(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public TeleporterFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         this.setExtraData("0");

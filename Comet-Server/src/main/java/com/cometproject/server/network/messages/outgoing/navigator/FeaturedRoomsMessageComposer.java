@@ -21,7 +21,7 @@ public class FeaturedRoomsMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(this.featuredRooms.size());
 
         for (FeaturedRoom room : this.featuredRooms) {

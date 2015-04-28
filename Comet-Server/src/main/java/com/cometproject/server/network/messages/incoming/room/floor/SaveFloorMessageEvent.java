@@ -3,7 +3,7 @@ package com.cometproject.server.network.messages.incoming.room.floor;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -26,7 +26,7 @@ public class SaveFloorMessageEvent implements Event {
             return;
         }
 
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if ((room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;

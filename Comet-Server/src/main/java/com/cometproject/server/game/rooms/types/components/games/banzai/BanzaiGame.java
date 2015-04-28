@@ -8,7 +8,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.Banza
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameEnds;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameStarts;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
@@ -21,7 +21,7 @@ public class BanzaiGame extends RoomGame {
     private int startBanzaiTileCount = 0;
     private int banzaiTileCount = 0;
 
-    public BanzaiGame(RoomInstance room) {
+    public BanzaiGame(Room room) {
         super(room, GameType.BANZAI);
     }
 

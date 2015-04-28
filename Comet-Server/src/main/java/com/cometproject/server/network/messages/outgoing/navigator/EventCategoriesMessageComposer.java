@@ -11,7 +11,7 @@ public class EventCategoriesMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(1);
 
         msg.writeInt(1);

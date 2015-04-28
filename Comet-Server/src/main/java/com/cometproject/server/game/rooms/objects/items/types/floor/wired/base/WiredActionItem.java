@@ -4,7 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredActionItemData;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.dialog.WiredActionMessageComposer;
 import com.google.common.collect.Lists;
@@ -28,7 +28,7 @@ public abstract class WiredActionItem extends WiredFloorItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionItem(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredActionItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

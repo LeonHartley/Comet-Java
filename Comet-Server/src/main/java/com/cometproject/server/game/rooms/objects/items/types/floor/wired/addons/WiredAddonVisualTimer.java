@@ -6,15 +6,14 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameEnds;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameStarts;
-import com.cometproject.server.game.rooms.types.RoomInstance;
-import com.cometproject.server.game.rooms.types.components.games.GameType;
+import com.cometproject.server.game.rooms.types.Room;
 import org.apache.commons.lang.StringUtils;
 
 public class WiredAddonVisualTimer extends RoomItemFloor {
 
     private boolean isStarted = false;
 
-    public WiredAddonVisualTimer(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredAddonVisualTimer(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

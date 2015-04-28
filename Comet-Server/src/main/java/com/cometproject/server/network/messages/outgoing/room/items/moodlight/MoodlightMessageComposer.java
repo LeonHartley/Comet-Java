@@ -20,7 +20,7 @@ public class MoodlightMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(this.moodlightWallItem.getMoodlightData().getPresets().size());
         msg.writeInt(this.moodlightWallItem.getMoodlightData().getActivePreset());
 

@@ -18,7 +18,7 @@ public class HelpTicketMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         this.helpTicket.compose(msg);
     }
 }

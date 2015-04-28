@@ -6,7 +6,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.queue.RoomItemEventQueue;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollerFloorItem;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.TimeSpan;
@@ -21,7 +21,7 @@ public class ItemProcessComponent implements CometTask {
     private static final int INTERVAL = 500;
     private static final int FLAG = 400;
 
-    private final RoomInstance room;
+    private final Room room;
     private final Logger log;
 
     private ScheduledFuture myFuture;
@@ -33,7 +33,7 @@ public class ItemProcessComponent implements CometTask {
 
     private final RoomItemEventQueue eventQueue = new RoomItemEventQueue();
 
-    public ItemProcessComponent(CometThreadManager mgr, RoomInstance room) {
+    public ItemProcessComponent(CometThreadManager mgr, Room room) {
         this.mgr = mgr;
         this.room = room;
 
@@ -45,7 +45,7 @@ public class ItemProcessComponent implements CometTask {
     }
 
     public void start() {
-        if (RoomInstance.useCycleForItems) {
+        if (Room.useCycleForItems) {
             this.active = true;
             return;
         }
@@ -61,7 +61,7 @@ public class ItemProcessComponent implements CometTask {
     }
 
     public void stop() {
-        if (RoomInstance.useCycleForItems) {
+        if (Room.useCycleForItems) {
             this.active = false;
             return;
         }
@@ -128,7 +128,7 @@ public class ItemProcessComponent implements CometTask {
         log.error("Error while processing item: " + item.getId() + " (" + item.getClass().getSimpleName() + ")", e);
     }
 
-    public RoomInstance getRoom() {
+    public Room getRoom() {
         return this.room;
     }
 

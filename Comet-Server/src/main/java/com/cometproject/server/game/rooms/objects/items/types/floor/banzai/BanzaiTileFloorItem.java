@@ -4,7 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiGame;
 
@@ -16,7 +16,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     private GameTeam gameTeam = GameTeam.NONE;
     private int points = 0;
 
-    public BanzaiTileFloorItem(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public BanzaiTileFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         this.setExtraData("0");
@@ -116,7 +116,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
             return new LinkedList<>();
         }
 
-        final RoomInstance room = triggerItem.getRoom();
+        final Room room = triggerItem.getRoom();
 
         for (int i = 0; i < 4; ++i) {
             if (!directions[i]) {

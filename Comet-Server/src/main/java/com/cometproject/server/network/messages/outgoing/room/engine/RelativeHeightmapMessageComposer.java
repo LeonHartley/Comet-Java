@@ -30,7 +30,7 @@ public class RelativeHeightmapMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeBoolean(true); // ??
         msg.writeInt(model.getWallHeight()); // wall-height
 

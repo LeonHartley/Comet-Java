@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 
 import java.util.ArrayList;
@@ -10,9 +10,9 @@ import java.util.List;
 
 public class TradeComponent {
     private List<Trade> trades;
-    private final RoomInstance room;
+    private final Room room;
 
-    public TradeComponent(RoomInstance room) {
+    public TradeComponent(Room room) {
         this.room = room;
         this.trades = new ArrayList<>();
     }
@@ -40,7 +40,7 @@ public class TradeComponent {
         return this.trades;
     }
 
-    public RoomInstance getRoom() {
+    public Room getRoom() {
         return room;
     }
 }

@@ -10,7 +10,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
@@ -37,7 +37,7 @@ public class DeleteRoomMessageEvent implements Event {
         if (entity == null)
             return;
 
-        RoomInstance room = entity.getRoom();
+        Room room = entity.getRoom();
 
         if (room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;
@@ -118,7 +118,7 @@ public class DeleteRoomMessageEvent implements Event {
         PlayerDao.resetHomeRoom(roomId);
 
 
-        client.getLogger().debug("RoomInstance deleted: " + room.getId() + " by " + client.getPlayer().getId() + " / " + client.getPlayer().getData().getUsername());
+        client.getLogger().debug("Room deleted: " + room.getId() + " by " + client.getPlayer().getId() + " / " + client.getPlayer().getData().getUsername());
         RoomDao.deleteRoom(room.getId());
 
         client.send(new UpdateInventoryMessageComposer());

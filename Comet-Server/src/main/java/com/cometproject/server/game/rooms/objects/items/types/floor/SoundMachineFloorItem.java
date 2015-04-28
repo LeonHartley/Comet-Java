@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.server.game.items.music.SongItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.utilities.JsonFactory;
 import com.google.gson.reflect.TypeToken;
 
@@ -12,7 +12,7 @@ import java.util.List;
 public class SoundMachineFloorItem extends RoomItemFloor {
     private List<SongItem> songs;
 
-    public SoundMachineFloorItem(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public SoundMachineFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         if(data.startsWith("{")) {

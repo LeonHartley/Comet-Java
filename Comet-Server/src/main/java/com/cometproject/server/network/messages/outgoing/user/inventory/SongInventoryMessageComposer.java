@@ -21,7 +21,7 @@ public class SongInventoryMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(this.songItems.size());
 
         for(SongItem songItem : this.songItems) {

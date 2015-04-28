@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.types;
 
+import com.cometproject.api.game.rooms.entities.IPlayerEntity;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.commands.CommandManager;
@@ -16,7 +17,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPlayerSaysKeyword;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.logging.LogManager;
@@ -36,7 +37,6 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.Access
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.attributes.Attributable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
@@ -45,7 +45,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.util.Map;
 
 
-public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, Attributable {
+public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, Attributable, IPlayerEntity {
     private static final Logger log = Logger.getLogger(PlayerEntity.class.getName());
     private Player player;
     private PlayerData playerData;
@@ -61,7 +61,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     private GameTeam gameTeam = GameTeam.NONE;
     private int kickWalkStage = 0;
 
-    public PlayerEntity(Player player, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, RoomInstance roomInstance) {
+    public PlayerEntity(Player player, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
         this.player = player;
@@ -78,7 +78,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     }
 
     @Override
-    public void joinRoom(RoomInstance room, String password) {
+    public void joinRoom(Room room, String password) {
         boolean isAuthFailed = false;
 
         if (this.getRoom() == null) {
@@ -86,7 +86,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             isAuthFailed = true;
         }
 
-        // RoomInstance full, no slot available
+        // Room full, no slot available
         if (!isAuthFailed && this.getPlayerId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() &&
                 !this.getPlayer().getPermissions().hasPermission("room_enter_full")) {
             this.getPlayer().getSession().send(new RoomConnectionErrorMessageComposer(1, ""));
@@ -94,7 +94,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             isAuthFailed = true;
         }
 
-        // RoomInstance bans
+        // Room bans
         if (!isAuthFailed && this.getRoom().getRights().hasBan(this.getPlayerId()) && !this.getPlayer().getPermissions().hasPermission("room_unkickable")) {
             this.getPlayer().getSession().send(new RoomConnectionErrorMessageComposer(4, ""));
             isAuthFailed = true;
@@ -401,7 +401,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         if (this.hasAttribute("transformation")) {
             String[] transformationData = ((String) this.getAttribute("transformation")).split("#");
 

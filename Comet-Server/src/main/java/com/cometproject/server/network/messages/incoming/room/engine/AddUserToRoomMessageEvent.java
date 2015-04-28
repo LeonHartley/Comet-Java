@@ -5,7 +5,7 @@ import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
@@ -30,7 +30,7 @@ public class AddUserToRoomMessageEvent implements Event {
             return;
         }
 
-        RoomInstance room = avatar.getRoom();
+        Room room = avatar.getRoom();
 
         if (room == null) {
             return;

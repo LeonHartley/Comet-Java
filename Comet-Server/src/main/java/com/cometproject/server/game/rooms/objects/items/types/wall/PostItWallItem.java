@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.wall;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Arrays;
@@ -11,7 +11,7 @@ public class PostItWallItem extends RoomItemWall {
     private String colour;
     private String message;
 
-    public PostItWallItem(int id, int itemId, RoomInstance room, int owner, String position, String data) {
+    public PostItWallItem(int id, int itemId, Room room, int owner, String position, String data) {
         super(id, itemId, room, owner, position, data);
 
         if (this.isValidData(data))

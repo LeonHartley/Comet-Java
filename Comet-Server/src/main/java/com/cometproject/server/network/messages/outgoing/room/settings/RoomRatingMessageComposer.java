@@ -20,7 +20,7 @@ public class RoomRatingMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(this.score);
         msg.writeBoolean(this.canRate);
     }

@@ -1,8 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.user.youtube;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 
 
 public class PlayVideoMessageComposer extends MessageComposer {
@@ -22,7 +22,7 @@ public class PlayVideoMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(itemId);
         msg.writeString(videoId);
         msg.writeInt(0);

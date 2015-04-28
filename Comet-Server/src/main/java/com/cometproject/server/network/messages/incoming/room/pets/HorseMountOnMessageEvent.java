@@ -3,7 +3,7 @@ package com.cometproject.server.network.messages.incoming.room.pets;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -18,7 +18,7 @@ public class HorseMountOnMessageEvent implements Event {
             return;
         }
 
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null) return;
 

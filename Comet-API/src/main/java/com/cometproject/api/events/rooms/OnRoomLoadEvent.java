@@ -1,16 +1,16 @@
 package com.cometproject.api.events.rooms;
 
 import com.cometproject.api.events.Event;
-import com.cometproject.api.game.rooms.Room;
+import com.cometproject.api.game.rooms.IRoom;
 
 public class OnRoomLoadEvent extends Event {
-    private Room room;
+    private IRoom room;
 
-    public OnRoomLoadEvent(Room room) {
+    public OnRoomLoadEvent(IRoom room) {
         this.room = room;
     }
 
-    public Room getRoom() {
+    public IRoom getRoom() {
         return this.room;
     }
 }

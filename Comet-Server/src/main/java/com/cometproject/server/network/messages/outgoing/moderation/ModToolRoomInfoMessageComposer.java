@@ -1,16 +1,15 @@
 package com.cometproject.server.network.messages.outgoing.moderation;
 
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 
 
 public class ModToolRoomInfoMessageComposer extends MessageComposer {
-    private final RoomInstance room;
+    private final Room room;
 
-    public ModToolRoomInfoMessageComposer(final RoomInstance room) {
+    public ModToolRoomInfoMessageComposer(final Room room) {
         this.room = room;
     }
 
@@ -20,7 +19,7 @@ public class ModToolRoomInfoMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(room.getId());
         msg.writeInt(room.getEntities().playerCount());
 

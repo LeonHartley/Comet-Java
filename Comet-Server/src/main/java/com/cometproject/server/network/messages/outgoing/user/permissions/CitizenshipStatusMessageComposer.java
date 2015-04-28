@@ -12,7 +12,7 @@ public class CitizenshipStatusMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeString("helper");
         msg.writeInt(4);
         msg.writeInt(4);

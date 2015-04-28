@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.types;
 
-import com.cometproject.api.game.rooms.Room;
+import com.cometproject.api.game.rooms.IRoom;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -22,13 +22,13 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class RoomInstance implements Attributable, Room {
+public class Room implements Attributable, IRoom {
     public static final boolean useCycleForItems = false;
     public static final boolean useCycleForEntities = false;
 
     public final Logger log;
 
-    private final RoomDataInstance data;
+    private final RoomData data;
     private RoomModel model;
     private RoomMapping mapping;
 
@@ -50,12 +50,12 @@ public class RoomInstance implements Attributable, Room {
     private int idleTicks = 0;
     private final AtomicInteger wiredTimer = new AtomicInteger(0);
 
-    public RoomInstance(RoomDataInstance data) {
+    public Room(RoomData data) {
         this.data = data;
-        this.log = Logger.getLogger("RoomInstance \"" + this.getData().getName() + "\"");
+        this.log = Logger.getLogger("Room \"" + this.getData().getName() + "\"");
     }
 
-    public RoomInstance load() {
+    public Room load() {
         this.model = RoomManager.getInstance().getModel(this.getData().getModel());
 
         if (this.getData().getHeightmap() != null) {
@@ -97,7 +97,7 @@ public class RoomInstance implements Attributable, Room {
 
         this.setAttribute("loadTime", System.currentTimeMillis());
 
-        this.log.debug("RoomInstance loaded");
+        this.log.debug("Room loaded");
         return this;
     }
 
@@ -134,7 +134,7 @@ public class RoomInstance implements Attributable, Room {
         this.items.dispose();
         this.bots.dispose();
 
-        this.log.debug("RoomInstance has been disposed");
+        this.log.debug("Room has been disposed");
     }
 
     public void tick() {
@@ -189,7 +189,7 @@ public class RoomInstance implements Attributable, Room {
         return this.data.getId();
     }
 
-    public RoomDataInstance getData() {
+    public RoomData getData() {
         return this.data;
     }
 

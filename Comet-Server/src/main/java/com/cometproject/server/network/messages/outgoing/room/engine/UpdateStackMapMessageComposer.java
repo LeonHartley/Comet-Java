@@ -27,7 +27,7 @@ public class UpdateStackMapMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeByte(singleTile != null ? 1 : tilesToUpdate.size());
 
         if(singleTile != null) {

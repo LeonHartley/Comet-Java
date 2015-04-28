@@ -31,7 +31,7 @@ public class ModToolRoomChatlogMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeByte(1);
         msg.writeShort(3);
         msg.writeString("");

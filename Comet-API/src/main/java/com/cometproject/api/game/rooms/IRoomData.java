@@ -8,7 +8,7 @@ import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import java.util.List;
 import java.util.Map;
 
-public interface RoomData {
+public interface IRoomData {
 
     public void save();
 

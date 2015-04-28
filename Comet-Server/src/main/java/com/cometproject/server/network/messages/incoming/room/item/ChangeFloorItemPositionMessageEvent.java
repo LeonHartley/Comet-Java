@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.incoming.room.item;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
@@ -25,7 +25,7 @@ public class ChangeFloorItemPositionMessageEvent implements Event {
 
         if (client.getPlayer().getEntity() == null) return;
 
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null) return;
 

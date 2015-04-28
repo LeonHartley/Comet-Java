@@ -22,7 +22,7 @@ public class BadgeInventoryMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         Map<String, Integer> activeBadges = new FastMap<>();
 
         msg.writeInt(badges.size());

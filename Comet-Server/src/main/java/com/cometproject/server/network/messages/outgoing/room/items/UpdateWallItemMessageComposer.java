@@ -23,7 +23,7 @@ public class UpdateWallItemMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeString(item.getId());
         msg.writeInt(item.getDefinition().getSpriteId());
         msg.writeString(item.getWallPosition());

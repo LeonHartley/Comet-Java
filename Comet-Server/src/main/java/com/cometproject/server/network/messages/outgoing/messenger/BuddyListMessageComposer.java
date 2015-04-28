@@ -40,7 +40,7 @@ public class BuddyListMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(0);//?
         msg.writeInt(0);//?
 

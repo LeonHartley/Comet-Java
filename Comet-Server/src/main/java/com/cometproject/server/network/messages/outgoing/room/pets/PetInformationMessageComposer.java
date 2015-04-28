@@ -29,7 +29,7 @@ public class PetInformationMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         if(this.petData != null) {
             msg.writeInt(petData.getId());
             msg.writeString(petData.getName());

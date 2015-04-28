@@ -4,7 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 
@@ -23,7 +23,7 @@ public class WiredActionBotTalk extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionBotTalk(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredActionBotTalk(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

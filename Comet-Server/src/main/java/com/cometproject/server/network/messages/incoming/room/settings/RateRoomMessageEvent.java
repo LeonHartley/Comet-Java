@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -13,7 +13,7 @@ public class RateRoomMessageEvent implements Event {
             return;
         }
 
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if (!client.getPlayer().getEntity().canRateRoom()) {
             return;

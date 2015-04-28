@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
@@ -18,7 +18,7 @@ public class RespectUserMessageEvent implements Event {
         }
 
         Session user = NetworkManager.getInstance().getSessions().getByPlayerId(respect);
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if (user == null || user.getPlayer() == null) {
             return;

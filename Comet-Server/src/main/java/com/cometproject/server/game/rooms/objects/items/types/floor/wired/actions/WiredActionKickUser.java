@@ -4,7 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.WhisperMessageComposer;
 
 
@@ -23,7 +23,7 @@ public class WiredActionKickUser extends WiredActionShowMessage {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionKickUser(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredActionKickUser(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
         this.isWisperBubble = true;
     }
@@ -49,7 +49,7 @@ public class WiredActionKickUser extends WiredActionShowMessage {
         String kickException = "";
 
         if (this.getRoom().getData().getOwnerId() == playerEntity.getPlayerId()) {
-            kickException = "RoomInstance owner";
+            kickException = "Room owner";
         }
 
         if (kickException.isEmpty()) {

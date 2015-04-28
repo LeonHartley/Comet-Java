@@ -13,7 +13,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.outgoing.room.engine.UpdateStackMapMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
@@ -32,7 +32,7 @@ import java.util.*;
 
 
 public class ItemsComponent {
-    private RoomInstance room;
+    private Room room;
     private final Logger log;
 
     private final Map<Integer, RoomItemFloor> floorItems = new FastMap<Integer, RoomItemFloor>().shared();
@@ -43,9 +43,9 @@ public class ItemsComponent {
 
     private int moodlightId;
 
-    public ItemsComponent(RoomInstance room) {
+    public ItemsComponent(Room room) {
         this.room = room;
-        this.log = Logger.getLogger("RoomInstance Items Component [" + room.getData().getName() + "]");
+        this.log = Logger.getLogger("Room Items Component [" + room.getData().getName() + "]");
 
         RoomItemDao.getItems(this.room, this.floorItems, this.wallItems);
 
@@ -111,7 +111,7 @@ public class ItemsComponent {
         return (MoodlightWallItem) this.getWallItem(this.moodlightId);
     }
 
-    public RoomItemFloor addFloorItem(int id, int baseId, RoomInstance room, int ownerId, int x, int y, int rot, double height, String data) {
+    public RoomItemFloor addFloorItem(int id, int baseId, Room room, int ownerId, int x, int y, int rot, double height, String data) {
         RoomItemFloor floor = RoomItemFactory.createFloor(id, baseId, room, ownerId, x, y, height, rot, data);
 
         this.floorItems.put(floor.getId(), floor);
@@ -120,7 +120,7 @@ public class ItemsComponent {
         return floor;
     }
 
-    public RoomItemWall addWallItem(int id, int baseId, RoomInstance room, int ownerId, String position, String data) {
+    public RoomItemWall addWallItem(int id, int baseId, Room room, int ownerId, String position, String data) {
         RoomItemWall wall = RoomItemFactory.createWall(id, baseId, room, ownerId, position, data);
         this.getWallItems().add(wall);
 
@@ -392,7 +392,7 @@ public class ItemsComponent {
         wallItem.onPlaced();
     }
 
-    public RoomInstance getRoom() {
+    public Room getRoom() {
         return this.room;
     }
 

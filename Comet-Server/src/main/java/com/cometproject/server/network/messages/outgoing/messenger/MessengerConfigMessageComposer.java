@@ -15,7 +15,7 @@ public class MessengerConfigMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(CometSettings.maxFriends);
         msg.writeInt(300);
         msg.writeInt(800);

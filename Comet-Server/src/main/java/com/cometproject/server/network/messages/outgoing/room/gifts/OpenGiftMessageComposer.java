@@ -26,7 +26,7 @@ public class OpenGiftMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeString(itemDefinition.getType());
         msg.writeInt(itemDefinition.getSpriteId());
         msg.writeString(itemDefinition.getPublicName());

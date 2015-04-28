@@ -1,17 +1,16 @@
 package com.cometproject.server.network.messages.outgoing.catalog.ads;
 
-import com.cometproject.server.game.rooms.types.RoomDataInstance;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
 
 public class CatalogPromotionGetRoomsMessageComposer extends MessageComposer {
-    private final List<RoomDataInstance> promotableRooms;
+    private final List<RoomData> promotableRooms;
 
-    public CatalogPromotionGetRoomsMessageComposer(final List<RoomDataInstance> rooms) {
+    public CatalogPromotionGetRoomsMessageComposer(final List<RoomData> rooms) {
         this.promotableRooms = rooms;
     }
 
@@ -21,11 +20,11 @@ public class CatalogPromotionGetRoomsMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeBoolean(false);
         msg.writeInt(this.promotableRooms.size());
 
-        for (RoomDataInstance data : this.promotableRooms) {
+        for (RoomData data : this.promotableRooms) {
             msg.writeInt(data.getId());
             msg.writeString(data.getName());
             msg.writeBoolean(false);

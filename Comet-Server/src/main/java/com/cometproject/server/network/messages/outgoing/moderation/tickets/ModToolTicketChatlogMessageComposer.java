@@ -33,7 +33,7 @@ public class ModToolTicketChatlogMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(this.helpTicket.getId());
         msg.writeInt(this.helpTicket.getSubmitterId());
         msg.writeInt(this.helpTicket.getReportedId());

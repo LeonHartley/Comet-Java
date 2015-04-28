@@ -23,7 +23,7 @@ public class PetRacesMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeString(this.raceString);
         msg.writeInt(this.races.size());
 

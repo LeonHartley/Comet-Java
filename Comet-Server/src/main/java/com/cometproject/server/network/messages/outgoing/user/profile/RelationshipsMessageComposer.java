@@ -34,7 +34,7 @@ public class RelationshipsMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(playerId);
 
         if (relationships == null || relationships.size() == 0) {

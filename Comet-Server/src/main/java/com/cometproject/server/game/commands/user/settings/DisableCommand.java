@@ -3,14 +3,14 @@ package com.cometproject.server.game.commands.user.settings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.commands.CommandManager;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
 public class DisableCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if ((room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;

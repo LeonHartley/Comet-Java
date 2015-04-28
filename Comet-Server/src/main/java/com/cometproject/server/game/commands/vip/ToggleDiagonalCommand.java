@@ -2,7 +2,7 @@ package com.cometproject.server.game.commands.vip;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.sessions.Session;
 
 public class ToggleDiagonalCommand extends ChatCommand {
@@ -13,7 +13,7 @@ public class ToggleDiagonalCommand extends ChatCommand {
             return;
         }
 
-        final RoomInstance room = client.getPlayer().getEntity().getRoom();
+        final Room room = client.getPlayer().getEntity().getRoom();
 
         if(room.hasAttribute("disableDiagonal")) {
             sendNotif(Locale.getOrDefault("command.togglediagonal.enabled", "Diagonal walking has been enabled!"), client);

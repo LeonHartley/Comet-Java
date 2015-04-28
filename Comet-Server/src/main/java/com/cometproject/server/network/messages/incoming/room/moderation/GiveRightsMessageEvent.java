@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.incoming.room.moderation;
 
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.GiveRoomRighsMessageComposer;
@@ -17,7 +17,7 @@ public class GiveRightsMessageEvent implements Event {
 
         if (playerId == -1) return;
 
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;

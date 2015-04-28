@@ -12,7 +12,7 @@ public class RoomFullMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(1);
         msg.writeString("/x363");
 

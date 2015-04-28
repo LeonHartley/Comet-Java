@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigg
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 
 
 public class WiredTriggerGameStarts extends WiredTriggerItem {
@@ -19,7 +19,7 @@ public class WiredTriggerGameStarts extends WiredTriggerItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredTriggerGameStarts(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredTriggerGameStarts(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 
@@ -33,7 +33,7 @@ public class WiredTriggerGameStarts extends WiredTriggerItem {
         return 9;
     }
 
-    public static boolean executeTriggers(RoomInstance room) {
+    public static boolean executeTriggers(Room room) {
         boolean wasExecuted = false;
 
         for (RoomItemFloor floorItem : room.getItems().getByClass(WiredTriggerGameStarts.class)) {

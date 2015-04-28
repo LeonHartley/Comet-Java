@@ -19,7 +19,7 @@ public class FriendRequestMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(this.playerAvatar.getId());
         msg.writeString(this.playerAvatar.getUsername());
         msg.writeString(this.playerAvatar.getFigure());

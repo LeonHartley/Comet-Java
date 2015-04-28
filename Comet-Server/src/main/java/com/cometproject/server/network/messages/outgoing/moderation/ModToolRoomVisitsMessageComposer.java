@@ -1,11 +1,10 @@
 package com.cometproject.server.network.messages.outgoing.moderation;
 
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomDataInstance;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -28,18 +27,18 @@ public class ModToolRoomVisitsMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(playerId);
         msg.writeString(playerUsername);
 
         msg.writeInt(roomVisitLogEntries.size());
 
         for (RoomVisitLogEntry roomVisit : roomVisitLogEntries) {
-            RoomDataInstance roomData = RoomManager.getInstance().getRoomData(roomVisit.getRoomId());
+            RoomData roomData = RoomManager.getInstance().getRoomData(roomVisit.getRoomId());
             DateTime dateTime = new DateTime(roomVisit.getEntryTime() * 1000L);
 
             msg.writeInt(roomData == null ? 0: roomData.getId());
-            msg.writeString(roomData == null ? "Unknown RoomInstance" : roomData.getName());
+            msg.writeString(roomData == null ? "Unknown Room" : roomData.getName());
 
             msg.writeInt(dateTime.hourOfDay().get());
             msg.writeInt(dateTime.getMinuteOfHour());

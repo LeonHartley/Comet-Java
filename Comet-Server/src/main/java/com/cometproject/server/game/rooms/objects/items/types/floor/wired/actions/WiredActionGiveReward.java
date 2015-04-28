@@ -8,7 +8,7 @@ import com.cometproject.server.game.players.components.types.inventory.Inventory
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
@@ -62,7 +62,7 @@ public class WiredActionGiveReward extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionGiveReward(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredActionGiveReward(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         if (!rewardTimings.containsKey(this.getId())) {

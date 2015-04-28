@@ -27,7 +27,7 @@ public class QuestListMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         Map<String, Quest> categoryCounters = Maps.newHashMap();
 
         List<Quest> activeQuests = Lists.newArrayList();

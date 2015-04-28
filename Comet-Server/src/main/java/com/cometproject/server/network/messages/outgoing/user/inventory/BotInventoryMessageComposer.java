@@ -22,7 +22,7 @@ public class BotInventoryMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(bots.size());
 
         for (Map.Entry<Integer, InventoryBot> bot : bots.entrySet()) {

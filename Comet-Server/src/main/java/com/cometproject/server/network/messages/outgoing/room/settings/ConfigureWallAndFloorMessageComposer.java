@@ -22,7 +22,7 @@ public class ConfigureWallAndFloorMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeBoolean(hideWall);
         msg.writeInt(wallThick);
         msg.writeInt(floorThick);

@@ -6,7 +6,7 @@ import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.utilities.attributes.Attributable;
@@ -27,7 +27,7 @@ public abstract class RoomItem extends RoomObject implements Attributable {
     private LimitedEditionItem limitedEditionItem;
     private final Map<String, Object> attributes = new HashMap<>();
 
-    public RoomItem(int id, Position position, RoomInstance room) {
+    public RoomItem(int id, Position position, Room room) {
         super(id, position, room);
         this.ticksTimer = -1;
 

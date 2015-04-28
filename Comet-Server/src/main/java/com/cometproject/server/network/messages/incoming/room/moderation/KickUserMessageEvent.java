@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.moderation;
 
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.api.game.rooms.settings.RoomKickState;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -12,7 +12,7 @@ public class KickUserMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         int playerId = msg.readInt();
 
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null) {
             return;

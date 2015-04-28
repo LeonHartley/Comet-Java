@@ -1,12 +1,13 @@
 package com.cometproject.server.game.players.data;
 
+import com.cometproject.api.game.players.IPlayerData;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class PlayerData implements PlayerAvatar {
+public class PlayerData implements PlayerAvatar, IPlayerData {
     private int id;
     private int rank;
 

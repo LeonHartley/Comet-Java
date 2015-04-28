@@ -2,7 +2,7 @@ package com.cometproject.server.api.routes;
 
 import com.cometproject.server.api.rooms.RoomStats;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import javolution.util.FastMap;
 import spark.Request;
@@ -20,7 +20,7 @@ public class RoomRoutes {
 
         List<RoomStats> activeRooms = new ArrayList<>();
 
-        for (RoomInstance room : RoomManager.getInstance().getRoomInstances().values()) {
+        for (Room room : RoomManager.getInstance().getRoomInstances().values()) {
             activeRooms.add(new RoomStats(room));
         }
 
@@ -39,7 +39,7 @@ public class RoomRoutes {
             return result;
         }
 
-        RoomInstance room = RoomManager.getInstance().get(roomId);
+        Room room = RoomManager.getInstance().get(roomId);
 
         result.put("id", roomId);
 

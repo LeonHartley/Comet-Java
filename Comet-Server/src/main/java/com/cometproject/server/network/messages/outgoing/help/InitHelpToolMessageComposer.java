@@ -19,7 +19,7 @@ public class InitHelpToolMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(this.helpTicket == null ? 0 : 1);
 
         if(this.helpTicket != null) {

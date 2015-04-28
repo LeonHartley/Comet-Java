@@ -51,7 +51,7 @@ public class HelpTicket {
         TicketDao.saveTicket(this);
     }
     
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(this.getId());
         msg.writeInt(this.getState().getTabId());
         msg.writeInt(3); // style

@@ -6,7 +6,7 @@ import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.types.RoomDataInstance;
+import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
@@ -29,7 +29,7 @@ public class PromoteRoomMessageEvent implements Event {
 
         if (item == null) return;
 
-        RoomDataInstance roomData = RoomManager.getInstance().getRoomData(msg.readInt());
+        RoomData roomData = RoomManager.getInstance().getRoomData(msg.readInt());
 
         if (roomData == null || roomData.getOwnerId() != client.getPlayer().getId() || !roomData.getAccess().equals("open")) {
             return;

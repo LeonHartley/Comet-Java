@@ -12,6 +12,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Comet-API" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:18.0" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.26.Final" level="project" />
   </component>
 </module>
-

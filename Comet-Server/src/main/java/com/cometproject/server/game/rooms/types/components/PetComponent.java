@@ -3,14 +3,14 @@ package com.cometproject.server.game.rooms.types.components;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.queries.pets.RoomPetDao;
 
 
 public class PetComponent {
-    private RoomInstance room;
+    private Room room;
 
-    public PetComponent(RoomInstance room) {
+    public PetComponent(Room room) {
         this.room = room;
 
         this.load();
@@ -33,7 +33,7 @@ public class PetComponent {
         return petEntity;
     }
 
-    public RoomInstance getRoom() {
+    public Room getRoom() {
         return this.room;
     }
 }

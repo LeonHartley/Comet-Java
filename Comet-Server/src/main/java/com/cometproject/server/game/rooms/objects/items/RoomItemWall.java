@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateWallItemMessageComposer;
 import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
@@ -14,7 +14,7 @@ public abstract class RoomItemWall extends RoomItem {
 
     private ItemDefinition itemDefinition;
 
-    public RoomItemWall(int id, int itemId, RoomInstance room, int owner, String position, String data) {
+    public RoomItemWall(int id, int itemId, Room room, int owner, String position, String data) {
         super(id, null, room);
 
         this.itemId = itemId;
@@ -62,7 +62,7 @@ public abstract class RoomItemWall extends RoomItem {
 
     @Override
     public void sendUpdate() {
-        RoomInstance r = this.getRoom();
+        Room r = this.getRoom();
 
         if (r != null && r.getEntities() != null) {
             r.getEntities().broadcastMessage(new UpdateWallItemMessageComposer(this, this.ownerId, this.getRoom().getData().getOwner()));

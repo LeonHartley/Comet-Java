@@ -2,11 +2,11 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.addon
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 
 
 public class WiredAddonFloorSwitch extends RoomItemFloor {
-    public WiredAddonFloorSwitch(int id, int itemId, RoomInstance room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredAddonFloorSwitch(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

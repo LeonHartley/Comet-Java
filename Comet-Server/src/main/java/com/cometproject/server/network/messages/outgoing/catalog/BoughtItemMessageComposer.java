@@ -39,7 +39,7 @@ public class BoughtItemMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         if(this.catalogItem != null && this.itemDefinition != null) {
             msg.writeInt(this.catalogItem.getId());
             msg.writeString(this.itemDefinition.getItemName());

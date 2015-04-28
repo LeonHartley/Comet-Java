@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
@@ -24,7 +24,7 @@ public class UpdatePapersMessageEvent implements Event {
             return;
         }
 
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
         boolean hasRights = room.getRights().hasRights(client.getPlayer().getId());

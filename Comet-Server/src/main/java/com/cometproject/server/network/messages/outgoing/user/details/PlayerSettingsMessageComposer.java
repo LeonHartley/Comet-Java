@@ -19,7 +19,7 @@ public class PlayerSettingsMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer msg) {
+    public void compose(IComposer msg) {
         msg.writeInt(this.playerSettings.getVolumes().getSystemVolume());
         msg.writeInt(this.playerSettings.getVolumes().getFurniVolume());
         msg.writeInt(this.playerSettings.getVolumes().getTraxVolume());

@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.catalog.ads;
 
-import com.cometproject.server.game.rooms.types.RoomInstance;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
@@ -16,7 +16,7 @@ public class PromotionUpdateMessageEvent implements Event {
         String promotionName = msg.readString();
         String promotionDescription = msg.readString();
 
-        RoomInstance room = client.getPlayer().getEntity().getRoom();
+        Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
             return;
