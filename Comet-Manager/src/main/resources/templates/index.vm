@@ -7,7 +7,8 @@
                 <h3 class="panel-title">Welcome to Comet Manager</h3>
             </div>
             <div class="panel-body">
-                Welcome to the Comet Manager, the place where you can manage your Comet instances. You can perform such tasks as: <br /><br />
+                Welcome to the Comet Manager, the place where you can manage your Comet instances. You can perform such
+                tasks as: <br/><br/>
                 <ul>
                     <li>Add / Edit / Upload modules based on the <b>Comet Server API</b></li>
                     <li>Modify the configuration of your Comet Server instances</li>
@@ -19,7 +20,7 @@
         </div>
     </div>
 
-    <div class=" col-md-4">
+    <div class="col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">Login to the Manager</h3>
