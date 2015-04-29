@@ -65,6 +65,8 @@ public interface IPlayer {
 
     int getId();
 
+    void sendNotif(String title, String message);
+
     boolean isTeleporting();
 
     int getTeleportId();

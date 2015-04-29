@@ -41,7 +41,19 @@ public abstract class CometModule implements EventListenerContainer {
         this.gameService.getEventHandler().handleEvent(new OnModuleUnloadEvent());
     }
 
+    /**
+     * The random Module ID
+     * @return The random Module ID
+     */
     public UUID getModuleId() {
         return moduleId;
+    }
+
+    /**
+     * Get the main game service
+     * @return Main game service
+     */
+    public IGameService getGameService() {
+        return this.gameService;
     }
 }

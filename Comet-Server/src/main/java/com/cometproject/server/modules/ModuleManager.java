@@ -95,4 +95,8 @@ public class ModuleManager implements Initializable {
         // test unload event
         cometModule.unloadModule();
     }
+
+    public EventHandler getEventHandler() {
+        return eventHandler;
+    }
 }
