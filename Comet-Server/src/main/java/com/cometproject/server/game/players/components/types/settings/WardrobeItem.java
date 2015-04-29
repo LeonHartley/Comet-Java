@@ -1,8 +1,9 @@
 package com.cometproject.server.game.players.components.types.settings;
 
+import com.cometproject.api.game.players.data.types.IWardrobeItem;
 import com.cometproject.server.utilities.JsonData;
 
-public class WardrobeItem implements JsonData {
+public class WardrobeItem implements JsonData, IWardrobeItem {
     private int slot;
     private String gender;
     private String figure;

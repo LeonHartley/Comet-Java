@@ -1,6 +1,6 @@
 package com.cometproject.server.game.players.data;
 
-import com.cometproject.api.game.players.IPlayerData;
+import com.cometproject.api.game.players.data.IPlayerData;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.sql.ResultSet;

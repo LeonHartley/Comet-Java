@@ -1,11 +1,11 @@
 package com.cometproject.server.game.commands.vip;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.network.sessions.Session;
 
 
@@ -42,7 +42,7 @@ public class TransformCommand extends ChatCommand {
         return Locale.get("command.transform.description");
     }
 
-    public static void composeTransformation(Composer msg, String[] transformationData, PlayerEntity entity) {
+    public static void composeTransformation(IComposer msg, String[] transformationData, PlayerEntity entity) {
         // TODO: create global composer for entity types maybe
         msg.writeInt(entity.getPlayerId());
         msg.writeString(entity.getUsername());

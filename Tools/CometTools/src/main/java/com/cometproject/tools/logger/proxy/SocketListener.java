@@ -1,5 +1,6 @@
 package com.cometproject.tools.logger.proxy;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 

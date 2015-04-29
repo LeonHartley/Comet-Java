@@ -1,11 +1,11 @@
 package com.cometproject.server.network.messages.outgoing.room.avatar;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 import com.google.common.collect.Lists;
 
 import java.util.Collection;
@@ -58,7 +58,7 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
         }
     }
 
-    private void composeEntity(Composer msg, AvatarState entity) {
+    private void composeEntity(IComposer msg, AvatarState entity) {
         msg.writeInt(entity.getId());
 
         msg.writeInt(entity.getPosition().getX());

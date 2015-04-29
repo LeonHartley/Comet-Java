@@ -1,9 +1,9 @@
 package com.cometproject.server.logging.entries;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.logging.AbstractLogEntry;
 import com.cometproject.server.logging.LogEntryType;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 

@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.room.avatar;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;

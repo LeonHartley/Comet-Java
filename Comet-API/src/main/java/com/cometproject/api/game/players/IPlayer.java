@@ -1,5 +1,9 @@
 package com.cometproject.api.game.players;
 
+import com.cometproject.api.game.players.data.IPlayerData;
+import com.cometproject.api.game.players.data.IPlayerSettings;
+import com.cometproject.api.game.players.data.IPlayerStatistics;
+import com.cometproject.api.game.players.data.components.IPermissionComponent;
 import com.cometproject.api.game.rooms.entities.IPlayerEntity;
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.ISession;
@@ -39,25 +43,25 @@ public interface IPlayer {
 
     IPlayerData getData();
 
-    PlayerSettings getSettings();
+    IPlayerSettings getSettings();
 
-    PlayerStatistics getStats();
+    IPlayerStatistics getStats();
 
-    PermissionComponent getPermissions();
+    IPermissionComponent getPermissions();
 
-    MessengerComponent getMessenger();
-
-    InventoryComponent getInventory();
-
-    SubscriptionComponent getSubscription();
-
-    RelationshipComponent getRelationships();
-
-    InventoryBotComponent getBots();
-
-    PetComponent getPets();
-
-    QuestComponent getQuests();
+//    MessengerComponent getMessenger();
+//
+//    InventoryComponent getInventory();
+//
+//    SubscriptionComponent getSubscription();
+//
+//    RelationshipComponent getRelationships();
+//
+//    InventoryBotComponent getBots();
+//
+//    PetComponent getPets();
+//
+//    QuestComponent getQuests();
 
     int getId();
 

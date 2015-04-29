@@ -1,11 +1,11 @@
 package com.cometproject.server.network.messages.outgoing.quests;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.quests.Quest;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -67,7 +67,7 @@ public class QuestListMessageComposer extends MessageComposer {
         }
     }
 
-    private void composeQuest(final Quest quest, final Composer msg) {
+    private void composeQuest(final Quest quest, final IComposer msg) {
         msg.writeString(quest.getCategory());
         msg.writeInt(quest.getSeriesNumber());
         msg.writeInt(QuestManager.getInstance().amountOfQuestsInCategory(quest.getCategory()));

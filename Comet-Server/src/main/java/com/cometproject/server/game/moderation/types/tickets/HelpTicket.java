@@ -1,8 +1,8 @@
 package com.cometproject.server.game.moderation.types.tickets;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.types.components.types.ChatMessage;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.moderation.TicketDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 

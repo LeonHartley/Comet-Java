@@ -1,5 +1,6 @@
 package com.cometproject.tools;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.tools.logger.PacketLogger;
 import com.cometproject.tools.packets.PacketManager;
 import com.cometproject.tools.ui.CometWindow;

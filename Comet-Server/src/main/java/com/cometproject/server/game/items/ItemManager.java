@@ -11,8 +11,6 @@ import com.cometproject.server.utilities.Initializable;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import javax.jws.soap.SOAPBinding;
-
 
 public class ItemManager implements Initializable {
     private static ItemManager itemManagerInstance;

@@ -1,7 +1,6 @@
 package com.cometproject.server.game.players.types;
 
 import com.cometproject.api.game.players.IPlayer;
-import com.cometproject.api.game.players.Player;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.players.components.*;
@@ -237,12 +236,12 @@ public class Player implements IPlayer {
         this.session = ((Session) client);
     }
 
-    @Override
+//    @Override
     public void setEntity(PlayerEntity avatar) {
         this.avatar = avatar;
     }
 
-    @Override
+//    @Override
     public PlayerEntity getEntity() {
         return this.avatar;
     }
@@ -267,37 +266,37 @@ public class Player implements IPlayer {
         return this.permissions;
     }
 
-    @Override
+//    @Override
     public MessengerComponent getMessenger() {
         return this.messenger;
     }
 
-    @Override
+//    @Override
     public InventoryComponent getInventory() {
         return this.inventory;
     }
 
-    @Override
+//    @Override
     public SubscriptionComponent getSubscription() {
         return this.subscription;
     }
 
-    @Override
+//    @Override
     public RelationshipComponent getRelationships() {
         return this.relationships;
     }
 
-    @Override
+//    @Override
     public InventoryBotComponent getBots() {
         return this.bots;
     }
 
-    @Override
+//    @Override
     public PetComponent getPets() {
         return this.pets;
     }
 
-    @Override
+//    @Override
     public QuestComponent getQuests() {
         return quests;
     }

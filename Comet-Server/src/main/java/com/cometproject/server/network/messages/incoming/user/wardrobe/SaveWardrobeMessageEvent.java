@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.wardrobe;
 
+import com.cometproject.api.game.players.data.types.IWardrobeItem;
 import com.cometproject.server.game.players.components.types.settings.WardrobeItem;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -17,11 +18,11 @@ public class SaveWardrobeMessageEvent implements Event {
         String figure = msg.readString();
         String gender = msg.readString();
 
-        List<WardrobeItem> wardrobe = client.getPlayer().getSettings().getWardrobe();
+        List<IWardrobeItem> wardrobe = client.getPlayer().getSettings().getWardrobe();
 
         boolean wardrobeUpdated = false;
 
-        for (WardrobeItem item : wardrobe) {
+        for (IWardrobeItem item : wardrobe) {
             if (item.getSlot() == slot) {
                 item.setFigure(figure);
                 item.setGender(gender);

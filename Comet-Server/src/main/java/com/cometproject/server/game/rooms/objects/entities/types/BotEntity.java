@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.types;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;

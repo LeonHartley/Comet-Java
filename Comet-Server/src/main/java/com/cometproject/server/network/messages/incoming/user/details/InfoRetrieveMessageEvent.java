@@ -1,8 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.details;
 
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.messenger.BuddyListMessageComposer;
-import com.cometproject.server.network.messages.outgoing.messenger.FriendRequestsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerConfigMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementPointsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.buildersclub.BuildersClubMembershipMessageComposer;

@@ -1,9 +1,9 @@
 package com.cometproject.server.network.messages.outgoing.room.engine;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class UpdateStackMapMessageComposer extends MessageComposer {
         }
     }
 
-    private void composeUpdate(Tile tile, Composer msg) {
+    private void composeUpdate(Tile tile, IComposer msg) {
         msg.writeByte(tile.getPosition().getX());
         msg.writeByte(tile.getPosition().getY());
 

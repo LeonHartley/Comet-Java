@@ -1,23 +1,23 @@
 package com.cometproject.example;
 
-import com.cometproject.api.events.EventListener;
+import com.cometproject.api.events.listeners.modules.ModuleEventListener;
 import com.cometproject.api.events.modules.OnModuleLoadEvent;
 import com.cometproject.api.events.modules.OnModuleUnloadEvent;
 import com.cometproject.api.modules.CometModule;
-import com.cometproject.api.server.CometGameService;
+import com.cometproject.api.server.IGameService;
 
-public class ExamplePlugin extends CometModule {
-    public ExamplePlugin(CometGameService gameService) {
+public class ExamplePlugin extends CometModule implements ModuleEventListener {
+    public ExamplePlugin(IGameService gameService) {
         super(gameService);
     }
 
-    @EventListener(event = OnModuleLoadEvent.class)
-    public void onModuleLoadEvent(OnModuleLoadEvent event) {
+    @Override
+    public void onModuleLoad(OnModuleLoadEvent event) {
         System.out.println("Loaded!");
     }
 
-    @EventListener(event = OnModuleUnloadEvent.class)
-    public void onModuleUnloadEvent(OnModuleUnloadEvent event) {
+    @Override
+    public void onModuleUnload(OnModuleUnloadEvent event) {
         System.out.println("Unloaded!");
     }
 }

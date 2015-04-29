@@ -1,12 +1,12 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.utilities.JsonFactory;
 import org.apache.commons.lang.StringUtils;
@@ -137,7 +137,7 @@ public class InventoryItem {
         msg.writeInt(isGift ? this.getGiftData().getWrappingPaper() * 1000 + this.getGiftData().getDecorationType() : 0);
     }
 
-    public void serializeTrade(Composer msg) {
+    public void serializeTrade(IComposer msg) {
         final boolean isGift = this.getGiftData() != null;
         final boolean isGroupItem = this.getDefinition().getInteraction().equals("group_item") || this.getDefinition().getInteraction().equals("group_gate");
         final boolean isLimited = this.getLimitedEditionItem() != null;

@@ -1,5 +1,6 @@
 package com.cometproject.launcher;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;

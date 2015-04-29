@@ -1,7 +1,5 @@
 package com.cometproject.api.networking.messages;
 
-import java.nio.charset.Charset;
-
 public interface IComposer {
     int getId();
 

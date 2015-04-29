@@ -1,5 +1,6 @@
 package com.cometproject.server.game.commands.staff.rewards.mass;
 
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.NetworkManager;
@@ -16,7 +17,7 @@ public abstract class MassCurrencyCommand extends ChatCommand {
 
         final int amount = Integer.parseInt(params[0]);
 
-        for (Session session : NetworkManager.getInstance().getSessions().getSessions().values()) {
+        for (ISession session : NetworkManager.getInstance().getSessions().getSessions().values()) {
             try {
 
                 if (this instanceof MassCoinsCommand) {

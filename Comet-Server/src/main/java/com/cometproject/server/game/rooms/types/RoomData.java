@@ -1,15 +1,15 @@
 package com.cometproject.server.game.rooms.types;
 
-import com.cometproject.api.game.rooms.RoomCategory;
 import com.cometproject.api.game.rooms.IRoomData;
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.navigator.NavigatorManager;
-import com.cometproject.server.game.navigator.types.Category;
+import com.cometproject.api.game.rooms.RoomCategory;
 import com.cometproject.api.game.rooms.settings.RoomBanState;
 import com.cometproject.api.game.rooms.settings.RoomKickState;
 import com.cometproject.api.game.rooms.settings.RoomMuteState;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.navigator.NavigatorManager;
+import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import com.google.common.collect.Lists;
 import javolution.util.FastMap;

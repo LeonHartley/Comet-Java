@@ -1,5 +1,6 @@
 package com.cometproject.tools.packets;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 public abstract class Packet {
     private short id;
     private String className;

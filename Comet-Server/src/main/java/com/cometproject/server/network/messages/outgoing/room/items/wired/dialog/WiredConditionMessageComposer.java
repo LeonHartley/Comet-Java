@@ -1,10 +1,10 @@
 package com.cometproject.server.network.messages.outgoing.room.items.wired.dialog;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 
 
 public class WiredConditionMessageComposer extends MessageComposer {

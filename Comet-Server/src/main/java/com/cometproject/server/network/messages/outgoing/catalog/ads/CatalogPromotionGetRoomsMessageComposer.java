@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.catalog.ads;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;

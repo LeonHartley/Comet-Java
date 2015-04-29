@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.rooms.RoomManager;
@@ -18,7 +19,7 @@ public class PrivateChatMessageEvent implements Event {
         String message = msg.readString();
 
         if (userId == -1 && client.getPlayer().getPermissions().hasPermission("staff_chat")) {
-            for (Session user : NetworkManager.getInstance().getSessions().getByPlayerPermission("staff_chat")) {
+            for (ISession user : NetworkManager.getInstance().getSessions().getByPlayerPermission("staff_chat")) {
                 if (user == client) continue;
                 user.send(new InstantChatMessageComposer(client.getPlayer().getData().getUsername() + ": " + message, -1));
             }

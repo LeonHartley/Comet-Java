@@ -1,5 +1,6 @@
 package com.cometproject.logger;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.logger.routes.Routes;
 import com.cometproject.logger.tasks.CometThreadManagement;
 import com.google.gson.Gson;

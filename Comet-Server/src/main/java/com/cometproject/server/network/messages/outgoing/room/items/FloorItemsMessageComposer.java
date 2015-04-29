@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.room.items;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -58,7 +59,7 @@ public class FloorItemsMessageComposer extends MessageComposer {
             msg.writeInt(room.getItems().getFloorItems().size());
 
             for (RoomItemFloor item : room.getItems().getFloorItems()) {
-                item.serialize(msg);
+                item.serialize((msg));
             }
         } else {
             msg.writeInt(0);

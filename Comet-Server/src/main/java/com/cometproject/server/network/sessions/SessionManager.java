@@ -1,11 +1,10 @@
 package com.cometproject.server.network.sessions;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.networking.sessions.ISessionManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.api.networking.messages.IMessageComposer;
-import com.cometproject.server.network.messages.composers.MessageComposer;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;

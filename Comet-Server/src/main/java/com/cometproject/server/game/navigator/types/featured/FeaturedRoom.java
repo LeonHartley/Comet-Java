@@ -1,8 +1,10 @@
 package com.cometproject.server.game.navigator.types.featured;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
+import com.cometproject.server.network.messages.types.Composer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -74,7 +76,7 @@ public class FeaturedRoom {
         if (isCategory) {
             msg.writeBoolean(false);
         } else {
-            RoomWriter.write(room, msg);
+            RoomWriter.write(room, ((Composer) msg));
         }
     }
 

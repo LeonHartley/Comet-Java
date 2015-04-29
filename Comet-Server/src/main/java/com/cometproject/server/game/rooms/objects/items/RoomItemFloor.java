@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.groups.GroupManager;
@@ -24,7 +25,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredF
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.attributes.Collidable;
@@ -52,7 +52,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         this.extraData = data;
     }
 
-    public void serialize(Composer msg, boolean isNew) {
+    public void serialize(IComposer msg, boolean isNew) {
         //final boolean isGift = false;
 
         /*if (this.giftData != null) {
@@ -224,7 +224,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
     }
 
     @Override
-    public void serialize(Composer msg) {
+    public void serialize(IComposer msg) {
         this.serialize(msg, false);
     }
 

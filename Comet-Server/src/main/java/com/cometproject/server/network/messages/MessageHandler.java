@@ -80,11 +80,9 @@ import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoM
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.messages.types.tasks.MessageEventTask;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.tasks.OrderedExecutor;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

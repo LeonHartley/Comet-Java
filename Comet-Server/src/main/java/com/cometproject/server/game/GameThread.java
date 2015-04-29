@@ -1,11 +1,11 @@
 package com.cometproject.server.game;
 
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
@@ -88,7 +88,7 @@ public class GameThread implements CometTask, Initializable {
 
     private void cycleRewards() throws Exception {
         if (CometSettings.quarterlyCreditsEnabled || CometSettings.quarterlyDucketsEnabled) {
-            for (Session client : NetworkManager.getInstance().getSessions().getSessions().values()) {
+            for (ISession client : NetworkManager.getInstance().getSessions().getSessions().values()) {
                 try {
                     if (client.getPlayer() == null || client.getPlayer().getData() == null) {
                         continue;

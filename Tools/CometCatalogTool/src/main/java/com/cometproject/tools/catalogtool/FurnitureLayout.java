@@ -1,5 +1,6 @@
 package com.cometproject.tools.catalogtool;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

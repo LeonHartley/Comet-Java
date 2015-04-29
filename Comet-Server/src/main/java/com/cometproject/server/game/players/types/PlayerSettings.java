@@ -1,5 +1,9 @@
 package com.cometproject.server.game.players.types;
 
+import com.cometproject.api.game.players.data.IPlayerSettings;
+import com.cometproject.api.game.players.data.types.IPlaylistItem;
+import com.cometproject.api.game.players.data.types.IVolumeData;
+import com.cometproject.api.game.players.data.types.IWardrobeItem;
 import com.cometproject.server.game.players.components.types.settings.PlaylistItem;
 import com.cometproject.server.game.players.components.types.settings.VolumeData;
 import com.cometproject.server.game.players.components.types.settings.WardrobeItem;
@@ -12,11 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PlayerSettings {
+public class PlayerSettings implements IPlayerSettings {
     private VolumeData volumes;
 
-    private List<WardrobeItem> wardrobe;
-    private List<PlaylistItem> playlist;
+    private List<IWardrobeItem> wardrobe;
+    private List<IPlaylistItem> playlist;
 
     private boolean hideOnline;
     private boolean hideInRoom;
@@ -115,7 +119,7 @@ public class PlayerSettings {
         this.useOldChat = false;
     }
 
-    public VolumeData getVolumes() {
+    public IVolumeData getVolumes() {
         return this.volumes;
     }
 
@@ -147,15 +151,15 @@ public class PlayerSettings {
         this.homeRoom = homeRoom;
     }
 
-    public List<WardrobeItem> getWardrobe() {
+    public List<IWardrobeItem> getWardrobe() {
         return wardrobe;
     }
 
-    public void setWardrobe(List<WardrobeItem> wardrobe) {
+    public void setWardrobe(List<IWardrobeItem> wardrobe) {
         this.wardrobe = wardrobe;
     }
 
-    public List<PlaylistItem> getPlaylist() {
+    public List<IPlaylistItem> getPlaylist() {
         return playlist;
     }
 

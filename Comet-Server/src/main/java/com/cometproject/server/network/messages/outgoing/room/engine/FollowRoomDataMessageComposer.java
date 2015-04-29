@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.room.engine;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.composers.MessageComposer;
@@ -19,10 +20,10 @@ public class FollowRoomDataMessageComposer extends MessageComposer {
     }
 
     @Override
-    public void compose(Composer composer) {
+    public void compose(IComposer composer) {
         composer.writeBoolean(false);
 
-        RoomWriter.write(this.roomData, composer);
+        RoomWriter.write(this.roomData, ((Composer) composer));
 
         composer.writeBoolean(true);
         composer.writeBoolean(false);

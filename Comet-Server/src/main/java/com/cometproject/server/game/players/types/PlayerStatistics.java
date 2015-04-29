@@ -1,5 +1,6 @@
 package com.cometproject.server.game.players.types;
 
+import com.cometproject.api.game.players.data.IPlayerStatistics;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 
@@ -7,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class PlayerStatistics {
+public class PlayerStatistics implements IPlayerStatistics {
     private int playerId;
     private int achievementPoints;
     private int dailyRespects;
