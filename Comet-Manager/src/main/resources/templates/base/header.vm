@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comet: Login</title>
+
+    <link rel='stylesheet' href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css' type='text/css' />
+    <link rel='stylesheet' href='/css/app.css' type='text/css' />
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+<div class='header'>
+    <div class='wrapper'>
+        <div class='logo'>Comet</div>
+
+        <ul class='navigation'>
+            #if($authenticated)
+                <li><a href='/logout'>Logout</a></li>
+            #end
+        </ul>
+    </div>
+</div>
+
+<div class='wrapper'>
