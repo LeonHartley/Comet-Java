@@ -1,15 +1,15 @@
 package com.cometproject.api.game.players.data.types;
 
 public interface IVolumeData {
-    public int getSystemVolume();
+    int getSystemVolume();
 
-    public void setSystemVolume(int systemVolume);
+    void setSystemVolume(int systemVolume);
 
-    public int getFurniVolume();
+    int getFurniVolume();
 
-    public void setFurniVolume(int furniVolume);
+    void setFurniVolume(int furniVolume);
 
-    public int getTraxVolume();
+    int getTraxVolume();
 
-    public void setTraxVolume(int traxVolume);
+    void setTraxVolume(int traxVolume);
 }

@@ -1,19 +1,19 @@
 package com.cometproject.api.game.players.data.types;
 
 public interface IPlaylistItem {
-    public String getVideoId();
+    String getVideoId();
 
-    public void setVideoId(String videoId);
+    void setVideoId(String videoId);
 
-    public String getTitle();
+    String getTitle();
 
-    public void setTitle(String title);
+    void setTitle(String title);
 
-    public String getDescription();
+    String getDescription();
 
-    public void setDescription(String description);
+    void setDescription(String description);
 
-    public int getDuration();
+    int getDuration();
 
-    public void setDuration(int duration);
+    void setDuration(int duration);
 }

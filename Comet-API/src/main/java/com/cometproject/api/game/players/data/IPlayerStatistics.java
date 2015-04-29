@@ -1,43 +1,43 @@
 package com.cometproject.api.game.players.data;
 
 public interface IPlayerStatistics {
-    public void save();
+    void save();
 
-    public void incrementAchievementPoints(int amount);
+    void incrementAchievementPoints(int amount);
 
-    public void incrementCautions(int amount);
+    void incrementCautions(int amount);
 
-    public void incrementRespectPoints(int amount);
+    void incrementRespectPoints(int amount);
 
-    public void decrementDailyRespects(int amount);
+    void decrementDailyRespects(int amount);
 
-    public void incrementBans(int amount);
+    void incrementBans(int amount);
 
-    public void incrementAbusiveHelpTickets(int amount);
+    void incrementAbusiveHelpTickets(int amount);
 
-    public int getPlayerId();
+    int getPlayerId();
 
-    public int getDailyRespects();
+    int getDailyRespects();
 
-    public int getRespectPoints();
+    int getRespectPoints();
 
-    public int getAchievementPoints();
+    int getAchievementPoints();
 
-    public int getFriendCount();
+    int getFriendCount();
 
-    public int getHelpTickets();
+    int getHelpTickets();
 
-    public void setHelpTickets(int helpTickets);
+    void setHelpTickets(int helpTickets);
 
-    public int getAbusiveHelpTickets();
+    int getAbusiveHelpTickets();
 
-    public void setAbusiveHelpTickets(int abusiveHelpTickets);
+    void setAbusiveHelpTickets(int abusiveHelpTickets);
 
-    public int getCautions();
+    int getCautions();
 
-    public void setCautions(int cautions);
+    void setCautions(int cautions);
 
-    public int getBans();
+    int getBans();
 
-    public void setBans(int bans);
+    void setBans(int bans);
 }
