@@ -1,10 +1,12 @@
 package com.cometproject.server.network.messages.incoming.handshake;
 
+import com.cometproject.api.events.players.OnPlayerLoginEvent;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.handshake.AuthenticationOKMessageComposer;
@@ -142,5 +144,7 @@ public class SSOTicketMessageEvent implements Event {
         client.send(new EffectsInventoryMessageComposer());
 
         client.flush();
+
+        ModuleManager.getInstance().getEventHandler().handleEvent(new OnPlayerLoginEvent(client.getPlayer()));
     }
 }
