@@ -25,5 +25,7 @@
         <module>Comet-API-Example</module>
         <module>Comet-Server</module>
         <module>Comet-Launcher</module>
+        <module>Comet-Manager-API</module>
+        <module>Comet-Manager</module>
     </modules>
 </project>
