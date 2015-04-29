@@ -28,6 +28,6 @@ public class ExamplePlugin extends CometModule {
         event.getPlayer().getData().save();
 
         event.getPlayer().sendBalance();
-        event.getPlayer().sendNotif("Welcome!", "Hey, " + event.getPlayer().getData().getUsername() + ", you've received your login bonus!");
+        event.getPlayer().sendNotif("Welcome!", "Hey " + event.getPlayer().getData().getUsername() + ", you've received your login bonus!");
     }
 }
