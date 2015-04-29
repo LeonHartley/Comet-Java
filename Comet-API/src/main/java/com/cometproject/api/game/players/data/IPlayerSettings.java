@@ -8,33 +8,33 @@ import java.util.List;
 
 public interface IPlayerSettings {
 
-    public IVolumeData getVolumes();
+    IVolumeData getVolumes();
 
-    public boolean getHideOnline();
+    boolean getHideOnline();
 
-    public boolean getHideInRoom();
+    boolean getHideInRoom();
 
-    public boolean getAllowFriendRequests();
+    boolean getAllowFriendRequests();
 
-    public void setAllowFriendRequests(boolean allowFriendRequests);
+    void setAllowFriendRequests(boolean allowFriendRequests);
 
-    public boolean getAllowTrade();
+    boolean getAllowTrade();
 
-    public int getHomeRoom();
+    int getHomeRoom();
 
-    public void setHomeRoom(int homeRoom);
+    void setHomeRoom(int homeRoom);
 
-    public List<IWardrobeItem> getWardrobe();
+    List<IWardrobeItem> getWardrobe();
 
-    public void setWardrobe(List<IWardrobeItem> wardrobe);
+    void setWardrobe(List<IWardrobeItem> wardrobe);
 
-    public List<IPlaylistItem> getPlaylist();
+    List<IPlaylistItem> getPlaylist();
 
-    public boolean isUseOldChat();
+    boolean isUseOldChat();
 
-    public void setUseOldChat(boolean useOldChat);
+    void setUseOldChat(boolean useOldChat);
 
-    public boolean isIgnoreInvites();
+    boolean isIgnoreInvites();
 
-    public void setIgnoreInvites(boolean ignoreInvites);
+    void setIgnoreInvites(boolean ignoreInvites);
 }
