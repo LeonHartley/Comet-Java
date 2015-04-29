@@ -1,5 +1,6 @@
 package com.cometproject.logger;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

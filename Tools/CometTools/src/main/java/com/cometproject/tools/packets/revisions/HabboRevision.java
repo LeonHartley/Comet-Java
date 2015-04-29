@@ -1,5 +1,6 @@
 package com.cometproject.tools.packets.revisions;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.tools.packets.instances.MessageComposer;
 import com.cometproject.tools.packets.instances.MessageEvent;
 

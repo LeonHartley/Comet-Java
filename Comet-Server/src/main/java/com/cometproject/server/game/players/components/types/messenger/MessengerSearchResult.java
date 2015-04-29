@@ -1,7 +1,7 @@
 package com.cometproject.server.game.players.components.types.messenger;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.network.messages.types.Composer;
 
 
 public class MessengerSearchResult {

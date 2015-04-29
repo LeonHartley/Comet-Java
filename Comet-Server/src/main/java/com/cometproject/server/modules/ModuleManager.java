@@ -3,6 +3,7 @@ package com.cometproject.server.modules;
 import com.cometproject.api.config.ModuleConfig;
 import com.cometproject.api.events.EventHandler;
 import com.cometproject.api.modules.CometModule;
+import com.cometproject.api.server.IGameService;
 import com.cometproject.server.modules.events.EventHandlerService;
 import com.cometproject.server.utilities.Initializable;
 import com.cometproject.server.utilities.JsonFactory;
@@ -84,7 +85,7 @@ public class ModuleManager implements Initializable {
 
         Class<?> clazz = Class.forName(moduleConfig.getEntryPoint(), true, loader);
         Class<? extends CometModule> runClass = clazz.asSubclass(CometModule.class);
-        Constructor<? extends CometModule> ctor = runClass.getConstructor(CometGameService.class);
+        Constructor<? extends CometModule> ctor = runClass.getConstructor(IGameService.class);
 
         CometModule cometModule = ctor.newInstance(this.gameService);
 

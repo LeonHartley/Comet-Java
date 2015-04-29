@@ -1,5 +1,6 @@
 package com.cometproject.tools.logger;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.tools.CometTools;
 import com.cometproject.tools.logger.proxy.Proxy;
 

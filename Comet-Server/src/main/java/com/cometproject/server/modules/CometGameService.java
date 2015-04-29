@@ -3,9 +3,7 @@ package com.cometproject.server.modules;
 import com.cometproject.api.events.EventHandler;
 import com.cometproject.api.networking.sessions.ISessionManager;
 import com.cometproject.api.server.IGameService;
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.sessions.SessionManager;
 
 public class CometGameService implements IGameService {
     /**

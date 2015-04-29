@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.types;
 
-public interface PlayerComponent {
-    public Player getPlayer();
-    public void dispose();
+import com.cometproject.api.game.players.data.IPlayerComponent;
+
+public interface PlayerComponent extends IPlayerComponent {
+
 }

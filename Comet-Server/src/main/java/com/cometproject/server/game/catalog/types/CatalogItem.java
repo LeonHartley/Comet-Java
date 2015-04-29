@@ -1,9 +1,9 @@
 package com.cometproject.server.game.catalog.types;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.network.messages.types.Composer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

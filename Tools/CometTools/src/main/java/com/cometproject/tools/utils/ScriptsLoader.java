@@ -1,5 +1,6 @@
 package com.cometproject.tools.utils;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.google.common.base.Stopwatch;
 
 import java.io.BufferedReader;

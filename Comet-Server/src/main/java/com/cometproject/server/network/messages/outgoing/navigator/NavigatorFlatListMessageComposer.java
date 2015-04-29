@@ -1,12 +1,16 @@
 package com.cometproject.server.network.messages.outgoing.navigator;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 
 public class NavigatorFlatListMessageComposer extends MessageComposer {
@@ -63,7 +67,6 @@ public class NavigatorFlatListMessageComposer extends MessageComposer {
         for (RoomData room : topRooms) {
             RoomWriter.write(room, msg);
         }
-
 
         msg.writeInt(0);
         msg.writeInt(0);

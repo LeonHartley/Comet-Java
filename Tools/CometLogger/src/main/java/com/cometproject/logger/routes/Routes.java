@@ -1,5 +1,6 @@
 package com.cometproject.logger.routes;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.logger.ResponseBuilder;
 
 import static com.cometproject.logger.CometLogger.JSON_TRANSFORMER;

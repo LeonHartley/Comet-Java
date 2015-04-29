@@ -1,5 +1,6 @@
 package com.cometproject.tools.packets.instances;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.tools.packets.Packet;
 import javolution.util.FastList;
 

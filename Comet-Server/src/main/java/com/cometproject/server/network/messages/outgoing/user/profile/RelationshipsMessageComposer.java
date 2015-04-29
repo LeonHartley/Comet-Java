@@ -1,11 +1,11 @@
 package com.cometproject.server.network.messages.outgoing.user.profile;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.components.RelationshipComponent;
 import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.google.common.collect.Lists;
 

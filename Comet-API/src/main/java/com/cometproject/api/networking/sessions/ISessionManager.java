@@ -1,7 +1,6 @@
 package com.cometproject.api.networking.sessions;
 
 import com.cometproject.api.networking.messages.IMessageComposer;
-import io.netty.channel.group.ChannelGroup;
 
 import java.util.Map;
 import java.util.Set;

@@ -1,14 +1,14 @@
 package com.cometproject.server.game.rooms.types;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.network.messages.types.Composer;
 
 
 public class RoomWriter {
-    public static void write(RoomData room, Composer msg) {
+    public static void write(RoomData room, IComposer msg) {
         boolean isActive = RoomManager.getInstance().isActive(room.getId());
 
         msg.writeInt(room.getId());
@@ -36,7 +36,7 @@ public class RoomWriter {
         composeRoomSpecials(msg, promotion, group);
     }
 
-    public static void entryData(RoomData room, Composer msg) {
+    public static void entryData(RoomData room, IComposer msg) {
         msg.writeBoolean(true); // is loading
 
         write(room, msg);
@@ -59,7 +59,7 @@ public class RoomWriter {
         msg.writeInt(room.getAntiFloodSettings());
     }
 
-    public static void composeRoomSpecials(Composer msg, RoomPromotion promotion, Group group) {
+    public static void composeRoomSpecials(IComposer msg, RoomPromotion promotion, Group group) {
         if(promotion != null && group != null) {
             msg.writeInt(62);
 

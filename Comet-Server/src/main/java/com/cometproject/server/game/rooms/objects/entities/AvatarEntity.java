@@ -4,7 +4,6 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.network.messages.types.Composer;
 import com.cometproject.server.utilities.attributes.Attributable;
 
 import java.util.List;

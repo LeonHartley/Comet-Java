@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.catalog.groups;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.rooms.RoomManager;

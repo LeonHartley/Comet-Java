@@ -1,5 +1,6 @@
 package com.cometproject.tools.logger.proxy;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 /**
  * @author boboman13
  */

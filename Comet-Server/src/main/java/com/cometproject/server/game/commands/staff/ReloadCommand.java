@@ -1,5 +1,6 @@
 package com.cometproject.server.game.commands.staff;
 
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.CatalogManager;
@@ -112,7 +113,7 @@ public class ReloadCommand extends ChatCommand {
 
                 sendNotif(Locale.get("command.reload.modpresets"), client);
 
-                for (Session session : NetworkManager.getInstance().getSessions().getByPlayerPermission("mod_tool")) {
+                for (ISession session : NetworkManager.getInstance().getSessions().getByPlayerPermission("mod_tool")) {
                     session.send(new ModToolMessageComposer());
                 }
                 break;

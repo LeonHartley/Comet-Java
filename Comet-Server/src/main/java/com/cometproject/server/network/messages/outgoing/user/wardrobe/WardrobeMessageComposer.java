@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.user.wardrobe;
 
+import com.cometproject.api.game.players.data.types.IWardrobeItem;
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.players.components.types.settings.WardrobeItem;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 
@@ -9,9 +9,9 @@ import java.util.List;
 
 
 public class WardrobeMessageComposer extends MessageComposer {
-    private final List<WardrobeItem> wardrobe;
+    private final List<IWardrobeItem> wardrobe;
 
-    public WardrobeMessageComposer(final List<WardrobeItem> wardrobe) {
+    public WardrobeMessageComposer(final List<IWardrobeItem> wardrobe) {
         this.wardrobe = wardrobe;
     }
 
@@ -25,7 +25,7 @@ public class WardrobeMessageComposer extends MessageComposer {
         msg.writeInt(1);
         msg.writeInt(wardrobe.size());
 
-        for (WardrobeItem item : wardrobe) {
+        for (IWardrobeItem item : wardrobe) {
             msg.writeInt(item.getSlot());
             msg.writeString(item.getFigure());
 

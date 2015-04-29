@@ -1,5 +1,6 @@
 package com.cometproject.tools.catalogtool;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

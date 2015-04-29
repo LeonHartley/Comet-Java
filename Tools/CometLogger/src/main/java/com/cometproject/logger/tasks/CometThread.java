@@ -1,5 +1,6 @@
 package com.cometproject.logger.tasks;
 
+import com.cometproject.api.networking.messages.IMessageComposer;
 public class CometThread extends Thread {
 
     public CometThread(CometTask task) {

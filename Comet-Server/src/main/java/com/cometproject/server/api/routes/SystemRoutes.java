@@ -1,5 +1,6 @@
 package com.cometproject.server.api.routes;
 
+import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.CatalogManager;
@@ -14,7 +15,6 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
-import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
 import spark.Request;
 import spark.Response;
@@ -79,7 +79,7 @@ public class SystemRoutes {
             case "modpresets":
                 ModerationManager.getInstance().loadPresets();
 
-                for (Session session : NetworkManager.getInstance().getSessions().getByPlayerPermission("mod_tool")) {
+                for (ISession session : NetworkManager.getInstance().getSessions().getByPlayerPermission("mod_tool")) {
                     session.send(new ModToolMessageComposer());
                 }
 

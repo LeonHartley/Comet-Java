@@ -1,6 +1,8 @@
-package com.cometproject.api.game.players;
+package com.cometproject.api.game.players.data;
 
 public interface IPlayerData {
+
+    void save();
 
     void decreaseCredits(int amount);
 

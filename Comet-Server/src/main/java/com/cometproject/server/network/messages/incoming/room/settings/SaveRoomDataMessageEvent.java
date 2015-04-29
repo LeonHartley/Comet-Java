@@ -1,15 +1,15 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
+import com.cometproject.api.game.rooms.settings.RoomBanState;
+import com.cometproject.api.game.rooms.settings.RoomKickState;
+import com.cometproject.api.game.rooms.settings.RoomMuteState;
+import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
-import com.cometproject.api.game.rooms.settings.RoomBanState;
-import com.cometproject.api.game.rooms.settings.RoomKickState;
-import com.cometproject.api.game.rooms.settings.RoomMuteState;
-import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
