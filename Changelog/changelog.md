@@ -1,6 +1,15 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 30/04/2015
+* Soundmachine/Trax complete
+
+## 29/04/2015
+* Lots more module work
+
+## 28/04/2015
+* Work on modules
+
 ## 27/04/2015
 * Created a timer interaction which can be interacted with via wired.
 
