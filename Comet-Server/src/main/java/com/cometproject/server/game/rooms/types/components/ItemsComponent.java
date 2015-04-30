@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.types.components;
 
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.config.*;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
@@ -11,10 +11,12 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.UpdateStackMapMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
@@ -24,9 +26,11 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import javolution.util.FastMap;
 import javolution.util.FastTable;
 import org.apache.log4j.Logger;
+import com.cometproject.server.config.Locale;
 
 import java.util.*;
 
@@ -41,6 +45,7 @@ public class ItemsComponent {
     private Map<Class<? extends RoomItemFloor>, Set<Integer>> itemClassIndex = new FastMap<Class<? extends RoomItemFloor>, Set<Integer>>().shared();
     private Map<String, Set<Integer>> itemInteractionIndex = new FastMap<String, Set<Integer>>().shared();
 
+    private int jukeboxId = 0;
     private int moodlightId;
 
     public ItemsComponent(Room room) {
@@ -50,6 +55,10 @@ public class ItemsComponent {
         RoomItemDao.getItems(this.room, this.floorItems, this.wallItems);
 
         for(RoomItemFloor floorItem : this.floorItems.values()) {
+            if(floorItem instanceof SoundMachineFloorItem) {
+                jukeboxId = floorItem.getId();
+            }
+
             this.indexItem(floorItem);
         }
     }
@@ -200,6 +209,10 @@ public class ItemsComponent {
     }
 
     public void removeItem(RoomItemFloor item, Session client) {
+        if(item instanceof SoundMachineFloorItem) {
+            this.jukeboxId = 0;
+        }
+
         removeItem(item, client, true, false);
     }
 
@@ -415,6 +428,15 @@ public class ItemsComponent {
         if(!this.verifyItemPosition(item.getDefinition(), tile, null))
             return;
 
+        if(item.getDefinition().getInteraction().equals("soundmachine") && this.jukeboxId > 0) {
+            Map<String, String> notificationParams = Maps.newHashMap();
+
+            notificationParams.put("message", Locale.get("game.room.jukeboxExists"));
+
+            player.getSession().send(new RoomNotificationMessageComposer("furni_placement_error", notificationParams));
+            return;
+        }
+
         List<RoomItemFloor> floorItems = room.getItems().getItemsOnSquare(x, y);
 
         if (item.getDefinition() != null && item.getDefinition().getInteraction() != null) {
@@ -477,5 +499,13 @@ public class ItemsComponent {
 
         this.itemClassIndex.get(floorItem.getClass()).add(floorItem.getId());
         this.itemInteractionIndex.get(floorItem.getDefinition().getInteraction()).add(floorItem.getId());
+    }
+
+    public SoundMachineFloorItem getSoundMachine() {
+        if(this.jukeboxId != 0) {
+            return ((SoundMachineFloorItem) this.getFloorItem(this.jukeboxId));
+        }
+
+        return null;
     }
 }

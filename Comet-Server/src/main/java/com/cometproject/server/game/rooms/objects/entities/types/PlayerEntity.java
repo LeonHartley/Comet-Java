@@ -320,7 +320,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
 //        for (PetEntity entity : this.getRoom().getEntities().getPetEntities()) {
 //            if (message.split(" ").length > 0) {
-//                if (entity.getData().getName().toLowerCase().equals(message.split(" ")[0].toLowerCase())) {
+//                if (entity.getDatav().getName().toLowerCase().equals(message.split(" ")[0].toLowerCase())) {
 //                    if (entity.getAI().onTalk(this, message)) {
 //                        return false;
 //                    }

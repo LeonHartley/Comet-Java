@@ -39,6 +39,10 @@ public class MusicData {
         return data;
     }
 
+    public int getLengthSeconds() {
+        return this.lengthSeconds;
+    }
+
     public int getLengthMilliseconds() {
         return lengthSeconds * 1000;
     }

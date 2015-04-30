@@ -32,7 +32,7 @@ public class ItemManager implements Initializable {
         this.musicData = new FastMap<>();
 
         this.loadItemDefinitions();
-//        this.loadMusicData();
+        this.loadMusicData();
 
         ItemStorageQueue.getInstance().initialize();
 

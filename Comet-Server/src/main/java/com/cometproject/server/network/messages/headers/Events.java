@@ -204,6 +204,11 @@ public class Events {
     public static final short SaveForumSettingsMessageEvent = 3152;
     public static final short InitializeFriendListMessageEvent = 996;
     public static final short SongInventoryMessageEvent = 2753;
+    public static final short SongIdMessageEvent = 2737;
+    public static final short SongDataMessageEvent = 2520;
+    public static final short PlaylistMessageEvent = 3899;
+    public static final short PlaylistAddMessageEvent = 2991;
+    public static final short PlaylistRemoveMessageEvent = 3621;
 
     private static Map<Short, String> eventPacketNames = new FastMap<>();
 

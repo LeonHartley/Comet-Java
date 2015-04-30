@@ -46,6 +46,8 @@ public class MannequinFloorItem extends RoomItemFloor {
 
         if (this.name == null || this.gender == null || this.figure == null) return false;
 
+        if(!this.gender.equals(playerEntity.getGender())) return false;
+
         String newFigure = "";
 
         for (String playerFigurePart : Arrays.asList(playerEntity.getFigure().split("\\."))) {

@@ -236,4 +236,8 @@ public class InventoryItem {
     public LimitedEditionItem getLimitedEditionItem() {
         return limitedEditionItem;
     }
+
+    public InventoryItemSnapshot createSnapshot() {
+        return new InventoryItemSnapshot(this.id, this.baseId, this.extraData);
+    }
 }

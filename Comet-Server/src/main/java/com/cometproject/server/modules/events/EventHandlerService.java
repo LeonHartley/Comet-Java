@@ -55,14 +55,14 @@ public class EventHandlerService implements EventHandler {
             if (event.isAsync()) {
                 this.asyncEventExecutor.submit(() -> {
                     this.invoke(event);
-                    System.out.format("Async event handled: %s\n", event.getClass().getSimpleName());
+                    log.debug(String.format("Async event handled: %s\n", event.getClass().getSimpleName()));
                 });
             } else {
                 this.invoke(event);
-                System.out.format("Event handled: %s\n", event.getClass().getSimpleName());
+                log.debug(String.format("Event handled: %s\n", event.getClass().getSimpleName()));
             }
         } else {
-            System.out.format("Unhandled event: %s\n", event.getClass().getSimpleName());
+            log.debug(String.format("Unhandled event: %s\n", event.getClass().getSimpleName()));
         }
     }
 
