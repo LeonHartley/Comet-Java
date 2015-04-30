@@ -211,7 +211,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
             msg.writeInt(0);
 
             //msg.writeString(isGift ? giftData.toString() : this.getExtraData());
-            msg.writeString((this instanceof FootballGateFloorItem) ? "" : (this instanceof WiredFloorItem) ? "0" : this.getExtraData());
+            msg.writeString((this instanceof FootballGateFloorItem) ? "" : (this instanceof WiredFloorItem) ? "0" : (this instanceof SoundMachineFloorItem) ? ((SoundMachineFloorItem) this).getState() ? "1" : "0" : this.getExtraData());
         }
 
         msg.writeInt(-1);

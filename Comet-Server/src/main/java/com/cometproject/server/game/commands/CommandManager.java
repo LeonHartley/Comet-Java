@@ -93,6 +93,7 @@ public class CommandManager implements Initializable {
         this.commands.put("entitygrid", new EntityGridCommand());
         this.commands.put("cachestats", new CacheStatsCommand());
         this.commands.put("processtimes", new ProcessTimesCommand());
+        this.commands.put("fastprocess", new FastProcessCommand());
     }
 
     /**xa

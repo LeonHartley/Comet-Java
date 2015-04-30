@@ -105,7 +105,6 @@ public class Session implements ISession {
 
     public void send(IMessageComposer msg) {
         if (msg == null) {
-            logger.debug("Message was null!");
             return;
         }
 

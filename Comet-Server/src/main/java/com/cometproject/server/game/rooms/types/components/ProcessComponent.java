@@ -199,6 +199,11 @@ public class ProcessComponent implements CometTask {
         this.tick();
     }
 
+    public void setDelay(int time) {
+        this.processFuture.cancel(false);
+        this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 0, time, TimeUnit.MILLISECONDS);
+    }
+
     private boolean updateEntityStuff(GenericEntity entity) {
         if (entity.getPositionToSet() != null) {
             if ((entity.getPositionToSet().getX() == this.room.getModel().getDoorX()) && (entity.getPositionToSet().getY() == this.room.getModel().getDoorY())) {
