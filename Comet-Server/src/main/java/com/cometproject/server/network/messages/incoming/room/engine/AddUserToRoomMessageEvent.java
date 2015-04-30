@@ -4,6 +4,7 @@ import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -96,6 +97,14 @@ public class AddUserToRoomMessageEvent implements Event {
         client.sendQueue(new WallItemsMessageComposer(client.getPlayer().getEntity().getRoom()));
 
         WiredTriggerEnterRoom.executeTriggers(client.getPlayer().getEntity());
+
+        if(room.getItems().getSoundMachine() != null) {
+            SoundMachineFloorItem soundMachineFloorItem = room.getItems().getSoundMachine();
+
+            if(soundMachineFloorItem.getState()) {
+                client.send(soundMachineFloorItem.getComposer());
+            }
+        }
 
         client.flush();
         avatar.markNeedsUpdate();

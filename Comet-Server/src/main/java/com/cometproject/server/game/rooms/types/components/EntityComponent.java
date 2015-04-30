@@ -130,6 +130,8 @@ public class EntityComponent {
     }
 
     public void broadcastMessage(MessageComposer msg, boolean usersWithRightsOnly) {
+        if(msg == null) return;
+
         for (GenericEntity entity : this.entities.values()) {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;

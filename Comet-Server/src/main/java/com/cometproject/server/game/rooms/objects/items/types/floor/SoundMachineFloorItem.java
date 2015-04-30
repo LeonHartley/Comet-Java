@@ -6,8 +6,10 @@ import com.cometproject.server.game.items.music.MusicData;
 import com.cometproject.server.game.items.music.SongItem;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.music.PlayMusicMessageComposer;
 import com.cometproject.server.utilities.JsonFactory;
 import com.cometproject.server.utilities.attributes.Stateable;
@@ -57,8 +59,13 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     }
 
     @Override
-    public void onTick() {
+    public void onTickComplete() {
         if(this.isPlaying) {
+            if(this.currentPlayingIndex >= this.getSongs().size()) {
+                this.stop();
+                return;
+            }
+
             SongItem songItem = this.getSongs().get(this.currentPlayingIndex);
 
             if(songItem != null) {
@@ -70,6 +77,8 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
                     }
                 }
             }
+
+            this.setTicks(RoomItemFactory.getProcessTime(1.0));
         }
     }
 
@@ -78,6 +87,10 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     }
 
     public SongItem removeSong(int index) {
+        if(index == this.currentPlayingIndex) {
+            this.playNextSong();
+        }
+
         SongItem songItem = this.songs.get(index);
         this.songs.remove(index);
 
@@ -91,6 +104,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
         this.currentPlayingIndex = -1;
 
         this.playNextSong();
+        this.setTicks(RoomItemFactory.getProcessTime(1.0));
     }
 
     public void stop() {
@@ -111,19 +125,26 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     }
 
     private void broadcastSong() {
-        if(!this.isPlaying) {
+        if(!this.isPlaying || this.currentPlayingIndex >= this.songs.size()) {
             this.getRoom().getEntities().broadcastMessage(new PlayMusicMessageComposer());
+
+            if(this.isPlaying)
+                this.isPlaying = false;
             return;
         }
 
+        this.getRoom().getEntities().broadcastMessage(this.getComposer());
+    }
+
+    public MessageComposer getComposer() {
         SongItem songItem = this.songs.get(this.currentPlayingIndex);
 
         if(songItem == null) {
-            return;
+            return null;
         }
 
         int songId = songItem.getSongId();
-        this.getRoom().getEntities().broadcastMessage(new PlayMusicMessageComposer(songId, this.currentPlayingIndex, this.songTimeSync()));
+        return new PlayMusicMessageComposer(songId, this.currentPlayingIndex, this.songTimeSync());
     }
 
     private int timePlaying() {
@@ -141,12 +162,12 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
             MusicData musicData = ItemManager.getInstance().getMusicData(songItem.getSongId());
 
             if(musicData != null) {
-                if((this.timePlaying() * 1000) >= musicData.getLengthMilliseconds())
-                    return musicData.getLengthMilliseconds();
+                if((this.timePlaying()) >= musicData.getLengthSeconds())
+                    return musicData.getLengthSeconds();
             }
         }
 
-        return this.timePlaying() * 1000;
+        return this.timePlaying();
     }
 
     @Override
