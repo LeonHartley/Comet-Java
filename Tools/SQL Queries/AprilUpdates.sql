@@ -40,3 +40,6 @@ INSERT INTO `furniture_music` VALUES ('5', 'lost_my_tapes_at_goa', 'Tapes from G
 
 ALTER TABLE `furniture`
 	ADD COLUMN `song_id` INT(11) NOT NULL DEFAULT '0'
+
+INSERT INTO `server_locale`
+ (`key`, `value`) VALUES ('game.room.jukeboxExists', 'This room already has a jukebox!');

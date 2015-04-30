@@ -1,21 +1,15 @@
 package com.cometproject.server.game.items.music;
 
+import com.cometproject.server.game.players.components.types.inventory.InventoryItemSnapshot;
+
 public class SongItem {
 
-    private int itemId;
+    private InventoryItemSnapshot itemSnapshot;
     private int songId;
 
-    public SongItem(int itemId, int songId) {
-        this.itemId = itemId;
+    public SongItem(InventoryItemSnapshot itemSnapshot, int songId) {
+        this.itemSnapshot = itemSnapshot;
         this.songId = songId;
-    }
-
-    public int getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
     }
 
     public int getSongId() {
@@ -24,5 +18,13 @@ public class SongItem {
 
     public void setSongId(int songId) {
         this.songId = songId;
+    }
+
+    public InventoryItemSnapshot getItemSnapshot() {
+        return itemSnapshot;
+    }
+
+    public void setItemSnapshot(InventoryItemSnapshot itemSnapshot) {
+        this.itemSnapshot = itemSnapshot;
     }
 }

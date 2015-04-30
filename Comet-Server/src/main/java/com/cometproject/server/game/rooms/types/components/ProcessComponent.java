@@ -46,7 +46,7 @@ public class ProcessComponent implements CometTask {
 
     public ProcessComponent(Room room) {
         this.room = room;
-        this.log = Logger.getLogger("IRoom Process [" + room.getData().getName() + "]");
+        this.log = Logger.getLogger("Room Process [" + room.getData().getName() + "]");
 
         this.adaptiveProcessTimes = CometSettings.adaptiveEntityProcessDelay;
     }

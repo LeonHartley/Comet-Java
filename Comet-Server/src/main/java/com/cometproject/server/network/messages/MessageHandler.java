@@ -33,6 +33,11 @@ import com.cometproject.server.network.messages.incoming.moderation.tickets.ModT
 import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolPickTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolReleaseIssueMessageEvent;
 import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolTicketChatlogMessageEvent;
+import com.cometproject.server.network.messages.incoming.music.SongDataMessageEvent;
+import com.cometproject.server.network.messages.incoming.music.SongIdMessageEvent;
+import com.cometproject.server.network.messages.incoming.music.playlist.PlaylistAddMessageEvent;
+import com.cometproject.server.network.messages.incoming.music.playlist.PlaylistMessageEvent;
+import com.cometproject.server.network.messages.incoming.music.playlist.PlaylistRemoveMessageEvent;
 import com.cometproject.server.network.messages.incoming.navigator.*;
 import com.cometproject.server.network.messages.incoming.quests.OpenQuestsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.AnswerDoorbellMessageEvent;
@@ -384,6 +389,11 @@ public final class MessageHandler {
 
     public void registerMusic() {
         this.getMessages().put(Events.SongInventoryMessageEvent, new SongInventoryMessageEvent());
+        this.getMessages().put(Events.SongIdMessageEvent, new SongIdMessageEvent());
+        this.getMessages().put(Events.SongDataMessageEvent, new SongDataMessageEvent());
+        this.getMessages().put(Events.PlaylistAddMessageEvent, new PlaylistAddMessageEvent());
+        this.getMessages().put(Events.PlaylistRemoveMessageEvent, new PlaylistRemoveMessageEvent());
+        this.getMessages().put(Events.PlaylistMessageEvent, new PlaylistMessageEvent());
     }
 
     public void handle(MessageEvent message, Session client) {

@@ -182,6 +182,10 @@ public class Composers {
     public static final short HelpTicketResponseMessageComposer = 1721;
     public static final short UpdateStackMapMessageComposer = 1163;
     public static final short SongInventoryMessageComposer = 1208;
+    public static final short SongIdMessageComposer = 2254;
+    public static final short SongDataMessageComposer = 2017;
+    public static final short PlaylistMessageComposer = 2167;
+    public static final short PlayMusicMessageComposer = 1333;
 
     private static Map<Short, String> composerPacketNames = new FastMap<>();
 
