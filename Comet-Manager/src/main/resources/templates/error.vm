@@ -1,0 +1,6 @@
+#parse('/templates/base/header.vm')
+
+<h1>Oops!</h1>
+The page you requested does not exist.
+
+#parse('/templates/base/footer.vm')
