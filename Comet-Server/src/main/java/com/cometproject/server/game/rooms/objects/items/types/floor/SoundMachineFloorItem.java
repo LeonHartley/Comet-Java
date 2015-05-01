@@ -63,6 +63,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
         if(this.isPlaying) {
             if(this.currentPlayingIndex >= this.getSongs().size()) {
                 this.stop();
+                this.sendUpdate();
                 return;
             }
 
