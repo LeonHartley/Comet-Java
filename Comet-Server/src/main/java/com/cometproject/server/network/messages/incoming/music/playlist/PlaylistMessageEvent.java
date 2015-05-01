@@ -16,6 +16,8 @@ public class PlaylistMessageEvent implements Event {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
+        if(client.getPlayer().getId() != room.getData().getOwnerId()) return;
+
         SoundMachineFloorItem soundMachineFloorItem = room.getItems().getSoundMachine();
 
         if (soundMachineFloorItem == null) {
