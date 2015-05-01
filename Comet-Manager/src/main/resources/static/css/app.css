@@ -59,3 +59,7 @@ a:hover {
     width: 400px;
     margin: auto;
 }
+
+.panel-title {
+    padding-top: 5px;
+}
