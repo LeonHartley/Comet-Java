@@ -90,6 +90,11 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
         }
     }
 
+    @Override
+    public void onPickup() {
+        this.setExtraData(this.getDataObject());
+    }
+
     public void addSong(SongItem songItem) {
         this.songs.add(songItem);
     }
