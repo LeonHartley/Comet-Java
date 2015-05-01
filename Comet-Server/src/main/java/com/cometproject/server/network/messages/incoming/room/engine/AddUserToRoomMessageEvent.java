@@ -98,15 +98,16 @@ public class AddUserToRoomMessageEvent implements Event {
 
         WiredTriggerEnterRoom.executeTriggers(client.getPlayer().getEntity());
 
-        if(room.getItems().getSoundMachine() != null) {
-            SoundMachineFloorItem soundMachineFloorItem = room.getItems().getSoundMachine();
-
-            if(soundMachineFloorItem.getState()) {
-                client.send(soundMachineFloorItem.getComposer());
-            }
-        }
+//        if(room.getItems().getSoundMachine() != null) {
+//            SoundMachineFloorItem soundMachineFloorItem = room.getItems().getSoundMachine();
+//
+//            if(soundMachineFloorItem.getState()) {
+//                client.send(soundMachineFloorItem.getComposer());
+//            }
+//        }
 
         client.flush();
+
         avatar.markNeedsUpdate();
     }
 }

@@ -47,6 +47,7 @@ import com.cometproject.server.network.messages.incoming.room.bots.BotConfigMess
 import com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.PlaceBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.RemoveBotMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.engine.AddUserToRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.FollowRoomInfoMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.filter.EditWordFilterMessageEvent;
