@@ -2,11 +2,19 @@ package com.cometproject.server.game.commands.development;
 
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.sessions.Session;
+import io.netty.util.internal.StringUtil;
+import org.apache.commons.lang.StringUtils;
 
 public class FastProcessCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        client.getPlayer().getEntity().getRoom().getProcess().setDelay(490);
+        int processTime = 490;
+
+        if(params.length == 1 && StringUtils.isNumeric(params[0])) {
+            processTime = Integer.parseInt(params[0]);
+        }
+
+        client.getPlayer().getEntity().getRoom().getProcess().setDelay(processTime);
     }
 
     @Override
