@@ -128,6 +128,11 @@ public class ReloadCommand extends ChatCommand {
                 sendNotif(Locale.get("command.reload.models"), client);
                 break;
 
+            case "music":
+                ItemManager.getInstance().loadMusicData();
+                sendNotif(Locale.get("command.reload.music"), client);
+                break;
+
         }
     }
 
