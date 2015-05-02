@@ -89,8 +89,7 @@ import com.cometproject.server.network.sessions.Session;
 import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
@@ -101,7 +100,17 @@ public final class MessageHandler {
 
     public MessageHandler() {
         this.asyncEventExecution = Boolean.parseBoolean((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.enabled", "false"));
-        this.eventExecutor = asyncEventExecution ? Executors.newFixedThreadPool(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.threads", "8"))) : null;
+//        this.eventExecutor = asyncEventExecution ? Executors.newFixedThreadPool(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.threads", "8"))) : null;
+
+        if(this.asyncEventExecution) {
+            this.eventExecutor = new ThreadPoolExecutor(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.coreSize", "8")), // core size
+                    Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.maxSize", "32")), // max size
+                    10*60, // idle timeout
+                    TimeUnit.SECONDS,
+                    new LinkedBlockingQueue<>());
+        } else {
+            this.eventExecutor = null;
+        }
 
         this.load();
     }
