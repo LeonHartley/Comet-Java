@@ -16,7 +16,9 @@ import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ModuleManager implements Initializable {
     private static ModuleManager moduleManagerInstance;
@@ -25,7 +27,7 @@ public class ModuleManager implements Initializable {
     private EventHandler eventHandler;
     private CometGameService gameService;
 
-    private List<CometModule> modules;
+    private Map<String, CometModule> modules;
 
     public ModuleManager() {
         this.eventHandler = new EventHandlerService();
@@ -42,7 +44,7 @@ public class ModuleManager implements Initializable {
 
     @Override
     public void initialize() {
-        this.modules = new ArrayList<>();
+        this.modules = new HashMap<>();
 
         for (String moduleName : this.findModules()) {
             try {
@@ -71,15 +73,19 @@ public class ModuleManager implements Initializable {
 
     private void loadModule(String name) throws Exception {
         ClassLoader loader = URLClassLoader.newInstance(
-                new URL[]{ new URL("jar:file:modules/" + name + "!/")},
+                new URL[]{new URL("jar:file:modules/" + name + "!/")},
                 getClass().getClassLoader()
         );
 
         URL configJsonLocation = loader.getResource("plugin.json");
 
-        if(configJsonLocation == null) throw new Exception("plugin.json does not exist");
+        if (configJsonLocation == null) throw new Exception("plugin.json does not exist");
 
         final ModuleConfig moduleConfig = JsonFactory.getInstance().fromJson(Resources.toString(configJsonLocation, Charsets.UTF_8), ModuleConfig.class);
+
+        if (this.modules.containsKey(moduleConfig.getName())) {
+            throw new Exception("There is already a loaded module with this name.");
+        }
 
         log.info("Loaded module: " + moduleConfig.getName());
 
@@ -92,8 +98,7 @@ public class ModuleManager implements Initializable {
         // test load event
         cometModule.loadModule();
 
-        // test unload event
-        cometModule.unloadModule();
+        this.modules.put(moduleConfig.getName(), cometModule);
     }
 
     public EventHandler getEventHandler() {
