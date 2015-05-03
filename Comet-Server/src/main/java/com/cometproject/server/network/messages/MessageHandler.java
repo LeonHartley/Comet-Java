@@ -105,7 +105,7 @@ public final class MessageHandler {
         if(this.asyncEventExecution) {
             this.eventExecutor = new ThreadPoolExecutor(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.coreSize", "8")), // core size
                     Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.maxSize", "32")), // max size
-                    10*60, // idle timeout
+                    10 * 60, // idle timeout
                     TimeUnit.SECONDS,
                     new LinkedBlockingQueue<>());
         } else {
