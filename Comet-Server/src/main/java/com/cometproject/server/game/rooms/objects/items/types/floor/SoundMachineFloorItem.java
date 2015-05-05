@@ -27,6 +27,8 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
 
     private List<SongItem> songs;
 
+    private boolean pendingPlay = false;
+
     public SoundMachineFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
@@ -34,7 +36,8 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
             this.songs = JsonFactory.getInstance().fromJson(data.replace("##jukeboxOn", ""), new TypeToken<ArrayList<SongItem>>() {
             }.getType());
 
-            this.play();
+            this.pendingPlay = true;
+            this.setTicks(RoomItemFactory.getProcessTime(1.5));
         } else if (data.startsWith("##jukeboxOff[")) {
             this.songs = JsonFactory.getInstance().fromJson(data.replace("##jukeboxOff", ""), new TypeToken<ArrayList<SongItem>>() {
             }.getType());
@@ -68,6 +71,13 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
 
     @Override
     public void onTickComplete() {
+        if(this.pendingPlay) {
+            this.play();
+            this.pendingPlay = false;
+            this.sendUpdate();
+            return;
+        }
+
         if (this.isPlaying) {
             if (this.currentPlayingIndex >= this.getSongs().size()) {
                 this.stop();

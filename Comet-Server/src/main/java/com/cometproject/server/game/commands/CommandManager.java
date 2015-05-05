@@ -194,7 +194,7 @@ public class CommandManager implements Initializable {
     public boolean isCommand(String message) {
         if(message.length() <= 1) return false;
 
-        String executor = message.split(" ")[0];
+        String executor = message.split(" ")[0].toLowerCase();
 
         boolean isCommand = executor.equals(Locale.get("command.commands.name")) || commands.containsKey(executor);
 
