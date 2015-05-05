@@ -122,6 +122,7 @@ public class MessengerComponent implements PlayerComponent {
             }
 
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(friend.getUserId());
+
             if (session != null && session.getPlayer() != null)
                 session.send(msg);
         }
