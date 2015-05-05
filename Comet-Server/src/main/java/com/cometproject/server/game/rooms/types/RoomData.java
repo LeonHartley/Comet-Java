@@ -142,7 +142,7 @@ public class RoomData implements IRoomData {
             }
         }
 
-        RoomDao.updateRoom(id, name, description, ownerId, owner, category, maxUsers, access, password, score,
+        RoomDao.updateRoom(id, name, StringUtils.abbreviate(description, 255), ownerId, owner, category, maxUsers, access, password, score,
                 tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1),
                 model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, allowPets, heightmap, tradeState,
                 muteState, kickState, banState, bubbleMode, bubbleType, bubbleScroll, chatDistance, antiFloodSettings, this.disabledCommands.isEmpty() ? "" : StringUtils.join(this.disabledCommands, ",")
