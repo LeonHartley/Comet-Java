@@ -11,103 +11,105 @@ import java.util.Map;
 
 
 public interface AvatarEntity extends Attributable {
-    public int getId();
+    int getId();
 
-    public Position getWalkingGoal();
+    Position getWalkingGoal();
 
-    public void setWalkingGoal(int x, int y);
+    void setWalkingGoal(int x, int y);
 
-    public Position getPositionToSet();
+    Position getPositionToSet();
 
-    public void updateAndSetPosition(Position position);
+    void updateAndSetPosition(Position position);
 
-    public void markPositionIsSet();
+    void markPositionIsSet();
 
-    public int getBodyRotation();
+    int getBodyRotation();
 
-    public void setBodyRotation(int rotation);
+    void setBodyRotation(int rotation);
 
-    public int getHeadRotation();
+    int getHeadRotation();
 
-    public void setHeadRotation(int rotation);
+    void setHeadRotation(int rotation);
 
-    public List<Square> getWalkingPath();
+    List<Square> getWalkingPath();
 
-    public void setWalkingPath(List<Square> path);
+    void setWalkingPath(List<Square> path);
 
-    public List<Square> getProcessingPath();
+    List<Square> getProcessingPath();
 
-    public void setProcessingPath(List<Square> path);
+    void setProcessingPath(List<Square> path);
 
-    public boolean isWalking();
+    boolean isWalking();
 
-    public Square getFutureSquare();
+    Square getFutureSquare();
 
-    public void setFutureSquare(Square square);
+    void setFutureSquare(Square square);
 
-    public void moveTo(int x, int y);
+    void moveTo(int x, int y);
 
-    public Map<RoomEntityStatus, String> getStatuses();
+    Map<RoomEntityStatus, String> getStatuses();
 
-    public void addStatus(RoomEntityStatus key, String value);
+    void addStatus(RoomEntityStatus key, String value);
 
-    public void removeStatus(RoomEntityStatus key);
+    void removeStatus(RoomEntityStatus key);
 
-    public boolean hasStatus(RoomEntityStatus key);
+    boolean hasStatus(RoomEntityStatus key);
 
-    public void markNeedsUpdate();
+    void markNeedsUpdate();
 
-    public boolean needsUpdate();
+    boolean needsUpdate();
 
-    public void setIdle();
+    void setIdle();
 
-    public int getIdleTime();
+    int getIdleTime();
 
-    public boolean isIdleAndIncrement();
+    boolean isIdleAndIncrement();
 
-    public void resetIdleTime();
+    void resetIdleTime();
 
-    public int getDanceId();
+    int getDanceId();
 
-    public void setDanceId(int danceId);
+    void setDanceId(int danceId);
 
-    public int getSignTime();
+    int getSignTime();
 
-    public void markDisplayingSign();
+    void markDisplayingSign();
 
-    public boolean isDisplayingSign();
+    boolean isDisplayingSign();
 
-    public boolean isOverriden();
+    boolean isOverriden();
 
-    public void setOverriden(boolean overriden);
+    void setOverriden(boolean overriden);
 
-    public PlayerEffect getCurrentEffect();
+    PlayerEffect getCurrentEffect();
 
-    public void applyEffect(PlayerEffect effect);
+    void applyEffect(PlayerEffect effect);
 
-    public void carryItem(int id);
+    void carryItem(int id);
 
-    public void carryItem(int id, boolean timer);
+    void carryItem(int id, boolean timer);
 
-    public int getHandItem();
+    int getHandItem();
 
-    public boolean handItemNeedsRemove();
+    boolean handItemNeedsRemove();
 
-    public int getHandItemTimer();
+    int getHandItemTimer();
 
-    public void setHandItemTimer(int time);
+    void setHandItemTimer(int time);
 
-    public String getUsername();
+    String getUsername();
 
-    public String getMotto();
+    String getMotto();
 
-    public String getFigure();
+    String getFigure();
 
-    public String getGender();
+    String getGender();
 
-    public void compose(IComposer msg);
+    void compose(IComposer msg);
 
-    public void warp(Position position);
+    void warp(Position position);
 
-    public void kick();
+    void kick();
+
+    long getJoinTime();
 }

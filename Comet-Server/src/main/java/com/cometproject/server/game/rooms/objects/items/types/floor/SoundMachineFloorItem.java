@@ -68,7 +68,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
             }
 
             for(PlayerEntity entity : this.getRoom().getEntities().getPlayerEntities()) {
-                if(!entity.hasAttribute("traxSent")) {
+                if(!entity.hasAttribute("traxSent") && (System.currentTimeMillis() - entity.getJoinTime() >= 1100)) {
                     entity.getPlayer().getSession().send(this.getComposer());
                     entity.setAttribute("traxSent", true);
                 }
