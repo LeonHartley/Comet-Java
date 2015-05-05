@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
@@ -58,6 +59,8 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     private boolean isRoomMuted = false;
 
+    private long joinTime;
+
     private GenericEntity mountedEntity;
 
     private Map<RoomEntityStatus, String> statuses = new FastMap<>();
@@ -96,6 +99,8 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         if (this.getRoom().hasRoomMute()) {
             this.isRoomMuted = true;
         }
+
+        this.joinTime = System.currentTimeMillis();
     }
 
     public RoomEntityType getEntityType() {
@@ -568,5 +573,10 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     public void setRoomMuted(boolean isRoomMuted) {
         this.isRoomMuted = isRoomMuted;
+    }
+
+    @Override
+    public long getJoinTime() {
+        return joinTime;
     }
 }
