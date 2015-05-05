@@ -30,7 +30,15 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     public SoundMachineFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
-        if(data.startsWith("[")) {
+        if (data.startsWith("##jukeboxOn[")) {
+            this.songs = JsonFactory.getInstance().fromJson(data.replace("##jukeboxOn", ""), new TypeToken<ArrayList<SongItem>>() {
+            }.getType());
+
+            this.play();
+        } else if (data.startsWith("##jukeboxOff[")) {
+            this.songs = JsonFactory.getInstance().fromJson(data.replace("##jukeboxOff", ""), new TypeToken<ArrayList<SongItem>>() {
+            }.getType());
+        } else if (data.startsWith("[")) {
             this.songs = JsonFactory.getInstance().fromJson(data, new TypeToken<ArrayList<SongItem>>() {
             }.getType());
         } else {
@@ -40,15 +48,15 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
 
     @Override
     public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-        if(entity instanceof PlayerEntity) {
-            if(((PlayerEntity) entity).getPlayerId() != this.getRoom().getData().getOwnerId() && !((PlayerEntity) entity).getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (entity instanceof PlayerEntity) {
+            if (((PlayerEntity) entity).getPlayerId() != this.getRoom().getData().getOwnerId() && !((PlayerEntity) entity).getPlayer().getPermissions().hasPermission("room_full_control")) {
                 return false;
             }
         }
 
-        if(requestData == -1) return false;
+        if (requestData == -1) return false;
 
-        if(this.isPlaying) {
+        if (this.isPlaying) {
             this.stop();
         } else {
             this.play();
@@ -60,15 +68,15 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
 
     @Override
     public void onTickComplete() {
-        if(this.isPlaying) {
-            if(this.currentPlayingIndex >= this.getSongs().size()) {
+        if (this.isPlaying) {
+            if (this.currentPlayingIndex >= this.getSongs().size()) {
                 this.stop();
                 this.sendUpdate();
                 return;
             }
 
-            for(PlayerEntity entity : this.getRoom().getEntities().getPlayerEntities()) {
-                if(!entity.hasAttribute("traxSent") && (System.currentTimeMillis() - entity.getJoinTime() >= 1100)) {
+            for (PlayerEntity entity : this.getRoom().getEntities().getPlayerEntities()) {
+                if (!entity.hasAttribute("traxSent") && (System.currentTimeMillis() - entity.getJoinTime() >= 1100)) {
                     entity.getPlayer().getSession().send(this.getComposer());
                     entity.setAttribute("traxSent", true);
                 }
@@ -76,10 +84,10 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
 
             SongItem songItem = this.getSongs().get(this.currentPlayingIndex);
 
-            if(songItem != null) {
+            if (songItem != null) {
                 MusicData musicData = ItemManager.getInstance().getMusicData(songItem.getSongId());
 
-                if(musicData != null) {
+                if (musicData != null) {
                     if (this.timePlaying() >= (musicData.getLengthSeconds() + 1.0)) {
                         this.playNextSong();
                     }
@@ -95,12 +103,19 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
         this.setExtraData(this.getDataObject());
     }
 
+    @Override
+    public void onPlaced() {
+        if (this.isPlaying) {
+            this.broadcastSong();
+        }
+    }
+
     public void addSong(SongItem songItem) {
         this.songs.add(songItem);
     }
 
     public SongItem removeSong(int index) {
-        if(index == this.currentPlayingIndex) {
+        if (index == this.currentPlayingIndex) {
             this.playNextSong();
         }
 
@@ -111,7 +126,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     }
 
     public void play() {
-        if(this.songs.size() == 0) return;
+        if (this.songs.size() == 0) return;
 
         this.isPlaying = true;
         this.currentPlayingIndex = -1;
@@ -128,30 +143,31 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     }
 
     public void playNextSong() {
-        if(currentPlayingIndex >= this.getSongs().size()) {
+        this.startTimestamp = Comet.getTime();
+        this.currentPlayingIndex++;
+
+        if (currentPlayingIndex >= this.getSongs().size()) {
             currentPlayingIndex = -1;
         }
 
-        this.startTimestamp = Comet.getTime();
-        this.currentPlayingIndex++;
         this.broadcastSong();
     }
 
     public void broadcastSong() {
-        if(!this.isPlaying || this.currentPlayingIndex >= this.songs.size()) {
+        if (!this.isPlaying || this.currentPlayingIndex >= this.songs.size()) {
             this.getRoom().getEntities().broadcastMessage(new PlayMusicMessageComposer());
 
-            if(this.isPlaying)
+            if (this.isPlaying)
                 this.isPlaying = false;
             return;
         }
 
-        for(PlayerEntity entity : this.getRoom().getEntities().getPlayerEntities()) {
-            if(!entity.hasAttribute("traxSent")) {
+        for (PlayerEntity entity : this.getRoom().getEntities().getPlayerEntities()) {
+            if (!entity.hasAttribute("traxSent")) {
                 entity.setAttribute("traxSent", true);
             }
 
-            if(entity.getPlayer() != null && entity.getPlayer().getSession() != null)
+            if (entity.getPlayer() != null && entity.getPlayer().getSession() != null)
                 entity.getPlayer().getSession().send(this.getComposer());
         }
     }
@@ -159,7 +175,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     public MessageComposer getComposer() {
         SongItem songItem = this.songs.get(this.currentPlayingIndex);
 
-        if(songItem == null) {
+        if (songItem == null) {
             return null;
         }
 
@@ -174,17 +190,17 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     }
 
     public int songTimeSync() {
-        if(!this.isPlaying || this.currentPlayingIndex < 0 || this.currentPlayingIndex >= this.getSongs().size()) {
+        if (!this.isPlaying || this.currentPlayingIndex < 0 || this.currentPlayingIndex >= this.getSongs().size()) {
             return 0;
         }
 
         SongItem songItem = this.getSongs().get(this.currentPlayingIndex);
 
-        if(songItem != null) {
+        if (songItem != null) {
             MusicData musicData = ItemManager.getInstance().getMusicData(songItem.getSongId());
 
-            if(musicData != null) {
-                if(this.timePlaying() >= musicData.getLengthSeconds())
+            if (musicData != null) {
+                if (this.timePlaying() >= musicData.getLengthSeconds())
                     return musicData.getLengthSeconds();
             }
         }
@@ -194,7 +210,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
 
     @Override
     public String getDataObject() {
-        return JsonFactory.getInstance().toJson(this.songs);
+        return (this.isPlaying ? "##jukeboxOn" : "##jukeboxOff") + JsonFactory.getInstance().toJson(this.songs);
     }
 
     public List<SongItem> getSongs() {

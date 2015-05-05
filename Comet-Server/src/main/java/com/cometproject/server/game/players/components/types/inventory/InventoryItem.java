@@ -97,7 +97,7 @@ public class InventoryItem {
                 msg.writeString(colourA);
                 msg.writeString(colourB);
             }
-        } else if (isLimited) {
+        } else if (isLimited && !isGift) {
             msg.writeString("");
             msg.writeBoolean(true);
             msg.writeBoolean(false);

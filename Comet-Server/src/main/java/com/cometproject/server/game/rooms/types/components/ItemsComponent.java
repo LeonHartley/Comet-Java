@@ -479,8 +479,6 @@ public class ItemsComponent {
             }
         }
 
-        floorItem.onPlaced();
-
         RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getId());
 
         for (Position tileToUpdate : tilesToUpdate) {
@@ -495,6 +493,8 @@ public class ItemsComponent {
 
         room.getEntities().broadcastMessage(new SendFloorItemMessageComposer(floorItem));
 
+
+        floorItem.onPlaced();
         floorItem.saveData();
     }
 
