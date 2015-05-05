@@ -121,7 +121,9 @@ public class MessengerComponent implements PlayerComponent {
                 continue;
             }
 
-            NetworkManager.getInstance().getSessions().getByPlayerId(friend.getUserId()).send(msg);
+            Session session = NetworkManager.getInstance().getSessions().getByPlayerId(friend.getUserId());
+            if (session != null && session.getPlayer() != null)
+                session.send(msg);
         }
     }
 
@@ -137,7 +139,7 @@ public class MessengerComponent implements PlayerComponent {
     public List<PlayerAvatar> getRequestAvatars() {
         List<PlayerAvatar> avatars = Lists.newArrayList();
 
-        if(this.requests == null) {
+        if (this.requests == null) {
             this.requests = MessengerDao.getRequestsByPlayerId(player.getId());
         }
 
@@ -161,7 +163,7 @@ public class MessengerComponent implements PlayerComponent {
     }
 
     public void sendStatus(boolean online, boolean inRoom) {
-        if(this.getPlayer().getSettings().getHideOnline()) {
+        if (this.getPlayer().getSettings().getHideOnline()) {
             return;
         }
 
