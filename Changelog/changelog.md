@@ -1,6 +1,10 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 05/05/2015
+* Trax bug fixes
+* Bug with sending a limited edition item as a gift causing a client crash fixed.
+
 ## 30/04/2015
 * Soundmachine/Trax complete
 
