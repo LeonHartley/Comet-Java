@@ -15,7 +15,7 @@ public class RoomBadgeCommand extends ChatCommand {
         final String badge = params[0];
 
         for(PlayerEntity playerEntity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
-            playerEntity.getPlayer().getInventory().addBadge(badge, false);
+            playerEntity.getPlayer().getInventory().addBadge(badge, true);
         }
     }
 

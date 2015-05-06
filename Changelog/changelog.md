@@ -5,6 +5,8 @@ Comet Pre-1.0 Changelog
 * Trax bug fixes
 * Bug with sending a limited edition item as a gift causing a client crash fixed.
 * Commands are no longer case-sensitive.
+* Badges given via :roombadge are now saved to the database (Oops!)
+* Strict filter updates
 
 ## 30/04/2015
 * Soundmachine/Trax complete
