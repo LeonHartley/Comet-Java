@@ -1,0 +1,30 @@
+{
+  "name": "Local Development Environment",
+  "authKey": "fae878e4-f40c-11e4-b9b2-1697f925ec7b",
+  "config": [
+    {
+      "key": "comet.db.host",
+      "value": "127.0.0.1"
+    },
+    {
+      "key": "comet.db.username",
+      "value": "root"
+    },
+    {
+      "key": "comet.db.password",
+      "value": ""
+    },
+    {
+      "key": "comet.db.name",
+      "value": "cometsrv"
+    },
+    {
+      "key": "comet.db.pool.max",
+      "value": "50"
+    },
+    {
+      "key": "comet.db.pool.min",
+      "value": "10"
+    }
+  ]
+}
