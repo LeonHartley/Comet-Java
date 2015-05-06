@@ -8,6 +8,7 @@ import com.cometproject.server.network.messages.outgoing.notification.AdvancedAl
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import org.apache.commons.lang3.StringUtils;
 
 
 public class ChangeMottoMessageEvent implements Event {
@@ -25,7 +26,7 @@ public class ChangeMottoMessageEvent implements Event {
             }
         }
 
-        client.getPlayer().getData().setMotto(motto);
+        client.getPlayer().getData().setMotto(StringUtils.abbreviate(motto, 38));
         client.getPlayer().getData().save();
 
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UpdateInfoMessageComposer(client.getPlayer().getEntity()));

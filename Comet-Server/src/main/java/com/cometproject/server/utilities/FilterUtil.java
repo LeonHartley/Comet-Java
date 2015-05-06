@@ -8,7 +8,7 @@ import java.util.Map;
 public class FilterUtil {
     public static String process(String string) {
         String result = string
-                .replaceAll("[^A-Za-z0-9]", "")
+                .replaceAll("[^\\p{L}\\p{Nd}]+", "")
                 .replace(".", "")
                 .replace(" ", "")
                 .replace("$", "s")
