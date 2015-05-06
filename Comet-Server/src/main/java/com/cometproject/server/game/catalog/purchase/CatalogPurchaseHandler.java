@@ -277,12 +277,13 @@ public class CatalogPurchaseHandler {
                         MusicData musicData = ItemManager.getInstance().getMusicDataByName(songName);
 
                         if (musicData != null) {
-                            extraData = String.format("%s\n%s\n%s\n%s\n%s\n",
+                            extraData = String.format("%s\n%s\n%s\n%s\n%s\n%s",
                                     client.getPlayer().getData().getUsername(),
                                     Calendar.getInstance().get(Calendar.YEAR),
                                     Calendar.getInstance().get(Calendar.MONTH),
                                     Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
-                                    musicData.getLengthMilliseconds());
+                                    musicData.getLengthSeconds(),
+                                    musicData.getTitle());
                         }
                     }
                 }
