@@ -117,14 +117,14 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
             msg.writeString(extraData);
             msg.writeString("");
             msg.writeString("");
-        } else if(this.getDefinition().getInteraction().equals("lovelock")) {
+        } else if (this.getDefinition().getInteraction().equals("lovelock")) {
             final String[] loveLockData = this.getExtraData().split(String.valueOf((char) 5));
             msg.writeInt(0);
             msg.writeInt(2);
 
             msg.writeInt(loveLockData.length);
 
-            for(int i = 0; i < loveLockData.length; i++) {
+            for (int i = 0; i < loveLockData.length; i++) {
                 msg.writeString(loveLockData[i]);
             }
         } else if (this.getDefinition().getInteraction().equals("mannequin")) {
@@ -219,7 +219,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         msg.writeInt(!(this instanceof GenericFloorItem) && !(this instanceof SoundMachineFloorItem) ? 1 : 0);
         msg.writeInt(this.ownerId);
 
-        if(isNew)
+        if (isNew)
             msg.writeString(this.ownerName);
     }
 
@@ -291,7 +291,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
 
     @Override
     public void saveData() {
-        if(CometSettings.itemStorageQueueEnabled) {
+        if (CometSettings.itemStorageQueueEnabled) {
             ItemStorageQueue.getInstance().queueSaveData(this);
         } else {
             RoomItemDao.saveData(this.getId(), this.getDataObject());
@@ -358,9 +358,9 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         Collections.sort(nearestEntities, positionComporator);
 
         for (PlayerEntity playerEntity : nearestEntities) {
-//            if(playerEntity.getTile().isReachable(this)) {
-            return playerEntity;
-//            }
+            if (playerEntity.getTile().isReachable(this)) {
+                return playerEntity;
+            }
         }
 
         return null;

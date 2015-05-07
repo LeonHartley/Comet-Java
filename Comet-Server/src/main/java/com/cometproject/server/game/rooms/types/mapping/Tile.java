@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.EntityPathfinder;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.ItemPathfinder;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.AdjustableHeightFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.BedFloorItem;
@@ -241,7 +242,7 @@ public class Tile {
     }
 
     public boolean isReachable(RoomObject object) {
-        List<Square> path = EntityPathfinder.getInstance().makePath(object, this.position);
+        List<Square> path = ItemPathfinder.getInstance().makePath(object, this.position);
         return path != null && path.size() > 0;
     }
 
