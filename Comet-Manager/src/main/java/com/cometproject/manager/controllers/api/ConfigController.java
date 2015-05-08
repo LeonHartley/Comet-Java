@@ -21,7 +21,7 @@ public class ConfigController {
 
     @RequestMapping(value = "/api/instance/data/{id}/{authKey}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public ResponseEntity<Instance> getIndex(@PathVariable String id, @PathVariable String authKey, HttpServletRequest request) {
+    public ResponseEntity<Instance> getIndex(@PathVariable String id, @PathVariable String authKey) {
         Instance instance = this.instanceRepository.findOneByIdAndAuthKey(id, authKey);
 
         if(instance == null) {
