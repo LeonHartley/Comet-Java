@@ -16,3 +16,4 @@ The manager will provide functionality such as:
 * Statistics of every instance shown on 1 page (to the developed, to an instance owner, they can only see instances that they own or have permission to manage.)
 * Perform actions on specific instances or all instances at the same time. All instances will always have a love connection to the manager.
 * All config variables will also be modifiable via the manager.
+* Version selection in-manager and also forced updates from a developer (Can be scheduled)
