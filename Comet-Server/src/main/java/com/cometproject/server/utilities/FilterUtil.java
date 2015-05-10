@@ -7,8 +7,13 @@ import java.util.Map;
 
 public class FilterUtil {
     public static String process(String string) {
-        String result = string
-                .replaceAll("[^\\p{L}\\p{Nd}]+", "")
+        String result = string;
+
+        for (Map.Entry<String, String> chars : CometSettings.strictFilterCharacters.entrySet()) {
+            result = result.replace(chars.getKey(), chars.getValue());
+        }
+
+        result = result
                 .replace(".", "")
                 .replace(" ", "")
                 .replace("$", "s")
@@ -91,9 +96,7 @@ public class FilterUtil {
                 .replace("º", "")
                 .replace("í", "i");
 
-        for (Map.Entry<String, String> chars : CometSettings.strictFilterCharacters.entrySet()) {
-            result = result.replace(chars.getKey(), chars.getValue());
-        }
+        result = result.replaceAll("[^\\p{L}\\p{Nd}]+", "");
 
         return StringUtils.stripAccents(result);
     }

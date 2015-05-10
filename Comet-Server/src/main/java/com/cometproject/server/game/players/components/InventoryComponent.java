@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,9 +34,9 @@ public class InventoryComponent implements PlayerComponent {
     public InventoryComponent(Player player) {
         this.player = player;
 
-        this.floorItems = new HashMap<>();
-        this.wallItems = new HashMap<>();
-        this.badges = new HashMap<>();
+        this.floorItems = new LinkedHashMap<>();
+        this.wallItems = new LinkedHashMap<>();
+        this.badges = new LinkedHashMap<>();
 
         this.loadBadges();
     }
@@ -115,7 +116,7 @@ public class InventoryComponent implements PlayerComponent {
     }
 
     public Map<String, Integer> equippedBadges() {
-        Map<String, Integer> badges = new HashMap<>();
+        Map<String, Integer> badges = new LinkedHashMap<>();
 
         for (Map.Entry<String, Integer> badge : this.getBadges().entrySet()) {
             if (badge.getValue() > 0)

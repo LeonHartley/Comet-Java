@@ -10,6 +10,8 @@ import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.storage.SqlHelper;
 import com.google.common.collect.Lists;
+import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
+import org.apache.commons.collections4.map.ListOrderedMap;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -82,7 +84,7 @@ public class RoomDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, RoomData> rooms = new ConcurrentHashMap<>();
+        Map<Integer, RoomData> rooms = new ListOrderedMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

@@ -4,6 +4,8 @@ import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.groups.types.components.GroupComponent;
 import com.cometproject.server.storage.queries.groups.GroupMemberDao;
+import org.apache.commons.collections4.map.ListOrderedMap;
+import org.apache.commons.collections4.set.ListOrderedSet;
 
 import java.util.*;
 
@@ -37,9 +39,9 @@ public class MembershipComponent implements GroupComponent {
     public MembershipComponent(Group group) {
         this.group = group;
 
-        this.groupMembers = new HashMap<>();
-        this.groupAdministrators = new HashSet<>();
-        this.groupMembershipRequests = new HashSet<>();
+        this.groupMembers = new ListOrderedMap<>();
+        this.groupAdministrators = new ListOrderedSet<>();
+        this.groupMembershipRequests = new ListOrderedSet<>();
 
         this.loadMemberships();
     }
