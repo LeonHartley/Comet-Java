@@ -1,6 +1,11 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 10/05/2015
+* Optimizations and stability improvements
+* Lots of work on manager (Over the past week).
+* String filter updates
+
 ## 05/05/2015
 * Trax bug fixes
 * Bug with sending a limited edition item as a gift causing a client crash fixed.

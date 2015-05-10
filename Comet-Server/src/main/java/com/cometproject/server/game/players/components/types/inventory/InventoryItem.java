@@ -60,6 +60,7 @@ public class InventoryItem {
         final boolean isGift = this.getGiftData() != null;
         final boolean isGroupItem = this.getDefinition().getInteraction().equals("group_item") || this.getDefinition().getInteraction().equals("group_gate");
         final boolean isLimited = this.getLimitedEditionItem() != null;
+        final boolean isWired = this.getDefinition().getInteraction().startsWith("wf_act") || this.getDefinition().getInteraction().startsWith("wf_cnd") || this.getDefinition().getInteraction().startsWith("wf_trg");
 
         msg.writeInt(this.getId());
         msg.writeString(this.getDefinition().getType().toUpperCase());
@@ -115,7 +116,7 @@ public class InventoryItem {
             msg.writeString(""); // creator
             msg.writeString(""); // date
         } else if (!isGroupItem) {
-            msg.writeString(!isGift ? this.getExtraData() : "");
+            msg.writeString(!isGift && !isWired ? this.getExtraData() : "");
         }
 
         if (isLimited && !isGift) {
@@ -141,6 +142,7 @@ public class InventoryItem {
         final boolean isGift = this.getGiftData() != null;
         final boolean isGroupItem = this.getDefinition().getInteraction().equals("group_item") || this.getDefinition().getInteraction().equals("group_gate");
         final boolean isLimited = this.getLimitedEditionItem() != null;
+        final boolean isWired = this.getDefinition().getInteraction().startsWith("wf_act") || this.getDefinition().getInteraction().startsWith("wf_cnd") || this.getDefinition().getInteraction().startsWith("wf_trg");
 
         msg.writeInt(this.id);
         msg.writeString(this.getDefinition().getType().toLowerCase());
@@ -194,7 +196,7 @@ public class InventoryItem {
             msg.writeString(""); // creator
             msg.writeString(""); // date
         } else if (!isGroupItem) {
-            msg.writeString(!isGift ? this.getExtraData() : "");
+            msg.writeString(!isGift && !isWired ? this.getExtraData() : "");
         }
 
         if (isLimited && !isGift) {
