@@ -7,6 +7,7 @@ import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -28,7 +29,7 @@ public class WalkMessageEvent implements Event {
             }
 
             if (entity.hasAttribute("teleport")) {
-                List<Square> squares = new ArrayList<>();
+                List<Square> squares = new LinkedList<>();
                 squares.add(new Square(goalX, goalY));
 
                 if (entity.getMountedEntity() != null) {

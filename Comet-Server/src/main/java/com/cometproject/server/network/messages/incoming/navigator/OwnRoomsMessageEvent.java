@@ -8,14 +8,15 @@ import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class OwnRoomsMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
-        List<RoomData> rooms = new ArrayList<>();
+        List<RoomData> rooms = new LinkedList<>();
 
-        for (Integer roomId : new ArrayList<>(client.getPlayer().getRooms())) {
+        for (Integer roomId : new LinkedList<>(client.getPlayer().getRooms())) {
             if (RoomManager.getInstance().getRoomData(roomId) == null) continue;
 
             rooms.add(RoomManager.getInstance().getRoomData(roomId));

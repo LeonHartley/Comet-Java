@@ -8,6 +8,7 @@ import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.utilities.Initializable;
 import com.google.common.collect.Lists;
 
+import org.apache.commons.collections4.map.ListOrderedMap;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class CatalogManager implements Initializable {
 
     @Override
     public void initialize() {
-        this.pages = new HashMap<>();
+        this.pages = new ListOrderedMap<>();
         this.catalogItemIdToPageId = new HashMap<>();
 
         this.purchaseHandler = new CatalogPurchaseHandler();

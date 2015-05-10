@@ -28,6 +28,7 @@ import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
@@ -414,7 +415,7 @@ public class ProcessComponent implements CometTask {
 
         // Check if we are wanting to walk to a location
         if (entity.getWalkingPath() != null) {
-            entity.setProcessingPath(new ArrayList<>(entity.getWalkingPath()));
+            entity.setProcessingPath(new LinkedList<>(entity.getWalkingPath()));
 
             // Clear the walking path now we have a goal set
             entity.getWalkingPath().clear();
