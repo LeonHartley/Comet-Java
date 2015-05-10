@@ -9,9 +9,9 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.storage.queries.pets.PetDao;
-import javolution.util.FastMap;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class PetEntity extends GenericEntity {
@@ -20,7 +20,7 @@ public class PetEntity extends GenericEntity {
 
     private int cycleCount = 0;
 
-    private Map<String, Object> attributes = new FastMap<>();
+    private Map<String, Object> attributes = new ConcurrentHashMap<>();
 
     public PetEntity(PetData data, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);

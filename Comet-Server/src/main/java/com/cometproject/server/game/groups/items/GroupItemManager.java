@@ -2,10 +2,10 @@ package com.cometproject.server.game.groups.items;
 
 import com.cometproject.server.game.groups.items.types.*;
 import com.cometproject.server.storage.queries.groups.GroupItemDao;
-import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +29,8 @@ public class GroupItemManager {
             bases = new ArrayList<>();
             symbols = new ArrayList<>();
             baseColours = new ArrayList<>();
-            symbolColours = new FastMap<>();
-            backgroundColours = new FastMap<>();
+            symbolColours = new HashMap<>();
+            backgroundColours = new HashMap<>();
         } else {
             bases.clear();
             symbols.clear();

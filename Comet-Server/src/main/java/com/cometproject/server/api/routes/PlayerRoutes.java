@@ -7,17 +7,18 @@ import com.cometproject.server.network.messages.outgoing.notification.AdvancedAl
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
-import javolution.util.FastMap;
+
 import org.apache.commons.lang.StringUtils;
 import spark.Request;
 import spark.Response;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
 public class PlayerRoutes {
     public static Object reloadPlayerData(Request request, Response response) {
-        Map<String, Object> result = new FastMap<>();
+        Map<String, Object> result = new HashMap<>();
         response.type("application/json");
 
         if (!StringUtils.isNumeric(request.params("id"))) {
@@ -69,7 +70,7 @@ public class PlayerRoutes {
     }
 
     public static Object disconnect(Request req, Response res) {
-        Map<String, Object> result = new FastMap<>();
+        Map<String, Object> result = new HashMap<>();
         res.type("application/json");
 
         if (!StringUtils.isNumeric(req.params("id"))) {
@@ -98,7 +99,7 @@ public class PlayerRoutes {
     }
 
     public static Object alert(Request req, Response res) {
-        Map<String, Object> result = new FastMap<>();
+        Map<String, Object> result = new HashMap<>();
         res.type("application/json");
 
         if (!StringUtils.isNumeric(req.params("id"))) {
@@ -136,7 +137,7 @@ public class PlayerRoutes {
     }
 
     public static Object giveBadge(Request req, Response res) {
-        Map<String, Object> result = new FastMap<>();
+        Map<String, Object> result = new HashMap<>();
         res.type("application/json");
 
         if (!StringUtils.isNumeric(req.params("id"))) {
@@ -154,7 +155,7 @@ public class PlayerRoutes {
         } else {
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
-            if (badgeId != null) {
+            if (badgeId != null && session != null) {
                 if (!session.getPlayer().getInventory().hasBadge(badgeId))
                     session.getPlayer().getInventory().addBadge(badgeId, true);
             }

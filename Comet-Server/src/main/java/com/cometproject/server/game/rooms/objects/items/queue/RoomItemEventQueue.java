@@ -2,21 +2,23 @@ package com.cometproject.server.game.rooms.objects.items.queue;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
-import javolution.util.FastTable;
+
+import java.util.LinkedList;
+import java.util.List;
 
 
 /**
  * Processes item events asynchronously without blocking the user threads
  */
 public class RoomItemEventQueue {
-    private final FastTable<RoomItemEventQueueEntry> eventQueue = new FastTable<>();
+    private final List<RoomItemEventQueueEntry> eventQueue = new LinkedList<>();
     private final Object lock = new Object();
 
     public void cycle() {
         if (this.eventQueue.size() == 0) {
             return;
         }
-        final FastTable<RoomItemEventQueueEntry> eventQueueCopy = new FastTable<>();
+        final List<RoomItemEventQueueEntry> eventQueueCopy = new LinkedList<>();
 
         synchronized (this.lock) { // reduce lock time by copying (events happen outside lock)
             for (RoomItemEventQueueEntry e : this.eventQueue) {

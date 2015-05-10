@@ -13,14 +13,12 @@ import com.cometproject.server.network.messages.outgoing.room.events.RoomPromoti
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import com.cometproject.server.utilities.Initializable;
-import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 import org.apache.solr.util.ConcurrentLRUCache;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -38,7 +36,7 @@ public class RoomManager implements Initializable {
 
     private Map<Integer, RoomPromotion> roomPromotions;
 
-    private Set<StaticRoomModel> models;
+    private Map<String, StaticRoomModel> models;
     private WordFilter filterManager;
 
     private RoomCycle globalCycle;
@@ -52,8 +50,8 @@ public class RoomManager implements Initializable {
     public void initialize() {
         this.roomDataInstances = new ConcurrentLRUCache<>(LRU_MAX_ENTRIES, LRU_MAX_LOWER_WATERMARK);
 
-        this.loadedRoomInstances = new FastMap<Integer, Room>().shared();
-        this.unloadingRoomInstances = new FastMap<Integer, Room>().shared();
+        this.loadedRoomInstances = new ConcurrentHashMap<>();
+        this.unloadingRoomInstances = new ConcurrentHashMap<>();
         this.roomPromotions = new ConcurrentHashMap<>();
 
         this.emotions = new ChatEmotionsManager();
@@ -94,11 +92,8 @@ public class RoomManager implements Initializable {
     }
 
     public StaticRoomModel getModel(String id) {
-        for (StaticRoomModel model : this.models) {
-            if (model.getId().equals(id)) {
-                return model;
-            }
-        }
+        if (this.models.containsKey(id))
+            return this.models.get(id);
 
         log.debug("Couldn't find model: " + id);
 
@@ -293,7 +288,7 @@ public class RoomManager implements Initializable {
         return this.roomDataInstances;
     }
 
-    public final Set<StaticRoomModel> getModels() {
+    public final Map<String, StaticRoomModel> getModels() {
         return this.models;
     }
 

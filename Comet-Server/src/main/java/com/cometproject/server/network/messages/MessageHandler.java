@@ -47,7 +47,6 @@ import com.cometproject.server.network.messages.incoming.room.bots.BotConfigMess
 import com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.PlaceBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.RemoveBotMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.engine.AddUserToRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.FollowRoomInfoMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.filter.EditWordFilterMessageEvent;
@@ -86,14 +85,14 @@ import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoM
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.messages.types.tasks.MessageEventTask;
 import com.cometproject.server.network.sessions.Session;
-import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
+import java.util.Map;
 import java.util.concurrent.*;
 
 public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
-    private final FastMap<Short, Event> messages = new FastMap<>();
+    private final Map<Short, Event> messages = new ConcurrentHashMap<>();
 
     private final ExecutorService eventExecutor;
     private final boolean asyncEventExecution;
@@ -440,7 +439,7 @@ public final class MessageHandler {
         }
     }
 
-    public FastMap<Short, Event> getMessages() {
+    public Map<Short, Event> getMessages() {
         return this.messages;
     }
 }

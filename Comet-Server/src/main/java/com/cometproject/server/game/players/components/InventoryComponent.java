@@ -12,7 +12,6 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInv
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 import com.google.common.collect.Lists;
-import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -116,7 +115,7 @@ public class InventoryComponent implements PlayerComponent {
     }
 
     public Map<String, Integer> equippedBadges() {
-        Map<String, Integer> badges = new FastMap<>();
+        Map<String, Integer> badges = new HashMap<>();
 
         for (Map.Entry<String, Integer> badge : this.getBadges().entrySet()) {
             if (badge.getValue() > 0)

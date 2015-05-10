@@ -5,19 +5,21 @@ import com.cometproject.server.game.moderation.types.Ban;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.storage.queries.moderation.BanDao;
 import com.cometproject.server.utilities.Initializable;
+import com.corundumstudio.socketio.misc.ConcurrentHashSet;
 import com.google.common.collect.Lists;
-import javolution.util.FastSet;
+
 import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class BanManager implements Initializable {
     public static BanManager banManagerInstance;
 
     private Map<String, Ban> bans;
-    private FastSet<Integer> mutedPlayers;
+    private Set<Integer> mutedPlayers;
 
     Logger log = Logger.getLogger(BanManager.class.getName());
 
@@ -27,7 +29,7 @@ public class BanManager implements Initializable {
 
     @Override
     public void initialize() {
-        this.mutedPlayers = new FastSet<Integer>().shared();
+        this.mutedPlayers = new ConcurrentHashSet<>();
 
         loadBans();
         log.info("BanManager initialized");

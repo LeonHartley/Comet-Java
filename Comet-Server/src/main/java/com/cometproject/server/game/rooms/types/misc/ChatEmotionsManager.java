@@ -1,16 +1,17 @@
 package com.cometproject.server.game.rooms.types.misc;
 
 import com.cometproject.server.game.rooms.RoomManager;
-import javolution.util.FastMap;
 
+
+import java.util.HashMap;
 import java.util.Map;
 
 
 public class ChatEmotionsManager {
-    private FastMap<String, ChatEmotion> emotions;
+    private Map<String, ChatEmotion> emotions;
 
     public ChatEmotionsManager() {
-        emotions = new FastMap<String, ChatEmotion>() {{
+        emotions = new HashMap<String, ChatEmotion>() {{
             put(":)", ChatEmotion.SMILE);
             put(";)", ChatEmotion.SMILE);
             put(":]", ChatEmotion.SMILE);

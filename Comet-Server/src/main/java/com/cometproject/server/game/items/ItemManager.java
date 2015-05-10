@@ -8,8 +8,10 @@ import com.cometproject.server.storage.queries.items.MusicDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.Initializable;
-import javolution.util.FastMap;
 import org.apache.log4j.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ItemManager implements Initializable {
@@ -17,10 +19,10 @@ public class ItemManager implements Initializable {
 
     private Logger log = Logger.getLogger(ItemManager.class.getName());
 
-    private FastMap<Integer, ItemDefinition> itemDefinitions;
-    private FastMap<Integer, Integer> itemSpriteIdToDefinitionId;
+    private Map<Integer, ItemDefinition> itemDefinitions;
+    private Map<Integer, Integer> itemSpriteIdToDefinitionId;
 
-    private FastMap<Integer, MusicData> musicData;
+    private Map<Integer, MusicData> musicData;
 
     public ItemManager() {
 
@@ -28,8 +30,8 @@ public class ItemManager implements Initializable {
 
     @Override
     public void initialize() {
-        this.itemDefinitions = new FastMap<>();
-        this.musicData = new FastMap<>();
+        this.itemDefinitions = new HashMap<>();
+        this.musicData = new HashMap<>();
 
         this.loadItemDefinitions();
         this.loadMusicData();
@@ -48,12 +50,12 @@ public class ItemManager implements Initializable {
     }
 
     public void loadItemDefinitions() {
-        FastMap<Integer, ItemDefinition> tempMap = this.itemDefinitions;
-        FastMap<Integer, Integer> tempSpriteIdItemMap = this.itemSpriteIdToDefinitionId;
+        Map<Integer, ItemDefinition> tempMap = this.itemDefinitions;
+        Map<Integer, Integer> tempSpriteIdItemMap = this.itemSpriteIdToDefinitionId;
 
         try {
             this.itemDefinitions = ItemDao.getDefinitions();
-            this.itemSpriteIdToDefinitionId = new FastMap<>();
+            this.itemSpriteIdToDefinitionId = new HashMap<>();
         } catch (Exception e) {
             log.error("Error while loading item definitions", e);
         }
@@ -121,7 +123,7 @@ public class ItemManager implements Initializable {
         return this.itemDefinitions.get(this.itemSpriteIdToDefinitionId.get(spriteId));
     }
 
-    public FastMap<Integer, ItemDefinition> getItemDefinitions() {
+    public Map<Integer, ItemDefinition> getItemDefinitions() {
         return this.itemDefinitions;
     }
 }

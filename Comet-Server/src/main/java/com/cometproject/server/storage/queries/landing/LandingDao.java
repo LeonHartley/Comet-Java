@@ -2,21 +2,23 @@ package com.cometproject.server.storage.queries.landing;
 
 import com.cometproject.server.game.landing.types.PromoArticle;
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class LandingDao {
-    public static FastMap<Integer, PromoArticle> getArticles() {
+    public static Map<Integer, PromoArticle> getArticles() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        FastMap<Integer, PromoArticle> data = new FastMap<>();
+        Map<Integer, PromoArticle> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

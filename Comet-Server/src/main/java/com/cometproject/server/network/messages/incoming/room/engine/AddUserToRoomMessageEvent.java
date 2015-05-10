@@ -18,8 +18,9 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.FloodF
 import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
-import javolution.util.FastMap;
 
+
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -49,7 +50,7 @@ public class AddUserToRoomMessageEvent implements Event {
             client.sendQueue(new FloodFilterMessageComposer(client.getPlayer().getRoomFloodTime()));
         }
 
-        Map<Integer, String> groupsInRoom = new FastMap<>();
+        Map<Integer, String> groupsInRoom = new HashMap<>();
 
         for (PlayerEntity playerEntity : room.getEntities().getPlayerEntities()) {
             if(playerEntity.getPlayer() != null && playerEntity.getPlayer().getData() != null) {

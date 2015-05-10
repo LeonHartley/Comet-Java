@@ -2,12 +2,13 @@ package com.cometproject.server.storage.queries.quests;
 
 import com.cometproject.server.game.quests.Quest;
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class QuestsDao {
@@ -16,7 +17,7 @@ public class QuestsDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<String, Quest> quests = new FastMap<>();
+        Map<String, Quest> quests = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

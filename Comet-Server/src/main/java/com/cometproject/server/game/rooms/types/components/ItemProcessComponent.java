@@ -85,7 +85,7 @@ public class ItemProcessComponent implements CometTask {
 
         long timeStart = System.currentTimeMillis();
 
-        for (RoomItemFloor item : this.getRoom().getItems().getFloorItems()) {
+        for (RoomItemFloor item : this.getRoom().getItems().getFloorItems().values()) {
             try {
                 if (item != null && item.requiresTick() || item instanceof RollerFloorItem) {
                     item.tick();
@@ -95,7 +95,7 @@ public class ItemProcessComponent implements CometTask {
             }
         }
 
-        for (RoomItemWall item : this.getRoom().getItems().getWallItems()) {
+        for (RoomItemWall item : this.getRoom().getItems().getWallItems().values()) {
             try {
                 if (item != null && item.requiresTick()) {
                     item.tick();

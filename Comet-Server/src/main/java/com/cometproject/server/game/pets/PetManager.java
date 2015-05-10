@@ -4,10 +4,11 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.utilities.Initializable;
-import javolution.util.FastMap;
+
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +58,7 @@ public class PetManager implements Initializable {
         if (this.petSpeech != null) {
             this.petSpeech.clear();
         } else {
-            this.petSpeech = new FastMap<>();
+            this.petSpeech = new HashMap<>();
         }
 
         try {

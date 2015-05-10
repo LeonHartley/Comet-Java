@@ -7,10 +7,11 @@ import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.utilities.Initializable;
 import com.google.common.collect.Lists;
-import javolution.util.FastMap;
+
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class CatalogManager implements Initializable {
     /**
      * Maps the offer ID of an item to the page ID.
      */
-    private static final Map<Integer, CatalogOffer> catalogOffers = new FastMap<>();
+    private static final Map<Integer, CatalogOffer> catalogOffers = new HashMap<>();
 
     /**
      * The new style of gift boxes
@@ -62,8 +63,8 @@ public class CatalogManager implements Initializable {
 
     @Override
     public void initialize() {
-        this.pages = new FastMap<>();
-        this.catalogItemIdToPageId = new FastMap<>();
+        this.pages = new HashMap<>();
+        this.catalogItemIdToPageId = new HashMap<>();
 
         this.purchaseHandler = new CatalogPurchaseHandler();
 

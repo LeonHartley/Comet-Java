@@ -10,9 +10,9 @@ import com.cometproject.server.game.rooms.objects.entities.types.ai.WaiterAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
-import javolution.util.FastMap;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class BotEntity extends GenericEntity {
@@ -20,7 +20,7 @@ public class BotEntity extends GenericEntity {
     private int cycleCount = 0;
     private BotAI ai;
 
-    private Map<String, Object> attributes = new FastMap<>();
+    private Map<String, Object> attributes = new ConcurrentHashMap<>();
 
     public BotEntity(BotData data, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);

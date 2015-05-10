@@ -22,8 +22,9 @@ public class PickAllCommand extends ChatCommand {
         }
 
         List<RoomItem> itemsToRemove = new ArrayList<>();
-        itemsToRemove.addAll(room.getItems().getFloorItems());
-        itemsToRemove.addAll(room.getItems().getWallItems());
+
+        itemsToRemove.addAll(room.getItems().getFloorItems().values());
+        itemsToRemove.addAll(room.getItems().getWallItems().values());
 
         for (RoomItem item : itemsToRemove) {
             if (item instanceof RoomItemFloor) {
@@ -32,6 +33,8 @@ public class PickAllCommand extends ChatCommand {
                 room.getItems().removeItem((RoomItemWall) item, client, true);
             }
         }
+
+        itemsToRemove.clear();
     }
 
     @Override

@@ -13,9 +13,9 @@ import com.cometproject.server.game.rooms.types.mapping.RoomMapping;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.JsonFactory;
 import com.cometproject.server.utilities.attributes.Attributable;
-import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -75,7 +75,7 @@ public class Room implements Attributable, IRoom {
 
         }
 
-        this.attributes = new FastMap<>();
+        this.attributes = new HashMap<>();
         this.ratings = new HashSet<>();
 
         this.mapping = new RoomMapping(this);

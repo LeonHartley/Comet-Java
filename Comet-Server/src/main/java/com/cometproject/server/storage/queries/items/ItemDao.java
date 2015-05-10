@@ -3,23 +3,24 @@ package com.cometproject.server.storage.queries.items;
 import com.cometproject.server.game.catalog.purchase.CatalogPurchaseHandler;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ItemDao {
-    public static FastMap<Integer, ItemDefinition> getDefinitions() {
+    public static Map<Integer, ItemDefinition> getDefinitions() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        FastMap<Integer, ItemDefinition> data = new FastMap<>();
+        Map<Integer, ItemDefinition> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

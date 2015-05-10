@@ -2,15 +2,15 @@ package com.cometproject.server.storage.queries.items;
 
 import com.cometproject.server.game.items.music.MusicData;
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 public class MusicDao {
-    public static void getMusicData(FastMap<Integer, MusicData> musicData) {
+    public static void getMusicData(Map<Integer, MusicData> musicData) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

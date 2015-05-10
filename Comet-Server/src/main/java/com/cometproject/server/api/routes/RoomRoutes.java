@@ -4,11 +4,12 @@ import com.cometproject.server.api.rooms.RoomStats;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
-import javolution.util.FastMap;
+
 import spark.Request;
 import spark.Response;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ import java.util.Map;
 public class RoomRoutes {
     public static Object getAllActiveRooms(Request request, Response response) {
         response.type("application/json");
-        Map<String, Object> result = new FastMap<>();
+        Map<String, Object> result = new HashMap<>();
 
         List<RoomStats> activeRooms = new ArrayList<>();
 
@@ -29,7 +30,7 @@ public class RoomRoutes {
     }
 
     public static Object roomAction(Request request, Response response) {
-        Map<String, Object> result = new FastMap<>();
+        Map<String, Object> result = new HashMap<>();
 
         int roomId = Integer.parseInt(request.params("id"));
         String action = request.params("action");

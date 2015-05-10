@@ -4,12 +4,12 @@ import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,12 +38,12 @@ public class CatalogDao {
         }
     }
 
-    private static FastMap<Integer, CatalogItem> getItemsByPage(int pageId) {
+    private static Map<Integer, CatalogItem> getItemsByPage(int pageId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        FastMap<Integer, CatalogItem> data = new FastMap<>();
+        Map<Integer, CatalogItem> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

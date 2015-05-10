@@ -46,13 +46,13 @@ public class DeleteGroupCommand extends ChatCommand {
                 List<RoomItem> floorItemsOwnedByPlayer = Lists.newArrayList();
 
                 if(groupMemberId != group.getData().getOwnerId()) {
-                    for (RoomItemFloor floorItem : room.getItems().getFloorItems()) {
+                    for (RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
                         if (floorItem.getOwner() == groupMemberId) {
                             floorItemsOwnedByPlayer.add(floorItem);
                         }
                     }
 
-                    for (RoomItemWall wallItem : room.getItems().getWallItems()) {
+                    for (RoomItemWall wallItem : room.getItems().getWallItems().values()) {
                         if (wallItem.getOwner() == groupMemberId) {
                             floorItemsOwnedByPlayer.add(wallItem);
                         }

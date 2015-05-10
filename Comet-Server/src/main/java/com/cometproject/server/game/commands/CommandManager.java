@@ -36,9 +36,9 @@ import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.Initializable;
 import com.google.common.collect.Lists;
-import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -50,7 +50,7 @@ public class CommandManager implements Initializable {
     private static Logger log = Logger.getLogger(CommandManager.class.getName());
 
     private NotificationManager notifications;
-    private FastMap<String, ChatCommand> commands;
+    private Map<String, ChatCommand> commands;
     private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     /**
@@ -62,7 +62,7 @@ public class CommandManager implements Initializable {
 
     @Override
     public void initialize() {
-        this.commands = new FastMap<>();
+        this.commands = new HashMap<>();
 
         this.reloadAllCommands();
         log.info("Loaded " + commands.size() + " chat commands");

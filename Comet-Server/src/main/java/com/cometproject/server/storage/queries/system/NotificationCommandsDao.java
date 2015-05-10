@@ -2,12 +2,13 @@ package com.cometproject.server.storage.queries.system;
 
 import com.cometproject.server.game.commands.notifications.types.Notification;
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -17,7 +18,7 @@ public class NotificationCommandsDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<String, Notification> data = new FastMap<>();
+        Map<String, Notification> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

@@ -2,13 +2,14 @@ package com.cometproject.server.storage.queries.player.messenger;
 
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class MessengerDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, MessengerFriend> data = new FastMap<>();
+        Map<Integer, MessengerFriend> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

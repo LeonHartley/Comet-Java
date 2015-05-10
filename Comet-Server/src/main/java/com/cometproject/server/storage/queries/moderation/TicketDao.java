@@ -7,13 +7,14 @@ import com.cometproject.server.storage.SqlHelper;
 import com.cometproject.server.utilities.JsonFactory;
 import com.google.common.collect.Lists;
 import com.google.gson.reflect.TypeToken;
-import javolution.util.FastMap;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class TicketDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, HelpTicket> data = new FastMap<>();
+        Map<Integer, HelpTicket> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

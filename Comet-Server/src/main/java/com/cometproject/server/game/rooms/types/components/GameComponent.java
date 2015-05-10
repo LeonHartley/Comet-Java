@@ -9,8 +9,8 @@ import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.game.rooms.types.components.games.banzai.BanzaiGame;
 import com.google.common.collect.Lists;
-import javolution.util.FastMap;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +23,7 @@ public class GameComponent {
     private Map<GameTeam, Integer> scores;
 
     public GameComponent(Room room) {
-        this.teams = new FastMap<GameTeam, List<Integer>>() {{
+        this.teams = new HashMap<GameTeam, List<Integer>>() {{
             put(GameTeam.BLUE, Lists.newArrayList());
             put(GameTeam.YELLOW, Lists.newArrayList());
             put(GameTeam.RED, Lists.newArrayList());
@@ -38,7 +38,7 @@ public class GameComponent {
         if (this.scores != null)
             this.scores.clear();
 
-        this.scores = new FastMap<GameTeam, Integer>() {{
+        this.scores = new HashMap<GameTeam, Integer>() {{
             put(GameTeam.BLUE, 0);
             put(GameTeam.YELLOW, 0);
             put(GameTeam.GREEN, 0);

@@ -18,11 +18,11 @@ import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsM
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-import javolution.util.FastMap;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -160,7 +160,7 @@ public class Player implements IPlayer {
 
     @Override
     public MessageComposer composeCurrenciesBalance() {
-        Map<Integer, Integer> currencies = new FastMap<>();
+        Map<Integer, Integer> currencies = new HashMap<>();
 
         currencies.put(0, CometSettings.infiniteBalance ? Player.INFINITE_BALANCE : getData().getActivityPoints());
         currencies.put(105, getData().getVipPoints());
