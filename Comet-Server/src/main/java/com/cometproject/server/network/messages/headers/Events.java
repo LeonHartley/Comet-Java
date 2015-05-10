@@ -1,9 +1,10 @@
 package com.cometproject.server.network.messages.headers;
 
-import javolution.util.FastMap;
+
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -210,7 +211,7 @@ public class Events {
     public static final short PlaylistAddMessageEvent = 2991;
     public static final short PlaylistRemoveMessageEvent = 3621;
 
-    private static Map<Short, String> eventPacketNames = new FastMap<>();
+    private static Map<Short, String> eventPacketNames = new HashMap<>();
 
     static {
         try {

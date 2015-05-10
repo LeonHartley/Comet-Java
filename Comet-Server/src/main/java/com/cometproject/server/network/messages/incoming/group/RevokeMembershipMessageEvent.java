@@ -54,13 +54,13 @@ public class RevokeMembershipMessageEvent implements Event {
             final Room room = RoomManager.getInstance().get(group.getData().getRoomId());
 
 
-            for(RoomItemFloor floorItem : room.getItems().getFloorItems()) {
+            for(RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
                 if(floorItem.getOwner() == playerId) {
                     itemsToRemove.add(floorItem);
                 }
             }
 
-            for(RoomItemWall wallItem : room.getItems().getWallItems()) {
+            for(RoomItemWall wallItem : room.getItems().getWallItems().values()) {
                 if(wallItem.getOwner() == playerId) {
                     itemsToRemove.add(wallItem);
                 }

@@ -2,13 +2,14 @@ package com.cometproject.server.boot;
 
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.server.boot.utils.ShutdownHook;
-import javolution.util.FastMap;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.FileInputStream;
 import java.lang.management.ManagementFactory;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -77,7 +78,7 @@ public class Comet {
             log.debug("No config args found, falling back to default configuration!");
             server = new CometServer(null);
         } else {
-            Map<String, String> cometConfiguration = new FastMap<>();
+            Map<String, String> cometConfiguration = new HashMap<>();
 
             for (int i = 0; i < args.length; i++) {
                 if (args[i].equals("--debug-logging")) {

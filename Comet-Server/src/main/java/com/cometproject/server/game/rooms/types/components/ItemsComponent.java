@@ -27,23 +27,22 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import javolution.util.FastMap;
-import javolution.util.FastTable;
 import org.apache.log4j.Logger;
 import com.cometproject.server.config.Locale;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class ItemsComponent {
     private Room room;
     private final Logger log;
 
-    private final Map<Integer, RoomItemFloor> floorItems = new FastMap<Integer, RoomItemFloor>().shared();
-    private final FastTable<RoomItemWall> wallItems = new FastTable<RoomItemWall>().shared();
+    private final Map<Integer, RoomItemFloor> floorItems = new ConcurrentHashMap<>();
+    private final Map<Integer, RoomItemWall> wallItems = new ConcurrentHashMap<>();
 
-    private Map<Class<? extends RoomItemFloor>, Set<Integer>> itemClassIndex = new FastMap<Class<? extends RoomItemFloor>, Set<Integer>>().shared();
-    private Map<String, Set<Integer>> itemInteractionIndex = new FastMap<String, Set<Integer>>().shared();
+    private Map<Class<? extends RoomItemFloor>, Set<Integer>> itemClassIndex = new ConcurrentHashMap<>();
+    private Map<String, Set<Integer>> itemInteractionIndex = new ConcurrentHashMap<>();
 
     private int soundMachineId = 0;
     private int moodlightId;
@@ -54,8 +53,8 @@ public class ItemsComponent {
 
         RoomItemDao.getItems(this.room, this.floorItems, this.wallItems);
 
-        for(RoomItemFloor floorItem : this.floorItems.values()) {
-            if(floorItem instanceof SoundMachineFloorItem) {
+        for (RoomItemFloor floorItem : this.floorItems.values()) {
+            if (floorItem instanceof SoundMachineFloorItem) {
                 soundMachineId = floorItem.getId();
             }
 
@@ -68,7 +67,7 @@ public class ItemsComponent {
             floorItem.onLoad();
         }
 
-        for (RoomItemWall wallItem : wallItems) {
+        for (RoomItemWall wallItem : wallItems.values()) {
             wallItem.onLoad();
         }
     }
@@ -78,14 +77,14 @@ public class ItemsComponent {
             floorItem.onUnload();
         }
 
-        for (RoomItemWall wallItem : wallItems) {
+        for (RoomItemWall wallItem : wallItems.values()) {
             wallItem.onUnload();
         }
 
         this.floorItems.clear();
         this.wallItems.clear();
 
-        for(Set<Integer> itemIds : this.itemClassIndex.values()) {
+        for (Set<Integer> itemIds : this.itemClassIndex.values()) {
             itemIds.clear();
         }
 
@@ -113,6 +112,7 @@ public class ItemsComponent {
         if (this.moodlightId == 0) {
             return false;
         }
+
         return (this.moodlightId == item.getId());
     }
 
@@ -123,7 +123,9 @@ public class ItemsComponent {
     public RoomItemFloor addFloorItem(int id, int baseId, Room room, int ownerId, int x, int y, int rot, double height, String data) {
         RoomItemFloor floor = RoomItemFactory.createFloor(id, baseId, room, ownerId, x, y, height, rot, data);
 
-        this.floorItems.put(floor.getId(), floor);
+        if (floor == null) return null;
+
+        this.floorItems.put(id, floor);
         this.indexItem(floor);
 
         return floor;
@@ -131,7 +133,7 @@ public class ItemsComponent {
 
     public RoomItemWall addWallItem(int id, int baseId, Room room, int ownerId, String position, String data) {
         RoomItemWall wall = RoomItemFactory.createWall(id, baseId, room, ownerId, position, data);
-        this.getWallItems().add(wall);
+        this.getWallItems().put(id, wall);
 
         return wall;
     }
@@ -139,7 +141,7 @@ public class ItemsComponent {
     public List<RoomItemFloor> getItemsOnSquare(int x, int y) {
         Tile tile = this.getRoom().getMapping().getTile(x, y);
 
-        if(tile == null) {
+        if (tile == null) {
             return Lists.newArrayList();
         }
 
@@ -151,13 +153,7 @@ public class ItemsComponent {
     }
 
     public RoomItemWall getWallItem(int id) {
-        for (RoomItemWall item : this.getWallItems()) {
-            if (item.getId() == id) {
-                return item;
-            }
-        }
-
-        return null;
+        return this.wallItems.get(id);
     }
 
     public List<RoomItemFloor> getByInteraction(String interaction) {
@@ -183,11 +179,11 @@ public class ItemsComponent {
     public List<RoomItemFloor> getByClass(Class<? extends RoomItemFloor> clazz) {
         List<RoomItemFloor> items = new ArrayList<>();
 
-        if(this.itemClassIndex.containsKey(clazz)) {
-            for(Integer itemId : this.itemClassIndex.get(clazz)) {
+        if (this.itemClassIndex.containsKey(clazz)) {
+            for (Integer itemId : this.itemClassIndex.get(clazz)) {
                 RoomItemFloor floorItem = this.getFloorItem(itemId);
 
-                if(floorItem == null || floorItem.getDefinition() == null) continue;
+                if (floorItem == null || floorItem.getDefinition() == null) continue;
 
                 items.add(this.getFloorItem(itemId));
             }
@@ -200,16 +196,16 @@ public class ItemsComponent {
         RoomItemDao.removeItemFromRoom(item.getId(), ownerId);
 
         room.getEntities().broadcastMessage(new RemoveWallItemMessageComposer(item.getId(), ownerId));
-        this.getWallItems().remove(item);
+        this.getWallItems().remove(item.getId());
 
-        if(client != null && client.getPlayer() != null) {
+        if (client != null && client.getPlayer() != null) {
             client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
             client.send(new UpdateInventoryMessageComposer());
         }
     }
 
     public void removeItem(RoomItemFloor item, Session client) {
-        if(item instanceof SoundMachineFloorItem) {
+        if (item instanceof SoundMachineFloorItem) {
             this.soundMachineId = 0;
         }
 
@@ -226,8 +222,8 @@ public class ItemsComponent {
             item.onEntityStepOff(entity);
         }
 
-        if(item instanceof SoundMachineFloorItem) {
-            if(this.soundMachineId == item.getId()) {
+        if (item instanceof SoundMachineFloorItem) {
+            if (this.soundMachineId == item.getId()) {
                 this.soundMachineId = 0;
             }
         }
@@ -242,7 +238,7 @@ public class ItemsComponent {
         }
 
         this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(item.getId(), client != null ? client.getPlayer().getId() : 0));
-        this.getFloorItems().remove(item);
+        this.getFloorItems().remove(item.getId());
 
         if (toInventory && client != null) {
             RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
@@ -250,14 +246,14 @@ public class ItemsComponent {
             client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null);
             client.send(new UpdateInventoryMessageComposer());
         } else {
-            if(delete)
+            if (delete)
                 RoomItemDao.deleteItem(item.getId());
         }
 
         for (Position tileToUpdate : tilesToUpdate) {
             final Tile tileInstance = this.room.getMapping().getTile(tileToUpdate.getX(), tileToUpdate.getY());
 
-            if(tileInstance != null) {
+            if (tileInstance != null) {
                 tileInstance.reload();
 
                 room.getEntities().broadcastMessage(new UpdateStackMapMessageComposer(tileInstance));
@@ -267,7 +263,7 @@ public class ItemsComponent {
 
     public void removeItem(RoomItemWall item, Session client, boolean toInventory) {
         this.getRoom().getEntities().broadcastMessage(new RemoveWallItemMessageComposer(item.getId(), client.getPlayer().getId()));
-        this.getWallItems().remove(item);
+        this.getWallItems().remove(item.getId());
 
         if (toInventory) {
             RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
@@ -285,7 +281,7 @@ public class ItemsComponent {
 
         Tile tile = this.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
 
-        if(!this.verifyItemPosition(item.getDefinition(), tile, item.getPosition())) {
+        if (!this.verifyItemPosition(item.getDefinition(), tile, item.getPosition())) {
             return false;
         }
 
@@ -355,7 +351,7 @@ public class ItemsComponent {
         for (Position tileToUpdate : tilesToUpdate) {
             final Tile tileInstance = this.room.getMapping().getTile(tileToUpdate.getX(), tileToUpdate.getY());
 
-            if(tileInstance != null) {
+            if (tileInstance != null) {
                 tileInstance.reload();
 
                 room.getEntities().broadcastMessage(new UpdateStackMapMessageComposer(tileInstance));
@@ -368,7 +364,7 @@ public class ItemsComponent {
 
     private boolean verifyItemPosition(ItemDefinition item, Tile tile, Position currentPosition) {
         if (tile != null) {
-            if(currentPosition != null && currentPosition.getX() == tile.getPosition().getX() && currentPosition.getY() == tile.getPosition().getY())
+            if (currentPosition != null && currentPosition.getX() == tile.getPosition().getX() && currentPosition.getY() == tile.getPosition().getY())
                 return true;
 
             if (!tile.canPlaceItemHere()) {
@@ -376,7 +372,7 @@ public class ItemsComponent {
             }
 
             if (!tile.canStack() && tile.getTopItem() != 0 && tile.getTopItem() != item.getId()) {
-                if(!item.getItemName().startsWith(RoomItemFactory.STACK_TOOL))
+                if (!item.getItemName().startsWith(RoomItemFactory.STACK_TOOL))
                     return false;
             }
 
@@ -384,7 +380,7 @@ public class ItemsComponent {
                 return false;
             }
 
-            if(!CometSettings.placeItemOnEntity) {
+            if (!CometSettings.placeItemOnEntity) {
                 if (tile.getEntities().size() != 0) {
                     return false;
                 }
@@ -415,11 +411,11 @@ public class ItemsComponent {
         return this.room;
     }
 
-    public Collection<RoomItemFloor> getFloorItems() {
-        return this.floorItems.values();
+    public Map<Integer, RoomItemFloor> getFloorItems() {
+        return this.floorItems;
     }
 
-    public Collection<RoomItemWall> getWallItems() {
+    public Map<Integer, RoomItemWall> getWallItems() {
         return this.wallItems;
     }
 
@@ -431,11 +427,11 @@ public class ItemsComponent {
 
         double height = tile.getStackHeight();
 
-        if(!this.verifyItemPosition(item.getDefinition(), tile, null))
+        if (!this.verifyItemPosition(item.getDefinition(), tile, null))
             return;
 
-        if(item.getDefinition().getInteraction().equals("soundmachine")) {
-            if(this.soundMachineId > 0) {
+        if (item.getDefinition().getInteraction().equals("soundmachine")) {
+            if (this.soundMachineId > 0) {
                 Map<String, String> notificationParams = Maps.newHashMap();
 
                 notificationParams.put("message", Locale.get("game.room.jukeboxExists"));
@@ -484,7 +480,7 @@ public class ItemsComponent {
         for (Position tileToUpdate : tilesToUpdate) {
             final Tile tileInstance = this.room.getMapping().getTile(tileToUpdate.getX(), tileToUpdate.getY());
 
-            if(tileInstance != null) {
+            if (tileInstance != null) {
                 tileInstance.reload();
 
                 room.getEntities().broadcastMessage(new UpdateStackMapMessageComposer(tileInstance));
@@ -499,11 +495,11 @@ public class ItemsComponent {
     }
 
     private void indexItem(RoomItemFloor floorItem) {
-        if(!this.itemClassIndex.containsKey(floorItem.getClass())) {
+        if (!this.itemClassIndex.containsKey(floorItem.getClass())) {
             itemClassIndex.put(floorItem.getClass(), new HashSet<>());
         }
 
-        if(!this.itemInteractionIndex.containsKey(floorItem.getDefinition().getInteraction())) {
+        if (!this.itemInteractionIndex.containsKey(floorItem.getDefinition().getInteraction())) {
             this.itemInteractionIndex.put(floorItem.getDefinition().getInteraction(), new HashSet<>());
         }
 
@@ -512,7 +508,7 @@ public class ItemsComponent {
     }
 
     public SoundMachineFloorItem getSoundMachine() {
-        if(this.soundMachineId != 0) {
+        if (this.soundMachineId != 0) {
             return ((SoundMachineFloorItem) this.getFloorItem(this.soundMachineId));
         }
 

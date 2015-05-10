@@ -4,13 +4,8 @@ import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.groups.types.components.GroupComponent;
 import com.cometproject.server.storage.queries.groups.GroupMemberDao;
-import javolution.util.FastMap;
-import javolution.util.FastSet;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 public class MembershipComponent implements GroupComponent {
@@ -42,9 +37,9 @@ public class MembershipComponent implements GroupComponent {
     public MembershipComponent(Group group) {
         this.group = group;
 
-        this.groupMembers = new FastMap<>();
-        this.groupAdministrators = new FastSet<>();
-        this.groupMembershipRequests = new FastSet<>();
+        this.groupMembers = new HashMap<>();
+        this.groupAdministrators = new HashSet<>();
+        this.groupMembershipRequests = new HashSet<>();
 
         this.loadMemberships();
     }

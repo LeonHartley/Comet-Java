@@ -50,8 +50,8 @@ public class DeleteRoomMessageEvent implements Event {
         }
 
         List<RoomItem> itemsToRemove = new ArrayList<>();
-        itemsToRemove.addAll(room.getItems().getFloorItems());
-        itemsToRemove.addAll(room.getItems().getWallItems());
+        itemsToRemove.addAll(room.getItems().getFloorItems().values());
+        itemsToRemove.addAll(room.getItems().getWallItems().values());
 
         for (RoomItem item : itemsToRemove) {
             if (item instanceof RoomItemFloor) {
@@ -124,5 +124,7 @@ public class DeleteRoomMessageEvent implements Event {
         client.send(new UpdateInventoryMessageComposer());
         client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));
         client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));
+
+        itemsToRemove.clear();
     }
 }

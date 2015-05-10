@@ -5,16 +5,18 @@ import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.networking.sessions.ISessionManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.players.PlayerManager;
+import com.corundumstudio.socketio.misc.ConcurrentHashSet;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.GlobalEventExecutor;
-import javolution.util.FastMap;
-import javolution.util.FastSet;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -23,7 +25,7 @@ public final class SessionManager implements ISessionManager {
     public static final AttributeKey<Integer> CHANNEL_ID_ATTR = AttributeKey.valueOf("ChannelId.attr");
 
     private final AtomicInteger idGenerator = new AtomicInteger();
-    private final FastMap<Integer, ISession> sessions = new FastMap<Integer, ISession>().shared();
+    private final Map<Integer, ISession> sessions = new ConcurrentHashMap<>();
 
     private final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
@@ -75,7 +77,7 @@ public final class SessionManager implements ISessionManager {
 
     public Set<ISession> getByPlayerPermission(String permission) {
         // TODO: Optimize this
-        Set<ISession> sessions = new FastSet<>();
+        Set<ISession> sessions = new HashSet<>();
 
         int rank = PermissionsManager.getInstance().getPermissions().get(permission).getRank();
 
@@ -112,7 +114,7 @@ public final class SessionManager implements ISessionManager {
     }
 
     public Map<Integer, ISession> getSessions() {
-        return this.sessions.unmodifiable();
+        return this.sessions;
     }
 
     public void broadcast(IMessageComposer msg) {

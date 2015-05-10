@@ -8,8 +8,9 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.utilities.RandomInteger;
-import javolution.util.FastSet;
 
+
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -88,9 +89,9 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
     }
 
     private Position findPosition() {
-        Set<BanzaiTeleporterFloorItem> teleporters = new FastSet<>();
+        Set<BanzaiTeleporterFloorItem> teleporters = new HashSet<>();
 
-        for (RoomItemFloor tele : this.getRoom().getItems().getFloorItems()) {
+        for (RoomItemFloor tele : this.getRoom().getItems().getFloorItems().values()) {
             if (tele instanceof BanzaiTeleporterFloorItem) {
                 if (tele.getId() != this.getId())
                     teleporters.add((BanzaiTeleporterFloorItem) tele);

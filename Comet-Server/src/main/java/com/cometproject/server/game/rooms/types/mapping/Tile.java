@@ -15,10 +15,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 public class Tile {
@@ -84,7 +81,9 @@ public class Tile {
 
         this.items.clear();
 
-        for (RoomItemFloor item : mappingInstance.getRoom().getItems().getFloorItems()) {
+        for (Map.Entry<Integer, RoomItemFloor> itemEntry  : mappingInstance.getRoom().getItems().getFloorItems().entrySet()) {
+            final RoomItemFloor item = itemEntry.getValue();
+
             if (item == null || item.getDefinition() == null) continue; // it's null!
 
             if (item.getPosition().getX() == this.position.getX() && item.getPosition().getY() == this.position.getY()) {

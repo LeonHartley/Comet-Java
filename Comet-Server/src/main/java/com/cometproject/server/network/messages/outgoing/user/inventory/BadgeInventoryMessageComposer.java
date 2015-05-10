@@ -3,8 +3,9 @@ package com.cometproject.server.network.messages.outgoing.user.inventory;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import javolution.util.FastMap;
 
+
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -23,7 +24,7 @@ public class BadgeInventoryMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        Map<String, Integer> activeBadges = new FastMap<>();
+        Map<String, Integer> activeBadges = new HashMap<>();
 
         msg.writeInt(badges.size());
 

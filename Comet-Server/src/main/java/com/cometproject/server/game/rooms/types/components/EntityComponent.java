@@ -13,12 +13,12 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
-import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -29,11 +29,11 @@ public class EntityComponent {
     private Room room;
 
     private AtomicInteger entityIdGenerator = new AtomicInteger();
-    private final Map<Integer, GenericEntity> entities = new FastMap<Integer, GenericEntity>().shared();
+    private final Map<Integer, GenericEntity> entities = new ConcurrentHashMap<>();
 
-    private final Map<Integer, Integer> playerIdToEntity = new FastMap<Integer, Integer>().shared();
-    private final Map<Integer, Integer> botIdToEntity = new FastMap<Integer, Integer>().shared();
-    private final Map<Integer, Integer> petIdToEntity = new FastMap<Integer, Integer>().shared();
+    private final Map<Integer, Integer> playerIdToEntity = new ConcurrentHashMap<>();
+    private final Map<Integer, Integer> botIdToEntity = new ConcurrentHashMap<>();
+    private final Map<Integer, Integer> petIdToEntity = new ConcurrentHashMap<>();
 
     public EntityComponent(Room room) {
         this.room = room;

@@ -4,22 +4,24 @@ import com.cometproject.server.game.permissions.types.CommandPermission;
 import com.cometproject.server.game.permissions.types.Perk;
 import com.cometproject.server.game.permissions.types.Permission;
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class PermissionsDao {
 
-    public static FastMap<Integer, Perk> getPerks() {
+    public static Map<Integer, Perk> getPerks() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        FastMap<Integer, Perk> data = new FastMap<>();
+        Map<Integer, Perk> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -42,12 +44,12 @@ public class PermissionsDao {
         return data;
     }
 
-    public static FastMap<String, Permission> getRankPermissions() {
+    public static Map<String, Permission> getRankPermissions() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        FastMap<String, Permission> data = new FastMap<>();
+        Map<String, Permission> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -69,12 +71,12 @@ public class PermissionsDao {
         return data;
     }
 
-    public static FastMap<String, CommandPermission> getCommandPermissions() {
+    public static Map<String, CommandPermission> getCommandPermissions() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        FastMap<String, CommandPermission> data = new FastMap<>();
+        Map<String, CommandPermission> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

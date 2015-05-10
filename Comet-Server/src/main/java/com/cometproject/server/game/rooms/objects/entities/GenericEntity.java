@@ -12,8 +12,8 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
-import javolution.util.FastMap;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +63,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     private GenericEntity mountedEntity;
 
-    private Map<RoomEntityStatus, String> statuses = new FastMap<>();
+    private Map<RoomEntityStatus, String> statuses = new HashMap<>();
 
     public GenericEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, roomInstance);

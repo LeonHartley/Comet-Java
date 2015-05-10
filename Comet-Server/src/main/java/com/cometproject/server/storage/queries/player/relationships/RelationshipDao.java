@@ -2,12 +2,13 @@ package com.cometproject.server.storage.queries.player.relationships;
 
 import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -17,7 +18,7 @@ public class RelationshipDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, RelationshipLevel> data = new FastMap<>();
+        Map<Integer, RelationshipLevel> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

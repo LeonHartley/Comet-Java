@@ -1,21 +1,22 @@
 package com.cometproject.server.storage.queries.rooms;
 
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastTable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class RightsDao {
-    public static FastTable<Integer> getRightsByRoomId(int roomId) {
+    public static List<Integer> getRightsByRoomId(int roomId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        FastTable<Integer> data = new FastTable<>();
+        List<Integer> data = new CopyOnWriteArrayList<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

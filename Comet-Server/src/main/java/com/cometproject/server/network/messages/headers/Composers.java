@@ -1,9 +1,10 @@
 package com.cometproject.server.network.messages.headers;
 
-import javolution.util.FastMap;
+
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -187,7 +188,7 @@ public class Composers {
     public static final short PlaylistMessageComposer = 2167;
     public static final short PlayMusicMessageComposer = 1333;
 
-    private static Map<Short, String> composerPacketNames = new FastMap<>();
+    private static Map<Short, String> composerPacketNames = new HashMap<>();
 
     static {
         try {

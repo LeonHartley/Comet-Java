@@ -5,18 +5,18 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.types.RoomBan;
 import com.cometproject.server.game.rooms.types.components.types.RoomMute;
 import com.cometproject.server.storage.queries.rooms.RightsDao;
-import javolution.util.FastTable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class RightsComponent {
     private Room room;
 
-    private FastTable<Integer> rights;
-    private FastTable<RoomBan> bannedPlayers;
-    private FastTable<RoomMute> mutedPlayers;
+    private List<Integer> rights;
+    private List<RoomBan> bannedPlayers;
+    private List<RoomMute> mutedPlayers;
 
     public RightsComponent(Room room) {
         this.room = room;
@@ -24,12 +24,12 @@ public class RightsComponent {
         try {
             this.rights = RightsDao.getRightsByRoomId(room.getId());
         } catch (Exception e) {
-            this.rights = new FastTable<Integer>().shared();
+            this.rights = new CopyOnWriteArrayList<>();
             this.room.log.error("Error while loading room rights", e);
         }
 
-        this.bannedPlayers = new FastTable<RoomBan>().shared();
-        this.mutedPlayers = new FastTable<RoomMute>().shared();
+        this.bannedPlayers = new CopyOnWriteArrayList<>();
+        this.mutedPlayers = new CopyOnWriteArrayList<>();
     }
 
     public void dispose() {

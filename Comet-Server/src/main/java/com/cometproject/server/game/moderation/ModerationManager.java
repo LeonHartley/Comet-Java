@@ -9,10 +9,11 @@ import com.cometproject.server.network.messages.outgoing.moderation.tickets.Help
 import com.cometproject.server.storage.queries.moderation.PresetDao;
 import com.cometproject.server.storage.queries.moderation.TicketDao;
 import com.cometproject.server.utilities.Initializable;
-import javolution.util.FastMap;
+
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,7 +83,7 @@ public class ModerationManager implements Initializable {
 
     public void loadActiveTickets() {
         if (tickets == null) {
-            tickets = new FastMap<>();
+            tickets = new HashMap<>();
         } else {
             tickets.clear();
         }

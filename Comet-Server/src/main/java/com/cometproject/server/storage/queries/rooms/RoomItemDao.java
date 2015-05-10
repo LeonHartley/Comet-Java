@@ -22,7 +22,7 @@ public class RoomItemDao {
 
     private static Logger log = Logger.getLogger(RoomItemDao.class.getName());
 
-    public static void getItems(Room room, Map<Integer, RoomItemFloor> floorItems, Collection<RoomItemWall> wallItems) {
+    public static void getItems(Room room, Map<Integer, RoomItemFloor> floorItems, Map<Integer, RoomItemWall> wallItems) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -40,7 +40,7 @@ public class RoomItemDao {
                     if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")).getType().equals("s"))
                         floorItems.put(resultSet.getInt("id"), RoomItemFactory.createFloor(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data")));
                     else
-                        wallItems.add(RoomItemFactory.createWall(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data")));
+                        wallItems.put(resultSet.getInt("id"), RoomItemFactory.createWall(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data")));
 
                 } else {
                     log.warn("Item (" + resultSet.getInt("base_item") + ") with invalid definition ID: " + resultSet.getInt("base_item"));

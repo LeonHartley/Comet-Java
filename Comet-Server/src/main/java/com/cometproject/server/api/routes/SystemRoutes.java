@@ -15,15 +15,16 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
-import javolution.util.FastMap;
+
 import spark.Request;
 import spark.Response;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class SystemRoutes {
     public static Object reload(Request req, Response res) {
-        Map<String, Object> result = new FastMap<>();
+        Map<String, Object> result = new HashMap<>();
         res.type("application/json");
 
         String type = req.params("type");

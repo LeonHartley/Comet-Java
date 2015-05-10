@@ -10,26 +10,22 @@ import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.storage.SqlHelper;
 import com.google.common.collect.Lists;
-import javolution.util.FastMap;
-import javolution.util.FastSet;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class RoomDao {
-    public static Set<StaticRoomModel> getModels() {
+    public static Map<String, StaticRoomModel> getModels() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Set<StaticRoomModel> data = new FastSet<>();
+        Map<String, StaticRoomModel> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -38,7 +34,7 @@ public class RoomDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.add(new StaticRoomModel(resultSet));
+                data.put(resultSet.getString("id"), new StaticRoomModel(resultSet));
             }
 
         } catch (Exception e) {
@@ -86,7 +82,7 @@ public class RoomDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, RoomData> rooms = new FastMap<>();
+        Map<Integer, RoomData> rooms = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

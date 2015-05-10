@@ -2,12 +2,13 @@ package com.cometproject.server.storage.queries.bots;
 
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -17,7 +18,7 @@ public class PlayerBotDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, InventoryBot> data = new FastMap<>();
+        Map<Integer, InventoryBot> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

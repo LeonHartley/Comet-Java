@@ -29,8 +29,9 @@ import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWall
 import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.WheelWallItem;
 import com.cometproject.server.game.rooms.types.Room;
-import javolution.util.FastMap;
 import org.apache.log4j.Logger;
+
+import java.util.HashMap;
 
 
 public class RoomItemFactory {
@@ -41,10 +42,10 @@ public class RoomItemFactory {
 
     private static final Logger log = Logger.getLogger(RoomItemFactory.class.getName());
 
-    private static final FastMap<String, Class<? extends RoomItemFloor>> itemDefinitionMap;
+    private static final HashMap<String, Class<? extends RoomItemFloor>> itemDefinitionMap;
 
     static {
-        itemDefinitionMap = new FastMap<String, Class<? extends RoomItemFloor>>() {{
+        itemDefinitionMap = new HashMap<String, Class<? extends RoomItemFloor>>() {{
             put("roller", RollerFloorItem.class);
             put("dice", DiceFloorItem.class);
             put("teleport", TeleporterFloorItem.class);

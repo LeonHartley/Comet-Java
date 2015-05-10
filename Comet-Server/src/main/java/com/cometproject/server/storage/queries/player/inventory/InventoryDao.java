@@ -2,13 +2,14 @@ package com.cometproject.server.storage.queries.player.inventory;
 
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
+
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class InventoryDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, InventoryItem> data = new FastMap<>();
+        Map<Integer, InventoryItem> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -60,7 +61,7 @@ public class InventoryDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<String, Integer> data = new FastMap<>();
+        Map<String, Integer> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -89,7 +90,7 @@ public class InventoryDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<String, Integer> data = new FastMap<>();
+        Map<String, Integer> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

@@ -12,12 +12,12 @@ import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import com.google.common.collect.Lists;
-import javolution.util.FastMap;
 import org.apache.commons.lang3.StringUtils;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,7 +85,7 @@ public class RoomData implements IRoomData {
         this.score = room.getInt("score");
 
         this.tags = room.getString("tags").split(",");
-        this.decorations = new FastMap<>();
+        this.decorations = new HashMap<>();
 
         String[] decorations = room.getString("decorations").split(",");
 

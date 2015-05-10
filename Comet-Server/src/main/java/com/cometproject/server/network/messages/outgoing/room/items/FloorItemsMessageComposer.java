@@ -58,7 +58,7 @@ public class FloorItemsMessageComposer extends MessageComposer {
 
             msg.writeInt(room.getItems().getFloorItems().size());
 
-            for (RoomItemFloor item : room.getItems().getFloorItems()) {
+            for (RoomItemFloor item : room.getItems().getFloorItems().values()) {
                 item.serialize((msg));
             }
         } else {

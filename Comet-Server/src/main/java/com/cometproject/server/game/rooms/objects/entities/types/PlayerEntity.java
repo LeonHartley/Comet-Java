@@ -40,10 +40,10 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.FloodF
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.utilities.attributes.Attributable;
-import javolution.util.FastMap;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -54,7 +54,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     private int playerId;
 
-    private Map<String, Object> attributes = new FastMap<>();
+    private Map<String, Object> attributes = new HashMap<>();
     private RoomVisitLogEntry visitLogEntry;
 
     private boolean isFinalized = false;
@@ -135,7 +135,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.getPlayer().bypassRoomAuth(false);
         this.getPlayer().setTeleportId(0);
 
-        if(isAuthFailed) {
+        if (isAuthFailed) {
             return;
         }
 
@@ -192,9 +192,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
-        for (RoomItemFloor floorItem : this.getRoom().getItems().getFloorItems()) {
-            if (floorItem == null) continue;
-            floorItem.onEntityLeaveRoom(this);
+        for (Map.Entry<Integer, RoomItemFloor> floorItem : this.getRoom().getItems().getFloorItems().entrySet()) {
+            if (floorItem.getValue() == null) continue;
+
+            floorItem.getValue().onEntityLeaveRoom(this);
         }
 
         // Check and cancel any active trades
@@ -226,7 +227,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         if (!isOffline && toHotelView && this.getPlayer() != null && this.getPlayer().getSession() != null) {
             this.getPlayer().getSession().send(new HotelViewMessageComposer());
 
-            if(this.getPlayer().getData() != null) {
+            if (this.getPlayer().getData() != null) {
                 this.getPlayer().getMessenger().sendStatus(true, false);
             }
         }

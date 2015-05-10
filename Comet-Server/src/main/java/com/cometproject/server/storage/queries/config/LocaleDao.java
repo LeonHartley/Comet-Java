@@ -1,12 +1,13 @@
 package com.cometproject.server.storage.queries.config;
 
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -16,7 +17,7 @@ public class LocaleDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<String, String> data = new FastMap<>();
+        Map<String, String> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

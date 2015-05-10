@@ -4,12 +4,13 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.moderation.types.Ban;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.storage.SqlHelper;
-import javolution.util.FastMap;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -19,7 +20,7 @@ public class BanDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        FastMap<String, Ban> data = new FastMap<>();
+        Map<String, Ban> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

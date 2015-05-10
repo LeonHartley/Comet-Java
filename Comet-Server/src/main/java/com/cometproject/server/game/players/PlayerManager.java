@@ -2,17 +2,20 @@ package com.cometproject.server.game.players;
 
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.utilities.Initializable;
-import javolution.util.FastMap;
+
 import org.apache.log4j.Logger;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class PlayerManager implements Initializable {
     private static PlayerManager playerManagerInstance;
     private static Logger log = Logger.getLogger(PlayerManager.class.getName());
 
-    private FastMap<Integer, Integer> playerIdToSessionId;
+    private Map<Integer, Integer> playerIdToSessionId;
 
-    private FastMap<String, Integer> playerUsernameToPlayerId;
+    private Map<String, Integer> playerUsernameToPlayerId;
 
     public PlayerManager() {
 
@@ -20,8 +23,8 @@ public class PlayerManager implements Initializable {
 
     @Override
     public void initialize() {
-        this.playerIdToSessionId = new FastMap<>();
-        this.playerUsernameToPlayerId = new FastMap<>();
+        this.playerIdToSessionId = new ConcurrentHashMap<>();
+        this.playerUsernameToPlayerId = new ConcurrentHashMap<>();
 
         log.info("Resetting player online status");
         PlayerDao.resetOnlineStatus();
