@@ -1,6 +1,8 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 11/05/2015
+
 ## 10/05/2015
 * Optimizations and stability improvements
 * Lots of work on manager (Over the past week).
