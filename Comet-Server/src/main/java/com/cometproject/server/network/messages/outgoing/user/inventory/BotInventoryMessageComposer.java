@@ -16,6 +16,10 @@ public class BotInventoryMessageComposer extends MessageComposer {
         this.bots = bots;
     }
 
+    public BotInventoryMessageComposer() {
+        this.bots = null;
+    }
+
     @Override
     public short getId() {
         return Composers.BotInventoryMessageComposer;
@@ -23,6 +27,11 @@ public class BotInventoryMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
+        if (this.bots == null) {
+            msg.writeInt(0);
+            return;
+        }
+
         msg.writeInt(bots.size());
 
         for (Map.Entry<Integer, InventoryBot> bot : bots.entrySet()) {
