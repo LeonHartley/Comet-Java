@@ -2,6 +2,7 @@ Comet Pre-1.0 Changelog
 =======================
 
 ## 11/05/2015
+* :empty bots command will now update the inventory in-game.
 
 ## 10/05/2015
 * Optimizations and stability improvements
