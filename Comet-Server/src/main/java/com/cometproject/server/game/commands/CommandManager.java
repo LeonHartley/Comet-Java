@@ -13,6 +13,7 @@ import com.cometproject.server.game.commands.staff.alerts.*;
 import com.cometproject.server.game.commands.staff.banning.BanCommand;
 import com.cometproject.server.game.commands.staff.banning.IpBanCommand;
 import com.cometproject.server.game.commands.staff.banning.MachineBanCommand;
+import com.cometproject.server.game.commands.staff.cache.ReloadCommand;
 import com.cometproject.server.game.commands.staff.cache.ReloadGroupCommand;
 import com.cometproject.server.game.commands.staff.fun.RollCommand;
 import com.cometproject.server.game.commands.staff.muting.MuteCommand;

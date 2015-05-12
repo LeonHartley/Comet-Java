@@ -243,9 +243,6 @@ public class ProcessComponent implements CometTask {
             entity.updateAndSetPosition(null);
             entity.setPosition(newPosition);
 
-            if (newTile != null) {
-                newTile.getEntities().add(entity);
-            }
 
             // Step off
             for (RoomItemFloor item : itemsOnOldSq) {
@@ -506,14 +503,21 @@ public class ProcessComponent implements CometTask {
                         entity.removeStatus(RoomEntityStatus.LAY);
                     }
 
-                    entity.updateAndSetPosition(new Position(nextSq.x, nextSq.y, height));
+                    final Position newPosition = new Position(nextSq.x, nextSq.y, height);
+                    entity.updateAndSetPosition(newPosition);
                     entity.markNeedsUpdate();
+
+                    if (tile != null) {
+                        tile.getEntities().add(entity);
+                    }
                 } else {
                     if (entity.getWalkingPath() != null) {
                         entity.getWalkingPath().clear();
                     }
                     entity.getProcessingPath().clear();
                     entity.setWalkCancelled(false);
+
+                    entity.moveTo(entity.getWalkingGoal().getX(), entity.getWalkingGoal().getY());
                 }
             } else {
                 if (entity.getWalkingPath() != null) {
