@@ -26,6 +26,12 @@
                 <h3 class="panel-title">Login to the Manager</h3>
             </div>
             <div class="panel-body">
+                #if($loginError == 0)
+                    ERROR: INVALID CREDENTIALS
+                #elseif($loginError == 1)
+                    ERROR: SUSPENDED
+                #end
+
                 <form method="post" action="/login">
                     <div class="form-group">
                         <label for="emailAddress">Email address</label>
