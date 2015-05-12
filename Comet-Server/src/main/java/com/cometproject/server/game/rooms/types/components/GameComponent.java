@@ -13,6 +13,7 @@ import com.google.common.collect.Lists;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class GameComponent {
@@ -38,7 +39,7 @@ public class GameComponent {
         if (this.scores != null)
             this.scores.clear();
 
-        this.scores = new HashMap<GameTeam, Integer>() {{
+        this.scores = new ConcurrentHashMap<GameTeam, Integer>() {{
             put(GameTeam.BLUE, 0);
             put(GameTeam.YELLOW, 0);
             put(GameTeam.GREEN, 0);
