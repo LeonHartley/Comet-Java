@@ -496,7 +496,7 @@ com.cometproject.server.game.commands.staff.PointsCommand -> com.cometproject.se
     13:30:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     34:34:java.lang.String getPermission() -> a
     39:39:java.lang.String getDescription() -> b
-com.cometproject.server.game.commands.staff.ReloadCommand -> com.cometproject.server.game.c.a.m:
+com.cometproject.server.game.commands.staff.cache.ReloadCommand -> com.cometproject.server.game.c.a.m:
     15:85:void execute$2745ac4c(com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer,java.lang.String[]) -> a
     89:89:java.lang.String getPermission() -> a
     94:94:java.lang.String getDescription() -> b

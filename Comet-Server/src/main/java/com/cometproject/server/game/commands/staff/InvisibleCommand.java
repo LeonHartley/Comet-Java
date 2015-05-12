@@ -12,11 +12,8 @@ public class InvisibleCommand extends ChatCommand {
         boolean isVisible = false;
 
         if (!client.getPlayer().getEntity().isVisible()) {
-//            client.getPlayer().getEntity().getRoom().getEntities().getPlayerCounter().incrementAndGet();
             isVisible = true;
-        } //else {
-//            client.getPlayer().getEntity().getRoom().getEntities().getPlayerCounter().decrementAndGet();
-//        }
+        }
 
         client.send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), Locale.get("command.invisible." + (isVisible ? "disabled" : "enabled"))));
         client.getPlayer().getEntity().updateVisibility(isVisible);

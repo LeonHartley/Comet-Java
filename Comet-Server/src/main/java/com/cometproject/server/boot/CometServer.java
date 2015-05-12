@@ -83,8 +83,6 @@ public class CometServer {
 
         GameThread.getInstance().initialize();
 
-        log.info("h€bba = " + FilterUtil.process("h€bba"));
-
         if (Comet.isDebugging) {
             log.debug("Comet Server is debugging");
         }
