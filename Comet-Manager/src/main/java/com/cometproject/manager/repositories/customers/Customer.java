@@ -6,15 +6,15 @@ import java.util.List;
 
 public class Customer {
     /**
-     * The email of the customer, used for authentication and messaging purposes.
-     */
-    @Id
-    private String email;
-
-    /**
      * The unique identifier of the customer
      */
+    @Id
     private String id;
+
+    /**
+     * The email of the customer, used for authentication and messaging purposes.
+     */
+    private String email;
 
     /**
      * The password of the customer, used for authentication
@@ -31,12 +31,18 @@ public class Customer {
      */
     private List<String> instances;
 
-    public Customer(String email, String id, String password, String name, List<String> instances) {
+    /**
+     * Is the customer suspended?
+     */
+    private boolean suspended;
+
+    public Customer(String email, String id, String password, String name, List<String> instances, boolean suspended) {
         this.email = email;
         this.id = id;
         this.password = password;
         this.name = name;
         this.instances = instances;
+        this.suspended = suspended;
     }
 
     public String getEmail() {
@@ -77,5 +83,13 @@ public class Customer {
 
     public void setInstances(List<String> instances) {
         this.instances = instances;
+    }
+
+    public boolean isSuspended() {
+        return suspended;
+    }
+
+    public void setSuspended(boolean suspended) {
+        this.suspended = suspended;
     }
 }
