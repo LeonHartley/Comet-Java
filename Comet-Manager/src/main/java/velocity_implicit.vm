@@ -1,0 +1,2 @@
+#* @implicitly included *#
+#* @vtlvariable name="customer" type="com.cometproject.manager.repositories.customers.Customer" *#
