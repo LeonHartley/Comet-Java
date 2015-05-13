@@ -281,9 +281,9 @@ public class CometSettings {
             placeItemOnEntity = Boolean.parseBoolean(config.get("comet.game.furni.placeOnPlayer"));
         }
 
-        if(config.containsKey("comet.game.rooms.adaptiveProcessDelay")) {
-            placeItemOnEntity = Boolean.parseBoolean(config.get("comet.game.rooms.adaptiveProcessDelay"));
-        }
+//        if(config.containsKey("comet.game.rooms.adaptiveProcessDelay")) {
+//            adaptiveEntityProcessDelay = Boolean.parseBoolean(config.get("comet.game.rooms.adaptiveProcessDelay"));
+//        }
 
         if(config.containsKey("comet.game.figureUpdateTimeout")) {
             playerFigureUpdateTimeout = Integer.parseInt(config.get("comet.game.figureUpdateTimeout"));
