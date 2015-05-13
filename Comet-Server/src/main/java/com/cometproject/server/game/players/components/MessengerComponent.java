@@ -164,6 +164,10 @@ public class MessengerComponent implements PlayerComponent {
     }
 
     public void sendStatus(boolean online, boolean inRoom) {
+        if(this.getPlayer() == null || this.getPlayer().getSettings() == null) {
+            return;
+        }
+        
         if (this.getPlayer().getSettings().getHideOnline()) {
             return;
         }

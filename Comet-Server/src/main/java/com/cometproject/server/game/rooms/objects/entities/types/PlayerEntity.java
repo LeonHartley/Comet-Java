@@ -39,6 +39,7 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.Access
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
+import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.attributes.Attributable;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
@@ -146,6 +147,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     protected void finalizeJoinRoom() {
+        Session session = this.player.getSession();
+
         for (Map.Entry<String, String> decoration : this.getRoom().getData().getDecorations().entrySet()) {
             if (decoration.getKey().equals("wallpaper") || decoration.getKey().equals("floor")) {
                 if (decoration.getValue().equals("0.0")) {
@@ -153,7 +156,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 }
             }
 
-            this.getPlayer().getSession().send(new PapersMessageComposer(decoration.getKey(), decoration.getValue()));
+            session.send(new PapersMessageComposer(decoration.getKey(), decoration.getValue()));
         }
 
         int accessLevel = 0;
@@ -166,21 +169,21 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             accessLevel = 1;
         }
 
-        this.getPlayer().getSession().send(new AccessLevelMessageComposer(accessLevel));
+        session.send(new AccessLevelMessageComposer(accessLevel));
 
         if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.getPlayer().getPermissions().hasPermission("room_full_control")) {
-            this.getPlayer().getSession().send(new YouAreControllerMessageComposer());
+            session.send(new YouAreControllerMessageComposer());
         }
 
-        this.getPlayer().getSession().send(new RoomRatingMessageComposer(this.getRoom().getData().getScore(), this.canRateRoom()));
+        session.send(new RoomRatingMessageComposer(this.getRoom().getData().getScore(), this.canRateRoom()));
 
-        InitializeRoomMessageEvent.heightmapMessageEvent.handle(this.getPlayer().getSession(), null);
-        InitializeRoomMessageEvent.addUserToRoomMessageEvent.handle(this.getPlayer().getSession(), null);
+        InitializeRoomMessageEvent.heightmapMessageEvent.handle(session, null);
+        InitializeRoomMessageEvent.addUserToRoomMessageEvent.handle(session, null);
 
         if (RoomManager.getInstance().hasPromotion(this.getRoom().getId())) {
-            this.getPlayer().getSession().send(new RoomPromotionMessageComposer(this.getRoom().getData(), this.getRoom().getPromotion()));
+            session.send(new RoomPromotionMessageComposer(this.getRoom().getData(), this.getRoom().getPromotion()));
         } else {
-            this.getPlayer().getSession().send(new RoomPromotionMessageComposer(null, null));
+            session.send(new RoomPromotionMessageComposer(null, null));
         }
 
         this.isFinalized = true;
