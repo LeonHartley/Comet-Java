@@ -42,8 +42,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
-        if (this.isRolling || this.isSwitching) {
-            if (this.isSwitching) this.isSwitching = false;
+        if (this.isRolling) {
             return;
         }
 
@@ -74,11 +73,6 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOff(GenericEntity entity) {
-        if (this.isSwitching) {
-            this.isSwitching = false;
-            return;
-        }
-
         if (!this.skipNext) {
             this.rollBall(this.getPosition(), Direction.get(entity.getBodyRotation()).invert().num);
         }
