@@ -42,13 +42,14 @@ public class Customer {
      */
     private List<CustomerRole> roles;
 
-    public Customer(String email, String id, String password, String name, List<String> instances, boolean suspended) {
+    public Customer(String email, String id, String password, String name, List<String> instances, boolean suspended, List<CustomerRole> roles) {
         this.email = email;
         this.id = id;
         this.password = password;
         this.name = name;
         this.instances = instances;
         this.suspended = suspended;
+        this.roles = roles;
     }
 
     public String getEmail() {
@@ -97,5 +98,17 @@ public class Customer {
 
     public void setSuspended(boolean suspended) {
         this.suspended = suspended;
+    }
+
+    public List<CustomerRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<CustomerRole> roles) {
+        this.roles = roles;
+    }
+
+    public boolean hasRole(CustomerRole role) {
+        return this.roles.contains(role);
     }
 }
