@@ -171,6 +171,10 @@ public class InventoryComponent implements PlayerComponent {
     }
 
     public void removeFloorItem(int itemId) {
+        if(this.getFloorItems() == null) {
+            return;
+        }
+
         this.getFloorItems().remove(itemId);
         this.getPlayer().getSession().send(new RemoveObjectFromInventoryMessageComposer(itemId));
     }

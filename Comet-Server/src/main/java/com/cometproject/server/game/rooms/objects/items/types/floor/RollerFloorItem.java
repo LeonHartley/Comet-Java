@@ -58,6 +58,8 @@ public class RollerFloorItem extends RoomItemFloor {
             return;
         }
 
+        boolean retry = false;
+
         List<GenericEntity> entities = this.getRoom().getEntities().getEntitiesAt(this.getPosition());
 
         for (GenericEntity entity : entities) {
@@ -70,6 +72,7 @@ public class RollerFloorItem extends RoomItemFloor {
             }
 
             if (!this.getRoom().getMapping().isValidStep(entity.getId(), entity.getPosition(), sqInfront, true, false) || this.getRoom().getEntities().positionHasEntity(sqInfront)) {
+                retry = true;
                 break;
             }
 
@@ -105,6 +108,10 @@ public class RollerFloorItem extends RoomItemFloor {
 
             this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(entity.getPosition(), new Position(sqInfront.getX(), sqInfront.getY(), toHeight), this.getId(), entity.getId(), 0));
             entity.setPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
+        }
+
+        if(retry) {
+            this.setTicks(this.getTickCount());
         }
     }
 
