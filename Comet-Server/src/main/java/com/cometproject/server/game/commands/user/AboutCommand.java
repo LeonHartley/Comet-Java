@@ -38,7 +38,8 @@ public class AboutCommand extends ChatCommand {
             about.append("Client version: " + Session.CLIENT_VERSION + "<br>");
         }
 
-        if (client.getPlayer().getPermissions().hasPermission("about_detailed")) {
+        // This will be visible to developers on the manager, no need to display it to the end-user.
+        /*if (client.getPlayer().getPermissions().hasPermission("about_detailed")) {
             about.append("<br><b>Server Info</b><br>");
             about.append("Allocated memory: " + format.format(cometStats.getAllocatedMemory()) + "MB<br>");
             about.append("Used memory: " + format.format(cometStats.getUsedMemory()) + "MB<br>");
@@ -47,7 +48,7 @@ public class AboutCommand extends ChatCommand {
             about.append("OS: " + cometStats.getOperatingSystem() + "<br>");
             about.append("CPU cores:  " + cometStats.getCpuCores() + "<br>");
             about.append("Threads:  " + ManagementFactory.getThreadMXBean().getThreadCount() + "<br>");
-        }
+        }*/
 
         if(client.getPlayer().getPermissions().hasPermission("about_stats")) {
             about.append("<br><br><b>Hotel Stats</b><br>");

@@ -7,10 +7,7 @@ import com.cometproject.server.game.rooms.objects.items.types.GenericWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGateFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGoalFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballScoreFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballTimerFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.football.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.hollywood.HaloTileFloorItem;
@@ -144,7 +141,7 @@ public class RoomItemFactory {
             put("group_gate", GroupGateFloorItem.class);
 
             put("football_timer", FootballTimerFloorItem.class);
-//            put("ball", FootballFloorItem.class);
+            put("ball", FootballFloorItem.class);
             put("football_gate", FootballGateFloorItem.class);
             put("football_goal", FootballGoalFloorItem.class);
             put("football_score", FootballScoreFloorItem.class);

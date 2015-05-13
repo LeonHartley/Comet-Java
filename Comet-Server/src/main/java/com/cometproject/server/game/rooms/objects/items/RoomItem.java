@@ -3,8 +3,10 @@ package com.cometproject.server.game.rooms.objects.items;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
+import com.cometproject.server.game.items.types.LowPriorityItemProcessor;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -56,6 +58,10 @@ public abstract class RoomItem extends RoomObject implements Attributable {
 
     protected final void setTicks(int time) {
         this.ticksTimer = time;
+        
+        if(this instanceof RollableFloorItem) {
+            LowPriorityItemProcessor.getInstance().submit(((RoomItemFloor) this));
+        }
     }
 
     protected final void cancelTicks() {

@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.objects.entities.pathfinding.types;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
+import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionChase;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
@@ -82,6 +83,12 @@ public class ItemPathfinder extends Pathfinder {
                         return false;
                     }
                 }
+            }
+        }
+
+        if(roomObject instanceof RollableFloorItem) {
+            for(GenericEntity entity : tile.getEntities()) {
+                return false;
             }
         }
 

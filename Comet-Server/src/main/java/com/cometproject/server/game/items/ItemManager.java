@@ -96,8 +96,6 @@ public class ItemManager implements Initializable {
             return this.getItemDefinitions().get(itemId);
         }
 
-//        log.debug("Couldn't find item definition for item: " + itemId + ", make sure the database is complete! (`furniture` table)");
-
         return null;
     }
 
