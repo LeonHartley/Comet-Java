@@ -51,6 +51,8 @@ public class ItemStorageQueue implements Initializable, CometTask {
     public void shutdown() {
         this.future.cancel(false);
 
+        log.info("Executing " + this.itemsToStore.size() + " item data updates");
+
         // Run 1 final time, to make sure everything is saved!
         this.run();
     }
