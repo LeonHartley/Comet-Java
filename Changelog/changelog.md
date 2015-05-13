@@ -1,6 +1,11 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 12/05/2015
+* Re-enabled football (new system)
+* Roller fixes
+* Standing on the same tile as another player is now fixed.
+
 ## 11/05/2015
 * :empty bots command will now update the inventory in-game.
 
