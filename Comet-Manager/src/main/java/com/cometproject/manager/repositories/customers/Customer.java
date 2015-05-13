@@ -1,5 +1,6 @@
 package com.cometproject.manager.repositories.customers;
 
+import com.cometproject.manager.repositories.customers.roles.CustomerRole;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
@@ -35,6 +36,11 @@ public class Customer {
      * Is the customer suspended?
      */
     private boolean suspended;
+
+    /**
+     * The roles of the customer
+     */
+    private List<CustomerRole> roles;
 
     public Customer(String email, String id, String password, String name, List<String> instances, boolean suspended) {
         this.email = email;
