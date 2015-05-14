@@ -40,6 +40,16 @@ public class QuestComponent implements PlayerComponent {
         return false;
     }
 
+    public void startQuest(Quest quest) {
+        if(this.questProgression.containsKey(quest.getId())) {
+            // We've already started this quest
+            return;
+        }
+
+        this.questProgression.put(quest.getId(), 0);
+        PlayerQuestsDao.saveProgression(true, this.player.getId(), quest.getId(), 0);
+    }
+
     public void progressQuest(int questId, int newProgressValue) {
         boolean insertRequired = false;
 
@@ -51,6 +61,14 @@ public class QuestComponent implements PlayerComponent {
         }
 
         PlayerQuestsDao.saveProgression(insertRequired, this.player.getId(), questId, newProgressValue);
+    }
+
+    public int getProgress(int quest) {
+        if(this.questProgression.containsKey(quest)) {
+            return this.questProgression.get(quest);
+        }
+
+        return 0;
     }
 
     @Override

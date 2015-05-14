@@ -58,8 +58,11 @@ public class PlayerQuestsDao {
             preparedStatement.setInt(2, playerId);
             preparedStatement.setInt(3, questId);
 
-            preparedStatement.executeUpdate();
-
+            if (isNew) {
+                preparedStatement.execute();
+            } else {
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {

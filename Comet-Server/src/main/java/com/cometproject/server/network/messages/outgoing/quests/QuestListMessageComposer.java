@@ -34,9 +34,15 @@ public class QuestListMessageComposer extends MessageComposer {
         List<Quest> inactiveQuests = Lists.newArrayList();
 
         try {
-            for (Quest quest : quests.values()) {
+            for (Quest quest : this.quests.values()) {
+                boolean hasCompletedQuest = this.player.getQuests().hasCompletedQuest(quest.getId());
+
+                if(hasCompletedQuest) {
+                    continue;
+                }
+
                 if(categoryCounters.containsKey(quest.getCategory())) {
-                    if(categoryCounters.get(quest.getCategory()).getSeriesNumber() < quest.getSeriesNumber()) {
+                    if(categoryCounters.get(quest.getCategory()).getSeriesNumber() > quest.getSeriesNumber()) {
                         categoryCounters.replace(quest.getCategory(), quest);
                     }
                 } else {
@@ -45,7 +51,11 @@ public class QuestListMessageComposer extends MessageComposer {
             }
 
             for(Quest quest : categoryCounters.values()) {
-                activeQuests.add(quest);
+                if(this.player.getQuests().hasStartedQuest(quest.getId())) {
+                    activeQuests.add(quest);
+                } else {
+                    inactiveQuests.add(quest);
+                }
             }
 
             msg.writeInt(activeQuests.size() + inactiveQuests.size());
@@ -69,16 +79,16 @@ public class QuestListMessageComposer extends MessageComposer {
 
     private void composeQuest(final Quest quest, final IComposer msg) {
         msg.writeString(quest.getCategory());
-        msg.writeInt(quest.getSeriesNumber());
-        msg.writeInt(QuestManager.getInstance().amountOfQuestsInCategory(quest.getCategory()));
-        msg.writeInt(3); // reward type
+        msg.writeInt(quest.getSeriesNumber() - 1);
+        msg.writeInt(QuestManager.getInstance().amountOfQuestsInCategory(quest.getCategory()) - 1);
+        msg.writeInt(3); // reward type (pixels)
         msg.writeInt(quest.getId());
         msg.writeBoolean(false); // started
         msg.writeString(quest.getType().getAction());
         msg.writeString(quest.getDataBit());
         msg.writeInt(0);//reward
         msg.writeString(quest.getName());
-        msg.writeInt(0); // progress
+        msg.writeInt(this.player.getQuests().getProgress(quest.getId())); // progress
         msg.writeInt(quest.getGoalData()); // total steps to get goal
         msg.writeInt(0); // sort order
         msg.writeString("set_kuurna");

@@ -210,6 +210,7 @@ public class Events {
     public static final short PlaylistMessageEvent = 3899;
     public static final short PlaylistAddMessageEvent = 2991;
     public static final short PlaylistRemoveMessageEvent = 3621;
+    public static final short StartQuestMessageEvent = 2015;
 
     private static Map<Short, String> eventPacketNames = new HashMap<>();
 

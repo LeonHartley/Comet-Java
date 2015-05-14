@@ -40,6 +40,7 @@ import com.cometproject.server.network.messages.incoming.music.playlist.Playlist
 import com.cometproject.server.network.messages.incoming.music.playlist.PlaylistRemoveMessageEvent;
 import com.cometproject.server.network.messages.incoming.navigator.*;
 import com.cometproject.server.network.messages.incoming.quests.OpenQuestsMessageEvent;
+import com.cometproject.server.network.messages.incoming.quests.StartQuestMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.AnswerDoorbellMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.LoadRoomByDoorBellMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.action.*;
@@ -389,6 +390,7 @@ public final class MessageHandler {
 
     public void registerQuests() {
         this.getMessages().put(Events.OpenQuestsMessageEvent, new OpenQuestsMessageEvent());
+        this.getMessages().put(Events.StartQuestMessageEvent, new StartQuestMessageEvent());
     }
 
     public void registerCamera() {
