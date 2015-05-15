@@ -50,6 +50,11 @@ public class QuestComponent implements PlayerComponent {
         PlayerQuestsDao.saveProgression(true, this.player.getId(), quest.getId(), 0);
     }
 
+    public void cancelQuest(int questId) {
+        PlayerQuestsDao.cancelQuest(questId, this.player.getId());
+        this.questProgression.remove(questId);
+    }
+
     public void progressQuest(int questId, int newProgressValue) {
         boolean insertRequired = false;
 

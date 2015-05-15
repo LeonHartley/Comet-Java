@@ -187,6 +187,8 @@ public class Composers {
     public static final short SongDataMessageComposer = 2017;
     public static final short PlaylistMessageComposer = 2167;
     public static final short PlayMusicMessageComposer = 1333;
+    public static final short StartQuestMessageComposer = 1083;
+    public static final short CancelQuestMessageComposer = 2711;
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 

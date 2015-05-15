@@ -1,5 +1,8 @@
 package com.cometproject.server.game.quests;
 
+import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.players.types.Player;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -29,6 +32,25 @@ public class Quest {
         this.dataBit = data.getString("data_bit");
 
         this.questType = QuestType.getById(this.goalType);
+    }
+    
+    public void compose(Player player, IComposer msg) {
+        msg.writeString(this.getCategory());
+        msg.writeInt(this.getSeriesNumber() - 1);
+        msg.writeInt(QuestManager.getInstance().amountOfQuestsInCategory(this.getCategory()) - 1);
+        msg.writeInt(3); // reward type (pixels)
+        msg.writeInt(this.getId());
+        msg.writeBoolean(player.getQuests().hasStartedQuest(this.getId())); // started
+        msg.writeString(this.getType().getAction());
+        msg.writeString(this.getDataBit());
+        msg.writeInt(0);//reward
+        msg.writeString(this.getName());
+        msg.writeInt(player.getQuests().getProgress(this.getId())); // progress
+        msg.writeInt(this.getGoalData()); // total steps to get goal
+        msg.writeInt(0); // sort order
+        msg.writeString("set_kuurna");
+        msg.writeString("MAIN_CHAIN");
+        msg.writeBoolean(true);// easy
     }
 
     public QuestType getType() {

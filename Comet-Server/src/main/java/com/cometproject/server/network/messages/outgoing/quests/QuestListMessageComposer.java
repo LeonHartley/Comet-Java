@@ -15,10 +15,12 @@ import java.util.Map;
 public class QuestListMessageComposer extends MessageComposer {
     private final Map<String, Quest> quests;
     private final Player player;
+    private boolean isWindow;
 
-    public QuestListMessageComposer(final Map<String, Quest> quests, Player player) {
+    public QuestListMessageComposer(final Map<String, Quest> quests, Player player, boolean isWindow) {
         this.quests = quests;
         this.player = player;
+        this.isWindow = isWindow;
     }
 
     @Override
@@ -37,10 +39,6 @@ public class QuestListMessageComposer extends MessageComposer {
             for (Quest quest : this.quests.values()) {
                 boolean hasCompletedQuest = this.player.getQuests().hasCompletedQuest(quest.getId());
 
-                if(hasCompletedQuest) {
-                    continue;
-                }
-
                 if(categoryCounters.containsKey(quest.getCategory())) {
                     if(categoryCounters.get(quest.getCategory()).getSeriesNumber() > quest.getSeriesNumber()) {
                         categoryCounters.replace(quest.getCategory(), quest);
@@ -51,10 +49,10 @@ public class QuestListMessageComposer extends MessageComposer {
             }
 
             for(Quest quest : categoryCounters.values()) {
-                if(this.player.getQuests().hasStartedQuest(quest.getId())) {
-                    activeQuests.add(quest);
-                } else {
+                if(this.player.getQuests().hasCompletedQuest(quest.getId())) {
                     inactiveQuests.add(quest);
+                } else {
+                    activeQuests.add(quest);
                 }
             }
 
@@ -68,7 +66,7 @@ public class QuestListMessageComposer extends MessageComposer {
                 composeQuest(inactiveQuest, msg);
             }
 
-            msg.writeBoolean(true);  // send ??
+            msg.writeBoolean(this.isWindow);  // send ??
         } finally {
             categoryCounters.clear();
 
@@ -78,21 +76,6 @@ public class QuestListMessageComposer extends MessageComposer {
     }
 
     private void composeQuest(final Quest quest, final IComposer msg) {
-        msg.writeString(quest.getCategory());
-        msg.writeInt(quest.getSeriesNumber() - 1);
-        msg.writeInt(QuestManager.getInstance().amountOfQuestsInCategory(quest.getCategory()) - 1);
-        msg.writeInt(3); // reward type (pixels)
-        msg.writeInt(quest.getId());
-        msg.writeBoolean(false); // started
-        msg.writeString(quest.getType().getAction());
-        msg.writeString(quest.getDataBit());
-        msg.writeInt(0);//reward
-        msg.writeString(quest.getName());
-        msg.writeInt(this.player.getQuests().getProgress(quest.getId())); // progress
-        msg.writeInt(quest.getGoalData()); // total steps to get goal
-        msg.writeInt(0); // sort order
-        msg.writeString("set_kuurna");
-        msg.writeString("MAIN_CHAIN");
-        msg.writeBoolean(true);// easy
+        quest.compose(this.player, msg);
     }
 }

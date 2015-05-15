@@ -51,7 +51,7 @@ public class PlayerQuestsDao {
             if (isNew) {
                 preparedStatement = SqlHelper.prepare("INSERT into player_quest_progression (progress, player_id, quest_id) VALUES(?, ?, ?);", sqlConnection);
             } else {
-                preparedStatement = SqlHelper.prepare("UPDATE player_quest_progression SET progress = ? WHERE player_id = ? AND quest_id = ?", sqlConnection);
+                preparedStatement = SqlHelper.prepare("UPDATE player_quest_progression SET progress = ? WHERE player_id = ? AND quest_id = ?;", sqlConnection);
             }
 
             preparedStatement.setInt(1, progression);
@@ -63,6 +63,27 @@ public class PlayerQuestsDao {
             } else {
                 preparedStatement.executeUpdate();
             }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void cancelQuest(int questId, int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("DELETE FROM player_quest_progression WHERE player_id = ? AND quest_id = ?;", sqlConnection);
+
+            preparedStatement.setInt(1, playerId);
+            preparedStatement.setInt(2, questId);
+
+            preparedStatement.execute();
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {

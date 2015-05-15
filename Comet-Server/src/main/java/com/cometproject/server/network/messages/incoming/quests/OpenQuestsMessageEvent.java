@@ -10,6 +10,6 @@ import com.cometproject.server.network.sessions.Session;
 public class OpenQuestsMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        client.send(new QuestListMessageComposer(QuestManager.getInstance().getQuests(), client.getPlayer()));
+        client.send(new QuestListMessageComposer(QuestManager.getInstance().getQuests(), client.getPlayer(), true));
     }
 }

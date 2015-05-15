@@ -383,14 +383,14 @@ public class PlayerDao {
         return "";
     }
 
-    public static void updatePlayerData(int id, String username, String motto, String figure, int credits, int points, String gender, int favouriteGroup, int activtyPoints) {
+    public static void updatePlayerData(int id, String username, String motto, String figure, int credits, int points, String gender, int favouriteGroup, int activtyPoints, int questId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE players SET username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ?, favourite_group = ?, activity_points = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE players SET username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ?, favourite_group = ?, activity_points = ?, quest_id = ? WHERE id = ?", sqlConnection);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, motto);
             preparedStatement.setString(3, figure);
@@ -399,7 +399,8 @@ public class PlayerDao {
             preparedStatement.setString(6, gender);
             preparedStatement.setInt(7, favouriteGroup);
             preparedStatement.setInt(8, activtyPoints);
-            preparedStatement.setInt(9, id);
+            preparedStatement.setInt(9, questId);
+            preparedStatement.setInt(10, id);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {
