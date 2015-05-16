@@ -36,20 +36,20 @@ public class Quest {
     
     public void compose(Player player, IComposer msg) {
         msg.writeString(this.getCategory());
-        msg.writeInt(this.getSeriesNumber() - 1);
-        msg.writeInt(QuestManager.getInstance().amountOfQuestsInCategory(this.getCategory()) - 1);
-        msg.writeInt(3); // reward type (pixels)
+        msg.writeInt(player.getQuests().hasCompletedQuest(this.getId()) ? this.getSeriesNumber() : (this.getSeriesNumber() - 1));
+        msg.writeInt(QuestManager.getInstance().getAmountOfQuestsInCategory(this.getCategory()));
+        msg.writeInt(0); // reward type (pixels)
         msg.writeInt(this.getId());
-        msg.writeBoolean(player.getQuests().hasStartedQuest(this.getId())); // started
+        msg.writeBoolean(false); //player.getQuests().hasStartedQuest(this.getId())); // started
         msg.writeString(this.getType().getAction());
         msg.writeString(this.getDataBit());
-        msg.writeInt(0);//reward
+        msg.writeInt(this.getReward());//reward
         msg.writeString(this.getName());
         msg.writeInt(player.getQuests().getProgress(this.getId())); // progress
         msg.writeInt(this.getGoalData()); // total steps to get goal
-        msg.writeInt(0); // sort order
-        msg.writeString("set_kuurna");
-        msg.writeString("MAIN_CHAIN");
+        msg.writeInt(3); // sort order
+        msg.writeString("");
+        msg.writeString("");
         msg.writeBoolean(true);// easy
     }
 

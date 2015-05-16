@@ -49,7 +49,7 @@ public class QuestManager implements Initializable {
         return null;
     }
 
-    public int amountOfQuestsInCategory(String category) {
+    public int getAmountOfQuestsInCategory(String category) {
         int count = 0;
 
         for (Quest quest : this.quests.values()) {
@@ -59,6 +59,18 @@ public class QuestManager implements Initializable {
         }
 
         return count;
+    }
+
+    public Quest getNextQuestInSeries(String category, int lastQuestSeries) {
+        for(Quest quest : this.quests.values()) {
+            if(quest.getCategory().equals(category)) {
+                if(quest.getSeriesNumber() == lastQuestSeries) {
+                    return quest;
+                }
+            }
+        }
+
+        return null;
     }
 
     public Map<String, Quest> getQuests() {
