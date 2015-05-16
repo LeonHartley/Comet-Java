@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.profile;
 
+import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.user.profile.UserBadgesMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -38,5 +39,7 @@ public class WearBadgeMessageEvent implements Event {
         } else {
             client.send(new UserBadgesMessageComposer(client.getPlayer().getId(), client.getPlayer().getInventory().equippedBadges()));
         }
+
+        client.getPlayer().getQuests().progressQuest(QuestType.PROFILE_BADGE, 0);
     }
 }

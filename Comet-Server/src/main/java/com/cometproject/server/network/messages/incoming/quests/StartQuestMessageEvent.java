@@ -2,8 +2,6 @@ package com.cometproject.server.network.messages.incoming.quests;
 
 import com.cometproject.server.game.quests.Quest;
 import com.cometproject.server.game.quests.QuestManager;
-import com.cometproject.server.network.messages.outgoing.quests.QuestListMessageComposer;
-import com.cometproject.server.network.messages.outgoing.quests.QuestStartedMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
@@ -19,7 +17,9 @@ public class StartQuestMessageEvent implements com.cometproject.server.network.m
 
         if (client.getPlayer().getData().getQuestId() != 0) {
             // We need to cancel their current one.
-            client.getPlayer().getQuests().cancelQuest(client.getPlayer().getData().getQuestId());
+            if(!client.getPlayer().getQuests().hasCompletedQuest(client.getPlayer().getData().getQuestId())) {
+                client.getPlayer().getQuests().cancelQuest(client.getPlayer().getData().getQuestId());
+            }
         }
 
         final Quest quest = QuestManager.getInstance().getById(questId);
@@ -28,10 +28,6 @@ public class StartQuestMessageEvent implements com.cometproject.server.network.m
             return;
         }
 
-        client.getPlayer().getData().setQuestId(questId);
         client.getPlayer().getQuests().startQuest(quest);
-
-        client.send(new QuestStartedMessageComposer(quest, client.getPlayer()));
-        client.send(new QuestListMessageComposer(QuestManager.getInstance().getQuests(), client.getPlayer(), false));
     }
 }

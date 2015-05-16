@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.incoming.user.wardrobe;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -17,10 +18,10 @@ public class ChangeLooksMessageEvent implements Event {
             return;
         }
 
-        if(!this.isValidFigure(figure)) {
-            client.send(new MotdNotificationComposer("Invalid figure, bro!"));
-            return;
-        }
+//        if(!this.isValidFigure(figure)) {
+//            client.send(new MotdNotificationComposer("Invalid figure, bro!"));
+//            return;
+//        }
 
         int timeSinceLastUpdate = ((int) Comet.getTime()) - client.getPlayer().getLastFigureUpdate();
 
@@ -32,6 +33,8 @@ public class ChangeLooksMessageEvent implements Event {
             client.getPlayer().poof();
             client.getPlayer().setLastFigureUpdate((int) Comet.getTime());
         }
+
+        client.getPlayer().getQuests().progressQuest(QuestType.PROFILE_CHANGE_LOOK, 0);
     }
 
     private boolean isValidFigure(String figure) {
