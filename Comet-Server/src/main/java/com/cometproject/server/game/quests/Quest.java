@@ -35,19 +35,23 @@ public class Quest {
     }
     
     public void compose(Player player, IComposer msg) {
+//        boolean startedQuest = player.getQuests().hasStartedQuest(this.getId());
+        boolean startedQuest = player.getData().getQuestId() == this.getId();
+        int progress = player.getQuests().getProgress(this.getId());
+
         msg.writeString(this.getCategory());
         msg.writeInt(player.getQuests().hasCompletedQuest(this.getId()) ? this.getSeriesNumber() : (this.getSeriesNumber() - 1));
         msg.writeInt(QuestManager.getInstance().getAmountOfQuestsInCategory(this.getCategory()));
         msg.writeInt(0); // reward type (pixels)
         msg.writeInt(this.getId());
-        msg.writeBoolean(false); //player.getQuests().hasStartedQuest(this.getId())); // started
+        msg.writeBoolean(startedQuest); // started
         msg.writeString(this.getType().getAction());
         msg.writeString(this.getDataBit());
         msg.writeInt(this.getReward());//reward
         msg.writeString(this.getName());
-        msg.writeInt(player.getQuests().getProgress(this.getId())); // progress
+        msg.writeInt(progress); // progress
         msg.writeInt(this.getGoalData()); // total steps to get goal
-        msg.writeInt(3); // sort order
+        msg.writeInt(0); // sort order
         msg.writeString("");
         msg.writeString("");
         msg.writeBoolean(true);// easy

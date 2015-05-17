@@ -9,6 +9,7 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,8 +42,6 @@ public class QuestListMessageComposer extends MessageComposer {
                     if (!this.player.getQuests().hasCompletedQuest(quest.getId())) {
                         if (categoryCounters.get(quest.getCategory()).getSeriesNumber() > quest.getSeriesNumber()) {
                             categoryCounters.replace(quest.getCategory(), quest);
-                        } else {
-                            System.out.println("It's bigger: " + categoryCounters.get(quest.getCategory()).getType());
                         }
                     } else {
                         if (quest.getSeriesNumber() > categoryCounters.get(quest.getCategory()).getSeriesNumber()) {
@@ -65,23 +64,46 @@ public class QuestListMessageComposer extends MessageComposer {
             msg.writeInt(activeQuests.size() + inactiveQuests.size());
 
             for (Quest activeQuest : activeQuests) {
-                composeQuest(activeQuest, msg);
+                composeQuest(activeQuest.getCategory(), activeQuest, msg);
             }
 
             for (Quest inactiveQuest : inactiveQuests) {
-                composeQuest(inactiveQuest, msg);
+                composeQuest(inactiveQuest.getCategory(), null, msg);
             }
 
             msg.writeBoolean(this.isWindow);  // send ??
         } finally {
             categoryCounters.clear();
 
-            activeQuests.clear();
             inactiveQuests.clear();
+            activeQuests.clear();
         }
     }
 
-    private void composeQuest(final Quest quest, final IComposer msg) {
+    private void composeQuest(final String category, final Quest quest, final IComposer msg) {
+        int amountInCategory = QuestManager.getInstance().getAmountOfQuestsInCategory(category);
+
+        if (quest == null) {
+            msg.writeString(category);
+            msg.writeInt(amountInCategory);
+            msg.writeInt(amountInCategory);
+            msg.writeInt(0);
+            msg.writeInt(0);
+            msg.writeBoolean(false);
+            msg.writeString("");
+            msg.writeString("");
+            msg.writeInt(0);
+            msg.writeString("");
+            msg.writeInt(0);
+            msg.writeInt(0);
+            msg.writeInt(0);
+            msg.writeString("");
+            msg.writeString("");
+            msg.writeBoolean(true);// easy
+
+            return;
+        }
+
         quest.compose(this.player, msg);
     }
 }
