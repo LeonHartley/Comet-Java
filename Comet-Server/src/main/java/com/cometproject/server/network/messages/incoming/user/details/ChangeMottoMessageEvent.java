@@ -33,6 +33,6 @@ public class ChangeMottoMessageEvent implements Event {
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UpdateInfoMessageComposer(client.getPlayer().getEntity()));
         client.send(new UpdateInfoMessageComposer(-1, client.getPlayer().getEntity()));
 
-        client.getPlayer().getQuests().progressQuest(QuestType.PROFILE_CHANGE_MOTTO, 0);
+        client.getPlayer().getQuests().progressQuest(QuestType.PROFILE_CHANGE_MOTTO);
     }
 }

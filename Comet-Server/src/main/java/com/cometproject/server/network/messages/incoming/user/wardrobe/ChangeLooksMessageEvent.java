@@ -4,7 +4,6 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
@@ -34,7 +33,7 @@ public class ChangeLooksMessageEvent implements Event {
             client.getPlayer().setLastFigureUpdate((int) Comet.getTime());
         }
 
-        client.getPlayer().getQuests().progressQuest(QuestType.PROFILE_CHANGE_LOOK, 0);
+        client.getPlayer().getQuests().progressQuest(QuestType.PROFILE_CHANGE_LOOK);
     }
 
     private boolean isValidFigure(String figure) {

@@ -65,6 +65,10 @@ public class QuestComponent implements PlayerComponent {
         this.questProgression.remove(questId);
     }
 
+    public void progressQuest(QuestType type) {
+        this.progressQuest(type, 0);
+    }
+
     public void progressQuest(QuestType type, int data) {
         int questId = this.getPlayer().getData().getQuestId();
 
