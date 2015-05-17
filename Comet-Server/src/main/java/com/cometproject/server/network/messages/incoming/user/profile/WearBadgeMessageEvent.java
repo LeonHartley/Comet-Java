@@ -40,6 +40,6 @@ public class WearBadgeMessageEvent implements Event {
             client.send(new UserBadgesMessageComposer(client.getPlayer().getId(), client.getPlayer().getInventory().equippedBadges()));
         }
 
-        client.getPlayer().getQuests().progressQuest(QuestType.PROFILE_BADGE, 0);
+        client.getPlayer().getQuests().progressQuest(QuestType.PROFILE_BADGE);
     }
 }
