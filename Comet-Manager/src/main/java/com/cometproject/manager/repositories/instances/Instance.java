@@ -10,12 +10,12 @@ public class Instance {
     private String id;
 
     private String name;
-    private List<ConfigProperty> config;
+    private List<InstanceConfigProperty> config;
 
     @JsonIgnore
     private String authKey;
 
-    public Instance(String id, String name, List<ConfigProperty> config, String authKey) {
+    public Instance(String id, String name, List<InstanceConfigProperty> config, String authKey) {
         this.id = id;
         this.name = name;
         this.config = config;
@@ -38,11 +38,11 @@ public class Instance {
         this.name = name;
     }
 
-    public List<ConfigProperty> getConfig() {
+    public List<InstanceConfigProperty> getConfig() {
         return config;
     }
 
-    public void setConfig(List<ConfigProperty> config) {
+    public void setConfig(List<InstanceConfigProperty> config) {
         this.config = config;
     }
 
@@ -52,31 +52,5 @@ public class Instance {
 
     public void setAuthKey(String authKey) {
         this.authKey = authKey;
-    }
-
-    private class ConfigProperty {
-        private String key;
-        private String value;
-
-        public ConfigProperty(String key, String value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public void setValue(String value) {
-            this.value = value;
-        }
     }
 }
