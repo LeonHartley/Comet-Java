@@ -1,6 +1,10 @@
 package com.cometproject.manager.repositories.customers;
 
+import com.cometproject.manager.repositories.InstanceRepository;
 import com.cometproject.manager.repositories.customers.roles.CustomerRole;
+import com.cometproject.manager.repositories.instances.Instance;
+import jersey.repackaged.com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
@@ -52,6 +56,20 @@ public class Customer {
         this.roles = roles;
     }
 
+    public List<Instance> getInstances(InstanceRepository instanceRepository) {
+        List<Instance> instances = Lists.newArrayList();
+
+        for (String instanceId : this.instances) {
+            Instance instance = instanceRepository.findOne(instanceId);
+
+            if (instance != null) {
+                instances.add(instance);
+            }
+        }
+
+        return instances;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -82,10 +100,6 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<String> getInstances() {
-        return instances;
     }
 
     public void setInstances(List<String> instances) {

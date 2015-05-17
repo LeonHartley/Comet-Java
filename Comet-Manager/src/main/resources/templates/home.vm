@@ -1,3 +1,14 @@
 #parse('/templates/base/header.vm')
 Hey, $customer.name! <a href="/logout">Logout</a>
+
+#foreach($instance in $instances)
+<div class="panel panel-default">
+    <div class="panel-heading">$instance.name</div>
+    <div class="panel-body">
+        #foreach($instanceConfig in $instance.getConfig())
+            <b>$instanceConfig.key</b> = $instanceConfig.value<br />
+        #end
+    </div>
+</div>
+#end
 #include('/templates/base/footer.vm')
