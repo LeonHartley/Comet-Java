@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.logging.AbstractLogEntry;
 import com.cometproject.server.network.messages.headers.Events;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.incoming.catalog.*;
@@ -97,7 +98,7 @@ public final class MessageHandler {
     public static Logger log = Logger.getLogger(MessageHandler.class.getName());
     private final Map<Short, Event> messages = new ConcurrentHashMap<>();
 
-    private final ExecutorService eventExecutor;
+    private final AbstractExecutorService eventExecutor;
     private final boolean asyncEventExecution;
 
     public MessageHandler() {
@@ -105,11 +106,21 @@ public final class MessageHandler {
 //        this.eventExecutor = asyncEventExecution ? Executors.newFixedThreadPool(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.threads", "8"))) : null;
 
         if(this.asyncEventExecution) {
-            this.eventExecutor = new ThreadPoolExecutor(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.coreSize", "8")), // core size
-                    Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.maxSize", "32")), // max size
-                    10 * 60, // idle timeout
-                    TimeUnit.SECONDS,
-                    new LinkedBlockingQueue<>());
+            switch((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.type", "threadpool")) {
+                default:
+                    log.info("Using thread-pool event executor");
+                    this.eventExecutor = new ThreadPoolExecutor(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.coreSize", "8")), // core size
+                            Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.maxSize", "32")), // max size
+                            10 * 60, // idle timeout
+                            TimeUnit.SECONDS,
+                            new LinkedBlockingQueue<>());
+                    break;
+
+                case "forkjoin":
+                    log.info("Using fork-join event executor");
+                    this.eventExecutor = new ForkJoinPool(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.coreSize", 16)));
+                    break;
+            }
         } else {
             this.eventExecutor = null;
         }
