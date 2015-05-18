@@ -20,6 +20,7 @@ public class FollowRoomInfoMessageEvent implements Event {
                 return;
             }
 
+            client.send(new FollowRoomDataMessageComposer(roomData));
         }
     }
 }
