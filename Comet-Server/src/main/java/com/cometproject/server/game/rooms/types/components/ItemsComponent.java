@@ -10,7 +10,9 @@ import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
+import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GiftFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -378,6 +380,24 @@ public class ItemsComponent {
 
             if (!item.getInteraction().equals(RoomItemFactory.TELEPORT_PAD) && tile.getPosition().getX() == this.getRoom().getModel().getDoorX() && tile.getPosition().getY() == this.getRoom().getModel().getDoorY()) {
                 return false;
+            }
+
+            if(item.getInteraction().equals("dice")) {
+                boolean hasOtherDice = false;
+                boolean hasStackTool = false;
+
+                for(RoomItemFloor floorItem : tile.getItems()) {
+                    if(floorItem instanceof DiceFloorItem) {
+                        hasOtherDice = true;
+                    }
+
+                    if(floorItem instanceof MagicStackFloorItem) {
+                        hasStackTool = true;
+                    }
+                }
+
+                if(hasOtherDice && hasStackTool)
+                    return false;
             }
 
             if (!CometSettings.placeItemOnEntity) {

@@ -46,6 +46,10 @@ public class PullCommand extends ChatCommand {
         Room room = client.getPlayer().getEntity().getRoom();
         PlayerEntity pulledEntity = pulledSession.getPlayer().getEntity();
 
+        if(pulledEntity.isOverriden()) {
+            return;
+        }
+
         if (pulledEntity.getPosition().distanceTo(client.getPlayer().getEntity()) != 2) {
             return;
         }

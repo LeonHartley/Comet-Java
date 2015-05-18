@@ -1,0 +1,1 @@
+INSERT INTO `server_locale` (`key`, `value`) VALUES ('game.received.achievementPoints', 'You\'ve received %points% achievement points!');

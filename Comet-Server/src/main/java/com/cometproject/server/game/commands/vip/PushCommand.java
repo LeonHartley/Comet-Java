@@ -40,6 +40,10 @@ public class PushCommand extends ChatCommand {
             return;
         }
 
+        if(user.getPlayer().getEntity().isOverriden()) {
+            return;
+        }
+
         int posX = user.getPlayer().getEntity().getPosition().getX();
         int posY = user.getPlayer().getEntity().getPosition().getY();
         int playerX = client.getPlayer().getEntity().getPosition().getX();

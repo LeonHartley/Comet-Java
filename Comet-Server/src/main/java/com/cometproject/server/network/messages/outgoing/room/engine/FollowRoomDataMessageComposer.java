@@ -21,26 +21,23 @@ public class FollowRoomDataMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer composer) {
-        composer.writeBoolean(false);
-
-        RoomWriter.write(this.roomData, ((Composer) composer));
-
-        composer.writeBoolean(true);
-        composer.writeBoolean(false);
-        composer.writeBoolean(true);
-        composer.writeInt(0);
-        composer.writeInt(0);
-        composer.writeInt(0);
-        composer.writeBoolean(false);
-        composer.writeBoolean(true);
-        composer.writeBoolean(true);
-        composer.writeInt(1);
-        composer.writeInt(0);
-        composer.writeInt(1);
-        composer.writeInt(14);
-        composer.writeBoolean(false);
-        composer.writeBoolean(false);
-        composer.writeBoolean(false);
-        composer.writeBoolean(true);
+        RoomWriter.entryData(this.roomData, composer, false);
+//
+//        composer.writeBoolean(true);
+//        composer.writeBoolean(false);
+//        composer.writeBoolean(false);
+//        composer.writeBoolean(false);
+//        composer.writeInt(0);
+//        composer.writeInt(0);
+//        composer.writeInt(0);
+//        composer.writeBoolean(false);
+//        composer.writeInt(1);
+//        composer.writeInt(0);
+//        composer.writeInt(1);
+//        composer.writeInt(14);
+//        composer.writeBoolean(false);
+//        composer.writeBoolean(false);
+//        composer.writeBoolean(false);
+//        composer.writeBoolean(true);
     }
 }

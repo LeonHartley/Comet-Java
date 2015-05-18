@@ -1,5 +1,6 @@
 package com.cometproject.server.game.players.components;
 
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
 import com.cometproject.server.game.quests.Quest;
@@ -122,8 +123,9 @@ public class QuestComponent implements PlayerComponent {
                         break;
 
                     case ACHIEVEMENT_POINTS:
-                        // TODO: this!
-                        this.player.sendNotif("Not Implemented", "This feature is not implemented yet!");
+                        this.getPlayer().getData().increaseAchievementPoints(quest.getReward());
+                        this.getPlayer().sendNotif("Alert", Locale.get("game.received.achievementPoints").replace("%points%", quest.getReward() + ""));
+                        this.getPlayer().poof();
                         break;
 
                     case VIP_POINTS:

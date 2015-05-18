@@ -29,13 +29,29 @@ public class ExchangeItemMessageEvent implements Event {
             return;
         }
 
-        int value = Integer.parseInt(item.getDefinition().getItemName().split("_")[1]);
+        if(item.getOwner() != client.getPlayer().getId()) {
+            return;
+        }
+
+        int value;
+        boolean isDiamond = false;
+
+        if(item.getDefinition().getItemName().contains("_diamond_")) {
+            isDiamond = true;
+            value = Integer.parseInt(item.getDefinition().getItemName().split("_diamond_")[1]);
+        } else {
+            value = Integer.parseInt(item.getDefinition().getItemName().split("_")[1]);
+        }
 
         room.getItems().removeItem(item, client, false, true);
 
-        client.getPlayer().getData().increaseCredits(value);
-        client.getPlayer().sendBalance();
+        if(isDiamond) {
+            client.getPlayer().getData().increasePoints(value);
+        } else {
+            client.getPlayer().getData().increaseCredits(value);
+        }
 
+        client.getPlayer().sendBalance();
         client.getPlayer().getData().save();
     }
 }
