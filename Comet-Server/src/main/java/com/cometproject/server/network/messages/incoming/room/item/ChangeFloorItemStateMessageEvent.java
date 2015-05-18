@@ -32,7 +32,6 @@ public class ChangeFloorItemStateMessageEvent implements Event {
             return;
         }
 
-        System.out.println(item.getDefinition().getSpriteId());
         client.getPlayer().getQuests().progressQuest(QuestType.EXPLORE_FIND_ITEM, item.getDefinition().getSpriteId());
 
         if(item.onInteract(client.getPlayer().getEntity(), msg.readInt(), false)) {

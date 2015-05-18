@@ -28,7 +28,7 @@ public class GenericFloorItem extends RoomItemFloor {
                 }
             }
 
-            if(pEntity.getId() == this.getRoom().getData().getOwnerId()) {
+            if(pEntity.getPlayer().getId() == this.getRoom().getData().getOwnerId()) {
                 pEntity.getPlayer().getQuests().progressQuest(QuestType.FURNI_SWITCH);
             }
         }

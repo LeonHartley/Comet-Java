@@ -61,12 +61,11 @@ public class QuestManager implements Initializable {
         return count;
     }
 
-    public Quest getNextQuestInSeries(String category, int lastQuestSeries) {
+    public Quest getNextQuestInSeries(Quest lastQuest) {
         for(Quest quest : this.quests.values()) {
-            if(quest.getCategory().equals(category)) {
-                if(quest.getSeriesNumber() == lastQuestSeries) {
-                    return quest;
-                }
+            if(quest.getCategory().equals(lastQuest.getCategory()) &&
+                    quest.getSeriesNumber() == (lastQuest.getSeriesNumber() + 1)) {
+                return quest;
             }
         }
 
