@@ -13,6 +13,7 @@ import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
+import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
@@ -46,7 +47,9 @@ public class ReloadCommand extends ChatCommand {
                                 "- locale\n" +
                                 "- modpresets\n" +
                                 "- groupitems\n" +
-                                "- models"
+                                "- models" +
+                                "- music" +
+                                "- quests"
                 ));
 
                 break;
@@ -131,6 +134,11 @@ public class ReloadCommand extends ChatCommand {
             case "music":
                 ItemManager.getInstance().loadMusicData();
                 sendNotif(Locale.get("command.reload.music"), client);
+                break;
+
+            case "quests":
+                QuestManager.getInstance().loadQuests();
+                sendNotif(Locale.get("command.reload.quests"), client);
                 break;
 
         }

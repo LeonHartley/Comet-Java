@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
@@ -262,6 +263,13 @@ public class ProcessComponent implements CometTask {
                 }
 
                 index0++;
+
+                if(entity instanceof PlayerEntity) {
+                    PlayerEntity playerEntity = ((PlayerEntity) entity);
+
+                    if(playerEntity.getPlayer() != null && playerEntity.getPlayer().getQuests() != null)
+                        ((PlayerEntity) entity).getPlayer().getQuests().progressQuest(QuestType.EXPLORE_FIND_ITEM, item.getDefinition().getSpriteId());
+                }
 
                 item.onEntityStepOn(entity);
                 WiredTriggerWalksOnFurni.executeTriggers(entity, item);

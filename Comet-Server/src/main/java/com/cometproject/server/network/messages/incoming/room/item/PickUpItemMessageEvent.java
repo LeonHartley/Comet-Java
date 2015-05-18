@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
+import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
@@ -74,5 +75,7 @@ public class PickUpItemMessageEvent implements Event {
             Session owner = NetworkManager.getInstance().getSessions().getByPlayerId(item.getOwner());
             room.getItems().removeItem(item, owner);
         }
+
+        client.getPlayer().getQuests().progressQuest(QuestType.FURNI_PICK);
     }
 }

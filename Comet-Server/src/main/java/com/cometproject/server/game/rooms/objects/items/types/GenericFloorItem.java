@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types;
 
+import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -26,6 +27,10 @@ public class GenericFloorItem extends RoomItemFloor {
                     return false;
                 }
             }
+
+            if(pEntity.getId() == this.getRoom().getData().getOwnerId()) {
+                pEntity.getPlayer().getQuests().progressQuest(QuestType.FURNI_SWITCH);
+            }
         }
 
         this.toggleInteract(true);
@@ -34,5 +39,14 @@ public class GenericFloorItem extends RoomItemFloor {
         // TODO: Move item saving to a queue for batch saving or something. :P
         this.saveData();
         return true;
+    }
+
+    @Override
+    public void onEntityStepOn(GenericEntity entity) {
+        if(entity instanceof PlayerEntity) {
+            try {
+                ((PlayerEntity) entity).getPlayer().getQuests().progressQuest(QuestType.EXPLORE_FIND_ITEM, this.getDefinition().getSpriteId());
+            } catch(Exception ignored) {}
+        }
     }
 }

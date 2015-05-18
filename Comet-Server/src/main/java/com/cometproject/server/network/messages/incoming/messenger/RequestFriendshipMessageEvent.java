@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.FriendRequestMessageComposer;
@@ -38,6 +39,7 @@ public class RequestFriendshipMessageEvent implements Event {
         if (userId == 0)
             return;
 
+        client.getPlayer().getQuests().progressQuest(QuestType.SOCIAL_FRIEND);
         MessengerDao.createRequest(client.getPlayer().getId(), userId);
     }
 }

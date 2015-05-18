@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
+import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessageComposer;
@@ -44,6 +45,14 @@ public class UpdatePapersMessageEvent implements Event {
                 decorations.replace(type, data);
             } else {
                 decorations.put(type, data);
+            }
+
+            System.out.println(type);
+
+            if(type.equals("floor")) {
+                client.getPlayer().getQuests().progressQuest(QuestType.FURNI_DECORATION_FLOOR);
+            } else if(type.equals("wallpaper")) {
+                client.getPlayer().getQuests().progressQuest(QuestType.FURNI_DECORATION_WALL);
             }
 
             client.getPlayer().getInventory().removeItem(item);
