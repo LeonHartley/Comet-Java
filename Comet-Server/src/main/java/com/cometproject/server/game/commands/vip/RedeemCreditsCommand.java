@@ -15,9 +15,11 @@ public class RedeemCreditsCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         int coinsToGive = 0;
+        int diamondsToGive = 0;
+
         List<Integer> itemsToRemove = Lists.newArrayList();
 
-        if(!client.getPlayer().getInventory().itemsLoaded()) {
+        if (!client.getPlayer().getInventory().itemsLoaded()) {
             sendNotif(Locale.getOrDefault("command.redeemcredits.inventory", "Please open your inventory before executing this command!"), client);
             return;
         }
@@ -29,11 +31,14 @@ public class RedeemCreditsCommand extends ChatCommand {
 
             if (itemName.startsWith("CF_") || itemName.startsWith("CFC_")) {
                 try {
-                    int coinage = Integer.parseInt(itemName.split("_")[1]);
+                    if (itemName.contains("_diamond_")) {
+                        diamondsToGive += Integer.parseInt(itemName.split("_diamond_")[1]);
+                    } else {
+                        coinsToGive += Integer.parseInt(itemName.split("_")[1]);
+                    }
 
                     itemsToRemove.add(inventoryItem.getId());
 
-                    coinsToGive += coinage;
                     RoomItemDao.deleteItem(inventoryItem.getId());
                 } catch (Exception ignored) {
 
@@ -52,10 +57,19 @@ public class RedeemCreditsCommand extends ChatCommand {
         itemsToRemove.clear();
 
         client.send(new UpdateInventoryMessageComposer());
-        client.getPlayer().getData().increaseCredits(coinsToGive);
-        client.getPlayer().sendBalance();
 
-        client.getPlayer().getData().save();
+        if (diamondsToGive > 0) {
+            client.getPlayer().getData().increasePoints(diamondsToGive);
+        }
+
+        if (coinsToGive > 0) {
+            client.getPlayer().getData().increaseCredits(coinsToGive);
+        }
+
+        if (diamondsToGive > 0 || coinsToGive > 0) {
+            client.getPlayer().sendBalance();
+            client.getPlayer().getData().save();
+        }
     }
 
 

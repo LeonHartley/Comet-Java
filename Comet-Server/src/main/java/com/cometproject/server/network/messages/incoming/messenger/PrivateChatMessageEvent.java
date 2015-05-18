@@ -1,10 +1,14 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
 import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
+import com.cometproject.server.logging.LogManager;
+import com.cometproject.server.logging.entries.MessengerChatLogEntry;
+import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.InstantChatMessageComposer;
@@ -68,6 +72,14 @@ public class PrivateChatMessageEvent implements Event {
                 message = filterResult.getMessage();
             }
         }
+
+        try {
+            if (LogManager.ENABLED && CometSettings.logMessengerMessages)
+                LogManager.getInstance().getStore().getLogEntryContainer().put(new MessengerChatLogEntry(client.getPlayer().getEntity().getRoom().getId(), userId, message));
+        } catch (Exception ignored) {
+
+        }
+
 
         friendClient.send(new InstantChatMessageComposer(message, client.getPlayer().getId()));
     }

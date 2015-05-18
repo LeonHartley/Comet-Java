@@ -238,10 +238,7 @@ public class Room implements Attributable, IRoom {
     }
 
     public Group getGroup() {
-        if(this.group != null)
-            return this.group;
-
-        return null;
+        return this.group;
     }
 
     public void setGroup(final Group group) {

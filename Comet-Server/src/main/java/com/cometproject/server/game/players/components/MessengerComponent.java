@@ -74,7 +74,6 @@ public class MessengerComponent implements PlayerComponent {
         this.getFriends().put(friend.getUserId(), friend);
     }
 
-
     public void removeFriend(int userId) {
         if (!this.friends.containsKey(userId)) {
             return;

@@ -1,6 +1,13 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 18/05/2015
+* Fixed bug with following/summon which would not allow you enter the room (Password/Doorbell)
+* Fixed dice rigging (stacking dice inside each other)
+* Quests
+* Messenger chats can now be logged.
+* You can now redeem diamond furniture.
+
 ## 12/05/2015
 * Re-enabled football (new system)
 * Roller fixes

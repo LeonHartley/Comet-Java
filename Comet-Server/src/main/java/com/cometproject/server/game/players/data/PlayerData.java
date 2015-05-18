@@ -78,7 +78,7 @@ public class PlayerData implements PlayerAvatar, IPlayerData {
     }
 
     public void save() {
-        PlayerDao.updatePlayerData(id, username, motto, figure, credits, vipPoints, gender, favouriteGroup, activityPoints, questId);
+        PlayerDao.updatePlayerData(id, username, motto, figure, credits, vipPoints, gender, favouriteGroup, activityPoints, questId, achievementPoints);
     }
 
     public void decreaseCredits(int amount) {
@@ -103,6 +103,10 @@ public class PlayerData implements PlayerAvatar, IPlayerData {
 
     public void decreaseActivityPoints(int points) {
         this.activityPoints -= points;
+    }
+
+    public void increaseAchievementPoints(int points) {
+        this.achievementPoints += points;
     }
 
     public void setPoints(int points) {

@@ -184,6 +184,8 @@ public class CometSettings {
 
     public static int maxFriends = 1100;
 
+    public static boolean logMessengerMessages = false;
+
     /**
      * Logging
      */
@@ -216,22 +218,22 @@ public class CometSettings {
         showActiveRoomsInAbout = Boolean.parseBoolean(config.get("comet.about.command.activeRooms"));
         showUsersOnlineInAbout = Boolean.parseBoolean(config.get("comet.about.command.usersOnline"));
 
-        if(config.containsKey("comet.floor.command.max.x") && config.containsKey("comet.floor.command.max.y") && config.containsKey("comet.floor.command.max.total")) {
+        if (config.containsKey("comet.floor.command.max.x") && config.containsKey("comet.floor.command.max.y") && config.containsKey("comet.floor.command.max.total")) {
             floorMaxX = Integer.parseInt(config.get("comet.floor.command.max.x"));
             floorMaxY = Integer.parseInt(config.get("comet.floor.command.max.y"));
             floorMaxTotal = Integer.parseInt(config.get("comet.floor.command.max.total"));
         }
 
-        if(config.containsKey("comet.game.rooms.maxPlayers")) {
+        if (config.containsKey("comet.game.rooms.maxPlayers")) {
             maxPlayersInRoom = Integer.parseInt(config.get("comet.game.rooms.maxPlayers"));
         }
 
-        if(config.containsKey("comet.game.rooms.hashpasswords") && config.containsKey("comet.game.rooms.hashrounds")) {
+        if (config.containsKey("comet.game.rooms.hashpasswords") && config.containsKey("comet.game.rooms.hashrounds")) {
             roomPasswordEncryptionEnabled = Boolean.parseBoolean(config.get("comet.game.rooms.hashpasswords"));
             roomPasswordEncryptionRounds = Integer.parseInt(config.get("comet.game.rooms.hashrounds"));
         }
 
-        if(config.containsKey("comet.game.filter.mode")) {
+        if (config.containsKey("comet.game.filter.mode")) {
             wordFilterMode = FilterMode.valueOf(config.get("comet.game.filter.mode").toUpperCase());
         }
 
@@ -247,29 +249,29 @@ public class CometSettings {
             disableWiredFlash = Boolean.parseBoolean(config.get("comet.game.rooms.disableWiredFlash"));
         }
 
-        if(config.containsKey("comet.game.infiniteBalance")) {
+        if (config.containsKey("comet.game.infiniteBalance")) {
             infiniteBalance = Boolean.parseBoolean(config.get("comet.game.infiniteBalance"));
         }
 
-        if(config.containsKey("comet.game.gift.cooldown")) {
+        if (config.containsKey("comet.game.gift.cooldown")) {
             giftCooldown = Integer.parseInt(config.get("comet.game.gift.cooldown"));
         }
 
-        if(config.containsKey("comet.data.itemStorageQueue")) {
+        if (config.containsKey("comet.data.itemStorageQueue")) {
             itemStorageQueueEnabled = Boolean.parseBoolean(config.get("comet.data.itemStorageQueue"));
         }
 
-        if(config.containsKey("comet.game.filter.characters")) {
+        if (config.containsKey("comet.game.filter.characters")) {
             strictFilterCharacters.clear();
 
             final String characters = config.get("comet.game.filter.characters");
 
-            for(String charSet : characters.split(",")) {
-                if(!charSet.contains(":")) continue;
+            for (String charSet : characters.split(",")) {
+                if (!charSet.contains(":")) continue;
 
                 final String[] chars = charSet.split(":");
 
-                if(chars.length == 2) {
+                if (chars.length == 2) {
                     strictFilterCharacters.put(chars[0], chars[1]);
                 } else {
                     strictFilterCharacters.put(chars[0], "");
@@ -277,24 +279,24 @@ public class CometSettings {
             }
         }
 
-        if(config.containsKey("comet.game.furni.placeOnPlayer")) {
+        if (config.containsKey("comet.game.furni.placeOnPlayer")) {
             placeItemOnEntity = Boolean.parseBoolean(config.get("comet.game.furni.placeOnPlayer"));
         }
 
-//        if(config.containsKey("comet.game.rooms.adaptiveProcessDelay")) {
-//            adaptiveEntityProcessDelay = Boolean.parseBoolean(config.get("comet.game.rooms.adaptiveProcessDelay"));
-//        }
-
-        if(config.containsKey("comet.game.figureUpdateTimeout")) {
+        if (config.containsKey("comet.game.figureUpdateTimeout")) {
             playerFigureUpdateTimeout = Integer.parseInt(config.get("comet.game.figureUpdateTimeout"));
         }
 
-        if(config.containsKey("comet.game.bots.maxBotsInRoom")) {
+        if (config.containsKey("comet.game.bots.maxBotsInRoom")) {
             maxBotsInRoom = Integer.parseInt(config.get("comet.game.bots.maxBotsInRoom"));
         }
 
-        if(config.containsKey("comet.game.messenger.maxFriends")) {
+        if (config.containsKey("comet.game.messenger.maxFriends")) {
             maxFriends = Integer.parseInt(config.get("comet.game.messenger.maxFriends"));
+        }
+
+        if (config.containsKey("comet.game.messenger.logMessages")) {
+            logMessengerMessages = Boolean.parseBoolean(config.get("comet.game.messenger.logMessages"));
         }
     }
 
