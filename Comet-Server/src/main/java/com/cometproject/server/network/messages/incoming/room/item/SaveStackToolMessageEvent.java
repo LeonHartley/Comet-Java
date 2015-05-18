@@ -25,6 +25,11 @@ public class SaveStackToolMessageEvent implements Event {
             return;
         }
 
+        if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId())
+                && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            return;
+        }
+
         int itemId = msg.readInt();
         int height = msg.readInt();
 

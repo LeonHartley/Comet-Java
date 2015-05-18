@@ -4,6 +4,7 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.purse.UpdateActivityPointsMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import org.apache.commons.lang.StringUtils;
 
@@ -31,6 +32,7 @@ public class DucketsCommand extends ChatCommand {
                 Locale.get("command.duckets.successmessage").replace("%amount%", String.valueOf(duckets))
         ));
 
+        session.send(new UpdateActivityPointsMessageComposer(session.getPlayer().getData().getActivityPoints(), duckets));
         session.send(session.getPlayer().composeCurrenciesBalance());
     }
 

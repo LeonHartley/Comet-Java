@@ -8,6 +8,7 @@ import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.network.messages.outgoing.quests.QuestCompletedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.quests.QuestListMessageComposer;
 import com.cometproject.server.network.messages.outgoing.quests.QuestStartedMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.purse.UpdateActivityPointsMessageComposer;
 import com.cometproject.server.storage.queries.quests.PlayerQuestsDao;
 import org.apache.log4j.Logger;
 
@@ -110,13 +111,14 @@ public class QuestComponent implements PlayerComponent {
         }
 
         if (newProgressValue >= quest.getGoalData()) {
-            boolean refreshBalance = false;
+            boolean refreshCreditBalance = false;
+            boolean refreshCurrenciesBalance = false;
 
             try {
                 switch (quest.getRewardType()) {
                     case ACTIVITY_POINTS:
                         this.getPlayer().getData().increaseActivityPoints(quest.getReward());
-                        refreshBalance = true;
+                        refreshCurrenciesBalance = true;
                         break;
 
                     case ACHIEVEMENT_POINTS:
@@ -126,12 +128,12 @@ public class QuestComponent implements PlayerComponent {
 
                     case VIP_POINTS:
                         this.player.getData().increasePoints(quest.getReward());
-                        refreshBalance = true;
+                        refreshCurrenciesBalance = true;
                         break;
 
                     case CREDITS:
                         this.getPlayer().getData().increaseCredits(quest.getReward());
-                        refreshBalance = true;
+                        refreshCreditBalance = true;
                         break;
                 }
 
@@ -143,8 +145,11 @@ public class QuestComponent implements PlayerComponent {
                 log.error("Failed to deliver reward to player: " + this.getPlayer().getData().getUsername());
             }
 
-            if(refreshBalance) {
-                this.getPlayer().sendBalance();
+            if(refreshCreditBalance) {
+                this.getPlayer().getSession().send(this.getPlayer().composeCreditBalance());
+            } else if(refreshCurrenciesBalance) {
+                this.getPlayer().getSession().send(this.getPlayer().composeCurrenciesBalance());
+                this.getPlayer().getSession().send(new UpdateActivityPointsMessageComposer(this.getPlayer().getData().getActivityPoints(), quest.getReward()));
             }
 
             this.getPlayer().getData().save();

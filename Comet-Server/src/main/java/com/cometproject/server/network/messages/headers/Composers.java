@@ -190,6 +190,7 @@ public class Composers {
     public static final short StartQuestMessageComposer = 1083;
     public static final short CancelQuestMessageComposer = 2711;
     public static final short QuestCompletedMessageComposer = 717;
+    public static final short UpdateActivityPointsMessageComposer = 2623;
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 
