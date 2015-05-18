@@ -47,8 +47,6 @@ public class UpdatePapersMessageEvent implements Event {
                 decorations.put(type, data);
             }
 
-            System.out.println(type);
-
             if(type.equals("floor")) {
                 client.getPlayer().getQuests().progressQuest(QuestType.FURNI_DECORATION_FLOOR);
             } else if(type.equals("wallpaper")) {

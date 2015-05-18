@@ -31,7 +31,7 @@ public class CommandsCommand extends ChatCommand {
             }
         }
 
-        client.send(new MotdNotificationComposer(Locale.get("command.commands.title") + "   \n================================================\n" + list.toString()));
+        client.send(new MotdNotificationComposer(Locale.get("command.commands.title") + "\n================================================\n" + list.toString()));
     }
 
     @Override
