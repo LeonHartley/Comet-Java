@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 19/05/2015
+* Support for fork-join event execution.
+
 ## 18/05/2015
 * Fixed bug with following/summon which would not allow you enter the room (Password/Doorbell)
 * Fixed dice rigging (stacking dice inside each other)
