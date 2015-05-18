@@ -19,6 +19,10 @@ public class NextQuestMessageEvent implements Event {
             return;
         }
 
+        if(!client.getPlayer().getQuests().hasCompletedQuest(quest.getId())) {
+            return;
+        }
+
         Quest nextQuest = QuestManager.getInstance().getNextQuestInSeries(quest);
 
         if(nextQuest != null) {
