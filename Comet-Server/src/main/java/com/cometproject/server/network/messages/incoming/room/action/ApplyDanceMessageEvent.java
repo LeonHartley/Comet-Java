@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
+import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -18,5 +19,7 @@ public class ApplyDanceMessageEvent implements Event {
 
         client.getPlayer().getEntity().setDanceId(danceId);
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new DanceMessageComposer(client.getPlayer().getEntity().getId(), danceId));
+
+        client.getPlayer().getQuests().progressQuest(QuestType.SOCIAL_DANCE);
     }
 }

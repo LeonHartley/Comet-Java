@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
+import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerStateChanged;
@@ -30,6 +31,9 @@ public class ChangeFloorItemStateMessageEvent implements Event {
         if (item == null) {
             return;
         }
+
+        System.out.println(item.getDefinition().getSpriteId());
+        client.getPlayer().getQuests().progressQuest(QuestType.EXPLORE_FIND_ITEM, item.getDefinition().getSpriteId());
 
         if(item.onInteract(client.getPlayer().getEntity(), msg.readInt(), false)) {
             WiredTriggerStateChanged.executeTriggers(client.getPlayer().getEntity(), item);

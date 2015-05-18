@@ -190,8 +190,6 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
         }
 
         int songId = songItem.getSongId();
-
-
         return new PlayMusicMessageComposer(songId, this.currentPlayingIndex, this.songTimeSync());
     }
 
@@ -221,6 +219,11 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     @Override
     public String getDataObject() {
         return (this.isPlaying ? "##jukeboxOn" : "##jukeboxOff") + JsonFactory.getInstance().toJson(this.songs);
+    }
+
+    @Override
+    public void onUnload() {
+        this.getSongs().clear();
     }
 
     public List<SongItem> getSongs() {

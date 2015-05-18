@@ -24,6 +24,6 @@ public class QuestCompletedMessageComposer extends MessageComposer {
     @Override
     public void compose(IComposer msg) {
         quest.compose(this.player, msg);
-        msg.writeBoolean(true);
+        msg.writeBoolean(this.player.getQuests().hasCompletedQuest(this.quest.getId()));
     }
 }

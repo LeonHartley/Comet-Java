@@ -9,10 +9,13 @@ import com.cometproject.server.network.messages.outgoing.quests.QuestCompletedMe
 import com.cometproject.server.network.messages.outgoing.quests.QuestListMessageComposer;
 import com.cometproject.server.network.messages.outgoing.quests.QuestStartedMessageComposer;
 import com.cometproject.server.storage.queries.quests.PlayerQuestsDao;
+import org.apache.log4j.Logger;
 
 import java.util.Map;
 
 public class QuestComponent implements PlayerComponent {
+    private static final Logger log = Logger.getLogger(QuestComponent.class.getName());
+
     private Player player;
     private Map<Integer, Integer> questProgression;
 
@@ -36,7 +39,7 @@ public class QuestComponent implements PlayerComponent {
         if (quest == null) return false;
 
         if (this.questProgression.containsKey(questId)) {
-            if (this.questProgression.get(questId) == quest.getGoalData()) {
+            if (this.questProgression.get(questId) >= quest.getGoalData()) {
                 return true;
             }
         }
@@ -86,28 +89,74 @@ public class QuestComponent implements PlayerComponent {
             return;
         }
 
+        if(this.hasCompletedQuest(questId)) {
+            return;
+        }
+
         int newProgressValue = this.getProgress(questId);
 
         switch (quest.getType()) {
             default:
                 newProgressValue++;
                 break;
+
+            case EXPLORE_FIND_ITEM:
+                if(quest.getGoalData() != data) {
+                    return;
+                }
+
+                newProgressValue = quest.getGoalData();
+                break;
         }
 
         if (newProgressValue >= quest.getGoalData()) {
-            this.getPlayer().getData().increaseActivityPoints(quest.getReward());
-            this.getPlayer().getData().save();
+            boolean refreshBalance = false;
 
-            this.getPlayer().sendBalance();
+            try {
+                switch (quest.getRewardType()) {
+                    case ACTIVITY_POINTS:
+                        this.getPlayer().getData().increaseActivityPoints(quest.getReward());
+                        refreshBalance = true;
+                        break;
+
+                    case ACHIEVEMENT_POINTS:
+                        // TODO: this!
+                        this.player.sendNotif("Not Implemented", "This feature is not implemented yet!");
+                        break;
+
+                    case VIP_POINTS:
+                        this.player.getData().increasePoints(quest.getReward());
+                        refreshBalance = true;
+                        break;
+
+                    case CREDITS:
+                        this.getPlayer().getData().increaseCredits(quest.getReward());
+                        refreshBalance = true;
+                        break;
+                }
+
+                if(!quest.getBadgeId().isEmpty()) {
+                    // Deliver badge
+                    this.player.getInventory().addBadge(quest.getBadgeId(), true);
+                }
+            } catch(Exception e) {
+                log.error("Failed to deliver reward to player: " + this.getPlayer().getData().getUsername());
+            }
+
+            if(refreshBalance) {
+                this.getPlayer().sendBalance();
+            }
+
+            this.getPlayer().getData().save();
         }
 
         if (this.questProgression.containsKey(questId)) {
             this.questProgression.replace(questId, newProgressValue);
         }
 
-        this.getPlayer().getSession().send(new QuestCompletedMessageComposer(quest, this.player));
         PlayerQuestsDao.saveProgression(false, this.player.getId(), questId, newProgressValue);
 
+        this.getPlayer().getSession().send(new QuestCompletedMessageComposer(quest, this.player));
         this.getPlayer().getSession().send(new QuestListMessageComposer(QuestManager.getInstance().getQuests(), this.player, false));
     }
 

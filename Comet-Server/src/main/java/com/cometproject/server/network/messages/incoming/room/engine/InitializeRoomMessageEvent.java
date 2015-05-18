@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.incoming.room.engine;
 
 import com.cometproject.server.game.quests.Quest;
 import com.cometproject.server.game.quests.QuestManager;
+import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.quests.QuestStartedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.quests.QuestStoppedMessageComposer;
@@ -25,6 +26,10 @@ public class InitializeRoomMessageEvent implements Event {
 
             if (quest != null && client.getPlayer().getQuests().hasStartedQuest(quest.getId()) && !client.getPlayer().getQuests().hasCompletedQuest(quest.getId())) {
                 client.send(new QuestStartedMessageComposer(quest, client.getPlayer()));
+
+                if(quest.getType() == QuestType.SOCIAL_VISIT) {
+                    client.getPlayer().getQuests().progressQuest(QuestType.SOCIAL_VISIT);
+                }
             }
         }
     }

@@ -9,7 +9,6 @@ import com.cometproject.server.network.messages.headers.Composers;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,8 +39,14 @@ public class QuestListMessageComposer extends MessageComposer {
             for (Quest quest : this.quests.values()) {
                 if (categoryCounters.containsKey(quest.getCategory())) {
                     if (!this.player.getQuests().hasCompletedQuest(quest.getId())) {
-                        if (categoryCounters.get(quest.getCategory()).getSeriesNumber() > quest.getSeriesNumber()) {
-                            categoryCounters.replace(quest.getCategory(), quest);
+                        if(!this.player.getQuests().hasCompletedQuest(categoryCounters.get(quest.getCategory()).getId())) {
+                            if (categoryCounters.get(quest.getCategory()).getSeriesNumber() > quest.getSeriesNumber()) {
+                                categoryCounters.replace(quest.getCategory(), quest);
+                            }
+                        } else {
+                            if (categoryCounters.get(quest.getCategory()).getSeriesNumber() < quest.getSeriesNumber()) {
+                                categoryCounters.replace(quest.getCategory(), quest);
+                            }
                         }
                     } else {
                         if (quest.getSeriesNumber() > categoryCounters.get(quest.getCategory()).getSeriesNumber()) {
@@ -100,7 +105,6 @@ public class QuestListMessageComposer extends MessageComposer {
             msg.writeString("");
             msg.writeString("");
             msg.writeBoolean(true);// easy
-
             return;
         }
 

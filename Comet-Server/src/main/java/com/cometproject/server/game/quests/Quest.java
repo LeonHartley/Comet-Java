@@ -16,9 +16,12 @@ public class Quest {
     private final int goalData;
 
     private final int reward;
+    private final QuestReward rewardType;
+
     private final String dataBit;
 
     private final QuestType questType;
+    private final String badgeId;
 
     public Quest(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
@@ -29,13 +32,14 @@ public class Quest {
         this.goalData = data.getInt("goal_data");
 
         this.reward = data.getInt("reward");
+        this.rewardType = QuestReward.valueOf(data.getString("reward_type"));
         this.dataBit = data.getString("data_bit");
 
         this.questType = QuestType.getById(this.goalType);
+        this.badgeId = data.getString("badge_id");
     }
     
     public void compose(Player player, IComposer msg) {
-//        boolean startedQuest = player.getQuests().hasStartedQuest(this.getId());
         boolean startedQuest = player.getData().getQuestId() == this.getId();
         int progress = player.getQuests().getProgress(this.getId());
 
@@ -47,7 +51,7 @@ public class Quest {
         msg.writeBoolean(startedQuest); // started
         msg.writeString(this.getType().getAction());
         msg.writeString(this.getDataBit());
-        msg.writeInt(this.getReward());//reward
+        msg.writeInt(0);//reward
         msg.writeString(this.getName());
         msg.writeInt(progress); // progress
         msg.writeInt(this.getGoalData()); // total steps to get goal
@@ -89,7 +93,15 @@ public class Quest {
         return reward;
     }
 
+    public QuestReward getRewardType() {
+        return rewardType;
+    }
+
     public String getDataBit() {
         return dataBit;
+    }
+
+    public String getBadgeId() {
+        return badgeId;
     }
 }

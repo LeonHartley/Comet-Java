@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
+import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -15,6 +16,10 @@ public class ApplyActionMessageEvent implements Event {
                 client.getPlayer().getEntity().setIdle();
             } else {
                 client.getPlayer().getEntity().unIdle();
+            }
+
+            if(actionId == 1) {
+                client.getPlayer().getQuests().progressQuest(QuestType.SOCIAL_WAVE);
             }
 
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new ActionMessageComposer(client.getPlayer().getEntity().getId(), actionId));

@@ -1,8 +1,10 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
+import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
@@ -34,9 +36,21 @@ public class ChangeFloorItemPositionMessageEvent implements Event {
             return;
         }
 
+        RoomItemFloor floorItem = room.getItems().getFloorItem(id);
+
+        if(floorItem != null) {
+            if(rot != floorItem.getRotation()) {
+                client.getPlayer().getQuests().progressQuest(QuestType.FURNI_ROTATE);
+            }
+
+            client.getPlayer().getQuests().progressQuest(QuestType.FURNI_MOVE);
+        }
+
         try {
             if (room.getItems().moveFloorItem(id, new Position(x, y), rot, true)) {
-                // success!
+                if(floorItem != null && floorItem.getTile().getItems().size() > 1) {
+                    client.getPlayer().getQuests().progressQuest(QuestType.FURNI_STACK);
+                }
             } else {
                 Map<String, String> notificationParams = Maps.newHashMap();
 
@@ -44,8 +58,6 @@ public class ChangeFloorItemPositionMessageEvent implements Event {
 
                 client.send(new RoomNotificationMessageComposer("furni_placement_error", notificationParams));
             }
-
-            RoomItemFloor floorItem = room.getItems().getFloorItem(id);
 
             if (floorItem != null) {
                 room.getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem));
