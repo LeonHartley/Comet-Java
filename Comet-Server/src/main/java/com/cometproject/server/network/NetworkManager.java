@@ -4,6 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.sessions.SessionManager;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.buffer.UnpooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.DefaultMessageSizeEstimator;
@@ -60,13 +61,13 @@ public class NetworkManager {
 
         final boolean isEpollEnabled = Boolean.parseBoolean(Comet.getServer().getConfig().get("comet.network.epoll", "false"));
         final boolean isEpollAvailable = Epoll.isAvailable();
-        final int threadCount = 16; // TODO: Find the best count.
+        final int defaultThreadCount = 16; // TODO: Find the best count.
 
         if(isEpollAvailable && isEpollEnabled) {
             log.info("Epoll is enabled");
-            acceptGroup = new EpollEventLoopGroup(threadCount);
-            ioGroup = new EpollEventLoopGroup(threadCount);
-            channelGroup = new EpollEventLoopGroup(threadCount);
+            acceptGroup = new EpollEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)));
+            ioGroup = new EpollEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)));
+            channelGroup = new EpollEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)));
         } else {
             if(isEpollAvailable) {
                 log.info("Epoll is available but not enabled");
@@ -74,9 +75,9 @@ public class NetworkManager {
                 log.info("Epoll is not available");
             }
 
-            acceptGroup = new NioEventLoopGroup(threadCount);
-            ioGroup = new NioEventLoopGroup(threadCount);
-            channelGroup = new NioEventLoopGroup(threadCount);
+            acceptGroup = new NioEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)));
+            ioGroup = new NioEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)));
+            channelGroup = new NioEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)));
         }
 
         ServerBootstrap bootstrap = new ServerBootstrap()
@@ -87,10 +88,12 @@ public class NetworkManager {
                 .option(ChannelOption.TCP_NODELAY, true)
                 .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
                 .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)
-                .option(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)
+                .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 .option(ChannelOption.MESSAGE_SIZE_ESTIMATOR, DefaultMessageSizeEstimator.DEFAULT)
                 .childOption(ChannelOption.TCP_NODELAY, true)
-                .childOption(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT);
+                .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+                .childOption(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
+                .childOption(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024);
 
         if (ports.contains(",")) {
             for (String s : ports.split(",")) {
