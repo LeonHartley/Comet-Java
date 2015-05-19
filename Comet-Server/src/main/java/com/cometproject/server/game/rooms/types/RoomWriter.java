@@ -36,12 +36,12 @@ public class RoomWriter {
         composeRoomSpecials(msg, promotion, group);
     }
 
-    public static void entryData(RoomData room, IComposer msg, boolean isLoading) {
+    public static void entryData(RoomData room, IComposer msg, boolean isLoading, boolean hasRights) {
         msg.writeBoolean(isLoading); // is loading
 
         write(room, msg);
 
-        msg.writeBoolean(true); // check entry??
+        msg.writeBoolean(!hasRights); // check entry??
         msg.writeBoolean(NavigatorManager.getInstance().isFeatured(room.getId()));
         msg.writeBoolean(false); // ??
         msg.writeBoolean(false); // ??

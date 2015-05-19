@@ -46,7 +46,7 @@ public class CometThreadManager implements Initializable {
     }
 
     public ScheduledFuture executePeriodic(CometTask task, long initialDelay, long period, TimeUnit unit) {
-        return this.scheduledExecutorService.scheduleWithFixedDelay(task, initialDelay, period, unit);
+        return this.scheduledExecutorService.scheduleAtFixedRate(task, initialDelay, period, unit);
     }
 
     public ScheduledFuture executeSchedule(CometTask task, long delay, TimeUnit unit) {

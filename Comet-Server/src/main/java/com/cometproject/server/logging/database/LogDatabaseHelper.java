@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class LogDatabaseHelper {
     private static Logger log = Logger.getLogger(LogDatabaseHelper.class.getName());
 
-    public static void init(LogDatabaseManager storageEngine) {
+    public static void init() {
         LogQueries.updateRoomEntries();
     }
 

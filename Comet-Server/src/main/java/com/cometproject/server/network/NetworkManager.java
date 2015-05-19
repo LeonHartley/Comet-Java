@@ -108,7 +108,6 @@ public class NetworkManager {
         try {
             bootstrap.bind(new InetSocketAddress(ip, port)).addListener(objectFuture -> {
                 if(!objectFuture.isSuccess()) {
-                    System.out.println(objectFuture.cause().toString());
                     Comet.exit("Failed to initialize sockets on address: " + ip + ":" + port);
                 }
             });
