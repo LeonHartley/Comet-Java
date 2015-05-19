@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 20/05/2015
+* Messenger invites are now filtered
+
 ## 19/05/2015
 * Support for fork-join event execution.
 * HikariCP database connection pooling

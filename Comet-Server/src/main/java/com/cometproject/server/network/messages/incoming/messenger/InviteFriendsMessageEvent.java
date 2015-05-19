@@ -1,7 +1,14 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
+import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.filter.FilterResult;
+import com.cometproject.server.logging.LogManager;
+import com.cometproject.server.logging.entries.MessengerChatLogEntry;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.InviteFriendMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
@@ -32,7 +39,6 @@ public class InviteFriendsMessageEvent implements Event {
             client.getPlayer().setMessengerLastMessageTime(time);
         }
 
-
         int friendCount = msg.readInt();
         List<Integer> friends = new ArrayList<>();
 
@@ -41,6 +47,17 @@ public class InviteFriendsMessageEvent implements Event {
         }
 
         String message = msg.readString();
+
+        if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
+            FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
+
+            if (filterResult.isBlocked()) {
+                client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
+                return;
+            } else if (filterResult.wasModified()) {
+                message = filterResult.getMessage();
+            }
+        }
 
         client.getPlayer().getMessenger().broadcast(friends, new InviteFriendMessageComposer(message, client.getPlayer().getId()));
         friends.clear();
