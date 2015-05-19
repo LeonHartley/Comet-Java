@@ -92,14 +92,16 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
                 }
             }
 
-            SongItem songItem = this.getSongs().get(this.currentPlayingIndex);
+            if(this.currentPlayingIndex != -1) {
+                SongItem songItem = this.getSongs().get(this.currentPlayingIndex);
 
-            if (songItem != null) {
-                MusicData musicData = ItemManager.getInstance().getMusicData(songItem.getSongId());
+                if (songItem != null) {
+                    MusicData musicData = ItemManager.getInstance().getMusicData(songItem.getSongId());
 
-                if (musicData != null) {
-                    if (this.timePlaying() >= (musicData.getLengthSeconds() + 1.0)) {
-                        this.playNextSong();
+                    if (musicData != null) {
+                        if (this.timePlaying() >= (musicData.getLengthSeconds() + 1.0)) {
+                            this.playNextSong();
+                        }
                     }
                 }
             }
@@ -183,6 +185,8 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     }
 
     public MessageComposer getComposer() {
+        if(this.currentPlayingIndex == -1) return null;
+
         SongItem songItem = this.songs.get(this.currentPlayingIndex);
 
         if (songItem == null) {

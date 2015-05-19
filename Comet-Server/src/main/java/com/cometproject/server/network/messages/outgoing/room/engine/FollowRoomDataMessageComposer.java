@@ -21,6 +21,6 @@ public class FollowRoomDataMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer composer) {
-        RoomWriter.entryData(this.roomData, composer, false);
+        RoomWriter.entryData(this.roomData, composer, false, false);
     }
 }

@@ -8,12 +8,12 @@
 
     <packaging>jar</packaging>
 
-    <version>0.18.2-ALPHA1</version>
+    <version>0.18.3-ALPHA1</version>
 
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>
-        <version>0.18.2-ALPHA1</version>
+        <version>0.18.3-ALPHA1</version>
     </parent>
 
     <build>
@@ -187,7 +187,7 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-API</artifactId>
-            <version>0.18.2-ALPHA1</version>
+            <version>0.18.3-ALPHA1</version>
         </dependency>
 
         <dependency>
@@ -236,6 +236,12 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.3.7</version>
         </dependency>
 
         <!--<dependency>-->

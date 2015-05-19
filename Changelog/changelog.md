@@ -3,10 +3,13 @@ Comet Pre-1.0 Changelog
 
 ## 19/05/2015
 * Support for fork-join event execution.
+* HikariCP database connection pooling
+* Fixed wired timer
+* Fixed kick/ban from rooms
 
 ## 18/05/2015
 * Fixed bug with following/summon which would not allow you enter the room (Password/Doorbell)
-* Fixed dice rigging (stacking dice inside each other)
+* Fixed dice rigging (stacking dice inside each other )
 * Quests
 * Messenger chats can now be logged.
 * You can now redeem diamond furniture.
