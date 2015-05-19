@@ -491,6 +491,8 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     @Override
     public void warp(Position position) {
+        if(this.needsForcedUpdate) return;
+        
         this.warp(position, true);
     }
 
