@@ -1,14 +1,25 @@
 #parse('/templates/base/header.vm')
-Hey, $customer.name! <a href="/logout">Logout</a>
 
-#foreach($instance in $instances)
-<div class="panel panel-default">
-    <div class="panel-heading">$instance.name</div>
-    <div class="panel-body">
-        #foreach($instanceConfig in $instance.getConfig())
-            <b>$instanceConfig.key</b> = $instanceConfig.value<br />
-        #end
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>My Instances</b></div>
+            <ul class="list-group">
+                #foreach($instance in $instances)
+                    <a href="/instance/$instance.id">
+                        <li class="list-group-item">
+                            <span class="badge badge-success">Online</span>
+                            $instance.name
+                        </li>
+                    </a>
+                #end
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8">
+
+
     </div>
 </div>
-#end
+
 #include('/templates/base/footer.vm')

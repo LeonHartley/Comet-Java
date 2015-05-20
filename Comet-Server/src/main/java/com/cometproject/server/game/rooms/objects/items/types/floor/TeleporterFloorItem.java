@@ -144,6 +144,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
                             if (pEntity.getPlayer() != null && pEntity.getPlayer().getSession() != null) {
                                 pEntity.getPlayer().setTeleportId(pairId);
+                                pEntity.getPlayer().setTeleportRoomId(roomId);
                                 pEntity.getPlayer().getSession().send(new RoomForwardMessageComposer(roomId));
                             }
 
