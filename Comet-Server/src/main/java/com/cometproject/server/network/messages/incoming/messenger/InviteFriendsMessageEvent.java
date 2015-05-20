@@ -1,11 +1,8 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
-import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
-import com.cometproject.server.logging.LogManager;
-import com.cometproject.server.logging.entries.MessengerChatLogEntry;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.InviteFriendMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
