@@ -76,7 +76,6 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
         this.entity.applyEffect(new PlayerEffect(4, 5));
 
         this.entity.cancelWalk();
-        this.entity.needsForcedUpdate = true;
         this.entity.warp(position);
 
         this.entity = null;
