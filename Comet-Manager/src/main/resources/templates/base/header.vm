@@ -14,8 +14,10 @@
         <div class='logo'>Comet</div>
 
         <ul class='navigation'>
-            #if($authenticated)
-                <li><a href='/logout'>Logout</a></li>
+            #if($customer)
+                <li><a href="/home">Home</a></li>
+                <li><a href="/support">Support</a></li>
+                <li><a href="/logout">Logout</a></li>
             #end
         </ul>
     </div>

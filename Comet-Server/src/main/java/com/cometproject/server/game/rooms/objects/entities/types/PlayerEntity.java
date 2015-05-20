@@ -74,7 +74,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.playerId = player.getId();
         this.playerData = player.getData();
 
-        if (this.getPlayer().isTeleporting())
+        if (this.getPlayer().isTeleporting() && this.getPlayer().getTeleportRoomId() == roomInstance.getId())
             this.setOverriden(true);
 
         if (LogManager.ENABLED)

@@ -60,6 +60,8 @@ public class Player implements IPlayer {
     private int messengerFloodFlag = 0;
 
     private int teleportId = 0;
+    private int teleportRoomId = 0;
+
     private String lastMessage = "";
     private int notifCooldown = 0;
     private int lastRoomId;
@@ -475,5 +477,13 @@ public class Player implements IPlayer {
     @Override
     public void setLastFigureUpdate(int lastFigureUpdate) {
         this.lastFigureUpdate = lastFigureUpdate;
+    }
+
+    public int getTeleportRoomId() {
+        return teleportRoomId;
+    }
+
+    public void setTeleportRoomId(int teleportRoomId) {
+        this.teleportRoomId = teleportRoomId;
     }
 }
