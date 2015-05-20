@@ -6,7 +6,7 @@ Comet Pre-1.0 Changelog
 
 ## 19/05/2015
 * Support for fork-join event execution.
-* HikariCP database connection pooling
+* HikariCP database connection pooling (Configurable BoneCP or HikariCP.. for testing)
 * Fixed wired timer
 * Fixed kick/ban from rooms
 
