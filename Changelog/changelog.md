@@ -1,8 +1,12 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 21/05/2015
+* Fix teleport walking override glitch when entering another room before the player is teleported.
+
 ## 20/05/2015
 * Messenger invites are now filtered
+* Inventory limits
 
 ## 19/05/2015
 * Support for fork-join event execution.

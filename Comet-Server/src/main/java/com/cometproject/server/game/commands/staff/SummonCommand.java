@@ -26,7 +26,7 @@ public class SummonCommand extends ChatCommand {
 
         if(session == null) return;
 
-        session.send(new AlertMessageComposer(Locale.get("command.summon.summoned")));
+        session.send(new AlertMessageComposer(Locale.get("command.summon.summoned").replace("%summoner%", client.getPlayer().getData().getUsername())));
         session.send(new RoomForwardMessageComposer(client.getPlayer().getEntity().getRoom().getId()));
 
         session.getPlayer().bypassRoomAuth(true);
