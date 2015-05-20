@@ -29,8 +29,8 @@ public class InventoryDao {
             sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = ITEMS_USERID_INDEX.equals("") ?
-                    SqlHelper.prepare("SELECT * FROM items WHERE room_id = 0 AND user_id = ? LIMIT 3500", sqlConnection)
-                    : SqlHelper.prepare("SELECT * FROM items USE INDEX (" + ITEMS_USERID_INDEX + ") WHERE room_id = 0 AND user_id = ? LIMIT 3500", sqlConnection);
+                    SqlHelper.prepare("SELECT * FROM items WHERE room_id = 0 AND user_id = ? ORDER by id DESC LIMIT 5000;", sqlConnection)
+                    : SqlHelper.prepare("SELECT * FROM items USE INDEX (" + ITEMS_USERID_INDEX + ") WHERE room_id = 0 AND user_id = ? ORDER by id DESC LIMIT 5000;", sqlConnection);
 
             preparedStatement.setInt(1, playerId);
 

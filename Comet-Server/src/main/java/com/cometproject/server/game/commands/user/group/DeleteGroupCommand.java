@@ -35,8 +35,6 @@ public class DeleteGroupCommand extends ChatCommand {
 
         final Room room = client.getPlayer().getEntity().getRoom();
 
-        client.send(new AlertMessageComposer(Locale.getOrDefault("command.deletegroup.done", "The group was deleted successfully.")));
-
         if (GroupManager.getInstance().getGroupByRoomId(room.getId()) != null) {
             Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
 
@@ -80,7 +78,6 @@ public class DeleteGroupCommand extends ChatCommand {
 
                 floorItemsOwnedByPlayer.clear();
             }
-
 
             client.send(new AlertMessageComposer(Locale.getOrDefault("command.deletegroup.done", "The group was deleted successfully.")));
             GroupManager.getInstance().removeGroup(group.getId());

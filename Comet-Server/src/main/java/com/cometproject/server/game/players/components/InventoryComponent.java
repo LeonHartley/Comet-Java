@@ -157,6 +157,10 @@ public class InventoryComponent implements PlayerComponent {
     }
 
     public void addItem(InventoryItem item) {
+        if ((this.floorItems.size() + this.wallItems.size()) >= 5000) {
+            this.getPlayer().sendNotif("Notice", Locale.getOrDefault("game.inventory.limitExceeded", "You have over 5,000 items in your inventory. The next time you login, you will only see the first 5000 items."));
+        }
+
         if (item.getDefinition().getType().equals("s"))
             floorItems.put(item.getId(), item);
         else if (item.getDefinition().getType().equals("i"))
