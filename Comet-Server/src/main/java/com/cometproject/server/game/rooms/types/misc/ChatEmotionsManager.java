@@ -53,6 +53,7 @@ public class ChatEmotionsManager {
             put("java", ChatEmotion.SMILE);
             put("meesha", ChatEmotion.SMILE);
             put("luna", ChatEmotion.SMILE);
+            put("luck", ChatEmotion.SMILE);
 
             put("phoenix", ChatEmotion.SAD);
             put("butterfly", ChatEmotion.SAD);
