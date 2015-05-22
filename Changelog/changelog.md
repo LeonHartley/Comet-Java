@@ -1,6 +1,10 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 22/05/2015
+* Optimizations with inventory and room item loading
+* Optimizations with friends list.
+
 ## 21/05/2015
 * Fix teleport walking override glitch when entering another room before the player is teleported.
 

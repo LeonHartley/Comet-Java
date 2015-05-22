@@ -319,7 +319,7 @@ public class CatalogPurchaseHandler {
                     }
 
                     if (giftData == null)
-                        unseenItems.add(client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData));
+                        unseenItems.add(client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData, null));
 
                     if (isTeleport)
                         teleportIds[newItems.indexOf(newItem)] = newItem;
@@ -376,7 +376,7 @@ public class CatalogPurchaseHandler {
             List<InventoryItem> unseenItems = new ArrayList<>();
 
             for (int newItem : newItems) {
-                unseenItems.add(client.getPlayer().getInventory().add(newItem, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData), giftData));
+                unseenItems.add(client.getPlayer().getInventory().add(newItem, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData), giftData, null));
             }
 
             client.send(new UnseenItemsMessageComposer(unseenItems));
