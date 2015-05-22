@@ -12,33 +12,25 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Comet-API" />
-    <orderEntry type="library" name="Maven: com.google.guava:guava:16.0.1" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.26.Final" level="project" />
     <orderEntry type="library" name="Maven: com.sparkjava:spark-core:2.0.0" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.6" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-server:9.0.2.v20130417" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-http:9.0.2.v20130417" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-util:9.0.2.v20130417" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-io:9.0.2.v20130417" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-webapp:9.0.2.v20130417" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-xml:8.1.10.v20130312" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-servlet:8.1.10.v20130312" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-security:8.1.10.v20130312" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.6" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.6" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.34" level="project" />
     <orderEntry type="library" name="Maven: com.jolbox:bonecp:0.8.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.26.Final" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.3" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:2.3.7" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.19.0-GA" level="project" />
     <orderEntry type="library" name="Maven: log4j:apache-log4j-extras:1.2.17" level="project" />
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:16.0.1" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:20030203.000129" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:20030203.000550" level="project" />
     <orderEntry type="library" name="Maven: net.kencochrane.raven:raven-log4j:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: net.kencochrane.raven:raven:4.1.2" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.3.3" level="project" />
     <orderEntry type="library" name="Maven: org.mindrot:jbcrypt:0.3m" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.3.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.3.2" level="project" />
@@ -72,15 +64,28 @@
     <orderEntry type="library" name="Maven: dom4j:dom4j:1.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:antlr-runtime:3.5" level="project" />
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-annotations:2.2.0" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: jdk.tools:jdk.tools:1.6">
+        <CLASSES>
+          <root url="jar://C:/Program Files/Java/jdk1.8.0_40/lib/tools.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-auth:2.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-common:2.2.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.zookeeper:zookeeper:3.4.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-hdfs:2.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpmime:4.3.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.zookeeper:zookeeper:3.4.6" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.woodstox:wstx-asl:3.2.7" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-continuation:8.1.10.v20130312" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-deploy:8.1.10.v20130312" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-jmx:8.1.10.v20130312" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-security:8.1.10.v20130312" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-servlet:8.1.10.v20130312" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-xml:8.1.10.v20130312" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016" level="project" />
     <orderEntry type="library" name="Maven: org.noggit:noggit:0.5" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm:4.1" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-commons:4.1" level="project" />
@@ -94,6 +99,9 @@
     <orderEntry type="library" name="Maven: org.eclipse.jetty.orbit:javax.el:2.2.0.v201303151357" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty.orbit:com.sun.el:2.2.0.v201303151357" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty.orbit:org.eclipse.jdt.core:3.8.2.v20130121" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-util:9.0.2.v20130417" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-io:9.0.2.v20130417" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-http:9.0.2.v20130417" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:platform:3.5.2" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna:3.5.2" level="project" />
     <orderEntry type="library" name="Maven: com.jcabi:jcabi-log:0.7.5" level="project" />
@@ -107,11 +115,11 @@
     <orderEntry type="library" name="Maven: io.netty:netty-common:4.0.19.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-transport:4.0.19.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-handler:4.0.19.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-codec:4.0.19.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec-http:4.0.19.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec:4.0.19.Final" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.3.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.3.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.0" level="project" />
   </component>
 </module>
-
