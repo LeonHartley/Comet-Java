@@ -38,7 +38,7 @@ public class PlaylistRemoveMessageEvent implements Event {
         soundMachineFloorItem.saveData();
 
         RoomItemDao.removeItemFromRoom(songItem.getItemSnapshot().getId(), client.getPlayer().getId());
-        client.getPlayer().getInventory().add(songItem.getItemSnapshot().getId(), songItem.getItemSnapshot().getBaseItemId(), songItem.getItemSnapshot().getExtraData());
+        client.getPlayer().getInventory().add(songItem.getItemSnapshot().getId(), songItem.getItemSnapshot().getBaseItemId(), songItem.getItemSnapshot().getExtraData(), null);
 
         client.send(new UpdateInventoryMessageComposer());
 

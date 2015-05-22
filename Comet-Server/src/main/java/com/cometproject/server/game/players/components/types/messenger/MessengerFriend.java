@@ -2,6 +2,7 @@ package com.cometproject.server.game.players.components.types.messenger;
 
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.server.game.players.data.PlayerAvatarData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
@@ -12,9 +13,11 @@ import java.sql.SQLException;
 
 public class MessengerFriend {
     private int userId;
+    private PlayerAvatar playerAvatar;
 
     public MessengerFriend(ResultSet data) throws SQLException {
         this.userId = data.getInt("user_two_id");
+        this.playerAvatar = new PlayerAvatarData(this.userId, data.getString("username"), data.getString("figure"), data.getString("motto"));
     }
 
     public MessengerFriend(int userId) {
@@ -44,7 +47,7 @@ public class MessengerFriend {
             return this.getSession().getPlayer().getData();
         }
 
-        return PlayerDao.getAvatarById(this.userId, PlayerAvatar.USERNAME_FIGURE_MOTTO);
+        return this.playerAvatar;
     }
 
     public int getUserId() {

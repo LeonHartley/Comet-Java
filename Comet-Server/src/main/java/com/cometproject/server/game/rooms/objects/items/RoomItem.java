@@ -32,8 +32,10 @@ public abstract class RoomItem extends RoomObject implements Attributable {
     public RoomItem(int id, Position position, Room room) {
         super(id, position, room);
         this.ticksTimer = -1;
+    }
 
-        this.limitedEditionItem = LimitedEditionDao.get(this.getId());
+    public void setLimitedEditionItem(LimitedEditionItem limitedEditionItem) {
+        this.limitedEditionItem = limitedEditionItem;
     }
 
     public int getItemId() {

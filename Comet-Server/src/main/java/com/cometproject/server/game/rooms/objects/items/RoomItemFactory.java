@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items;
 
 import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.objects.items.types.GenericFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.GenericWallItem;
@@ -156,7 +157,7 @@ public class RoomItemFactory {
         }};
     }
 
-    public static RoomItemFloor createFloor(int id, int baseId, Room room, int ownerId, int x, int y, double height, int rot, String data) {
+    public static RoomItemFloor createFloor(int id, int baseId, Room room, int ownerId, int x, int y, double height, int rot, String data, LimitedEditionItem limitedEditionItem) {
         ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
         RoomItemFloor floorItem = null;
 
@@ -174,18 +175,18 @@ public class RoomItemFactory {
 
         if (data.startsWith(GIFT_DATA)) {
             try {
-                return new GiftFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
+                floorItem = new GiftFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
             } catch(Exception e) {
-                return new GenericFloorItem(id, baseId, room, ownerId, x, y, height, rot, "");
+                floorItem = new GenericFloorItem(id, baseId, room, ownerId, x, y, height, rot, "");
             }
-        }
-
-        if (itemDefinitionMap.containsKey(def.getInteraction())) {
-            try {
-                floorItem = itemDefinitionMap.get(def.getInteraction()).getConstructor(int.class, int.class, Room.class, int.class, int.class, int.class, double.class, int.class, String.class)
-                        .newInstance(id, baseId, room, ownerId, x, y, height, rot, data);
-            } catch (Exception e) {
-                log.warn("Failed to create instance for item: " + id + ", type: " + def.getInteraction(), e);
+        } else {
+            if (itemDefinitionMap.containsKey(def.getInteraction())) {
+                try {
+                    floorItem = itemDefinitionMap.get(def.getInteraction()).getConstructor(int.class, int.class, Room.class, int.class, int.class, int.class, double.class, int.class, String.class)
+                            .newInstance(id, baseId, room, ownerId, x, y, height, rot, data);
+                } catch (Exception e) {
+                    log.warn("Failed to create instance for item: " + id + ", type: " + def.getInteraction(), e);
+                }
             }
         }
 
@@ -193,29 +194,45 @@ public class RoomItemFactory {
             floorItem = new GenericFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
         }
 
+        if(limitedEditionItem != null) {
+            floorItem.setLimitedEditionItem(limitedEditionItem);
+        }
+
         return floorItem;
     }
 
-    public static RoomItemWall createWall(int id, int baseId, Room room, int owner, String position, String data) {
+    public static RoomItemWall createWall(int id, int baseId, Room room, int owner, String position, String data, LimitedEditionItem limitedEditionItem) {
         ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
         if (def == null) {
             return null;
         }
 
+        RoomItemWall wallItem;
+
         switch (def.getInteraction()) {
             case "habbowheel": {
-                return new WheelWallItem(id, baseId, room, owner, position, data);
+                wallItem = new WheelWallItem(id, baseId, room, owner, position, data);
+                break;
             }
             case "dimmer": {
-                return new MoodlightWallItem(id, baseId, room, owner, position, data);
+                wallItem = new MoodlightWallItem(id, baseId, room, owner, position, data);
+                break;
             }
             case "postit": {
-                return new PostItWallItem(id, baseId, room, owner, position, data);
+                wallItem = new PostItWallItem(id, baseId, room, owner, position, data);
+                break;
             }
             default: {
-                return new GenericWallItem(id, baseId, room, owner, position, data);
+                wallItem = new GenericWallItem(id, baseId, room, owner, position, data);
+                break;
             }
         }
+
+        if(limitedEditionItem != null) {
+            wallItem.setLimitedEditionItem(limitedEditionItem);
+        }
+
+        return wallItem;
     }
 
     public static int getProcessTime(double time) {

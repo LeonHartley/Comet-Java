@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.config.*;
+import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
@@ -26,6 +27,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.SendFloorIte
 import com.cometproject.server.network.messages.outgoing.room.items.SendWallItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -122,8 +124,8 @@ public class ItemsComponent {
         return (MoodlightWallItem) this.getWallItem(this.moodlightId);
     }
 
-    public RoomItemFloor addFloorItem(int id, int baseId, Room room, int ownerId, int x, int y, int rot, double height, String data) {
-        RoomItemFloor floor = RoomItemFactory.createFloor(id, baseId, room, ownerId, x, y, height, rot, data);
+    public RoomItemFloor addFloorItem(int id, int baseId, Room room, int ownerId, int x, int y, int rot, double height, String data, LimitedEditionItem limitedEditionItem) {
+        RoomItemFloor floor = RoomItemFactory.createFloor(id, baseId, room, ownerId, x, y, height, rot, data, limitedEditionItem);
 
         if (floor == null) return null;
 
@@ -134,7 +136,7 @@ public class ItemsComponent {
     }
 
     public RoomItemWall addWallItem(int id, int baseId, Room room, int ownerId, String position, String data) {
-        RoomItemWall wall = RoomItemFactory.createWall(id, baseId, room, ownerId, position, data);
+        RoomItemWall wall = RoomItemFactory.createWall(id, baseId, room, ownerId, position, data, LimitedEditionDao.get(id));
         this.getWallItems().put(id, wall);
 
         return wall;
@@ -201,7 +203,7 @@ public class ItemsComponent {
         this.getWallItems().remove(item.getId());
 
         if (client != null && client.getPlayer() != null) {
-            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
+            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item.getLimitedEditionItem());
             client.send(new UpdateInventoryMessageComposer());
         }
     }
@@ -245,7 +247,7 @@ public class ItemsComponent {
         if (toInventory && client != null) {
             RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
 
-            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null);
+            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null, item.getLimitedEditionItem());
             client.send(new UpdateInventoryMessageComposer());
         } else {
             if (delete)
@@ -270,7 +272,7 @@ public class ItemsComponent {
         if (toInventory) {
             RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
 
-            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData());
+            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item.getLimitedEditionItem());
             client.send(new UpdateInventoryMessageComposer());
         } else {
             RoomItemDao.deleteItem(item.getId());
@@ -474,7 +476,7 @@ public class ItemsComponent {
         RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getId());
         player.getInventory().removeFloorItem(item.getId());
 
-        RoomItemFloor floorItem = room.getItems().addFloorItem(item.getId(), item.getBaseId(), room, player.getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData());
+        RoomItemFloor floorItem = room.getItems().addFloorItem(item.getId(), item.getBaseId(), room, player.getId(), x, y, rot, height, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getLimitedEditionItem());
         List<Position> tilesToUpdate = new ArrayList<>();
 
         for (RoomItemFloor stackItem : floorItems) {

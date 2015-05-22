@@ -3,6 +3,7 @@ package com.cometproject.server.game.players.components;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.items.music.SongItem;
+import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
@@ -126,8 +127,8 @@ public class InventoryComponent implements PlayerComponent {
         return badges;
     }
 
-    public InventoryItem add(int id, int itemId, String extraData, GiftData giftData) {
-        InventoryItem item = new InventoryItem(id, itemId, extraData, giftData);
+    public InventoryItem add(int id, int itemId, String extraData, GiftData giftData, LimitedEditionItem limitedEditionItem) {
+        InventoryItem item = new InventoryItem(id, itemId, extraData, giftData, limitedEditionItem);
 
         if (item.getDefinition().getType().equals("s")) {
             this.getFloorItems().put(id, item);
@@ -152,8 +153,8 @@ public class InventoryComponent implements PlayerComponent {
         return songItems;
     }
 
-    public void add(int id, int itemId, String extraData) {
-        add(id, itemId, extraData, null);
+    public void add(int id, int itemId, String extraData, LimitedEditionItem limitedEditionItem) {
+        add(id, itemId, extraData, null, limitedEditionItem);
     }
 
     public void addItem(InventoryItem item) {

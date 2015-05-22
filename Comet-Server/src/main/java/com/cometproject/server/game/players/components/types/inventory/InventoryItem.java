@@ -36,13 +36,15 @@ public class InventoryItem {
             this.giftData = null;
         }
 
-        this.limitedEditionItem = LimitedEditionDao.get(this.id);
+        if(data.getInt("limited_id") != 0) {
+            this.limitedEditionItem = new LimitedEditionItem(this.id, data.getInt("limited_id"), data.getInt("limited_total"));
+        }
     }
 
-    public InventoryItem(int id, int baseId, String extraData, GiftData giftData) {
+    public InventoryItem(int id, int baseId, String extraData, GiftData giftData, LimitedEditionItem limitEditionItem) {
         this.init(id, baseId, extraData, giftData);
 
-        this.limitedEditionItem = LimitedEditionDao.get(this.id);
+        this.limitedEditionItem = limitEditionItem;
     }
 
     public InventoryItem(int id, int baseId, String extraData) {
