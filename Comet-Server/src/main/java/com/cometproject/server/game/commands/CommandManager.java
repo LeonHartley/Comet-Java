@@ -90,9 +90,8 @@ public class CommandManager implements Initializable {
             this.commands.put("reloadmapping", new ReloadMappingCommand());
         }
 
-        this.commands.put("serverinfo", new ServerInfoCommand());
+        this.commands.put("instancestats", new InstanceStatsCommand());
         this.commands.put("entitygrid", new EntityGridCommand());
-        this.commands.put("cachestats", new CacheStatsCommand());
         this.commands.put("processtimes", new ProcessTimesCommand());
         this.commands.put("fastprocess", new FastProcessCommand());
     }

@@ -9,9 +9,11 @@ import com.cometproject.server.network.messages.types.Composer;
 
 public class FollowRoomDataMessageComposer extends MessageComposer {
     private final RoomData roomData;
+    private final boolean skipAuth;
 
-    public FollowRoomDataMessageComposer(final RoomData room) {
+    public FollowRoomDataMessageComposer(final RoomData room, boolean skipAuth) {
         this.roomData = room;
+        this.skipAuth = skipAuth;
     }
 
     @Override
@@ -21,6 +23,6 @@ public class FollowRoomDataMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer composer) {
-        RoomWriter.entryData(this.roomData, composer, false, false);
+        RoomWriter.entryData(this.roomData, composer, true, this.skipAuth);
     }
 }

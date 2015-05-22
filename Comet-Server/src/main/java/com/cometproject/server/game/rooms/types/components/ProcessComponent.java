@@ -267,7 +267,7 @@ public class ProcessComponent implements CometTask {
                 if(entity instanceof PlayerEntity) {
                     PlayerEntity playerEntity = ((PlayerEntity) entity);
 
-                    if(playerEntity.getPlayer() != null && playerEntity.getPlayer().getQuests() != null)
+                    if(playerEntity.getPlayer() != null && playerEntity.getPlayer().getData().getQuestId() != 0 && playerEntity.getPlayer().getQuests() != null)
                         ((PlayerEntity) entity).getPlayer().getQuests().progressQuest(QuestType.EXPLORE_FIND_ITEM, item.getDefinition().getSpriteId());
                 }
 

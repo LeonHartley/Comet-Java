@@ -15,10 +15,36 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class PlayerDao {
+    private static final AtomicInteger getPlayerCalls = new AtomicInteger(0);
+    private static final AtomicInteger getPlayerFallbackCalls = new AtomicInteger(0);
+    private static final AtomicInteger getPlayerDataByIdCalls = new AtomicInteger(0);
+    private static final AtomicInteger getPlayerDataByUsernameCalls = new AtomicInteger(0);
+    private static final AtomicInteger getPlayerAvatarCalls = new AtomicInteger(0);
+    private static final AtomicInteger getPlayerSettingsCalls = new AtomicInteger(0);
+    private static final AtomicInteger getPlayerStatisticsCalls = new AtomicInteger(0);
+    private static final AtomicInteger getPlayerUsernameCalls = new AtomicInteger(0);
+
+    public static String getStats() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("getPlayer: " + getPlayerCalls.get() + "<br>");
+        stringBuilder.append("getPlayerFallback: " + getPlayerFallbackCalls.get() + "<br>");
+        stringBuilder.append("getPlayerDataById: " + getPlayerDataByIdCalls.get() + "<br>");
+        stringBuilder.append("getPlayerDataByUsername: " + getPlayerDataByUsernameCalls.get() + "<br>");
+        stringBuilder.append("getPlayerAvatar: " + getPlayerAvatarCalls.get() + "<br>");
+        stringBuilder.append("getPlayerSettings: " + getPlayerSettingsCalls.get() + "<br>");
+        stringBuilder.append("getPlayerStatistics: " + getPlayerStatisticsCalls.get());
+
+        return stringBuilder.toString();
+    }
+
     public static Player getPlayer(String ssoTicket) {
+        getPlayerCalls.incrementAndGet();
+
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -55,6 +81,8 @@ public class PlayerDao {
     }
 
     public static Player getPlayerFallback(String ssoTicket) {
+        getPlayerFallbackCalls.incrementAndGet();
+
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -85,6 +113,8 @@ public class PlayerDao {
     }
 
     public static PlayerData getDataByUsername(String username) {
+        getPlayerDataByUsernameCalls.incrementAndGet();
+
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -115,6 +145,8 @@ public class PlayerDao {
     }
 
     public static PlayerData getDataById(int id) {
+        getPlayerDataByIdCalls.incrementAndGet();
+
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -146,6 +178,8 @@ public class PlayerDao {
     }
 
     public static PlayerAvatar getAvatarById(int id, byte mode) {
+        getPlayerAvatarCalls.incrementAndGet();
+
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -196,6 +230,8 @@ public class PlayerDao {
 
 
     public static PlayerSettings getSettingsById(int id) {
+        getPlayerSettingsCalls.incrementAndGet();
+
         // TODO: Cache, cache, cache!
 
         Connection sqlConnection = null;
@@ -235,6 +271,8 @@ public class PlayerDao {
     }
 
     public static PlayerStatistics getStatisticsById(int id) {
+        getPlayerStatisticsCalls.incrementAndGet();
+
         Connection sqlConnection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
@@ -298,6 +336,7 @@ public class PlayerDao {
     }
 
     public static String getUsernameByPlayerId(int playerId) {
+        getPlayerUsernameCalls.incrementAndGet();
         // TODO: Cache, cache cache!
 
         Connection sqlConnection = null;
