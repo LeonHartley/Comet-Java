@@ -22,7 +22,7 @@ public class FollowRoomInfoMessageEvent implements Event {
                 return;
             }
 
-            client.send(new FollowRoomDataMessageComposer(room.getData(), false));
+            client.send(new FollowRoomDataMessageComposer(room.getData(), client.getPlayer().isBypassingRoomAuth() || client.getPlayer().isTeleporting()));
         }
     }
 }
