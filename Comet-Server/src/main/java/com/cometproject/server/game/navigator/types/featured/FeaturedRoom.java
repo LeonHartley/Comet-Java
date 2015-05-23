@@ -76,7 +76,7 @@ public class FeaturedRoom {
         if (isCategory) {
             msg.writeBoolean(false);
         } else {
-            RoomWriter.write(room, ((Composer) msg));
+            RoomWriter.write(room, msg);
         }
     }
 

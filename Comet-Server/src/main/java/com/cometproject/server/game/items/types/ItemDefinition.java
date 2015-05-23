@@ -41,7 +41,7 @@ public class ItemDefinition {
         this.type = data.getString("type");
         this.width = data.getInt("width");
         this.length = data.getInt("length");
-        this.height = data.getDouble("stack_height");
+        final double height = data.getDouble("stack_height");
         this.spriteId = data.getInt("sprite_id");
 
         this.canStack = data.getString("can_stack").equals("1");
@@ -80,6 +80,12 @@ public class ItemDefinition {
             }
         } else {
             this.variableHeights = null;
+        }
+
+        if(height == 0.0) {
+            this.height = 0.001;
+        } else {
+            this.height = height;
         }
     }
 

@@ -50,7 +50,7 @@ public class RightsComponent {
             }
         }
 
-        return (this.room.getData().getOwnerId() == playerId) || (this.rights.contains(playerId));
+        return this.room.getData().getOwnerId() == playerId || this.rights.contains(playerId);
     }
 
     public void removeRights(int playerId) {

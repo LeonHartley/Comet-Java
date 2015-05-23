@@ -5,11 +5,15 @@ import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
+import com.cometproject.server.game.quests.Quest;
+import com.cometproject.server.game.quests.QuestManager;
+import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.quests.QuestStartedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateAvatarAspectMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
@@ -197,6 +201,18 @@ public class Player implements IPlayer {
         setEntity(playerEntity);
 
         playerEntity.joinRoom(room, password);
+
+        if (this.getData().getQuestId() != 0) {
+            Quest quest = QuestManager.getInstance().getById(this.getData().getQuestId());
+
+            if (quest != null && this.getQuests().hasStartedQuest(quest.getId()) && !this.getQuests().hasCompletedQuest(quest.getId())) {
+                this.getSession().send(new QuestStartedMessageComposer(quest, this));
+
+                if(quest.getType() == QuestType.SOCIAL_VISIT) {
+                   this.getQuests().progressQuest(QuestType.SOCIAL_VISIT);
+                }
+            }
+        }
     }
 
     @Override
