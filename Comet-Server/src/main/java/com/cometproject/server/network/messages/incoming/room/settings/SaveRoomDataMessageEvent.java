@@ -19,19 +19,23 @@ import com.cometproject.server.network.sessions.Session;
 
 public class SaveRoomDataMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
-        if (client.getPlayer() == null || client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
-            return;
-        }
-
-        Room room = client.getPlayer().getEntity().getRoom();
-
-        if ((room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
-            return;
-        }
-
-        RoomData data = room.getData();
-
         int id = msg.readInt();
+
+        Room room = null;
+        RoomData data = null;
+
+        if (RoomManager.getInstance().isActive(id)) {
+            room = RoomManager.getInstance().get(id);
+
+            if (room.getData() != null) {
+                data = room.getData();
+            }
+        } else {
+            data = RoomManager.getInstance().getRoomData(id);
+        }
+
+        if (data == null) return;
+
         String name = msg.readString();
         String description = msg.readString();
         int state = msg.readInt();
@@ -94,10 +98,6 @@ public class SaveRoomDataMessageEvent implements Event {
             return;
         }
 
-        /*if (!client.getPlayer().getPermissions().hasPermission("mod_tool") && maxUsers > CometSettings.maxPlayersInRoom) {
-            return;
-        }*/
-
         Category category = NavigatorManager.getInstance().getCategory(categoryId);
 
         if (category == null) {
@@ -139,8 +139,10 @@ public class SaveRoomDataMessageEvent implements Event {
         try {
             data.save();
 
-            room.getEntities().broadcastMessage(new ConfigureWallAndFloorMessageComposer(hideWall, wallThick, floorThick));
-            room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));
+            if (room != null) {
+                room.getEntities().broadcastMessage(new ConfigureWallAndFloorMessageComposer(hideWall, wallThick, floorThick));
+                room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));
+            }
         } catch (Exception e) {
             RoomManager.log.error("Error while saving room data", e);
         }

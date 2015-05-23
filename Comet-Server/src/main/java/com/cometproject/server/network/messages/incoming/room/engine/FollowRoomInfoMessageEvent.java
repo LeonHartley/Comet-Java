@@ -15,14 +15,23 @@ public class FollowRoomInfoMessageEvent implements Event {
         boolean isInSameRoom = msg.readInt() == 1;
 
         if (roomId != 0 && !isInSameRoom) {
-
             Room room = RoomManager.getInstance().get(roomId);
 
-            if(room == null || room.getData() == null) {
+            if (room == null || room.getData() == null) {
                 return;
             }
 
-            client.send(new FollowRoomDataMessageComposer(room.getData(), client.getPlayer().isBypassingRoomAuth() || client.getPlayer().isTeleporting()));
+            boolean checkEntry = true;
+
+            if(room.getRights().hasRights(client.getPlayer().getId())) {
+                checkEntry = false;
+            } else if(client.getPlayer().isTeleporting() || client.getPlayer().isBypassingRoomAuth()) {
+                checkEntry = false;
+            }
+
+            System.out.println(checkEntry);
+
+            client.send(new FollowRoomDataMessageComposer(room.getData(), checkEntry));
         }
     }
 }

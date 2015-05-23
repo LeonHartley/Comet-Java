@@ -9,19 +9,23 @@ import com.cometproject.server.game.rooms.RoomManager;
 
 public class RoomWriter {
     public static void write(RoomData room, IComposer msg) {
+        write(room, msg, false);
+    }
+
+    public static void write(RoomData room, IComposer msg, boolean skipAuth) {
         boolean isActive = RoomManager.getInstance().isActive(room.getId());
 
         msg.writeInt(room.getId());
         msg.writeString(room.getName());
         msg.writeInt(room.getOwnerId());
         msg.writeString(room.getOwner());
-        msg.writeInt(RoomWriter.roomAccessToNumber(room.getAccess()));
+        msg.writeInt(skipAuth ? 0 : RoomWriter.roomAccessToNumber(room.getAccess()));
         msg.writeInt(!isActive ? 0 : RoomManager.getInstance().get(room.getId()).getEntities().playerCount());
         msg.writeInt(room.getMaxUsers());
         msg.writeString(room.getDescription());
-        msg.writeInt(0);
         msg.writeInt(room.getTradeState().getState());
         msg.writeInt(room.getScore());
+        msg.writeInt(0);
         msg.writeInt(room.getCategory().getId());
 
         msg.writeInt(room.getTags().length);
@@ -36,12 +40,11 @@ public class RoomWriter {
         composeRoomSpecials(msg, promotion, group);
     }
 
-    public static void entryData(RoomData room, IComposer msg, boolean isLoading, boolean hasRights) {
+    public static void entryData(RoomData room, IComposer msg, boolean isLoading, boolean checkEntry) {
         msg.writeBoolean(isLoading); // is loading
 
-        write(room, msg);
+        write(room, msg, !checkEntry);
 
-        msg.writeBoolean(!hasRights); // check entry??
         msg.writeBoolean(NavigatorManager.getInstance().isFeatured(room.getId()));
         msg.writeBoolean(false); // ??
         msg.writeBoolean(false); // ??

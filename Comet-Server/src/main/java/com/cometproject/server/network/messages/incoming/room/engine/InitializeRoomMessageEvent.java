@@ -20,17 +20,5 @@ public class InitializeRoomMessageEvent implements Event {
         String password = msg.readString();
 
         client.getPlayer().loadRoom(id, password);
-
-        if (client.getPlayer().getData().getQuestId() != 0) {
-            Quest quest = QuestManager.getInstance().getById(client.getPlayer().getData().getQuestId());
-
-            if (quest != null && client.getPlayer().getQuests().hasStartedQuest(quest.getId()) && !client.getPlayer().getQuests().hasCompletedQuest(quest.getId())) {
-                client.send(new QuestStartedMessageComposer(quest, client.getPlayer()));
-
-                if(quest.getType() == QuestType.SOCIAL_VISIT) {
-                    client.getPlayer().getQuests().progressQuest(QuestType.SOCIAL_VISIT);
-                }
-            }
-        }
     }
 }

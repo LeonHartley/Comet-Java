@@ -5,15 +5,14 @@ import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.types.Composer;
 
 public class FollowRoomDataMessageComposer extends MessageComposer {
     private final RoomData roomData;
-    private final boolean skipAuth;
+    private final boolean checkEntry;
 
-    public FollowRoomDataMessageComposer(final RoomData room, boolean skipAuth) {
+    public FollowRoomDataMessageComposer(final RoomData room, boolean checkEntry) {
         this.roomData = room;
-        this.skipAuth = skipAuth;
+        this.checkEntry = checkEntry;
     }
 
     @Override
@@ -23,6 +22,6 @@ public class FollowRoomDataMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer composer) {
-        RoomWriter.entryData(this.roomData, composer, false, this.skipAuth);
+        RoomWriter.entryData(this.roomData, composer, false, this.checkEntry);
     }
 }

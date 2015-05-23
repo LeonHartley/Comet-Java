@@ -1,6 +1,11 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 23/05/2015
+* Minor optimizations to group membership list
+* Fix modifying the settings of a room you're not currently in
+* Ability to make certain ranks (without mod tool) un-ignorable.
+
 ## 22/05/2015
 * Optimizations with inventory and room item loading
 * Optimizations with friends list.
