@@ -63,6 +63,18 @@ public class Group {
         this.forumComponent = new ForumComponent(this, forumSettings);
     }
 
+    public void dispose() {
+        if(this.membershipComponent != null) {
+            this.membershipComponent.dispose();
+        }
+
+        if(this.forumComponent != null) {
+            this.forumComponent.dispose();
+        }
+
+        GroupManager.getInstance().getLogger().debug("Group with id #" + this.getId() + " was disposed");
+    }
+
     /**
      * Get the ID of the group
      *

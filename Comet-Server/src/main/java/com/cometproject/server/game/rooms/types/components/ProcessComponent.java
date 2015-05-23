@@ -46,9 +46,11 @@ public class ProcessComponent implements CometTask {
     private boolean adaptiveProcessTimes = false;
     private List<Long> processTimes;
 
+    private long lastProcess = 0;
+
     public ProcessComponent(Room room) {
         this.room = room;
-        this.log = Logger.getLogger("Room Process [" + room.getData().getName() + "]");
+        this.log = Logger.getLogger("Room Process [" + room.getData().getName() + ", #" + room.getId() + "]");
 
         this.adaptiveProcessTimes = CometSettings.adaptiveEntityProcessDelay;
     }
@@ -56,6 +58,17 @@ public class ProcessComponent implements CometTask {
     public void tick() {
         if (!this.active) {
             return;
+        }
+
+        long timeSinceLastProcess = (System.currentTimeMillis() - this.lastProcess);
+        this.lastProcess = System.currentTimeMillis();
+
+        if(this.getProcessTimes() != null && this.getProcessTimes().size() < 30) {
+            log.info("Time since last process: " + timeSinceLastProcess + "ms");
+        }
+
+        if(timeSinceLastProcess >= 550) {
+            log.warn("Delayed room process (Last process was " + timeSinceLastProcess + "ms ago)");
         }
 
         long timeStart = System.currentTimeMillis();
@@ -150,7 +163,7 @@ public class ProcessComponent implements CometTask {
                 this.getProcessTimes().add(span.toMilliseconds());
         }
 
-        if(this.adaptiveProcessTimes) {
+        if (this.adaptiveProcessTimes) {
             CometThreadManager.getInstance().executeSchedule(this, 500 - span.toMilliseconds(), TimeUnit.MILLISECONDS);
         }
     }
@@ -165,7 +178,7 @@ public class ProcessComponent implements CometTask {
             stop();
         }
 
-        if(this.adaptiveProcessTimes) {
+        if (this.adaptiveProcessTimes) {
             CometThreadManager.getInstance().executeSchedule(this, 500, TimeUnit.MILLISECONDS);
         } else {
             this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
@@ -189,7 +202,7 @@ public class ProcessComponent implements CometTask {
         if (this.processFuture != null) {
             this.active = false;
 
-            if(!this.adaptiveProcessTimes)
+            if (!this.adaptiveProcessTimes)
                 this.processFuture.cancel(false);
 
             log.debug("Processing stopped");
@@ -264,10 +277,10 @@ public class ProcessComponent implements CometTask {
 
                 index0++;
 
-                if(entity instanceof PlayerEntity) {
+                if (entity instanceof PlayerEntity) {
                     PlayerEntity playerEntity = ((PlayerEntity) entity);
 
-                    if(playerEntity.getPlayer() != null && playerEntity.getPlayer().getData().getQuestId() != 0 && playerEntity.getPlayer().getQuests() != null)
+                    if (playerEntity.getPlayer() != null && playerEntity.getPlayer().getData().getQuestId() != 0 && playerEntity.getPlayer().getQuests() != null)
                         ((PlayerEntity) entity).getPlayer().getQuests().progressQuest(QuestType.EXPLORE_FIND_ITEM, item.getDefinition().getSpriteId());
                 }
 

@@ -32,9 +32,9 @@ public class CometThreadManager implements Initializable {
             POOL_SIZE++;
 
             Thread scheduledThread = new Thread(r);
-            scheduledThread.setName("Comet-Scheduled-Thread-" + POOL_SIZE);
+            scheduledThread.setName("Comet-Scheduler-Thread-" + POOL_SIZE);
 
-            final Logger log = Logger.getLogger("Comet-Scheduled-Thread-" + POOL_SIZE);
+            final Logger log = Logger.getLogger("Comet-Scheduler-Thread-" + POOL_SIZE);
             scheduledThread.setUncaughtExceptionHandler((t, e) -> log.error("Exception in Comet Worker Thread", e));
 
             return scheduledThread;

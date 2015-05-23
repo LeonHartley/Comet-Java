@@ -3,11 +3,16 @@ package com.cometproject.server.network.messages.outgoing.group;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +81,19 @@ public class GroupMembersMessageComposer extends MessageComposer {
                     joinDate = ((GroupMember) memberObject).getDateJoined();
                 }
 
-                PlayerAvatar playerAvatar = PlayerDao.getAvatarById(playerId, PlayerAvatar.USERNAME_FIGURE);
+                PlayerAvatar playerAvatar = null;
+
+                if(PlayerManager.getInstance().isOnline(playerId)) {
+                    Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
+
+                    if(session != null && session.getPlayer() != null && session.getPlayer().getData() != null) {
+                        playerAvatar = session.getPlayer().getData();
+                    }
+                }
+
+                if(playerAvatar == null) {
+                    playerAvatar = PlayerDao.getAvatarById(playerId, PlayerAvatar.USERNAME_FIGURE);
+                }
 
                 if(playerAvatar != null) {
                     msg.writeInt(playerId);
