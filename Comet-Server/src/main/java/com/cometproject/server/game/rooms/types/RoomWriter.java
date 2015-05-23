@@ -45,6 +45,7 @@ public class RoomWriter {
 
         write(room, msg, !checkEntry);
 
+        msg.writeBoolean(true); // check entry??
         msg.writeBoolean(NavigatorManager.getInstance().isFeatured(room.getId()));
         msg.writeBoolean(false); // ??
         msg.writeBoolean(false); // ??
