@@ -40,7 +40,7 @@ public class RightsComponent {
     public boolean hasRights(int playerId) {
         final Group group = this.getRoom().getGroup();
 
-        if(group != null) {
+        if(group != null && group.getData() != null && group.getMembershipComponent() != null && group.getMembershipComponent().getMembers() != null) {
             if(group.getData().canMembersDecorate() && group.getMembershipComponent().getMembers().containsKey(playerId)) {
                 return true;
             }

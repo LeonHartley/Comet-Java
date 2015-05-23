@@ -22,25 +22,25 @@ public class GroupManager implements Initializable {
      * The amount of group instances allowed in the cache, when this
      * is reached, the group cache will remove the oldest entries
      */
-    private static final int INSTANCE_LRU_MAX_ENTRIES = 1000;
+    private static final int INSTANCE_LRU_MAX_ENTRIES = 500;
 
     /**
      * When the max entries is reached, the cache will remove old entries
      * until the count reaches this number
      */
-    private static final int INSTANCE_LRU_LOWER_WATERMARK = 250;
+    private static final int INSTANCE_LRU_LOWER_WATERMARK = 100;
 
     /**
      * The amount of group data instances allowed in the cache, when this
      * is reached, the group data cache will remove the oldest entries
      */
-    private static final int DATA_LRU_MAX_ENTRIES = 1500;
+    private static final int DATA_LRU_MAX_ENTRIES = 650;
 
     /**
      * When the max entries is reached, the cache will remove old entries
      * until the count reaches this number
      */
-    private static final int DATA_LRU_LOWER_WATERMARK = 500;
+    private static final int DATA_LRU_LOWER_WATERMARK = 100;
 
     /**
      * The manager of the group items (for badges and colours)
@@ -81,7 +81,11 @@ public class GroupManager implements Initializable {
         this.groupItems = new GroupItemManager();
 
         this.groupData = new ConcurrentLRUCache<>(DATA_LRU_MAX_ENTRIES, DATA_LRU_LOWER_WATERMARK);
-        this.groupInstances = new ConcurrentLRUCache<>(INSTANCE_LRU_MAX_ENTRIES, INSTANCE_LRU_LOWER_WATERMARK);
+
+        this.groupInstances = new ConcurrentLRUCache<>(INSTANCE_LRU_MAX_ENTRIES, INSTANCE_LRU_LOWER_WATERMARK,
+                (int) Math.floor((double) ((INSTANCE_LRU_LOWER_WATERMARK + INSTANCE_LRU_MAX_ENTRIES) / 2)),
+                (int) Math.ceil(0.75D * (double) INSTANCE_LRU_MAX_ENTRIES), false, false,
+                (key, value) -> value.dispose());
 
         this.roomIdToGroupId = new ConcurrentHashMap<>();
         log.info("GroupManager initialized");
@@ -132,8 +136,7 @@ public class GroupManager implements Initializable {
 
         groupInstance = this.load(id);
 
-        if (groupInstance != null)
-            this.groupInstances.put(id, groupInstance);
+        this.groupInstances.put(id, groupInstance);
 
         log.trace("Group with id #" + id + " was loaded");
 
@@ -219,6 +222,7 @@ public class GroupManager implements Initializable {
 
     /**
      * Gets the group instance cache
+     *
      * @return Group cache
      */
     public ConcurrentLRUCache<Integer, Group> getGroupInstances() {
@@ -227,9 +231,18 @@ public class GroupManager implements Initializable {
 
     /**
      * Gets the group data cache
+     *
      * @return GroupData cache
      */
     public ConcurrentLRUCache<Integer, GroupData> getGroupData() {
         return groupData;
+    }
+
+    /**
+     * Gets the logger
+     * @return Returns the group-related logger
+     */
+    public Logger getLogger() {
+        return log;
     }
 }
