@@ -3,5 +3,7 @@
 Comet Server
 ---
 
-Comet is a high performance game server written in Java. 
+Comet is a high performance game server written in Java.
+
+ 
 
