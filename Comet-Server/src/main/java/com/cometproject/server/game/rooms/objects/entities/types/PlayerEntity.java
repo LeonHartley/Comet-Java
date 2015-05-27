@@ -122,26 +122,27 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                     isAuthFailed = true;
                 }
             } else if (this.getRoom().getData().getAccess().equals("doorbell")) {
-                if (this.getRoom().getEntities().playerCount() < 1) {
-                    this.getPlayer().getSession().send(new DoorbellNoAnswerComposer());
-                    isAuthFailed = true;
-                } else {
-                    this.getRoom().getEntities().broadcastMessage(new DoorbellRequestComposer(this.getUsername()), true);
-                    this.getPlayer().getSession().send(new DoorbellRequestComposer(""));
-                    isAuthFailed = true;
+                if(this.getRoom().getRights().hasRights(this.playerId)) {
+                    if (this.getRoom().getEntities().playerCount() < 1) {
+                        this.getPlayer().getSession().send(new DoorbellNoAnswerComposer());
+                        isAuthFailed = true;
+                    } else {
+                        this.getRoom().getEntities().broadcastMessage(new DoorbellRequestComposer(this.getUsername()), true);
+                        this.getPlayer().getSession().send(new DoorbellRequestComposer(""));
+                        isAuthFailed = true;
+                    }
                 }
             }
         }
 
-
         this.getPlayer().bypassRoomAuth(false);
         this.getPlayer().setTeleportId(0);
+        this.getPlayer().setTeleportRoomId(0);
 
         if (isAuthFailed) {
             return;
         }
 
-//        this.getRoom().getEntities().increasePlayerCount();
         this.getRoom().getEntities().addEntity(this);
         this.finalizeJoinRoom();
     }

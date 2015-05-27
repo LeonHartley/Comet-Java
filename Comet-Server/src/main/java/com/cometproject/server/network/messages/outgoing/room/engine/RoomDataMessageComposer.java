@@ -29,6 +29,6 @@ public class RoomDataMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        RoomWriter.entryData(room.getData(), msg, true, this.checkEntry);
+        RoomWriter.entryData(room.getData(), msg, true, this.checkEntry, false);
     }
 }

@@ -42,7 +42,7 @@ public class GameThread implements CometTask, Initializable {
     }
 
     public static GameThread getInstance() {
-        if(gameThreadInstance == null)
+        if (gameThreadInstance == null)
             gameThreadInstance = new GameThread();
 
         return gameThreadInstance;
@@ -66,7 +66,7 @@ public class GameThread implements CometTask, Initializable {
                 this.currentOnlineRecord = usersOnline;
             }
 
-            if(usersOnline > this.onlineRecord) {
+            if (usersOnline > this.onlineRecord) {
                 this.onlineRecord = usersOnline;
                 updateOnlineRecord = true;
             }
@@ -75,7 +75,7 @@ public class GameThread implements CometTask, Initializable {
                 this.cycleRewards();
             }
 
-            if(!updateOnlineRecord)
+            if (!updateOnlineRecord)
                 StatisticsDao.saveStatistics(usersOnline, RoomManager.getInstance().getRoomInstances().size(), Comet.getBuild());
             else
                 StatisticsDao.saveStatistics(usersOnline, RoomManager.getInstance().getRoomInstances().size(), Comet.getBuild(), this.onlineRecord);
@@ -104,7 +104,7 @@ public class GameThread implements CometTask, Initializable {
 
                     client.getPlayer().sendBalance();
                     client.getPlayer().getData().save();
-                } catch(Exception e) {
+                } catch (Exception e) {
                     log.error("Error while cycling rewards", e);
                 }
             }
