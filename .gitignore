@@ -97,3 +97,4 @@ CometTools/scripts/
 *.jar
 run.bat
 *.versionsBackup
+*.iml
