@@ -23,13 +23,13 @@ public class FollowRoomInfoMessageEvent implements Event {
 
             boolean checkEntry = true;
 
-//            if(room.getRights().hasRights(client.getPlayer().getId())) {
-//                checkEntry = false;
-//            } else if(client.getPlayer().isTeleporting() || client.getPlayer().isBypassingRoomAuth()) {
-//                checkEntry = false;
-//            }
+            if(room.getRights().hasRights(client.getPlayer().getId())) {
+                checkEntry = false;
+            } else if(client.getPlayer().isTeleporting() || client.getPlayer().isBypassingRoomAuth()) {
+                checkEntry = false;
+            }
 
-            client.send(new FollowRoomDataMessageComposer(room.getData(), true));
+            client.send(new FollowRoomDataMessageComposer(room.getData(), checkEntry));
         }
     }
 }

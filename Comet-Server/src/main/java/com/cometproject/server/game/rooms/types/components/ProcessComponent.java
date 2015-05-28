@@ -60,14 +60,14 @@ public class ProcessComponent implements CometTask {
             return;
         }
 
-        long timeSinceLastProcess = (System.currentTimeMillis() - this.lastProcess);
+        long timeSinceLastProcess = this.lastProcess == 0 ? 0 : (System.currentTimeMillis() - this.lastProcess);
         this.lastProcess = System.currentTimeMillis();
 
         if(this.getProcessTimes() != null && this.getProcessTimes().size() < 30) {
             log.info("Time since last process: " + timeSinceLastProcess + "ms");
         }
 
-        if(timeSinceLastProcess >= 550) {
+        if(this.lastProcess != 0 && timeSinceLastProcess >= 550) {
             log.warn("Delayed room process (Last process was " + timeSinceLastProcess + "ms ago)");
         }
 

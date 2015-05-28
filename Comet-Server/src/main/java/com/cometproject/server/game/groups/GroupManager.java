@@ -168,6 +168,7 @@ public class GroupManager implements Initializable {
      * @return The group instance
      */
     public Group getGroupByRoomId(int roomId) {
+        // TODO: Optimize this.
         if (this.roomIdToGroupId.containsKey(roomId))
             return this.get(roomIdToGroupId.get(roomId));
 
