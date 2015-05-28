@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.navigator.NavigatorManager;
@@ -64,33 +65,38 @@ public class RoomWriter {
     }
 
     public static void composeRoomSpecials(IComposer msg, RoomPromotion promotion, Group group) {
-        if(promotion != null && group != null) {
+        boolean composeGroup = group != null;
+        boolean composePromo = promotion != null;
+
+        if(composeGroup && composePromo) {
             msg.writeInt(62);
-
-            msg.writeInt(group.getId());
-            msg.writeString(group.getData().getTitle());
-            msg.writeString(group.getData().getBadge());
-
-            msg.writeString(promotion.getPromotionName()); // promo name
-            msg.writeString(promotion.getPromotionDescription()); // promo description
-            msg.writeInt(promotion.minutesLeft()); // promo minutes left
-        } else if(group != null) {
+        } else if(composeGroup) {
             msg.writeInt(58);
-
-            msg.writeInt(group.getId());
-            msg.writeString(group.getData().getTitle());
-            msg.writeString(group.getData().getBadge());
-
-        } else if(promotion != null) {
+        } else if(composePromo) {
             msg.writeInt(60);
-
-            msg.writeString(promotion.getPromotionName()); // promo name
-            msg.writeString(promotion.getPromotionDescription()); // promo description
-            msg.writeInt(promotion.minutesLeft()); // promo minutes left
         } else {
             msg.writeInt(56);
         }
 
+        if(composeGroup) {
+            composeGroup(group, msg);
+        }
+
+        if(composePromo) {
+            composePromotion(promotion, msg);
+        }
+    }
+
+    private static void composePromotion(RoomPromotion promotion, IComposer msg) {
+        msg.writeString(promotion.getPromotionName()); // promo name
+        msg.writeString(promotion.getPromotionDescription()); // promo description
+        msg.writeInt(promotion.minutesLeft()); // promo minutes left
+    }
+
+    private static void composeGroup(Group group, IComposer msg) {
+        msg.writeInt(group.getId());
+        msg.writeString(group.getData().getTitle());
+        msg.writeString(group.getData().getBadge());
     }
 
     public static int roomAccessToNumber(String access) {
