@@ -18,7 +18,9 @@ public class AchievementManager implements Initializable {
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+        this.loadAchievements();
+    }
 
     public void loadAchievements() {
         if(this.achievementGroups.size() != 0) {
