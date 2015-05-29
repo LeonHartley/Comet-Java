@@ -38,17 +38,18 @@ public class Player implements IPlayer {
     private PlayerData data;
     private PlayerStatistics stats;
 
-    private PlayerEntity avatar;
+    private PlayerEntity entity;
     private Session session;
 
-    private PermissionComponent permissions;
-    private InventoryComponent inventory;
-    private SubscriptionComponent subscription;
-    private MessengerComponent messenger;
-    private RelationshipComponent relationships;
-    private InventoryBotComponent bots;
-    private PetComponent pets;
-    private QuestComponent quests;
+    private final PermissionComponent permissions;
+    private final InventoryComponent inventory;
+    private final SubscriptionComponent subscription;
+    private final MessengerComponent messenger;
+    private final RelationshipComponent relationships;
+    private final InventoryBotComponent bots;
+    private final PetComponent pets;
+    private final QuestComponent quests;
+    private final AchievementComponent achievements;
 
     private List<Integer> rooms = new ArrayList<>();
     private List<Integer> groups = new ArrayList<>();
@@ -105,10 +106,12 @@ public class Player implements IPlayer {
         this.bots = new InventoryBotComponent(this);
         this.pets = new PetComponent(this);
         this.quests = new QuestComponent(this);
+        this.achievements = new AchievementComponent(this);
+
 
         this.groups = GroupDao.getIdsByPlayerId(this.id);
 
-        this.avatar = null;
+        this.entity = null;
     }
 
     @Override
@@ -177,8 +180,8 @@ public class Player implements IPlayer {
 
     @Override
     public void loadRoom(int id, String password) {
-        if (avatar != null && avatar.getRoom() != null) {
-            avatar.leaveRoom(true, false, false);
+        if (entity != null && entity.getRoom() != null) {
+            entity.leaveRoom(true, false, false);
             setEntity(null);
         }
 
@@ -262,12 +265,12 @@ public class Player implements IPlayer {
 
 //    @Override
     public void setEntity(PlayerEntity avatar) {
-        this.avatar = avatar;
+        this.entity = avatar;
     }
 
 //    @Override
     public PlayerEntity getEntity() {
-        return this.avatar;
+        return this.entity;
     }
 
     @Override
@@ -323,6 +326,10 @@ public class Player implements IPlayer {
 //    @Override
     public QuestComponent getQuests() {
         return quests;
+    }
+
+    public AchievementComponent getAchievements() {
+        return achievements;
     }
 
     @Override
