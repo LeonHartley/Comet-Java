@@ -5,6 +5,7 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Configuration;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.GameThread;
+import com.cometproject.server.game.achievements.AchievementManager;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.groups.GroupManager;
@@ -62,6 +63,8 @@ public class CometServer {
         Locale.initialize();
 
         // Initialize the game managers
+        // TODO: Implement some sort of dependency injection so we don't need any of this crap
+
         PermissionsManager.getInstance().initialize();
         ItemManager.getInstance().initialize();
         CatalogManager.getInstance().initialize();
@@ -75,6 +78,7 @@ public class CometServer {
         GroupManager.getInstance().initialize();
         PlayerManager.getInstance().initialize();
         QuestManager.getInstance().initialize();
+        AchievementManager.getInstance().initialize();
 
         String ipAddress = this.getConfig().get("comet.network.host"),
                 port = this.getConfig().get("comet.network.port");
