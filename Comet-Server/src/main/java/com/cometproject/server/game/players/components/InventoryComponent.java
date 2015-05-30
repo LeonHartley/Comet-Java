@@ -7,15 +7,17 @@ import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
+import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,12 +85,14 @@ public class InventoryComponent implements PlayerComponent {
                 InventoryDao.addBadge(code, this.player.getId());
             }
 
-            // 0 = slot
             this.badges.put(code, 0);
 
-            this.player.getSession().send(new WiredRewardMessageComposer(7));
-            this.player.getSession().send(new BadgeInventoryMessageComposer(this.badges));
+            this.player.getSession().sendQueue(new WiredRewardMessageComposer(7)).
+                    sendQueue(new UnseenItemsMessageComposer(Lists.newArrayList(4), Lists.newArrayList(code))).
+                    sendQueue(new BadgeInventoryMessageComposer(this.badges)).
+                    flush();
         }
+
     }
 
     public boolean hasBadge(String code) {
