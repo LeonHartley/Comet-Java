@@ -1,5 +1,6 @@
 package com.cometproject.server.game.achievements;
 
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.storage.queries.achievements.AchievementDao;
 import com.cometproject.server.utilities.Initializable;
 import org.apache.log4j.Logger;
@@ -11,7 +12,7 @@ public class AchievementManager implements Initializable {
     private static AchievementManager achievementManager;
     private static final Logger log = Logger.getLogger(AchievementManager.class.getName());
 
-    private final Map<String, AchievementGroup> achievementGroups;
+    private final Map<AchievementType, AchievementGroup> achievementGroups;
 
     public AchievementManager() {
         this.achievementGroups = new HashMap<>();
@@ -39,7 +40,7 @@ public class AchievementManager implements Initializable {
 
     }
 
-    public AchievementGroup getAchievementGroup(String groupName) {
+    public AchievementGroup getAchievementGroup(AchievementType groupName) {
         return this.achievementGroups.get(groupName);
     }
 

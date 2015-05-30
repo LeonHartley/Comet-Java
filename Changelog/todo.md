@@ -15,3 +15,7 @@ Features
 Bugs
 ==================
 * Floor/wallpaper gifting
+
+Improvements
+==================
+* 

@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.incoming.handshake;
 
 import com.cometproject.api.events.players.OnPlayerLoginEvent;
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.game.players.types.Player;
@@ -130,21 +131,18 @@ public class SSOTicketMessageEvent implements Event {
                 sendQueue(new FavouriteRoomsMessageComposer()).
                 sendQueue(new UnreadMinimailsMessageComposer()).
                 sendQueue(new EnableTradingMessageComposer(true)).
-                sendQueue(new EnableNotificationsMessageComposer())
-                .sendQueue(new PlayerSettingsMessageComposer(player.getSettings()));
-
-//        if (player.getSettings().getHomeRoom() > 0) {
-        client.sendQueue(new HomeRoomMessageComposer(player.getSettings().getHomeRoom()));
-//        }
+                sendQueue(new EnableNotificationsMessageComposer()).
+                sendQueue(new PlayerSettingsMessageComposer(player.getSettings())).
+                sendQueue(new HomeRoomMessageComposer(player.getSettings().getHomeRoom())).
+                sendQueue(new EffectsInventoryMessageComposer());
 
         if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             client.sendQueue(new ModToolMessageComposer());
         }
 
-        client.send(new EffectsInventoryMessageComposer());
-
         client.flush();
 
+        client.getPlayer().getAchievements().progressAchievement(AchievementType.LOGIN, 1);
         ModuleManager.getInstance().getEventHandler().handleEvent(new OnPlayerLoginEvent(client.getPlayer()));
     }
 }
