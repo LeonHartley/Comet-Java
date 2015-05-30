@@ -18,4 +18,4 @@ Bugs
 
 Improvements
 ==================
-* 
+* Smarter flood protection
