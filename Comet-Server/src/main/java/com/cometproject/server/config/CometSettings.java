@@ -142,7 +142,8 @@ public class CometSettings {
     /**
      * If disable, the wired items will not send the flash update
      */
-    public static boolean disableWiredFlash = false;
+    // Temporarily disabled for now.
+    public static boolean disableWiredFlash = true;
 
     /**
      * If enabled, the player will have infinite credits & duckets.
@@ -245,9 +246,9 @@ public class CometSettings {
             storeAccess = Boolean.parseBoolean(config.get("comet.security.storeAccess"));
         }
 
-        if (config.containsKey("comet.game.rooms.disableWiredFlash")) {
-            disableWiredFlash = Boolean.parseBoolean(config.get("comet.game.rooms.disableWiredFlash"));
-        }
+//        if (config.containsKey("comet.game.rooms.disableWiredFlash")) {
+//            disableWiredFlash = Boolean.parseBoolean(config.get("comet.game.rooms.disableWiredFlash"));
+//        }
 
         if (config.containsKey("comet.game.infiniteBalance")) {
             infiniteBalance = Boolean.parseBoolean(config.get("comet.game.infiniteBalance"));

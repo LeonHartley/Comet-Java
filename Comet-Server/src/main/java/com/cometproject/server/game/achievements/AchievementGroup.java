@@ -17,6 +17,10 @@ public class AchievementGroup {
         this.category = category;
     }
 
+    public Achievement getAchievement(int level) {
+        return this.achievements.get(level);
+    }
+
     public Map<Integer, Achievement> getAchievements() {
         return achievements;
     }

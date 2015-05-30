@@ -24,4 +24,8 @@ public class AchievementProgress {
     public int getProgress() {
         return this.progress;
     }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
 }

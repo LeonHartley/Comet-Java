@@ -3,6 +3,7 @@ package com.cometproject.server.storage.queries.achievements;
 import com.cometproject.server.game.achievements.AchievementGroup;
 import com.cometproject.server.game.achievements.types.Achievement;
 import com.cometproject.server.game.achievements.types.AchievementCategory;
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
@@ -14,7 +15,7 @@ import java.util.Map;
 
 public class AchievementDao {
 
-    public static int getAchievements(Map<String, AchievementGroup> achievementGroups) {
+    public static int getAchievements(Map<AchievementType, AchievementGroup> achievementGroups) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -30,11 +31,10 @@ public class AchievementDao {
             while (resultSet.next()) {
                 count++;
 
-                final String groupName = resultSet.getString("group_name");
+                final AchievementType groupName = AchievementType.getTypeByName(resultSet.getString("group_name"));
 
                 if (!achievementGroups.containsKey(groupName)) {
-                    System.out.println(groupName);
-                    achievementGroups.put(resultSet.getString("group_name"), new AchievementGroup(new HashMap<>(), resultSet.getString("group_name"), AchievementCategory.valueOf(resultSet.getString("category").toUpperCase())));
+                    achievementGroups.put(groupName, new AchievementGroup(new HashMap<>(), resultSet.getString("group_name"), AchievementCategory.valueOf(resultSet.getString("category").toUpperCase())));
                 }
 
                 if (!achievementGroups.get(groupName).getAchievements().containsKey(resultSet.getInt("level"))) {

@@ -108,6 +108,22 @@ public class InventoryComponent implements PlayerComponent {
         }
     }
 
+    public void achievementBadge(String achievement, int level) {
+        String oldBadge = achievement + level;
+        int slot = 0;
+
+        if(this.badges.containsKey(oldBadge)) {
+            this.badges.remove(oldBadge);
+        }
+
+
+        for(String badge : this.badges.keySet()) {
+            if(badge.equals(achievement + level)) {
+
+            }
+        }
+    }
+
     public void resetBadgeSlots() {
         for (Map.Entry<String, Integer> badge : this.badges.entrySet()) {
             if (badge.getValue() != 0) {
