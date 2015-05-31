@@ -18,7 +18,7 @@ Bugs
 
 Improvements
 ==================
-* 
+* Smarter flood protection 
 
 Commands
 ==================
