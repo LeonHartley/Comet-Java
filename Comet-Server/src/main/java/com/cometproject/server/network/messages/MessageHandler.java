@@ -73,6 +73,7 @@ import com.cometproject.server.network.messages.incoming.room.moderation.*;
 import com.cometproject.server.network.messages.incoming.room.pets.*;
 import com.cometproject.server.network.messages.incoming.room.settings.*;
 import com.cometproject.server.network.messages.incoming.room.trading.*;
+import com.cometproject.server.network.messages.incoming.user.achievements.AchievementsListMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.camera.CameraTokenMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.camera.RenderRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.citizenship.CitizenshipStatusMessageEvent;
@@ -149,6 +150,7 @@ public final class MessageHandler {
         this.registerCamera();
         this.registerPromotions();
         this.registerMusic();
+        this.registerAchievements();
         this.registerMisc();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
@@ -420,6 +422,10 @@ public final class MessageHandler {
         this.getMessages().put(Events.PlaylistAddMessageEvent, new PlaylistAddMessageEvent());
         this.getMessages().put(Events.PlaylistRemoveMessageEvent, new PlaylistRemoveMessageEvent());
         this.getMessages().put(Events.PlaylistMessageEvent, new PlaylistMessageEvent());
+    }
+
+    public void registerAchievements() {
+        this.getMessages().put(Events.AchievementsListMessageEvent, new AchievementsListMessageEvent());
     }
 
     public void handle(MessageEvent message, Session client) {

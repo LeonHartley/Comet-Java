@@ -1,6 +1,12 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 31/05/2015
+* Lots of work on achievements
+* Improvements with unseen inventory items (Bots, pets and badges now use this system too)
+* Fixed bug with limited edition items not working properly on first purchase.
+
+
 ## 23/05/2015
 * Minor optimizations to group membership list
 * Fix modifying the settings of a room you're not currently in

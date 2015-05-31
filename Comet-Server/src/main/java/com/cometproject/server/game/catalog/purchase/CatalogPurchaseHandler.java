@@ -36,15 +36,13 @@ import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.utilities.JsonFactory;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class CatalogPurchaseHandler {
@@ -204,6 +202,10 @@ public class CatalogPurchaseHandler {
 
                     client.getPlayer().getPets().addPet(new PetData(petId, petData[0], StaticPetProperties.DEFAULT_LEVEL, StaticPetProperties.DEFAULT_HAPPINESS, StaticPetProperties.DEFAULT_EXPERIENCE, StaticPetProperties.DEFAULT_ENERGY, client.getPlayer().getId(), petData[2], Integer.parseInt(petData[1]), Integer.parseInt(petRace)));
                     client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));
+
+                    client.send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
+                        put(3, Lists.newArrayList(petId));
+                    }}));
                     return;
                 } else if (def.getInteraction().equals("postit")) {
                     amount = 20; // we want 20 stickies
@@ -240,6 +242,10 @@ public class CatalogPurchaseHandler {
                     int botId = PlayerBotDao.createBot(client.getPlayer().getId(), botName, botFigure, botGender, botMotto, type);
                     client.getPlayer().getBots().addBot(new InventoryBot(botId, client.getPlayer().getId(), client.getPlayer().getData().getUsername(), botName, botFigure, botGender, botMotto, type));
                     client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));
+
+                    client.send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
+                        put(5, Lists.newArrayList(botId));
+                    }}));
                     return;
                 } else if (def.getInteraction().equals("badge_display")) {
                     if (client.getPlayer().getInventory().getBadges().get(data) == null) {
@@ -319,7 +325,7 @@ public class CatalogPurchaseHandler {
                     }
 
                     if (giftData == null)
-                        unseenItems.add(client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData, null));
+                        unseenItems.add(client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData, item.getLimitedTotal() > 0 ? new LimitedEditionItem(newItemId, item.getLimitedSells(), item.getLimitedTotal()) : null));
 
                     if (isTeleport)
                         teleportIds[newItems.indexOf(newItem)] = newItem;
@@ -358,7 +364,7 @@ public class CatalogPurchaseHandler {
             log.error("Error while buying catalog item", e);
         } finally {
             // Clean up the purchase - even if there was an exception!!
-//            unseenItems.clear();
+            unseenItems.clear();
         }
     }
 

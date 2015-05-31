@@ -44,6 +44,10 @@ public class AchievementManager implements Initializable {
         return this.achievementGroups.get(groupName);
     }
 
+    public Map<AchievementType, AchievementGroup> getAchievementGroups() {
+        return this.achievementGroups;
+    }
+
     public static AchievementManager getInstance() {
         if(achievementManager == null) {
             achievementManager = new AchievementManager();
