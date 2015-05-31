@@ -69,6 +69,10 @@ public class AchievementComponent implements PlayerComponent {
         PlayerAchievementDao.saveProgress(this.player.getId(), type, progress);
     }
 
+    public AchievementProgress getProgress(AchievementType achievementType) {
+        return this.progression.get(achievementType);
+    }
+
     @Override
     public Player getPlayer() {
         return this.player;

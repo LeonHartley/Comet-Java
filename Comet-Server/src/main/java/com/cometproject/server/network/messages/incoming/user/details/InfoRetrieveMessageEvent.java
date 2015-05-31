@@ -1,8 +1,10 @@
 package com.cometproject.server.network.messages.incoming.user.details;
 
+import com.cometproject.server.game.achievements.AchievementManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerConfigMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementPointsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementRequirementsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.buildersclub.BuildersClubMembershipMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.UserObjectMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
@@ -10,6 +12,7 @@ import com.cometproject.server.network.messages.outgoing.user.permissions.Allowa
 import com.cometproject.server.network.messages.outgoing.user.permissions.CitizenshipStatusMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.tasks.CometThreadManager;
 
 
 public class InfoRetrieveMessageEvent implements Event {
@@ -26,6 +29,7 @@ public class InfoRetrieveMessageEvent implements Event {
         client.send(new MessengerConfigMessageComposer());
 
         client.send(new BadgeInventoryMessageComposer(client.getPlayer().getInventory().getBadges()));
+        client.send(new AchievementRequirementsMessageComposer());
 
         client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
     }
