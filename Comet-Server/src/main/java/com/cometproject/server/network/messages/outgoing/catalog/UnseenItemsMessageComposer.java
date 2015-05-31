@@ -4,32 +4,27 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
+import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 public class UnseenItemsMessageComposer extends MessageComposer {
 
-    private final List<Integer> tabs;
-    private final List<Object> newItems;
+    private final Map<Integer, List<Integer>> newObjects;
 
-    public UnseenItemsMessageComposer(final List<Integer> tabs, final List<Object> items) {
-        this.tabs = tabs;
-        this.newItems = items;
+    public UnseenItemsMessageComposer(Map<Integer, List<Integer>> newObjects) {
+        this.newObjects = newObjects;
     }
 
     public UnseenItemsMessageComposer(final List<InventoryItem> inventoryItems) {
-        this.tabs = new ArrayList<>();
-        this.newItems = new ArrayList<>();
+        this.newObjects = new HashMap<>();
 
-        for(InventoryItem inventoryItem : inventoryItems) {
-            if(!inventoryItem.getDefinition().getType().toLowerCase().equals("s") && !this.tabs.contains(2)) {
-                this.tabs.add(2);
+        for (InventoryItem inventoryItem : inventoryItems) {
+            if (!this.newObjects.containsKey(1)) {
+                this.newObjects.put(1, Lists.newArrayList(inventoryItem.getId()));
             } else {
-                if(!this.tabs.contains(1)) {
-                    this.tabs.add(1);
-                }
+                this.newObjects.get(1).add(inventoryItem.getId());
             }
         }
     }
@@ -41,25 +36,24 @@ public class UnseenItemsMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeInt(tabs.size());
+        msg.writeInt(this.newObjects.size());
 
-        for(int tabId : this.tabs) {
-            msg.writeInt(tabId);
-        }
+        for (Map.Entry<Integer, List<Integer>> tab : this.newObjects.entrySet()) {
+            msg.writeInt(tab.getKey());
+            msg.writeInt(tab.getValue().size());
 
-        msg.writeInt(this.newItems.size());
-
-        for(Object obj : this.newItems) {
-            if(obj instanceof Integer) {
-                msg.writeInt((Integer) obj);
-            } else if(obj instanceof String) {
-                msg.writeString(obj);
+            for (Object item : tab.getValue()) {
+                msg.writeInt((Integer) item);
             }
         }
     }
 
     @Override
     public void dispose() {
-        this.newItems.clear();
+        for (Map.Entry<Integer, List<Integer>> tab : this.newObjects.entrySet()) {
+            tab.getValue().clear();
+        }
+
+        this.newObjects.clear();
     }
 }

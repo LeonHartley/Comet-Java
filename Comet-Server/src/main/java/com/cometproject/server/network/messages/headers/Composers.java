@@ -191,6 +191,7 @@ public class Composers {
     public static final short CancelQuestMessageComposer = 2711;
     public static final short QuestCompletedMessageComposer = 717;
     public static final short UpdateActivityPointsMessageComposer = 2623;
+    public static final short ReceiveBadgeMessageComposer = 868;
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 

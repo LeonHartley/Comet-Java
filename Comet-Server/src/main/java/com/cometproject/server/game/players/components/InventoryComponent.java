@@ -11,16 +11,14 @@ import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMess
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.inventory.ReceiveBadgeMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class InventoryComponent implements PlayerComponent {
@@ -87,12 +85,13 @@ public class InventoryComponent implements PlayerComponent {
 
             this.badges.put(code, 0);
 
-            this.player.getSession().sendQueue(new WiredRewardMessageComposer(7)).
-                    sendQueue(new UnseenItemsMessageComposer(Lists.newArrayList(4), Lists.newArrayList(code))).
-                    sendQueue(new BadgeInventoryMessageComposer(this.badges)).
-                    flush();
+            this.player.getSession().
+                    send(new WiredRewardMessageComposer(7)).
+                    send(new ReceiveBadgeMessageComposer(1, code)).
+                    send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
+                        put(4, Lists.newArrayList(1));
+                    }}));
         }
-
     }
 
     public boolean hasBadge(String code) {
@@ -114,15 +113,14 @@ public class InventoryComponent implements PlayerComponent {
 
     public void achievementBadge(String achievement, int level) {
         String oldBadge = achievement + level;
-        int slot = 0;
 
-        if(this.badges.containsKey(oldBadge)) {
+        if (this.badges.containsKey(oldBadge)) {
             this.badges.remove(oldBadge);
         }
 
 
-        for(String badge : this.badges.keySet()) {
-            if(badge.equals(achievement + level)) {
+        for (String badge : this.badges.keySet()) {
+            if (badge.equals(achievement + level)) {
 
             }
         }
@@ -196,7 +194,7 @@ public class InventoryComponent implements PlayerComponent {
     }
 
     public void removeFloorItem(int itemId) {
-        if(this.getFloorItems() == null) {
+        if (this.getFloorItems() == null) {
             return;
         }
 

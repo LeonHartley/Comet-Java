@@ -103,14 +103,15 @@ public class Session implements ISession {
         return this;
     }
 
-    public void send(IMessageComposer msg) {
+    public Session send(IMessageComposer msg) {
         if (msg == null) {
-            return;
+            return this;
         }
 
         logger.debug("Sent message: " + msg.getClass().getSimpleName() + " / " + msg.getId());
 
         this.channel.writeAndFlush(msg);
+        return this;
     }
 
     public void flush() {
