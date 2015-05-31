@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.user.details;
 
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
@@ -33,6 +34,7 @@ public class ChangeMottoMessageEvent implements Event {
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UpdateInfoMessageComposer(client.getPlayer().getEntity()));
         client.send(new UpdateInfoMessageComposer(-1, client.getPlayer().getEntity()));
 
+        client.getPlayer().getAchievements().progressAchievement(AchievementType.MOTTO, 1);
         client.getPlayer().getQuests().progressQuest(QuestType.PROFILE_CHANGE_MOTTO);
     }
 }

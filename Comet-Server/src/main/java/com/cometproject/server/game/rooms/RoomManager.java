@@ -177,11 +177,11 @@ public class RoomManager implements Initializable {
     }
 
     public void removeData(int roomId) {
-        if (!this.getRoomDataInstances().getMap().containsKey(roomId)) {
+        if (this.getRoomDataInstances().get(roomId) == null) {
             return;
         }
 
-        this.getRoomInstances().remove(roomId);
+        this.getRoomDataInstances().remove(roomId);
     }
 
     public void loadRoomsForUser(Player player) {
