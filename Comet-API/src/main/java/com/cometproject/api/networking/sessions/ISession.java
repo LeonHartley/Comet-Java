@@ -8,7 +8,9 @@ public interface ISession {
 
     void disconnect();
 
-    void send(IMessageComposer messageComposer);
+    ISession send(IMessageComposer messageComposer);
+
+    ISession sendQueue(IMessageComposer messageComposer);
 
     String getIpAddress();
 }

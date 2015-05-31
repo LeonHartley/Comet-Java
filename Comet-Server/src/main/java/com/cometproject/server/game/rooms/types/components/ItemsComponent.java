@@ -19,6 +19,7 @@ import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWall
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.UpdateStackMapMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
@@ -28,6 +29,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.SendWallItem
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.items.LimitedEditionDao;
+import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -247,8 +249,10 @@ public class ItemsComponent {
         if (toInventory && client != null) {
             RoomItemDao.removeItemFromRoom(item.getId(), client.getPlayer().getId());
 
-            client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null, item.getLimitedEditionItem());
-            client.send(new UpdateInventoryMessageComposer());
+            final InventoryItem inventoryItem = client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null, item.getLimitedEditionItem());
+            client.sendQueue(new UpdateInventoryMessageComposer());
+            client.sendQueue(new UnseenItemsMessageComposer(Lists.newArrayList(inventoryItem)));
+            client.flush();
         } else {
             if (delete)
                 RoomItemDao.deleteItem(item.getId());
@@ -274,6 +278,9 @@ public class ItemsComponent {
 
             client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item.getLimitedEditionItem());
             client.send(new UpdateInventoryMessageComposer());
+            client.send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
+                put(1, Lists.newArrayList(item.getId()));
+            }}));
         } else {
             RoomItemDao.deleteItem(item.getId());
         }
@@ -384,21 +391,21 @@ public class ItemsComponent {
                 return false;
             }
 
-            if(item.getInteraction().equals("dice")) {
+            if (item.getInteraction().equals("dice")) {
                 boolean hasOtherDice = false;
                 boolean hasStackTool = false;
 
-                for(RoomItemFloor floorItem : tile.getItems()) {
-                    if(floorItem instanceof DiceFloorItem) {
+                for (RoomItemFloor floorItem : tile.getItems()) {
+                    if (floorItem instanceof DiceFloorItem) {
                         hasOtherDice = true;
                     }
 
-                    if(floorItem instanceof MagicStackFloorItem) {
+                    if (floorItem instanceof MagicStackFloorItem) {
                         hasStackTool = true;
                     }
                 }
 
-                if(hasOtherDice && hasStackTool)
+                if (hasOtherDice && hasStackTool)
                     return false;
             }
 
