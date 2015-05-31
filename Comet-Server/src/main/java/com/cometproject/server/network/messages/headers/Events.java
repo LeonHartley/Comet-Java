@@ -213,6 +213,7 @@ public class Events {
     public static final short StartQuestMessageEvent = 2015;
     public static final short CancelQuestMessageEvent = 2615;
     public static final short NextQuestMessageEvent = 1257;
+    public static final short AchievementsListMessageEvent = 3288;
 
     private static Map<Short, String> eventPacketNames = new HashMap<>();
 
