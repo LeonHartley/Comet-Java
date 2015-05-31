@@ -19,3 +19,7 @@ Bugs
 Improvements
 ==================
 * 
+
+Commands
+==================
+* Reload playlist
