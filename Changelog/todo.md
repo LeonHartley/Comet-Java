@@ -2,13 +2,17 @@ Features
 ==================
 * Achievements
 * Rewrite teleports
-* Group Forum
+* Group Forum (Not complete, needs finishing)
 * More Wired
     - Scoreboard
 * Spy bot (Displays visitors in your room while you were away)
-* Pets (All features)
-* Helper Tool
+* Pets (Basics done, just gotta do the cool stuff like horses and monster plants. Oh and breeding!)
+* Helper Tool 
 * Talents
+* Room queue/spectator
+* Habbo palooza (Plot renting)
+* Habbo Club
+* Builders Club
 
 Bugs
 ==================
