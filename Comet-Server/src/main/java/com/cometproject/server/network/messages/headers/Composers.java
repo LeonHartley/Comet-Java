@@ -194,6 +194,8 @@ public class Composers {
     public static final short ReceiveBadgeMessageComposer = 868;
     public static final short AchievementsListMessageComposer = 2739;
     public static final short AchievementRequirementsMessageComposer = 3883;
+    public static final short AchievementProgressMessageComposer = 393;
+    public static final short AchievementUnlockedMessageComposer = 3412;
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 

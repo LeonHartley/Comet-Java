@@ -7,6 +7,8 @@ import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.players.components.types.achievements.AchievementProgress;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
+import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementProgressMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementUnlockedMessageComposer;
 import com.cometproject.server.storage.queries.achievements.PlayerAchievementDao;
 
 import java.util.Map;
@@ -44,13 +46,15 @@ public class AchievementComponent implements PlayerComponent {
             progress = new AchievementProgress(1, 0);
         }
 
+        if(achievementGroup.getAchievements().size() <= progress.getLevel() && achievementGroup.getAchievement(progress.getLevel()).getProgressNeeded() <= progress.getProgress()) {
+            return;
+        }
+
         progress.increaseProgress(data);
 
         Achievement achievement = achievementGroup.getAchievement(progress.getLevel());
 
         if(achievement.getProgressNeeded() <= progress.getProgress()) {
-            // Achievement unlocked!
-
             // Give badge.
             this.player.getInventory().achievementBadge(type.getGroupName(), progress.getLevel());
 
@@ -64,8 +68,12 @@ public class AchievementComponent implements PlayerComponent {
             if(achievementGroup.getAchievement(achievement.getLevel() + 1) != null) {
                 progress.increaseLevel();
             }
+
+            // Achievement unlocked!
+            this.player.getSession().send(new AchievementUnlockedMessageComposer(progress, achievementGroup));
         }
 
+        this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup.getAchievement(progress.getLevel()), achievementGroup));
         PlayerAchievementDao.saveProgress(this.player.getId(), type, progress);
     }
 

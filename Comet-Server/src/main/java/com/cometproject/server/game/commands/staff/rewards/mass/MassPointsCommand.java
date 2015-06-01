@@ -11,6 +11,6 @@ public class MassPointsCommand extends MassCurrencyCommand {
 
     @Override
     public String getDescription() {
-        return Locale.get("command.masspoints.command");
+        return Locale.get("command.masspoints.description");
     }
 }

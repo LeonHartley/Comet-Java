@@ -30,6 +30,7 @@ public class QuestManager implements Initializable {
 
         this.quests = QuestsDao.getAllQuests();
         log.info("Loaded " + this.quests.size() + " quests");
+        log.info("QuestManager initialized");
     }
 
     public static QuestManager getInstance() {
