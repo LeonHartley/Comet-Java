@@ -37,6 +37,7 @@ public class AchievementManager implements Initializable {
         final int achievementCount = AchievementDao.getAchievements(this.achievementGroups);
 
         log.info("Loaded " + achievementCount + " achievements (" + this.achievementGroups.size() + " groups)");
+        log.info("AchievementManager initialized");
 
     }
 
