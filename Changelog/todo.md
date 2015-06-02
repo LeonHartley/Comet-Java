@@ -26,3 +26,4 @@ Improvements
 Commands
 ==================
 * Reload playlist
+* More fun commands
