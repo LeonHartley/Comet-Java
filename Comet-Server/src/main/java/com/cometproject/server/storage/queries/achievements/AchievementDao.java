@@ -41,6 +41,10 @@ public class AchievementDao {
 
                 if (!achievementGroups.get(groupName).getAchievements().containsKey(resultSet.getInt("level"))) {
                     achievementGroups.get(groupName).getAchievements().put(resultSet.getInt("level"), create(resultSet));
+
+                    if(groupName == AchievementType.LOGIN) {
+                        System.out.println(resultSet.getInt("level"));
+                    }
                 }
             }
         } catch (SQLException e) {

@@ -14,7 +14,7 @@ public class AchievementProgressMessageComposer extends MessageComposer {
     private final AchievementProgress achievementProgress;
 
     public AchievementProgressMessageComposer(AchievementProgress achievementProgress, Achievement achievement, AchievementGroup achievementGroup) {
-        this.achievementProgress = achievementProgress;
+        this.achievementProgress = achievementProgress == null ? null : new AchievementProgress(achievementProgress.getLevel(), achievementProgress.getProgress());
         this.achievement = achievement;
         this.achievementGroup = achievementGroup;
     }

@@ -8,11 +8,12 @@ import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 
 public class AchievementUnlockedMessageComposer extends MessageComposer {
-    private final AchievementProgress achievementProgress;
+    private final int achievementLevel;
+
     private final AchievementGroup achievementGroup;
 
-    public AchievementUnlockedMessageComposer(AchievementProgress achievementProgress, AchievementGroup achievementGroup) {
-        this.achievementProgress = achievementProgress;
+    public AchievementUnlockedMessageComposer(int achievementLevel, AchievementGroup achievementGroup) {
+        this.achievementLevel = achievementLevel;
         this.achievementGroup = achievementGroup;
     }
 
@@ -23,16 +24,16 @@ public class AchievementUnlockedMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeInt(achievementGroup.getAchievement(achievementProgress.getLevel()).getId());
-        msg.writeInt(achievementProgress.getLevel());
+        msg.writeInt(achievementGroup.getAchievement(achievementLevel).getId());
+        msg.writeInt(achievementLevel);
         msg.writeInt(144); // TODO: Find out what this is.
-        msg.writeString(achievementGroup.getGroupName() + achievementProgress.getLevel());
-        msg.writeInt(achievementGroup.getAchievement(achievementProgress.getLevel()).getRewardAchievement());
-        msg.writeInt(achievementGroup.getAchievement(achievementProgress.getLevel()).getRewardActivityPoints());
+        msg.writeString(achievementGroup.getGroupName() + achievementLevel);
+        msg.writeInt(achievementGroup.getAchievement(achievementLevel).getRewardAchievement());
+        msg.writeInt(achievementGroup.getAchievement(achievementLevel).getRewardActivityPoints());
         msg.writeInt(0);
         msg.writeInt(10);
         msg.writeInt(21);
-        msg.writeString(achievementProgress.getLevel() > 1 ? achievementGroup.getGroupName() + (achievementProgress.getLevel() - 1) : "");
+        msg.writeString(achievementLevel > 1 ? achievementGroup.getGroupName() + (achievementLevel + 1) : "");
         msg.writeString(achievementGroup.getCategory().toString().toLowerCase());
         msg.writeBoolean(true);
     }

@@ -3,6 +3,7 @@ package com.cometproject.server.game.commands.staff.cache;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.achievements.AchievementManager;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.commands.CommandManager;
@@ -13,6 +14,7 @@ import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
+import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
@@ -49,7 +51,9 @@ public class ReloadCommand extends ChatCommand {
                                 "- groupitems\n" +
                                 "- models" +
                                 "- music" +
-                                "- quests"
+                                "- quests" +
+                                "- achievements" +
+                                "- pets"
                 ));
 
                 break;
@@ -141,6 +145,18 @@ public class ReloadCommand extends ChatCommand {
                 sendNotif(Locale.get("command.reload.quests"), client);
                 break;
 
+            case "achievements":
+                AchievementManager.getInstance().loadAchievements();
+
+                sendNotif(Locale.get("command.reload.achievements"), client);
+                break;
+
+            case "pets":
+                PetManager.getInstance().loadPetRaces();
+                PetManager.getInstance().loadPetSpeech();
+
+                sendNotif(Locale.get("command.reload.pets"), client);
+                break;
         }
     }
 
