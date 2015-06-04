@@ -13,6 +13,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredR
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.ReceiveBadgeMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
+import com.cometproject.server.storage.queries.achievements.PlayerAchievementDao;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -78,6 +79,10 @@ public class InventoryComponent implements PlayerComponent {
     }
 
     public void addBadge(String code, boolean insert) {
+        this.addBadge(code, insert, true);
+    }
+
+    public void addBadge(String code, boolean insert, boolean sendAlert) {
         if (!badges.containsKey(code)) {
             if (insert) {
                 InventoryDao.addBadge(code, this.player.getId());
@@ -86,11 +91,14 @@ public class InventoryComponent implements PlayerComponent {
             this.badges.put(code, 0);
 
             this.player.getSession().
-                    send(new WiredRewardMessageComposer(7)).
                     send(new ReceiveBadgeMessageComposer(1, code)).
                     send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
                         put(4, Lists.newArrayList(1));
                     }}));
+
+            if(sendAlert) {
+                this.player.getSession().send(new WiredRewardMessageComposer(7));
+            }
         }
     }
 
@@ -99,6 +107,10 @@ public class InventoryComponent implements PlayerComponent {
     }
 
     public void removeBadge(String code, boolean delete) {
+        this.removeBadge(code, delete, true);
+    }
+
+    public void removeBadge(String code, boolean delete, boolean sendAlert) {
         if (badges.containsKey(code)) {
             if (delete) {
                 InventoryDao.removeBadge(code, player.getId());
@@ -106,24 +118,28 @@ public class InventoryComponent implements PlayerComponent {
 
             this.badges.remove(code);
 
-            this.player.getSession().send(new AlertMessageComposer(Locale.get("badge.deleted")));
+            if(sendAlert) {
+                this.player.getSession().send(new AlertMessageComposer(Locale.get("badge.deleted")));
+            }
+
             this.player.getSession().send(new BadgeInventoryMessageComposer(this.badges));
         }
     }
 
     public void achievementBadge(String achievement, int level) {
-        String oldBadge = achievement + level;
+        final String oldBadge = achievement + (level - 1);
+        final String newBadge = achievement + level;
+
+        boolean isUpdated = false;
 
         if (this.badges.containsKey(oldBadge)) {
-            this.badges.remove(oldBadge);
+            this.removeBadge(oldBadge, false, false);
+
+            PlayerAchievementDao.updateBadge(oldBadge, newBadge, this.player.getId());
+            isUpdated = true;
         }
 
-
-        for (String badge : this.badges.keySet()) {
-            if (badge.equals(achievement + level)) {
-
-            }
-        }
+        this.addBadge(newBadge, !isUpdated, false);
     }
 
     public void resetBadgeSlots() {

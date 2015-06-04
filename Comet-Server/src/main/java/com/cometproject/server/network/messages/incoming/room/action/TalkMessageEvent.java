@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -59,6 +60,7 @@ public class TalkMessageEvent implements Event {
                     playerEntity);
         }
 
+        playerEntity.getPlayer().getAchievements().progressAchievement(AchievementType.LOGIN, 1);
         playerEntity.postChat(filteredMessage);
     }
 

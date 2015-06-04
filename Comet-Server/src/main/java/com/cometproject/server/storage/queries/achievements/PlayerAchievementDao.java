@@ -68,6 +68,24 @@ public class PlayerAchievementDao {
     }
 
     public static void updateBadge(String oldBadge, String newBadge, int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
 
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE player_badges SET badge_code = ? WHERE player_id = ? AND badge_code = ?", sqlConnection);
+
+            preparedStatement.setString(1, newBadge);
+            preparedStatement.setInt(2, playerId);
+            preparedStatement.setString(3, oldBadge);
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
     }
 }

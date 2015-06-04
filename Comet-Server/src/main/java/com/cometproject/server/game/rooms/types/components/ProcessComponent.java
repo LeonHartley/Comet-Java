@@ -372,36 +372,41 @@ public class ProcessComponent implements CometTask {
                 // It's a pet.
                 PetEntity petEntity = (PetEntity) entity;
 
-                if (petEntity.getCycleCount() == 50 && ((PetEntity) entity).getData().getSpeech().length > 0) { // 25 seconds
-                    int messageKey = RandomInteger.getRandom(0, ((PetEntity) entity).getData().getSpeech().length - 1);
-                    String message = ((PetEntity) entity).getData().getSpeech()[messageKey];
+                try {
+                    if (petEntity.getCycleCount() == 50 && ((PetEntity) entity).getData().getSpeech().length > 0) { // 25 seconds
+                        int messageKey = RandomInteger.getRandom(0, ((PetEntity) entity).getData().getSpeech().length - 1);
+                        String message = ((PetEntity) entity).getData().getSpeech()[messageKey];
 
-                    if (message != null && !message.isEmpty()) {
-                        if (entity.getPosition().getX() < this.getRoom().getModel().getSquareHeight().length && entity.getPosition().getY() < this.getRoom().getModel().getSquareHeight()[entity.getPosition().getX()].length) {
-                            final String status = "" + this.room.getModel().getSquareHeight()[entity.getPosition().getX()][entity.getPosition().getY()];
+                        if (message != null && !message.isEmpty()) {
+                            if (entity.getPosition().getX() < this.getRoom().getModel().getSquareHeight().length && entity.getPosition().getY() < this.getRoom().getModel().getSquareHeight()[entity.getPosition().getX()].length) {
+                                final String status = "" + this.room.getModel().getSquareHeight()[entity.getPosition().getX()][entity.getPosition().getY()];
 
-                            switch (message) {
-                                case "sit":
-                                    entity.addStatus(RoomEntityStatus.SIT, status);
-                                    entity.markNeedsUpdate();
-                                    break;
+                                switch (message) {
+                                    case "sit":
+                                        entity.addStatus(RoomEntityStatus.SIT, status);
+                                        entity.markNeedsUpdate();
+                                        break;
 
-                                case "lay":
-                                    entity.addStatus(RoomEntityStatus.LAY, status);
-                                    entity.markNeedsUpdate();
-                                    break;
+                                    case "lay":
+                                        entity.addStatus(RoomEntityStatus.LAY, status);
+                                        entity.markNeedsUpdate();
+                                        break;
 
-                                default:
-                                    this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(entity.getId(), message, 0, 0));
-                                    break;
+                                    default:
+                                        this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(entity.getId(), message, 0, 0));
+                                        break;
+                                }
                             }
                         }
+
+                        petEntity.resetCycleCount();
                     }
 
-                    petEntity.resetCycleCount();
+                    petEntity.incrementCycleCount();
+                } catch(Exception e) {
+                    // Error processing pet.
+                    log.error("Error while processing pet specifics.", e);
                 }
-
-                petEntity.incrementCycleCount();
             }
         }
 
