@@ -247,3 +247,21 @@ CREATE TABLE IF NOT EXISTS `player_achievements` (
   UNIQUE KEY `player_id_group` (`player_id`,`group`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE IF NOT EXISTS `server_ranks` (
+  `rank_id` int(11) NOT NULL DEFAULT '1',
+  `title` varchar(50) NOT NULL DEFAULT 'Player',
+  `badge_id` varchar(50) DEFAULT 'Player',
+  `permission_mod_tool` enum('1','0') NOT NULL DEFAULT '0',
+  `permission_room_full_control` enum('1','0') NOT NULL DEFAULT '0',
+  `permission_bypass_filter` enum('1','0') NOT NULL DEFAULT '0',
+  `permission_room_unkickable` enum('1','0') NOT NULL DEFAULT '0',
+  `permission_unignorable` enum('1','0') NOT NULL DEFAULT '0',
+  `permission_room_staff_pick` enum('1','0') NOT NULL DEFAULT '0',
+  `flood_length` int(11) DEFAULT '30',
+  PRIMARY KEY (`rank_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `server_ranks` (`rank_id`, `title`, `badge_id`, `permission_mod_tool`, `permission_room_full_control`, `permission_bypass_filter`, `permission_room_unkickable`, `permission_unignorable`, `permission_room_staff_pick`, `flood_length`) VALUES
+	(1, 'Player', NULL, '0', '0', '0', '0', '0', '0', 30),
+	(2, 'VIP', 'VIP', '0', '0', '0', '0', '0', '0', 15),
+	(3, 'Super VIP', 'SVIP', '0', '0', '0', '0', '0', '0', 5);
