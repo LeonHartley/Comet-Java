@@ -20,8 +20,8 @@ public class ItemManager implements Initializable {
     private Logger log = Logger.getLogger(ItemManager.class.getName());
 
     private Map<Integer, ItemDefinition> itemDefinitions;
-    private Map<Integer, Integer> itemSpriteIdToDefinitionId;
 
+    private Map<Integer, Integer> itemSpriteIdToDefinitionId;
     private Map<Integer, MusicData> musicData;
 
     public ItemManager() {
@@ -119,6 +119,10 @@ public class ItemManager implements Initializable {
 
     public ItemDefinition getBySpriteId(int spriteId) {
         return this.itemDefinitions.get(this.itemSpriteIdToDefinitionId.get(spriteId));
+    }
+
+    public Logger getLogger() {
+        return log;
     }
 
     public Map<Integer, ItemDefinition> getItemDefinitions() {
