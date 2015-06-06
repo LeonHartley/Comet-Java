@@ -1,6 +1,7 @@
 package com.cometproject.server.storage.queries.items;
 
 import com.cometproject.server.game.catalog.purchase.CatalogPurchaseHandler;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.SqlHelper;
 
@@ -30,7 +31,11 @@ public class ItemDao {
 
             while (resultSet.next()) {
 //                if(resultSet.getString("id").length() > 9) continue;
-                data.put(resultSet.getInt("id"), new ItemDefinition(resultSet));
+                try {
+                    data.put(resultSet.getInt("id"), new ItemDefinition(resultSet));
+                } catch(Exception e) {
+                    ItemManager.getInstance().getLogger().warn("Error while loading item definition for ID: " + resultSet.getInt("id"), e);
+                }
             }
 
         } catch (SQLException e) {
