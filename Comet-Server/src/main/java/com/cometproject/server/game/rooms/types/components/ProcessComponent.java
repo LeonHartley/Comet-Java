@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
+import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.EntityPathfinder;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -310,124 +311,130 @@ public class ProcessComponent implements CometTask {
         return false;
     }
 
-    protected boolean processEntity(GenericEntity entity) {
+    private boolean processEntity(GenericEntity entity) {
+        return this.processEntity(entity, false);
+    }
+
+    private boolean processEntity(GenericEntity entity, boolean isRetry) {
         boolean isPlayer = entity instanceof PlayerEntity;
 
         if (isPlayer && ((PlayerEntity) entity).getPlayer() == null || entity.getRoom() == null) {
             return true; // adds it to the to remove list automatically..
         }
 
-        if (isPlayer) {
-            // Handle flood
-            if (((PlayerEntity) entity).getPlayer().getRoomFloodTime() >= 0.5) {
-                ((PlayerEntity) entity).getPlayer().setRoomFloodTime(((PlayerEntity) entity).getPlayer().getRoomFloodTime() - 0.5);
+        if(!isRetry) {
+            if (isPlayer) {
+                // Handle flood
+                if (((PlayerEntity) entity).getPlayer().getRoomFloodTime() >= 0.5) {
+                    ((PlayerEntity) entity).getPlayer().setRoomFloodTime(((PlayerEntity) entity).getPlayer().getRoomFloodTime() - 0.5);
 
-                if (((PlayerEntity) entity).getPlayer().getRoomFloodTime() < 0) {
-                    ((PlayerEntity) entity).getPlayer().setRoomFloodTime(0);
-                }
-            }
-        } else {
-            int chance = RandomInteger.getRandom(1, (entity.hasStatus(RoomEntityStatus.SIT) || entity.hasStatus(RoomEntityStatus.LAY)) ? 20 : 6);
-
-            if (!(entity instanceof PetEntity) || !entity.hasMount()) {
-                boolean newStep = true;
-
-                if (entity instanceof BotEntity) {
-                    BotEntity botEntity = ((BotEntity) entity);
-
-                    if (botEntity.getData().getMode().equals("relaxed")) {
-                        newStep = false;
+                    if (((PlayerEntity) entity).getPlayer().getRoomFloodTime() < 0) {
+                        ((PlayerEntity) entity).getPlayer().setRoomFloodTime(0);
                     }
-                }
-
-                if (chance == 1 && newStep) {
-                    if (!entity.isWalking()) {
-                        int x = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeX());
-                        int y = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeY());
-
-                        if (this.getRoom().getMapping().isValidStep(entity.getPosition(), new Position(x, y, 0d), true) && x != this.getRoom().getModel().getDoorX() && y != this.getRoom().getModel().getDoorY()) {
-                            entity.moveTo(x, y);
-                        }
-                    }
-                }
-            }
-
-            if (entity instanceof BotEntity) {
-                try {
-                    if (((BotEntity) entity).getCycleCount() == ((BotEntity) entity).getData().getChatDelay() * 2) {
-                        String message = ((BotEntity) entity).getData().getRandomMessage();
-
-                        if (message != null && !message.isEmpty()) {
-                            this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(entity.getId(), message, 0, 2));
-                        }
-
-                        ((BotEntity) entity).resetCycleCount();
-                    }
-
-                    ((BotEntity) entity).incrementCycleCount();
-                } catch (Exception ignored) {
-
                 }
             } else {
-                // It's a pet.
-                PetEntity petEntity = (PetEntity) entity;
+                int chance = RandomInteger.getRandom(1, (entity.hasStatus(RoomEntityStatus.SIT) || entity.hasStatus(RoomEntityStatus.LAY)) ? 20 : 6);
 
-                try {
-                    if (petEntity.getCycleCount() == 50 && ((PetEntity) entity).getData().getSpeech().length > 0) { // 25 seconds
-                        int messageKey = RandomInteger.getRandom(0, ((PetEntity) entity).getData().getSpeech().length - 1);
-                        String message = ((PetEntity) entity).getData().getSpeech()[messageKey];
+                if (!(entity instanceof PetEntity) || !entity.hasMount()) {
+                    boolean newStep = true;
 
-                        if (message != null && !message.isEmpty()) {
-                            if (entity.getPosition().getX() < this.getRoom().getModel().getSquareHeight().length && entity.getPosition().getY() < this.getRoom().getModel().getSquareHeight()[entity.getPosition().getX()].length) {
-                                final String status = "" + this.room.getModel().getSquareHeight()[entity.getPosition().getX()][entity.getPosition().getY()];
+                    if (entity instanceof BotEntity) {
+                        BotEntity botEntity = ((BotEntity) entity);
 
-                                switch (message) {
-                                    case "sit":
-                                        entity.addStatus(RoomEntityStatus.SIT, status);
-                                        entity.markNeedsUpdate();
-                                        break;
+                        if (botEntity.getData().getMode().equals("relaxed")) {
+                            newStep = false;
+                        }
+                    }
 
-                                    case "lay":
-                                        entity.addStatus(RoomEntityStatus.LAY, status);
-                                        entity.markNeedsUpdate();
-                                        break;
+                    if (chance == 1 && newStep) {
+                        if (!entity.isWalking()) {
+                            int x = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeX());
+                            int y = RandomInteger.getRandom(0, this.getRoom().getModel().getSizeY());
 
-                                    default:
-                                        this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(entity.getId(), message, 0, 0));
-                                        break;
-                                }
+                            if (this.getRoom().getMapping().isValidStep(entity.getPosition(), new Position(x, y, 0d), true) && x != this.getRoom().getModel().getDoorX() && y != this.getRoom().getModel().getDoorY()) {
+                                entity.moveTo(x, y);
                             }
                         }
-
-                        petEntity.resetCycleCount();
                     }
+                }
 
-                    petEntity.incrementCycleCount();
-                } catch(Exception e) {
-                    // Error processing pet.
-                    log.error("Error while processing pet specifics.", e);
+                if (entity instanceof BotEntity) {
+                    try {
+                        if (((BotEntity) entity).getCycleCount() == ((BotEntity) entity).getData().getChatDelay() * 2) {
+                            String message = ((BotEntity) entity).getData().getRandomMessage();
+
+                            if (message != null && !message.isEmpty()) {
+                                this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(entity.getId(), message, 0, 2));
+                            }
+
+                            ((BotEntity) entity).resetCycleCount();
+                        }
+
+                        ((BotEntity) entity).incrementCycleCount();
+                    } catch (Exception ignored) {
+
+                    }
+                } else {
+                    // It's a pet.
+                    PetEntity petEntity = (PetEntity) entity;
+
+                    try {
+                        if (petEntity.getCycleCount() == 50 && ((PetEntity) entity).getData().getSpeech().length > 0) { // 25 seconds
+                            int messageKey = RandomInteger.getRandom(0, ((PetEntity) entity).getData().getSpeech().length - 1);
+                            String message = ((PetEntity) entity).getData().getSpeech()[messageKey];
+
+                            if (message != null && !message.isEmpty()) {
+                                if (entity.getPosition().getX() < this.getRoom().getModel().getSquareHeight().length && entity.getPosition().getY() < this.getRoom().getModel().getSquareHeight()[entity.getPosition().getX()].length) {
+                                    final String status = "" + this.room.getModel().getSquareHeight()[entity.getPosition().getX()][entity.getPosition().getY()];
+
+                                    switch (message) {
+                                        case "sit":
+                                            entity.addStatus(RoomEntityStatus.SIT, status);
+                                            entity.markNeedsUpdate();
+                                            break;
+
+                                        case "lay":
+                                            entity.addStatus(RoomEntityStatus.LAY, status);
+                                            entity.markNeedsUpdate();
+                                            break;
+
+                                        default:
+                                            this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(entity.getId(), message, 0, 0));
+                                            break;
+                                    }
+                                }
+                            }
+
+                            petEntity.resetCycleCount();
+                        }
+
+                        petEntity.incrementCycleCount();
+                    } catch (Exception e) {
+                        // Error processing pet.
+                        log.error("Error while processing pet specifics.", e);
+                    }
                 }
             }
-        }
 
-        if (entity.handItemNeedsRemove() && entity.getHandItem() != 0) {
-            entity.carryItem(0);
-            entity.setHandItemTimer(0);
-        }
+            if (entity.handItemNeedsRemove() && entity.getHandItem() != 0) {
+                entity.carryItem(0);
+                entity.setHandItemTimer(0);
+            }
 
-        // Handle signs
-        if (entity.hasStatus(RoomEntityStatus.SIGN) && !entity.isDisplayingSign()) {
-            entity.removeStatus(RoomEntityStatus.SIGN);
-            entity.markNeedsUpdate();
-        }
+            // Handle signs
+            if (entity.hasStatus(RoomEntityStatus.SIGN) && !entity.isDisplayingSign()) {
+                entity.removeStatus(RoomEntityStatus.SIGN);
+                entity.markNeedsUpdate();
+            }
 
-        if (entity instanceof PlayerEntity && entity.isIdleAndIncrement()) {
-            if (entity.getIdleTime() >= 2400) {
-                return true;
-            } else {
-                // Set idle status!
-                this.room.getEntities().broadcastMessage(new IdleStatusMessageComposer(entity.getId(), true));
-                entity.resetIdleTime();
+            if (entity instanceof PlayerEntity && entity.isIdleAndIncrement()) {
+                if (entity.getIdleTime() >= 2400) {
+                    return true;
+                } else {
+                    // Set idle status!
+                    this.room.getEntities().broadcastMessage(new IdleStatusMessageComposer(entity.getId(), true));
+                    entity.resetIdleTime();
+                }
             }
         }
 
@@ -547,7 +554,12 @@ public class ProcessComponent implements CometTask {
                 if (entity.getWalkingPath() != null) {
                     entity.getWalkingPath().clear();
                 }
+
                 entity.getProcessingPath().clear();
+
+                // Tile is blocked, let's try again!
+                entity.moveTo(entity.getWalkingGoal().getX(), entity.getWalkingGoal().getY());
+                return this.processEntity(entity, true);
             }
         } else {
             if (isPlayer && ((PlayerEntity) entity).isKicked())

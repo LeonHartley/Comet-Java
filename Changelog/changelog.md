@@ -1,11 +1,13 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 07/05/2015
+* Fixed walking interruptions (See: http://gyazo.com/54edee79b2298c26d3c7d62d17f9fc48.mp4)
+
 ## 31/05/2015
 * Lots of work on achievements
 * Improvements with unseen inventory items (Bots, pets and badges now use this system too)
 * Fixed bug with limited edition items not working properly on first purchase.
-
 
 ## 23/05/2015
 * Minor optimizations to group membership list
