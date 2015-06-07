@@ -284,9 +284,6 @@ public class ProcessComponent implements CometTask {
                     if (playerEntity.getPlayer() != null && playerEntity.getPlayer().getData().getQuestId() != 0 && playerEntity.getPlayer().getQuests() != null)
                         ((PlayerEntity) entity).getPlayer().getQuests().progressQuest(QuestType.EXPLORE_FIND_ITEM, item.getDefinition().getSpriteId());
                 }
-
-                item.onEntityStepOn(entity);
-                WiredTriggerWalksOnFurni.executeTriggers(entity, item);
             }
 
             if (newTile != null && newTile.getTopItem() != 0) {
@@ -302,6 +299,9 @@ public class ProcessComponent implements CometTask {
                             entity.applyEffect(new PlayerEffect(topItem.getDefinition().getEffectId(), true));
                         }
                     }
+
+                    topItem.onEntityStepOn(entity);
+                    WiredTriggerWalksOnFurni.executeTriggers(entity, topItem);
                 }
             }
 
