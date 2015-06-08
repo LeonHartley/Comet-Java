@@ -90,7 +90,7 @@ public class ItemDefinition {
     }
 
     public boolean isAdFurni() {
-        return itemName.equals("ads_mpu_720") || this.itemName.equals("ads_background") || this.itemName.equals("ads_mpu_300") || this.itemName.equals("ads_mpu_160") || this.itemName.equals("backgroundk");
+        return itemName.equals("ads_mpu_720") || this.itemName.equals("ads_background") || this.itemName.equals("ads_mpu_300") || this.itemName.equals("ads_mpu_160") || this.itemName.equals("backgroundk") || this.interaction.equals("ads_background");
     }
 
     public boolean isRoomDecor() {
