@@ -18,6 +18,7 @@ Bugs
 ==================
 * Floor/wallpaper gifting
 * Sitting on a chair which is stacked on a "adjustable_height" item will have issues
+* Better detection of players logging out/logged out in a room
 
 Improvements
 ==================
