@@ -47,7 +47,7 @@ public class PlayerManager implements Initializable {
             log.info("Initializing Player cache");
 
             final int oneDay = 24 * 60 * 60;
-            this.playerAvatarCache = new Cache("playerAvatarCache", 5000, false, false, oneDay, oneDay);
+            this.playerAvatarCache = new Cache("playerAvatarCache", 75000, false, false, oneDay, oneDay);
 
             CacheManager.getInstance().addCache(this.playerAvatarCache);
         } else {

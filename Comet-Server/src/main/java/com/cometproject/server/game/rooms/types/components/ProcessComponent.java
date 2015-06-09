@@ -433,7 +433,6 @@ public class ProcessComponent implements CometTask {
                 } else {
                     // Set idle status!
                     this.room.getEntities().broadcastMessage(new IdleStatusMessageComposer(entity.getId(), true));
-                    entity.resetIdleTime();
                 }
             }
         }

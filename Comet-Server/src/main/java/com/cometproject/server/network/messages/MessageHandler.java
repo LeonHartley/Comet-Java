@@ -448,6 +448,16 @@ public final class MessageHandler {
 
                         event.handle(client, message);
 
+                        long timeTakenSinceCreation = ((System.currentTimeMillis() - start));
+
+                        // If the packet took more than 750ms to be handled, red flag!
+                        if (timeTakenSinceCreation >= 100) {
+                            if (client.getPlayer() != null && client.getPlayer().getData() != null)
+                                log.warn("[" + event.getClass().getSimpleName() + "][" + message.getId() + "][" + client.getPlayer().getId() + "][" + client.getPlayer().getData().getUsername() + "] Packet took " + timeTakenSinceCreation + "ms to execute");
+                            else
+                                log.warn("[" + event.getClass().getSimpleName() + "][" + message.getId() + "] Packet took " +  timeTakenSinceCreation + "ms to execute");
+                        }
+
                         log.debug("Finished packet process for packet: [" + event.getClass().getSimpleName() + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");
                     }
                 }
