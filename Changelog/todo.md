@@ -27,7 +27,6 @@ Improvements
 * More queued database writes
 * New rank system
 
-
 Commands
 ==================
 * Reload playlist
