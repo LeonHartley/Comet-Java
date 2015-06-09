@@ -394,22 +394,22 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public String getUsername() {
-        return this.playerData.getUsername();
+        return this.playerData == null ? "UnknownPlayer" + this.playerId : this.playerData.getUsername();
     }
 
     @Override
     public String getMotto() {
-        return this.playerData.getMotto();
+        return this.playerData == null ? "" : this.playerData.getMotto();
     }
 
     @Override
     public String getFigure() {
-        return this.playerData.getFigure();
+        return this.playerData == null ? "" : this.playerData.getFigure();
     }
 
     @Override
     public String getGender() {
-        return this.playerData.getGender();
+        return this.playerData == null ? "M" : this.playerData.getGender();
     }
 
     @Override
