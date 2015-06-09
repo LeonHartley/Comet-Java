@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.user.profile;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.RelationshipComponent;
 import com.cometproject.server.game.players.components.types.messenger.RelationshipLevel;
 import com.cometproject.server.game.players.data.PlayerAvatar;
@@ -54,7 +55,7 @@ public class RelationshipsMessageComposer extends MessageComposer {
         for (Integer relationshipKey : relationshipKeys) {
             RelationshipLevel level = relationships.get(relationshipKey);
 
-            PlayerAvatar data = PlayerDao.getAvatarById(relationshipKey, PlayerAvatar.USERNAME_FIGURE);
+            PlayerAvatar data = PlayerManager.getInstance().getAvatarByPlayerId(relationshipKey, PlayerAvatar.USERNAME_FIGURE);
 
             if (data == null) {
                 msg.writeInt(0);

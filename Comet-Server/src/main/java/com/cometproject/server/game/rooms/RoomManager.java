@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class RoomManager implements Initializable {
@@ -42,6 +44,8 @@ public class RoomManager implements Initializable {
     private RoomCycle globalCycle;
     private ChatEmotionsManager emotions;
 
+    private ExecutorService executorService;
+
     public RoomManager() {
 
     }
@@ -63,6 +67,7 @@ public class RoomManager implements Initializable {
         this.loadModels();
 
         this.globalCycle.start();
+        this.executorService = Executors.newFixedThreadPool(2);
 
         log.info("RoomManager initialized");
     }
@@ -79,6 +84,14 @@ public class RoomManager implements Initializable {
         RoomDao.getActivePromotions(this.roomPromotions);
 
         log.info("Loaded " + this.getRoomPromotions().size() + " room promotions");
+    }
+
+    public void initializeRoom(Session initializer, int roomId, String password) {
+        this.executorService.submit(() -> {
+            if(initializer != null && initializer.getPlayer() != null) {
+                initializer.getPlayer().loadRoom(roomId, password);
+            }
+        });
     }
 
     public void loadModels() {

@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.incoming.room.engine;
 import com.cometproject.server.game.quests.Quest;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.game.quests.QuestType;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.quests.QuestStartedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.quests.QuestStoppedMessageComposer;
@@ -19,6 +20,6 @@ public class InitializeRoomMessageEvent implements Event {
         int id = msg.readInt();
         String password = msg.readString();
 
-        client.getPlayer().loadRoom(id, password);
+        RoomManager.getInstance().initializeRoom(client, id, password);
     }
 }

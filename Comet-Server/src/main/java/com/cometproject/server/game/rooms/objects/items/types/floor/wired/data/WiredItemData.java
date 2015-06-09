@@ -4,6 +4,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredI
 import com.cometproject.server.utilities.JsonData;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ public class WiredItemData implements JsonData {
     public WiredItemData(int selectionType, List<Integer> selectedIds, String text, Map<Integer, Integer> params, Map<Integer, WiredItemSnapshot> snapshots) {
         this.selectionType = selectionType;
         this.selectedIds = selectedIds;
-        this.text = text;
+        this.text = StringUtils.abbreviate(text, 100);
         this.params = params;
         this.snapshots = snapshots;
     }
@@ -53,7 +54,7 @@ public class WiredItemData implements JsonData {
     }
 
     public void setText(String text) {
-        this.text = text;
+        this.text = StringUtils.abbreviate(text, 100);
     }
 
     public Map<Integer, Integer> getParams() {

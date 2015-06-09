@@ -189,7 +189,7 @@ public class PlayerDao {
 
             String query;
 
-            switch(mode) {
+            switch (mode) {
                 case PlayerAvatar.USERNAME_FIGURE:
                     query = "SELECT username, figure FROM players WHERE id = ?";
                     break;
@@ -210,7 +210,7 @@ public class PlayerDao {
             while (resultSet.next()) {
                 final PlayerAvatar playerAvatar = new PlayerAvatarData(id, resultSet.getString("username"), resultSet.getString("figure"));
 
-                if(mode == PlayerAvatar.USERNAME_FIGURE_MOTTO) {
+                if (mode == PlayerAvatar.USERNAME_FIGURE_MOTTO) {
                     playerAvatar.setMotto(resultSet.getString("motto"));
                 }
 
@@ -228,6 +228,38 @@ public class PlayerDao {
         return null;
     }
 
+    public static String getMottoByPlayerId(int playerId) {
+        getPlayerAvatarCalls.incrementAndGet();
+
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            String query = "SELECT motto FROM players WHERE id = ?";
+
+            preparedStatement = SqlHelper.prepare(query, sqlConnection);
+
+            preparedStatement.setInt(1, playerId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return resultSet.getString("motto");
+            }
+
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return "";
+    }
 
     public static PlayerSettings getSettingsById(int id) {
         getPlayerSettingsCalls.incrementAndGet();

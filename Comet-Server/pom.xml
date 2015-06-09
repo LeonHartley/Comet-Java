@@ -8,12 +8,12 @@
 
     <packaging>jar</packaging>
 
-    <version>0.18.4-ALPHA2</version>
+    <version>0.19.1-EXPERIMENTAL1</version>
 
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>
-        <version>0.18.4-ALPHA2</version>
+        <version>0.19.1-EXPERIMENTAL1</version>
     </parent>
 
     <build>
@@ -187,7 +187,7 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-API</artifactId>
-            <version>0.18.4-ALPHA2</version>
+            <version>0.19.1-EXPERIMENTAL1</version>
         </dependency>
 
         <dependency>
@@ -357,6 +357,13 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+
 
     </dependencies>
 </project>

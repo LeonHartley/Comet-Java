@@ -8,6 +8,7 @@ import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.storage.ItemStorageQueue;
 import com.cometproject.server.game.items.types.ItemDefinition;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
@@ -75,7 +76,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
 
         if (this instanceof GiftFloorItem) {
             final GiftData giftData = ((GiftFloorItem) this).getGiftData();
-            final PlayerAvatar purchaser = PlayerDao.getAvatarById(giftData.getSenderId(), PlayerAvatar.USERNAME_FIGURE);
+            final PlayerAvatar purchaser = PlayerManager.getInstance().getAvatarByPlayerId(giftData.getSenderId(), PlayerAvatar.USERNAME_FIGURE);
 
             msg.writeInt(giftData.getWrappingPaper() * 1000 + giftData.getDecorationType());
             msg.writeInt(1);

@@ -25,6 +25,8 @@ public class PlayerInfoCommand extends ChatCommand {
             playerData = session.getPlayer().getData();
         }
 
+        if(playerData == null) return;
+
         if(PermissionsManager.getInstance().getPermissions().get("mod_tool").getRank() <= playerData.getRank() && !client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             // send player info failed alert
             client.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.playerinfo.title", "Player Information") + ": " + username, Locale.getOrDefault("command.playerinfo.staff", "You cannot view the information of a staff member!")));
@@ -59,6 +61,11 @@ public class PlayerInfoCommand extends ChatCommand {
         }
 
         client.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.playerinfo.title", "Player Information") + ": " + username, userInfo.toString()));
+    }
+
+    @Override
+    public boolean isAsync() {
+        return true;
     }
 
     @Override

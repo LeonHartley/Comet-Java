@@ -13,6 +13,6 @@ public class PurchaseItemMessageEvent implements Event {
         String data = msg.readString();
         int amount = msg.readInt();
 
-        CatalogManager.getInstance().getPurchaseHandler().handle(client, pageId, itemId, data, amount, null);
+        CatalogManager.getInstance().getPurchaseHandler().purchaseItem(client, pageId, itemId, data, amount, null);
     }
 }

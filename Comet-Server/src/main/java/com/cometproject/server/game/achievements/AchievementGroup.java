@@ -17,6 +17,10 @@ public class AchievementGroup {
         this.category = category;
     }
 
+    public int getLevelCount() {
+        return this.achievements.size();
+    }
+
     public Achievement getAchievement(int level) {
         return this.achievements.get(level);
     }
