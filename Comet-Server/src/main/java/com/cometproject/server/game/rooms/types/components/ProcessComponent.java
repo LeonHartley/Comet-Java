@@ -67,10 +67,10 @@ public class ProcessComponent implements CometTask {
         if(this.getProcessTimes() != null && this.getProcessTimes().size() < 30) {
             log.info("Time since last process: " + timeSinceLastProcess + "ms");
         }
-
-        if(this.lastProcess != 0 && timeSinceLastProcess >= 550) {
-            log.warn("Delayed room process (Last process was " + timeSinceLastProcess + "ms ago)");
-        }
+//
+//        if(this.lastProcess != 0 && timeSinceLastProcess >= 550) {
+//            log.warn("Delayed room process (Last process was " + timeSinceLastProcess + "ms ago)");
+//        }
 
         long timeStart = System.currentTimeMillis();
 

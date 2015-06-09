@@ -33,8 +33,8 @@ public class AchievementUnlockedMessageComposer extends MessageComposer {
         msg.writeInt(0);
         msg.writeInt(10);
         msg.writeInt(21);
-        msg.writeString(achievementLevel > 1 ? achievementGroup.getGroupName() + (achievementLevel + 1) : "");
+        msg.writeString(achievementLevel > 1 ? achievementGroup.getGroupName() + (achievementLevel - 1) : "");
         msg.writeString(achievementGroup.getCategory().toString().toLowerCase());
-        msg.writeBoolean(true);
+        msg.writeBoolean(false);
     }
 }

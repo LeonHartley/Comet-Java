@@ -35,6 +35,7 @@ import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.utilities.JsonFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -43,10 +44,21 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class CatalogPurchaseHandler {
     private final Logger log = Logger.getLogger(CatalogPurchaseHandler.class.getName());
+    private final ExecutorService executorService;
+
+    public CatalogPurchaseHandler() {
+        this.executorService = Executors.newFixedThreadPool(2);
+    }
+
+    public void purchaseItem(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
+        this.executorService.submit(() -> this.handle(client, pageId, itemId, data, amount, giftData));
+    }
 
     /**
      * Handle the catalog purchase
@@ -58,7 +70,7 @@ public class CatalogPurchaseHandler {
      * @param amount   The amount of items we're purchasing
      * @param giftData Gift data (if-any)
      */
-    public void handle(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
+    private void handle(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
         if (client == null || client.getPlayer() == null) return;
 
         // TODO: redo all of this, it sucks so bad ;P, maybe add purchase handlers for each item or some crap

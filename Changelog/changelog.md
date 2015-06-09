@@ -1,6 +1,10 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 09/05/2015
+* New player data caching system
+* Abstracted some things such as 
+
 ## 07/05/2015
 * Fixed walking interruptions (See: http://gyazo.com/54edee79b2298c26d3c7d62d17f9fc48.mp4)
 * Walk-on trigger is now only triggered if the item is on top.

@@ -92,7 +92,7 @@ public class GroupMembersMessageComposer extends MessageComposer {
                 }
 
                 if(playerAvatar == null) {
-                    playerAvatar = PlayerDao.getAvatarById(playerId, PlayerAvatar.USERNAME_FIGURE);
+                    playerAvatar = PlayerManager.getInstance().getAvatarByPlayerId(playerId, PlayerAvatar.USERNAME_FIGURE);
                 }
 
                 if(playerAvatar != null) {

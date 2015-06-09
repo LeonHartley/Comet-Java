@@ -60,7 +60,6 @@ public class TalkMessageEvent implements Event {
                     playerEntity);
         }
 
-        playerEntity.getPlayer().getAchievements().progressAchievement(AchievementType.LOGIN, 1);
         playerEntity.postChat(filteredMessage);
     }
 

@@ -18,6 +18,11 @@ public class HotelAlertCommand extends ChatCommand {
     }
 
     @Override
+    public boolean isAsync() {
+        return true;
+    }
+
+    @Override
     public String getPermission() {
         return "hotelalert_command";
     }

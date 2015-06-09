@@ -6,6 +6,7 @@ import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
+import org.apache.commons.lang3.StringUtils;
 
 
 public class IpBanCommand extends ChatCommand {
@@ -16,7 +17,7 @@ public class IpBanCommand extends ChatCommand {
         }
 
         String username = params[0];
-        int length = Integer.parseInt(params[1]);
+        int length = StringUtils.isNumeric(params[1]) ? Integer.parseInt(params[1]) : 0;
 
         Session user = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 

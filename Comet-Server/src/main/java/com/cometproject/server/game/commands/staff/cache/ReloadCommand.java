@@ -161,6 +161,11 @@ public class ReloadCommand extends ChatCommand {
     }
 
     @Override
+    public boolean isAsync() {
+        return true;
+    }
+
+    @Override
     public String getPermission() {
         return "reload_command";
     }
