@@ -8,8 +8,8 @@
                 #foreach($instance in $instances)
                     <a href="/instance/$instance.id">
                         <li class="list-group-item">
-                            <span class="badge badge-success">Online</span>
                             $instance.name
+                            &nbsp;&nbsp;<span class="label label-success">Online</span>
                         </li>
                     </a>
                 #end
@@ -17,9 +17,31 @@
         </div>
     </div>
     <div class="col-md-8">
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+                <div class="well">
+                    <center><b>x</b> open tickets</center>
+                </div>
+            </div>
 
+            <div class="col-sm-6 col-md-4">
+                <div class="well">
+                    <center><b>x</b> active instances</center>
+                </div>
+            </div>
 
+            <div class="col-sm-6 col-md-4">
+                <div class="well">
+                    <center><b>x,xxx</b> players online</center>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>Notifications</b></div>
+            <div class="panel-body">
+                You have no unread notifications.
+            </div>
+        </div>
     </div>
-</div>
 
 #include('/templates/base/footer.vm')
