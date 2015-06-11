@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Comet: Login</title>
+    <title>Comet Manager</title>
 
     <link rel='stylesheet' href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css' type='text/css' />
     <link rel='stylesheet' href='/css/app.css' type='text/css' />
