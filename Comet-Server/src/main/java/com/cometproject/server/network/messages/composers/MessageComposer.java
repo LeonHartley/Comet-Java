@@ -26,6 +26,7 @@ public abstract class MessageComposer implements IMessageComposer {
             this.compose(composer);
         } catch (Exception e) {
             Comet.getServer().getLogger().error("Error during message composing", e);
+            throw e;
         } finally {
             this.dispose();
         }
