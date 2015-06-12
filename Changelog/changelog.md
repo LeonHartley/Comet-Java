@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 12/06/2015
+* Catalog bundles 
+
 ## 09/05/2015
 * New player data caching system
 * Moved some of the more time consuming tasks to other threads (Player login, room loading and catalog purchasing)
