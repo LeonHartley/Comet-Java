@@ -109,7 +109,7 @@ public class CatalogPurchaseHandler {
 
             if (giftData != null) {
                 try {
-                    final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0));
+                    final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
 
                     if (itemDefinition != null && !itemDefinition.canGift()) {
                         return;
@@ -179,8 +179,8 @@ public class CatalogPurchaseHandler {
                 return;
             }
 
-            for (int newItemId : item.getItems()) {
-                ItemDefinition def = ItemManager.getInstance().getDefinition(newItemId);
+            for (CatalogItem.CatalogBundledItem bundledItem : item.getItems()) {
+                ItemDefinition def = ItemManager.getInstance().getDefinition(bundledItem.getItemId());
                 if (def == null) {
                     continue;
                 }
@@ -320,8 +320,8 @@ public class CatalogPurchaseHandler {
                     purchases.add(new CatalogPurchase(playerIdToDeliver, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData)));
                 } else {
                     for (int purchaseCount = 0; purchaseCount < amount; purchaseCount++) {
-                        for (int itemCount = 0; itemCount != item.getAmount(); itemCount++) {
-                            purchases.add(new CatalogPurchase(client.getPlayer().getId(), newItemId, extraData));
+                        for (int itemCount = 0; itemCount != bundledItem.getAmount(); itemCount++) {
+                            purchases.add(new CatalogPurchase(client.getPlayer().getId(), bundledItem.getItemId(), extraData));
                         }
                     }
                 }
@@ -337,7 +337,7 @@ public class CatalogPurchaseHandler {
                     }
 
                     if (giftData == null)
-                        unseenItems.add(client.getPlayer().getInventory().add(newItem, newItemId, extraData, giftData, item.getLimitedTotal() > 0 ? new LimitedEditionItem(newItemId, item.getLimitedSells(), item.getLimitedTotal()) : null));
+                        unseenItems.add(client.getPlayer().getInventory().add(newItem, bundledItem.getItemId(), extraData, giftData, item.getLimitedTotal() > 0 ? new LimitedEditionItem(bundledItem.getItemId(), item.getLimitedSells(), item.getLimitedTotal()) : null));
 
                     if (isTeleport)
                         teleportIds[newItems.indexOf(newItem)] = newItem;

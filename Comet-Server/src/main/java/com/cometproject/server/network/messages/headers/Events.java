@@ -178,7 +178,7 @@ public class Events {
     public static final short GetSellablePetBreedsMessageEvent = 3077;//504
     public static final short PurchaseFromCatalogMessageEvent = 2013;//197
     public static final short UserDanceMessageEvent = 1743;//1956
-    public static final short HorseMountOnMessageEvent = 3476;//2378
+    public static final short HorseMountOnMessageEvent = 1415;//2378
     public static final short TriggerItemMessageEvent = 1777;//1630
     public static final short ModerationToolSendRoomAlertMessageEvent = 426;//1644
     public static final short GroupUpdateSettingsMessageEvent = 1553;//199
