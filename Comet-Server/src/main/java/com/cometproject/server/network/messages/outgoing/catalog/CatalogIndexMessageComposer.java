@@ -52,7 +52,7 @@ public class CatalogIndexMessageComposer extends MessageComposer {
             msg.writeInt(page.getOfferSize());
 
             for (CatalogItem item : page.getItems().values()) {
-                ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0));
+                ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
 
                 if(itemDefinition != null) {
                     int offerId = itemDefinition.getOfferId();
@@ -77,7 +77,7 @@ public class CatalogIndexMessageComposer extends MessageComposer {
                 msg.writeInt(child.getOfferSize());
 
                 for (CatalogItem item : child.getItems().values()) {
-                    ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0));
+                    ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
 
                     if (itemDefinition != null && itemDefinition.getOfferId() != -1 && itemDefinition.getOfferId() != 0) {
                         msg.writeInt(itemDefinition.getOfferId());

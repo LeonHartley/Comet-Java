@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.catalog;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.items.ItemManager;
@@ -54,17 +55,24 @@ public class CatalogDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                try {
-                    int itemId = Integer.parseInt(resultSet.getString("item_ids"));
+//                try {
+//                    int itemId = Integer.parseInt(resultSet.getString("item_ids"));
+//
+//                    if (itemId != -1 && !ItemManager.getInstance().getItemDefinitions().containsKey(itemId)) {
+//                        continue;
+//                    }
+//                } catch (Exception e) {
+//                    continue;
+//                }
 
-                    if (itemId != -1 && !ItemManager.getInstance().getItemDefinitions().containsKey(itemId)) {
-                        continue;
-                    }
-                } catch (Exception e) {
+                final CatalogItem catalogItem = new CatalogItem(resultSet);
+
+                if(catalogItem.getItems().size() == 0) {
+                    Comet.getServer().getLogger().warn(String.format("Catalog Item with ID: %s and name: %s has invalid item data! (Data: %s)", catalogItem.getId(), catalogItem.getDisplayName(), catalogItem.getItemId()));
                     continue;
                 }
 
-                data.put(resultSet.getInt("id"), new CatalogItem(resultSet));
+                data.put(resultSet.getInt("id"), catalogItem);
             }
 
         } catch (SQLException e) {
@@ -109,7 +117,7 @@ public class CatalogDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                if(resultSet.getString("type").equals("old")) {
+                if (resultSet.getString("type").equals("old")) {
                     giftBoxesOld.add(resultSet.getInt("sprite_id"));
                 } else {
                     giftBoxesNew.add(resultSet.getInt("sprite_id"));

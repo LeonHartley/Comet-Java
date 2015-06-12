@@ -6,11 +6,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class SqlHelper {
     private static StorageManager storage;
     private static Logger log = Logger.getLogger(SqlHelper.class.getName());
+
+    private static Map<String, AtomicInteger> queryCounters = new ConcurrentHashMap<>();
 
     public static void init(StorageManager storageEngine) {
         storage = storageEngine;
@@ -74,6 +79,12 @@ public class SqlHelper {
     }
 
     public static PreparedStatement prepare(String query, Connection con, boolean returnKeys) throws SQLException {
+        if(!queryCounters.containsKey(query)) {
+            queryCounters.put(query, new AtomicInteger(1));
+        } else {
+            queryCounters.get(query).incrementAndGet();
+        }
+
         return returnKeys ? con.prepareStatement(query, java.sql.Statement.RETURN_GENERATED_KEYS) : con.prepareStatement(query);
     }
 
@@ -84,5 +95,9 @@ public class SqlHelper {
 
     public static String escapeWildcards(String s) {
         return s.replaceAll("_", "\\\\_").replaceAll("%", "\\\\%");
+    }
+
+    public static Map<String, AtomicInteger> getQueryCounters() {
+        return queryCounters;
     }
 }

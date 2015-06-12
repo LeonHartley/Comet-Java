@@ -9,11 +9,14 @@ import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.clients.ClientHandler;
+import com.cometproject.server.storage.SqlHelper;
 import com.cometproject.server.utilities.CometStats;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class ConsoleCommands {
@@ -38,7 +41,7 @@ public class ConsoleCommands {
                                     log.error("Invalid command");
                                     break;
                                 case "/":
-                                    log.info("Commands available: /about, /reload_messages, /gc, /reload_permissions, /changemotd, /reload_catalog, /reload_bans, /reload_locale, /reload_permissions");
+                                    log.info("Commands available: /about, /reload_messages, /gc, /reload_permissions, /changemotd, /reload_catalog, /reload_bans, /reload_locale, /reload_permissions, /queries");
                                     break;
 
                                 case "/about":
@@ -99,6 +102,23 @@ public class ConsoleCommands {
                                     log.info("Locale configuration was reloaded.");
                                     break;
 
+                                case "/queries":
+
+                                    log.info("Queries");
+                                    log.info("================================================");
+
+                                    for(Map.Entry<String, AtomicInteger> query : SqlHelper.getQueryCounters().entrySet()) {
+                                        log.info("Query:" + query.getKey());
+                                        log.info("Count: "+ query.getValue().get());
+                                        log.info("");
+                                    }
+
+                                    break;
+
+                                case "/clear_queries":
+                                    SqlHelper.getQueryCounters().clear();
+                                    log.info("Query counters have been cleared.");
+                                    break;
                             }
                         } else {
                             log.error("Invalid command");

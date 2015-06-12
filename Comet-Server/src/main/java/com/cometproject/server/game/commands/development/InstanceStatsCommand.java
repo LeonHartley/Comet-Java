@@ -7,8 +7,13 @@ import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.clients.ClientHandler;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.SqlHelper;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class InstanceStatsCommand extends ChatCommand {
     @Override
@@ -21,6 +26,14 @@ public class InstanceStatsCommand extends ChatCommand {
         message.append("<b>Room Data</b><br>" + "Cached data instances: " + RoomManager.getInstance().getRoomDataInstances().size() + "<br>" + "<br>" + "<b>Group Data</b><br>" + "Cached data instances: " + GroupManager.getInstance().getGroupData().size() + "<br>" + "Cached instances: " + GroupManager.getInstance().getGroupInstances().size());
 
         client.send(new AlertMessageComposer(message.toString()));
+//
+//        final StringBuilder queryStats = new StringBuilder("Queries\n==============================================\n");
+//
+//        for(Map.Entry<String, AtomicInteger> query : SqlHelper.getQueryCounters().entrySet()) {
+//            queryStats.append("\n\nQuery: " + query.getKey()).append("\nCount: " + query.getValue().get());
+//        }
+//
+//        client.send(new MotdNotificationComposer(queryStats.toString()));
     }
 
     @Override
