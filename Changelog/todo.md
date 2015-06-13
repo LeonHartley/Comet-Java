@@ -27,6 +27,7 @@ Improvements
 * Player data cache support
 * More queued database writes
 * New rank system
+* Expand on the module API
 
 Commands
 ==================
