@@ -28,7 +28,11 @@ public class CatalogDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                pages.put(resultSet.getInt("id"), new CatalogPage(resultSet, getItemsByPage(resultSet.getInt("id"))));
+                try {
+                    pages.put(resultSet.getInt("id"), new CatalogPage(resultSet, getItemsByPage(resultSet.getInt("id"))));
+                } catch(Exception exception) {
+                    Comet.getServer().getLogger().warn("Failed to load catalog page: " + resultSet.getInt("id"));
+                }
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
