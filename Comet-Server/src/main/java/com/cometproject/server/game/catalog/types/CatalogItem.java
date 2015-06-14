@@ -108,7 +108,7 @@ public class CatalogItem {
         this.items = new ArrayList<>();
 
         if (itemId.contains(",")) {
-            String[] split = itemId.split(",");
+            String[] split = itemId.replace("\n", "").split(",");
 
             for (String str : split) {
                 if (!str.equals("")) {
