@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
@@ -41,11 +42,11 @@ public class PlacePetMessageEvent implements Event {
 
             Tile tile = room.getMapping().getTile(x, y);
 
-            if(tile == null) return;
+            if (tile == null) return;
 
             Position position = new Position(x, y, tile.getWalkHeight());
 
-            if ((!atDoor && tile.getEntities().size() >= 1) || !room.getMapping().isValidPosition(position)) {
+            if ((!atDoor && tile.getEntities().size() >= 1) || !room.getMapping().isValidPosition(position) || room.getModel().getSquareState()[x][y] != RoomTileState.VALID) {
                 return;
             }
 
@@ -53,7 +54,7 @@ public class PlacePetMessageEvent implements Event {
 
             room.getEntities().broadcastMessage(new AvatarsMessageComposer(petEntity));
 
-            for(RoomItemFloor floorItem : room.getItems().getItemsOnSquare(x, y)) {
+            for (RoomItemFloor floorItem : room.getItems().getItemsOnSquare(x, y)) {
                 floorItem.onEntityStepOn(petEntity);
             }
 
