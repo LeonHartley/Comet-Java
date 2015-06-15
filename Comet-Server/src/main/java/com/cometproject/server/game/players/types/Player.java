@@ -2,6 +2,7 @@ package com.cometproject.server.game.players.types;
 
 import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.networking.sessions.ISession;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
@@ -85,6 +86,8 @@ public class Player implements IPlayer {
 
     public boolean isDisposed = false;
 
+    private long lastReward = 0;
+
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
@@ -112,6 +115,7 @@ public class Player implements IPlayer {
         this.groups = GroupDao.getIdsByPlayerId(this.id);
 
         this.entity = null;
+        this.lastReward = Comet.getTime();
     }
 
     @Override
@@ -508,5 +512,15 @@ public class Player implements IPlayer {
 
     public void setTeleportRoomId(int teleportRoomId) {
         this.teleportRoomId = teleportRoomId;
+    }
+
+    @Override
+    public long getLastReward() {
+        return lastReward;
+    }
+
+    @Override
+    public void setLastReward(long lastReward) {
+        this.lastReward = lastReward;
     }
 }

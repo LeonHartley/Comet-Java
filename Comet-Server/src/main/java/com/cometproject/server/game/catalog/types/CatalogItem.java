@@ -90,7 +90,7 @@ public class CatalogItem {
      * @param data Data from the database
      * @throws SQLException
      */
-    public CatalogItem(ResultSet data) throws SQLException {
+    public CatalogItem(ResultSet data) throws Exception {
         this.id = data.getInt("id");
         this.itemId = data.getString("item_ids");
         this.displayName = data.getString("catalog_name");
@@ -127,10 +127,18 @@ public class CatalogItem {
                 }
             }
         } else {
-            this.items.add(new CatalogBundledItem("", this.amount, Integer.valueOf(this.itemId)));
+            this.items.add(new CatalogBundledItem(this.presetData, this.amount, Integer.valueOf(this.itemId)));
         }
 
         if(this.getItems().size() == 0) return;
+
+        for(CatalogBundledItem catalogBundledItem : this.items) {
+            final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogBundledItem.getItemId());
+
+            if(itemDefinition == null) {
+                throw new Exception("Invalid item data!");
+            }
+        }
 
         if (ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()) == null) return;
         int offerId = ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()).getOfferId();
