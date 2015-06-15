@@ -50,7 +50,7 @@ public class HelpTicket {
 
         TicketDao.saveTicket(this);
     }
-    
+
     public void compose(IComposer msg) {
         msg.writeInt(this.getId());
         msg.writeInt(this.getState().getTabId());
@@ -69,7 +69,7 @@ public class HelpTicket {
         msg.writeInt(0); // Public room?
         msg.writeInt(this.getChatMessages().size());
 
-        for(ChatMessage chatMessage : this.getChatMessages()) {
+        for (ChatMessage chatMessage : this.getChatMessages()) {
             msg.writeString(chatMessage.getMessage());
             msg.writeInt(-1);
             msg.writeInt(-1);
@@ -165,7 +165,7 @@ public class HelpTicket {
     }
 
     public String getSubmitterUsername() {
-        if(this.submitterUsername == null) {
+        if (this.submitterUsername == null) {
             this.submitterUsername = PlayerDao.getUsernameByPlayerId(this.getSubmitterId());
         }
 
@@ -173,7 +173,7 @@ public class HelpTicket {
     }
 
     public String getReportedUsername() {
-        if(this.reportedUsername == null) {
+        if (this.reportedUsername == null) {
             this.reportedUsername = PlayerDao.getUsernameByPlayerId(this.getReportedId());
         }
 
@@ -181,7 +181,7 @@ public class HelpTicket {
     }
 
     public String getModeratorUsername() {
-        if(this.moderatorUsername == null) {
+        if (this.moderatorUsername == null) {
             this.moderatorUsername = PlayerDao.getUsernameByPlayerId(this.getModeratorId());
         }
 

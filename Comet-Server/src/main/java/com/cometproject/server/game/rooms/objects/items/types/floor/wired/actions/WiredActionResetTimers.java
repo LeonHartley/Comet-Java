@@ -54,8 +54,8 @@ public class WiredActionResetTimers extends WiredActionItem {
         final List<RoomItemFloor> items = this.getRoom().getItems().getByClass(WiredTriggerAtGivenTime.class);
         items.addAll(this.getRoom().getItems().getByClass(WiredTriggerAtGivenTimeLong.class));
 
-        for(RoomItemFloor floorItem : items) {
-            if(floorItem instanceof WiredTriggerAtGivenTime) {
+        for (RoomItemFloor floorItem : items) {
+            if (floorItem instanceof WiredTriggerAtGivenTime) {
                 ((WiredTriggerAtGivenTime) floorItem).setNeedsReset(false);
             }
         }

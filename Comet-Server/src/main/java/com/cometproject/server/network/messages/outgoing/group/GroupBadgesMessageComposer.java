@@ -32,7 +32,7 @@ public class GroupBadgesMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        if(this.badges != null) {
+        if (this.badges != null) {
             msg.writeInt(badges.size());
 
             for (Map.Entry<Integer, String> badge : badges.entrySet()) {

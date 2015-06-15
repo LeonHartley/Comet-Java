@@ -29,14 +29,14 @@ public class ExchangeItemMessageEvent implements Event {
             return;
         }
 
-        if(item.getOwner() != client.getPlayer().getId()) {
+        if (item.getOwner() != client.getPlayer().getId()) {
             return;
         }
 
         int value;
         boolean isDiamond = false;
 
-        if(item.getDefinition().getItemName().contains("_diamond_")) {
+        if (item.getDefinition().getItemName().contains("_diamond_")) {
             isDiamond = true;
             value = Integer.parseInt(item.getDefinition().getItemName().split("_diamond_")[1]);
         } else {
@@ -45,7 +45,7 @@ public class ExchangeItemMessageEvent implements Event {
 
         room.getItems().removeItem(item, client, false, true);
 
-        if(isDiamond) {
+        if (isDiamond) {
             client.getPlayer().getData().increasePoints(value);
         } else {
             client.getPlayer().getData().increaseCredits(value);

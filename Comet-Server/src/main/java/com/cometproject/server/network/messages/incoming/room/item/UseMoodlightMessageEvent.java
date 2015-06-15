@@ -9,8 +9,8 @@ import com.cometproject.server.network.sessions.Session;
 
 public class UseMoodlightMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
-        if(client.getPlayer() == null || client.getPlayer().getEntity() == null) return;
-        if(client.getPlayer().getEntity().getRoom() == null) return;
+        if (client.getPlayer() == null || client.getPlayer().getEntity() == null) return;
+        if (client.getPlayer().getEntity().getRoom() == null) return;
 
         Room room = client.getPlayer().getEntity().getRoom();
 

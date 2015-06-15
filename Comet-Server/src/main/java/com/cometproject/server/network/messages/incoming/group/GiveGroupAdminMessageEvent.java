@@ -48,14 +48,14 @@ public class GiveGroupAdminMessageEvent implements Event {
 
         Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
-        if(session != null) {
-            if(session.getPlayer() != null && session.getPlayer().getEntity() != null && session.getPlayer().getEntity().getRoom() != null) {
+        if (session != null) {
+            if (session.getPlayer() != null && session.getPlayer().getEntity() != null && session.getPlayer().getEntity().getRoom() != null) {
                 session.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);
                 session.getPlayer().getEntity().addStatus(RoomEntityStatus.CONTROLLER, "1");
 
                 session.getPlayer().getEntity().markNeedsUpdate();
                 session.getPlayer().getEntity().getPlayer().getSession().send(new AccessLevelMessageComposer(1));
-                
+
             }
         }
 

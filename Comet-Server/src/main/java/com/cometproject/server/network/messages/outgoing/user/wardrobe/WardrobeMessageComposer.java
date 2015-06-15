@@ -29,7 +29,7 @@ public class WardrobeMessageComposer extends MessageComposer {
             msg.writeInt(item.getSlot());
             msg.writeString(item.getFigure());
 
-            if(item.getGender() != null) {
+            if (item.getGender() != null) {
                 msg.writeString(item.getGender().toUpperCase());
             } else {
                 msg.writeString("M");

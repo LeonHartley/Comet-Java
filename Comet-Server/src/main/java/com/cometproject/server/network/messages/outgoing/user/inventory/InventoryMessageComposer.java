@@ -9,6 +9,7 @@ import com.cometproject.server.network.messages.headers.Composers;
 
 public class InventoryMessageComposer extends MessageComposer {
     private final InventoryComponent inventoryComponent;
+
     public InventoryMessageComposer(final InventoryComponent inventoryComponent) {
         this.inventoryComponent = inventoryComponent;
     }

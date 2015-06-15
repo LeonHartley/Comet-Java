@@ -41,7 +41,7 @@ public class ModToolRoomActionMessageEvent implements Event {
 
             if (room == null) return;
 
-            if(lockDoor)
+            if (lockDoor)
                 room.getData().setAccess("doorbell");
 
             room.getData().save();

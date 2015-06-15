@@ -260,7 +260,7 @@ public class Position implements IPosition {
 
     @Override
     public boolean equals(Object o) {
-        if(o instanceof Position) {
+        if (o instanceof Position) {
             return ((Position) o).getX() == this.getX() && ((Position) o).getY() == this.getY();
         }
 

@@ -48,7 +48,7 @@ public class LoadPlaylistMessageEvent implements Event {
         }
 
         List<IPlaylistItem> playlist = playerSettings.getPlaylist();
-        if(playlist != null) {
+        if (playlist != null) {
             client.send(new PlaylistMessageComposer(itemId, playlist, playingId));
 
             if (playlist.size() > 0) {

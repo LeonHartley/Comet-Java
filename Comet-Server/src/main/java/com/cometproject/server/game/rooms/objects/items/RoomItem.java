@@ -10,7 +10,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloo
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.utilities.attributes.Attributable;
 
 import java.util.HashMap;
@@ -60,8 +59,8 @@ public abstract class RoomItem extends RoomObject implements Attributable {
 
     protected final void setTicks(int time) {
         this.ticksTimer = time;
-        
-        if(this instanceof RollableFloorItem) {
+
+        if (this instanceof RollableFloorItem) {
             LowPriorityItemProcessor.getInstance().submit(((RoomItemFloor) this));
         }
     }

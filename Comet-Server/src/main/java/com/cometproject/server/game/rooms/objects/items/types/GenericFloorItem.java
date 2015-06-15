@@ -21,14 +21,14 @@ public class GenericFloorItem extends RoomItemFloor {
 
             PlayerEntity pEntity = (PlayerEntity) entity;
 
-            if(this.getDefinition().requiresRights()) {
+            if (this.getDefinition().requiresRights()) {
                 if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
                         && !pEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
                     return false;
                 }
             }
 
-            if(pEntity.getPlayer().getId() == this.getRoom().getData().getOwnerId()) {
+            if (pEntity.getPlayer().getId() == this.getRoom().getData().getOwnerId()) {
                 pEntity.getPlayer().getQuests().progressQuest(QuestType.FURNI_SWITCH);
             }
         }
@@ -43,10 +43,11 @@ public class GenericFloorItem extends RoomItemFloor {
 
     @Override
     public void onEntityStepOn(GenericEntity entity) {
-        if(entity instanceof PlayerEntity) {
+        if (entity instanceof PlayerEntity) {
             try {
                 ((PlayerEntity) entity).getPlayer().getQuests().progressQuest(QuestType.EXPLORE_FIND_ITEM, this.getDefinition().getSpriteId());
-            } catch(Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
     }
 }

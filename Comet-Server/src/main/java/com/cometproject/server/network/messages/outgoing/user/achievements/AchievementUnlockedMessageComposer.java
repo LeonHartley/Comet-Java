@@ -1,10 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.user.achievements;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.achievements.AchievementGroup;
 import com.cometproject.server.game.achievements.types.Achievement;
-import com.cometproject.server.game.players.components.AchievementComponent;
-import com.cometproject.server.game.players.components.types.achievements.AchievementProgress;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 

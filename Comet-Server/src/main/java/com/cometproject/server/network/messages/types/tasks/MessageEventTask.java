@@ -1,6 +1,5 @@
 package com.cometproject.server.network.messages.types.tasks;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -37,9 +36,9 @@ public class MessageEventTask implements CometTask {
                 if (session.getPlayer() != null && session.getPlayer().getData() != null)
                     log.warn("[" + this.messageEvent.getClass().getSimpleName() + "][" + messageEventData.getId() + "][" + session.getPlayer().getId() + "][" + session.getPlayer().getData().getUsername() + "] Packet took " + timeTakenSinceCreation + "ms to execute");
                 else
-                    log.warn("[" + this.messageEvent.getClass().getSimpleName() + "][" + messageEventData.getId() + "] Packet took " +  timeTakenSinceCreation + "ms to execute");
+                    log.warn("[" + this.messageEvent.getClass().getSimpleName() + "][" + messageEventData.getId() + "] Packet took " + timeTakenSinceCreation + "ms to execute");
             }
-            log.debug("Finished packet process for packet: [" + this.messageEvent.getClass().getSimpleName() + "][" + messageEventData.getId() + "] in " + timeTakenSinceCreation +"ms");
+            log.debug("Finished packet process for packet: [" + this.messageEvent.getClass().getSimpleName() + "][" + messageEventData.getId() + "] in " + timeTakenSinceCreation + "ms");
 
         } catch (Exception e) {
             if (this.session.getLogger() != null)

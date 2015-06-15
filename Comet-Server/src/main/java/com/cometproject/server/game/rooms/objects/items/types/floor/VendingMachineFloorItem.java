@@ -19,7 +19,7 @@ public class VendingMachineFloorItem extends RoomItemFloor {
 
     @Override
     public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
-        if(isWiredTrigger || entity == null) return false;
+        if (isWiredTrigger || entity == null) return false;
 
         if (!this.getPosition().touching(entity)) {
             entity.moveTo(this.getPosition().getX(), this.getPosition().getY());
@@ -59,7 +59,7 @@ public class VendingMachineFloorItem extends RoomItemFloor {
             }
 
             case 1: {
-                if(this.getDefinition().getVendingIds().length != 0) {
+                if (this.getDefinition().getVendingIds().length != 0) {
                     int vendingId = Integer.parseInt(this.getDefinition().getVendingIds()[RandomInteger.getRandom(0, this.getDefinition().getVendingIds().length - 1)].trim());
                     vendingEntity.carryItem(vendingId);
                 }

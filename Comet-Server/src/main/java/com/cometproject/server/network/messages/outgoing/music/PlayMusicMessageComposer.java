@@ -3,7 +3,6 @@ package com.cometproject.server.network.messages.outgoing.music;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.network.messages.outgoing.music.playlist.PlaylistMessageComposer;
 
 public class PlayMusicMessageComposer extends MessageComposer {
 
@@ -28,7 +27,7 @@ public class PlayMusicMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        if(this.songId == -1) {
+        if (this.songId == -1) {
             msg.writeInt(-1);
             msg.writeInt(-1);
             msg.writeInt(-1);

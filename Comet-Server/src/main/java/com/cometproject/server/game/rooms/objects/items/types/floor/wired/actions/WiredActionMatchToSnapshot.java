@@ -88,7 +88,7 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
                 int currentRotation = floorItem.getRotation();
 
                 if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), !matchPosition ? currentPosition : newPosition, matchRotation ? itemSnapshot.getRotation() : floorItem.getRotation(), true)) {
-                    if(currentRotation != floorItem.getRotation()) {
+                    if (currentRotation != floorItem.getRotation()) {
                         rotationChanged = true;
                     }
 

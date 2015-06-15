@@ -41,12 +41,12 @@ public class RoomNotificationMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeString(type);
 
-        if(parameters == null || parameters.size() == 0) {
+        if (parameters == null || parameters.size() == 0) {
             msg.writeInt(0);
         } else {
             msg.writeInt(parameters.size());
 
-            for(Map.Entry<String, String> param : parameters.entrySet()) {
+            for (Map.Entry<String, String> param : parameters.entrySet()) {
                 msg.writeString(param.getKey());
                 msg.writeString(param.getValue());
             }

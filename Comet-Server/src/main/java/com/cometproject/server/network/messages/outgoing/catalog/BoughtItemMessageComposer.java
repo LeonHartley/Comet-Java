@@ -40,7 +40,7 @@ public class BoughtItemMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        if(this.catalogItem != null && this.itemDefinition != null) {
+        if (this.catalogItem != null && this.itemDefinition != null) {
             msg.writeInt(this.catalogItem.getId());
             msg.writeString(this.itemDefinition.getItemName());
             msg.writeBoolean(false);
@@ -59,7 +59,7 @@ public class BoughtItemMessageComposer extends MessageComposer {
             return;
         }
 
-        if(this.isGroup) {
+        if (this.isGroup) {
             msg.writeInt(6165);
             msg.writeString("CREATE_GUILD");
             msg.writeBoolean(false);

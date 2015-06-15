@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.objects.entities;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
@@ -484,15 +483,15 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
         final Tile tile = this.getRoom().getMapping().getTile(position);
 
-        if(tile != null) {
+        if (tile != null) {
             tile.getEntities().add(this);
         }
     }
 
     @Override
     public void warp(Position position) {
-        if(this.needsForcedUpdate) return;
-        
+        if (this.needsForcedUpdate) return;
+
         this.warp(position, true);
     }
 

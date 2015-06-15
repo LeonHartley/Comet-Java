@@ -17,7 +17,6 @@ import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.PlayerEntityAccess;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerPlayerSaysKeyword;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -122,7 +121,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                     isAuthFailed = true;
                 }
             } else if (this.getRoom().getData().getAccess().equals("doorbell")) {
-                if(!this.getRoom().getRights().hasRights(this.playerId)) {
+                if (!this.getRoom().getRights().hasRights(this.playerId)) {
                     if (this.getRoom().getEntities().playerCount() < 1) {
                         this.getPlayer().getSession().send(new DoorbellNoAnswerComposer());
                         isAuthFailed = true;
@@ -335,7 +334,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 //            }
 //        }
 
-        if(this.getRoom().getEntities().playerCount() > 1) {
+        if (this.getRoom().getEntities().playerCount() > 1) {
             this.getPlayer().getQuests().progressQuest(QuestType.SOCIAL_CHAT);
         }
 

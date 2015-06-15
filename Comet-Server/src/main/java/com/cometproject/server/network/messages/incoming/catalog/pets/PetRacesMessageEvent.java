@@ -17,7 +17,7 @@ public class PetRacesMessageEvent implements Event {
         final String petRace = msg.readString();
         final String[] splitRace = petRace.split("a0 pet");
 
-        if(splitRace.length < 2 || !StringUtils.isNumeric(splitRace[1])) {
+        if (splitRace.length < 2 || !StringUtils.isNumeric(splitRace[1])) {
             return;
         }
 

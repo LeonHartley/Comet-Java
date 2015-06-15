@@ -21,10 +21,10 @@ public class CoinsCommand extends ChatCommand {
             int credits = Integer.parseInt(params[1]);
             Session player = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
-            if(player == null) {
+            if (player == null) {
                 PlayerData playerData = PlayerDao.getDataByUsername(username);
 
-                if(playerData == null) return;
+                if (playerData == null) return;
 
                 playerData.increaseCredits(credits);
                 playerData.save();

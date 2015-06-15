@@ -5,7 +5,6 @@ import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.data.PlayerAvatarData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,7 +42,7 @@ public class MessengerFriend {
     }
 
     public PlayerAvatar getAvatar() {
-        if(this.getSession() != null && this.getSession().getPlayer() != null) {
+        if (this.getSession() != null && this.getSession().getPlayer() != null) {
             return this.getSession().getPlayer().getData();
         }
 

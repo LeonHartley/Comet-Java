@@ -18,7 +18,7 @@ public class ApplyActionMessageEvent implements Event {
                 client.getPlayer().getEntity().unIdle();
             }
 
-            if(actionId == 1) {
+            if (actionId == 1) {
                 client.getPlayer().getQuests().progressQuest(QuestType.SOCIAL_WAVE);
             }
 

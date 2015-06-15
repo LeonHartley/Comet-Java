@@ -7,7 +7,6 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
-import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.EntityPathfinder;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -64,7 +63,7 @@ public class ProcessComponent implements CometTask {
         long timeSinceLastProcess = this.lastProcess == 0 ? 0 : (System.currentTimeMillis() - this.lastProcess);
         this.lastProcess = System.currentTimeMillis();
 
-        if(this.getProcessTimes() != null && this.getProcessTimes().size() < 30) {
+        if (this.getProcessTimes() != null && this.getProcessTimes().size() < 30) {
             log.info("Time since last process: " + timeSinceLastProcess + "ms");
         }
 //
@@ -322,7 +321,7 @@ public class ProcessComponent implements CometTask {
             return true; // adds it to the to remove list automatically..
         }
 
-        if(!isRetry) {
+        if (!isRetry) {
             if (isPlayer) {
                 // Handle flood
                 if (((PlayerEntity) entity).getPlayer().getRoomFloodTime() >= 0.5) {

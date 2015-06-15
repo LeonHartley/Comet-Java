@@ -32,15 +32,15 @@ public class WiredConditionHasHandItem extends WiredConditionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(entity == null || !(entity instanceof PlayerEntity)) return false;
+        if (entity == null || !(entity instanceof PlayerEntity)) return false;
 
-        if(this.getWiredData().getParams().size() != 1) {
+        if (this.getWiredData().getParams().size() != 1) {
             return false;
         }
 
         int handItem = this.getWiredData().getParams().get(PARAM_HANDITEM);
 
-        if(entity.getHandItem() == handItem) {
+        if (entity.getHandItem() == handItem) {
             return true;
         }
 

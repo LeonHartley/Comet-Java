@@ -131,7 +131,7 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
 
                 return wasSuccess;
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error during WiredTrigger evaluation", e);
         }
 

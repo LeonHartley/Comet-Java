@@ -9,7 +9,7 @@ public class SaveForumSettingsMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         int groupId = msg.readInt();
 
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             System.out.println(msg.readInt());
         }
     }

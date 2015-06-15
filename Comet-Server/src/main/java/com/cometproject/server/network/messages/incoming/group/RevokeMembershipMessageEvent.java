@@ -50,18 +50,18 @@ public class RevokeMembershipMessageEvent implements Event {
         List<RoomItem> itemsToRemove = Lists.newArrayList();
 
 
-        if(RoomManager.getInstance().isActive(group.getData().getRoomId())) {
+        if (RoomManager.getInstance().isActive(group.getData().getRoomId())) {
             final Room room = RoomManager.getInstance().get(group.getData().getRoomId());
 
 
-            for(RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
-                if(floorItem.getOwner() == playerId) {
+            for (RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
+                if (floorItem.getOwner() == playerId) {
                     itemsToRemove.add(floorItem);
                 }
             }
 
-            for(RoomItemWall wallItem : room.getItems().getWallItems().values()) {
-                if(wallItem.getOwner() == playerId) {
+            for (RoomItemWall wallItem : room.getItems().getWallItems().values()) {
+                if (wallItem.getOwner() == playerId) {
                     itemsToRemove.add(wallItem);
                 }
             }
@@ -78,7 +78,7 @@ public class RevokeMembershipMessageEvent implements Event {
                 client.send(group.composeInformation(true, client.getPlayer().getId()));
             }
 
-            if(client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom().getId() == group.getData().getRoomId()) {
+            if (client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom().getId() == group.getData().getRoomId()) {
                 client.send(new AccessLevelMessageComposer(0));
 
                 client.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);
@@ -97,7 +97,7 @@ public class RevokeMembershipMessageEvent implements Event {
                         session.getPlayer().getData().save();
                     }
 
-                    if(session.getPlayer().getEntity() != null && session.getPlayer().getEntity().getRoom().getId() == group.getData().getRoomId()) {
+                    if (session.getPlayer().getEntity() != null && session.getPlayer().getEntity().getRoom().getId() == group.getData().getRoomId()) {
                         session.send(new AccessLevelMessageComposer(0));
 
                         session.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);
@@ -122,10 +122,10 @@ public class RevokeMembershipMessageEvent implements Event {
     }
 
     private void ejectItems(List<RoomItem> items, Session player) {
-        for(RoomItem roomItem : items) {
-            if(roomItem instanceof RoomItemFloor) {
+        for (RoomItem roomItem : items) {
+            if (roomItem instanceof RoomItemFloor) {
                 roomItem.getRoom().getItems().removeItem(((RoomItemFloor) roomItem), player);
-            } else if(roomItem instanceof RoomItemWall) {
+            } else if (roomItem instanceof RoomItemWall) {
                 roomItem.getRoom().getItems().removeItem(((RoomItemWall) roomItem), player, true);
             }
         }

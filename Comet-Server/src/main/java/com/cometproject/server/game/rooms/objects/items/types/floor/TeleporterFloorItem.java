@@ -62,7 +62,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
             return;
         }
 
-        if(this.incomingEntity != null && this.incomingEntity.getId() == entity.getId()) {
+        if (this.incomingEntity != null && this.incomingEntity.getId() == entity.getId()) {
             return;
         }
 

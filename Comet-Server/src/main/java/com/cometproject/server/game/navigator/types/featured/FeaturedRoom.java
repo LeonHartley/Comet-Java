@@ -4,7 +4,6 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
-import com.cometproject.server.network.messages.types.Composer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

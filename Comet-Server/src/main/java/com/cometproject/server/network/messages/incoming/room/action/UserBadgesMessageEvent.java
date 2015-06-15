@@ -22,7 +22,7 @@ public class UserBadgesMessageEvent implements Event {
         PlayerEntity playerEntity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPlayerId(userId);
 
         if (playerEntity != null) {
-            if(playerEntity.getPlayer() == null || playerEntity.getPlayer().getInventory() == null) return;
+            if (playerEntity.getPlayer() == null || playerEntity.getPlayer().getInventory() == null) return;
 
             client.send(new UserBadgesMessageComposer(playerEntity.getPlayerId(), playerEntity.getPlayer().getInventory().equippedBadges()));
         }

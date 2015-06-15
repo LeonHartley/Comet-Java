@@ -71,7 +71,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
 
     @Override
     public void onTickComplete() {
-        if(this.pendingPlay) {
+        if (this.pendingPlay) {
             this.play();
             this.pendingPlay = false;
             this.sendUpdate();
@@ -92,7 +92,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
                 }
             }
 
-            if(this.currentPlayingIndex != -1) {
+            if (this.currentPlayingIndex != -1) {
                 SongItem songItem = this.getSongs().get(this.currentPlayingIndex);
 
                 if (songItem != null) {
@@ -185,7 +185,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     }
 
     public MessageComposer getComposer() {
-        if(this.currentPlayingIndex == -1) return null;
+        if (this.currentPlayingIndex == -1) return null;
 
         SongItem songItem = this.songs.get(this.currentPlayingIndex);
 

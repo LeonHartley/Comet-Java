@@ -21,7 +21,7 @@ public class ModToolRoomChatlogMessageEvent implements Event {
             return;
         }
 
-        if(!LogManager.ENABLED) {
+        if (!LogManager.ENABLED) {
             client.send(new AdvancedAlertMessageComposer("Notice", "Logging is not currently enabled, please contact your system administrator to enable it."));
             return;
         }

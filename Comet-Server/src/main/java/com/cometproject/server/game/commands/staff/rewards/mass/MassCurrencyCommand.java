@@ -40,7 +40,7 @@ public abstract class MassCurrencyCommand extends ChatCommand {
 
                 session.getPlayer().getData().save();
                 session.getPlayer().sendBalance();
-            } catch(Exception ignored) {
+            } catch (Exception ignored) {
 
             }
         }

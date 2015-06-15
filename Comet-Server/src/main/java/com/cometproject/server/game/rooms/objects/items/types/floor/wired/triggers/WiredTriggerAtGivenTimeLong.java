@@ -39,7 +39,7 @@ public class WiredTriggerAtGivenTimeLong extends WiredTriggerAtGivenTime {
         for (RoomItemFloor wiredItem : room.getItems().getByClass(WiredTriggerAtGivenTime.class)) {
             WiredTriggerAtGivenTimeLong trigger = ((WiredTriggerAtGivenTimeLong) wiredItem);
 
-            if(timer >= trigger.getTime()) {
+            if (timer >= trigger.getTime()) {
                 wasExecuted = trigger.evaluate(null, null);
             }
         }

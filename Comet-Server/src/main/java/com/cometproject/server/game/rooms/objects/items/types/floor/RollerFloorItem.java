@@ -98,11 +98,11 @@ public class RollerFloorItem extends RoomItemFloor {
             final Tile oldTile = this.getRoom().getMapping().getTile(entity.getPosition().getX(), entity.getPosition().getY());
             final Tile newTile = this.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY());
 
-            if(oldTile != null) {
+            if (oldTile != null) {
                 oldTile.getEntities().remove(entity);
             }
 
-            if(newTile != null) {
+            if (newTile != null) {
                 newTile.getEntities().add(entity);
             }
 
@@ -110,7 +110,7 @@ public class RollerFloorItem extends RoomItemFloor {
             entity.setPosition(new Position(sqInfront.getX(), sqInfront.getY(), toHeight));
         }
 
-        if(retry) {
+        if (retry) {
             this.setTicks(this.getTickCount());
         }
     }
@@ -147,7 +147,7 @@ public class RollerFloorItem extends RoomItemFloor {
                 continue;
             }
 
-            if(!floor.getDefinition().canStack()) continue;
+            if (!floor.getDefinition().canStack()) continue;
 
             double height = floor.getPosition().getZ();
 

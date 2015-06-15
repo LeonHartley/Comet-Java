@@ -71,7 +71,7 @@ public class WiredAddonVisualTimer extends RoomItemFloor {
             this.setExtraData(time + "");
             this.sendUpdate();
         } else {
-            if(this.isStarted) {
+            if (this.isStarted) {
                 this.isStarted = false;
 //                this.setExtraData("0");
 //                this.sendUpdate();
@@ -91,18 +91,18 @@ public class WiredAddonVisualTimer extends RoomItemFloor {
 
     @Override
     public void onTickComplete() {
-        if(!this.isStarted) {
+        if (!this.isStarted) {
             return;
         }
 
-        if(this.getExtraData().isEmpty() || this.getExtraData().equals("0")) {
+        if (this.getExtraData().isEmpty() || this.getExtraData().equals("0")) {
             this.isStarted = false;
             return;
         }
 
         int timeLength = Integer.parseInt(this.getExtraData());
 
-        if(timeLength - 1 >= 1) {
+        if (timeLength - 1 >= 1) {
             this.setTicks(RoomItemFactory.getProcessTime(1.0));
         } else {
             WiredTriggerGameEnds.executeTriggers(this.getRoom());

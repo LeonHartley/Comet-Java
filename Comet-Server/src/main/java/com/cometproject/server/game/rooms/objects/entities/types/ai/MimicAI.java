@@ -12,9 +12,9 @@ public class MimicAI extends AbstractBotAI {
 
     @Override
     public boolean onTalk(PlayerEntity entity, String message) {
-        if(message.startsWith(":")) return false;
+        if (message.startsWith(":")) return false;
 
-        if(entity.getPlayerId() == ((BotEntity) this.getEntity()).getData().getOwnerId()) {
+        if (entity.getPlayerId() == ((BotEntity) this.getEntity()).getData().getOwnerId()) {
             this.getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getEntity().getId(), message, 0, 2));
         }
 

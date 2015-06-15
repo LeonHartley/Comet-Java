@@ -4,7 +4,6 @@ import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
@@ -38,8 +37,8 @@ public class ChangeFloorItemPositionMessageEvent implements Event {
 
         RoomItemFloor floorItem = room.getItems().getFloorItem(id);
 
-        if(floorItem != null) {
-            if(rot != floorItem.getRotation()) {
+        if (floorItem != null) {
+            if (rot != floorItem.getRotation()) {
                 client.getPlayer().getQuests().progressQuest(QuestType.FURNI_ROTATE);
             }
 
@@ -48,7 +47,7 @@ public class ChangeFloorItemPositionMessageEvent implements Event {
 
         try {
             if (room.getItems().moveFloorItem(id, new Position(x, y), rot, true)) {
-                if(floorItem != null && floorItem.getTile().getItems().size() > 1) {
+                if (floorItem != null && floorItem.getTile().getItems().size() > 1) {
                     client.getPlayer().getQuests().progressQuest(QuestType.FURNI_STACK);
                 }
             } else {

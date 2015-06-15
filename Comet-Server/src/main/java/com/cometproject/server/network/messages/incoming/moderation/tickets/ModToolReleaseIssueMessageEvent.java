@@ -11,12 +11,12 @@ public class ModToolReleaseIssueMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
         int ticketCount = msg.readInt();
-        if(!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             client.disconnect();
             return;
         }
 
-        for(int i = 0; i < ticketCount; i++) {
+        for (int i = 0; i < ticketCount; i++) {
             int ticketId = msg.readInt();
 
             final HelpTicket helpTicket = ModerationManager.getInstance().getTicket(ticketId);

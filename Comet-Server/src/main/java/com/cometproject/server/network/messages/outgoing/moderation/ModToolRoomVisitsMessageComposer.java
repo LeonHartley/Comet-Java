@@ -38,7 +38,7 @@ public class ModToolRoomVisitsMessageComposer extends MessageComposer {
             RoomData roomData = RoomManager.getInstance().getRoomData(roomVisit.getRoomId());
             DateTime dateTime = new DateTime(roomVisit.getEntryTime() * 1000L);
 
-            msg.writeInt(roomData == null ? 0: roomData.getId());
+            msg.writeInt(roomData == null ? 0 : roomData.getId());
             msg.writeString(roomData == null ? "Unknown Room" : roomData.getName());
 
             msg.writeInt(dateTime.hourOfDay().get());

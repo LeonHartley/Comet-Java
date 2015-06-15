@@ -88,7 +88,7 @@ public class GiftData implements JsonData {
         this.message = "";
         this.spriteId = 0;
         this.wrappingPaper = 0;
-        this.decorationType= 0;
+        this.decorationType = 0;
         this.showUsername = false;
         this.extraData = "0";
     }

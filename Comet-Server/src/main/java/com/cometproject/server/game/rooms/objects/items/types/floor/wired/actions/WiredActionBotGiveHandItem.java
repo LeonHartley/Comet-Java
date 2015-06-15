@@ -41,22 +41,22 @@ public class WiredActionBotGiveHandItem extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(this.getWiredData().getParams().size() != 1) {
+        if (this.getWiredData().getParams().size() != 1) {
             return false;
         }
 
-        if(this.getWiredData().getText().isEmpty()) {
+        if (this.getWiredData().getText().isEmpty()) {
             return false;
         }
 
-        if(entity == null || !(entity instanceof PlayerEntity)) return false;
+        if (entity == null || !(entity instanceof PlayerEntity)) return false;
 
         int param = this.getWiredData().getParams().get(PARAM_HANDITEM);
 
         final String botName = this.getWiredData().getText();
         final BotEntity botEntity = this.getRoom().getBots().getBotByName(botName);
 
-        if(botEntity != null) {
+        if (botEntity != null) {
             this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(botEntity.getId(), Locale.get("bots.chat.giveItemMessage").replace("%username%", entity.getUsername()), RoomManager.getInstance().getEmotions().getEmotion(":)"), 2));
             entity.carryItem(param);
         }

@@ -1,32 +1,11 @@
 package com.cometproject.server.network.messages.incoming.handshake;
 
-import com.cometproject.api.events.players.OnPlayerLoginEvent;
-import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.modules.ModuleManager;
-import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.handshake.AuthenticationOKMessageComposer;
-import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
-import com.cometproject.server.network.messages.outgoing.handshake.UniqueIDMessageComposer;
-import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
-import com.cometproject.server.network.messages.outgoing.navigator.FavouriteRoomsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
-import com.cometproject.server.network.messages.outgoing.user.details.EnableNotificationsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.details.EnableTradingMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.details.PlayerSettingsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.details.UnreadMinimailsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.inventory.EffectsInventoryMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.player.PlayerAccessDao;
-import com.cometproject.server.storage.queries.player.PlayerDao;
 
 
 public class SSOTicketMessageEvent implements Event {

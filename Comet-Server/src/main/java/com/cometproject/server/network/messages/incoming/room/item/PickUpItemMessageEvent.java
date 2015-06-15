@@ -14,7 +14,7 @@ import com.cometproject.server.network.sessions.Session;
 
 public class PickUpItemMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
-        if(client.getPlayer() == null || client.getPlayer().getEntity() == null) {
+        if (client.getPlayer() == null || client.getPlayer().getEntity() == null) {
             return;
         }
 
@@ -31,7 +31,7 @@ public class PickUpItemMessageEvent implements Event {
 
         RoomItemFloor item = room.getItems().getFloorItem(id);
 
-        if(!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             return;
         }
 
@@ -42,14 +42,14 @@ public class PickUpItemMessageEvent implements Event {
                 return;
             }
 
-            if(wItem.getOwner() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
-                if(wItem.getRoom().getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))
+            if (wItem.getOwner() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+                if (wItem.getRoom().getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))
                     return;
 
                 eject = true;
             }
 
-            if(!eject) {
+            if (!eject) {
                 room.getItems().removeItem(wItem, client.getPlayer().getId(), client);
             } else {
                 Session owner = NetworkManager.getInstance().getSessions().getByPlayerId(wItem.getOwner());
@@ -60,8 +60,8 @@ public class PickUpItemMessageEvent implements Event {
             return;
         }
 
-        if(item.getOwner() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
-            if(item.getRoom().getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))
+        if (item.getOwner() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            if (item.getRoom().getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))
                 return;
 
             eject = true;
@@ -69,7 +69,7 @@ public class PickUpItemMessageEvent implements Event {
 
         item.onPickup();
 
-        if(!eject) {
+        if (!eject) {
             room.getItems().removeItem(item, client);
         } else {
             Session owner = NetworkManager.getInstance().getSessions().getByPlayerId(item.getOwner());

@@ -35,7 +35,7 @@ public class HeightmapMessageComposer extends MessageComposer {
                     msg.writeShort(0);
                 } else {
 
-                    if(tile != null) {
+                    if (tile != null) {
                         int height = (int) ((tile.getStackHeight()) * 256);
 
                         msg.writeShort(height);

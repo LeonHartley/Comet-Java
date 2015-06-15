@@ -31,7 +31,7 @@ public class PlaceBotMessageEvent implements Event {
             return;
         }
 
-        if(room.getEntities().getBotEntities().size() >= CometSettings.maxBotsInRoom) {
+        if (room.getEntities().getBotEntities().size() >= CometSettings.maxBotsInRoom) {
             client.send(new AlertMessageComposer(String.format(Locale.getOrDefault("comet.game.bots.toomany", "You can only have %s bots per room!"), CometSettings.maxBotsInRoom)));
             return;
         }
@@ -41,7 +41,7 @@ public class PlaceBotMessageEvent implements Event {
 
         final Tile tile = room.getMapping().getTile(x, y);
 
-        if(tile == null || !room.getMapping().isValidPosition(position) || room.getModel().getSquareState()[x][y] != RoomTileState.VALID) {
+        if (tile == null || !room.getMapping().isValidPosition(position) || room.getModel().getSquareState()[x][y] != RoomTileState.VALID) {
             return;
         }
 
@@ -59,7 +59,7 @@ public class PlaceBotMessageEvent implements Event {
         room.getEntities().broadcastMessage(new AvatarsMessageComposer(botEntity));
         client.send(new BotInventoryMessageComposer(client.getPlayer().getBots().getBots()));
 
-        for(RoomItemFloor floorItem : room.getItems().getItemsOnSquare(x, y)) {
+        for (RoomItemFloor floorItem : room.getItems().getItemsOnSquare(x, y)) {
             floorItem.onEntityStepOn(botEntity);
         }
 

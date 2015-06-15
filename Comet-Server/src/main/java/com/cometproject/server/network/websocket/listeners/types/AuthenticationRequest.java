@@ -7,7 +7,8 @@ public class AuthenticationRequest {
         this.ticket = ticket;
     }
 
-    public AuthenticationRequest() {}
+    public AuthenticationRequest() {
+    }
 
     public String getTicket() {
         return ticket;

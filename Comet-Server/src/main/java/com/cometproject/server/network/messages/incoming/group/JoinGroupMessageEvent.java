@@ -44,7 +44,7 @@ public class JoinGroupMessageEvent implements Event {
             group.getMembershipComponent().createMembership(new GroupMember(client.getPlayer().getId(), group.getId(), GroupAccessLevel.MEMBER));
             client.send(group.composeInformation(true, client.getPlayer().getId()));
 
-            if(client.getPlayer().getEntity() != null && group.getData().canMembersDecorate()) {
+            if (client.getPlayer().getEntity() != null && group.getData().canMembersDecorate()) {
                 client.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);
                 client.getPlayer().getEntity().addStatus(RoomEntityStatus.CONTROLLER, "1");
 

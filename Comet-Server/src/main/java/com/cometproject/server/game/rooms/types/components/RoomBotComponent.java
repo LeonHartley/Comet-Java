@@ -42,7 +42,7 @@ public class RoomBotComponent {
 
             for (BotData data : botData) {
 
-                if(this.botNameToId.containsKey(data.getUsername())) {
+                if (this.botNameToId.containsKey(data.getUsername())) {
                     data.setUsername(this.getAvailableName(data.getUsername()));
                 }
 
@@ -51,7 +51,7 @@ public class RoomBotComponent {
 
                 this.getRoom().getEntities().addEntity(botEntity);
 
-                for(RoomItemFloor roomItemFloor : this.getRoom().getItems().getItemsOnSquare(((PlayerBotData) data).getPosition().getX(), ((PlayerBotData) data).getPosition().getY())) {
+                for (RoomItemFloor roomItemFloor : this.getRoom().getItems().getItemsOnSquare(((PlayerBotData) data).getPosition().getX(), ((PlayerBotData) data).getPosition().getY())) {
                     roomItemFloor.onEntityStepOn(botEntity);
                 }
             }
@@ -63,13 +63,13 @@ public class RoomBotComponent {
     public String getAvailableName(String name) {
         int usedCount = 0;
 
-        for(String usedName : this.botNameToId.keySet()) {
-            if(name.startsWith(usedName)) {
+        for (String usedName : this.botNameToId.keySet()) {
+            if (name.startsWith(usedName)) {
                 usedCount++;
             }
         }
 
-        if(usedCount == 0) return name;
+        if (usedCount == 0) return name;
 
         return name + usedCount;
     }
@@ -78,7 +78,7 @@ public class RoomBotComponent {
         int virtualId = room.getEntities().getFreeId();
         String name;
 
-        if(this.botNameToId.containsKey(bot.getName())) {
+        if (this.botNameToId.containsKey(bot.getName())) {
             name = this.getAvailableName(bot.getName());
         } else {
             name = bot.getName();
@@ -94,7 +94,7 @@ public class RoomBotComponent {
     }
 
     public BotEntity getBotByName(String name) {
-        if(this.botNameToId.containsKey(name)) {
+        if (this.botNameToId.containsKey(name)) {
             return this.getRoom().getEntities().getEntityByBotId(this.botNameToId.get(name));
         }
 
@@ -106,7 +106,7 @@ public class RoomBotComponent {
     }
 
     public void changeBotName(String currentName, String newName) {
-        if(!this.botNameToId.containsKey(currentName)) return;
+        if (!this.botNameToId.containsKey(currentName)) return;
 
         int botId = this.botNameToId.get(currentName);
 

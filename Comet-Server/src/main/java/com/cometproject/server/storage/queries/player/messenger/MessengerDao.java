@@ -4,7 +4,6 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.storage.SqlHelper;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,7 +41,7 @@ public class MessengerDao {
             SqlHelper.closeSilently(sqlConnection);
         }
 
-        if(data.size() > 1000) {
+        if (data.size() > 1000) {
             Comet.getServer().getLogger().info("Player: " + playerId + " has " + data.size() + " friends.");
         }
 

@@ -19,7 +19,7 @@ public class IgnoreUserMessageEvent implements Event {
 
         PlayerEntity playerEntity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER);
 
-        if(playerEntity != null) {
+        if (playerEntity != null) {
             if (playerEntity.getPlayer().getPermissions().hasPermission("mod_tool") || playerEntity.getPlayer().getPermissions().hasPermission("unignorable")) {
                 return;
             }

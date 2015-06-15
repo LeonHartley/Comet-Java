@@ -24,7 +24,7 @@ public class SongDataMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeInt(musicData.size());
 
-        for(MusicData musicData : this.musicData) {
+        for (MusicData musicData : this.musicData) {
             msg.writeInt(musicData.getSongId());
             msg.writeString(musicData.getName());
             msg.writeString(musicData.getTitle());

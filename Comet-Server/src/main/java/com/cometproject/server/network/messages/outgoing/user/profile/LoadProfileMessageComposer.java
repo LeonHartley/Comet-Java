@@ -72,7 +72,7 @@ public class LoadProfileMessageComposer extends MessageComposer {
         for (Integer groupId : groups) {
             Group group = GroupManager.getInstance().get(groupId);
 
-            if(group != null) {
+            if (group != null) {
                 msg.writeInt(groupId);
                 msg.writeString(group.getData().getTitle());
                 msg.writeString(group.getData().getBadge());

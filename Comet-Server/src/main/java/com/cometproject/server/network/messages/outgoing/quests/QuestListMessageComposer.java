@@ -39,7 +39,7 @@ public class QuestListMessageComposer extends MessageComposer {
             for (Quest quest : this.quests.values()) {
                 if (categoryCounters.containsKey(quest.getCategory())) {
                     if (!this.player.getQuests().hasCompletedQuest(quest.getId())) {
-                        if(!this.player.getQuests().hasCompletedQuest(categoryCounters.get(quest.getCategory()).getId())) {
+                        if (!this.player.getQuests().hasCompletedQuest(categoryCounters.get(quest.getCategory()).getId())) {
                             if (categoryCounters.get(quest.getCategory()).getSeriesNumber() > quest.getSeriesNumber()) {
                                 categoryCounters.replace(quest.getCategory(), quest);
                             }

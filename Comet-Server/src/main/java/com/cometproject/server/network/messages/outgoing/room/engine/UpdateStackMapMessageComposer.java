@@ -30,12 +30,12 @@ public class UpdateStackMapMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeByte(singleTile != null ? 1 : tilesToUpdate.size());
 
-        if(singleTile != null) {
+        if (singleTile != null) {
             this.composeUpdate(this.singleTile, msg);
             return;
         }
 
-        for(Tile tile : tilesToUpdate) {
+        for (Tile tile : tilesToUpdate) {
             this.composeUpdate(tile, msg);
         }
     }

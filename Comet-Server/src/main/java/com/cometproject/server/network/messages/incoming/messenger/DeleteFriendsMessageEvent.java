@@ -26,7 +26,7 @@ public class DeleteFriendsMessageEvent implements Event {
             if (friendClient != null && friendClient.getPlayer() != null) {
                 friendClient.getPlayer().getMessenger().removeFriend(client.getPlayer().getId());
 
-                if(friendClient.getPlayer().getRelationships().get(client.getPlayer().getId()) != null) {
+                if (friendClient.getPlayer().getRelationships().get(client.getPlayer().getId()) != null) {
                     RelationshipDao.deleteRelationship(userId, client.getPlayer().getId());
                     friendClient.getPlayer().getRelationships().remove(client.getPlayer().getId());
                 }

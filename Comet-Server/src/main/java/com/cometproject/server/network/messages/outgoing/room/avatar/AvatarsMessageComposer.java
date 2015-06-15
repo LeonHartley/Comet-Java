@@ -31,7 +31,7 @@ public class AvatarsMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        if(this.singleEntity != null) {
+        if (this.singleEntity != null) {
             msg.writeInt(1);
 
             this.singleEntity.compose(msg);

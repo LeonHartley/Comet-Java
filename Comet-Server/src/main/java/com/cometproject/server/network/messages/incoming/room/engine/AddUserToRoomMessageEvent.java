@@ -4,7 +4,6 @@ import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -18,7 +17,6 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.FloodF
 import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
-
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +51,7 @@ public class AddUserToRoomMessageEvent implements Event {
         Map<Integer, String> groupsInRoom = new HashMap<>();
 
         for (PlayerEntity playerEntity : room.getEntities().getPlayerEntities()) {
-            if(playerEntity.getPlayer() != null && playerEntity.getPlayer().getData() != null) {
+            if (playerEntity.getPlayer() != null && playerEntity.getPlayer().getData() != null) {
                 if (playerEntity.getPlayer().getData().getFavouriteGroup() != 0) {
                     GroupData groupData = GroupManager.getInstance().getData(playerEntity.getPlayer().getData().getFavouriteGroup());
 
@@ -74,7 +72,7 @@ public class AddUserToRoomMessageEvent implements Event {
 
         room.getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
 
-        if(room.getEntities().getAllEntities().size() > 0)
+        if (room.getEntities().getAllEntities().size() > 0)
             client.sendQueue(new AvatarUpdateMessageComposer(room.getEntities().getAllEntities().values()));
 
         for (GenericEntity av : client.getPlayer().getEntity().getRoom().getEntities().getAllEntities().values()) {

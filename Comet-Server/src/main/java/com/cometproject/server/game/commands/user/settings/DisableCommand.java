@@ -16,13 +16,13 @@ public class DisableCommand extends ChatCommand {
             return;
         }
 
-        if(params.length != 1) {
+        if (params.length != 1) {
             return;
         }
 
         String disabledCommand = params[0];
 
-        if(CommandManager.getInstance().isCommand(disabledCommand) && CommandManager.getInstance().getChatCommands().get(disabledCommand).canDisable()) {
+        if (CommandManager.getInstance().isCommand(disabledCommand) && CommandManager.getInstance().getChatCommands().get(disabledCommand).canDisable()) {
             room.getData().getDisabledCommands().add(disabledCommand);
             room.getData().save();
 
