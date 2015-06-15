@@ -21,7 +21,7 @@ public class RequestFriendshipMessageEvent implements Event {
 
         Session request = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
-        if (request == null || request.getPlayer() == null) return;
+        if (request == null || request.getPlayer() == null || request.getPlayer().getMessenger() == null) return;
 
         if (!request.getPlayer().getSettings().getAllowFriendRequests()) {
             client.send(new AdvancedAlertMessageComposer(Locale.get("game.messenger.friendrequests.disabled")));
