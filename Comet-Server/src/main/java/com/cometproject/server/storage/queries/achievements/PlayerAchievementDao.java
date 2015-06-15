@@ -13,31 +13,31 @@ import java.util.Map;
 
 public class PlayerAchievementDao {
     public static Map<AchievementType, AchievementProgress> getAchievementProgress(int playerId) {
-        Connection sqlConnection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+//        Connection sqlConnection = null;
+//        PreparedStatement preparedStatement = null;
+//        ResultSet resultSet = null;
 
         Map<AchievementType, AchievementProgress> achievements = new HashMap<>();
 //
-        try {
-            sqlConnection = SqlHelper.getConnection();
-
-            preparedStatement = SqlHelper.prepare("SELECT `group`, `level`, `progress` FROM `player_achievements` WHERE `player_id` = ?", sqlConnection);
-
-            preparedStatement.setInt(1, playerId);
-
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                achievements.put(AchievementType.getTypeByName(resultSet.getString("group")), new AchievementProgress(resultSet.getInt("level"), resultSet.getInt("progress")));
-            }
-        } catch (SQLException e) {
-            SqlHelper.handleSqlException(e);
-        } finally {
-            SqlHelper.closeSilently(resultSet);
-            SqlHelper.closeSilently(preparedStatement);
-            SqlHelper.closeSilently(sqlConnection);
-        }
+//        try {
+//            sqlConnection = SqlHelper.getConnection();
+//
+//            preparedStatement = SqlHelper.prepare("SELECT `group`, `level`, `progress` FROM `player_achievements` WHERE `player_id` = ?", sqlConnection);
+//
+//            preparedStatement.setInt(1, playerId);
+//
+//            resultSet = preparedStatement.executeQuery();
+//
+//            while (resultSet.next()) {
+//                achievements.put(AchievementType.getTypeByName(resultSet.getString("group")), new AchievementProgress(resultSet.getInt("level"), resultSet.getInt("progress")));
+//            }
+//        } catch (SQLException e) {
+//            SqlHelper.handleSqlException(e);
+//        } finally {
+//            SqlHelper.closeSilently(resultSet);
+//            SqlHelper.closeSilently(preparedStatement);
+//            SqlHelper.closeSilently(sqlConnection);
+//        }
 
         return achievements;
     }

@@ -144,11 +144,6 @@ public class CatalogPurchaseHandler {
                 return;
             }
 
-            if(CatalogManager.getInstance().getPage(pageId).getMinRank() > client.getPlayer().getData().getRank()) {
-                client.disconnect();
-                return;
-            }
-
             if (item.allowOffer()) {
                 totalCostCredits = amount > 1 ? ((item.getCostCredits() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostCredits())) : item.getCostCredits();
                 totalCostPoints = amount > 1 ? ((item.getCostOther() * amount) - ((int) Math.floor((double) amount / 6) * item.getCostOther())) : item.getCostOther();

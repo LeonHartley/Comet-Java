@@ -187,9 +187,6 @@ public class CometSettings {
 
     public static boolean logMessengerMessages = false;
 
-    public static int cameraPhotoItemId = 50001;
-    public static String cameraPhotoUrl = "";
-
     /**
      * Logging
      */
@@ -301,14 +298,6 @@ public class CometSettings {
 
         if (config.containsKey("comet.game.messenger.logMessages")) {
             logMessengerMessages = Boolean.parseBoolean(config.get("comet.game.messenger.logMessages"));
-        }
-
-        if(config.containsKey("comet.game.camera.photoItemId")) {
-            cameraPhotoItemId = Integer.parseInt(config.get("comet.game.camera.photoItemId"));
-        }
-
-        if(config.containsKey("comet.game.camera.photoUrl")) {
-            cameraPhotoUrl = config.get("comet.game.camera.photoUrl");
         }
     }
 
