@@ -3,7 +3,6 @@ package com.cometproject.server.storage.queries.catalog;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
-import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
@@ -30,7 +29,7 @@ public class CatalogDao {
             while (resultSet.next()) {
                 try {
                     pages.put(resultSet.getInt("id"), new CatalogPage(resultSet, getItemsByPage(resultSet.getInt("id"))));
-                } catch(Exception exception) {
+                } catch (Exception exception) {
                     Comet.getServer().getLogger().warn("Failed to load catalog page: " + resultSet.getInt("id"));
                 }
             }
@@ -78,7 +77,7 @@ public class CatalogDao {
                     }
 
                     data.put(resultSet.getInt("id"), catalogItem);
-                } catch(Exception e) {
+                } catch (Exception e) {
                     Comet.getServer().getLogger().warn("Error while loading catalog item: " + resultSet.getInt("id"));
                 }
             }

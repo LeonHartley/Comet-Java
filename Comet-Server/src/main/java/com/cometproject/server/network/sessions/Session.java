@@ -57,7 +57,7 @@ public class Session implements ISession {
 
         this.eventHandler.dispose();
 
-        if(this.player != null) {
+        if (this.player != null) {
             this.getPlayer().dispose();
         }
 

@@ -7,10 +7,8 @@ import com.cometproject.server.game.GameThread;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.utilities.CometRuntime;
 import com.cometproject.server.utilities.CometStats;
 
-import java.lang.management.ManagementFactory;
 import java.text.NumberFormat;
 
 
@@ -50,7 +48,7 @@ public class AboutCommand extends ChatCommand {
             about.append("Threads:  " + ManagementFactory.getThreadMXBean().getThreadCount() + "<br>");
         }*/
 
-        if(client.getPlayer().getPermissions().hasPermission("about_stats")) {
+        if (client.getPlayer().getPermissions().hasPermission("about_stats")) {
             about.append("<br><br><b>Hotel Stats</b><br>");
             about.append("Online record: " + GameThread.getInstance().getOnlineRecord() + "<br>");
             about.append("Record since last reboot: " + GameThread.getInstance().getCurrentOnlineRecord() + " ");

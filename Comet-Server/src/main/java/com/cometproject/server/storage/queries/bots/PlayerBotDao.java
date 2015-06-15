@@ -3,7 +3,6 @@ package com.cometproject.server.storage.queries.bots;
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.storage.SqlHelper;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

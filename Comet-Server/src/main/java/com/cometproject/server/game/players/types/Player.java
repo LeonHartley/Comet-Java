@@ -215,8 +215,8 @@ public class Player implements IPlayer {
             if (quest != null && this.getQuests().hasStartedQuest(quest.getId()) && !this.getQuests().hasCompletedQuest(quest.getId())) {
                 this.getSession().send(new QuestStartedMessageComposer(quest, this));
 
-                if(quest.getType() == QuestType.SOCIAL_VISIT) {
-                   this.getQuests().progressQuest(QuestType.SOCIAL_VISIT);
+                if (quest.getType() == QuestType.SOCIAL_VISIT) {
+                    this.getQuests().progressQuest(QuestType.SOCIAL_VISIT);
                 }
             }
         }
@@ -235,7 +235,7 @@ public class Player implements IPlayer {
 
     @Override
     public void ignorePlayer(int playerId) {
-        if(this.ignoredPlayers == null) {
+        if (this.ignoredPlayers == null) {
             this.ignoredPlayers = new ArrayList<>();
         }
 
@@ -267,12 +267,12 @@ public class Player implements IPlayer {
         this.session = ((Session) client);
     }
 
-//    @Override
+    //    @Override
     public void setEntity(PlayerEntity avatar) {
         this.entity = avatar;
     }
 
-//    @Override
+    //    @Override
     public PlayerEntity getEntity() {
         return this.entity;
     }
@@ -297,37 +297,37 @@ public class Player implements IPlayer {
         return this.permissions;
     }
 
-//    @Override
+    //    @Override
     public MessengerComponent getMessenger() {
         return this.messenger;
     }
 
-//    @Override
+    //    @Override
     public InventoryComponent getInventory() {
         return this.inventory;
     }
 
-//    @Override
+    //    @Override
     public SubscriptionComponent getSubscription() {
         return this.subscription;
     }
 
-//    @Override
+    //    @Override
     public RelationshipComponent getRelationships() {
         return this.relationships;
     }
 
-//    @Override
+    //    @Override
     public InventoryBotComponent getBots() {
         return this.bots;
     }
 
-//    @Override
+    //    @Override
     public PetComponent getPets() {
         return this.pets;
     }
 
-//    @Override
+    //    @Override
     public QuestComponent getQuests() {
         return quests;
     }

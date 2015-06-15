@@ -2,7 +2,6 @@ package com.cometproject.server.storage.queries.config;
 
 import com.cometproject.server.storage.SqlHelper;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -7,7 +7,6 @@ import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.utilities.Initializable;
 import com.google.common.collect.Lists;
-
 import org.apache.commons.collections4.map.ListOrderedMap;
 import org.apache.log4j.Logger;
 
@@ -114,11 +113,11 @@ public class CatalogManager implements Initializable {
     }
 
     public void loadGiftBoxes() {
-        if(this.giftBoxesNew.size() >= 1) {
+        if (this.giftBoxesNew.size() >= 1) {
             this.giftBoxesNew.clear();
         }
 
-        if(this.giftBoxesOld.size() >= 1) {
+        if (this.giftBoxesOld.size() >= 1) {
             this.giftBoxesOld.clear();
         }
 
@@ -218,6 +217,7 @@ public class CatalogManager implements Initializable {
 
     /**
      * Gift wrappings new
+     *
      * @return The new style of gift wrapping boxes
      */
     public List<Integer> getGiftBoxesNew() {
@@ -226,6 +226,7 @@ public class CatalogManager implements Initializable {
 
     /**
      * Gift wrappings old
+     *
      * @return The old style of gift wrapping boxes
      */
     public List<Integer> getGiftBoxesOld() {

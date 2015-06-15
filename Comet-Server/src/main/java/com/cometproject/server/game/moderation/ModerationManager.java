@@ -9,7 +9,6 @@ import com.cometproject.server.network.messages.outgoing.moderation.tickets.Help
 import com.cometproject.server.storage.queries.moderation.PresetDao;
 import com.cometproject.server.storage.queries.moderation.TicketDao;
 import com.cometproject.server.utilities.Initializable;
-
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -140,8 +139,8 @@ public class ModerationManager implements Initializable {
     public HelpTicket getActiveTicketByPlayerId(int playerId) {
         HelpTicket ticket = this.getTicketByUserId(playerId);
 
-        if(ticket != null) {
-            if(ticket.getState() != HelpTicketState.CLOSED) {
+        if (ticket != null) {
+            if (ticket.getState() != HelpTicketState.CLOSED) {
                 return ticket;
             }
         }

@@ -67,11 +67,11 @@ public class ItemDefinition {
 
         final String variableHeightData = data.getString("variable_heights");
 
-        if(!variableHeightData.isEmpty() && variableHeightData.contains(",")) {
+        if (!variableHeightData.isEmpty() && variableHeightData.contains(",")) {
             String[] variableHeightArray = variableHeightData.split(",");
             this.variableHeights = new Double[variableHeightArray.length];
 
-            for(int i = 0; i < variableHeightArray.length; i++) {
+            for (int i = 0; i < variableHeightArray.length; i++) {
                 try {
                     this.variableHeights[i] = Double.parseDouble(variableHeightArray[i]);
                 } catch (Exception ignored) {
@@ -82,7 +82,7 @@ public class ItemDefinition {
             this.variableHeights = null;
         }
 
-        if(height == 0.0) {
+        if (height == 0.0) {
             this.height = 0.001;
         } else {
             this.height = height;

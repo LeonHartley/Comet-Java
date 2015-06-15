@@ -23,7 +23,7 @@ public class RoomMapping {
     }
 
     public void init() {
-        if(this.getModel() == null) {
+        if (this.getModel() == null) {
             return;
         }
 
@@ -48,8 +48,8 @@ public class RoomMapping {
 
     public void tick() {
         // clear out the entity grid
-        for(int x = 0; x < tiles.length; x++) {
-            for(int y = 0; y < tiles[x].length; y++) {
+        for (int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles[x].length; y++) {
                 List<GenericEntity> entitiesToRemove = new ArrayList<>();
 
                 try {
@@ -66,7 +66,7 @@ public class RoomMapping {
                     for (GenericEntity entityToRemove : entitiesToRemove) {
                         tile.getEntities().remove(entityToRemove);
                     }
-                } catch(Exception e) {
+                } catch (Exception e) {
                     // TODO: Look into why this would cause an exception...
                 }
 
@@ -76,7 +76,7 @@ public class RoomMapping {
     }
 
     public void updateTile(int x, int y) {
-        if(x < 0 || y < 0) {
+        if (x < 0 || y < 0) {
             return;
         }
 
@@ -87,7 +87,7 @@ public class RoomMapping {
     }
 
     public Tile getTile(Position position) {
-        if(position == null) return null;
+        if (position == null) return null;
 
         return this.getTile(position.getX(), position.getY());
     }

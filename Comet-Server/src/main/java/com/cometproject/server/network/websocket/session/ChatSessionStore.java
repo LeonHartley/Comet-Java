@@ -32,7 +32,7 @@ public class ChatSessionStore {
     }
 
     public static ChatSessionStore getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new ChatSessionStore();
         }
 

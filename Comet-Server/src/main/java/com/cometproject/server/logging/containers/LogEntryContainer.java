@@ -5,7 +5,6 @@ import com.cometproject.server.logging.database.queries.LogQueries;
 import com.cometproject.server.tasks.CometTask;
 
 
-
 public class LogEntryContainer implements CometTask {
 //    private FastTable<AbstractLogEntry> entriesToSave = new FastTable<>();
 //    private FastTable<AbstractLogEntry> entriesPending = new FastTable<>();
@@ -17,7 +16,8 @@ public class LogEntryContainer implements CometTask {
     public LogEntryContainer() {
 //        CometThreadManager.getInstance().executePeriodic(this, 500, 500, TimeUnit.MILLISECONDS);
     }
-//
+
+    //
     @Override
     public void run() {
 //        if (this.entriesToSave.size() < 1) return;

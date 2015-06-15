@@ -24,7 +24,7 @@ public class MessageDecoder extends ByteToMessageDecoder {
                 return;
             }
 
-            if(length < 0) {
+            if (length < 0) {
                 return;
             }
 

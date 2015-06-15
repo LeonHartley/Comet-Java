@@ -42,7 +42,7 @@ public class WebSocketServer implements Initializable {
         this.setupServer();
         this.setupListeners();
 
-        if(this.server != null) {
+        if (this.server != null) {
             this.server.start();
         }
     }
@@ -58,7 +58,7 @@ public class WebSocketServer implements Initializable {
     private void setupServer() {
         try {
             this.server = new SocketIOServer(this.configuration);
-        } catch(Exception e) {
+        } catch (Exception e) {
             this.handleException(e);
         }
     }
@@ -74,6 +74,7 @@ public class WebSocketServer implements Initializable {
 
     /**
      * Handles an exception from the SocketIO Server
+     *
      * @param e The exception to be handled
      */
     private void handleException(Exception e) {
@@ -81,7 +82,7 @@ public class WebSocketServer implements Initializable {
     }
 
     public static WebSocketServer getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new WebSocketServer();
         }
 

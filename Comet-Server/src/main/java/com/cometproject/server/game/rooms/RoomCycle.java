@@ -45,13 +45,13 @@ public class RoomCycle implements CometTask {
 
             List<Integer> expiredPromotedRooms = Lists.newArrayList();
 
-            for(RoomPromotion roomPromotion : RoomManager.getInstance().getRoomPromotions().values()) {
-                if(roomPromotion.isExpired()) {
+            for (RoomPromotion roomPromotion : RoomManager.getInstance().getRoomPromotions().values()) {
+                if (roomPromotion.isExpired()) {
                     expiredPromotedRooms.add(roomPromotion.getRoomId());
                 }
             }
 
-            if(expiredPromotedRooms.size() != 0) {
+            if (expiredPromotedRooms.size() != 0) {
                 for (int roomId : expiredPromotedRooms) {
                     RoomManager.getInstance().getRoomPromotions().remove(roomId);
                 }

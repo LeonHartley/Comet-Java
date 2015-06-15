@@ -62,7 +62,7 @@ public class Configuration extends Properties {
     }
 
     public String get(String key, String fallback) {
-        if(this.containsKey(fallback)) {
+        if (this.containsKey(fallback)) {
             return this.get(key);
         }
 

@@ -4,7 +4,6 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.types.Composer;
-import com.cometproject.server.network.sessions.SessionManager;
 import io.netty.buffer.ByteBuf;
 
 public abstract class MessageComposer implements IMessageComposer {

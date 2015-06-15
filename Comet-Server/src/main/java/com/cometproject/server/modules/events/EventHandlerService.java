@@ -67,7 +67,7 @@ public class EventHandlerService implements EventHandler {
     }
 
     private void invoke(Event event) {
-        for(Pair<Object, Method> method : this.listeners.get(event.getClass())) {
+        for (Pair<Object, Method> method : this.listeners.get(event.getClass())) {
             try {
                 method.getValue().invoke(method.getKey(), event);
             } catch (Exception e) {

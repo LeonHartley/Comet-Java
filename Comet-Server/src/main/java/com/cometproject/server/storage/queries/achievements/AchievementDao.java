@@ -33,7 +33,7 @@ public class AchievementDao {
 
                 final AchievementType groupName = AchievementType.getTypeByName(resultSet.getString("group_name"));
 
-                if(groupName == null) continue;
+                if (groupName == null) continue;
 
                 if (!achievementGroups.containsKey(groupName)) {
                     achievementGroups.put(groupName, new AchievementGroup(new HashMap<>(), resultSet.getString("group_name"), AchievementCategory.valueOf(resultSet.getString("category").toUpperCase())));

@@ -11,7 +11,7 @@ public class DisconnectionListener implements DisconnectListener {
     public void onDisconnect(SocketIOClient socketIOClient) {
         final ChatSession chatSession = ChatSessionStore.getInstance().getChatSession(socketIOClient.getSessionId());
 
-        if(chatSession != null) {
+        if (chatSession != null) {
             chatSession.dispose();
             ChatSessionStore.getInstance().remove(socketIOClient.getSessionId());
         }

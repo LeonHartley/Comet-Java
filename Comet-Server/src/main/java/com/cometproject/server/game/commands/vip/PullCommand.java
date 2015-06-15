@@ -23,7 +23,7 @@ public class PullCommand extends ChatCommand {
             return;
         }
 
-        if(client.getPlayer().getEntity().isRoomMuted() || client.getPlayer().getEntity().getRoom().getRights().hasMute(client.getPlayer().getId())) {
+        if (client.getPlayer().getEntity().isRoomMuted() || client.getPlayer().getEntity().getRoom().getRights().hasMute(client.getPlayer().getId())) {
             return;
         }
 
@@ -46,7 +46,7 @@ public class PullCommand extends ChatCommand {
         Room room = client.getPlayer().getEntity().getRoom();
         PlayerEntity pulledEntity = pulledSession.getPlayer().getEntity();
 
-        if(pulledEntity.isOverriden()) {
+        if (pulledEntity.isOverriden()) {
             return;
         }
 

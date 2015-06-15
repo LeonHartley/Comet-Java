@@ -4,7 +4,6 @@ import com.cometproject.server.api.rooms.RoomStats;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
-
 import spark.Request;
 import spark.Response;
 

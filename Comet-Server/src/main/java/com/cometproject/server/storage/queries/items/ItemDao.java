@@ -33,7 +33,7 @@ public class ItemDao {
 //                if(resultSet.getString("id").length() > 9) continue;
                 try {
                     data.put(resultSet.getInt("id"), new ItemDefinition(resultSet));
-                } catch(Exception e) {
+                } catch (Exception e) {
                     ItemManager.getInstance().getLogger().warn("Error while loading item definition for ID: " + resultSet.getInt("id"), e);
                 }
             }

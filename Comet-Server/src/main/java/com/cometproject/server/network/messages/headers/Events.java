@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages.headers;
 
 
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;

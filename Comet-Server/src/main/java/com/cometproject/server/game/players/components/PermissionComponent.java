@@ -24,7 +24,7 @@ public class PermissionComponent implements IPermissionComponent {
                     return true;
                 }
             }
-        } catch(Exception ignored) {
+        } catch (Exception ignored) {
             return false;
         }
 
@@ -42,7 +42,7 @@ public class PermissionComponent implements IPermissionComponent {
             }
         } else if (key.equals("debug") && Comet.isDebugging) {
             return true;
-        } else if(key.equals("dev")) {
+        } else if (key.equals("dev")) {
             return true;
         }
 

@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class Category implements RoomCategory{
+public class Category implements RoomCategory {
     public static final int MISSING_CATEGORY_ID = 0;
     public static final String MISSING_CATEGORY_TITLE = "Missing category";
     public static final int MISSING_CATEGORY_RANK = 1;

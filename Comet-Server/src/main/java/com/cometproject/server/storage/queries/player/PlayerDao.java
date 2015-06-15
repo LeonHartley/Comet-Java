@@ -9,7 +9,6 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerSettings;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.storage.SqlHelper;
-import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

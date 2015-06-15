@@ -2,7 +2,6 @@ package com.cometproject.server.game.rooms.types.misc;
 
 import com.cometproject.server.game.rooms.RoomManager;
 
-
 import java.util.HashMap;
 import java.util.Map;
 

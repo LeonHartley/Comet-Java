@@ -88,7 +88,7 @@ public class RoomManager implements Initializable {
 
     public void initializeRoom(Session initializer, int roomId, String password) {
         this.executorService.submit(() -> {
-            if(initializer != null && initializer.getPlayer() != null) {
+            if (initializer != null && initializer.getPlayer() != null) {
                 initializer.getPlayer().loadRoom(roomId, password);
             }
         });

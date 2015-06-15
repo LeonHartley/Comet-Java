@@ -38,8 +38,8 @@ public enum QuestType {
     }
 
     public static QuestType getById(int id) {
-        for(QuestType type : values()) {
-            if(type.getQuestType() == id) {
+        for (QuestType type : values()) {
+            if (type.getQuestType() == id) {
                 return type;
             }
         }

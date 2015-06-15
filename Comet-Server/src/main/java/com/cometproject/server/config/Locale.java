@@ -49,7 +49,7 @@ public class Locale {
     }
 
     public static String getOrDefault(String key, String defaultValue) {
-        if(!locale.containsKey(key)) {
+        if (!locale.containsKey(key)) {
             return defaultValue;
         }
 

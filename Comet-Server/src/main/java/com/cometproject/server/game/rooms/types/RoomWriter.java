@@ -1,7 +1,6 @@
 package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.navigator.NavigatorManager;
@@ -68,21 +67,21 @@ public class RoomWriter {
         boolean composeGroup = group != null;
         boolean composePromo = promotion != null;
 
-        if(composeGroup && composePromo) {
+        if (composeGroup && composePromo) {
             msg.writeInt(62);
-        } else if(composeGroup) {
+        } else if (composeGroup) {
             msg.writeInt(58);
-        } else if(composePromo) {
+        } else if (composePromo) {
             msg.writeInt(60);
         } else {
             msg.writeInt(56);
         }
 
-        if(composeGroup) {
+        if (composeGroup) {
             composeGroup(group, msg);
         }
 
-        if(composePromo) {
+        if (composePromo) {
             composePromotion(promotion, msg);
         }
     }

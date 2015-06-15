@@ -24,7 +24,6 @@ import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.storage.StorageManager;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.server.utilities.FilterUtil;
 import org.apache.log4j.Logger;
 
 import java.util.Map;

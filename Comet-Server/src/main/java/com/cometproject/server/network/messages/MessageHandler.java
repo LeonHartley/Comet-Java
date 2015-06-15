@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.logging.AbstractLogEntry;
 import com.cometproject.server.network.messages.headers.Events;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.incoming.catalog.*;
@@ -107,8 +106,8 @@ public final class MessageHandler {
         this.asyncEventExecution = Boolean.parseBoolean((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.enabled", "false"));
 //        this.eventExecutor = asyncEventExecution ? Executors.newFixedThreadPool(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.threads", "8"))) : null;
 
-        if(this.asyncEventExecution) {
-            switch((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.type", "threadpool")) {
+        if (this.asyncEventExecution) {
+            switch ((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.type", "threadpool")) {
                 default:
                     log.info("Using thread-pool event executor");
                     this.eventExecutor = new ThreadPoolExecutor(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.alternativePacketHandling.coreSize", "8")), // core size
@@ -458,7 +457,7 @@ public final class MessageHandler {
                             if (client.getPlayer() != null && client.getPlayer().getData() != null)
                                 log.warn("[" + event.getClass().getSimpleName() + "][" + message.getId() + "][" + client.getPlayer().getId() + "][" + client.getPlayer().getData().getUsername() + "] Packet took " + timeTakenSinceCreation + "ms to execute");
                             else
-                                log.warn("[" + event.getClass().getSimpleName() + "][" + message.getId() + "] Packet took " +  timeTakenSinceCreation + "ms to execute");
+                                log.warn("[" + event.getClass().getSimpleName() + "][" + message.getId() + "] Packet took " + timeTakenSinceCreation + "ms to execute");
                         }
 
                         log.debug("Finished packet process for packet: [" + event.getClass().getSimpleName() + "][" + header + "] in " + ((System.currentTimeMillis() - start)) + "ms");

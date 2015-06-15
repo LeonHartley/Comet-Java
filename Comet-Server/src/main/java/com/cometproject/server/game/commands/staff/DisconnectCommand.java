@@ -9,7 +9,7 @@ import com.cometproject.server.network.sessions.Session;
 public class DisconnectCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length != 1) return;
+        if (params.length != 1) return;
 
         String username = params[0];
 

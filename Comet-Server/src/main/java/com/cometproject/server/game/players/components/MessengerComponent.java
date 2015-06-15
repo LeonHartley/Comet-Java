@@ -11,7 +11,6 @@ import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerSearchResultsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.messenger.UpdateFriendStateMessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerDao;
 import com.cometproject.server.storage.queries.player.messenger.MessengerSearchDao;
 import com.google.common.collect.Lists;
@@ -129,7 +128,7 @@ public class MessengerComponent implements PlayerComponent {
     }
 
     public boolean hasRequestFrom(int playerId) {
-        if(this.requests == null) return false;
+        if (this.requests == null) return false;
 
         for (Integer messengerRequest : this.requests) {
             if (messengerRequest == playerId)
@@ -166,10 +165,10 @@ public class MessengerComponent implements PlayerComponent {
     }
 
     public void sendStatus(boolean online, boolean inRoom) {
-        if(this.getPlayer() == null || this.getPlayer().getSettings() == null) {
+        if (this.getPlayer() == null || this.getPlayer().getSettings() == null) {
             return;
         }
-        
+
         if (this.getPlayer().getSettings().getHideOnline()) {
             return;
         }

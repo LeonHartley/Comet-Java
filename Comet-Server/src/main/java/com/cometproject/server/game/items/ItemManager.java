@@ -75,7 +75,7 @@ public class ItemManager implements Initializable {
     }
 
     public void loadMusicData() {
-        if(!this.musicData.isEmpty()) {
+        if (!this.musicData.isEmpty()) {
             this.musicData.clear();
         }
 
@@ -100,7 +100,7 @@ public class ItemManager implements Initializable {
     }
 
     public MusicData getMusicData(int songId) {
-        if(this.musicData.containsKey(songId)) {
+        if (this.musicData.containsKey(songId)) {
             return this.musicData.get(songId);
         }
 
@@ -108,8 +108,8 @@ public class ItemManager implements Initializable {
     }
 
     public MusicData getMusicDataByName(String name) {
-        for(MusicData musicData : this.musicData.values()) {
-            if(musicData.getName().equals(name)) {
+        for (MusicData musicData : this.musicData.values()) {
+            if (musicData.getName().equals(name)) {
                 return musicData;
             }
         }

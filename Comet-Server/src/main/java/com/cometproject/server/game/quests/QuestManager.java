@@ -4,7 +4,6 @@ import com.cometproject.server.storage.queries.quests.QuestsDao;
 import com.cometproject.server.utilities.Initializable;
 import org.apache.log4j.Logger;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class QuestManager implements Initializable {
@@ -63,8 +62,8 @@ public class QuestManager implements Initializable {
     }
 
     public Quest getNextQuestInSeries(Quest lastQuest) {
-        for(Quest quest : this.quests.values()) {
-            if(quest.getCategory().equals(lastQuest.getCategory()) &&
+        for (Quest quest : this.quests.values()) {
+            if (quest.getCategory().equals(lastQuest.getCategory()) &&
                     quest.getSeriesNumber() == (lastQuest.getSeriesNumber() + 1)) {
                 return quest;
             }

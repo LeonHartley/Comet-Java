@@ -5,7 +5,6 @@ import com.cometproject.server.game.permissions.types.Perk;
 import com.cometproject.server.game.permissions.types.Permission;
 import com.cometproject.server.storage.SqlHelper;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
