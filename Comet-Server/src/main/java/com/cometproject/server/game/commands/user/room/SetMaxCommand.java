@@ -11,7 +11,7 @@ import org.apache.commons.lang.StringUtils;
 public class SetMaxCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length != 1 || !StringUtils.isNumeric(params[0])) {
+        if (params.length != 1 || !StringUtils.isNumeric(params[0])) {
             sendNotif(Locale.get("command.setmax.invalid"), client);
             return;
         }
@@ -20,10 +20,10 @@ public class SetMaxCommand extends ChatCommand {
         final boolean hasRights = room.getRights().hasRights(client.getPlayer().getId());
         final boolean isStaff = client.getPlayer().getPermissions().hasPermission("room_full_control");
 
-        if(hasRights || isStaff) {
+        if (hasRights || isStaff) {
             final int maxPlayers = Integer.parseInt(params[0]);
 
-            if((maxPlayers > CometSettings.maxPlayersInRoom && !isStaff) || maxPlayers < 1) {
+            if ((maxPlayers > CometSettings.maxPlayersInRoom && !isStaff) || maxPlayers < 1) {
                 sendNotif(Locale.get("command.setmax.toomany").replace("%i", CometSettings.maxPlayersInRoom + ""), client);
                 return;
             }

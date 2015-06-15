@@ -6,7 +6,6 @@ import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class WalkMessageEvent implements Event {
             }
 
             if (entity.canWalk() && !entity.isOverriden() && entity.isVisible()) {
-                   entity.moveTo(goalX, goalY);
+                entity.moveTo(goalX, goalY);
 
                 if (entity.getMountedEntity() != null) {
                     entity.getMountedEntity().moveTo(goalX, goalY);

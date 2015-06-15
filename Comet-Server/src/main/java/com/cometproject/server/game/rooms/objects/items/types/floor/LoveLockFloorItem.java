@@ -27,7 +27,7 @@ public class LoveLockFloorItem extends RoomItemFloor {
             return false;
         }
 
-        if(this.getExtraData().startsWith("1")) return false;
+        if (this.getExtraData().startsWith("1")) return false;
 
         Position leftPosition = null;
         Position rightPosition = null;
@@ -57,7 +57,8 @@ public class LoveLockFloorItem extends RoomItemFloor {
         GenericEntity leftEntity = leftTile.getEntity();
         GenericEntity rightEntity = rightTile.getEntity();
 
-        if(leftEntity.getEntityType() != RoomEntityType.PLAYER || rightEntity.getEntityType() != RoomEntityType.PLAYER) return false;
+        if (leftEntity.getEntityType() != RoomEntityType.PLAYER || rightEntity.getEntityType() != RoomEntityType.PLAYER)
+            return false;
 
         try {
             ((PlayerEntity) leftEntity).getPlayer().getSession().send(new LoveLockWidgetMessageComposer(this.getId()));
@@ -65,7 +66,7 @@ public class LoveLockFloorItem extends RoomItemFloor {
 
             this.leftEntity = ((PlayerEntity) leftEntity).getPlayerId();
             this.rightEntity = ((PlayerEntity) rightEntity).getPlayerId();
-        } catch(Exception e) {
+        } catch (Exception e) {
             return false;
         }
 

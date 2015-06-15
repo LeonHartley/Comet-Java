@@ -23,7 +23,7 @@ public class PlaceItemMessageEvent implements Event {
 
         String data = msg.readString();
 
-        if(data == null) return;
+        if (data == null) return;
 
         String[] parts = data.split(" ");
         int id = Integer.parseInt(parts[0].replace("-", ""));
@@ -68,7 +68,7 @@ public class PlaceItemMessageEvent implements Event {
 
                 RoomItemFloor floorItem = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(item.getId());
 
-                if(floorItem != null) {
+                if (floorItem != null) {
                     Tile tile = floorItem.getTile();
 
                     if (tile != null) {

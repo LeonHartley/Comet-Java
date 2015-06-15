@@ -22,9 +22,8 @@ public class GroupFloorItem extends RoomItemFloor {
     }
 
 
-
     public void onEntityStepOn(GenericEntity entity, boolean instantUpdate) {
-        if(!this.getDefinition().canSit()) return;
+        if (!this.getDefinition().canSit()) return;
 
         double height = (entity instanceof PetEntity || entity.hasAttribute("transformation")) ? this.getSitHeight() / 2 : this.getSitHeight();
 

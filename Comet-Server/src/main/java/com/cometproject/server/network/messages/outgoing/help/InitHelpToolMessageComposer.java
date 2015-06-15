@@ -22,7 +22,7 @@ public class InitHelpToolMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeInt(this.helpTicket == null ? 0 : 1);
 
-        if(this.helpTicket != null) {
+        if (this.helpTicket != null) {
             msg.writeString(this.helpTicket.getId());
             msg.writeString(this.helpTicket.getDateSubmitted());
             msg.writeString(this.helpTicket.getMessage());

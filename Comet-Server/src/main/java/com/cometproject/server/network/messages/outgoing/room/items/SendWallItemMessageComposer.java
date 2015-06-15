@@ -6,7 +6,7 @@ import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 
 
-public class SendWallItemMessageComposer extends MessageComposer  {
+public class SendWallItemMessageComposer extends MessageComposer {
     private final RoomItemWall itemWall;
 
     public SendWallItemMessageComposer(RoomItemWall itemWall) {

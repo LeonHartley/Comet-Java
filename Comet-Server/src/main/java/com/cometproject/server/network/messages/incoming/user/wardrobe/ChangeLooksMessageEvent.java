@@ -14,7 +14,7 @@ public class ChangeLooksMessageEvent implements Event {
         String gender = msg.readString();
         String figure = msg.readString();
 
-        if(!gender.toLowerCase().equals("m") && !gender.toLowerCase().equals("f")) {
+        if (!gender.toLowerCase().equals("m") && !gender.toLowerCase().equals("f")) {
             return;
         }
 

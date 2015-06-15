@@ -25,7 +25,7 @@ public class MassBadgeCommand extends ChatCommand {
             try {
                 ((Player) session.getPlayer()).getInventory().addBadge(badgeCode, false);
                 playersToInsertBadge.add(session.getPlayer().getId());
-            } catch(Exception ignored) {
+            } catch (Exception ignored) {
 
             }
         }

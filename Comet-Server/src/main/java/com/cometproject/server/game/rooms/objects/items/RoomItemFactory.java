@@ -79,7 +79,7 @@ public class RoomItemFactory {
             put("wf_act_bot_give_handitem", WiredActionBotGiveHandItem.class);//new
             put("wf_act_bot_move", WiredActionBotMove.class);//new
             put("wf_act_comet", WiredActionComet.class);//new
-            
+
             put("wf_trg_says_something", WiredTriggerPlayerSaysKeyword.class);//new
             put("wf_trg_enter_room", WiredTriggerEnterRoom.class);//new
             put("wf_trg_periodically", WiredTriggerPeriodically.class);//new
@@ -93,7 +93,7 @@ public class RoomItemFactory {
             put("wf_trg_at_given_time", WiredTriggerAtGivenTime.class);//new
             put("wf_trg_at_given_time_long", WiredTriggerAtGivenTimeLong.class);//new
             put("wf_trg_score_achieved", WiredTriggerScoreAchieved.class);//new
-            
+
             put("wf_cnd_trggrer_on_frn", WiredConditionTriggererOnFurni.class);//new
             put("wf_cnd_not_trggrer_on", WiredNegativeConditionTriggererOnFurni.class);//new
             put("wf_cnd_actor_in_group", WiredConditionPlayerInGroup.class);//new
@@ -113,7 +113,7 @@ public class RoomItemFactory {
             put("wf_cnd_has_handitem", WiredConditionHasHandItem.class);//new
             put("wf_cnd_time_more_than", WiredConditionTimeMoreThan.class);//new
             put("wf_cnd_time_less_than", WiredConditionTimeLessThan.class);//new
-            
+
             put("wf_xtra_random", WiredAddonRandomEffect.class);
             put("wf_xtra_unseen", WiredAddonUnseenEffect.class);
 
@@ -176,7 +176,7 @@ public class RoomItemFactory {
         if (data.startsWith(GIFT_DATA)) {
             try {
                 floorItem = new GiftFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 floorItem = new GenericFloorItem(id, baseId, room, ownerId, x, y, height, rot, "");
             }
         } else {
@@ -194,7 +194,7 @@ public class RoomItemFactory {
             floorItem = new GenericFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
         }
 
-        if(limitedEditionItem != null) {
+        if (limitedEditionItem != null) {
             floorItem.setLimitedEditionItem(limitedEditionItem);
         }
 
@@ -228,7 +228,7 @@ public class RoomItemFactory {
             }
         }
 
-        if(limitedEditionItem != null) {
+        if (limitedEditionItem != null) {
             wallItem.setLimitedEditionItem(limitedEditionItem);
         }
 

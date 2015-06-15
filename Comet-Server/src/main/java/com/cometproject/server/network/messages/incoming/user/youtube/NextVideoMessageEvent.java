@@ -18,7 +18,7 @@ public class NextVideoMessageEvent implements Event {
         int itemId = msg.readInt();
         int direction = msg.readInt(); // 0 = previous, 1 = next
 
-        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null)
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null)
             return;
 
         RoomItemFloor item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(itemId);
@@ -52,10 +52,10 @@ public class NextVideoMessageEvent implements Event {
             }
         }
 
-        if(playerSettings.getPlaylist().size() == 0) return;
+        if (playerSettings.getPlaylist().size() == 0) return;
 
         IPlaylistItem playlistItem = playerSettings.getPlaylist().get(currentVideoIndex);
-        if(playerSettings.getPlaylist() != null) {
+        if (playerSettings.getPlaylist() != null) {
             client.send(new PlaylistMessageComposer(itemId, playerSettings.getPlaylist(), currentVideoIndex));
         }
 

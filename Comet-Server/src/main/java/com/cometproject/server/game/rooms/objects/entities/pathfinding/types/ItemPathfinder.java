@@ -14,7 +14,7 @@ public class ItemPathfinder extends Pathfinder {
     private static ItemPathfinder pathfinderInstance;
 
     public static ItemPathfinder getInstance() {
-        if(pathfinderInstance == null) {
+        if (pathfinderInstance == null) {
             pathfinderInstance = new ItemPathfinder();
         }
 
@@ -74,20 +74,20 @@ public class ItemPathfinder extends Pathfinder {
             return false;
         }
 
-        if(roomObject instanceof WiredActionChase) {
+        if (roomObject instanceof WiredActionChase) {
             int target = ((WiredActionChase) roomObject).getTargetId();
 
-            if(target != -1) {
-                for(GenericEntity entity : tile.getEntities()) {
-                    if(entity.getId() != target) {
+            if (target != -1) {
+                for (GenericEntity entity : tile.getEntities()) {
+                    if (entity.getId() != target) {
                         return false;
                     }
                 }
             }
         }
 
-        if(roomObject instanceof RollableFloorItem) {
-            for(GenericEntity entity : tile.getEntities()) {
+        if (roomObject instanceof RollableFloorItem) {
+            for (GenericEntity entity : tile.getEntities()) {
                 return false;
             }
         }

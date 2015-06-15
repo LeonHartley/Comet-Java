@@ -62,7 +62,7 @@ public class SaveFloorMessageEvent implements Event {
                     }
                 }
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             client.send(new AdvancedAlertMessageComposer("Invalid Model", "There seems to be a problem parsing this floor plan, please either try again or contact an admin!"));
         }
 

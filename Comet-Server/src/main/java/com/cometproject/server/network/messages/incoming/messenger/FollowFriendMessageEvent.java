@@ -24,10 +24,10 @@ public class FollowFriendMessageEvent implements Event {
             return;
         }
 
-        if(client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
+        if (client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
             Room roomInstance = client.getPlayer().getEntity().getRoom();
 
-            if(roomInstance.getId() == room.getId()) {
+            if (roomInstance.getId() == room.getId()) {
                 client.getPlayer().getEntity().leaveRoom(false, false, false);
             }
         }

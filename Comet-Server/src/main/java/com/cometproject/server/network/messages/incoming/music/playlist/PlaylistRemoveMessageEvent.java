@@ -22,7 +22,8 @@ public class PlaylistRemoveMessageEvent implements Event {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if(client.getPlayer().getId() != room.getData().getOwnerId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) return;
+        if (client.getPlayer().getId() != room.getData().getOwnerId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))
+            return;
 
         SoundMachineFloorItem soundMachineFloorItem = room.getItems().getSoundMachine();
 
@@ -30,7 +31,7 @@ public class PlaylistRemoveMessageEvent implements Event {
             return;
         }
 
-        if(songIndex < 0 || songIndex >= soundMachineFloorItem.getSongs().size()) {
+        if (songIndex < 0 || songIndex >= soundMachineFloorItem.getSongs().size()) {
             return;
         }
 

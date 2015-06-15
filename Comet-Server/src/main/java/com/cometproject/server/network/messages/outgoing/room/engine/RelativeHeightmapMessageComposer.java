@@ -19,7 +19,7 @@ public class RelativeHeightmapMessageComposer extends MessageComposer {
     public RelativeHeightmapMessageComposer(final RoomModel model) {
         this.model = model;
 
-        if(characters == null) {
+        if (characters == null) {
             init();
         }
     }

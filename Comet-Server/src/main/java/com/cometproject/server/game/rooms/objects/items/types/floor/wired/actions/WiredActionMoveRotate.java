@@ -78,7 +78,7 @@ public class WiredActionMoveRotate extends WiredActionItem {
                 final boolean rotationChanged = newRotation != floorItem.getRotation();
 
                 if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), newPosition, newRotation, true)) {
-                    if(!rotationChanged)
+                    if (!rotationChanged)
                         this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, newPosition, 0, 0, floorItem.getId()));
                     else
                         this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem));

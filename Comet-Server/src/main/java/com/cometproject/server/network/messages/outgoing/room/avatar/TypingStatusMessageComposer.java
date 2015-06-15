@@ -5,7 +5,7 @@ import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 
 
-public class TypingStatusMessageComposer extends MessageComposer  {
+public class TypingStatusMessageComposer extends MessageComposer {
     private final int playerId;
     private final int status;
 

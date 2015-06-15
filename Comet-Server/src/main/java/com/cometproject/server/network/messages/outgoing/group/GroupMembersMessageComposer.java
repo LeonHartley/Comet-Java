@@ -9,10 +9,7 @@ import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.network.sessions.SessionManager;
-import com.cometproject.server.storage.queries.player.PlayerDao;
 
-import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,19 +80,19 @@ public class GroupMembersMessageComposer extends MessageComposer {
 
                 PlayerAvatar playerAvatar = null;
 
-                if(PlayerManager.getInstance().isOnline(playerId)) {
+                if (PlayerManager.getInstance().isOnline(playerId)) {
                     Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
-                    if(session != null && session.getPlayer() != null && session.getPlayer().getData() != null) {
+                    if (session != null && session.getPlayer() != null && session.getPlayer().getData() != null) {
                         playerAvatar = session.getPlayer().getData();
                     }
                 }
 
-                if(playerAvatar == null) {
+                if (playerAvatar == null) {
                     playerAvatar = PlayerManager.getInstance().getAvatarByPlayerId(playerId, PlayerAvatar.USERNAME_FIGURE);
                 }
 
-                if(playerAvatar != null) {
+                if (playerAvatar != null) {
                     msg.writeInt(playerId);
                     msg.writeString(playerAvatar.getUsername());
                     msg.writeString(playerAvatar.getFigure());

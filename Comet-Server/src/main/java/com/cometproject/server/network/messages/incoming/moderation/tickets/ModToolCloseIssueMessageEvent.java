@@ -20,22 +20,22 @@ public class ModToolCloseIssueMessageEvent implements Event {
         final int unk = msg.readInt();
         final int ticketId = msg.readInt();
 
-        if(!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             client.disconnect();
             return;
         }
 
         final HelpTicket helpTicket = ModerationManager.getInstance().getTicket(ticketId);
 
-        if(helpTicket.getModeratorId() != client.getPlayer().getId()) return;
+        if (helpTicket.getModeratorId() != client.getPlayer().getId()) return;
 
         final PlayerStatistics submitterStatistics;
         final Session submitterSession;
 
-        if(PlayerManager.getInstance().isOnline(helpTicket.getSubmitterId())) {
+        if (PlayerManager.getInstance().isOnline(helpTicket.getSubmitterId())) {
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(helpTicket.getSubmitterId());
 
-            if(session != null && session.getPlayer() != null && session.getPlayer().getStats() != null) {
+            if (session != null && session.getPlayer() != null && session.getPlayer().getStats() != null) {
                 submitterSession = session;
                 submitterStatistics = session.getPlayer().getStats();
             } else {
@@ -47,7 +47,7 @@ public class ModToolCloseIssueMessageEvent implements Event {
             submitterStatistics = PlayerDao.getStatisticsById(helpTicket.getSubmitterId());
         }
 
-        switch(result) {
+        switch (result) {
             default:
             case 0: // Resolved
                 helpTicket.setState(HelpTicketState.RESOLVED);
@@ -58,7 +58,7 @@ public class ModToolCloseIssueMessageEvent implements Event {
                 break;
 
             case 2: // Abusive
-                if(submitterStatistics != null) {
+                if (submitterStatistics != null) {
                     submitterStatistics.incrementAbusiveHelpTickets(1);
                     submitterStatistics.save();
                 }
@@ -67,7 +67,7 @@ public class ModToolCloseIssueMessageEvent implements Event {
                 break;
         }
 
-        if(submitterSession != null) {
+        if (submitterSession != null) {
             submitterSession.send(new HelpTicketResponseMessageComposer(result));
         }
 

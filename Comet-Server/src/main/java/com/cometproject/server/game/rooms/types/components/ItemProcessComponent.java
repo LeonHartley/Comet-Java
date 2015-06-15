@@ -86,7 +86,7 @@ public class ItemProcessComponent implements CometTask {
 
         long timeStart = System.currentTimeMillis();
 
-        if(this.getRoom().getEntities().realPlayerCount() == 0) return;
+        if (this.getRoom().getEntities().realPlayerCount() == 0) return;
 
         for (RoomItemFloor item : this.getRoom().getItems().getFloorItems().values()) {
             try {

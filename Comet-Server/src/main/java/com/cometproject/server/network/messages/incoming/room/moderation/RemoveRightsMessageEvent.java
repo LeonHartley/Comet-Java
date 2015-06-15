@@ -21,7 +21,7 @@ public class RemoveRightsMessageEvent implements Event {
             return;
         }
 
-        for(int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++) {
             final int playerId = msg.readInt();
 
             PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(playerId);

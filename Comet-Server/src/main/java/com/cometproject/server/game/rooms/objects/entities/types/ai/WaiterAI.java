@@ -8,21 +8,21 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessage
 
 public class WaiterAI extends AbstractBotAI {
     private static final Drink[] drinks = {
-        new Drink("tea", 1),
-        new Drink("juice", 2),
-        new Drink("milk", 5),
-        new Drink("coffee", 8),
-        new Drink("decaff", 9),
-        new Drink("espresso", 13),
-        new Drink("mocha", 11),
-        new Drink("iced_coffee", 15),
-        new Drink("cappuccino", 16),
-        new Drink("java", 17),
-        new Drink("coke", 19),
-        new Drink("cola", 19),
-        new Drink("bubble", 24),
-        new Drink("potion", 25),
-        new Drink("pink_champagne", 35)
+            new Drink("tea", 1),
+            new Drink("juice", 2),
+            new Drink("milk", 5),
+            new Drink("coffee", 8),
+            new Drink("decaff", 9),
+            new Drink("espresso", 13),
+            new Drink("mocha", 11),
+            new Drink("iced_coffee", 15),
+            new Drink("cappuccino", 16),
+            new Drink("java", 17),
+            new Drink("coke", 19),
+            new Drink("cola", 19),
+            new Drink("bubble", 24),
+            new Drink("potion", 25),
+            new Drink("pink_champagne", 35)
     };
 
     public WaiterAI(GenericEntity entity) {
@@ -34,9 +34,9 @@ public class WaiterAI extends AbstractBotAI {
 
         String triggerMessage = message.toLowerCase();
 
-        for(Drink drink : drinks) {
-            if(triggerMessage.contains(Locale.get("drink." + drink.getTrigger()))) {
-                if(entity.getPosition().distanceTo(this.getEntity()) >= 4) {
+        for (Drink drink : drinks) {
+            if (triggerMessage.contains(Locale.get("drink." + drink.getTrigger()))) {
+                if (entity.getPosition().distanceTo(this.getEntity()) >= 4) {
                     this.getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getEntity().getId(), Locale.get("bots.chat.tooFar").replace("%username%", entity.getUsername()), RoomManager.getInstance().getEmotions().getEmotion(":("), 2));
                     return false;
                 }

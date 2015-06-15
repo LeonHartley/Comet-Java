@@ -40,14 +40,14 @@ public class ModToolBanUserMessageEvent implements Event {
         if (user == null) {
             PlayerData playerData = PlayerManager.getInstance().getDataByPlayerId(userId);
 
-            if(playerData == null) {
+            if (playerData == null) {
                 return;
             }
 
-            if(PermissionsManager.getInstance().getPermissions().get("user_unbannable") != null) {
+            if (PermissionsManager.getInstance().getPermissions().get("user_unbannable") != null) {
                 final Permission permission = PermissionsManager.getInstance().getPermissions().get("user_unbannable");
 
-                if(permission.getRank() <= playerData.getRank()) {
+                if (permission.getRank() <= playerData.getRank()) {
                     client.send(new AlertMessageComposer(Locale.getOrDefault("mod.ban.nopermission", "You do not have permission to ban this player!")));
                     return;
                 }
@@ -61,7 +61,7 @@ public class ModToolBanUserMessageEvent implements Event {
             return;
         }
 
-        if(user.getPlayer().getPermissions().hasPermission("user_unbannable")) {
+        if (user.getPlayer().getPermissions().hasPermission("user_unbannable")) {
             client.send(new AlertMessageComposer(Locale.getOrDefault("mod.ban.nopermission", "You do not have permission to ban this player!")));
             return;
         }
@@ -88,7 +88,7 @@ public class ModToolBanUserMessageEvent implements Event {
     private void updateStats(int playerId) {
         PlayerStatistics playerStatistics = PlayerDao.getStatisticsById(playerId);
 
-        if(playerStatistics != null) {
+        if (playerStatistics != null) {
             playerStatistics.incrementBans(1);
         }
     }

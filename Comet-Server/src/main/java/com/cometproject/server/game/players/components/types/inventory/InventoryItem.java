@@ -7,7 +7,6 @@ import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
-import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.utilities.JsonFactory;
 import org.apache.commons.lang.StringUtils;
 
@@ -36,7 +35,7 @@ public class InventoryItem {
             this.giftData = null;
         }
 
-        if(data.getInt("limited_id") != 0) {
+        if (data.getInt("limited_id") != 0) {
             this.limitedEditionItem = new LimitedEditionItem(this.id, data.getInt("limited_id"), data.getInt("limited_total"));
         }
     }

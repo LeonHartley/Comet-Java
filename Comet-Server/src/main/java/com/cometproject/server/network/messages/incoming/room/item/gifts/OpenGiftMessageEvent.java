@@ -28,7 +28,7 @@ public class OpenGiftMessageEvent implements Event {
 
         if (floorItem == null || !(floorItem instanceof GiftFloorItem)) return;
 
-        if(floorItem.getOwner() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_controll")) {
+        if (floorItem.getOwner() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_controll")) {
             return;
         }
 

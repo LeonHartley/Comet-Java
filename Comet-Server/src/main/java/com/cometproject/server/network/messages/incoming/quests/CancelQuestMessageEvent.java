@@ -12,7 +12,7 @@ public class CancelQuestMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         int questId = client.getPlayer().getData().getQuestId();
 
-        if(questId != 0) {
+        if (questId != 0) {
             client.getPlayer().getQuests().cancelQuest(questId);
             client.getPlayer().getData().setQuestId(0);
 

@@ -84,7 +84,7 @@ public class ModifyBotMessageEvent implements Event {
 
             case 3:
                 // Relax
-                switch(botEntity.getData().getMode()) {
+                switch (botEntity.getData().getMode()) {
                     case "default":
                         botEntity.getData().setMode("relaxed");
                         break;
@@ -98,7 +98,7 @@ public class ModifyBotMessageEvent implements Event {
                 break;
 
             case 4:
-                if(botEntity.getDanceId() != 0) {
+                if (botEntity.getDanceId() != 0) {
                     botEntity.setDanceId(0);
                 } else {
                     // Dance

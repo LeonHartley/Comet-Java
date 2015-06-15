@@ -13,7 +13,7 @@ import com.cometproject.server.network.sessions.Session;
 public class ModToolTicketChatlogMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        if(!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             client.disconnect();
             return;
         }
@@ -21,14 +21,14 @@ public class ModToolTicketChatlogMessageEvent implements Event {
         final int ticketId = msg.readInt();
         final HelpTicket helpTicket = ModerationManager.getInstance().getTicket(ticketId);
 
-        if(helpTicket == null || helpTicket.getModeratorId() != client.getPlayer().getId()) {
+        if (helpTicket == null || helpTicket.getModeratorId() != client.getPlayer().getId()) {
             // Doesn't exist or already picked!
             return;
         }
 
         final RoomData roomData = RoomManager.getInstance().getRoomData(helpTicket.getRoomId());
 
-        if(roomData == null) return;
+        if (roomData == null) return;
 
         client.send(new ModToolTicketChatlogMessageComposer(helpTicket, helpTicket.getRoomId(), roomData.getName(), LogQueries.getChatlogsForRoom(roomData.getId(), helpTicket.getDateSubmitted() - (30 * 60), helpTicket.getDateSubmitted() + (10 * 60))));
     }

@@ -22,7 +22,7 @@ public class ForumComponent implements GroupComponent {
 
     @Override
     public void dispose() {
-        for(ForumThread thread : this.forumThreads.values()) {
+        for (ForumThread thread : this.forumThreads.values()) {
             thread.dispose();
         }
 

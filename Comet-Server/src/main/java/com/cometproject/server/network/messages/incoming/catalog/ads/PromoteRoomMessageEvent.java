@@ -60,7 +60,7 @@ public class PromoteRoomMessageEvent implements Event {
             return;
         }
 
-        if(item.getBadgeId() != null && !item.getBadgeId().isEmpty()) {
+        if (item.getBadgeId() != null && !item.getBadgeId().isEmpty()) {
             client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
         }
 

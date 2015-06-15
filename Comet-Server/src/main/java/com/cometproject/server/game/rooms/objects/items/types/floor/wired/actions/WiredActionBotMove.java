@@ -34,7 +34,7 @@ public class WiredActionBotMove extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(this.getWiredData().getSelectedIds().size() == 0) {
+        if (this.getWiredData().getSelectedIds().size() == 0) {
             return false;
         }
 

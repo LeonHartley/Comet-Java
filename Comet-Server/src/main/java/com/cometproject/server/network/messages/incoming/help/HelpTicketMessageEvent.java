@@ -37,7 +37,7 @@ public class HelpTicketMessageEvent implements Event {
         for (int i = 0; i < chatCount; i++) {
             final int playerId = msg.readInt();
 
-            if(reportedId == 0) {
+            if (reportedId == 0) {
                 reportedId = playerId;
             }
 

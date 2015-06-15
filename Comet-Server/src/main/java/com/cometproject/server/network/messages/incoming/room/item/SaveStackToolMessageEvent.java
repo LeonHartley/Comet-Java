@@ -64,7 +64,7 @@ public class SaveStackToolMessageEvent implements Event {
 
             Tile tile = magicStackFloorItem.getRoom().getMapping().getTile(affectedTile.x, affectedTile.y);
 
-            if(tile != null) {
+            if (tile != null) {
                 tile.reload();
 
                 client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new UpdateStackMapMessageComposer(tile));

@@ -24,7 +24,6 @@ public abstract class TotemPartFloorItem extends RoomItemFloor {
                 int newTotum = Integer.parseInt(this.getExtraData());
 
 
-
                 this.setExtraData(newTotum + "");
             } else {
                 this.toggleInteract(true);
@@ -77,7 +76,7 @@ public abstract class TotemPartFloorItem extends RoomItemFloor {
     }
 
     public static int getDarkHead(int lightHead) {
-        switch(lightHead) {
+        switch (lightHead) {
 
         }
 

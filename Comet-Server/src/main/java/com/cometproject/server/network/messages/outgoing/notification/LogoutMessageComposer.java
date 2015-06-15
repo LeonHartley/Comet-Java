@@ -9,7 +9,7 @@ public class LogoutMessageComposer extends MessageComposer {
     private final int reason;
 
     public LogoutMessageComposer(final String reason) {
-        if(reason.equals("banned")) {
+        if (reason.equals("banned")) {
             this.reason = 1;
         } else {
             this.reason = 0;

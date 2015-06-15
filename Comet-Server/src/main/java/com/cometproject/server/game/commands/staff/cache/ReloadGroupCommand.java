@@ -14,11 +14,11 @@ import org.apache.commons.lang.StringUtils;
 public class ReloadGroupCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length != 1) {
+        if (params.length != 1) {
             return;
         }
 
-        if(!StringUtils.isNumeric(params[0])) {
+        if (!StringUtils.isNumeric(params[0])) {
             return;
         }
 
@@ -27,19 +27,19 @@ public class ReloadGroupCommand extends ChatCommand {
         final GroupData groupData = GroupManager.getInstance().getData(groupId);
         final GroupData newGroupData = GroupDao.getDataById(groupId);
 
-        if(groupData.getRoomId() != newGroupData.getRoomId()) {
-            if(RoomManager.getInstance().isActive(groupData.getRoomId())) {
+        if (groupData.getRoomId() != newGroupData.getRoomId()) {
+            if (RoomManager.getInstance().isActive(groupData.getRoomId())) {
                 Room oldRoom = RoomManager.getInstance().get(groupData.getRoomId());
 
-                if(oldRoom != null) {
+                if (oldRoom != null) {
                     oldRoom.setIdleNow();
                 }
             }
 
-            if(RoomManager.getInstance().isActive(newGroupData.getRoomId())) {
+            if (RoomManager.getInstance().isActive(newGroupData.getRoomId())) {
                 Room newRoom = RoomManager.getInstance().get(newGroupData.getRoomId());
 
-                if(newRoom != null) {
+                if (newRoom != null) {
                     newRoom.setIdleNow();
                 }
             }

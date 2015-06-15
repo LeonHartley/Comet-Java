@@ -22,8 +22,8 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
     public AvatarUpdateMessageComposer(final Collection<GenericEntity> entities) {
         this.entities = Lists.newArrayList();
 
-        for(GenericEntity entity : entities) {
-            if(!entity.isVisible()) {
+        for (GenericEntity entity : entities) {
+            if (!entity.isVisible()) {
                 continue;
             }
 
@@ -49,10 +49,10 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeInt(this.count);
 
-        if(this.singleEntity != null) {
+        if (this.singleEntity != null) {
             this.composeEntity(msg, this.singleEntity);
         } else {
-            for(final AvatarState entity : this.entities) {
+            for (final AvatarState entity : this.entities) {
                 this.composeEntity(msg, entity);
             }
         }

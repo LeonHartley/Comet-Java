@@ -17,17 +17,17 @@ public class SongDataMessageEvent implements Event {
 
         List<MusicData> musicDataList = Lists.newArrayList();
 
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             int songId = msg.readInt();
 
             MusicData musicData = ItemManager.getInstance().getMusicData(songId);
 
-            if(musicData != null) {
+            if (musicData != null) {
                 musicDataList.add(musicData);
             }
         }
 
-        if(!musicDataList.isEmpty())
+        if (!musicDataList.isEmpty())
             client.send(new SongDataMessageComposer(musicDataList));
     }
 }

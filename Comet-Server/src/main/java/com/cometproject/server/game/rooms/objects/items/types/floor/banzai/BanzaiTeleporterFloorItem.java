@@ -9,7 +9,6 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.utilities.RandomInteger;
 
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,7 +42,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
 
         final Position teleportPosition = this.findPosition();
 
-        if(teleportPosition == null) {
+        if (teleportPosition == null) {
             return;
         }
 
@@ -70,7 +69,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
 
         final Position teleportPosition = this.findPosition();
 
-        if(teleportPosition == null) {
+        if (teleportPosition == null) {
             return;
         }
 

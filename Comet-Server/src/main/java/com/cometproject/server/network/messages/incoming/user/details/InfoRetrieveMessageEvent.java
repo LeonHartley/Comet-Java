@@ -1,6 +1,5 @@
 package com.cometproject.server.network.messages.incoming.user.details;
 
-import com.cometproject.server.game.achievements.AchievementManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerConfigMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementPointsMessageComposer;
@@ -12,7 +11,6 @@ import com.cometproject.server.network.messages.outgoing.user.permissions.Allowa
 import com.cometproject.server.network.messages.outgoing.user.permissions.CitizenshipStatusMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.tasks.CometThreadManager;
 
 
 public class InfoRetrieveMessageEvent implements Event {

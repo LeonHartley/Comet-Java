@@ -13,7 +13,7 @@ public class MutePlayerMessageEvent implements Event {
         int unk = msg.readInt();
         int lengthMinutes = msg.readInt();
 
-        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
@@ -23,7 +23,7 @@ public class MutePlayerMessageEvent implements Event {
             return;
         }
 
-        if(playerId == room.getData().getOwnerId()) {
+        if (playerId == room.getData().getOwnerId()) {
             return;
         }
 

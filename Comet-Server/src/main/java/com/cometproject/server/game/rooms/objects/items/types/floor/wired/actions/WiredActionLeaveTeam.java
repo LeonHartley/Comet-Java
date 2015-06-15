@@ -49,7 +49,7 @@ public class WiredActionLeaveTeam extends WiredActionItem {
         this.getRoom().getGame().removeFromTeam(playerEntity.getGameTeam(), playerEntity.getPlayerId());
         playerEntity.setGameTeam(null);
 
-        if(playerEntity.getCurrentEffect() != null && playerEntity.getCurrentEffect().getEffectId() == playerEntity.getGameTeam().getFreezeEffect()) {
+        if (playerEntity.getCurrentEffect() != null && playerEntity.getCurrentEffect().getEffectId() == playerEntity.getGameTeam().getFreezeEffect()) {
             playerEntity.applyEffect(null);
         }
 

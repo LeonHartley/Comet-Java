@@ -34,40 +34,40 @@ public class ConfirmLoveLockMessageEvent implements Event {
         final int leftEntity = ((LoveLockFloorItem) floorItem).getLeftEntity();
         final int rightEntity = ((LoveLockFloorItem) floorItem).getRightEntity();
 
-        if(leftEntity == 0 || rightEntity == 0) return;
+        if (leftEntity == 0 || rightEntity == 0) return;
 
         PlayerEntity leftPlayer = room.getEntities().getEntityByPlayerId(leftEntity);
         PlayerEntity rightPlayer = room.getEntities().getEntityByPlayerId(rightEntity);
 
-        if(leftPlayer == null || rightPlayer == null) return;
+        if (leftPlayer == null || rightPlayer == null) return;
 
         client.send(new LoveLockConfirmedMessageComposer(floorItem.getId()));
 
-        if(confirmed) {
+        if (confirmed) {
             boolean bothConfirmed = false;
 
-            if(leftEntity == client.getPlayer().getId()) {
+            if (leftEntity == client.getPlayer().getId()) {
                 leftPlayer.setAttribute("lovelockConfirm", true);
 
-                if(rightPlayer.hasAttribute("lovelockConfirm")) {
+                if (rightPlayer.hasAttribute("lovelockConfirm")) {
                     bothConfirmed = true;
                 }
             } else {
                 rightPlayer.setAttribute("lovelockConfirm", true);
 
-                if(leftPlayer.hasAttribute("lovelockConfirm")) {
+                if (leftPlayer.hasAttribute("lovelockConfirm")) {
                     bothConfirmed = true;
                 }
             }
 
-            if(bothConfirmed) {
+            if (bothConfirmed) {
                 leftPlayer.removeAttribute("lovelockConfirm");
                 rightPlayer.removeAttribute("lovelockConfirm");
 
                 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 final String date = dateFormat.format(Calendar.getInstance().getTime());
 
-                final String itemData = "1" + (char)5 + leftPlayer.getUsername() + (char)5 + rightPlayer.getUsername() + (char)5 + leftPlayer.getFigure() + (char)5 + rightPlayer.getFigure() + (char)5 + date;
+                final String itemData = "1" + (char) 5 + leftPlayer.getUsername() + (char) 5 + rightPlayer.getUsername() + (char) 5 + leftPlayer.getFigure() + (char) 5 + rightPlayer.getFigure() + (char) 5 + date;
 
                 floorItem.setExtraData(itemData);
 

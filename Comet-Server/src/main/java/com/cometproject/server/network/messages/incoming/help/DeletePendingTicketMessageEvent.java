@@ -13,7 +13,7 @@ public class DeletePendingTicketMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         final HelpTicket helpTicket = ModerationManager.getInstance().getActiveTicketByPlayerId(client.getPlayer().getId());
 
-        if(helpTicket != null) {
+        if (helpTicket != null) {
             helpTicket.setState(HelpTicketState.CLOSED);
             helpTicket.save();
 

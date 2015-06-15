@@ -27,7 +27,7 @@ public class BuddyListMessageComposer extends MessageComposer {
             if (friend.getValue() != null) {
                 final PlayerAvatar playerAvatar = friend.getValue().getAvatar();
 
-                if(playerAvatar != null) {
+                if (playerAvatar != null) {
                     avatars.add(playerAvatar);
                 }
             }
@@ -54,15 +54,15 @@ public class BuddyListMessageComposer extends MessageComposer {
             boolean isOnline = friends.get(playerAvatar.getId()).isOnline();
             boolean isInRoom = friends.get(playerAvatar.getId()).isInRoom();
 
-            if(friends.get(playerAvatar.getId()).isOnline()) {
+            if (friends.get(playerAvatar.getId()).isOnline()) {
                 Session playerSession = NetworkManager.getInstance().getSessions().getByPlayerId(playerAvatar.getId());
 
-                if(playerSession != null && playerSession.getPlayer() != null) {
-                    if(playerSession.getPlayer().getSettings().getHideInRoom()) {
+                if (playerSession != null && playerSession.getPlayer() != null) {
+                    if (playerSession.getPlayer().getSettings().getHideInRoom()) {
                         isInRoom = false;
                     }
 
-                    if(playerSession.getPlayer().getSettings().getHideOnline()) {
+                    if (playerSession.getPlayer().getSettings().getHideOnline()) {
                         isOnline = false;
                     }
                 }
@@ -82,7 +82,7 @@ public class BuddyListMessageComposer extends MessageComposer {
             msg.writeShort(0);
         }
 
-        if(hasStaffChat) {
+        if (hasStaffChat) {
             msg.writeInt(-1);
             msg.writeString("Staff chat");
             msg.writeInt(1);

@@ -56,7 +56,7 @@ public class WiredConditionMatchSnapshot extends WiredConditionItem {
                 if (matchState) {
                     if (!floorItem.getExtraData().equals(snapshot.getExtraData())) {
                         matchesState = false;
-                    } else if(this.isNegative) {
+                    } else if (this.isNegative) {
                         matchesState = true;
                     }
                 }
@@ -64,7 +64,7 @@ public class WiredConditionMatchSnapshot extends WiredConditionItem {
                 if (matchRotation) {
                     if (floorItem.getRotation() != snapshot.getRotation()) {
                         matchesRotation = false;
-                    } else if(this.isNegative) {
+                    } else if (this.isNegative) {
                         matchesRotation = true;
                     }
                 }
@@ -72,14 +72,14 @@ public class WiredConditionMatchSnapshot extends WiredConditionItem {
                 if (matchPosition) {
                     if (floorItem.getPosition().getX() != snapshot.getX() || floorItem.getPosition().getY() != snapshot.getY()) {
                         matchesPosition = false;
-                    } else if(this.isNegative) {
+                    } else if (this.isNegative) {
                         matchesPosition = true;
                     }
                 }
 
-                if(this.isNegative && (matchesPosition || matchesRotation || matchesState)) {
+                if (this.isNegative && (matchesPosition || matchesRotation || matchesState)) {
                     return false;
-                } else if(!this.isNegative && (!matchesPosition || !matchesRotation || !matchesState)) {
+                } else if (!this.isNegative && (!matchesPosition || !matchesRotation || !matchesState)) {
                     return false;
                 }
             }

@@ -30,8 +30,8 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
             }
         }
 
-        for(RoomItemFloor floorItem : this.getItemsOnStack()) {
-            if(floorItem.getId() != this.getId() && floorItem.getPosition().getZ() >= this.getPosition().getZ())
+        for (RoomItemFloor floorItem : this.getItemsOnStack()) {
+            if (floorItem.getId() != this.getId() && floorItem.getPosition().getZ() >= this.getPosition().getZ())
                 return false;
         }
 
@@ -60,13 +60,13 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
     @Override
     public double getOverrideHeight() {
         if (this.getDefinition().getVariableHeights() != null && !this.getExtraData().isEmpty()) {
-            if(!StringUtils.isNumeric(this.getExtraData())) {
+            if (!StringUtils.isNumeric(this.getExtraData())) {
                 return 0;
             }
 
             int heightIndex = Integer.parseInt(this.getExtraData());
 
-            if(heightIndex >= this.getDefinition().getVariableHeights().length) {
+            if (heightIndex >= this.getDefinition().getVariableHeights().length) {
                 return 0;
             }
 

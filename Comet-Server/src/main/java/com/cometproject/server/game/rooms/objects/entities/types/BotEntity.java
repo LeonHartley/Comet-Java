@@ -27,7 +27,7 @@ public class BotEntity extends GenericEntity {
 
         this.data = data;
 
-        switch(data.getBotType()) {
+        switch (data.getBotType()) {
             default:
                 this.ai = new DefaultAI(this);
                 break;

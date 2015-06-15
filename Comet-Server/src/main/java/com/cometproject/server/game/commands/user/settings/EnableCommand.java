@@ -15,13 +15,13 @@ public class EnableCommand extends ChatCommand {
             return;
         }
 
-        if(params.length != 1) {
+        if (params.length != 1) {
             return;
         }
 
         String disabledCommand = params[0];
 
-        if(room.getData().getDisabledCommands().contains(disabledCommand)) {
+        if (room.getData().getDisabledCommands().contains(disabledCommand)) {
             room.getData().getDisabledCommands().remove(disabledCommand);
             room.getData().save();
 

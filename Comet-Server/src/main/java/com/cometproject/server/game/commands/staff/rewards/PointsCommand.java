@@ -29,7 +29,7 @@ public class PointsCommand extends ChatCommand {
         if (session == null) {
             PlayerData playerData = PlayerDao.getDataByUsername(username);
 
-            if(playerData == null) return;
+            if (playerData == null) return;
 
             playerData.increasePoints(points);
             playerData.save();

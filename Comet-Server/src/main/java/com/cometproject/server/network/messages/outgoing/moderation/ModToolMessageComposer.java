@@ -24,7 +24,7 @@ public class ModToolMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeInt(ModerationManager.getInstance().getTickets().size());
 
-        for(HelpTicket helpTicket : ModerationManager.getInstance().getTickets().values()) {
+        for (HelpTicket helpTicket : ModerationManager.getInstance().getTickets().values()) {
             helpTicket.compose(msg);
         }
 

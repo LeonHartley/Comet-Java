@@ -25,7 +25,7 @@ public class DeleteGroupCommand extends ChatCommand {
             return;
         }
 
-        if(!client.getPlayer().isDeletingGroup() || (Comet.getTime() - client.getPlayer().getDeletingGroupAttempt()) >= 30) {
+        if (!client.getPlayer().isDeletingGroup() || (Comet.getTime() - client.getPlayer().getDeletingGroupAttempt()) >= 30) {
             client.send(new AlertMessageComposer(Locale.getOrDefault("command.deletegroup.confirm", "Are you sure you want to delete this group? All items in the room will be returned to the rightful owner and the group will be deleted forever.<br><br>Use the command :deletegroup again to confirm!")));
 
             client.getPlayer().setDeletingGroup(true);
@@ -43,7 +43,7 @@ public class DeleteGroupCommand extends ChatCommand {
 
                 List<RoomItem> floorItemsOwnedByPlayer = Lists.newArrayList();
 
-                if(groupMemberId != group.getData().getOwnerId()) {
+                if (groupMemberId != group.getData().getOwnerId()) {
                     for (RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
                         if (floorItem.getOwner() == groupMemberId) {
                             floorItemsOwnedByPlayer.add(floorItem);

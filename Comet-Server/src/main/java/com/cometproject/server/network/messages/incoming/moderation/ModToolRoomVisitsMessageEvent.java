@@ -17,7 +17,7 @@ public class ModToolRoomVisitsMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         int playerId = msg.readInt();
 
-        if(!LogManager.ENABLED) {
+        if (!LogManager.ENABLED) {
             client.send(new AdvancedAlertMessageComposer("Notice", "Logging is not currently enabled, please contact your system administrator to enable it."));
             client.send(new ModToolRoomVisitsMessageComposer(playerId, PlayerDao.getUsernameByPlayerId(playerId), Lists.newArrayList()));
         }

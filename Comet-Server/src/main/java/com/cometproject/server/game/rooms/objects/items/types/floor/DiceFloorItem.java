@@ -36,8 +36,8 @@ public class DiceFloorItem extends RoomItemFloor {
 
                 this.isInUse = true;
 
-                if(entity != null) {
-                    if(entity.hasAttribute("diceRoll")) {
+                if (entity != null) {
+                    if (entity.hasAttribute("diceRoll")) {
                         this.rigNumber = (int) entity.getAttribute("diceRoll");
                         entity.removeAttribute("diceRoll");
                     }
@@ -73,10 +73,10 @@ public class DiceFloorItem extends RoomItemFloor {
 
         this.setExtraData(Integer.toString(this.rigNumber == -1 ? num : this.rigNumber));
         this.sendUpdate();
-        
+
         this.saveData();
 
-        if(this.rigNumber != -1) this.rigNumber = -1;
+        if (this.rigNumber != -1) this.rigNumber = -1;
 
         this.isInUse = false;
     }

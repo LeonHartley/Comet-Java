@@ -7,7 +7,6 @@ import com.cometproject.server.network.messages.outgoing.navigator.NavigatorFlat
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

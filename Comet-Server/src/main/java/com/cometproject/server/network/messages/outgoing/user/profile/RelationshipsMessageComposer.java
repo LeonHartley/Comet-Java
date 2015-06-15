@@ -7,7 +7,6 @@ import com.cometproject.server.game.players.components.types.messenger.Relations
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
-import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.google.common.collect.Lists;
 
 import java.util.Collections;

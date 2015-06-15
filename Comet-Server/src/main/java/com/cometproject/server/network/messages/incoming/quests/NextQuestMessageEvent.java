@@ -9,23 +9,23 @@ import com.cometproject.server.network.sessions.Session;
 public class NextQuestMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        if(client.getPlayer().getData().getQuestId() == 0) {
+        if (client.getPlayer().getData().getQuestId() == 0) {
             return;
         }
 
         Quest quest = QuestManager.getInstance().getById(client.getPlayer().getData().getQuestId());
 
-        if(quest == null) {
+        if (quest == null) {
             return;
         }
 
-        if(!client.getPlayer().getQuests().hasCompletedQuest(quest.getId())) {
+        if (!client.getPlayer().getQuests().hasCompletedQuest(quest.getId())) {
             return;
         }
 
         Quest nextQuest = QuestManager.getInstance().getNextQuestInSeries(quest);
 
-        if(nextQuest != null) {
+        if (nextQuest != null) {
             client.getPlayer().getQuests().startQuest(nextQuest);
         }
     }

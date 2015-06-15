@@ -10,6 +10,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessage
 
 public class WiredActionBotTalk extends WiredActionItem {
     public static final int PARAM_MESSAGE_TYPE = 0;
+
     /**
      * The default constructor
      *
@@ -39,33 +40,33 @@ public class WiredActionBotTalk extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        if(!this.getWiredData().getText().contains("\t")) {
+        if (!this.getWiredData().getText().contains("\t")) {
             return false;
         }
 
         final String[] talkData = this.getWiredData().getText().split("\t");
 
-        if(talkData.length != 2) {
+        if (talkData.length != 2) {
             return false;
         }
 
         final String botName = talkData[0];
         String message = talkData[1];
 
-        if(botName.isEmpty() || message.isEmpty()) {
+        if (botName.isEmpty() || message.isEmpty()) {
             return false;
         }
 
-        if(entity instanceof PlayerEntity) {
+        if (entity instanceof PlayerEntity) {
             message = message.replace("%username%", entity.getUsername());
         }
 
         final BotEntity botEntity = this.getRoom().getBots().getBotByName(botName);
 
-        if(botEntity != null) {
+        if (botEntity != null) {
             boolean isShout = (this.getWiredData().getParams().size() == 1 && (this.getWiredData().getParams().get(PARAM_MESSAGE_TYPE) == 1));
 
-            if(isShout) {
+            if (isShout) {
                 this.getRoom().getEntities().broadcastMessage(new ShoutMessageComposer(botEntity.getId(), message, 0, 2));
             } else {
                 this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(botEntity.getId(), message, 0, 2));

@@ -8,7 +8,7 @@ public class AdjustableHeightSeatFloorItem extends SeatFloorItem {
     public AdjustableHeightSeatFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
-        if(this.getExtraData().isEmpty()) {
+        if (this.getExtraData().isEmpty()) {
             this.setExtraData("0");
         }
     }

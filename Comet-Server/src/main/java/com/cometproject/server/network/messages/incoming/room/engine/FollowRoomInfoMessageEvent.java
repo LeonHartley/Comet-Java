@@ -2,7 +2,6 @@ package com.cometproject.server.network.messages.incoming.room.engine;
 
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.FollowRoomDataMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
@@ -23,9 +22,9 @@ public class FollowRoomInfoMessageEvent implements Event {
 
             boolean checkEntry = true;
 
-            if(room.getRights().hasRights(client.getPlayer().getId())) {
+            if (room.getRights().hasRights(client.getPlayer().getId())) {
                 checkEntry = false;
-            } else if(client.getPlayer().isTeleporting() || client.getPlayer().isBypassingRoomAuth()) {
+            } else if (client.getPlayer().isTeleporting() || client.getPlayer().isBypassingRoomAuth()) {
                 checkEntry = false;
             }
 

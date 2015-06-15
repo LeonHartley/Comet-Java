@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.banzai;
 
-import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;

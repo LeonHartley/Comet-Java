@@ -8,7 +8,7 @@ import com.cometproject.server.network.sessions.Session;
 
 public class ApplySignMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
-        if(client.getPlayer() == null || client.getPlayer().getEntity() == null) return;
+        if (client.getPlayer() == null || client.getPlayer().getEntity() == null) return;
 
         // / UnIdle the entity
         client.getPlayer().getEntity().unIdle();

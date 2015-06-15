@@ -8,7 +8,7 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 public class ToggleFriendsCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(client.getPlayer().getSettings().getAllowFriendRequests()) {
+        if (client.getPlayer().getSettings().getAllowFriendRequests()) {
             client.getPlayer().getSettings().setAllowFriendRequests(false);
             sendNotif(Locale.getOrDefault("command.togglefriends.disabled", "You have disabled friend requests."), client);
         } else {

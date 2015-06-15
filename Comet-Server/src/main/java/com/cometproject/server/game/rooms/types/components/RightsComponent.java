@@ -40,12 +40,12 @@ public class RightsComponent {
     public boolean hasRights(int playerId) {
         final Group group = this.getRoom().getGroup();
 
-        if(group != null && group.getData() != null && group.getMembershipComponent() != null && group.getMembershipComponent().getMembers() != null) {
-            if(group.getData().canMembersDecorate() && group.getMembershipComponent().getMembers().containsKey(playerId)) {
+        if (group != null && group.getData() != null && group.getMembershipComponent() != null && group.getMembershipComponent().getMembers() != null) {
+            if (group.getData().canMembersDecorate() && group.getMembershipComponent().getMembers().containsKey(playerId)) {
                 return true;
             }
 
-            if(group.getMembershipComponent().getAdministrators().contains(playerId)) {
+            if (group.getMembershipComponent().getAdministrators().contains(playerId)) {
                 return true;
             }
         }
@@ -98,8 +98,8 @@ public class RightsComponent {
     }
 
     public boolean hasMute(int playerId) {
-        for(RoomMute mute : this.mutedPlayers) {
-            if(mute.getPlayerId() == playerId) {
+        for (RoomMute mute : this.mutedPlayers) {
+            if (mute.getPlayerId() == playerId) {
                 return true;
             }
         }
@@ -108,8 +108,8 @@ public class RightsComponent {
     }
 
     public int getMuteTime(int playerId) {
-        for(RoomMute mute : this.mutedPlayers) {
-            if(mute.getPlayerId() == playerId) {
+        for (RoomMute mute : this.mutedPlayers) {
+            if (mute.getPlayerId() == playerId) {
                 return (mute.getTicksLeft() / 2);
             }
         }

@@ -10,14 +10,14 @@ public class KickCommandMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         int playerId = msg.readInt();
 
-        if(!client.getPlayer().getPermissions().hasCommand("kick_command")) {
+        if (!client.getPlayer().getPermissions().hasCommand("kick_command")) {
             return;
         }
 
-        if(client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null && client.getPlayer().getEntity().getRoom().getEntities() != null) {
+        if (client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null && client.getPlayer().getEntity().getRoom().getEntities() != null) {
             PlayerEntity playerEntity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPlayerId(playerId);
 
-            if(playerEntity != null) {
+            if (playerEntity != null) {
                 playerEntity.kick();
             }
         }

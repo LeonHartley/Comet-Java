@@ -8,13 +8,13 @@ import com.cometproject.server.network.sessions.Session;
 public class RoomBadgeCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length != 1) {
+        if (params.length != 1) {
             return;
         }
 
         final String badge = params[0];
 
-        for(PlayerEntity playerEntity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
+        for (PlayerEntity playerEntity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntities()) {
             playerEntity.getPlayer().getInventory().addBadge(badge, true);
         }
     }
