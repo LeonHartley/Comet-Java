@@ -1,7 +1,6 @@
 package com.cometproject.server.game.players;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.login.PlayerLoginRequest;
@@ -9,12 +8,9 @@ import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.utilities.Initializable;
-
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
-import net.sf.ehcache.config.ConfigurationFactory;
-import net.sf.ehcache.util.NamedThreadFactory;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
@@ -76,15 +72,15 @@ public class PlayerManager implements Initializable {
     }
 
     public PlayerAvatar getAvatarByPlayerId(int playerId, byte mode) {
-        if(this.isOnline(playerId)) {
+        if (this.isOnline(playerId)) {
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
-            if(session != null && session.getPlayer() != null && session.getPlayer().getData() != null) {
+            if (session != null && session.getPlayer() != null && session.getPlayer().getData() != null) {
                 return session.getPlayer().getData();
             }
         }
 
-        if(this.playerDataCache != null) {
+        if (this.playerDataCache != null) {
             Element cachedElement = this.playerDataCache.get(playerId);
 
             if (cachedElement != null && cachedElement.getObjectValue() != null) {
@@ -92,13 +88,13 @@ public class PlayerManager implements Initializable {
             }
         }
 
-        if(this.playerAvatarCache != null) {
+        if (this.playerAvatarCache != null) {
             Element cachedElement = this.playerAvatarCache.get(playerId);
 
             if (cachedElement != null && cachedElement.getObjectValue() != null) {
                 final PlayerAvatar playerAvatar = ((PlayerAvatar) cachedElement.getObjectValue());
 
-                if(playerAvatar.getMotto() == null && mode == PlayerAvatar.USERNAME_FIGURE_MOTTO) {
+                if (playerAvatar.getMotto() == null && mode == PlayerAvatar.USERNAME_FIGURE_MOTTO) {
                     playerAvatar.setMotto(PlayerDao.getMottoByPlayerId(playerId));
                 }
 
@@ -108,7 +104,7 @@ public class PlayerManager implements Initializable {
 
         PlayerAvatar playerAvatar = PlayerDao.getAvatarById(playerId, mode);
 
-        if(playerAvatar != null && this.playerAvatarCache != null) {
+        if (playerAvatar != null && this.playerAvatarCache != null) {
             this.playerAvatarCache.put(new Element(playerId, playerAvatar));
         }
 
@@ -116,15 +112,15 @@ public class PlayerManager implements Initializable {
     }
 
     public PlayerData getDataByPlayerId(int playerId) {
-        if(this.isOnline(playerId)) {
+        if (this.isOnline(playerId)) {
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
-            if(session != null && session.getPlayer() != null && session.getPlayer().getData() != null) {
+            if (session != null && session.getPlayer() != null && session.getPlayer().getData() != null) {
                 return session.getPlayer().getData();
             }
         }
 
-        if(this.playerDataCache != null) {
+        if (this.playerDataCache != null) {
             Element cachedElement = this.playerDataCache.get(playerId);
 
             if (cachedElement != null && cachedElement.getObjectValue() != null) {
@@ -134,7 +130,7 @@ public class PlayerManager implements Initializable {
 
         PlayerData playerData = PlayerDao.getDataById(playerId);
 
-        if(playerData != null && this.playerDataCache != null) {
+        if (playerData != null && this.playerDataCache != null) {
             this.playerDataCache.put(new Element(playerId, playerData));
         }
 

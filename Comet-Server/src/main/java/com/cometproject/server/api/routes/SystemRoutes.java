@@ -15,7 +15,6 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
-
 import spark.Request;
 import spark.Response;
 
@@ -29,7 +28,7 @@ public class SystemRoutes {
 
         String type = req.params("type");
 
-        if(type == null) {
+        if (type == null) {
             result.put("error", "Invalid type");
             return result;
         }

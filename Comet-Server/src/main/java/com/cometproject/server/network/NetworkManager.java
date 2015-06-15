@@ -5,7 +5,6 @@ import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.sessions.SessionManager;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
-import io.netty.buffer.UnpooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.DefaultMessageSizeEstimator;
 import io.netty.channel.EventLoopGroup;
@@ -63,13 +62,13 @@ public class NetworkManager {
         final boolean isEpollAvailable = Epoll.isAvailable();
         final int defaultThreadCount = 16; // TODO: Find the best count.
 
-        if(isEpollAvailable && isEpollEnabled) {
+        if (isEpollAvailable && isEpollEnabled) {
             log.info("Epoll is enabled");
             acceptGroup = new EpollEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.acceptGroupThreads", defaultThreadCount)));
             ioGroup = new EpollEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.ioGroupThreads", defaultThreadCount)));
             channelGroup = new EpollEventLoopGroup(Integer.parseInt((String) Comet.getServer().getConfig().getOrDefault("comet.network.channelGroupThreads", defaultThreadCount)));
         } else {
-            if(isEpollAvailable) {
+            if (isEpollAvailable) {
                 log.info("Epoll is available but not enabled");
             } else {
                 log.info("Epoll is not available");
@@ -107,7 +106,7 @@ public class NetworkManager {
     private void bind(ServerBootstrap bootstrap, String ip, int port) {
         try {
             bootstrap.bind(new InetSocketAddress(ip, port)).addListener(objectFuture -> {
-                if(!objectFuture.isSuccess()) {
+                if (!objectFuture.isSuccess()) {
                     Comet.exit("Failed to initialize sockets on address: " + ip + ":" + port);
                 }
             });

@@ -22,7 +22,7 @@ public class GroupForumDao {
             preparedStatement.setInt(1, groupId);
 
             preparedStatement.execute();
-         } catch (SQLException e) {
+        } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
             SqlHelper.closeSilently(preparedStatement);
@@ -46,7 +46,7 @@ public class GroupForumDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 return new ForumSettings(
                         groupId,
                         ForumPermission.valueOf(resultSet.getString("read_permission")),

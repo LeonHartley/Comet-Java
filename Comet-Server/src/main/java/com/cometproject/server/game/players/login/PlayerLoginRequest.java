@@ -27,8 +27,6 @@ import com.cometproject.server.storage.queries.player.PlayerAccessDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.tasks.CometTask;
 
-import java.util.concurrent.Callable;
-
 public class PlayerLoginRequest implements CometTask {
 
     private final Session client;

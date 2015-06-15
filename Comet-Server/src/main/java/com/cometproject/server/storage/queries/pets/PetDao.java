@@ -5,7 +5,6 @@ import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.storage.SqlHelper;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

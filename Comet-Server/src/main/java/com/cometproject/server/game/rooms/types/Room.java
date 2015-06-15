@@ -144,7 +144,7 @@ public class Room implements Attributable, IRoom {
             this.rights.tick();
         }
 
-        if(this.mapping != null) {
+        if (this.mapping != null) {
             this.mapping.tick();
         }
     }

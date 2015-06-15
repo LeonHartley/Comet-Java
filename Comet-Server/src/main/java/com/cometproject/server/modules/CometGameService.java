@@ -25,6 +25,7 @@ public class CometGameService implements IGameService {
 
     /**
      * Get the main event handler
+     *
      * @return EventHandler instance
      */
     @Override

@@ -2,7 +2,6 @@ package com.cometproject.server.game.catalog.types;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.boot.CometServer;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
@@ -130,12 +129,12 @@ public class CatalogItem {
             this.items.add(new CatalogBundledItem(this.presetData, this.amount, Integer.valueOf(this.itemId)));
         }
 
-        if(this.getItems().size() == 0) return;
+        if (this.getItems().size() == 0) return;
 
-        for(CatalogBundledItem catalogBundledItem : this.items) {
+        for (CatalogBundledItem catalogBundledItem : this.items) {
             final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogBundledItem.getItemId());
 
-            if(itemDefinition == null) {
+            if (itemDefinition == null) {
                 throw new Exception("Invalid item data!");
             }
         }

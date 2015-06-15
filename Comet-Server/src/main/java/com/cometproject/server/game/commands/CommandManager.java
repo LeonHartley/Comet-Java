@@ -192,17 +192,17 @@ public class CommandManager implements Initializable {
      * @return The result of the check
      */
     public boolean isCommand(String message) {
-        if(message.length() <= 1) return false;
+        if (message.length() <= 1) return false;
 
         String executor = message.split(" ")[0].toLowerCase();
 
         boolean isCommand = executor.equals(Locale.get("command.commands.name")) || commands.containsKey(executor);
 
-        if(!isCommand) {
-            for(String keys : this.commands.keySet()) {
+        if (!isCommand) {
+            for (String keys : this.commands.keySet()) {
                 final List<String> keyList = Lists.newArrayList(keys.split(","));
 
-                if(keyList.contains(executor)) {
+                if (keyList.contains(executor)) {
                     return true;
                 }
             }
@@ -223,7 +223,7 @@ public class CommandManager implements Initializable {
 
         final ChatCommand chatCommand = this.get(executor);
 
-        if(chatCommand == null) {
+        if (chatCommand == null) {
             log.debug(client.getPlayer().getData().getUsername() + " executed command: :" + message);
             return false;
         }
@@ -231,14 +231,14 @@ public class CommandManager implements Initializable {
         String commandName = chatCommand.getPermission();
 
         if (client.getPlayer().getPermissions().hasCommand(commandName)) {
-            if(client.getPlayer().getEntity().getRoom().getData().getDisabledCommands().contains(executor)) {
+            if (client.getPlayer().getEntity().getRoom().getData().getDisabledCommands().contains(executor)) {
                 ChatCommand.sendNotif(Locale.get("command.disabled"), client);
                 return true;
             }
 
             final String[] params = getParams(message.split(" "));
 
-            if(chatCommand.isAsync()) {
+            if (chatCommand.isAsync()) {
                 this.executorService.submit(new ChatCommand.Execution(chatCommand, params, client));
             } else {
                 chatCommand.execute(client, params);
@@ -277,16 +277,16 @@ public class CommandManager implements Initializable {
     }
 
     private ChatCommand get(final String executor) {
-        if(this.commands.containsKey(executor))
+        if (this.commands.containsKey(executor))
             return this.commands.get(executor);
 
-            for(String keys : this.commands.keySet()) {
-                final List<String> keyList = Lists.newArrayList(keys.split(","));
+        for (String keys : this.commands.keySet()) {
+            final List<String> keyList = Lists.newArrayList(keys.split(","));
 
-                if(keyList.contains(executor)) {
-                    return this.commands.get(keys);
-                }
+            if (keyList.contains(executor)) {
+                return this.commands.get(keys);
             }
+        }
 
         return null;
     }

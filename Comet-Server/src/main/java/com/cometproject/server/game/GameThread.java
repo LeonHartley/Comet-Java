@@ -6,7 +6,6 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;

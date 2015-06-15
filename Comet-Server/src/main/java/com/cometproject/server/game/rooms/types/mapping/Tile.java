@@ -80,7 +80,7 @@ public class Tile {
 
         this.items.clear();
 
-        for (Map.Entry<Integer, RoomItemFloor> itemEntry  : mappingInstance.getRoom().getItems().getFloorItems().entrySet()) {
+        for (Map.Entry<Integer, RoomItemFloor> itemEntry : mappingInstance.getRoom().getItems().getFloorItems().entrySet()) {
             final RoomItemFloor item = itemEntry.getValue();
 
             if (item == null || item.getDefinition() == null) continue; // it's null!
@@ -116,12 +116,12 @@ public class Tile {
 
             final boolean isGate = item instanceof GateFloorItem;
 
-            if(item instanceof MagicStackFloorItem) {
+            if (item instanceof MagicStackFloorItem) {
                 this.hasMagicTile = true;
             }
 
             if (!item.getDefinition().canWalk() && !isGate) {
-                if(highestItem == item.getId())
+                if (highestItem == item.getId())
                     movementNode = RoomEntityMovementNode.CLOSED;
             }
 
@@ -170,11 +170,11 @@ public class Tile {
             }
 
             if (item.getOverrideHeight() != -1d) {
-                if(item instanceof MagicStackFloorItem) {
+                if (item instanceof MagicStackFloorItem) {
                     staticOverrideHeight = item.getOverrideHeight();
                 }
 
-                if(overrideHeight != null) {
+                if (overrideHeight != null) {
                     overrideHeight += item.getOverrideHeight() + (hasComponentItem ? 1.0 : 0d);
                 } else {
                     overrideHeight = item.getOverrideHeight() + (hasComponentItem ? 1.0 : 0d);
@@ -197,7 +197,7 @@ public class Tile {
             this.stackHeight = this.mappingInstance.getModel().getSquareHeight()[this.position.getX()][this.position.getY()];
         }
 
-        if(this.originalHeight == 0)
+        if (this.originalHeight == 0)
             this.originalHeight = this.stackHeight;
     }
 
@@ -214,7 +214,7 @@ public class Tile {
 
         double stackHeight;
 
-        if(this.hasMagicTile() || (topItem != null && topItem instanceof AdjustableHeightFloorItem)) {
+        if (this.hasMagicTile() || (topItem != null && topItem instanceof AdjustableHeightFloorItem)) {
             stackHeight = this.stackHeight;
         } else {
             stackHeight = itemToStack != null && itemToStack.getId() == this.getTopItem() ? itemToStack.getPosition().getZ() : this.originalHeight;
@@ -245,7 +245,7 @@ public class Tile {
     }
 
     public GenericEntity getEntity() {
-        for(GenericEntity entity : this.getEntities()) {
+        for (GenericEntity entity : this.getEntities()) {
             return entity;
         }
 

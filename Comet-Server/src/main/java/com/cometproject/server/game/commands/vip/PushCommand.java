@@ -20,7 +20,7 @@ public class PushCommand extends ChatCommand {
             return;
         }
 
-        if(client.getPlayer().getEntity().isRoomMuted() || client.getPlayer().getEntity().getRoom().getRights().hasMute(client.getPlayer().getId())) {
+        if (client.getPlayer().getEntity().isRoomMuted() || client.getPlayer().getEntity().getRoom().getRights().hasMute(client.getPlayer().getId())) {
             return;
         }
 
@@ -40,7 +40,7 @@ public class PushCommand extends ChatCommand {
             return;
         }
 
-        if(user.getPlayer().getEntity().isOverriden()) {
+        if (user.getPlayer().getEntity().isOverriden()) {
             return;
         }
 

@@ -316,6 +316,7 @@ public class GroupData {
 
     /**
      * Does the group have a forum?
+     *
      * @return Whether or not the group has a forum
      */
     public boolean hasForum() {

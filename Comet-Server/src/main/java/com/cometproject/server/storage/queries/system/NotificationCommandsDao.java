@@ -3,7 +3,6 @@ package com.cometproject.server.storage.queries.system;
 import com.cometproject.server.game.commands.notifications.types.Notification;
 import com.cometproject.server.storage.SqlHelper;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

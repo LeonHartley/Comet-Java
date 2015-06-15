@@ -77,7 +77,7 @@ public class WiredActionGiveReward extends WiredActionItem {
 
         final PlayerData playerData = PlayerManager.getInstance().getDataByPlayerId(this.ownerId);
 
-        if(playerData != null) {
+        if (playerData != null) {
             this.ownerRank = playerData.getRank();
         } else {
             this.ownerRank = 1;
@@ -100,7 +100,7 @@ public class WiredActionGiveReward extends WiredActionItem {
             return false;
         }
 
-        if(CometSettings.wiredRewardMinRank > this.ownerRank) return false;
+        if (CometSettings.wiredRewardMinRank > this.ownerRank) return false;
 
         PlayerEntity playerEntity = ((PlayerEntity) entity);
 
@@ -154,7 +154,7 @@ public class WiredActionGiveReward extends WiredActionItem {
         boolean receivedReward = false;
 
         for (Reward reward : this.rewards) {
-            boolean giveReward = unique ||  (RANDOM.nextDouble() <= (reward.probability / 100));
+            boolean giveReward = unique || (RANDOM.nextDouble() <= (reward.probability / 100));
 
             if (giveReward && !receivedReward) {
                 if (reward.isBadge) {
@@ -164,17 +164,17 @@ public class WiredActionGiveReward extends WiredActionItem {
                 } else {
                     String[] itemData = reward.productCode.contains("%") ? reward.productCode.split("%") : reward.productCode.split(":");
 
-                    if(isCurrencyReward(itemData[0])) {
+                    if (isCurrencyReward(itemData[0])) {
                         // handle currency reward
-                        if(itemData.length != 2) continue;
+                        if (itemData.length != 2) continue;
 
-                        if(!StringUtils.isNumeric(itemData[1])) {
+                        if (!StringUtils.isNumeric(itemData[1])) {
                             continue;
                         }
 
                         int amount = Integer.parseInt(itemData[1]);
 
-                        switch(itemData[0]) {
+                        switch (itemData[0]) {
                             case REWARD_COINS:
                                 playerEntity.getPlayer().getData().increaseCredits(amount);
                                 playerEntity.getPlayer().getSession().send(new AlertMessageComposer(

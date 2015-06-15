@@ -36,7 +36,7 @@ public abstract class RoomModel {
 
         String[] axes = heightmap.split("\r");
 
-        if(axes.length == 0) throw new InvalidModelException();
+        if (axes.length == 0) throw new InvalidModelException();
 
         this.mapSizeX = axes[0].length();
         this.mapSizeY = axes.length;
@@ -63,7 +63,7 @@ public abstract class RoomModel {
                         squareState[x][y] = RoomTileState.VALID;
                         squareHeight[x][y] = (double) ModelUtils.getHeight(tile);
 
-                        if(squareHeight[x][y] > maxTileHeight) {
+                        if (squareHeight[x][y] > maxTileHeight) {
                             maxTileHeight = (int) Math.ceil(squareHeight[x][y]);
                         }
                     }
@@ -86,7 +86,7 @@ public abstract class RoomModel {
             Logger.getLogger(RoomModel.class.getName()).error("Failed to parse heightmap for model: " + this.name, e);
         }
 
-        if(maxTileHeight >= 29) {
+        if (maxTileHeight >= 29) {
             this.wallHeight = 15;
         }
 

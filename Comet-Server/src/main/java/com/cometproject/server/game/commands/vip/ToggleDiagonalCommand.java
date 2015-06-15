@@ -8,14 +8,14 @@ import com.cometproject.server.network.sessions.Session;
 public class ToggleDiagonalCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(client.getPlayer().getEntity().getRoom().getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (client.getPlayer().getEntity().getRoom().getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
             sendNotif(Locale.getOrDefault("command.togglediagonal.nopermission", "You don't have permission to use this command!"), client);
             return;
         }
 
         final Room room = client.getPlayer().getEntity().getRoom();
 
-        if(room.hasAttribute("disableDiagonal")) {
+        if (room.hasAttribute("disableDiagonal")) {
             sendNotif(Locale.getOrDefault("command.togglediagonal.enabled", "Diagonal walking has been enabled!"), client);
             room.removeAttribute("disableDiagonal");
         } else {

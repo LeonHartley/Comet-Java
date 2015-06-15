@@ -12,22 +12,22 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 public class PlayerInfoCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length != 1) return;
+        if (params.length != 1) return;
 
         final String username = params[0];
         Session session = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
         PlayerData playerData;
 
-        if(session == null || session.getPlayer() == null || session.getPlayer().getData() == null) {
+        if (session == null || session.getPlayer() == null || session.getPlayer().getData() == null) {
             playerData = PlayerDao.getDataByUsername(username);
         } else {
             playerData = session.getPlayer().getData();
         }
 
-        if(playerData == null) return;
+        if (playerData == null) return;
 
-        if(PermissionsManager.getInstance().getPermissions().get("mod_tool").getRank() <= playerData.getRank() && !client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (PermissionsManager.getInstance().getPermissions().get("mod_tool").getRank() <= playerData.getRank() && !client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             // send player info failed alert
             client.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.playerinfo.title", "Player Information") + ": " + username, Locale.getOrDefault("command.playerinfo.staff", "You cannot view the information of a staff member!")));
             return;
@@ -49,12 +49,12 @@ public class PlayerInfoCommand extends ChatCommand {
         userInfo.append("<i>" + playerData.getActivityPoints() + " " + Locale.getOrDefault("command.playerinfo.activityPoints", "duckets") + "</i><br><br>");
 
         userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomInfo", "Room Info") + "</b><br>");
-        if(session != null && session.getPlayer().getEntity() != null) {
+        if (session != null && session.getPlayer().getEntity() != null) {
             userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomId", "Room ID") + "</b>: " + session.getPlayer().getEntity().getRoom().getData().getId() + "<br>");
             userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomName", "Room Name") + "</b>: " + session.getPlayer().getEntity().getRoom().getData().getName() + "<br>");
             userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomOwner", "Room Owner") + "</b>: " + session.getPlayer().getEntity().getRoom().getData().getOwner() + "<br>");
         } else {
-            if(session == null)
+            if (session == null)
                 userInfo.append("<i>" + Locale.getOrDefault("command.playerinfo.notOnline", "This player is not online!") + "</i>");
             else
                 userInfo.append("<i>" + Locale.getOrDefault("command.playerinfo.notInRoom", "This player is not in a room!") + "</i>");

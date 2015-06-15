@@ -22,7 +22,7 @@ public class SuperPullCommand extends ChatCommand {
             return;
         }
 
-        if(client.getPlayer().getEntity().isRoomMuted() || client.getPlayer().getEntity().getRoom().getRights().hasMute(client.getPlayer().getId())) {
+        if (client.getPlayer().getEntity().isRoomMuted() || client.getPlayer().getEntity().getRoom().getRights().hasMute(client.getPlayer().getId())) {
             return;
         }
 

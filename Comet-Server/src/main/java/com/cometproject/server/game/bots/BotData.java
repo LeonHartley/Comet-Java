@@ -63,7 +63,8 @@ public abstract class BotData implements BotInformation {
 
     /**
      * Initialize the bot
-     *  @param id            The ID of the bot
+     *
+     * @param id            The ID of the bot
      * @param username      The name of the bot
      * @param motto         The motto of the bot
      * @param figure        The figure of the bot

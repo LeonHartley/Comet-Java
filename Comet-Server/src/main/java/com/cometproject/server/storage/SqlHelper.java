@@ -79,7 +79,7 @@ public class SqlHelper {
     }
 
     public static PreparedStatement prepare(String query, Connection con, boolean returnKeys) throws SQLException {
-        if(!queryCounters.containsKey(query)) {
+        if (!queryCounters.containsKey(query)) {
             queryCounters.put(query, new AtomicInteger(1));
         } else {
             queryCounters.get(query).incrementAndGet();

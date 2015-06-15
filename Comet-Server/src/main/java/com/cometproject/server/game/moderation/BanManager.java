@@ -7,7 +7,6 @@ import com.cometproject.server.storage.queries.moderation.BanDao;
 import com.cometproject.server.utilities.Initializable;
 import com.corundumstudio.socketio.misc.ConcurrentHashSet;
 import com.google.common.collect.Lists;
-
 import org.apache.log4j.Logger;
 
 import java.util.List;

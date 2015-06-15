@@ -24,7 +24,7 @@ public class EffectCommand extends ChatCommand {
 
             PlayerEntity entity = client.getPlayer().getEntity();
 
-            if(entity.getCurrentEffect() != null) {
+            if (entity.getCurrentEffect() != null) {
                 if (entity.getGameTeam() != null && entity.getGameTeam() != GameTeam.NONE) {
                     return;
                 }

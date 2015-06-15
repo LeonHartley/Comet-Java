@@ -1,6 +1,5 @@
 package com.cometproject.server.game.commands.user;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.commands.CommandManager;
@@ -16,7 +15,7 @@ public class CommandsCommand extends ChatCommand {
         StringBuilder list = new StringBuilder();
 
         for (Map.Entry<String, ChatCommand> command : CommandManager.getInstance().getChatCommands().entrySet()) {
-            if(command.getValue().isHidden()) continue;
+            if (command.getValue().isHidden()) continue;
 
             if (client.getPlayer().getPermissions().hasCommand(command.getValue().getPermission())) {
 //                if(command.getKey().contains(",")) {
@@ -26,7 +25,7 @@ public class CommandsCommand extends ChatCommand {
 //                        list.append(":" + key + " - " + command.getValue().getDescription() + "\n");
 //                    }
 //                } else {
-                    list.append(":" + command.getKey().split(",")[0] + " - " + command.getValue().getDescription() + "\n");
+                list.append(":" + command.getKey().split(",")[0] + " - " + command.getValue().getDescription() + "\n");
 //                }
             }
         }

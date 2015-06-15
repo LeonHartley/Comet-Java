@@ -15,11 +15,13 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.ReceiveB
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
 import com.cometproject.server.storage.queries.achievements.PlayerAchievementDao;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class InventoryComponent implements PlayerComponent {
@@ -96,7 +98,7 @@ public class InventoryComponent implements PlayerComponent {
                         put(4, Lists.newArrayList(1));
                     }}));
 
-            if(sendAlert) {
+            if (sendAlert) {
                 this.player.getSession().send(new WiredRewardMessageComposer(7));
             }
         }
@@ -118,7 +120,7 @@ public class InventoryComponent implements PlayerComponent {
 
             this.badges.remove(code);
 
-            if(sendAlert) {
+            if (sendAlert) {
                 this.player.getSession().send(new AlertMessageComposer(Locale.get("badge.deleted")));
             }
 

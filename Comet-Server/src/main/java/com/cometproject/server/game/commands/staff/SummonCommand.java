@@ -11,20 +11,20 @@ import com.cometproject.server.network.sessions.Session;
 public class SummonCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length != 1) {
+        if (params.length != 1) {
             return;
         }
 
         final String username = params[0];
 
-        if(!PlayerManager.getInstance().isOnline(username)) {
+        if (!PlayerManager.getInstance().isOnline(username)) {
             client.send(new AlertMessageComposer(Locale.getOrDefault("command.summon.offline", "This player is not online!")));
             return;
         }
 
         Session session = NetworkManager.getInstance().getSessions().getByPlayerUsername(username);
 
-        if(session == null) return;
+        if (session == null) return;
 
         session.send(new AlertMessageComposer(Locale.get("command.summon.summoned").replace("%summoner%", client.getPlayer().getData().getUsername())));
         session.send(new RoomForwardMessageComposer(client.getPlayer().getEntity().getRoom().getId()));

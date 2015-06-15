@@ -91,7 +91,7 @@ public class QuestComponent implements PlayerComponent {
             return;
         }
 
-        if(this.hasCompletedQuest(questId)) {
+        if (this.hasCompletedQuest(questId)) {
             return;
         }
 
@@ -103,7 +103,7 @@ public class QuestComponent implements PlayerComponent {
                 break;
 
             case EXPLORE_FIND_ITEM:
-                if(quest.getGoalData() != data) {
+                if (quest.getGoalData() != data) {
                     return;
                 }
 
@@ -139,17 +139,17 @@ public class QuestComponent implements PlayerComponent {
                         break;
                 }
 
-                if(!quest.getBadgeId().isEmpty()) {
+                if (!quest.getBadgeId().isEmpty()) {
                     // Deliver badge
                     this.player.getInventory().addBadge(quest.getBadgeId(), true);
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 log.error("Failed to deliver reward to player: " + this.getPlayer().getData().getUsername());
             }
 
-            if(refreshCreditBalance) {
+            if (refreshCreditBalance) {
                 this.getPlayer().getSession().send(this.getPlayer().composeCreditBalance());
-            } else if(refreshCurrenciesBalance) {
+            } else if (refreshCurrenciesBalance) {
                 this.getPlayer().getSession().send(this.getPlayer().composeCurrenciesBalance());
                 this.getPlayer().getSession().send(new UpdateActivityPointsMessageComposer(this.getPlayer().getData().getActivityPoints(), quest.getReward()));
             }

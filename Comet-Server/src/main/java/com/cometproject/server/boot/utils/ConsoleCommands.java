@@ -107,9 +107,9 @@ public class ConsoleCommands {
                                     log.info("Queries");
                                     log.info("================================================");
 
-                                    for(Map.Entry<String, AtomicInteger> query : SqlHelper.getQueryCounters().entrySet()) {
+                                    for (Map.Entry<String, AtomicInteger> query : SqlHelper.getQueryCounters().entrySet()) {
                                         log.info("Query:" + query.getKey());
-                                        log.info("Count: "+ query.getValue().get());
+                                        log.info("Count: " + query.getValue().get());
                                         log.info("");
                                     }
 

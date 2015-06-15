@@ -4,7 +4,6 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.utilities.Initializable;
-
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;

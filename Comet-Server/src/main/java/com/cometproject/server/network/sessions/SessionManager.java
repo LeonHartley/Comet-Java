@@ -5,14 +5,12 @@ import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.networking.sessions.ISessionManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.players.PlayerManager;
-import com.corundumstudio.socketio.misc.ConcurrentHashSet;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -130,8 +128,8 @@ public final class SessionManager implements ISessionManager {
     }
 
     public void broadcastByPermission(IMessageComposer messageComposer, String permission) {
-        for(ISession session : this.sessions.values()) {
-            if(session.getPlayer() != null && session.getPlayer().getPermissions() != null && session.getPlayer().getPermissions().hasPermission(permission)) {
+        for (ISession session : this.sessions.values()) {
+            if (session.getPlayer() != null && session.getPlayer().getPermissions() != null && session.getPlayer().getPermissions().hasPermission(permission)) {
                 session.send(messageComposer);
             }
         }

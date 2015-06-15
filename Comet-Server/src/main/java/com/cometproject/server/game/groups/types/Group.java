@@ -64,11 +64,11 @@ public class Group {
     }
 
     public void dispose() {
-        if(this.membershipComponent != null) {
+        if (this.membershipComponent != null) {
             this.membershipComponent.dispose();
         }
 
-        if(this.forumComponent != null) {
+        if (this.forumComponent != null) {
             this.forumComponent.dispose();
         }
 

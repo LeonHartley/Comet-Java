@@ -5,9 +5,7 @@ import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
-
 import org.apache.commons.lang.StringUtils;
 import spark.Request;
 import spark.Response;
@@ -123,12 +121,12 @@ public class PlayerRoutes {
 
         String title = req.queryParams("title");
 
-        if(title == null)
+        if (title == null)
             title = "Notification";
 
         String alert = req.queryParams("message");
 
-        if(alert != null) {
+        if (alert != null) {
             session.send(new AdvancedAlertMessageComposer(title, alert));
         }
 
@@ -149,7 +147,7 @@ public class PlayerRoutes {
         String badgeId = req.params("badge");
 
         if (!PlayerManager.getInstance().isOnline(playerId)) {
-            if(badgeId != null) {
+            if (badgeId != null) {
                 InventoryDao.addBadge(badgeId, playerId);
             }
         } else {

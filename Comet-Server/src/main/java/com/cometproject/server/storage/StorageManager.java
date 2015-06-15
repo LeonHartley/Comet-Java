@@ -6,8 +6,6 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.log4j.Logger;
 
-import java.util.concurrent.TimeUnit;
-
 
 public class StorageManager implements Initializable {
     private static StorageManager storageManagerInstance;

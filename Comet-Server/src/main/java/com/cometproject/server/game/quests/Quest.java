@@ -38,7 +38,7 @@ public class Quest {
         this.questType = QuestType.getById(this.goalType);
         this.badgeId = data.getString("badge_id");
     }
-    
+
     public void compose(Player player, IComposer msg) {
         boolean startedQuest = player.getData().getQuestId() == this.getId();
         int progress = player.getQuests().getProgress(this.getId());

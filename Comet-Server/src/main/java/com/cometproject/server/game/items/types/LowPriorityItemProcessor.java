@@ -6,7 +6,10 @@ import org.apache.lucene.util.NamedThreadFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class LowPriorityItemProcessor implements CometTask {
     private final ScheduledExecutorService asyncItemEventQueue;
@@ -25,15 +28,15 @@ public class LowPriorityItemProcessor implements CometTask {
     public void run() {
         List<RoomItemFloor> itemsToRemove = new ArrayList<>();
 
-        for(RoomItemFloor roomItemFloor : itemsToProcess) {
-            if(roomItemFloor.requiresTick()) {
+        for (RoomItemFloor roomItemFloor : itemsToProcess) {
+            if (roomItemFloor.requiresTick()) {
                 roomItemFloor.tick();
             } else {
                 itemsToRemove.add(roomItemFloor);
             }
         }
 
-        for(RoomItemFloor roomItemFloor : itemsToRemove) {
+        for (RoomItemFloor roomItemFloor : itemsToRemove) {
             this.itemsToProcess.remove(roomItemFloor);
         }
 
@@ -47,7 +50,7 @@ public class LowPriorityItemProcessor implements CometTask {
     private static LowPriorityItemProcessor instance;
 
     public static LowPriorityItemProcessor getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new LowPriorityItemProcessor();
         }
 

@@ -9,13 +9,12 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.bots.PlayerBotDao;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
-import com.google.common.collect.Maps;
 
 
 public class EmptyCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if(params.length != 1) {
+        if (params.length != 1) {
             client.getPlayer().getInventory().getFloorItems().clear();
             client.getPlayer().getInventory().getWallItems().clear();
 
@@ -24,7 +23,7 @@ public class EmptyCommand extends ChatCommand {
             client.send(new UpdateInventoryMessageComposer());
             sendNotif(Locale.getOrDefault("command.empty.emptied", "Your inventory was cleared."), client);
         } else {
-            switch(params[0]) {
+            switch (params[0]) {
                 default:
 
                     break;

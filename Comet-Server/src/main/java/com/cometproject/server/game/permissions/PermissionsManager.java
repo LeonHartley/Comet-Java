@@ -5,7 +5,6 @@ import com.cometproject.server.game.permissions.types.Perk;
 import com.cometproject.server.game.permissions.types.Permission;
 import com.cometproject.server.storage.queries.permissions.PermissionsDao;
 import com.cometproject.server.utilities.Initializable;
-
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;

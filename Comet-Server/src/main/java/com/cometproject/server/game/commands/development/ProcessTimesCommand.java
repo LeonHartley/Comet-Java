@@ -21,7 +21,7 @@ public class ProcessTimesCommand extends ChatCommand {
             return;
         }
 
-        for(Long processTime : room.getProcess().getProcessTimes()) {
+        for (Long processTime : room.getProcess().getProcessTimes()) {
             processTimesBuilder.append(processTime + "\n");
         }
 

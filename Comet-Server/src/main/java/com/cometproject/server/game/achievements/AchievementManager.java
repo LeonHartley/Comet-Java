@@ -26,9 +26,9 @@ public class AchievementManager implements Initializable {
     }
 
     public void loadAchievements() {
-        if(this.achievementGroups.size() != 0) {
-            for(AchievementGroup achievementGroup : this.achievementGroups.values()) {
-                if(achievementGroup.getAchievements().size() != 0) {
+        if (this.achievementGroups.size() != 0) {
+            for (AchievementGroup achievementGroup : this.achievementGroups.values()) {
+                if (achievementGroup.getAchievements().size() != 0) {
                     achievementGroup.getAchievements().clear();
                 }
             }
@@ -51,7 +51,7 @@ public class AchievementManager implements Initializable {
     }
 
     public static AchievementManager getInstance() {
-        if(achievementManager == null) {
+        if (achievementManager == null) {
             achievementManager = new AchievementManager();
         }
 

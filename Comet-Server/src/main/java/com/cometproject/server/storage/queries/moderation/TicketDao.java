@@ -8,7 +8,6 @@ import com.cometproject.server.utilities.JsonFactory;
 import com.google.common.collect.Lists;
 import com.google.gson.reflect.TypeToken;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

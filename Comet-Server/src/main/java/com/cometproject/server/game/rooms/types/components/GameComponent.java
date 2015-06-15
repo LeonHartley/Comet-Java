@@ -91,7 +91,7 @@ public class GameComponent {
     }
 
     public void increaseScore(GameTeam team, int amount) {
-        if(!this.scores.containsKey(team)) {
+        if (!this.scores.containsKey(team)) {
             return;
         }
 

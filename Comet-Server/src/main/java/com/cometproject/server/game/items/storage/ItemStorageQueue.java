@@ -32,7 +32,7 @@ public class ItemStorageQueue implements Initializable, CometTask {
 
     @Override
     public void run() {
-        if(this.itemsToStore.size() == 0) return;
+        if (this.itemsToStore.size() == 0) return;
 
         log.debug("Saving " + this.itemsToStore.size() + " items");
 
@@ -41,7 +41,7 @@ public class ItemStorageQueue implements Initializable, CometTask {
     }
 
     public void queueSaveData(final RoomItem roomItem) {
-        if(this.itemsToStore.contains(roomItem)) {
+        if (this.itemsToStore.contains(roomItem)) {
             this.itemsToStore.remove(roomItem);
         }
 
@@ -58,7 +58,7 @@ public class ItemStorageQueue implements Initializable, CometTask {
     }
 
     public static ItemStorageQueue getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new ItemStorageQueue();
         }
 

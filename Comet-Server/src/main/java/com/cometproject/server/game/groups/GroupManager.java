@@ -241,6 +241,7 @@ public class GroupManager implements Initializable {
 
     /**
      * Gets the logger
+     *
      * @return Returns the group-related logger
      */
     public Logger getLogger() {

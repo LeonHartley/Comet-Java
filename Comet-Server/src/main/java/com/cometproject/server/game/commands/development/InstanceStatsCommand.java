@@ -5,15 +5,9 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.network.clients.ClientHandler;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.storage.SqlHelper;
 import com.cometproject.server.storage.queries.player.PlayerDao;
-
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class InstanceStatsCommand extends ChatCommand {
     @Override

@@ -65,7 +65,7 @@ public class StatisticsDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            if(!resultSet.next()) return 0;
+            if (!resultSet.next()) return 0;
 
             return resultSet.getInt("player_record");
         } catch (SQLException e) {
