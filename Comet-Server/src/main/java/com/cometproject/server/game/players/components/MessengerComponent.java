@@ -129,6 +129,8 @@ public class MessengerComponent implements PlayerComponent {
     }
 
     public boolean hasRequestFrom(int playerId) {
+        if(this.requests == null) return false;
+
         for (Integer messengerRequest : this.requests) {
             if (messengerRequest == playerId)
                 return true;
