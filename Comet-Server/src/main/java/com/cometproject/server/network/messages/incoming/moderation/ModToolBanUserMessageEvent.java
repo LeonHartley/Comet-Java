@@ -6,6 +6,7 @@ import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.permissions.types.Permission;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.network.NetworkManager;
@@ -37,7 +38,7 @@ public class ModToolBanUserMessageEvent implements Event {
         Session user = NetworkManager.getInstance().getSessions().getByPlayerId(userId);
 
         if (user == null) {
-            PlayerData playerData = PlayerDao.getDataById(userId);
+            PlayerData playerData = PlayerManager.getInstance().getDataByPlayerId(userId);
 
             if(playerData == null) {
                 return;

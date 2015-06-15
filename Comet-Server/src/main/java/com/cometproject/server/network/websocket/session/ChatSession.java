@@ -1,5 +1,6 @@
 package com.cometproject.server.network.websocket.session;
 
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.webchat.WebChatDao;
@@ -15,7 +16,7 @@ public class ChatSession {
         int playerId = WebChatDao.findPlayerIdByAuthTicket(authTicket);
 
         if(playerId != 0) {
-            this.playerData = PlayerDao.getDataById(playerId);
+            this.playerData = PlayerManager.getInstance().getDataByPlayerId(playerId);
         }
     }
 

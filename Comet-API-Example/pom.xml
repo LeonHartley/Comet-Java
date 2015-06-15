@@ -7,11 +7,11 @@
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>
-        <version>0.19.2-ALPHA1</version>
+        <version>0.19.2-ALPHA3</version>
     </parent>
 
     <artifactId>Comet-API-Example</artifactId>
-    <version>0.19.2-ALPHA1</version>
+    <version>0.19.2-ALPHA3</version>
 
     <packaging>jar</packaging>
 
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-API</artifactId>
-            <version>0.19.2-ALPHA1</version>
+            <version>0.19.2-ALPHA3</version>
         </dependency>
     </dependencies>
 </project>

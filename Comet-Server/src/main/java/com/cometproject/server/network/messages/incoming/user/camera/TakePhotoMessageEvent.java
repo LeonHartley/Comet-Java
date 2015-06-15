@@ -17,7 +17,7 @@ public class TakePhotoMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
         final String code = msg.readString();
-        final String itemExtraData = "{\"t\":" + System.currentTimeMillis() + ",\"u\":\"" + code + "\",\"n\":\"Leon\",\"m\":\"Haha! :D\",\"s\":" + client.getPlayer().getId() + ",\"w\":\"" + CometSettings.cameraPhotoUrl.replace("%photoId%", code) + "\"}";
+        final String itemExtraData = "{\"t\":" + System.currentTimeMillis() + ",\"u\":\"" + code + "\",\"n\":\"" + client.getPlayer().getData().getUsername() + "\",\"m\":\"Haha! :D\",\"s\":" + client.getPlayer().getId() + ",\"w\":\"" + CometSettings.cameraPhotoUrl.replace("%photoId%", code) + "\"}";
 
         int itemId = ItemDao.createItem(client.getPlayer().getId(), CometSettings.cameraPhotoItemId, itemExtraData);
         final InventoryItem inventoryItem = new InventoryItem(itemId, CometSettings.cameraPhotoItemId, itemExtraData);
