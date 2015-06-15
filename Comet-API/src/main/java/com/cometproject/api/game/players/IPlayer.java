@@ -130,4 +130,8 @@ public interface IPlayer {
     int getLastFigureUpdate();
 
     void setLastFigureUpdate(int lastFigureUpdate);
+
+    long getLastReward();
+
+    void setLastReward(long lastReward);
 }

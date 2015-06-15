@@ -25,7 +25,7 @@ public class DeletePostItMessageEvent implements Event {
 
         RoomItemWall wallItem = room.getItems().getWallItem(itemId);
 
-        if (wallItem == null || !(wallItem instanceof PostItWallItem)) {
+        if (wallItem == null) {
             return;
         }
 

@@ -7,7 +7,7 @@
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>
-        <version>0.19.1-EXPERIMENTAL4</version>
+        <version>0.19.2-ALPHA1</version>
     </parent>
 
     <groupId>Comet</groupId>

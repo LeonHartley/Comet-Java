@@ -69,14 +69,18 @@ public class CatalogDao {
 //                    continue;
 //                }
 
-                final CatalogItem catalogItem = new CatalogItem(resultSet);
+                try {
+                    final CatalogItem catalogItem = new CatalogItem(resultSet);
 
-                if(catalogItem.getItems().size() == 0) {
-                    Comet.getServer().getLogger().warn(String.format("Catalog Item with ID: %s and name: %s has invalid item data! (Data: %s)", catalogItem.getId(), catalogItem.getDisplayName(), catalogItem.getItemId()));
-                    continue;
+                    if (catalogItem.getItems().size() == 0) {
+                        Comet.getServer().getLogger().warn(String.format("Catalog Item with ID: %s and name: %s has invalid item data! (Data: %s)", catalogItem.getId(), catalogItem.getDisplayName(), catalogItem.getItemId()));
+                        continue;
+                    }
+
+                    data.put(resultSet.getInt("id"), catalogItem);
+                } catch(Exception e) {
+                    Comet.getServer().getLogger().warn("Error while loading catalog item: " + resultSet.getInt("id"));
                 }
-
-                data.put(resultSet.getInt("id"), catalogItem);
             }
 
         } catch (SQLException e) {
