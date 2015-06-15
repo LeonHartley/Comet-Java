@@ -8,12 +8,12 @@
 
     <packaging>jar</packaging>
 
-    <version>0.19.2-ALPHA1</version>
+    <version>0.19.2-ALPHA3</version>
 
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>
-        <version>0.19.2-ALPHA1</version>
+        <version>0.19.2-ALPHA3</version>
     </parent>
 
     <build>
@@ -187,7 +187,7 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-API</artifactId>
-            <version>0.19.2-ALPHA1</version>
+            <version>0.19.2-ALPHA3</version>
         </dependency>
 
         <dependency>

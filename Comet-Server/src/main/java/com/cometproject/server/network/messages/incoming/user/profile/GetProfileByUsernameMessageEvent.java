@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.user.profile;
 
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.network.NetworkManager;
@@ -32,7 +33,7 @@ public class GetProfileByUsernameMessageEvent implements Event {
 
         if (data == null) {
             int id = PlayerDao.getIdByUsername(username);
-            data = PlayerDao.getDataById(id);
+            data = PlayerManager.getInstance().getDataByPlayerId(id);
             stats = PlayerDao.getStatisticsById(id);
             groups = GroupDao.getIdsByPlayerId(id);
         }

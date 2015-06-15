@@ -70,6 +70,7 @@ public class AchievementComponent implements PlayerComponent {
 
             this.getPlayer().getSession().send(this.getPlayer().composeCurrenciesBalance());
             this.getPlayer().getSession().send(new UpdateActivityPointsMessageComposer(this.getPlayer().getData().getActivityPoints(), currentAchievement.getRewardAchievement()));
+            this.player.getSession().send(new AchievementUnlockedMessageComposer(achievementGroup.getCategory().toString(), achievementGroup.getGroupName(), currentAchievement.getLevel(), currentAchievement));
 
             if (achievementGroup.getAchievement(targetLevel) != null) {
                 progress.increaseLevel();
@@ -77,7 +78,6 @@ public class AchievementComponent implements PlayerComponent {
             }
 
             // Achievement unlocked!
-            this.player.getSession().send(new AchievementUnlockedMessageComposer(achievementGroup.getCategory().toString(), achievementGroup.getGroupName(), targetLevel, targetAchievement));
             this.player.getSession().send(new AchievementPointsMessageComposer(this.getPlayer().getData().getAchievementPoints()));
             this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
         } else {

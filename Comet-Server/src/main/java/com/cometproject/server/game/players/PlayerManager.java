@@ -3,6 +3,7 @@ package com.cometproject.server.game.players;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.login.PlayerLoginRequest;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
@@ -30,6 +31,7 @@ public class PlayerManager implements Initializable {
     private Map<String, Integer> playerUsernameToPlayerId;
 
     private Cache playerAvatarCache;
+    private Cache playerDataCache;
     private ExecutorService playerLoginService;
 
     public PlayerManager() {
@@ -48,8 +50,10 @@ public class PlayerManager implements Initializable {
 
             final int oneDay = 24 * 60 * 60;
             this.playerAvatarCache = new Cache("playerAvatarCache", 75000, false, false, oneDay, oneDay);
+            this.playerDataCache = new Cache("playerDataCache", 15000, false, false, oneDay, oneDay);
 
             CacheManager.getInstance().addCache(this.playerAvatarCache);
+            CacheManager.getInstance().addCache(this.playerDataCache);
         } else {
             log.info("Player data cache is disabled.");
         }
@@ -80,6 +84,14 @@ public class PlayerManager implements Initializable {
             }
         }
 
+        if(this.playerDataCache != null) {
+            Element cachedElement = this.playerDataCache.get(playerId);
+
+            if (cachedElement != null && cachedElement.getObjectValue() != null) {
+                return (PlayerData) cachedElement.getObjectValue();
+            }
+        }
+
         if(this.playerAvatarCache != null) {
             Element cachedElement = this.playerAvatarCache.get(playerId);
 
@@ -90,7 +102,7 @@ public class PlayerManager implements Initializable {
                     playerAvatar.setMotto(PlayerDao.getMottoByPlayerId(playerId));
                 }
 
-                return (PlayerAvatar) cachedElement.getObjectValue();
+                return playerAvatar;
             }
         }
 
@@ -101,6 +113,32 @@ public class PlayerManager implements Initializable {
         }
 
         return playerAvatar;
+    }
+
+    public PlayerData getDataByPlayerId(int playerId) {
+        if(this.isOnline(playerId)) {
+            Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
+
+            if(session != null && session.getPlayer() != null && session.getPlayer().getData() != null) {
+                return session.getPlayer().getData();
+            }
+        }
+
+        if(this.playerDataCache != null) {
+            Element cachedElement = this.playerDataCache.get(playerId);
+
+            if (cachedElement != null && cachedElement.getObjectValue() != null) {
+                return (PlayerData) cachedElement.getObjectValue();
+            }
+        }
+
+        PlayerData playerData = PlayerDao.getDataById(playerId);
+
+        if(playerData != null && this.playerDataCache != null) {
+            this.playerDataCache.put(new Element(playerId, playerData));
+        }
+
+        return playerData;
     }
 
     public void put(int playerId, int sessionId, String username) {

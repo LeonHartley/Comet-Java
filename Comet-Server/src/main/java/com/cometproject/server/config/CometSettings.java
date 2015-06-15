@@ -190,6 +190,8 @@ public class CometSettings {
     public static int cameraPhotoItemId = 50001;
     public static String cameraPhotoUrl = "";
 
+    public static int wiredRewardMinRank = 7;
+
     /**
      * Logging
      */
@@ -309,6 +311,10 @@ public class CometSettings {
 
         if(config.containsKey("comet.game.camera.photoUrl")) {
             cameraPhotoUrl = config.get("comet.game.camera.photoUrl");
+        }
+
+        if(config.containsKey("comet.game.wiredRewardMinRank")) {
+            wiredRewardMinRank = Integer.parseInt("comet.game.wiredRewardMinRank");
         }
     }
 

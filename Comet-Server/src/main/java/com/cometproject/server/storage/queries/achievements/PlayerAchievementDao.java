@@ -18,7 +18,7 @@ public class PlayerAchievementDao {
         ResultSet resultSet = null;
 
         Map<AchievementType, AchievementProgress> achievements = new HashMap<>();
-//
+
 //        try {
 //            sqlConnection = SqlHelper.getConnection();
 //

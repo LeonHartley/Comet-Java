@@ -40,7 +40,7 @@ public class PlayerRoutes {
             return result;
         }
 
-        PlayerData newPlayerData = PlayerDao.getDataById(playerId);
+        PlayerData newPlayerData = PlayerManager.getInstance().getDataByPlayerId(playerId);
         PlayerData currentPlayerData = session.getPlayer().getData();
 
         final boolean sendCurrencies = (newPlayerData.getCredits() != currentPlayerData.getCredits()) ||

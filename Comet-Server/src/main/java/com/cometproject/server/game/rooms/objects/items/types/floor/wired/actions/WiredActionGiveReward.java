@@ -1,10 +1,13 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
+import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -14,6 +17,7 @@ import com.cometproject.server.network.messages.outgoing.notification.AlertMessa
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.storage.queries.items.ItemDao;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang.StringUtils;
@@ -49,6 +53,8 @@ public class WiredActionGiveReward extends WiredActionItem {
 
     private List<Reward> rewards;
 
+    private final int ownerRank;
+
     /**
      * The default constructor
      *
@@ -68,6 +74,14 @@ public class WiredActionGiveReward extends WiredActionItem {
         if (!rewardTimings.containsKey(this.getId())) {
             rewardTimings.put(this.getId(), Maps.newConcurrentMap());
         }
+
+        final PlayerData playerData = PlayerManager.getInstance().getDataByPlayerId(this.ownerId);
+
+        if(playerData != null) {
+            this.ownerRank = playerData.getRank();
+        } else {
+            this.ownerRank = 1;
+        }
     }
 
     @Override
@@ -85,6 +99,8 @@ public class WiredActionGiveReward extends WiredActionItem {
         if (this.getWiredData().getParams().size() != 4 || !(entity instanceof PlayerEntity) || this.rewards.size() == 0) {
             return false;
         }
+
+        if(CometSettings.wiredRewardMinRank > this.ownerRank) return false;
 
         PlayerEntity playerEntity = ((PlayerEntity) entity);
 

@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.moderation;
 
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -20,7 +21,7 @@ public class ModToolUserInfoMessageEvent implements Event {
             return;
         }
 
-        PlayerData playerData = PlayerDao.getDataById(userId);
+        PlayerData playerData = PlayerManager.getInstance().getDataByPlayerId(userId);
         PlayerStatistics playerStatistics = PlayerDao.getStatisticsById(userId);
 
         if (playerData == null || playerStatistics == null) {
