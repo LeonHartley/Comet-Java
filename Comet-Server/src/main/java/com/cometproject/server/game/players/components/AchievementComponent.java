@@ -55,35 +55,34 @@ public class AchievementComponent implements PlayerComponent {
 
         progress.increaseProgress(data);
 
-        final int targetLevel = progress.getLevel() + 1;
-        final Achievement currentAchievement = achievementGroup.getAchievement(progress.getLevel());
-        final Achievement targetAchievement = achievementGroup.getAchievement(targetLevel);
+        Achievement achievement = achievementGroup.getAchievement(progress.getLevel());
 
-        if (currentAchievement.getProgressNeeded() <= progress.getProgress()) {
+        if (achievement.getProgressNeeded() <= progress.getProgress()) {
             this.player.getInventory().achievementBadge(type.getGroupName(), progress.getLevel());
 
-            this.player.getData().increaseAchievementPoints(currentAchievement.getRewardAchievement());
-            this.player.getData().increaseActivityPoints(currentAchievement.getRewardActivityPoints());
+            this.player.getData().increaseAchievementPoints(achievement.getRewardAchievement());
+            this.player.getData().increaseActivityPoints(achievement.getRewardActivityPoints());
 
             this.player.getData().save();
             this.player.poof();
 
             this.getPlayer().getSession().send(this.getPlayer().composeCurrenciesBalance());
-            this.getPlayer().getSession().send(new UpdateActivityPointsMessageComposer(this.getPlayer().getData().getActivityPoints(), currentAchievement.getRewardAchievement()));
+            this.getPlayer().getSession().send(new UpdateActivityPointsMessageComposer(this.getPlayer().getData().getActivityPoints(), achievement.getRewardAchievement()));
+            this.getPlayer().getSession().send(new AchievementPointsMessageComposer(this.getPlayer().getData().getAchievementPoints()));
 
-            if (achievementGroup.getAchievement(targetLevel) != null) {
+            // Achievement unlocked!
+            this.player.getSession().send(new AchievementUnlockedMessageComposer(progress.getLevel() + 2, achievementGroup));
+            this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup.getAchievement(progress.getLevel() + 1), achievementGroup));
+
+            if (achievementGroup.getAchievement(achievement.getLevel() + 1) != null) {
                 progress.increaseLevel();
                 progress.setProgress(0);
             }
 
-            // Achievement unlocked!
-            this.player.getSession().send(new AchievementUnlockedMessageComposer(achievementGroup.getCategory().toString(), achievementGroup.getGroupName(), targetLevel, targetAchievement));
-            this.player.getSession().send(new AchievementPointsMessageComposer(this.getPlayer().getData().getAchievementPoints()));
-            this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
-        } else {
-            this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
+            return;
         }
 
+        this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup.getAchievement(progress.getLevel()), achievementGroup));
         PlayerAchievementDao.saveProgress(this.player.getId(), type, progress);
     }
 

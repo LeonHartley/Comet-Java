@@ -76,7 +76,6 @@ import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.achievements.AchievementsListMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.camera.CameraTokenMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.camera.RenderRoomMessageEvent;
-import com.cometproject.server.network.messages.incoming.user.camera.TakePhotoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.citizenship.CitizenshipStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.club.ClubStatusMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.details.*;
@@ -414,8 +413,6 @@ public final class MessageHandler {
     public void registerCamera() {
         this.getMessages().put(Events.CameraTokenMessageEvent, new CameraTokenMessageEvent());
         this.getMessages().put(Events.RenderRoomMessageEvent, new RenderRoomMessageEvent());
-
-        this.getMessages().put(Events.TakePhotoMessageEvent, new TakePhotoMessageEvent());
     }
 
     public void registerMusic() {
