@@ -6,6 +6,7 @@ Comet Pre-1.0 Changelog
 * Player rewards are now processed individually, allowing for configurable time, faster reward processing and reliability.
 * Fixed random disconnection bug caused by invalid cached user data
 * Fixed bug with catalog causing disconnections
+* More player data caching
 
 ## 12/06/2015
 * Catalog bundles 
