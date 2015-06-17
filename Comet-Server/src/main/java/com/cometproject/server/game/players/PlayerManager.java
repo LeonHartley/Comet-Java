@@ -8,11 +8,14 @@ import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.utilities.Initializable;
+import com.google.common.collect.Lists;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -26,6 +29,8 @@ public class PlayerManager implements Initializable {
     private Map<Integer, Integer> playerIdToSessionId;
     private Map<String, Integer> playerUsernameToPlayerId;
 
+    private Map<String, List<Integer>> ipAddressToPlayerIds;
+
     private Cache playerAvatarCache;
     private Cache playerDataCache;
     private ExecutorService playerLoginService;
@@ -38,7 +43,9 @@ public class PlayerManager implements Initializable {
     public void initialize() {
         this.playerIdToSessionId = new ConcurrentHashMap<>();
         this.playerUsernameToPlayerId = new ConcurrentHashMap<>();
-        this.playerLoginService = Executors.newFixedThreadPool(6);// TODO: configure this.
+        this.ipAddressToPlayerIds = new ConcurrentHashMap<>();
+
+        this.playerLoginService = Executors.newFixedThreadPool(2);// TODO: configure this.
 
         // Configure player cache
         if ((boolean) Comet.getServer().getConfig().getOrDefault("comet.cache.players.enabled", true)) {
@@ -137,7 +144,7 @@ public class PlayerManager implements Initializable {
         return playerData;
     }
 
-    public void put(int playerId, int sessionId, String username) {
+    public void put(int playerId, int sessionId, String username, String ipAddress) {
         if (this.playerIdToSessionId.containsKey(playerId)) {
             this.playerIdToSessionId.remove(playerId);
         }
@@ -146,13 +153,31 @@ public class PlayerManager implements Initializable {
             this.playerUsernameToPlayerId.remove(username.toLowerCase());
         }
 
+        if (!this.ipAddressToPlayerIds.containsKey(ipAddress)) {
+            this.ipAddressToPlayerIds.put(ipAddress, Lists.newArrayList(playerId));
+        } else {
+            this.ipAddressToPlayerIds.get(ipAddress).add(playerId);
+        }
+
         this.playerIdToSessionId.put(playerId, sessionId);
         this.playerUsernameToPlayerId.put(username.toLowerCase(), playerId);
     }
 
-    public void remove(int playerId, String username, int sessionId) {
+    public void remove(int playerId, String username, int sessionId, String ipAddress) {
         if (this.getSessionIdByPlayerId(playerId) != sessionId) {
             return;
+        }
+
+        if (this.ipAddressToPlayerIds.containsKey(ipAddress)) {
+            List<Integer> playerIds = this.ipAddressToPlayerIds.get(ipAddress);
+
+            if (!playerIds.isEmpty()) {
+                playerIds.remove((Integer) playerId);
+            }
+
+            if (playerIds.isEmpty()) {
+                this.ipAddressToPlayerIds.remove(ipAddress);
+            }
         }
 
         this.playerIdToSessionId.remove(playerId);
@@ -173,6 +198,10 @@ public class PlayerManager implements Initializable {
         }
 
         return -1;
+    }
+
+    public List<Integer> getPlayerIdsByIpAddress(String ipAddress) {
+        return new ArrayList<>(this.ipAddressToPlayerIds.get(ipAddress));
     }
 
     public boolean isOnline(int playerId) {

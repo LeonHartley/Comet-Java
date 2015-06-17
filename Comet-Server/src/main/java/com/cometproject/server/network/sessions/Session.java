@@ -48,12 +48,12 @@ public class Session implements ISession {
 
         int channelId = this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get();
 
-        PlayerManager.getInstance().put(player.getId(), channelId, username);
+        PlayerManager.getInstance().put(player.getId(), channelId, username, this.getIpAddress());
     }
 
     public void onDisconnect() {
         if (!isClone && player != null && player.getData() != null)
-            PlayerManager.getInstance().remove(player.getId(), player.getData().getUsername(), this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get());
+            PlayerManager.getInstance().remove(player.getId(), player.getData().getUsername(), this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get(), this.getIpAddress());
 
         this.eventHandler.dispose();
 
@@ -70,7 +70,7 @@ public class Session implements ISession {
     }
 
     public String getIpAddress() {
-        String ipAddress;
+        String ipAddress = "0.0.0.0";
 
         if (!CometSettings.useDatabaseIp) {
             return ((InetSocketAddress) this.getChannel().channel().remoteAddress()).getAddress().getHostAddress();
