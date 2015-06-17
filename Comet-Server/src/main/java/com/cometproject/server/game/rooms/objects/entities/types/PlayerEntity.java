@@ -435,20 +435,20 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         msg.writeString(this.getGender().toLowerCase());
 
-        if (this.getPlayer().getData().getFavouriteGroup() == 0) {
+        if (this.playerData.getFavouriteGroup() == 0) {
             msg.writeInt(-1);
             msg.writeInt(-1);
             msg.writeInt(0);
         } else {
-            Group group = GroupManager.getInstance().get(this.getPlayer().getData().getFavouriteGroup());
+            Group group = GroupManager.getInstance().get(this.playerData.getFavouriteGroup());
 
             if (group == null) {
                 msg.writeInt(-1);
                 msg.writeInt(-1);
                 msg.writeInt(0);
 
-                this.getPlayer().getData().setFavouriteGroup(0);
-                this.getPlayer().getData().save();
+                this.playerData.setFavouriteGroup(0);
+                this.playerData.save();
             } else {
                 msg.writeInt(group.getId());
                 msg.writeInt(2);
@@ -457,7 +457,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             }
         }
 
-        msg.writeInt(this.getPlayer().getData().getAchievementPoints()); //achv points
+        msg.writeInt(this.playerData.getAchievementPoints()); //achv points
         msg.writeBoolean(false);
     }
 
