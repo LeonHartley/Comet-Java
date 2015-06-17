@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 17/06/2015
+* IP banning a player will now also disconnect any other player using the same IP address
+
 ## 15/06/2015
 * Camera
 * Player rewards are now processed individually, allowing for configurable time, faster reward processing and reliability.
