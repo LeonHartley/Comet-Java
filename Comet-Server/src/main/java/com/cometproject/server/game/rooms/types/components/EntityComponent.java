@@ -324,5 +324,11 @@ public class EntityComponent {
         for (GenericEntity entity : entities.values()) {
             entity.onRoomDispose();
         }
+
+        this.entities.clear();
+
+        this.playerIdToEntity.clear();
+        this.botIdToEntity.clear();
+        this.petIdToEntity.clear();
     }
 }
