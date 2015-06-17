@@ -314,7 +314,7 @@ public class CometSettings {
         }
 
         if (config.containsKey("comet.game.wiredRewardMinRank")) {
-            wiredRewardMinRank = Integer.parseInt("comet.game.wiredRewardMinRank");
+            wiredRewardMinRank = Integer.parseInt(config.get("comet.game.wiredRewardMinRank"));
         }
     }
 
