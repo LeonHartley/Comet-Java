@@ -15,7 +15,6 @@ public class InstanceStatsCommand extends ChatCommand {
         StringBuilder message = new StringBuilder("<b>Comet Server - Instance Statistics </b><br><br>");
 
         message.append("Build: " + Comet.getBuild() + "<br><br>");
-        message.append("<b>Player DAO Statistics:</b><br>" + PlayerDao.getStats() + "<br><br>");
         message.append("<b>Game Statistics</b><br>Players online: " + PlayerManager.getInstance().size() + "<br>Active rooms: " + RoomManager.getInstance().getRoomInstances().size() + "<br><br>");
         message.append("<b>Room Data</b><br>" + "Cached data instances: " + RoomManager.getInstance().getRoomDataInstances().size() + "<br>" + "<br>" + "<b>Group Data</b><br>" + "Cached data instances: " + GroupManager.getInstance().getGroupData().size() + "<br>" + "Cached instances: " + GroupManager.getInstance().getGroupInstances().size());
 
