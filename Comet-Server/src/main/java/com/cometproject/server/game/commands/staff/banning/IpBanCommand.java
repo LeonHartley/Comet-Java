@@ -4,9 +4,12 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.types.BanType;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.sessions.Session;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 
 public class IpBanCommand extends ChatCommand {
@@ -39,12 +42,21 @@ public class IpBanCommand extends ChatCommand {
             return;
         }
 
-
         BanManager.getInstance().banPlayer(BanType.IP, user.getIpAddress(), length, expire, params.length > 2 ? this.merge(params, 2) : "", client.getPlayer().getId());
 
         sendNotif("User has been IP banned (IP: " + ipAddress + ")", client);
 
-        user.disconnect("banned");
+        List<Integer> playerIds = PlayerManager.getInstance().getPlayerIdsByIpAddress(ipAddress);
+
+        for(int playerId : playerIds) {
+            Session player = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
+
+            if(player != null) {
+                player.disconnect("banned");
+            }
+        }
+
+        playerIds.clear();
     }
 
     @Override
