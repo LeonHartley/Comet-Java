@@ -198,6 +198,17 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
                 msg.writeString(colourB);
             }
 
+        } else if(this.getDefinition().getItemName().startsWith("highscore_")) {
+            msg.writeInt(0);
+            msg.writeInt(6);
+
+            msg.writeString("");
+            msg.writeInt(0);
+            msg.writeInt(0);
+            msg.writeInt(0);
+
+            // TODO: this.
+
         } else if (this.getLimitedEditionItem() != null) {
             msg.writeInt(0);
             msg.writeString("");
