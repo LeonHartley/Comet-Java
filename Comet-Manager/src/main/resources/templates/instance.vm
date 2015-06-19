@@ -1,0 +1,22 @@
+#parse('/templates/base/header.vm')
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>$instance.name</b></div>
+
+            <ul class="list-group">
+                <li class="list-group-item">IP: $instance.config</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>Events</b></div>
+            <div class="panel-body">
+                Here there will be an event log tied to this instance.
+            </div>
+        </div>
+    </div>
+
+#include('/templates/base/footer.vm')

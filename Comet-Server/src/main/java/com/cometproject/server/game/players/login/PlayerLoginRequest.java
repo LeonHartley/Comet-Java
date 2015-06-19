@@ -110,7 +110,6 @@ public class PlayerLoginRequest implements CometTask {
         client.sendQueue(new UniqueIDMessageComposer(client.getUniqueId())).
                 sendQueue(new AuthenticationOKMessageComposer()).
                 sendQueue(new FuserightsMessageComposer(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank())).
-                sendQueue(new MotdNotificationComposer()).
                 sendQueue(new FavouriteRoomsMessageComposer()).
                 sendQueue(new UnreadMinimailsMessageComposer()).
                 sendQueue(new EnableTradingMessageComposer(true)).
@@ -121,6 +120,10 @@ public class PlayerLoginRequest implements CometTask {
 
         if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
             client.sendQueue(new ModToolMessageComposer());
+        }
+
+        if(CometSettings.messageOfTheDayEnabled) {
+            client.sendQueue(new MotdNotificationComposer());
         }
 
         client.flush();
