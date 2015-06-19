@@ -70,6 +70,10 @@ public class Customer {
         return instances;
     }
 
+    public List<String> getInstanceIds() {
+        return this.instances;
+    }
+
     public String getEmail() {
         return email;
     }
