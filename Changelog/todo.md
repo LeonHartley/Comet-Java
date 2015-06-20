@@ -1,5 +1,6 @@
 Features
 ==================
+* SWF update
 * Achievements
 * Rewrite teleports
 * Group Forum (Not complete, needs finishing)
