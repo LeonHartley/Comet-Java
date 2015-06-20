@@ -195,6 +195,7 @@ public class Composers {
     public static final short RoomSettingsDataMessageComposer = 2505;//359
     public static final short WiredEffectMessageComposer = 575;//2946
     public static final short ModerationToolRoomVisitsMessageComposer = 2020;//792
+    public static final short NavigatorMetaDataMessageComposer = 3706;
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 

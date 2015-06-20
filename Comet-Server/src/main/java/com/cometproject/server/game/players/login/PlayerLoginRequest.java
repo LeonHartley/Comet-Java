@@ -15,6 +15,7 @@ import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessa
 import com.cometproject.server.network.messages.outgoing.handshake.UniqueIDMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.FavouriteRoomsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.navigator.NavigatorMetaDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.EnableNotificationsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.EnableTradingMessageComposer;
@@ -125,6 +126,8 @@ public class PlayerLoginRequest implements CometTask {
         if(CometSettings.messageOfTheDayEnabled) {
             client.sendQueue(new MotdNotificationComposer());
         }
+
+        client.sendQueue(new NavigatorMetaDataMessageComposer());
 
         client.flush();
 
