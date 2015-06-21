@@ -238,6 +238,8 @@ public class Room implements Attributable, IRoom {
     }
 
     public Group getGroup() {
+        if(this.group == null || this.group.getData() == null) return null;
+
         return this.group;
     }
 

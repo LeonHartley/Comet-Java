@@ -64,7 +64,7 @@ public class RoomWriter {
     }
 
     public static void composeRoomSpecials(IComposer msg, RoomPromotion promotion, Group group) {
-        boolean composeGroup = group != null;
+        boolean composeGroup = group != null && group.getData() != null;
         boolean composePromo = promotion != null;
 
         if (composeGroup && composePromo) {
