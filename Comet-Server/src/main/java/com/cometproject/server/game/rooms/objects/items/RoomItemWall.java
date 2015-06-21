@@ -6,6 +6,7 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateWallItemMessageComposer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import org.apache.commons.lang.StringUtils;
 
 
 public abstract class RoomItemWall extends RoomItem {
@@ -44,6 +45,10 @@ public abstract class RoomItemWall extends RoomItem {
         if (this.getDefinition().getInteractionCycleCount() > 1) {
             if (this.getExtraData().isEmpty() || this.getExtraData().equals(" ")) {
                 this.setExtraData("0");
+            }
+
+            if(!StringUtils.isNumeric(this.getExtraData())) {
+                return false;
             }
 
             int i = Integer.parseInt(this.getExtraData()) + 1;
