@@ -34,3 +34,4 @@ Commands
 ==================
 * Reload playlist
 * More fun commands
+* Room bot management commands
