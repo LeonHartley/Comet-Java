@@ -5,7 +5,7 @@ Features
 * Rewrite teleports
 * Group Forum (Not complete, needs finishing)
 * More Wired
-*  - wf_act_flee
+    - wf_act_flee
     - Scoreboard
 * Spy bot (Displays visitors in your room while you were away)
 * Pets (Basics done, just gotta do the cool stuff like horses and monster plants. Oh and breeding!)
