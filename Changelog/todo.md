@@ -15,6 +15,7 @@ Features
 * Habbo palooza (Plot renting)
 * Habbo Club
 * Builders Club
+* Targeted offers (The popup showing an offer, which expires after x days.)
 
 Bugs
 ==================
