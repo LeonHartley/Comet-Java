@@ -28,7 +28,7 @@ Improvements
 ==================
 * Smarter flood protection 
 * Hard limit on inventory (Do not allow them to add more items until they remove some.)
-* Player data cache support
+* ~~Player data cache support~~
 * More queued database writes
 * New rank system
 * Expand on the module API
