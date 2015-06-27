@@ -35,20 +35,32 @@ public class PlayerInfoCommand extends ChatCommand {
 
         final StringBuilder userInfo = new StringBuilder();
 
-        userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.id", "ID") + "</b>: " + playerData.getId() + "<br>");
+        if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+            userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.id", "ID") + "</b>: " + playerData.getId() + "<br>");
+        }
+
         userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.username", "Username") + "</b>: " + playerData.getUsername() + "<br>");
         userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.motto", "Motto") + "</b>: " + playerData.getMotto() + "<br>");
         userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.gender", "Gender") + "</b>: " + (playerData.getGender().toLowerCase().equals("m") ? Locale.getOrDefault("command.playerinfo.male", "Male") : Locale.getOrDefault("command.playerinfo.female", "Female")) + "<br>");
         userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.status", "Status") + "</b>: " + (session == null ? Locale.getOrDefault("command.playerinfo.offline", "Offline") : Locale.getOrDefault("command.playerinfo.online", "Online")) + "<br>");
         userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.achievementPoints", "Achievement Points") + "</b>: " + playerData.getAchievementPoints() + "<br>");
-        userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.rank", "Rank") + "</b>: " + playerData.getRank() + "<br><br>");
+
+        if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+            userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.rank", "Rank") + "</b>: " + playerData.getRank() + "<br><br>");
+        }
 
         userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.currencyBalances", "Currency Balances") + "</b><br>");
         userInfo.append("<i>" + playerData.getCredits() + " " + Locale.getOrDefault("command.playerinfo.credits", "credits") + "</i><br>");
-        userInfo.append("<i>" + playerData.getVipPoints() + " " + Locale.getOrDefault("command.playerinfo.diamonds", "diamonds") + "</i><br>");
+
+        if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+            userInfo.append("<i>" + playerData.getVipPoints() + " " + Locale.getOrDefault("command.playerinfo.diamonds", "diamonds") + "</i><br>");
+        }
+
         userInfo.append("<i>" + playerData.getActivityPoints() + " " + Locale.getOrDefault("command.playerinfo.activityPoints", "duckets") + "</i><br><br>");
 
+
         userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomInfo", "Room Info") + "</b><br>");
+
         if (session != null && session.getPlayer().getEntity() != null) {
             userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomId", "Room ID") + "</b>: " + session.getPlayer().getEntity().getRoom().getData().getId() + "<br>");
             userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.roomName", "Room Name") + "</b>: " + session.getPlayer().getEntity().getRoom().getData().getName() + "<br>");

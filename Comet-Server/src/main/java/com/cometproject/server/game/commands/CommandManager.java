@@ -177,6 +177,7 @@ public class CommandManager implements Initializable {
         this.commands.put(Locale.get("command.shutdown.name"), new ShutdownCommand());
         this.commands.put(Locale.get("command.summon.name"), new SummonCommand());
         this.commands.put(Locale.get("command.hotelalertlink.name"), new HotelAlertLinkCommand());
+        this.commands.put(Locale.get("command.gotoroom.name"), new GotoRoomCommand());
 
         // Cache
         this.commands.put(Locale.get("command.reloadgroup.name"), new ReloadGroupCommand());
