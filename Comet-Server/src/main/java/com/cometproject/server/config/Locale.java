@@ -49,6 +49,7 @@ public class Locale {
     }
 
     public static String getOrDefault(String key, String defaultValue) {
+        System.out.println("Key: " + key + ", default: " + defaultValue);
         if (!locale.containsKey(key)) {
             return defaultValue;
         }
