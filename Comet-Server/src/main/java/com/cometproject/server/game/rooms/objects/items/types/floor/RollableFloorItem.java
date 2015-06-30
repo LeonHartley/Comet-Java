@@ -167,7 +167,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
             newPosition = Position.calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation(), true);
             this.setRotation(Direction.get(this.getRotation()).invert().num);
         }
-        
+
         this.moveTo(newPosition, entity.getBodyRotation());
         this.isRolling = false;
         return true;
@@ -190,14 +190,14 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         this.getPosition().setX(pos.getX());
         this.getPosition().setY(pos.getY());
 
-        Tile newTile = this.getRoom().getMapping().getTile(this.getPosition());
-
-        if (newTile != null) {
-            newTile.reload();
-        }
+        Tile newTile = this.getRoom().getMapping().getTile(pos);
 
         if (tile != null) {
             tile.reload();
+        }
+
+        if (newTile != null) {
+            newTile.reload();
         }
 
         // tell all other items on the new square that there's a new item. (good method of updating score...)
