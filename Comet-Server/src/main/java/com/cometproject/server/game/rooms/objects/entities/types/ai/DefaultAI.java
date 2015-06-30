@@ -15,4 +15,9 @@ public class DefaultAI implements BotAI {
     public boolean onTalk(PlayerEntity entity, String message) {
         return false;
     }
+
+    @Override
+    public boolean onPlayerLeave(PlayerEntity playerEntity) {
+        return false;
+    }
 }

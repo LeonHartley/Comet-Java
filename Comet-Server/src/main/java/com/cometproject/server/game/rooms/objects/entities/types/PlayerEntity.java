@@ -196,6 +196,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
+        for (BotEntity entity : this.getRoom().getEntities().getBotEntities()) {
+            if (entity.getAI().onPlayerLeave(this)) break;
+        }
+
         for (Map.Entry<Integer, RoomItemFloor> floorItem : this.getRoom().getItems().getFloorItems().entrySet()) {
             if (floorItem.getValue() == null) continue;
 

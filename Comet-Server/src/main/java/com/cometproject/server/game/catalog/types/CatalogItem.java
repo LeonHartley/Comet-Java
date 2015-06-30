@@ -126,7 +126,9 @@ public class CatalogItem {
                 }
             }
         } else {
-            this.items.add(new CatalogBundledItem(this.presetData, this.amount, Integer.valueOf(this.itemId)));
+            if(!this.itemId.equals("-1")) {
+                this.items.add(new CatalogBundledItem(this.presetData, this.amount, Integer.valueOf(this.itemId)));
+            }
         }
 
         if (this.getItems().size() == 0) return;

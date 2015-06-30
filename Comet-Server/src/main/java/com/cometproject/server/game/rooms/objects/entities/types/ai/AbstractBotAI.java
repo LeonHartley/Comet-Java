@@ -14,6 +14,10 @@ public abstract class AbstractBotAI implements BotAI {
         return false;
     }
 
+    public boolean onPlayerLeave(PlayerEntity entity) {
+        return false;
+    }
+
     public GenericEntity getEntity() {
         return entity;
     }

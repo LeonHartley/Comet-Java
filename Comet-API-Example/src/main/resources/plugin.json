@@ -1,5 +1,6 @@
 {
     "name": "ExamplePlugin",
     "version": "1.0.0",
+    "serverVersion": "0.19.x",
     "entryPoint": "com.cometproject.example.ExamplePlugin"
 }
