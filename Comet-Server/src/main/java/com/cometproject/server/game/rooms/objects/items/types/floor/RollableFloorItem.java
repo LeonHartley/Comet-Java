@@ -25,7 +25,6 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     private PlayerEntity playerEntity;
     private boolean skipNext = false;
     private int rollStage = -1;
-    private boolean isSwitching = false;
 
     public RollableFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
@@ -102,13 +101,13 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         Position nextPosition = this.getNextPosition(this.getPosition(), false);
 
         if (!this.isValidRoll(nextPosition)) {
-            if (this.playerEntity != null) {
-                if (this.playerEntity.getWalkingGoal().equals(nextPosition)) {
-                    this.isRolling = false;
-                    this.rollStage = -1;
-                    return;
-                }
-            }
+//            if (this.playerEntity != null) {
+//                if (this.playerEntity.getWalkingGoal().equals(nextPosition)) {
+//                    this.isRolling = false;
+//                    this.rollStage = -1;
+//                    return;
+//                }
+//            }
 
             nextPosition = this.getNextPosition(this.getPosition(), true);
             this.setRotation(Direction.get(this.getRotation()).invert().num);
@@ -168,10 +167,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
             newPosition = Position.calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation(), true);
             this.setRotation(Direction.get(this.getRotation()).invert().num);
         }
-
-        if (!entity.isWalking())
-            this.isSwitching = true;
-
+        
         this.moveTo(newPosition, entity.getBodyRotation());
         this.isRolling = false;
         return true;
