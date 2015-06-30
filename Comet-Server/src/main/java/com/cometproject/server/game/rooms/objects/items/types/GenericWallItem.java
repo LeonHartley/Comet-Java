@@ -25,7 +25,6 @@ public final class GenericWallItem extends RoomItemWall {
         this.toggleInteract(true);
         this.sendUpdate();
 
-        // TODO: Move item saving to a queue for batch saving or something. :P
         this.saveData();
         return true;
     }
