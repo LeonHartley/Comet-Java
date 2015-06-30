@@ -39,7 +39,6 @@ public class SeatFloorItem extends RoomItemFloor {
             }
         }
 
-        // TODO: Move item saving to a queue for batch saving or something. :P
         this.saveData();
         return true;
     }

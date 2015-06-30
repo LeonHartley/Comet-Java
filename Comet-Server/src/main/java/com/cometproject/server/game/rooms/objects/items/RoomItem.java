@@ -26,7 +26,7 @@ public abstract class RoomItem extends RoomObject implements Attributable {
     protected int ticksTimer;
 
     private LimitedEditionItem limitedEditionItem;
-    private final Map<String, Object> attributes = new HashMap<>();
+    private Map<String, Object> attributes;
 
     public RoomItem(int id, Position position, Room room) {
         super(id, position, room);
@@ -117,6 +117,10 @@ public abstract class RoomItem extends RoomObject implements Attributable {
 
     @Override
     public void setAttribute(String attributeKey, Object attributeValue) {
+        if(this.attributes == null) {
+            this.attributes = new HashMap<>();
+        }
+
         if (this.attributes.containsKey(attributeKey)) {
             this.attributes.replace(attributeKey, attributeValue);
         } else {
@@ -126,16 +130,28 @@ public abstract class RoomItem extends RoomObject implements Attributable {
 
     @Override
     public Object getAttribute(String attributeKey) {
+        if(this.attributes == null) {
+            this.attributes = new HashMap<>();
+        }
+
         return this.attributes.get(attributeKey);
     }
 
     @Override
     public boolean hasAttribute(String attributeKey) {
+        if(this.attributes == null) {
+            this.attributes = new HashMap<>();
+        }
+
         return this.attributes.containsKey(attributeKey);
     }
 
     @Override
     public void removeAttribute(String attributeKey) {
+        if(this.attributes == null) {
+            this.attributes = new HashMap<>();
+        }
+
         this.attributes.remove(attributeKey);
     }
 
