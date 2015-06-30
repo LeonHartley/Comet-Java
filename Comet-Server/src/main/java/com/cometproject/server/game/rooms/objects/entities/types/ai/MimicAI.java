@@ -21,40 +21,35 @@ public class MimicAI extends AbstractBotAI {
 
         if(message.toLowerCase().contains("minions leave")) {
             this.getEntity().leaveRoom(false, false, false);
-            return false;
-        }
 
-        if(message.toLowerCase().contains("minions dance")) {
+            return false;
+        } else if(message.toLowerCase().contains("minions dance")) {
             int danceId = RandomInteger.getRandom(1, 4);
 
             this.getEntity().setDanceId(danceId);
             this.getEntity().getRoom().getEntities().broadcastMessage(new DanceMessageComposer(this.getEntity().getId(), danceId));
-            return false;
-        }
 
-        if(message.toLowerCase().contains("minions stop dancing")) {
+            return false;
+        } else if(message.toLowerCase().contains("minions stop dancing")) {
             this.getEntity().setDanceId(0);
             this.getEntity().getRoom().getEntities().broadcastMessage(new DanceMessageComposer(this.getEntity().getId(), 0));
-            return false;
-        }
 
-        if(message.toLowerCase().contains("minions sit")) {
+            return false;
+        } else if(message.toLowerCase().contains("minions sit")) {
             this.getEntity().addStatus(RoomEntityStatus.SIT, "0.5");
             this.getEntity().markNeedsUpdate();
 
             ((BotEntity) this.getEntity()).getData().setMode("relaxed");
-            return false;
-        }
 
-        if(message.toLowerCase().contains("minions stand")) {
+            return false;
+        } else if(message.toLowerCase().contains("minions stand")) {
             this.getEntity().removeStatus(RoomEntityStatus.SIT);
             this.getEntity().markNeedsUpdate();
 
             ((BotEntity) this.getEntity()).getData().setMode("default");
-            return false;
-        }
 
-        if (entity.getPlayerId() == ((BotEntity) this.getEntity()).getData().getOwnerId()) {
+            return false;
+        } else if (entity.getPlayerId() == ((BotEntity) this.getEntity()).getData().getOwnerId()) {
             this.getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getEntity().getId(), message, 0, 2));
         }
 
