@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 30/07/2015
+* Mimic AI additions (speech commands and more)
+
 ## 17/06/2015
 * IP banning a player will now also disconnect any other player using the same IP address
 
