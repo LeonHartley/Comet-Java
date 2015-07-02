@@ -23,11 +23,6 @@ public class RoomBotComponent {
         this.room = room;
 
         this.botNameToId = Maps.newHashMap();
-//
-//        for(int i = 1; i < 1000; i++) {
-//            System.out.format("Added bot %s\n", i);
-//            this.addBot(new InventoryBot(i, 1, "Leon", "Bot" + i, "", "M", "Yes!", "generic"), this.room.getModel().getDoorX(), this.room.getModel().getDoorY(), this.room.getModel().getDoorZ());
-//        }
 
         this.load();
     }
@@ -48,6 +43,10 @@ public class RoomBotComponent {
 
                 BotEntity botEntity = new BotEntity(data, room.getEntities().getFreeId(), ((PlayerBotData) data).getPosition(), 2, 2, room);
                 this.botNameToId.put(botEntity.getUsername(), botEntity.getBotId());
+
+                if(botEntity.getPosition().getZ() < this.getRoom().getModel().getSquareHeight()[botEntity.getPosition().getX()][botEntity.getPosition().getY()]) {
+                    botEntity.getPosition().setZ(this.getRoom().getModel().getSquareHeight()[botEntity.getPosition().getX()][botEntity.getPosition().getY()]);
+                }
 
                 this.getRoom().getEntities().addEntity(botEntity);
 
@@ -88,6 +87,10 @@ public class RoomBotComponent {
 
         BotData botData = new PlayerBotData(bot.getId(), name, bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7, bot.getType(), bot.getMode());
         BotEntity botEntity = new BotEntity(botData, virtualId, new Position(x, y, height), 1, 1, room);
+
+        if(botEntity.getPosition().getZ() < this.getRoom().getModel().getSquareHeight()[x][y]) {
+            botEntity.getPosition().setZ(this.getRoom().getModel().getSquareHeight()[x][y]);
+        }
 
         this.getRoom().getEntities().addEntity(botEntity);
         return botEntity;
