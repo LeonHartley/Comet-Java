@@ -21,10 +21,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 
 public class WiredActionGiveReward extends WiredActionItem {
@@ -195,8 +192,6 @@ public class WiredActionGiveReward extends WiredActionItem {
 
                         playerEntity.getPlayer().getData().save();
                         playerEntity.getPlayer().sendBalance();
-
-//                        playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(6));
                     } else {
 
                         String extraData = "0";
@@ -220,7 +215,7 @@ public class WiredActionGiveReward extends WiredActionItem {
                             playerEntity.getPlayer().getInventory().addItem(inventoryItem);
 
                             playerEntity.getPlayer().getSession().send(new UpdateInventoryMessageComposer());
-                            playerEntity.getPlayer().getSession().send(new UnseenItemsMessageComposer(Arrays.asList(inventoryItem)));
+                            playerEntity.getPlayer().getSession().send(new UnseenItemsMessageComposer(Collections.singletonList(inventoryItem)));
 
                             playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(6));
                         }
