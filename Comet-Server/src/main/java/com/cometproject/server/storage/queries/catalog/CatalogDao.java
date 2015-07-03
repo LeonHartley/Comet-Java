@@ -71,7 +71,7 @@ public class CatalogDao {
                 try {
                     final CatalogItem catalogItem = new CatalogItem(resultSet);
 
-                    if (catalogItem.getItems().size() == 0) {
+                    if (!catalogItem.getItemId().equals("-1") && catalogItem.getItems().size() == 0) {
                         Comet.getServer().getLogger().warn(String.format("Catalog Item with ID: %s and name: %s has invalid item data! (Data: %s)", catalogItem.getId(), catalogItem.getDisplayName(), catalogItem.getItemId()));
                         continue;
                     }

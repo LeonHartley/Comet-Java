@@ -74,7 +74,7 @@ public class PrivateChatMessageEvent implements Event {
 
         try {
             if (LogManager.ENABLED && CometSettings.logMessengerMessages)
-                LogManager.getInstance().getStore().getLogEntryContainer().put(new MessengerChatLogEntry(client.getPlayer().getEntity().getRoom().getId(), userId, message));
+                LogManager.getInstance().getStore().getLogEntryContainer().put(new MessengerChatLogEntry(client.getPlayer().getId(), userId, message));
         } catch (Exception ignored) {
 
         }

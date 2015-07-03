@@ -4,6 +4,10 @@ Comet Pre-1.0 Changelog
 ## 03/07/2015
 * Fixed issue causing items not to be saved properly when used by wf_act_match_to_sshot
 * Fixed issue with buying catalog items via search
+* Fixed player ID not being saved with messenger chatlog
+
+## 02/07/2015
+* Fixed issues with football
 
 ## 30/06/2015
 * Mimic AI additions (speech commands and more)
