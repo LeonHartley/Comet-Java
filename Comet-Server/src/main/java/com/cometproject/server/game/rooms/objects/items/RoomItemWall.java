@@ -74,6 +74,10 @@ public abstract class RoomItemWall extends RoomItem {
         }
     }
 
+    public void save() {
+        this.saveData();
+    }
+
     @Override
     public void saveData() {
         RoomItemDao.saveData(this.getId(), this.extraData);

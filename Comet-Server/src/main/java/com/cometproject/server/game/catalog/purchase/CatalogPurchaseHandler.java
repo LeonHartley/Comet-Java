@@ -143,8 +143,13 @@ public class CatalogPurchaseHandler {
                 return;
             }
 
-            if (CatalogManager.getInstance().getPage(pageId).getMinRank() > client.getPlayer().getData().getRank()) {
-                client.disconnect();
+            try {
+                if (CatalogManager.getInstance().getPage(item.getPageId()).getMinRank() > client.getPlayer().getData().getRank()) {
+                    client.disconnect();
+                    return;
+                }
+            } catch(Exception ignored) {
+                // Invalid page id..
                 return;
             }
 

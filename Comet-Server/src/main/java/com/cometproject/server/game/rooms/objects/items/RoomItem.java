@@ -163,6 +163,8 @@ public abstract class RoomItem extends RoomObject implements Attributable {
 
     public abstract void sendUpdate();
 
+    public abstract void save();
+
     public abstract void saveData();
 
     public abstract String getExtraData();

@@ -302,6 +302,12 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
     }
 
     @Override
+    public void save() {
+        // TODO: Full item persistence queue.
+        RoomItemDao.saveItem(this);
+    }
+
+    @Override
     public void saveData() {
         if (CometSettings.itemStorageQueueEnabled) {
             ItemStorageQueue.getInstance().queueSaveData(this);
