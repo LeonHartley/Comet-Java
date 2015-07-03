@@ -83,6 +83,8 @@ public class WiredActionMoveRotate extends WiredActionItem {
                     else
                         this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem));
                 }
+
+                floorItem.save();
             }
         }
     }

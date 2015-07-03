@@ -84,6 +84,12 @@ public class CatalogItem {
     private String presetData;
 
     /**
+     * The catalog page ID
+     */
+    private int pageId;
+
+
+    /**
      * Initialize the catalog item with data from the database
      *
      * @param data Data from the database
@@ -103,6 +109,8 @@ public class CatalogItem {
         this.allowOffer = data.getString("offer_active").equals("1");
         this.presetData = data.getString("extradata");
         this.badgeId = data.getString("badge_id");
+        this.pageId = data.getInt("page_id");
+
 
         this.items = new ArrayList<>();
 
@@ -126,7 +134,7 @@ public class CatalogItem {
                 }
             }
         } else {
-            if(!this.itemId.equals("-1")) {
+            if (!this.itemId.equals("-1")) {
                 this.items.add(new CatalogBundledItem(this.presetData, this.amount, Integer.valueOf(this.itemId)));
             }
         }
@@ -207,10 +215,10 @@ public class CatalogItem {
     }
 
     public class CatalogBundledItem {
+
         private final int itemId;
         private final int amount;
         private final String presetData;
-
         public CatalogBundledItem(String presetData, int amount, int itemId) {
             this.presetData = presetData;
             this.amount = amount;
@@ -228,8 +236,8 @@ public class CatalogItem {
         public String getPresetData() {
             return presetData;
         }
-    }
 
+    }
     public int getId() {
         return this.id;
     }
@@ -296,5 +304,9 @@ public class CatalogItem {
 
     public String getPresetData() {
         return presetData;
+    }
+
+    public int getPageId() {
+        return pageId;
     }
 }

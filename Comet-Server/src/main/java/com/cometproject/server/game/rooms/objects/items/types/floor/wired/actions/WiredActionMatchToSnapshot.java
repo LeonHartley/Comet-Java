@@ -11,6 +11,7 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
 
 public class WiredActionMatchToSnapshot extends WiredActionItem {
@@ -103,6 +104,7 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
             if (matchRotation && rotationChanged)
                 this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem));
 
+            floorItem.save();
             floorItem.sendUpdate();
         }
     }
