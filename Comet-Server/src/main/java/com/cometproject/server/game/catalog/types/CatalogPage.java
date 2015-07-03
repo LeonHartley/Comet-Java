@@ -61,6 +61,8 @@ public class CatalogPage {
         int size = 0;
 
         for (CatalogItem item : this.items.values()) {
+            if(item.getItemId().equals("-1")) continue;
+
             if (ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId()) != null) {
                 if (ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId()).getOfferId() != -1 && ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId()).getOfferId() != 0) {
                     size++;

@@ -111,54 +111,53 @@ public class CatalogItem {
         this.badgeId = data.getString("badge_id");
         this.pageId = data.getInt("page_id");
 
-
         this.items = new ArrayList<>();
 
-        if (itemId.contains(",")) {
-            String[] split = itemId.replace("\n", "").split(",");
+        if (!this.itemId.equals("-1")) {
+            if (itemId.contains(",")) {
+                String[] split = itemId.replace("\n", "").split(",");
 
-            for (String str : split) {
-                if (!str.equals("")) {
-                    String[] parts = str.split(":");
-                    if (parts.length != 3) continue;
+                for (String str : split) {
+                    if (!str.equals("")) {
+                        String[] parts = str.split(":");
+                        if (parts.length != 3) continue;
 
-                    try {
-                        final int itemId = Integer.parseInt(parts[0]);
-                        final int amount = Integer.parseInt(parts[1]);
-                        final String presetData = parts[2];
+                        try {
+                            final int itemId = Integer.parseInt(parts[0]);
+                            final int amount = Integer.parseInt(parts[1]);
+                            final String presetData = parts[2];
 
-                        this.items.add(new CatalogBundledItem(presetData, amount, itemId));
-                    } catch (Exception ignored) {
-                        Comet.getServer().getLogger().warn("Invalid item data for catalog item: " + this.id);
+                            this.items.add(new CatalogBundledItem(presetData, amount, itemId));
+                        } catch (Exception ignored) {
+                            Comet.getServer().getLogger().warn("Invalid item data for catalog item: " + this.id);
+                        }
                     }
                 }
-            }
-        } else {
-            if (!this.itemId.equals("-1")) {
+            } else {
                 this.items.add(new CatalogBundledItem(this.presetData, this.amount, Integer.valueOf(this.itemId)));
             }
-        }
 
-        if (this.getItems().size() == 0) return;
+            if (this.getItems().size() == 0) return;
 
-        for (CatalogBundledItem catalogBundledItem : this.items) {
-            final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogBundledItem.getItemId());
+            for (CatalogBundledItem catalogBundledItem : this.items) {
+                final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogBundledItem.getItemId());
 
-            if (itemDefinition == null) {
-                throw new Exception("Invalid item data!");
+                if (itemDefinition == null) {
+                    throw new Exception("Invalid item data!");
+                }
             }
-        }
 
-        if (ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()) == null) return;
-        int offerId = ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()).getOfferId();
+            if (ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()) == null) return;
+            int offerId = ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()).getOfferId();
 
-        if (!CatalogManager.getCatalogOffers().containsKey(offerId)) {
-            CatalogManager.getCatalogOffers().put(offerId, new CatalogOffer(offerId, data.getInt("page_id"), this.getId()));
+            if (!CatalogManager.getCatalogOffers().containsKey(offerId)) {
+                CatalogManager.getCatalogOffers().put(offerId, new CatalogOffer(offerId, data.getInt("page_id"), this.getId()));
+            }
         }
     }
 
     public void compose(IComposer msg) {
-        final ItemDefinition firstItem = ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId());
+        final ItemDefinition firstItem = this.itemId.equals("-1") ? null : ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId());
 
         msg.writeInt(this.getId());
         msg.writeString(this.getDisplayName());
@@ -219,6 +218,7 @@ public class CatalogItem {
         private final int itemId;
         private final int amount;
         private final String presetData;
+
         public CatalogBundledItem(String presetData, int amount, int itemId) {
             this.presetData = presetData;
             this.amount = amount;
@@ -238,6 +238,7 @@ public class CatalogItem {
         }
 
     }
+
     public int getId() {
         return this.id;
     }
@@ -295,7 +296,7 @@ public class CatalogItem {
     }
 
     public boolean isBadgeOnly() {
-        return this.getItems().get(0).getItemId() == -1 && this.hasBadge();
+        return this.items.size() == 0 && this.hasBadge();
     }
 
     public String getBadgeId() {
