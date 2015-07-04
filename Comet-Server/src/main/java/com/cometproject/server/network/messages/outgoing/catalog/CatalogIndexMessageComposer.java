@@ -52,6 +52,8 @@ public class CatalogIndexMessageComposer extends MessageComposer {
             msg.writeInt(page.getOfferSize());
 
             for (CatalogItem item : page.getItems().values()) {
+                if(item.getItemId().equals("-1")) continue;
+
                 ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
 
                 if (itemDefinition != null) {
