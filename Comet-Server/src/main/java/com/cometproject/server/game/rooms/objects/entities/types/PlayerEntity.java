@@ -439,7 +439,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         msg.writeString(this.getGender().toLowerCase());
 
-        if (this.playerData.getFavouriteGroup() == 0) {
+        if (this.playerData == null || this.playerData.getFavouriteGroup() == 0) {
             msg.writeInt(-1);
             msg.writeInt(-1);
             msg.writeInt(0);
@@ -461,7 +461,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             }
         }
 
-        msg.writeInt(this.playerData.getAchievementPoints()); //achv points
+        msg.writeInt(this.playerData == null ? 0 : this.playerData.getAchievementPoints()); //achv points
         msg.writeBoolean(false);
     }
 
