@@ -33,7 +33,7 @@ Improvements
 * More queued database writes
 * New rank system
 * Expand on the module API
-* Allow wf_act_give__reward to remove rewards (such as coins/diamonds)
+* Allow wf_act_give_reward to remove rewards (such as coins/diamonds)
 
 Commands
 ==================
