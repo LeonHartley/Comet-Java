@@ -8,13 +8,19 @@ import java.util.Map;
 public class AchievementGroup {
     private Map<Integer, Achievement> achievements;
 
+    private int id;
     private String groupName;
     private AchievementCategory category;
 
-    public AchievementGroup(Map<Integer, Achievement> achievements, String groupName, AchievementCategory category) {
+    public AchievementGroup(int id, Map<Integer, Achievement> achievements, String groupName, AchievementCategory category) {
+        this.id = id;
         this.achievements = achievements;
         this.groupName = groupName;
         this.category = category;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public int getLevelCount() {

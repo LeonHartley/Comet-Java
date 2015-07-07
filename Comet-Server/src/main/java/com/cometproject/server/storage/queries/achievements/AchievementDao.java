@@ -36,7 +36,7 @@ public class AchievementDao {
                 if (groupName == null) continue;
 
                 if (!achievementGroups.containsKey(groupName)) {
-                    achievementGroups.put(groupName, new AchievementGroup(new HashMap<>(), resultSet.getString("group_name"), AchievementCategory.valueOf(resultSet.getString("category").toUpperCase())));
+                    achievementGroups.put(groupName, new AchievementGroup(resultSet.getInt("id"), new HashMap<>(), resultSet.getString("group_name"), AchievementCategory.valueOf(resultSet.getString("category").toUpperCase())));
                 }
 
                 if (!achievementGroups.get(groupName).getAchievements().containsKey(resultSet.getInt("level"))) {
@@ -55,7 +55,7 @@ public class AchievementDao {
     }
 
     private static Achievement create(ResultSet resultSet) throws SQLException {
-        return new Achievement(resultSet.getInt("id"), resultSet.getInt("level"), resultSet.getInt("reward_activity_points"), resultSet.getInt("reward_achievement_points"), resultSet.getInt("progress_requirement"));
+        return new Achievement(resultSet.getInt("level"), resultSet.getInt("reward_activity_points"), resultSet.getInt("reward_achievement_points"), resultSet.getInt("progress_requirement"));
     }
 
 }
