@@ -131,7 +131,8 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         Position newPosition;
 
         if (needsReverse) {
-            newPosition = nextPosition.squareBehind(this.getRotation());
+            int rollDirection = this.getRollDirection();
+            newPosition = nextPosition.squareInFront(rollDirection);
         } else {
             newPosition = nextPosition.squareInFront(this.getRotation());
         }
@@ -164,8 +165,8 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         if (this.isValidRoll(this.getNextPosition(currentPosition, false))) {
             newPosition = calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation());
         } else {
+            this.setRotation(this.getRollDirection());
             newPosition = Position.calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation(), true);
-            this.setRotation(Direction.get(this.getRotation()).invert().num);
         }
 
         this.moveTo(newPosition, entity.getBodyRotation());
@@ -228,16 +229,19 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     private int getRollDirection() {
-//        switch(this.rotation) {
-//            case 1:
-//                return 7;
-//
-//            case 3:
-//                return 6;
-//
-//            case 5:
-//                return 3;
-//        }
+        switch (this.rotation) {
+            case 1:
+                return 3;
+
+            case 3:
+                return 1;
+
+            case 5:
+                return 7;
+
+            case 7:
+                return 1;
+        }
 
         return this.rotation;
     }
