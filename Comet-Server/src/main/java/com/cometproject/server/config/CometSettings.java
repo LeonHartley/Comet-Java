@@ -192,6 +192,8 @@ public class CometSettings {
 
     public static int wiredRewardMinRank = 7;
 
+    public static boolean newNavigator = true;
+
     /**
      * Logging
      */

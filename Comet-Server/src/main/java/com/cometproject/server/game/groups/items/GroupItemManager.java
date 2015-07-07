@@ -44,14 +44,6 @@ public class GroupItemManager {
         log.info("Loaded " + itemCount + " group items");
     }
 
-    public String getBackgroundColour(int colour) {
-        if (this.backgroundColours.containsKey(colour)) {
-            return this.backgroundColours.get(colour).getColour();
-        }
-
-        return null;
-    }
-
     public List<GroupBase> getBases() {
         return this.bases;
     }

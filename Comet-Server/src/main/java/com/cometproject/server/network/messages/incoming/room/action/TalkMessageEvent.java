@@ -79,7 +79,7 @@ public class TalkMessageEvent implements Event {
     }
 
     public static String filterMessage(String message) {
-        if (message.endsWith("You can type here to talk!")) {
+        if (message.contains("You can type here to talk!")) {
             message = message.replace("You can type here to talk!", "");
         }
 

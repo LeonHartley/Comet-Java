@@ -1,7 +1,9 @@
 package com.cometproject.server.network.messages.incoming.user.details;
 
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.MessengerConfigMessageComposer;
+import com.cometproject.server.network.messages.outgoing.navigator.NavigatorMetaDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementPointsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.achievements.AchievementRequirementsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.buildersclub.BuildersClubMembershipMessageComposer;
@@ -30,5 +32,8 @@ public class InfoRetrieveMessageEvent implements Event {
         client.send(new AchievementRequirementsMessageComposer());
 
         client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
+
+        if(CometSettings.newNavigator)
+            client.send(new NavigatorMetaDataMessageComposer());
     }
 }
