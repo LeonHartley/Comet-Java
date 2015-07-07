@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.outgoing.user.achievements;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.achievements.AchievementGroup;
+import com.cometproject.server.game.achievements.types.Achievement;
 import com.cometproject.server.game.players.components.types.achievements.AchievementProgress;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.headers.Composers;
@@ -23,18 +24,26 @@ public class AchievementProgressMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeInt(this.achievementGroup.getAchievement(achievementProgress.getLevel()).getId());
-        msg.writeInt(this.achievementGroup.getAchievement(achievementProgress.getLevel()).getLevel());
-        msg.writeString(this.achievementGroup.getGroupName() + this.achievementGroup.getAchievement(achievementProgress.getLevel()).getLevel());
-        msg.writeInt(this.achievementGroup.getAchievement(achievementProgress.getLevel()).getProgressNeeded());
-        msg.writeInt(this.achievementGroup.getAchievement(achievementProgress.getLevel()).getProgressNeeded());
-        msg.writeInt(this.achievementGroup.getAchievement(achievementProgress.getLevel()).getRewardActivityPoints());
+        final Achievement achievement = this.achievementGroup.getAchievement(this.achievementProgress.getLevel());
+
+        msg.writeInt(achievementGroup.getId());
+        msg.writeInt(achievement.getLevel());
+        msg.writeString(achievementGroup.getGroupName() + achievement.getLevel());
+        msg.writeInt(achievement.getLevel() == 1 ? 0 :achievementGroup.getAchievement(achievement.getLevel() - 1).getProgressNeeded());
+        msg.writeInt(achievement.getProgressNeeded());
+        msg.writeInt(achievement.getRewardActivityPoints());
         msg.writeInt(0);
-        msg.writeInt(this.achievementProgress.getProgress());
-        msg.writeBoolean(this.achievementProgress.getLevel() >= this.achievementGroup.getAchievements().size());
-        msg.writeString(this.achievementGroup.getCategory().toString().toLowerCase());
+        msg.writeInt(achievementProgress.getProgress());
+
+        if(achievementProgress.getLevel() >= achievementGroup.getLevelCount()) {
+            msg.writeBoolean(true);
+        } else {
+            msg.writeBoolean(false);
+        }
+
+        msg.writeString(achievementGroup.getCategory().toString().toLowerCase());
         msg.writeString("");
-        msg.writeInt(this.achievementGroup.getAchievements().size());
+        msg.writeInt(achievementGroup.getLevelCount());
         msg.writeInt(0);
     }
 }

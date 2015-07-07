@@ -70,7 +70,6 @@ public class AchievementComponent implements PlayerComponent {
 
             this.getPlayer().getSession().send(this.getPlayer().composeCurrenciesBalance());
             this.getPlayer().getSession().send(new UpdateActivityPointsMessageComposer(this.getPlayer().getData().getActivityPoints(), currentAchievement.getRewardAchievement()));
-            this.player.getSession().send(new AchievementUnlockedMessageComposer(achievementGroup.getCategory().toString(), achievementGroup.getGroupName(), currentAchievement.getLevel(), currentAchievement));
 
             if (achievementGroup.getAchievement(targetLevel) != null) {
                 progress.increaseLevel();
@@ -80,71 +79,13 @@ public class AchievementComponent implements PlayerComponent {
             // Achievement unlocked!
             this.player.getSession().send(new AchievementPointsMessageComposer(this.getPlayer().getData().getAchievementPoints()));
             this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
+            this.player.getSession().send(new AchievementUnlockedMessageComposer(achievementGroup.getCategory().toString(), achievementGroup.getGroupName(), achievementGroup.getId(), targetAchievement));
         } else {
             this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
         }
 
         PlayerAchievementDao.saveProgress(this.player.getId(), type, progress);
     }
-
-//    public void progressAchievement(AchievementType type, int data) {
-//        final AchievementGroup achievement = AchievementManager.getInstance().getAchievementGroup(type);
-//
-//        if (achievement == null || this.getProgress(type) == null) {
-//            return;
-//        }
-//
-//        AchievementProgress playerAchievement = this.getProgress(type);
-//
-//        if (playerAchievement != null && playerAchievement.getLevel() == achievement.getAchievements().size()) {
-//            return;
-//        }
-
-//
-//        int targetLevel = playerAchievement != null ? playerAchievement.getLevel() + 1 : 1;
-//
-//        if (targetLevel > achievement.getLevelCount()) {
-//            targetLevel = achievement.getLevelCount();
-//        }
-//
-//        int newProgress = playerAchievement != null ? playerAchievement.getProgress() + data : data;
-//        final Achievement level = achievement.getAchievement(targetLevel);
-//
-//        int newLevel = playerAchievement != null ? playerAchievement.getLevel() : 0;
-//        int newTarget = newLevel + 1;
-//
-//        if (newTarget > achievement.getLevelCount()) {
-//            newTarget = achievement.getLevelCount();
-//        }
-//
-//        if (newProgress >= level.getProgressNeeded()) {
-//            newTarget++;
-//
-//            if (newTarget > achievement.getLevelCount()) {
-//                newTarget = achievement.getLevelCount();
-//            }
-//
-//            if (level.getRewardActivityPoints() > 0) {
-//                // Deliver activity points
-//            }
-//
-//            this.getPlayer().getSession().send(new AchievementUnlockedMessageComposer(targetLevel, achievement));
-//
-//            if(playerAchievement != null) {
-//                playerAchievement.increaseLevel();
-//                playerAchievement.setProgress(data);
-//            }
-//
-//            this.getPlayer().getSession().send(new AchievementProgressMessageComposer(playerAchievement, achievement.getAchievement(newTarget), achievement));
-//            return;
-//        }
-//
-//        if(playerAchievement != null) {
-//            playerAchievement.increaseProgress(data);
-//        }
-//
-//        this.getPlayer().getSession().send(new AchievementProgressMessageComposer(playerAchievement, achievement.getAchievement(targetLevel), achievement));
-//    }
 
     public AchievementProgress getProgress(AchievementType achievementType) {
         return this.progression.get(achievementType);

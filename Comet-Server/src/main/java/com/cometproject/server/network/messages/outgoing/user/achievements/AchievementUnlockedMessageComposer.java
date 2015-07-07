@@ -8,14 +8,15 @@ import com.cometproject.server.network.messages.headers.Composers;
 public class AchievementUnlockedMessageComposer extends MessageComposer {
     private final String achievementCategory;
     private final String achievementName;
-    private final int achievementLevel;
-    private final Achievement currentAchievement;
 
-    public AchievementUnlockedMessageComposer(final String achievementCategory, String achievementName, int achievementLevel, Achievement currentAchievement) {
+    private final int currentAchievementId;
+    private final Achievement newAchievement;
+
+    public AchievementUnlockedMessageComposer(final String achievementCategory, String achievementName, int currentAchievementId, Achievement newAchievement) {
         this.achievementCategory = achievementCategory;
         this.achievementName = achievementName;
-        this.achievementLevel = achievementLevel;
-        this.currentAchievement = currentAchievement;
+        this.currentAchievementId = currentAchievementId;
+        this.newAchievement = newAchievement;
     }
 
     @Override
@@ -25,17 +26,18 @@ public class AchievementUnlockedMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeInt(currentAchievement.getId());
-        msg.writeInt(achievementLevel);
+        msg.writeInt(currentAchievementId);
+        msg.writeInt(newAchievement.getLevel());
         msg.writeInt(144); // TODO: Find out what this is.
-        msg.writeString(achievementName + achievementLevel);
-        msg.writeInt(currentAchievement.getRewardAchievement());
-        msg.writeInt(currentAchievement.getRewardActivityPoints());
+        msg.writeString(achievementName + (newAchievement.getLevel() - 1));
+        msg.writeInt(newAchievement.getRewardAchievement());
+        msg.writeInt(newAchievement.getRewardActivityPoints());
         msg.writeInt(0);
         msg.writeInt(10);
         msg.writeInt(21);
-        msg.writeString(achievementLevel > 1 ? achievementName + (achievementLevel - 1) : "");
+        msg.writeString(newAchievement.getLevel() > 1 ? achievementName + (newAchievement.getLevel() - 1) : "");
+
         msg.writeString(achievementCategory.toLowerCase());
-        msg.writeBoolean(false);
+        msg.writeBoolean(true);
     }
 }
