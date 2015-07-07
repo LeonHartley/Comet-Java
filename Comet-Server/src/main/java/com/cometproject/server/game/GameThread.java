@@ -3,9 +3,11 @@ package com.cometproject.server.game;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.system.StatisticsDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
@@ -71,7 +73,7 @@ public class GameThread implements CometTask, Initializable {
                 updateOnlineRecord = true;
             }
 
-            this.cycleRewards();
+            this.processSession();
 
             if (!updateOnlineRecord)
                 StatisticsDao.saveStatistics(usersOnline, RoomManager.getInstance().getRoomInstances().size(), Comet.getBuild());
@@ -82,13 +84,15 @@ public class GameThread implements CometTask, Initializable {
         }
     }
 
-    private void cycleRewards() throws Exception {
+    private void processSession() throws Exception {
         if (CometSettings.quarterlyCreditsEnabled || CometSettings.quarterlyDucketsEnabled) {
             for (ISession client : NetworkManager.getInstance().getSessions().getSessions().values()) {
                 try {
-                    if (client.getPlayer() == null || client.getPlayer().getData() == null) {
+                    if (!(client instanceof Session) || client.getPlayer() == null || client.getPlayer().getData() == null) {
                         continue;
                     }
+
+                    ((Session) client).getPlayer().getAchievements().progressAchievement(AchievementType.ONLINE_TIME, 1);
 
                     final boolean needsReward = (Comet.getTime() - client.getPlayer().getLastReward()) >= (60 * PLAYER_REWARD_INTERVAL);
 

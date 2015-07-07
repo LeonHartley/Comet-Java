@@ -4,6 +4,7 @@ import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.quests.Quest;
@@ -53,31 +54,33 @@ public class Player implements IPlayer {
     private final AchievementComponent achievements;
 
     private List<Integer> rooms = new ArrayList<>();
+    private List<Integer> enteredRooms = new ArrayList<>();
+
     private List<Integer> groups = new ArrayList<>();
 
     private List<Integer> ignoredPlayers = new ArrayList<>();
-
     private long roomLastMessageTime = 0;
     private double roomFloodTime = 0;
-    private int roomFloodFlag = 0;
 
+    private int roomFloodFlag = 0;
     private long messengerLastMessageTime = 0;
     private double messengerFloodTime = 0;
+
     private int messengerFloodFlag = 0;
-
     private int teleportId = 0;
-    private int teleportRoomId = 0;
 
+    private int teleportRoomId = 0;
     private String lastMessage = "";
     private int notifCooldown = 0;
-    private int lastRoomId;
 
+    private int lastRoomId;
     private int lastGift = 0;
+
     private int lastRoomCreated;
 
     public boolean cancelPageOpen = false;
-
     private boolean isDeletingGroup = false;
+
     private long deletingGroupAttempt = 0;
 
     private boolean bypassRoomAuth;
@@ -149,6 +152,9 @@ public class Player implements IPlayer {
         this.ignoredPlayers.clear();
         this.ignoredPlayers = null;
 
+        this.enteredRooms.clear();
+        this.enteredRooms = null;
+
         this.settings = null;
         this.data = null;
 
@@ -219,6 +225,11 @@ public class Player implements IPlayer {
                     this.getQuests().progressQuest(QuestType.SOCIAL_VISIT);
                 }
             }
+        }
+
+        if(!this.enteredRooms.contains(id) && !this.rooms.contains(id)) {
+            this.getAchievements().progressAchievement(AchievementType.ROOM_ENTRY, 1);
+            this.enteredRooms.add(id);
         }
     }
 
