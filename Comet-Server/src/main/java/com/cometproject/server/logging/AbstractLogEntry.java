@@ -11,7 +11,7 @@ public abstract class AbstractLogEntry {
         return -1;
     }
 
-    public int getUserId() {
+    public int getPlayerId() {
         return -1;
     }
 }

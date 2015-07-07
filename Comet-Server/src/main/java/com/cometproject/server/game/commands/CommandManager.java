@@ -34,6 +34,9 @@ import com.cometproject.server.game.commands.user.settings.EnableCommand;
 import com.cometproject.server.game.commands.user.settings.ToggleFriendsCommand;
 import com.cometproject.server.game.commands.vip.*;
 import com.cometproject.server.game.permissions.PermissionsManager;
+import com.cometproject.server.logging.LogManager;
+import com.cometproject.server.logging.entries.CommandLogEntry;
+import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.Initializable;
 import com.google.common.collect.Lists;
@@ -243,6 +246,13 @@ public class CommandManager implements Initializable {
                 this.executorService.submit(new ChatCommand.Execution(chatCommand, params, client));
             } else {
                 chatCommand.execute(client, params);
+            }
+
+            try {
+                if (LogManager.ENABLED)
+                    LogManager.getInstance().getStore().getLogEntryContainer().put(new CommandLogEntry(client.getPlayer().getEntity().getRoom().getId(), client.getPlayer().getId(), message));
+            } catch (Exception ignored) {
+
             }
 
             return true;

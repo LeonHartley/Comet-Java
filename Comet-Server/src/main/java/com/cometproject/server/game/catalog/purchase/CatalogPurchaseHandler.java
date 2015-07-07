@@ -52,11 +52,15 @@ public class CatalogPurchaseHandler {
     private final ExecutorService executorService;
 
     public CatalogPurchaseHandler() {
-        this.executorService = Executors.newFixedThreadPool(2);
+        this.executorService = Executors.newFixedThreadPool(8);
     }
 
     public void purchaseItem(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
-        this.executorService.submit(() -> this.handle(client, pageId, itemId, data, amount, giftData));
+        if(CometSettings.asyncCatalogPurchase) {
+            this.executorService.submit(() -> this.handle(client, pageId, itemId, data, amount, giftData));
+        } else {
+            this.handle(client, pageId, itemId, data, amount, giftData);
+        }
     }
 
     /**

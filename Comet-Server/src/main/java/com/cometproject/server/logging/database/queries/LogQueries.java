@@ -26,7 +26,7 @@ public class LogQueries {
 
             preparedStatement.setString(1, entry.getType().toString());
             preparedStatement.setInt(2, entry.getRoomId());
-            preparedStatement.setInt(3, entry.getUserId());
+            preparedStatement.setInt(3, entry.getPlayerId());
             preparedStatement.setString(4, entry.getString());
             preparedStatement.setInt(5, entry.getTimestamp());
 
@@ -52,7 +52,7 @@ public class LogQueries {
 
                 preparedStatement.setString(1, entry.getType().toString());
                 preparedStatement.setInt(2, entry.getRoomId());
-                preparedStatement.setInt(3, entry.getUserId());
+                preparedStatement.setInt(3, entry.getPlayerId());
                 preparedStatement.setString(4, entry.getString());
                 preparedStatement.setInt(5, entry.getTimestamp());
 

@@ -30,8 +30,8 @@ public class RoomChatLogEntry extends AbstractLogEntry {
     public void compose(IComposer msg) {
         msg.writeInt((int) (Comet.getTime() - this.getTimestamp()) * 1000);
 
-        msg.writeInt(this.getUserId());
-        msg.writeString(PlayerDao.getUsernameByPlayerId(this.getUserId()));
+        msg.writeInt(this.getPlayerId());
+        msg.writeString(PlayerDao.getUsernameByPlayerId(this.getPlayerId()));
         msg.writeString(this.getString());
         msg.writeBoolean(false);
     }
@@ -57,7 +57,7 @@ public class RoomChatLogEntry extends AbstractLogEntry {
     }
 
     @Override
-    public int getUserId() {
+    public int getPlayerId() {
         return this.userId;
     }
 }
