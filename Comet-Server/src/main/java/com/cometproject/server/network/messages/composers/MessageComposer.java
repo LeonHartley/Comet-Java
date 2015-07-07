@@ -7,8 +7,6 @@ import com.cometproject.server.network.messages.types.Composer;
 import io.netty.buffer.ByteBuf;
 
 public abstract class MessageComposer implements IMessageComposer {
-    private boolean isCancelled = false;
-
     public MessageComposer() {
     }
 

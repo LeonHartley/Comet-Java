@@ -194,6 +194,8 @@ public class CometSettings {
 
     public static boolean newNavigator = true;
 
+    public static boolean asyncCatalogPurchase = false;
+
     /**
      * Logging
      */
@@ -317,6 +319,10 @@ public class CometSettings {
 
         if (config.containsKey("comet.game.wiredRewardMinRank")) {
             wiredRewardMinRank = Integer.parseInt(config.get("comet.game.wiredRewardMinRank"));
+        }
+
+        if(config.containsKey("comet.threading.asyncCatalog")) {
+            asyncCatalogPurchase = Boolean.parseBoolean(config.get("comet.threading.asyncCatalog"));
         }
     }
 

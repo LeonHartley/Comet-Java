@@ -1,6 +1,11 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 07/07/2015
+* Lots of work on achievements
+* Bug fix with catalog purchasing
+* Commands are now logged
+
 ## 03/07/2015
 * Fixed issue causing items not to be saved properly when used by wf_act_match_to_sshot
 * Fixed issue with buying catalog items via search
