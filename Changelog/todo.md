@@ -17,6 +17,7 @@ Features
 * Builders Club
 * Targeted offers (The popup showing an offer, which expires after x days.)
 * Football (100%)
+* Room bundles
 
 Bugs
 ==================
