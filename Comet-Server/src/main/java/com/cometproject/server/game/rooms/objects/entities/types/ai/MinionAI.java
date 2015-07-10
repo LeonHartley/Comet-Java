@@ -51,10 +51,13 @@ public class MinionAI extends AbstractBotAI {
     public boolean onTalk(PlayerEntity entity, String message) {
         if (message.startsWith(":")) return false;
 
+        if (entity.getPlayerId() != ((BotEntity) this.getEntity()).getData().getOwnerId()) {
+            return false;
+        }
+
         if (speechCommands.containsKey(message.toLowerCase())) {
             speechCommands.get(message.toLowerCase()).accept(((BotEntity) this.getEntity()));
-
-        } else if (entity.getPlayerId() == ((BotEntity) this.getEntity()).getData().getOwnerId()) {
+        } else {
             this.getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getEntity().getId(), message, 0, 2));
         }
 
