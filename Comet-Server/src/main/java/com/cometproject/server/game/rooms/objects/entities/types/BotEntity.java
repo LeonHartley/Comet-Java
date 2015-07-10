@@ -5,7 +5,7 @@ import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.DefaultAI;
-import com.cometproject.server.game.rooms.objects.entities.types.ai.MimicAI;
+import com.cometproject.server.game.rooms.objects.entities.types.ai.MinionAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.WaiterAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -37,7 +37,7 @@ public class BotEntity extends GenericEntity {
                 break;
 
             case "mimic":
-                this.ai = new MimicAI(this);
+                this.ai = new MinionAI(this);
                 break;
         }
     }
