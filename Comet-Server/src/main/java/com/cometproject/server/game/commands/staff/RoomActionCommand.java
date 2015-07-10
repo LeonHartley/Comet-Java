@@ -4,6 +4,7 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
@@ -13,7 +14,10 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMess
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
+
+import java.util.List;
 
 
 public class RoomActionCommand extends ChatCommand {
@@ -86,10 +90,17 @@ public class RoomActionCommand extends ChatCommand {
                     count = 1;
                 }
 
+                List<GenericEntity> addedEntities = Lists.newArrayList();
+
                 for (int i = 0; i < count; i++) {
                     final BotEntity botEntity = client.getPlayer().getEntity().getRoom().getBots().addBot(new InventoryBot(0 - (i + 1), client.getPlayer().getId(), client.getPlayer().getData().getUsername(), client.getPlayer().getData().getUsername() + "Minion" + i, client.getPlayer().getData().getFigure(), client.getPlayer().getData().getGender(), client.getPlayer().getData().getMotto(), "mimic"), entityPosition.getX(), entityPosition.getY(), entityPosition.getZ());
-                    client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(botEntity));
+
+                    if(botEntity != null) {
+                        addedEntities.add(botEntity);
+                    }
                 }
+
+                client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(addedEntities));
                 break;
 
             case "handitem":
