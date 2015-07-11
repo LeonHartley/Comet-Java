@@ -130,7 +130,15 @@ public class PlayerLoginRequest implements CometTask {
         client.sendQueue(new NavigatorMetaDataMessageComposer());
         client.flush();
 
+        // Process the achievements
         client.getPlayer().getAchievements().progressAchievement(AchievementType.LOGIN, 1);
+
+        if(!client.getPlayer().getAchievements().hasStartedAchievement(AchievementType.REGISTRATION_DURATION)) {
+            // Give them the achievement with the date starting from their registration date to now.
+        } else {
+            // Progress their achievement from the last progress to now.
+        }
+
         ModuleManager.getInstance().getEventHandler().handleEvent(new OnPlayerLoginEvent(client.getPlayer()));
     }
 }
