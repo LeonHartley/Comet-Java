@@ -31,6 +31,8 @@ public class PlayerManager implements Initializable {
 
     private Map<String, List<Integer>> ipAddressToPlayerIds;
 
+    private CacheManager cacheManager;
+
     private Cache playerAvatarCache;
     private Cache playerDataCache;
     private ExecutorService playerLoginService;
@@ -55,8 +57,10 @@ public class PlayerManager implements Initializable {
             this.playerAvatarCache = new Cache("playerAvatarCache", 75000, false, false, oneDay, oneDay);
             this.playerDataCache = new Cache("playerDataCache", 15000, false, false, oneDay, oneDay);
 
-            CacheManager.getInstance().addCache(this.playerAvatarCache);
-            CacheManager.getInstance().addCache(this.playerDataCache);
+            this.cacheManager = CacheManager.newInstance("./config/ehcache.xml");
+
+            this.cacheManager.addCache(this.playerAvatarCache);
+            this.cacheManager.addCache(this.playerDataCache);
         } else {
             log.info("Player data cache is disabled.");
         }
