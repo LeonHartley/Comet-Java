@@ -120,6 +120,8 @@ public class RoomDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
+            if(query.equals("owner:")) return rooms;
+
             if (query.startsWith("owner:")) {
                 preparedStatement = SqlHelper.prepare("SELECT * FROM rooms WHERE owner = ?", sqlConnection);
                 preparedStatement.setString(1, query.split("owner:")[1]);
