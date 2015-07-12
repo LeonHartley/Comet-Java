@@ -4,7 +4,7 @@ Comet Pre-1.0 Changelog
 ## 12/07/2015
 * Fixed searching "owner:" causing an error in the navigator.
 * Added room idle time to the server config (comet.room.idleTimeMinutes)
-v
+
 ## 07/07/2015
 * Lots of work on achievements
 * Bug fix with catalog purchasing
