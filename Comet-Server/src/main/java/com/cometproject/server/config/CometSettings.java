@@ -196,6 +196,8 @@ public class CometSettings {
 
     public static boolean asyncCatalogPurchase = false;
 
+    public static int idleMinutes = 20;
+
     /**
      * Logging
      */
@@ -323,6 +325,10 @@ public class CometSettings {
 
         if(config.containsKey("comet.threading.asyncCatalog")) {
             asyncCatalogPurchase = Boolean.parseBoolean(config.get("comet.threading.asyncCatalog"));
+        }
+
+        if(config.containsKey("comet.room.idleTimeMinutes")) {
+            idleMinutes = Integer.parseInt(config.get("comet.room.idleTimeMinutes"));
         }
     }
 
