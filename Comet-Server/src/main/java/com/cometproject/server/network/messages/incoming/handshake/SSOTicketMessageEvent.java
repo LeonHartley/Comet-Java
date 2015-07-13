@@ -4,6 +4,7 @@ import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.messages.incoming.Event;
+import com.cometproject.server.network.messages.outgoing.advertisements.InterstitialMessageComposer;
 import com.cometproject.server.network.messages.types.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
@@ -12,18 +13,6 @@ public class SSOTicketMessageEvent implements Event {
     public static final String TICKET_DELIMITER = ":";
 
     public void handle(Session client, MessageEvent msg) {
-//        if (client.getEncryption() == null) {
-//            CometManager.getLogger().warn("Session was disconnected because RC4 was not initialized!");
-//            client.disconnect();
-//            return;
-//        }
-
-//        if (client.getUniqueId().isEmpty() || client.getUniqueId().length() < 10) {
-//            client.getLogger().warn("Session was disconnected because it did not have a valid machine ID!");
-//            client.disconnect();
-//            return;
-//        }
-
         if (BanManager.getInstance().hasBan(client.getUniqueId(), BanType.MACHINE)) {
             client.getLogger().warn("Banned player: " + client.getUniqueId() + " tried logging in");
             return;

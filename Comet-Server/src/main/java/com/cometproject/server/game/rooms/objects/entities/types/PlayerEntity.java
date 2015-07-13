@@ -64,6 +64,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     private GameTeam gameTeam = GameTeam.NONE;
     private int kickWalkStage = 0;
 
+    private int banzaiPlayerAchievement = 0;
+
     public PlayerEntity(Player player, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
@@ -527,4 +529,17 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     public void setPlayerId(int playerId) {
         this.playerId = playerId;
     }
+
+    public int getBanzaiPlayerAchievement() {
+        return banzaiPlayerAchievement;
+    }
+
+    public void setBanzaiPlayerAchievement(int banzaiPlayerAchievement) {
+        this.banzaiPlayerAchievement = banzaiPlayerAchievement;
+    }
+
+    public void incrementBanzaiPlayerAchievement() {
+        this.banzaiPlayerAchievement++;
+    }
+
 }

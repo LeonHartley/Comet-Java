@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.banzai;
 
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -41,6 +42,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
         }
 
         if (this.points == 3) {
+            ((PlayerEntity) entity).getPlayer().getAchievements().progressAchievement(AchievementType.BB_TILES_LOCKED, 1);
             ((BanzaiGame) this.getRoom().getGame().getInstance()).increaseScore(gameTeam, 1);
             ((BanzaiGame) this.getRoom().getGame().getInstance()).decreaseTileCount();
 
@@ -74,6 +76,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
                             tileItem.setPoints(3);
                             tileItem.setTeam(this.gameTeam);
 
+                            ((PlayerEntity) entity).getPlayer().getAchievements().progressAchievement(AchievementType.BB_TILES_LOCKED, 1);
                             ((BanzaiGame) this.getRoom().getGame().getInstance()).increaseScore(gameTeam, 1);
                             ((BanzaiGame) this.getRoom().getGame().getInstance()).decreaseTileCount();
                             tileItem.updateTileData();

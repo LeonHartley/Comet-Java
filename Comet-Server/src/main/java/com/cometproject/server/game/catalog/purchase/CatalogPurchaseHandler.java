@@ -3,6 +3,7 @@ package com.cometproject.server.game.catalog.purchase;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
@@ -225,6 +226,7 @@ public class CatalogPurchaseHandler {
 
                     int petId = PetDao.createPet(client.getPlayer().getId(), petData[0], Integer.parseInt(petRace), Integer.parseInt(petData[1]), petData[2]);
 
+                    client.getPlayer().getAchievements().progressAchievement(AchievementType.PET_LOVER, 1);
                     client.getPlayer().getPets().addPet(new PetData(petId, petData[0], StaticPetProperties.DEFAULT_LEVEL, StaticPetProperties.DEFAULT_HAPPINESS, StaticPetProperties.DEFAULT_EXPERIENCE, StaticPetProperties.DEFAULT_ENERGY, client.getPlayer().getId(), petData[2], Integer.parseInt(petData[1]), Integer.parseInt(petRace)));
                     client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));
 
@@ -406,13 +408,22 @@ public class CatalogPurchaseHandler {
         if (client != null) {
             List<InventoryItem> unseenItems = new ArrayList<>();
 
-            for (int newItem : newItems) {
-                unseenItems.add(client.getPlayer().getInventory().add(newItem, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData), giftData, null));
+            if(client.getPlayer() != null) {
+                if (client.getPlayer().getInventory() != null) {
+                    for (int newItem : newItems) {
+                        unseenItems.add(client.getPlayer().getInventory().add(newItem, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData), giftData, null));
+                    }
+                }
+
+                if (client.getPlayer().getAchievements() != null) {
+                    client.getPlayer().getAchievements().progressAchievement(AchievementType.GIFT_RECEIVER, 1);
+                }
             }
 
             client.send(new UnseenItemsMessageComposer(unseenItems));
             client.send(new UpdateInventoryMessageComposer());
             client.send(new RoomNotificationMessageComposer("gift_received", Locale.getOrDefault("notification.gift_received", "You have just received a gift from %username%!").replace("%username%", senderUsername)));
+
         }
     }
 

@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.components.games.banzai;
 
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -36,6 +37,22 @@ public class BanzaiGame extends RoomGame {
             item.setExtraData((gameLength - timer) + "");
             item.sendUpdate();
         }
+
+        for (GenericEntity entity : this.room.getEntities().getAllEntities().values()) {
+            if (entity.getEntityType().equals(RoomEntityType.PLAYER)) {
+                PlayerEntity playerEntity = (PlayerEntity) entity;
+
+                if (this.getGameComponent().getTeam(playerEntity.getPlayerId()) != GameTeam.NONE) {
+                    if (playerEntity.getBanzaiPlayerAchievement() >= 60) {
+                        playerEntity.getPlayer().getAchievements().progressAchievement(AchievementType.BB_PLAYER, 1);
+                        playerEntity.setBanzaiPlayerAchievement(0);
+                    } else {
+                        playerEntity.incrementBanzaiPlayerAchievement();
+                    }
+                }
+            }
+        }
+
     }
 
     @Override
@@ -71,6 +88,7 @@ public class BanzaiGame extends RoomGame {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 
                 if (this.getGameComponent().getTeam(playerEntity.getPlayerId()).equals(winningTeam) && winningTeam != GameTeam.NONE) {
+                    playerEntity.getPlayer().getAchievements().progressAchievement(AchievementType.BB_WINNER, 1);
                     this.room.getEntities().broadcastMessage(new ActionMessageComposer(playerEntity.getId(), 1)); // wave o/
                 }
             }
