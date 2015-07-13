@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.catalog;
 
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -25,5 +26,6 @@ public class PurchaseGiftMessageEvent implements Event {
         GiftData data = new GiftData(pageId, itemId, client.getPlayer().getId(), sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername, extraData);
 
         CatalogManager.getInstance().getPurchaseHandler().purchaseItem(client, pageId, itemId, extraData, 1, data);
+        client.getPlayer().getAchievements().progressAchievement(AchievementType.GIFT_GIVER, 1);
     }
 }

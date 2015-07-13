@@ -6,10 +6,10 @@ public enum RoomEntityStatus {
     LAY("lay"),
     SIGN("sign"),
     CONTROLLER("flatctrl"),
-    TRADE("trd");
+    TRADE("trd"),
+    VOTE("vote");
 
-
-    private String statusCode;
+    private final String statusCode;
 
     RoomEntityStatus(String statusCode) {
         this.statusCode = statusCode;

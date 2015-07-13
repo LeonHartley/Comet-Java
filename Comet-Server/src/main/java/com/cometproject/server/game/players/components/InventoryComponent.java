@@ -109,10 +109,14 @@ public class InventoryComponent implements PlayerComponent {
     }
 
     public void removeBadge(String code, boolean delete) {
-        this.removeBadge(code, delete, true);
+        this.removeBadge(code, delete, true, true);
     }
 
-    public void removeBadge(String code, boolean delete, boolean sendAlert) {
+    public void removebadge(String code, boolean delete, boolean sendAlert) {
+        this.removeBadge(code, delete, sendAlert, true);
+    }
+
+    public void removeBadge(String code, boolean delete, boolean sendAlert, boolean sendUpdate) {
         if (badges.containsKey(code)) {
             if (delete) {
                 InventoryDao.removeBadge(code, player.getId());
@@ -135,7 +139,7 @@ public class InventoryComponent implements PlayerComponent {
         boolean isUpdated = false;
 
         if (this.badges.containsKey(oldBadge)) {
-            this.removeBadge(oldBadge, false, false);
+            this.removeBadge(oldBadge, false, false, false);
 
             PlayerAchievementDao.updateBadge(oldBadge, newBadge, this.player.getId());
             isUpdated = true;

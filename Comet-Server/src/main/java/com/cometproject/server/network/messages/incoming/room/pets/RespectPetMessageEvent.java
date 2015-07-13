@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.pets;
 
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -21,6 +22,8 @@ public class RespectPetMessageEvent implements Event {
         if (petEntity == null) return;
 
         room.getEntities().broadcastMessage(new ActionMessageComposer(client.getPlayer().getEntity().getId(), 7));
+
+        client.getPlayer().getAchievements().progressAchievement(AchievementType.PET_RESPECT_GIVEN, 1);
         // TODO: Flesh this out more
     }
 }

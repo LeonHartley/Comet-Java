@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.action;
 
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
@@ -35,11 +36,14 @@ public class RespectUserMessageEvent implements Event {
         }
 
         user.getPlayer().getStats().incrementRespectPoints(1);
+        user.getPlayer().getAchievements().progressAchievement(AchievementType.RESPECT_EARNED, 1);
+
         client.getPlayer().getStats().decrementDailyRespects(1);
 
         room.getEntities().broadcastMessage(new ActionMessageComposer(client.getPlayer().getEntity().getId(), 7));
         room.getEntities().broadcastMessage(new GiveRespectMessageComposer(user.getPlayer().getId(), user.getPlayer().getStats().getRespectPoints()));
 
         client.getPlayer().getQuests().progressQuest(QuestType.SOCIAL_RESPECT);
+        client.getPlayer().getAchievements().progressAchievement(AchievementType.RESPECT_GIVEN, 1);
     }
 }
