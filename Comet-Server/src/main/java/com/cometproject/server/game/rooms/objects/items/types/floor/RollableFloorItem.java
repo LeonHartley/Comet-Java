@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
-import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.items.types.LowPriorityItemProcessor;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
@@ -8,7 +7,6 @@ import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.Ite
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiPuckFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGoalFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
@@ -133,8 +131,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         Position newPosition;
 
         if (needsReverse) {
-            int rollDirection = this.getRollDirection();
-            newPosition = nextPosition.squareInFront(rollDirection);
+            newPosition = nextPosition.squareBehind(this.getRotation());
         } else {
             newPosition = nextPosition.squareInFront(this.getRotation());
         }
@@ -167,8 +164,8 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         if (this.isValidRoll(this.getNextPosition(currentPosition, false))) {
             newPosition = calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation());
         } else {
-            this.setRotation(this.getRollDirection());
             newPosition = Position.calculatePosition(this.getPosition().getX(), this.getPosition().getY(), entity.getBodyRotation(), true);
+            this.setRotation(Direction.get(this.getRotation()).invert().num);
         }
 
         this.moveTo(newPosition, entity.getBodyRotation());
@@ -205,10 +202,6 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
         // tell all other items on the new square that there's a new item. (good method of updating score...)
         for (RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(pos.getX(), pos.getY())) {
-            if(this.playerEntity != null && floorItem instanceof FootballGoalFloorItem) {
-//                this.playerEntity.getPlayer().getAchievements().progressAchievement(AchievementType.FOOTBALL_SCORE, 1);
-            }
-
             floorItem.onItemAddedToStack(this);
         }
 
@@ -235,19 +228,16 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     private int getRollDirection() {
-        switch (this.rotation) {
-            case 1:
-                return 3;
-
-            case 3:
-                return 1;
-
-            case 5:
-                return 7;
-
-            case 7:
-                return 1;
-        }
+//        switch(this.rotation) {
+//            case 1:
+//                return 7;
+//
+//            case 3:
+//                return 6;
+//
+//            case 5:
+//                return 3;
+//        }
 
         return this.rotation;
     }

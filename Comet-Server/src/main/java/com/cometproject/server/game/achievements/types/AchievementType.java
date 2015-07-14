@@ -6,8 +6,6 @@ public enum AchievementType {
     RESPECT_GIVEN("ACH_RespectGiven"),
     RESPECT_EARNED("ACH_RespectEarned"),
     ROOM_ENTRY("ACH_RoomEntry"),
-    PINATA_WHACKER("ACH_PinataWhacker"),
-    PINATA_BREAKER("ACH_PinataBreaker"),
     REGISTRATION_DURATION("ACH_RegistrationDuration"),
     PET_RESPECT_GIVEN("ACH_PetRespectGiver"),
     PET_LOVER("ACH_PetLover"),
