@@ -1,5 +1,6 @@
 package com.cometproject.server.game.players.components;
 
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.players.components.types.messenger.MessengerSearchResult;
@@ -72,6 +73,8 @@ public class MessengerComponent implements PlayerComponent {
 
     public void addFriend(MessengerFriend friend) {
         this.getFriends().put(friend.getUserId(), friend);
+
+        this.getPlayer().getAchievements().progressAchievement(AchievementType.FRIENDS_LIST, 1);
     }
 
     public void removeFriend(int userId) {

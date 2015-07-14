@@ -53,11 +53,14 @@ public class AchievementComponent implements PlayerComponent {
             return;
         }
 
-        progress.increaseProgress(data);
-
         final int targetLevel = progress.getLevel() + 1;
         final Achievement currentAchievement = achievementGroup.getAchievement(progress.getLevel());
         final Achievement targetAchievement = achievementGroup.getAchievement(targetLevel);
+
+        int progressToGive = currentAchievement.getProgressNeeded() < data ? currentAchievement.getProgressNeeded() : data;
+        int remainingProgress = progressToGive >= data ? 0 : data - progressToGive;
+
+        progress.increaseProgress(progressToGive);
 
         if (currentAchievement.getProgressNeeded() <= progress.getProgress()) {
             this.player.getInventory().achievementBadge(type.getGroupName(), progress.getLevel());
@@ -65,7 +68,6 @@ public class AchievementComponent implements PlayerComponent {
             this.player.getData().increaseAchievementPoints(currentAchievement.getRewardAchievement());
             this.player.getData().increaseActivityPoints(currentAchievement.getRewardActivityPoints());
 
-            this.player.getData().save();
             this.player.poof();
 
             this.getPlayer().getSession().send(this.getPlayer().composeCurrenciesBalance());
@@ -73,7 +75,6 @@ public class AchievementComponent implements PlayerComponent {
 
             if (achievementGroup.getAchievement(targetLevel) != null) {
                 progress.increaseLevel();
-                progress.setProgress(0);
             }
 
             // Achievement unlocked!
@@ -84,7 +85,12 @@ public class AchievementComponent implements PlayerComponent {
             this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
         }
 
-        PlayerAchievementDao.saveProgress(this.player.getId(), type, progress);
+        if (remainingProgress != 0) {
+            this.progressAchievement(type, remainingProgress);
+        } else {
+            this.player.getData().save();
+            PlayerAchievementDao.saveProgress(this.player.getId(), type, progress);
+        }
     }
 
     public boolean hasStartedAchievement(AchievementType achievementType) {
