@@ -1,6 +1,12 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 14/07/2015
+* Lay & Transform commands can now be disabled via :disablecommand
+
+## 13/07/2015
+* Lots of work on achievements
+
 ## 12/07/2015
 * Fixed searching "owner:" causing an error in the navigator.
 * Added room idle time to the server config (comet.room.idleTimeMinutes)
