@@ -21,11 +21,6 @@ public class CometSettings {
     public static String messageOfTheDayText = "";
 
     /**
-     * The log store type - default is disabled
-     */
-    public static String logStore = "disabled";
-
-    /**
      * The name of the hotel... Will be shown in the
      * footer of alerts etc.
      */
