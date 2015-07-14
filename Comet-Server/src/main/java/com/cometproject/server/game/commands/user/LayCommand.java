@@ -29,4 +29,9 @@ public class LayCommand extends ChatCommand {
     public String getDescription() {
         return Locale.get("command.lay.description");
     }
+
+    @Override
+    public boolean canDisable() {
+        return true;
+    }
 }
