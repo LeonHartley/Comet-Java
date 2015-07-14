@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.items.types.LowPriorityItemProcessor;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
@@ -7,6 +8,7 @@ import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.Ite
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiPuckFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGoalFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
@@ -203,6 +205,10 @@ public abstract class RollableFloorItem extends RoomItemFloor {
 
         // tell all other items on the new square that there's a new item. (good method of updating score...)
         for (RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(pos.getX(), pos.getY())) {
+            if(this.playerEntity != null && floorItem instanceof FootballGoalFloorItem) {
+//                this.playerEntity.getPlayer().getAchievements().progressAchievement(AchievementType.FOOTBALL_SCORE, 1);
+            }
+
             floorItem.onItemAddedToStack(this);
         }
 

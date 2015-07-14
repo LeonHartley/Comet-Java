@@ -1,8 +1,13 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.football;
 
+import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
+import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.network.sessions.SessionManager;
 
 
 public class FootballGoalFloorItem extends RoomItemFloor {
@@ -29,7 +34,19 @@ public class FootballGoalFloorItem extends RoomItemFloor {
 
     @Override
     public void onItemAddedToStack(RoomItemFloor floorItem) {
-        this.getRoom().getGame().increaseScore(this.gameTeam, 1);
+        if(floorItem instanceof FootballFloorItem) {
+            this.getRoom().getGame().increaseScore(this.gameTeam, 1);
+
+            final int playerId = this.getRoom().getData().getOwnerId();
+
+            if(PlayerManager.getInstance().isOnline(playerId)) {
+                Session session = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
+
+                if(session != null && session.getPlayer() != null && session.getPlayer().getAchievements() != null) {
+                    session.getPlayer().getAchievements().progressAchievement(AchievementType.FOOTBALL_GOAL, 1);
+                }
+            }
+        }
     }
 
     public GameTeam getGameTeam() {

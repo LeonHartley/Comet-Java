@@ -1,6 +1,7 @@
 package com.cometproject.server.game.players.login;
 
 import com.cometproject.api.events.players.OnPlayerLoginEvent;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.moderation.BanManager;
@@ -123,11 +124,11 @@ public class PlayerLoginRequest implements CometTask {
             client.sendQueue(new ModToolMessageComposer());
         }
 
-        if(CometSettings.messageOfTheDayEnabled) {
+        if (CometSettings.messageOfTheDayEnabled) {
             client.sendQueue(new MotdNotificationComposer());
         }
 
-        if(CometSettings.newNavigator) {
+        if (CometSettings.newNavigator) {
             client.sendQueue(new NavigatorMetaDataMessageComposer());
         }
 
@@ -136,12 +137,19 @@ public class PlayerLoginRequest implements CometTask {
         // Process the achievements
         client.getPlayer().getAchievements().progressAchievement(AchievementType.LOGIN, 1);
 
-        if(!client.getPlayer().getAchievements().hasStartedAchievement(AchievementType.REGISTRATION_DURATION)) {
-            // Give them the achievement with the date starting from their registration date to now.
+        int daysSinceRegistration = (int) Math.floor((((int) Comet.getTime()) - client.getPlayer().getData().getRegTimestamp()) / 86400);
+
+        if (!client.getPlayer().getAchievements().hasStartedAchievement(AchievementType.REGISTRATION_DURATION)) {
+            client.getPlayer().getAchievements().progressAchievement(AchievementType.REGISTRATION_DURATION, daysSinceRegistration);
         } else {
             // Progress their achievement from the last progress to now.
-        }
+            int progress = client.getPlayer().getAchievements().getProgress(AchievementType.REGISTRATION_DURATION).getProgress();
+            if (daysSinceRegistration > client.getPlayer().getAchievements().getProgress(AchievementType.REGISTRATION_DURATION).getProgress()) {
+                int amountToProgress = daysSinceRegistration - progress;
+                client.getPlayer().getAchievements().progressAchievement(AchievementType.REGISTRATION_DURATION, amountToProgress);
+            }
 
-        ModuleManager.getInstance().getEventHandler().handleEvent(new OnPlayerLoginEvent(client.getPlayer()));
+            ModuleManager.getInstance().getEventHandler().handleEvent(new OnPlayerLoginEvent(client.getPlayer()));
+        }
     }
 }

@@ -17,7 +17,10 @@ public enum AchievementType {
     BB_PLAYER("ACH_BattleBallPlayer"),
     BB_WINNER("ACH_BattleBallWinner"),
     ONLINE_TIME("ACH_AllTimeHotelPresence"),
-    LOGIN("ACH_Login");
+    LOGIN("ACH_Login"),
+    FRIENDS_LIST("ACH_FriendListSize"),
+    CAMERA_PHOTO("ACH_CameraPhotoCount"),
+    FOOTBALL_GOAL("ACH_FootballGoalScoredInRoom");
 
     private String groupName;
 

@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.incoming.user.camera;
 
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
@@ -27,5 +28,7 @@ public class TakePhotoMessageEvent implements Event {
         client.send(new UpdateInventoryMessageComposer());
 
         client.send(new UnseenItemsMessageComposer(Lists.newArrayList(inventoryItem)));
+
+        client.getPlayer().getAchievements().progressAchievement(AchievementType.CAMERA_PHOTO, 1);
     }
 }
