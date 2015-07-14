@@ -63,8 +63,6 @@ public class AchievementComponent implements PlayerComponent {
         progress.increaseProgress(progressToGive);
 
         if (currentAchievement.getProgressNeeded() <= progress.getProgress()) {
-            this.player.getInventory().achievementBadge(type.getGroupName(), progress.getLevel());
-
             this.player.getData().increaseAchievementPoints(currentAchievement.getRewardAchievement());
             this.player.getData().increaseActivityPoints(currentAchievement.getRewardActivityPoints());
 
@@ -81,6 +79,7 @@ public class AchievementComponent implements PlayerComponent {
             this.player.getSession().send(new AchievementPointsMessageComposer(this.getPlayer().getData().getAchievementPoints()));
             this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
             this.player.getSession().send(new AchievementUnlockedMessageComposer(achievementGroup.getCategory().toString(), achievementGroup.getGroupName(), achievementGroup.getId(), targetAchievement));
+            this.player.getInventory().achievementBadge(type.getGroupName(), progress.getLevel());
         } else {
             this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
         }
