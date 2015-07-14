@@ -42,6 +42,11 @@ public class TransformCommand extends ChatCommand {
         return Locale.get("command.transform.description");
     }
 
+    @Override
+    public boolean canDisable() {
+        return true;
+    }
+
     public static void composeTransformation(IComposer msg, String[] transformationData, PlayerEntity entity) {
         // TODO: create global composer for entity types maybe
         msg.writeInt(entity.getPlayerId());
