@@ -57,10 +57,18 @@ public class AchievementComponent implements PlayerComponent {
         final Achievement currentAchievement = achievementGroup.getAchievement(progress.getLevel());
         final Achievement targetAchievement = achievementGroup.getAchievement(targetLevel);
 
-        int progressToGive = currentAchievement.getProgressNeeded() < data ? currentAchievement.getProgressNeeded() : data;
+        int progressToGive = currentAchievement.getProgressNeeded() <= data ? currentAchievement.getProgressNeeded() : data;
         int remainingProgress = progressToGive >= data ? 0 : data - progressToGive;
 
         progress.increaseProgress(progressToGive);
+
+        if(progress.getProgress() > currentAchievement.getProgressNeeded()) {
+            // subtract the difference and add it onto remainingProgress.
+            int difference = progress.getProgress() - currentAchievement.getProgressNeeded();
+
+            progress.decreaseProgress(difference);
+            remainingProgress += difference;
+        }
 
         if (currentAchievement.getProgressNeeded() <= progress.getProgress()) {
             this.player.getData().increaseAchievementPoints(currentAchievement.getRewardAchievement());

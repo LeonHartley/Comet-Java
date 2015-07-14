@@ -13,6 +13,10 @@ public class AchievementProgress {
         this.progress += amount;
     }
 
+    public void decreaseProgress(int difference) {
+        this.progress -= difference;
+    }
+
     public void increaseLevel() {
         this.level += 1;
     }

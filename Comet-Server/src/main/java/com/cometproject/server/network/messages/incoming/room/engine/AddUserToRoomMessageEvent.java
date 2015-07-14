@@ -81,11 +81,15 @@ public class AddUserToRoomMessageEvent implements Event {
             }
 
             if (av.getDanceId() != 0) {
-                client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new DanceMessageComposer(av.getId(), av.getDanceId()));
+                client.sendQueue(new DanceMessageComposer(av.getId(), av.getDanceId()));
             }
 
             if (av.getHandItem() != 0) {
-                client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new HandItemMessageComposer(av.getId(), av.getHandItem()));
+                client.sendQueue(new HandItemMessageComposer(av.getId(), av.getHandItem()));
+            }
+
+            if(av.isIdle()) {
+                client.sendQueue(new IdleStatusMessageComposer(av.getId(), true));
             }
         }
 

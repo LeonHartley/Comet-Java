@@ -7,7 +7,6 @@ import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.Ent
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.objects.entities.types.ai.MinionAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
@@ -302,6 +301,10 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         return this.idleTime;
     }
 
+    public boolean isIdle() {
+        return this.idleTime >= 600;
+    }
+
     @Override
     public boolean isIdleAndIncrement() {
         this.idleTime++;
@@ -335,10 +338,8 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     public void unIdle() {
         this.resetIdleTime();
 
-        if(this instanceof BotEntity) {
-            if(((BotEntity) this).getAI() instanceof MinionAI) {
-                return;
-            }
+        if (this instanceof BotEntity) {
+            return;
         }
 
         this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer(this.getId(), false));
