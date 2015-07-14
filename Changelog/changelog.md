@@ -2,6 +2,7 @@ Comet Pre-1.0 Changelog
 =======================
 
 ## 14/07/2015
+* Achievements is now ready to go live (Not all achievements added but a big chunk.)
 * Lay & Transform commands can now be disabled via :disablecommand
 
 ## 13/07/2015
