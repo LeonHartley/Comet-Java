@@ -1,7 +1,7 @@
 Features
 ==================
 * SWF update
-* Achievements
+* ~~Achievements~~
 * Rewrite teleports
 * Group Forum (Not complete, needs finishing)
 * More Wired
