@@ -22,7 +22,7 @@ Features
 Bugs
 ==================
 * Floor/wallpaper gifting
-* Sitting on a chair which is stacked on a "adjustable_height" item will have issues
+* ~~Sitting on a chair which is stacked on a "adjustable_height" item will have issues~~
 * More reliable player disposal (Including entities tied to this player)
 * Fix all logged exceptions 
 
