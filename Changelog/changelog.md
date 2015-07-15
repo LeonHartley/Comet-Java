@@ -1,6 +1,10 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 15/07/2015
+* Fixed bug: Sitting on a chair which is stacked on a "adjustable_height" item will have issues
+* Fixed issue with badges not giving correct badge (Users would get the level+1 badge, not the correct level)
+
 ## 14/07/2015
 * Achievements is now ready to go live (Not all achievements added but a big chunk.)
 * Lay & Transform commands can now be disabled via :disablecommand
