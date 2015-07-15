@@ -60,7 +60,7 @@ public class TransformCommand extends ChatCommand {
         msg.writeDouble(entity.getPosition().getZ());
 
         msg.writeInt(0); // 2 = user 4 = bot 0 = pet ??????
-        msg.writeInt(2); // 1 = user 2 = pet 3 = bot ??????
+        msg.writeInt(2); // 1 = user 2 = pet 3 = bot ??????n
 
         msg.writeInt(Integer.parseInt(transformationData[1]));
         msg.writeInt(entity.getPlayerId());

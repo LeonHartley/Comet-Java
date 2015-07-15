@@ -6,10 +6,7 @@ import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedT
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.ItemPathfinder;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
-import com.cometproject.server.game.rooms.objects.items.types.floor.AdjustableHeightFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.BedFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.GateFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.MagicStackFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
@@ -38,6 +35,8 @@ public class Tile {
     private boolean hasItems = false;
     private boolean hasMagicTile = false;
 
+    private boolean hasAdjustableHeight = false;
+
     private List<RoomItemFloor> items;
     public Set<GenericEntity> entities;
 
@@ -62,6 +61,7 @@ public class Tile {
         this.originalHeight = 0d;
         this.originalTopItem = 0;
         this.stackHeight = 0d;
+        this.hasAdjustableHeight = false;
 
         if (this.mappingInstance.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()] == null) {
             this.canPlaceItemHere = false;
@@ -183,6 +183,7 @@ public class Tile {
         }
 
         if (overrideHeight != null) {
+            this.hasAdjustableHeight = true;
             this.canStack = true;
             this.stackHeight = staticOverrideHeight != null ? staticOverrideHeight : overrideHeight;
 
@@ -234,6 +235,10 @@ public class Tile {
             } else {
                 height -= roomItemFloor.getDefinition().getHeight();
             }
+        }
+
+        if(this.hasAdjustableHeight && roomItemFloor instanceof SeatFloorItem) {
+            height += ((SeatFloorItem) roomItemFloor).getSitHeight();
         }
 
         return height;
@@ -314,5 +319,9 @@ public class Tile {
 
     public List<RoomItemFloor> getItems() {
         return items;
+    }
+
+    public boolean hasAdjustableHeight() {
+        return hasAdjustableHeight;
     }
 }
