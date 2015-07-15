@@ -19,7 +19,7 @@
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.6" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.34" level="project" />
     <orderEntry type="library" name="Maven: com.jolbox:bonecp:0.8.0.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.26.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.29.Final" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.3" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:2.3.7" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.19.0-GA" level="project" />
@@ -66,7 +66,7 @@
     <orderEntry type="module-library">
       <library name="Maven: jdk.tools:jdk.tools:1.6">
         <CLASSES>
-          <root url="jar://C:/Program Files/Java/lib/tools.jar!/" />
+          <root url="jar://C:/Program Files/Java/jdk1.8.0_40/lib/tools.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
