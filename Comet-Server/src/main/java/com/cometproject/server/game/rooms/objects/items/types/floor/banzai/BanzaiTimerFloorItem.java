@@ -9,6 +9,8 @@ import org.apache.commons.lang.StringUtils;
 
 
 public class BanzaiTimerFloorItem extends RoomItemFloor {
+    private String lastTime;
+
     public BanzaiTimerFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
@@ -66,7 +68,12 @@ public class BanzaiTimerFloorItem extends RoomItemFloor {
             this.setExtraData(time + "");
             this.sendUpdate();
         } else {
+            if(this.getExtraData().equals("0") && this.lastTime != null && !this.lastTime.isEmpty()) {
+                this.setExtraData(this.lastTime);
+            }
             int gameLength = Integer.parseInt(this.getExtraData());
+
+            this.lastTime = this.getExtraData();
 
             if (this.getRoom().getGame().getInstance() == null) {
                 this.getRoom().getGame().createNew(GameType.BANZAI);
@@ -75,5 +82,9 @@ public class BanzaiTimerFloorItem extends RoomItemFloor {
         }
 
         return true;
+    }
+
+    public String getDataObject() {
+        return this.lastTime != null && !this.lastTime.isEmpty() ? this.lastTime : this.getExtraData();
     }
 }
