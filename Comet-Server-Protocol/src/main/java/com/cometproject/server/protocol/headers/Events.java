@@ -1,4 +1,4 @@
-package com.cometproject.server.network.messages.headers;
+package com.cometproject.server.protocol.headers;
 
 
 import java.lang.reflect.Field;
@@ -214,6 +214,9 @@ public class Events {
     public static final short NextQuestMessageEvent = 1257;
     public static final short AchievementsListMessageEvent = 3288;
     public static final short TakePhotoMessageEvent = 1339;
+    public static final short ForumDataMessageEvent = 1005;
+    public static final short ForumThreadsMessageEvent = 3200;
+    public static final short CreateThreadMessageEvent = 3493;
 
     private static Map<Short, String> eventPacketNames = new HashMap<>();
 

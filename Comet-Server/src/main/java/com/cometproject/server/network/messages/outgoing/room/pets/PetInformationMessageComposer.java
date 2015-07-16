@@ -4,7 +4,7 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 

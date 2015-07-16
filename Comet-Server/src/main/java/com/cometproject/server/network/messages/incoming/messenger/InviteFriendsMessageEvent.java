@@ -6,7 +6,7 @@ import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.InviteFriendMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
-import com.cometproject.server.network.messages.types.MessageEvent;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 import java.util.ArrayList;

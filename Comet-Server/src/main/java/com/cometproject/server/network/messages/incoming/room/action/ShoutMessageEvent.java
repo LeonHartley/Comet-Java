@@ -8,7 +8,7 @@ import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
-import com.cometproject.server.network.messages.types.MessageEvent;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 

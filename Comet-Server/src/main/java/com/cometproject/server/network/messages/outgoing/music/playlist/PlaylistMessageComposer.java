@@ -4,7 +4,7 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.items.music.SongItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.List;
 

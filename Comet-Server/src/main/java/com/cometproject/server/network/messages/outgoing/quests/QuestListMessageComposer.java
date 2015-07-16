@@ -5,7 +5,7 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.quests.Quest;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 

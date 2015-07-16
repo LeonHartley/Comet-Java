@@ -4,7 +4,7 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.quests.Quest;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 
 public class QuestStartedMessageComposer extends MessageComposer {
     private final Player player;

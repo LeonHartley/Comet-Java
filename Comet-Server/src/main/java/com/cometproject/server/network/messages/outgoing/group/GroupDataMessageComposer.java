@@ -4,7 +4,7 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.List;
 

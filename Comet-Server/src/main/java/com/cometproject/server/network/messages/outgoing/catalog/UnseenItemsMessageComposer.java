@@ -3,7 +3,7 @@ package com.cometproject.server.network.messages.outgoing.catalog;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 import com.google.common.collect.Lists;
 
 import java.util.HashMap;

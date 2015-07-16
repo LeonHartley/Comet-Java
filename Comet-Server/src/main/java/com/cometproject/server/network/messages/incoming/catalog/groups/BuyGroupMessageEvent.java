@@ -15,7 +15,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMess
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsMessageComposer;
-import com.cometproject.server.network.messages.types.MessageEvent;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.BadgeUtil;
 

@@ -5,7 +5,7 @@ import com.cometproject.server.game.players.components.types.messenger.Messenger
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.network.sessions.Session;
 import com.google.common.collect.Lists;
 

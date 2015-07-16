@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.incoming.catalog.groups;
 
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupDataMessageComposer;
-import com.cometproject.server.network.messages.types.MessageEvent;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 

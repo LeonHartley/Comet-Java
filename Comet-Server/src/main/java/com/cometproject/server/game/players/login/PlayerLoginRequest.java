@@ -28,6 +28,7 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.PlayerAccessDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.tasks.CometTask;
+import org.apache.commons.lang.StringUtils;
 
 public class PlayerLoginRequest implements CometTask {
 
@@ -137,19 +138,23 @@ public class PlayerLoginRequest implements CometTask {
         // Process the achievements
         client.getPlayer().getAchievements().progressAchievement(AchievementType.LOGIN, 1);
 
-        int daysSinceRegistration = (int) Math.floor((((int) Comet.getTime()) - client.getPlayer().getData().getRegTimestamp()) / 86400);
+        int regDate = StringUtils.isNumeric(client.getPlayer().getData().getRegDate()) ? Integer.parseInt(client.getPlayer().getData().getRegDate()) : client.getPlayer().getData().getRegTimestamp();
 
-        if (!client.getPlayer().getAchievements().hasStartedAchievement(AchievementType.REGISTRATION_DURATION)) {
-            client.getPlayer().getAchievements().progressAchievement(AchievementType.REGISTRATION_DURATION, daysSinceRegistration);
-        } else {
-            // Progress their achievement from the last progress to now.
-            int progress = client.getPlayer().getAchievements().getProgress(AchievementType.REGISTRATION_DURATION).getProgress();
-            if (daysSinceRegistration > client.getPlayer().getAchievements().getProgress(AchievementType.REGISTRATION_DURATION).getProgress()) {
-                int amountToProgress = daysSinceRegistration - progress;
-                client.getPlayer().getAchievements().progressAchievement(AchievementType.REGISTRATION_DURATION, amountToProgress);
+        if(regDate != 0) {
+            int daysSinceRegistration = (int) Math.floor((((int) Comet.getTime()) - regDate) / 86400);
+
+            if (!client.getPlayer().getAchievements().hasStartedAchievement(AchievementType.REGISTRATION_DURATION)) {
+                client.getPlayer().getAchievements().progressAchievement(AchievementType.REGISTRATION_DURATION, daysSinceRegistration);
+            } else {
+                // Progress their achievement from the last progress to now.
+                int progress = client.getPlayer().getAchievements().getProgress(AchievementType.REGISTRATION_DURATION).getProgress();
+                if (daysSinceRegistration > client.getPlayer().getAchievements().getProgress(AchievementType.REGISTRATION_DURATION).getProgress()) {
+                    int amountToProgress = daysSinceRegistration - progress;
+                    client.getPlayer().getAchievements().progressAchievement(AchievementType.REGISTRATION_DURATION, amountToProgress);
+                }
             }
-
-            ModuleManager.getInstance().getEventHandler().handleEvent(new OnPlayerLoginEvent(client.getPlayer()));
         }
+
+        ModuleManager.getInstance().getEventHandler().handleEvent(new OnPlayerLoginEvent(client.getPlayer()));
     }
 }

@@ -4,7 +4,7 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.permissions.types.Perk;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.Map;
 

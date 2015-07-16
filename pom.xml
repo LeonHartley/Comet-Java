@@ -9,7 +9,7 @@
 
     <packaging>pom</packaging>
 
-    <version>0.20.1-ALPHA3</version>
+    <version>0.20.1-ALPHA4</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -23,9 +23,11 @@
     <modules>
         <module>Comet-API</module>
         <module>Comet-API-Example</module>
+        <module>Comet-Server-Protocol</module>
         <module>Comet-Server</module>
         <module>Comet-Launcher</module>
         <module>Comet-Manager-API</module>
         <module>Comet-Manager</module>
+        <module>Comet-StressTest</module>
     </modules>
 </project>

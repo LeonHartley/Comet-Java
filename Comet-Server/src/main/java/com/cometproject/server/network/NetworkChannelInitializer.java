@@ -1,9 +1,9 @@
 package com.cometproject.server.network;
 
 import com.cometproject.server.network.clients.ClientHandler;
-import com.cometproject.server.network.codec.MessageDecoder;
-import com.cometproject.server.network.codec.MessageEncoder;
-import com.cometproject.server.network.codec.XMLPolicyDecoder;
+import com.cometproject.server.protocol.codec.MessageDecoder;
+import com.cometproject.server.protocol.codec.MessageEncoder;
+import com.cometproject.server.protocol.codec.XMLPolicyDecoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.string.StringEncoder;

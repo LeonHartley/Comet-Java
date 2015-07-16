@@ -7,7 +7,7 @@ import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.List;
 

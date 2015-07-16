@@ -4,8 +4,7 @@ import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.advertisements.InterstitialMessageComposer;
-import com.cometproject.server.network.messages.types.MessageEvent;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
@@ -20,11 +19,11 @@ public class SSOTicketMessageEvent implements Event {
 
         String ticket = msg.readString();
 
-        if (ticket.length() < 10 || ticket.length() > 128) {
-            client.getLogger().warn("Session was disconnected because ticket was too long or too short. Length: " + ticket.length());
-            client.disconnect();
-            return;
-        }
+//        if (ticket.length() < 10 || ticket.length() > 128) {
+//            client.getLogger().warn("Session was disconnected because ticket was too long or too short. Length: " + ticket.length());
+//            client.disconnect();
+//            return;
+//        }
 
         PlayerManager.getInstance().submitLoginRequest(client, ticket);
     }

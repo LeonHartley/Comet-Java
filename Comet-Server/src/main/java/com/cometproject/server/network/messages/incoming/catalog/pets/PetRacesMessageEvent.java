@@ -4,7 +4,7 @@ import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.pets.PetRacesMessageComposer;
-import com.cometproject.server.network.messages.types.MessageEvent;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import org.apache.commons.lang.StringUtils;
 

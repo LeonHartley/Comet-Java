@@ -15,7 +15,7 @@ import com.cometproject.server.network.messages.outgoing.room.items.FloorItemsMe
 import com.cometproject.server.network.messages.outgoing.room.items.WallItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
-import com.cometproject.server.network.messages.types.MessageEvent;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 import java.util.HashMap;

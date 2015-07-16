@@ -6,7 +6,7 @@ import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 import com.google.common.collect.Lists;
 
 import java.util.List;

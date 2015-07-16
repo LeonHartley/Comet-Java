@@ -8,7 +8,7 @@ import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.players.components.AchievementComponent;
 import com.cometproject.server.game.players.components.types.achievements.AchievementProgress;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 
 import java.util.Map;
 

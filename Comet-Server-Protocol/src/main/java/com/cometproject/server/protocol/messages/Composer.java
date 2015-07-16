@@ -1,15 +1,12 @@
-package com.cometproject.server.network.messages.types;
+package com.cometproject.server.protocol.messages;
 
 import com.cometproject.api.networking.messages.IComposer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufHolder;
-import org.apache.log4j.Logger;
 
 import java.nio.charset.Charset;
 
 public class Composer implements ByteBufHolder, IComposer {
-    private final static Logger log = Logger.getLogger(Composer.class);
-
     protected final int id;
     protected final ByteBuf body;
 
@@ -23,6 +20,10 @@ public class Composer implements ByteBufHolder, IComposer {
         } catch (Exception e) {
             exceptionCaught(e);
         }
+    }
+
+    private void exceptionCaught(Exception e) {
+        e.printStackTrace();
     }
 
     public Composer(int id, ByteBuf body) {
@@ -141,9 +142,5 @@ public class Composer implements ByteBufHolder, IComposer {
         } catch (Exception e) {
             exceptionCaught(e);
         }
-    }
-
-    protected static void exceptionCaught(Throwable t) {
-        log.error("Error whilst writing data to a composer", t);
     }
 }

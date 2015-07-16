@@ -1,8 +1,8 @@
 package com.cometproject.server.network.sessions;
 
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.headers.Events;
-import com.cometproject.server.network.messages.types.MessageEvent;
+import com.cometproject.server.protocol.headers.Events;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 import java.util.HashMap;
 import java.util.Map;

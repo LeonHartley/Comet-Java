@@ -4,7 +4,7 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.components.InventoryComponent;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 
 
 public class InventoryMessageComposer extends MessageComposer {

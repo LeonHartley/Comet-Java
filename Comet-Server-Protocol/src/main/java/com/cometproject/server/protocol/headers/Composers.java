@@ -1,4 +1,4 @@
-package com.cometproject.server.network.messages.headers;
+package com.cometproject.server.protocol.headers;
 
 
 import java.lang.reflect.Field;
@@ -197,6 +197,8 @@ public class Composers {
     public static final short AchievementUnlockedMessageComposer = 3412;
     public static final short NavigatorMetaDataMessageComposer = 3635;
     public static final short InterstitialMessageComposer = 3115;
+    public static final short GroupForumDataMessageComposer = 1103;
+    public static final short GroupForumThreadsMessageComposer = 1378;
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 
@@ -218,5 +220,4 @@ public class Composers {
 
         return "UnknownMessageComposer";
     }
-
 }
