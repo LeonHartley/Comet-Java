@@ -5,7 +5,7 @@ import com.cometproject.server.game.achievements.AchievementGroup;
 import com.cometproject.server.game.achievements.types.Achievement;
 import com.cometproject.server.game.players.components.types.achievements.AchievementProgress;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 
 public class AchievementProgressMessageComposer extends MessageComposer {
 

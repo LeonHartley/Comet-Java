@@ -3,7 +3,7 @@ package com.cometproject.server.network.messages.incoming.user.profile;
 import com.cometproject.server.game.quests.QuestType;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.user.profile.UserBadgesMessageComposer;
-import com.cometproject.server.network.messages.types.MessageEvent;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 

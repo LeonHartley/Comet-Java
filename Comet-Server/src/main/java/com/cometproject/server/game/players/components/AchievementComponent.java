@@ -49,6 +49,11 @@ public class AchievementComponent implements PlayerComponent {
             this.progression.put(type, progress);
         }
 
+        if(achievementGroup.getAchievement(progress.getLevel()) == null) return;
+
+        if(achievementGroup.getAchievements() == null)
+            return;
+
         if (achievementGroup.getAchievements().size() <= progress.getLevel() && achievementGroup.getAchievement(progress.getLevel()).getProgressNeeded() <= progress.getProgress()) {
             return;
         }

@@ -5,7 +5,7 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 
 
 public class BoughtItemMessageComposer extends MessageComposer {

@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.outgoing.group.forums;
 
-import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.protocol.messages.Composer;
 
 
 public class GroupForumPermissionsMessageComposer {

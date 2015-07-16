@@ -6,7 +6,7 @@ import com.cometproject.server.game.moderation.types.actions.ActionCategory;
 import com.cometproject.server.game.moderation.types.actions.ActionPreset;
 import com.cometproject.server.game.moderation.types.tickets.HelpTicket;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 
 
 public class ModToolMessageComposer extends MessageComposer {

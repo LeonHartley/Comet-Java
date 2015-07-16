@@ -1,6 +1,6 @@
-package com.cometproject.server.network.codec;
+package com.cometproject.server.protocol.codec;
 
-import com.cometproject.server.network.messages.types.MessageEvent;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;

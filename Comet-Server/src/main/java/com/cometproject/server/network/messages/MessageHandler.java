@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.network.messages.headers.Events;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.incoming.catalog.*;
 import com.cometproject.server.network.messages.incoming.catalog.ads.CatalogPromotionGetRoomsMessageEvent;
@@ -17,6 +16,9 @@ import com.cometproject.server.network.messages.incoming.catalog.pets.ValidatePe
 import com.cometproject.server.network.messages.incoming.group.*;
 import com.cometproject.server.network.messages.incoming.group.favourite.ClearFavouriteGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.favourite.SetFavouriteGroupMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.forum.data.ForumDataMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.forum.threads.CreateThreadMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.forum.threads.ForumThreadsMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.forum.settings.SaveForumSettingsMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.*;
 import com.cometproject.server.network.messages.incoming.handshake.*;
@@ -87,9 +89,10 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeM
 import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlaylistMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.NextVideoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoMessageEvent;
-import com.cometproject.server.network.messages.types.MessageEvent;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.messages.types.tasks.MessageEventTask;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.headers.Events;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
@@ -400,7 +403,10 @@ public final class MessageHandler {
         this.getMessages().put(Events.DeclineMembershipMessageEvent, new DeclineMembershipMessageEvent());
         this.getMessages().put(Events.ClearFavouriteGroupMessageEvent, new ClearFavouriteGroupMessageEvent());
 
+        this.getMessages().put(Events.ForumDataMessageEvent, new ForumDataMessageEvent());
         this.getMessages().put(Events.SaveForumSettingsMessageEvent, new SaveForumSettingsMessageEvent());
+        this.getMessages().put(Events.ForumThreadsMessageEvent, new ForumThreadsMessageEvent());
+        this.getMessages().put(Events.CreateThreadMessageEvent, new CreateThreadMessageEvent());
     }
 
     public void registerQuests() {

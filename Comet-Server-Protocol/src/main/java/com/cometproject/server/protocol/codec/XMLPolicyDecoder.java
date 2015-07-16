@@ -1,4 +1,4 @@
-package com.cometproject.server.network.codec;
+package com.cometproject.server.protocol.codec;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;

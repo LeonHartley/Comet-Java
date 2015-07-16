@@ -2,7 +2,7 @@ package com.cometproject.server.network.clients;
 
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer;
-import com.cometproject.server.network.messages.types.MessageEvent;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.network.sessions.SessionManager;
 import io.netty.channel.ChannelHandler;

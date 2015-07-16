@@ -4,7 +4,7 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 import java.text.SimpleDateFormat;
@@ -56,7 +56,7 @@ public class GroupInformationMessageComposer extends MessageComposer {
         msg.writeBoolean(group.getData().canMembersDecorate());
 
         msg.writeInt((isOwner || isAdmin) ? group.getMembershipComponent().getMembershipRequests().size() : 0);
-        msg.writeBoolean(true);
+        msg.writeBoolean(group.getData().hasForum());
     }
 
     public static String getDate(int timestamp) {

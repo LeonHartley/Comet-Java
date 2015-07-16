@@ -1,7 +1,7 @@
-package com.cometproject.server.network.codec;
+package com.cometproject.server.protocol.codec;
 
 import com.cometproject.api.networking.messages.IMessageComposer;
-import com.cometproject.server.network.messages.types.Composer;
+import com.cometproject.server.protocol.messages.Composer;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;

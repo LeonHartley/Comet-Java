@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.incoming.quests;
 
 import com.cometproject.server.game.quests.Quest;
 import com.cometproject.server.game.quests.QuestManager;
-import com.cometproject.server.network.messages.types.MessageEvent;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 public class StartQuestMessageEvent implements com.cometproject.server.network.messages.incoming.Event {

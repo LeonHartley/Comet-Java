@@ -1,14 +1,11 @@
-package com.cometproject.server.network.messages.types;
+package com.cometproject.server.protocol.messages;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import org.apache.log4j.Logger;
 
 import java.nio.charset.Charset;
 
 public final class MessageEvent {
-    private final static Logger log = Logger.getLogger(MessageEvent.class);
-
     private final short id;
     private final ByteBuf buffer;
 

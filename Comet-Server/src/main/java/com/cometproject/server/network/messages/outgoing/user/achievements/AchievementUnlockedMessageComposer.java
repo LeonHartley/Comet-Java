@@ -3,7 +3,7 @@ package com.cometproject.server.network.messages.outgoing.user.achievements;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.achievements.types.Achievement;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.headers.Composers;
+import com.cometproject.server.protocol.headers.Composers;
 
 public class AchievementUnlockedMessageComposer extends MessageComposer {
     private final String achievementCategory;
