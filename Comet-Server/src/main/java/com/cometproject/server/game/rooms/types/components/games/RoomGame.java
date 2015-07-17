@@ -32,13 +32,13 @@ public abstract class RoomGame implements CometTask {
     public void run() {
         try {
             if (timer == 0) {
-                gameStarts();
+                onGameStarts();
             }
 
             tick();
 
             if (timer >= gameLength) {
-                gameEnds();
+                onGameEnds();
                 room.getGame().stop();
             }
 
@@ -77,9 +77,9 @@ public abstract class RoomGame implements CometTask {
 
     public abstract void tick();
 
-    public abstract void gameEnds();
+    public abstract void onGameEnds();
 
-    public abstract void gameStarts();
+    public abstract void onGameStarts();
 
     public GameType getType() {
         return this.type;

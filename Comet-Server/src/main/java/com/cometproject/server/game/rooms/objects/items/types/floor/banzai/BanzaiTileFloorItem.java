@@ -213,6 +213,11 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
         this.updateTileData();
     }
 
+    public void onGameEnds() {
+        this.setExtraData("0");
+        this.sendUpdate();
+    }
+
     public void updateTileData() {
         if (this.points != 0)
             this.setExtraData(((this.points + (gameTeam.getTeamId() * 3) - 1) + ""));

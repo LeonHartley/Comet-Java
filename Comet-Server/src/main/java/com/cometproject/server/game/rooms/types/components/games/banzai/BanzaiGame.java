@@ -56,7 +56,7 @@ public class BanzaiGame extends RoomGame {
     }
 
     @Override
-    public void gameStarts() {
+    public void onGameStarts() {
         WiredTriggerGameStarts.executeTriggers(this.room);
 
         this.banzaiTileCount = 0;
@@ -72,13 +72,15 @@ public class BanzaiGame extends RoomGame {
     }
 
     @Override
-    public void gameEnds() {
+    public void onGameEnds() {
         GameTeam winningTeam = this.winningTeam();
 
         for (RoomItemFloor item : this.room.getItems().getByClass(BanzaiTileFloorItem.class)) {
             if (item instanceof BanzaiTileFloorItem) {
                 if (((BanzaiTileFloorItem) item).getTeam() == winningTeam && winningTeam != GameTeam.NONE) {
                     ((BanzaiTileFloorItem) item).flash();
+                } else {
+                    ((BanzaiTileFloorItem) item).onGameEnds();
                 }
             }
         }
