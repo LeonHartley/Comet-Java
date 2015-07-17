@@ -25,7 +25,7 @@ public class AchievementDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM achievements WHERE enabled = '1'", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM achievements WHERE enabled = '1' ORDER by group_name ASC", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

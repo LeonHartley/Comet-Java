@@ -49,9 +49,9 @@ public class AchievementComponent implements PlayerComponent {
             this.progression.put(type, progress);
         }
 
-        if(achievementGroup.getAchievement(progress.getLevel()) == null) return;
+        if (achievementGroup.getAchievement(progress.getLevel()) == null) return;
 
-        if(achievementGroup.getAchievements() == null)
+        if (achievementGroup.getAchievements() == null)
             return;
 
         if (achievementGroup.getAchievements().size() <= progress.getLevel() && achievementGroup.getAchievement(progress.getLevel()).getProgressNeeded() <= progress.getProgress()) {
@@ -62,14 +62,15 @@ public class AchievementComponent implements PlayerComponent {
         final Achievement currentAchievement = achievementGroup.getAchievement(progress.getLevel());
         final Achievement targetAchievement = achievementGroup.getAchievement(targetLevel);
 
-        if(targetAchievement == null) return;
+        if (targetAchievement == null && achievementGroup.getLevelCount() != 1)
+            return;
 
         int progressToGive = currentAchievement.getProgressNeeded() <= data ? currentAchievement.getProgressNeeded() : data;
         int remainingProgress = progressToGive >= data ? 0 : data - progressToGive;
 
         progress.increaseProgress(progressToGive);
 
-        if(progress.getProgress() > currentAchievement.getProgressNeeded()) {
+        if (progress.getProgress() > currentAchievement.getProgressNeeded()) {
             // subtract the difference and add it onto remainingProgress.
             int difference = progress.getProgress() - currentAchievement.getProgressNeeded();
 
@@ -99,12 +100,13 @@ public class AchievementComponent implements PlayerComponent {
             this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
         }
 
-        if (remainingProgress != 0) {
+        if (remainingProgress != 0 && progress.getLevel() < achievementGroup.getLevelCount() && progress.getProgress() != achievementGroup.getAchievement(progress.getLevel()).getProgressNeeded()) {
             this.progressAchievement(type, remainingProgress);
-        } else {
-            this.player.getData().save();
-            PlayerAchievementDao.saveProgress(this.player.getId(), type, progress);
+            return;
         }
+
+        this.player.getData().save();
+        PlayerAchievementDao.saveProgress(this.player.getId(), type, progress);
     }
 
     public boolean hasStartedAchievement(AchievementType achievementType) {

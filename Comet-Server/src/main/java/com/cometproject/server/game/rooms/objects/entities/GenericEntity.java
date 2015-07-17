@@ -55,6 +55,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     private boolean doorbellAnswered;
     private boolean walkCancelled = false;
     private boolean canWalk = true;
+    private boolean isIdle = false;
 
     private boolean isRoomMuted = false;
 
@@ -310,6 +311,10 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.idleTime++;
 
         if (this.idleTime >= 600) {
+            if(!this.isIdle) {
+                this.isIdle = true;
+                this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer(this.getId(), true));
+            }
             return true;
         }
 
@@ -336,6 +341,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     }
 
     public void unIdle() {
+        this.isIdle = false;
         this.resetIdleTime();
 
         if (this instanceof BotEntity) {
