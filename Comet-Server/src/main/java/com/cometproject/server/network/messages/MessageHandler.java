@@ -443,6 +443,9 @@ public final class MessageHandler {
             log.debug(message.toString());
         }
 
+        if(!Comet.isRunning)
+            return;
+
         if (this.getMessages().containsKey(header)) {
             try {
                 final Event event = this.getMessages().get(header);

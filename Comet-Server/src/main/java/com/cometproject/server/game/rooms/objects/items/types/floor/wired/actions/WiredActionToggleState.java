@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actio
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -49,6 +50,7 @@ public class WiredActionToggleState extends WiredActionItem {
 
             if (floorItem == null || floorItem instanceof WiredFloorItem || floorItem instanceof DiceFloorItem)
                 continue;
+
             floorItem.onInteract(null, 0, true);
             tilesToUpdate.add(new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY()));
         }
