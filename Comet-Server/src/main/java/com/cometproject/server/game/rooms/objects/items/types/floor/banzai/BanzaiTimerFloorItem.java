@@ -79,6 +79,8 @@ public class BanzaiTimerFloorItem extends RoomItemFloor {
 
             this.lastTime = this.getExtraData();
 
+            if(gameLength == 0) return true;
+
             if (this.getRoom().getGame().getInstance() == null) {
                 this.getRoom().getGame().createNew(GameType.BANZAI);
                 this.getRoom().getGame().getInstance().startTimer(gameLength);
@@ -86,6 +88,14 @@ public class BanzaiTimerFloorItem extends RoomItemFloor {
         }
 
         return true;
+    }
+
+    @Override
+    public void onPickup() {
+        if (this.getRoom().getGame().getInstance() != null) {
+            this.getRoom().getGame().getInstance().onGameEnds();
+            this.getRoom().getGame().stop();
+        }
     }
 
     @Override

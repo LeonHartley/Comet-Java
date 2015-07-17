@@ -1,9 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired;
 
-import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
-import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.WiredActionItemData;
@@ -26,7 +24,7 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
      */
     private WiredItemData wiredItemData = null;
     private boolean state;
-    private int flashTicks = 0;
+    private boolean hasTicked = false;
 
     /**
      * The default constructor
@@ -89,6 +87,7 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
             return true;
         }
 
+        this.flash();
         ((PlayerEntity) entity).getPlayer().getSession().send(this.getDialog());
         return true;
     }
@@ -118,31 +117,20 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
     }
 
     public void flash() {
-        if (CometSettings.disableWiredFlash) {
-            return;
-        }
-
-        if (this.state) return; // already flashing
-
-        this.flashTicks = RoomItemFactory.getProcessTime(0.5);
         this.state = true;
 
         this.sendUpdate();
     }
 
+    @Override
     public void onTick() {
-        if (CometSettings.disableWiredFlash) {
-            return;
-        }
+        if (this.state && this.hasTicked) {
+            this.state = false;
+            this.hasTicked = false;
 
-        if (this.state) {
-            if (this.flashTicks <= 0) {
-                this.state = false;
-
-                this.sendUpdate();
-            } else {
-                this.flashTicks--;
-            }
+            this.sendUpdate();
+        } else if(this.state) {
+            this.hasTicked = true;
         }
     }
 
