@@ -155,6 +155,11 @@ public class PlayerLoginRequest implements CometTask {
             }
         }
 
+        if(player.getData().getAchievementPoints() < 0) {
+            player.getData().setAchievementPoints(0);
+            player.getData().save();
+        }
+
         ModuleManager.getInstance().getEventHandler().handleEvent(new OnPlayerLoginEvent(client.getPlayer()));
     }
 }

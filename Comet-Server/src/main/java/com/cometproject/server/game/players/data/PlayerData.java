@@ -252,4 +252,8 @@ public class PlayerData implements PlayerAvatar, IPlayerData {
     public void setQuestId(int questId) {
         this.questId = questId;
     }
+
+    public void setAchievementPoints(int achievementPoints) {
+        this.achievementPoints = achievementPoints;
+    }
 }
