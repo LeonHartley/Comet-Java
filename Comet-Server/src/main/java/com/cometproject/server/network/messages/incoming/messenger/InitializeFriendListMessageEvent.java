@@ -13,11 +13,8 @@ public class InitializeFriendListMessageEvent implements Event {
         client.send(new BuddyListMessageComposer(client.getPlayer().getMessenger().getFriends(), client.getPlayer().getPermissions().hasPermission("staff_chat")));
         client.send(new FriendRequestsMessageComposer(client.getPlayer().getMessenger().getRequestAvatars()));
 
-//        if(!client.getPlayer().getAchievements().hasStartedAchievement(AchievementType.FRIENDS_LIST)) {
-//            client.getPlayer().getAchievements().progressAchievement(AchievementType.FRIENDS_LIST, client.getPlayer().getMessenger().getFriends().size());
-//        }
-
-        // Simulate 1,100 friends.
-        client.getPlayer().getAchievements().progressAchievement(AchievementType.FRIENDS_LIST, 1100);
+        if(!client.getPlayer().getAchievements().hasStartedAchievement(AchievementType.FRIENDS_LIST)) {
+            client.getPlayer().getAchievements().progressAchievement(AchievementType.FRIENDS_LIST, client.getPlayer().getMessenger().getFriends().size());
+        }
     }
 }
