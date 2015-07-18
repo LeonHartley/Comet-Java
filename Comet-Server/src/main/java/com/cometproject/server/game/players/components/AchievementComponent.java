@@ -62,8 +62,11 @@ public class AchievementComponent implements PlayerComponent {
         final Achievement currentAchievement = achievementGroup.getAchievement(progress.getLevel());
         final Achievement targetAchievement = achievementGroup.getAchievement(targetLevel);
 
-        if (targetAchievement == null && achievementGroup.getLevelCount() != 1)
+        if (targetAchievement == null && achievementGroup.getLevelCount() != 1) {
+            this.player.getData().save();
+            PlayerAchievementDao.saveProgress(this.player.getId(), type, progress);
             return;
+        }
 
         int progressToGive = currentAchievement.getProgressNeeded() <= data ? currentAchievement.getProgressNeeded() : data;
         int remainingProgress = progressToGive >= data ? 0 : data - progressToGive;
@@ -100,7 +103,13 @@ public class AchievementComponent implements PlayerComponent {
             this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
         }
 
-        if (remainingProgress != 0 && progress.getLevel() < achievementGroup.getLevelCount() && progress.getProgress() != achievementGroup.getAchievement(progress.getLevel()).getProgressNeeded()) {
+        boolean hasFinishedGroup = false;
+
+        if(progress.getLevel() >= achievementGroup.getLevelCount() && progress.getProgress() >= achievementGroup.getAchievement(achievementGroup.getLevelCount()).getProgressNeeded()) {
+            hasFinishedGroup = true;
+        }
+
+        if (remainingProgress != 0 && !hasFinishedGroup) {
             this.progressAchievement(type, remainingProgress);
             return;
         }
