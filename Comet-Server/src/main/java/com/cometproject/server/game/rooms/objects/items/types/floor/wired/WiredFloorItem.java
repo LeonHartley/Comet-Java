@@ -174,7 +174,7 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
     }
 
     /**
-     * Will be executed when the data has been changed (different to the "onDataRefresh" event
+     * Will be executed when the data has been changed (different to the "onDataRefresh" event)
      */
     public void onDataChange() {
 
