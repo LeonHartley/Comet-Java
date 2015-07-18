@@ -41,10 +41,6 @@ public class MessengerDao {
             SqlHelper.closeSilently(sqlConnection);
         }
 
-        if (data.size() > 1000) {
-            Comet.getServer().getLogger().info("Player: " + playerId + " has " + data.size() + " friends.");
-        }
-
         return data;
     }
 
