@@ -5,6 +5,7 @@ import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 import org.apache.commons.lang.StringUtils;
 import spark.Request;
@@ -38,8 +39,13 @@ public class PlayerRoutes {
             return result;
         }
 
-        PlayerData newPlayerData = PlayerManager.getInstance().getDataByPlayerId(playerId);
+        PlayerData newPlayerData = PlayerDao.getDataById(playerId);
         PlayerData currentPlayerData = session.getPlayer().getData();
+
+        if(newPlayerData == null) {
+            result.put("error", "Unable to find the player's new data!");
+            return result;
+        }
 
         final boolean sendCurrencies = (newPlayerData.getCredits() != currentPlayerData.getCredits()) ||
                 (newPlayerData.getActivityPoints() != currentPlayerData.getActivityPoints()) ||
@@ -50,10 +56,12 @@ public class PlayerRoutes {
         currentPlayerData.setFigure(newPlayerData.getFigure());
         currentPlayerData.setGender(newPlayerData.getGender());
         currentPlayerData.setEmail(newPlayerData.getEmail());
+
         currentPlayerData.setCredits(newPlayerData.getCredits());
         currentPlayerData.setVipPoints(newPlayerData.getVipPoints());
-
         currentPlayerData.setActivityPoints(newPlayerData.getActivityPoints());
+
+        currentPlayerData.setAchievementPoints(newPlayerData.getAchievementPoints());
         currentPlayerData.setFavouriteGroup(newPlayerData.getFavouriteGroup());
         currentPlayerData.setVip(newPlayerData.isVip());
 
