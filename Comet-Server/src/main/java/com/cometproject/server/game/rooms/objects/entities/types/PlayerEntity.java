@@ -380,9 +380,12 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 LogManager.getInstance().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
         }
 
-        // De-reference things
-        this.getPlayer().setEntity(null);
-        this.player = null;
+        if(this.getPlayer() != null) {
+            // De-reference things
+            this.getPlayer().setEntity(null);
+            this.player = null;
+        }
+
         return false;
     }
 
