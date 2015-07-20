@@ -36,6 +36,10 @@ public class SaveRoomDataMessageEvent implements Event {
 
         if (data == null) return;
 
+        if (room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
+            return;
+        }
+
         String name = msg.readString();
         String description = msg.readString();
         int state = msg.readInt();
