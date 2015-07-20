@@ -74,6 +74,7 @@ public class InventoryComponent implements PlayerComponent {
 
     public void loadBadges() {
         try {
+            // TODO: redo this so we can seperate achievement badges to other badges. Maybe a "badge type" or something.
             this.badges = InventoryDao.getBadgesByPlayerId(player.getId());
         } catch (Exception e) {
             log.error("Error while loading user badges");

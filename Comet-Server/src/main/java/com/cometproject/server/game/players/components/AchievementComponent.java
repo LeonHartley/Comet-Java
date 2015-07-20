@@ -49,7 +49,8 @@ public class AchievementComponent implements PlayerComponent {
             this.progression.put(type, progress);
         }
 
-        if (achievementGroup.getAchievement(progress.getLevel()) == null) return;
+        if (achievementGroup.getAchievement(progress.getLevel()) == null)
+            return;
 
         if (achievementGroup.getAchievements() == null)
             return;
@@ -63,8 +64,12 @@ public class AchievementComponent implements PlayerComponent {
         final Achievement targetAchievement = achievementGroup.getAchievement(targetLevel);
 
         if (targetAchievement == null && achievementGroup.getLevelCount() != 1) {
-            this.player.getData().save();
+
+            progress.setProgress(currentAchievement.getProgressNeeded());
             PlayerAchievementDao.saveProgress(this.player.getId(), type, progress);
+
+            this.player.getData().save();
+            this.player.getInventory().achievementBadge(type.getGroupName(), currentAchievement.getLevel());
             return;
         }
 
@@ -98,6 +103,7 @@ public class AchievementComponent implements PlayerComponent {
             this.player.getSession().send(new AchievementPointsMessageComposer(this.getPlayer().getData().getAchievementPoints()));
             this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
             this.player.getSession().send(new AchievementUnlockedMessageComposer(achievementGroup.getCategory().toString(), achievementGroup.getGroupName(), achievementGroup.getId(), targetAchievement));
+
             this.player.getInventory().achievementBadge(type.getGroupName(), currentAchievement.getLevel());
         } else {
             this.player.getSession().send(new AchievementProgressMessageComposer(progress, achievementGroup));
