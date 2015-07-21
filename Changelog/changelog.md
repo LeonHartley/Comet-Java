@@ -1,6 +1,17 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 20/07/2015
+* Fixed issue with permissions related to room settings.
+* Fixed issue with pathfinding in rooms with stairs and rugs.
+
+## 19/07/2015
+* Fixed issue with the HTTP API causing player data to not reload correctly.
+
+## 18/07/2015
+* Banzai games can now be ended by picking up the timer
+* Wired items will now show the animation
+
 ## 15/07/2015
 * Fixed bug: Sitting on a chair which is stacked on a "adjustable_height" item will have issues
 * Fixed issue with badges not giving correct badge (Users would get the level+1 badge, not the correct level)
