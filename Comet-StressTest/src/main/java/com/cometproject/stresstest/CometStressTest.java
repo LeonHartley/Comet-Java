@@ -46,14 +46,16 @@ public class CometStressTest {
 
         this.executorService.scheduleAtFixedRate(() -> {
             for(CometClientConnection cometClientConnection : this.connections) {
-                cometClientConnection.tick();
+                if(CometStressTest.getRandom(1, 50) > 40) {
+                    cometClientConnection.tick();
+                }
             }
         }, 1000l, 1000l, TimeUnit.MILLISECONDS);
     }
 
     public void initialize() {
         for (int i = 0; i < botCount; i++) {
-            final CometClientConnection clientConnection = new CometClientConnection(new CometClientConfig("5.196.121.54", 40001, "comet-testing-" + i), this.clientLoopGroup);
+            final CometClientConnection clientConnection = new CometClientConnection(new CometClientConfig("localhost", 40000, "comet-testing-" + i), this.clientLoopGroup);
 
             connections.add(clientConnection);
         }

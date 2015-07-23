@@ -15,8 +15,8 @@ public class CometClientConnection {
     private boolean isConnected = false;
 
     private boolean isOnline = false;
-
     private boolean isInRoom = false;
+    private boolean isWalk = true;
 
     private Channel channel;
     public CometClientConnection(CometClientConfig config, EventLoopGroup loopGroup) {
@@ -56,9 +56,9 @@ public class CometClientConnection {
     }
 
     public void tick() {
-        if(this.isOnline() && this.isInRoom()) {
-            int x = CometStressTest.getRandom(0, 20);
-            int y = CometStressTest.getRandom(0, 20);
+        if(this.isOnline() && this.isInRoom() && this.isWalk()) {
+            int x = CometStressTest.getRandom(1, 32);
+            int y = CometStressTest.getRandom(0, 32);
 
             this.send(new WalkMessageComposer(x, y));
         }
@@ -90,4 +90,13 @@ public class CometClientConnection {
     public void setIsInRoom(boolean isInRoom) {
         this.isInRoom = isInRoom;
     }
+
+    public boolean isWalk() {
+        return isWalk;
+    }
+
+    public void setIsWalk(boolean isWalk) {
+        this.isWalk = isWalk;
+    }
+
 }
