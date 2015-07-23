@@ -1,8 +1,10 @@
 package com.cometproject.stresstest.commands;
 
+import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.stresstest.CometStressTest;
 import com.cometproject.stresstest.connections.CometClientConnection;
 import com.cometproject.stresstest.connections.messages.ChangeFigureMessageComposer;
+import com.cometproject.stresstest.connections.messages.ExitRoomMessageComposer;
 import com.cometproject.stresstest.connections.messages.LoadRoomMessageComposer;
 import com.cometproject.stresstest.connections.messages.TalkMessageComposer;
 
@@ -24,14 +26,25 @@ public class CommandHandler {
                     String input = br.readLine();
 
                     if (input != null && input.startsWith("/")) {
-                        if(input.equals("/joinrooms")) {
-                            System.out.println(input);
+                        if(input.equals("/walk")) {
+                            for(CometClientConnection cometClientConnection : stressTest.getConnections()) {
+                                if(cometClientConnection.isWalk()) {
+                                    cometClientConnection.setIsWalk(false);
+                                } else {
+                                    cometClientConnection.setIsWalk(true);
+                                }
+                            }
+                        } else if(input.equals("/leaverooms")) {
+                            for(CometClientConnection cometClientConnection : stressTest.getConnections()) {
+                                cometClientConnection.send(new ExitRoomMessageComposer());
+                            }
 
+                            stressTest.getRooms().clear();
+                        } else if(input.equals("/joinrooms")) {
                             for(CometClientConnection cometClientConnection : stressTest.getConnections()) {
                                 if(cometClientConnection.isOnline()) {
                                     for(Map.Entry<Integer, AtomicInteger> room : stressTest.getRooms().entrySet()) {
-                                        if(room.getValue().get() < 200) {
-
+                                        if(room.getValue().get() < 300) {
                                             room.getValue().incrementAndGet();
 
                                             cometClientConnection.send(new LoadRoomMessageComposer(room.getKey(), ""));
