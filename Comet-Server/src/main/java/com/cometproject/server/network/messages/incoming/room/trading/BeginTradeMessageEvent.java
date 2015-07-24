@@ -24,8 +24,13 @@ public class BeginTradeMessageEvent implements Event {
 
         PlayerEntity entity = (PlayerEntity) client.getPlayer().getEntity().getRoom().getEntities().getEntity(userId);
 
-        if (entity == null || entity.hasStatus(RoomEntityStatus.TRADE)) {
+        if (entity == null || entity.hasStatus(RoomEntityStatus.TRADE) || entity.getPlayer() == null || entity.getPlayer().getSession() == null) {
             client.send(new TradeErrorMessageComposer(8, entity != null ? entity.getUsername() : "Unknown Player"));
+            return;
+        }
+
+        if(entity.getPlayer().getSettings() != null && !entity.getPlayer().getSettings().getAllowTrade()) {
+            client.send(new TradeErrorMessageComposer(4, entity.getUsername()));
             return;
         }
 

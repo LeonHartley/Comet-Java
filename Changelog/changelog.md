@@ -3,6 +3,7 @@ Comet Pre-1.0 Changelog
 
 ## 24/07/2015
 * Idle players are no longer kicked from their own rooms.
+* allow_trade in player settings now works as intended.
 
 ## 20/07/2015
 * Fixed issue with permissions related to room settings.
