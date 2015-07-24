@@ -199,6 +199,7 @@ public class Composers {
     public static final short InterstitialMessageComposer = 3115;
     public static final short GroupForumDataMessageComposer = 1103;
     public static final short GroupForumThreadsMessageComposer = 1378;
+    public static final short YouAreSpectatorMessageComposer = 3035;
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 
