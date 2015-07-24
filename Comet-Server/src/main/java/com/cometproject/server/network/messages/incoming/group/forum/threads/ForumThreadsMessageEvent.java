@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.group.forum.threads;
 
+import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumThreadsMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -13,6 +14,6 @@ public class ForumThreadsMessageEvent implements Event {
         int start = msg.readInt();
         int end = msg.readInt();
 
-        client.send(new GroupForumThreadsMessageComposer(groupId));
+        client.send(new GroupForumThreadsMessageComposer(GroupManager.getInstance().get(groupId)));
     }
 }
