@@ -89,6 +89,8 @@ public class CatalogPurchaseHandler {
             if (playerIdToDeliver == 0) {
                 client.send(new GiftUserNotFoundMessageComposer());
                 return;
+            } else {
+                client.getPlayer().getAchievements().progressAchievement(AchievementType.GIFT_GIVER, 1);
             }
         }
 

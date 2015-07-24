@@ -19,7 +19,7 @@ public class PetData {
     private int raceId;
     private int typeId;
 
-    private int hairDye = 0;
+    private int hairDye = 2;
     private int hair = -1;
 
     private Position roomPosition;

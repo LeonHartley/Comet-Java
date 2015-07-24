@@ -26,6 +26,5 @@ public class PurchaseGiftMessageEvent implements Event {
         GiftData data = new GiftData(pageId, itemId, client.getPlayer().getId(), sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername, extraData);
 
         CatalogManager.getInstance().getPurchaseHandler().purchaseItem(client, pageId, itemId, extraData, 1, data);
-        client.getPlayer().getAchievements().progressAchievement(AchievementType.GIFT_GIVER, 1);
     }
 }
