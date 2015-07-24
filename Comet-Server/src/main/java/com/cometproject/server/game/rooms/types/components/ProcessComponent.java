@@ -428,7 +428,8 @@ public class ProcessComponent implements CometTask {
 
             if (entity instanceof PlayerEntity && entity.isIdleAndIncrement()) {
                 if (entity.getIdleTime() >= 60 * CometSettings.idleMinutes * 2) {
-                    return true;
+                    if(this.getRoom().getData().getOwnerId() != ((PlayerEntity) entity).getPlayerId())
+                        return true;
                 }
             }
         }

@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 24/07/2015
+* Idle players are no longer kicked from their own rooms.
+
 ## 20/07/2015
 * Fixed issue with permissions related to room settings.
 * Fixed issue with pathfinding in rooms with stairs and rugs.
