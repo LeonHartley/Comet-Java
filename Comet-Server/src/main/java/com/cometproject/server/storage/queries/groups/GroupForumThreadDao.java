@@ -42,7 +42,7 @@ public class GroupForumThreadDao {
 
                     case "REPLY":
                         final ForumThreadReply threadReply = new ForumThreadReply(resultSet.getInt("id"),
-                                resultSet.getString("message"), resultSet.getInt("author_id"),
+                                resultSet.getString("message"), resultSet.getInt("thread_id"), resultSet.getInt("author_id"),
                                 resultSet.getInt("author_timestamp"), resultSet.getString("hidden").equals("1"));
 
                         if(!threads.containsKey(threadReply.getThreadId())) {

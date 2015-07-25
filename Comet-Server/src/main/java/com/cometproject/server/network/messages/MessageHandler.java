@@ -17,9 +17,10 @@ import com.cometproject.server.network.messages.incoming.group.*;
 import com.cometproject.server.network.messages.incoming.group.favourite.ClearFavouriteGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.favourite.SetFavouriteGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.forum.data.ForumDataMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.forum.threads.CreateThreadMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.forum.threads.PostMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.forum.threads.ForumThreadsMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.forum.settings.SaveForumSettingsMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.forum.threads.ViewThreadMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.*;
 import com.cometproject.server.network.messages.incoming.handshake.*;
 import com.cometproject.server.network.messages.incoming.help.DeletePendingTicketMessageEvent;
@@ -406,7 +407,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.ForumDataMessageEvent, new ForumDataMessageEvent());
         this.getMessages().put(Events.SaveForumSettingsMessageEvent, new SaveForumSettingsMessageEvent());
         this.getMessages().put(Events.ForumThreadsMessageEvent, new ForumThreadsMessageEvent());
-        this.getMessages().put(Events.CreateThreadMessageEvent, new CreateThreadMessageEvent());
+        this.getMessages().put(Events.CreateThreadMessageEvent, new PostMessageEvent());
+        this.getMessages().put(Events.ViewThreadMessageEvent, new ViewThreadMessageEvent());
     }
 
     public void registerQuests() {

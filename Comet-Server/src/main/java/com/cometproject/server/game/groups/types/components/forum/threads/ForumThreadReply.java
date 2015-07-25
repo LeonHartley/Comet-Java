@@ -10,9 +10,10 @@ public class ForumThreadReply {
     private boolean isHidden;
 
 
-    public ForumThreadReply(int id, String message, int authorId, int authorTimestamp, boolean isHidden) {
+    public ForumThreadReply(int id, String message, int threadId, int authorId, int authorTimestamp, boolean isHidden) {
         this.id = id;
         this.message = message;
+        this.threadId = threadId;
         this.authorId = authorId;
         this.authorTimestamp = authorTimestamp;
         this.isHidden = isHidden;

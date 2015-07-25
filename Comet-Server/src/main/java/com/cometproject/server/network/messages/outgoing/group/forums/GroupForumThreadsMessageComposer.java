@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.group.forums;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThreadReply;
@@ -39,13 +40,16 @@ public class GroupForumThreadsMessageComposer extends MessageComposer {
             msg.writeString(forumThread.getTitle());
             msg.writeBoolean(false); // stickied.
             msg.writeBoolean(forumThread.isLocked());
-            msg.writeInt(0); // create time
-            msg.writeInt(0); // messages
+            msg.writeInt((int) Comet.getTime() - forumThread.getAuthorTimestamp()); // create time
+            msg.writeInt(forumThread.getReplies().size()); // messages
             msg.writeInt(0); // unread messages
-            msg.writeInt(2); // last message id
-            msg.writeInt(authorAvatar.getId()); // last message userid
-            msg.writeString(authorAvatar.getUsername()); // last message username
-            msg.writeInt(forumThread.getAuthorTimestamp()); // last message time ago
+            msg.writeInt(forumThread.getMostRecentPost().getId()); // last message id
+
+            final PlayerAvatar replyAuthor = PlayerManager.getInstance().getAvatarByPlayerId(forumThread.getMostRecentPost().getAuthorId(), PlayerAvatar.USERNAME_FIGURE);
+
+            msg.writeInt(replyAuthor.getId()); // last message userid
+            msg.writeString(replyAuthor.getUsername()); // last message username
+            msg.writeInt((int) Comet.getTime() - forumThread.getMostRecentPost().getAuthorTimestamp()); // last message time ago
             msg.writeByte(0); // state
             msg.writeInt(0); //admin id
             msg.writeString(""); // admin username
@@ -53,21 +57,3 @@ public class GroupForumThreadsMessageComposer extends MessageComposer {
         }
     }
 }
-/*            k.threadId = _arg1._-4xh();
-            k._-3Fy = _arg1._-4xh(); //  authorid
-            k._-0Gz = _arg1.readString(); // author username
-            k.header = _arg1.readString();
-            k._-4ML = _arg1.readBoolean();//sticked
-            k._-4OL = _arg1.readBoolean();//locked
-            k._-53n = _arg1._-4xh(); // created time
-            k._-2dx = _arg1._-4xh(); //messages
-            k._-30E = _arg1._-4xh(); // unread messages
-            k._-pr = _arg1._-4xh(); // last message id
-            k._-1RW = _arg1._-4xh(); // last message userid
-            k._-4nt = _arg1.readString(); // last message username
-            k._-4bZ = _arg1._-4xh(); // last message time ago
-            k.state = _arg1.readByte();
-            k._-5Hb = _arg1._-4xh(); // admin id
-            k._-OZ = _arg1.readString(); // admin username
-            k._-211 = _arg1._-4xh(); // admin time ago.
-            return (k);*/
