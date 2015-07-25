@@ -6,7 +6,6 @@ import java.util.List;
 public class ForumThread {
     private int id;
     private String title;
-    private String message;
     private int authorId;
     private int authorTimestamp;
     private int state;
@@ -18,13 +17,19 @@ public class ForumThread {
     public ForumThread(int id, String title, String message, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isHidden) {
         this.id = id;
         this.title = title;
-        this.message = message;
         this.authorId = authorId;
         this.authorTimestamp = authorTimestamp;
         this.state = state;
         this.isLocked = isLocked;
         this.isHidden = isHidden;
         this.replies = new ArrayList<>();
+
+        // Add the OP.
+        this.replies.add(new ForumThreadReply(id, message, this.id, authorId, authorTimestamp, isHidden));
+    }
+
+    public ForumThreadReply getMostRecentPost() {
+        return this.replies.get(this.replies.size() - 1);
     }
 
     public void addReply(ForumThreadReply reply) {
@@ -49,14 +54,6 @@ public class ForumThread {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public List<ForumThreadReply> getReplies() {
