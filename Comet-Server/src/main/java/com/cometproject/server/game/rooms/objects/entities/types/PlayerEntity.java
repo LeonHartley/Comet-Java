@@ -11,7 +11,7 @@ import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.game.quests.QuestType;
+import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.PlayerEntityAccess;

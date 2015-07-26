@@ -1,6 +1,6 @@
 package com.cometproject.server.network.messages.incoming.quests;
 
-import com.cometproject.server.game.quests.Quest;
+import com.cometproject.server.game.quests.types.Quest;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;

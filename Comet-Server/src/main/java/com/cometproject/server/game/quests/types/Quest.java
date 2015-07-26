@@ -1,7 +1,8 @@
-package com.cometproject.server.game.quests;
+package com.cometproject.server.game.quests.types;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.types.Player;
+import com.cometproject.server.game.quests.QuestManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

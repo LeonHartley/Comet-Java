@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.quests.QuestType;
+import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
@@ -20,7 +20,6 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
@@ -66,10 +65,6 @@ public class ProcessComponent implements CometTask {
         if (this.getProcessTimes() != null && this.getProcessTimes().size() < 30) {
             log.info("Time since last process: " + timeSinceLastProcess + "ms");
         }
-//
-//        if(this.lastProcess != 0 && timeSinceLastProcess >= 550) {
-//            log.warn("Delayed room process (Last process was " + timeSinceLastProcess + "ms ago)");
-//        }
 
         long timeStart = System.currentTimeMillis();
 

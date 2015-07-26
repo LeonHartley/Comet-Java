@@ -4,7 +4,6 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
-import com.cometproject.server.game.groups.types.components.forum.threads.ForumThreadReply;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.messages.composers.MessageComposer;
@@ -30,13 +29,14 @@ public class GroupForumThreadsMessageComposer extends MessageComposer {
         msg.writeInt(0);
         msg.writeInt(this.group.getForumComponent().getForumThreads().size()); // count
 
-        for(ForumThread forumThread : this.group.getForumComponent().getForumThreads().values()) {
+        for (ForumThread forumThread : this.group.getForumComponent().getForumThreads().values()) {
             msg.writeInt(forumThread.getId());
 
             final PlayerAvatar authorAvatar = PlayerManager.getInstance().getAvatarByPlayerId(forumThread.getAuthorId(), PlayerAvatar.USERNAME_FIGURE);
 
-            msg.writeInt(authorAvatar.getId());
-            msg.writeString(authorAvatar.getUsername());
+            msg.writeInt(authorAvatar == null ? 0 : authorAvatar.getId());
+            msg.writeString(authorAvatar == null ? "Unknown Player" : authorAvatar.getUsername());
+
             msg.writeString(forumThread.getTitle());
             msg.writeBoolean(false); // stickied.
             msg.writeBoolean(forumThread.isLocked());
@@ -47,10 +47,10 @@ public class GroupForumThreadsMessageComposer extends MessageComposer {
 
             final PlayerAvatar replyAuthor = PlayerManager.getInstance().getAvatarByPlayerId(forumThread.getMostRecentPost().getAuthorId(), PlayerAvatar.USERNAME_FIGURE);
 
-            msg.writeInt(replyAuthor.getId()); // last message userid
-            msg.writeString(replyAuthor.getUsername()); // last message username
+            msg.writeInt(replyAuthor == null ? 0 : replyAuthor.getId()); // last message userid
+            msg.writeString(replyAuthor == null ? "Unknown Player" : replyAuthor.getUsername()); // last message username
             msg.writeInt((int) Comet.getTime() - forumThread.getMostRecentPost().getAuthorTimestamp()); // last message time ago
-            msg.writeByte(0); // state
+            msg.writeByte(1); // state
             msg.writeInt(0); //admin id
             msg.writeString(""); // admin username
             msg.writeInt(0); // admin action time ago.

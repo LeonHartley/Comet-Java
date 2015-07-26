@@ -1,6 +1,6 @@
 package com.cometproject.server.storage.queries.quests;
 
-import com.cometproject.server.game.quests.Quest;
+import com.cometproject.server.game.quests.types.Quest;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
