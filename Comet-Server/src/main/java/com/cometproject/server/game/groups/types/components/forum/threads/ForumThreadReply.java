@@ -39,7 +39,7 @@ public class ForumThreadReply {
 
         msg.writeInt((int) Comet.getTime() - this.getAuthorTimestamp());
         msg.writeString(this.getMessage());
-        msg.writeByte(0); // state
+        msg.writeByte(1); // state
 
         msg.writeInt(0); // _adminId
         msg.writeString(""); // _adminName

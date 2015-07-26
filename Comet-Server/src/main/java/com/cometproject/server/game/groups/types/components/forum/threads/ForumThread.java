@@ -54,7 +54,7 @@ public class ForumThread {
         msg.writeInt(replyAuthor == null ? 0 : replyAuthor.getId()); // last message userid
         msg.writeString(replyAuthor == null ? "Unknown Player" : replyAuthor.getUsername()); // last message username
         msg.writeInt((int) Comet.getTime() - this.getMostRecentPost().getAuthorTimestamp()); // last message time ago
-        msg.writeByte(1); // state
+        msg.writeByte(this.getState()); // state
         msg.writeInt(0); //admin id
         msg.writeString(""); // admin username
         msg.writeInt(0); // admin action time ago.
