@@ -1,4 +1,4 @@
-package com.cometproject.server.game.quests;
+package com.cometproject.server.game.quests.types;
 
 public enum QuestReward {
     ACHIEVEMENT_POINTS,

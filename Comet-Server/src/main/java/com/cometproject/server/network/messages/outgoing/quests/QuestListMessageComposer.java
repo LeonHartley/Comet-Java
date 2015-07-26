@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.outgoing.quests;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.game.quests.Quest;
+import com.cometproject.server.game.quests.types.Quest;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
