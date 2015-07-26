@@ -57,7 +57,7 @@ public class CatalogPurchaseHandler {
     }
 
     public void purchaseItem(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
-        if(CometSettings.asyncCatalogPurchase) {
+        if (CometSettings.asyncCatalogPurchase) {
             this.executorService.submit(() -> this.handle(client, pageId, itemId, data, amount, giftData));
         } else {
             this.handle(client, pageId, itemId, data, amount, giftData);
@@ -155,7 +155,7 @@ public class CatalogPurchaseHandler {
                     client.disconnect();
                     return;
                 }
-            } catch(Exception ignored) {
+            } catch (Exception ignored) {
                 // Invalid page id..
                 return;
             }
@@ -283,8 +283,6 @@ public class CatalogPurchaseHandler {
 
                     extraData = data;
                 } else if (def.getInteraction().equals("group_forum")) {
-                    Map<String, String> notificationParams = Maps.newHashMap();
-
                     if (data.isEmpty() || !StringUtils.isNumeric(data)) return;
 
                     if (!client.getPlayer().getGroups().contains(new Integer(data))) {
@@ -294,17 +292,22 @@ public class CatalogPurchaseHandler {
                     int groupId = Integer.parseInt(data);
                     Group group = GroupManager.getInstance().get(groupId);
 
-                    notificationParams.put("groupId", groupId + "");
-                    notificationParams.put("groupName", group.getData().getTitle());
-
                     if (!group.getData().hasForum() && group.getData().getOwnerId() == client.getPlayer().getId()) {
                         group.getData().setHasForum(true);
                         group.getData().save();
 
                         group.initializeForum();
 
+                        Map<String, String> notificationParams = Maps.newHashMap();
+
+                        notificationParams.put("groupId", groupId + "");
+                        notificationParams.put("groupName", group.getData().getTitle());
+
                         client.send(new RoomNotificationMessageComposer("forums.delivered", notificationParams));
+
                     }
+
+                    extraData = "" + groupId;
                 } else if (def.isSong()) {
                     final String songName = item.getPresetData();
 
@@ -410,7 +413,7 @@ public class CatalogPurchaseHandler {
         if (client != null) {
             List<InventoryItem> unseenItems = new ArrayList<>();
 
-            if(client.getPlayer() != null) {
+            if (client.getPlayer() != null) {
                 if (client.getPlayer().getInventory() != null) {
                     for (int newItem : newItems) {
                         unseenItems.add(client.getPlayer().getInventory().add(newItem, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData), giftData, null));

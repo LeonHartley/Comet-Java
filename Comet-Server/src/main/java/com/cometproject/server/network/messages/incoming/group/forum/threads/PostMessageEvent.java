@@ -1,8 +1,17 @@
 package com.cometproject.server.network.messages.incoming.group.forum.threads;
 
+import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.game.groups.types.components.forum.settings.ForumPermission;
+import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
+import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
+import com.cometproject.server.game.groups.types.components.forum.threads.ForumThreadReply;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.protocol.messages.MessageEvent;
+import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumPostReplyMessageComposer;
+import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumPostThreadMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
+import com.cometproject.server.storage.queries.groups.GroupForumThreadDao;
 
 public class PostMessageEvent implements Event {
     @Override
@@ -12,11 +21,107 @@ public class PostMessageEvent implements Event {
         final String subject = msg.readString();
         final String message = msg.readString();
 
-        if(threadId == 0) {
-            // New thread!
-        } else {
-            // Reply to a thread!
+        final Group group = GroupManager.getInstance().get(groupId);
+
+        if (group == null || !group.getData().hasForum()) {
+            return;
         }
 
+        if (message.length() < 10 || message.length() > 4000) return;
+
+        // TODO: check time since last post and block if its <60 seconds ago.
+
+        final ForumSettings forumSettings = group.getForumComponent().getForumSettings();
+
+        if (threadId == 0) {
+
+            if (subject.length() < 10) {
+                return;
+            }
+
+            boolean permissionToPost = true;
+
+            if (forumSettings.getStartThreadsPermission() != ForumPermission.EVERYBODY) {
+                switch (forumSettings.getStartThreadsPermission()) {
+                    case ADMINISTRATORS:
+                        if (!group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())) {
+                            permissionToPost = false;
+                        }
+                        break;
+
+                    case OWNER:
+                        if (client.getPlayer().getId() != group.getData().getOwnerId()) {
+                            permissionToPost = false;
+                        }
+                        break;
+
+                    case MEMBERS:
+                        if (!group.getMembershipComponent().getMembers().containsKey(client.getPlayer().getId())) {
+                            permissionToPost = false;
+                        }
+                }
+            }
+
+            if (!permissionToPost) {
+                // No permission notif?
+                return;
+            }
+
+            ForumThread forumThread = GroupForumThreadDao.createThread(groupId, subject, message, client.getPlayer().getId());
+
+            if(forumThread == null) {
+                // Why u do dis?
+                return;
+            }
+
+            group.getForumComponent().getForumThreads().put(forumThread.getId(), forumThread);
+            client.send(new GroupForumPostThreadMessageComposer(groupId, forumThread));
+        } else {
+            boolean permissionToPost = true;
+
+            if (forumSettings.getPostPermission() != ForumPermission.EVERYBODY) {
+                switch (forumSettings.getPostPermission()) {
+                    case ADMINISTRATORS:
+                        if (!group.getMembershipComponent().getAdministrators().contains(client.getPlayer().getId())) {
+                            permissionToPost = false;
+                        }
+                        break;
+
+                    case OWNER:
+                        if (client.getPlayer().getId() != group.getData().getOwnerId()) {
+                            permissionToPost = false;
+                        }
+                        break;
+
+                    case MEMBERS:
+                        if (!group.getMembershipComponent().getMembers().containsKey(client.getPlayer().getId())) {
+                            permissionToPost = false;
+                        }
+                }
+            }
+
+            if(!permissionToPost) {
+                // No permission notif?
+                return;
+            }
+
+            ForumThread forumThread = group.getForumComponent().getForumThreads().get(threadId);
+
+            if(forumThread == null) {
+                return;
+            }
+
+            ForumThreadReply reply = GroupForumThreadDao.createReply(groupId, threadId, message, client.getPlayer().getId());
+
+            if(reply == null) {
+                return;
+            }
+
+            forumThread.addReply(reply);
+            reply.setIndex(forumThread.getReplies().indexOf(reply));
+
+            // Send to client.
+            client.send(new GroupForumPostReplyMessageComposer(groupId, threadId, reply));
+        }
     }
 }
