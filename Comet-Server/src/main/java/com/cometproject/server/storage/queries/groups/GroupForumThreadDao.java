@@ -44,7 +44,7 @@ public class GroupForumThreadDao {
                         final int msgId = resultSet.getInt("id");
                         final int threadId = resultSet.getInt("thread_id");
 
-                        if(!threads.containsKey(threadId)) {
+                        if (!threads.containsKey(threadId)) {
                             continue;
                         }
 
@@ -140,5 +140,25 @@ public class GroupForumThreadDao {
         }
 
         return null;
+    }
+
+    public static void saveMessageState(int messageId, int state) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE group_forum_messages SET state = ? WHERE id = ?", sqlConnection);
+
+            preparedStatement.setInt(1, state);
+            preparedStatement.setInt(2, messageId);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
     }
 }

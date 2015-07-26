@@ -203,6 +203,8 @@ public class Composers {
     public static final short GroupForumViewThreadMessageComposer = 1255;
     public static final short PostThreadMessageComposer = 3076;
     public static final short PostReplyMessageComposer = 2328;
+    public static final short UpdateForumPostMessageComposer = 2919;
+    public static final short UpdateForumThreadMessageComposer = 2521;
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 

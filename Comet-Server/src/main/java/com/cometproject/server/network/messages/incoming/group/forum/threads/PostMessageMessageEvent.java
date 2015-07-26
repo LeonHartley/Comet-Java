@@ -13,7 +13,7 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.groups.GroupForumThreadDao;
 
-public class PostMessageEvent implements Event {
+public class PostMessageMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
         final int groupId = msg.readInt();
