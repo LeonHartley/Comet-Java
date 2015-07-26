@@ -7,6 +7,7 @@ import com.cometproject.server.game.groups.types.components.forum.settings.Forum
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumUpdateThreadMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.groups.GroupForumThreadDao;
@@ -45,6 +46,7 @@ public class ModerateThreadMessageEvent implements Event {
         forumThread.setState(state);
         GroupForumThreadDao.saveMessageState(forumThread.getId(), state);
 
+        client.send(new RoomNotificationMessageComposer(state == 20 ? "forums.thread.hidden" : "forums.thread.restored"));
         client.send(new GroupForumUpdateThreadMessageComposer(groupId, forumThread));
     }
 }
