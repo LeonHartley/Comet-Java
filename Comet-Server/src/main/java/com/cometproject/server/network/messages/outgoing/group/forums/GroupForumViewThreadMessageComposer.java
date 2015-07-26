@@ -37,23 +37,7 @@ public class GroupForumViewThreadMessageComposer extends MessageComposer {
         msg.writeInt(this.forumThread.getReplies().size());
 
         for(ForumThreadReply reply : this.forumThread.getReplies()) {
-            final PlayerAvatar playerAvatar = PlayerManager.getInstance().getAvatarByPlayerId(reply.getAuthorId(),
-                    PlayerAvatar.USERNAME_FIGURE);
-
-            msg.writeInt(reply.getId());
-            msg.writeInt(this.forumThread.getReplies().indexOf(reply));
-
-            msg.writeInt(reply.getAuthorId());
-            msg.writeString(playerAvatar.getUsername());
-            msg.writeString(playerAvatar.getFigure());
-
-            msg.writeInt((int) Comet.getTime() - reply.getAuthorTimestamp());
-            msg.writeString(reply.getMessage());
-            msg.writeByte(0); // state
-
-            msg.writeInt(0); // _adminId
-            msg.writeString(""); // _adminName
-            msg.writeInt(0); // _adminOperationTimeAsSeccondsAgo
+            reply.compose(msg);
         }
     }
 }

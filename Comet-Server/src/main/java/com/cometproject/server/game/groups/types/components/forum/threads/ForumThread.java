@@ -1,5 +1,10 @@
 package com.cometproject.server.game.groups.types.components.forum.threads;
 
+import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.server.game.players.data.PlayerAvatar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +30,34 @@ public class ForumThread {
         this.replies = new ArrayList<>();
 
         // Add the OP.
-        this.replies.add(new ForumThreadReply(id, message, this.id, authorId, authorTimestamp, isHidden));
+        this.replies.add(new ForumThreadReply(id, 0, message, this.id, authorId, authorTimestamp, isHidden));
+    }
+    
+    public void compose(IComposer msg) {
+        msg.writeInt(this.getId());
+
+        final PlayerAvatar authorAvatar = PlayerManager.getInstance().getAvatarByPlayerId(this.getAuthorId(), PlayerAvatar.USERNAME_FIGURE);
+
+        msg.writeInt(authorAvatar == null ? 0 : authorAvatar.getId());
+        msg.writeString(authorAvatar == null ? "Unknown Player" : authorAvatar.getUsername());
+
+        msg.writeString(this.getTitle());
+        msg.writeBoolean(false); // stickied.
+        msg.writeBoolean(this.isLocked());
+        msg.writeInt((int) Comet.getTime() - this.getAuthorTimestamp()); // create time
+        msg.writeInt(this.getReplies().size()); // messages
+        msg.writeInt(0); // unread messages
+        msg.writeInt(this.getMostRecentPost().getId()); // last message id
+
+        final PlayerAvatar replyAuthor = PlayerManager.getInstance().getAvatarByPlayerId(this.getMostRecentPost().getAuthorId(), PlayerAvatar.USERNAME_FIGURE);
+
+        msg.writeInt(replyAuthor == null ? 0 : replyAuthor.getId()); // last message userid
+        msg.writeString(replyAuthor == null ? "Unknown Player" : replyAuthor.getUsername()); // last message username
+        msg.writeInt((int) Comet.getTime() - this.getMostRecentPost().getAuthorTimestamp()); // last message time ago
+        msg.writeByte(1); // state
+        msg.writeInt(0); //admin id
+        msg.writeString(""); // admin username
+        msg.writeInt(0); // admin action time ago.
     }
 
     public ForumThreadReply getMostRecentPost() {

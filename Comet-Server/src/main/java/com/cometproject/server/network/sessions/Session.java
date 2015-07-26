@@ -6,6 +6,7 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.outgoing.notification.LogoutMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import io.netty.channel.ChannelHandlerContext;
@@ -108,7 +109,8 @@ public class Session implements ISession {
             return this;
         }
 
-        logger.debug("Sent message: " + msg.getClass().getSimpleName() + " / " + msg.getId());
+        if (!(msg instanceof UpdateFloorExtraDataMessageComposer))
+            logger.debug("Sent message: " + msg.getClass().getSimpleName() + " / " + msg.getId());
 
         this.channel.writeAndFlush(msg);
         return this;
