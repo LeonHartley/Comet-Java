@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 28/07/2015
+* Added Highscore classic "all time" scoreboard.
+
 ## 24/07/2015
 * Idle players are no longer kicked from their own rooms.
 * allow_trade in player settings now works as intended.
