@@ -6,6 +6,7 @@ import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 import com.cometproject.server.utilities.attributes.Stateable;
@@ -66,6 +67,10 @@ public class UpdateFloorExtraDataMessageComposer extends MessageComposer {
                 msg.writeString(colourA);
                 msg.writeString(colourB);
             }
+        } else if(floorItem instanceof HighscoreClassicFloorItem) {
+            msg.writeString(id);
+
+            ((HighscoreClassicFloorItem) floorItem).composeHighscoreData(msg);
         } else {
             msg.writeString(id);
             msg.writeInt(0);

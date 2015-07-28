@@ -22,6 +22,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.action
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.negative.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive.*;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.*;
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.objects.items.types.wall.PostItWallItem;
@@ -125,6 +126,8 @@ public class RoomItemFactory {
             put("wf_ringplate", WiredAddonPressurePlate.class);//new
             put("wf_pyramid", WiredAddonPyramid.class);//new
             put("wf_visual_timer", WiredAddonVisualTimer.class);//new
+
+            put("highscore_classic", HighscoreClassicFloorItem.class);
 
             put("pressureplate_seat", PressurePlateSeatFloorItem.class);
 

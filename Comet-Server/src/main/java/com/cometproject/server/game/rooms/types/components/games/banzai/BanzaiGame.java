@@ -7,14 +7,18 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTileFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTimerFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameEnds;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameStarts;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.components.GameComponent;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
+import com.google.common.collect.Lists;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -83,6 +87,23 @@ public class BanzaiGame extends RoomGame {
                     ((BanzaiTileFloorItem) item).onGameEnds();
                 }
             }
+        }
+
+        final List<RoomItemFloor> scoreboards = this.room.getItems().getByClass(HighscoreClassicFloorItem.class);
+
+        if(scoreboards.size() != 0) {
+            List<Integer> winningPlayers = this.room.getGame().getTeams().get(this.winningTeam());
+            List<String> winningPlayerUsernames = Lists.newArrayList();
+
+            for(int playerId : winningPlayers) {
+                winningPlayerUsernames.add(this.room.getEntities().getEntityByPlayerId(playerId).getUsername());
+            }
+
+            if(winningPlayerUsernames.size() != 0) {
+                for(RoomItemFloor scoreboard : scoreboards) {
+                    ((HighscoreClassicFloorItem) scoreboard).addEntry(winningPlayerUsernames, this.getScore(this.winningTeam()));
+                }
+            }Y
         }
 
         for (GenericEntity entity : this.room.getEntities().getAllEntities().values()) {

@@ -1,12 +1,9 @@
 package com.cometproject.server.network.messages.outgoing.group.forums;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThreadReply;
-import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
