@@ -103,7 +103,7 @@ public class BanzaiGame extends RoomGame {
                 for(RoomItemFloor scoreboard : scoreboards) {
                     ((HighscoreClassicFloorItem) scoreboard).addEntry(winningPlayerUsernames, this.getScore(this.winningTeam()));
                 }
-            }Y
+            }
         }
 
         for (GenericEntity entity : this.room.getEntities().getAllEntities().values()) {
