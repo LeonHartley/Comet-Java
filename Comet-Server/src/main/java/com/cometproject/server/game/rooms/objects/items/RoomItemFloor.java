@@ -23,6 +23,8 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.Man
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.ScoreboardItemData;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
@@ -198,17 +200,10 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
                 msg.writeString(colourB);
             }
 
-        } else if(this.getDefinition().getItemName().startsWith("highscore_")) {
-            msg.writeInt(0);
-            msg.writeInt(6);
-
-            msg.writeString("");
-            msg.writeInt(0);
-            msg.writeInt(0);
+        } else if(this instanceof HighscoreClassicFloorItem) {
             msg.writeInt(0);
 
-            // TODO: this.
-
+            ((HighscoreClassicFloorItem) this).composeHighscoreData(msg);
         } else if (this.getLimitedEditionItem() != null) {
             msg.writeInt(0);
             msg.writeString("");
