@@ -15,22 +15,22 @@ public class ForumThread {
     private int authorTimestamp;
     private int state;
     private boolean isLocked;
-    private boolean isHidden;
+    private boolean isPinned;
 
     private List<ForumThreadReply> replies;
 
-    public ForumThread(int id, String title, String message, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isHidden) {
+    public ForumThread(int id, String title, String message, int authorId, int authorTimestamp, int state, boolean isLocked, boolean isPinned) {
         this.id = id;
         this.title = title;
         this.authorId = authorId;
         this.authorTimestamp = authorTimestamp;
         this.state = state;
         this.isLocked = isLocked;
-        this.isHidden = isHidden;
+        this.isPinned = isPinned;
         this.replies = new ArrayList<>();
 
         // Add the OP.
-        this.replies.add(new ForumThreadReply(id, 0, message, this.id, authorId, authorTimestamp, isHidden));
+        this.replies.add(new ForumThreadReply(id, 0, message, this.id, authorId, authorTimestamp, 1));
     }
     
     public void compose(IComposer msg) {
@@ -42,19 +42,19 @@ public class ForumThread {
         msg.writeString(authorAvatar == null ? "Unknown Player" : authorAvatar.getUsername());
 
         msg.writeString(this.getTitle());
-        msg.writeBoolean(false); // stickied.
+        msg.writeBoolean(this.isPinned());
         msg.writeBoolean(this.isLocked());
-        msg.writeInt((int) Comet.getTime() - this.getAuthorTimestamp()); // create time
-        msg.writeInt(this.getReplies().size()); // messages
+        msg.writeInt((int) Comet.getTime() - this.getAuthorTimestamp());
+        msg.writeInt(this.getReplies().size());
         msg.writeInt(0); // unread messages
-        msg.writeInt(this.getMostRecentPost().getId()); // last message id
+        msg.writeInt(this.getMostRecentPost().getId());
 
         final PlayerAvatar replyAuthor = PlayerManager.getInstance().getAvatarByPlayerId(this.getMostRecentPost().getAuthorId(), PlayerAvatar.USERNAME_FIGURE);
 
-        msg.writeInt(replyAuthor == null ? 0 : replyAuthor.getId()); // last message userid
-        msg.writeString(replyAuthor == null ? "Unknown Player" : replyAuthor.getUsername()); // last message username
-        msg.writeInt((int) Comet.getTime() - this.getMostRecentPost().getAuthorTimestamp()); // last message time ago
-        msg.writeByte(this.getState()); // state
+        msg.writeInt(replyAuthor == null ? 0 : replyAuthor.getId());
+        msg.writeString(replyAuthor == null ? "Unknown Player" : replyAuthor.getUsername());
+        msg.writeInt((int) Comet.getTime() - this.getMostRecentPost().getAuthorTimestamp());
+        msg.writeByte(this.getState());
         msg.writeInt(0); //admin id
         msg.writeString(""); // admin username
         msg.writeInt(0); // admin action time ago.
@@ -112,14 +112,6 @@ public class ForumThread {
         this.isLocked = isLocked;
     }
 
-    public boolean isHidden() {
-        return isHidden;
-    }
-
-    public void setIsHidden(boolean isHidden) {
-        this.isHidden = isHidden;
-    }
-
     public int getState() {
         return state;
     }
@@ -127,4 +119,13 @@ public class ForumThread {
     public void setState(int state) {
         this.state = state;
     }
+
+    public boolean isPinned() {
+        return isPinned;
+    }
+
+    public void setIsPinned(boolean isPinned) {
+        this.isPinned = isPinned;
+    }
+
 }

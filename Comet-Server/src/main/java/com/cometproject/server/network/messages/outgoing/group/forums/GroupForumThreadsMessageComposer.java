@@ -23,10 +23,22 @@ public class GroupForumThreadsMessageComposer extends MessageComposer {
     @Override
     public void compose(IComposer msg) {
         msg.writeInt(this.group.getId());
-        msg.writeInt(0);
-        msg.writeInt(this.group.getForumComponent().getForumThreads().size()); // count
+        msg.writeInt(0); // start index.
+
+        int pinnedThreads = this.group.getForumComponent().getPinnedThreads().size();
+        int threadCount = pinnedThreads + (this.group.getForumComponent().getForumThreads().size() - pinnedThreads);
+
+        msg.writeInt(threadCount); // count
+
+        for(int pinnedThread : this.group.getForumComponent().getPinnedThreads()) {
+            ForumThread forumThread = this.group.getForumComponent().getForumThreads().get(pinnedThread);
+
+            forumThread.compose(msg);
+        }
 
         for (ForumThread forumThread : this.group.getForumComponent().getForumThreads().values()) {
+            if(forumThread.isPinned()) continue;
+
             forumThread.compose(msg);
         }
     }

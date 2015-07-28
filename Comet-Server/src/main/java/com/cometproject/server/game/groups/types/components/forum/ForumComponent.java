@@ -6,25 +6,39 @@ import com.cometproject.server.game.groups.types.components.forum.settings.Forum
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.storage.queries.groups.GroupForumThreadDao;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ForumComponent implements GroupComponent {
     private Group group;
 
     private ForumSettings forumSettings;
+
+    private List<Integer> pinnedThreads;
     private Map<Integer, ForumThread> forumThreads;
 
     public ForumComponent(Group group, ForumSettings forumSettings) {
         this.group = group;
         this.forumSettings = forumSettings;
         this.forumThreads = GroupForumThreadDao.getAllMessagesForGroup(this.group.getId());
+        this.pinnedThreads = new ArrayList<>();
+
+        for (ForumThread forumThread : forumThreads.values()) {
+            if (forumThread.isPinned()) {
+                this.pinnedThreads.add(forumThread.getId());
+            }
+        }
     }
 
     @Override
     public void dispose() {
-        for(ForumThread forumThread : this.forumThreads.values()) {
+        for (ForumThread forumThread : this.forumThreads.values()) {
             forumThread.dispose();
         }
+
+        this.forumThreads.clear();
+        this.pinnedThreads.clear();
     }
 
     @Override
@@ -38,5 +52,9 @@ public class ForumComponent implements GroupComponent {
 
     public Map<Integer, ForumThread> getForumThreads() {
         return forumThreads;
+    }
+
+    public List<Integer> getPinnedThreads() {
+        return pinnedThreads;
     }
 }

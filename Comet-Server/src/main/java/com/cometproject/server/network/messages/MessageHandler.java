@@ -17,11 +17,8 @@ import com.cometproject.server.network.messages.incoming.group.*;
 import com.cometproject.server.network.messages.incoming.group.favourite.ClearFavouriteGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.favourite.SetFavouriteGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.forum.data.ForumDataMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.forum.threads.ModerateThreadMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.forum.threads.PostMessageMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.forum.threads.ForumThreadsMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.forum.threads.*;
 import com.cometproject.server.network.messages.incoming.group.forum.settings.SaveForumSettingsMessageEvent;
-import com.cometproject.server.network.messages.incoming.group.forum.threads.ViewThreadMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.*;
 import com.cometproject.server.network.messages.incoming.handshake.*;
 import com.cometproject.server.network.messages.incoming.help.DeletePendingTicketMessageEvent;
@@ -151,6 +148,7 @@ public final class MessageHandler {
         this.registerPets();
         this.registerLanding();
         this.registerGroups();
+        this.registerGroupForums();
         this.registerQuests();
         this.registerCamera();
         this.registerPromotions();
@@ -404,13 +402,16 @@ public final class MessageHandler {
         this.getMessages().put(Events.GroupUpdateColoursMessageEvent, new GroupUpdateColoursMessageEvent());
         this.getMessages().put(Events.DeclineMembershipMessageEvent, new DeclineMembershipMessageEvent());
         this.getMessages().put(Events.ClearFavouriteGroupMessageEvent, new ClearFavouriteGroupMessageEvent());
+    }
 
+    public void registerGroupForums() {
         this.getMessages().put(Events.ForumDataMessageEvent, new ForumDataMessageEvent());
         this.getMessages().put(Events.SaveForumSettingsMessageEvent, new SaveForumSettingsMessageEvent());
         this.getMessages().put(Events.ForumThreadsMessageEvent, new ForumThreadsMessageEvent());
         this.getMessages().put(Events.CreateThreadMessageEvent, new PostMessageMessageEvent());
         this.getMessages().put(Events.ViewThreadMessageEvent, new ViewThreadMessageEvent());
         this.getMessages().put(Events.ModerateThreadMessageEvent, new ModerateThreadMessageEvent());
+        this.getMessages().put(Events.UpdateThreadMessageEvent, new UpdateThreadMessageEvent());
     }
 
     public void registerQuests() {
