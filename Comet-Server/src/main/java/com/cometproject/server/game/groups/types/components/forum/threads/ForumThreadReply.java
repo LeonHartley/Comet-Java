@@ -14,16 +14,16 @@ public class ForumThreadReply {
     private int authorId;
     private int authorTimestamp;
 
-    private boolean isHidden;
+    private int state;
 
-    public ForumThreadReply(int id, int index, String message, int threadId, int authorId, int authorTimestamp, boolean isHidden) {
+    public ForumThreadReply(int id, int index, String message, int threadId, int authorId, int authorTimestamp, int state) {
         this.id = id;
         this.index = index;
         this.message = message;
         this.threadId = threadId;
         this.authorId = authorId;
         this.authorTimestamp = authorTimestamp;
-        this.isHidden = isHidden;
+        this.state = state;
     }
     
     public void compose(IComposer msg) {
@@ -39,7 +39,7 @@ public class ForumThreadReply {
 
         msg.writeInt((int) Comet.getTime() - this.getAuthorTimestamp());
         msg.writeString(this.getMessage());
-        msg.writeByte(1); // state
+        msg.writeByte(this.getState()); // state
 
         msg.writeInt(0); // _adminId
         msg.writeString(""); // _adminName
@@ -78,14 +78,6 @@ public class ForumThreadReply {
         this.authorTimestamp = authorTimestamp;
     }
 
-    public boolean isHidden() {
-        return isHidden;
-    }
-
-    public void setIsHidden(boolean isHidden) {
-        this.isHidden = isHidden;
-    }
-
     public int getThreadId() {
         return threadId;
     }
@@ -96,5 +88,13 @@ public class ForumThreadReply {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 }

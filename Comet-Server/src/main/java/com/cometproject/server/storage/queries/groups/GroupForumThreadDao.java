@@ -23,7 +23,7 @@ public class GroupForumThreadDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM group_forum_messages WHERE group_id = ? ORDER BY FIELD(type, 'THREAD', 'REPLY'), author_timestamp DESC;", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM group_forum_messages WHERE group_id = ? ORDER BY FIELD(type, 'THREAD', 'REPLY'), pinned DESC, author_timestamp DESC;", sqlConnection);
             preparedStatement.setInt(1, groupId);
 
             resultSet = preparedStatement.executeQuery();
@@ -35,7 +35,7 @@ public class GroupForumThreadDao {
                                 resultSet.getString("title"), resultSet.getString("message"),
                                 resultSet.getInt("author_id"), resultSet.getInt("author_timestamp"),
                                 resultSet.getInt("state"), resultSet.getString("locked").equals("1"),
-                                resultSet.getString("hidden").equals("1"));
+                                resultSet.getString("pinned").equals("1"));
 
                         threads.put(forumThread.getId(), forumThread);
                         break;
@@ -50,7 +50,7 @@ public class GroupForumThreadDao {
 
                         final ForumThreadReply threadReply = new ForumThreadReply(msgId, -1,
                                 resultSet.getString("message"), threadId, resultSet.getInt("author_id"),
-                                resultSet.getInt("author_timestamp"), resultSet.getString("hidden").equals("1"));
+                                resultSet.getInt("author_timestamp"), resultSet.getInt("state"));
 
                         threads.get(threadReply.getThreadId()).addReply(threadReply);
 
@@ -129,7 +129,7 @@ public class GroupForumThreadDao {
             resultSet = preparedStatement.getGeneratedKeys();
 
             while (resultSet.next()) {
-                return new ForumThreadReply(resultSet.getInt(1), -1, message, threadId, authorId, time, false);
+                return new ForumThreadReply(resultSet.getInt(1), -1, message, threadId, authorId, time, 1);
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
@@ -151,6 +151,46 @@ public class GroupForumThreadDao {
             preparedStatement = SqlHelper.prepare("UPDATE group_forum_messages SET state = ? WHERE id = ?", sqlConnection);
 
             preparedStatement.setInt(1, state);
+            preparedStatement.setInt(2, messageId);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void saveMessageLockState(int messageId, boolean isLocked) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE group_forum_messages SET locked = ? WHERE id = ?", sqlConnection);
+
+            preparedStatement.setString(1, isLocked ? "1" : "0");
+            preparedStatement.setInt(2, messageId);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void saveMessagePinnedState(int messageId, boolean isPinned) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE group_forum_messages SET pinned = ? WHERE id = ?", sqlConnection);
+
+            preparedStatement.setString(1, isPinned ? "1" : "0");
             preparedStatement.setInt(2, messageId);
 
             preparedStatement.executeUpdate();
