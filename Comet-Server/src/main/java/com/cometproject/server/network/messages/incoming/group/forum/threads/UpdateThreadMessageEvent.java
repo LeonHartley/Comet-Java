@@ -44,12 +44,18 @@ public class UpdateThreadMessageEvent implements Event {
             return;
         }
 
-        if(isPinned != forumThread.isPinned()) {
+        if (isPinned != forumThread.isPinned()) {
             GroupForumThreadDao.saveMessagePinnedState(forumThread.getId(), isPinned);
             client.send(new RoomNotificationMessageComposer("forums.thread." + (isPinned ? "pinned" : "unpinned")));
+
+            if (isPinned) {
+                group.getForumComponent().getPinnedThreads().add(forumThread.getId());
+            } else {
+                group.getForumComponent().getPinnedThreads().remove((Integer) forumThread.getId());
+            }
         }
 
-        if(isLocked != forumThread.isLocked()) {
+        if (isLocked != forumThread.isLocked()) {
             GroupForumThreadDao.saveMessageLockState(forumThread.getId(), isLocked);
 
             client.send(new RoomNotificationMessageComposer("forums.thread." + (isLocked ? "locked" : "unlocked")));
