@@ -8,6 +8,7 @@ Features
     - wf_act_flee
     - Scoreboard
     - wf_blob & wf_blob2 
+    - wf_act_change_direction
 * Freeze game
 * Spy bot (Displays visitors in your room while you were away)
 * Pets (Basics done, just gotta do the cool stuff like horses and monster plants. Oh and breeding!)
