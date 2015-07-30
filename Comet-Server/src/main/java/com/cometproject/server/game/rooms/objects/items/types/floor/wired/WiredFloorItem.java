@@ -83,7 +83,7 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
 
         PlayerEntity p = (PlayerEntity) entity;
 
-        if (!this.getRoom().getRights().hasRights(p.getPlayerId()) && !p.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (!this.getRoom().getRights().hasRights(p.getPlayerId()) && !p.getPlayer().getPermissions().getRank().roomFullControl()) {
             return true;
         }
 

@@ -20,7 +20,7 @@ public class UpdateSnapshotsMessageEvent implements Event {
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
         boolean hasRights = room.getRights().hasRights(client.getPlayer().getId());
 
-        if ((!isOwner && !hasRights) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if ((!isOwner && !hasRights) && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             return;
         }
 

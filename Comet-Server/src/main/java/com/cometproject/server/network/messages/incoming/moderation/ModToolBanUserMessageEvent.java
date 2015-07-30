@@ -5,15 +5,15 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.types.BanType;
 import com.cometproject.server.game.permissions.PermissionsManager;
-import com.cometproject.server.game.permissions.types.Permission;
+import com.cometproject.server.game.permissions.types.Rank;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.PlayerStatistics;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 
 
@@ -25,7 +25,7 @@ public class ModToolBanUserMessageEvent implements Event {
         String category = msg.readString();
         String presetAction = msg.readString();
 
-        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().getRank().modTool()) {
             client.disconnect();
             return;
         }
@@ -44,14 +44,13 @@ public class ModToolBanUserMessageEvent implements Event {
                 return;
             }
 
-            if (PermissionsManager.getInstance().getPermissions().get("user_unbannable") != null) {
-                final Permission permission = PermissionsManager.getInstance().getPermissions().get("user_unbannable");
+            final Rank playerRank = PermissionsManager.getInstance().getRank(playerData.getRank());
 
-                if (permission.getRank() <= playerData.getRank()) {
-                    client.send(new AlertMessageComposer(Locale.getOrDefault("mod.ban.nopermission", "You do not have permission to ban this player!")));
-                    return;
-                }
+            if (!playerRank.bannable()) {
+                client.send(new AlertMessageComposer(Locale.getOrDefault("mod.ban.nopermission", "You do not have permission to ban this player!")));
+                return;
             }
+
 
             this.banPlayer(ipBan, machineBan, expire, userId, client.getPlayer().getId(), length, message, playerData.getIpAddress(), "");
             return;
@@ -61,7 +60,7 @@ public class ModToolBanUserMessageEvent implements Event {
             return;
         }
 
-        if (user.getPlayer().getPermissions().hasPermission("user_unbannable")) {
+        if (!user.getPlayer().getPermissions().getRank().bannable()) {
             client.send(new AlertMessageComposer(Locale.getOrDefault("mod.ban.nopermission", "You do not have permission to ban this player!")));
             return;
         }

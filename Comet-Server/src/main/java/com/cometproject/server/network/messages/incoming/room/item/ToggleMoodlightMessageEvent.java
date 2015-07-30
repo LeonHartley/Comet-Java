@@ -16,7 +16,7 @@ public class ToggleMoodlightMessageEvent implements Event {
         if (room == null) {
             return;
         }
-        if (!room.getRights().hasRights(client.getPlayer().getEntity().getPlayerId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (!room.getRights().hasRights(client.getPlayer().getEntity().getPlayerId()) && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             client.disconnect();
             return;
         }

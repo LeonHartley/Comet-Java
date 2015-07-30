@@ -50,7 +50,7 @@ public class SystemRoutes {
                 break;
 
             case "permissions":
-                PermissionsManager.getInstance().loadPermissions();
+                PermissionsManager.getInstance().loadRankPermissions();
                 PermissionsManager.getInstance().loadPerks();
                 PermissionsManager.getInstance().loadCommands();
                 break;

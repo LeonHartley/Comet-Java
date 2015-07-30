@@ -18,7 +18,7 @@ public class ExchangeItemMessageEvent implements Event {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if (room == null || (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
+        if (room == null || (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().getRank().roomFullControl())) {
             return;
         }
 

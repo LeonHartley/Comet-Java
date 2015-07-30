@@ -18,12 +18,12 @@ public class InviteFriendsMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         final long time = System.currentTimeMillis();
 
-        if (!client.getPlayer().getPermissions().hasPermission("bypass_flood")) {
+        if (!client.getPlayer().getPermissions().getRank().floodBypass()) {
             if (time - client.getPlayer().getMessengerLastMessageTime() < 750) {
                 client.getPlayer().setMessengerFloodFlag(client.getPlayer().getMessengerFloodFlag() + 1);
 
                 if (client.getPlayer().getMessengerFloodFlag() >= 4) {
-                    client.getPlayer().setMessengerFloodTime(30);
+                    client.getPlayer().setMessengerFloodTime(client.getPlayer().getPermissions().getRank().floodTime());
                     client.getPlayer().setMessengerFloodFlag(0);
 
                 }
@@ -45,7 +45,7 @@ public class InviteFriendsMessageEvent implements Event {
 
         String message = msg.readString();
 
-        if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
+        if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {

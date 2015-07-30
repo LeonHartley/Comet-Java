@@ -15,7 +15,7 @@ public class ModToolUserChatlogMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         int userId = msg.readInt();
 
-        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().getRank().modTool()) {
             return;
         }
 

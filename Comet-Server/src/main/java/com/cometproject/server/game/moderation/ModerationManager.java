@@ -101,7 +101,7 @@ public class ModerationManager implements Initializable {
     }
 
     public void broadcastTicket(final HelpTicket ticket) {
-        NetworkManager.getInstance().getSessions().broadcastByPermission(new HelpTicketMessageComposer(ticket), "mod_tool");
+        NetworkManager.getInstance().getSessions().broadcastToModerators(new HelpTicketMessageComposer(ticket));
     }
 
     public void createTicket(int submitterId, String message, int category, int reportedId, int timestamp, int roomId, List<ChatMessage> chatMessages) {

@@ -143,7 +143,7 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
         if (this instanceof WiredTriggerEnterRoom && actionItem instanceof WiredActionKickUser) {
             if (entity != null) {
                 if (entity instanceof PlayerEntity && ((PlayerEntity) entity).getPlayer() != null) {
-                    if (((PlayerEntity) entity).getPlayer().getPermissions().hasPermission("room_unkickable")) {
+                    if (!((PlayerEntity) entity).getPlayer().getPermissions().getRank().roomKickable()) {
                         return false;
                     }
                 }

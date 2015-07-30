@@ -27,7 +27,7 @@ public class RemovePetMessageEvent implements Event {
 
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
 
-        if ((isOwner) || client.getPlayer().getPermissions().hasPermission("room_full_control") || (room.getData().isAllowPets() && entity.getData().getOwnerId() == client.getPlayer().getId())) {
+        if ((isOwner) || client.getPlayer().getPermissions().getRank().roomFullControl() || (room.getData().isAllowPets() && entity.getData().getOwnerId() == client.getPlayer().getId())) {
             int ownerId = entity.getData().getOwnerId();
 
             if (room.getData().isAllowPets() || client.getPlayer().getId() != ownerId) {

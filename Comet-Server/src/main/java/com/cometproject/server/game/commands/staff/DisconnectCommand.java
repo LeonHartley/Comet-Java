@@ -24,7 +24,7 @@ public class DisconnectCommand extends ChatCommand {
             return;
         }
 
-        if (session.getPlayer().getPermissions().hasPermission("undisconnectable")) {
+        if (!session.getPlayer().getPermissions().getRank().disconnectable()) {
             sendNotif(Locale.get("command.disconnect.undisconnectable"), client);
             return;
         }

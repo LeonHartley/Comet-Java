@@ -19,7 +19,7 @@ public class MutePlayerMessageEvent implements Event {
 
         final Room room = client.getPlayer().getEntity().getRoom();
 
-        if (client.getPlayer().getId() != room.getData().getOwnerId() && room.getData().getMuteState() != RoomMuteState.RIGHTS && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (client.getPlayer().getId() != room.getData().getOwnerId() && room.getData().getMuteState() != RoomMuteState.RIGHTS && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             return;
         }
 

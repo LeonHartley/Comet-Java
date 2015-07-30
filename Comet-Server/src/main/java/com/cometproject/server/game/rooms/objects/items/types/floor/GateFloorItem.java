@@ -23,7 +23,7 @@ public class GateFloorItem extends RoomItemFloor {
             PlayerEntity pEntity = (PlayerEntity) entity0;
 
             if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
-                    && !pEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
+                    && !pEntity.getPlayer().getPermissions().getRank().roomFullControl()) {
                 return false;
             }
         }

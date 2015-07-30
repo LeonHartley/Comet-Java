@@ -25,12 +25,12 @@ public class KickUserMessageEvent implements Event {
         }
 
         if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId())
-                && !client.getPlayer().getPermissions().hasPermission("room_full_control") && room.getData().getKickState() != RoomKickState.EVERYONE) {
+                && !client.getPlayer().getPermissions().getRank().roomFullControl() && room.getData().getKickState() != RoomKickState.EVERYONE) {
             return;
         }
 
 
-        if (room.getData().getOwnerId() == playerEntity.getPlayerId() || playerEntity.getPlayer().getPermissions().hasPermission("room_unkickable")) {
+        if (room.getData().getOwnerId() == playerEntity.getPlayerId() || !playerEntity.getPlayer().getPermissions().getRank().roomKickable()) {
             return;
         }
 

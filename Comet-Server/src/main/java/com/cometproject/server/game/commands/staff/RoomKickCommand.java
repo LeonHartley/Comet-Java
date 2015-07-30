@@ -16,7 +16,7 @@ public class RoomKickCommand extends ChatCommand {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 
-                if (!playerEntity.getPlayer().getPermissions().hasPermission("room_unkickable")) {
+                if (playerEntity.getPlayer().getPermissions().getRank().roomKickable()) {
                     playerEntity.getPlayer().getSession().send(new AdvancedAlertMessageComposer(Locale.get("command.roomkick.title"), this.merge(params)));
                     playerEntity.kick();
                 }

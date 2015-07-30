@@ -4,6 +4,7 @@ import com.cometproject.api.game.players.data.components.IPermissionComponent;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.permissions.types.CommandPermission;
+import com.cometproject.server.game.permissions.types.Rank;
 import com.cometproject.server.game.players.types.Player;
 
 
@@ -15,20 +16,8 @@ public class PermissionComponent implements IPermissionComponent {
     }
 
     @Override
-    public boolean hasPermission(String key) {
-        try {
-            if (PermissionsManager.getInstance().getPermissions().containsKey(key)) {
-                if (this.getPlayer() == null || this.getPlayer().getData() == null) return false;
-
-                if (PermissionsManager.getInstance().getPermissions().get(key).getRank() <= this.getPlayer().getData().getRank()) {
-                    return true;
-                }
-            }
-        } catch (Exception ignored) {
-            return false;
-        }
-
-        return false;
+    public Rank getRank() {
+        return PermissionsManager.getInstance().getRank(this.player.getData().getRank());
     }
 
     @Override

@@ -18,7 +18,7 @@ public class RemoveBotMessageEvent implements Event {
             return;
         }
 
-        if (client.getPlayer().getId() != entity.getData().getOwnerId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (client.getPlayer().getId() != entity.getData().getOwnerId() && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             return;
         }
 

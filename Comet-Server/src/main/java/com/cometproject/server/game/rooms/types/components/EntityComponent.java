@@ -139,7 +139,7 @@ public class EntityComponent {
                 if (playerEntity.getPlayer() == null)
                     continue;
 
-                if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()) && !playerEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
+                if (usersWithRightsOnly && !this.room.getRights().hasRights(playerEntity.getPlayerId()) && !playerEntity.getPlayer().getPermissions().getRank().roomFullControl()) {
                     continue;
                 }
 
@@ -267,7 +267,7 @@ public class EntityComponent {
         return entities;
     }
 
-    public List<PlayerEntity> getPlayerEntitiesByPermission(String permission) {
+    public List<PlayerEntity> getWhisperSeers() {
         List<PlayerEntity> entities = new ArrayList<>();
 
         if (this.entities == null || this.entities.size() < 1) {
@@ -276,7 +276,7 @@ public class EntityComponent {
 
         for (GenericEntity entity : this.entities.values()) {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
-                if (((PlayerEntity) entity).getPlayer().getPermissions().hasPermission(permission))
+                if (((PlayerEntity) entity).getPlayer().getPermissions().getRank().roomSeeWhispers())
                     entities.add((PlayerEntity) entity);
             }
         }

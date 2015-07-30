@@ -30,7 +30,7 @@ public class TalkMessageEvent implements Event {
 
         String filteredMessage = filterMessage(message);
 
-        if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
+        if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {
@@ -72,7 +72,7 @@ public class TalkMessageEvent implements Event {
             return false;
         }
 
-        if (colour == 23 && !client.getPlayer().getPermissions().hasPermission("mod_tool"))
+        if (colour == 23 && !client.getPlayer().getPermissions().getRank().modTool())
             return false;
 
         return true;

@@ -17,7 +17,7 @@ import com.cometproject.server.storage.queries.navigator.NavigatorDao;
 public class AddToStaffPickedRoomsMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        if (!client.getPlayer().getPermissions().hasPermission("room_staff_pick")) {
+        if (!client.getPlayer().getPermissions().getRank().roomStaffPick()) {
             return;
         }
 

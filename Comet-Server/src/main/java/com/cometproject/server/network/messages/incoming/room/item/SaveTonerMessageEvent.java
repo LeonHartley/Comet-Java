@@ -20,7 +20,7 @@ public class SaveTonerMessageEvent implements Event {
 
         RoomItemFloor item = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(tonerId);
 
-        if (item == null || !client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control") || !(item instanceof BackgroundTonerFloorItem)) {
+        if (item == null || !client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().getRank().roomFullControl() || !(item instanceof BackgroundTonerFloorItem)) {
             return;
         }
 

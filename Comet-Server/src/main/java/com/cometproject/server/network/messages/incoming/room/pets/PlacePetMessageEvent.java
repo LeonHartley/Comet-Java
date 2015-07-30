@@ -35,7 +35,7 @@ public class PlacePetMessageEvent implements Event {
 
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
 
-        if ((isOwner || client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
+        if ((isOwner || client.getPlayer().getPermissions().getRank().roomFullControl())) {
             if (pet == null) {
                 return;
             }

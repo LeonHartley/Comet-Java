@@ -15,7 +15,7 @@ public class ModToolRoomAlertMessageEvent implements Event {
         String alert = msg.readString();
         String reason = msg.readString();
 
-        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().getRank().modTool()) {
             client.disconnect();
             return;
         }

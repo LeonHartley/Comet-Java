@@ -29,7 +29,7 @@ public class ShoutMessageEvent implements Event {
             return;
 
 
-        if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
+        if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {

@@ -21,16 +21,19 @@ public class AboutCommand extends ChatCommand {
 
         CometStats cometStats = CometStats.get();
 
-        if (CometSettings.showActiveRoomsInAbout || CometSettings.showActiveRoomsInAbout || CometSettings.showUptimeInAbout || client.getPlayer().getPermissions().hasPermission("about_detailed")) {
+        boolean aboutDetailed = client.getPlayer().getPermissions().getRank().aboutDetailed();
+        boolean aboutStats = client.getPlayer().getPermissions().getRank().aboutStats();
+
+        if (CometSettings.showActiveRoomsInAbout || CometSettings.showActiveRoomsInAbout || CometSettings.showUptimeInAbout || aboutDetailed) {
             about.append("<b>Server Status</b><br>");
 
-            if (CometSettings.showUsersOnlineInAbout || client.getPlayer().getPermissions().hasPermission("about_detailed"))
+            if (CometSettings.showUsersOnlineInAbout || aboutDetailed)
                 about.append("Users online: " + format.format(cometStats.getPlayers()) + "<br>");
 
-            if (CometSettings.showActiveRoomsInAbout || client.getPlayer().getPermissions().hasPermission("about_detailed"))
+            if (CometSettings.showActiveRoomsInAbout || aboutDetailed)
                 about.append("Active rooms: " + format.format(cometStats.getRooms()) + "<br>");
 
-            if (CometSettings.showUptimeInAbout || client.getPlayer().getPermissions().hasPermission("about_detailed"))
+            if (CometSettings.showUptimeInAbout || aboutDetailed)
                 about.append("Uptime: " + cometStats.getUptime() + "<br>");
 
             about.append("Client version: " + Session.CLIENT_VERSION + "<br>");
@@ -48,7 +51,7 @@ public class AboutCommand extends ChatCommand {
             about.append("Threads:  " + ManagementFactory.getThreadMXBean().getThreadCount() + "<br>");
         }*/
 
-        if (client.getPlayer().getPermissions().hasPermission("about_stats")) {
+        if (aboutStats) {
             about.append("<br><br><b>Hotel Stats</b><br>");
             about.append("Online record: " + GameThread.getInstance().getOnlineRecord() + "<br>");
             about.append("Record since last reboot: " + GameThread.getInstance().getCurrentOnlineRecord() + " ");

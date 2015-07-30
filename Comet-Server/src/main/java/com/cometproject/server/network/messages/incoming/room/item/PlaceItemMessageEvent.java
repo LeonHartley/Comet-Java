@@ -29,7 +29,7 @@ public class PlaceItemMessageEvent implements Event {
         int id = Integer.parseInt(parts[0].replace("-", ""));
 
         if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId())
-                && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+                && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             Map<String, String> notificationParams = Maps.newHashMap();
 
             notificationParams.put("message", "${room.error.cant_set_not_owner}");

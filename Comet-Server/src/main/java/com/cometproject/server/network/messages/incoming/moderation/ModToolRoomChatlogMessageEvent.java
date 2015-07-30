@@ -16,7 +16,7 @@ public class ModToolRoomChatlogMessageEvent implements Event {
         int context = msg.readInt();
         int roomId = msg.readInt();
 
-        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().getRank().modTool()) {
             client.disconnect();
             return;
         }
