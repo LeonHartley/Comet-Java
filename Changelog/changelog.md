@@ -1,6 +1,12 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 30/07/2015
+* New rank permissions system
+* Fixed team effects removing when player walks off a the item which triggered the join effect.
+* Fixed wf_act_toggle_state not allowing you to set a delay.
+* Fixed the "One furni or all furni" option in wf_cnd_has_furni_on
+
 ## 28/07/2015
 * Added Highscore classic "all time" scoreboard.
 
