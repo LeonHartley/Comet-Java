@@ -7,6 +7,8 @@ import com.cometproject.server.game.rooms.types.Room;
 
 
 public class WiredConditionHasFurniOn extends WiredConditionItem {
+    private final static int PARAM_MODE = 0;
+
     /**
      * The default constructor
      *
@@ -26,11 +28,13 @@ public class WiredConditionHasFurniOn extends WiredConditionItem {
 
     @Override
     public int getInterface() {
-        return 1;
+        return 7;
     }
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
+        final int mode = this.getWiredData().getParams().get(PARAM_MODE);
+
         int selectedItemsWithFurni = 0;
 
         for (int itemId : this.getWiredData().getSelectedIds()) {
@@ -44,7 +48,14 @@ public class WiredConditionHasFurniOn extends WiredConditionItem {
             }
         }
 
-        final boolean result = selectedItemsWithFurni == this.getWiredData().getSelectedIds().size();
+        boolean result = false;
+
+        if(mode == 0) {
+            if(selectedItemsWithFurni >= 1) result = true;
+        } else {
+            if(selectedItemsWithFurni == this.getWiredData().getSelectedIds().size()) result = true;
+        }
+
         return this.isNegative ? !result : result;
     }
 }

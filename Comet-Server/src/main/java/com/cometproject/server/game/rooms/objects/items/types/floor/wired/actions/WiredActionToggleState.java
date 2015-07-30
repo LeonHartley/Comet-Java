@@ -38,7 +38,7 @@ public class WiredActionToggleState extends WiredActionItem {
 
     @Override
     public int getInterface() {
-        return 8;
+        return 0;
     }
 
     @Override
