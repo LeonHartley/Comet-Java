@@ -17,7 +17,7 @@ public class ChangeMottoMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         String motto = msg.readString();
 
-        if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
+        if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(motto);
 
             if (filterResult.isBlocked()) {

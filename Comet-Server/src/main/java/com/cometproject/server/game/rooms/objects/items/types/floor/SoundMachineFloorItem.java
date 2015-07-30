@@ -52,7 +52,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     @Override
     public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         if (entity instanceof PlayerEntity) {
-            if (((PlayerEntity) entity).getPlayerId() != this.getRoom().getData().getOwnerId() && !((PlayerEntity) entity).getPlayer().getPermissions().hasPermission("room_full_control")) {
+            if (((PlayerEntity) entity).getPlayerId() != this.getRoom().getData().getOwnerId() && !((PlayerEntity) entity).getPlayer().getPermissions().getRank().roomFullControl()) {
                 return false;
             }
         }

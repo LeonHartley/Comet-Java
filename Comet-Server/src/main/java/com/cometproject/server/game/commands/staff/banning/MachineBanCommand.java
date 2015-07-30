@@ -26,7 +26,7 @@ public class MachineBanCommand extends ChatCommand {
             return;
         }
 
-        if (user == client || user.getPlayer().getPermissions().hasPermission("user_unbannable")) {
+        if (user == client || !user.getPlayer().getPermissions().getRank().bannable()) {
             return;
         }
 

@@ -20,13 +20,13 @@ public class SaveStackToolMessageEvent implements Event {
         if (room == null) {
             return;
         }
-        if (!room.getRights().hasRights(client.getPlayer().getEntity().getPlayerId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (!room.getRights().hasRights(client.getPlayer().getEntity().getPlayerId()) && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             client.disconnect();
             return;
         }
 
         if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId())
-                && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+                && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             return;
         }
 

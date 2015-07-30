@@ -20,7 +20,7 @@ public class PlacePostitMessageEvent implements Event {
         String position = Position.validateWallPosition(msg.readString());
 
         if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId())
-                && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+                && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             return;
         }
 

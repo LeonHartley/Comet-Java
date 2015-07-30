@@ -11,7 +11,7 @@ import com.cometproject.server.network.sessions.Session;
 public class ModToolUserKickMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().getRank().modTool()) {
             // fuck off
             client.disconnect();
             return;

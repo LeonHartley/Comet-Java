@@ -8,7 +8,7 @@ import com.cometproject.server.network.sessions.Session;
 public class ToggleDiagonalCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (client.getPlayer().getEntity().getRoom().getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (client.getPlayer().getEntity().getRoom().getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             sendNotif(Locale.getOrDefault("command.togglediagonal.nopermission", "You don't have permission to use this command!"), client);
             return;
         }

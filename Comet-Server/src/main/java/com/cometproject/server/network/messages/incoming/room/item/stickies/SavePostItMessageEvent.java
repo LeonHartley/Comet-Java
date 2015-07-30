@@ -26,7 +26,7 @@ public class SavePostItMessageEvent implements Event {
 
         if (wallItem == null || !(wallItem instanceof PostItWallItem)) return;
 
-        if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             return;
         }
 

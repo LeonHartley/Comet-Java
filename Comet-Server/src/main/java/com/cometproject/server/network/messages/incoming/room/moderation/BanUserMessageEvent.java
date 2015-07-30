@@ -18,11 +18,11 @@ public class BanUserMessageEvent implements Event {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (!room.getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             return;
         }
 
-        if (client.getPlayer().getId() != room.getData().getOwnerId() && room.getData().getBanState() != RoomBanState.RIGHTS && !client.getPlayer().getPermissions().hasPermission("room_full_control"))
+        if (client.getPlayer().getId() != room.getData().getOwnerId() && room.getData().getBanState() != RoomBanState.RIGHTS && !client.getPlayer().getPermissions().getRank().roomFullControl())
             return;
 
 
@@ -49,7 +49,7 @@ public class BanUserMessageEvent implements Event {
         PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(userId);
 
         if (playerEntity != null) {
-            if (room.getData().getOwnerId() == playerEntity.getPlayerId() || playerEntity.getPlayer().getPermissions().hasPermission("room_unkickable")) {
+            if (room.getData().getOwnerId() == playerEntity.getPlayerId() || !playerEntity.getPlayer().getPermissions().getRank().roomKickable()) {
                 return;
             }
 

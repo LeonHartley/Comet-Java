@@ -3,6 +3,7 @@ package com.cometproject.server.game.commands.staff;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.permissions.PermissionsManager;
+import com.cometproject.server.game.permissions.types.Rank;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
@@ -27,7 +28,9 @@ public class PlayerInfoCommand extends ChatCommand {
 
         if (playerData == null) return;
 
-        if (PermissionsManager.getInstance().getPermissions().get("mod_tool").getRank() <= playerData.getRank() && !client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        final Rank playerRank = PermissionsManager.getInstance().getRank(playerData.getRank());
+
+        if (playerRank.modTool() && !client.getPlayer().getPermissions().getRank().modTool()) {
             // send player info failed alert
             client.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("command.playerinfo.title", "Player Information") + ": " + username, Locale.getOrDefault("command.playerinfo.staff", "You cannot view the information of a staff member!")));
             return;
@@ -35,7 +38,7 @@ public class PlayerInfoCommand extends ChatCommand {
 
         final StringBuilder userInfo = new StringBuilder();
 
-        if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (client.getPlayer().getPermissions().getRank().modTool()) {
             userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.id", "ID") + "</b>: " + playerData.getId() + "<br>");
         }
 
@@ -45,14 +48,14 @@ public class PlayerInfoCommand extends ChatCommand {
         userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.status", "Status") + "</b>: " + (session == null ? Locale.getOrDefault("command.playerinfo.offline", "Offline") : Locale.getOrDefault("command.playerinfo.online", "Online")) + "<br>");
         userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.achievementPoints", "Achievement Points") + "</b>: " + playerData.getAchievementPoints() + "<br>");
 
-        if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (client.getPlayer().getPermissions().getRank().modTool()) {
             userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.rank", "Rank") + "</b>: " + playerData.getRank() + "<br><br>");
         }
 
         userInfo.append("<b>" + Locale.getOrDefault("command.playerinfo.currencyBalances", "Currency Balances") + "</b><br>");
         userInfo.append("<i>" + playerData.getCredits() + " " + Locale.getOrDefault("command.playerinfo.credits", "credits") + "</i><br>");
 
-        if (client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (client.getPlayer().getPermissions().getRank().modTool()) {
             userInfo.append("<i>" + playerData.getVipPoints() + " " + Locale.getOrDefault("command.playerinfo.diamonds", "diamonds") + "</i><br>");
         }
 

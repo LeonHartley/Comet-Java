@@ -21,5 +21,5 @@ public interface ISessionManager {
 
     void broadcast(IMessageComposer msg);
 
-    void broadcastByPermission(IMessageComposer messageComposer, String permission);
+    void broadcastToModerators(IMessageComposer messageComposer);
 }

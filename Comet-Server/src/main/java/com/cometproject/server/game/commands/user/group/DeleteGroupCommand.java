@@ -20,7 +20,7 @@ import java.util.List;
 public class DeleteGroupCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
-        if (client.getPlayer().getId() != client.getPlayer().getEntity().getRoom().getData().getOwnerId() && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (client.getPlayer().getId() != client.getPlayer().getEntity().getRoom().getData().getOwnerId() && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             client.send(new AlertMessageComposer(Locale.getOrDefault("command.deletegroup.permission", "You don't have permission to delete this group!")));
             return;
         }

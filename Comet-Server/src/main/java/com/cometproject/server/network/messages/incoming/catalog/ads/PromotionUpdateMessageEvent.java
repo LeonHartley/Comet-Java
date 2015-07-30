@@ -18,7 +18,7 @@ public class PromotionUpdateMessageEvent implements Event {
 
         Room room = client.getPlayer().getEntity().getRoom();
 
-        if (room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().hasPermission("room_full_control"))) {
+        if (room == null || (room.getData().getOwnerId() != client.getPlayer().getId() && !client.getPlayer().getPermissions().getRank().roomFullControl())) {
             return;
         }
 

@@ -36,7 +36,7 @@ public class WhisperMessageEvent implements Event {
 
         String filteredMessage = TalkMessageEvent.filterMessage(message);
 
-        if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
+        if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {
@@ -62,7 +62,7 @@ public class WhisperMessageEvent implements Event {
         if (!((PlayerEntity) userTo).getPlayer().ignores(client.getPlayer().getId()))
             ((PlayerEntity) userTo).getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), filteredMessage));
 
-        for (PlayerEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getPlayerEntitiesByPermission("room_see_whisper")) {
+        for (PlayerEntity entity : client.getPlayer().getEntity().getRoom().getEntities().getWhisperSeers()) {
             if (entity.getPlayer().getId() != client.getPlayer().getId() && !user.equals(entity.getUsername()))
                 entity.getPlayer().getSession().send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), "Whisper to " + user + ": " + filteredMessage));
         }

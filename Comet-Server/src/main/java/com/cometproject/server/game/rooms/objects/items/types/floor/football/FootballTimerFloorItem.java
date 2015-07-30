@@ -27,7 +27,7 @@ public class FootballTimerFloorItem extends RoomItemFloor {
             PlayerEntity pEntity = (PlayerEntity) entity;
 
             if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
-                    && !pEntity.getPlayer().getPermissions().hasPermission("room_full_control")) {
+                    && !pEntity.getPlayer().getPermissions().getRank().roomFullControl()) {
                 return true;
             }
         }

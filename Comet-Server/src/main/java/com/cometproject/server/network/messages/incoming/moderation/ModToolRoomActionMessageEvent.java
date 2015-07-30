@@ -18,7 +18,7 @@ public class ModToolRoomActionMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         final int roomId = msg.readInt();
 
-        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().getRank().modTool()) {
             client.disconnect();
             return;
         }
@@ -48,7 +48,7 @@ public class ModToolRoomActionMessageEvent implements Event {
 
             if (kickAll) {
                 for (PlayerEntity entity : room.getEntities().getPlayerEntities()) {
-                    if (entity.getPlayer().getPermissions().hasPermission("room_unkickable")) continue;
+                    if (!entity.getPlayer().getPermissions().getRank().roomKickable()) continue;
 
                     entity.kick();
                 }

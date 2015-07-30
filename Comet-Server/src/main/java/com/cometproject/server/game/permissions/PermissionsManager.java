@@ -2,7 +2,7 @@ package com.cometproject.server.game.permissions;
 
 import com.cometproject.server.game.permissions.types.CommandPermission;
 import com.cometproject.server.game.permissions.types.Perk;
-import com.cometproject.server.game.permissions.types.Permission;
+import com.cometproject.server.game.permissions.types.Rank;
 import com.cometproject.server.storage.queries.permissions.PermissionsDao;
 import com.cometproject.server.utilities.Initializable;
 import org.apache.log4j.Logger;
@@ -15,7 +15,7 @@ public class PermissionsManager implements Initializable {
     private static PermissionsManager permissionsManagerInstance;
 
     private Map<Integer, Perk> perks;
-    private Map<String, Permission> permissions;
+    private Map<Integer, Rank> ranks;
     private Map<String, CommandPermission> commands;
 
     private static Logger log = Logger.getLogger(PermissionsManager.class.getName());
@@ -27,12 +27,13 @@ public class PermissionsManager implements Initializable {
     @Override
     public void initialize() {
         this.perks = new HashMap<>();
-        this.permissions = new HashMap<>();
         this.commands = new HashMap<>();
+        this.ranks = new HashMap<>();
 
         this.loadPerks();
-        this.loadPermissions();
+        this.loadRankPermissions();
         this.loadCommands();
+
 
         log.info("PermissionsManager initialized");
     }
@@ -60,19 +61,19 @@ public class PermissionsManager implements Initializable {
         log.info("Loaded " + this.getPerks().size() + " perks");
     }
 
-    public void loadPermissions() {
+    public void loadRankPermissions() {
         try {
-            if (this.getPermissions().size() != 0) {
-                this.getPermissions().clear();
+            if (this.getRankPermissions().size() != 0) {
+                this.getRankPermissions().clear();
             }
 
-            this.permissions = PermissionsDao.getRankPermissions();
+            this.ranks = PermissionsDao.getRankPermissions();
         } catch (Exception e) {
             log.error("Error while loading rank permissions", e);
             return;
         }
 
-        log.info("Loaded " + this.getPermissions().size() + " permissions");
+        log.info("Loaded " + this.getRankPermissions().size() + " ranks");
     }
 
     public void loadCommands() {
@@ -91,8 +92,19 @@ public class PermissionsManager implements Initializable {
         log.info("Loaded " + this.getCommands().size() + " command permissions");
     }
 
-    public Map<String, Permission> getPermissions() {
-        return this.permissions;
+    public Rank getRank(final int playerRankId) {
+        final Rank rank = this.ranks.get(playerRankId);
+
+        if (rank == null) {
+            log.warn("Failed to find rank by rank ID: " + playerRankId + ", are you sure it exists?");
+            return this.ranks.get(1);
+        }
+
+        return rank;
+    }
+
+    public Map<Integer, Rank> getRankPermissions() {
+        return this.ranks;
     }
 
     public Map<String, CommandPermission> getCommands() {

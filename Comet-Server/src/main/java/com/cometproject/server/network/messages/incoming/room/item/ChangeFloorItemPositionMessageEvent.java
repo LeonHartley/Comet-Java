@@ -31,7 +31,7 @@ public class ChangeFloorItemPositionMessageEvent implements Event {
         if (room == null) return;
 
         if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId())
-                && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+                && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
             return;
         }
 

@@ -2,7 +2,7 @@ package com.cometproject.server.storage.queries.permissions;
 
 import com.cometproject.server.game.permissions.types.CommandPermission;
 import com.cometproject.server.game.permissions.types.Perk;
-import com.cometproject.server.game.permissions.types.Permission;
+import com.cometproject.server.game.permissions.types.Rank;
 import com.cometproject.server.storage.SqlHelper;
 
 import java.sql.Connection;
@@ -43,20 +43,40 @@ public class PermissionsDao {
         return data;
     }
 
-    public static Map<String, Permission> getRankPermissions() {
+    public static Map<Integer, Rank> getRankPermissions() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<String, Permission> data = new HashMap<>();
+        Map<Integer, Rank> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
-            preparedStatement = SqlHelper.prepare("SELECT `fuse`, `min_rank` FROM permission_ranks", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM server_permissions_ranks", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.putIfAbsent(resultSet.getString("fuse"), new Permission(resultSet));
+                data.putIfAbsent(resultSet.getInt("id"), new Rank(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("flood_bypass").equals("1"),
+                        resultSet.getInt("flood_time"),
+                        resultSet.getString("disconnectable").equals("1"),
+                        resultSet.getString("mod_tool").equals("1"),
+                        resultSet.getString("bannable").equals("1"),
+                        resultSet.getString("room_kickable").equals("1"),
+                        resultSet.getString("room_full_control").equals("1"),
+                        resultSet.getString("room_mute_bypass").equals("1"),
+                        resultSet.getString("room_filter_bypass").equals("1"),
+                        resultSet.getString("room_ignorable").equals("1"),
+                        resultSet.getString("room_enter_full").equals("1"),
+                        resultSet.getString("room_enter_locked").equals("1"),
+                        resultSet.getString("room_staff_pick").equals("1"),
+                        resultSet.getString("room_see_whispers").equals("1"),
+                        resultSet.getString("messenger_staff_chat").equals("1"),
+                        resultSet.getInt("messenger_max_friends"),
+                        resultSet.getString("about_detailed").equals("1"),
+                        resultSet.getString("about_stats").equals("1")));
             }
 
         } catch (SQLException e) {

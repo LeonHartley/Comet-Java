@@ -93,21 +93,21 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         // Room full, no slot available
         if (!isAuthFailed && this.getPlayerId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() &&
-                !this.getPlayer().getPermissions().hasPermission("room_enter_full")) {
+                !this.getPlayer().getPermissions().getRank().roomEnterFull()) {
             this.getPlayer().getSession().send(new RoomConnectionErrorMessageComposer(1, ""));
             this.getPlayer().getSession().send(new HotelViewMessageComposer());
             isAuthFailed = true;
         }
 
         // Room bans
-        if (!isAuthFailed && this.getRoom().getRights().hasBan(this.getPlayerId()) && !this.getPlayer().getPermissions().hasPermission("room_unkickable")) {
+        if (!isAuthFailed && this.getRoom().getRights().hasBan(this.getPlayerId()) && this.getPlayer().getPermissions().getRank().roomKickable()) {
             this.getPlayer().getSession().send(new RoomConnectionErrorMessageComposer(4, ""));
             isAuthFailed = true;
         }
 
         boolean isOwner = (this.getRoom().getData().getOwnerId() == this.getPlayerId());
 
-        if (!isAuthFailed && !this.getPlayer().isBypassingRoomAuth() && (!isOwner && !this.getPlayer().getPermissions().hasPermission("room_enter_locked") && !this.isDoorbellAnswered()) && !this.getPlayer().isTeleporting()) {
+        if (!isAuthFailed && !this.getPlayer().isBypassingRoomAuth() && (!isOwner && !this.getPlayer().getPermissions().getRank().roomEnterLocked() && !this.isDoorbellAnswered()) && !this.getPlayer().isTeleporting()) {
             if (this.getRoom().getData().getAccess().equals("password")) {
                 boolean matched;
 
@@ -164,7 +164,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         int accessLevel = 0;
 
-        if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.getPlayer().getPermissions().getRank().roomFullControl()) {
             this.addStatus(RoomEntityStatus.CONTROLLER, "4");
             accessLevel = 4;
         } else if (this.getRoom().getRights().hasRights(this.getPlayerId())) {
@@ -174,7 +174,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         session.send(new AccessLevelMessageComposer(accessLevel));
 
-        if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.getPlayer().getPermissions().hasPermission("room_full_control")) {
+        if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.getPlayer().getPermissions().getRank().roomFullControl()) {
             session.send(new YouAreControllerMessageComposer());
         }
 
@@ -275,12 +275,12 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     public boolean onChat(String message) {
         long time = System.currentTimeMillis();
 
-        if (!this.getPlayer().getPermissions().hasPermission("bypass_flood")) {
+        if (!this.getPlayer().getPermissions().getRank().floodBypass()) {
             if (time - this.getPlayer().getRoomLastMessageTime() < 750) {
                 this.getPlayer().setRoomFloodFlag(this.getPlayer().getRoomFloodFlag() + 1);
 
                 if (this.getPlayer().getRoomFloodFlag() >= 5) {
-                    this.getPlayer().setRoomFloodTime(30);
+                    this.getPlayer().setRoomFloodTime(this.getPlayer().getPermissions().getRank().floodTime());
                     this.getPlayer().setRoomFloodFlag(0);
 
                     this.getPlayer().getSession().send(new FloodFilterMessageComposer(player.getRoomFloodTime()));
@@ -316,11 +316,11 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             return false;
         }
 
-        if (this.isRoomMuted() && !this.getPlayer().getPermissions().hasPermission("bypass_roommute") && this.getRoom().getData().getOwnerId() != this.getPlayerId()) {
+        if (this.isRoomMuted() && !this.getPlayer().getPermissions().getRank().roomMuteBypass() && this.getRoom().getData().getOwnerId() != this.getPlayerId()) {
             return false;
         }
 
-        if ((this.getRoom().getRights().hasMute(this.getPlayerId()) || BanManager.getInstance().isMuted(this.getPlayerId())) && !this.getPlayer().getPermissions().hasPermission("bypass_roommute")) {
+        if ((this.getRoom().getRights().hasMute(this.getPlayerId()) || BanManager.getInstance().isMuted(this.getPlayerId())) && !this.getPlayer().getPermissions().getRank().roomMuteBypass()) {
             this.getPlayer().getSession().send(new MutedMessageComposer(this.getRoom().getRights().getMuteTime(this.getPlayerId())));
 
             return false;

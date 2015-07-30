@@ -12,8 +12,8 @@ import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.InstantChatMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class PrivateChatMessageEvent implements Event {
@@ -21,7 +21,7 @@ public class PrivateChatMessageEvent implements Event {
         int userId = msg.readInt();
         String message = msg.readString();
 
-        if (userId == -1 && client.getPlayer().getPermissions().hasPermission("staff_chat")) {
+        if (userId == -1 && client.getPlayer().getPermissions().getRank().messengerStaffChat()) {
             for (ISession user : NetworkManager.getInstance().getSessions().getByPlayerPermission("staff_chat")) {
                 if (user == client) continue;
                 user.send(new InstantChatMessageComposer(client.getPlayer().getData().getUsername() + ": " + message, -1));
@@ -43,12 +43,12 @@ public class PrivateChatMessageEvent implements Event {
 
         final long time = System.currentTimeMillis();
 
-        if (!client.getPlayer().getPermissions().hasPermission("bypass_flood")) {
+        if (!client.getPlayer().getPermissions().getRank().floodBypass()) {
             if (time - client.getPlayer().getMessengerLastMessageTime() < 750) {
                 client.getPlayer().setMessengerFloodFlag(client.getPlayer().getMessengerFloodFlag() + 1);
 
                 if (client.getPlayer().getMessengerFloodFlag() >= 4) {
-                    client.getPlayer().setMessengerFloodTime(30);
+                    client.getPlayer().setMessengerFloodTime(client.getPlayer().getPermissions().getRank().floodTime());
                     client.getPlayer().setMessengerFloodFlag(0);
 
                 }
@@ -61,7 +61,7 @@ public class PrivateChatMessageEvent implements Event {
             client.getPlayer().setMessengerLastMessageTime(time);
         }
 
-        if (!client.getPlayer().getPermissions().hasPermission("bypass_filter")) {
+        if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
 
             if (filterResult.isBlocked()) {

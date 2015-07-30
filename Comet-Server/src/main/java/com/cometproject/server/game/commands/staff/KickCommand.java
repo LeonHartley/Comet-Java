@@ -24,7 +24,7 @@ public class KickCommand extends ChatCommand {
             return;
         }
 
-        if (entity.getPlayer().getPermissions().hasPermission("room_unkickable")) {
+        if (!entity.getPlayer().getPermissions().getRank().roomKickable()) {
 
             sendNotif(Locale.get("command.kick.unkickable"), client);
             return;

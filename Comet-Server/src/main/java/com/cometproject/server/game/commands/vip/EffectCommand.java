@@ -18,7 +18,7 @@ public class EffectCommand extends ChatCommand {
         try {
             int effectId = Integer.parseInt(params[0]);
 
-            if (effectId == 102 && !client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+            if (effectId == 102 && !client.getPlayer().getPermissions().getRank().modTool()) {
                 return;
             }
 

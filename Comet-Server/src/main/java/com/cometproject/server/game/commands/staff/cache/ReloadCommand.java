@@ -77,7 +77,7 @@ public class ReloadCommand extends ChatCommand {
                 break;
 
             case "permissions":
-                PermissionsManager.getInstance().loadPermissions();
+                PermissionsManager.getInstance().loadRankPermissions();
                 PermissionsManager.getInstance().loadPerks();
                 PermissionsManager.getInstance().loadCommands();
 

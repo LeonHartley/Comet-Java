@@ -17,7 +17,7 @@ public class SetSpeedCommand extends ChatCommand {
 
         if (client.getPlayer().getEntity() != null
                 && client.getPlayer().getEntity().getRoom() != null) {
-            if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().hasPermission("room_full_control")) {
+            if (!client.getPlayer().getEntity().getRoom().getRights().hasRights(client.getPlayer().getId()) && !client.getPlayer().getPermissions().getRank().roomFullControl()) {
                 return;
             }
 

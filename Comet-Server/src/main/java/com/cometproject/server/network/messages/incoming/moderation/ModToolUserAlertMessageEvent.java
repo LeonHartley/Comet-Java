@@ -14,7 +14,7 @@ public class ModToolUserAlertMessageEvent implements Event {
         int playerId = msg.readInt();
         String message = msg.readString();
 
-        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().getRank().modTool()) {
             // fuck off
             client.getLogger().error(
                     ModToolUserInfoMessageEvent.class.getName() + " - tried to alert user: " + playerId + " with text: " + message);

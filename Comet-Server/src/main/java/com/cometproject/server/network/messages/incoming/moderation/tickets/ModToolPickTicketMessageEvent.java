@@ -14,7 +14,7 @@ public class ModToolPickTicketMessageEvent implements Event {
         msg.readInt();
         int ticketId = msg.readInt();
 
-        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().getRank().modTool()) {
             client.disconnect();
             return;
         }

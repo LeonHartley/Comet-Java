@@ -13,7 +13,7 @@ public class ModToolRoomInfoMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         int roomId = msg.readInt();
 
-        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().getRank().modTool()) {
             // fuck off
             client.getLogger().error(
                     ModToolUserInfoMessageEvent.class.getName() + " - tried to view room info for room: " + roomId);

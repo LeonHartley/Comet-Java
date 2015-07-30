@@ -3,7 +3,7 @@ package com.cometproject.server.network.sessions;
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.networking.sessions.ISessionManager;
-import com.cometproject.server.game.permissions.PermissionsManager;
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.PlayerManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
@@ -77,15 +77,47 @@ public final class SessionManager implements ISessionManager {
         // TODO: Optimize this
         Set<ISession> sessions = new HashSet<>();
 
-        int rank = PermissionsManager.getInstance().getPermissions().get(permission).getRank();
+        //so i dont forget :$
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
+        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
 
-        for (Map.Entry<Integer, ISession> session : this.sessions.entrySet()) {
-            if (session.getValue().getPlayer() != null) {
-                if (((Session) session.getValue()).getPlayer().getData().getRank() >= rank) {
-                    sessions.add(session.getValue());
-                }
-            }
-        }
+//
+//        int rank = PermissionsManager.getInstance().getPermissions().get(permission).getRank();
+//
+//        for (Map.Entry<Integer, ISession> session : this.sessions.entrySet()) {
+//            if (session.getValue().getPlayer() != null) {
+//                if (((Session) session.getValue()).getPlayer().getData().getRank() >= rank) {
+//                    sessions.add(session.getValue());
+//                }
+//            }
+//        }
 
         return sessions;
     }
@@ -127,9 +159,9 @@ public final class SessionManager implements ISessionManager {
         return channelGroup;
     }
 
-    public void broadcastByPermission(IMessageComposer messageComposer, String permission) {
+    public void broadcastToModerators(IMessageComposer messageComposer) {
         for (ISession session : this.sessions.values()) {
-            if (session.getPlayer() != null && session.getPlayer().getPermissions() != null && session.getPlayer().getPermissions().hasPermission(permission)) {
+            if (session.getPlayer() != null && session.getPlayer().getPermissions() != null && session.getPlayer().getPermissions().getRank().modTool()) {
                 session.send(messageComposer);
             }
         }

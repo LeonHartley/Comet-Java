@@ -18,7 +18,7 @@ public class SetMaxCommand extends ChatCommand {
 
         final Room room = client.getPlayer().getEntity().getRoom();
         final boolean hasRights = room.getRights().hasRights(client.getPlayer().getId());
-        final boolean isStaff = client.getPlayer().getPermissions().hasPermission("room_full_control");
+        final boolean isStaff = client.getPlayer().getPermissions().getRank().roomFullControl();
 
         if (hasRights || isStaff) {
             final int maxPlayers = Integer.parseInt(params[0]);

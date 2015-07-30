@@ -20,7 +20,7 @@ public class ModToolCloseIssueMessageEvent implements Event {
         final int unk = msg.readInt();
         final int ticketId = msg.readInt();
 
-        if (!client.getPlayer().getPermissions().hasPermission("mod_tool")) {
+        if (!client.getPlayer().getPermissions().getRank().modTool()) {
             client.disconnect();
             return;
         }
