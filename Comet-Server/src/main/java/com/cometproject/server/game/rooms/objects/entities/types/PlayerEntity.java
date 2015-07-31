@@ -106,8 +106,9 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         boolean isOwner = (this.getRoom().getData().getOwnerId() == this.getPlayerId());
+        boolean isTeleporting = this.getPlayer().isTeleporting() && (this.getPlayer().getTeleportRoomId() == this.getRoom().getId());
 
-        if (!isAuthFailed && !this.getPlayer().isBypassingRoomAuth() && (!isOwner && !this.getPlayer().getPermissions().getRank().roomEnterLocked() && !this.isDoorbellAnswered()) && !this.getPlayer().isTeleporting()) {
+        if (!isAuthFailed && !this.getPlayer().isBypassingRoomAuth() && (!isOwner && !this.getPlayer().getPermissions().getRank().roomEnterLocked() && !this.isDoorbellAnswered()) && !isTeleporting) {
             if (this.getRoom().getData().getAccess().equals("password")) {
                 boolean matched;
 

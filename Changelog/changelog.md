@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 31/07/2015
+* Fixed room auth issue causing players who are teleporting to enter a locked room.
+
 ## 30/07/2015
 * New rank permissions system
 * Fixed team effects removing when player walks off a the item which triggered the join effect.

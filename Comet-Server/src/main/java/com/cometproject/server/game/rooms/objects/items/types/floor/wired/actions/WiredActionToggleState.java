@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTimerFloorItem;
@@ -43,6 +44,22 @@ public class WiredActionToggleState extends WiredActionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
+        if(this.hasTicks()) {
+            // we're busy, try again later.
+            return false;
+        }
+
+        if (this.getWiredData().getDelay() >= 1) {
+            this.setTicks(RoomItemFactory.getProcessTime(this.getWiredData().getDelay() / 2));
+        } else {
+            this.onTickComplete();
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onTickComplete() {
         List<Position> tilesToUpdate = Lists.newArrayList();
 
         for (int itemId : this.getWiredData().getSelectedIds()) {
@@ -60,6 +77,5 @@ public class WiredActionToggleState extends WiredActionItem {
         }
 
         tilesToUpdate.clear();
-        return true;
     }
 }
