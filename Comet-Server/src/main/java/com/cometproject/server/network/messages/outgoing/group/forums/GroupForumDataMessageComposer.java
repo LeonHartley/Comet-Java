@@ -22,20 +22,7 @@ public class GroupForumDataMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeInt(group.getId());
-        msg.writeString(group.getData().getTitle());
-        msg.writeString(group.getData().getDescription());
-        msg.writeString(group.getData().getBadge());
-
-        msg.writeInt(0);//total threads
-        msg.writeInt(0);//leaderboard score
-        msg.writeInt(0);//total messages
-        msg.writeInt(0);//unread messages
-
-        msg.writeInt(0);//last message id
-        msg.writeInt(0);//last message author id
-        msg.writeString("");//last message author name
-        msg.writeInt(0);//last message time
+        this.group.getForumComponent().composeData(msg);
 
         final ForumSettings forumSettings = this.group.getForumComponent().getForumSettings();
 
@@ -50,7 +37,7 @@ public class GroupForumDataMessageComposer extends MessageComposer {
         msg.writeString("");//4
         msg.writeString("");//??
 
-        msg.writeBoolean(group.getData().getOwnerId() == playerId);
-        msg.writeBoolean(false);
+        msg.writeBoolean(this.group.getData().getOwnerId() == this.playerId);
+        msg.writeBoolean(true); // is staff?
     }
 }

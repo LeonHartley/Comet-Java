@@ -17,6 +17,7 @@ import com.cometproject.server.network.messages.incoming.group.*;
 import com.cometproject.server.network.messages.incoming.group.favourite.ClearFavouriteGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.favourite.SetFavouriteGroupMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.forum.data.ForumDataMessageEvent;
+import com.cometproject.server.network.messages.incoming.group.forum.data.GetForumsMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.forum.threads.*;
 import com.cometproject.server.network.messages.incoming.group.forum.settings.SaveForumSettingsMessageEvent;
 import com.cometproject.server.network.messages.incoming.group.settings.*;
@@ -412,6 +413,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.ViewThreadMessageEvent, new ViewThreadMessageEvent());
         this.getMessages().put(Events.ModerateThreadMessageEvent, new ModerateThreadMessageEvent());
         this.getMessages().put(Events.UpdateThreadMessageEvent, new UpdateThreadMessageEvent());
+        this.getMessages().put(Events.GetForumsMessageEvent, new GetForumsMessageEvent());
     }
 
     public void registerQuests() {

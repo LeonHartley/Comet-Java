@@ -5,7 +5,11 @@ import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumPermission;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
 import com.cometproject.server.network.messages.incoming.Event;
+import com.cometproject.server.network.messages.outgoing.group.GroupInformationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumDataMessageComposer;
+import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumPostThreadMessageComposer;
+import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumThreadsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
@@ -43,6 +47,13 @@ public class SaveForumSettingsMessageEvent implements Event {
 
         forumSettings.save();
 
+        client.send(group.composeInformation(false, client.getPlayer().getId()));
+
+        client.send(new RoomNotificationMessageComposer("forums.forum_settings_updated"));
+
         client.send(new GroupForumDataMessageComposer(group, client.getPlayer().getId()));
+
+        // HACK, WHEN THIS IS FIXED, REMOVE!
+        client.send(new GroupForumThreadsMessageComposer(group));
     }
 }

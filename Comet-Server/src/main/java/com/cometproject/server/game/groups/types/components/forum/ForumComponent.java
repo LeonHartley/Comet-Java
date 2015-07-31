@@ -1,5 +1,6 @@
 package com.cometproject.server.game.groups.types.components.forum;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.components.GroupComponent;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
@@ -29,6 +30,23 @@ public class ForumComponent implements GroupComponent {
                 this.pinnedThreads.add(forumThread.getId());
             }
         }
+    }
+
+    public void composeData(IComposer msg) {
+        msg.writeInt(group.getId());
+        msg.writeString(group.getData().getTitle());
+        msg.writeString(group.getData().getDescription());
+        msg.writeString(group.getData().getBadge());
+
+        msg.writeInt(0);//total threads
+        msg.writeInt(0);//leaderboard score
+        msg.writeInt(0);//total messages
+        msg.writeInt(0);//unread messages
+
+        msg.writeInt(0);//last message id
+        msg.writeInt(0);//last message author id
+        msg.writeString("");//last message author name
+        msg.writeInt(0);//last message time
     }
 
     @Override
