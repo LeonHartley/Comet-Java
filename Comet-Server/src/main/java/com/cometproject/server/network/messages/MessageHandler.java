@@ -414,6 +414,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.ModerateThreadMessageEvent, new ModerateThreadMessageEvent());
         this.getMessages().put(Events.UpdateThreadMessageEvent, new UpdateThreadMessageEvent());
         this.getMessages().put(Events.GetForumsMessageEvent, new GetForumsMessageEvent());
+        this.getMessages().put(Events.HideMessageMessageEvent, new HideMessageMessageEvent());
     }
 
     public void registerQuests() {
