@@ -221,6 +221,7 @@ public class Events {
     public static final short ModerateThreadMessageEvent = 2683;
     public static final short UpdateThreadMessageEvent = 1764;
     public static final short GetForumsMessageEvent = 3264;
+    public static final short HideMessageMessageEvent = 2903;
 
     private static Map<Short, String> eventPacketNames = new HashMap<>();
 

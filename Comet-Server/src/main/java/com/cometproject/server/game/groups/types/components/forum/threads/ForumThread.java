@@ -60,6 +60,16 @@ public class ForumThread {
         msg.writeInt(0); // admin action time ago.
     }
 
+    public ForumThreadReply getReplyById(final int id) {
+        for(ForumThreadReply reply : this.replies) {
+            if(reply.getId() == id) {
+                return reply;
+            }
+        }
+
+        return null;
+    }
+
     public ForumThreadReply getMostRecentPost() {
         return this.replies.get(this.replies.size() - 1);
     }

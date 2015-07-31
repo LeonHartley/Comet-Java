@@ -48,9 +48,7 @@ public class SaveForumSettingsMessageEvent implements Event {
         forumSettings.save();
 
         client.send(group.composeInformation(false, client.getPlayer().getId()));
-
         client.send(new RoomNotificationMessageComposer("forums.forum_settings_updated"));
-
         client.send(new GroupForumDataMessageComposer(group, client.getPlayer().getId()));
 
         // HACK, WHEN THIS IS FIXED, REMOVE!
