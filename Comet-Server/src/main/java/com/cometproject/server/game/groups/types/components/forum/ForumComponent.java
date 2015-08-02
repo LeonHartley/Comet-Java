@@ -38,9 +38,9 @@ public class ForumComponent implements GroupComponent {
         msg.writeString(group.getData().getDescription());
         msg.writeString(group.getData().getBadge());
 
-        msg.writeInt(0);//total threads
+        msg.writeInt(this.forumThreads.size());//total threads
         msg.writeInt(0);//leaderboard score
-        msg.writeInt(0);//total messages
+        msg.writeInt(this.forumThreads.size());// TODO: keep a count of all messages (threads+replies)
         msg.writeInt(0);//unread messages
 
         msg.writeInt(0);//last message id
