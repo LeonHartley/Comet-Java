@@ -35,7 +35,7 @@ Improvements
 * Hard limit on inventory (Do not allow them to add more items until they remove some.)
 * ~~Player data cache support~~
 * More queued database writes
-* New rank system
+* ~~New rank system~~
 * Expand on the module API
 * Allow wf_act_give_reward to remove rewards (such as coins/diamonds)
 * Restructure server_config table 
