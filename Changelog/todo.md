@@ -47,3 +47,4 @@ Commands
 * ~~Room bot management commands~~
 * Command to see players with the same IP
 * Freeze entity command 
+
