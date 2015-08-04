@@ -5,13 +5,11 @@ import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumPermission;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.group.GroupInformationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumDataMessageComposer;
-import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumPostThreadMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumThreadsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 public class SaveForumSettingsMessageEvent implements Event {
     @Override
@@ -30,11 +28,11 @@ public class SaveForumSettingsMessageEvent implements Event {
 
         Group group = GroupManager.getInstance().get(groupId);
 
-        if(group == null || group.getData().getOwnerId() != client.getPlayer().getId()) {
+        if (group == null || group.getData().getOwnerId() != client.getPlayer().getId()) {
             return;
         }
 
-        if(!group.getData().hasForum()) {
+        if (!group.getData().hasForum()) {
             return;
         }
 
@@ -52,6 +50,6 @@ public class SaveForumSettingsMessageEvent implements Event {
         client.send(new GroupForumDataMessageComposer(group, client.getPlayer().getId()));
 
         // HACK, WHEN THIS IS FIXED, REMOVE!
-        client.send(new GroupForumThreadsMessageComposer(group));
+        client.send(new GroupForumThreadsMessageComposer(group.getId(), group.getForumComponent().getForumThreads(0), 0));
     }
 }

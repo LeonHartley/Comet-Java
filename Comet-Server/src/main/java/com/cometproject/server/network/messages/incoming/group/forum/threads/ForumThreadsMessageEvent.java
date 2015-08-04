@@ -13,9 +13,7 @@ public class ForumThreadsMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         int groupId = msg.readInt();
 
-        // TODO: Proper pagination.
         int start = msg.readInt();
-        int end = msg.readInt();
 
         Group group = GroupManager.getInstance().get(groupId);
 
@@ -33,6 +31,6 @@ public class ForumThreadsMessageEvent implements Event {
             }
         }
 
-        client.send(new GroupForumThreadsMessageComposer(group));
+        client.send(new GroupForumThreadsMessageComposer(group.getId(), group.getForumComponent().getForumThreads(start), start));
     }
 }

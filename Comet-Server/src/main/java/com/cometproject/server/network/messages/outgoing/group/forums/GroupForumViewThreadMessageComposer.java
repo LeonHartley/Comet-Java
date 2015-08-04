@@ -7,18 +7,20 @@ import com.cometproject.server.game.groups.types.components.forum.threads.ForumT
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
+import java.util.List;
+
 public class GroupForumViewThreadMessageComposer extends MessageComposer {
 
     private GroupData groupData;
-    private ForumThread forumThread;
+    private final int threadId;
+    private List<ForumThreadReply> replies;
     private int start;
-    private int end;
 
-    public GroupForumViewThreadMessageComposer(GroupData groupData, ForumThread forumThread, int start, int end) {
+    public GroupForumViewThreadMessageComposer(GroupData groupData, int threadId, List<ForumThreadReply> threadReplies, int start) {
         this.groupData = groupData;
-        this.forumThread = forumThread;
+        this.threadId = threadId;
+        this.replies = threadReplies;
         this.start = start;
-        this.end = end;
     }
 
     @Override
@@ -29,11 +31,11 @@ public class GroupForumViewThreadMessageComposer extends MessageComposer {
     @Override
     public void compose(IComposer msg) {
         msg.writeInt(this.groupData.getId());
-        msg.writeInt(this.forumThread.getId());
+        msg.writeInt(this.threadId);
         msg.writeInt(this.start);
-        msg.writeInt(this.forumThread.getReplies().size());
+        msg.writeInt(this.replies.size());
 
-        for(ForumThreadReply reply : this.forumThread.getReplies()) {
+        for(ForumThreadReply reply : this.replies) {
             reply.compose(msg);
         }
     }

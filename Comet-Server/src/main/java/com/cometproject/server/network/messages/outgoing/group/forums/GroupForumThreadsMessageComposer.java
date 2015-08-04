@@ -1,18 +1,24 @@
 package com.cometproject.server.network.messages.outgoing.group.forums;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
+import java.util.List;
+
 
 public class GroupForumThreadsMessageComposer extends MessageComposer {
 
-    private final Group group;
+    private final int groupId;
+    private final List<ForumThread> threads;
+    private final int start;
 
-    public GroupForumThreadsMessageComposer(Group group) {
-        this.group = group;
+    public GroupForumThreadsMessageComposer(int groupId, List<ForumThread> threads, int start) {
+        this.groupId = groupId;
+        this.threads = threads;
+
+        this.start = start;
     }
 
     @Override
@@ -22,24 +28,18 @@ public class GroupForumThreadsMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeInt(this.group.getId());
-        msg.writeInt(0); // start index.
+        msg.writeInt(this.groupId);
+        msg.writeInt(this.start); // start index.
 
-        int pinnedThreads = this.group.getForumComponent().getPinnedThreads().size();
-        int threadCount = pinnedThreads + (this.group.getForumComponent().getForumThreads().size() - pinnedThreads);
+        msg.writeInt(this.threads.size());
 
-        msg.writeInt(threadCount); // count
-
-        for(int pinnedThread : this.group.getForumComponent().getPinnedThreads()) {
-            ForumThread forumThread = this.group.getForumComponent().getForumThreads().get(pinnedThread);
-
+        for(ForumThread forumThread : this.threads) {
             forumThread.compose(msg);
         }
+    }
 
-        for (ForumThread forumThread : this.group.getForumComponent().getForumThreads().values()) {
-            if(forumThread.isPinned()) continue;
-
-            forumThread.compose(msg);
-        }
+    @Override
+    public void dispose() {
+        this.threads.clear();
     }
 }
