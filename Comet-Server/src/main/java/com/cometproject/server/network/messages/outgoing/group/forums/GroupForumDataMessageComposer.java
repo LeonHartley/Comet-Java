@@ -2,6 +2,7 @@ package com.cometproject.server.network.messages.outgoing.group.forums;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.types.Group;
+import com.cometproject.server.game.groups.types.components.forum.settings.ForumPermission;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
@@ -31,13 +32,58 @@ public class GroupForumDataMessageComposer extends MessageComposer {
         msg.writeInt(forumSettings.getStartThreadsPermission().getPermissionId());
         msg.writeInt(forumSettings.getModeratePermission().getPermissionId());
 
-        msg.writeString("");//1
-        msg.writeString("");//2
-        msg.writeString("");//3
-        msg.writeString("");//4
+        String errorRead = "";
+        String errorPost = "";
+        String errorStartThread = "";
+        String errorModerate = "";
+
+        if(forumSettings.getReadPermission() == ForumPermission.MEMBERS &&
+                !this.group.getMembershipComponent().getMembers().containsKey(playerId)) {
+            errorRead = "not_member";
+        } else if(forumSettings.getReadPermission() == ForumPermission.ADMINISTRATORS &&
+                !this.group.getMembershipComponent().getAdministrators().contains(playerId)) {
+            errorRead = "not_admin";
+        }
+
+        if(forumSettings.getPostPermission() == ForumPermission.MEMBERS &&
+                !this.group.getMembershipComponent().getMembers().containsKey(playerId)) {
+            errorPost = "not_member";
+        } else if(forumSettings.getPostPermission() == ForumPermission.ADMINISTRATORS &&
+                !this.group.getMembershipComponent().getAdministrators().contains(playerId)) {
+            errorPost = "not_admin";
+        } else if(forumSettings.getPostPermission() == ForumPermission.OWNER &&
+                this.playerId != this.group.getData().getOwnerId()) {
+            errorPost = "not_owner";
+        }
+
+        if(forumSettings.getStartThreadsPermission() == ForumPermission.MEMBERS &&
+                !this.group.getMembershipComponent().getMembers().containsKey(playerId)) {
+            errorStartThread = "not_member";
+        } else if(forumSettings.getStartThreadsPermission() == ForumPermission.ADMINISTRATORS &&
+                !this.group.getMembershipComponent().getAdministrators().contains(playerId)) {
+            errorStartThread = "not_admin";
+        } else if(forumSettings.getStartThreadsPermission() == ForumPermission.OWNER &&
+                this.playerId != this.group.getData().getOwnerId()) {
+            errorStartThread = "not_owner";
+        }
+
+        if(forumSettings.getModeratePermission() == ForumPermission.ADMINISTRATORS &&
+                !this.group.getMembershipComponent().getAdministrators().contains(playerId)) {
+            errorModerate = "not_admin";
+        } else if(forumSettings.getModeratePermission() == ForumPermission.OWNER &&
+                this.playerId != this.group.getData().getOwnerId()) {
+            errorModerate = "not_owner";
+        }
+
+        msg.writeString(errorRead);//1
+        msg.writeString(errorPost);//2
+        msg.writeString(errorStartThread);//3
+        msg.writeString(errorModerate);//4
+
         msg.writeString("");//??
 
         msg.writeBoolean(this.group.getData().getOwnerId() == this.playerId);
-        msg.writeBoolean(true); // is staff?
+        msg.writeBoolean(this.group.getData().getOwnerId() == this.playerId);
+//        msg.writeBoolean(true); // is staff?
     }
 }
