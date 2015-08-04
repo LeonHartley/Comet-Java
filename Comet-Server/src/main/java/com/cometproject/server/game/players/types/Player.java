@@ -61,6 +61,7 @@ public class Player implements IPlayer {
     private List<Integer> ignoredPlayers = new ArrayList<>();
     private long roomLastMessageTime = 0;
     private double roomFloodTime = 0;
+    private int lastForumPost = 0;
 
     private int roomFloodFlag = 0;
     private long messengerLastMessageTime = 0;
@@ -533,5 +534,13 @@ public class Player implements IPlayer {
     @Override
     public void setLastReward(long lastReward) {
         this.lastReward = lastReward;
+    }
+
+    public int getLastForumPost() {
+        return lastForumPost;
+    }
+
+    public void setLastForumPost(int lastForumPost) {
+        this.lastForumPost = lastForumPost;
     }
 }

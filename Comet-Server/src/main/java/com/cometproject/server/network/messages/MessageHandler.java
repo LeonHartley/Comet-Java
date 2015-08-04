@@ -25,6 +25,7 @@ import com.cometproject.server.network.messages.incoming.handshake.*;
 import com.cometproject.server.network.messages.incoming.help.DeletePendingTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
+import com.cometproject.server.network.messages.incoming.help.ReportForumPostMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.tool.OpenGuideToolMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.LandingLoadWidgetMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArticlesMessageEvent;
@@ -194,6 +195,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.OpenHelpToolMessageEvent, new InitHelpToolMessageEvent());
         this.getMessages().put(Events.SubmitHelpTicketMessageEvent, new HelpTicketMessageEvent());
         this.getMessages().put(Events.DeletePendingTicketMessageEvent, new DeletePendingTicketMessageEvent());
+        this.getMessages().put(Events.ReportForumPostMessageEvent, new ReportForumPostMessageEvent());
 
         this.getMessages().put(Events.OpenGuideToolMessageEvent, new OpenGuideToolMessageEvent());
     }
