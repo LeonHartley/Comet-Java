@@ -6,12 +6,16 @@ import com.cometproject.server.game.groups.types.components.GroupComponent;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.storage.queries.groups.GroupForumThreadDao;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class ForumComponent implements GroupComponent {
+    public static final int MAX_MESSAGES_PER_PAGE = 20;
+
     private Group group;
 
     private ForumSettings forumSettings;
@@ -47,6 +51,40 @@ public class ForumComponent implements GroupComponent {
         msg.writeInt(0);//last message author id
         msg.writeString("");//last message author name
         msg.writeInt(0);//last message time
+    }
+
+    public List<ForumThread> getForumThreads(int start) {
+        List<ForumThread> threads = Lists.newArrayList();
+
+        if(start == 0) {
+            for(int pinnedThread : this.pinnedThreads) {
+                ForumThread forumThread = this.getForumThreads().get(pinnedThread);
+
+                if(forumThread != null && threads.size() < MAX_MESSAGES_PER_PAGE) {
+                    threads.add(forumThread);
+                }
+            }
+
+            for (ForumThread forumThread : this.group.getForumComponent().getForumThreads().values()) {
+                if (forumThread.isPinned() || threads.size() >= MAX_MESSAGES_PER_PAGE) continue;
+
+                threads.add(forumThread);
+            }
+
+            return threads;
+        }
+
+        int currentThreadIndex = 0;
+
+        for(ForumThread forumThread : this.forumThreads.values()) {
+            if(currentThreadIndex >= start && threads.size() < MAX_MESSAGES_PER_PAGE) {
+                threads.add(forumThread);
+            }
+
+            currentThreadIndex++;
+        }
+
+        return threads;
     }
 
     @Override

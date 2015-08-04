@@ -2,8 +2,10 @@ package com.cometproject.server.game.groups.types.components.forum.threads;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.groups.types.components.forum.ForumComponent;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;
+import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +60,19 @@ public class ForumThread {
         msg.writeInt(0); //admin id
         msg.writeString(""); // admin username
         msg.writeInt(0); // admin action time ago.
+    }
+
+    public List<ForumThreadReply> getReplies(int start) {
+        List<ForumThreadReply> replies = Lists.newArrayList();
+
+        for(int i = start; replies.size() < ForumComponent.MAX_MESSAGES_PER_PAGE; i++) {
+            if(i >= this.replies.size())
+                break;
+
+            replies.add(this.replies.get(i));
+        }
+
+        return replies;
     }
 
     public ForumThreadReply getReplyById(final int id) {
