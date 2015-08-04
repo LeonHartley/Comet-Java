@@ -1,14 +1,19 @@
 package com.cometproject.server.network.messages.incoming.group.forum.threads;
 
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumPermission;
 import com.cometproject.server.game.groups.types.components.forum.settings.ForumSettings;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThreadReply;
+import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumPostReplyMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumPostThreadMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.groups.GroupForumThreadDao;
@@ -18,8 +23,8 @@ public class PostMessageMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         final int groupId = msg.readInt();
         final int threadId = msg.readInt();
-        final String subject = msg.readString();
-        final String message = msg.readString();
+        String subject = msg.readString();
+        String message = msg.readString();
 
         final Group group = GroupManager.getInstance().get(groupId);
 
@@ -29,7 +34,32 @@ public class PostMessageMessageEvent implements Event {
 
         if (message.length() < 10 || message.length() > 4000) return;
 
-        // TODO: check time since last post and block if its <60 seconds ago.
+        if(client.getPlayer().getLastForumPost() != 0) {
+            if((((int) Comet.getTime()) - client.getPlayer().getLastForumPost()) < 60) {
+                return;
+            }
+        }
+
+        if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
+            FilterResult messageFilter = RoomManager.getInstance().getFilter().filter(message);
+
+            if (messageFilter.isBlocked()) {
+                client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", messageFilter.getMessage())));
+                return;
+            } else if (messageFilter.wasModified()) {
+                message = messageFilter.getMessage();
+            }
+
+            FilterResult subjectFilter = RoomManager.getInstance().getFilter().filter(subject);
+
+            if (subjectFilter.isBlocked()) {
+                client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", subjectFilter.getMessage())));
+                return;
+            } else if (subjectFilter.wasModified()) {
+                subject = subjectFilter.getMessage();
+            }
+        }
+
 
         final ForumSettings forumSettings = group.getForumComponent().getForumSettings();
 
@@ -122,6 +152,7 @@ public class PostMessageMessageEvent implements Event {
 
             // Send to client.
             client.send(new GroupForumPostReplyMessageComposer(groupId, threadId, reply));
+            client.getPlayer().setLastForumPost((int) Comet.getTime());
         }
     }
 }

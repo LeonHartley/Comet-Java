@@ -83,7 +83,6 @@ public class GroupForumDataMessageComposer extends MessageComposer {
         msg.writeString("");//??
 
         msg.writeBoolean(this.group.getData().getOwnerId() == this.playerId);
-        msg.writeBoolean(this.group.getData().getOwnerId() == this.playerId);
-//        msg.writeBoolean(true); // is staff?
+        msg.writeBoolean(this.group.getData().getOwnerId() == this.playerId); // TODO: Allow staff to control forums too.
     }
 }
