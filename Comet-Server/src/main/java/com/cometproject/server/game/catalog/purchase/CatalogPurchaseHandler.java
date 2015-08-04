@@ -281,7 +281,7 @@ public class CatalogPurchaseHandler {
                         return;
                     }
 
-                    extraData = data;
+                    extraData = data + "~" + client.getPlayer().getData().getUsername() + "~" + DateTime.now().getDayOfMonth() + "-" + DateTime.now().getMonthOfYear() + "-" + DateTime.now().getYear();
                 } else if (def.getInteraction().equals("group_forum")) {
                     if (data.isEmpty() || !StringUtils.isNumeric(data)) return;
 

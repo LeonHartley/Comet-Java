@@ -116,10 +116,24 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
             msg.writeInt(2);
             msg.writeInt(4);
 
+            String badge;
+            String name = "";
+            String date = "";
+
+            if(extraData.contains("~")) {
+                String[] data = extraData.split("~");
+
+                badge = data[0];
+                name = data[1];
+                date = data[2];
+            } else {
+                badge = this.getExtraData();
+            }
+
             msg.writeString("0");
-            msg.writeString(extraData);
-            msg.writeString("");
-            msg.writeString("");
+            msg.writeString(badge);
+            msg.writeString(name); // creator
+            msg.writeString(date); // date
         } else if (this.getDefinition().getInteraction().equals("lovelock")) {
             final String[] loveLockData = this.getExtraData().split(String.valueOf((char) 5));
             msg.writeInt(0);

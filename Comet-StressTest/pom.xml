@@ -7,12 +7,12 @@
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>
-        <version>0.20.2-ALPHA3</version>
+        <version>0.21.1-EXPERIMENTAL1</version>
     </parent>
 
     <groupId>Comet</groupId>
     <artifactId>Comet-StressTest</artifactId>
-    <version>0.20.2-ALPHA3</version>
+    <version>0.21.1-EXPERIMENTAL1</version>
     <packaging>jar</packaging>
 
     <build>
@@ -95,19 +95,19 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-API</artifactId>
-            <version>0.20.2-ALPHA3</version>
+            <version>0.21.1-EXPERIMENTAL1</version>
         </dependency>
 
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-Server-Protocol</artifactId>
-            <version>0.20.2-ALPHA3</version>
+            <version>0.21.1-EXPERIMENTAL1</version>
         </dependency>
 
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-Server</artifactId>
-            <version>0.20.2-ALPHA3</version>
+            <version>0.21.1-EXPERIMENTAL1</version>
         </dependency>
     </dependencies>
 
