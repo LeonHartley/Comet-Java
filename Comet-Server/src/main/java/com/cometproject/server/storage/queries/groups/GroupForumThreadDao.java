@@ -92,7 +92,7 @@ public class GroupForumThreadDao {
             resultSet = preparedStatement.getGeneratedKeys();
 
             while (resultSet.next()) {
-                return new ForumThread(resultSet.getInt(1), title, message, authorId, time, 0, false, false);
+                return new ForumThread(resultSet.getInt(1), title, message, authorId, time, 1, false, false);
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

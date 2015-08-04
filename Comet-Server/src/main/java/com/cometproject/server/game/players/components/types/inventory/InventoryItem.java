@@ -112,10 +112,24 @@ public class InventoryItem {
         if (this.getDefinition().getInteraction().equals("badge_display") && !isGift) {
             msg.writeInt(4);
 
+            String badge;
+            String name = "";
+            String date = "";
+
+            if(this.getExtraData().contains("~")) {
+                String[] data = this.getExtraData().split("~");
+
+                badge = data[0];
+                name = data[1];
+                date = data[2];
+            } else {
+                badge = this.getExtraData();
+            }
+
             msg.writeString("0");
-            msg.writeString(this.getExtraData());
-            msg.writeString(""); // creator
-            msg.writeString(""); // date
+            msg.writeString(badge);
+            msg.writeString(name); // creator
+            msg.writeString(date); // date
         } else if (!isGroupItem) {
             msg.writeString(!isGift && !isWired ? this.getExtraData() : "");
         }

@@ -1,6 +1,10 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 04/08/2015
+* Group Forums
+* Badge displays will now show the creation date & username.
+
 ## 31/07/2015
 * Fixed room auth issue causing players who are teleporting to enter a locked room.
 
