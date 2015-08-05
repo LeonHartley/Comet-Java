@@ -23,6 +23,10 @@ public class UseWallItemMessageEvent implements Event {
 
         int requestData = msg.readInt();
 
+        if(!client.getPlayer().getEntity().isVisible()) {
+            return;
+        }
+
         item.onInteract(client.getPlayer().getEntity(), requestData, false);
     }
 }

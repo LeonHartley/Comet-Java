@@ -19,6 +19,11 @@ public class UserBadgesMessageEvent implements Event {
         if (client.getPlayer().getEntity() == null)
             return;
 
+
+        if(!client.getPlayer().getEntity().isVisible()) {
+            return;
+        }
+
         PlayerEntity playerEntity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPlayerId(userId);
 
         if (playerEntity != null) {

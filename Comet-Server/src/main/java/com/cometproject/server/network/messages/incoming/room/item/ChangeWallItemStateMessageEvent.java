@@ -17,6 +17,10 @@ public class ChangeWallItemStateMessageEvent implements Event {
             return;
         }
 
+        if(!client.getPlayer().getEntity().isVisible()) {
+            return;
+        }
+
         item.onInteract(client.getPlayer().getEntity(), 0, false);
     }
 }

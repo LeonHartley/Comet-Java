@@ -12,6 +12,10 @@ public class SitMessageEvent implements Event {
         if (client.getPlayer().getEntity() != null) {
             PlayerEntity playerEntity = client.getPlayer().getEntity();
 
+            if(!client.getPlayer().getEntity().isVisible()) {
+                return;
+            }
+
             if (!playerEntity.hasStatus(RoomEntityStatus.SIT)) {
                 double height = 0.5;
 

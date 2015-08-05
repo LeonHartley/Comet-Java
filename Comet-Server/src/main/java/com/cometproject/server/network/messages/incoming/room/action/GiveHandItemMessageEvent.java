@@ -15,6 +15,10 @@ public class GiveHandItemMessageEvent implements Event {
             return;
         }
 
+        if(!client.getPlayer().getEntity().isVisible()) {
+            return;
+        }
+
         PlayerEntity providerEntity = client.getPlayer().getEntity();
         PlayerEntity receivingEntity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPlayerId(userId);
 

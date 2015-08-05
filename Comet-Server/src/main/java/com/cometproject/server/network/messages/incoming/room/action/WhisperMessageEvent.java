@@ -27,6 +27,10 @@ public class WhisperMessageEvent implements Event {
             return;
         }
 
+        if(!client.getPlayer().getEntity().isVisible()) {
+            return;
+        }
+
         final Room room = client.getPlayer().getEntity().getRoom();
 
         GenericEntity userTo = room.getEntities().getEntityByName(user, RoomEntityType.PLAYER);

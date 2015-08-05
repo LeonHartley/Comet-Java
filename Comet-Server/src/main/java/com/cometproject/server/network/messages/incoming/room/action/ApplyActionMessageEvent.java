@@ -22,6 +22,10 @@ public class ApplyActionMessageEvent implements Event {
                 client.getPlayer().getQuests().progressQuest(QuestType.SOCIAL_WAVE);
             }
 
+            if(!client.getPlayer().getEntity().isVisible()) {
+                return;
+            }
+
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new ActionMessageComposer(client.getPlayer().getEntity().getId(), actionId));
         }
     }

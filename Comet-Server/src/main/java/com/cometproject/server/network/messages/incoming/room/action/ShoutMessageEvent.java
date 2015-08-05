@@ -28,6 +28,9 @@ public class ShoutMessageEvent implements Event {
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null)
             return;
 
+        if(!client.getPlayer().getEntity().isVisible()) {
+            return;
+        }
 
         if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
             FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);

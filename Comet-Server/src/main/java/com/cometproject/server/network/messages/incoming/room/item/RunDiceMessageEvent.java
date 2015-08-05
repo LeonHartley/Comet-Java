@@ -22,6 +22,10 @@ public class RunDiceMessageEvent implements Event {
             return;
         }
 
+        if(!client.getPlayer().getEntity().isVisible()) {
+            return;
+        }
+
         item.onInteract(client.getPlayer().getEntity(), -1, false);
     }
 }

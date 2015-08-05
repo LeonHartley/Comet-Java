@@ -10,6 +10,10 @@ public class DropHandItemMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         if (client.getPlayer() == null || client.getPlayer().getEntity() == null) return;
 
+        if(!client.getPlayer().getEntity().isVisible()) {
+            return;
+        }
+
         client.getPlayer().getEntity().carryItem(0);
     }
 }

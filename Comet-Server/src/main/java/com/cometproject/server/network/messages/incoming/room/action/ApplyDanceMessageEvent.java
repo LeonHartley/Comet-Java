@@ -17,6 +17,10 @@ public class ApplyDanceMessageEvent implements Event {
 
         client.getPlayer().getEntity().unIdle();
 
+        if(!client.getPlayer().getEntity().isVisible()) {
+            return;
+        }
+
         client.getPlayer().getEntity().setDanceId(danceId);
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new DanceMessageComposer(client.getPlayer().getEntity().getId(), danceId));
 
