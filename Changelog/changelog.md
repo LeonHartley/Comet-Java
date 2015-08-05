@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 05/08/2015
+* Room queue & spectator mode
+
 ## 04/08/2015
 * Group Forums
 * Badge displays will now show the creation date & username.
