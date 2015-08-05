@@ -3,7 +3,7 @@ Features
 * SWF update
 * ~~Achievements~~
 * Rewrite teleports
-* Group Forum (Not complete, needs finishing)
+* ~~Group Forum~~
 * More Wired
     - wf_act_flee
     - Scoreboard
@@ -14,7 +14,7 @@ Features
 * Pets (Basics done, just gotta do the cool stuff like horses and monster plants. Oh and breeding!)
 * Helper Tool 
 * Talents
-* Room queue/spectator
+* ~~Room queue/spectator~~
 * Habbo palooza (Plot renting)
 * Habbo Club
 * Builders Club
