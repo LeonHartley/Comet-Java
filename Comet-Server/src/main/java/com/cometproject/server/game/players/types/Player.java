@@ -7,8 +7,8 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
-import com.cometproject.server.game.quests.types.Quest;
 import com.cometproject.server.game.quests.QuestManager;
+import com.cometproject.server.game.quests.types.Quest;
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -228,7 +228,7 @@ public class Player implements IPlayer {
             }
         }
 
-        if(!this.enteredRooms.contains(id) && !this.rooms.contains(id)) {
+        if (!this.enteredRooms.contains(id) && !this.rooms.contains(id)) {
             this.getAchievements().progressAchievement(AchievementType.ROOM_ENTRY, 1);
             this.enteredRooms.add(id);
         }
@@ -542,5 +542,30 @@ public class Player implements IPlayer {
 
     public void setLastForumPost(int lastForumPost) {
         this.lastForumPost = lastForumPost;
+    }
+
+    private int roomQueueId = 0;
+    private int spectatorRoomId = 0;
+
+    public boolean hasQueued(int id) {
+        if (roomQueueId == id) return true;
+
+        return false;
+    }
+
+    public void setRoomQueueId(int id) {
+        this.roomQueueId = id;
+    }
+
+    public boolean isSpectating(int id) {
+        if(this.spectatorRoomId == id) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void setSpectatorRoomId(int id) {
+        this.spectatorRoomId = id;
     }
 }

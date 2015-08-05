@@ -223,6 +223,7 @@ public class Events {
     public static final short GetForumsMessageEvent = 3264;
     public static final short HideMessageMessageEvent = 2903;
     public static final short ReportForumPostMessageEvent = 1525;
+    public static final short SpectateRoomMessageEvent = 3223;
 
     private static Map<Short, String> eventPacketNames = new HashMap<>();
 

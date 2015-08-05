@@ -70,7 +70,8 @@ public class AddUserToRoomMessageEvent implements Event {
 
         client.sendQueue(new AvatarsMessageComposer(room));
 
-        room.getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
+        if(client.getPlayer().getEntity().isVisible())
+            room.getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
 
         if (room.getEntities().getAllEntities().size() > 0)
             client.sendQueue(new AvatarUpdateMessageComposer(room.getEntities().getAllEntities().values()));
@@ -100,14 +101,6 @@ public class AddUserToRoomMessageEvent implements Event {
         client.sendQueue(new WallItemsMessageComposer(client.getPlayer().getEntity().getRoom()));
 
         WiredTriggerEnterRoom.executeTriggers(client.getPlayer().getEntity());
-
-//        if(room.getItems().getSoundMachine() != null) {
-//            SoundMachineFloorItem soundMachineFloorItem = room.getItems().getSoundMachine();
-//
-//            if(soundMachineFloorItem.getState()) {
-//                client.send(soundMachineFloorItem.getComposer());
-//            }
-//        }
 
         client.flush();
 
