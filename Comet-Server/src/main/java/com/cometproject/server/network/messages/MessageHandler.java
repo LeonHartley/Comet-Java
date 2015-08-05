@@ -48,6 +48,7 @@ import com.cometproject.server.network.messages.incoming.quests.OpenQuestsMessag
 import com.cometproject.server.network.messages.incoming.quests.StartQuestMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.AnswerDoorbellMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.access.LoadRoomByDoorBellMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.access.SpectateRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.action.*;
 import com.cometproject.server.network.messages.incoming.room.bots.BotConfigMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMessageEvent;
@@ -296,6 +297,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.UnignoreUserMessageEvent, new UnignoreUserMessageEvent());
         this.getMessages().put(Events.RemoveOwnRightsMessageEvent, new RemoveOwnRightsMessageEvent());
         this.getMessages().put(Events.SitMessageEvent, new SitMessageEvent());
+        this.getMessages().put(Events.SpectateRoomMessageEvent, new SpectateRoomMessageEvent());
     }
 
     public void registerRoomTrade() {

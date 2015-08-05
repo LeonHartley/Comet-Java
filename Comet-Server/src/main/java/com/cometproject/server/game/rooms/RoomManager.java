@@ -38,6 +38,8 @@ public class RoomManager implements Initializable {
 
     private Map<Integer, RoomPromotion> roomPromotions;
 
+    private Map<Integer, List<Integer>> roomQueues;
+
     private Map<String, StaticRoomModel> models;
     private WordFilter filterManager;
 
@@ -57,6 +59,7 @@ public class RoomManager implements Initializable {
         this.loadedRoomInstances = new ConcurrentHashMap<>();
         this.unloadingRoomInstances = new ConcurrentHashMap<>();
         this.roomPromotions = new ConcurrentHashMap<>();
+        this.roomQueues = new ConcurrentHashMap<>();
 
         this.emotions = new ChatEmotionsManager();
         this.filterManager = new WordFilter();
@@ -315,5 +318,9 @@ public class RoomManager implements Initializable {
 
     public Map<Integer, RoomPromotion> getRoomPromotions() {
         return roomPromotions;
+    }
+
+    public Map<Integer, List<Integer>> getRoomQueues() {
+        return roomQueues;
     }
 }

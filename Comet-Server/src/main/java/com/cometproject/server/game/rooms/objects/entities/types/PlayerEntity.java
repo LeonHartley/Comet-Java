@@ -13,6 +13,7 @@ import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.RoomQueue;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.PlayerEntityAccess;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
@@ -24,6 +25,7 @@ import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
+import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
@@ -34,12 +36,16 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMe
 import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreSpectatorMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.queue.RoomQueueStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.utilities.attributes.Attributable;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
@@ -64,6 +70,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     private GameTeam gameTeam = GameTeam.NONE;
     private int kickWalkStage = 0;
 
+    private boolean isQueueing = false;
+
     private int banzaiPlayerAchievement = 0;
 
     public PlayerEntity(Player player, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
@@ -85,6 +93,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     @Override
     public void joinRoom(Room room, String password) {
         boolean isAuthFailed = false;
+        boolean isSpectating = this.getPlayer().isSpectating(room.getId());
 
         if (this.getRoom() == null) {
             this.getPlayer().getSession().send(new HotelViewMessageComposer());
@@ -92,8 +101,17 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         // Room full, no slot available
-        if (!isAuthFailed && this.getPlayerId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() &&
+        if (!isSpectating && !this.getPlayer().hasQueued(room.getId()) && !isAuthFailed && this.getPlayerId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() &&
                 !this.getPlayer().getPermissions().getRank().roomEnterFull()) {
+
+            if(RoomQueue.getInstance().hasQueue(room.getId())) {
+                RoomQueue.getInstance().addPlayerToQueue(room.getId(), this.playerId);
+
+                this.isQueueing = true;
+                this.getPlayer().getSession().send(new RoomQueueStatusMessageComposer(RoomQueue.getInstance().getQueueCount(room.getId(), this.playerId)));
+                return;
+            }
+
             this.getPlayer().getSession().send(new RoomConnectionErrorMessageComposer(1, ""));
             this.getPlayer().getSession().send(new HotelViewMessageComposer());
             isAuthFailed = true;
@@ -141,6 +159,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.getPlayer().setTeleportId(0);
         this.getPlayer().setTeleportRoomId(0);
 
+        this.getPlayer().setRoomQueueId(0);
+
         if (isAuthFailed) {
             return;
         }
@@ -175,8 +195,15 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         session.send(new AccessLevelMessageComposer(accessLevel));
 
-        if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.getPlayer().getPermissions().getRank().roomFullControl()) {
-            session.send(new YouAreControllerMessageComposer());
+        boolean isSpectating = this.getPlayer().isSpectating(this.getRoom().getId());
+
+        if(isSpectating) {
+            session.send(new YouAreSpectatorMessageComposer());
+            this.updateVisibility(false);
+        } else {
+            if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.getPlayer().getPermissions().getRank().roomFullControl()) {
+                session.send(new YouAreControllerMessageComposer());
+            }
         }
 
         session.send(new RoomRatingMessageComposer(this.getRoom().getData().getScore(), this.canRateRoom()));
@@ -191,6 +218,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         this.isFinalized = true;
+        this.getPlayer().setSpectatorRoomId(0);
     }
 
     public boolean canRateRoom() {
@@ -199,6 +227,29 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
+        if(this.isQueueing) {
+            RoomQueue.getInstance().removePlayerFromQueue(this.getRoom().getId(), this.playerId);
+        }
+
+        try {
+            if (RoomQueue.getInstance().hasQueue(this.getRoom().getId()) && !this.isQueueing) {
+                int nextPlayer = RoomQueue.getInstance().getNextPlayer(this.getRoom().getId());
+
+                RoomQueue.getInstance().removePlayerFromQueue(this.getRoom().getId(), nextPlayer);
+                Session nextPlayerSession = NetworkManager.getInstance().getSessions().getByPlayerId(nextPlayer);
+
+                if (nextPlayerSession != null) {
+                    nextPlayerSession.getPlayer().setRoomQueueId(this.getRoom().getId());
+
+                    if(nextPlayerSession.getPlayer().getEntity() != null && nextPlayerSession.getPlayer().getEntity().getRoom().getId() == this.getRoom().getId()) {
+                        nextPlayerSession.send(new RoomForwardMessageComposer(this.getRoom().getId()));
+                    }
+                }
+            }
+        } catch(Exception ignored) {
+
+        }
+
         for (BotEntity entity : this.getRoom().getEntities().getBotEntities()) {
             if (entity.getAI().onPlayerLeave(this)) break;
         }
