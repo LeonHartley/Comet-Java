@@ -22,7 +22,7 @@ public class TalkMessageEvent implements Event {
 
         PlayerEntity playerEntity = client.getPlayer().getEntity();
 
-        if (playerEntity == null || playerEntity.getRoom() == null || playerEntity.getRoom().getEntities() == null)
+        if (playerEntity == null || playerEntity.getRoom() == null || playerEntity.getRoom().getEntities() == null || !playerEntity.isVisible())
             return;
 
         if (!TalkMessageEvent.isValidColour(colour, client))

@@ -16,6 +16,10 @@ public class LookToMessageEvent implements Event {
             return;
         }
 
+        if(!client.getPlayer().getEntity().isVisible()) {
+            return;
+        }
+
         int x = msg.readInt();
         int y = msg.readInt();
 

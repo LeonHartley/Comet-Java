@@ -23,6 +23,8 @@ public class WalkMessageEvent implements Event {
 
             PlayerEntity entity = client.getPlayer().getEntity();
 
+            if(!entity.isVisible()) return;
+
             if (goalX == entity.getPosition().getX() && goalY == entity.getPosition().getY()) {
                 return;
             }

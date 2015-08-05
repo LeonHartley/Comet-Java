@@ -11,6 +11,10 @@ public class StopTypingMessageEvent implements Event {
         if (client.getPlayer() == null || client.getPlayer().getEntity() == null)
             return;
 
+        if(!client.getPlayer().getEntity().isVisible()) {
+            return;
+        }
+
         client.getPlayer().getEntity().unIdle();
         client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new TypingStatusMessageComposer(client.getPlayer().getEntity().getId(), 0));
     }

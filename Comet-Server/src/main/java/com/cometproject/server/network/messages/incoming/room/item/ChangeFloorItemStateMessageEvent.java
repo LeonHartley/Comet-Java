@@ -24,6 +24,10 @@ public class ChangeFloorItemStateMessageEvent implements Event {
             return;
         }
 
+        if(!client.getPlayer().getEntity().isVisible()) {
+            return;
+        }
+
         Room room = client.getPlayer().getEntity().getRoom();
 
         RoomItemFloor item = room.getItems().getFloorItem(itemId);

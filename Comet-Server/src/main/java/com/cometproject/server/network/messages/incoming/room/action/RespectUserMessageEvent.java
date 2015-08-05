@@ -19,6 +19,10 @@ public class RespectUserMessageEvent implements Event {
             return;
         }
 
+        if(!client.getPlayer().getEntity().isVisible()) {
+            return;
+        }
+
         Session user = NetworkManager.getInstance().getSessions().getByPlayerId(respect);
 
         if (client.getPlayer() == null || client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
