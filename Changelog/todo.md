@@ -39,6 +39,7 @@ Improvements
 * Expand on the module API
 * Allow wf_act_give_reward to remove rewards (such as coins/diamonds)
 * Restructure server_config table 
+* Check potential issues with trading
 
 Commands
 ==================
