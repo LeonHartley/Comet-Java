@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 07/08/2015
+* Made some changes to trade that should improve reliability.
+
 ## 05/08/2015
 * Room queue & spectator mode
 
