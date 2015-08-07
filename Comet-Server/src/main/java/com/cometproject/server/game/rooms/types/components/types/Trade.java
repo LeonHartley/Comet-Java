@@ -129,7 +129,6 @@ public class Trade {
             }
         }
 
-
         if (user1 != null && user1.getPlayer() != null) {
             this.sendToUsers(new TradeAcceptUpdateMessageComposer(user1.getPlayer().getId(), false));
             this.user1Accepted = false;
@@ -249,15 +248,11 @@ public class Trade {
      * Complete the trade, provide each of the items within the trade to the users
      */
     public void complete() {
+        // confirm the items still exist before making any permanent changes.
         for (InventoryItem item : this.user1Items) {
             if (user1.getPlayer().getInventory().getItem(item.getId()) == null) {
                 sendToUsers(new AlertMessageComposer(Locale.get("game.trade.error")));
                 return;
-            } else {
-                user1.getPlayer().getInventory().removeItem(item);
-                user2.getPlayer().getInventory().addItem(item);
-
-                TradeDao.updateTradeItems(user2.getPlayer().getId(), item.getId());
             }
         }
 
@@ -265,12 +260,21 @@ public class Trade {
             if (user2.getPlayer().getInventory().getItem(item.getId()) == null) {
                 sendToUsers(new AlertMessageComposer(Locale.get("game.trade.error")));
                 return;
-            } else {
-                user2.getPlayer().getInventory().removeItem(item);
-                user1.getPlayer().getInventory().addItem(item);
-
-                TradeDao.updateTradeItems(user1.getPlayer().getId(), item.getId());
             }
+        }
+
+        for (InventoryItem item : this.user1Items) {
+            user1.getPlayer().getInventory().removeItem(item);
+            user2.getPlayer().getInventory().addItem(item);
+
+            TradeDao.updateTradeItems(user2.getPlayer().getId(), item.getId());
+        }
+
+        for (InventoryItem item : this.user2Items) {
+            user2.getPlayer().getInventory().removeItem(item);
+            user1.getPlayer().getInventory().addItem(item);
+
+            TradeDao.updateTradeItems(user1.getPlayer().getId(), item.getId());
         }
 
         user1.getPlayer().getSession().send(new UnseenItemsMessageComposer(user2Items));
