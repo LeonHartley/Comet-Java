@@ -1,6 +1,9 @@
 Comet Pre-1.0 Changelog
 =======================
 
+## 08/08/2015
+* Fixed some small changes to gifts that should improve security.
+
 ## 07/08/2015
 * Made some changes to trade that should improve reliability.
 
