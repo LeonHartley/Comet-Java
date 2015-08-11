@@ -181,7 +181,8 @@ public class RoomItemFactory {
             try {
                 floorItem = new GiftFloorItem(id, baseId, room, ownerId, x, y, height, rot, data);
             } catch (Exception e) {
-                floorItem = new GenericFloorItem(id, baseId, room, ownerId, x, y, height, rot, "");
+                return null;
+//                floorItem = new GenericFloorItem(id, baseId, room, ownerId, x, y, height, rot, "");
             }
         } else {
             if (itemDefinitionMap.containsKey(def.getInteraction())) {

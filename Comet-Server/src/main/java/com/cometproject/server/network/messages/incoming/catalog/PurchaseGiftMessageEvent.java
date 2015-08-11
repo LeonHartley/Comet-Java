@@ -23,6 +23,11 @@ public class PurchaseGiftMessageEvent implements Event {
         int decorationType = msg.readInt();
         boolean showUsername = msg.readBoolean();
 
+        if(!CatalogManager.getInstance().getGiftBoxesNew().contains(spriteId) && !CatalogManager.getInstance().getGiftBoxesOld().contains(spriteId)) {
+            client.disconnect();
+            return;
+        }
+
         GiftData data = new GiftData(pageId, itemId, client.getPlayer().getId(), sendingUser, message, spriteId, wrappingPaper, decorationType, showUsername, extraData);
 
         CatalogManager.getInstance().getPurchaseHandler().purchaseItem(client, pageId, itemId, extraData, 1, data);

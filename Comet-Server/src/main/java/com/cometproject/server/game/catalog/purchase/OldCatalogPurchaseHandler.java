@@ -6,6 +6,7 @@ import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
+import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
@@ -48,11 +49,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class CatalogPurchaseHandler {
-    private final Logger log = Logger.getLogger(CatalogPurchaseHandler.class.getName());
+public class OldCatalogPurchaseHandler {
+    private final Logger log = Logger.getLogger(OldCatalogPurchaseHandler.class.getName());
     private final ExecutorService executorService;
 
-    public CatalogPurchaseHandler() {
+    public OldCatalogPurchaseHandler() {
         this.executorService = Executors.newFixedThreadPool(8);
     }
 
@@ -100,11 +101,15 @@ public class CatalogPurchaseHandler {
             CatalogItem item;
 
             try {
-                if (pageId > 0) {
-                    item = CatalogManager.getInstance().getPage(pageId).getItems().get(itemId);
-                } else {
-                    item = CatalogManager.getInstance().getCatalogItemByItemId(itemId);
+                CatalogPage page = CatalogManager.getInstance().getCatalogPageByCatalogItemId(itemId);
+
+                if(page.getMinRank() > client.getPlayer().getData().getRank() || !page.getItems().containsKey(itemId)) {
+                    //y u do dis.
+                    client.disconnect();
+                    return;
                 }
+
+                item = page.getItems().get(itemId);
             } catch (Exception e) {
                 return;
             }
@@ -116,6 +121,10 @@ public class CatalogPurchaseHandler {
             if (giftData != null) {
                 try {
                     final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
+
+                    if(itemDefinition == null) {
+                        return;
+                    }
 
                     if (itemDefinition != null && !itemDefinition.canGift()) {
                         return;
