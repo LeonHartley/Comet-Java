@@ -80,7 +80,7 @@ public class LoadProfileMessageComposer extends MessageComposer {
                 msg.writeString(group.getData().getColourB());
                 msg.writeBoolean(player.getFavouriteGroup() == groupId);
                 msg.writeInt(-1);
-                msg.writeBoolean(false); // has forum
+                msg.writeBoolean(group.getData().hasForum());
             }
         }
 

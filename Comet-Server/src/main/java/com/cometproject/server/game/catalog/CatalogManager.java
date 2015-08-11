@@ -1,6 +1,6 @@
 package com.cometproject.server.game.catalog;
 
-import com.cometproject.server.game.catalog.purchase.CatalogPurchaseHandler;
+import com.cometproject.server.game.catalog.purchase.OldCatalogPurchaseHandler;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogOffer;
 import com.cometproject.server.game.catalog.types.CatalogPage;
@@ -47,7 +47,7 @@ public class CatalogManager implements Initializable {
     /**
      * The handler of everything catalog-purchase related
      */
-    private CatalogPurchaseHandler purchaseHandler;
+    private OldCatalogPurchaseHandler purchaseHandler;
 
     /**
      * The logger for the catalog manager
@@ -66,7 +66,7 @@ public class CatalogManager implements Initializable {
         this.pages = new ListOrderedMap<>();
         this.catalogItemIdToPageId = new HashMap<>();
 
-        this.purchaseHandler = new CatalogPurchaseHandler();
+        this.purchaseHandler = new OldCatalogPurchaseHandler();
 
         this.loadPages();
         this.loadGiftBoxes();
@@ -156,6 +156,14 @@ public class CatalogManager implements Initializable {
         return page.getItems().get(offer.getCatalogItemId());
     }
 
+    public CatalogPage getCatalogPageByCatalogItemId(int id) {
+        if(!this.catalogItemIdToPageId.containsKey(id)) {
+            return null;
+        }
+
+        return this.pages.get(this.catalogItemIdToPageId.get(id));
+    }
+
     public CatalogItem getCatalogItemByItemId(int itemId) {
         if (!this.catalogItemIdToPageId.containsKey(itemId)) {
             return null;
@@ -202,7 +210,7 @@ public class CatalogManager implements Initializable {
      *
      * @return The catalog page handler
      */
-    public CatalogPurchaseHandler getPurchaseHandler() {
+    public OldCatalogPurchaseHandler getPurchaseHandler() {
         return purchaseHandler;
     }
 

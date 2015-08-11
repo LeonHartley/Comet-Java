@@ -21,10 +21,14 @@ public class ShutdownHook {
                 Comet.isRunning = false;
 
                 ItemStorageQueue.getInstance().shutdown();
+
+                log.info("Resetting statistics");
                 StatisticsDao.saveStatistics(0, 0, Comet.getBuild());
 
-                if (LogManager.ENABLED)
+                if (LogManager.ENABLED) {
+                    log.info("Updating room entry data");
                     LogQueries.updateRoomEntries();
+                }
 
                 log.info("Closing all database connections");
                 StorageManager.getInstance().getConnections().shutdown();
