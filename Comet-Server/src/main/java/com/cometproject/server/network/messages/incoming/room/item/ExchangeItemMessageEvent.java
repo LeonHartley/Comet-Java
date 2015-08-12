@@ -36,6 +36,10 @@ public class ExchangeItemMessageEvent implements Event {
         int value;
         boolean isDiamond = false;
 
+        if(!item.getDefinition().getItemName().startsWith("CF_")) {
+            return;
+        }
+
         if (item.getDefinition().getItemName().contains("_diamond_")) {
             isDiamond = true;
             value = Integer.parseInt(item.getDefinition().getItemName().split("_diamond_")[1]);
