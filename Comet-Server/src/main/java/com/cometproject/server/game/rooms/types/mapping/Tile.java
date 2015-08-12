@@ -10,6 +10,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
+import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
 import java.util.*;
 
@@ -43,7 +44,7 @@ public class Tile {
     public Tile(RoomMapping mappingInstance, Position position) {
         this.mappingInstance = mappingInstance;
         this.position = position;
-        this.entities = new HashSet<>();
+        this.entities = new ConcurrentHashSet<>();
         this.items = new ArrayList<>(); // maybe change this in the future..
 
         this.reload();
