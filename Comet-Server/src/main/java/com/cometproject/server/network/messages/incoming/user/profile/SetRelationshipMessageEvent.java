@@ -13,6 +13,10 @@ public class SetRelationshipMessageEvent implements Event {
         int user = msg.readInt();
         int level = msg.readInt();
 
+        if(client.getPlayer().getMessenger().getFriendById(user) == null) {
+            return;
+        }
+
         RelationshipComponent relationships = client.getPlayer().getRelationships();
 
         if (level == 0) {

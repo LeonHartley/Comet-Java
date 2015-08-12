@@ -77,7 +77,7 @@ public class Player implements IPlayer {
     private int lastRoomId;
     private int lastGift = 0;
 
-    private int lastRoomCreated;
+    private int lastRoomCreated = 0;
 
     public boolean cancelPageOpen = false;
     private boolean isDeletingGroup = false;
@@ -567,5 +567,13 @@ public class Player implements IPlayer {
 
     public void setSpectatorRoomId(int id) {
         this.spectatorRoomId = id;
+    }
+
+    public int getLastRoomCreated() {
+        return lastRoomCreated;
+    }
+
+    public void setLastRoomCreated(int lastRoomCreated) {
+        this.lastRoomCreated = lastRoomCreated;
     }
 }

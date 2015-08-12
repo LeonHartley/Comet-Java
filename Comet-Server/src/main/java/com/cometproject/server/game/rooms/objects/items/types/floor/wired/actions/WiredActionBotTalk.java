@@ -61,6 +61,8 @@ public class WiredActionBotTalk extends WiredActionItem {
             message = message.replace("%username%", entity.getUsername());
         }
 
+        message = message.replace("<", "").replace(">", "");
+
         final BotEntity botEntity = this.getRoom().getBots().getBotByName(botName);
 
         if (botEntity != null) {
