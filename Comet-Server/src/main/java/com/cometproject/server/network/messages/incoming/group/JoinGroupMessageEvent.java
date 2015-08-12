@@ -23,6 +23,10 @@ public class JoinGroupMessageEvent implements Event {
             return;
         }
 
+        if(client.getPlayer().getGroups().size() >= 100) {
+            return;
+        }
+
         Group group = GroupManager.getInstance().get(groupId);
 
         if (group == null || group.getData().getType() == GroupType.PRIVATE) {
