@@ -45,7 +45,6 @@ import com.cometproject.server.network.messages.outgoing.room.permissions.YouAre
 import com.cometproject.server.network.messages.outgoing.room.queue.RoomQueueStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.sessions.Session;
-import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.utilities.attributes.Attributable;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
@@ -104,7 +103,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         if (!isSpectating && !this.getPlayer().hasQueued(room.getId()) && !isAuthFailed && this.getPlayerId() != this.getRoom().getData().getOwnerId() && this.getRoom().getEntities().playerCount() >= this.getRoom().getData().getMaxUsers() &&
                 !this.getPlayer().getPermissions().getRank().roomEnterFull()) {
 
-            if(RoomQueue.getInstance().hasQueue(room.getId())) {
+            if (RoomQueue.getInstance().hasQueue(room.getId())) {
                 RoomQueue.getInstance().addPlayerToQueue(room.getId(), this.playerId);
 
                 this.isQueueing = true;
@@ -197,7 +196,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         boolean isSpectating = this.getPlayer().isSpectating(this.getRoom().getId());
 
-        if(isSpectating) {
+        if (isSpectating) {
             session.send(new YouAreSpectatorMessageComposer());
             this.updateVisibility(false);
         } else {
@@ -227,7 +226,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void leaveRoom(boolean isOffline, boolean isKick, boolean toHotelView) {
-        if(this.isQueueing) {
+        if (this.isQueueing) {
             RoomQueue.getInstance().removePlayerFromQueue(this.getRoom().getId(), this.playerId);
         }
 
@@ -241,12 +240,12 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 if (nextPlayerSession != null) {
                     nextPlayerSession.getPlayer().setRoomQueueId(this.getRoom().getId());
 
-                    if(nextPlayerSession.getPlayer().getEntity() != null && nextPlayerSession.getPlayer().getEntity().getRoom().getId() == this.getRoom().getId()) {
+                    if (nextPlayerSession.getPlayer().getEntity() != null && nextPlayerSession.getPlayer().getEntity().getRoom().getId() == this.getRoom().getId()) {
                         nextPlayerSession.send(new RoomForwardMessageComposer(this.getRoom().getId()));
                     }
                 }
             }
-        } catch(Exception ignored) {
+        } catch (Exception ignored) {
 
         }
 
@@ -432,7 +431,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 LogManager.getInstance().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
         }
 
-        if(this.getPlayer() != null) {
+        if (this.getPlayer() != null) {
             // De-reference things
             this.getPlayer().setEntity(null);
             this.player = null;

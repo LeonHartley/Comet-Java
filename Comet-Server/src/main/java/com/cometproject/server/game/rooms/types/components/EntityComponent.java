@@ -13,6 +13,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
+import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -305,13 +306,23 @@ public class EntityComponent {
     }
 
     public int playerCount() {
-        int count = 0;
+        List<Integer> countedEntities = Lists.newArrayList();
 
-        for(GenericEntity entity : this.entities.values()) {
-            if(entity instanceof PlayerEntity && entity.isVisible()) count++;
+        try {
+            for (GenericEntity entity : this.entities.values()) {
+                if (entity instanceof PlayerEntity && entity.isVisible()) {
+                    if(!countedEntities.contains(((PlayerEntity) entity).getPlayerId())) {
+                        countedEntities.add(((PlayerEntity) entity).getPlayerId());
+                    }
+                }
+            }
+
+            return countedEntities.size();
+        } catch(Exception e) {
+            return 0;
+        } finally {
+            countedEntities.clear();
         }
-
-        return count;
     }
 
     public int realPlayerCount() {
