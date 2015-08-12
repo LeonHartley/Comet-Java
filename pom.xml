@@ -9,7 +9,7 @@
 
     <packaging>pom</packaging>
 
-    <version>0.21.2-EXPERIMENTAL2</version>
+    <version>0.21.2-EXPERIMENTAL3</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

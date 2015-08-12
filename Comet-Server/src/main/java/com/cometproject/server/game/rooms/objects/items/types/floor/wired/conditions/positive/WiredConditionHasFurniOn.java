@@ -33,7 +33,13 @@ public class WiredConditionHasFurniOn extends WiredConditionItem {
 
     @Override
     public boolean evaluate(GenericEntity entity, Object data) {
-        final int mode = this.getWiredData().getParams().get(PARAM_MODE);
+        int mode;
+
+        try {
+            mode = this.getWiredData().getParams().get(PARAM_MODE);
+        } catch (Exception e) {
+            mode = 0;
+        }
 
         int selectedItemsWithFurni = 0;
 
