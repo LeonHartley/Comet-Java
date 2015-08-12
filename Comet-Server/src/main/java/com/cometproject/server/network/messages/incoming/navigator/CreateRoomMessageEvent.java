@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.navigator;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.navigator.CreateRoomMessageComposer;
@@ -17,6 +18,14 @@ public class CreateRoomMessageEvent implements Event {
         int maxVisitors = msg.readInt();
         int tradeState = msg.readInt();
 
+        if(client.getPlayer().getRooms().size() >= 100) {
+            return;
+        }
+
+        if(((int) Comet.getTime()) - client.getPlayer().getLastRoomCreated() < 60) {
+            return;
+        }
+
         if (RoomManager.getInstance().getModel(model) == null) {
             client.send(new MotdNotificationComposer("Invalid room model"));
             return;
@@ -24,5 +33,7 @@ public class CreateRoomMessageEvent implements Event {
 
         int roomId = RoomManager.getInstance().createRoom(name, description, model, category, maxVisitors, tradeState, client);
         client.send(new CreateRoomMessageComposer(roomId, name));
+
+        client.getPlayer().setLastRoomCreated((int) Comet.getTime());
     }
 }
