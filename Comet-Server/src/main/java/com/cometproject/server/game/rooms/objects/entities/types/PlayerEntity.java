@@ -91,6 +91,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void joinRoom(Room room, String password) {
+        if(this.isFinalized()) return;
+
         boolean isAuthFailed = false;
         boolean isSpectating = this.getPlayer().isSpectating(room.getId());
 

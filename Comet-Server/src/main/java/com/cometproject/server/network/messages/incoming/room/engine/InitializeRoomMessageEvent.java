@@ -16,6 +16,21 @@ public class InitializeRoomMessageEvent implements Event {
         int id = msg.readInt();
         String password = msg.readString();
 
+        if(client.getPlayer() == null) {
+            return;
+        }
+
+        if(System.currentTimeMillis() - client.getPlayer().getLastRoomRequest() < 500) {
+            return;
+        }
+
+        if(client.getPlayer().getEntity() != null) {
+            if(!client.getPlayer().getEntity().isFinalized()) {
+                return;
+            }
+        }
+
+        client.getPlayer().setLastRoomRequest(System.currentTimeMillis());
         RoomManager.getInstance().initializeRoom(client, id, password);
     }
 }
