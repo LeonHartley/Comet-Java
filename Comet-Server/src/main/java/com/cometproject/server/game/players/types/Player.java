@@ -63,6 +63,8 @@ public class Player implements IPlayer {
     private double roomFloodTime = 0;
     private int lastForumPost = 0;
 
+    private long lastRoomRequest = 0;
+
     private int roomFloodFlag = 0;
     private long messengerLastMessageTime = 0;
     private double messengerFloodTime = 0;
@@ -575,5 +577,13 @@ public class Player implements IPlayer {
 
     public void setLastRoomCreated(int lastRoomCreated) {
         this.lastRoomCreated = lastRoomCreated;
+    }
+
+    public long getLastRoomRequest() {
+        return lastRoomRequest;
+    }
+
+    public void setLastRoomRequest(long lastRoomRequest) {
+        this.lastRoomRequest = lastRoomRequest;
     }
 }
