@@ -10,7 +10,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: Comet:Comet-API:0.21.2-EXPERIMENTAL3" level="project" />
+    <orderEntry type="module" module-name="Comet-API" />
     <orderEntry type="library" name="Maven: com.sparkjava:spark-core:2.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-server:9.0.2.v20130417" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-webapp:9.0.2.v20130417" level="project" />
