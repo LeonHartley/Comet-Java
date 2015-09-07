@@ -106,6 +106,8 @@ public class PostMessageMessageEvent implements Event {
 
             group.getForumComponent().getForumThreads().put(forumThread.getId(), forumThread);
             client.send(new GroupForumPostThreadMessageComposer(groupId, forumThread));
+
+            client.getPlayer().setLastForumPost((int) Comet.getTime());
         } else {
             boolean permissionToPost = true;
 
