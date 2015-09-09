@@ -4,7 +4,7 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
-public class EntityGridCommand extends ChatCommand {
+public class RoomGridCommand extends ChatCommand {
     @Override
     public void execute(Session client, String[] params) {
         client.send(new AdvancedAlertMessageComposer("Item Grid", client.getPlayer().getEntity().getRoom().getMapping().visualiseEntityGrid()));

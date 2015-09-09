@@ -36,7 +36,6 @@ import com.cometproject.server.game.commands.vip.*;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.CommandLogEntry;
-import com.cometproject.server.logging.entries.RoomChatLogEntry;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.utilities.Initializable;
 import com.google.common.collect.Lists;
@@ -94,7 +93,7 @@ public class CommandManager implements Initializable {
         }
 
         this.commands.put("instancestats", new InstanceStatsCommand());
-        this.commands.put("itemgrid", new EntityGridCommand());
+        this.commands.put("roomgrid", new RoomGridCommand());
         this.commands.put("processtimes", new ProcessTimesCommand());
         this.commands.put("markisafaggot", new FastProcessCommand());
     }
