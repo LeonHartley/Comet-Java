@@ -196,7 +196,7 @@ public class RoomMapping {
                     break;
 
                 case 7:
-                    left = this.getTile(to.squareBehind(0));
+                    left = this.getTile(to.squareBehind(rotation - 1));
                     right = this.getTile(from.squareInFront(rotation - 1));
                     break;
             }
