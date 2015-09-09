@@ -21,6 +21,7 @@ public class Tile {
 
     private RoomEntityMovementNode movementNode;
     private RoomTileStatusType status;
+    private RoomTileState state;
 
     private boolean canStack;
 
@@ -66,8 +67,10 @@ public class Tile {
 
         if (this.mappingInstance.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()] == null) {
             this.canPlaceItemHere = false;
+            this.state = RoomTileState.INVALID;
         } else {
             this.canPlaceItemHere = this.mappingInstance.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()].equals(RoomTileState.VALID);
+            this.state = this.mappingInstance.getModel().getSquareState()[this.getPosition().getX()][this.getPosition().getY()];
         }
 
         // component item is an item that can be used along with an item that overrides the height.
@@ -324,5 +327,9 @@ public class Tile {
 
     public boolean hasAdjustableHeight() {
         return hasAdjustableHeight;
+    }
+
+    public RoomTileState getState() {
+        return state;
     }
 }
