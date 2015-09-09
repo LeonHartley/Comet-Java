@@ -29,7 +29,11 @@ public class RoomQueue {
     }
 
     public void addQueue(int roomId, int startingPlayer) {
-        this.roomQueues.put(roomId, new ArrayList<>(startingPlayer));
+        this.roomQueues.put(roomId, startingPlayer == 0 ? new ArrayList<>() : new ArrayList<>(startingPlayer));
+    }
+
+    public void removeQueue(int roomId) {
+        this.roomQueues.remove(roomId);
     }
 
     public void removePlayerFromQueue(int roomId, Integer playerId) {

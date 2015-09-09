@@ -37,7 +37,7 @@ public class RoomWriter {
         RoomPromotion promotion = RoomManager.getInstance().getRoomPromotions().get(room.getId());
         Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
 
-        composeRoomSpecials(msg, promotion, group);
+        composeRoomSpecials(msg, promotion, group, room.getType());
     }
 
     public static void entryData(RoomData room, IComposer msg, boolean isLoading, boolean checkEntry, boolean skipAuth) {
@@ -63,7 +63,7 @@ public class RoomWriter {
         msg.writeInt(room.getAntiFloodSettings());
     }
 
-    public static void composeRoomSpecials(IComposer msg, RoomPromotion promotion, Group group) {
+    public static void composeRoomSpecials(IComposer msg, RoomPromotion promotion, Group group, RoomType roomType) {
         boolean composeGroup = group != null && group.getData() != null;
         boolean composePromo = promotion != null;
 
@@ -74,7 +74,11 @@ public class RoomWriter {
         } else if (composePromo) {
             msg.writeInt(60);
         } else {
-            msg.writeInt(56);
+            if (roomType == RoomType.PUBLIC) {
+                msg.writeInt(64);
+            } else {
+                msg.writeInt(56);
+            }
         }
 
         if (composeGroup) {

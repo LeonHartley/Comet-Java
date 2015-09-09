@@ -4,6 +4,7 @@ import com.cometproject.api.game.rooms.entities.IPlayerEntity;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.commands.CommandManager;
 import com.cometproject.server.game.commands.vip.TransformCommand;
 import com.cometproject.server.game.groups.GroupManager;
@@ -220,6 +221,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         this.isFinalized = true;
         this.getPlayer().setSpectatorRoomId(0);
+        this.getPlayer().getAchievements().progressAchievement(AchievementType.ROOM_ENTRY, 1);
     }
 
     public boolean canRateRoom() {

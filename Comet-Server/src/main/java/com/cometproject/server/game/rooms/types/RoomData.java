@@ -24,6 +24,8 @@ import java.util.Map;
 
 public class RoomData implements IRoomData {
     private int id;
+    private RoomType type;
+
     private String name;
     private String description;
     private int ownerId;
@@ -66,6 +68,7 @@ public class RoomData implements IRoomData {
 
     public RoomData(ResultSet room) throws SQLException {
         this.id = room.getInt("id");
+        this.type = RoomType.valueOf(room.getString("type"));
         this.name = room.getString("name");
         this.description = room.getString("description");
         this.ownerId = room.getInt("owner_id");
@@ -84,7 +87,7 @@ public class RoomData implements IRoomData {
 
         this.score = room.getInt("score");
 
-        this.tags = room.getString("tags").split(",");
+        this.tags = room.getString("tags").isEmpty() ? new String[0] : room.getString("tags").split(",");
         this.decorations = new HashMap<>();
 
         String[] decorations = room.getString("decorations").split(",");
@@ -392,5 +395,13 @@ public class RoomData implements IRoomData {
     @Override
     public List<String> getDisabledCommands() {
         return this.disabledCommands;
+    }
+
+    public RoomType getType() {
+        return type;
+    }
+
+    public void setType(RoomType type) {
+        this.type = type;
     }
 }

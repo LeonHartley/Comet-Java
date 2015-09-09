@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.engine;
 
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.RoomQueue;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.queue.RoomQueueStatusMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -24,7 +25,7 @@ public class InitializeRoomMessageEvent implements Event {
             return;
         }
 
-        if(client.getPlayer().getEntity() != null) {
+        if(client.getPlayer().getEntity() != null && !client.getPlayer().isSpectating(id) && !client.getPlayer().hasQueued(id)) {
             if(!client.getPlayer().getEntity().isFinalized()) {
                 return;
             }

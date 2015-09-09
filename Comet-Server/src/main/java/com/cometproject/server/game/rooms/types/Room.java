@@ -4,6 +4,7 @@ import com.cometproject.api.game.rooms.IRoom;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.RoomQueue;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.models.types.DynamicRoomModel;
@@ -97,6 +98,10 @@ public class Room implements Attributable, IRoom {
 
         this.setAttribute("loadTime", System.currentTimeMillis());
 
+        if(this.data.getType() == RoomType.PUBLIC) {
+            RoomQueue.getInstance().addQueue(this.getId(), 0);
+        }
+
         this.log.debug("Room loaded");
         return this;
     }
@@ -115,8 +120,11 @@ public class Room implements Attributable, IRoom {
         return false;
     }
 
+    private boolean forcedUnload = false;
+
     public void setIdleNow() {
         this.idleTicks = 600;
+        this.forcedUnload = true;
     }
 
     public void dispose() {
@@ -133,6 +141,14 @@ public class Room implements Attributable, IRoom {
         this.entities.dispose();
         this.items.dispose();
         this.bots.dispose();
+
+        if(this.data.getType() == RoomType.PUBLIC) {
+            RoomQueue.getInstance().removeQueue(this.getId());
+        }
+
+        if(this.forcedUnload) {
+            RoomManager.getInstance().removeData(this.getId());
+        }
 
         this.log.debug("Room has been disposed");
     }
