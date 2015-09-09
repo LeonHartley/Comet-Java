@@ -231,7 +231,6 @@ public class Player implements IPlayer {
         }
 
         if (!this.enteredRooms.contains(id) && !this.rooms.contains(id)) {
-            this.getAchievements().progressAchievement(AchievementType.ROOM_ENTRY, 1);
             this.enteredRooms.add(id);
         }
     }

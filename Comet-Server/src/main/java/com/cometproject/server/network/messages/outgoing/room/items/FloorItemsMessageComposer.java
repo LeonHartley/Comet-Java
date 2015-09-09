@@ -25,7 +25,6 @@ public class FloorItemsMessageComposer extends MessageComposer {
     @Override
     public void compose(IComposer msg) {
         if (room.getItems().getFloorItems().size() > 0) {
-
             if (room.getGroup() == null) {
                 msg.writeInt(1);
                 msg.writeInt(room.getData().getOwnerId());
