@@ -64,31 +64,32 @@ public class Player implements IPlayer {
     private int lastForumPost = 0;
 
     private long lastRoomRequest = 0;
+    private long lastBadgeUpdate = 0;
+    private int lastFigureUpdate = 0;
 
     private int roomFloodFlag = 0;
     private long messengerLastMessageTime = 0;
+
     private double messengerFloodTime = 0;
-
     private int messengerFloodFlag = 0;
-    private int teleportId = 0;
 
+    private int teleportId = 0;
     private int teleportRoomId = 0;
     private String lastMessage = "";
-    private int notifCooldown = 0;
 
+    private int notifCooldown = 0;
     private int lastRoomId;
+
     private int lastGift = 0;
 
     private int lastRoomCreated = 0;
-
     public boolean cancelPageOpen = false;
+
     private boolean isDeletingGroup = false;
 
     private long deletingGroupAttempt = 0;
 
     private boolean bypassRoomAuth;
-
-    private int lastFigureUpdate = 0;
 
     public boolean isDisposed = false;
 
@@ -116,7 +117,6 @@ public class Player implements IPlayer {
         this.pets = new PetComponent(this);
         this.quests = new QuestComponent(this);
         this.achievements = new AchievementComponent(this);
-
 
         this.groups = GroupDao.getIdsByPlayerId(this.id);
 
@@ -585,5 +585,13 @@ public class Player implements IPlayer {
 
     public void setLastRoomRequest(long lastRoomRequest) {
         this.lastRoomRequest = lastRoomRequest;
+    }
+
+    public long getLastBadgeUpdate() {
+        return lastBadgeUpdate;
+    }
+
+    public void setLastBadgeUpdate(long lastBadgeUpdate) {
+        this.lastBadgeUpdate = lastBadgeUpdate;
     }
 }

@@ -3,8 +3,8 @@ package com.cometproject.server.network.messages.incoming.user.profile;
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.user.profile.UserBadgesMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
 
 import java.util.Map;
@@ -15,9 +15,17 @@ public class WearBadgeMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) throws Exception {
         client.getPlayer().getInventory().resetBadgeSlots();
 
+
+        final long currentTimeMs = System.currentTimeMillis();
+        final long timeSinceLastUpdate = currentTimeMs - client.getPlayer().getLastBadgeUpdate();
+
+        if (timeSinceLastUpdate < 350) {
+            return;
+        }
+
         for (int i = 0; i < 5; i++) {
-            int slot = msg.readInt();
-            String badge = msg.readString();
+            final int slot = msg.readInt();
+            final String badge = msg.readString();
 
             if (badge.isEmpty()) {
                 continue;
@@ -41,5 +49,6 @@ public class WearBadgeMessageEvent implements Event {
         }
 
         client.getPlayer().getQuests().progressQuest(QuestType.PROFILE_BADGE);
+        client.getPlayer().setLastBadgeUpdate(currentTimeMs);
     }
 }

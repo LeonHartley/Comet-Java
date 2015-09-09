@@ -19,6 +19,11 @@ public class SetRelationshipMessageEvent implements Event {
 
         RelationshipComponent relationships = client.getPlayer().getRelationships();
 
+        if(relationships.getRelationships().size() >= 100) {
+            // TODO: Allow this to be configured.
+            return;
+        }
+
         if (level == 0) {
             RelationshipDao.deleteRelationship(client.getPlayer().getId(), user);
 
