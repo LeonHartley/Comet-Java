@@ -1,6 +1,8 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.ScoreboardItemData;
 import com.cometproject.server.game.rooms.types.Room;
@@ -11,21 +13,46 @@ import java.util.List;
 
 public class HighscoreClassicFloorItem extends RoomItemFloor {
 
+    private boolean state;
     private final ScoreboardItemData itemData;
 
     public HighscoreClassicFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
-        if(data.startsWith("{")) {
-            this.itemData = JsonFactory.getInstance().fromJson(data, ScoreboardItemData.class);
+        if(data.startsWith("1{") || data.startsWith("0{")) {
+            this.state = data.startsWith("1");
+            this.itemData = JsonFactory.getInstance().fromJson(data.substring(1), ScoreboardItemData.class);
         } else {
+            this.state = false;
             this.itemData = new ScoreboardItemData(1, 0, Lists.newArrayList());
         }
     }
 
     @Override
+    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+        if (!isWiredTrigger) {
+            if (!(entity instanceof PlayerEntity)) {
+                return false;
+            }
+
+            PlayerEntity pEntity = (PlayerEntity) entity;
+
+            if (!pEntity.getRoom().getRights().hasRights(pEntity.getPlayerId())
+                    && !pEntity.getPlayer().getPermissions().getRank().roomFullControl()) {
+                return false;
+            }
+        }
+
+        this.state = !this.state;
+
+        this.sendUpdate();
+        this.saveData();
+        return true;
+    }
+
+    @Override
     public String getDataObject() {
-        return JsonFactory.getInstance().toJson(this.itemData);
+        return (this.state ? "1" : "0") + JsonFactory.getInstance().toJson(this.itemData);
     }
 
     public void addEntry(List<String> users, int score) {
@@ -40,7 +67,7 @@ public class HighscoreClassicFloorItem extends RoomItemFloor {
     public void composeHighscoreData(IComposer msg) {
         msg.writeInt(6);
 
-        msg.writeString("1");
+        msg.writeString(this.state ? "1" : "0");
         msg.writeInt(this.getScoreData().getScoreType());
         msg.writeInt(this.getScoreData().getClearType());
 
