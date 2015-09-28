@@ -125,6 +125,11 @@ public class GroupManager implements Initializable {
      * @return Group instance
      */
     public Group get(int id) {
+        if(id == 0) {
+            // speed speed
+            return null;
+        }
+
         Group groupInstance = this.groupInstances.get(id);
 
         if (groupInstance != null)
