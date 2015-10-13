@@ -11,7 +11,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highsc
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameEnds;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerGameStarts;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.components.GameComponent;
 import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 import com.cometproject.server.game.rooms.types.components.games.GameType;
 import com.cometproject.server.game.rooms.types.components.games.RoomGame;
@@ -91,16 +90,16 @@ public class BanzaiGame extends RoomGame {
 
         final List<RoomItemFloor> scoreboards = this.room.getItems().getByClass(HighscoreClassicFloorItem.class);
 
-        if(scoreboards.size() != 0) {
+        if (scoreboards.size() != 0) {
             List<Integer> winningPlayers = this.room.getGame().getTeams().get(this.winningTeam());
             List<String> winningPlayerUsernames = Lists.newArrayList();
 
-            for(int playerId : winningPlayers) {
+            for (int playerId : winningPlayers) {
                 winningPlayerUsernames.add(this.room.getEntities().getEntityByPlayerId(playerId).getUsername());
             }
 
-            if(winningPlayerUsernames.size() != 0) {
-                for(RoomItemFloor scoreboard : scoreboards) {
+            if (winningPlayerUsernames.size() != 0) {
+                for (RoomItemFloor scoreboard : scoreboards) {
                     ((HighscoreClassicFloorItem) scoreboard).addEntry(winningPlayerUsernames, this.getScore(this.winningTeam()));
                 }
             }
