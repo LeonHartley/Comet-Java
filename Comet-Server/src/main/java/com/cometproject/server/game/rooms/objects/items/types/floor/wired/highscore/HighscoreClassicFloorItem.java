@@ -58,6 +58,8 @@ public class HighscoreClassicFloorItem extends RoomItemFloor {
     public void addEntry(List<String> users, int score) {
         this.itemData.addEntry(users, score);
         this.sendUpdate();
+
+        this.saveData();
     }
 
     public ScoreboardItemData getScoreData() {
@@ -71,9 +73,15 @@ public class HighscoreClassicFloorItem extends RoomItemFloor {
         msg.writeInt(this.getScoreData().getScoreType());
         msg.writeInt(this.getScoreData().getClearType());
 
-        msg.writeInt(this.getScoreData().getEntries().size());
+        msg.writeInt(this.getScoreData().getEntries().size() > 50 ? 50 : this.getScoreData().getEntries().size());
+
+        int x = 0;
 
         for(ScoreboardItemData.HighscoreEntry entry : this.getScoreData().getEntries()) {
+            x++;
+
+            if(x > 50) break;
+
             msg.writeInt(entry.getScore());
             msg.writeInt(entry.getUsers().size());
 

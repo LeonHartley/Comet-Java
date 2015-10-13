@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.data;
 
 import com.cometproject.server.utilities.comporators.HighscoreComparator;
+import com.google.common.collect.Lists;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +12,7 @@ public class ScoreboardItemData {
     private int scoreType;
     private int clearType;
 
-    private List<HighscoreEntry> entries;
+    private final List<HighscoreEntry> entries;
 
     public ScoreboardItemData(int scoreType, int clearType, List<HighscoreEntry> entries) {
         this.scoreType = scoreType;
@@ -24,9 +25,11 @@ public class ScoreboardItemData {
     }
 
     public void addEntry(List<String> users, int score) {
-        this.entries.add(new HighscoreEntry(users, score));
+        synchronized (this.entries) {
+            this.entries.add(new HighscoreEntry(users, score));
 
-        Collections.sort(this.entries, comparator);
+            Collections.sort(this.entries, comparator);
+        }
     }
 
     public int getScoreType() {
