@@ -89,7 +89,7 @@ public class SqlHelper {
     }
 
     public static void handleSqlException(SQLException e) {
-        if (e.getMessage().equals("Pool has been shutdown")) return;
+        if (e.getMessage().equals("Pool has been shutdown") || e.getMessage().contains("Data too long for column")) return;
         log.error("Error while executing query", e);
     }
 

@@ -13,10 +13,10 @@ import java.util.Map;
 
 
 public class CatalogPage {
-    private static final Type listType = new TypeToken<List<String>>() {
-    }.getType();
+    private static final Type listType = new TypeToken<List<String>>() {}.getType();
 
     private int id;
+    private CatalogPageType type;
     private String caption;
     private int icon;
     private int minRank;
@@ -30,6 +30,7 @@ public class CatalogPage {
     private List<String> texts;
 
     private Map<Integer, CatalogItem> items;
+    private String extraData;
 
     public CatalogPage(ResultSet data, Map<Integer, CatalogItem> items) throws SQLException {
 
@@ -40,6 +41,8 @@ public class CatalogPage {
         this.template = data.getString("page_layout");
         this.parentId = data.getInt("parent_id");
         this.linkName = data.getString("link");
+        this.type = CatalogPageType.valueOf(data.getString("type"));
+        this.extraData = data.getString("extra_data");
 
         if (data.getString("page_images") == null || data.getString("page_images").isEmpty()) {
             this.images = new ArrayList<>();
@@ -115,5 +118,13 @@ public class CatalogPage {
 
     public String getLinkName() {
         return linkName;
+    }
+
+    public String getExtraData() {
+        return extraData;
+    }
+
+    public CatalogPageType getType() {
+        return type;
     }
 }
