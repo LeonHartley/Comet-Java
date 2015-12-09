@@ -96,45 +96,74 @@ public class CatalogItem {
      * @throws SQLException
      */
     public CatalogItem(ResultSet data) throws Exception {
-        this.id = data.getInt("id");
-        this.itemId = data.getString("item_ids");
-        this.displayName = data.getString("catalog_name");
-        this.costCredits = data.getInt("cost_credits");
-        this.costActivityPoints = data.getInt("cost_pixels");
-        this.costOther = data.getInt("cost_snow");
-        this.amount = data.getInt("amount");
-        this.vip = data.getString("vip").equals("1");
-        this.limitedTotal = data.getInt("limited_stack");
-        this.limitedSells = data.getInt("limited_sells");
-        this.allowOffer = data.getString("offer_active").equals("1");
-        this.presetData = data.getString("extradata");
-        this.badgeId = data.getString("badge_id");
-        this.pageId = data.getInt("page_id");
+        this(
+                data.getInt("id"),
+                data.getString("item_ids"),
+                data.getString("catalog_name"),
+                data.getInt("cost_credits"),
+                data.getInt("cost_pixels"),
+                data.getInt("cost_snow"),
+                data.getInt("amount"),
+                data.getString("vip").equals("1"),
+                data.getInt("limited_stack"),
+                data.getInt("limited_sells"),
+                data.getString("offer_active").equals("1"),
+                data.getString("badge_id"),
+                data.getString("extradata"),
+                data.getInt("page_id"));
+    }
 
-        this.items = new ArrayList<>();
+    public CatalogItem(int id, String itemId, String displayName, int costCredits, int costActivityPoints, int costOther, int amount, boolean vip, int limitedTotal, int limitedSells, boolean allowOffer, String badgeId, String presetData, int pageId) {
+        this(id, itemId, null, displayName, costCredits, costActivityPoints, costOther, amount, vip, limitedTotal, limitedSells, allowOffer, badgeId, presetData, pageId);
+    }
 
-        if (!this.itemId.equals("-1")) {
-            if (itemId.contains(",")) {
-                String[] split = itemId.replace("\n", "").split(",");
+    public CatalogItem(int id, String itemId, List<CatalogBundledItem> bundledItems, String displayName, int costCredits, int costActivityPoints, int costOther, int amount, boolean vip, int limitedTotal, int limitedSells, boolean allowOffer, String badgeId, String presetData, int pageId) {
+        this.id = id;
+        this.itemId = itemId;
+        this.displayName = displayName;
+        this.costCredits = costCredits;
+        this.costActivityPoints = costActivityPoints;
+        this.costOther = costOther;
+        this.amount = amount;
+        this.vip = vip;
+        this.limitedTotal = limitedTotal;
+        this.limitedSells = limitedSells;
+        this.allowOffer = allowOffer;
+        this.badgeId = badgeId;
+        this.presetData = presetData;
+        this.pageId = pageId;
 
-                for (String str : split) {
-                    if (!str.equals("")) {
-                        String[] parts = str.split(":");
-                        if (parts.length != 3) continue;
+        this.items = bundledItems != null ? bundledItems : new ArrayList<>();
 
-                        try {
-                            final int itemId = Integer.parseInt(parts[0]);
-                            final int amount = Integer.parseInt(parts[1]);
-                            final String presetData = parts[2];
+        if (items.size() == 0) {
+            if (!this.itemId.equals("-1")) {
+                if (bundledItems != null) {
+                    items = bundledItems;
+                } else {
 
-                            this.items.add(new CatalogBundledItem(presetData, amount, itemId));
-                        } catch (Exception ignored) {
-                            Comet.getServer().getLogger().warn("Invalid item data for catalog item: " + this.id);
+                    if (itemId.contains(",")) {
+                        String[] split = itemId.replace("\n", "").split(",");
+
+                        for (String str : split) {
+                            if (!str.equals("")) {
+                                String[] parts = str.split(":");
+                                if (parts.length != 3) continue;
+
+                                try {
+                                    final int aItemId = Integer.parseInt(parts[0]);
+                                    final int aAmount = Integer.parseInt(parts[1]);
+                                    final String aPresetData = parts[2];
+
+                                    this.items.add(new CatalogBundledItem(aPresetData, aAmount, aItemId));
+                                } catch (Exception ignored) {
+                                    Comet.getServer().getLogger().warn("Invalid item data for catalog item: " + this.id);
+                                }
+                            }
                         }
+                    } else {
+                        this.items.add(new CatalogBundledItem(this.presetData, this.amount, Integer.valueOf(this.itemId)));
                     }
                 }
-            } else {
-                this.items.add(new CatalogBundledItem(this.presetData, this.amount, Integer.valueOf(this.itemId)));
             }
 
             if (this.getItems().size() == 0) return;
@@ -143,7 +172,8 @@ public class CatalogItem {
                 final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogBundledItem.getItemId());
 
                 if (itemDefinition == null) {
-                    throw new Exception("Invalid item data!");
+//                    throw new Exception("Invalid item data!");
+                    //idk bro..?
                 }
             }
 
@@ -151,7 +181,7 @@ public class CatalogItem {
             int offerId = ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()).getOfferId();
 
             if (!CatalogManager.getCatalogOffers().containsKey(offerId)) {
-                CatalogManager.getCatalogOffers().put(offerId, new CatalogOffer(offerId, data.getInt("page_id"), this.getId()));
+                CatalogManager.getCatalogOffers().put(offerId, new CatalogOffer(offerId, this.getPageId(), this.getId()));
             }
         }
     }
@@ -211,32 +241,6 @@ public class CatalogItem {
 
         msg.writeInt(0); // club level
         msg.writeBoolean(!(this.getLimitedTotal() > 0) && this.allowOffer());
-    }
-
-    public class CatalogBundledItem {
-
-        private final int itemId;
-        private final int amount;
-        private final String presetData;
-
-        public CatalogBundledItem(String presetData, int amount, int itemId) {
-            this.presetData = presetData;
-            this.amount = amount;
-            this.itemId = itemId;
-        }
-
-        public int getItemId() {
-            return itemId;
-        }
-
-        public int getAmount() {
-            return amount;
-        }
-
-        public String getPresetData() {
-            return presetData;
-        }
-
     }
 
     public int getId() {

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BundleDao {
-    public static void loadActiveBundles(Map<Integer, RoomBundle> bundles) {
+    public static void loadActiveBundles(Map<String, RoomBundle> bundles) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -41,7 +41,7 @@ public class BundleDao {
                             resultSet.getString("bundle_data"),
                             new TypeToken<ArrayList<RoomBundleItem>>() {}.getType());
 
-                    bundles.put(bundleId, new RoomBundle(bundleId, resultSet.getInt("room_id"), alias, roomModelData, bundleItems));
+                    bundles.put(alias, new RoomBundle(bundleId, resultSet.getInt("room_id"), alias, roomModelData, bundleItems));
                 } catch (Exception e) {
                     Comet.getServer().getLogger().warn("Failed to load room bundle with id: " + bundleId, e);
                 }
@@ -63,7 +63,7 @@ public class BundleDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("INSERT into room_bundles (alias, room_id, model_data, bundle_data) VALUES(?, ?, ?, ?);", sqlConnection, true);
+            preparedStatement = SqlHelper.prepare("REPLACE into room_bundles (alias, room_id, model_data, bundle_data) VALUES(?, ?, ?, ?);", sqlConnection, true);
 
             preparedStatement.setString(1, bundle.getAlias());
             preparedStatement.setInt(2, bundle.getRoomId());

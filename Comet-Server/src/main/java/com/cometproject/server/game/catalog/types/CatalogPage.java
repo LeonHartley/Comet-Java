@@ -1,13 +1,19 @@
 package com.cometproject.server.game.catalog.types;
 
 import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
+import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
+import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
 import com.cometproject.server.utilities.JsonFactory;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +63,37 @@ public class CatalogPage {
         }
 
         this.enabled = data.getString("enabled").equals("1");
-        this.items = items;
+
+        if(this.type == CatalogPageType.BUNDLE) {
+            String bundleAlias = this.extraData;
+
+            RoomBundle roomBundle = RoomBundleManager.getInstance().getBundle(bundleAlias);
+
+            if(roomBundle != null) {
+                List<CatalogBundledItem> bundledItems = new ArrayList<>();
+                Map<Integer, List<RoomBundleItem>> bundleItems = new HashMap<>();
+
+                for (RoomBundleItem bundleItem : roomBundle.getRoomBundleData()) {
+                    if (bundleItems.containsKey(bundleItem.getItemId())) {
+                        bundleItems.get(bundleItem.getItemId()).add(bundleItem);
+                    } else {
+                        bundleItems.put(bundleItem.getItemId(), Lists.newArrayList(bundleItem));
+                    }
+                }
+
+                for(Map.Entry<Integer, List<RoomBundleItem>> bundledItem : bundleItems.entrySet()) {
+                    bundledItems.add(new CatalogBundledItem("0", bundledItem.getValue().size(), bundledItem.getKey()));
+                }
+
+                final CatalogItem catalogItem = new CatalogItem(roomBundle.getId(), "-1", bundledItems, "single_bundle",
+                        20, 0, 0, 1, false, 0, 0, false, "", "", this.id);
+
+                this.items = new HashMap<>();
+                this.items.put(catalogItem.getId(), catalogItem);
+            }
+        } else {
+            this.items = items;
+        }
     }
 
     public int getOfferSize() {

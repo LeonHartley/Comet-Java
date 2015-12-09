@@ -7,6 +7,7 @@ import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.storage.queries.catalog.CatalogDao;
 import com.cometproject.server.utilities.Initializable;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.commons.collections4.map.ListOrderedMap;
 import org.apache.log4j.Logger;
 
@@ -23,6 +24,11 @@ public class CatalogManager implements Initializable {
      * The pages within the catalog
      */
     private Map<Integer, CatalogPage> pages;
+
+    /**
+     * The items within the catalog
+     */
+    private Map<Integer, CatalogItem> items;
 
     /**
      * The catalog item IDs to page IDs map
@@ -64,11 +70,13 @@ public class CatalogManager implements Initializable {
     @Override
     public void initialize() {
         this.pages = new ListOrderedMap<>();
+        this.items = new ListOrderedMap<>();
+
         this.catalogItemIdToPageId = new HashMap<>();
 
         this.purchaseHandler = new OldCatalogPurchaseHandler();
 
-        this.loadPages();
+        this.loadItemsAndPages();
         this.loadGiftBoxes();
 
         log.info("CatalogManager initialized");
@@ -84,7 +92,14 @@ public class CatalogManager implements Initializable {
     /**
      * Load all catalog pages
      */
-    public void loadPages() {
+    public void loadItemsAndPages() {
+        // todo: probably should do some syncing here or something.. if someone trys loading catalog when this method
+        // todo: is being executed, shit gonna happen bro
+
+        if(this.items.size() >= 1) {
+            this.items.clear();
+        }
+
         if (this.getPages().size() >= 1) {
             this.getPages().clear();
         }
@@ -98,9 +113,10 @@ public class CatalogManager implements Initializable {
         }
 
         try {
+            CatalogDao.getItems(this.items);
             CatalogDao.getPages(this.pages);
         } catch (Exception e) {
-            log.error("Error while loading catalog pages", e);
+            log.error("Error while loading catalog pages/items", e);
         }
 
         for (CatalogPage page : this.pages.values()) {
@@ -109,7 +125,7 @@ public class CatalogManager implements Initializable {
             }
         }
 
-        log.info("Loaded " + this.getPages().size() + " catalog pages and " + this.catalogItemIdToPageId.size() + " catalog items");
+        log.info("Loaded " + this.getPages().size() + " catalog pages and " + this.items.size() + " catalog items");
     }
 
     public void loadGiftBoxes() {
@@ -165,11 +181,23 @@ public class CatalogManager implements Initializable {
     }
 
     public CatalogItem getCatalogItemByItemId(int itemId) {
-        if (!this.catalogItemIdToPageId.containsKey(itemId)) {
+        if (!this.items.containsKey(itemId)) {
             return null;
         }
 
-        return this.pages.get(this.catalogItemIdToPageId.get(itemId)).getItems().get(itemId);
+        return this.items.get(itemId);
+    }
+
+    public Map<Integer, CatalogItem> getItemsForPage(int pageId) {
+        Map<Integer, CatalogItem> items = Maps.newHashMap();
+
+        for(Map.Entry<Integer, CatalogItem> catalogItem : this.items.entrySet()) {
+            if(catalogItem.getValue().getPageId() == pageId) {
+                items.put(catalogItem.getKey(), catalogItem.getValue());
+            }
+        }
+
+        return items;
     }
 
     /**

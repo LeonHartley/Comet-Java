@@ -66,6 +66,7 @@ public class CometServer {
         // TODO: Implement some sort of dependency injection so we don't need any of this crap!!
 
         PermissionsManager.getInstance().initialize();
+        RoomBundleManager.getInstance().initialize();
         ItemManager.getInstance().initialize();
         CatalogManager.getInstance().initialize();
         RoomManager.getInstance().initialize();
@@ -79,7 +80,6 @@ public class CometServer {
         PlayerManager.getInstance().initialize();
         QuestManager.getInstance().initialize();
         AchievementManager.getInstance().initialize();
-        RoomBundleManager.getInstance().initialize();
 
         String ipAddress = this.getConfig().get("comet.network.host"),
                 port = this.getConfig().get("comet.network.port");

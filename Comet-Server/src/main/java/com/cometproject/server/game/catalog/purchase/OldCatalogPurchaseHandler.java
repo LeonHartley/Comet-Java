@@ -1,12 +1,15 @@
 package com.cometproject.server.game.catalog.purchase;
 
+import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.catalog.CatalogManager;
+import com.cometproject.server.game.catalog.types.CatalogBundledItem;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
+import com.cometproject.server.game.catalog.types.CatalogPageType;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
@@ -18,7 +21,9 @@ import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
+import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoundMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.LimitedEditionSoldOutMessageComposer;
@@ -26,6 +31,7 @@ import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMess
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.settings.EnforceRoomCategoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
@@ -96,17 +102,21 @@ public class OldCatalogPurchaseHandler {
         }
 
         List<InventoryItem> unseenItems = new ArrayList<>();
+        CatalogPage page = CatalogManager.getInstance().getPage(pageId);
 
         try {
             CatalogItem item;
 
             try {
-                CatalogPage page = CatalogManager.getInstance().getCatalogPageByCatalogItemId(itemId);
+                if(page == null) {
+                    page = CatalogManager.getInstance().getCatalogPageByCatalogItemId(itemId);
 
-                if(page.getMinRank() > client.getPlayer().getData().getRank() || !page.getItems().containsKey(itemId)) {
-                    //y u do dis.
-                    client.disconnect();
-                    return;
+                    if (page.getMinRank() > client.getPlayer().getData().getRank() || !page.getItems().containsKey(itemId)) {
+                        //y u do dis.
+                        client.disconnect();
+                        return;
+                    }
+
                 }
 
                 item = page.getItems().get(itemId);
@@ -195,6 +205,17 @@ public class OldCatalogPurchaseHandler {
             client.getPlayer().sendBalance();
             client.getPlayer().getData().save();
 
+            if(page != null) {
+                if(page.getType() == CatalogPageType.BUNDLE) {
+//                    RoomBundle roomBundle = RoomBundleManager.getInstance().
+//
+
+                    client.send(new EnforceRoomCategoryMessageComposer());
+                    client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
+                    return;
+                }
+            }
+
             if (item.isBadgeOnly()) {
                 if (item.hasBadge()) {
                     client.getPlayer().getInventory().addBadge(item.getBadgeId(), true);
@@ -204,7 +225,7 @@ public class OldCatalogPurchaseHandler {
                 return;
             }
 
-            for (CatalogItem.CatalogBundledItem bundledItem : item.getItems()) {
+            for (CatalogBundledItem bundledItem : item.getItems()) {
                 ItemDefinition def = ItemManager.getInstance().getDefinition(bundledItem.getItemId());
                 if (def == null) {
                     continue;
