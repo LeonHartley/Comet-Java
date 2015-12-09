@@ -222,8 +222,10 @@ public class OldCatalogPurchaseHandler {
                         int newItemId = ItemDao.createItem(client.getPlayer().getId(), roomBundleItem.getItemId(), roomBundleItem.getExtraData());
 
                         if(roomBundleItem.getWallPosition() == null) {
-                            // TODO: ROTATION WTF!!!?!!?
-                            RoomItemDao.placeFloorItem(roomId, roomBundleItem.getX(), roomBundleItem.getY(), roomBundleItem.getZ(), 0, roomBundleItem.getExtraData(), newItemId);
+                            RoomItemDao.placeFloorItem(roomId, roomBundleItem.getX(), roomBundleItem.getY(), roomBundleItem.getZ(), roomBundleItem.getRotation(), roomBundleItem.getExtraData(), newItemId);
+                        } else {
+
+                            RoomItemDao.placeWallItem(roomId, roomBundleItem.getWallPosition(), roomBundleItem.getExtraData(), newItemId);
                         }
                     }
 
