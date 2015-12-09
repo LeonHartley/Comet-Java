@@ -192,6 +192,7 @@ public class CatalogItem {
         msg.writeInt(this.getId());
         msg.writeString(this.getDisplayName());
         msg.writeBoolean(false);
+
         msg.writeInt(this.getCostCredits());
 
         if (this.getCostOther() > 0) {

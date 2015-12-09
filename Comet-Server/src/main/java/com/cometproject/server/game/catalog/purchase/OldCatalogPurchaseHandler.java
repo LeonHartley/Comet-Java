@@ -1,5 +1,6 @@
 package com.cometproject.server.game.catalog.purchase;
 
+import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
@@ -21,16 +22,21 @@ import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
+import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
+import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoundMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.LimitedEditionSoldOutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.navigator.CreateRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.EnforceRoomCategoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
@@ -43,6 +49,7 @@ import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.items.TeleporterDao;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.JsonFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -207,11 +214,23 @@ public class OldCatalogPurchaseHandler {
 
             if(page != null) {
                 if(page.getType() == CatalogPageType.BUNDLE) {
-//                    RoomBundle roomBundle = RoomBundleManager.getInstance().
-//
+                    RoomBundle roomBundle = RoomBundleManager.getInstance().getBundle(page.getExtraData());
 
+                    int roomId = RoomManager.getInstance().createRoom(client.getPlayer().getData().getUsername() + "'s room", "", roomBundle.getRoomModelData(), 0, 20, 0, client);
+
+                    for(RoomBundleItem roomBundleItem : roomBundle.getRoomBundleData()) {
+                        int newItemId = ItemDao.createItem(client.getPlayer().getId(), roomBundleItem.getItemId(), roomBundleItem.getExtraData());
+
+                        if(roomBundleItem.getWallPosition() == null) {
+                            // TODO: ROTATION WTF!!!?!!?
+                            RoomItemDao.placeFloorItem(roomId, roomBundleItem.getX(), roomBundleItem.getY(), roomBundleItem.getZ(), 0, roomBundleItem.getExtraData(), newItemId);
+                        }
+                    }
+
+                    client.send(new RoomForwardMessageComposer(roomId));
                     client.send(new EnforceRoomCategoryMessageComposer());
                     client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
+                    client.getPlayer().setLastRoomCreated((int) Comet.getTime());
                     return;
                 }
             }

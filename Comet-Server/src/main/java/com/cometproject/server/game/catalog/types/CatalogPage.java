@@ -86,10 +86,12 @@ public class CatalogPage {
                 }
 
                 final CatalogItem catalogItem = new CatalogItem(roomBundle.getId(), "-1", bundledItems, "single_bundle",
-                        20, 0, 0, 1, false, 0, 0, false, "", "", this.id);
+                        roomBundle.getCostCredits(), roomBundle.getCostSeasonal(), roomBundle.getCostVip(), 1, false, 0, 0, false, "", "", this.id);
 
                 this.items = new HashMap<>();
                 this.items.put(catalogItem.getId(), catalogItem);
+            } else {
+                this.items = new HashMap<>();
             }
         } else {
             this.items = items;

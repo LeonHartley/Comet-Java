@@ -5,10 +5,13 @@ import com.cometproject.api.game.rooms.settings.RoomKickState;
 import com.cometproject.api.game.rooms.settings.RoomMuteState;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.rooms.models.CustomFloorMapData;
+import com.cometproject.server.game.rooms.models.types.DynamicRoomModel;
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.storage.SqlHelper;
+import com.cometproject.server.utilities.JsonFactory;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.map.ListOrderedMap;
 
@@ -153,6 +156,42 @@ public class RoomDao {
         }
 
         return rooms;
+    }
+
+    public static int createRoom(String name, CustomFloorMapData model, String description, int category, int maxVisitors, RoomTradeState tradeState, int userId, String username) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+            preparedStatement = SqlHelper.prepare("INSERT into rooms (`owner_id`, `owner`, `name`, `heightmap`, `description`, `category`, `max_users`, `trade_state`) VALUES(?, ?, ?, ?, ?, ?, ?, ?);", sqlConnection, true);
+
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setString(2, username);
+            preparedStatement.setString(3, name);
+            preparedStatement.setString(4, JsonFactory.getInstance().toJson(model));
+            preparedStatement.setString(5, description);
+            preparedStatement.setInt(6, category);
+            preparedStatement.setInt(7, maxVisitors);
+            preparedStatement.setString(8, tradeState.toString());
+
+            preparedStatement.execute();
+
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            while (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return 0;
     }
 
     public static int createRoom(String name, String model, String description, int category, int maxVisitors, RoomTradeState tradeState, int userId, String username) {
