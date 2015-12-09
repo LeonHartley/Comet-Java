@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.bundles.types;
 
+import com.cometproject.server.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.models.types.DynamicRoomModelData;
 
 import java.util.List;
@@ -8,15 +9,22 @@ public class RoomBundle {
     private int id;
     private int roomId;
     private String alias;
-    private DynamicRoomModelData roomModelData;
+    private CustomFloorMapData roomModelData;
     private List<RoomBundleItem> roomBundleData;
 
-    public RoomBundle(int id, int roomId, String alias, DynamicRoomModelData roomModel, List<RoomBundleItem> bundleData) {
+    private int costCredits;
+    private int costSeasonal;
+    private int costVip;
+
+    public RoomBundle(int id, int roomId, String alias, CustomFloorMapData roomModel, List<RoomBundleItem> bundleData, int costCredits, int costSeasonal, int costVip) {
         this.id = id;
         this.roomId = roomId;
         this.alias = alias;
         this.roomModelData = roomModel;
         this.roomBundleData = bundleData;
+        this.costCredits = costCredits;
+        this.costSeasonal = costSeasonal;
+        this.costVip = costVip;
     }
 
     public int getId() {
@@ -35,11 +43,11 @@ public class RoomBundle {
         this.alias = alias;
     }
 
-    public DynamicRoomModelData getRoomModelData() {
+    public CustomFloorMapData getRoomModelData() {
         return roomModelData;
     }
 
-    public void setRoomModelData(DynamicRoomModelData roomModelData) {
+    public void setRoomModelData(CustomFloorMapData roomModelData) {
         this.roomModelData = roomModelData;
     }
 
@@ -57,5 +65,29 @@ public class RoomBundle {
 
     public void setRoomId(int roomId) {
         this.roomId = roomId;
+    }
+
+    public int getCostCredits() {
+        return costCredits;
+    }
+
+    public void setCostCredits(int costCredits) {
+        this.costCredits = costCredits;
+    }
+
+    public int getCostSeasonal() {
+        return costSeasonal;
+    }
+
+    public void setCostSeasonal(int costSeasonal) {
+        this.costSeasonal = costSeasonal;
+    }
+
+    public int getCostVip() {
+        return costVip;
+    }
+
+    public void setCostVip(int costVip) {
+        this.costVip = costVip;
     }
 }

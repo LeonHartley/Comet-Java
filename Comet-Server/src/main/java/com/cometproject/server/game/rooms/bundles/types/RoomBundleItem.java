@@ -6,16 +6,18 @@ public class RoomBundleItem {
     private int x;
     private int y;
     private double z;
+    private int rotation;
 
     private String wallPosition;
 
     private String extraData;
 
-    public RoomBundleItem(int itemId, int x, int y, double z, String wallPosition, String extraData) {
+    public RoomBundleItem(int itemId, int x, int y, double z, int rotation, String wallPosition, String extraData) {
         this.itemId = itemId;
         this.x = x;
         this.y = y;
         this.z = z;
+        this.rotation = rotation;
         this.extraData = extraData;
         this.wallPosition = wallPosition;
     }
@@ -62,5 +64,9 @@ public class RoomBundleItem {
 
     public String getWallPosition() {
         return wallPosition;
+    }
+
+    public int getRotation() {
+        return rotation;
     }
 }

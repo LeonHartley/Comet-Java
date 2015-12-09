@@ -6,7 +6,7 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
-import com.cometproject.server.game.rooms.models.types.DynamicRoomModelData;
+import com.cometproject.server.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
@@ -36,10 +36,9 @@ public class BundleCommand extends ChatCommand {
 
                 Room room = client.getPlayer().getEntity().getRoom();
 
-                DynamicRoomModelData modelData = new DynamicRoomModelData(
-                        room.getModel().getId(), room.getModel().getMap(),
-                        room.getModel().getDoorX(), room.getModel().getDoorY(), room.getModel().getDoorZ(),
-                        room.getModel().getDoorRotation(), room.getModel().getWallHeight());
+                CustomFloorMapData modelData = new CustomFloorMapData(
+                        room.getModel().getDoorX(), room.getModel().getDoorY(),
+                        room.getModel().getDoorRotation(), room.getModel().getMap(), room.getModel().getWallHeight());
 
                 List<RoomBundleItem> bundleItems = new ArrayList<>();
 
@@ -50,19 +49,19 @@ public class BundleCommand extends ChatCommand {
 
                     bundleItems.add(new RoomBundleItem(floorItem.getItemId(),
                             floorItem.getPosition().getX(), floorItem.getPosition().getY(),
-                            floorItem.getPosition().getZ(), null,
+                            floorItem.getPosition().getZ(), floorItem.getRotation(), null,
                             floorItem.getDataObject()
                     ));
                 }
 
                 for (RoomItemWall wallItem : room.getItems().getWallItems().values()) {
                     bundleItems.add(new RoomBundleItem(wallItem.getItemId(),
-                            -1, -1, -1, wallItem.getWallPosition(),
+                            -1, -1, -1, -1, wallItem.getWallPosition(),
                             wallItem.getExtraData()
                     ));
                 }
 
-                RoomBundle roomBundle = new RoomBundle(-1, room.getId(), alias, modelData, bundleItems);
+                RoomBundle roomBundle = new RoomBundle(-1, room.getId(), alias, modelData, bundleItems, 20, 0, 0);
                 BundleDao.saveBundle(roomBundle);
 
                 boolean updateCatalog = false;

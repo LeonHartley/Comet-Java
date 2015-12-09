@@ -3,6 +3,7 @@ package com.cometproject.server.storage.queries.rooms;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
+import com.cometproject.server.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.models.types.DynamicRoomModelData;
 import com.cometproject.server.storage.SqlHelper;
 import com.cometproject.server.utilities.JsonFactory;
@@ -34,14 +35,14 @@ public class BundleDao {
                 try {
                     final String alias = resultSet.getString("alias");
 
-                    final DynamicRoomModelData roomModelData = JsonFactory.getInstance().fromJson(
-                            resultSet.getString("model_data"), DynamicRoomModelData.class);
+                    final CustomFloorMapData roomModelData = JsonFactory.getInstance().fromJson(
+                            resultSet.getString("model_data"), CustomFloorMapData.class);
 
                     final List<RoomBundleItem> bundleItems = JsonFactory.getInstance().fromJson(
                             resultSet.getString("bundle_data"),
                             new TypeToken<ArrayList<RoomBundleItem>>() {}.getType());
 
-                    bundles.put(alias, new RoomBundle(bundleId, resultSet.getInt("room_id"), alias, roomModelData, bundleItems));
+                    bundles.put(alias, new RoomBundle(bundleId, resultSet.getInt("room_id"), alias, roomModelData, bundleItems, resultSet.getInt("cost_credits"), resultSet.getInt("cost_seasonal"), resultSet.getInt("cost_vip")));
                 } catch (Exception e) {
                     Comet.getServer().getLogger().warn("Failed to load room bundle with id: " + bundleId, e);
                 }
