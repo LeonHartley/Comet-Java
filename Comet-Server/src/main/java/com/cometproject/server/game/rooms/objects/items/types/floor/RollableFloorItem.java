@@ -150,9 +150,9 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         if (entity instanceof PlayerEntity) {
             this.playerEntity = (PlayerEntity) entity;
 
-            if (playerEntity.getBodyRotation() % 2 != 0) {
-                return false;
-            }
+//            if (playerEntity.getBodyRotation() % 2 != 0) {
+//                return false;
+//            }
         }
 
         this.isRolling = true;
