@@ -96,6 +96,8 @@ public class Player implements IPlayer {
 
     private long lastReward = 0;
 
+    private boolean invisible = false;
+
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
@@ -593,5 +595,13 @@ public class Player implements IPlayer {
 
     public void setLastBadgeUpdate(long lastBadgeUpdate) {
         this.lastBadgeUpdate = lastBadgeUpdate;
+    }
+
+    public boolean isInvisible() {
+        return invisible;
+    }
+
+    public void setInvisible(boolean invisible) {
+        this.invisible = invisible;
     }
 }

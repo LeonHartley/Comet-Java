@@ -16,6 +16,8 @@ public class InvisibleCommand extends ChatCommand {
         }
 
         client.send(new WhisperMessageComposer(client.getPlayer().getEntity().getId(), Locale.get("command.invisible." + (isVisible ? "disabled" : "enabled"))));
+
+        client.getPlayer().setInvisible(!isVisible);
         client.getPlayer().getEntity().updateVisibility(isVisible);
     }
 
