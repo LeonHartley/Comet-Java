@@ -63,6 +63,8 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     private GenericEntity mountedEntity;
 
+    private int privateChatItemId = 0;
+
     private Map<RoomEntityStatus, String> statuses = new HashMap<>();
 
     public GenericEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
@@ -599,5 +601,13 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     @Override
     public long getJoinTime() {
         return joinTime;
+    }
+
+    public int getPrivateChatItemId() {
+        return privateChatItemId;
+    }
+
+    public void setPrivateChatItemId(int privateChatItemId) {
+        this.privateChatItemId = privateChatItemId;
     }
 }
