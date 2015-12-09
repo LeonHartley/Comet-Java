@@ -208,6 +208,7 @@ public class Composers {
     public static final short ForumListMessageComposer = 3050;
     public static final short RoomQueueStatusMessageComposer = 2105;
     public static final short EnforceRoomCategoryMessageComposer = 298;
+    public static final short RoomMuteMessageComposer = 1065;
 
     private static Map<Short, String> composerPacketNames = new HashMap<>();
 

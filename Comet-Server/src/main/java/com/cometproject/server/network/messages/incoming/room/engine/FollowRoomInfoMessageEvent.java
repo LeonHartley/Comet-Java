@@ -28,7 +28,7 @@ public class FollowRoomInfoMessageEvent implements Event {
                 checkEntry = false;
             }
 
-            client.send(new FollowRoomDataMessageComposer(room.getData(), checkEntry));
+            client.send(new FollowRoomDataMessageComposer(room.getData(), checkEntry, room.getRights().hasRights(client.getPlayer().getId()) || client.getPlayer().getPermissions().getRank().roomFullControl()));
         }
     }
 }

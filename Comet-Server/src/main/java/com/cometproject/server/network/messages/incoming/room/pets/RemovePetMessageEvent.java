@@ -17,7 +17,9 @@ public class RemovePetMessageEvent implements Event {
         if (client.getPlayer() == null || client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null)
             return;
 
-        PetEntity entity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPetId(msg.readInt());
+        int petId = msg.readInt();
+
+        PetEntity entity = client.getPlayer().getEntity().getRoom().getEntities().getEntityByPetId(petId);
 
         if (entity == null) {
             return;
