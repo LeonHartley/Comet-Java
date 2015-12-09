@@ -40,7 +40,7 @@ public class RoomWriter {
         composeRoomSpecials(msg, promotion, group, room.getType());
     }
 
-    public static void entryData(RoomData room, IComposer msg, boolean isLoading, boolean checkEntry, boolean skipAuth) {
+    public static void entryData(RoomData room, IComposer msg, boolean isLoading, boolean checkEntry, boolean skipAuth, boolean canMute) {
         msg.writeBoolean(isLoading); // is loading
 
         write(room, msg, skipAuth);
@@ -48,13 +48,13 @@ public class RoomWriter {
         msg.writeBoolean(checkEntry); // check entry??
         msg.writeBoolean(NavigatorManager.getInstance().isFeatured(room.getId()));
         msg.writeBoolean(false); // ??
-        msg.writeBoolean(false); // ??
+        msg.writeBoolean(RoomManager.getInstance().isActive(room.getId()) && RoomManager.getInstance().get(room.getId()).hasRoomMute());
 
         msg.writeInt(room.getMuteState().getState());
         msg.writeInt(room.getKickState().getState());
         msg.writeInt(room.getBanState().getState());
 
-        msg.writeBoolean(false); // room muting
+        msg.writeBoolean(canMute); // room muting
 
         msg.writeInt(room.getBubbleMode());
         msg.writeInt(room.getBubbleType());

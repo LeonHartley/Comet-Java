@@ -250,10 +250,6 @@ public class WiredActionGiveReward extends WiredActionItem {
         else
             this.rewards.clear();
 
-        if (rewardTimings.containsKey(this.getId())) {
-            rewardTimings.get(this.getId()).clear();
-        }
-
         final String[] data = this.getWiredData().getText().split(";");
 
         for (String reward : data) {

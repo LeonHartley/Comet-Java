@@ -10,15 +10,18 @@ import com.cometproject.server.protocol.headers.Composers;
 public class RoomDataMessageComposer extends MessageComposer {
     private final Room room;
     private final boolean checkEntry;
+    private final boolean canMute;
 
-    public RoomDataMessageComposer(final Room room, boolean checkEntry) {
+    public RoomDataMessageComposer(final Room room, boolean checkEntry, boolean canMute) {
         this.room = room;
         this.checkEntry = checkEntry;
+        this.canMute = canMute;
     }
 
     public RoomDataMessageComposer(final Room room) {
         this.room = room;
         this.checkEntry = true;
+        this.canMute = false;
     }
 
     @Override
@@ -28,6 +31,6 @@ public class RoomDataMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        RoomWriter.entryData(room.getData(), msg, true, this.checkEntry, false);
+        RoomWriter.entryData(room.getData(), msg, true, this.checkEntry, false, this.canMute);
     }
 }
