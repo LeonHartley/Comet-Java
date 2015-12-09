@@ -1,6 +1,7 @@
 package com.cometproject.server.storage.queries.catalog;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.CatalogItem;
 import com.cometproject.server.game.catalog.types.CatalogPage;
 import com.cometproject.server.storage.SqlHelper;
@@ -28,8 +29,10 @@ public class CatalogDao {
 
             while (resultSet.next()) {
                 try {
-                    pages.put(resultSet.getInt("id"), new CatalogPage(resultSet, getItemsByPage(resultSet.getInt("id"))));
+                    int pageId = resultSet.getInt("id");
+                    pages.put(pageId, new CatalogPage(resultSet, CatalogManager.getInstance().getItemsForPage(pageId)));
                 } catch (Exception exception) {
+                    exception.printStackTrace();
                     Comet.getServer().getLogger().warn("Failed to load catalog page: " + resultSet.getInt("id"));
                 }
             }
@@ -41,6 +44,42 @@ public class CatalogDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+    public static void getItems(Map<Integer, CatalogItem> items) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT * FROM catalog_items", sqlConnection);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                try {
+                    final CatalogItem catalogItem = new CatalogItem(resultSet);
+
+                    if (!catalogItem.getItemId().equals("-1") && catalogItem.getItems().size() == 0) {
+                        Comet.getServer().getLogger().warn(String.format("Catalog Item with ID: %s and name: %s has invalid item data! (Data: %s)", catalogItem.getId(), catalogItem.getDisplayName(), catalogItem.getItemId()));
+                        continue;
+                    }
+
+                    items.put(resultSet.getInt("id"), catalogItem);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                    Comet.getServer().getLogger().warn("Failed to load catalog item: " + resultSet.getInt("id"));
+                }
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
 
     private static Map<Integer, CatalogItem> getItemsByPage(int pageId) {
         Connection sqlConnection = null;

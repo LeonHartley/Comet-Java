@@ -81,7 +81,7 @@ public class ConsoleCommands {
                                     break;
 
                                 case "/reload_catalog":
-                                    CatalogManager.getInstance().loadPages();
+                                    CatalogManager.getInstance().loadItemsAndPages();
                                     CatalogManager.getInstance().loadGiftBoxes();
                                     log.info("Catalog cache was reloaded.");
                                     break;

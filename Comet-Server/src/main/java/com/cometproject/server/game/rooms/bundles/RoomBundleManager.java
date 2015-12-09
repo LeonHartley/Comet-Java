@@ -11,14 +11,14 @@ public class RoomBundleManager {
     private static RoomBundleManager roomBundleManager;
     private static Logger log = Logger.getLogger(RoomBundleManager.class.getName());
 
-    private Map<Integer, RoomBundle> bundles;
+    private Map<String, RoomBundle> bundles;
 
     public RoomBundleManager() {
         this.bundles = new ConcurrentHashMap<>();
     }
 
     public void initialize() {
-        if(this.bundles.size() != 0) {
+        if (this.bundles.size() != 0) {
             this.bundles.clear();
         }
 
@@ -29,15 +29,19 @@ public class RoomBundleManager {
     }
 
     public void addBundle(RoomBundle bundle) {
-        this.bundles.put(bundle.getId(), bundle);
+        if (this.bundles.containsKey(bundle.getAlias())) {
+            this.bundles.replace(bundle.getAlias(), bundle);
+        } else {
+            this.bundles.put(bundle.getAlias(), bundle);
+        }
     }
 
-    public RoomBundle getBundle(int id) {
-        return this.bundles.get(id);
+    public RoomBundle getBundle(String alias) {
+        return this.bundles.get(alias);
     }
 
     public static RoomBundleManager getInstance() {
-        if(roomBundleManager == null) {
+        if (roomBundleManager == null) {
             roomBundleManager = new RoomBundleManager();
         }
 

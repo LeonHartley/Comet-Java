@@ -1,7 +1,9 @@
 package com.cometproject.server.game.commands.staff.bundles;
 
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
 import com.cometproject.server.game.rooms.models.types.DynamicRoomModelData;
@@ -9,6 +11,8 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.rooms.BundleDao;
@@ -60,6 +64,20 @@ public class BundleCommand extends ChatCommand {
 
                 RoomBundle roomBundle = new RoomBundle(-1, room.getId(), alias, modelData, bundleItems);
                 BundleDao.saveBundle(roomBundle);
+
+                boolean updateCatalog = false;
+
+                if(RoomBundleManager.getInstance().getBundle(alias) != null) {
+                    updateCatalog = true;
+                }
+
+                RoomBundleManager.getInstance().addBundle(roomBundle);
+
+                if(updateCatalog) {
+                    CatalogManager.getInstance().loadItemsAndPages();
+
+                    NetworkManager.getInstance().getSessions().broadcast(new CatalogPublishMessageComposer(true));
+                }
                 break;
             }
 

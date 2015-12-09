@@ -39,7 +39,7 @@ public class SystemRoutes {
                 break;
 
             case "catalog":
-                CatalogManager.getInstance().loadPages();
+                CatalogManager.getInstance().loadItemsAndPages();
                 CatalogManager.getInstance().loadGiftBoxes();
 
                 NetworkManager.getInstance().getSessions().broadcast(new CatalogPublishMessageComposer(true));

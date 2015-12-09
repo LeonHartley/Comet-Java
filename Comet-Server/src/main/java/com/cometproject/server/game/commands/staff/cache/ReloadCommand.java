@@ -64,7 +64,7 @@ public class ReloadCommand extends ChatCommand {
                 break;
 
             case "catalog":
-                CatalogManager.getInstance().loadPages();
+                CatalogManager.getInstance().loadItemsAndPages();
                 CatalogManager.getInstance().loadGiftBoxes();
 
                 NetworkManager.getInstance().getSessions().broadcast(new CatalogPublishMessageComposer(true));
