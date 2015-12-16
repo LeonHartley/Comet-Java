@@ -216,7 +216,7 @@ public class OldCatalogPurchaseHandler {
                 if(page.getType() == CatalogPageType.BUNDLE) {
                     RoomBundle roomBundle = RoomBundleManager.getInstance().getBundle(page.getExtraData());
 
-                    int roomId = RoomManager.getInstance().createRoom(client.getPlayer().getData().getUsername() + "'s room", "", roomBundle.getRoomModelData(), 0, 20, 0, client);
+                    int roomId = RoomManager.getInstance().createRoom(roomBundle.getConfig().getRoomName().replace("%username%", client.getPlayer().getData().getUsername()), "", roomBundle.getRoomModelData(), 0, 20, 0, client, roomBundle.getConfig().getThicknessWall(), roomBundle.getConfig().getThicknessFloor(), roomBundle.getConfig().getDecorations(), roomBundle.getConfig().isHideWalls());
 
                     for(RoomBundleItem roomBundleItem : roomBundle.getRoomBundleData()) {
                         int newItemId = ItemDao.createItem(client.getPlayer().getId(), roomBundleItem.getItemId(), roomBundleItem.getExtraData());

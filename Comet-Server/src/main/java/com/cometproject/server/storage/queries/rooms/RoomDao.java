@@ -158,14 +158,14 @@ public class RoomDao {
         return rooms;
     }
 
-    public static int createRoom(String name, CustomFloorMapData model, String description, int category, int maxVisitors, RoomTradeState tradeState, int userId, String username) {
+    public static int createRoom(String name, CustomFloorMapData model, String description, int category, int maxVisitors, RoomTradeState tradeState, int userId, String username, int wallThickness, int floorThickness, String decorations, boolean hideWalls) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
-            preparedStatement = SqlHelper.prepare("INSERT into rooms (`owner_id`, `owner`, `name`, `heightmap`, `description`, `category`, `max_users`, `trade_state`) VALUES(?, ?, ?, ?, ?, ?, ?, ?);", sqlConnection, true);
+            preparedStatement = SqlHelper.prepare("INSERT into rooms (`owner_id`, `owner`, `name`, `heightmap`, `description`, `category`, `max_users`, `trade_state`, `thickness_wall`, `thickness_floor`, `decorations`, `hide_walls`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", sqlConnection, true);
 
             preparedStatement.setInt(1, userId);
             preparedStatement.setString(2, username);
@@ -175,6 +175,10 @@ public class RoomDao {
             preparedStatement.setInt(6, category);
             preparedStatement.setInt(7, maxVisitors);
             preparedStatement.setString(8, tradeState.toString());
+            preparedStatement.setInt(9, wallThickness);
+            preparedStatement.setInt(10, floorThickness);
+            preparedStatement.setString(11, decorations);
+            preparedStatement.setString(12, hideWalls ? "1" : "0");
 
             preparedStatement.execute();
 

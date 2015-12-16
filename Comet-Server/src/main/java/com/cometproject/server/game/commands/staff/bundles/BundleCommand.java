@@ -6,6 +6,7 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.commands.staff.TeleportCommand;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
+import com.cometproject.server.game.rooms.bundles.types.RoomBundleConfig;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -64,7 +65,7 @@ public class BundleCommand extends ChatCommand {
                     ));
                 }
 
-                RoomBundle roomBundle = new RoomBundle(-1, room.getId(), alias, modelData, bundleItems, 20, 0, 0);
+                RoomBundle roomBundle = new RoomBundle(-1, room.getId(), alias, modelData, bundleItems, 20, 0, 0, new RoomBundleConfig("%username%'s new room", room.getData().getDecorationString(), room.getData().getWallThickness(), room.getData().getFloorThickness(), room.getData().getHideWalls()));
                 BundleDao.saveBundle(roomBundle);
 
                 boolean updateCatalog = false;
