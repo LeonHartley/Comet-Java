@@ -3,6 +3,7 @@ package com.cometproject.server.game.commands.staff.bundles;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.game.commands.staff.TeleportCommand;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
@@ -10,6 +11,8 @@ import com.cometproject.server.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachineFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.TeleporterFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
@@ -43,7 +46,7 @@ public class BundleCommand extends ChatCommand {
                 List<RoomBundleItem> bundleItems = new ArrayList<>();
 
                 for (RoomItemFloor floorItem : room.getItems().getFloorItems().values()) {
-                    if (floorItem instanceof SoundMachineFloorItem) {
+                    if (floorItem instanceof SoundMachineFloorItem || floorItem instanceof TeleporterFloorItem || floorItem instanceof WiredFloorItem) {
                         continue;
                     }
 
