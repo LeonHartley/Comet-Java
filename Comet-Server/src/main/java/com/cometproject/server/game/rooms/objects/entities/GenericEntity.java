@@ -343,6 +343,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
     }
 
     public void unIdle() {
+        final boolean sendUpdate = this.isIdle;
         this.isIdle = false;
         this.resetIdleTime();
 
@@ -350,7 +351,9 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
             return;
         }
 
-        this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer(this.getId(), false));
+        if(sendUpdate) {
+            this.getRoom().getEntities().broadcastMessage(new IdleStatusMessageComposer(this.getId(), false));
+        }
     }
 
     @Override
