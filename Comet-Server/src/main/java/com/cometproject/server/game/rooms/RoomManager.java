@@ -248,10 +248,6 @@ public class RoomManager implements Initializable {
     }
 
 
-    public int createRoom(String name, String description, CustomFloorMapData model, int category, int maxVisitors, int tradeState, Session client, int thicknessWall, int thicknessFloor, String decorations) {
-        return createRoom(name, description, model, category, maxVisitors, tradeState, client, 0, 0, "landscape=0.0");
-    }
-
     public int createRoom(String name, String description, String model, int category, int maxVisitors, int tradeState, Session client) {
         int roomId = RoomDao.createRoom(name, model, description, category, maxVisitors, RoomTradeState.valueOf(tradeState), client.getPlayer().getId(), client.getPlayer().getData().getUsername());
 
