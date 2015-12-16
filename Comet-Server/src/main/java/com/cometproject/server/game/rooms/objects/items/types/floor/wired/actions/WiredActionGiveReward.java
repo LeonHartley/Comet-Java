@@ -150,7 +150,7 @@ public class WiredActionGiveReward extends WiredActionItem {
         boolean receivedReward = false;
 
         for (Reward reward : this.rewards) {
-            boolean giveReward = unique || (RANDOM.nextDouble() <= (reward.probability / 100));
+            boolean giveReward = unique || ((reward.probability / 100) <= RANDOM.nextDouble());
 
             if (giveReward && !receivedReward) {
                 if (reward.isBadge) {
