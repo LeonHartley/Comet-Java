@@ -10,7 +10,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.29.Final" level="project" />
     <orderEntry type="module" module-name="Comet-API" />
     <orderEntry type="library" name="Maven: com.sparkjava:spark-core:2.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-server:9.0.2.v20130417" level="project" />
@@ -67,7 +66,7 @@
     <orderEntry type="module-library">
       <library name="Maven: jdk.tools:jdk.tools:1.6">
         <CLASSES>
-          <root url="jar://C:/Program Files/Java/jdk1.8.0_40/lib/tools.jar!/" />
+          <root url="jar://C:/Program Files/Java/lib/tools.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
