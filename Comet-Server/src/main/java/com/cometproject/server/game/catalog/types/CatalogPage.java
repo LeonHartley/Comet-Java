@@ -96,7 +96,7 @@ public class CatalogPage {
         } else {
             this.items = items;
         }
-    }
+}
 
     public int getOfferSize() {
         int size = 0;
