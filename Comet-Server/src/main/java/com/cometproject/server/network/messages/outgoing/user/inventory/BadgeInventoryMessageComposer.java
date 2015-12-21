@@ -25,22 +25,24 @@ public class BadgeInventoryMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         Map<String, Integer> activeBadges = new HashMap<>();
 
-        msg.writeInt(badges.size());
+        synchronized (badges) {
+            msg.writeInt(badges.size());
 
-        for (Map.Entry<String, Integer> badge : badges.entrySet()) {
-            if (badge.getValue() > 0) {
-                activeBadges.put(badge.getKey(), badge.getValue());
+            for (Map.Entry<String, Integer> badge : badges.entrySet()) {
+                if (badge.getValue() > 0) {
+                    activeBadges.put(badge.getKey(), badge.getValue());
+                }
+
+                msg.writeInt(0);
+                msg.writeString(badge.getKey());
             }
 
-            msg.writeInt(0);
-            msg.writeString(badge.getKey());
-        }
+            msg.writeInt(activeBadges.size());
 
-        msg.writeInt(activeBadges.size());
-
-        for (Map.Entry<String, Integer> badge : activeBadges.entrySet()) {
-            msg.writeInt(badge.getValue());
-            msg.writeString(badge.getKey());
+            for (Map.Entry<String, Integer> badge : activeBadges.entrySet()) {
+                msg.writeInt(badge.getValue());
+                msg.writeString(badge.getKey());
+            }
         }
 
         activeBadges.clear();

@@ -1,5 +1,5 @@
 ALTER TABLE `catalog_pages`
-	ADD COLUMN `type` ENUM('DEFAULT','BUNDLE') NULL DEFAULT NULL AFTER `parent_id`,
+	ADD COLUMN `type` ENUM('DEFAULT','BUNDLE') NULL DEFAULT 'DEFAULT' AFTER `parent_id`,
 	ADD COLUMN `extra_data` VARCHAR(50) NULL DEFAULT NULL AFTER `type`;
 
 CREATE TABLE `room_bundles` (
