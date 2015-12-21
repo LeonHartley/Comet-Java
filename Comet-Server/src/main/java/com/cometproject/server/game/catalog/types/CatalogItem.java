@@ -90,7 +90,7 @@ public class CatalogItem {
 
 
     /**
- * Initialize the catalog item with data from the database
+     * Initialize the catalog item with data from the database
      *
      * @param data Data from the database
      * @throws SQLException
@@ -172,7 +172,7 @@ public class CatalogItem {
                 final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogBundledItem.getItemId());
 
                 if (itemDefinition == null) {
-                    System.out.println("Failed to find item definition for id: " + catalogBundledItem.getItemId());
+//                    throw new Exception("Invalid item data!");
                     //idk bro..?
                 }
             }

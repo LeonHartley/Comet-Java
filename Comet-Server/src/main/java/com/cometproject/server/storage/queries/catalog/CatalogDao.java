@@ -68,7 +68,7 @@ public class CatalogDao {
                     items.put(resultSet.getInt("id"), catalogItem);
                 } catch (Exception exception) {
                     exception.printStackTrace();
-                    Comet.getServer().getLogger().warn("Failed to load catalog item: " + resultSet.getString("id"));
+                    Comet.getServer().getLogger().warn("Failed to load catalog item: " + resultSet.getInt("id"));
                 }
             }
         } catch (SQLException e) {
