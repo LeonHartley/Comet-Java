@@ -11,12 +11,13 @@ public class RoomBundle {
     private String alias;
     private CustomFloorMapData roomModelData;
     private List<RoomBundleItem> roomBundleData;
+    private RoomBundleConfig config;
 
     private int costCredits;
     private int costSeasonal;
     private int costVip;
 
-    public RoomBundle(int id, int roomId, String alias, CustomFloorMapData roomModel, List<RoomBundleItem> bundleData, int costCredits, int costSeasonal, int costVip) {
+    public RoomBundle(int id, int roomId, String alias, CustomFloorMapData roomModel, List<RoomBundleItem> bundleData, int costCredits, int costSeasonal, int costVip, RoomBundleConfig config) {
         this.id = id;
         this.roomId = roomId;
         this.alias = alias;
@@ -25,6 +26,7 @@ public class RoomBundle {
         this.costCredits = costCredits;
         this.costSeasonal = costSeasonal;
         this.costVip = costVip;
+        this.config = config;
     }
 
     public int getId() {
@@ -89,5 +91,13 @@ public class RoomBundle {
 
     public void setCostVip(int costVip) {
         this.costVip = costVip;
+    }
+
+    public RoomBundleConfig getConfig() {
+        return config;
+    }
+
+    public void setConfig(RoomBundleConfig config) {
+        this.config = config;
     }
 }

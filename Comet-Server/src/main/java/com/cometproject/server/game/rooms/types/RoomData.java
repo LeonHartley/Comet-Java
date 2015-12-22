@@ -404,4 +404,14 @@ public class RoomData implements IRoomData {
     public void setType(RoomType type) {
         this.type = type;
     }
+
+    public String getDecorationString() {
+        String decorString = "";
+
+        for (Map.Entry<String, String> decoration : decorations.entrySet()) {
+            decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
+        }
+
+        return decorString;
+    }
 }

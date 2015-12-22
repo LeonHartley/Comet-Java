@@ -40,8 +40,6 @@ public class RoomManager implements Initializable {
 
     private Map<Integer, RoomPromotion> roomPromotions;
 
-    private Map<Integer, List<Integer>> roomQueues;
-
     private Map<String, StaticRoomModel> models;
     private WordFilter filterManager;
 
@@ -61,7 +59,6 @@ public class RoomManager implements Initializable {
         this.loadedRoomInstances = new ConcurrentHashMap<>();
         this.unloadingRoomInstances = new ConcurrentHashMap<>();
         this.roomPromotions = new ConcurrentHashMap<>();
-        this.roomQueues = new ConcurrentHashMap<>();
 
         this.emotions = new ChatEmotionsManager();
         this.filterManager = new WordFilter();
@@ -242,13 +239,14 @@ public class RoomManager implements Initializable {
         return this.getRoomInstances().containsKey(id);
     }
 
-    public int createRoom(String name, String description, CustomFloorMapData model, int category, int maxVisitors, int tradeState, Session client) {
-        int roomId = RoomDao.createRoom(name, model, description, category, maxVisitors, RoomTradeState.valueOf(tradeState), client.getPlayer().getId(), client.getPlayer().getData().getUsername());
+    public int createRoom(String name, String description, CustomFloorMapData model, int category, int maxVisitors, int tradeState, Session client, int wallTickness, int floorThickness, String decorations, boolean hideWalls) {
+        int roomId = RoomDao.createRoom(name, model, description, category, maxVisitors, RoomTradeState.valueOf(tradeState), client.getPlayer().getId(), client.getPlayer().getData().getUsername(), wallTickness, floorThickness, decorations, hideWalls);
 
         this.loadRoomsForUser(client.getPlayer());
 
         return roomId;
     }
+
 
     public int createRoom(String name, String description, String model, int category, int maxVisitors, int tradeState, Session client) {
         int roomId = RoomDao.createRoom(name, model, description, category, maxVisitors, RoomTradeState.valueOf(tradeState), client.getPlayer().getId(), client.getPlayer().getData().getUsername());
@@ -328,9 +326,5 @@ public class RoomManager implements Initializable {
 
     public Map<Integer, RoomPromotion> getRoomPromotions() {
         return roomPromotions;
-    }
-
-    public Map<Integer, List<Integer>> getRoomQueues() {
-        return roomQueues;
     }
 }
