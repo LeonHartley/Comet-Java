@@ -79,9 +79,9 @@ public class ProcessComponent implements CometTask {
             log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
         }
 
-        if(this.room.getEntities().getPlayerEntities().size() == 0) {
-            return;
-        }
+//        if(this.room.getEntities().getPlayerEntities().size() == 0) {
+//            return;
+//        }
 
         try {
             Map<Integer, GenericEntity> entities = this.room.getEntities().getAllEntities();
@@ -156,7 +156,7 @@ public class ProcessComponent implements CometTask {
             playersToRemove.clear();
             entitiesToUpdate.clear();
 
-            log.debug("Room processing took " + (System.currentTimeMillis() - timeStart) + "ms");
+//            log.debug("Room processing took " + (System.currentTimeMillis() - timeStart) + "ms");
 
         } catch (Exception e) {
             log.warn("Error during room entity processing", e);
@@ -481,10 +481,10 @@ public class ProcessComponent implements CometTask {
             if (nextSq != null && entity.getRoom().getMapping().isValidEntityStep(entity, entity.getPosition(), new Position(nextSq.x, nextSq.y, 0), isLastStep) || entity.isOverriden()) {
                 Position currentPos = entity.getPosition() != null ? entity.getPosition() : new Position(0, 0, 0);
                 Position nextPos = new Position(nextSq.x, nextSq.y);
-                entity.setBodyRotation(Position.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
-                entity.setHeadRotation(entity.getBodyRotation());
+                entity.setBodyRotation(entity instanceof PlayerEntity && entity.getMountedEntity() != null ? entity.getMountedEntity().getBodyRotation() : Position.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
+                entity.setHeadRotation(entity instanceof PlayerEntity && entity.getMountedEntity() != null ? entity.getMountedEntity().getBodyRotation() : entity.getBodyRotation());
 
-                final double mountHeight = entity.getMountedEntity() != null ? 1.0 : 0;//(entity.getMountedEntity() != null) ? (((String) entity.getAttribute("transform")).startsWith("15 ") ? 1.0 : 0.5) : 0;
+                final double mountHeight = entity instanceof PlayerEntity && entity.getMountedEntity() != null ? 1.0 : 0;//(entity.getMountedEntity() != null) ? (((String) entity.getAttribute("transform")).startsWith("15 ") ? 1.0 : 0.5) : 0;
 
                 final RoomTile tile = this.room.getMapping().getTile(nextSq.x, nextSq.y);
                 final double height = tile.getWalkHeight() + mountHeight;
@@ -529,6 +529,12 @@ public class ProcessComponent implements CometTask {
                         isCancelled = true;
                     } else if (!allowWalkthrough) {
                         isCancelled = true;
+                    }
+
+                    GenericEntity entityOnTile = this.getRoom().getMapping().getTile(nextPos.getX(), nextPos.getY()).getEntity();
+
+                    if(entityOnTile != null && entityOnTile.getMountedEntity() != null && entityOnTile.getMountedEntity() == entity) {
+                        isCancelled = false;
                     }
                 }
 

@@ -21,7 +21,6 @@ public class DistanceCalculator {
     }
 
     public static boolean tilesTouching(Position pos1, Position pos2) {
-
-        return false;
+        return tilesTouching(pos1.getX(), pos1.getY(), pos2.getX(), pos2.getY());
     }
 }

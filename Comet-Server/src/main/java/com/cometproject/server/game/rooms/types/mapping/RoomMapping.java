@@ -128,12 +128,30 @@ public class RoomMapping {
         if (entityId == null || entityId == -1)
             return false;
 
+
         for (GenericEntity entity : this.room.getEntities().getEntitiesAt(position)) {
             entitySize++;
 
-            if (entity instanceof PetEntity && entity.hasMount()) {
-                hasMountedPet = true;
+            if(entity.getMountedEntity() != null) {
+                if(entity.getMountedEntity().getId() == entityId) {
+                    return false;
+                }
             }
+//
+//            if (entity.hasMount()) {
+//                if(entity.getMountedEntity() != null && entity.getMountedEntity().getId() == entityId) {
+//                    return false;
+//                }
+//            } else if(entity instanceof PlayerEntity) {
+//                GenericEntity myEntity = this.getRoom().getEntities().getEntity(entityId);
+//
+//                if(myEntity != null) {
+//                    if (myEntity.getMountedEntity() != null && myEntity.getMountedEntity() == entity)) {
+//                        return false;
+//                    }
+//                }
+//
+//            }
 
             // Do we need a null check here? Not sure yet..
             if (entityId != 0 && entity.getId() == entityId) {
@@ -141,7 +159,7 @@ public class RoomMapping {
             }
         }
 
-        return !(hasMe && entitySize == 1) && !hasMountedPet && entitySize > 0;
+        return !(hasMe && entitySize == 1) && entitySize > 0;
     }
 
     public boolean canStepUpwards(double height0, double height1) {

@@ -112,8 +112,8 @@ public class PetEntity extends GenericEntity {
         msg.writeInt(this.data.getOwnerId());
         msg.writeString("Leon"); // TODO: this :P
         msg.writeInt(1);
-        msg.writeBoolean(false); // has saddle
-        msg.writeBoolean(false); // has rider?
+        msg.writeBoolean(true); // has saddle
+        msg.writeBoolean(this.hasMount()); // has rider?
 
         msg.writeInt(0);
         msg.writeInt(0);

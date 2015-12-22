@@ -46,7 +46,7 @@ public class PetInformationMessageComposer extends MessageComposer {
             msg.writeInt(0); // AGE
             msg.writeString(PlayerDao.getUsernameByPlayerId(petData.getOwnerId()));
             msg.writeInt(1);
-            msg.writeBoolean(false); // HAS_SADDLE
+            msg.writeBoolean(true); // HAS_SADDLE
             msg.writeBoolean(false); // HAS_RIDER
             msg.writeInt(0);
 
