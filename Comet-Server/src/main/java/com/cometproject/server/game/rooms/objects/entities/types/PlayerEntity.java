@@ -342,7 +342,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             if (time - this.getPlayer().getRoomLastMessageTime() < 750) {
                 this.getPlayer().setRoomFloodFlag(this.getPlayer().getRoomFloodFlag() + 1);
 
-                if (this.getPlayer().getRoomFloodFlag() >= 5) {
+                if (this.getPlayer().getRoomFloodFlag() >= 3) {
                     this.getPlayer().setRoomFloodTime(this.getPlayer().getPermissions().getRank().floodTime());
                     this.getPlayer().setRoomFloodFlag(0);
 
@@ -380,6 +380,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         if (this.isRoomMuted() && !this.getPlayer().getPermissions().getRank().roomMuteBypass() && this.getRoom().getData().getOwnerId() != this.getPlayerId()) {
+            this.getPlayer().getSession().send(new MutedMessageComposer(99999999));
             return false;
         }
 

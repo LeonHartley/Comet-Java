@@ -29,6 +29,10 @@ public class MuteRoomMessageEvent implements Event {
             room.setRoomMute(false);
         } else {
             room.setRoomMute(true);
+
+            for(GenericEntity entity : room.getEntities().getAllEntities().values()) {
+                entity.setRoomMuted(true);
+            }
         }
 
         room.getEntities().broadcastMessage(new RoomMuteMessageComposer(room.hasRoomMute()));

@@ -277,6 +277,37 @@ public class RoomItemDao {
         }
     }
 
+    public static void saveFloorItems(List<RoomItem> items) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+            sqlConnection.setAutoCommit(false);
+
+            preparedStatement = SqlHelper.prepare("UPDATE items SET x = ?, y = ?, z = ?, rot = ?, extra_data = ? WHERE id = ?", sqlConnection);
+
+            for(RoomItem floor : items) {
+                preparedStatement.setInt(1, floor.getPosition().getX());
+                preparedStatement.setInt(2, floor.getPosition().getY());
+                preparedStatement.setDouble(3, floor.getPosition().getZ());
+                preparedStatement.setInt(4, floor.getRotation());
+                preparedStatement.setString(5, floor instanceof RoomItemWall ? "" : ((RoomItemFloor) floor).getDataObject());
+                preparedStatement.setInt(6, floor.getId());
+
+                preparedStatement.addBatch();
+            }
+
+            preparedStatement.executeBatch();
+            sqlConnection.commit();
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
     public static void saveItem(RoomItemFloor floor) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;

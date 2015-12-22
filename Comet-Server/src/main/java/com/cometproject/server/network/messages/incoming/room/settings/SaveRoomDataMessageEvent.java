@@ -4,17 +4,20 @@ import com.cometproject.api.game.rooms.settings.RoomBanState;
 import com.cometproject.api.game.rooms.settings.RoomKickState;
 import com.cometproject.api.game.rooms.settings.RoomMuteState;
 import com.cometproject.api.game.rooms.settings.RoomTradeState;
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomWriter;
 import com.cometproject.server.network.messages.incoming.Event;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class SaveRoomDataMessageEvent implements Event {
@@ -116,10 +119,27 @@ public class SaveRoomDataMessageEvent implements Event {
             return;
         }
 
+
+        String filteredName = name;
+        String filteredDescription = description;
+
+        if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
+            FilterResult filterResult = RoomManager.getInstance().getFilter().filter(filteredName);
+            FilterResult filterResultDesc = RoomManager.getInstance().getFilter().filter(filteredDescription);
+
+            if (filterResult.isBlocked() || filterResultDesc.isBlocked()) {
+                client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
+                return;
+            }
+
+            filteredName = filterResult.getMessage();
+            filteredDescription = filterResultDesc.getMessage();
+        }
+
         data.setAccess(RoomWriter.roomAccessToString(state));
         data.setCategory(categoryId);
-        data.setDescription(description);
-        data.setName(name);
+        data.setName(filteredName);
+        data.setDescription(filteredDescription);
         data.setPassword(password);
         data.setMaxUsers(maxUsers);
         data.setTags(tags);
@@ -143,10 +163,8 @@ public class SaveRoomDataMessageEvent implements Event {
         try {
             data.save();
 
-            if (room != null) {
-                room.getEntities().broadcastMessage(new ConfigureWallAndFloorMessageComposer(hideWall, wallThick, floorThick));
-                room.getEntities().broadcastMessage(new RoomDataMessageComposer(room, true, room.getRights().hasRights(client.getPlayer().getId()) || client.getPlayer().getPermissions().getRank().roomFullControl()));
-            }
+            room.getEntities().broadcastMessage(new ConfigureWallAndFloorMessageComposer(hideWall, wallThick, floorThick));
+            room.getEntities().broadcastMessage(new RoomDataMessageComposer(room, true, room.getRights().hasRights(client.getPlayer().getId()) || client.getPlayer().getPermissions().getRank().roomFullControl()));
         } catch (Exception e) {
             RoomManager.log.error("Error while saving room data", e);
         }

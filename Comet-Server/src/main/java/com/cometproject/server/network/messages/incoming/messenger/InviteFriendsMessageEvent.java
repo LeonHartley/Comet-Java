@@ -22,7 +22,7 @@ public class InviteFriendsMessageEvent implements Event {
             if (time - client.getPlayer().getMessengerLastMessageTime() < 750) {
                 client.getPlayer().setMessengerFloodFlag(client.getPlayer().getMessengerFloodFlag() + 1);
 
-                if (client.getPlayer().getMessengerFloodFlag() >= 4) {
+                if (client.getPlayer().getMessengerFloodFlag() >= 3) {
                     client.getPlayer().setMessengerFloodTime(client.getPlayer().getPermissions().getRank().floodTime());
                     client.getPlayer().setMessengerFloodFlag(0);
 

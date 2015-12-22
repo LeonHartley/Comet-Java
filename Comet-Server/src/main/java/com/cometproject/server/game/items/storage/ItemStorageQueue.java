@@ -18,10 +18,12 @@ public class ItemStorageQueue implements Initializable, CometTask {
 
     private ScheduledFuture future;
 
+    private List<RoomItem> itemsToStoreData;
     private List<RoomItem> itemsToStore;
 
     public ItemStorageQueue() {
         // TODO: Multiple types of save tasks. (Position, placement, data etc.)
+        this.itemsToStoreData = new CopyOnWriteArrayList<>();
         this.itemsToStore = new CopyOnWriteArrayList<>();
     }
 
@@ -32,16 +34,26 @@ public class ItemStorageQueue implements Initializable, CometTask {
 
     @Override
     public void run() {
-        if (this.itemsToStore.size() == 0) return;
+        if (this.itemsToStoreData.size() == 0 && this.itemsToStore.size() == 0) return;
 
-        log.debug("Saving " + this.itemsToStore.size() + " items");
+        log.debug("Saving " + (this.itemsToStoreData.size() + this.itemsToStore.size()) + " items");
 
-        RoomItemDao.processBatch(this.itemsToStore);
-        this.itemsToStore.clear();
+        RoomItemDao.processBatch(this.itemsToStoreData);
+        RoomItemDao.saveFloorItems(this.itemsToStore);
+
+        this.itemsToStoreData.clear();
     }
 
     public void queueSaveData(final RoomItem roomItem) {
-        if (this.itemsToStore.contains(roomItem)) {
+        if (this.itemsToStoreData.contains(roomItem)) {
+            this.itemsToStoreData.remove(roomItem);
+        }
+
+        this.itemsToStoreData.add(roomItem);
+    }
+
+    public void queueSave(final RoomItem roomItem) {
+        if(this.itemsToStore.contains(roomItem)) {
             this.itemsToStore.remove(roomItem);
         }
 
@@ -51,7 +63,7 @@ public class ItemStorageQueue implements Initializable, CometTask {
     public void shutdown() {
         this.future.cancel(false);
 
-        log.info("Executing " + this.itemsToStore.size() + " item data updates");
+        log.info("Executing " + this.itemsToStoreData.size() + " item data updates");
 
         // Run 1 final time, to make sure everything is saved!
         this.run();

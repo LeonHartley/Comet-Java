@@ -59,7 +59,7 @@ public class TalkMessageEvent implements Event {
         String filteredMessage = filterMessage(message);
 
         if (!client.getPlayer().getPermissions().getRank().roomFilterBypass()) {
-            FilterResult filterResult = RoomManager.getInstance().getFilter().filter(message);
+            FilterResult filterResult = RoomManager.getInstance().getFilter().filter(filteredMessage);
 
             if (filterResult.isBlocked()) {
                 client.send(new AdvancedAlertMessageComposer(Locale.get("game.message.blocked").replace("%s", filterResult.getMessage())));
