@@ -261,7 +261,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.PlacePetMessageEvent, new PlacePetMessageEvent());
         this.getMessages().put(Events.PetGetInformationMessageEvent, new PetInformationMessageEvent());
         this.getMessages().put(Events.PickUpPetMessageEvent, new RemovePetMessageEvent());
-        this.getMessages().put(Events.HorseMountOnMessageEvent, new HorseMountOnMessageEvent());
+//        this.getMessages().put(Events.HorseMountOnMessageEvent, new HorseMountOnMessageEvent());
         this.getMessages().put(Events.RespectPetMessageEvent, new RespectPetMessageEvent());
     }
 

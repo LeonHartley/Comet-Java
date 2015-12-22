@@ -12,7 +12,7 @@ public class NotificationCommand extends ChatCommand {
         String image = "generic";
         String message = "";
 
-        if(params.length == 2) {
+        if(params.length > 1) {
             image = params[0];
             message = this.merge(params, 1);
         } else {
