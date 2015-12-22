@@ -10,8 +10,8 @@ public class PlayerBotData extends BotData {
 
     private Position position;
 
-    public PlayerBotData(int botId, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages, boolean automaticChat, int chatDelay, String botType, String botMode) {
-        super(botId, username, motto, figure, gender, ownerName, ownerId, messages, automaticChat, chatDelay, botType, botMode);
+    public PlayerBotData(int botId, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages, boolean automaticChat, int chatDelay, String botType, String botMode, String data) {
+        super(botId, username, motto, figure, gender, ownerName, ownerId, messages, automaticChat, chatDelay, botType, botMode, data);
     }
 
     public Position getPosition() {

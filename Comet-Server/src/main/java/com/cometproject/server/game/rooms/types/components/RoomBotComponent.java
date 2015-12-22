@@ -85,7 +85,7 @@ public class RoomBotComponent {
 
         this.botNameToId.put(bot.getName(), bot.getId());
 
-        BotData botData = new PlayerBotData(bot.getId(), name, bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7, bot.getType(), bot.getMode());
+        BotData botData = new PlayerBotData(bot.getId(), name, bot.getMotto(), bot.getFigure(), bot.getGender(), bot.getOwnerName(), bot.getOwnerId(), "[]", true, 7, bot.getType(), bot.getMode(), null);
         BotEntity botEntity = new BotEntity(botData, virtualId, new Position(x, y, height), 1, 1, room);
 
         if(botEntity.getPosition().getZ() < this.getRoom().getModel().getSquareHeight()[x][y]) {

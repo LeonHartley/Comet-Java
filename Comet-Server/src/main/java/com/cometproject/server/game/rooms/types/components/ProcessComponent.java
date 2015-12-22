@@ -358,7 +358,7 @@ public class ProcessComponent implements CometTask {
                             String message = ((BotEntity) entity).getData().getRandomMessage();
 
                             if (message != null && !message.isEmpty()) {
-                                this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(entity.getId(), message, 0, 2));
+                                ((BotEntity) entity).say(message);
                             }
 
                             ((BotEntity) entity).resetCycleCount();

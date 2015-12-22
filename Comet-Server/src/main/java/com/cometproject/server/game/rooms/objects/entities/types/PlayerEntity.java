@@ -226,6 +226,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.isFinalized = true;
         this.getPlayer().setSpectatorRoomId(0);
         this.getPlayer().getAchievements().progressAchievement(AchievementType.ROOM_ENTRY, 1);
+
+        for (BotEntity entity : this.getRoom().getEntities().getBotEntities()) {
+            if (entity.getAI().onPlayerEnter(this)) break;
+        }
     }
 
     public boolean canRateRoom() {

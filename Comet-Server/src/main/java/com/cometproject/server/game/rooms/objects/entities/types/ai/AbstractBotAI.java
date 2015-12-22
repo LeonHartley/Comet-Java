@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities.types.ai;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 
 public abstract class AbstractBotAI implements BotAI {
@@ -18,7 +19,15 @@ public abstract class AbstractBotAI implements BotAI {
         return false;
     }
 
+    public boolean onPlayerEnter(PlayerEntity entity) {
+        return false;
+    }
+
     public GenericEntity getEntity() {
         return entity;
+    }
+
+    public BotEntity getBotEntity() {
+        return (BotEntity) entity;
     }
 }

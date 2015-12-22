@@ -31,7 +31,7 @@ public class RoomBotDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                PlayerBotData botData = new PlayerBotData(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getString("motto"), resultSet.getString("figure"), resultSet.getString("gender"), resultSet.getString("owner"), resultSet.getInt("owner_id"), resultSet.getString("messages"), resultSet.getString("automatic_chat").equals("1"), resultSet.getInt("chat_delay"), resultSet.getString("type"), resultSet.getString("mode"));
+                PlayerBotData botData = new PlayerBotData(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getString("motto"), resultSet.getString("figure"), resultSet.getString("gender"), resultSet.getString("owner"), resultSet.getInt("owner_id"), resultSet.getString("messages"), resultSet.getString("automatic_chat").equals("1"), resultSet.getInt("chat_delay"), resultSet.getString("type"), resultSet.getString("mode"), resultSet.getString("data"));
                 botData.setPosition(new Position(resultSet.getInt("x"), resultSet.getInt("y")));
 
                 data.add(botData);
@@ -74,7 +74,7 @@ public class RoomBotDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE bots SET figure = ?, gender = ?, motto = ?, name = ?, messages = ?, automatic_chat = ?, chat_delay = ?, mode = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE bots SET figure = ?, gender = ?, motto = ?, name = ?, messages = ?, automatic_chat = ?, chat_delay = ?, mode = ?, data = ? WHERE id = ?", sqlConnection);
 
             preparedStatement.setString(1, data.getFigure());
             preparedStatement.setString(2, data.getGender());
@@ -84,8 +84,9 @@ public class RoomBotDao {
             preparedStatement.setString(6, data.isAutomaticChat() ? "1" : "0");
             preparedStatement.setInt(7, data.getChatDelay());
             preparedStatement.setString(8, data.getMode());
+            preparedStatement.setString(9, data.getData());
 
-            preparedStatement.setInt(9, data.getId());
+            preparedStatement.setInt(10, data.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

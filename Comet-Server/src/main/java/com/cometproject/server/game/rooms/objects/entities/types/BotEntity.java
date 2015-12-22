@@ -3,14 +3,17 @@ package com.cometproject.server.game.rooms.objects.entities.types;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.bots.BotData;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
-import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
-import com.cometproject.server.game.rooms.objects.entities.types.ai.DefaultAI;
-import com.cometproject.server.game.rooms.objects.entities.types.ai.MinionAI;
-import com.cometproject.server.game.rooms.objects.entities.types.ai.WaiterAI;
+import com.cometproject.server.game.rooms.objects.entities.types.ai.*;
+import com.cometproject.server.game.rooms.objects.entities.types.data.BotDataObject;
+import com.cometproject.server.game.rooms.objects.entities.types.data.types.SpyBotData;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
+import com.cometproject.server.utilities.JsonFactory;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,6 +22,8 @@ public class BotEntity extends GenericEntity {
     private BotData data;
     private int cycleCount = 0;
     private BotAI ai;
+
+    private BotDataObject dataObject;
 
     private Map<String, Object> attributes = new ConcurrentHashMap<>();
 
@@ -39,7 +44,22 @@ public class BotEntity extends GenericEntity {
             case "mimic":
                 this.ai = new MinionAI(this);
                 break;
+
+            case "spy":
+                this.ai = new SpyAI(this);
+
+                    if(this.data.getData() == null) {
+                        this.dataObject = new SpyBotData(new LinkedList<>());
+                    } else {
+                        this.dataObject = JsonFactory.getInstance().fromJson(this.data.getData(), SpyBotData.class);
+                    }
+
+                break;
         }
+    }
+
+    public void say(String message) {
+        this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getId(), message, 0, 2));
     }
 
     @Override
@@ -81,6 +101,11 @@ public class BotEntity extends GenericEntity {
     public boolean onRoomDispose() {
         // Send leave room message to all current entities
         this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
+
+        if(this.dataObject != null) {
+            this.data.setData(JsonFactory.getInstance().toJson(this.dataObject));
+            this.data.save();
+        }
 
         this.data.dispose();
         this.data = null;
@@ -186,5 +211,9 @@ public class BotEntity extends GenericEntity {
     @Override
     public void removeAttribute(String attributeKey) {
         this.attributes.remove(attributeKey);
+    }
+
+    public BotDataObject getDataObject() {
+        return dataObject;
     }
 }

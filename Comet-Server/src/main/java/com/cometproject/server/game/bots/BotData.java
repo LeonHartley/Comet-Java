@@ -1,5 +1,6 @@
 package com.cometproject.server.game.bots;
 
+import com.cometproject.server.game.rooms.objects.entities.types.data.BotDataObject;
 import com.cometproject.server.storage.queries.bots.RoomBotDao;
 import com.cometproject.server.utilities.JsonFactory;
 import com.cometproject.server.utilities.RandomInteger;
@@ -61,10 +62,11 @@ public abstract class BotData implements BotInformation {
     private String botType;
     private String mode;
 
+    private String data;
+
     /**
      * Initialize the bot
-     *
-     * @param id            The ID of the bot
+     *  @param id            The ID of the bot
      * @param username      The name of the bot
      * @param motto         The motto of the bot
      * @param figure        The figure of the bot
@@ -76,8 +78,9 @@ public abstract class BotData implements BotInformation {
      * @param chatDelay     How long before the bot will next talk
      * @param botType
      * @param mode
+     * @param data
      */
-    public BotData(int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages, boolean automaticChat, int chatDelay, String botType, String mode) {
+    public BotData(int id, String username, String motto, String figure, String gender, String ownerName, int ownerId, String messages, boolean automaticChat, int chatDelay, String botType, String mode, String data) {
         this.id = id;
         this.username = username;
         this.motto = motto;
@@ -87,6 +90,7 @@ public abstract class BotData implements BotInformation {
         this.ownerName = ownerName;
         this.botType = botType;
         this.mode = mode;
+        this.data = data;
         this.messages = (messages == null || messages.isEmpty()) ? new String[0] : JsonFactory.getInstance().fromJson(messages, String[].class);
         this.chatDelay = chatDelay;
         this.isAutomaticChat = automaticChat;
@@ -298,6 +302,14 @@ public abstract class BotData implements BotInformation {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }
 
