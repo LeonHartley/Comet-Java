@@ -7,7 +7,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloo
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionChase;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.mapping.RoomEntityMovementNode;
-import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 
 public class ItemPathfinder extends Pathfinder {
@@ -37,8 +37,8 @@ public class ItemPathfinder extends Pathfinder {
         final int rotation = Position.calculateRotation(from, to);
 
         if (rotation == 1 || rotation == 3 || rotation == 5 || rotation == 7) {
-            Tile left = null;
-            Tile right = null;
+            RoomTile left = null;
+            RoomTile right = null;
 
             switch (rotation) {
                 case 1:
@@ -68,7 +68,7 @@ public class ItemPathfinder extends Pathfinder {
             }
         }
 
-        Tile tile = roomObject.getRoom().getMapping().getTile(to.getX(), to.getY());
+        RoomTile tile = roomObject.getRoom().getMapping().getTile(to.getX(), to.getY());
 
         if (tile == null) {
             return false;

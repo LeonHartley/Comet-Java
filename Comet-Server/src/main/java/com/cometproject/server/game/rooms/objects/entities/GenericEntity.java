@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 
 import java.util.HashMap;
@@ -125,7 +125,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     @Override
     public void moveTo(int x, int y) {
-        Tile tile = this.getRoom().getMapping().getTile(x, y);
+        RoomTile tile = this.getRoom().getMapping().getTile(x, y);
 
         if (tile == null)
             return;
@@ -137,8 +137,8 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         }
 
         if (this.getPositionToSet() != null) {
-            Tile oldTile = this.getRoom().getMapping().getTile(this.getPosition());
-            Tile newTile = this.getRoom().getMapping().getTile(this.getPositionToSet());
+            RoomTile oldTile = this.getRoom().getMapping().getTile(this.getPosition());
+            RoomTile newTile = this.getRoom().getMapping().getTile(this.getPositionToSet());
 
             if (oldTile != null) {
                 oldTile.getEntities().remove(this);
@@ -500,7 +500,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         this.updateAndSetPosition(position);
         this.markNeedsUpdate();
 
-        final Tile tile = this.getRoom().getMapping().getTile(position);
+        final RoomTile tile = this.getRoom().getMapping().getTile(position);
 
         if (tile != null) {
             tile.getEntities().add(this);

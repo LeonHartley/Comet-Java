@@ -7,7 +7,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
@@ -39,7 +39,7 @@ public class PlaceBotMessageEvent implements Event {
         double height = room.getMapping().getTile(x, y).getWalkHeight();
         final Position position = new Position(x, y, height);
 
-        final Tile tile = room.getMapping().getTile(x, y);
+        final RoomTile tile = room.getMapping().getTile(x, y);
 
         if (tile == null || !room.getMapping().isValidPosition(position) || room.getModel().getSquareState()[x][y] != RoomTileState.VALID) {
             return;

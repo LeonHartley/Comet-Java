@@ -7,7 +7,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.trigge
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 
@@ -47,7 +47,7 @@ public class RollerFloorItem extends RoomItemFloor {
     }
 
     private void handleEntities() {
-        Tile tile = this.getTile();
+        RoomTile tile = this.getTile();
 
 //        if(tile.getTopItem() != this.getId())
 //            return;
@@ -95,8 +95,8 @@ public class RollerFloorItem extends RoomItemFloor {
 
             final double toHeight = this.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY()).getWalkHeight();
 
-            final Tile oldTile = this.getRoom().getMapping().getTile(entity.getPosition().getX(), entity.getPosition().getY());
-            final Tile newTile = this.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY());
+            final RoomTile oldTile = this.getRoom().getMapping().getTile(entity.getPosition().getX(), entity.getPosition().getY());
+            final RoomTile newTile = this.getRoom().getMapping().getTile(sqInfront.getX(), sqInfront.getY());
 
             if (oldTile != null) {
                 oldTile.getEntities().remove(entity);

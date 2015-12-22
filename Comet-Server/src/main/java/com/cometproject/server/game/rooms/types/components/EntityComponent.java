@@ -10,7 +10,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.TeleporterFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.google.common.collect.Lists;
@@ -41,7 +41,7 @@ public class EntityComponent {
     }
 
     public List<GenericEntity> getEntitiesAt(Position position) {
-        Tile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
+        RoomTile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
 
         if (tile != null && tile.getEntities().size() >= 1) {
             return new ArrayList<>(tile.getEntities());
@@ -51,7 +51,7 @@ public class EntityComponent {
     }
 
     public boolean positionHasEntity(Position position) {
-        Tile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
+        RoomTile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
 
         if (tile != null) {
             if (tile.getEntities().size() != 0)
@@ -106,7 +106,7 @@ public class EntityComponent {
     }
 
     public void removeEntity(GenericEntity entity) {
-        final Tile tile = this.getRoom().getMapping().getTile(entity.getPosition());
+        final RoomTile tile = this.getRoom().getMapping().getTile(entity.getPosition());
 
         if (tile != null) {
             tile.getEntities().remove(entity);

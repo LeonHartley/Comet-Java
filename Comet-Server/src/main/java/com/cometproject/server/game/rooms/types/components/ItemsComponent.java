@@ -19,7 +19,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachine
 import com.cometproject.server.game.rooms.objects.items.types.wall.MoodlightWallItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.UpdateStackMapMessageComposer;
@@ -144,7 +144,7 @@ public class ItemsComponent {
     }
 
     public List<RoomItemFloor> getItemsOnSquare(int x, int y) {
-        Tile tile = this.getRoom().getMapping().getTile(x, y);
+        RoomTile tile = this.getRoom().getMapping().getTile(x, y);
 
         if (tile == null) {
             return Lists.newArrayList();
@@ -258,7 +258,7 @@ public class ItemsComponent {
         }
 
         for (Position tileToUpdate : tilesToUpdate) {
-            final Tile tileInstance = this.room.getMapping().getTile(tileToUpdate.getX(), tileToUpdate.getY());
+            final RoomTile tileInstance = this.room.getMapping().getTile(tileToUpdate.getX(), tileToUpdate.getY());
 
             if (tileInstance != null) {
                 tileInstance.reload();
@@ -289,7 +289,7 @@ public class ItemsComponent {
         RoomItemFloor item = this.getFloorItem(itemId);
         if (item == null) return false;
 
-        Tile tile = this.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
+        RoomTile tile = this.getRoom().getMapping().getTile(newPosition.getX(), newPosition.getY());
 
         if (!this.verifyItemPosition(item.getDefinition(), tile, item.getPosition())) {
             return false;
@@ -359,7 +359,7 @@ public class ItemsComponent {
             RoomItemDao.saveItemPosition(newPosition.getX(), newPosition.getY(), height, rotation, itemId);
 
         for (Position tileToUpdate : tilesToUpdate) {
-            final Tile tileInstance = this.room.getMapping().getTile(tileToUpdate.getX(), tileToUpdate.getY());
+            final RoomTile tileInstance = this.room.getMapping().getTile(tileToUpdate.getX(), tileToUpdate.getY());
 
             if (tileInstance != null) {
                 tileInstance.reload();
@@ -372,7 +372,7 @@ public class ItemsComponent {
         return true;
     }
 
-    private boolean verifyItemPosition(ItemDefinition item, Tile tile, Position currentPosition) {
+    private boolean verifyItemPosition(ItemDefinition item, RoomTile tile, Position currentPosition) {
         if (tile != null) {
             if (currentPosition != null && currentPosition.getX() == tile.getPosition().getX() && currentPosition.getY() == tile.getPosition().getY())
                 return true;
@@ -448,7 +448,7 @@ public class ItemsComponent {
     }
 
     public void placeFloorItem(InventoryItem item, int x, int y, int rot, Player player) {
-        Tile tile = room.getMapping().getTile(x, y);
+        RoomTile tile = room.getMapping().getTile(x, y);
 
         if (tile == null)
             return;
@@ -506,7 +506,7 @@ public class ItemsComponent {
         RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getId());
 
         for (Position tileToUpdate : tilesToUpdate) {
-            final Tile tileInstance = this.room.getMapping().getTile(tileToUpdate.getX(), tileToUpdate.getY());
+            final RoomTile tileInstance = this.room.getMapping().getTile(tileToUpdate.getX(), tileToUpdate.getY());
 
             if (tileInstance != null) {
                 tileInstance.reload();

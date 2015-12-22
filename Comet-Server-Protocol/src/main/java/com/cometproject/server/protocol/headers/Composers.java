@@ -127,7 +127,7 @@ public class Composers {
     public static final short ConsoleSendFriendRequestMessageComposer = 2783;//332
     public static final short FriendUpdateMessageComposer = 1820;//397
     public static final short TypingStatusMessageComposer = 3495;//1059
-    public static final short MaintenanceNotificationMessageComposer = 3785;//2704
+    public static final short MaintenanceNotificationMessageComposer = 3593;//2704
     public static final short LandingWidgetMessageComposer = 2345;//3048
     public static final short TradeErrorMessageComposer = 446;//3558
     public static final short RoomUserIdleMessageComposer = 517;//800

@@ -9,7 +9,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiPuckFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
@@ -184,13 +184,13 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     private void moveTo(Position pos, int rotation) {
         roll(this, this.getPosition(), pos, this.getRoom());
 
-        Tile tile = this.getRoom().getMapping().getTile(this.getPosition());
+        RoomTile tile = this.getRoom().getMapping().getTile(this.getPosition());
 
         this.setRotation(rotation);
         this.getPosition().setX(pos.getX());
         this.getPosition().setY(pos.getY());
 
-        Tile newTile = this.getRoom().getMapping().getTile(pos);
+        RoomTile newTile = this.getRoom().getMapping().getTile(pos);
 
         if (tile != null) {
             tile.reload();

@@ -1,12 +1,14 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
 import com.cometproject.server.game.rooms.models.RoomModel;
+import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
+import com.cometproject.server.utilities.RandomInteger;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.List;
 public class RoomMapping {
     private Room room;
 
-    private Tile[][] tiles;
+    private RoomTile[][] tiles;
 
     public RoomMapping(Room roomInstance) {
         this.room = roomInstance;
@@ -30,13 +32,13 @@ public class RoomMapping {
         int sizeX = this.getModel().getSizeX();
         int sizeY = this.getModel().getSizeY();
 
-        this.tiles = new Tile[sizeX][sizeY];
+        this.tiles = new RoomTile[sizeX][sizeY];
 
         for (int x = 0; x < sizeX; x++) {
-            Tile[] xArray = new Tile[sizeY];
+            RoomTile[] xArray = new RoomTile[sizeY];
 
             for (int y = 0; y < sizeY; y++) {
-                Tile instance = new Tile(this, new Position(x, y, 0d));
+                RoomTile instance = new RoomTile(this, new Position(x, y, 0d));
                 instance.reload();
 
                 xArray[y] = instance;
@@ -53,7 +55,7 @@ public class RoomMapping {
                 List<GenericEntity> entitiesToRemove = new ArrayList<>();
 
                 try {
-                    Tile tile = this.tiles[x][y];
+                    RoomTile tile = this.tiles[x][y];
 
                     for (GenericEntity entity : tile.getEntities()) {
                         if (entity instanceof PlayerEntity) {
@@ -86,18 +88,33 @@ public class RoomMapping {
         }
     }
 
-    public Tile getTile(Position position) {
+    public RoomTile getTile(Position position) {
         if (position == null) return null;
 
         return this.getTile(position.getX(), position.getY());
     }
 
-    public Tile getTile(int x, int y) {
+    public RoomTile getTile(int x, int y) {
         if (x < 0 || y < 0) return null;
         if (x >= this.tiles.length || (this.tiles[x] == null || y >= this.tiles[x].length)) return null;
 
         return this.tiles[x][y];
     }
+
+    public RoomTile getRandomReachableTile(RoomObject roomObject) {
+        for(int tries = 0; tries < this.getModel().getSizeX() * this.getModel().getSizeY(); tries++) {
+            int randomX = RandomInteger.getRandom(0, this.getModel().getSizeX()-1);
+            int randomY = RandomInteger.getRandom(0, this.getModel().getSizeY()-1);
+
+            final RoomTile tile = this.getTile(randomX, randomY);
+            if(tile.isReachable(roomObject)) {
+                return tile;
+            }
+        }
+
+        return null;
+    }
+
 
     public boolean positionHasUser(Position position) {
         return positionHasUser(null, position);
@@ -176,8 +193,8 @@ public class RoomMapping {
 
         if (rotation == 1 || rotation == 3 || rotation == 5 || rotation == 7) {
             // Get all tiles at passing corners
-            Tile left = null;
-            Tile right = null;
+            RoomTile left = null;
+            RoomTile right = null;
 
             switch (rotation) {
                 case 1:
@@ -227,7 +244,7 @@ public class RoomMapping {
             }
         }
 
-        Tile tile = tiles[to.getX()][to.getY()];
+        RoomTile tile = tiles[to.getX()][to.getY()];
 
         if (tile == null) {
             return false;
@@ -249,7 +266,7 @@ public class RoomMapping {
     public double getStepHeight(Position position) {
         if (this.tiles.length <= position.getX() || this.tiles[position.getX()].length <= position.getY()) return 0.0;
 
-        Tile instance = this.tiles[position.getX()][position.getY()];
+        RoomTile instance = this.tiles[position.getX()][position.getY()];
 
         if (!isValidPosition(instance.getPosition())) {
             return 0.0;

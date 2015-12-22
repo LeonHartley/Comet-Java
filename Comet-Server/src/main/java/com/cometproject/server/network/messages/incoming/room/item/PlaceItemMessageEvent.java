@@ -4,7 +4,7 @@ import com.cometproject.server.game.players.components.types.inventory.Inventory
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
-import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -69,7 +69,7 @@ public class PlaceItemMessageEvent implements Event {
                 RoomItemFloor floorItem = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(item.getId());
 
                 if (floorItem != null) {
-                    Tile tile = floorItem.getTile();
+                    RoomTile tile = floorItem.getTile();
 
                     if (tile != null) {
                         if (tile.getItems().size() > 1) {

@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.objects;
 import com.cometproject.api.game.rooms.objects.IRoomObject;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 
 
 public abstract class RoomObject implements IRoomObject {
@@ -39,7 +39,7 @@ public abstract class RoomObject implements IRoomObject {
      *
      * @return the tile instance from the room mapping
      */
-    public Tile getTile() {
+    public RoomTile getTile() {
         if (this.getPosition() == null) return null;
 
         return this.getRoom().getMapping().getTile(this.getPosition().getX(), this.getPosition().getY());

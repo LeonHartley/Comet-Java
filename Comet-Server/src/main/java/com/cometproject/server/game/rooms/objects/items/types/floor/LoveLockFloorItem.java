@@ -6,7 +6,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.items.lovelock.LoveLockWidgetMessageComposer;
 
 public class LoveLockFloorItem extends RoomItemFloor {
@@ -48,8 +48,8 @@ public class LoveLockFloorItem extends RoomItemFloor {
             return false; //right pos would also be null
         }
 
-        final Tile leftTile = this.getRoom().getMapping().getTile(leftPosition);
-        final Tile rightTile = this.getRoom().getMapping().getTile(rightPosition);
+        final RoomTile leftTile = this.getRoom().getMapping().getTile(leftPosition);
+        final RoomTile rightTile = this.getRoom().getMapping().getTile(rightPosition);
 
         if (leftTile == null || rightTile == null || leftTile.getEntities().size() != 1 || rightTile.getEntities().size() != 1)
             return false;

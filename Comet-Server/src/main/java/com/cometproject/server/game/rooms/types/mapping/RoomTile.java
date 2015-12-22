@@ -11,11 +11,12 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
+import com.google.common.collect.Lists;
 
 import java.util.*;
 
 
-public class Tile {
+public class RoomTile {
     private RoomMapping mappingInstance;
     private Position position;
 
@@ -42,7 +43,7 @@ public class Tile {
     private List<RoomItemFloor> items;
     public Set<GenericEntity> entities;
 
-    public Tile(RoomMapping mappingInstance, Position position) {
+    public RoomTile(RoomMapping mappingInstance, Position position) {
         this.mappingInstance = mappingInstance;
         this.position = position;
         this.entities = new ConcurrentHashSet<>();

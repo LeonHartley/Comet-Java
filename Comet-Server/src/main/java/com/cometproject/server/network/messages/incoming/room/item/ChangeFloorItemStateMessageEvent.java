@@ -6,7 +6,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerStateChanged;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.UpdateStackMapMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -50,7 +50,7 @@ public class ChangeFloorItemStateMessageEvent implements Event {
             }
 
             for (Position tileToUpdate : tilesToUpdate) {
-                Tile tile = room.getMapping().getTile(tileToUpdate);
+                RoomTile tile = room.getMapping().getTile(tileToUpdate);
 
                 if (tile != null) {
                     tile.reload();

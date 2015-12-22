@@ -2,7 +2,7 @@ package com.cometproject.server.network.messages.outgoing.room.engine;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.game.rooms.types.mapping.Tile;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
@@ -27,7 +27,7 @@ public class HeightmapMessageComposer extends MessageComposer {
 
         for (int y = 0; y < room.getModel().getSizeY(); y++) {
             for (int x = 0; x < room.getModel().getSizeX(); x++) {
-                Tile tile = room.getMapping().getTile(x, y);
+                RoomTile tile = room.getMapping().getTile(x, y);
 
                 if (room.getModel().getSquareState()[x][y] == RoomTileState.INVALID) {
                     msg.writeShort(16191);
