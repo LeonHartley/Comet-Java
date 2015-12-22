@@ -5,7 +5,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -55,7 +55,7 @@ public class ChangeFloorItemPositionMessageEvent implements Event {
 
                 notificationParams.put("message", "${room.error.cant_set_item}");
 
-                client.send(new RoomNotificationMessageComposer("furni_placement_error", notificationParams));
+                client.send(new NotificationMessageComposer("furni_placement_error", notificationParams));
             }
 
             if (floorItem != null) {

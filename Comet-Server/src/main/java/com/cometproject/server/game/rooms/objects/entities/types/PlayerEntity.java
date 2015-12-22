@@ -380,7 +380,6 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         }
 
         if (this.isRoomMuted() && !this.getPlayer().getPermissions().getRank().roomMuteBypass() && this.getRoom().getData().getOwnerId() != this.getPlayerId()) {
-            this.getPlayer().getSession().send(new MutedMessageComposer(99999999));
             return false;
         }
 

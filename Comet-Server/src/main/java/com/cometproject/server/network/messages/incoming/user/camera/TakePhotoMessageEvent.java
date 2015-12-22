@@ -6,7 +6,7 @@ import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -24,7 +24,7 @@ public class TakePhotoMessageEvent implements Event {
 
         client.getPlayer().getInventory().addItem(inventoryItem);
 
-        client.send(new RoomNotificationMessageComposer("generic", Locale.getOrDefault("camera.photoTaken", "You successfully took a photo!")));
+        client.send(new NotificationMessageComposer("generic", Locale.getOrDefault("camera.photoTaken", "You successfully took a photo!")));
         client.send(new UpdateInventoryMessageComposer());
 
         client.send(new UnseenItemsMessageComposer(Lists.newArrayList(inventoryItem)));

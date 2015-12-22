@@ -21,7 +21,7 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.Tile;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.UpdateStackMapMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveWallItemMessageComposer;
@@ -464,7 +464,7 @@ public class ItemsComponent {
 
                 notificationParams.put("message", Locale.get("game.room.jukeboxExists"));
 
-                player.getSession().send(new RoomNotificationMessageComposer("furni_placement_error", notificationParams));
+                player.getSession().send(new NotificationMessageComposer("furni_placement_error", notificationParams));
                 return;
             } else {
                 this.soundMachineId = item.getId();

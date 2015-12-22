@@ -3,7 +3,7 @@ package com.cometproject.server.game.commands;
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
 
@@ -19,7 +19,7 @@ public abstract class ChatCommand {
     }
 
     public static void sendNotif(String msg, Session session) {
-        session.send(new RoomNotificationMessageComposer("generic", msg));
+        session.send(new NotificationMessageComposer("generic", msg));
     }
 
     public final String merge(String[] params) {

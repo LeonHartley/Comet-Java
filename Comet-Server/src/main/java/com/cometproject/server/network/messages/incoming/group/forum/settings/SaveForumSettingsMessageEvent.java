@@ -7,7 +7,7 @@ import com.cometproject.server.game.groups.types.components.forum.settings.Forum
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumThreadsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 
@@ -46,7 +46,7 @@ public class SaveForumSettingsMessageEvent implements Event {
         forumSettings.save();
 
         client.send(group.composeInformation(false, client.getPlayer().getId()));
-        client.send(new RoomNotificationMessageComposer("forums.forum_settings_updated"));
+        client.send(new NotificationMessageComposer("forums.forum_settings_updated"));
         client.send(new GroupForumDataMessageComposer(group, client.getPlayer().getId()));
 
         // HACK, WHEN THIS IS FIXED, REMOVE!

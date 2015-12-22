@@ -1,7 +1,5 @@
 package com.cometproject.server.game.catalog.purchase;
 
-import com.cometproject.api.game.rooms.settings.RoomTradeState;
-import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
@@ -27,15 +25,13 @@ import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundle;
 import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoundMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.LimitedEditionSoldOutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.navigator.CreateRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.EnforceRoomCategoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
@@ -354,7 +350,7 @@ public class OldCatalogPurchaseHandler {
                         notificationParams.put("groupId", groupId + "");
                         notificationParams.put("groupName", group.getData().getTitle());
 
-                        client.send(new RoomNotificationMessageComposer("forums.delivered", notificationParams));
+                        client.send(new NotificationMessageComposer("forums.delivered", notificationParams));
 
                     }
 
@@ -478,7 +474,7 @@ public class OldCatalogPurchaseHandler {
 
             client.send(new UnseenItemsMessageComposer(unseenItems));
             client.send(new UpdateInventoryMessageComposer());
-            client.send(new RoomNotificationMessageComposer("gift_received", Locale.getOrDefault("notification.gift_received", "You have just received a gift from %username%!").replace("%username%", senderUsername)));
+            client.send(new NotificationMessageComposer("gift_received", Locale.getOrDefault("notification.gift_received", "You have just received a gift from %username%!").replace("%username%", senderUsername)));
 
         }
     }

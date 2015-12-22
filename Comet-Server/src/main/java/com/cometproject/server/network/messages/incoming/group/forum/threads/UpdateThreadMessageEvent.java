@@ -7,7 +7,7 @@ import com.cometproject.server.game.groups.types.components.forum.settings.Forum
 import com.cometproject.server.game.groups.types.components.forum.threads.ForumThread;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.forums.GroupForumUpdateThreadMessageComposer;
-import com.cometproject.server.network.messages.outgoing.notification.RoomNotificationMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.groups.GroupForumThreadDao;
@@ -46,7 +46,7 @@ public class UpdateThreadMessageEvent implements Event {
 
         if (isPinned != forumThread.isPinned()) {
             GroupForumThreadDao.saveMessagePinnedState(forumThread.getId(), isPinned);
-            client.send(new RoomNotificationMessageComposer("forums.thread." + (isPinned ? "pinned" : "unpinned")));
+            client.send(new NotificationMessageComposer("forums.thread." + (isPinned ? "pinned" : "unpinned")));
 
             if (isPinned) {
                 group.getForumComponent().getPinnedThreads().add(forumThread.getId());
@@ -58,7 +58,7 @@ public class UpdateThreadMessageEvent implements Event {
         if (isLocked != forumThread.isLocked()) {
             GroupForumThreadDao.saveMessageLockState(forumThread.getId(), isLocked);
 
-            client.send(new RoomNotificationMessageComposer("forums.thread." + (isLocked ? "locked" : "unlocked")));
+            client.send(new NotificationMessageComposer("forums.thread." + (isLocked ? "locked" : "unlocked")));
         }
 
         forumThread.setIsPinned(isPinned);

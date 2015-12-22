@@ -8,7 +8,7 @@ import com.google.common.collect.Maps;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RoomNotificationMessageComposer extends MessageComposer {
+public class NotificationMessageComposer extends MessageComposer {
     private static final String MESSAGE_KEY = "message";
     private static final String DISPLAY_KEY = "display";
     private static final String BUBBLE_DISPLAY = "BUBBLE";
@@ -16,19 +16,19 @@ public class RoomNotificationMessageComposer extends MessageComposer {
     private final Map<String, String> parameters;
     private final String type;
 
-    public RoomNotificationMessageComposer(final String type, final Map<String, String> parameters) {
+    public NotificationMessageComposer(final String type, final Map<String, String> parameters) {
         this.type = type;
         this.parameters = parameters;
     }
 
-    public RoomNotificationMessageComposer(final String type, final String message) {
+    public NotificationMessageComposer(final String type, final String message) {
         this(type, new HashMap<String, String>() {{
             put(DISPLAY_KEY, BUBBLE_DISPLAY);
             put(MESSAGE_KEY, message);
         }});
     }
 
-    public RoomNotificationMessageComposer(final String type) {
+    public NotificationMessageComposer(final String type) {
         this(type, Maps.newHashMap());
     }
 
