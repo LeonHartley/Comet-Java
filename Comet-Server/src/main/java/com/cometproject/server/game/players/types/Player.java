@@ -5,6 +5,7 @@ import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.quests.QuestManager;
@@ -25,6 +26,7 @@ import com.cometproject.server.network.messages.outgoing.user.purse.SendCreditsM
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -136,6 +138,11 @@ public class Player implements IPlayer {
                 // Player failed to leave room
                 this.getSession().getLogger().error("Error while disposing entity when player disconnects", e);
             }
+        }
+
+        if(PlayerDataStorageQueue.getInstance().isQueued(this.getData())) {
+            this.data.saveNow();
+            PlayerDataStorageQueue.getInstance().unqueue(this.getData());
         }
 
         this.getPets().dispose();

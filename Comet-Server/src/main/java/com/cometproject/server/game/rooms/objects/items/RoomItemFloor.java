@@ -6,7 +6,7 @@ import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.items.ItemManager;
-import com.cometproject.server.game.items.storage.ItemStorageQueue;
+import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;

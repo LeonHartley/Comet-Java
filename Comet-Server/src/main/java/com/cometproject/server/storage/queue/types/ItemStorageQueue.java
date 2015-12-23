@@ -1,8 +1,9 @@
-package com.cometproject.server.game.items.storage;
+package com.cometproject.server.storage.queue.types;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
+import com.cometproject.server.storage.queue.StorageQueue;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
 import com.cometproject.server.utilities.Initializable;
@@ -13,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class ItemStorageQueue implements Initializable, CometTask {
+public class ItemStorageQueue implements Initializable, CometTask, StorageQueue<RoomItem> {
     private static final Logger log = Logger.getLogger(ItemStorageQueue.class.getName());
     private static ItemStorageQueue instance;
 
@@ -23,7 +24,6 @@ public class ItemStorageQueue implements Initializable, CometTask {
     private List<RoomItem> itemsToStore;
 
     public ItemStorageQueue() {
-        // TODO: Multiple types of save tasks. (Position, placement, data etc.)
         this.itemsToStoreData = new CopyOnWriteArrayList<>();
         this.itemsToStore = new CopyOnWriteArrayList<>();
     }
@@ -53,6 +53,7 @@ public class ItemStorageQueue implements Initializable, CometTask {
         this.itemsToStoreData.add(roomItem);
     }
 
+    @Override
     public void queueSave(final RoomItem roomItem) {
         if(this.itemsToStore.contains(roomItem)) {
             this.itemsToStore.remove(roomItem);
@@ -61,6 +62,13 @@ public class ItemStorageQueue implements Initializable, CometTask {
         this.itemsToStore.add(roomItem);
     }
 
+
+    @Override
+    public boolean isQueued(RoomItem object) {
+        return this.itemsToStore.contains(object) || this.itemsToStoreData.contains(object);
+    }
+
+    @Override
     public void shutdown() {
         this.future.cancel(false);
 
@@ -78,7 +86,8 @@ public class ItemStorageQueue implements Initializable, CometTask {
         return instance;
     }
 
-    public void unqueue(RoomItemFloor floorItem) {
+    @Override
+    public void unqueue(RoomItem floorItem) {
         if(this.itemsToStore.contains(floorItem)) {
             this.itemsToStore.remove(floorItem);
         }

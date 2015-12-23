@@ -6,7 +6,6 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import org.apache.log4j.Logger;
 
 import java.util.concurrent.TimeUnit;
 

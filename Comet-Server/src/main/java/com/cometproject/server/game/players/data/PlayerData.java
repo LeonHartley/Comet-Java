@@ -1,7 +1,9 @@
 package com.cometproject.server.game.players.data;
 
 import com.cometproject.api.game.players.data.IPlayerData;
+import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.storage.queries.player.PlayerDao;
+import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,6 +80,14 @@ public class PlayerData implements PlayerAvatar, IPlayerData {
     }
 
     public void save() {
+        if(CometSettings.playerDataStorageQueue) {
+            PlayerDataStorageQueue.getInstance().queueSave(this);
+        } else {
+            this.saveNow();
+        }
+    }
+
+    public void saveNow() {
         PlayerDao.updatePlayerData(id, username, motto, figure, credits, vipPoints, gender, favouriteGroup, activityPoints, questId, achievementPoints);
     }
 

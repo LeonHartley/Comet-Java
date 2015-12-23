@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -648,6 +649,43 @@ public class PlayerDao {
             preparedStatement = SqlHelper.prepare("UPDATE players SET online = '0' WHERE online = '1'", sqlConnection);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void saveBatch(Map<Integer, PlayerData> playerData) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            sqlConnection.setAutoCommit(false);
+
+            preparedStatement = SqlHelper.prepare("UPDATE players SET username = ?, motto = ?, figure = ?, credits = ?, vip_points = ?, gender = ?, favourite_group = ?, activity_points = ?, quest_id = ?, achievement_points = ? WHERE id = ?", sqlConnection);
+
+            for(PlayerData playerDataInstance : playerData.values()) {
+                preparedStatement.setString(1, playerDataInstance.getUsername());
+                preparedStatement.setString(2, playerDataInstance.getMotto());
+                preparedStatement.setString(3, playerDataInstance.getFigure());
+                preparedStatement.setInt(4, playerDataInstance.getCredits());
+                preparedStatement.setInt(5, playerDataInstance.getVipPoints());
+                preparedStatement.setString(6, playerDataInstance.getGender());
+                preparedStatement.setInt(7, playerDataInstance.getFavouriteGroup());
+                preparedStatement.setInt(8, playerDataInstance.getActivityPoints());
+                preparedStatement.setInt(9, playerDataInstance.getQuestId());
+                preparedStatement.setInt(10, playerDataInstance.getActivityPoints());
+                preparedStatement.setInt(11, playerDataInstance.getId());
+
+                preparedStatement.addBatch();
+            }
+
+            preparedStatement.executeBatch();
+            sqlConnection.commit();
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {

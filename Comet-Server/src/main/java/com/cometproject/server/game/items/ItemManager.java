@@ -1,7 +1,7 @@
 package com.cometproject.server.game.items;
 
 import com.cometproject.server.game.items.music.MusicData;
-import com.cometproject.server.game.items.storage.ItemStorageQueue;
+import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.MusicDao;
@@ -35,8 +35,6 @@ public class ItemManager implements Initializable {
 
         this.loadItemDefinitions();
         this.loadMusicData();
-
-        ItemStorageQueue.getInstance().initialize();
 
         log.info("ItemManager initialized");
     }

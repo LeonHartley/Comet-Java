@@ -193,6 +193,8 @@ public class CometSettings {
 
     public static int idleMinutes = 20;
 
+    public static boolean playerDataStorageQueue = false;
+
     /**
      * Logging
      */
@@ -251,10 +253,6 @@ public class CometSettings {
         if (config.containsKey("comet.security.storeAccess")) {
             storeAccess = Boolean.parseBoolean(config.get("comet.security.storeAccess"));
         }
-
-//        if (config.containsKey("comet.game.rooms.disableWiredFlash")) {
-//            disableWiredFlash = Boolean.parseBoolean(config.get("comet.game.rooms.disableWiredFlash"));
-//        }
 
         if (config.containsKey("comet.game.infiniteBalance")) {
             infiniteBalance = Boolean.parseBoolean(config.get("comet.game.infiniteBalance"));
@@ -324,6 +322,10 @@ public class CometSettings {
 
         if(config.containsKey("comet.room.idleTimeMinutes")) {
             idleMinutes = Integer.parseInt(config.get("comet.room.idleTimeMinutes"));
+        }
+
+        if(config.containsKey("comet.data.playerDataStorageQueue")) {
+            playerDataStorageQueue = Boolean.parseBoolean(config.get("comet.data.playerDataStorageQueue"));
         }
     }
 

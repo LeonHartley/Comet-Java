@@ -20,10 +20,13 @@ import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
+import com.cometproject.server.game.utilities.validator.PlayerFigureValidator;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.modules.ModuleManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.storage.StorageManager;
+import com.cometproject.server.storage.queue.types.ItemStorageQueue;
+import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
 import com.cometproject.server.tasks.CometThreadManager;
 import org.apache.log4j.Logger;
 
@@ -53,6 +56,7 @@ public class CometServer {
         ModuleManager.getInstance().initialize();
         APIManager.getInstance().initialize();
 //        WebSocketServer.getInstance().initialize();
+        PlayerFigureValidator.loadFigureData();
 
         CometThreadManager.getInstance().initialize();
         StorageManager.getInstance().initialize();
@@ -80,6 +84,9 @@ public class CometServer {
         PlayerManager.getInstance().initialize();
         QuestManager.getInstance().initialize();
         AchievementManager.getInstance().initialize();
+
+        PlayerDataStorageQueue.getInstance().initialize();
+        ItemStorageQueue.getInstance().initialize();
 
         String ipAddress = this.getConfig().get("comet.network.host"),
                 port = this.getConfig().get("comet.network.port");
