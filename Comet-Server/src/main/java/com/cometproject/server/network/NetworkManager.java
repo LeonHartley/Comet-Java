@@ -2,6 +2,7 @@ package com.cometproject.server.network;
 
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.MessageHandler;
+import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -29,8 +30,12 @@ public class NetworkManager {
     public static int IDLE_TIMER_WRITER_TIME = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.idleTimer.writerIdleTime", "30"));
     public static int IDLE_TIMER_ALL_TIME = Integer.parseInt(Comet.getServer().getConfig().get("comet.network.idleTimer.allIdleTime", "30"));
 
+    private int serverPort;
+
     private SessionManager sessions;
     private MessageHandler messageHandler;
+
+    private MonitorClient monitorClient;
 
     private static Logger log = Logger.getLogger(NetworkManager.class.getName());
 
@@ -48,6 +53,9 @@ public class NetworkManager {
     public void initialize(String ip, String ports) {
         this.sessions = new SessionManager();
         this.messageHandler = new MessageHandler();
+
+        this.serverPort = Integer.parseInt(ports.split(",")[0]);
+        this.monitorClient = new MonitorClient(new NioEventLoopGroup());
 
         InternalLoggerFactory.setDefaultFactory(new Log4JLoggerFactory());
 
@@ -124,5 +132,13 @@ public class NetworkManager {
 
     public MessageHandler getMessages() {
         return this.messageHandler;
+    }
+
+    public MonitorClient getMonitorClient() {
+        return monitorClient;
+    }
+
+    public int getServerPort() {
+        return serverPort;
     }
 }

@@ -23,7 +23,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.Man
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.wired.data.ScoreboardItemData;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -44,6 +43,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
 
     private ItemDefinition itemDefinition;
     private GenericEntity collidedEntity;
+    private boolean hasQueuedSave;
 
     public RoomItemFloor(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, new Position(x, y, z), room);
@@ -316,6 +316,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
             ItemStorageQueue.getInstance().queueSave(this);
         } else {
             RoomItemDao.saveItem(this);
+            this.hasQueuedSave = true;
         }
     }
 
@@ -426,5 +427,13 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
 
     public void setExtraData(String data) {
         this.extraData = data;
+    }
+
+    public boolean hasQueuedSave() {
+        return hasQueuedSave;
+    }
+
+    public void setHasQueuedSave(boolean hasQueuedSave) {
+        this.hasQueuedSave = hasQueuedSave;
     }
 }

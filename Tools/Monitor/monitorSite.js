@@ -10,7 +10,7 @@ var private = require('express-http-auth').realm('Index');
 
 app.get('/', private, function(req, res) {
   if (req.username == 'monitor' && req.password == 'cometServer9900') {
-	res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/index.html');
   } else {
     res.send("access forbidden");
   }

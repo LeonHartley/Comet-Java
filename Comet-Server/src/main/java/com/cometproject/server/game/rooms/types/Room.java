@@ -131,6 +131,9 @@ public class Room implements Attributable, IRoom {
         if (this.isDisposed) {
             return;
         }
+
+        this.getItems().commit();
+
         this.isDisposed = true;
 
         this.process.stop();

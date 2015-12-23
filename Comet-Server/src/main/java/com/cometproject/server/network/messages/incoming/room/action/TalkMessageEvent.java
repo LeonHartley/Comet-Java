@@ -71,7 +71,7 @@ public class TalkMessageEvent implements Event {
 
         if (playerEntity.onChat(filteredMessage)) {
             try {
-                if (LogManager.ENABLED)
+                if (LogManager.ENABLED && !message.replace(" ", "").isEmpty())
                     LogManager.getInstance().getStore().getLogEntryContainer().put(new RoomChatLogEntry(playerEntity.getRoom().getId(), client.getPlayer().getId(), message));
             } catch (Exception ignored) {
 

@@ -3,6 +3,7 @@ package com.cometproject.server.game.rooms.types.components;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
+import com.cometproject.server.game.items.storage.ItemStorageQueue;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
@@ -111,6 +112,20 @@ public class ItemsComponent {
 
         this.moodlightId = 0;
         return true;
+    }
+
+    public void commit() {
+        List<RoomItem> floorItems = new ArrayList<>();
+
+        for(RoomItemFloor floorItem : this.floorItems.values()) {
+            floorItems.add(floorItem);
+
+            if(floorItem.hasQueuedSave()) {
+                ItemStorageQueue.getInstance().unqueue(floorItem);
+            }
+        }
+
+        RoomItemDao.saveFloorItems(floorItems);
     }
 
     public boolean isMoodlightMatches(RoomItem item) {

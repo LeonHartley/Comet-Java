@@ -1,6 +1,7 @@
 package com.cometproject.server.game.items.storage;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
@@ -75,5 +76,11 @@ public class ItemStorageQueue implements Initializable, CometTask {
         }
 
         return instance;
+    }
+
+    public void unqueue(RoomItemFloor floorItem) {
+        if(this.itemsToStore.contains(floorItem)) {
+            this.itemsToStore.remove(floorItem);
+        }
     }
 }
