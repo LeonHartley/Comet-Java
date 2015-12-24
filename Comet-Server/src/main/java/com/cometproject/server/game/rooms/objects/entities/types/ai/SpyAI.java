@@ -16,8 +16,6 @@ public class SpyAI extends AbstractBotAI {
 
     @Override
     public boolean onPlayerEnter(PlayerEntity playerEntity) {
-        // TODO: log entry if owner isn't in the room.
-
         if (playerEntity.getPlayerId() != this.getBotEntity().getData().getOwnerId()) {
             if (!((SpyBotData) this.getBotEntity().getDataObject()).getVisitors().contains(playerEntity.getUsername())) {
                 ((SpyBotData) this.getBotEntity().getDataObject()).getVisitors().add(playerEntity.getUsername());
@@ -51,13 +49,13 @@ public class SpyAI extends AbstractBotAI {
 
                     if (this.getBotEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER) != null) {
                         if (isLast) {
-                            stillIn += username + (stillIn.equals("") ? Locale.getOrDefault("comet.game.bot.spy.stillInRoom.single", " is still in the room") : Locale.getOrDefault("comet.game.bot.spy.stillInRoom.multiple", " are still in the room");
+                            stillIn += username + (stillIn.equals("") ? Locale.getOrDefault("comet.game.bot.spy.stillInRoom.single", " is still in the room") : Locale.getOrDefault("comet.game.bot.spy.stillInRoom.multiple", " are still in the room"));
                         } else {
                             stillIn += username + ", ";
                         }
                     } else {
                         if (isLast) {
-                            left += username + (stillIn.equals("") ? Locale.getOrDefault("comet.game.bot.spy.leftRoom.single", " has left") : Locale.getOrDefault("comet.game.bot.spy.stillInRoom.multiple", " have left"));
+                            left += username + (left.equals("") ? Locale.getOrDefault("comet.game.bot.spy.leftRoom.single", " has left") : Locale.getOrDefault("comet.game.bot.spy.stillInRoom.multiple", " have left"));
                         } else {
                             left += username + ", ";
                         }
@@ -73,6 +71,7 @@ public class SpyAI extends AbstractBotAI {
                 }
 
                 ((SpyBotData) this.getBotEntity().getDataObject()).getVisitors().clear();
+                this.getBotEntity().saveDataObject();
                 this.hasSaidYes = true;
             }
         }

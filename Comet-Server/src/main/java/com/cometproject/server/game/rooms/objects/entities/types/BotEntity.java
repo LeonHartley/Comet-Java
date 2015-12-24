@@ -12,7 +12,6 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMe
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.utilities.JsonFactory;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -48,11 +47,11 @@ public class BotEntity extends GenericEntity {
             case "spy":
                 this.ai = new SpyAI(this);
 
-                    if(this.data.getData() == null) {
-                        this.dataObject = new SpyBotData(new LinkedList<>());
-                    } else {
-                        this.dataObject = JsonFactory.getInstance().fromJson(this.data.getData(), SpyBotData.class);
-                    }
+                if (this.data.getData() == null) {
+                    this.dataObject = new SpyBotData(new LinkedList<>());
+                } else {
+                    this.dataObject = JsonFactory.getInstance().fromJson(this.data.getData(), SpyBotData.class);
+                }
 
                 break;
         }
@@ -73,7 +72,6 @@ public class BotEntity extends GenericEntity {
     }
 
     public void leaveRoom() {
-
         this.leaveRoom(false, false, false);
     }
 
@@ -97,15 +95,19 @@ public class BotEntity extends GenericEntity {
         return false;
     }
 
+    public void saveDataObject() {
+        if (this.dataObject != null) {
+            this.data.setData(JsonFactory.getInstance().toJson(this.dataObject));
+            this.data.save();
+        }
+    }
+
     @Override
     public boolean onRoomDispose() {
         // Send leave room message to all current entities
         this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
 
-        if(this.dataObject != null) {
-            this.data.setData(JsonFactory.getInstance().toJson(this.dataObject));
-            this.data.save();
-        }
+        this.saveDataObject();
 
         this.data.dispose();
         this.data = null;
