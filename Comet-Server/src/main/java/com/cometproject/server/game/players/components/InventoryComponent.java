@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class InventoryComponent implements PlayerComponent {
@@ -40,7 +41,7 @@ public class InventoryComponent implements PlayerComponent {
 
         this.floorItems = new LinkedHashMap<>();
         this.wallItems = new LinkedHashMap<>();
-        this.badges = new LinkedHashMap<>();
+        this.badges = new ConcurrentHashMap<>();
 
         this.loadBadges();
     }

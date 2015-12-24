@@ -313,6 +313,10 @@ public class OldCatalogPurchaseHandler {
                         case "bot_bartender":
                             type = "waiter";
                             break;
+
+                        case "bot_spy":
+                            type = "spy";
+                            break;
                     }
 
                     int botId = PlayerBotDao.createBot(client.getPlayer().getId(), botName, botFigure, botGender, botMotto, type);

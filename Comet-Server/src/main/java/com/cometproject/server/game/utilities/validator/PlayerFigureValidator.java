@@ -1,11 +1,12 @@
 package com.cometproject.server.game.utilities.validator;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.CometSettings;
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
@@ -139,12 +140,20 @@ public class PlayerFigureValidator {
                     PlayerFigureValidator.setTypes.put(typeName, new PlayerFigureSetType(typeName, Integer.valueOf(setTypeElement.getAttribute("paletteid")), setMap));
                 }
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             Comet.getServer().getLogger().warn("Error while initializing the PlayerFigureValidator", e);
         }
     }
 
     public static boolean isValidFigureCode(final String figureCode, final String gender) {
+        if (!CometSettings.figureValidation) {
+            return true;
+        }
+
+        if (figureCode == null) {
+            return false;
+        }
+
         try {
             if (!gender.equals("m") && !gender.equals("f")) {
                 return false;
@@ -182,7 +191,7 @@ public class PlayerFigureValidator {
 
                 final PlayerFigureSet setInstance = setMap.get(setId);
 
-                if ((!setInstance.getGender().equals("u") && !setInstance.getGender().equals(gender)) || !setInstance.isSelectable() || setInstance.getClubCode() > 2 || (setData.length - 2) < setInstance.getColorCount()) {
+                if (!setInstance.isSelectable() || (setData.length - 2) < setInstance.getColorCount()) {
                     return false;
                 }
 

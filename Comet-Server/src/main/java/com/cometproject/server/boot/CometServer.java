@@ -91,8 +91,9 @@ public class CometServer {
         String ipAddress = this.getConfig().get("comet.network.host"),
                 port = this.getConfig().get("comet.network.port");
 
-        NetworkManager.getInstance().initialize(ipAddress, port);
+        PlayerFigureValidator.isValidFigureCode("ea-3270-63-1408.lg-3364-64-1408.ca-3131-63-1408.wa-3359-63.ch-210-1424.fa-3193-92.hr-135-31.cc-3374-63.sh-3348-91.cp-3308-63-1408.hd-207-1362.he-3082-63", "m");
 
+        NetworkManager.getInstance().initialize(ipAddress, port);
         GameThread.getInstance().initialize();
 
         if (Comet.isDebugging) {

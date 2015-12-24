@@ -17,6 +17,8 @@ public class ChangeLooksMessageEvent implements Event {
         String gender = msg.readString();
         String figure = msg.readString();
 
+        if(figure == null) return;
+
         if (!PlayerFigureValidator.isValidFigureCode(figure, gender.toLowerCase())) {
             client.send(new AlertMessageComposer(Locale.getOrDefault("game.figure.invalid", "That figure is invalid!")));
             return;

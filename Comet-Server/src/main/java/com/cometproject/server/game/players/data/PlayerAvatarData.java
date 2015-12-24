@@ -1,5 +1,7 @@
 package com.cometproject.server.game.players.data;
 
+import com.cometproject.server.game.utilities.validator.PlayerFigureValidator;
+
 public class PlayerAvatarData implements PlayerAvatar {
 
     private int id;
@@ -7,17 +9,21 @@ public class PlayerAvatarData implements PlayerAvatar {
     private String figure;
     private String motto;
 
-    public PlayerAvatarData(int id, String username, String figure) {
-        this.id = id;
-        this.username = username;
-        this.figure = figure;
-    }
-
     public PlayerAvatarData(int id, String username, String figure, String motto) {
         this.id = id;
         this.username = username;
         this.figure = figure;
         this.motto = motto;
+
+        if(figure == null) { return; }
+
+        if(!PlayerFigureValidator.isValidFigureCode(this.figure, "m")) {
+            this.figure = PlayerData.DEFAULT_FIGURE;
+        }
+    }
+
+    public PlayerAvatarData(int id, String username, String figure) {
+        this(id, username, figure, null);
     }
 
     public int getId() {

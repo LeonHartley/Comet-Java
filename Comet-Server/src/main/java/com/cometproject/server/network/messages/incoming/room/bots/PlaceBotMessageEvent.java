@@ -63,5 +63,6 @@ public class PlaceBotMessageEvent implements Event {
             floorItem.onEntityStepOn(botEntity);
         }
 
+        botEntity.getAI().onAddedToRoom();
     }
 }

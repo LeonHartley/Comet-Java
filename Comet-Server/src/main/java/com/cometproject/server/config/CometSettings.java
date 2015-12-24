@@ -195,6 +195,8 @@ public class CometSettings {
 
     public static boolean playerDataStorageQueue = false;
 
+    public static boolean figureValidation = false;
+
     /**
      * Logging
      */
@@ -326,6 +328,10 @@ public class CometSettings {
 
         if(config.containsKey("comet.data.playerDataStorageQueue")) {
             playerDataStorageQueue = Boolean.parseBoolean(config.get("comet.data.playerDataStorageQueue"));
+        }
+
+        if(config.containsKey("comet.figureValidation")) {
+            figureValidation = Boolean.parseBoolean(config.get("comet.figureValidation"));
         }
     }
 

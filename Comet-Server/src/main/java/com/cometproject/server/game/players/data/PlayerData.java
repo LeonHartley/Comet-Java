@@ -2,6 +2,7 @@ package com.cometproject.server.game.players.data;
 
 import com.cometproject.api.game.players.data.IPlayerData;
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.utilities.validator.PlayerFigureValidator;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queue.types.PlayerDataStorageQueue;
 
@@ -10,6 +11,8 @@ import java.sql.SQLException;
 
 
 public class PlayerData implements PlayerAvatar, IPlayerData {
+    public static final String DEFAULT_FIGURE = "hr-100-61.hd-180-2.sh-290-91.ch-210-66.lg-270-82";
+
     private int id;
     private int rank;
 
@@ -57,26 +60,33 @@ public class PlayerData implements PlayerAvatar, IPlayerData {
         this.favouriteGroup = favouriteGroup;
         this.ipAddress = ipAddress;
         this.questId = questId;
+
+        if(this.figure != null) {
+            if (!PlayerFigureValidator.isValidFigureCode(this.figure, this.gender.toLowerCase())) {
+                this.figure = DEFAULT_FIGURE;
+            }
+        }
     }
 
     public PlayerData(ResultSet data) throws SQLException {
-        this.id = data.getInt("playerId");
-        this.username = data.getString("playerData_username");
-        this.motto = data.getString("playerData_motto");
-        this.figure = data.getString("playerData_figure");
-        this.gender = data.getString("playerData_gender");
-        this.email = data.getString("playerData_email");
-        this.rank = data.getInt("playerData_rank");
-        this.credits = data.getInt("playerData_credits");
-        this.vipPoints = data.getInt("playerData_vipPoints");
-        this.regDate = data.getString("playerData_regDate");
-        this.lastVisit = data.getInt("playerData_lastOnline");
-        this.vip = data.getString("playerData_vip").equals("1");
-        this.achievementPoints = data.getInt("playerData_achievementPoints");
-        this.regTimestamp = data.getInt("playerData_regTimestamp");
-        this.favouriteGroup = data.getInt("playerData_favouriteGroup");
-        this.activityPoints = data.getInt("playerData_activityPoints");
-        this.questId = data.getInt("playerData_questId");
+        this(data.getInt("playerId"),
+                data.getString("playerData_username"),
+                data.getString("playerData_motto"),
+                data.getString("playerData_figure"),
+                data.getString("playerData_gender"),
+                data.getString("playerData_email"),
+                data.getInt("playerData_rank"),
+                data.getInt("playerData_credits"),
+                data.getInt("playerData_vipPoints"),
+                data.getInt("playerData_activityPoints"),
+                data.getString("playerData_regDate"),
+                data.getInt("playerData_lastOnline"),
+                data.getString("playerData_vip").equals("1"),
+                data.getInt("playerData_achievementPoints"),
+                data.getInt("playerData_regTimestamp"),
+                data.getInt("playerData_favouriteGroup"),
+                data.getString("playerData_lastIp"),
+                data.getInt("playerData_questId"));
     }
 
     public void save() {

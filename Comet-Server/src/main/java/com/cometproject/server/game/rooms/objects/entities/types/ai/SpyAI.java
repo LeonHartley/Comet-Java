@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.types.ai;
 
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -23,10 +24,10 @@ public class SpyAI extends AbstractBotAI {
             }
         } else {
             if(((SpyBotData) this.getBotEntity().getDataObject()).getVisitors().size() == 0) {
-                this.getBotEntity().say("There have been no visitors while you've been away!!!");
+                this.getBotEntity().say(Locale.getOrDefault("comet.game.bot.spy.noVisitors", "There have been no visitors while you've been away!!!"));
                 this.hasSaidYes = true;
             } else {
-                this.getBotEntity().say("Nice to see you Sir! Please say yes if you'd like me to tell who have visited room while you've been gone.");
+                this.getBotEntity().say(Locale.getOrDefault("comet.game.bot.spy.sayYes", "Nice to see you Sir! Please say yes if you'd like me to tell who have visited room while you've been gone."));
                 this.hasSaidYes = false;
             }
         }
@@ -41,7 +42,7 @@ public class SpyAI extends AbstractBotAI {
         }
 
         if (entity.getPlayerId() == this.getBotEntity().getData().getOwnerId()) {
-            if (message.equals("yes")) {
+            if (message.equals("yes") || message.equals("oui") || message.equals("sim") || message.equals("ya") || message.equals(Locale.getOrDefault("comet.game.bot.yes", "yes"))) {
                 String stillIn = "";
                 String left = "";
 
@@ -50,13 +51,13 @@ public class SpyAI extends AbstractBotAI {
 
                     if (this.getBotEntity().getRoom().getEntities().getEntityByName(username, RoomEntityType.PLAYER) != null) {
                         if (isLast) {
-                            stillIn += username + (stillIn.equals("") ? " is still in the room" : " are still in the room");
+                            stillIn += username + (stillIn.equals("") ? Locale.getOrDefault("comet.game.bot.spy.stillInRoom.single", " is still in the room") : Locale.getOrDefault("comet.game.bot.spy.stillInRoom.multiple", " are still in the room");
                         } else {
                             stillIn += username + ", ";
                         }
                     } else {
                         if (isLast) {
-                            left += username + (stillIn.equals("") ? " has left" : " have left");
+                            left += username + (stillIn.equals("") ? Locale.getOrDefault("comet.game.bot.spy.leftRoom.single", " has left") : Locale.getOrDefault("comet.game.bot.spy.stillInRoom.multiple", " have left"));
                         } else {
                             left += username + ", ";
                         }
@@ -84,6 +85,17 @@ public class SpyAI extends AbstractBotAI {
             this.hasSaidYes = false;
         }
 
+        return false;
+    }
+
+    @Override
+    public boolean onAddedToRoom() {
+        this.getBotEntity().say(Locale.getOrDefault("comet.game.bot.spy.addedToRoom", "Hi! Next time you enter the room, I'll let you know who visited while you were away.."));
+        return false;
+    }
+
+    @Override
+    public boolean onRemovedFromRoom() {
         return false;
     }
 }

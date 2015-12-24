@@ -168,14 +168,21 @@ public class CatalogItem {
 
             if (this.getItems().size() == 0) return;
 
+            List<CatalogBundledItem> itemsToRemove = new ArrayList<>();
+
             for (CatalogBundledItem catalogBundledItem : this.items) {
                 final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(catalogBundledItem.getItemId());
 
                 if (itemDefinition == null) {
-                    System.out.println("Failed to find item definition for id: " + catalogBundledItem.getItemId());
-                    //idk bro..?
+                    itemsToRemove.add(catalogBundledItem);
                 }
             }
+
+            for(CatalogBundledItem itemToRemove : itemsToRemove) {
+                this.items.remove(itemToRemove);
+            }
+
+            itemsToRemove.clear();
 
             if (ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()) == null) return;
             int offerId = ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()).getOfferId();

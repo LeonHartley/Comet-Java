@@ -9,4 +9,8 @@ public interface BotAI {
     boolean onPlayerEnter(PlayerEntity playerEntity);
 
     boolean onPlayerLeave(PlayerEntity playerEntity);
+
+    boolean onAddedToRoom();
+
+    boolean onRemovedFromRoom();
 }
