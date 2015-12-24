@@ -55,7 +55,7 @@ public class SpyAI extends AbstractBotAI {
                         }
                     } else {
                         if (isLast) {
-                            left += username + (left.equals("") ? Locale.getOrDefault("comet.game.bot.spy.leftRoom.single", " has left") : Locale.getOrDefault("comet.game.bot.spy.stillInRoom.multiple", " have left"));
+                            left += username + (left.equals("") ? Locale.getOrDefault("comet.game.bot.spy.leftRoom.single", " has left") : Locale.getOrDefault("comet.game.bot.spy.leftRoom.multiple", " have left"));
                         } else {
                             left += username + ", ";
                         }

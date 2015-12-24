@@ -1,83 +1,82 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Comet Monitor</title>
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" type="text/css"/>
     <!--<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/flatly/bootstrap.min.css" rel="stylesheet">-->
     <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/lumen/bootstrap.min.css" rel="stylesheet">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-      var socket = io.connect('http://monitor.comet.openhabbo.com:80');
-      var totalPlayersOnline = 0;
+        $(document).ready(function () {
+            var socket = io.connect('http://monitor.comet.openhabbo.com:80');
+            var totalPlayersOnline = 0;
 
-      setInterval(function() {
-         socket.emit("packet", { name: "refresh", message: "" } );
-      }, 1000);
+            setInterval(function () {
+                socket.emit("packet", {name: "refresh", message: ""});
+            }, 1000);
 
+            // Get the list of active servers.
+            socket.on("packet", function (packet) {
 
-      // Get the list of active servers.
-      socket.on("packet", function(packet) {
+                switch (packet.name) {
+                    case "serverList":
 
-        switch(packet.name) {
-          case "serverList":
+                        totalPlayersOnline = 0;
+                        $('.servers').html("");
 
-            totalPlayersOnline = 0;
-            $('.servers').html("");
+                        packet.message.forEach(function (server) {
+                            totalPlayersOnline += server.status.players;
 
-            packet.message.forEach(function(server) {
-              totalPlayersOnline += server.status.players;
+                            $('.servers').append(
+                                    "<div class='col-md-4'>" +
+                                    "<div class='panel panel-default'>" +
+                                    "<div class='panel-heading'>" +
+                                    "<h3 class='panel-title'>" + server.name + "</h3>" +
+                                    "</div>" +
+                                    "<div class='list-group'>" +
+                                    "<li class='list-group-item'>Version: " + server.version + "</li>" +
+                                    "<li class='list-group-item'>Players: " + server.status.players + "</li>" +
+                                    "<li class='list-group-item'>Rooms: " + server.status.rooms + "</li>" +
+                                    "<li class='list-group-item'>Allocated Memory: " + server.status.allocatedMemory + "</li>" +
+                                    "<li class='list-group-item'>Used Memory: " + server.status.usedMemory + "</li>" +
+                                    "<li class='list-group-item'>Operating System: " + server.status.operatingSystem + "</li>" +
+                                    "<li class='list-group-item'>CPU Cores: " + server.status.cpuCores + "</li>" +
+                                    "<li class='list-group-item'>Uptime: " + server.status.uptime + "</li>" +
+                                    "</div>" +
+                                    "</div>"
+                            );
+                        });
 
-              $('.servers').append(
-                "<div class='col-md-4'>" +
-                  "<div class='panel panel-default'>" +
-                  "<div class='panel-heading'>"+
-                    "<h3 class='panel-title'>" + server.name + "</h3>"+
-                  "</div>"+
-                  "<div class='list-group'>" +
-                    "<li class='list-group-item'>Version: " + server.version + "</li>" +
-                    "<li class='list-group-item'>Players: " + server.status.players + "</li>" +
-                    "<li class='list-group-item'>Rooms: " + server.status.rooms + "</li>" +
-                    "<li class='list-group-item'>Allocated Memory: " + server.status.allocatedMemory + "</li>" +
-                    "<li class='list-group-item'>Used Memory: " + server.status.usedMemory + "</li>" +
-                    "<li class='list-group-item'>Operating System: " + server.status.operatingSystem + "</li>" +
-                    "<li class='list-group-item'>CPU Cores: " + server.status.cpuCores + "</li>" +
-                    "<li class='list-group-item'>Uptime: " + server.status.uptime + "</li>" +
-                    //"<li class='list-group-item'><button id='selectServer' data-server='" + server.name + "' class='btn btn-warning'>View Console</button></li>" +
-                  "</div>"+
-                "</div>"
-              );
+                        $('span.total-online-players').html(totalPlayersOnline);
+                        break;
+                }
             });
-
-            $('span.total-online-players').html(totalPlayersOnline);
-
-            break;
-        }
-      });
-
+        });
     </script>
 
-  </head>
+</head>
 
 <body>
-    <div class="container">
+<div class="container">
 
-      <div class="page-header">
+    <div class="page-header">
         <h1>Comet Server Monitor</h1>
+
         <p class="lead"><span class="total-online-players">0</span> total online players</p>
-      </div>
+    </div>
 
-      <div class="row servers"></div>
+    <div class="row servers"></div>
 
-      <!--<div class="page-header">
-        <h2>Server Console</h1>
-      </div>
+    <!--<div class="page-header">
+      <h2>Server Console</h1>
+    </div>
 
-      <div class="console"></div>-->
+    <div class="console"></div>-->
+</div>
 
-
-  </body>
+</body>
 </html>
