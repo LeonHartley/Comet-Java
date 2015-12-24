@@ -2,6 +2,8 @@ package com.cometproject.server.network.messages.incoming.room.engine;
 
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
+import com.cometproject.server.game.polls.PollManager;
+import com.cometproject.server.game.polls.types.Poll;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
@@ -14,6 +16,7 @@ import com.cometproject.server.network.messages.outgoing.room.engine.RoomPanelMe
 import com.cometproject.server.network.messages.outgoing.room.items.FloorItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.WallItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.polls.InitializePollMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -101,6 +104,11 @@ public class AddUserToRoomMessageEvent implements Event {
         client.sendQueue(new WallItemsMessageComposer(client.getPlayer().getEntity().getRoom()));
 
         WiredTriggerEnterRoom.executeTriggers(client.getPlayer().getEntity());
+
+        if(PollManager.getInstance().roomHasPoll(room.getId())) {
+            Poll poll = PollManager.getInstance().getPoll(room.getId());
+            client.send(new InitializePollMessageComposer(poll.getPollId(), poll.getPollTitle()));
+        }
 
         client.flush();
 

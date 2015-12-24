@@ -29,7 +29,8 @@ import com.cometproject.server.network.messages.incoming.help.ReportForumPostMes
 import com.cometproject.server.network.messages.incoming.help.tool.OpenGuideToolMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.LandingLoadWidgetMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArticlesMessageEvent;
-import com.cometproject.server.network.messages.incoming.latency.RequestLatencyTestMessageEvent;
+import com.cometproject.server.network.messages.incoming.performance.EventLogMessageEvent;
+import com.cometproject.server.network.messages.incoming.performance.RequestLatencyTestMessageEvent;
 import com.cometproject.server.network.messages.incoming.messenger.*;
 import com.cometproject.server.network.messages.incoming.moderation.*;
 import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolCloseIssueMessageEvent;
@@ -164,6 +165,7 @@ public final class MessageHandler {
 
     private void registerMisc() {
         this.getMessages().put(Events.RequestLatencyTestMessageEvent, new RequestLatencyTestMessageEvent());
+        this.getMessages().put(Events.EventLogMessageEvent, new EventLogMessageEvent());
     }
 
     public void registerHandshake() {

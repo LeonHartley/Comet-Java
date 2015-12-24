@@ -7,18 +7,11 @@ import com.cometproject.server.protocol.headers.Composers;
 public class InitializePollMessageComposer extends MessageComposer {
 
     private final int pollId;
-
     private final String headline;
-    private final String summary;
-    private final String unk1;
-    private final String unk2;
 
-    public InitializePollMessageComposer(int pollId, String headline, String summary, String unk1, String unk2) {
+    public InitializePollMessageComposer(int pollId, String headline) {
         this.pollId = pollId;
         this.headline = headline;
-        this.summary = summary;
-        this.unk1 = unk1;
-        this.unk2 = unk2;
     }
 
     @Override
@@ -30,9 +23,9 @@ public class InitializePollMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeInt(this.pollId);
 
+        msg.writeString("");
+        msg.writeString("");
         msg.writeString(this.headline);
-        msg.writeString(this.summary);
-        msg.writeString(this.unk1);
-        msg.writeString(this.unk2);
+        msg.writeString("");
     }
 }

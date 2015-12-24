@@ -184,6 +184,10 @@ public class CatalogItem {
 
             itemsToRemove.clear();
 
+            if(this.items.size() == 0) {
+                return;
+            }
+
             if (ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()) == null) return;
             int offerId = ItemManager.getInstance().getDefinition(this.getItems().get(0).getItemId()).getOfferId();
 

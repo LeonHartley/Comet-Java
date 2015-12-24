@@ -1,4 +1,4 @@
-package com.cometproject.server.network.messages.incoming.latency;
+package com.cometproject.server.network.messages.incoming.performance;
 
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.misc.PingMessageComposer;

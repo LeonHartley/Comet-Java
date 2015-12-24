@@ -17,6 +17,7 @@ import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.server.game.polls.PollManager;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.bundles.RoomBundleManager;
@@ -84,6 +85,7 @@ public class CometServer {
         PlayerManager.getInstance().initialize();
         QuestManager.getInstance().initialize();
         AchievementManager.getInstance().initialize();
+        PollManager.getInstance().initialize();
 
         PlayerDataStorageQueue.getInstance().initialize();
         ItemStorageQueue.getInstance().initialize();
