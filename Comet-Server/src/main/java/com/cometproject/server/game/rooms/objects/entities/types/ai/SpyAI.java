@@ -93,9 +93,4 @@ public class SpyAI extends AbstractBotAI {
         this.getBotEntity().say(Locale.getOrDefault("comet.game.bot.spy.addedToRoom", "Hi! Next time you enter the room, I'll let you know who visited while you were away.."));
         return false;
     }
-
-    @Override
-    public boolean onRemovedFromRoom() {
-        return false;
-    }
 }

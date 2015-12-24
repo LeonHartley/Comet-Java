@@ -11,19 +11,28 @@ public abstract class AbstractBotAI implements BotAI {
         this.entity = entity;
     }
 
+    @Override
     public boolean onTalk(PlayerEntity entity, String message) {
         return false;
     }
 
+    @Override
     public boolean onPlayerLeave(PlayerEntity entity) {
         return false;
     }
 
+    @Override
     public boolean onPlayerEnter(PlayerEntity entity) {
         return false;
     }
 
-    public boolean onPlaced() {
+    @Override
+    public boolean onAddedToRoom() {
+        return false;
+    }
+
+    @Override
+    public boolean onRemovedFromRoom() {
         return false;
     }
 
