@@ -334,11 +334,25 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.moveTo(this.getRoom().getModel().getDoorX(), this.getRoom().getModel().getDoorY());
     }
 
+    private int lastMessageCounter = 0;
+    private String lastMessage;
+
     @Override
     public boolean onChat(String message) {
         long time = System.currentTimeMillis();
 
         if (!this.getPlayer().getPermissions().getRank().floodBypass()) {
+            if(this.lastMessage.equals(message)) {
+                this.lastMessageCounter++;
+
+                if(this.lastMessageCounter >= 3) {
+                    this.getPlayer().setRoomFloodTime(this.getPlayer().getPermissions().getRank().floodTime());
+                }
+            } else {
+                this.lastMessage = message;
+                this.lastMessageCounter = 0;
+            }
+
             if (time - this.getPlayer().getRoomLastMessageTime() < 750) {
                 this.getPlayer().setRoomFloodFlag(this.getPlayer().getRoomFloodFlag() + 1);
 
@@ -352,7 +366,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 this.getPlayer().setRoomFloodFlag(0);
             }
 
-            if (player.getRoomFloodTime() >= 1) {
+            if (this.getPlayer().getRoomFloodTime() >= 1) {
                 return false;
             }
 
