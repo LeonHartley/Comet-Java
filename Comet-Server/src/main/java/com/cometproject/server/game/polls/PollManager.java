@@ -22,9 +22,9 @@ public class PollManager implements Initializable {
 
     @Override
     public void initialize() {
-        this.polls.put(16, new Poll(1, 16, "Leon's poll", Lists.newArrayList(
-                new WordedPollQuestion("What do you think of Comet?"),
-                new MultipleChoiceQuestion("If you could add 1 feature, what would you add?", Lists.newArrayList("Horses", "More wired!!!", "Space lasers", "New renderer!!!!!!!!!")))));
+//        this.polls.put(16, new Poll(1, 16, "Leon's poll", Lists.newArrayList(
+//                new WordedPollQuestion("What do you think of Comet?"),
+//                new MultipleChoiceQuestion("If you could add 1 feature, what would you add?", Lists.newArrayList("Horses", "More wired!!!", "Space lasers", "New renderer!!!!!!!!!")))));
     }
 
     public boolean roomHasPoll(int roomId) {
