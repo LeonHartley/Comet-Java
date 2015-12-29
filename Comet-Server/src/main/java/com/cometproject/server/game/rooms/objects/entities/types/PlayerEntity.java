@@ -335,7 +335,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     }
 
     private int lastMessageCounter = 0;
-    private String lastMessage;
+    private String lastMessage = "";
 
     @Override
     public boolean onChat(String message) {
