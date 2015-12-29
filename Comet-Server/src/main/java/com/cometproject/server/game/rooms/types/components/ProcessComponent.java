@@ -322,7 +322,7 @@ public class ProcessComponent implements CometTask {
         return this.processEntity(entity, false);
     }
 
-    private final ExecutorService botPathCalculator = Executors.newFixedThreadPool(2);
+    private static final ExecutorService botPathCalculator = Executors.newFixedThreadPool(2);
 
     private boolean processEntity(GenericEntity entity, boolean isRetry) {
         boolean isPlayer = entity instanceof PlayerEntity;
