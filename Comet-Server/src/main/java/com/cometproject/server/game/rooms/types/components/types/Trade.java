@@ -121,6 +121,7 @@ public class Trade {
     public void addItem(int user, InventoryItem item) {
         if (user == 1) {
             if (!this.user1Items.contains(item)) {
+
                 this.user1Items.add(item);
             }
         } else {

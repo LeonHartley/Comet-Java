@@ -100,6 +100,12 @@ public class Player implements IPlayer {
 
     private boolean invisible = false;
 
+    private int lastTradePlayer = 0;
+    private long lastTradeTime = 0;
+    private int lastTradeFlag = 0;
+
+    private int lastTradeFlood = 0;
+
     public Player(ResultSet data, boolean isFallback) throws SQLException {
         this.id = data.getInt("playerId");
 
@@ -556,8 +562,8 @@ public class Player implements IPlayer {
     }
 
     private int roomQueueId = 0;
-    private int spectatorRoomId = 0;
 
+    private int spectatorRoomId = 0;
     public boolean hasQueued(int id) {
         if (roomQueueId == id) return true;
 
@@ -610,5 +616,37 @@ public class Player implements IPlayer {
 
     public void setInvisible(boolean invisible) {
         this.invisible = invisible;
+    }
+
+    public int getLastTradePlayer() {
+        return lastTradePlayer;
+    }
+
+    public void setLastTradePlayer(int lastTradePlayer) {
+        this.lastTradePlayer = lastTradePlayer;
+    }
+
+    public long getLastTradeTime() {
+        return lastTradeTime;
+    }
+
+    public void setLastTradeTime(long lastTradeTime) {
+        this.lastTradeTime = lastTradeTime;
+    }
+
+    public int getLastTradeFlag() {
+        return lastTradeFlag;
+    }
+
+    public void setLastTradeFlag(int lastTradeFlag) {
+        this.lastTradeFlag = lastTradeFlag;
+    }
+
+    public int getLastTradeFlood() {
+        return lastTradeFlood;
+    }
+
+    public void setLastTradeFlood(int lastTradeFlood) {
+        this.lastTradeFlood = lastTradeFlood;
     }
 }

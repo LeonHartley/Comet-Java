@@ -39,6 +39,29 @@ public class BeginTradeMessageEvent implements Event {
             return;
         }
 
+        long currentTime = System.currentTimeMillis();
+
+        if(client.getPlayer().getLastTradeFlood() != 0) {
+            long timeFloodEnds = client.getPlayer().getLastTradeTime() + ((client.getPlayer().getLastTradeFlag() * 1000));
+
+            if(currentTime >= timeFloodEnds) {
+                client.getPlayer().setLastTradeFlood(0);
+            } else {
+                return;
+            }
+        }
+
+        if((currentTime - client.getPlayer().getLastTradeTime()) < 750) {
+            client.getPlayer().setLastTradeTime(currentTime);
+
+            if(client.getPlayer().getLastTradeFlag() >= 3) {
+                client.getPlayer().setLastTradeFlood(30);
+                return;
+            }
+
+            client.getPlayer().setLastTradeFlag(client.getPlayer().getLastTradeFlag() + 1);
+        }
+
         client.getPlayer().getEntity().getRoom().getTrade().add(new Trade(client.getPlayer().getEntity(), entity));
     }
 }
