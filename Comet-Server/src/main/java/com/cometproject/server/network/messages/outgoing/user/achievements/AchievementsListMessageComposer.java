@@ -22,7 +22,7 @@ public class AchievementsListMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.AchievementsListMessageComposer;
+        return Composers.AchievementsMessageComposer;
     }
 
     @Override

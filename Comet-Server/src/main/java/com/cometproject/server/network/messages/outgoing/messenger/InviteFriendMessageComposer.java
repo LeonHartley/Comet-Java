@@ -16,7 +16,7 @@ public class InviteFriendMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.ConsoleInvitationMessageComposer;
+        return Composers.RoomInviteMessageComposer;
     }
 
     @Override

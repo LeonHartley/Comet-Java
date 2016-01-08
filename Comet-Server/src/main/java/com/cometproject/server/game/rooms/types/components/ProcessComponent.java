@@ -357,7 +357,7 @@ public class ProcessComponent implements CometTask {
 
                     if (chance == 1 && newStep) {
                         if (!entity.isWalking()) {
-                            this.botPathCalculator.submit(() -> {
+                            botPathCalculator.submit(() -> {
                                 RoomTile reachableTile = this.getRoom().getMapping().getRandomReachableTile(entity);
 
                                 if (reachableTile != null) {

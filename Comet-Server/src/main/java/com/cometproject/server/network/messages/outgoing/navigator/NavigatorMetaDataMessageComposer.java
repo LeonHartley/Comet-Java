@@ -7,7 +7,7 @@ import com.cometproject.server.protocol.headers.Composers;
 public class NavigatorMetaDataMessageComposer extends MessageComposer {
     @Override
     public short getId() {
-        return Composers.NavigatorMetaDataMessageComposer;
+        return Composers.NavigatorMetaDataParserMessageComposer;
     }
 
     public void compose(IComposer msg) {

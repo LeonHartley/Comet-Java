@@ -14,7 +14,7 @@ public class HomeRoomMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.HomeRoomMessageComposer;
+        return Composers.NavigatorSettingsMessageComposer;
     }
 
     @Override

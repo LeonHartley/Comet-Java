@@ -21,7 +21,7 @@ public class WiredActionMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.WiredEffectMessageComposer;
+        return Composers.WiredEffectConfigMessageComposer;
     }
 
     @Override

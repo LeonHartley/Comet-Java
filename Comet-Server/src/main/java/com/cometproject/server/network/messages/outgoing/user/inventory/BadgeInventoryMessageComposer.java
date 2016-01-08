@@ -18,7 +18,7 @@ public class BadgeInventoryMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.LoadBadgesWidgetMessageComposer;
+        return Composers.BadgesMessageComposer;
     }
 
     @Override

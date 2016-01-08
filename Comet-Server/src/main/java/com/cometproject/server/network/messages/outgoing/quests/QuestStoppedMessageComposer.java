@@ -7,7 +7,7 @@ import com.cometproject.server.protocol.headers.Composers;
 public class QuestStoppedMessageComposer extends MessageComposer {
     @Override
     public short getId() {
-        return Composers.CancelQuestMessageComposer;
+        return Composers.QuestAbortedMessageComposer;
     }
 
     @Override

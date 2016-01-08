@@ -16,7 +16,7 @@ public class RemoveWallItemMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.PickUpWallItemMessageComposer;
+        return Composers.ItemRemoveMessageComposer;
     }
 
     @Override

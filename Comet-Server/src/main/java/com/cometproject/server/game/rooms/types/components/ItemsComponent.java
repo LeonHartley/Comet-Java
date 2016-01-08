@@ -118,14 +118,16 @@ public class ItemsComponent {
         List<RoomItem> floorItems = new ArrayList<>();
 
         for(RoomItemFloor floorItem : this.floorItems.values()) {
-            floorItems.add(floorItem);
-
             if(floorItem.hasQueuedSave()) {
+                floorItems.add(floorItem);
+
                 ItemStorageQueue.getInstance().unqueue(floorItem);
             }
         }
 
-        RoomItemDao.saveFloorItems(floorItems);
+        if(floorItems.size() != 0) {
+            RoomItemDao.saveFloorItems(floorItems);
+        }
     }
 
     public boolean isMoodlightMatches(RoomItem item) {

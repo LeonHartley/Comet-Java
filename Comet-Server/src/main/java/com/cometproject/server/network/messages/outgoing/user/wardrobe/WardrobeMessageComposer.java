@@ -17,7 +17,7 @@ public class WardrobeMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.LoadWardrobeMessageComposer;
+        return Composers.WardrobeMessageComposer;
     }
 
     @Override

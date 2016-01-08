@@ -9,7 +9,7 @@ public class UnreadMinimailsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.MinimailCountMessageComposer;
+        return 0;
     }
 
     @Override

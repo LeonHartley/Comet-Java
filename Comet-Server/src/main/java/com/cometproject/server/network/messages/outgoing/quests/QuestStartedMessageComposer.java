@@ -17,7 +17,7 @@ public class QuestStartedMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.StartQuestMessageComposer;
+        return Composers.QuestStartedMessageComposer;
     }
 
     @Override

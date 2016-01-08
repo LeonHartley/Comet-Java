@@ -20,7 +20,7 @@ public class ModToolUserInfoMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.ModerationToolUserToolMessageComposer;
+        return Composers.ModeratorUserInfoMessageComposer;
     }
 
     @Override

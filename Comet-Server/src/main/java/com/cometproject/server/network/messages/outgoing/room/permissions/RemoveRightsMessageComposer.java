@@ -16,7 +16,7 @@ public class RemoveRightsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RemoveRightsMessageComposer;
+        return Composers.FlatControllerRemovedMessageComposer;
     }
 
     @Override

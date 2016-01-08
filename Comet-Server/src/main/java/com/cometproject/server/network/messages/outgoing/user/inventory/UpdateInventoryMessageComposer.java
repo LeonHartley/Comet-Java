@@ -9,7 +9,7 @@ public class UpdateInventoryMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.UpdateInventoryMessageComposer;
+        return Composers.FurniListUpdateMessageComposer;
     }
 
     @Override

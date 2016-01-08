@@ -14,7 +14,7 @@ public class FloodFilterMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.FloodFilterMessageComposer;
+        return Composers.FloodControlMessageComposer;
     }
 
     @Override

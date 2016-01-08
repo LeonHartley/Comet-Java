@@ -16,7 +16,7 @@ public class FuserightsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.UserClubRightsMessageComposer;
+        return Composers.UserRightsMessageComposer;
     }
 
     @Override

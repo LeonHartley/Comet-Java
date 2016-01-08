@@ -13,7 +13,7 @@ public class LoveLockWidgetMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.LoveLockWidgetMessageComposer;
+        return Composers.LoveLockDialogueMessageComposer;
     }
 
     @Override

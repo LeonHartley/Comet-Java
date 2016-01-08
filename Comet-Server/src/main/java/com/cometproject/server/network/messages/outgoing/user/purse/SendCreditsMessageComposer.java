@@ -14,7 +14,7 @@ public class SendCreditsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.CreditsBalanceMessageComposer;
+        return Composers.CreditBalanceMessageComposer;
     }
 
     @Override

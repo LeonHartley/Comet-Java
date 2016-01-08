@@ -30,7 +30,7 @@ public class UpdateFriendStateMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.FriendUpdateMessageComposer;
+        return Composers.FriendListUpdateMessageComposer;
     }
 
     @Override

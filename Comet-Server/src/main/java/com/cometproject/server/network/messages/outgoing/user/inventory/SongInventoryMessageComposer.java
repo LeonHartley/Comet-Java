@@ -17,7 +17,7 @@ public class SongInventoryMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.SongInventoryMessageComposer;
+        return 0;
     }
 
     @Override

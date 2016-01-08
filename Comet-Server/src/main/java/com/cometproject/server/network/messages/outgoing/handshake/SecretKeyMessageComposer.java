@@ -20,6 +20,5 @@ public class SecretKeyMessageComposer extends MessageComposer {
     @Override
     public void compose(IComposer msg) {
         msg.writeString(this.publicKey);
-        msg.writeBoolean(false); // Client-side encryption... We don't need this.
     }
 }

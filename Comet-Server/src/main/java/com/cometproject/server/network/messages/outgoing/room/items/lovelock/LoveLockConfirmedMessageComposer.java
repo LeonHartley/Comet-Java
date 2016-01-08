@@ -13,7 +13,7 @@ public class LoveLockConfirmedMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.LoveLockConfirmedMessageComposer;
+        return Composers.LoveLockDialogueSetLockedMessageComposer;
     }
 
     @Override

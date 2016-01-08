@@ -17,7 +17,7 @@ public class ModToolMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.LoadModerationToolMessageComposer;
+        return Composers.ModeratorInitMessageComposer;
     }
 
     @Override

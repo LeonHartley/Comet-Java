@@ -10,6 +10,6 @@ public class CitizenshipStatusMessageEvent implements Event {
 
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        client.send(new CitizenshipStatusMessageComposer());
+//        client.send(new CitizenshipStatusMessageComposer());
     }
 }

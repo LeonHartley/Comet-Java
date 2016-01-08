@@ -8,7 +8,7 @@ import com.cometproject.server.protocol.headers.Composers;
 public class YouAreControllerMessageComposer extends MessageComposer {
     @Override
     public short getId() {
-        return Composers.YouAreControllerMessageComposer;
+        return Composers.YouAreOwnerMessageComposer;
     }
 
     @Override

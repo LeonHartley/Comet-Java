@@ -17,7 +17,7 @@ public class ApplyEffectMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.ApplyEffectMessageComposer;
+        return Composers.AvatarEffectMessageComposer;
     }
 
     @Override

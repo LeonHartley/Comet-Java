@@ -16,7 +16,7 @@ public class InstantChatMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.ConsoleChatMessageComposer;
+        return Composers.NewConsoleMessageMessageComposer;
     }
 
     @Override

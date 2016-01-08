@@ -17,7 +17,7 @@ public class PlaylistMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.PlaylistMessageComposer;
+        return 0;
     }
 
     @Override

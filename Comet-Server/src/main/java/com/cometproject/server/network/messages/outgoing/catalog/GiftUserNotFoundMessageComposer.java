@@ -13,7 +13,7 @@ public class GiftUserNotFoundMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.GiftUserNotFoundMessageComposer;
+        return Composers.GiftWrappingErrorMessageComposer;
     }
 
     @Override

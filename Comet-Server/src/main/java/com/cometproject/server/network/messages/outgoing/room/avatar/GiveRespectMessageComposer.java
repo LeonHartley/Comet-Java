@@ -16,7 +16,7 @@ public class GiveRespectMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.GiveRespectsMessageComposer;
+        return Composers.RespectNotificationMessageComposer;
     }
 
     @Override

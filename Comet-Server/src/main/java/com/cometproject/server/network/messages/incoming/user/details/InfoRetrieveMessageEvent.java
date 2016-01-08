@@ -23,7 +23,7 @@ public class InfoRetrieveMessageEvent implements Event {
         client.send(new UserObjectMessageComposer(client.getPlayer()));
         client.send(new BuildersClubMembershipMessageComposer());
         client.send(new AllowancesMessageComposer(client.getPlayer().getData().getRank()));
-        client.send(new CitizenshipStatusMessageComposer());
+//        client.send(new CitizenshipStatusMessageComposer());
         client.send(new AchievementPointsMessageComposer(client.getPlayer().getData().getAchievementPoints()));
 
         client.send(new MessengerConfigMessageComposer());

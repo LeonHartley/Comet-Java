@@ -25,7 +25,7 @@ public class PetInformationMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.PetInfoMessageComposer;
+        return Composers.PetInformationMessageComposer;
     }
 
     @Override

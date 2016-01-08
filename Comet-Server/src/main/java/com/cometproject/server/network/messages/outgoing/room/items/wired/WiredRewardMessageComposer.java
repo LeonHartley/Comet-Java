@@ -14,7 +14,7 @@ public class WiredRewardMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.WiredRewardMessageComposer;
+        return 0;
     }
 
     @Override

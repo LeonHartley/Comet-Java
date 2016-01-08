@@ -16,7 +16,7 @@ public class TypingStatusMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.TypingStatusMessageComposer;
+        return Composers.UserTypingMessageComposer;
     }
 
     @Override

@@ -42,7 +42,7 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.AvatarUpdateMessageComposer;
+        return Composers.UserUpdateMessageComposer;
     }
 
     @Override
@@ -126,7 +126,7 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
 
         @Override
         public String toString() {
-            return String.format("AvatatState[%s, %s, %s, %s, %s]", this.id, this.position, this.headRotation, this.bodyRotation, this.statusString);
+            return String.format("AvatarState[%s, %s, %s, %s, %s]", this.id, this.position, this.headRotation, this.bodyRotation, this.statusString);
         }
     }
 }

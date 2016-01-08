@@ -16,7 +16,7 @@ public class TradeStartMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.TradeStartMessageComposer;
+        return Composers.TradingStartMessageComposer;
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.cometproject.server.network.messages.outgoing.notification.LogoutMess
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
+import com.cometproject.server.protocol.security.exchange.DiffieHellman;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.log4j.Logger;
@@ -31,8 +32,11 @@ public class Session implements ISession {
 
     private Player player;
 
+    private final DiffieHellman diffieHellman;
+
     public Session(ChannelHandlerContext channel) {
         this.channel = channel;
+        this.diffieHellman = new DiffieHellman();
 
         this.channel.attr(SessionManager.SESSION_ATTR).set(this);
         this.eventHandler = new SessionEventHandler(this);
@@ -101,19 +105,30 @@ public class Session implements ISession {
     }
 
     public Session sendQueue(final IMessageComposer msg) {
-        this.channel.write(msg);
-        return this;
+        return this.send(msg, true);
     }
 
     public Session send(IMessageComposer msg) {
+        return this.send(msg, false);
+    }
+
+    public Session send(IMessageComposer msg, boolean queue) {
         if (msg == null) {
             return this;
+        }
+
+        if (msg.getId() == 0) {
+            logger.debug("Unknown header ID for message: " + msg.getClass().getSimpleName());
         }
 
         if (!(msg instanceof UpdateFloorExtraDataMessageComposer) && !(msg instanceof AvatarUpdateMessageComposer))
             logger.debug("Sent message: " + msg.getClass().getSimpleName() + " / " + msg.getId());
 
-        this.channel.writeAndFlush(msg);
+        if(!queue) {
+            this.channel.writeAndFlush(msg);
+        } else {
+            this.channel.write(msg);
+        }
         return this;
     }
 
@@ -143,5 +158,9 @@ public class Session implements ISession {
 
     public UUID getSessionId() {
         return uuid;
+    }
+
+    public DiffieHellman getDiffieHellman() {
+        return diffieHellman;
     }
 }

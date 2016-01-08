@@ -14,7 +14,7 @@ public class RemoveObjectFromInventoryMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RemoveInventoryObjectMessageComposer;
+        return Composers.FurniListRemoveMessageComposer;
     }
 
     @Override

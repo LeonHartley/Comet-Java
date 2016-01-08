@@ -8,11 +8,10 @@ import com.cometproject.server.protocol.headers.Composers;
 public class HotelViewMessageComposer extends MessageComposer {
     @Override
     public short getId() {
-        return Composers.OutOfRoomMessageComposer;
+        return Composers.CloseConnectionMessageComposer;
     }
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeShort(2);
     }
 }

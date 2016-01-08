@@ -18,10 +18,8 @@ import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessa
 import com.cometproject.server.network.messages.outgoing.navigator.FavouriteRoomsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.NavigatorMetaDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
-import com.cometproject.server.network.messages.outgoing.user.details.EnableNotificationsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.details.EnableTradingMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.details.AvailabilityStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.PlayerSettingsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.details.UnreadMinimailsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.EffectsInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -110,13 +108,11 @@ public class PlayerLoginRequest implements CometTask {
 
         PlayerDao.updatePlayerStatus(player, true, true);
 
-        client.sendQueue(new UniqueIDMessageComposer(client.getUniqueId())).
-                sendQueue(new AuthenticationOKMessageComposer()).
+        client.sendQueue(new UniqueIDMessageComposer(client.getUniqueId()))
+                .sendQueue(new AuthenticationOKMessageComposer()).
                 sendQueue(new FuserightsMessageComposer(client.getPlayer().getSubscription().exists(), client.getPlayer().getData().getRank())).
                 sendQueue(new FavouriteRoomsMessageComposer()).
-                sendQueue(new UnreadMinimailsMessageComposer()).
-                sendQueue(new EnableTradingMessageComposer(true)).
-                sendQueue(new EnableNotificationsMessageComposer()).
+                sendQueue(new AvailabilityStatusMessageComposer()).
                 sendQueue(new PlayerSettingsMessageComposer(player.getSettings())).
                 sendQueue(new HomeRoomMessageComposer(player.getSettings().getHomeRoom())).
                 sendQueue(new EffectsInventoryMessageComposer());
@@ -140,7 +136,7 @@ public class PlayerLoginRequest implements CometTask {
 
         int regDate = StringUtils.isNumeric(client.getPlayer().getData().getRegDate()) ? Integer.parseInt(client.getPlayer().getData().getRegDate()) : client.getPlayer().getData().getRegTimestamp();
 
-        if(regDate != 0) {
+        if (regDate != 0) {
             int daysSinceRegistration = (int) Math.floor((((int) Comet.getTime()) - regDate) / 86400);
 
             if (!client.getPlayer().getAchievements().hasStartedAchievement(AchievementType.REGISTRATION_DURATION)) {
@@ -155,7 +151,7 @@ public class PlayerLoginRequest implements CometTask {
             }
         }
 
-        if(player.getData().getAchievementPoints() < 0) {
+        if (player.getData().getAchievementPoints() < 0) {
             player.getData().setAchievementPoints(0);
             player.getData().save();
         }

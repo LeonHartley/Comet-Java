@@ -30,7 +30,7 @@ public class GroupInformationMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.GroupDataMessageComposer;
+        return Composers.GroupInfoMessageComposer;
     }
 
     @Override

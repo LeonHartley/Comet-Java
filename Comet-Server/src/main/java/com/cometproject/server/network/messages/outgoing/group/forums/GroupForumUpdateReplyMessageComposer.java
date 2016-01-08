@@ -19,7 +19,7 @@ public class GroupForumUpdateReplyMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.UpdateForumPostMessageComposer;
+        return Composers.PostUpdatedMessageComposer;
     }
 
     @Override

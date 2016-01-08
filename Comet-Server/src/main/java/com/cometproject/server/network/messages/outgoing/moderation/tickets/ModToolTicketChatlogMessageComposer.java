@@ -29,7 +29,7 @@ public class ModToolTicketChatlogMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.ModerationToolTicketChatlogMessageComposer;
+        return Composers.ModeratorTicketChatlogMessageComposer;
     }
 
     @Override

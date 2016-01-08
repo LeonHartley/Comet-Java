@@ -17,7 +17,7 @@ public class PromoArticlesMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.LandingPromosMessageComposer;
+        return Composers.PromoArticlesMessageComposer;
     }
 
     @Override

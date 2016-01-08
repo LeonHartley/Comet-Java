@@ -14,7 +14,7 @@ public class RoomQueueStatusMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RoomQueueStatusMessageComposer;
+        return 0;
     }
 
     @Override

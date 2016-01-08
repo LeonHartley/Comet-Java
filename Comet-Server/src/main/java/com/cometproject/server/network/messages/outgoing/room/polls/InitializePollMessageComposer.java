@@ -16,7 +16,7 @@ public class InitializePollMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.InitializePollMessageComposer;
+        return 0;
     }
 
     @Override

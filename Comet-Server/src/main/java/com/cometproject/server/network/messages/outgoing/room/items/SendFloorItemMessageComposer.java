@@ -15,7 +15,7 @@ public class SendFloorItemMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.AddFloorItemMessageComposer;
+        return Composers.ObjectAddMessageComposer;
     }
 
     @Override

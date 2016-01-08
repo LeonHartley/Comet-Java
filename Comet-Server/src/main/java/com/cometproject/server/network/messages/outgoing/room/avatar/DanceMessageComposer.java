@@ -16,7 +16,7 @@ public class DanceMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.DanceStatusMessageComposer;
+        return Composers.DanceMessageComposer;
     }
 
     @Override

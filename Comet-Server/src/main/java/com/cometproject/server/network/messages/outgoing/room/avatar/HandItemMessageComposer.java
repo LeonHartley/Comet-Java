@@ -16,7 +16,7 @@ public class HandItemMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.ApplyHanditemMessageComposer;
+        return Composers.CarryObjectMessageComposer;
     }
 
     @Override

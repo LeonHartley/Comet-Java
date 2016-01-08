@@ -15,7 +15,7 @@ public class InitHelpToolMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.InitHelpToolMessageComposer;
+        return Composers.OpenHelpToolMessageComposer;
     }
 
     @Override

@@ -74,166 +74,166 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         msg.writeString(this instanceof MagicStackFloorItem ? this.getExtraData() : this.getPosition().getZ());
 
         final double walkHeight = this instanceof AdjustableHeightFloorItem ? this.getOverrideHeight() : this.getDefinition().getHeight();
-        msg.writeString(this.getDefinition().canWalk() ? walkHeight : "0");
+        msg.writeString("");//this.getDefinition().canWalk() ? walkHeight : "0");
 
-        if (this instanceof GiftFloorItem) {
-            final GiftData giftData = ((GiftFloorItem) this).getGiftData();
-            final PlayerAvatar purchaser = PlayerManager.getInstance().getAvatarByPlayerId(giftData.getSenderId(), PlayerAvatar.USERNAME_FIGURE);
-
-            msg.writeInt(giftData.getWrappingPaper() * 1000 + giftData.getDecorationType());
+//        if (this instanceof GiftFloorItem) {
+//            final GiftData giftData = ((GiftFloorItem) this).getGiftData();
+//            final PlayerAvatar purchaser = PlayerManager.getInstance().getAvatarByPlayerId(giftData.getSenderId(), PlayerAvatar.USERNAME_FIGURE);
+//
+//            msg.writeInt(giftData.getWrappingPaper() * 1000 + giftData.getDecorationType());
+//            msg.writeInt(1);
+//            msg.writeInt(6);
+//            msg.writeString("EXTRA_PARAM");
+//            msg.writeString("");
+//            msg.writeString("MESSAGE");
+//            msg.writeString(giftData.getMessage());
+//            msg.writeString("PURCHASER_NAME");
+//            msg.writeString(purchaser.getUsername());
+//            msg.writeString("PURCHASER_FIGURE");
+//            msg.writeString(purchaser.getFigure());
+//            msg.writeString("PRODUCT_CODE");
+//            msg.writeString("");
+//            msg.writeString("state");
+//            msg.writeString(((GiftFloorItem) this).isOpened() ? "1" : "0");
+//        } else if (this.getDefinition().isAdFurni()) {
+//            msg.writeInt(0);
+//            msg.writeInt(1);
+//
+//            if (!extraData.equals("")) {
+//                String[] adsData = extraData.split(String.valueOf((char) 9));
+//                int count = adsData.length;
+//
+//                msg.writeInt(count / 2);
+//
+//                for (int i = 0; i <= count - 1; i++) {
+//                    msg.writeString(adsData[i]);
+//                }
+//            } else {
+//                msg.writeInt(0);
+//            }
+//        } else if (this.getDefinition().getInteraction().equals("badge_display")) {
+//            msg.writeInt(0);
+//            msg.writeInt(2);
+//            msg.writeInt(4);
+//
+//            String badge;
+//            String name = "";
+//            String date = "";
+//
+//            if(extraData.contains("~")) {
+//                String[] data = extraData.split("~");
+//
+//                badge = data[0];
+//                name = data[1];
+//                date = data[2];
+//            } else {
+//                badge = this.getExtraData();
+//            }
+//
+//            msg.writeString("0");
+//            msg.writeString(badge);
+//            msg.writeString(name); // creator
+//            msg.writeString(date); // date
+//        } else if (this.getDefinition().getInteraction().equals("lovelock")) {
+//            final String[] loveLockData = this.getExtraData().split(String.valueOf((char) 5));
+//            msg.writeInt(0);
+//            msg.writeInt(2);
+//
+//            msg.writeInt(loveLockData.length);
+//
+//            for (int i = 0; i < loveLockData.length; i++) {
+//                msg.writeString(loveLockData[i]);
+//            }
+//        } else if (this.getDefinition().getInteraction().equals("mannequin")) {
+//            msg.writeInt(0);
+//            msg.writeInt(1);
+//            msg.writeInt(3);
+//
+//            msg.writeString("GENDER");
+//            msg.writeString(((MannequinFloorItem) this).getGender());
+//            msg.writeString("FIGURE");
+//            msg.writeString(((MannequinFloorItem) this).getFigure());
+//            msg.writeString("OUTFIT_NAME");
+//            msg.writeString(((MannequinFloorItem) this).getName());
+//
+//            msg.writeInt(0);
+//            msg.writeInt(0);
+//            msg.writeInt(this.ownerId);
+//
+//            if (isNew) {
+//                msg.writeString(this.getRoom().getData().getOwner());
+//            }
+//
+//            return;
+//        } else if (this.getDefinition().getInteraction().equals("roombg")) {
+//            BackgroundTonerData data = BackgroundTonerData.get(this.extraData);
+//
+//            boolean enabled = (data != null);
+//
+//            msg.writeInt(0);
+//            msg.writeInt(5);
+//            msg.writeInt(4);
+//            msg.writeInt(enabled ? 1 : 0);
+//
+//            if (enabled) {
+//                msg.writeInt(data.getHue());
+//                msg.writeInt(data.getSaturation());
+//                msg.writeInt(data.getLightness());
+//            } else {
+//                this.extraData = "0;#;0;#;0";
+//                this.saveData();
+//
+//                msg.writeInt(0);
+//                msg.writeInt(0);
+//                msg.writeInt(0);
+//            }
+//        } else if (this.getDefinition().getItemName().contains("yttv") && this.hasAttribute("video")) {
+//            msg.writeInt(0);
+//            msg.writeInt(1);
+//            msg.writeInt(1);
+//            msg.writeString("THUMBNAIL_URL");
+//            msg.writeString("/deliver/" + this.getAttribute("video"));
+//        } else if (this instanceof GroupFloorItem) {
+//            GroupData groupData = GroupManager.getInstance().getData(((GroupFloorItem) this).getGroupId());
+//
+//            msg.writeInt(0);
+//            if (groupData == null) {
+//                msg.writeInt(2);
+//                msg.writeInt(0);
+//            } else {
+//                msg.writeInt(2);
+//                msg.writeInt(5);
+//                msg.writeString("0");
+//                msg.writeString(this.getExtraData());
+//                msg.writeString(groupData.getBadge());
+//
+//                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour() : "ffffff";
+//                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour() : "ffffff";
+//
+//                msg.writeString(colourA);
+//                msg.writeString(colourB);
+//            }
+//
+//        } else if(this instanceof HighscoreClassicFloorItem) {
+//            msg.writeInt(0);
+//
+//            ((HighscoreClassicFloorItem) this).composeHighscoreData(msg);
+//        } else if (this.getLimitedEditionItem() != null) {
+//            msg.writeInt(0);
+//            msg.writeString("");
+//            msg.writeBoolean(true);
+//            msg.writeBoolean(false);
+//            msg.writeString(this.getExtraData());
+//
+//            msg.writeInt(this.getLimitedEditionItem().getLimitedRare());
+//            msg.writeInt(this.getLimitedEditionItem().getLimitedRareTotal());
+//        } else {
             msg.writeInt(1);
-            msg.writeInt(6);
-            msg.writeString("EXTRA_PARAM");
-            msg.writeString("");
-            msg.writeString("MESSAGE");
-            msg.writeString(giftData.getMessage());
-            msg.writeString("PURCHASER_NAME");
-            msg.writeString(purchaser.getUsername());
-            msg.writeString("PURCHASER_FIGURE");
-            msg.writeString(purchaser.getFigure());
-            msg.writeString("PRODUCT_CODE");
-            msg.writeString("");
-            msg.writeString("state");
-            msg.writeString(((GiftFloorItem) this).isOpened() ? "1" : "0");
-        } else if (this.getDefinition().isAdFurni()) {
-            msg.writeInt(0);
-            msg.writeInt(1);
-
-            if (!extraData.equals("")) {
-                String[] adsData = extraData.split(String.valueOf((char) 9));
-                int count = adsData.length;
-
-                msg.writeInt(count / 2);
-
-                for (int i = 0; i <= count - 1; i++) {
-                    msg.writeString(adsData[i]);
-                }
-            } else {
-                msg.writeInt(0);
-            }
-        } else if (this.getDefinition().getInteraction().equals("badge_display")) {
-            msg.writeInt(0);
-            msg.writeInt(2);
-            msg.writeInt(4);
-
-            String badge;
-            String name = "";
-            String date = "";
-
-            if(extraData.contains("~")) {
-                String[] data = extraData.split("~");
-
-                badge = data[0];
-                name = data[1];
-                date = data[2];
-            } else {
-                badge = this.getExtraData();
-            }
-
-            msg.writeString("0");
-            msg.writeString(badge);
-            msg.writeString(name); // creator
-            msg.writeString(date); // date
-        } else if (this.getDefinition().getInteraction().equals("lovelock")) {
-            final String[] loveLockData = this.getExtraData().split(String.valueOf((char) 5));
-            msg.writeInt(0);
-            msg.writeInt(2);
-
-            msg.writeInt(loveLockData.length);
-
-            for (int i = 0; i < loveLockData.length; i++) {
-                msg.writeString(loveLockData[i]);
-            }
-        } else if (this.getDefinition().getInteraction().equals("mannequin")) {
-            msg.writeInt(0);
-            msg.writeInt(1);
-            msg.writeInt(3);
-
-            msg.writeString("GENDER");
-            msg.writeString(((MannequinFloorItem) this).getGender());
-            msg.writeString("FIGURE");
-            msg.writeString(((MannequinFloorItem) this).getFigure());
-            msg.writeString("OUTFIT_NAME");
-            msg.writeString(((MannequinFloorItem) this).getName());
-
-            msg.writeInt(0);
-            msg.writeInt(0);
-            msg.writeInt(this.ownerId);
-
-            if (isNew) {
-                msg.writeString(this.getRoom().getData().getOwner());
-            }
-
-            return;
-        } else if (this.getDefinition().getInteraction().equals("roombg")) {
-            BackgroundTonerData data = BackgroundTonerData.get(this.extraData);
-
-            boolean enabled = (data != null);
-
-            msg.writeInt(0);
-            msg.writeInt(5);
-            msg.writeInt(4);
-            msg.writeInt(enabled ? 1 : 0);
-
-            if (enabled) {
-                msg.writeInt(data.getHue());
-                msg.writeInt(data.getSaturation());
-                msg.writeInt(data.getLightness());
-            } else {
-                this.extraData = "0;#;0;#;0";
-                this.saveData();
-
-                msg.writeInt(0);
-                msg.writeInt(0);
-                msg.writeInt(0);
-            }
-        } else if (this.getDefinition().getItemName().contains("yttv") && this.hasAttribute("video")) {
-            msg.writeInt(0);
-            msg.writeInt(1);
-            msg.writeInt(1);
-            msg.writeString("THUMBNAIL_URL");
-            msg.writeString("/deliver/" + this.getAttribute("video"));
-        } else if (this instanceof GroupFloorItem) {
-            GroupData groupData = GroupManager.getInstance().getData(((GroupFloorItem) this).getGroupId());
-
-            msg.writeInt(0);
-            if (groupData == null) {
-                msg.writeInt(2);
-                msg.writeInt(0);
-            } else {
-                msg.writeInt(2);
-                msg.writeInt(5);
-                msg.writeString("0");
-                msg.writeString(this.getExtraData());
-                msg.writeString(groupData.getBadge());
-
-                String colourA = GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()) != null ? GroupManager.getInstance().getGroupItems().getSymbolColours().get(groupData.getColourA()).getColour() : "ffffff";
-                String colourB = GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()) != null ? GroupManager.getInstance().getGroupItems().getBackgroundColours().get(groupData.getColourB()).getColour() : "ffffff";
-
-                msg.writeString(colourA);
-                msg.writeString(colourB);
-            }
-
-        } else if(this instanceof HighscoreClassicFloorItem) {
-            msg.writeInt(0);
-
-            ((HighscoreClassicFloorItem) this).composeHighscoreData(msg);
-        } else if (this.getLimitedEditionItem() != null) {
-            msg.writeInt(0);
-            msg.writeString("");
-            msg.writeBoolean(true);
-            msg.writeBoolean(false);
-            msg.writeString(this.getExtraData());
-
-            msg.writeInt(this.getLimitedEditionItem().getLimitedRare());
-            msg.writeInt(this.getLimitedEditionItem().getLimitedRareTotal());
-        } else {
-            msg.writeInt(0);
             msg.writeInt(0);
 
             //msg.writeString(isGift ? giftData.toString() : this.getExtraData());
             msg.writeString((this instanceof FootballGateFloorItem) ? "" : (this instanceof WiredFloorItem) ? "0" : (this instanceof SoundMachineFloorItem) ? ((SoundMachineFloorItem) this).getState() ? "1" : "0" : this.getExtraData());
-        }
+//        }
 
         msg.writeInt(-1);
         //msg.writeInt(!this.getDefinition().getInteraction().equals("default") ? 1 : 0);

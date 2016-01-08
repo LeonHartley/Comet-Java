@@ -19,7 +19,7 @@ public class AchievementProgressMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.AchievementProgressMessageComposer;
+        return Composers.AchievementProgressedMessageComposer;
     }
 
     @Override

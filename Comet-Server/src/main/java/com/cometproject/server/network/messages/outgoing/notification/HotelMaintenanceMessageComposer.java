@@ -18,7 +18,7 @@ public class HotelMaintenanceMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.MaintenanceNotificationMessageComposer;
+        return Composers.MaintenanceStatusMessageComposer;
     }
 
     @Override

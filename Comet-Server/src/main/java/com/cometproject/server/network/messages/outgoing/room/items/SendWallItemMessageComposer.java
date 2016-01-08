@@ -15,7 +15,7 @@ public class SendWallItemMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.AddWallItemMessageComposer;
+        return Composers.ItemAddMessageComposer;
     }
 
     @Override

@@ -19,7 +19,7 @@ public class WallItemsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RoomWallItemsMessageComposer;
+        return Composers.ItemsMessageComposer;
     }
 
     @Override

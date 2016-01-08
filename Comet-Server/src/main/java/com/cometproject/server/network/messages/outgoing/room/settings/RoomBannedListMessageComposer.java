@@ -19,7 +19,7 @@ public class RoomBannedListMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RoomBannedListMessageComposer;
+        return Composers.GetRoomBannedUsersMessageComposer;
     }
 
     @Override

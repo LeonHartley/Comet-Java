@@ -23,7 +23,7 @@ public class SlideObjectBundleMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.ItemAnimationMessageComposer;
+        return Composers.SlideObjectBundleMessageComposer;
     }
 
     @Override

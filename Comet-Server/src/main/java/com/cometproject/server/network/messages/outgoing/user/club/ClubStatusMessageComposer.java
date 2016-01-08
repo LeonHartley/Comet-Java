@@ -16,7 +16,7 @@ public class ClubStatusMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.SubscriptionStatusMessageComposer;
+        return Composers.ScrSendUserInfoMessageComposer;
     }
 
     @Override

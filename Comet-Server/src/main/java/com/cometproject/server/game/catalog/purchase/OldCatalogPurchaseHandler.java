@@ -27,7 +27,6 @@ import com.cometproject.server.game.rooms.bundles.types.RoomBundleItem;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoundMessageComposer;
-import com.cometproject.server.network.messages.outgoing.catalog.LimitedEditionSoldOutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
@@ -168,7 +167,8 @@ public class OldCatalogPurchaseHandler {
             int totalCostActivityPoints;
 
             if (item.getLimitedSells() >= item.getLimitedTotal() && item.getLimitedTotal() != 0) {
-                client.send(new LimitedEditionSoldOutMessageComposer());
+//                client.send(new LimitedEditionSoldOutMessageComposer());
+                // TODO: Fix this.
                 return;
             }
 

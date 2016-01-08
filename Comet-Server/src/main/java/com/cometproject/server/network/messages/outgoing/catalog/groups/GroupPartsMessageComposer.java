@@ -27,7 +27,7 @@ public class GroupPartsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.GroupPurchasePageMessageComposer;
+        return Composers.GroupCreationWindowMessageComposer;
     }
 
     @Override

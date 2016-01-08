@@ -19,7 +19,7 @@ public class RoomCategoriesMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.FlatCategoriesMessageComposer;
+        return Composers.NavigatorFlatCatsMessageComposer;
     }
 
     @Override

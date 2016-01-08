@@ -16,7 +16,7 @@ public class UpdateActivityPointsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.UpdateActivityPointsMessageComposer;
+        return Composers.HabboActivityPointNotificationMessageComposer;
     }
 
     @Override

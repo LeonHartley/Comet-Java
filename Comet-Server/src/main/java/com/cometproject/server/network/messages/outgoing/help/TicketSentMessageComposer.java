@@ -12,7 +12,7 @@ public class TicketSentMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.TicketSentMessageComposer;
+        return 0;
     }
 
     @Override

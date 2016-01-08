@@ -14,7 +14,7 @@ public class RoomMuteMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RoomMuteMessageComposer;
+        return Composers.RoomMuteSettingsMessageComposer;
     }
 
     @Override

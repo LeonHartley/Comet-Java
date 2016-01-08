@@ -18,7 +18,7 @@ public class GroupForumPostReplyMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.PostReplyMessageComposer;
+        return Composers.ThreadReplyMessageComposer;
     }
 
     @Override

@@ -14,7 +14,7 @@ public class UpdateFavouriteGroupMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.ChangeFavouriteGroupMessageComposer;
+        return Composers.UpdateFavouriteGroupMessageComposer;
     }
 
     @Override

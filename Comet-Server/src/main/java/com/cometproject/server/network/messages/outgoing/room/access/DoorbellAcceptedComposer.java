@@ -7,7 +7,7 @@ import com.cometproject.server.protocol.headers.Composers;
 public class DoorbellAcceptedComposer extends MessageComposer {
     @Override
     public short getId() {
-        return Composers.DoorbellOpenedMessageComposer;
+        return Composers.FlatAccessibleMessageComposer;
     }
 
     @Override

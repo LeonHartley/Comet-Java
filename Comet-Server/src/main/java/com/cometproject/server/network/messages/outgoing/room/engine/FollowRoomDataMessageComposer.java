@@ -19,7 +19,7 @@ public class FollowRoomDataMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RoomDataMessageComposer;
+        return Composers.RoomEntryInfoMessageComposer;
     }
 
     @Override

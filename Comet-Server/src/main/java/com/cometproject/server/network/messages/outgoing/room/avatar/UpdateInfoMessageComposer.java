@@ -33,7 +33,7 @@ public class UpdateInfoMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.UpdateUserDataMessageComposer;
+        return Composers.UserChangeMessageComposer;
     }
 
     @Override

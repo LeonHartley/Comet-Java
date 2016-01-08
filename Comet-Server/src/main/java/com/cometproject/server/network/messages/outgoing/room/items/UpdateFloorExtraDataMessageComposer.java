@@ -29,7 +29,7 @@ public class UpdateFloorExtraDataMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.UpdateFloorItemExtraDataMessageComposer;
+        return Composers.ItemUpdateMessageComposer;
     }
 
     @Override

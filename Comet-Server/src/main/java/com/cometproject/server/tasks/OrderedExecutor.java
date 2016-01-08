@@ -54,7 +54,7 @@ public class OrderedExecutor<K> {
     }
 
     /**
-     * Private inner class for running tasks for each key.
+     * privateKey inner class for running tasks for each key.
      * Each key submitted will have one instance of this class.
      */
     private class Task implements Runnable {

@@ -14,7 +14,7 @@ public class GroupElementsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.GroupPurchasePartsMessageComposer;
+        return Composers.BadgeEditorPartsMessageComposer;
     }
 
     @Override

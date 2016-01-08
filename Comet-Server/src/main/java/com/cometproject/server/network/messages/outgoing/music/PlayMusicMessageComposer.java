@@ -22,7 +22,7 @@ public class PlayMusicMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.PlayMusicMessageComposer;
+        return 0;
     }
 
     @Override

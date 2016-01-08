@@ -14,7 +14,7 @@ public class AccessLevelMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RoomRightsLevelMessageComposer;
+        return Composers.YouAreControllerMessageComposer;
     }
 
     @Override

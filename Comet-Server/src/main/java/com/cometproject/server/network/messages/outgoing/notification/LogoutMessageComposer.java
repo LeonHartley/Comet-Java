@@ -18,7 +18,7 @@ public class LogoutMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.LogoutMessageComposer;
+        return 0;
     }
 
     @Override

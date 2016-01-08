@@ -17,7 +17,7 @@ public class FriendRequestsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.FriendRequestsMessageComposer;
+        return Composers.BuddyRequestsMessageComposer;
     }
 
     @Override

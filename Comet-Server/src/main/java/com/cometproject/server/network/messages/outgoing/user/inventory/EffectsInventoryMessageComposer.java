@@ -8,7 +8,7 @@ import com.cometproject.server.protocol.headers.Composers;
 public class EffectsInventoryMessageComposer extends MessageComposer {
     @Override
     public short getId() {
-        return Composers.EffectsInventoryMessageComposer;
+        return Composers.AvatarEffectsMessageComposer;
     }
 
     @Override

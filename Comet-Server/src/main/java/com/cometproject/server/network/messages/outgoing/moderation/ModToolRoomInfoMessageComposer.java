@@ -16,7 +16,7 @@ public class ModToolRoomInfoMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.ModerationRoomToolMessageComposer;
+        return Composers.ModeratorRoomInfoMessageComposer;
     }
 
     @Override

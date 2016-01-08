@@ -18,7 +18,7 @@ public class UserBadgesMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.UserBadgesMessageComposer;
+        return Composers.HabboUserBadgesMessageComposer;
     }
 
     @Override

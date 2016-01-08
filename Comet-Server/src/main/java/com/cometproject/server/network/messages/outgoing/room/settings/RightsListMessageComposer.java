@@ -19,7 +19,7 @@ public class RightsListMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.LoadRoomRightsListMessageComposer;
+        return Composers.RoomRightsListMessageComposer;
     }
 
     @Override

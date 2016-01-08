@@ -16,7 +16,7 @@ public class IdleStatusMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RoomUserIdleMessageComposer;
+        return Composers.SleepMessageComposer;
     }
 
     @Override

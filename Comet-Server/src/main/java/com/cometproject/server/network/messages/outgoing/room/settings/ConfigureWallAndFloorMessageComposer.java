@@ -18,7 +18,7 @@ public class ConfigureWallAndFloorMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RoomFloorWallLevelsMessageComposer;
+        return Composers.RoomVisualizationSettingsMessageComposer;
     }
 
     @Override

@@ -26,7 +26,7 @@ public class RelativeHeightmapMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.FloorMapMessageComposer;
+        return Composers.FloorHeightMapMessageComposer;
     }
 
     @Override

@@ -14,7 +14,7 @@ public class EnforceRoomCategoryMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.EnforceRoomCategoryMessageComposer;
+        return Composers.EnforceCategoryUpdateMessageComposer;
     }
 
     @Override

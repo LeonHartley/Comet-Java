@@ -22,7 +22,7 @@ public class RemoveFloorItemMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.PickUpFloorItemMessageComposer;
+        return Composers.ItemRemoveMessageComposer;
     }
 
     @Override

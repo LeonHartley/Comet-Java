@@ -15,7 +15,7 @@ public class PlayerSettingsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.LoadVolumeMessageComposer;
+        return Composers.SoundSettingsMessageComposer;
     }
 
     @Override

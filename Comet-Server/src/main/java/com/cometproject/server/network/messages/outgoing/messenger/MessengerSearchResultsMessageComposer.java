@@ -20,7 +20,7 @@ public class MessengerSearchResultsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.ConsoleSearchFriendMessageComposer;
+        return Composers.HabboSearchResultMessageComposer;
     }
 
     @Override

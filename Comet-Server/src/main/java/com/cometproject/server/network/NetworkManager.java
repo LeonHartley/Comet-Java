@@ -4,6 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.MessageHandler;
 import com.cometproject.server.network.monitor.MonitorClient;
 import com.cometproject.server.network.sessions.SessionManager;
+import com.cometproject.server.protocol.security.exchange.RSA;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
@@ -35,6 +36,8 @@ public class NetworkManager {
     private SessionManager sessions;
     private MessageHandler messageHandler;
 
+    private RSA rsa;
+
     private MonitorClient monitorClient;
 
     private static Logger log = Logger.getLogger(NetworkManager.class.getName());
@@ -51,11 +54,14 @@ public class NetworkManager {
     }
 
     public void initialize(String ip, String ports) {
+        this.rsa = new RSA();
         this.sessions = new SessionManager();
         this.messageHandler = new MessageHandler();
 
         this.serverPort = Integer.parseInt(ports.split(",")[0]);
         this.monitorClient = new MonitorClient(new NioEventLoopGroup());
+
+        this.rsa.init();
 
         InternalLoggerFactory.setDefaultFactory(new Log4JLoggerFactory());
 
@@ -136,6 +142,10 @@ public class NetworkManager {
 
     public MonitorClient getMonitorClient() {
         return monitorClient;
+    }
+
+    public RSA getRSA() {
+        return rsa;
     }
 
     public int getServerPort() {

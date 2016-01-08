@@ -16,7 +16,7 @@ public class PapersMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RoomSpacesMessageComposer;
+        return Composers.RoomPropertyMessageComposer;
     }
 
     @Override

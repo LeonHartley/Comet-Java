@@ -144,32 +144,32 @@ public final class MessageHandler {
         this.registerUser();
         this.registerBots();
         this.registerRoom();
-        this.registerRoomTrade();
-        this.registerRoomModeration();
-        this.registerRoomAccess();
+//        this.registerRoomTrade();
+//        this.registerRoomModeration();
+//        this.registerRoomAccess();
         this.registerItems();
         this.registerCatalog();
         this.registerPets();
-        this.registerLanding();
+//        this.registerLanding();
         this.registerGroups();
-        this.registerGroupForums();
+//        this.registerGroupForums();
         this.registerQuests();
-        this.registerCamera();
-        this.registerPromotions();
-        this.registerMusic();
-        this.registerAchievements();
+//        this.registerCamera();
+//        this.registerPromotions();
+//        this.registerMusic();
+//        this.registerAchievements();
         this.registerMisc();
 
         log.info("Loaded " + this.getMessages().size() + " message events");
     }
 
     private void registerMisc() {
-        this.getMessages().put(Events.RequestLatencyTestMessageEvent, new RequestLatencyTestMessageEvent());
-        this.getMessages().put(Events.EventLogMessageEvent, new EventLogMessageEvent());
+        this.getMessages().put(Events.LatencyTestMessageEvent, new RequestLatencyTestMessageEvent());
+        this.getMessages().put(Events.EventTrackerMessageEvent, new EventLogMessageEvent());
     }
 
     public void registerHandshake() {
-        this.getMessages().put(Events.ClientVersionMessageEvent, new CheckReleaseMessageEvent());
+        this.getMessages().put(Events.GetClientVersionMessageEvent, new CheckReleaseMessageEvent());
         this.getMessages().put(Events.InitCryptoMessageEvent, new InitCryptoMessageEvent());
         this.getMessages().put(Events.GenerateSecretKeyMessageEvent, new GenerateSecretKeyMessageEvent());
         this.getMessages().put(Events.SSOTicketMessageEvent, new SSOTicketMessageEvent());
@@ -177,278 +177,277 @@ public final class MessageHandler {
     }
 
     public void registerModTool() {
-        this.getMessages().put(Events.ModerationToolUserToolMessageEvent, new ModToolUserInfoMessageEvent());
-        this.getMessages().put(Events.ModerationToolUserChatlogMessageEvent, new ModToolUserChatlogMessageEvent());
-        this.getMessages().put(Events.ModerationToolRoomChatlogMessageEvent, new ModToolRoomChatlogMessageEvent());
-        this.getMessages().put(Events.ModerationBanUserMessageEvent, new ModToolBanUserMessageEvent());
-        this.getMessages().put(Events.ModerationToolRoomToolMessageEvent, new ModToolRoomInfoMessageEvent());
-        this.getMessages().put(Events.ModerationToolGetRoomVisitsMessageEvent, new ModToolRoomVisitsMessageEvent());
-        this.getMessages().put(Events.ModerationToolSendUserAlertMessageEvent, new ModToolUserAlertMessageEvent());
-        this.getMessages().put(Events.ModerationToolSendUserCautionMessageEvent, new ModToolUserCautionMessageEvent());
-        this.getMessages().put(Events.ModerationKickUserMessageEvent, new ModToolUserKickMessageEvent());
-        this.getMessages().put(Events.ModerationToolSendRoomAlertMessageEvent, new ModToolRoomAlertMessageEvent());
-        this.getMessages().put(Events.ModerationToolPerformRoomActionMessageEvent, new ModToolRoomActionMessageEvent());
-        this.getMessages().put(Events.ModerationToolPickTicketMessageEvent, new ModToolPickTicketMessageEvent());
-        this.getMessages().put(Events.ModerationToolTicketChatlogMessageEvent, new ModToolTicketChatlogMessageEvent());
-        this.getMessages().put(Events.ModerationToolCloseIssueMessageEvent, new ModToolCloseIssueMessageEvent());
-        this.getMessages().put(Events.ModerationToolReleaseIssueMessageEvent, new ModToolReleaseIssueMessageEvent());
+        this.getMessages().put(Events.GetModeratorUserInfoMessageEvent, new ModToolUserInfoMessageEvent());
+        this.getMessages().put(Events.GetModeratorUserChatlogMessageEvent, new ModToolUserChatlogMessageEvent());
+        this.getMessages().put(Events.GetModeratorRoomChatlogMessageEvent, new ModToolRoomChatlogMessageEvent());
+        this.getMessages().put(Events.ModerationBanMessageEvent, new ModToolBanUserMessageEvent());
+        this.getMessages().put(Events.GetModeratorRoomInfoMessageEvent, new ModToolRoomInfoMessageEvent());
+        this.getMessages().put(Events.GetModeratorUserRoomVisitsMessageEvent, new ModToolRoomVisitsMessageEvent());
+        this.getMessages().put(Events.ModerationMsgMessageEvent, new ModToolUserAlertMessageEvent());
+        this.getMessages().put(Events.ModerationCautionMessageEvent, new ModToolUserCautionMessageEvent());
+        this.getMessages().put(Events.KickUserMessageEvent, new ModToolUserKickMessageEvent());
+        this.getMessages().put(Events.ModeratorActionMessageEvent, new ModToolRoomAlertMessageEvent());
+        this.getMessages().put(Events.ModeratorActionMessageEvent, new ModToolRoomActionMessageEvent());
+        this.getMessages().put(Events.PickTicketMessageEvent, new ModToolPickTicketMessageEvent());
+        this.getMessages().put(Events.GetModeratorTicketChatlogsMessageEvent, new ModToolTicketChatlogMessageEvent());
+        this.getMessages().put(Events.CloseTicketMesageEvent, new ModToolCloseIssueMessageEvent());
+        this.getMessages().put(Events.ReleaseTicketMessageEvent, new ModToolReleaseIssueMessageEvent());
     }
 
     public void registerHelpTool() {
         this.getMessages().put(Events.OpenHelpToolMessageEvent, new InitHelpToolMessageEvent());
-        this.getMessages().put(Events.SubmitHelpTicketMessageEvent, new HelpTicketMessageEvent());
-        this.getMessages().put(Events.DeletePendingTicketMessageEvent, new DeletePendingTicketMessageEvent());
-        this.getMessages().put(Events.ReportForumPostMessageEvent, new ReportForumPostMessageEvent());
+        this.getMessages().put(Events.SubmitNewTicketMessageEvent, new HelpTicketMessageEvent());
+//        this.getMessages().put(Events.DeletePendingTicketMessageEvent, new DeletePendingTicketMessageEvent());
+//        this.getMessages().put(Events.ReportForumPostMessageEvent, new ReportForumPostMessageEvent());
 
-        this.getMessages().put(Events.OpenGuideToolMessageEvent, new OpenGuideToolMessageEvent());
+//        this.getMessages().put(Events.OpenGuideToolMessageEvent, new OpenGuideToolMessageEvent());
     }
 
     public void registerMessenger() {
-        this.getMessages().put(Events.InitializeFriendListMessageEvent, new InitializeFriendListMessageEvent());
-        this.getMessages().put(Events.ConsoleInstantChatMessageEvent, new PrivateChatMessageEvent());
-        this.getMessages().put(Events.RequestFriendMessageEvent, new RequestFriendshipMessageEvent());
-        this.getMessages().put(Events.AcceptFriendMessageEvent, new AcceptFriendshipMessageEvent());
-        this.getMessages().put(Events.ConsoleSearchFriendsMessageEvent, new SearchFriendsMessageEvent());
+        this.getMessages().put(Events.MessengerInitMessageEvent, new InitializeFriendListMessageEvent());
+        this.getMessages().put(Events.SendMsgMessageEvent, new PrivateChatMessageEvent());
+        this.getMessages().put(Events.RequestBuddyMessageEvent, new RequestFriendshipMessageEvent());
+        this.getMessages().put(Events.AcceptBuddyMessageEvent, new AcceptFriendshipMessageEvent());
+        this.getMessages().put(Events.HabboSearchMessageEvent, new SearchFriendsMessageEvent());
         this.getMessages().put(Events.FollowFriendMessageEvent, new FollowFriendMessageEvent());
-        this.getMessages().put(Events.DeleteFriendMessageEvent, new DeleteFriendsMessageEvent());
-        this.getMessages().put(Events.ConsoleInviteFriendsMessageEvent, new InviteFriendsMessageEvent());
-        this.getMessages().put(Events.DeclineFriendMessageEvent, new DeclineFriendshipMessageEvent());
+        this.getMessages().put(Events.RemoveBuddyMessageEvent, new DeleteFriendsMessageEvent());
+        this.getMessages().put(Events.SendRoomInviteMessageEvent, new InviteFriendsMessageEvent());
+        this.getMessages().put(Events.DeclineBuddyMessageEvent, new DeclineFriendshipMessageEvent());
     }
 
     public void registerNavigator() {
-        this.getMessages().put(Events.NavigatorGetMyRoomsMessageEvent, new OwnRoomsMessageEvent());
-        this.getMessages().put(Events.NavigatorGetPopularRoomsMessageEvent, new PopularRoomsMessageEvent());
-        this.getMessages().put(Events.NavigatorGetPopularTagsMessageEvent, new LoadSearchRoomMessageEvent());
-        this.getMessages().put(Events.CanCreateRoomMessageEvent, new CanCreateRoomMessageEvent());
-        this.getMessages().put(Events.NavigatorSearchRoomByNameMessageEvent, new SearchRoomMessageEvent());
-        this.getMessages().put(Events.CreateRoomMessageEvent, new CreateRoomMessageEvent());
-        this.getMessages().put(Events.NavigatorGetFeaturedRoomsMessageEvent, new FeaturedRoomsMessageEvent());
-        this.getMessages().put(Events.AddToStaffPickedRoomsMessageEvent, new AddToStaffPickedRoomsMessageEvent());
-        this.getMessages().put(Events.NavigatorGetEventsMessageEvent, new PromotedRoomsMessageEvent());
-        this.getMessages().put(Events.NavigatorGetFlatCategoriesMessageEvent, new LoadCategoriesMessageEvent());
-        this.getMessages().put(Events.NavigatorGetHighRatedRoomsMessageEvent, new NavigatorGetHighRatedRoomsMessageEvent());
+//        this.getMessages().put(Events.NavigatorGetMyRoomsMessageEvent, new OwnRoomsMessageEvent());
+//        this.getMessages().put(Events.NavigatorGetPopularRoomsMessageEvent, new PopularRoomsMessageEvent());
+//        this.getMessages().put(Events.NavigatorGetPopularTagsMessageEvent, new LoadSearchRoomMessageEvent());
+//        this.getMessages().put(Events.CanCreateRoomMessageEvent, new CanCreateRoomMessageEvent());
+//        this.getMessages().put(Events.NavigatorSearchRoomByNameMessageEvent, new SearchRoomMessageEvent());
+//        this.getMessages().put(Events.CreateRoomMessageEvent, new CreateRoomMessageEvent());
+//        this.getMessages().put(Events.NavigatorGetFeaturedRoomsMessageEvent, new FeaturedRoomsMessageEvent());
+//        this.getMessages().put(Events.AddToStaffPickedRoomsMessageEvent, new AddToStaffPickedRoomsMessageEvent());
+//        this.getMessages().put(Events.NavigatorGetEventsMessageEvent, new PromotedRoomsMessageEvent());
+//        this.getMessages().put(Events.NavigatorGetFlatCategoriesMessageEvent, new LoadCategoriesMessageEvent());
+//        this.getMessages().put(Events.NavigatorGetHighRatedRoomsMessageEvent, new NavigatorGetHighRatedRoomsMessageEvent());
     }
 
     public void registerUser() {
-        this.getMessages().put(Events.RetrieveCitizenshipStatus, new CitizenshipStatusMessageEvent());
-        this.getMessages().put(Events.LoadUserProfileMessageEvent, new GetProfileMessageEvent());
-        this.getMessages().put(Events.LoadProfileByUsernameMessageEvent, new GetProfileByUsernameMessageEvent());
-        this.getMessages().put(Events.GetSubscriptionDataMessageEvent, new ClubStatusMessageEvent());
+//        this.getMessages().put(Events.RetrieveCitizenshipStatus, new CitizenshipStatusMessageEvent());
+        this.getMessages().put(Events.OpenPlayerProfileMessageEvent, new GetProfileMessageEvent());
+//        this.getMessages().put(Events.OpenPlayerProfileMessageEvent, new GetProfileByUsernameMessageEvent());
+        this.getMessages().put(Events.ScrGetUserInfoMessageEvent, new ClubStatusMessageEvent());
         this.getMessages().put(Events.InfoRetrieveMessageEvent, new InfoRetrieveMessageEvent());
-        this.getMessages().put(Events.UserUpdateLookMessageEvent, new ChangeLooksMessageEvent());
-        this.getMessages().put(Events.LoadItemsInventoryMessageEvent, new OpenInventoryMessageEvent());
-        this.getMessages().put(Events.LoadBadgeInventoryMessageEvent, new BadgeInventoryMessageEvent());
-        this.getMessages().put(Events.UserUpdateMottoMessageEvent, new ChangeMottoMessageEvent());
-        this.getMessages().put(Events.RelationshipsGetMessageEvent, new GetRelationshipsMessageEvent());
+        this.getMessages().put(Events.UpdateFigureDataMessageEvent, new ChangeLooksMessageEvent());
+        this.getMessages().put(Events.RequestFurniInventoryMessageEvent, new OpenInventoryMessageEvent());
+        this.getMessages().put(Events.GetBadgesMessageEvent, new BadgeInventoryMessageEvent());
+        this.getMessages().put(Events.ChangeMottoMessageEvent, new ChangeMottoMessageEvent());
+        this.getMessages().put(Events.GetRelationshipsMessageEvent, new GetRelationshipsMessageEvent());
         this.getMessages().put(Events.SetRelationshipMessageEvent, new SetRelationshipMessageEvent());
         this.getMessages().put(Events.SetActivatedBadgesMessageEvent, new WearBadgeMessageEvent());
-        this.getMessages().put(Events.WardrobeMessageEvent, new WardrobeMessageEvent());
-        this.getMessages().put(Events.WardrobeUpdateMessageEvent, new SaveWardrobeMessageEvent());
-        this.getMessages().put(Events.SetHomeRoomMessageEvent, new ChangeHomeRoomMessageEvent());
-        this.getMessages().put(Events.SaveClientSettingsMessageEvent, new UpdateAudioSettingsMessageEvent());
+        this.getMessages().put(Events.GetWardrobeMessageEvent, new WardrobeMessageEvent());
+        this.getMessages().put(Events.SaveWardrobeOutfitMessageEvent, new SaveWardrobeMessageEvent());
+        this.getMessages().put(Events.UpdateNavigatorSettingsMessageEvent, new ChangeHomeRoomMessageEvent());
+        this.getMessages().put(Events.SetSoundSettingsMessageEvent, new UpdateAudioSettingsMessageEvent());
         this.getMessages().put(Events.SetChatPreferenceMessageEvent, new UpdateChatStyleMessageEvent());
-        this.getMessages().put(Events.IgnoreInvitationsMessageEvent, new IgnoreInvitationsMessageEvent());
+        this.getMessages().put(Events.SetMessengerInviteStatusMessageEvent, new IgnoreInvitationsMessageEvent());
     }
 
     public void registerBots() {
-        this.getMessages().put(Events.LoadBotInventoryMessageEvent, new BotInventoryMessageEvent());
+        this.getMessages().put(Events.GetBotInventoryMessageEvent, new BotInventoryMessageEvent());
         this.getMessages().put(Events.PlaceBotMessageEvent, new PlaceBotMessageEvent());
-        this.getMessages().put(Events.BotActionsMessageEvent, new ModifyBotMessageEvent());
+        this.getMessages().put(Events.SaveBotActionMessageEvent, new ModifyBotMessageEvent());
         this.getMessages().put(Events.PickUpBotMessageEvent, new RemoveBotMessageEvent());
-        this.getMessages().put(Events.BotSpeechListMessageEvent, new BotConfigMessageEvent());
+        this.getMessages().put(Events.OpenBotActionMessageEvent, new BotConfigMessageEvent());
     }
 
     public void registerPets() {
-        this.getMessages().put(Events.LoadPetInventoryMessageEvent, new PetInventoryMessageEvent());
+        this.getMessages().put(Events.GetPetInventoryMessageEvent, new PetInventoryMessageEvent());
         this.getMessages().put(Events.PlacePetMessageEvent, new PlacePetMessageEvent());
-        this.getMessages().put(Events.PetGetInformationMessageEvent, new PetInformationMessageEvent());
+        this.getMessages().put(Events.GetPetInformationMessageEvent, new PetInformationMessageEvent());
         this.getMessages().put(Events.PickUpPetMessageEvent, new RemovePetMessageEvent());
 //        this.getMessages().put(Events.HorseMountOnMessageEvent, new HorseMountOnMessageEvent());
         this.getMessages().put(Events.RespectPetMessageEvent, new RespectPetMessageEvent());
     }
 
     public void registerRoom() {
-        this.getMessages().put(Events.EnterPrivateRoomMessageEvent, new InitializeRoomMessageEvent());
-        this.getMessages().put(Events.RoomGetInfoMessageEvent, new FollowRoomInfoMessageEvent());
+        this.getMessages().put(Events.OpenFlatConnectionMessageEvent, new InitializeRoomMessageEvent());
+        this.getMessages().put(Events.GetRoomEntryDataMessageEvent, new FollowRoomInfoMessageEvent());
         this.getMessages().put(Events.GoToHotelViewMessageEvent, new ExitRoomMessageEvent());
         this.getMessages().put(Events.ChatMessageEvent, new TalkMessageEvent());
         this.getMessages().put(Events.ShoutMessageEvent, new ShoutMessageEvent());
-        this.getMessages().put(Events.UserWhisperMessageEvent, new WhisperMessageEvent());
-        this.getMessages().put(Events.UserWalkMessageEvent, new WalkMessageEvent());
-        this.getMessages().put(Events.RoomUserActionMessageEvent, new ApplyActionMessageEvent());
-        this.getMessages().put(Events.UserSignMessageEvent, new ApplySignMessageEvent());
-        this.getMessages().put(Events.UserDanceMessageEvent, new ApplyDanceMessageEvent());
-        this.getMessages().put(Events.RoomGetSettingsInfoMessageEvent, new LoadRoomInfoMessageEvent());
-        this.getMessages().put(Events.GetRoomRightsListMessageEvent, new UsersWithRightsMessageEvent());
-        this.getMessages().put(Events.RoomSaveSettingsMessageEvent, new SaveRoomDataMessageEvent());
-        this.getMessages().put(Events.GiveRespectMessageEvent, new RespectUserMessageEvent());
+        this.getMessages().put(Events.WhisperMessageEvent, new WhisperMessageEvent());
+        this.getMessages().put(Events.MoveAvatarMessageEvent, new WalkMessageEvent());
+        this.getMessages().put(Events.ActionMessageEvent, new ApplyActionMessageEvent());
+        this.getMessages().put(Events.ApplySignMessageEvent, new ApplySignMessageEvent());
+        this.getMessages().put(Events.DanceMessageEvent, new ApplyDanceMessageEvent());
+        this.getMessages().put(Events.GetRoomSettingsMessageEvent, new LoadRoomInfoMessageEvent());
+//        this.getMessages().put(Events.UsersWithRightsMessageEvent, new UsersWithRightsMessageEvent());
+        this.getMessages().put(Events.SaveRoomSettingsMessageEvent, new SaveRoomDataMessageEvent());
+        this.getMessages().put(Events.RespectUserMessageEvent, new RespectUserMessageEvent());
         this.getMessages().put(Events.StartTypingMessageEvent, new StartTypingMessageEvent());
-        this.getMessages().put(Events.StopTypingMessageEvent, new StopTypingMessageEvent());
-        this.getMessages().put(Events.LookAtUserMessageEvent, new LookToMessageEvent());
-        this.getMessages().put(Events.GetUserBadgesMessageEvent, new UserBadgesMessageEvent());
-        this.getMessages().put(Events.RoomApplySpaceMessageEvent, new UpdatePapersMessageEvent());
-        this.getMessages().put(Events.DropHanditemMessageEvent, new DropHandItemMessageEvent());
-        this.getMessages().put(Events.RoomDeleteMessageEvent, new DeleteRoomMessageEvent());
-        this.getMessages().put(Events.RoomSettingsMuteAllMessageEvent, new MuteRoomMessageEvent());
-        this.getMessages().put(Events.RateRoomMessageEvent, new RateRoomMessageEvent());
-        this.getMessages().put(Events.GiveHanditemMessageEvent, new GiveHandItemMessageEvent());
-        this.getMessages().put(Events.SaveFloorPlanEditorMessageEvent, new SaveFloorMessageEvent());
-        this.getMessages().put(Events.GetFloorPlanFurnitureMessageEvent, new GetTilesInUseMessageEvent());
-        this.getMessages().put(Events.GetFloorPlanDoorMessageEvent, new GetFloorPlanDoorMessageEvent());
+        this.getMessages().put(Events.CancelTypingMessageEvent, new StopTypingMessageEvent());
+        this.getMessages().put(Events.LookToMessageEvent, new LookToMessageEvent());
+        this.getMessages().put(Events.GetSelectedBadgesMessageEvent, new UserBadgesMessageEvent());
+        this.getMessages().put(Events.ApplyDecorationMessageEvent, new UpdatePapersMessageEvent());
+        this.getMessages().put(Events.DropHandItemMessageEvent, new DropHandItemMessageEvent());
+        this.getMessages().put(Events.DeleteRoomMessageEvent, new DeleteRoomMessageEvent());
+        this.getMessages().put(Events.ToggleMuteToolMessageEvent, new MuteRoomMessageEvent());
+        this.getMessages().put(Events.GiveRoomScoreMessageEvent, new RateRoomMessageEvent());
+        this.getMessages().put(Events.GiveHandItemMessageEvent, new GiveHandItemMessageEvent());
+        this.getMessages().put(Events.SaveFloorPlanModelMessageEvent, new SaveFloorMessageEvent());
+        this.getMessages().put(Events.InitializeFloorPlanSessionMessageEvent, new GetTilesInUseMessageEvent());
         this.getMessages().put(Events.IgnoreUserMessageEvent, new IgnoreUserMessageEvent());
-        this.getMessages().put(Events.UnignoreUserMessageEvent, new UnignoreUserMessageEvent());
-        this.getMessages().put(Events.RemoveOwnRightsMessageEvent, new RemoveOwnRightsMessageEvent());
+        this.getMessages().put(Events.UnIgnoreUserMessageEvent, new UnignoreUserMessageEvent());
+        this.getMessages().put(Events.RemoveMyRightsMessageEvent, new RemoveOwnRightsMessageEvent());
         this.getMessages().put(Events.SitMessageEvent, new SitMessageEvent());
-        this.getMessages().put(Events.SpectateRoomMessageEvent, new SpectateRoomMessageEvent());
+//        this.getMessages().put(Events., new SpectateRoomMessageEvent());
     }
-
-    public void registerRoomTrade() {
-        this.getMessages().put(Events.TradeStartMessageEvent, new BeginTradeMessageEvent());
-        this.getMessages().put(Events.TradeCancelMessageEvent, new CancelTradeMessageEvent());
-        this.getMessages().put(Events.TradeUnacceptMessageEvent, new UnacceptTradeMessageEvent());
-        this.getMessages().put(Events.TradeAddItemOfferMessageEvent, new SendOfferMessageEvent());
-        this.getMessages().put(Events.TradeDiscardMessageEvent, new CancelOfferMessageEvent());
-        this.getMessages().put(Events.TradeAcceptMessageEvent, new AcceptTradeMessageEvent());
-        this.getMessages().put(Events.TradeConfirmMessageEvent, new ConfirmTradeMessageEvent());
-    }
-
-    public void registerRoomModeration() {
-        this.getMessages().put(Events.RoomKickUserMessageEvent, new KickUserMessageEvent());
-        this.getMessages().put(Events.RoomBanUserMessageEvent, new BanUserMessageEvent());
-        this.getMessages().put(Events.GiveRightsMessageEvent, new GiveRightsMessageEvent());
-        this.getMessages().put(Events.RoomRemoveUserRightsMessageEvent, new RemoveRightsMessageEvent());
-        this.getMessages().put(Events.RoomRemoveAllRightsMessageEvent, new RemoveAllRightsMessageEvent());
-        this.getMessages().put(Events.GetRoomBannedUsersMessageEvent, new GetBannedUsersMessageEvent());
-        this.getMessages().put(Events.RoomUnbanUserMessageEvent, new RoomUnbanUserMessageEvent());
-        this.getMessages().put(Events.RoomSettingsMuteUserMessageEvent, new MutePlayerMessageEvent());
-        this.getMessages().put(Events.WordFilterListMessageEvent, new WordFilterListMessageEvent());
-        this.getMessages().put(Events.EditWordFilterMessageEvent, new EditWordFilterMessageEvent());
-    }
-
-    public void registerRoomAccess() {
-        this.getMessages().put(Events.DoorbellAnswerMessageEvent, new AnswerDoorbellMessageEvent());
-        this.getMessages().put(Events.RoomLoadByDoorbellMessageEvent, new LoadRoomByDoorBellMessageEvent());
-    }
-
+//
+//    public void registerRoomTrade() {
+//        this.getMessages().put(Events.TradeStartMessageEvent, new BeginTradeMessageEvent());
+//        this.getMessages().put(Events.TradeCancelMessageEvent, new CancelTradeMessageEvent());
+//        this.getMessages().put(Events.TradeUnacceptMessageEvent, new UnacceptTradeMessageEvent());
+//        this.getMessages().put(Events.TradeAddItemOfferMessageEvent, new SendOfferMessageEvent());
+//        this.getMessages().put(Events.TradeDiscardMessageEvent, new CancelOfferMessageEvent());
+//        this.getMessages().put(Events.TradeAcceptMessageEvent, new AcceptTradeMessageEvent());
+//        this.getMessages().put(Events.TradeConfirmMessageEvent, new ConfirmTradeMessageEvent());
+//    }
+//
+//    public void registerRoomModeration() {
+//        this.getMessages().put(Events.RoomKickUserMessageEvent, new KickUserMessageEvent());
+//        this.getMessages().put(Events.RoomBanUserMessageEvent, new BanUserMessageEvent());
+//        this.getMessages().put(Events.GiveRightsMessageEvent, new GiveRightsMessageEvent());
+//        this.getMessages().put(Events.RoomRemoveUserRightsMessageEvent, new RemoveRightsMessageEvent());
+//        this.getMessages().put(Events.RoomRemoveAllRightsMessageEvent, new RemoveAllRightsMessageEvent());
+//        this.getMessages().put(Events.GetRoomBannedUsersMessageEvent, new GetBannedUsersMessageEvent());
+//        this.getMessages().put(Events.RoomUnbanUserMessageEvent, new RoomUnbanUserMessageEvent());
+//        this.getMessages().put(Events.RoomSettingsMuteUserMessageEvent, new MutePlayerMessageEvent());
+//        this.getMessages().put(Events.WordFilterListMessageEvent, new WordFilterListMessageEvent());
+//        this.getMessages().put(Events.EditWordFilterMessageEvent, new EditWordFilterMessageEvent());
+//    }
+//
+//    public void registerRoomAccess() {
+//        this.getMessages().put(Events.DoorbellAnswerMessageEvent, new AnswerDoorbellMessageEvent());
+//        this.getMessages().put(Events.RoomLoadByDoorbellMessageEvent, new LoadRoomByDoorBellMessageEvent());
+//    }
+//
     public void registerItems() {
-        this.getMessages().put(Events.RoomAddFloorItemMessageEvent, new PlaceItemMessageEvent());
-        this.getMessages().put(Events.FloorItemMoveMessageEvent, new ChangeFloorItemPositionMessageEvent());
-        this.getMessages().put(Events.WallItemMoveMessageEvent, new ChangeWallItemPositionMessageEvent());
-        this.getMessages().put(Events.PickUpItemMessageEvent, new PickUpItemMessageEvent());
-        this.getMessages().put(Events.TriggerItemMessageEvent, new ChangeFloorItemStateMessageEvent());
-        this.getMessages().put(Events.EnterOneWayDoorMessageEvent, new ChangeFloorItemStateMessageEvent());
-        this.getMessages().put(Events.TriggerDiceCloseMessageEvent, new OpenDiceMessageEvent());
-        this.getMessages().put(Events.TriggerDiceRollMessageEvent, new RunDiceMessageEvent());
-        this.getMessages().put(Events.WiredSaveEffectMessageEvent, new SaveWiredDataMessageEvent());
-        this.getMessages().put(Events.WiredSaveTriggerMessageEvent, new SaveWiredDataMessageEvent());
-        this.getMessages().put(Events.WiredSaveConditionMessageEvent, new SaveWiredDataMessageEvent());
-        this.getMessages().put(Events.ReedemExchangeItemMessageEvent, new ExchangeItemMessageEvent());
-        this.getMessages().put(Events.TriggerWallItemMessageEvent, new UseWallItemMessageEvent());
+        this.getMessages().put(Events.PlaceObjectMessageEvent, new PlaceItemMessageEvent());
+        this.getMessages().put(Events.MoveObjectMessageEvent, new ChangeFloorItemPositionMessageEvent());
+        this.getMessages().put(Events.MoveWallItemMessageEvent, new ChangeWallItemPositionMessageEvent());
+        this.getMessages().put(Events.PickupObjectMessageEvent, new PickUpItemMessageEvent());
+        this.getMessages().put(Events.UseFurnitureMessageEvent, new ChangeFloorItemStateMessageEvent());
+        this.getMessages().put(Events.UseOneWayGateMessageEvent, new ChangeFloorItemStateMessageEvent());
+        this.getMessages().put(Events.DiceOffMessageEvent, new OpenDiceMessageEvent());
+        this.getMessages().put(Events.ThrowDiceMessageEvent, new RunDiceMessageEvent());
+        this.getMessages().put(Events.SaveWiredEffectConfigMessageEvent, new SaveWiredDataMessageEvent());
+        this.getMessages().put(Events.SaveWiredConditionConfigMessageEvent, new SaveWiredDataMessageEvent());
+        this.getMessages().put(Events.SaveWiredTriggerConfigMessageEvent, new SaveWiredDataMessageEvent());
+        this.getMessages().put(Events.CreditFurniRedeemMessageEvent, new ExchangeItemMessageEvent());
+        this.getMessages().put(Events.UseWallItemMessageEvent, new UseWallItemMessageEvent());
         this.getMessages().put(Events.UseHabboWheelMessageEvent, new UseWallItemMessageEvent());
-        this.getMessages().put(Events.MannequinSaveDataMessageEvent, new SaveMannequinMessageEvent());
-        this.getMessages().put(Events.MannequinUpdateDataMessageEvent, new SaveMannequinFigureMessageEvent());
-        this.getMessages().put(Events.SaveRoomBackgroundTonerMessageEvent, new SaveTonerMessageEvent());
-        this.getMessages().put(Events.SaveRoomBrandingMessageEvent, new SaveBrandingMessageEvent());
+        this.getMessages().put(Events.SetMannequinNameMessageEvent, new SaveMannequinMessageEvent());
+        this.getMessages().put(Events.SetMannequinFigureMessageEvent, new SaveMannequinFigureMessageEvent());
+        this.getMessages().put(Events.SetTonerMessageEvent, new SaveTonerMessageEvent());
+        this.getMessages().put(Events.SaveBrandingItemMessageEvent, new SaveBrandingMessageEvent());
         this.getMessages().put(Events.OpenGiftMessageEvent, new OpenGiftMessageEvent());
-        this.getMessages().put(Events.ActivateMoodlightMessageEvent, new UseMoodlightMessageEvent());
-        this.getMessages().put(Events.TriggerMoodlightMessageEvent, new ToggleMoodlightMessageEvent());
-        this.getMessages().put(Events.UpdateMoodlightMessageEvent, new UpdateMoodlightMessageEvent());
-        this.getMessages().put(Events.TileStackMagicSetHeightMessageEvent, new SaveStackToolMessageEvent());
-        this.getMessages().put(Events.SaveFootballGateOutfitMessageEvent, new SaveFootballGateMessageEvent());
-        this.getMessages().put(Events.WiredSaveMatchingMessageEvent, new UpdateSnapshotsMessageEvent());
-        this.getMessages().put(Events.RoomAddPostItMessageEvent, new PlacePostitMessageEvent());
-        this.getMessages().put(Events.OpenPostItMessageEvent, new OpenPostItMessageEvent());
-        this.getMessages().put(Events.SavePostItMessageEvent, new SavePostItMessageEvent());
-        this.getMessages().put(Events.DeletePostItMessageEvent, new DeletePostItMessageEvent());
-        this.getMessages().put(Events.YouTubeGetPlayerMessageEvent, new LoadPlaylistMessageEvent());
-        this.getMessages().put(Events.YouTubeGetPlaylistGetMessageEvent, new PlayVideoMessageEvent());
-        this.getMessages().put(Events.YouTubeChoosePlaylistVideoMessageEvent, new NextVideoMessageEvent());
+        this.getMessages().put(Events.GetMoodlightConfigMessageEvent, new UseMoodlightMessageEvent());
+        this.getMessages().put(Events.ToggleMoodlightMessageEvent, new ToggleMoodlightMessageEvent());
+        this.getMessages().put(Events.MoodlightUpdateMessageEvent, new UpdateMoodlightMessageEvent());
+        this.getMessages().put(Events.UpdateMagicTileMessageEvent, new SaveStackToolMessageEvent());
+//        this.getMessages().put(Events.Gate, new SaveFootballGateMessageEvent());
+//        this.getMessages().put(Events, new UpdateSnapshotsMessageEvent());
+        this.getMessages().put(Events.AddStickyNoteMessageEvent, new PlacePostitMessageEvent());
+        this.getMessages().put(Events.GetStickyNoteMessageEvent, new OpenPostItMessageEvent());
+        this.getMessages().put(Events.UpdateStickyNoteMessageEvent, new SavePostItMessageEvent());
+        this.getMessages().put(Events.DeleteStickyNoteMessageEvent, new DeletePostItMessageEvent());
+        this.getMessages().put(Events.GetYouTubeTelevisionMessageEvent, new LoadPlaylistMessageEvent());
+        this.getMessages().put(Events.ToggleYouTubeVideoMessageEvent, new PlayVideoMessageEvent());
+        this.getMessages().put(Events.YouTubeGetNextVideo, new NextVideoMessageEvent());
         this.getMessages().put(Events.ConfirmLoveLockMessageEvent, new ConfirmLoveLockMessageEvent());
     }
-
-    public void registerPromotions() {
-        this.getMessages().put(Events.CatalogPromotionGetRoomsMessageEvent, new CatalogPromotionGetRoomsMessageEvent());
-        this.getMessages().put(Events.PromoteRoomMessageEvent, new PromoteRoomMessageEvent());
-        this.getMessages().put(Events.RoomEventUpdateMessageEvent, new PromotionUpdateMessageEvent());
-    }
-
+//
+//    public void registerPromotions() {
+//        this.getMessages().put(Events.CatalogPromotionGetRoomsMessageEvent, new CatalogPromotionGetRoomsMessageEvent());
+//        this.getMessages().put(Events.PromoteRoomMessageEvent, new PromoteRoomMessageEvent());
+//        this.getMessages().put(Events.RoomEventUpdateMessageEvent, new PromotionUpdateMessageEvent());
+//    }
+//
     public void registerCatalog() {
         this.getMessages().put(Events.GetCatalogIndexMessageEvent, new GetCataIndexMessageEvent());
         this.getMessages().put(Events.GetCatalogPageMessageEvent, new GetCataPageMessageEvent());
         this.getMessages().put(Events.PurchaseFromCatalogMessageEvent, new PurchaseItemMessageEvent());
         this.getMessages().put(Events.GetGiftWrappingConfigurationMessageEvent, new GetGiftWrappingConfigurationMessageEvent());
-        this.getMessages().put(Events.CatalogOfferConfigMessageEvent, new CatalogOfferConfigMessageEvent());
-        this.getMessages().put(Events.GetGroupPurchaseBoxMessageEvent, new BuyGroupDialogMessageEvent());
-        this.getMessages().put(Events.CreateGuildMessageEvent, new BuyGroupMessageEvent());
+//        this.getMessages().put(Events.CatalogOfferConfigMessageEvent, new CatalogOfferConfigMessageEvent());
+        this.getMessages().put(Events.GetGroupCreationWindowMessageEvent, new BuyGroupDialogMessageEvent());
+        this.getMessages().put(Events.PurchaseGroupMessageEvent, new BuyGroupMessageEvent());
         this.getMessages().put(Events.GetSellablePetBreedsMessageEvent, new PetRacesMessageEvent());
         this.getMessages().put(Events.CheckPetNameMessageEvent, new ValidatePetNameMessageEvent());
         this.getMessages().put(Events.PurchaseFromCatalogAsGiftMessageEvent, new PurchaseGiftMessageEvent());
-        this.getMessages().put(Events.GetGroupFurnitureMessageEvent, new GroupFurnitureCatalogMessageEvent());
+        this.getMessages().put(Events.GetGroupFurniConfigMessageEvent, new GroupFurnitureCatalogMessageEvent());
         this.getMessages().put(Events.GetCatalogOfferMessageEvent, new GetCatalogOfferMessageEvent());
     }
-
-    public void registerLanding() {
-        this.getMessages().put(Events.LandingRefreshPromosMessageEvent, new RefreshPromoArticlesMessageEvent());
-        this.getMessages().put(Events.LandingLoadWidgetMessageEvent, new LandingLoadWidgetMessageEvent());
-    }
-
+//
+//    public void registerLanding() {
+//        this.getMessages().put(Events.LandingRefreshPromosMessageEvent, new RefreshPromoArticlesMessageEvent());
+//        this.getMessages().put(Events.LandingLoadWidgetMessageEvent, new LandingLoadWidgetMessageEvent());
+//    }
+//
     public void registerGroups() {
         this.getMessages().put(Events.GetGroupInfoMessageEvent, new GroupInformationMessageEvent());
         this.getMessages().put(Events.GetGroupMembersMessageEvent, new GroupMembersMessageEvent());
-        this.getMessages().put(Events.GroupManageMessageEvent, new ManageGroupMessageEvent());
-        this.getMessages().put(Events.RequestLeaveGroupMessageEvent, new RevokeMembershipMessageEvent());
-        this.getMessages().put(Events.GroupUserJoinMessageEvent, new JoinGroupMessageEvent());
-        this.getMessages().put(Events.GroupUpdateNameMessageEvent, new ModifyGroupTitleMessageEvent());
-        this.getMessages().put(Events.RemoveGroupAdminMessageEvent, new RevokeAdminMessageEvent());
-        this.getMessages().put(Events.GroupMakeAdministratorMessageEvent, new GiveGroupAdminMessageEvent());
-        this.getMessages().put(Events.GroupUpdateSettingsMessageEvent, new ModifyGroupSettingsMessageEvent());
-        this.getMessages().put(Events.AcceptGroupRequestMessageEvent, new AcceptMembershipMessageEvent());
-        this.getMessages().put(Events.GroupUpdateBadgeMessageEvent, new ModifyGroupBadgeMessageEvent());
-        this.getMessages().put(Events.SetFavoriteGroupMessageEvent, new SetFavouriteGroupMessageEvent());
-        this.getMessages().put(Events.GroupFurnitureWidgetMessageEvent, new GroupFurnitureWidgetMessageEvent());
-        this.getMessages().put(Events.GroupUpdateColoursMessageEvent, new GroupUpdateColoursMessageEvent());
-        this.getMessages().put(Events.DeclineMembershipMessageEvent, new DeclineMembershipMessageEvent());
-        this.getMessages().put(Events.ClearFavouriteGroupMessageEvent, new ClearFavouriteGroupMessageEvent());
+        this.getMessages().put(Events.ManageGroupMessageEvent, new ManageGroupMessageEvent());
+        this.getMessages().put(Events.RemoveGroupMemberMessageEvent, new RevokeMembershipMessageEvent());
+        this.getMessages().put(Events.JoinGroupMessageEvent, new JoinGroupMessageEvent());
+        this.getMessages().put(Events.UpdateGroupIdentityMessageEvent, new ModifyGroupTitleMessageEvent());
+        this.getMessages().put(Events.TakeAdminRightsMessageEvent, new RevokeAdminMessageEvent());
+        this.getMessages().put(Events.GiveAdminRightsMessageEvent, new GiveGroupAdminMessageEvent());
+        this.getMessages().put(Events.UpdateGroupSettingsMessageEvent, new ModifyGroupSettingsMessageEvent());
+        this.getMessages().put(Events.AcceptGroupMembershipMessageEvent, new AcceptMembershipMessageEvent());
+        this.getMessages().put(Events.UpdateGroupBadgeMessageEvent, new ModifyGroupBadgeMessageEvent());
+        this.getMessages().put(Events.SetGroupFavouriteMessageEvent, new SetFavouriteGroupMessageEvent());
+        this.getMessages().put(Events.GetGroupFurniSettingsMessageEvent, new GroupFurnitureWidgetMessageEvent());
+        this.getMessages().put(Events.UpdateGroupColoursMessageEvent, new GroupUpdateColoursMessageEvent());
+        this.getMessages().put(Events.DeclineGroupMembershipMessageEvent, new DeclineMembershipMessageEvent());
+        this.getMessages().put(Events.RemoveGroupFavouriteMessageEvent, new ClearFavouriteGroupMessageEvent());
     }
-
-    public void registerGroupForums() {
-        this.getMessages().put(Events.ForumDataMessageEvent, new ForumDataMessageEvent());
-        this.getMessages().put(Events.SaveForumSettingsMessageEvent, new SaveForumSettingsMessageEvent());
-        this.getMessages().put(Events.ForumThreadsMessageEvent, new ForumThreadsMessageEvent());
-        this.getMessages().put(Events.CreateThreadMessageEvent, new PostMessageMessageEvent());
-        this.getMessages().put(Events.ViewThreadMessageEvent, new ViewThreadMessageEvent());
-        this.getMessages().put(Events.ModerateThreadMessageEvent, new ModerateThreadMessageEvent());
-        this.getMessages().put(Events.UpdateThreadMessageEvent, new UpdateThreadMessageEvent());
-        this.getMessages().put(Events.GetForumsMessageEvent, new GetForumsMessageEvent());
-        this.getMessages().put(Events.HideMessageMessageEvent, new HideMessageMessageEvent());
-    }
-
+//
+//    public void registerGroupForums() {
+//        this.getMessages().put(Events.ForumDataMessageEvent, new ForumDataMessageEvent());
+//        this.getMessages().put(Events.SaveForumSettingsMessageEvent, new SaveForumSettingsMessageEvent());
+//        this.getMessages().put(Events.ForumThreadsMessageEvent, new ForumThreadsMessageEvent());
+//        this.getMessages().put(Events.CreateThreadMessageEvent, new PostMessageMessageEvent());
+//        this.getMessages().put(Events.ViewThreadMessageEvent, new ViewThreadMessageEvent());
+//        this.getMessages().put(Events.ModerateThreadMessageEvent, new ModerateThreadMessageEvent());
+//        this.getMessages().put(Events.UpdateThreadMessageEvent, new UpdateThreadMessageEvent());
+//        this.getMessages().put(Events.GetForumsMessageEvent, new GetForumsMessageEvent());
+//        this.getMessages().put(Events.HideMessageMessageEvent, new HideMessageMessageEvent());
+//    }
+//
     public void registerQuests() {
-        this.getMessages().put(Events.OpenQuestsMessageEvent, new OpenQuestsMessageEvent());
+        this.getMessages().put(Events.GetQuestListMessageEvent, new OpenQuestsMessageEvent());
         this.getMessages().put(Events.StartQuestMessageEvent, new StartQuestMessageEvent());
         this.getMessages().put(Events.CancelQuestMessageEvent, new CancelQuestMessageEvent());
-        this.getMessages().put(Events.NextQuestMessageEvent, new NextQuestMessageEvent());
+//        this.getMessages().put(Events.Quest, new NextQuestMessageEvent());
     }
-
-    public void registerCamera() {
-        this.getMessages().put(Events.CameraTokenMessageEvent, new CameraTokenMessageEvent());
-        this.getMessages().put(Events.RenderRoomMessageEvent, new RenderRoomMessageEvent());
-
-        this.getMessages().put(Events.TakePhotoMessageEvent, new TakePhotoMessageEvent());
-    }
-
-    public void registerMusic() {
-        this.getMessages().put(Events.SongInventoryMessageEvent, new SongInventoryMessageEvent());
-        this.getMessages().put(Events.SongIdMessageEvent, new SongIdMessageEvent());
-        this.getMessages().put(Events.SongDataMessageEvent, new SongDataMessageEvent());
-        this.getMessages().put(Events.PlaylistAddMessageEvent, new PlaylistAddMessageEvent());
-        this.getMessages().put(Events.PlaylistRemoveMessageEvent, new PlaylistRemoveMessageEvent());
-        this.getMessages().put(Events.PlaylistMessageEvent, new PlaylistMessageEvent());
-    }
-
-    public void registerAchievements() {
-        this.getMessages().put(Events.AchievementsListMessageEvent, new AchievementsListMessageEvent());
-    }
+//
+//    public void registerCamera() {
+//        this.getMessages().put(Events.CameraTokenMessageEvent, new CameraTokenMessageEvent());
+//        this.getMessages().put(Events.RenderRoomMessageEvent, new RenderRoomMessageEvent());
+//
+//        this.getMessages().put(Events.TakePhotoMessageEvent, new TakePhotoMessageEvent());
+//    }
+//
+//    public void registerMusic() {
+//        this.getMessages().put(Events.SongInventoryMessageEvent, new SongInventoryMessageEvent());
+//        this.getMessages().put(Events.SongIdMessageEvent, new SongIdMessageEvent());
+//        this.getMessages().put(Events.SongDataMessageEvent, new SongDataMessageEvent());
+//        this.getMessages().put(Events.PlaylistAddMessageEvent, new PlaylistAddMessageEvent());
+//        this.getMessages().put(Events.PlaylistRemoveMessageEvent, new PlaylistRemoveMessageEvent());
+//        this.getMessages().put(Events.PlaylistMessageEvent, new PlaylistMessageEvent());
+//    }
+//
+//    public void registerAchievements() {
+//        this.getMessages().put(Events.AchievementsListMessageEvent, new AchievementsListMessageEvent());
+//    }
 
     public void handle(MessageEvent message, Session client) {
         final Short header = message.getId();

@@ -21,7 +21,7 @@ public class GroupForumListMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.ForumListMessageComposer;
+        return Composers.ForumsListDataMessageComposer;
     }
 
     @Override

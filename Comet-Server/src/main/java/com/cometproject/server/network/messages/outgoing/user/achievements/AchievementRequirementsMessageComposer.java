@@ -10,7 +10,7 @@ import com.cometproject.server.protocol.headers.Composers;
 public class AchievementRequirementsMessageComposer extends MessageComposer {
     @Override
     public short getId() {
-        return Composers.AchievementRequirementsMessageComposer;
+        return Composers.BadgeDefinitionsMessageComposer;
     }
 
     @Override

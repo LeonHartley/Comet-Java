@@ -27,7 +27,7 @@ public class ModToolRoomChatlogMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.ModerationToolRoomChatlogMessageComposer;
+        return Composers.ModeratorRoomChatlogMessageComposer;
     }
 
     @Override

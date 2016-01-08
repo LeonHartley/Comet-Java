@@ -16,7 +16,7 @@ public class GroupRoomMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.GroupRoomMessageComposer;
+        return Composers.NewGroupInfoMessageComposer;
     }
 
     @Override

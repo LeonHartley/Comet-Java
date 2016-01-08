@@ -18,7 +18,7 @@ public class BotConfigMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.BotSpeechListMessageComposer;
+        return Composers.OpenBotActionMessageComposer;
     }
 
     @Override

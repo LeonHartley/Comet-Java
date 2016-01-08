@@ -18,7 +18,7 @@ public class FloorPlanDoorMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.SetFloorPlanDoorMessageComposer;
+        return Composers.FloorPlanSendDoorMessageComposer;
     }
 
     @Override

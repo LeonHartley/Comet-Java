@@ -31,7 +31,7 @@ public class LoadProfileMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.UserProfileMessageComposer;
+        return Composers.ProfileInformationMessageComposer;
     }
 
     @Override

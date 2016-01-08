@@ -14,7 +14,7 @@ public class AchievementPointsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.AchievementPointsMessageComposer;
+        return Composers.AchievementScoreMessageComposer;
     }
 
     @Override

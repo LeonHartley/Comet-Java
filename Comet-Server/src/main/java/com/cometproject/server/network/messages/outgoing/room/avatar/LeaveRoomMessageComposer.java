@@ -14,7 +14,7 @@ public class LeaveRoomMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.UserLeftRoomMessageComposer;
+        return Composers.UserRemoveMessageComposer;
     }
 
     @Override

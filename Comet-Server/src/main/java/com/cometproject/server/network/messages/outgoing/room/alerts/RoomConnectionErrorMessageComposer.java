@@ -16,7 +16,7 @@ public class RoomConnectionErrorMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RoomConnectionErrorMessageComposer;
+        return Composers.RoomErrorNotifMessageComposer;
     }
 
     @Override

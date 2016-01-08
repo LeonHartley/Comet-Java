@@ -15,7 +15,7 @@ public class CreateRoomMessageComposer extends MessageComposer {
     }
 
     public short getId() {
-        return Composers.OnCreateRoomInfoMessageComposer;
+        return Composers.FlatCreatedMessageComposer;
     }
 
     @Override

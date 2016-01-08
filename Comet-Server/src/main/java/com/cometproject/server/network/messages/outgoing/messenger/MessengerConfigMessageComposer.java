@@ -10,7 +10,7 @@ public class MessengerConfigMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.LoadFriendsMessageComposer;
+        return Composers.MessengerInitMessageComposer;
     }
 
     @Override

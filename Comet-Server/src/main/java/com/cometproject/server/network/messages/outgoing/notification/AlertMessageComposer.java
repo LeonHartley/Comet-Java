@@ -20,7 +20,7 @@ public class AlertMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.AlertNotificationMessageComposer;
+        return Composers.BroadcastMessageAlertMessageComposer;
     }
 
     @Override

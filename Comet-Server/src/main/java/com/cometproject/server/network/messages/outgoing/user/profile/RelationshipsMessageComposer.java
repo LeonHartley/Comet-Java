@@ -30,7 +30,7 @@ public class RelationshipsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RelationshipMessageComposer;
+        return Composers.GetRelationshipsMessageComposer;
     }
 
     @Override

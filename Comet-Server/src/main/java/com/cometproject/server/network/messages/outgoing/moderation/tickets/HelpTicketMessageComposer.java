@@ -15,7 +15,7 @@ public class HelpTicketMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.HelpTicketMessageComposer;
+        return Composers.ModeratorSupportTicketMessageComposer;
     }
 
     @Override

@@ -8,7 +8,7 @@ import com.cometproject.server.protocol.headers.Composers;
 public class TradeCompletedMessageComposer extends MessageComposer {
     @Override
     public short getId() {
-        return Composers.TradeCompletedMessageComposer;
+        return Composers.TradingFinishMessageComposer;
     }
 
     @Override

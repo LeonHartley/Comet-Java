@@ -16,7 +16,7 @@ public class PopularTagsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.PopularRoomTagsMessageComposer;
+        return Composers.PopularRoomTagsResultMessageComposer;
     }
 
     @Override

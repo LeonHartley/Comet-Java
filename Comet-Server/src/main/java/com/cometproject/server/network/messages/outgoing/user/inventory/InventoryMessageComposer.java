@@ -16,7 +16,7 @@ public class InventoryMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.LoadInventoryMessageComposer;
+        return Composers.FurniListMessageComposer;
     }
 
     @Override

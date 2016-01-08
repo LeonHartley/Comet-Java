@@ -16,7 +16,7 @@ public class RoomPlayerUnbannedMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RoomPlayerUnbannedMessageComposer;
+        return Composers.UnbanUserFromRoomMessageComposer;
     }
 
     @Override

@@ -17,7 +17,7 @@ public class TilesInUseMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.GetFloorPlanUsedCoordsMessageComposer;
+        return Composers.FloorPlanFloorMapMessageComposer;
     }
 
     @Override

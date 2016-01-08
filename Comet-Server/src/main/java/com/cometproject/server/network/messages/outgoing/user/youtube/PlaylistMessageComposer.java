@@ -21,7 +21,7 @@ public class PlaylistMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.YouTubeLoadPlaylistsMessageComposer;
+        return Composers.GetYouTubePlaylistMessageComposer;
     }
 
     @Override

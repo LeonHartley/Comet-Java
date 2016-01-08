@@ -16,7 +16,7 @@ public class ReceiveBadgeMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.ReceiveBadgeMessageComposer;
+        return 0;
     }
 
     @Override

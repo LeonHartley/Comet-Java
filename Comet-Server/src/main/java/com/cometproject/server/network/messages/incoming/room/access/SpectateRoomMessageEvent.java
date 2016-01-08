@@ -2,7 +2,6 @@ package com.cometproject.server.network.messages.incoming.room.access;
 
 import com.cometproject.server.game.rooms.RoomQueue;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.landing.HotelViewItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.sessions.Session;

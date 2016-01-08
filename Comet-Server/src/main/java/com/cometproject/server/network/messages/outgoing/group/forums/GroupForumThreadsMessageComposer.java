@@ -23,7 +23,7 @@ public class GroupForumThreadsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.GroupForumThreadsMessageComposer;
+        return Composers.ThreadsListDataMessageComposer;
     }
 
     @Override

@@ -8,7 +8,7 @@ import com.cometproject.server.protocol.headers.Composers;
 public class DoorbellNoAnswerComposer extends MessageComposer {
     @Override
     public short getId() {
-        return Composers.DoorbellNoOneMessageComposer;
+        return Composers.FlatAccessDeniedMessageComposer;
     }
 
     @Override

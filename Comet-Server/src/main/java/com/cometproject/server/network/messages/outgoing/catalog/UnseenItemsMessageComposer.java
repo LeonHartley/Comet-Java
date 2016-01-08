@@ -33,7 +33,7 @@ public class UnseenItemsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.NewInventoryObjectMessageComposer;
+        return Composers.FurniListNotificationMessageComposer;
     }
 
     @Override

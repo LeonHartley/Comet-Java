@@ -8,7 +8,7 @@ import com.cometproject.server.protocol.headers.Composers;
 public class RoomFullMessageComposer extends MessageComposer {
     @Override
     public short getId() {
-        return Composers.RoomEnterErrorMessageComposer;
+        return Composers.RoomErrorNotifMessageComposer;
     }
 
     @Override

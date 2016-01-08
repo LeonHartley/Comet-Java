@@ -16,7 +16,7 @@ public class MoodlightMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.DimmerDataMessageComposer;
+        return Composers.MoodlightConfigMessageComposer;
     }
 
     @Override

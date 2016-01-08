@@ -16,7 +16,7 @@ public class PostItMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.LoadPostItMessageComposer;
+        return Composers.StickyNoteMessageComposer;
     }
 
     @Override

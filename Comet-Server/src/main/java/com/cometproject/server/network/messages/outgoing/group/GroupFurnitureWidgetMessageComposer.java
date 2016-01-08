@@ -24,7 +24,7 @@ public class GroupFurnitureWidgetMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.GroupFurnitureWidgetMessageComposer;
+        return Composers.GroupFurniSettingsMessageComposer;
     }
 
     @Override

@@ -17,7 +17,7 @@ public class WiredConditionMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.WiredConditionMessageComposer;
+        return Composers.WiredConditionConfigMessageComposer;
     }
 
     @Override

@@ -16,7 +16,7 @@ public class GroupForumPostThreadMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.PostThreadMessageComposer;
+        return Composers.ThreadCreatedMessageComposer;
     }
 
     @Override

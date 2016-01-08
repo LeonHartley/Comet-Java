@@ -43,7 +43,7 @@ public class AvatarsMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.SetRoomUserMessageComposer;
+        return Composers.UsersMessageComposer;
     }
 
     @Override
