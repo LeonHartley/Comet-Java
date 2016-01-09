@@ -15,7 +15,7 @@ public class WalkMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Events.UserWalkMessageEvent;
+        return Events.MoveAvatarMessageEvent;
     }
 
     @Override

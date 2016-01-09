@@ -4,7 +4,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
@@ -29,7 +29,7 @@ public class SaveMannequinMessageEvent implements Event {
         ((MannequinFloorItem) item).setName(msg.readString());
         ((MannequinFloorItem) item).setGender(client.getPlayer().getData().getGender());
 
-        room.getEntities().broadcastMessage(new UpdateFloorExtraDataMessageComposer(item.getId(), item));
+        room.getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(item));
         item.saveData();
     }
 }

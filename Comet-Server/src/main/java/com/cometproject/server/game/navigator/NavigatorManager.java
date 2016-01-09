@@ -7,14 +7,16 @@ import com.cometproject.server.utilities.Initializable;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class NavigatorManager implements Initializable {
     private static NavigatorManager navigatorManagerInstance;
 
-    public List<Category> categories;
-    public List<FeaturedRoom> featuredRooms;
+    private Map<Integer, Category> categories;
+    private List<FeaturedRoom> featuredRooms;
 
     Logger log = Logger.getLogger(NavigatorManager.class.getName());
 
@@ -23,9 +25,6 @@ public class NavigatorManager implements Initializable {
 
     @Override
     public void initialize() {
-        this.categories = new ArrayList<>();
-        this.featuredRooms = new ArrayList<>();
-
         this.loadCategories();
         this.loadFeaturedRooms();
 
@@ -41,7 +40,7 @@ public class NavigatorManager implements Initializable {
 
     public void loadFeaturedRooms() {
         try {
-            if (this.featuredRooms.size() != 0) {
+            if (this.featuredRooms != null && this.featuredRooms.size() != 0) {
                 this.featuredRooms.clear();
             }
 
@@ -56,7 +55,7 @@ public class NavigatorManager implements Initializable {
 
     public void loadCategories() {
         try {
-            if (this.getCategories().size() != 0) {
+            if (this.getCategories() != null && this.getCategories().size() != 0) {
                 this.getCategories().clear();
             }
 
@@ -69,7 +68,7 @@ public class NavigatorManager implements Initializable {
     }
 
     public Category getCategory(int id) {
-        for (Category c : this.getCategories()) {
+        for (Category c : this.getCategories().values()) {
             if (c.getId() == id) {
                 return c;
             }
@@ -96,7 +95,7 @@ public class NavigatorManager implements Initializable {
         return null;
     }
 
-    public List<Category> getCategories() {
+    public Map<Integer, Category> getCategories() {
         return this.categories;
     }
 

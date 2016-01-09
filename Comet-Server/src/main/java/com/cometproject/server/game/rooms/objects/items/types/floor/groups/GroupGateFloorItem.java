@@ -3,7 +3,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.groups;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 
 
 public class GroupGateFloorItem extends GroupFloorItem {
@@ -33,7 +33,7 @@ public class GroupGateFloorItem extends GroupFloorItem {
         Room r = this.getRoom();
 
         if (r != null) {
-            r.getEntities().broadcastMessage(new UpdateFloorExtraDataMessageComposer(this.getId(), this, false));
+            r.getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(this));
         }
     }
 }

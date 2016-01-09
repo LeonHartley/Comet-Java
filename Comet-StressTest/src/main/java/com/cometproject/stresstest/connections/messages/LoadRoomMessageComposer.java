@@ -16,7 +16,7 @@ public class LoadRoomMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Events.EnterPrivateRoomMessageEvent;
+        return Events.OpenFlatConnectionMessageEvent;
     }
 
     @Override

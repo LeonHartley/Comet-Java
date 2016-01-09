@@ -15,7 +15,7 @@ public class UpdateFloorItemMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.ItemUpdateMessageComposer;
+        return Composers.ObjectUpdateMessageComposer;
     }
 
     @Override

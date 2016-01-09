@@ -56,7 +56,7 @@ public class WiredActionMessageComposer extends MessageComposer {
             msg.writeInt(incompatibleTrigger.getDefinition().getSpriteId());
         }
 
-        msg.writeString(""); //no idea
+//        msg.writeString(""); //no idea
     }
 
     @Override

@@ -111,7 +111,7 @@ public class SaveRoomDataMessageEvent implements Event {
             return;
         }
 
-        if (category.getRank() > client.getPlayer().getData().getRank()) {
+        if (category.getRequiredRank() > client.getPlayer().getData().getRank()) {
             categoryId = 15; // 15 = the uncategorized category.
         }
 

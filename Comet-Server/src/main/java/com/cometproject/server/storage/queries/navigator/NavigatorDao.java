@@ -1,6 +1,7 @@
 package com.cometproject.server.storage.queries.navigator;
 
 import com.cometproject.server.game.navigator.types.Category;
+import com.cometproject.server.game.navigator.types.categories.NavigatorViewMode;
 import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
 import com.cometproject.server.storage.SqlHelper;
 
@@ -9,7 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class NavigatorDao {
@@ -41,12 +44,12 @@ public class NavigatorDao {
         return data;
     }
 
-    public static List<Category> getCategories() {
+    public static Map<Integer, Category> getCategories() {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        List<Category> data = new ArrayList<>();
+        Map<Integer, Category> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -56,7 +59,19 @@ public class NavigatorDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                data.add(new Category(resultSet));
+                data.put(resultSet.getInt("id"), new Category(
+                        resultSet.getInt("id"),
+                        resultSet.getString("category"),
+                        resultSet.getString("category_identifier"),
+                        resultSet.getString("public_name"),
+                        true,
+                        -1,
+                        resultSet.getInt("required_rank"),
+                        NavigatorViewMode.valueOf(resultSet.getString("view_mode").toUpperCase()),
+                        resultSet.getString("category_type"),
+                        resultSet.getString("search_allowance"),
+                        resultSet.getInt("order_id")
+                ));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

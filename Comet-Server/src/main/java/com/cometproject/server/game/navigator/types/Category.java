@@ -1,51 +1,78 @@
 package com.cometproject.server.game.navigator.types;
 
 import com.cometproject.api.game.rooms.RoomCategory;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import com.cometproject.server.game.navigator.types.categories.NavigatorCategoryType;
+import com.cometproject.server.game.navigator.types.categories.NavigatorSearchAllowance;
+import com.cometproject.server.game.navigator.types.categories.NavigatorViewMode;
 
 public class Category implements RoomCategory {
-    public static final int MISSING_CATEGORY_ID = 0;
-    public static final String MISSING_CATEGORY_TITLE = "Missing category";
-    public static final int MISSING_CATEGORY_RANK = 1;
-    public static final boolean MISSING_CATEGORY_ALLOW_TRADE = true;
+    private final int id;
+    private final String category;
+    private final String categoryId;
+    private final String publicName;
+    private final boolean canDoActions;
+    private final int colour;
+    private final int requiredRank;
+    private final NavigatorViewMode viewMode;
+    private final NavigatorCategoryType categoryType;
+    private final NavigatorSearchAllowance searchAllowance;
+    private final int orderId;
 
-    public static final Category MISSING_CATEGORY = new Category();
-
-    private int id;
-    private String title;
-    private int rank;
-    private boolean allowTrade;
-
-    public Category(ResultSet result) throws SQLException {
-        this.id = result.getInt("id");
-        this.title = result.getString("name");
-        this.rank = result.getInt("min_rank");
-        this.allowTrade = result.getString("can_trade").equals("1");
-    }
-
-    public Category() {
-        this.id = MISSING_CATEGORY_ID;
-        this.title = MISSING_CATEGORY_TITLE;
-        this.rank = MISSING_CATEGORY_RANK;
-        this.allowTrade = MISSING_CATEGORY_ALLOW_TRADE;
+    public Category(int id, String category, String categoryId, String publicName, boolean canDoActions, int colour, int requiredRank, NavigatorViewMode viewMode, String categoryType, String searchAllowance, int orderId) {
+        this.id = id;
+        this.category = category;
+        this.categoryId = categoryId;
+        this.publicName = publicName;
+        this.canDoActions = canDoActions;
+        this.colour = colour;
+        this.requiredRank = requiredRank;
+        this.viewMode = viewMode;
+        this.categoryType = NavigatorCategoryType.valueOf(categoryType.toUpperCase());
+        this.searchAllowance = NavigatorSearchAllowance.valueOf(searchAllowance.toUpperCase());
+        this.orderId = orderId;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getCategory() {
+        return category;
     }
 
-    public int getRank() {
-        return rank;
+    public String getCategoryId() {
+        return categoryId;
     }
 
-    public boolean canTrade() {
-        return allowTrade;
+    public String getPublicName() {
+        return publicName;
+    }
+
+    public boolean canDoActions() {
+        return canDoActions;
+    }
+
+    public int getColour() {
+        return colour;
+    }
+
+    public int getRequiredRank() {
+        return requiredRank;
+    }
+
+    public NavigatorViewMode getViewMode() {
+        return viewMode;
+    }
+
+    public NavigatorCategoryType getCategoryType() {
+        return categoryType;
+    }
+
+    public NavigatorSearchAllowance getSearchAllowance() {
+        return searchAllowance;
+    }
+
+    public int getOrderId() {
+        return orderId;
     }
 }

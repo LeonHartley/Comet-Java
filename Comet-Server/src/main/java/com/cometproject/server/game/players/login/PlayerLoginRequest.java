@@ -125,10 +125,6 @@ public class PlayerLoginRequest implements CometTask {
             client.sendQueue(new MotdNotificationComposer());
         }
 
-        if (CometSettings.newNavigator) {
-            client.sendQueue(new NavigatorMetaDataMessageComposer());
-        }
-
         client.flush();
 
         // Process the achievements

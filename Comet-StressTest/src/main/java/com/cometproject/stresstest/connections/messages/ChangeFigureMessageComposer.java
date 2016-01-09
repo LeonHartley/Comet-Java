@@ -13,7 +13,7 @@ public class ChangeFigureMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Events.UserUpdateLookMessageEvent;
+        return Events.UpdateFigureDataMessageEvent;
     }
 
     @Override

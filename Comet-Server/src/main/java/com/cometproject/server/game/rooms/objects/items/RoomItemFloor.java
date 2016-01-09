@@ -6,6 +6,7 @@ import com.cometproject.server.game.catalog.types.gifts.GiftData;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
 import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.PlayerManager;
@@ -26,7 +27,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredF
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
-import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorExtraDataMessageComposer;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.attributes.Collidable;
@@ -334,7 +334,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         Room r = this.getRoom();
 
         if (r != null) {
-            r.getEntities().broadcastMessage(new UpdateFloorExtraDataMessageComposer(this.getId(), this));
+            r.getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(this));
         }
     }
 

@@ -3,9 +3,11 @@ package com.cometproject.api.game.rooms;
 public interface RoomCategory {
     int getId();
 
-    String getTitle();
+    String getCategory();
+    String getCategoryId();
+    String getPublicName();
 
-    int getRank();
+    boolean canDoActions();
 
-    boolean canTrade();
+    int getColour();
 }

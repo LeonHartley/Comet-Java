@@ -173,13 +173,7 @@ public class RoomData implements IRoomData {
     }
 
     public RoomCategory getCategory() {
-        Category category = NavigatorManager.getInstance().getCategory(this.category);
-
-        if (category == null) {
-            return Category.MISSING_CATEGORY;
-        }
-
-        return category;
+        return NavigatorManager.getInstance().getCategory(this.category);
     }
 
     public int getMaxUsers() {

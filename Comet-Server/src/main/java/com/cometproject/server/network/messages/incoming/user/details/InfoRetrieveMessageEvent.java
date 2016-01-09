@@ -32,8 +32,5 @@ public class InfoRetrieveMessageEvent implements Event {
         client.send(new AchievementRequirementsMessageComposer());
 
         client.getPlayer().getMessenger().sendStatus(true, client.getPlayer().getEntity() != null);
-
-        if(CometSettings.newNavigator)
-            client.send(new NavigatorMetaDataMessageComposer());
     }
 }
