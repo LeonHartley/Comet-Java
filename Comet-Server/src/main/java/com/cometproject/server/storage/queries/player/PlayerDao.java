@@ -678,7 +678,7 @@ public class PlayerDao {
                 preparedStatement.setInt(7, playerDataInstance.getFavouriteGroup());
                 preparedStatement.setInt(8, playerDataInstance.getActivityPoints());
                 preparedStatement.setInt(9, playerDataInstance.getQuestId());
-                preparedStatement.setInt(10, playerDataInstance.getActivityPoints());
+                preparedStatement.setInt(10, playerDataInstance.getAchievementPoints());
                 preparedStatement.setInt(11, playerDataInstance.getId());
 
                 preparedStatement.addBatch();
