@@ -45,7 +45,7 @@ public class NewNavigatorSearchMessageEvent implements Event {
 
             client.send(new NavigatorSearchResultSetMessageComposer(category, data, categoryList, client.getPlayer()));
         } else {
-            client.send(new NavigatorSearchResultSetMessageComposer("hotel_view", data, null, client.getPlayer()));
+            client.send(new NavigatorSearchResultSetMessageComposer(category, data, null, client.getPlayer()));
         }
     }
 }

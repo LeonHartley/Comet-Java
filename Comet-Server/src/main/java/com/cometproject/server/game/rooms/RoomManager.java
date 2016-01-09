@@ -5,7 +5,6 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.filter.WordFilter;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
-import com.cometproject.server.game.rooms.models.types.DynamicRoomModel;
 import com.cometproject.server.game.rooms.models.types.StaticRoomModel;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.RoomData;
@@ -213,7 +212,7 @@ public class RoomManager implements Initializable {
         }
     }
 
-    public List<RoomData> getRoomByQuery(String query) {
+    public List<RoomData> getRoomsByQuery(String query) {
         ArrayList<RoomData> rooms = new ArrayList<>();
 
         if (query.equals("tag:")) return rooms;
@@ -229,7 +228,7 @@ public class RoomManager implements Initializable {
         }
 
         if (rooms.size() == 0 && !query.toLowerCase().startsWith("owner:")) {
-            return this.getRoomByQuery("owner:" + query);
+            return this.getRoomsByQuery("owner:" + query);
         }
 
         return rooms;

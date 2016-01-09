@@ -10,6 +10,6 @@ import com.cometproject.server.network.sessions.Session;
 public class SearchRoomMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         String query = msg.readString();
-        client.send(new NavigatorFlatListMessageComposer(8, "", RoomManager.getInstance().getRoomByQuery(query)));
+        client.send(new NavigatorFlatListMessageComposer(8, "", RoomManager.getInstance().getRoomsByQuery(query)));
     }
 }
