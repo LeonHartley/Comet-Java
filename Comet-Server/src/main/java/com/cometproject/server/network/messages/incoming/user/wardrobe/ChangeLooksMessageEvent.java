@@ -8,6 +8,7 @@ import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.utilities.validator.PlayerFigureValidator;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.user.details.AvatarAspectUpdateMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 
@@ -41,5 +42,6 @@ public class ChangeLooksMessageEvent implements Event {
 
         client.getPlayer().getAchievements().progressAchievement(AchievementType.AVATAR_LOOKS, 1);
         client.getPlayer().getQuests().progressQuest(QuestType.PROFILE_CHANGE_LOOK);
+        client.send(new AvatarAspectUpdateMessageComposer(figure, gender));
     }
 }

@@ -4,6 +4,7 @@ import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.categories.NavigatorViewMode;
 import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
 import com.cometproject.server.storage.SqlHelper;
+import org.apache.commons.collections4.map.ListOrderedMap;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -49,12 +50,12 @@ public class NavigatorDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, Category> data = new HashMap<>();
+        Map<Integer, Category> data = new ListOrderedMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM navigator_categories WHERE enabled = '1'", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM navigator_categories WHERE enabled = '1' ORDER BY order_id ASC", sqlConnection);
 
             resultSet = preparedStatement.executeQuery();
 

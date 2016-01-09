@@ -18,7 +18,7 @@ public class LoadSearchRoomMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         Map<String, Integer> tagsPlayerCount = Maps.newHashMap();
 
-        for (RoomData roomData : RoomManager.getInstance().getRoomsByCategory(-1)) {
+        for (RoomData roomData : RoomManager.getInstance().getRoomsByCategory(-1, 50)) {
             if (roomData.getTags().length != 0) {
                 if (!RoomManager.getInstance().isActive(roomData.getId())) continue;
 

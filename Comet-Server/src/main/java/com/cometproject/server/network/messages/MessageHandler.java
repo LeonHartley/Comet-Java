@@ -218,8 +218,13 @@ public final class MessageHandler {
     }
 
     public void registerNavigator() {
+        this.getMessages().put(Events.GetUserFlatCatsMessageEvent, new LoadCategoriesMessageEvent());
         this.getMessages().put(Events.InitializeNewNavigatorMessageEvent, new InitializeNewNavigatorMessageEvent());
         this.getMessages().put(Events.NewNavigatorSearchMessageEvent, new NewNavigatorSearchMessageEvent());
+        this.getMessages().put(Events.CanCreateRoomMessageEvent, new CanCreateRoomMessageEvent());
+        this.getMessages().put(Events.CreateFlatMessageEvent, new CreateRoomMessageEvent());
+        this.getMessages().put(Events.GetEventCategoriesMessageEvent, new EventCategoriesMessageEvent());
+        this.getMessages().put(Events.GetPromotableRoomsMessageEvent, new CatalogPromotionGetRoomsMessageEvent());
 
 //        this.getMessages().put(Events.NavigatorGetMyRoomsMessageEvent, new OwnRoomsMessageEvent());
 //        this.getMessages().put(Events.NavigatorGetPopularRoomsMessageEvent, new PopularRoomsMessageEvent());
@@ -274,7 +279,7 @@ public final class MessageHandler {
 
     public void registerRoom() {
         this.getMessages().put(Events.OpenFlatConnectionMessageEvent, new InitializeRoomMessageEvent());
-        this.getMessages().put(Events.GetRoomEntryDataMessageEvent, new FollowRoomInfoMessageEvent());
+        this.getMessages().put(Events.GetGuestRoomMessageEvent, new FollowRoomInfoMessageEvent());
         this.getMessages().put(Events.GoToHotelViewMessageEvent, new ExitRoomMessageEvent());
         this.getMessages().put(Events.ChatMessageEvent, new TalkMessageEvent());
         this.getMessages().put(Events.ShoutMessageEvent, new ShoutMessageEvent());

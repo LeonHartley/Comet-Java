@@ -23,7 +23,7 @@ public class UpdateStackMapMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return 0;
+        return Composers.UpdateStackMapMessageComposer;
     }
 
     @Override

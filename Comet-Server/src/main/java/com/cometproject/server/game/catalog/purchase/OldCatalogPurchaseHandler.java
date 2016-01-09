@@ -30,6 +30,7 @@ import com.cometproject.server.network.messages.outgoing.catalog.GiftUserNotFoun
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.notification.NotificationMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.EnforceRoomCategoryMessageComposer;
@@ -110,7 +111,7 @@ public class OldCatalogPurchaseHandler {
             CatalogItem item;
 
             try {
-                if(page == null) {
+                if (page == null) {
                     page = CatalogManager.getInstance().getCatalogPageByCatalogItemId(itemId);
 
                     if (page.getMinRank() > client.getPlayer().getData().getRank() || !page.getItems().containsKey(itemId)) {
@@ -134,7 +135,7 @@ public class OldCatalogPurchaseHandler {
                 try {
                     final ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(item.getItems().get(0).getItemId());
 
-                    if(itemDefinition == null) {
+                    if (itemDefinition == null) {
                         return;
                     }
 
@@ -208,27 +209,34 @@ public class OldCatalogPurchaseHandler {
             client.getPlayer().sendBalance();
             client.getPlayer().getData().save();
 
-            if(page != null) {
-                if(page.getType() == CatalogPageType.BUNDLE) {
+            if (page != null) {
+                if (page.getType() == CatalogPageType.BUNDLE) {
                     RoomBundle roomBundle = RoomBundleManager.getInstance().getBundle(page.getExtraData());
 
-                    int roomId = RoomManager.getInstance().createRoom(roomBundle.getConfig().getRoomName().replace("%username%", client.getPlayer().getData().getUsername()), "", roomBundle.getRoomModelData(), 0, 20, 0, client, roomBundle.getConfig().getThicknessWall(), roomBundle.getConfig().getThicknessFloor(), roomBundle.getConfig().getDecorations(), roomBundle.getConfig().isHideWalls());
+                    try {
+                        int roomId = RoomManager.getInstance().createRoom(roomBundle.getConfig().getRoomName().replace("%username%", client.getPlayer().getData().getUsername()), "", roomBundle.getRoomModelData(), 0, 20, 0, client, roomBundle.getConfig().getThicknessWall(), roomBundle.getConfig().getThicknessFloor(), roomBundle.getConfig().getDecorations(), roomBundle.getConfig().isHideWalls());
 
-                    for(RoomBundleItem roomBundleItem : roomBundle.getRoomBundleData()) {
-                        int newItemId = ItemDao.createItem(client.getPlayer().getId(), roomBundleItem.getItemId(), roomBundleItem.getExtraData());
+                        for (RoomBundleItem roomBundleItem : roomBundle.getRoomBundleData()) {
+                            int newItemId = ItemDao.createItem(client.getPlayer().getId(), roomBundleItem.getItemId(), roomBundleItem.getExtraData());
 
-                        if(roomBundleItem.getWallPosition() == null) {
-                            RoomItemDao.placeFloorItem(roomId, roomBundleItem.getX(), roomBundleItem.getY(), roomBundleItem.getZ(), roomBundleItem.getRotation(), roomBundleItem.getExtraData(), newItemId);
-                        } else {
+                            if (roomBundleItem.getWallPosition() == null) {
+                                RoomItemDao.placeFloorItem(roomId, roomBundleItem.getX(), roomBundleItem.getY(), roomBundleItem.getZ(), roomBundleItem.getRotation(), roomBundleItem.getExtraData(), newItemId);
+                            } else {
 
-                            RoomItemDao.placeWallItem(roomId, roomBundleItem.getWallPosition(), roomBundleItem.getExtraData(), newItemId);
+                                RoomItemDao.placeWallItem(roomId, roomBundleItem.getWallPosition(), roomBundleItem.getExtraData(), newItemId);
+                            }
                         }
-                    }
 
-                    client.send(new RoomForwardMessageComposer(roomId));
-                    client.send(new EnforceRoomCategoryMessageComposer());
-                    client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
-                    client.getPlayer().setLastRoomCreated((int) Comet.getTime());
+                        client.send(new RoomForwardMessageComposer(roomId));
+                        client.send(new EnforceRoomCategoryMessageComposer());
+                        client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
+                        client.getPlayer().setLastRoomCreated((int) Comet.getTime());
+
+                    } catch (Exception e) {
+                        client.send(new MotdNotificationComposer("Invalid room bundle data, please contact an administrator."));
+                        client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
+                        return;
+                    }
                     return;
                 }
             }

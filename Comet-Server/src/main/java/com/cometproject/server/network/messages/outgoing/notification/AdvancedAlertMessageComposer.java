@@ -34,7 +34,7 @@ public class AdvancedAlertMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.BroadcastMessageAlertMessageComposer;
+        return Composers.RoomNotificationMessageComposer;
     }
 
     @Override

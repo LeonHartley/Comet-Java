@@ -7,7 +7,7 @@ import com.cometproject.server.protocol.headers.Composers;
 public class EventCategoriesMessageComposer extends MessageComposer {
     @Override
     public short getId() {
-        return 0;
+        return Composers.NavigatorFlatCatsMessageComposer;
     }
 
     @Override
