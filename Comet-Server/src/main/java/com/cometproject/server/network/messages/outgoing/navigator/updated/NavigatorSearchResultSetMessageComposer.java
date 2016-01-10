@@ -37,9 +37,9 @@ public class NavigatorSearchResultSetMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeString(this.category);
         msg.writeString(this.data);
-        msg.writeInt(this.categories == null ? 1 : this.categories.size());
 
         if(this.categories == null) {
+            msg.writeInt(1);
             msg.writeString("query");
             msg.writeString("");
 
@@ -57,6 +57,8 @@ public class NavigatorSearchResultSetMessageComposer extends MessageComposer {
 
             rooms.clear();
         } else {
+            msg.writeInt(this.categories.size());
+
             for (Category category : this.categories) {
                 msg.writeString(category.getCategoryId());
                 msg.writeString(category.getPublicName());
@@ -80,6 +82,7 @@ public class NavigatorSearchResultSetMessageComposer extends MessageComposer {
 
     @Override
     public void dispose() {
-        this.categories.clear();
+        if (this.categories != null)
+            this.categories.clear();
     }
 }

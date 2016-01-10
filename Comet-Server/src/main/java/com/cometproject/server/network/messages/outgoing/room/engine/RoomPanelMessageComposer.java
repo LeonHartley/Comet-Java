@@ -16,7 +16,7 @@ public class RoomPanelMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return 0;
+        return Composers.RoomEntryInfoMessageComposer;
     }
 
     @Override

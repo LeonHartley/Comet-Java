@@ -8,11 +8,11 @@ import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 
-public class GetRoomDataMessageComposer extends MessageComposer {
+public class RoomSettingsDataMessageComposer extends MessageComposer {
     private final Room room;
     private final boolean staff;
 
-    public GetRoomDataMessageComposer(Room room, boolean staff) {
+    public RoomSettingsDataMessageComposer(Room room, boolean staff) {
         this.room = room;
         this.staff = staff;
     }
@@ -49,7 +49,7 @@ public class GetRoomDataMessageComposer extends MessageComposer {
         msg.writeInt(room.getData().getBubbleScroll());
         msg.writeInt(room.getData().getChatDistance());
         msg.writeInt(room.getData().getAntiFloodSettings());
-        msg.writeBoolean(false);//??
+        msg.writeBoolean(true);//??
         msg.writeInt(room.getData().getMuteState().getState());
         msg.writeInt(room.getData().getKickState().getState());
         msg.writeInt(room.getData().getBanState().getState());

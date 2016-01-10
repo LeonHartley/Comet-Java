@@ -20,7 +20,7 @@ public class GroupDataMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.GroupFurniConfigMessageComposer;
+        return Composers.GroupInfoMessageComposer;
     }
 
     @Override

@@ -13,7 +13,7 @@ public class FollowRoomInfoMessageEvent implements Event {
         int roomId = msg.readInt();
         boolean isInSameRoom = msg.readInt() == 1;
 
-        if (roomId != 0 && !isInSameRoom) {
+//        if (roomId != 0 && !isInSameRoom) {
             Room room = RoomManager.getInstance().get(roomId);
 
             if (room == null || room.getData() == null) {
@@ -28,7 +28,7 @@ public class FollowRoomInfoMessageEvent implements Event {
                 checkEntry = false;
             }
 
-            client.send(new FollowRoomDataMessageComposer(room.getData(), checkEntry, room.getRights().hasRights(client.getPlayer().getId()) || client.getPlayer().getPermissions().getRank().roomFullControl()));
-        }
+            client.send(new FollowRoomDataMessageComposer(room.getData(), isInSameRoom, checkEntry, room.getRights().hasRights(client.getPlayer().getId()) || client.getPlayer().getPermissions().getRank().roomFullControl()));
+//        }
     }
 }

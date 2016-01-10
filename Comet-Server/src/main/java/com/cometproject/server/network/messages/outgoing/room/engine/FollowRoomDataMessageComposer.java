@@ -8,11 +8,13 @@ import com.cometproject.server.protocol.headers.Composers;
 
 public class FollowRoomDataMessageComposer extends MessageComposer {
     private final RoomData roomData;
+    private final boolean isLoading;
     private final boolean checkEntry;
     private final boolean canMute;
 
-    public FollowRoomDataMessageComposer(final RoomData room, boolean checkEntry, boolean canMute) {
+    public FollowRoomDataMessageComposer(final RoomData room, boolean isLoading, boolean checkEntry, boolean canMute) {
         this.roomData = room;
+        this.isLoading = isLoading;
         this.checkEntry = checkEntry;
         this.canMute = canMute;
     }
@@ -24,6 +26,6 @@ public class FollowRoomDataMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer composer) {
-        RoomWriter.entryData(this.roomData, composer, false, true, !this.checkEntry, this.canMute);
+        RoomWriter.entryData(this.roomData, composer, this.isLoading, true, !this.checkEntry, this.canMute);
     }
 }
