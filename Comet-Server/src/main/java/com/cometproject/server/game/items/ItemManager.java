@@ -1,7 +1,6 @@
 package com.cometproject.server.game.items;
 
 import com.cometproject.server.game.items.music.MusicData;
-import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.items.MusicDao;
@@ -12,6 +11,8 @@ import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class ItemManager implements Initializable {
@@ -24,6 +25,11 @@ public class ItemManager implements Initializable {
     private Map<Integer, Integer> itemSpriteIdToDefinitionId;
     private Map<Integer, MusicData> musicData;
 
+    private Map<Long, Integer> itemIdToVirtualId;
+    private Map<Integer, Long> virtualIdToItemId;
+
+    private AtomicInteger itemIdCounter;
+
     public ItemManager() {
 
     }
@@ -32,6 +38,11 @@ public class ItemManager implements Initializable {
     public void initialize() {
         this.itemDefinitions = new HashMap<>();
         this.musicData = new HashMap<>();
+
+        this.itemIdToVirtualId = new ConcurrentHashMap<>();
+        this.virtualIdToItemId = new ConcurrentHashMap<>();
+
+        this.itemIdCounter = new AtomicInteger();
 
         this.loadItemDefinitions();
         this.loadMusicData();
@@ -79,6 +90,23 @@ public class ItemManager implements Initializable {
 
         MusicDao.getMusicData(this.musicData);
         log.info("Loaded " + this.musicData.size() + " songs");
+    }
+
+    public int getItemVirtualId(long itemId) {
+        if(this.itemIdToVirtualId.containsKey(itemId)) {
+            return this.itemIdToVirtualId.get(itemId);
+        }
+
+        int virtualId = this.itemIdCounter.getAndIncrement();
+
+        this.itemIdToVirtualId.put(itemId, virtualId);
+        this.virtualIdToItemId.put(virtualId, itemId);
+
+        return virtualId;
+    }
+
+    public Long getItemIdByVirtualId(int virtualId) {
+        return this.virtualIdToItemId.get(virtualId);
     }
 
     public int getTeleportPartner(int itemId) {
