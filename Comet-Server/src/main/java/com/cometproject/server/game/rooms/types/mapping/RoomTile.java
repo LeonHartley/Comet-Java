@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
+import com.cometproject.server.game.rooms.objects.BigRoomObject;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;

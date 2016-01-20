@@ -11,7 +11,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdat
 
 public class SeatFloorItem extends RoomItemFloor {
 
-    public SeatFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public SeatFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

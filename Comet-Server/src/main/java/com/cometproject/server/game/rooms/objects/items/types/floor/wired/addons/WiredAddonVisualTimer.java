@@ -13,7 +13,7 @@ public class WiredAddonVisualTimer extends RoomItemFloor {
 
     private boolean isStarted = false;
 
-    public WiredAddonVisualTimer(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredAddonVisualTimer(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

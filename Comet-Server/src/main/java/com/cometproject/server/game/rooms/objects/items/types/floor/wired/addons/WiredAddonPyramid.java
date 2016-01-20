@@ -10,7 +10,7 @@ import com.cometproject.server.utilities.RandomInteger;
 public class WiredAddonPyramid extends RoomItemFloor {
     private boolean hasEntity = false;
 
-    public WiredAddonPyramid(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredAddonPyramid(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         this.setTicks(RandomInteger.getRandom(5, 8) * 2);

@@ -2,6 +2,7 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.cometproject.server.game.items.types.ItemDefinition;
@@ -44,13 +45,13 @@ public class ItemsComponent {
     private Room room;
     private final Logger log;
 
-    private final Map<Integer, RoomItemFloor> floorItems = new ConcurrentHashMap<>();
-    private final Map<Integer, RoomItemWall> wallItems = new ConcurrentHashMap<>();
+    private final Map<Long, RoomItemFloor> floorItems = new ConcurrentHashMap<>();
+    private final Map<Long, RoomItemWall> wallItems = new ConcurrentHashMap<>();
 
-    private Map<Class<? extends RoomItemFloor>, Set<Integer>> itemClassIndex = new ConcurrentHashMap<>();
-    private Map<String, Set<Integer>> itemInteractionIndex = new ConcurrentHashMap<>();
+    private Map<Class<? extends RoomItemFloor>, Set<Long>> itemClassIndex = new ConcurrentHashMap<>();
+    private Map<String, Set<Long>> itemInteractionIndex = new ConcurrentHashMap<>();
 
-    private int soundMachineId = 0;
+    private long soundMachineId = 0;
     private int moodlightId;
 
     public ItemsComponent(Room room) {
@@ -80,20 +81,27 @@ public class ItemsComponent {
 
     public void dispose() {
         for (RoomItemFloor floorItem : floorItems.values()) {
+            ItemManager.getInstance().disposeItemVirtualId(floorItem.getId());
             floorItem.onUnload();
         }
 
         for (RoomItemWall wallItem : wallItems.values()) {
+            ItemManager.getInstance().disposeItemVirtualId(wallItem.getId());
             wallItem.onUnload();
         }
 
         this.floorItems.clear();
         this.wallItems.clear();
 
-        for (Set<Integer> itemIds : this.itemClassIndex.values()) {
+        for (Set<Long> itemIds : this.itemClassIndex.values()) {
             itemIds.clear();
         }
 
+        for(Set<Long> itemInteractions : itemInteractionIndex.values()) {
+            itemInteractions.clear();
+        }
+
+        this.itemInteractionIndex.clear();
         this.itemClassIndex.clear();
     }
 
@@ -142,7 +150,7 @@ public class ItemsComponent {
         return (MoodlightWallItem) this.getWallItem(this.moodlightId);
     }
 
-    public RoomItemFloor addFloorItem(int id, int baseId, Room room, int ownerId, int x, int y, int rot, double height, String data, LimitedEditionItem limitedEditionItem) {
+    public RoomItemFloor addFloorItem(long id, int baseId, Room room, int ownerId, int x, int y, int rot, double height, String data, LimitedEditionItem limitedEditionItem) {
         RoomItemFloor floor = RoomItemFactory.createFloor(id, baseId, room, ownerId, x, y, height, rot, data, limitedEditionItem);
 
         if (floor == null) return null;
@@ -153,7 +161,7 @@ public class ItemsComponent {
         return floor;
     }
 
-    public RoomItemWall addWallItem(int id, int baseId, Room room, int ownerId, String position, String data) {
+    public RoomItemWall addWallItem(long id, int baseId, Room room, int ownerId, String position, String data) {
         RoomItemWall wall = RoomItemFactory.createWall(id, baseId, room, ownerId, position, data, LimitedEditionDao.get(id));
         this.getWallItems().put(id, wall);
 
@@ -170,11 +178,11 @@ public class ItemsComponent {
         return new ArrayList<>(tile.getItems());
     }
 
-    public RoomItemFloor getFloorItem(int id) {
+    public RoomItemFloor getFloorItem(long id) {
         return this.floorItems.get(id);
     }
 
-    public RoomItemWall getWallItem(int id) {
+    public RoomItemWall getWallItem(long id) {
         return this.wallItems.get(id);
     }
 
@@ -202,7 +210,7 @@ public class ItemsComponent {
         List<RoomItemFloor> items = new ArrayList<>();
 
         if (this.itemClassIndex.containsKey(clazz)) {
-            for (Integer itemId : this.itemClassIndex.get(clazz)) {
+            for (long itemId : this.itemClassIndex.get(clazz)) {
                 RoomItemFloor floorItem = this.getFloorItem(itemId);
 
                 if (floorItem == null || floorItem.getDefinition() == null) continue;
@@ -217,7 +225,7 @@ public class ItemsComponent {
     public void removeItem(RoomItemWall item, int ownerId, Session client) {
         RoomItemDao.removeItemFromRoom(item.getId(), ownerId);
 
-        room.getEntities().broadcastMessage(new RemoveWallItemMessageComposer(item.getId(), ownerId));
+        room.getEntities().broadcastMessage(new RemoveWallItemMessageComposer(ItemManager.getInstance().getItemVirtualId(item.getId()), ownerId));
         this.getWallItems().remove(item.getId());
 
         if (client != null && client.getPlayer() != null) {
@@ -259,7 +267,7 @@ public class ItemsComponent {
             }
         }
 
-        this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(item.getId(), client != null ? client.getPlayer().getId() : 0));
+        this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(item.getVirtualId(), client != null ? client.getPlayer().getId() : 0));
         this.getFloorItems().remove(item.getId());
 
         if (toInventory && client != null) {
@@ -286,7 +294,7 @@ public class ItemsComponent {
     }
 
     public void removeItem(RoomItemWall item, Session client, boolean toInventory) {
-        this.getRoom().getEntities().broadcastMessage(new RemoveWallItemMessageComposer(item.getId(), client.getPlayer().getId()));
+        this.getRoom().getEntities().broadcastMessage(new RemoveWallItemMessageComposer(item.getVirtualId(), client.getPlayer().getId()));
         this.getWallItems().remove(item.getId());
 
         if (toInventory) {
@@ -295,7 +303,7 @@ public class ItemsComponent {
             client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item.getLimitedEditionItem());
             client.send(new UpdateInventoryMessageComposer());
             client.send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
-                put(1, Lists.newArrayList(item.getId()));
+                put(1, Lists.newArrayList(item.getVirtualId()));
             }}));
         } else {
             RoomItemDao.deleteItem(item.getId());
@@ -456,11 +464,11 @@ public class ItemsComponent {
         return this.room;
     }
 
-    public Map<Integer, RoomItemFloor> getFloorItems() {
+    public Map<Long, RoomItemFloor> getFloorItems() {
         return this.floorItems;
     }
 
-    public Map<Integer, RoomItemWall> getWallItems() {
+    public Map<Long, RoomItemWall> getWallItems() {
         return this.wallItems;
     }
 

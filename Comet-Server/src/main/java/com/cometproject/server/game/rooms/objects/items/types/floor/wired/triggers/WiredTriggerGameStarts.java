@@ -19,7 +19,7 @@ public class WiredTriggerGameStarts extends WiredTriggerItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredTriggerGameStarts(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredTriggerGameStarts(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

@@ -7,7 +7,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import org.apache.commons.lang.StringUtils;
 
 public abstract class TotemPartFloorItem extends RoomItemFloor {
-    public TotemPartFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public TotemPartFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         if (!StringUtils.isNumeric(this.getExtraData())) {

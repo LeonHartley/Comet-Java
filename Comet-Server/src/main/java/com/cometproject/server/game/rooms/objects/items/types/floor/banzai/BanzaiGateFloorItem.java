@@ -12,7 +12,7 @@ import com.cometproject.server.game.rooms.types.components.games.GameTeam;
 public class BanzaiGateFloorItem extends GenericFloorItem {
     private GameTeam gameTeam;
 
-    public BanzaiGateFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public BanzaiGateFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         switch (this.getDefinition().getInteraction()) {

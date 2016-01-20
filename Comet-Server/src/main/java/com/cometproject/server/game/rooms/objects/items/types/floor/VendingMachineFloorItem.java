@@ -13,7 +13,7 @@ public class VendingMachineFloorItem extends RoomItemFloor {
     private GenericEntity vendingEntity;
     private int state = -1;
 
-    public VendingMachineFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public VendingMachineFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

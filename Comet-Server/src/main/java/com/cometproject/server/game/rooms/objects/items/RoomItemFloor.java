@@ -45,7 +45,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
     private GenericEntity collidedEntity;
     private boolean hasQueuedSave;
 
-    public RoomItemFloor(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public RoomItemFloor(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, new Position(x, y, z), room);
 
         this.itemId = itemId;

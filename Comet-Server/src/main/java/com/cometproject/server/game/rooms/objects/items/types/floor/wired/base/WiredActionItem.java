@@ -28,7 +28,7 @@ public abstract class WiredActionItem extends WiredFloorItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredActionItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

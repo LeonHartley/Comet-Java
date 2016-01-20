@@ -14,7 +14,7 @@ public class GiftFloorItem extends RoomItemFloor {
     private GiftData giftData;
     private boolean isOpened = false;
 
-    public GiftFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) throws Exception {
+    public GiftFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) throws Exception {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         this.giftData = JsonFactory.getInstance().fromJson(data.split("GIFT::##")[1], GiftData.class);

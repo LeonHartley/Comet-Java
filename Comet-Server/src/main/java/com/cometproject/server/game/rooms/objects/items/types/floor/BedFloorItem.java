@@ -7,7 +7,7 @@ import com.cometproject.server.game.rooms.types.Room;
 
 
 public class BedFloorItem extends GenericFloorItem {
-    public BedFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public BedFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

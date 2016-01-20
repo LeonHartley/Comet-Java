@@ -13,7 +13,7 @@ import com.cometproject.server.network.sessions.SessionManager;
 public class FootballGoalFloorItem extends RoomItemFloor {
     private GameTeam gameTeam;
 
-    public FootballGoalFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public FootballGoalFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         switch (this.getDefinition().getItemName()) {

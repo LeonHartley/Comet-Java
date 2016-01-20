@@ -2,15 +2,16 @@ package com.cometproject.server.game.rooms.objects;
 
 import com.cometproject.api.game.rooms.objects.IRoomObject;
 import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.game.rooms.objects.misc.Positionable;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 
 
-public abstract class RoomObject implements IRoomObject {
+public abstract class RoomObject implements IRoomObject, Positionable {
     /**
      * The unique identifier of this object
      */
-    private int id;
+    private long id;
 
     /**
      * The room where this object resides
@@ -89,6 +90,6 @@ public abstract class RoomObject implements IRoomObject {
      * @return The ID of this object
      */
     public int getId() {
-        return id;
+        return (int) id;
     }
 }

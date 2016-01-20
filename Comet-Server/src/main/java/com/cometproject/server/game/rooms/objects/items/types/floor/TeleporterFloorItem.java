@@ -20,7 +20,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
     private int pairId = -1;
     boolean isDoor = false;
 
-    public TeleporterFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public TeleporterFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         this.setExtraData("0");

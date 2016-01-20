@@ -15,7 +15,7 @@ import java.util.List;
 
 
 public class RollerFloorItem extends RoomItemFloor {
-    public RollerFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public RollerFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

@@ -28,8 +28,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class InventoryComponent implements PlayerComponent {
     private Player player;
 
-    private Map<Integer, InventoryItem> floorItems;
-    private Map<Integer, InventoryItem> wallItems;
+    private Map<Long, InventoryItem> floorItems;
+    private Map<Long, InventoryItem> wallItems;
     private Map<String, Integer> badges;
 
     private boolean itemsLoaded = false;
@@ -57,9 +57,9 @@ public class InventoryComponent implements PlayerComponent {
         }
 
         try {
-            Map<Integer, InventoryItem> inventoryItems = InventoryDao.getInventoryByPlayerId(this.player.getId());
+            Map<Long, InventoryItem> inventoryItems = InventoryDao.getInventoryByPlayerId(this.player.getId());
 
-            for (Map.Entry<Integer, InventoryItem> item : inventoryItems.entrySet()) {
+            for (Map.Entry<Long, InventoryItem> item : inventoryItems.entrySet()) {
                 if (item.getValue().getDefinition().getType().equals("s")) {
                     this.getFloorItems().put(item.getKey(), item.getValue());
                 }
@@ -169,7 +169,7 @@ public class InventoryComponent implements PlayerComponent {
         return badges;
     }
 
-    public InventoryItem add(int id, int itemId, String extraData, GiftData giftData, LimitedEditionItem limitedEditionItem) {
+    public InventoryItem add(long id, int itemId, String extraData, GiftData giftData, LimitedEditionItem limitedEditionItem) {
         InventoryItem item = new InventoryItem(id, itemId, extraData, giftData, limitedEditionItem);
 
         if (item.getDefinition().getType().equals("s")) {
@@ -195,7 +195,7 @@ public class InventoryComponent implements PlayerComponent {
         return songItems;
     }
 
-    public void add(int id, int itemId, String extraData, LimitedEditionItem limitedEditionItem) {
+    public void add(long id, int itemId, String extraData, LimitedEditionItem limitedEditionItem) {
         add(id, itemId, extraData, null, limitedEditionItem);
     }
 

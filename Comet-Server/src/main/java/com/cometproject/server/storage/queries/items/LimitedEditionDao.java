@@ -31,7 +31,7 @@ public class LimitedEditionDao {
         }
     }
 
-    public static LimitedEditionItem get(int itemId) {
+    public static LimitedEditionItem get(long itemId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -40,7 +40,7 @@ public class LimitedEditionDao {
             sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = SqlHelper.prepare("SELECT `limited_id`, `limited_total` FROM items_limited_edition WHERE item_id = ? LIMIT 1;", sqlConnection);
-            preparedStatement.setInt(1, itemId);
+            preparedStatement.setLong(1, itemId);
 
             resultSet = preparedStatement.executeQuery();
 

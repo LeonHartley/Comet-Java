@@ -28,7 +28,7 @@ public class WiredActionMoveToDirection extends WiredActionItem {
      * @param rotation The orientation of the item
      * @param data     The JSON object associated with this item
      */
-    public WiredActionMoveToDirection(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public WiredActionMoveToDirection(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 
 public class FootballGateFloorItem extends RoomItemFloor {
-    public FootballGateFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public FootballGateFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         if (this.getExtraData().equals("0")) {

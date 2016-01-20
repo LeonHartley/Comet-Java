@@ -13,7 +13,7 @@ public class MannequinFloorItem extends RoomItemFloor {
     private String figure = "ch-210-62.lg-270-62";
     private String gender = "m";
 
-    public MannequinFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public MannequinFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
 
         if (!this.getExtraData().isEmpty()) {

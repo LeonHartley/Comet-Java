@@ -26,7 +26,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     private boolean skipNext = false;
     private int rollStage = -1;
 
-    public RollableFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public RollableFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

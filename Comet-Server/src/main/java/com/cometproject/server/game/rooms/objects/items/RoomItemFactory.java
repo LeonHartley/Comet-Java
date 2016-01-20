@@ -162,7 +162,7 @@ public class RoomItemFactory {
         }};
     }
 
-    public static RoomItemFloor createFloor(int id, int baseId, Room room, int ownerId, int x, int y, double height, int rot, String data, LimitedEditionItem limitedEditionItem) {
+    public static RoomItemFloor createFloor(long id, int baseId, Room room, int ownerId, int x, int y, double height, int rot, String data, LimitedEditionItem limitedEditionItem) {
         ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
         RoomItemFloor floorItem = null;
 
@@ -207,7 +207,7 @@ public class RoomItemFactory {
         return floorItem;
     }
 
-    public static RoomItemWall createWall(int id, int baseId, Room room, int owner, String position, String data, LimitedEditionItem limitedEditionItem) {
+    public static RoomItemWall createWall(long id, int baseId, Room room, int owner, String position, String data, LimitedEditionItem limitedEditionItem) {
         ItemDefinition def = ItemManager.getInstance().getDefinition(baseId);
         if (def == null) {
             return null;

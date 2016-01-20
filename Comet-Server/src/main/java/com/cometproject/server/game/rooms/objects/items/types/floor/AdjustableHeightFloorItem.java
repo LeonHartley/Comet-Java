@@ -11,7 +11,7 @@ import org.apache.commons.lang.StringUtils;
 
 
 public class AdjustableHeightFloorItem extends RoomItemFloor {
-    public AdjustableHeightFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public AdjustableHeightFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

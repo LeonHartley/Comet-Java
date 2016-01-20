@@ -105,6 +105,13 @@ public class ItemManager implements Initializable {
         return virtualId;
     }
 
+    public void disposeItemVirtualId(long itemId) {
+        int virtualId = this.getItemVirtualId(itemId);
+
+        this.itemIdToVirtualId.remove(itemId);
+        this.virtualIdToItemId.remove(virtualId);
+    }
+
     public Long getItemIdByVirtualId(int virtualId) {
         return this.virtualIdToItemId.get(virtualId);
     }

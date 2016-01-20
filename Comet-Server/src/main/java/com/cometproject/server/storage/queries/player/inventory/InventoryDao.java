@@ -17,12 +17,12 @@ public class InventoryDao {
     public static String ITEMS_USERID_INDEX = "";
     private static Logger log = Logger.getLogger(InventoryDao.class.getName());
 
-    public static Map<Integer, InventoryItem> getInventoryByPlayerId(int playerId) {
+    public static Map<Long, InventoryItem> getInventoryByPlayerId(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<Integer, InventoryItem> data = new HashMap<>();
+        Map<Long, InventoryItem> data = new HashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

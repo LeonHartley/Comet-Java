@@ -22,7 +22,7 @@ public class RoomItemDao {
 
     private static Logger log = Logger.getLogger(RoomItemDao.class.getName());
 
-    public static void getItems(Room room, Map<Integer, RoomItemFloor> floorItems, Map<Integer, RoomItemWall> wallItems) {
+    public static void getItems(Room room, Map<Long, RoomItemFloor> floorItems, Map<Long, RoomItemWall> wallItems) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -45,9 +45,9 @@ public class RoomItemDao {
                 try {
                     if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")) != null) {
                         if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")).getType().equals("s"))
-                            floorItems.put(resultSet.getInt("id"), RoomItemFactory.createFloor(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data"), limitedEditionItem));
+                            floorItems.put(resultSet.getLong("id"), RoomItemFactory.createFloor(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data"), limitedEditionItem));
                         else
-                            wallItems.put(resultSet.getInt("id"), RoomItemFactory.createWall(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data"), limitedEditionItem));
+                            wallItems.put(resultSet.getLong("id"), RoomItemFactory.createWall(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data"), limitedEditionItem));
 
                     } else {
                         log.warn("Item (" + resultSet.getInt("base_item") + ") with invalid definition ID: " + resultSet.getInt("base_item"));
@@ -64,7 +64,7 @@ public class RoomItemDao {
         }
     }
 
-    public static void removeItemFromRoom(int itemId, int userId) {
+    public static void removeItemFromRoom(long itemId, int userId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -73,7 +73,7 @@ public class RoomItemDao {
 
             preparedStatement = SqlHelper.prepare("UPDATE items SET room_id = 0, user_id = ?, x = 0, y = 0, z = 0, wall_pos = '' WHERE id = ?", sqlConnection);
             preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, itemId);
+            preparedStatement.setLong(2, itemId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {
@@ -84,7 +84,7 @@ public class RoomItemDao {
         }
     }
 
-    public static void deleteItem(int itemId) {
+    public static void deleteItem(long itemId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -92,7 +92,7 @@ public class RoomItemDao {
             sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = SqlHelper.prepare("DELETE FROM items WHERE id = ?", sqlConnection);
-            preparedStatement.setInt(1, itemId);
+            preparedStatement.setLong(1, itemId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {
@@ -103,7 +103,7 @@ public class RoomItemDao {
         }
     }
 
-    public static void saveData(int itemId, String data) {
+    public static void saveData(long itemId, String data) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -112,7 +112,7 @@ public class RoomItemDao {
 
             preparedStatement = SqlHelper.prepare("UPDATE items SET extra_data = ? WHERE id = ?", sqlConnection);
             preparedStatement.setString(1, data);
-            preparedStatement.setInt(2, itemId);
+            preparedStatement.setLong(2, itemId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {
@@ -123,7 +123,7 @@ public class RoomItemDao {
         }
     }
 
-    public static int getRoomIdById(int itemId) {
+    public static int getRoomIdById(long itemId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -132,7 +132,7 @@ public class RoomItemDao {
             sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = SqlHelper.prepare("SELECT `room_id` FROM items WHERE id = ? LIMIT 1;", sqlConnection);
-            preparedStatement.setInt(1, itemId);
+            preparedStatement.setLong(1, itemId);
 
             resultSet = preparedStatement.executeQuery();
 
@@ -150,7 +150,7 @@ public class RoomItemDao {
         return 0;
     }
 
-    public static void saveItemPosition(int x, int y, double height, int rotation, int id) {
+    public static void saveItemPosition(int x, int y, double height, int rotation, long id) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -162,7 +162,7 @@ public class RoomItemDao {
             preparedStatement.setInt(2, y);
             preparedStatement.setDouble(3, height);
             preparedStatement.setInt(4, rotation);
-            preparedStatement.setInt(5, id);
+            preparedStatement.setLong(5, id);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {
@@ -173,7 +173,7 @@ public class RoomItemDao {
         }
     }
 
-    public static void placeFloorItem(int roomId, int x, int y, double height, int rot, String data, int itemId) {
+    public static void placeFloorItem(long roomId, int x, int y, double height, int rot, String data, int itemId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -185,9 +185,9 @@ public class RoomItemDao {
             preparedStatement.setInt(2, y);
             preparedStatement.setDouble(3, height);
             preparedStatement.setInt(4, rot);
-            preparedStatement.setInt(5, roomId);
+            preparedStatement.setLong(5, roomId);
             preparedStatement.setString(6, data);
-            preparedStatement.setInt(7, itemId);
+            preparedStatement.setLong(7, itemId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {
@@ -221,7 +221,7 @@ public class RoomItemDao {
         }
     }
 
-    public static void setBaseItem(int itemId, int baseId) {
+    public static void setBaseItem(long itemId, int baseId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -231,7 +231,7 @@ public class RoomItemDao {
             preparedStatement = SqlHelper.prepare("UPDATE items set base_item = ? WHERE id = ?", sqlConnection);
 
             preparedStatement.setInt(1, baseId);
-            preparedStatement.setInt(2, itemId);
+            preparedStatement.setLong(2, itemId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {
@@ -262,7 +262,7 @@ public class RoomItemDao {
                 }
 
                 preparedStatement.setString(1, data);
-                preparedStatement.setInt(2, roomItem.getId());
+                preparedStatement.setLong(2, roomItem.getId());
 
                 preparedStatement.addBatch();
             }
@@ -293,7 +293,7 @@ public class RoomItemDao {
                 preparedStatement.setDouble(3, floor.getPosition().getZ());
                 preparedStatement.setInt(4, floor.getRotation());
                 preparedStatement.setString(5, floor instanceof RoomItemWall ? "" : ((RoomItemFloor) floor).getDataObject());
-                preparedStatement.setInt(6, floor.getId());
+                preparedStatement.setLong(6, floor.getId());
 
                 preparedStatement.addBatch();
             }
@@ -321,7 +321,7 @@ public class RoomItemDao {
             preparedStatement.setDouble(3, floor.getPosition().getZ());
             preparedStatement.setInt(4, floor.getRotation());
             preparedStatement.setString(5, floor.getDataObject());
-            preparedStatement.setInt(6, floor.getId());
+            preparedStatement.setLong(6, floor.getId());
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {

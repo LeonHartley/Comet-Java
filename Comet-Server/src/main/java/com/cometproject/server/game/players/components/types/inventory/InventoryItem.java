@@ -40,7 +40,7 @@ public class InventoryItem {
         }
     }
 
-    public InventoryItem(int id, int baseId, String extraData, GiftData giftData, LimitedEditionItem limitEditionItem) {
+    public InventoryItem(long id, int baseId, String extraData, GiftData giftData, LimitedEditionItem limitEditionItem) {
         this.init(id, baseId, extraData, giftData);
 
         this.limitedEditionItem = limitEditionItem;
@@ -63,9 +63,9 @@ public class InventoryItem {
         final boolean isLimited = this.getLimitedEditionItem() != null;
         final boolean isWired = this.getDefinition().getInteraction().startsWith("wf_act") || this.getDefinition().getInteraction().startsWith("wf_cnd") || this.getDefinition().getInteraction().startsWith("wf_trg");
 
-        msg.writeInt(this.getId());
+        msg.writeInt(ItemManager.getInstance().getItemVirtualId(this.getId()));
         msg.writeString(this.getDefinition().getType().toUpperCase());
-        msg.writeInt(this.getId());
+        msg.writeInt(ItemManager.getInstance().getItemVirtualId(this.getId()));
         msg.writeInt(isGift ? this.getGiftData().getSpriteId() : this.getDefinition().getSpriteId());
 
         if (!isGroupItem)
@@ -159,9 +159,9 @@ public class InventoryItem {
         final boolean isLimited = this.getLimitedEditionItem() != null;
         final boolean isWired = this.getDefinition().getInteraction().startsWith("wf_act") || this.getDefinition().getInteraction().startsWith("wf_cnd") || this.getDefinition().getInteraction().startsWith("wf_trg");
 
-        msg.writeInt(this.id);
+        msg.writeInt(ItemManager.getInstance().getItemVirtualId(this.id));
         msg.writeString(this.getDefinition().getType().toLowerCase());
-        msg.writeInt(this.id);
+        msg.writeInt(ItemManager.getInstance().getItemVirtualId(this.id));
         msg.writeInt(this.getDefinition().getSpriteId());
         msg.writeInt(0);
         msg.writeBoolean(true);

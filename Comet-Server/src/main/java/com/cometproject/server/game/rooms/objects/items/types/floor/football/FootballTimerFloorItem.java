@@ -12,7 +12,7 @@ import com.cometproject.server.game.rooms.types.Room;
 public class FootballTimerFloorItem extends RoomItemFloor {
     private int time = 0;
 
-    public FootballTimerFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public FootballTimerFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

@@ -14,7 +14,7 @@ public class WheelWallItem extends RoomItemWall {
 
     private final Random r = new Random();
 
-    public WheelWallItem(int id, int itemId, Room room, int owner, String position, String data) {
+    public WheelWallItem(long id, int itemId, Room room, int owner, String position, String data) {
         super(id, itemId, room, owner, position, data);
     }
 

@@ -10,7 +10,7 @@ import com.cometproject.server.utilities.RandomInteger;
 
 
 public class SnowboardJumpFloorItem extends RoomItemFloor {
-    public SnowboardJumpFloorItem(int id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
+    public SnowboardJumpFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
         super(id, itemId, room, owner, x, y, z, rotation, data);
     }
 

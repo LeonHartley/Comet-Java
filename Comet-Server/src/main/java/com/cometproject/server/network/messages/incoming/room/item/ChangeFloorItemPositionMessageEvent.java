@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -35,7 +36,7 @@ public class ChangeFloorItemPositionMessageEvent implements Event {
             return;
         }
 
-        RoomItemFloor floorItem = room.getItems().getFloorItem(id);
+        RoomItemFloor floorItem = room.getItems().getFloorItem(ItemManager.getInstance().getItemIdByVirtualId(id));
 
         if (floorItem != null) {
             if (rot != floorItem.getRotation()) {
