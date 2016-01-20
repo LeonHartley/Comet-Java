@@ -178,6 +178,16 @@ public class ItemsComponent {
         return new ArrayList<>(tile.getItems());
     }
 
+    @Deprecated
+    public RoomItemFloor getFloorItem(int id) {
+        return this.floorItems.get(ItemManager.getInstance().getItemIdByVirtualId(id));
+    }
+
+    @Deprecated
+    public RoomItemWall getWallItem(int id) {
+        return this.wallItems.get(ItemManager.getInstance().getItemIdByVirtualId(id));
+    }
+
     public RoomItemFloor getFloorItem(long id) {
         return this.floorItems.get(id);
     }

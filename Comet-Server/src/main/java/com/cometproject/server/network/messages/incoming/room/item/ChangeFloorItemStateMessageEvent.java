@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class ChangeFloorItemStateMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
-        int itemId = msg.readInt();
+        long itemId = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;

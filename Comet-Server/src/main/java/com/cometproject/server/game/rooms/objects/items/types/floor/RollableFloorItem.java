@@ -182,6 +182,12 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     private void moveTo(Position pos, int rotation) {
+        RoomTile newTile = this.getRoom().getMapping().getTile(pos);
+
+        if (newTile == null) {
+            return;
+        }
+
         roll(this, this.getPosition(), pos, this.getRoom());
 
         RoomTile tile = this.getRoom().getMapping().getTile(this.getPosition());
@@ -190,15 +196,11 @@ public abstract class RollableFloorItem extends RoomItemFloor {
         this.getPosition().setX(pos.getX());
         this.getPosition().setY(pos.getY());
 
-        RoomTile newTile = this.getRoom().getMapping().getTile(pos);
-
         if (tile != null) {
             tile.reload();
         }
 
-        if (newTile != null) {
-            newTile.reload();
-        }
+        newTile.reload();
 
         // tell all other items on the new square that there's a new item. (good method of updating score...)
         for (RoomItemFloor floorItem : this.getRoom().getItems().getItemsOnSquare(pos.getX(), pos.getY())) {
