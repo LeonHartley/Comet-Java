@@ -87,12 +87,12 @@ public class ItemDao {
         return 0;
     }
 
-    public static List<Integer> createItems(List<OldCatalogPurchaseHandler.CatalogPurchase> catalogPurchases) {
+    public static List<Long> createItems(List<OldCatalogPurchaseHandler.CatalogPurchase> catalogPurchases) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        List<Integer> data = new ArrayList<>();
+        List<Long> data = new ArrayList<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -118,7 +118,7 @@ public class ItemDao {
             resultSet = preparedStatement.getGeneratedKeys();
 
             while (resultSet.next()) {
-                data.add(resultSet.getInt(1));
+                data.add(resultSet.getLong(1));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

@@ -255,14 +255,10 @@ public class RoomManager implements Initializable {
         return roomId;
     }
 
-    public List<RoomData> getRoomsByCategory(int category, int max) {
+    public List<RoomData> getRoomsByCategory(int category) {
         List<RoomData> rooms = new ArrayList<>();
 
         for (Room room : this.getRoomInstances().values()) {
-            if(max != 0 && rooms.size() >= max) {
-                break;
-            }
-
             if (category != -1 && (room.getData().getCategory() == null || room.getData().getCategory().getId() != category)) {
                 continue;
             }

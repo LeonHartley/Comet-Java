@@ -47,7 +47,7 @@ public class NavigatorSearchResultSetMessageComposer extends MessageComposer {
             msg.writeBoolean(false);
             msg.writeInt(0);
 
-            List<RoomData> rooms = NavigatorSearchService.order(RoomManager.getInstance().getRoomsByQuery(this.data));
+            List<RoomData> rooms = NavigatorSearchService.order(RoomManager.getInstance().getRoomsByQuery(this.data), 50);
 
             msg.writeInt(rooms.size());
 

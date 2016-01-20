@@ -18,6 +18,8 @@ public class GetRoomSettingsDataMessageEvent implements Event {
             return;
         }
 
-        client.send(new RoomSettingsDataMessageComposer(room, client.getPlayer().getPermissions().getRank().modTool()));
+        if(room.getData().getOwnerId() == client.getPlayer().getId() || client.getPlayer().getPermissions().getRank().roomFullControl()) {
+            client.send(new RoomSettingsDataMessageComposer(room, client.getPlayer().getPermissions().getRank().modTool()));
+        }
     }
 }

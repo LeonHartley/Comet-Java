@@ -39,15 +39,15 @@ public class RoomItemDao {
                 LimitedEditionItem limitedEditionItem = null;
 
                 if (resultSet.getInt("limited_id") != 0) {
-                    limitedEditionItem = new LimitedEditionItem(resultSet.getInt("id"), resultSet.getInt("limited_id"), resultSet.getInt("limited_total"));
+                    limitedEditionItem = new LimitedEditionItem(resultSet.getLong("id"), resultSet.getInt("limited_id"), resultSet.getInt("limited_total"));
                 }
 
                 try {
                     if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")) != null) {
                         if (ItemManager.getInstance().getDefinition(resultSet.getInt("base_item")).getType().equals("s"))
-                            floorItems.put(resultSet.getLong("id"), RoomItemFactory.createFloor(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data"), limitedEditionItem));
+                            floorItems.put(resultSet.getLong("id"), RoomItemFactory.createFloor(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getDouble("z"), resultSet.getInt("rot"), resultSet.getString("extra_data"), limitedEditionItem));
                         else
-                            wallItems.put(resultSet.getLong("id"), RoomItemFactory.createWall(resultSet.getInt("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data"), limitedEditionItem));
+                            wallItems.put(resultSet.getLong("id"), RoomItemFactory.createWall(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data"), limitedEditionItem));
 
                     } else {
                         log.warn("Item (" + resultSet.getInt("base_item") + ") with invalid definition ID: " + resultSet.getInt("base_item"));

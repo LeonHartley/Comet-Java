@@ -40,11 +40,11 @@ public class NavigatorSearchService implements CometTask {
                 break;
 
             case POPULAR:
-                rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(-1, expanded ? 50 : 12)));
+                rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(-1), expanded ? 50 : 12));
                 break;
 
             case CATEGORY:
-                rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(category.getId(), expanded ? 50 : 12)));
+                rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(category.getId()), expanded ? 50 : 12));
                 break;
 
             case TOP_PROMOTIONS:
@@ -60,14 +60,14 @@ public class NavigatorSearchService implements CometTask {
                     }
                 }
 
-                rooms.addAll(order(promotedRooms));
+                rooms.addAll(order(promotedRooms, expanded ? 50 : 12));
                 break;
         }
 
         return rooms;
     }
 
-    public static List<RoomData> order(List<RoomData> rooms) {
+    public static List<RoomData> order(List<RoomData> rooms, int limit) {
         try {
             Collections.sort(rooms, (room1, room2) -> {
                 boolean is1Active = RoomManager.getInstance().isActive(room1.getId());
@@ -80,7 +80,17 @@ public class NavigatorSearchService implements CometTask {
 
         }
 
-        return rooms;
+        List<RoomData> returnRooms = new LinkedList<>();
+
+        for(RoomData roomData : rooms) {
+            if(returnRooms.size() >= limit) {
+                break;
+            }
+
+            returnRooms.add(roomData);
+        }
+
+        return returnRooms;
     }
 
     public static NavigatorSearchService getInstance() {

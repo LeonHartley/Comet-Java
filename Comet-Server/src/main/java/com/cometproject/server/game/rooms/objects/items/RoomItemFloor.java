@@ -21,6 +21,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.SoundMachine
 import com.cometproject.server.game.rooms.objects.items.types.floor.boutique.MannequinFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.football.FootballGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.highscore.HighscoreClassicFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -203,7 +204,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
             } else {
                 msg.writeInt(2);
                 msg.writeInt(5);
-                msg.writeString("0");
+                msg.writeString(this instanceof GroupGateFloorItem ? this.getExtraData() : "0");
                 msg.writeString(this.getExtraData());
                 msg.writeString(groupData.getBadge());
 

@@ -385,10 +385,10 @@ public class OldCatalogPurchaseHandler {
                     }
                 }
 
-                int[] teleportIds = null;
+                long[] teleportIds = null;
 
                 if (isTeleport) {
-                    teleportIds = new int[amount];
+                    teleportIds = new long[amount];
                 }
 
                 List<CatalogPurchase> purchases = new ArrayList<>();
@@ -405,9 +405,9 @@ public class OldCatalogPurchaseHandler {
                     }
                 }
 
-                List<Integer> newItems = ItemDao.createItems(purchases);
+                List<Long> newItems = ItemDao.createItems(purchases);
 
-                for (Integer newItem : newItems) {
+                for (long newItem : newItems) {
                     if (item.getLimitedTotal() > 0) {
                         item.increaseLimitedSells(1);
                         CatalogDao.updateLimitSellsForItem(item.getId());
@@ -423,7 +423,7 @@ public class OldCatalogPurchaseHandler {
                 }
 
                 if (isTeleport) {
-                    int lastId = 0;
+                    long lastId = 0;
 
                     for (int i = 0; i < teleportIds.length; i++) {
                         if (lastId == 0) {
@@ -466,7 +466,7 @@ public class OldCatalogPurchaseHandler {
      * @param giftData The data of the gift
      * @param newItems List of items to deliver
      */
-    private void deliverGift(int playerId, GiftData giftData, List<Integer> newItems, String senderUsername) {
+    private void deliverGift(int playerId, GiftData giftData, List<Long> newItems, String senderUsername) {
         Session client = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
         if (client != null) {
@@ -474,7 +474,7 @@ public class OldCatalogPurchaseHandler {
 
             if (client.getPlayer() != null) {
                 if (client.getPlayer().getInventory() != null) {
-                    for (int newItem : newItems) {
+                    for (long newItem : newItems) {
                         unseenItems.add(client.getPlayer().getInventory().add(newItem, ItemManager.getInstance().getBySpriteId(giftData.getSpriteId()).getId(), "GIFT::##" + JsonFactory.getInstance().toJson(giftData), giftData, null));
                     }
                 }
