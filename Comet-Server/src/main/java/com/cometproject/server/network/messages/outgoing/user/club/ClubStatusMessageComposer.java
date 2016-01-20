@@ -39,17 +39,17 @@ public class ClubStatusMessageComposer extends MessageComposer {
             }
         }
 
-        msg.writeString("club_habbo");
+        msg.writeString("habbo_club");
 
-        msg.writeInt(subscriptionComponent.isValid() ? days - (months * 31) : 0);
+        msg.writeInt(0);
         msg.writeInt(2);
-        msg.writeInt(subscriptionComponent.isValid() ? months : 0);
+        msg.writeInt(0);
         msg.writeInt(1);
         msg.writeBoolean(subscriptionComponent.isValid());
         msg.writeBoolean(true);
         msg.writeInt(0);
-        msg.writeInt(subscriptionComponent.isValid() ? days - (months * 31) : 0);
-        msg.writeInt(subscriptionComponent.isValid() ? days - (months * 31) : 0);
+        msg.writeInt(0);
+        msg.writeInt(495);
 
     }
 }

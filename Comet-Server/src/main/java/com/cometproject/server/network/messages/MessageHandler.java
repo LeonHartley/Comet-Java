@@ -40,6 +40,7 @@ import com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMess
 import com.cometproject.server.network.messages.incoming.room.bots.PlaceBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.RemoveBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.FollowRoomInfoMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.engine.GetFurnitureAliasesMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.floor.GetTilesInUseMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.floor.SaveFloorMessageEvent;
@@ -283,6 +284,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.RemoveMyRightsMessageEvent, new RemoveOwnRightsMessageEvent());
         this.getMessages().put(Events.SitMessageEvent, new SitMessageEvent());
 //        this.getMessages().put(Events., new SpectateRoomMessageEvent());
+        this.getMessages().put(Events.GetFurnitureAliasesMessageEvent, new GetFurnitureAliasesMessageEvent());
     }
 //
     public void registerRoomTrade() {
