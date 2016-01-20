@@ -21,7 +21,7 @@ public class FuserightsMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeInt(hasClub ? 2 : 0);
+        msg.writeInt(2);
         msg.writeInt(this.rank);
         msg.writeBoolean(false);// Is ambassador!
     }

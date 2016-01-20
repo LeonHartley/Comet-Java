@@ -16,6 +16,8 @@ import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.settings.RoomInfoUpdatedMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.settings.SettingsUpdatedMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 
@@ -164,7 +166,9 @@ public class SaveRoomDataMessageEvent implements Event {
             data.save();
 
             room.getEntities().broadcastMessage(new ConfigureWallAndFloorMessageComposer(hideWall, wallThick, floorThick));
-            room.getEntities().broadcastMessage(new RoomDataMessageComposer(room, true, room.getRights().hasRights(client.getPlayer().getId()) || client.getPlayer().getPermissions().getRank().roomFullControl()));
+//            room.getEntities().broadcastMessage(new RoomDataMessageComposer(room, true, room.getRights().hasRights(client.getPlayer().getId()) || client.getPlayer().getPermissions().getRank().roomFullControl()));
+//            room.getEntities().broadcastMessage(new SettingsUpdatedMessageComposer(data.getId()));
+            room.getEntities().broadcastMessage(new RoomInfoUpdatedMessageComposer(data.getId()));
         } catch (Exception e) {
             RoomManager.log.error("Error while saving room data", e);
         }

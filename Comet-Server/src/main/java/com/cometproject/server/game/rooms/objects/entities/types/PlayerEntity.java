@@ -218,7 +218,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         session.send(new RoomRatingMessageComposer(this.getRoom().getData().getScore(), this.canRateRoom()));
 
         InitializeRoomMessageEvent.heightmapMessageEvent.handle(session, null);
-        InitializeRoomMessageEvent.addUserToRoomMessageEvent.handle(session, null);
+//        InitializeRoomMessageEvent.addUserToRoomMessageEvent.handle(session, null);
 
         if (RoomManager.getInstance().hasPromotion(this.getRoom().getId())) {
             session.send(new RoomPromotionMessageComposer(this.getRoom().getData(), this.getRoom().getPromotion()));

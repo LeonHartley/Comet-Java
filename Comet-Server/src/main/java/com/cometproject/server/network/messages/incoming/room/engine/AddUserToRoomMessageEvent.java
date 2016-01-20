@@ -12,7 +12,7 @@ import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.RoomPanelMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.RoomEntryDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.FloorItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.WallItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
@@ -68,7 +68,7 @@ public class AddUserToRoomMessageEvent implements Event {
 
         client.sendQueue(new GroupBadgesMessageComposer(groupsInRoom));
 
-        client.sendQueue(new RoomPanelMessageComposer(room.getId(), room.getData().getOwnerId() == client.getPlayer().getId() || client.getPlayer().getPermissions().getRank().roomFullControl()));
+        client.sendQueue(new RoomEntryDataMessageComposer(room.getId(), room.getData().getOwnerId() == client.getPlayer().getId() || client.getPlayer().getPermissions().getRank().roomFullControl()));
         client.sendQueue(new RoomDataMessageComposer(room, !(room.getRights().hasRights(client.getPlayer().getId()) || client.getPlayer().isTeleporting() || client.getPlayer().getPermissions().getRank().roomFullControl()), room.getRights().hasRights(client.getPlayer().getId()) || client.getPlayer().isTeleporting() || client.getPlayer().getPermissions().getRank().roomFullControl()));
 
         client.sendQueue(new AvatarsMessageComposer(room));
