@@ -49,7 +49,7 @@ public class ItemDao {
         return data;
     }
 
-    public static int createItem(int userId, int itemId, String data) {
+    public static long createItem(int userId, int itemId, String data) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -74,7 +74,7 @@ public class ItemDao {
             resultSet = preparedStatement.getGeneratedKeys();
 
             while (resultSet.next()) {
-                return resultSet.getInt(1);
+                return resultSet.getLong(1);
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

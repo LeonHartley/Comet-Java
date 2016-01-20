@@ -1,5 +1,7 @@
 package com.cometproject.server.network.messages.incoming.room.item.wired;
 
+import com.cometproject.server.game.items.ItemManager;
+import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionMatchToSnapshot;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -45,7 +47,7 @@ public class SaveWiredDataMessageEvent implements Event {
         int selectedItemCount = msg.readInt();
 
         for (int i = 0; i < selectedItemCount; i++) {
-            wiredItem.getWiredData().selectItem(msg.readInt());
+            wiredItem.getWiredData().selectItem(ItemManager.getInstance().getItemIdByVirtualId(msg.readInt()));
         }
 
         if (wiredItem instanceof WiredActionItem) {

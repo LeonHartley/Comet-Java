@@ -42,7 +42,7 @@ public class ItemManager implements Initializable {
         this.itemIdToVirtualId = new ConcurrentHashMap<>();
         this.virtualIdToItemId = new ConcurrentHashMap<>();
 
-        this.itemIdCounter = new AtomicInteger();
+        this.itemIdCounter = new AtomicInteger(1);
 
         this.loadItemDefinitions();
         this.loadMusicData();

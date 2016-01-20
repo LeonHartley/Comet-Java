@@ -19,7 +19,7 @@ public class TakePhotoMessageEvent implements Event {
         final String code = msg.readString();
         final String itemExtraData = "{\"t\":" + System.currentTimeMillis() + ",\"u\":\"" + code + "\",\"n\":\"" + client.getPlayer().getData().getUsername() + "\",\"m\":\"\",\"s\":" + client.getPlayer().getId() + ",\"w\":\"" + CometSettings.cameraPhotoUrl.replace("%photoId%", code) + "\"}";
 
-        int itemId = ItemDao.createItem(client.getPlayer().getId(), CometSettings.cameraPhotoItemId, itemExtraData);
+        long itemId = ItemDao.createItem(client.getPlayer().getId(), CometSettings.cameraPhotoItemId, itemExtraData);
         final InventoryItem inventoryItem = new InventoryItem(itemId, CometSettings.cameraPhotoItemId, itemExtraData);
 
         client.getPlayer().getInventory().addItem(inventoryItem);

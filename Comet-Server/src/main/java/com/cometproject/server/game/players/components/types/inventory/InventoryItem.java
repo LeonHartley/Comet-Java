@@ -46,7 +46,7 @@ public class InventoryItem {
         this.limitedEditionItem = limitEditionItem;
     }
 
-    public InventoryItem(int id, int baseId, String extraData) {
+    public InventoryItem(long id, int baseId, String extraData) {
         this.init(id, baseId, extraData, null);
     }
 

@@ -208,7 +208,7 @@ public class WiredActionGiveReward extends WiredActionItem {
                         ItemDefinition itemDefinition = ItemManager.getInstance().getDefinition(itemId);
 
                         if (itemDefinition != null) {
-                            int newItem = ItemDao.createItem(playerEntity.getPlayerId(), itemId, extraData);
+                            long newItem = ItemDao.createItem(playerEntity.getPlayerId(), itemId, extraData);
 
                             InventoryItem inventoryItem = new InventoryItem(newItem, itemId, extraData);
 

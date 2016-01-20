@@ -192,7 +192,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         int accessLevel = 0;
 
         if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.getPlayer().getPermissions().getRank().roomFullControl()) {
-            this.addStatus(RoomEntityStatus.CONTROLLER, "4");
+            this.addStatus(RoomEntityStatus.CONTROLLER, "useradmin");
             accessLevel = 4;
         } else if (this.getRoom().getRights().hasRights(this.getPlayerId())) {
             this.addStatus(RoomEntityStatus.CONTROLLER, "1");
