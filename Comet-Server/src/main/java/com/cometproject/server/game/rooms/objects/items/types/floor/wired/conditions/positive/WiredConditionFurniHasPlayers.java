@@ -34,7 +34,7 @@ public class WiredConditionFurniHasPlayers extends WiredConditionItem {
         int itemsWithUserCount = 0;
         int itemsWithoutUsersCount = 0;
 
-        for (int itemId : this.getWiredData().getSelectedIds()) {
+        for (long itemId : this.getWiredData().getSelectedIds()) {
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
             if (floorItem != null) {

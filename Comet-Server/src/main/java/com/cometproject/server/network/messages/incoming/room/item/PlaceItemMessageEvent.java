@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -46,7 +47,7 @@ public class PlaceItemMessageEvent implements Event {
                     return;
                 }
 
-                InventoryItem item = client.getPlayer().getInventory().getWallItem(id);
+                InventoryItem item = client.getPlayer().getInventory().getWallItem(ItemManager.getInstance().getItemIdByVirtualId(id));
 
                 if (item == null) {
                     return;
@@ -58,7 +59,7 @@ public class PlaceItemMessageEvent implements Event {
                 int y = Integer.parseInt(parts[2]);
                 int rot = Integer.parseInt(parts[3]);
 
-                InventoryItem item = client.getPlayer().getInventory().getFloorItem(id);
+                InventoryItem item = client.getPlayer().getInventory().getFloorItem(ItemManager.getInstance().getItemIdByVirtualId(id));
 
                 if (item == null) {
                     return;

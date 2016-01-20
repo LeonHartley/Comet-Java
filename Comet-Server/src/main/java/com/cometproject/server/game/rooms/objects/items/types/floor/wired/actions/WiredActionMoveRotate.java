@@ -67,7 +67,7 @@ public class WiredActionMoveRotate extends WiredActionItem {
         final int rotation = this.getWiredData().getParams().get(PARAM_ROTATION);
 
         synchronized (this.getWiredData().getSelectedIds()) {
-            for (int itemId : this.getWiredData().getSelectedIds()) {
+            for (long itemId : this.getWiredData().getSelectedIds()) {
                 RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
                 if (floorItem == null || floorItem instanceof DiceFloorItem) continue;
@@ -79,7 +79,7 @@ public class WiredActionMoveRotate extends WiredActionItem {
 
                 if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), newPosition, newRotation, true)) {
                     if (!rotationChanged)
-                        this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, newPosition, 0, 0, floorItem.getId()));
+                        this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, newPosition, 0, 0, floorItem.getVirtualId()));
                     else
                         this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem));
                 }

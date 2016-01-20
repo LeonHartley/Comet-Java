@@ -43,7 +43,7 @@ public class WiredConditionHasFurniOn extends WiredConditionItem {
 
         int selectedItemsWithFurni = 0;
 
-        for (int itemId : this.getWiredData().getSelectedIds()) {
+        for (long itemId : this.getWiredData().getSelectedIds()) {
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
             if (floorItem != null) {

@@ -2,6 +2,7 @@ package com.cometproject.server.game.players.components;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.music.SongItem;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
@@ -217,43 +218,43 @@ public class InventoryComponent implements PlayerComponent {
             wallItems.remove(item.getId());
     }
 
-    public void removeFloorItem(int itemId) {
+    public void removeFloorItem(long itemId) {
         if (this.getFloorItems() == null) {
             return;
         }
 
         this.getFloorItems().remove(itemId);
-        this.getPlayer().getSession().send(new RemoveObjectFromInventoryMessageComposer(itemId));
+        this.getPlayer().getSession().send(new RemoveObjectFromInventoryMessageComposer(ItemManager.getInstance().getItemVirtualId(itemId)));
     }
 
-    public void removeWallItem(int itemId) {
+    public void removeWallItem(long itemId) {
         this.getWallItems().remove(itemId);
-        this.getPlayer().getSession().send(new RemoveObjectFromInventoryMessageComposer(itemId));
+        this.getPlayer().getSession().send(new RemoveObjectFromInventoryMessageComposer(ItemManager.getInstance().getItemVirtualId(itemId)));
     }
 
-    public boolean hasFloorItem(int id) {
+    public boolean hasFloorItem(long id) {
         return this.getFloorItems().containsKey(id);
     }
 
-    public InventoryItem getFloorItem(int id) {
+    public InventoryItem getFloorItem(long id) {
         if (!this.hasFloorItem(id)) {
             return null;
         }
         return this.getFloorItems().get(id);
     }
 
-    public boolean hasWallItem(int id) {
+    public boolean hasWallItem(long id) {
         return this.getWallItems().containsKey(id);
     }
 
-    public InventoryItem getWallItem(int id) {
+    public InventoryItem getWallItem(long id) {
         if (!this.hasWallItem(id)) {
             return null;
         }
         return this.getWallItems().get(id);
     }
 
-    public InventoryItem getItem(int id) {
+    public InventoryItem getItem(long id) {
         InventoryItem item = getFloorItem(id);
 
         if (item != null) {
@@ -278,11 +279,11 @@ public class InventoryComponent implements PlayerComponent {
         return this.getWallItems().size() + this.getFloorItems().size();
     }
 
-    public Map<Integer, InventoryItem> getWallItems() {
+    public Map<Long, InventoryItem> getWallItems() {
         return this.wallItems;
     }
 
-    public Map<Integer, InventoryItem> getFloorItems() {
+    public Map<Long, InventoryItem> getFloorItems() {
         return this.floorItems;
     }
 

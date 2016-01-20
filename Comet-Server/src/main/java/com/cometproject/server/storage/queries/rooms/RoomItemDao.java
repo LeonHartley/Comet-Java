@@ -173,7 +173,7 @@ public class RoomItemDao {
         }
     }
 
-    public static void placeFloorItem(long roomId, int x, int y, double height, int rot, String data, int itemId) {
+    public static void placeFloorItem(long roomId, int x, int y, double height, int rot, String data, long itemId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -198,7 +198,7 @@ public class RoomItemDao {
         }
     }
 
-    public static void placeWallItem(int roomId, String wallPos, String data, int itemId) {
+    public static void placeWallItem(int roomId, String wallPos, String data, long itemId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -210,7 +210,7 @@ public class RoomItemDao {
 
             preparedStatement.setString(2, wallPos);
             preparedStatement.setString(3, data);
-            preparedStatement.setInt(4, itemId);
+            preparedStatement.setLong(4, itemId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {

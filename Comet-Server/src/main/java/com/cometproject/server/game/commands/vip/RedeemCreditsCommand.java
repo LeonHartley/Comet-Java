@@ -17,7 +17,7 @@ public class RedeemCreditsCommand extends ChatCommand {
         int coinsToGive = 0;
         int diamondsToGive = 0;
 
-        List<Integer> itemsToRemove = Lists.newArrayList();
+        List<Long> itemsToRemove = Lists.newArrayList();
 
         if (!client.getPlayer().getInventory().itemsLoaded()) {
             sendNotif(Locale.getOrDefault("command.redeemcredits.inventory", "Please open your inventory before executing this command!"), client);
@@ -50,7 +50,7 @@ public class RedeemCreditsCommand extends ChatCommand {
             return;
         }
 
-        for (int itemId : itemsToRemove) {
+        for (long itemId : itemsToRemove) {
             client.getPlayer().getInventory().removeFloorItem(itemId);
         }
 

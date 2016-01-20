@@ -265,7 +265,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             if (entity.getAI().onPlayerLeave(this)) break;
         }
 
-        for (Map.Entry<Integer, RoomItemFloor> floorItem : this.getRoom().getItems().getFloorItems().entrySet()) {
+        for (Map.Entry<Long, RoomItemFloor> floorItem : this.getRoom().getItems().getFloorItems().entrySet()) {
             if (floorItem.getValue() == null) continue;
 
             floorItem.getValue().onEntityLeaveRoom(this);

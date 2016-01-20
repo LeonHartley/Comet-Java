@@ -61,8 +61,8 @@ public class LoveLockFloorItem extends RoomItemFloor {
             return false;
 
         try {
-            ((PlayerEntity) leftEntity).getPlayer().getSession().send(new LoveLockWidgetMessageComposer(this.getId()));
-            ((PlayerEntity) rightEntity).getPlayer().getSession().send(new LoveLockWidgetMessageComposer(this.getId()));
+            ((PlayerEntity) leftEntity).getPlayer().getSession().send(new LoveLockWidgetMessageComposer(this.getVirtualId()));
+            ((PlayerEntity) rightEntity).getPlayer().getSession().send(new LoveLockWidgetMessageComposer(this.getVirtualId()));
 
             this.leftEntity = ((PlayerEntity) leftEntity).getPlayerId();
             this.rightEntity = ((PlayerEntity) rightEntity).getPlayerId();

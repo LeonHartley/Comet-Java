@@ -70,7 +70,7 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
         final boolean matchRotation = this.getWiredData().getParams().get(PARAM_MATCH_ROTATION) == 1;
         final boolean matchPosition = this.getWiredData().getParams().get(PARAM_MATCH_POSITION) == 1;
 
-        for (int itemId : this.getWiredData().getSelectedIds()) {
+        for (long itemId : this.getWiredData().getSelectedIds()) {
             boolean rotationChanged = false;
 
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
@@ -97,7 +97,7 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
                     newPosition.setZ(floorItem.getPosition().getZ());
 
                     if (!matchRotation || !rotationChanged) {
-                        this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, newPosition, 0, 0, floorItem.getId()));
+                        this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, newPosition, 0, 0, floorItem.getVirtualId()));
                     }
                 }
             }

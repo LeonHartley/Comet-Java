@@ -12,12 +12,12 @@ import java.util.Map;
 
 public class WiredItemData implements JsonData {
     private int selectionType = 0;
-    private List<Integer> selectedIds;
+    private List<Long> selectedIds;
     private String text;
     private Map<Integer, Integer> params;
-    private Map<Integer, WiredItemSnapshot> snapshots;
+    private Map<Long, WiredItemSnapshot> snapshots;
 
-    public WiredItemData(int selectionType, List<Integer> selectedIds, String text, Map<Integer, Integer> params, Map<Integer, WiredItemSnapshot> snapshots) {
+    public WiredItemData(int selectionType, List<Long> selectedIds, String text, Map<Integer, Integer> params, Map<Long, WiredItemSnapshot> snapshots) {
         this.selectionType = selectionType;
         this.selectedIds = selectedIds;
         this.text = StringUtils.abbreviate(text, 100);
@@ -33,7 +33,7 @@ public class WiredItemData implements JsonData {
         this.snapshots = Maps.newHashMap();
     }
 
-    public void selectItem(int itemId) {
+    public void selectItem(long itemId) {
         this.selectedIds.add(itemId);
     }
 
@@ -45,7 +45,7 @@ public class WiredItemData implements JsonData {
         this.selectionType = selectionType;
     }
 
-    public List<Integer> getSelectedIds() {
+    public List<Long> getSelectedIds() {
         return selectedIds;
     }
 
@@ -65,11 +65,11 @@ public class WiredItemData implements JsonData {
         this.params = params;
     }
 
-    public Map<Integer, WiredItemSnapshot> getSnapshots() {
+    public Map<Long, WiredItemSnapshot> getSnapshots() {
         return snapshots;
     }
 
-    public void setSnapshots(Map<Integer, WiredItemSnapshot> snapshots) {
+    public void setSnapshots(Map<Long, WiredItemSnapshot> snapshots) {
         this.snapshots = snapshots;
     }
 }

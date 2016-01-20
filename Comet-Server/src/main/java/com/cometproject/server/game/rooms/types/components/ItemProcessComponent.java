@@ -30,9 +30,8 @@ public class ItemProcessComponent implements CometTask {
 
     private boolean active = false;
 
-    private int wiredTimer = 0; // Increases every 0.5s and can be reset by wired.
-
-    private final RoomItemEventQueue eventQueue = new RoomItemEventQueue();
+    // TODO: Finish the item event queue.
+    private RoomItemEventQueue eventQueue;// = new RoomItemEventQueue();
 
     public ItemProcessComponent(CometThreadManager mgr, Room room) {
         this.mgr = mgr;

@@ -75,7 +75,7 @@ public class Player implements IPlayer {
     private double messengerFloodTime = 0;
     private int messengerFloodFlag = 0;
 
-    private int teleportId = 0;
+    private long teleportId = 0;
     private int teleportRoomId = 0;
     private String lastMessage = "";
 
@@ -379,12 +379,12 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public int getTeleportId() {
+    public long getTeleportId() {
         return this.teleportId;
     }
 
     @Override
-    public void setTeleportId(int teleportId) {
+    public void setTeleportId(long teleportId) {
         this.teleportId = teleportId;
     }
 

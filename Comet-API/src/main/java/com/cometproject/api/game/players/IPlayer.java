@@ -69,9 +69,9 @@ public interface IPlayer {
 
     boolean isTeleporting();
 
-    int getTeleportId();
+    long getTeleportId();
 
-    void setTeleportId(int teleportId);
+    void setTeleportId(long teleportId);
 
     long getRoomLastMessageTime();
 

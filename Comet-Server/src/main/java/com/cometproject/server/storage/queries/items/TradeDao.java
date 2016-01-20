@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class TradeDao {
 
-    public static void updateTradeItems(int userId, int itemId) {
+    public static void updateTradeItems(int userId, long itemId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -19,7 +19,7 @@ public class TradeDao {
             preparedStatement = SqlHelper.prepare("UPDATE items SET user_id = ? WHERE id = ?", sqlConnection);
 
             preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, itemId);
+            preparedStatement.setLong(2, itemId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {

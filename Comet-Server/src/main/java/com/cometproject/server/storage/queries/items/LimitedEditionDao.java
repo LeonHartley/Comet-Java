@@ -18,7 +18,7 @@ public class LimitedEditionDao {
             sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = SqlHelper.prepare("INSERT INTO items_limited_edition (`item_id`, `limited_id`, `limited_total`) VALUES(?, ?, ?);", sqlConnection);
-            preparedStatement.setInt(1, item.getItemId());
+            preparedStatement.setLong(1, item.getItemId());
             preparedStatement.setInt(2, item.getLimitedRare());
             preparedStatement.setInt(3, item.getLimitedRareTotal());
 

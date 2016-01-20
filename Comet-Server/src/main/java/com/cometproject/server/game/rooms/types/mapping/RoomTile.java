@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
-import com.cometproject.server.game.rooms.objects.BigRoomObject;
+import com.cometproject.server.game.rooms.objects.RoomFloorObject;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
@@ -12,7 +12,6 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
-import com.google.common.collect.Lists;
 
 import java.util.*;
 
@@ -27,10 +26,10 @@ public class RoomTile {
 
     private boolean canStack;
 
-    private int topItem = 0;
+    private long topItem = 0;
     private double stackHeight = 0d;
 
-    private int originalTopItem = 0;
+    private long originalTopItem = 0;
     private double originalHeight = 0d;
 
     private Position redirect = null;
@@ -79,14 +78,14 @@ public class RoomTile {
         boolean hasComponentItem = false;
 
         double highestHeight = 0d;
-        int highestItem = 0;
+        long    highestItem = 0;
 
         Double staticOverrideHeight = null;
         Double overrideHeight = null;
 
         this.items.clear();
 
-        for (Map.Entry<Integer, RoomItemFloor> itemEntry : mappingInstance.getRoom().getItems().getFloorItems().entrySet()) {
+        for (Map.Entry<Long, RoomItemFloor> itemEntry : mappingInstance.getRoom().getItems().getFloorItems().entrySet()) {
             final RoomItemFloor item = itemEntry.getValue();
 
             if (item == null || item.getDefinition() == null) continue; // it's null!
@@ -279,7 +278,7 @@ public class RoomTile {
         return this.canStack;
     }
 
-    public int getTopItem() {
+    public long getTopItem() {
         return this.topItem;
     }
 
@@ -299,7 +298,7 @@ public class RoomTile {
         this.redirect = redirect;
     }
 
-    public int getOriginalTopItem() {
+    public long getOriginalTopItem() {
         return originalTopItem;
     }
 

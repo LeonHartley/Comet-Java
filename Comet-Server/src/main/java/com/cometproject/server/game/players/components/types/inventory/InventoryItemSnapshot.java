@@ -1,21 +1,21 @@
 package com.cometproject.server.game.players.components.types.inventory;
 
 public class InventoryItemSnapshot {
-    private int id;
+    private long id;
     private int baseItemId;
     private String extraData;
 
-    public InventoryItemSnapshot(int id, int baseItemId, String extraData) {
+    public InventoryItemSnapshot(long id, int baseItemId, String extraData) {
         this.id = id;
         this.baseItemId = baseItemId;
         this.extraData = extraData;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

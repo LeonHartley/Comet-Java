@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.pathfinding;
 
+import com.cometproject.server.game.rooms.objects.RoomFloorObject;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -15,14 +16,14 @@ public abstract class Pathfinder {
     public static final byte DISABLE_DIAGONAL = 0;
     public static final byte ALLOW_DIAGONAL = 1;
 
-    public List<Square> makePath(RoomObject roomObject, Position end) {
-        return this.makePath(roomObject, end, ALLOW_DIAGONAL);
+    public List<Square> makePath(RoomObject roomFloorObject, Position end) {
+        return this.makePath(roomFloorObject, end, ALLOW_DIAGONAL);
     }
 
-    public List<Square> makePath(RoomObject roomObject, Position end, byte pathfinderMode) {
+    public List<Square> makePath(RoomObject roomFloorObject, Position end, byte pathfinderMode) {
         LinkedList<Square> squares = new LinkedList<>();
 
-        PathfinderNode nodes = makePathReversed(roomObject, end, pathfinderMode);
+        PathfinderNode nodes = makePathReversed(roomFloorObject, end, pathfinderMode);
 
         if (nodes != null) {
             while (nodes.getNextNode() != null) {
@@ -34,17 +35,17 @@ public abstract class Pathfinder {
         return Lists.reverse(squares);
     }
 
-    private PathfinderNode makePathReversed(RoomObject roomObject, Position end, byte pathfinderMode) {
+    private PathfinderNode makePathReversed(RoomObject roomFloorObject, Position end, byte pathfinderMode) {
         MinMaxPriorityQueue<PathfinderNode> openList = MinMaxPriorityQueue.maximumSize(256).create();
 
-        PathfinderNode[][] map = new PathfinderNode[roomObject.getRoom().getMapping().getModel().getSizeX()][roomObject.getRoom().getMapping().getModel().getSizeY()];
+        PathfinderNode[][] map = new PathfinderNode[roomFloorObject.getRoom().getMapping().getModel().getSizeX()][roomFloorObject.getRoom().getMapping().getModel().getSizeY()];
         PathfinderNode node = null;
         Position tmp;
 
         int cost;
         int diff;
 
-        PathfinderNode current = new PathfinderNode(roomObject.getPosition());
+        PathfinderNode current = new PathfinderNode(roomFloorObject.getPosition());
         current.setCost(0);
 
         PathfinderNode finish = new PathfinderNode(end);
@@ -60,7 +61,7 @@ public abstract class Pathfinder {
                 tmp = current.getPosition().add((pathfinderMode == ALLOW_DIAGONAL ? diagonalMovePoints() : movePoints())[i]);
                 final boolean isFinalMove = (tmp.getX() == end.getX() && tmp.getY() == end.getY());
 
-                if (this.isValidStep(roomObject, new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove)) {
+                if (this.isValidStep(roomFloorObject, new Position(current.getPosition().getX(), current.getPosition().getY(), current.getPosition().getZ()), tmp, isFinalMove)) {
                     try {
                         if (map[tmp.getX()][tmp.getY()] == null) {
                             node = new PathfinderNode(tmp);
@@ -108,7 +109,7 @@ public abstract class Pathfinder {
     }
 
     public boolean isValidStep(RoomObject roomObject, Position from, Position to, boolean lastStep) {
-        return (roomObject.getRoom().getMapping().isValidStep(roomObject instanceof GenericEntity ? roomObject.getId() : 0,
+        return (roomObject.getRoom().getMapping().isValidStep(roomObject instanceof GenericEntity ? ((GenericEntity) roomObject).getId() : 0,
                 from, to, lastStep, roomObject instanceof RoomItemFloor) ||
                 (roomObject instanceof GenericEntity && ((GenericEntity) roomObject).isOverriden()));
     }

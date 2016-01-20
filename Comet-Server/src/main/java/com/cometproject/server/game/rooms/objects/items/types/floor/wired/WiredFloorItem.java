@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired;
 
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -95,10 +96,10 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
 
     @Override
     public void refreshSnapshots() {
-        List<Integer> toRemove = Lists.newArrayList();
+        List<Long> toRemove = Lists.newArrayList();
         this.getWiredData().getSnapshots().clear();
 
-        for (int itemId : this.getWiredData().getSelectedIds()) {
+        for (long itemId : this.getWiredData().getSelectedIds()) {
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
             if (floorItem == null) {
@@ -109,7 +110,7 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
             this.getWiredData().getSnapshots().put(itemId, new WiredItemSnapshot(floorItem));
         }
 
-        for (Integer itemToRemove : toRemove) {
+        for (long itemToRemove : toRemove) {
             this.getWiredData().getSelectedIds().remove(itemToRemove);
         }
 

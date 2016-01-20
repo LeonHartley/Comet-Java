@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.room.items.wired.dialog;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
@@ -31,12 +32,12 @@ public class WiredActionMessageComposer extends MessageComposer {
 
         msg.writeInt(wiredAction.getWiredData().getSelectedIds().size());
 
-        for (Integer itemId : wiredAction.getWiredData().getSelectedIds()) {
-            msg.writeInt(itemId);
+        for (Long itemId : wiredAction.getWiredData().getSelectedIds()) {
+            msg.writeInt(ItemManager.getInstance().getItemVirtualId(itemId));
         }
 
         msg.writeInt(wiredAction.getDefinition().getSpriteId());
-        msg.writeInt(wiredAction.getId());
+        msg.writeInt(wiredAction.getVirtualId());
 
         msg.writeString(wiredAction.getWiredData().getText());
 

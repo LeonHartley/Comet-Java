@@ -4,8 +4,7 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.items.types.LowPriorityItemProcessor;
-import com.cometproject.server.game.rooms.objects.BigRoomObject;
-import com.cometproject.server.game.rooms.objects.RoomObject;
+import com.cometproject.server.game.rooms.objects.BigRoomFloorObject;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
@@ -17,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public abstract class RoomItem extends BigRoomObject implements Attributable {
+public abstract class RoomItem extends BigRoomFloorObject implements Attributable {
     protected int itemId;
     protected int ownerId;
     protected String ownerName;

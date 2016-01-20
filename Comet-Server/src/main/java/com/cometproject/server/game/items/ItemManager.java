@@ -116,11 +116,11 @@ public class ItemManager implements Initializable {
         return this.virtualIdToItemId.get(virtualId);
     }
 
-    public int getTeleportPartner(int itemId) {
+    public long getTeleportPartner(long itemId) {
         return TeleporterDao.getPairId(itemId);
     }
 
-    public int roomIdByItemId(int itemId) {
+    public int roomIdByItemId(long itemId) {
         return RoomItemDao.getRoomIdById(itemId);
     }
 

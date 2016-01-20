@@ -44,7 +44,7 @@ public class WiredConditionMatchSnapshot extends WiredConditionItem {
         final boolean matchRotation = this.getWiredData().getParams().get(PARAM_MATCH_ROTATION) == 1;
         final boolean matchPosition = this.getWiredData().getParams().get(PARAM_MATCH_POSITION) == 1;
 
-        for (int itemId : this.getWiredData().getSelectedIds()) {
+        for (long itemId : this.getWiredData().getSelectedIds()) {
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
             WiredItemSnapshot snapshot = this.getWiredData().getSnapshots().get(itemId);
 

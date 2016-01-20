@@ -27,7 +27,7 @@ public abstract class RoomItemWall extends RoomItem {
 
     @Override
     public void serialize(IComposer msg) {
-        msg.writeString(this.getId());
+        msg.writeString(this.getVirtualId());
         msg.writeInt(this.getDefinition().getSpriteId());
         msg.writeString(this.getWallPosition());
 

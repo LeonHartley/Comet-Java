@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.room.items.wired.dialog;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredUtil;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
 import com.cometproject.server.network.messages.composers.MessageComposer;
@@ -27,12 +28,12 @@ public class WiredConditionMessageComposer extends MessageComposer {
 
         msg.writeInt(wiredConditionItem.getWiredData().getSelectedIds().size());
 
-        for (Integer itemId : wiredConditionItem.getWiredData().getSelectedIds()) {
-            msg.writeInt(itemId);
+        for (Long itemId : wiredConditionItem.getWiredData().getSelectedIds()) {
+            msg.writeInt(ItemManager.getInstance().getItemVirtualId(itemId));
         }
 
         msg.writeInt(wiredConditionItem.getDefinition().getSpriteId());
-        msg.writeInt(wiredConditionItem.getId());
+        msg.writeInt(wiredConditionItem.getVirtualId());
 
         msg.writeString(wiredConditionItem.getWiredData().getText());
 

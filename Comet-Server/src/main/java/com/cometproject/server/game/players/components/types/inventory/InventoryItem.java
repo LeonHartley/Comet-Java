@@ -15,7 +15,7 @@ import java.sql.SQLException;
 
 
 public class InventoryItem {
-    private int id;
+    private long id;
     private int baseId;
     private String extraData;
     private GiftData giftData;
@@ -23,7 +23,7 @@ public class InventoryItem {
     private LimitedEditionItem limitedEditionItem;
 
     public InventoryItem(ResultSet data) throws SQLException {
-        this.id = data.getInt("id");
+        this.id = data.getLong("id");
         this.baseId = data.getInt("base_item");
         this.extraData = data.getString("extra_data");
 
@@ -50,7 +50,7 @@ public class InventoryItem {
         this.init(id, baseId, extraData, null);
     }
 
-    private void init(int id, int baseId, String extraData, GiftData giftData) {
+    private void init(long id, int baseId, String extraData, GiftData giftData) {
         this.id = id;
         this.baseId = baseId;
         this.extraData = extraData;
@@ -230,7 +230,7 @@ public class InventoryItem {
         }
     }
 
-    public int getId() {
+    public long getId() {
         return this.id;
     }
 
@@ -256,5 +256,9 @@ public class InventoryItem {
 
     public InventoryItemSnapshot createSnapshot() {
         return new InventoryItemSnapshot(this.id, this.baseId, this.extraData);
+    }
+
+    public int getVirtualId() {
+        return ItemManager.getInstance().getItemVirtualId(this.getId());
     }
 }

@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.misc;
 
 import com.cometproject.api.game.rooms.util.IPosition;
-import com.cometproject.server.game.rooms.objects.RoomObject;
+import com.cometproject.server.game.rooms.objects.RoomFloorObject;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 
 
@@ -205,8 +205,8 @@ public class Position implements IPosition {
         return Math.abs(this.getX() - pos.getX()) + Math.abs(this.getY() - pos.getY());
     }
 
-    public double distanceTo(RoomObject roomObject) {
-        return distanceTo(roomObject.getPosition());
+    public double distanceTo(RoomFloorObject roomFloorObject) {
+        return distanceTo(roomFloorObject.getPosition());
     }
 
     public boolean touching(Position pos) {
@@ -221,8 +221,8 @@ public class Position implements IPosition {
         return false;
     }
 
-    public boolean touching(RoomObject roomObject) {
-        return this.touching(roomObject.getPosition());
+    public boolean touching(RoomFloorObject roomFloorObject) {
+        return this.touching(roomFloorObject.getPosition());
     }
 
     public Position copy() {

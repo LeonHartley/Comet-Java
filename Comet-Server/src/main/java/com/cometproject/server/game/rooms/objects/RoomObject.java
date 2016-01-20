@@ -9,11 +9,6 @@ import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 
 public abstract class RoomObject implements IRoomObject, Positionable {
     /**
-     * The unique identifier of this object
-     */
-    private long id;
-
-    /**
      * The room where this object resides
      */
     private Room room;
@@ -29,8 +24,7 @@ public abstract class RoomObject implements IRoomObject, Positionable {
      * @param position The position in the room where this object is
      * @param room     The room where this object is
      */
-    public RoomObject(int id, Position position, Room room) {
-        this.id = id;
+    public RoomObject(Position position, Room room) {
         this.position = position;
         this.room = room;
     }
@@ -82,14 +76,5 @@ public abstract class RoomObject implements IRoomObject, Positionable {
      */
     public Position getPosition() {
         return this.position;
-    }
-
-    /**
-     * Get the ID of this object
-     *
-     * @return The ID of this object
-     */
-    public int getId() {
-        return (int) id;
     }
 }

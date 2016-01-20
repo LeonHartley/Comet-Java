@@ -51,7 +51,7 @@ public class WiredActionChase extends WiredActionItem {
     public boolean evaluate(GenericEntity entity, Object data) {
         if (this.getWiredData().getSelectedIds().size() == 0) return false;
 
-        for (int itemId : this.getWiredData().getSelectedIds()) {
+        for (long itemId : this.getWiredData().getSelectedIds()) {
             RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
             if (floorItem == null) continue;
@@ -120,7 +120,7 @@ public class WiredActionChase extends WiredActionItem {
         if (this.getRoom().getItems().moveFloorItem(floorItem.getId(), to, floorItem.getRotation(), true)) {
             to.setZ(floorItem.getPosition().getZ());
 
-            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(from, to, 0, 0, floorItem.getId()));
+            this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(from, to, 0, 0, floorItem.getVirtualId()));
         }
 
         floorItem.nullifyCollision();

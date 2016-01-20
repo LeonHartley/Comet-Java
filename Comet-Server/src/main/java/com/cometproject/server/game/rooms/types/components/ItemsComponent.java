@@ -52,7 +52,7 @@ public class ItemsComponent {
     private Map<String, Set<Long>> itemInteractionIndex = new ConcurrentHashMap<>();
 
     private long soundMachineId = 0;
-    private int moodlightId;
+    private long moodlightId;
 
     public ItemsComponent(Room room) {
         this.room = room;
@@ -105,7 +105,7 @@ public class ItemsComponent {
         this.itemClassIndex.clear();
     }
 
-    public boolean setMoodlight(int moodlight) {
+    public boolean setMoodlight(long moodlight) {
         if (this.moodlightId != 0)
             return false;
 
@@ -310,7 +310,7 @@ public class ItemsComponent {
         }
     }
 
-    public boolean moveFloorItem(int itemId, Position newPosition, int rotation, boolean save) {
+    public boolean moveFloorItem(long itemId, Position newPosition, int rotation, boolean save) {
         RoomItemFloor item = this.getFloorItem(itemId);
         if (item == null) return false;
 

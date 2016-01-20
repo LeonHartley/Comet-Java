@@ -57,7 +57,7 @@ public class WiredActionTeleportPlayer extends WiredActionItem {
             return;
         }
 
-        Integer itemId = WiredUtil.getRandomElement(this.getWiredData().getSelectedIds());
+        Long itemId = WiredUtil.getRandomElement(this.getWiredData().getSelectedIds());
 
         if (itemId == null) {
             this.entity = null;

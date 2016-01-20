@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities;
 
-import com.cometproject.server.game.rooms.objects.RoomObject;
+import com.cometproject.server.game.rooms.objects.RoomFloorObject;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.EntityPathfinder;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class GenericEntity extends RoomObject implements AvatarEntity {
+public abstract class GenericEntity extends RoomFloorObject implements AvatarEntity {
     private RoomEntityType entityType;
 
     private Position walkingGoal;
@@ -63,7 +63,7 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
 
     private GenericEntity mountedEntity;
 
-    private int privateChatItemId = 0;
+    private long privateChatItemId = 0;
 
     private Map<RoomEntityStatus, String> statuses = new HashMap<>();
 
@@ -606,11 +606,11 @@ public abstract class GenericEntity extends RoomObject implements AvatarEntity {
         return joinTime;
     }
 
-    public int getPrivateChatItemId() {
+    public long getPrivateChatItemId() {
         return privateChatItemId;
     }
 
-    public void setPrivateChatItemId(int privateChatItemId) {
+    public void setPrivateChatItemId(long privateChatItemId) {
         this.privateChatItemId = privateChatItemId;
     }
 }

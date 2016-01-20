@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.item;
 
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
@@ -20,7 +21,7 @@ public class PickUpItemMessageEvent implements Event {
 
         boolean isFloorItem = msg.readInt() == 2;
 
-        int id = msg.readInt();
+        long id = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
         Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null) {
@@ -56,7 +57,7 @@ public class PickUpItemMessageEvent implements Event {
                 room.getItems().removeItem(wItem, wItem.getOwner(), owner);
             }
 
-            client.send(new RemoveWallItemMessageComposer(wItem.getId(), client.getPlayer().getId()));
+            client.send(new RemoveWallItemMessageComposer(wItem.getVirtualId(), client.getPlayer().getId()));
             return;
         }
 

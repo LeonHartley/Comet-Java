@@ -65,7 +65,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         // TODO: MOVE SPECIAL PROPERTIES TO THE INDIVIDUAL ITEM CLASS!!!
         // This needs cleaning up immensely.
 
-        msg.writeInt(this.getId());
+        msg.writeInt(this.getVirtualId());
         msg.writeInt(this.getDefinition().getSpriteId());
         msg.writeInt(this.getPosition().getX());
         msg.writeInt(this.getPosition().getY());

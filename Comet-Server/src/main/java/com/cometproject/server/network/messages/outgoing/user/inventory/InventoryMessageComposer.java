@@ -31,9 +31,9 @@ public class InventoryMessageComposer extends MessageComposer {
 
         // Wall items
         for (InventoryItem i : inventoryComponent.getWallItems().values()) {
-            msg.writeInt(i.getId());
+            msg.writeInt(i.getVirtualId());
             msg.writeString(i.getDefinition().getType().toUpperCase());
-            msg.writeInt(i.getId());
+            msg.writeInt(i.getVirtualId());
             msg.writeInt(i.getDefinition().getSpriteId());
 
             if (i.getDefinition().getItemName().contains("a2")) {

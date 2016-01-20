@@ -15,7 +15,7 @@ import java.util.List;
 
 
 public class MoodlightDao {
-    public static MoodlightData getMoodlightData(int itemId) {
+    public static MoodlightData getMoodlightData(long itemId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -27,7 +27,7 @@ public class MoodlightDao {
             sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = SqlHelper.prepare("SELECT * FROM items_moodlight WHERE item_id = ?", sqlConnection);
-            preparedStatement.setInt(1, itemId);
+            preparedStatement.setLong(1, itemId);
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.isBeforeFirst()) {
@@ -54,7 +54,7 @@ public class MoodlightDao {
                 presets.add(new MoodlightPresetData(true, "#000000", 255));
 
                 preparedStatement = SqlHelper.prepare("INSERT INTO items_moodlight (item_id,enabled,active_preset,preset_1,preset_2,preset_3) VALUES (?,?,?,?,?,?);", sqlConnection);
-                preparedStatement.setInt(1, itemId);
+                preparedStatement.setLong(1, itemId);
                 preparedStatement.setString(2, "0");
                 preparedStatement.setString(3, "1");
                 preparedStatement.setString(4, JsonFactory.getInstance().toJson(presets.get(0)));
@@ -80,7 +80,6 @@ public class MoodlightDao {
     public static void updateMoodlight(MoodlightWallItem item) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
@@ -91,13 +90,12 @@ public class MoodlightDao {
             preparedStatement.setString(3, JsonFactory.getInstance().toJson(item.getMoodlightData().getPresets().get(0)));
             preparedStatement.setString(4, JsonFactory.getInstance().toJson(item.getMoodlightData().getPresets().get(1)));
             preparedStatement.setString(5, JsonFactory.getInstance().toJson(item.getMoodlightData().getPresets().get(2)));
-            preparedStatement.setInt(6, item.getId());
+            preparedStatement.setLong(6, item.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);
         } finally {
-            SqlHelper.closeSilently(resultSet);
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }

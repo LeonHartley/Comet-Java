@@ -4,7 +4,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 
 
 public class WiredItemSnapshot {
-    private int itemId;
+    private long itemId;
     private int x;
     private int y;
     private double z;
@@ -20,7 +20,7 @@ public class WiredItemSnapshot {
         this.extraData = floorItem.getExtraData();
     }
 
-    public int getItemId() {
+    public long getItemId() {
         return itemId;
     }
 

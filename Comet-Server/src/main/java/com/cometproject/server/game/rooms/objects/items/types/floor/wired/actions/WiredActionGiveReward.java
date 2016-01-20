@@ -25,7 +25,7 @@ import java.util.*;
 
 
 public class WiredActionGiveReward extends WiredActionItem {
-    private static final Map<Integer, Map<Integer, Long>> rewardTimings = Maps.newConcurrentMap();
+    private static final Map<Long, Map<Integer, Long>> rewardTimings = Maps.newConcurrentMap();
     private static final Random RANDOM = new Random();
 
     private static final int PARAM_HOW_OFTEN = 0;
@@ -263,7 +263,8 @@ public class WiredActionGiveReward extends WiredActionItem {
     @Override
     public void onPickup() {
         super.onPickup();
-        rewardTimings.get(this.getId()).remove(this.getId());
+        rewardTimings.get(this.getId()).clear();
+        rewardTimings.remove(this.getId());
     }
 
     public class Reward {

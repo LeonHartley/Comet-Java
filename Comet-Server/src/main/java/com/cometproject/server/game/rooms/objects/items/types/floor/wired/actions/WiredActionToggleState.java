@@ -62,7 +62,7 @@ public class WiredActionToggleState extends WiredActionItem {
     public void onTickComplete() {
         List<Position> tilesToUpdate = Lists.newArrayList();
 
-        for (int itemId : this.getWiredData().getSelectedIds()) {
+        for (long itemId : this.getWiredData().getSelectedIds()) {
             final RoomItemFloor floorItem = this.getRoom().getItems().getFloorItem(itemId);
 
             if (floorItem == null || floorItem instanceof WiredFloorItem || floorItem instanceof DiceFloorItem)

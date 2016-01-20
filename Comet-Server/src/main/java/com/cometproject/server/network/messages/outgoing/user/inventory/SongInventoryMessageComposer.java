@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.user.inventory;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.music.SongItem;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
@@ -25,7 +26,7 @@ public class SongInventoryMessageComposer extends MessageComposer {
         msg.writeInt(this.songItems.size());
 
         for (SongItem songItem : this.songItems) {
-            msg.writeInt(songItem.getItemSnapshot().getId());
+            msg.writeInt(ItemManager.getInstance().getItemVirtualId(songItem.getItemSnapshot().getId()));
             msg.writeInt(songItem.getSongId());
         }
     }

@@ -17,7 +17,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
     private GenericEntity incomingEntity;
 
     private int state = -1;
-    private int pairId = -1;
+    private long pairId = -1;
     boolean isDoor = false;
 
     public TeleporterFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
@@ -125,7 +125,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
             }
 
             case 3: {
-                int pairId = this.getPairId();
+                long pairId = this.getPairId();
 
                 if (pairId == 0) {
                     this.state = 8;
@@ -228,7 +228,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
         this.setExtraData("0");
     }
 
-    private int getPairId() {
+    private long getPairId() {
         if (this.pairId == -1) {
             this.pairId = ItemManager.getInstance().getTeleportPartner(this.getId());
         }
@@ -282,7 +282,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
         this.sendUpdate();
     }
 
-    protected RoomItemFloor getPartner(int pairId) {
+    protected RoomItemFloor getPartner(long pairId) {
         return this.getRoom().getItems().getFloorItem(pairId);
     }
 }

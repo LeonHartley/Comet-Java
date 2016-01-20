@@ -39,7 +39,7 @@ public class InventoryDao {
                 InventoryItem inventoryItem = new InventoryItem(resultSet);
 
                 if (inventoryItem.getDefinition() != null) {
-                    data.put(resultSet.getInt("id"), inventoryItem);
+                    data.put(resultSet.getLong("id"), inventoryItem);
                 } else {
                     log.warn("InventoryItem: " + inventoryItem.getId() + " with invalid definition ID: " + inventoryItem.getBaseId());
                 }

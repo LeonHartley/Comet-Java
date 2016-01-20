@@ -30,7 +30,7 @@ public class WiredConditionTriggererOnFurni extends WiredConditionItem {
 
         boolean isOnFurni = false;
 
-        for (int itemId : this.getWiredData().getSelectedIds()) {
+        for (long itemId : this.getWiredData().getSelectedIds()) {
             for (RoomItemFloor itemOnEntity : entity.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY())) {
                 if (itemOnEntity.getId() == itemId) isOnFurni = true;
             }

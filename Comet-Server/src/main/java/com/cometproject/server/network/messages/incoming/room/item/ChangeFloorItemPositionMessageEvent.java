@@ -20,7 +20,7 @@ public class ChangeFloorItemPositionMessageEvent implements Event {
     private static Logger log = Logger.getLogger(ChangeFloorItemPositionMessageEvent.class);
 
     public void handle(Session client, MessageEvent msg) {
-        int id = msg.readInt();
+        long id = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
         int x = msg.readInt();
         int y = msg.readInt();
         int rot = msg.readInt();
@@ -36,7 +36,7 @@ public class ChangeFloorItemPositionMessageEvent implements Event {
             return;
         }
 
-        RoomItemFloor floorItem = room.getItems().getFloorItem(ItemManager.getInstance().getItemIdByVirtualId(id));
+        RoomItemFloor floorItem = room.getItems().getFloorItem(id);
 
         if (floorItem != null) {
             if (rot != floorItem.getRotation()) {

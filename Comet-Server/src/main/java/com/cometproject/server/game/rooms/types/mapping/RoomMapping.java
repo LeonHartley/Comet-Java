@@ -1,9 +1,8 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
 import com.cometproject.server.game.rooms.models.RoomModel;
-import com.cometproject.server.game.rooms.objects.RoomObject;
+import com.cometproject.server.game.rooms.objects.RoomFloorObject;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
-import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -101,13 +100,13 @@ public class RoomMapping {
         return this.tiles[x][y];
     }
 
-    public RoomTile getRandomReachableTile(RoomObject roomObject) {
+    public RoomTile getRandomReachableTile(RoomFloorObject roomFloorObject) {
         for(int tries = 0; tries < this.getModel().getSizeX() * this.getModel().getSizeY(); tries++) {
             int randomX = RandomInteger.getRandom(0, this.getModel().getSizeX()-1);
             int randomY = RandomInteger.getRandom(0, this.getModel().getSizeY()-1);
 
             final RoomTile tile = this.getTile(randomX, randomY);
-            if(tile.isReachable(roomObject)) {
+            if(tile.isReachable(roomFloorObject)) {
                 return tile;
             }
         }
