@@ -6,9 +6,10 @@ import com.cometproject.server.protocol.headers.Composers;
 
 
 public class TradeConfirmationMessageComposer extends MessageComposer {
+
     @Override
     public short getId() {
-        return Composers.TradingConfirmedMessageComposer;
+        return Composers.TradingCompleteMessageComposer;
     }
 
     @Override

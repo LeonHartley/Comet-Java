@@ -24,7 +24,7 @@ public class TeleporterDao {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                return resultSet.getInt("id_two");
+                return resultSet.getLong("id_two");
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

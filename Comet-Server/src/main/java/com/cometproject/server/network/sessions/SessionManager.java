@@ -33,9 +33,9 @@ public final class SessionManager implements ISessionManager {
     public boolean add(ChannelHandlerContext channel) {
         Session session = new Session(channel);
 
-        if(PlayerManager.getInstance().getPlayerCountByIpAddress(session.getIpAddress()) > CometSettings.maxConnectionsPerIpAddress) {
-            return false;
-        }
+//        if(PlayerManager.getInstance().getPlayerCountByIpAddress(session.getIpAddress()) > CometSettings.maxConnectionsPerIpAddress) {
+//            return false;
+//        }
 
         this.channelGroup.add(channel.channel());
         channel.attr(CHANNEL_ID_ATTR).set(this.idGenerator.incrementAndGet());

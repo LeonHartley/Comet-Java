@@ -81,11 +81,9 @@ public class Session implements ISession {
         if (!CometSettings.useDatabaseIp) {
             return ((InetSocketAddress) this.getChannel().channel().remoteAddress()).getAddress().getHostAddress();
         } else {
-            ipAddress = PlayerDao.getIpAddress(this.getPlayer().getId());
-        }
-
-        if (ipAddress == null || ipAddress.isEmpty()) {
-            logger.warn("Could not retrieve IP address of player: " + this.getPlayer().getId());
+            if(this.getPlayer() != null) {
+                ipAddress = PlayerDao.getIpAddress(this.getPlayer().getId());
+            }
         }
 
         return ipAddress;

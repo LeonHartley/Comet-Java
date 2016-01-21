@@ -19,6 +19,7 @@ import com.cometproject.server.network.messages.incoming.group.settings.*;
 import com.cometproject.server.network.messages.incoming.handshake.*;
 import com.cometproject.server.network.messages.incoming.help.HelpTicketMessageEvent;
 import com.cometproject.server.network.messages.incoming.help.InitHelpToolMessageEvent;
+import com.cometproject.server.network.messages.incoming.landing.LandingLoadWidgetMessageEvent;
 import com.cometproject.server.network.messages.incoming.landing.RefreshPromoArticlesMessageEvent;
 import com.cometproject.server.network.messages.incoming.navigator.updated.InitializeNewNavigatorMessageEvent;
 import com.cometproject.server.network.messages.incoming.navigator.updated.NewNavigatorSearchMessageEvent;
@@ -377,7 +378,7 @@ public final class MessageHandler {
 //
     public void registerLanding() {
         this.getMessages().put(Events.GetPromoArticlesMessageEvent, new RefreshPromoArticlesMessageEvent());
-//        this.getMessages().put(Events.LandingLoadWidgetMessageEvent, new LandingLoadWidgetMessageEvent());
+        this.getMessages().put(Events.RefreshCampaignMessageEvent, new LandingLoadWidgetMessageEvent());
     }
 //
     public void registerGroups() {
