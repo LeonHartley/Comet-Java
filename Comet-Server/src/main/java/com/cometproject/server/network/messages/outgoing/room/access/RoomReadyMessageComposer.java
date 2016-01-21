@@ -21,7 +21,7 @@ public class RoomReadyMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeString(this.model);
         msg.writeInt(this.id);
+        msg.writeString(this.model);
     }
 }

@@ -201,6 +201,7 @@ public class CometSettings {
      * Logging
      */
     private static final Logger log = Logger.getLogger(CometSettings.class.getName());
+    public static int maxConnectionsPerIpAddress = 2;
 
     /**
      * Initialize the configuration

@@ -40,6 +40,9 @@ public class PlayerLoginRequest implements CometTask {
 
     @Override
     public void run() {
+        if(this.client == null || this.client.getChannel().pipeline().get("encryptionDecoder") == null) {
+            return;
+        }
 
         // TODO: Tell the hotel owners to remove the id:ticket stuff
         Player player = null;
@@ -153,5 +156,6 @@ public class PlayerLoginRequest implements CometTask {
         }
 
         ModuleManager.getInstance().getEventHandler().handleEvent(new OnPlayerLoginEvent(client.getPlayer()));
+        PlayerDao.nullifyAuthTicket(player.getData().getId());
     }
 }

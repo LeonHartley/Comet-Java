@@ -37,6 +37,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusM
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.OpenConnectionMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
@@ -132,6 +133,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         boolean isOwner = (this.getRoom().getData().getOwnerId() == this.getPlayerId());
         boolean isTeleporting = this.getPlayer().isTeleporting() && (this.getPlayer().getTeleportRoomId() == this.getRoom().getId());
+
+        this.getPlayer().getSession().send(new OpenConnectionMessageComposer());
 
         if (!isAuthFailed && !this.getPlayer().isBypassingRoomAuth() && (!isOwner && !this.getPlayer().getPermissions().getRank().roomEnterLocked() && !this.isDoorbellAnswered()) && !isTeleporting) {
             if (this.getRoom().getData().getAccess().equals("password")) {

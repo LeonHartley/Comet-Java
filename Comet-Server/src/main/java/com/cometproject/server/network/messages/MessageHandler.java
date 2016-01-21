@@ -4,6 +4,8 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.incoming.catalog.*;
 import com.cometproject.server.network.messages.incoming.catalog.ads.CatalogPromotionGetRoomsMessageEvent;
+import com.cometproject.server.network.messages.incoming.catalog.ads.PromoteRoomMessageEvent;
+import com.cometproject.server.network.messages.incoming.catalog.ads.PromotionUpdateMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.data.GetGiftWrappingConfigurationMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupDialogMessageEvent;
 import com.cometproject.server.network.messages.incoming.catalog.groups.BuyGroupMessageEvent;
@@ -133,7 +135,7 @@ public final class MessageHandler {
 //        this.registerGroupForums();
         this.registerQuests();
 //        this.registerCamera();
-//        this.registerPromotions();
+        this.registerPromotions();
 //        this.registerMusic();
         this.registerAchievements();
         this.registerMisc();
@@ -352,12 +354,11 @@ public final class MessageHandler {
         this.getMessages().put(Events.YouTubeGetNextVideo, new NextVideoMessageEvent());
         this.getMessages().put(Events.ConfirmLoveLockMessageEvent, new ConfirmLoveLockMessageEvent());
     }
-//
-//    public void registerPromotions() {
-//        this.getMessages().put(Events.CatalogPromotionGetRoomsMessageEvent, new CatalogPromotionGetRoomsMessageEvent());
-//        this.getMessages().put(Events.PromoteRoomMessageEvent, new PromoteRoomMessageEvent());
-//        this.getMessages().put(Events.RoomEventUpdateMessageEvent, new PromotionUpdateMessageEvent());
-//    }
+
+    public void registerPromotions() {
+        this.getMessages().put(Events.PurchaseRoomPromotionMessageEvent, new PromoteRoomMessageEvent());
+        this.getMessages().put(Events.EditRoomPromotionMessageEvent, new PromotionUpdateMessageEvent());
+    }
 //
     public void registerCatalog() {
         this.getMessages().put(Events.GetCatalogIndexMessageEvent, new GetCataIndexMessageEvent());

@@ -7,6 +7,8 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomDataMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.settings.RoomInfoUpdatedMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.settings.SettingsUpdatedMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
@@ -41,7 +43,9 @@ public class ModifyGroupSettingsMessageEvent implements Event {
         if (RoomManager.getInstance().isActive(group.getData().getRoomId())) {
             Room room = RoomManager.getInstance().get(group.getData().getRoomId());
 
-            room.getEntities().broadcastMessage(new RoomDataMessageComposer(room));
+//            room.getEntities().broadcastMessage(new RoomInfoUpdatedMessageComposer(room.getId()));
+//            room.getEntities().broadcastMessage(new SettingsUpdatedMessageComposer(room.getId()));
+            room.getEntities().broadcastMessage(new RoomDataMessageComposer(room, false, false, false));
         }
     }
 }

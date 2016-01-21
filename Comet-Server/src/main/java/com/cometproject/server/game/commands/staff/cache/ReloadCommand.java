@@ -72,6 +72,7 @@ public class ReloadCommand extends ChatCommand {
                 break;
 
             case "navigator":
+                NavigatorManager.getInstance().loadCategories();
                 NavigatorManager.getInstance().loadFeaturedRooms();
                 sendNotif(Locale.get("command.reload.navigator"), client);
                 break;

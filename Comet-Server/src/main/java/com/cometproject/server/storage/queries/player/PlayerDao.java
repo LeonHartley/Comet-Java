@@ -657,6 +657,27 @@ public class PlayerDao {
         }
     }
 
+    public static void nullifyAuthTicket(int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE players SET auth_ticket = NULL WHERE id = ?", sqlConnection);
+
+            preparedStatement.setInt(1, playerId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+
     public static void saveBatch(Map<Integer, PlayerData> playerData) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;

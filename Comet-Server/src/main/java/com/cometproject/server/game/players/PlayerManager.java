@@ -148,6 +148,14 @@ public class PlayerManager implements Initializable {
         return playerData;
     }
 
+    public int getPlayerCountByIpAddress(String ipAddress) {
+        if (this.ipAddressToPlayerIds.containsKey(ipAddress)) {
+            return this.ipAddressToPlayerIds.get(ipAddress).size();
+        }
+
+        return 0;
+    }
+
     public void put(int playerId, int sessionId, String username, String ipAddress) {
         if (this.playerIdToSessionId.containsKey(playerId)) {
             this.playerIdToSessionId.remove(playerId);

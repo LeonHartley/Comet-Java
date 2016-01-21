@@ -19,7 +19,7 @@ import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 public class OpenGiftMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
-        final int floorItemId = msg.readInt();
+        final long floorItemId = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) return;
 
@@ -45,7 +45,7 @@ public class OpenGiftMessageEvent implements Event {
         room.getItems().removeItem(floorItem, client);
 
         client.getPlayer().getEntity().getRoom().getItems().placeFloorItem(new InventoryItem(floorItemId, Integer.parseInt(catalogItem.getItemId()), giftData.getExtraData()), floorItem.getPosition().getX(), floorItem.getPosition().getY(), floorItem.getRotation(), client.getPlayer());
-        client.send(new OpenGiftMessageComposer(floorItemId, floorItem.getDefinition().getType(), ((GiftFloorItem) floorItem).getGiftData(), ItemManager.getInstance().getDefinition(catalogItem.getItems().get(0).getItemId())));
+        client.send(new OpenGiftMessageComposer(ItemManager.getInstance().getItemVirtualId(floorItemId), floorItem.getDefinition().getType(), ((GiftFloorItem) floorItem).getGiftData(), ItemManager.getInstance().getDefinition(catalogItem.getItems().get(0).getItemId())));
 
         RoomItemDao.setBaseItem(floorItemId, catalogItem.getItems().get(0).getItemId());
     }
