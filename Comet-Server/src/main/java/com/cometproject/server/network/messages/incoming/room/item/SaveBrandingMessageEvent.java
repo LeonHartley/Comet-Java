@@ -29,7 +29,7 @@ public class SaveBrandingMessageEvent implements Event {
         RoomItemFloor item = room.getItems().getFloorItem(brandingId);
         item.setExtraData(data);
 
-        item.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(item));
+        item.sendUpdate();
         item.saveData();
     }
 }

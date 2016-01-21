@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
+import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.types.Room;
@@ -19,7 +20,7 @@ public class UpdatePapersMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         int itemId = msg.readInt();
 
-        InventoryItem item = client.getPlayer().getInventory().getWallItem(itemId);
+        InventoryItem item = client.getPlayer().getInventory().getWallItem(ItemManager.getInstance().getItemIdByVirtualId(itemId));
 
         if (item == null) {
             return;
