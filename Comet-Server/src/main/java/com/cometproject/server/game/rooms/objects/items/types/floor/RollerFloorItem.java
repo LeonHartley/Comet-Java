@@ -147,7 +147,10 @@ public class RollerFloorItem extends RoomItemFloor {
                 continue;
             }
 
-            if (!floor.getDefinition().canStack()) continue;
+            if (!floor.getDefinition().canStack()) {
+                if(floor.getTile().getTopItem() != floor.getId())
+                    continue;
+            }
 
             double height = floor.getPosition().getZ();
 

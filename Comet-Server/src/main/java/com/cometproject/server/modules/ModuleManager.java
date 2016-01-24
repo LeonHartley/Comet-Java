@@ -84,16 +84,20 @@ public class ModuleManager implements Initializable {
         final ModuleConfig moduleConfig = JsonFactory.getInstance().fromJson(Resources.toString(configJsonLocation, Charsets.UTF_8), ModuleConfig.class);
 
         if (this.modules.containsKey(moduleConfig.getName())) {
-            throw new Exception("There is already a loaded module with this name.");
+            if(!this.modules.get(moduleConfig.getName()).getConfig().getVersion().equals(moduleConfig.getVersion())) {
+                log.warn("Modules with same name but different version was detected: " + moduleConfig.getName());
+            }
+
+            return;
         }
 
         log.info("Loaded module: " + moduleConfig.getName());
 
         Class<?> clazz = Class.forName(moduleConfig.getEntryPoint(), true, loader);
         Class<? extends CometModule> runClass = clazz.asSubclass(CometModule.class);
-        Constructor<? extends CometModule> ctor = runClass.getConstructor(IGameService.class);
+        Constructor<? extends CometModule> ctor = runClass.getConstructor(ModuleConfig.class, IGameService.class);
 
-        CometModule cometModule = ctor.newInstance(this.gameService);
+        CometModule cometModule = ctor.newInstance(moduleConfig, this.gameService);
 
         // test load event
         cometModule.loadModule();

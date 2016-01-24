@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.navigator.CreateRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
@@ -32,8 +33,8 @@ public class CreateRoomMessageEvent implements Event {
         }
 
         int roomId = RoomManager.getInstance().createRoom(name, description, model, category, maxVisitors, tradeState, client);
-        client.send(new CreateRoomMessageComposer(roomId, name));
 
+        client.send(new CreateRoomMessageComposer(roomId, name));
         client.getPlayer().setLastRoomCreated((int) Comet.getTime());
     }
 }

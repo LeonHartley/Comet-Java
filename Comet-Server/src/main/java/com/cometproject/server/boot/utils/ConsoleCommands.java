@@ -92,7 +92,7 @@ public class ConsoleCommands {
                                     break;
 
                                 case "/reload_navigator":
-                                    NavigatorManager.getInstance().loadFeaturedRooms();
+                                    NavigatorManager.getInstance().loadPublicRooms();
                                     NavigatorManager.getInstance().loadCategories();
                                     log.info("Navigator was reloaded.");
                                     break;

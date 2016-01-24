@@ -84,7 +84,8 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
             }
 
             if (matchPosition || matchRotation) {
-                Position currentPosition = new Position(floorItem.getPosition().getX(), floorItem.getPosition().getY(), floorItem.getPosition().getZ());
+                Position currentPosition = floorItem.getPosition().copy();
+
                 Position newPosition = new Position(itemSnapshot.getX(), itemSnapshot.getY());
 
                 int currentRotation = floorItem.getRotation();
@@ -96,8 +97,8 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
 
                     newPosition.setZ(floorItem.getPosition().getZ());
 
-                    if (!matchRotation || !rotationChanged) {
-                        this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, newPosition, 0, 0, floorItem.getVirtualId()));
+                    if (!matchRotation || !rotationChanged && !matchState) {
+                        this.getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(currentPosition, newPosition, 0, this.getVirtualId(), floorItem.getVirtualId()));
                     }
                 }
             }
@@ -106,7 +107,10 @@ public class WiredActionMatchToSnapshot extends WiredActionItem {
                 this.getRoom().getEntities().broadcastMessage(new UpdateFloorItemMessageComposer(floorItem));
 
             floorItem.save();
-            floorItem.sendUpdate();
+
+            if(matchState) {
+                floorItem.sendUpdate();
+            }
         }
     }
 }

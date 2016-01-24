@@ -12,11 +12,6 @@ public class CometGameService implements IGameService {
     private EventHandler eventHandler;
 
     /**
-     * The main system-wide session manager
-     */
-    private ISessionManager sessionManager;
-
-    /**
      * Default constructor
      */
     public CometGameService(EventHandler eventHandler) {

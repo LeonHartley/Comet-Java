@@ -59,7 +59,13 @@ public class PlaceItemMessageEvent implements Event {
                 int y = Integer.parseInt(parts[2]);
                 int rot = Integer.parseInt(parts[3]);
 
-                InventoryItem item = client.getPlayer().getInventory().getFloorItem(ItemManager.getInstance().getItemIdByVirtualId(id));
+                Long itemId = ItemManager.getInstance().getItemIdByVirtualId(id);
+
+                if(itemId == null) {
+                    return;
+                }
+
+                InventoryItem item = client.getPlayer().getInventory().getFloorItem(itemId);
 
                 if (item == null) {
                     return;

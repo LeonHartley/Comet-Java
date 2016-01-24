@@ -46,7 +46,7 @@ public class SystemRoutes {
                 break;
 
             case "navigator":
-                NavigatorManager.getInstance().loadFeaturedRooms();
+                NavigatorManager.getInstance().loadPublicRooms();
                 break;
 
             case "permissions":

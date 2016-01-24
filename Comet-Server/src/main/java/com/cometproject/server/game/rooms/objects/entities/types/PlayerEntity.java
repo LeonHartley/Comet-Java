@@ -41,10 +41,7 @@ import com.cometproject.server.network.messages.outgoing.room.engine.OpenConnect
 import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreSpectatorMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.*;
 import com.cometproject.server.network.messages.outgoing.room.queue.RoomQueueStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.RoomRatingMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -172,6 +169,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.getPlayer().setRoomQueueId(0);
 
         if (isAuthFailed) {
+//            this.getPlayer().setEntity(null);
             return;
         }
 
@@ -199,6 +197,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
         if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.getPlayer().getPermissions().getRank().roomFullControl()) {
             this.addStatus(RoomEntityStatus.CONTROLLER, "useradmin");
+            session.send(new YouAreOwnerMessageComposer());
             accessLevel = 4;
         } else if (this.getRoom().getRights().hasRights(this.getPlayerId())) {
             this.addStatus(RoomEntityStatus.CONTROLLER, "1");

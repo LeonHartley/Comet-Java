@@ -13,7 +13,7 @@ public class RoomErrorMessageComposer extends MessageComposer {
 
     @Override
     public short getId() {
-        return Composers.RoomErrorNotifMessageComposer;
+        return Composers.GenericErrorMessageComposer;
     }
 
     @Override

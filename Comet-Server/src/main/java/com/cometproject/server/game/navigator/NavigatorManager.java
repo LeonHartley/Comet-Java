@@ -3,15 +3,15 @@ package com.cometproject.server.game.navigator;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.categories.NavigatorCategoryType;
 import com.cometproject.server.game.navigator.types.featured.FeaturedRoom;
+import com.cometproject.server.game.navigator.types.publics.PublicRoom;
 import com.cometproject.server.storage.queries.navigator.NavigatorDao;
 import com.cometproject.server.utilities.Initializable;
 import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class NavigatorManager implements Initializable {
@@ -20,7 +20,8 @@ public class NavigatorManager implements Initializable {
     private Map<Integer, Category> categories;
     private List<Category> userCategories;
 
-    private List<FeaturedRoom> featuredRooms;
+    private Map<Integer, PublicRoom> publicRooms;
+    private Set<Integer> staffPicks;
 
     Logger log = Logger.getLogger(NavigatorManager.class.getName());
 
@@ -30,7 +31,8 @@ public class NavigatorManager implements Initializable {
     @Override
     public void initialize() {
         this.loadCategories();
-        this.loadFeaturedRooms();
+        this.loadPublicRooms();
+        this.loadStaffPicks();
 
         log.info("NavigatorManager initialized");
     }
@@ -42,19 +44,34 @@ public class NavigatorManager implements Initializable {
         return navigatorManagerInstance;
     }
 
-    public void loadFeaturedRooms() {
+    public void loadPublicRooms() {
         try {
-            if (this.featuredRooms != null && this.featuredRooms.size() != 0) {
-                this.featuredRooms.clear();
+            if (this.publicRooms != null && this.publicRooms.size() != 0) {
+                this.publicRooms.clear();
             }
 
-            this.featuredRooms = NavigatorDao.getFeaturedRooms();
+            this.publicRooms = NavigatorDao.getPublicRooms();
 
         } catch (Exception e) {
-            log.error("Error while loading featured rooms", e);
+            log.error("Error while loading public rooms", e);
         }
 
-        log.info("Loaded " + this.featuredRooms.size() + " featured rooms");
+        log.info("Loaded " + this.publicRooms.size() + " featured rooms");
+    }
+
+    public void loadStaffPicks() {
+        try {
+            if (this.staffPicks != null && this.staffPicks.size() != 0) {
+                this.staffPicks.clear();
+            }
+
+            this.staffPicks = NavigatorDao.getStaffPicks();
+
+        } catch (Exception e) {
+            log.error("Error while loading staff picked rooms", e);
+        }
+
+        log.info("Loaded " + this.publicRooms.size() + " staff picks");
     }
 
     public void loadCategories() {
@@ -93,30 +110,24 @@ public class NavigatorManager implements Initializable {
         return null;
     }
 
-    public boolean isFeatured(int roomId) {
-        for (FeaturedRoom room : featuredRooms) {
-            if (room.getRoomId() == roomId)
-                return true;
-        }
-
-        return false;
+    public boolean isStaffPicked(int roomId) {
+        return this.staffPicks.contains(roomId);
     }
 
-    public FeaturedRoom getFeaturedRoomById(int roomId) {
-        for (FeaturedRoom room : featuredRooms) {
-            if (room.getRoomId() == roomId)
-                return room;
-        }
-
-        return null;
+    public PublicRoom getPublicRoom(int roomId) {
+        return this.publicRooms.get(roomId);
     }
 
     public Map<Integer, Category> getCategories() {
         return this.categories;
     }
 
-    public List<FeaturedRoom> getFeaturedRooms() {
-        return featuredRooms;
+    public Map<Integer, PublicRoom> getPublicRooms() {
+        return this.publicRooms;
+    }
+
+    public Set<Integer> getStaffPicks() {
+        return staffPicks;
     }
 
     public List<Category> getUserCategories() {

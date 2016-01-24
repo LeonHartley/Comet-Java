@@ -9,6 +9,8 @@ import com.cometproject.server.network.sessions.Session;
 
 public class UsersWithRightsMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
+        int roomId = msg.readInt();
+
         Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null) {

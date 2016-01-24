@@ -40,14 +40,14 @@ public class AdjustableHeightFloorItem extends RoomItemFloor {
         this.toggleInteract(true);
         this.sendUpdate();
 
-        final double newHeight = this.getOverrideHeight();
+        double newHeight = this.getOverrideHeight();
 
         for (GenericEntity entityOnItem : this.getEntitiesOnItem()) {
             if (entityOnItem.hasStatus(RoomEntityStatus.SIT)) {
                 entityOnItem.removeStatus(RoomEntityStatus.SIT);
             }
 
-            double entityHeight = (newHeight > oldHeight) ? entityOnItem.getPosition().getZ() + (newHeight - oldHeight) : 0.0;
+            double entityHeight = (newHeight > oldHeight) ? entityOnItem.getPosition().getZ() + (newHeight - oldHeight) : this.getTile().getTileHeight();
 
             entityOnItem.setPosition(new Position(entityOnItem.getPosition().getX(), entityOnItem.getPosition().getY(), entityHeight));
             this.getRoom().getEntities().broadcastMessage(new AvatarUpdateMessageComposer(entityOnItem));

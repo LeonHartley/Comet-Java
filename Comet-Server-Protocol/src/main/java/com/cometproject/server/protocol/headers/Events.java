@@ -8,6 +8,7 @@ import java.util.Map;
 
 
 public class Events {
+    public static final short StaffPickRoomMessageEvent = 510;
     public static final short RemoveMyRightsMessageEvent = 879;
     public static final short GiveHandItemMessageEvent = 3315;//514
     public static final short InitTradeMessageEvent = 3313;//2745

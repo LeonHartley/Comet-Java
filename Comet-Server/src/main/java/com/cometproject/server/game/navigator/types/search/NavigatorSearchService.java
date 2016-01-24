@@ -1,19 +1,18 @@
 package com.cometproject.server.game.navigator.types.search;
 
+import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.Category;
-import com.cometproject.server.game.navigator.types.categories.NavigatorCategoryType;
+import com.cometproject.server.game.navigator.types.publics.PublicRoom;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
 import com.cometproject.server.tasks.CometTask;
-import com.cometproject.server.tasks.CometThreadManager;
 import com.google.common.collect.Lists;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class NavigatorSearchService implements CometTask {
     private static NavigatorSearchService searchServiceInstance;
@@ -61,6 +60,32 @@ public class NavigatorSearchService implements CometTask {
                 }
 
                 rooms.addAll(order(promotedRooms, expanded ? 50 : 12));
+                promotedRooms.clear();
+                break;
+
+            case PUBLIC:
+                for(PublicRoom publicRoom : NavigatorManager.getInstance().getPublicRooms().values()) {
+                    RoomData roomData = RoomManager.getInstance().getRoomData(publicRoom.getRoomId());
+
+                    if(roomData != null) {
+                        rooms.add(roomData);
+                    }
+                }
+                break;
+
+            case STAFF_PICKS:
+                List<RoomData> staffPicks = Lists.newArrayList();
+
+                for(int roomId : NavigatorManager.getInstance().getStaffPicks()) {
+                    RoomData roomData = RoomManager.getInstance().getRoomData(roomId);
+
+                    if(roomData != null) {
+                        staffPicks.add(roomData);
+                    }
+                }
+
+                rooms.addAll(order(staffPicks, expanded ? 50 : 12));
+                staffPicks.clear();
                 break;
         }
 

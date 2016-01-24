@@ -27,7 +27,7 @@ public class InitializeRoomMessageEvent implements Event {
 
         if(client.getPlayer().getEntity() != null && !client.getPlayer().isSpectating(id) && !client.getPlayer().hasQueued(id)) {
             if(!client.getPlayer().getEntity().isFinalized()) {
-                return;
+                client.getPlayer().setEntity(null);
             }
         }
 

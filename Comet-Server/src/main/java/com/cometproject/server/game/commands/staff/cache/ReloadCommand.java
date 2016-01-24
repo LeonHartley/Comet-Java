@@ -13,6 +13,7 @@ import com.cometproject.server.game.landing.LandingManager;
 import com.cometproject.server.game.moderation.BanManager;
 import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.navigator.NavigatorManager;
+import com.cometproject.server.game.navigator.types.search.NavigatorSearchService;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.quests.QuestManager;
@@ -73,7 +74,9 @@ public class ReloadCommand extends ChatCommand {
 
             case "navigator":
                 NavigatorManager.getInstance().loadCategories();
-                NavigatorManager.getInstance().loadFeaturedRooms();
+                NavigatorManager.getInstance().loadPublicRooms();
+                NavigatorManager.getInstance().loadStaffPicks();
+
                 sendNotif(Locale.get("command.reload.navigator"), client);
                 break;
 

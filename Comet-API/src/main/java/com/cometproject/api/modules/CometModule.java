@@ -1,5 +1,6 @@
 package com.cometproject.api.modules;
 
+import com.cometproject.api.config.ModuleConfig;
 import com.cometproject.api.events.EventListenerContainer;
 import com.cometproject.api.events.modules.OnModuleLoadEvent;
 import com.cometproject.api.events.modules.OnModuleUnloadEvent;
@@ -8,6 +9,12 @@ import com.cometproject.api.server.IGameService;
 import java.util.UUID;
 
 public abstract class CometModule implements EventListenerContainer {
+
+    /**
+     * Module configuration
+     */
+    private final ModuleConfig config;
+
     /**
      * Assign a random UUD to the module at runtime, so the system can tell it apart from other modules.
      */
@@ -20,9 +27,10 @@ public abstract class CometModule implements EventListenerContainer {
      */
     private final IGameService gameService;
 
-    public CometModule(IGameService gameService) {
+    public CometModule(ModuleConfig config, IGameService gameService) {
         this.moduleId = UUID.randomUUID();
         this.gameService = gameService;
+        this.config = config;
 
         this.gameService.getEventHandler().addListenerContainer(this);
     }
@@ -55,5 +63,13 @@ public abstract class CometModule implements EventListenerContainer {
      */
     public IGameService getGameService() {
         return this.gameService;
+    }
+
+    /**
+     * Get the module configuration
+     * @return Module configuration
+     */
+    public ModuleConfig getConfig() {
+        return config;
     }
 }

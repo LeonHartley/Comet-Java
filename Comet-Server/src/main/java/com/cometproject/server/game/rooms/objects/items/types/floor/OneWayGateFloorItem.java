@@ -21,7 +21,7 @@ public class OneWayGateFloorItem extends RoomItemFloor {
             return false;
         }
 
-        if (this.getPosition().squareInFront(this.getRotation()).getX() != entity.getPosition().getX() && this.getPosition().squareInFront(this.getRotation()).getY() != entity.getPosition().getY()) {
+        if (this.getPosition().squareInFront(this.getRotation()).getX() != entity.getPosition().getX() || this.getPosition().squareInFront(this.getRotation()).getY() != entity.getPosition().getY()) {
             entity.moveTo(this.getPosition().squareInFront(this.getRotation()).getX(), this.getPosition().squareInFront(this.getRotation()).getY());
             return false;
         }

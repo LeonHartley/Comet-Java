@@ -17,6 +17,7 @@ import com.cometproject.server.network.messages.outgoing.notification.AlertMessa
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.storage.queries.items.ItemDao;
+import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang.StringUtils;
@@ -48,6 +49,7 @@ public class WiredActionGiveReward extends WiredActionItem {
     private int totalRewardCounter = 0;
 
     private List<Reward> rewards;
+    private Set<Integer> givenRewards;
 
     private final int ownerRank;
 
@@ -78,6 +80,8 @@ public class WiredActionGiveReward extends WiredActionItem {
         } else {
             this.ownerRank = 1;
         }
+
+        this.givenRewards = RoomItemDao.getGivenRewards(this.getId());
     }
 
     @Override
@@ -108,6 +112,13 @@ public class WiredActionGiveReward extends WiredActionItem {
 
         switch (howOften) {
             case REWARD_LIMIT_ONCE:
+                if(this.givenRewards.contains(playerEntity.getPlayerId())) {
+                    errorCode = 1;
+                } else {
+                    this.givenRewards.add(playerEntity.getPlayerId());
+                    RoomItemDao.saveReward(this.getId(), ((PlayerEntity) entity).getPlayerId());
+                }
+
                 if (rewardTimings.get(this.getId()).containsKey(playerEntity.getPlayerId())) {
                     errorCode = 1;
                 }

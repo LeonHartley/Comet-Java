@@ -156,6 +156,9 @@ public class PlayerLoginRequest implements CometTask {
         }
 
         ModuleManager.getInstance().getEventHandler().handleEvent(new OnPlayerLoginEvent(client.getPlayer()));
-        PlayerDao.nullifyAuthTicket(player.getData().getId());
+
+        if(!Comet.isDebugging) {
+            PlayerDao.nullifyAuthTicket(player.getData().getId());
+        }
     }
 }

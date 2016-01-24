@@ -8,6 +8,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.storage.SqlHelper;
+import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -16,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class RoomItemDao {
@@ -330,5 +332,57 @@ public class RoomItemDao {
             SqlHelper.closeSilently(preparedStatement);
             SqlHelper.closeSilently(sqlConnection);
         }
+    }
+
+    public static void saveReward(long itemId, int playerId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("INSERT into item_wired_rewards (item_id, player_id) VALUES(?, ?);", sqlConnection);
+
+            preparedStatement.setLong(1, itemId);
+            preparedStatement.setInt(2, playerId);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static Set<Integer> getGivenRewards(long id) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        Set<Integer> data = new ConcurrentHashSet<>();
+
+        try {
+
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT * FROM item_wired_rewards WHERE item_id = ?;", sqlConnection);
+
+            preparedStatement.setLong(1, id);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()) {
+                data.add(resultSet.getInt("player_id"));
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
     }
 }

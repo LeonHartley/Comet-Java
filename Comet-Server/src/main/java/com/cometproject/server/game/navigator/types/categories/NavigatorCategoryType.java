@@ -2,7 +2,8 @@ package com.cometproject.server.game.navigator.types.categories;
 
 public enum NavigatorCategoryType {
     CATEGORY,
-    FEATURED,
+    PUBLIC,
+    STAFF_PICKS,
     POPULAR,
     RECOMMENDED,
     QUERY,

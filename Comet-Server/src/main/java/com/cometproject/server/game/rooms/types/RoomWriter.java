@@ -4,6 +4,7 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.navigator.NavigatorManager;
+import com.cometproject.server.game.navigator.types.publics.PublicRoom;
 import com.cometproject.server.game.rooms.RoomManager;
 
 
@@ -14,15 +15,16 @@ public class RoomWriter {
 
     public static void write(RoomData room, IComposer msg, boolean skipAuth) {
         boolean isActive = RoomManager.getInstance().isActive(room.getId());
+        PublicRoom publicRoom = NavigatorManager.getInstance().getPublicRoom(room.getId());
 
         msg.writeInt(room.getId());
-        msg.writeString(room.getName());
+        msg.writeString(publicRoom != null ? publicRoom.getCaption() : room.getName());
         msg.writeInt(room.getOwnerId());
         msg.writeString(room.getOwner());
         msg.writeInt(skipAuth ? 0 : RoomWriter.roomAccessToNumber(room.getAccess()));
         msg.writeInt(!isActive ? 0 : RoomManager.getInstance().get(room.getId()).getEntities().playerCount());
         msg.writeInt(room.getMaxUsers());
-        msg.writeString(room.getDescription());
+        msg.writeString(publicRoom != null ? publicRoom.getDescription() : room.getDescription());
         msg.writeInt(room.getTradeState().getState());
         msg.writeInt(room.getScore());
         msg.writeInt(0);
@@ -37,7 +39,7 @@ public class RoomWriter {
         RoomPromotion promotion = RoomManager.getInstance().getRoomPromotions().get(room.getId());
         Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
 
-        composeRoomSpecials(msg, promotion, group, room.getType());
+        composeRoomSpecials(msg, room, promotion, group, room.getType());
     }
 
     public static void entryData(RoomData room, IComposer msg, boolean isLoading, boolean checkEntry, boolean skipAuth, boolean canMute) {
@@ -46,7 +48,7 @@ public class RoomWriter {
         write(room, msg, skipAuth);
 
         msg.writeBoolean(checkEntry); // check entry??
-        msg.writeBoolean(NavigatorManager.getInstance().isFeatured(room.getId()));
+        msg.writeBoolean(NavigatorManager.getInstance().isStaffPicked(room.getId()));
         msg.writeBoolean(false); // ??
         msg.writeBoolean(RoomManager.getInstance().isActive(room.getId()) && RoomManager.getInstance().get(room.getId()).hasRoomMute());
 
@@ -63,22 +65,33 @@ public class RoomWriter {
         msg.writeInt(room.getAntiFloodSettings());
     }
 
-    public static void composeRoomSpecials(IComposer msg, RoomPromotion promotion, Group group, RoomType roomType) {
+    public static void composeRoomSpecials(IComposer msg, RoomData roomData, RoomPromotion promotion, Group group, RoomType roomType) {
         boolean composeGroup = group != null && group.getData() != null;
         boolean composePromo = promotion != null;
 
-        if (composeGroup && composePromo) {
-            msg.writeInt(62);
-        } else if (composeGroup) {
-            msg.writeInt(58);
-        } else if (composePromo) {
-            msg.writeInt(60);
-        } else {
-            if (roomType == RoomType.PUBLIC) {
-                msg.writeInt(64);
-            } else {
-                msg.writeInt(56);
-            }
+        int specialsType = 0;
+
+        if(group != null)
+            specialsType += 2;
+
+        if(promotion != null)
+            specialsType += 4;
+
+        if(roomData.isAllowPets()) {
+            specialsType += 16;
+        }
+
+        PublicRoom publicRoom = NavigatorManager.getInstance().getPublicRoom(roomData.getId());
+
+        if(publicRoom != null)
+            specialsType += 1;
+        else
+            specialsType += 8;
+
+        msg.writeInt(specialsType);
+
+        if(publicRoom != null) {
+            msg.writeString(publicRoom.getImageUrl());
         }
 
         if (composeGroup) {

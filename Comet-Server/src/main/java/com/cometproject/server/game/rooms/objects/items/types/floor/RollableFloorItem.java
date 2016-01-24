@@ -168,6 +168,10 @@ public abstract class RollableFloorItem extends RoomItemFloor {
             this.setRotation(Direction.get(this.getRotation()).invert().num);
         }
 
+        if(!this.isValidRoll(newPosition)) {
+            return false;
+        }
+
         this.moveTo(newPosition, entity.getBodyRotation());
         this.isRolling = false;
         return true;
@@ -188,11 +192,14 @@ public abstract class RollableFloorItem extends RoomItemFloor {
             return;
         }
 
+        pos.setZ(newTile.getStackHeight());
+
         roll(this, this.getPosition(), pos, this.getRoom());
 
         RoomTile tile = this.getRoom().getMapping().getTile(this.getPosition());
 
         this.setRotation(rotation);
+
         this.getPosition().setX(pos.getX());
         this.getPosition().setY(pos.getY());
 

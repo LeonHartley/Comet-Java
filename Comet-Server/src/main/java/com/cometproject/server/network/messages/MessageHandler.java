@@ -1,6 +1,7 @@
 package com.cometproject.server.network.messages;
 
 import com.cometproject.server.boot.Comet;
+import com.cometproject.server.game.commands.user.group.DeleteGroupCommand;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.incoming.catalog.*;
 import com.cometproject.server.network.messages.incoming.catalog.ads.CatalogPromotionGetRoomsMessageEvent;
@@ -73,6 +74,7 @@ import com.cometproject.server.network.messages.incoming.user.wardrobe.WardrobeM
 import com.cometproject.server.network.messages.incoming.user.youtube.LoadPlaylistMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.NextVideoMessageEvent;
 import com.cometproject.server.network.messages.incoming.user.youtube.PlayVideoMessageEvent;
+import com.cometproject.server.network.messages.outgoing.group.DeleteGroupMessageEvent;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.messages.types.tasks.MessageEventTask;
 import com.cometproject.server.network.sessions.Session;
@@ -204,6 +206,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.CreateFlatMessageEvent, new CreateRoomMessageEvent());
         this.getMessages().put(Events.GetEventCategoriesMessageEvent, new EventCategoriesMessageEvent());
         this.getMessages().put(Events.GetPromotableRoomsMessageEvent, new CatalogPromotionGetRoomsMessageEvent());
+        this.getMessages().put(Events.StaffPickRoomMessageEvent, new AddToStaffPickedRoomsMessageEvent());
 
 //        this.getMessages().put(Events.NavigatorGetMyRoomsMessageEvent, new OwnRoomsMessageEvent());
 //        this.getMessages().put(Events.NavigatorGetPopularRoomsMessageEvent, new PopularRoomsMessageEvent());
@@ -212,7 +215,6 @@ public final class MessageHandler {
 //        this.getMessages().put(Events.NavigatorSearchRoomByNameMessageEvent, new SearchRoomMessageEvent());
 //        this.getMessages().put(Events.CreateRoomMessageEvent, new CreateRoomMessageEvent());
 //        this.getMessages().put(Events.NavigatorGetFeaturedRoomsMessageEvent, new FeaturedRoomsMessageEvent());
-//        this.getMessages().put(Events.AddToStaffPickedRoomsMessageEvent, new AddToStaffPickedRoomsMessageEvent());
 //        this.getMessages().put(Events.NavigatorGetEventsMessageEvent, new PromotedRoomsMessageEvent());
 //        this.getMessages().put(Events.NavigatorGetFlatCategoriesMessageEvent, new LoadCategoriesMessageEvent());
 //        this.getMessages().put(Events.NavigatorGetHighRatedRoomsMessageEvent, new NavigatorGetHighRatedRoomsMessageEvent());
@@ -276,7 +278,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.CancelTypingMessageEvent, new StopTypingMessageEvent());
         this.getMessages().put(Events.LookToMessageEvent, new LookToMessageEvent());
         this.getMessages().put(Events.GetSelectedBadgesMessageEvent, new UserBadgesMessageEvent());
-        this.getMessages().put(Events.ApplyDecorationMessageEvent, new UpdatePapersMessageEvent());
+        this.getMessages().put(Events.ApplyDecorationMessageEvent, new ApplyDecorationMessageEvent());
         this.getMessages().put(Events.DropHandItemMessageEvent, new DropHandItemMessageEvent());
         this.getMessages().put(Events.DeleteRoomMessageEvent, new DeleteRoomMessageEvent());
         this.getMessages().put(Events.ToggleMuteToolMessageEvent, new MuteRoomMessageEvent());
@@ -311,6 +313,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetRoomBannedUsersMessageEvent, new GetBannedUsersMessageEvent());
         this.getMessages().put(Events.UnbanUserFromRoomMessageEvent, new RoomUnbanUserMessageEvent());
         this.getMessages().put(Events.MuteUserMessageEvent, new MutePlayerMessageEvent());
+        this.getMessages().put(Events.GetRoomRightsMessageEvent, new UsersWithRightsMessageEvent());
 //        this.getMessages().put(Events.WordFilterListMessageEvent, new WordFilterListMessageEvent());
 //        this.getMessages().put(Events.EditWordFilterMessageEvent, new EditWordFilterMessageEvent());
     }
@@ -398,6 +401,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.UpdateGroupColoursMessageEvent, new GroupUpdateColoursMessageEvent());
         this.getMessages().put(Events.DeclineGroupMembershipMessageEvent, new DeclineMembershipMessageEvent());
         this.getMessages().put(Events.RemoveGroupFavouriteMessageEvent, new ClearFavouriteGroupMessageEvent());
+        this.getMessages().put(Events.DeleteGroupMessageEvent, new DeleteGroupMessageEvent());
     }
 //
 //    public void registerGroupForums() {

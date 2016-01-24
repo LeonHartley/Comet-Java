@@ -96,7 +96,7 @@ public class InventoryComponent implements PlayerComponent {
             this.badges.put(code, 0);
 
             this.player.getSession().
-                    send(new ReceiveBadgeMessageComposer(1, code)).
+                    send(new BadgeInventoryMessageComposer(this.getBadges())).
                     send(new UnseenItemsMessageComposer(new HashMap<Integer, List<Integer>>() {{
                         put(4, Lists.newArrayList(1));
                     }}));
@@ -245,6 +245,16 @@ public class InventoryComponent implements PlayerComponent {
 
     public boolean hasWallItem(long id) {
         return this.getWallItems().containsKey(id);
+    }
+
+    @Deprecated
+    public InventoryItem getWallItem(int id) {
+        return getWallItem(ItemManager.getInstance().getItemIdByVirtualId(id));
+    }
+
+    @Deprecated
+    public InventoryItem getFloorItem(int id) {
+        return getFloorItem(ItemManager.getInstance().getItemIdByVirtualId(id));
     }
 
     public InventoryItem getWallItem(long id) {

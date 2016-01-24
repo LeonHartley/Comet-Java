@@ -15,12 +15,12 @@ import org.apache.log4j.Logger;
 import java.util.Map;
 
 
-public class UpdatePapersMessageEvent implements Event {
+public class ApplyDecorationMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) {
-        int itemId = msg.readInt();
+        long itemId = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
 
-        InventoryItem item = client.getPlayer().getInventory().getWallItem(ItemManager.getInstance().getItemIdByVirtualId(itemId));
+        InventoryItem item = client.getPlayer().getInventory().getWallItem(itemId);
 
         if (item == null) {
             return;
@@ -62,7 +62,7 @@ public class UpdatePapersMessageEvent implements Event {
                 room.getData().save();
                 room.getEntities().broadcastMessage(new PapersMessageComposer(type, data));
             } catch (Exception e) {
-                Logger.getLogger(UpdatePapersMessageEvent.class.getName()).error("Error while saving room data", e);
+                Logger.getLogger(ApplyDecorationMessageEvent.class.getName()).error("Error while saving room data", e);
             }
         }
     }

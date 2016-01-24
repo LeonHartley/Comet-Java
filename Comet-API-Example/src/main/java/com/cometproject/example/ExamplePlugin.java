@@ -1,5 +1,6 @@
 package com.cometproject.example;
 
+import com.cometproject.api.config.ModuleConfig;
 import com.cometproject.api.events.EventListener;
 import com.cometproject.api.events.modules.OnModuleLoadEvent;
 import com.cometproject.api.events.modules.OnModuleUnloadEvent;
@@ -8,8 +9,8 @@ import com.cometproject.api.modules.CometModule;
 import com.cometproject.api.server.IGameService;
 
 public class ExamplePlugin extends CometModule {
-    public ExamplePlugin(IGameService gameService) {
-        super(gameService);
+    public ExamplePlugin(ModuleConfig config, IGameService gameService) {
+        super(config, gameService);
     }
 
     @EventListener(event = OnModuleLoadEvent.class)
