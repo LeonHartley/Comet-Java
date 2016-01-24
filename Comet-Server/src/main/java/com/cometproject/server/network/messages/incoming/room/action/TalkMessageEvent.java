@@ -18,7 +18,7 @@ import com.google.common.primitives.Ints;
 
 public class TalkMessageEvent implements Event {
     private static int[] allowedColours = new int[]{
-            0, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29
+            0, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29, 37
     };
 
     public static boolean isValidColour(int colour, Session client) {
@@ -26,7 +26,7 @@ public class TalkMessageEvent implements Event {
             return false;
         }
 
-        if (colour == 23 && !client.getPlayer().getPermissions().getRank().modTool())
+        if ((colour == 23 || colour == 37) && !client.getPlayer().getPermissions().getRank().modTool())
             return false;
 
         return true;
