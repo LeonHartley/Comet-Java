@@ -341,7 +341,7 @@ public class RoomItemDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("INSERT into item_wired_rewards (item_id, player_id) VALUES(?, ?);", sqlConnection);
+            preparedStatement = SqlHelper.prepare("INSERT into items_wired_rewards (item_id, player_id) VALUES(?, ?);", sqlConnection);
 
             preparedStatement.setLong(1, itemId);
             preparedStatement.setInt(2, playerId);
@@ -366,7 +366,7 @@ public class RoomItemDao {
 
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM item_wired_rewards WHERE item_id = ?;", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT player_id FROM items_wired_rewards WHERE item_id = ?;", sqlConnection);
 
             preparedStatement.setLong(1, id);
 

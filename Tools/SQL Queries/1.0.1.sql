@@ -25,3 +25,11 @@ INSERT INTO `navigator_categories`
 	VALUES (38, 'official_view', 'official-root', 'Staff Picks', 'staff_picks', 'SHOW_MORE', 2);
 
 UPDATE navigator_categories SET category_type = 'public' WHERE category_type = 'featured';
+
+CREATE TABLE IF NOT EXISTS `items_wired_rewards` (
+  `id` int(11) NOT NULL,
+  `player_id` int(11) NOT NULL,
+  `item_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `item_id` (`item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
