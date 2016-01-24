@@ -26,10 +26,10 @@ INSERT INTO `navigator_categories`
 
 UPDATE navigator_categories SET category_type = 'public' WHERE category_type = 'featured';
 
-CREATE TABLE IF NOT EXISTS `items_wired_rewards` (
-  `id` int(11) NOT NULL,
-  `player_id` int(11) NOT NULL,
-  `item_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `item_id` (`item_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `items_wired_rewards` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`player_id` INT(11) NOT NULL,
+	`item_id` BIGINT(20) NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `item_id` (`item_id`)
+) COLLATE='latin1_swedish_ci' ENGINE=InnoDB;

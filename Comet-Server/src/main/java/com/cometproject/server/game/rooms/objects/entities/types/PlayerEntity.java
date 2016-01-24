@@ -152,6 +152,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                 if (!this.getRoom().getRights().hasRights(this.playerId)) {
                     if (this.getRoom().getEntities().playerCount() < 1) {
                         this.getPlayer().getSession().send(new DoorbellNoAnswerComposer());
+                        this.getPlayer().getSession().send(new HotelViewMessageComposer());
+
                         isAuthFailed = true;
                     } else {
                         this.getRoom().getEntities().broadcastMessage(new DoorbellRequestComposer(this.getUsername()), true);

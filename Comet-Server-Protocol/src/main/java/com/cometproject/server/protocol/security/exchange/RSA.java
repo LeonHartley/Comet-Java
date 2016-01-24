@@ -27,11 +27,11 @@ public class RSA {
         decryptable = (encry && privateKey != Zero && privateKey != null);
     }
 
-    public int GetBlockSize() {
+    public int getBlockSize() {
         return (n.bitLength() + 7) / 8;
     }
 
-    public BigInteger DoPublic(BigInteger x) {
+    public BigInteger doPublic(BigInteger x) {
         if (this.encry) {
             return x.modPow(new BigInteger(this.exponent + ""), this.n);
         }
@@ -40,13 +40,13 @@ public class RSA {
     }
 
     public String encrypt(String text) {
-        BigInteger m = new BigInteger(this.pkcs1pad2(text.getBytes(), this.GetBlockSize()));
+        BigInteger m = new BigInteger(this.pkcs1pad2(text.getBytes(), this.getBlockSize()));
 
         if (m.equals(Zero)) {
             return null;
         }
 
-        BigInteger c = this.DoPublic(m);
+        BigInteger c = this.doPublic(m);
 
         if (c.equals(Zero)) {
             return null;
@@ -62,7 +62,7 @@ public class RSA {
     }
 
     public String sign(String text) {
-        BigInteger m = new BigInteger(this.pkcs1pad2(text.getBytes(), this.GetBlockSize()));
+        BigInteger m = new BigInteger(this.pkcs1pad2(text.getBytes(), this.getBlockSize()));
 
         if (m.equals(Zero)) {
             return null;
@@ -120,7 +120,7 @@ public class RSA {
             return null;
         }
 
-        byte[] bytes = this.pkcs1unpad2(m, this.GetBlockSize());
+        byte[] bytes = this.pkcs1unpad2(m, this.getBlockSize());
 
         if (bytes == null) {
             return null;

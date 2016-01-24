@@ -17,9 +17,9 @@ public class FollowRoomInfoMessageEvent implements Event {
 //        if (roomId != 0 && !isInSameRoom) {
             Room room = RoomManager.getInstance().get(roomId);
 //
-//            if (room == null || room.getData() == null) {
-//                return;
-//            }
+            if (room == null || room.getData() == null) {
+                return;
+            }
 //
 //            boolean checkEntry = true;
 //
