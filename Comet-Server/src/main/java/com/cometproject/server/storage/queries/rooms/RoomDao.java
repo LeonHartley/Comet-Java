@@ -1,9 +1,6 @@
 package com.cometproject.server.storage.queries.rooms;
 
-import com.cometproject.api.game.rooms.settings.RoomBanState;
-import com.cometproject.api.game.rooms.settings.RoomKickState;
-import com.cometproject.api.game.rooms.settings.RoomMuteState;
-import com.cometproject.api.game.rooms.settings.RoomTradeState;
+import com.cometproject.api.game.rooms.settings.*;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.rooms.models.CustomFloorMapData;
 import com.cometproject.server.game.rooms.models.types.DynamicRoomModel;
@@ -234,7 +231,7 @@ public class RoomDao {
         return 0;
     }
 
-    public static void updateRoom(int roomId, String name, String description, int ownerId, String owner, int category, int maxUsers, String access,
+    public static void updateRoom(int roomId, String name, String description, int ownerId, String owner, int category, int maxUsers, RoomAccessType access,
                                   String password, int score, String tags, String decor, String model, boolean hideWalls, int thicknessWall,
                                   int thicknessFloor, boolean allowWalkthrough, boolean allowPets, String heightmap, RoomTradeState tradeState, RoomMuteState whoCanMute,
                                   RoomKickState whoCanKick, RoomBanState whoCanBan, int bubbleMode, int bubbleType, int bubbleScroll,
@@ -257,7 +254,7 @@ public class RoomDao {
             preparedStatement.setString(4, owner);
             preparedStatement.setInt(5, category);
             preparedStatement.setInt(6, maxUsers);
-            preparedStatement.setString(7, access.toLowerCase());
+            preparedStatement.setString(7, access.toString().toLowerCase());
             preparedStatement.setString(8, password);
             preparedStatement.setInt(9, score);
             preparedStatement.setString(10, tags);
@@ -284,7 +281,7 @@ public class RoomDao {
 
             preparedStatement.execute();
         } catch (SQLException e) {
-            Comet.getServer().getLogger().error("Failed to save room data" + (e.getMessage().contains("access_type") ? " - Access type: " + access.toLowerCase() : ""));
+            Comet.getServer().getLogger().error("Failed to save room data" + (e.getMessage().contains("access_type") ? " - Access type: " + access.toString().toLowerCase() : ""));
             SqlHelper.handleSqlException(e);
         } finally {
             SqlHelper.closeSilently(preparedStatement);

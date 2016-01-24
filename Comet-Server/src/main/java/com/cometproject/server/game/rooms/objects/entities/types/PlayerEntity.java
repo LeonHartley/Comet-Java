@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities.types;
 
 import com.cometproject.api.game.rooms.entities.IPlayerEntity;
+import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
@@ -134,7 +135,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.getPlayer().getSession().send(new OpenConnectionMessageComposer());
 
         if (!isAuthFailed && !this.getPlayer().isBypassingRoomAuth() && (!isOwner && !this.getPlayer().getPermissions().getRank().roomEnterLocked() && !this.isDoorbellAnswered()) && !isTeleporting) {
-            if (this.getRoom().getData().getAccess().equals("password")) {
+            if (this.getRoom().getData().getAccess() == RoomAccessType.PASSWORD) {
                 boolean matched;
 
                 if (CometSettings.roomPasswordEncryptionEnabled) {
@@ -148,7 +149,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
                     this.getPlayer().getSession().send(new HotelViewMessageComposer());
                     isAuthFailed = true;
                 }
-            } else if (this.getRoom().getData().getAccess().equals("doorbell")) {
+            } else if (this.getRoom().getData().getAccess() == RoomAccessType.DOORBELL) {
                 if (!this.getRoom().getRights().hasRights(this.playerId)) {
                     if (this.getRoom().getEntities().playerCount() < 1) {
                         this.getPlayer().getSession().send(new DoorbellNoAnswerComposer());

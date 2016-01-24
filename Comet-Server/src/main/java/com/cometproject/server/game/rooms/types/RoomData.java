@@ -2,14 +2,10 @@ package com.cometproject.server.game.rooms.types;
 
 import com.cometproject.api.game.rooms.IRoomData;
 import com.cometproject.api.game.rooms.RoomCategory;
-import com.cometproject.api.game.rooms.settings.RoomBanState;
-import com.cometproject.api.game.rooms.settings.RoomKickState;
-import com.cometproject.api.game.rooms.settings.RoomMuteState;
-import com.cometproject.api.game.rooms.settings.RoomTradeState;
+import com.cometproject.api.game.rooms.settings.*;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.navigator.NavigatorManager;
-import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.storage.queries.rooms.RoomDao;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +28,7 @@ public class RoomData implements IRoomData {
     private String owner;
     private int category;
     private int maxUsers;
-    private String access;
+    private RoomAccessType access;
     private String password;
     private String originalPassword;
     private RoomTradeState tradeState;
@@ -75,14 +71,15 @@ public class RoomData implements IRoomData {
         this.owner = room.getString("owner");
         this.category = room.getInt("category");
         this.maxUsers = room.getInt("max_users");
-        this.access = room.getString("access_type");
 
+        String accessType = room.getString("access_type");
         // TODO: Move this to enum...
-        if (!this.access.equals("open") && !this.access.equals("doorbell") && !this.access.equals("password")) {
-            this.access = "open";
+        if (!accessType.equals("open") && !accessType.equals("doorbell") && !accessType.equals("password")) {
+            accessType = "open";
         }
 
         this.password = room.getString("password");
+        this.access = RoomAccessType.valueOf(accessType.toUpperCase());
         this.originalPassword = this.password;
 
         this.score = room.getInt("score");
@@ -180,7 +177,7 @@ public class RoomData implements IRoomData {
         return this.maxUsers;
     }
 
-    public String getAccess() {
+    public RoomAccessType getAccess() {
         return this.access;
     }
 
@@ -244,7 +241,7 @@ public class RoomData implements IRoomData {
         this.maxUsers = maxUsers;
     }
 
-    public void setAccess(String access) {
+    public void setAccess(RoomAccessType access) {
         this.access = access;
     }
 

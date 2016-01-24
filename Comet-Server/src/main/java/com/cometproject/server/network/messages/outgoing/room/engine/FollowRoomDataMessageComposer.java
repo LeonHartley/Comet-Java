@@ -10,12 +10,14 @@ public class FollowRoomDataMessageComposer extends MessageComposer {
     private final RoomData roomData;
     private final boolean isLoading;
     private final boolean checkEntry;
+    private final boolean skipAuth;
     private final boolean canMute;
 
-    public FollowRoomDataMessageComposer(final RoomData room, boolean isLoading, boolean checkEntry, boolean canMute) {
+    public FollowRoomDataMessageComposer(final RoomData room, boolean isLoading, boolean checkEntry, boolean skipAuth, boolean canMute) {
         this.roomData = room;
         this.isLoading = isLoading;
         this.checkEntry = checkEntry;
+        this.skipAuth = skipAuth;
         this.canMute = canMute;
     }
 
@@ -26,6 +28,6 @@ public class FollowRoomDataMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer composer) {
-        RoomWriter.entryData(this.roomData, composer, this.isLoading, this.checkEntry, false, this.canMute);
+        RoomWriter.entryData(this.roomData, composer, this.isLoading, this.checkEntry, this.skipAuth, this.canMute);
     }
 }

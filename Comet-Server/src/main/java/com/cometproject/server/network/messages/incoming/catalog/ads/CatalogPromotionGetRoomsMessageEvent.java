@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.catalog.ads;
 
+import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.network.messages.incoming.Event;
@@ -19,7 +20,7 @@ public class CatalogPromotionGetRoomsMessageEvent implements Event {
         for (Integer roomId : client.getPlayer().getRooms()) {
             RoomData data = RoomManager.getInstance().getRoomData(roomId);
 
-            if (data != null && data.getAccess().toLowerCase().equals("open")) {
+            if (data != null && data.getAccess() == RoomAccessType.OPEN) {
                 roomDataList.add(data);
             }
         }

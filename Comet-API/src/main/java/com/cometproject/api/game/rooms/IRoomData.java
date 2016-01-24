@@ -1,9 +1,6 @@
 package com.cometproject.api.game.rooms;
 
-import com.cometproject.api.game.rooms.settings.RoomBanState;
-import com.cometproject.api.game.rooms.settings.RoomKickState;
-import com.cometproject.api.game.rooms.settings.RoomMuteState;
-import com.cometproject.api.game.rooms.settings.RoomTradeState;
+import com.cometproject.api.game.rooms.settings.*;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +23,7 @@ public interface IRoomData {
 
     int getMaxUsers();
 
-    String getAccess();
+    RoomAccessType getAccess();
 
     String getPassword();
 
@@ -58,7 +55,7 @@ public interface IRoomData {
 
     void setMaxUsers(int maxUsers);
 
-    void setAccess(String access);
+    void setAccess(RoomAccessType access);
 
     void setPassword(String password);
 

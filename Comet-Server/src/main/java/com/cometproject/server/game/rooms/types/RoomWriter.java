@@ -1,11 +1,13 @@
 package com.cometproject.server.game.rooms.types;
 
+import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.publics.PublicRoom;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.sun.xml.internal.rngom.digested.DOneOrMorePattern;
 
 
 public class RoomWriter {
@@ -115,12 +117,12 @@ public class RoomWriter {
         msg.writeString(group.getData().getBadge());
     }
 
-    public static int roomAccessToNumber(String access) {
-        if (access.equals("doorbell")) {
+    public static int roomAccessToNumber(RoomAccessType access) {
+        if (access == RoomAccessType.DOORBELL) {
             return 1;
-        } else if (access.equals("password")) {
+        } else if (access == RoomAccessType.PASSWORD) {
             return 2;
-        } else if (access.equals("invisible")) {
+        } else if (access == RoomAccessType.INVISIBLE) {
             // return 3; - TODO: this
             return 1;
         }
@@ -128,16 +130,16 @@ public class RoomWriter {
         return 0;
     }
 
-    public static String roomAccessToString(int access) {
+    public static RoomAccessType roomAccessToString(int access) {
         if (access == 1) {
-            return "doorbell";
+            return RoomAccessType.DOORBELL;
         } else if (access == 2) {
-            return "password";
+            return RoomAccessType.PASSWORD;
         } else if (access == 3) {
-            // TODO: this
-            return "open";
+            // TODO: this (invisible)
+            return RoomAccessType.OPEN;
         }
 
-        return "open";
+        return RoomAccessType.OPEN;
     }
 }

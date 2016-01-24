@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.catalog.ads;
 
+import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.catalog.CatalogManager;
@@ -12,6 +13,8 @@ import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessa
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+
+import javax.naming.OperationNotSupportedException;
 
 
 public class PromoteRoomMessageEvent implements Event {
@@ -31,7 +34,7 @@ public class PromoteRoomMessageEvent implements Event {
 
         RoomData roomData = RoomManager.getInstance().getRoomData(msg.readInt());
 
-        if (roomData == null || roomData.getOwnerId() != client.getPlayer().getId() || !roomData.getAccess().equals("open")) {
+        if (roomData == null || roomData.getOwnerId() != client.getPlayer().getId() || roomData.getAccess() != RoomAccessType.OPEN) {
             return;
         }
 

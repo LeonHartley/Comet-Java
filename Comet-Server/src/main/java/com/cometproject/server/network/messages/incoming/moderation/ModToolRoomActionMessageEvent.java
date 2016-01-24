@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.moderation;
 
+import com.cometproject.api.game.rooms.settings.RoomAccessType;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -42,7 +43,7 @@ public class ModToolRoomActionMessageEvent implements Event {
             if (room == null) return;
 
             if (lockDoor)
-                room.getData().setAccess("doorbell");
+                room.getData().setAccess(RoomAccessType.DOORBELL);
 
             room.getData().save();
 
@@ -59,7 +60,7 @@ public class ModToolRoomActionMessageEvent implements Event {
             }
         } else {
             if (lockDoor) {
-                roomData.setAccess("doorbell");
+                roomData.setAccess(RoomAccessType.DOORBELL);
             }
         }
 
