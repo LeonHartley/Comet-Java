@@ -24,6 +24,8 @@ public class PlaceItemMessageEvent implements Event {
 
         String data = msg.readString();
 
+        if(client.getPlayer() == null || client.getPlayer().getInventory() == null) return;
+
         if (data == null) return;
 
         String[] parts = data.split(" ");

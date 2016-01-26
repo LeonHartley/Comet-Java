@@ -52,7 +52,7 @@ public class RoomItemDao {
                             wallItems.put(resultSet.getLong("id"), RoomItemFactory.createWall(resultSet.getLong("id"), resultSet.getInt("base_item"), room, resultSet.getInt("user_id"), resultSet.getString("wall_pos"), resultSet.getString("extra_data"), limitedEditionItem));
 
                     } else {
-                        log.warn("Item (" + resultSet.getInt("base_item") + ") with invalid definition ID: " + resultSet.getInt("base_item"));
+                        log.warn("Item (" + resultSet.getInt("id") + ") with invalid definition ID: " + resultSet.getInt("base_item"));
                     }
                 } catch(Exception e) {
                 }
