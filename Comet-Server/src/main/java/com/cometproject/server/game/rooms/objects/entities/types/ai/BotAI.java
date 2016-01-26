@@ -13,4 +13,8 @@ public interface BotAI {
     boolean onAddedToRoom();
 
     boolean onRemovedFromRoom();
+
+    void onTick();
+
+    void onTickComplete();
 }

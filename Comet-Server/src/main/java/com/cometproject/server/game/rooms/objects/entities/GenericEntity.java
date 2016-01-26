@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.Ent
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
@@ -612,5 +613,9 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
 
     public void setPrivateChatItemId(long privateChatItemId) {
         this.privateChatItemId = privateChatItemId;
+    }
+
+    public BotAI getAI() {
+        return null;
     }
 }

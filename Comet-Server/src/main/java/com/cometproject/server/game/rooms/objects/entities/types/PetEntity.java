@@ -140,6 +140,7 @@ public class PetEntity extends GenericEntity {
         this.cycleCount = 0;
     }
 
+    @Override
     public BotAI getAI() {
         return ai;
     }

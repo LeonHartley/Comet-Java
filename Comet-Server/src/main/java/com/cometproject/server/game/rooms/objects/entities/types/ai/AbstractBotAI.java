@@ -1,14 +1,101 @@
 package com.cometproject.server.game.rooms.objects.entities.types.ai;
 
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
+import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
+import com.cometproject.server.utilities.RandomInteger;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public abstract class AbstractBotAI implements BotAI {
+    private static final ExecutorService botPathCalculator = Executors.newFixedThreadPool(2);
+
     private GenericEntity entity;
+
+    private long ticksUntilComplete = 0;
 
     public AbstractBotAI(GenericEntity entity) {
         this.entity = entity;
+    }
+
+    @Override
+    public void onTick() {
+        if(this.ticksUntilComplete != 0) {
+            this.ticksUntilComplete--;
+
+            if(this.ticksUntilComplete == 0) {
+                this.onTickComplete();
+            }
+        }
+
+        int chance = RandomInteger.getRandom(1, (this.getEntity().hasStatus(RoomEntityStatus.SIT) || this.getEntity().hasStatus(RoomEntityStatus.LAY)) ? 20 : 7);
+
+        if (!this.getEntity().hasMount()) {
+            boolean newStep = true;
+
+            if (this.getEntity() instanceof BotEntity) {
+                BotEntity botEntity = ((BotEntity) this.getEntity());
+
+                if (botEntity.getData().getMode().equals("relaxed")) {
+                    newStep = false;
+                }
+            }
+
+            if (chance == 1 && newStep) {
+                if (!this.getEntity().isWalking()) {
+                    botPathCalculator.submit(() -> {
+                        RoomTile reachableTile = this.getEntity().getRoom().getMapping().getRandomReachableTile(this.getEntity());
+
+                        if (reachableTile != null) {
+                            this.getEntity().moveTo(reachableTile.getPosition().getX(), reachableTile.getPosition().getY());
+                        }
+                    });
+                }
+            }
+        }
+
+        if (this.getEntity() instanceof BotEntity) {
+            try {
+                if (((BotEntity) this.getEntity()).getCycleCount() == ((BotEntity) this.getEntity()).getData().getChatDelay() * 2) {
+                    String message = ((BotEntity) this.getEntity()).getData().getRandomMessage();
+
+                    if (message != null && !message.isEmpty()) {
+                        ((BotEntity) this.getEntity()).say(message);
+                    }
+
+                    ((BotEntity) this.getEntity()).resetCycleCount();
+                }
+
+                ((BotEntity) this.getEntity()).incrementCycleCount();
+            } catch (Exception ignored) {
+
+            }
+        }
+    }
+
+    @Override
+    public void onTickComplete() {
+
+    }
+
+    public void setTicksUntilCompleteInSeconds(double seconds) {
+        long realTime = Math.round(seconds * 1000 / 500);
+
+        if (realTime < 1) {
+            realTime = 1; //0.5s
+        }
+
+        System.out.println(realTime);
+        this.ticksUntilComplete = realTime;
+    }
+
+    protected void say(String message) {
+        this.getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getEntity().getId(), message, 0, 0));
     }
 
     @Override
@@ -42,5 +129,9 @@ public abstract class AbstractBotAI implements BotAI {
 
     public BotEntity getBotEntity() {
         return (BotEntity) entity;
+    }
+
+    public PetEntity getPetEntity() {
+        return (PetEntity) entity;
     }
 }

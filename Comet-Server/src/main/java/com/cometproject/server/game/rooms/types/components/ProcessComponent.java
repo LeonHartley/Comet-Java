@@ -322,8 +322,6 @@ public class ProcessComponent implements CometTask {
         return this.processEntity(entity, false);
     }
 
-    private static final ExecutorService botPathCalculator = Executors.newFixedThreadPool(2);
-
     private boolean processEntity(GenericEntity entity, boolean isRetry) {
         boolean isPlayer = entity instanceof PlayerEntity;
 
@@ -342,87 +340,8 @@ public class ProcessComponent implements CometTask {
                     }
                 }
             } else {
-                int chance = RandomInteger.getRandom(1, (entity.hasStatus(RoomEntityStatus.SIT) || entity.hasStatus(RoomEntityStatus.LAY)) ? 20 : 7);
-
-                if (!(entity instanceof PetEntity) || !entity.hasMount()) {
-                    boolean newStep = true;
-
-                    if (entity instanceof BotEntity) {
-                        BotEntity botEntity = ((BotEntity) entity);
-
-                        if (botEntity.getData().getMode().equals("relaxed")) {
-                            newStep = false;
-                        }
-                    }
-
-                    if (chance == 1 && newStep) {
-                        if (!entity.isWalking()) {
-                            botPathCalculator.submit(() -> {
-                                RoomTile reachableTile = this.getRoom().getMapping().getRandomReachableTile(entity);
-
-                                if (reachableTile != null) {
-                                    entity.moveTo(reachableTile.getPosition().getX(), reachableTile.getPosition().getY());
-                                }
-                            });
-                        }
-                    }
-                }
-
-                if (entity instanceof BotEntity) {
-                    try {
-                        if (((BotEntity) entity).getCycleCount() == ((BotEntity) entity).getData().getChatDelay() * 2) {
-                            String message = ((BotEntity) entity).getData().getRandomMessage();
-
-                            if (message != null && !message.isEmpty()) {
-                                ((BotEntity) entity).say(message);
-                            }
-
-                            ((BotEntity) entity).resetCycleCount();
-                        }
-
-                        ((BotEntity) entity).incrementCycleCount();
-                    } catch (Exception ignored) {
-
-                    }
-                } else {
-                    // It's a pet.
-                    PetEntity petEntity = (PetEntity) entity;
-
-                    try {
-                        if (petEntity.getCycleCount() == 50 && ((PetEntity) entity).getData().getSpeech().length > 0) { // 25 seconds
-                            int messageKey = RandomInteger.getRandom(0, ((PetEntity) entity).getData().getSpeech().length - 1);
-                            String message = ((PetEntity) entity).getData().getSpeech()[messageKey];
-
-                            if (message != null && !message.isEmpty()) {
-                                if (entity.getPosition().getX() < this.getRoom().getModel().getSquareHeight().length && entity.getPosition().getY() < this.getRoom().getModel().getSquareHeight()[entity.getPosition().getX()].length) {
-                                    final String status = "" + this.room.getModel().getSquareHeight()[entity.getPosition().getX()][entity.getPosition().getY()];
-
-                                    switch (message) {
-                                        case "sit":
-                                            entity.addStatus(RoomEntityStatus.SIT, status);
-                                            entity.markNeedsUpdate();
-                                            break;
-
-                                        case "lay":
-                                            entity.addStatus(RoomEntityStatus.LAY, status);
-                                            entity.markNeedsUpdate();
-                                            break;
-
-                                        default:
-                                            this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(entity.getId(), message, 0, 0));
-                                            break;
-                                    }
-                                }
-                            }
-
-                            petEntity.resetCycleCount();
-                        }
-
-                        petEntity.incrementCycleCount();
-                    } catch (Exception e) {
-                        // Error processing pet.
-                        log.error("Error while processing pet specifics.", e);
-                    }
+                if(entity.getAI() != null) {
+                    entity.getAI().onTick();
                 }
             }
 
