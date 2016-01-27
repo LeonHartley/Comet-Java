@@ -14,16 +14,6 @@ public abstract class RoomFloorObject extends RoomObject implements IRoomObject,
     private int id;
 
     /**
-     * The room where this object resides
-     */
-    private Room room;
-
-    /**
-     * The position on the grid this object resides
-     */
-    private Position position;
-
-    /**
      * Create the room object instance
      *
      * @param position The position in the room where this object is
@@ -33,9 +23,6 @@ public abstract class RoomFloorObject extends RoomObject implements IRoomObject,
         super(position, room);
 
         this.id = id;
-        this.position = position;
-        this.room = room;
-
     }
 
     /**

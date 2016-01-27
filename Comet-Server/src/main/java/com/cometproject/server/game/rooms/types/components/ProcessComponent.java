@@ -67,10 +67,6 @@ public class ProcessComponent implements CometTask {
         long timeSinceLastProcess = this.lastProcess == 0 ? 0 : (System.currentTimeMillis() - this.lastProcess);
         this.lastProcess = System.currentTimeMillis();
 
-        if (this.getProcessTimes() != null && this.getProcessTimes().size() < 30) {
-            log.info("Time since last process: " + timeSinceLastProcess + "ms");
-        }
-
         long timeStart = System.currentTimeMillis();
 
         try {
@@ -157,7 +153,6 @@ public class ProcessComponent implements CometTask {
             entitiesToUpdate.clear();
 
 //            log.debug("Room processing took " + (System.currentTimeMillis() - timeStart) + "ms");
-
         } catch (Exception e) {
             log.warn("Error during room entity processing", e);
         }

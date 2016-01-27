@@ -17,4 +17,6 @@ public interface BotAI {
     void onTick();
 
     void onTickComplete();
+
+    boolean canMove();
 }

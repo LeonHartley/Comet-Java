@@ -12,7 +12,6 @@ import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMess
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BadgeInventoryMessageComposer;
-import com.cometproject.server.network.messages.outgoing.user.inventory.ReceiveBadgeMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.RemoveObjectFromInventoryMessageComposer;
 import com.cometproject.server.storage.queries.achievements.PlayerAchievementDao;
 import com.cometproject.server.storage.queries.player.inventory.InventoryDao;
@@ -40,8 +39,8 @@ public class InventoryComponent implements PlayerComponent {
     public InventoryComponent(Player player) {
         this.player = player;
 
-        this.floorItems = new LinkedHashMap<>();
-        this.wallItems = new LinkedHashMap<>();
+        this.floorItems = new ConcurrentHashMap<>();
+        this.wallItems = new ConcurrentHashMap<>();
         this.badges = new ConcurrentHashMap<>();
 
         this.loadBadges();

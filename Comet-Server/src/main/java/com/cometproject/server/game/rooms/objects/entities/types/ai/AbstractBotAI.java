@@ -47,7 +47,7 @@ public abstract class AbstractBotAI implements BotAI {
             }
 
             if (chance == 1 && newStep) {
-                if (!this.getEntity().isWalking()) {
+                if (!this.getEntity().isWalking() && this.canMove()) {
                     botPathCalculator.submit(() -> {
                         RoomTile reachableTile = this.getEntity().getRoom().getMapping().getRandomReachableTile(this.getEntity());
 
@@ -90,7 +90,6 @@ public abstract class AbstractBotAI implements BotAI {
             realTime = 1; //0.5s
         }
 
-        System.out.println(realTime);
         this.ticksUntilComplete = realTime;
     }
 
@@ -121,6 +120,11 @@ public abstract class AbstractBotAI implements BotAI {
     @Override
     public boolean onRemovedFromRoom() {
         return false;
+    }
+
+    @Override
+    public boolean canMove() {
+        return true;
     }
 
     public GenericEntity getEntity() {
