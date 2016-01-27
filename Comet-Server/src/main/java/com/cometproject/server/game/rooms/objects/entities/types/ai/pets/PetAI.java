@@ -5,6 +5,7 @@ import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -19,6 +20,8 @@ public class PetAI extends AbstractBotAI {
     };
 
     private String ownerName = "";
+
+    private int playTimer = 0;
 
     public PetAI(GenericEntity entity) {
         super(entity);
@@ -75,10 +78,23 @@ public class PetAI extends AbstractBotAI {
     @Override
     public void onTick() {
         super.onTick();
+
+        if(this.playTimer != 0) {
+            this.playTimer--;
+
+            if(this.playTimer == 0) {
+                this.getPetEntity().removeStatus(RoomEntityStatus.PLAY);
+            }
+        }
     }
 
     @Override
     public boolean onTalk(PlayerEntity entity, String message) {
+        if(message.equals(this.getPetEntity().getData().getName() + " play")) {
+            this.playTimer = 20;
+            this.getPetEntity().addStatus(RoomEntityStatus.PLAY, "");
+        }
+
         return false;
     }
 
@@ -107,5 +123,10 @@ public class PetAI extends AbstractBotAI {
         }
 
         return message;
+    }
+
+    @Override
+    public boolean canMove() {
+        return this.playTimer == 0;
     }
 }

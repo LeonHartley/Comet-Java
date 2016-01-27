@@ -7,7 +7,9 @@ public enum RoomEntityStatus {
     SIGN("sign"),
     CONTROLLER("flatctrl"),
     TRADE("trd"),
-    VOTE("vote");
+    VOTE("vote"),
+    GESTURE("gst"),
+    PLAY("pla");
 
     private final String statusCode;
 

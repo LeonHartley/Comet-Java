@@ -84,7 +84,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.playerId = player.getId();
         this.playerData = player.getData();
 
-        if(this.player.isInvisible()) {
+        if (this.player.isInvisible()) {
             this.updateVisibility(false);
         }
 
@@ -97,7 +97,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public void joinRoom(Room room, String password) {
-        if(this.isFinalized()) return;
+        if (this.isFinalized()) return;
 
         boolean isAuthFailed = false;
         boolean isSpectating = this.getPlayer().isSpectating(room.getId());
@@ -352,10 +352,10 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         long time = System.currentTimeMillis();
 
         if (!this.getPlayer().getPermissions().getRank().floodBypass()) {
-            if(this.lastMessage.equals(message)) {
+            if (this.lastMessage.equals(message)) {
                 this.lastMessageCounter++;
 
-                if(this.lastMessageCounter >= 3) {
+                if (this.lastMessageCounter >= 3) {
                     this.getPlayer().setRoomFloodTime(this.getPlayer().getPermissions().getRank().floodTime());
                 }
             } else {
@@ -438,8 +438,9 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     }
 
     public void postChat(String message) {
-        for (BotEntity entity : this.getRoom().getEntities().getBotEntities()) {
-            if (entity.getAI().onTalk(this, message)) break;
+        for (Map.Entry<Integer, GenericEntity> entity : this.getRoom().getEntities().getAllEntities().entrySet()) {
+            if (entity.getValue().getAI() != null)
+                entity.getValue().getAI().onTalk(this, message);
         }
     }
 

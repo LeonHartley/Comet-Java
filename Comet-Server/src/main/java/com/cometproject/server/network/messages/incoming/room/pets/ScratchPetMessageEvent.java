@@ -33,7 +33,9 @@ public class ScratchPetMessageEvent implements Event {
 
         room.getEntities().broadcastMessage(new ScratchPetNotificationMessageComposer(petEntity));
 
+        petEntity.getData().incrementScratches();
         petEntity.getPetAI().increaseExperience(10);
+        petEntity.getData().saveStats();
 
         client.getPlayer().getAchievements().progressAchievement(AchievementType.PET_RESPECT_GIVEN, 1);
     }

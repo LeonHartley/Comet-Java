@@ -40,6 +40,9 @@ public class TeleporterFloorItem extends RoomItemFloor {
 
         if (entity.getPosition().getX() != posInFront.getX() || entity.getPosition().getY() != posInFront.getY()) {
             entity.moveTo(posInFront.getX(), posInFront.getY());
+
+            this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY()).scheduleEvent(entity.getId(), (e) -> onInteract(e, requestData, false));
+
             return false;
         }
 

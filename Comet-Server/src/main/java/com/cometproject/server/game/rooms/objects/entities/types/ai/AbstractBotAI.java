@@ -34,7 +34,7 @@ public abstract class AbstractBotAI implements BotAI {
             }
         }
 
-        int chance = RandomInteger.getRandom(1, (this.getEntity().hasStatus(RoomEntityStatus.SIT) || this.getEntity().hasStatus(RoomEntityStatus.LAY)) ? 20 : 7);
+        int chance = RandomInteger.getRandom(1, (this.getEntity().hasStatus(RoomEntityStatus.SIT) || this.getEntity().hasStatus(RoomEntityStatus.LAY)) ? 50 : 20);
 
         if (!this.getEntity().hasMount()) {
             boolean newStep = true;
@@ -47,7 +47,7 @@ public abstract class AbstractBotAI implements BotAI {
                 }
             }
 
-            if (chance == 1 && newStep) {
+            if (chance < 3 && newStep) {
                 if (!this.getEntity().isWalking() && this.canMove()) {
                     botPathCalculator.submit(() -> {
                         RoomTile reachableTile = this.getEntity().getRoom().getMapping().getRandomReachableTile(this.getEntity());

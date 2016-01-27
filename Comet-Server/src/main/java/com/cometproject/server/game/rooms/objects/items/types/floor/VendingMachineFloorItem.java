@@ -21,14 +21,13 @@ public class VendingMachineFloorItem extends RoomItemFloor {
     public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
         if (isWiredTrigger || entity == null) return false;
 
-        if (!this.getPosition().touching(entity)) {
-            entity.moveTo(this.getPosition().getX(), this.getPosition().getY());
+        Position posInFront = this.getPosition().squareInFront(this.getRotation());
+
+        if (!posInFront.equals(entity.getPosition())) {
+            entity.moveTo(posInFront.getX(), posInFront.getY());
+            this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY()).scheduleEvent(entity.getId(), (e) -> onInteract(e, requestData, false));
             return false;
         }
-
-        // if(this.vendingEntity != null) {
-        //     return;
-        // }
 
         int rotation = Position.calculateRotation(entity.getPosition().getX(), entity.getPosition().getY(), this.getPosition().getX(), this.getPosition().getY(), false);
 
