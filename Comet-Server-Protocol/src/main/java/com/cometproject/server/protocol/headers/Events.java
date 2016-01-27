@@ -272,6 +272,7 @@ public class Events {
     public static final short GetRoomRightsMessageEvent = 2734;//2000
     public static final short SendMsgMessageEvent = 1981;//936
     public static final short CloseTicketMesageEvent = 50;//1165
+    public static final short UpdateSnapshotsMessageEvent = 2703;
 
     private static Map<Short, String> eventPacketNames = new HashMap<>();
 

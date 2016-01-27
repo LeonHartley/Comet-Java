@@ -31,7 +31,8 @@ public class ModToolRoomActionMessageEvent implements Event {
         RoomData roomData = RoomManager.getInstance().getRoomData(roomId);
         boolean isActive = RoomManager.getInstance().isActive(roomId);
 
-        if (roomData == null) return;
+        if (roomData == null)
+            return;
 
         if (changeRoomName) {
             roomData.setName(Locale.getOrDefault("game.room.inappropriate", INAPPROPRIATE_ROOM_NAME));
@@ -40,7 +41,8 @@ public class ModToolRoomActionMessageEvent implements Event {
         if (isActive) {
             Room room = RoomManager.getInstance().get(roomData.getId());
 
-            if (room == null) return;
+            if (room == null)
+                return;
 
             if (lockDoor)
                 room.getData().setAccess(RoomAccessType.DOORBELL);

@@ -12,12 +12,11 @@ public class KickUserMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         int playerId = msg.readInt();
 
-        Room room = client.getPlayer().getEntity().getRoom();
-
-        if (room == null) {
+        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
+        Room room = client.getPlayer().getEntity().getRoom();
         PlayerEntity playerEntity = room.getEntities().getEntityByPlayerId(playerId);
 
         if (playerEntity == null) {

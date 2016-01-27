@@ -59,6 +59,7 @@ import com.cometproject.server.network.messages.incoming.room.item.stickies.Open
 import com.cometproject.server.network.messages.incoming.room.item.stickies.PlacePostitMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.stickies.SavePostItMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.item.wired.SaveWiredDataMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.item.wired.UpdateSnapshotsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.*;
 import com.cometproject.server.network.messages.incoming.room.pets.*;
 import com.cometproject.server.network.messages.incoming.room.settings.*;
@@ -170,7 +171,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.ModerationCautionMessageEvent, new ModToolUserCautionMessageEvent());
         this.getMessages().put(Events.KickUserMessageEvent, new ModToolUserKickMessageEvent());
         this.getMessages().put(Events.ModeratorActionMessageEvent, new ModToolRoomAlertMessageEvent());
-        this.getMessages().put(Events.ModeratorActionMessageEvent, new ModToolRoomActionMessageEvent());
+        this.getMessages().put(Events.ModerateRoomMessageEvent, new ModToolRoomActionMessageEvent());
         this.getMessages().put(Events.PickTicketMessageEvent, new ModToolPickTicketMessageEvent());
         this.getMessages().put(Events.GetModeratorTicketChatlogsMessageEvent, new ModToolTicketChatlogMessageEvent());
         this.getMessages().put(Events.CloseTicketMesageEvent, new ModToolCloseIssueMessageEvent());
@@ -332,9 +333,12 @@ public final class MessageHandler {
         this.getMessages().put(Events.UseOneWayGateMessageEvent, new ChangeFloorItemStateMessageEvent());
         this.getMessages().put(Events.DiceOffMessageEvent, new OpenDiceMessageEvent());
         this.getMessages().put(Events.ThrowDiceMessageEvent, new RunDiceMessageEvent());
+
         this.getMessages().put(Events.SaveWiredEffectConfigMessageEvent, new SaveWiredDataMessageEvent());
         this.getMessages().put(Events.SaveWiredConditionConfigMessageEvent, new SaveWiredDataMessageEvent());
         this.getMessages().put(Events.SaveWiredTriggerConfigMessageEvent, new SaveWiredDataMessageEvent());
+        this.getMessages().put(Events.UpdateSnapshotsMessageEvent, new UpdateSnapshotsMessageEvent());
+
         this.getMessages().put(Events.CreditFurniRedeemMessageEvent, new ExchangeItemMessageEvent());
         this.getMessages().put(Events.UseWallItemMessageEvent, new UseWallItemMessageEvent());
         this.getMessages().put(Events.UseHabboWheelMessageEvent, new UseWallItemMessageEvent());
@@ -348,7 +352,6 @@ public final class MessageHandler {
         this.getMessages().put(Events.MoodlightUpdateMessageEvent, new UpdateMoodlightMessageEvent());
         this.getMessages().put(Events.UpdateMagicTileMessageEvent, new SaveStackToolMessageEvent());
 //        this.getMessages().put(Events.Gate, new SaveFootballGateMessageEvent());
-//        this.getMessages().put(Events, new UpdateSnapshotsMessageEvent());
         this.getMessages().put(Events.AddStickyNoteMessageEvent, new PlacePostitMessageEvent());
         this.getMessages().put(Events.GetStickyNoteMessageEvent, new OpenPostItMessageEvent());
         this.getMessages().put(Events.UpdateStickyNoteMessageEvent, new SavePostItMessageEvent());
