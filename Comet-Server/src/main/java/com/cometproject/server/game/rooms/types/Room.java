@@ -143,6 +143,7 @@ public class Room implements Attributable, IRoom {
         this.entities.dispose();
         this.items.dispose();
         this.bots.dispose();
+        this.mapping.dispose();
 
         if(this.data.getType() == RoomType.PUBLIC) {
             RoomQueue.getInstance().removeQueue(this.getId());

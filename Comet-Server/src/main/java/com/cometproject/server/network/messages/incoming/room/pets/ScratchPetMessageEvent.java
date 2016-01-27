@@ -26,6 +26,7 @@ public class ScratchPetMessageEvent implements Event {
 
         if(!playerEntity.getPosition().touching(petEntity.getPosition())) {
             playerEntity.moveTo(petEntity.getPosition().squareInFront(petEntity.getBodyRotation()));
+
             return;
         }
 

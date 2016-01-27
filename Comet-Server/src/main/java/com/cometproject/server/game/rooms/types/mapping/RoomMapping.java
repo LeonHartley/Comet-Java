@@ -47,6 +47,18 @@ public class RoomMapping {
         }
     }
 
+    public void dispose() {
+        for (int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles[x].length; y++) {
+                RoomTile tile = this.tiles[x][y];
+
+                if(tile != null) {
+                    tile.dispose();
+                }
+            }
+        }
+    }
+
     public void tick() {
         // clear out the entity grid
         for (int x = 0; x < tiles.length; x++) {
@@ -101,12 +113,12 @@ public class RoomMapping {
     }
 
     public RoomTile getRandomReachableTile(RoomFloorObject roomFloorObject) {
-        for(int tries = 0; tries < this.getModel().getSizeX() * this.getModel().getSizeY(); tries++) {
-            int randomX = RandomInteger.getRandom(0, this.getModel().getSizeX()-1);
-            int randomY = RandomInteger.getRandom(0, this.getModel().getSizeY()-1);
+        for (int tries = 0; tries < this.getModel().getSizeX() * this.getModel().getSizeY(); tries++) {
+            int randomX = RandomInteger.getRandom(0, this.getModel().getSizeX() - 1);
+            int randomY = RandomInteger.getRandom(0, this.getModel().getSizeY() - 1);
 
             final RoomTile tile = this.getTile(randomX, randomY);
-            if(tile.isReachable(roomFloorObject)) {
+            if (tile.isReachable(roomFloorObject)) {
                 return tile;
             }
         }
@@ -131,8 +143,8 @@ public class RoomMapping {
         for (GenericEntity entity : this.room.getEntities().getEntitiesAt(position)) {
             entitySize++;
 
-            if(entity.getMountedEntity() != null) {
-                if(entity.getMountedEntity().getId() == entityId) {
+            if (entity.getMountedEntity() != null) {
+                if (entity.getMountedEntity().getId() == entityId) {
                     return false;
                 }
             }

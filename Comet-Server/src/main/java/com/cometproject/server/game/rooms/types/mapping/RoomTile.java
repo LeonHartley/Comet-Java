@@ -213,9 +213,16 @@ public class RoomTile {
             this.originalHeight = this.stackHeight;
     }
 
+    public void dispose() {
+        this.pendingEvents.clear();
+        this.items.clear();
+        this.entities.clear();
+    }
+
     public void onEntityEntersTile(GenericEntity entity) {
         if (this.pendingEvents.containsKey(entity.getId())) {
             this.pendingEvents.get(entity.getId()).accept(entity);
+            this.pendingEvents.remove(entity.getId());
         }
     }
 
