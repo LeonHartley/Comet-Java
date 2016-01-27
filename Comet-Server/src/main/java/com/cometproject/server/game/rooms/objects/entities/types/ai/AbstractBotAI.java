@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.utilities.RandomInteger;
@@ -94,7 +95,25 @@ public abstract class AbstractBotAI implements BotAI {
     }
 
     protected void say(String message) {
+        if(message == null) {
+            return;
+        }
+
         this.getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getEntity().getId(), message, 0, 0));
+    }
+
+    protected void moveTo(Position position) {
+        this.getEntity().moveTo(position.getX(), position.getY());
+    }
+
+    protected void sit() {
+        this.getEntity().addStatus(RoomEntityStatus.SIT, "" + this.getPetEntity().getRoom().getModel().getSquareHeight()[this.getEntity().getPosition().getX()][this.getEntity().getPosition().getY()]);
+        this.getEntity().markNeedsUpdate();
+    }
+
+    protected void lay() {
+        this.getEntity().addStatus(RoomEntityStatus.LAY, "" + this.getPetEntity().getRoom().getModel().getSquareHeight()[this.getEntity().getPosition().getX()][this.getEntity().getPosition().getY()]);
+        this.getEntity().markNeedsUpdate();
     }
 
     @Override

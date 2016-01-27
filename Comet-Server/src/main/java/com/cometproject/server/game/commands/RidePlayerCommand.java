@@ -45,7 +45,7 @@ public class RidePlayerCommand extends ChatCommand {
 //            return;
 //        }
 
-        if(!DistanceCalculator.tilesTouching(client.getPlayer().getEntity().getPosition(), horse.getPosition())) {
+        if (!DistanceCalculator.tilesTouching(client.getPlayer().getEntity().getPosition(), horse.getPosition())) {
             Position closePosition = horse.getPosition().squareBehind(6);
 
             client.getPlayer().getEntity().moveTo(closePosition.getX(), closePosition.getY());
@@ -54,7 +54,7 @@ public class RidePlayerCommand extends ChatCommand {
 
         Position pos = horse.getPositionToSet() != null ? horse.getPositionToSet() : horse.getPosition();
 
-        if(horse.isWalking()) {
+        if (horse.isWalking()) {
             horse.setWalkCancelled(true);
         }
 
@@ -81,5 +81,10 @@ public class RidePlayerCommand extends ChatCommand {
     @Override
     public String getDescription() {
         return null;
+    }
+
+    @Override
+    public boolean isHidden() {
+        return true;
     }
 }

@@ -1,9 +1,10 @@
-package com.cometproject.server.game.rooms.objects.entities.types.ai;
+package com.cometproject.server.game.rooms.objects.entities.types.ai.bots;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 
 public class WaiterAI extends AbstractBotAI {
