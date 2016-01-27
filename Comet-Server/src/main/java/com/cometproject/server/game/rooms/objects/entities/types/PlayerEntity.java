@@ -28,6 +28,7 @@ import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
 import com.cometproject.server.network.NetworkManager;
+import com.cometproject.server.network.messages.incoming.room.engine.AddUserToRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.access.RoomReadyMessageComposer;
@@ -223,7 +224,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         session.send(new RoomRatingMessageComposer(this.getRoom().getData().getScore(), this.canRateRoom()));
 
         InitializeRoomMessageEvent.heightmapMessageEvent.handle(session, null);
-//        InitializeRoomMessageEvent.addUserToRoomMessageEvent.handle(session, null);
+        AddUserToRoomMessageEvent.addUserToRoomMessageEvent.handle(this.getPlayer().getSession(), null);
 
         if (RoomManager.getInstance().hasPromotion(this.getRoom().getId())) {
             session.send(new RoomPromotionMessageComposer(this.getRoom().getData(), this.getRoom().getPromotion()));
@@ -238,6 +239,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         for (BotEntity entity : this.getRoom().getEntities().getBotEntities()) {
             if (entity.getAI().onPlayerEnter(this)) break;
         }
+
     }
 
     public boolean canRateRoom() {

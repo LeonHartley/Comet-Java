@@ -26,6 +26,8 @@ import java.util.Map;
 
 
 public class AddUserToRoomMessageEvent implements Event {
+    public static AddUserToRoomMessageEvent addUserToRoomMessageEvent = new AddUserToRoomMessageEvent();
+
     public void handle(Session client, MessageEvent msg) {
         PlayerEntity avatar = client.getPlayer().getEntity();
 

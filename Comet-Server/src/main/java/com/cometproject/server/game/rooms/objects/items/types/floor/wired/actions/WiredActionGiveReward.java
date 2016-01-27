@@ -272,6 +272,11 @@ public class WiredActionGiveReward extends WiredActionItem {
     }
 
     @Override
+    public void onUnload() {
+        this.givenRewards.clear();
+    }
+
+    @Override
     public void onPickup() {
         super.onPickup();
         rewardTimings.get(this.getId()).clear();
