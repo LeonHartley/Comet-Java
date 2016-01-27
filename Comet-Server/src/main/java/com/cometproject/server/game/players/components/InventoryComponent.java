@@ -159,7 +159,7 @@ public class InventoryComponent implements PlayerComponent {
     }
 
     public Map<String, Integer> equippedBadges() {
-        Map<String, Integer> badges = new LinkedHashMap<>();
+        Map<String, Integer> badges = new ConcurrentHashMap<>();
 
         for (Map.Entry<String, Integer> badge : this.getBadges().entrySet()) {
             if (badge.getValue() > 0)

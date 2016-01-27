@@ -6,6 +6,8 @@ import com.cometproject.server.game.players.components.types.inventory.Inventory
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
+import java.util.Map;
+
 
 public class InventoryMessageComposer extends MessageComposer {
     private final InventoryComponent inventoryComponent;
@@ -25,8 +27,8 @@ public class InventoryMessageComposer extends MessageComposer {
         msg.writeInt(1);
         msg.writeInt(inventoryComponent.getTotalSize());
 
-        for (InventoryItem inventoryItem : inventoryComponent.getFloorItems().values()) {
-            inventoryItem.compose(msg);
+        for (Map.Entry<Long, InventoryItem>  inventoryItem : inventoryComponent.getFloorItems().entrySet()) {
+            inventoryItem.getValue().compose(msg);
         }
 
         // Wall items
