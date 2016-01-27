@@ -278,7 +278,7 @@ public class RoomDao {
             preparedStatement.setString(28, disabledCommands);
             preparedStatement.setInt(29, groupId);
 
-            preparedStatement.setInt(29, roomId);
+            preparedStatement.setInt(30, roomId);
 
             preparedStatement.execute();
         } catch (SQLException e) {
