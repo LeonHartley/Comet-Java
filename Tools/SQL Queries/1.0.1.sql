@@ -37,4 +37,14 @@ CREATE TABLE `items_wired_rewards` (
 ALTER TABLE `rooms`
 	ADD COLUMN `group_id` INT(11) NOT NULL DEFAULT '0' AFTER `owner_id`;
 
-UPDATE rooms r SET r.group_id = IFNULL((SELECT id FROM groups WHERE room_id = r.id), 0);
+UPDATE rooms r SET r.group_id = IFNULL((SELECT id FROM groups WHERE room_id = r.id LIMIT 1), 0);
+
+CREATE TABLE `pet_messages` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`pet_type` INT(11) NOT NULL DEFAULT '0',
+	`message_type` ENUM('GENERIC','SCRATCHED','WELCOME_HOME','HUNGRY','TIRED') NOT NULL DEFAULT 'GENERIC',
+	`message_string` VARCHAR(100) NOT NULL DEFAULT 'Hiya %username%!!!',
+	PRIMARY KEY (`id`)
+) COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=1;
