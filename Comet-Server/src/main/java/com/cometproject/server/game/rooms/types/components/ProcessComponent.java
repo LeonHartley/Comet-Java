@@ -67,6 +67,10 @@ public class ProcessComponent implements CometTask {
         long timeSinceLastProcess = this.lastProcess == 0 ? 0 : (System.currentTimeMillis() - this.lastProcess);
         this.lastProcess = System.currentTimeMillis();
 
+        if (this.getProcessTimes() != null && this.getProcessTimes().size() < 30) {
+            log.info("Time since last process: " + timeSinceLastProcess + "ms");
+        }
+
         long timeStart = System.currentTimeMillis();
 
         try {
@@ -74,10 +78,6 @@ public class ProcessComponent implements CometTask {
         } catch (Exception e) {
             log.error("Error while cycling room: " + room.getData().getId() + ", " + room.getData().getName(), e);
         }
-
-//        if(this.room.getEntities().getPlayerEntities().size() == 0) {
-//            return;
-//        }
 
         try {
             Map<Integer, GenericEntity> entities = this.room.getEntities().getAllEntities();

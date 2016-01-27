@@ -7,7 +7,6 @@ import com.cometproject.server.game.groups.types.Group;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.publics.PublicRoom;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.sun.xml.internal.rngom.digested.DOneOrMorePattern;
 
 
 public class RoomWriter {

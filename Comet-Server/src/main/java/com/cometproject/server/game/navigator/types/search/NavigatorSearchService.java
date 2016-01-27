@@ -27,7 +27,7 @@ public class NavigatorSearchService implements CometTask {
     }
 
     public List<RoomData> search(Category category, Player player, boolean expanded) {
-        List<RoomData> rooms = new LinkedList<>();
+        List<RoomData> rooms = Lists.newCopyOnWriteArrayList();
 
         switch (category.getCategoryType()) {
             case MY_ROOMS:
@@ -64,10 +64,10 @@ public class NavigatorSearchService implements CometTask {
                 break;
 
             case PUBLIC:
-                for(PublicRoom publicRoom : NavigatorManager.getInstance().getPublicRooms().values()) {
+                for (PublicRoom publicRoom : NavigatorManager.getInstance().getPublicRooms().values()) {
                     RoomData roomData = RoomManager.getInstance().getRoomData(publicRoom.getRoomId());
 
-                    if(roomData != null) {
+                    if (roomData != null) {
                         rooms.add(roomData);
                     }
                 }
@@ -76,10 +76,10 @@ public class NavigatorSearchService implements CometTask {
             case STAFF_PICKS:
                 List<RoomData> staffPicks = Lists.newArrayList();
 
-                for(int roomId : NavigatorManager.getInstance().getStaffPicks()) {
+                for (int roomId : NavigatorManager.getInstance().getStaffPicks()) {
                     RoomData roomData = RoomManager.getInstance().getRoomData(roomId);
 
-                    if(roomData != null) {
+                    if (roomData != null) {
                         staffPicks.add(roomData);
                     }
                 }
@@ -107,8 +107,8 @@ public class NavigatorSearchService implements CometTask {
 
         List<RoomData> returnRooms = new LinkedList<>();
 
-        for(RoomData roomData : rooms) {
-            if(returnRooms.size() >= limit) {
+        for (RoomData roomData : rooms) {
+            if (returnRooms.size() >= limit) {
                 break;
             }
 
