@@ -32,29 +32,29 @@ public class InventoryMessageComposer extends MessageComposer {
         }
 
         // Wall items
-        for (InventoryItem i : inventoryComponent.getWallItems().values()) {
-            msg.writeInt(i.getVirtualId());
-            msg.writeString(i.getDefinition().getType().toUpperCase());
-            msg.writeInt(i.getVirtualId());
-            msg.writeInt(i.getDefinition().getSpriteId());
+        for (Map.Entry<Long, InventoryItem> item : inventoryComponent.getWallItems().entrySet()) {
+            msg.writeInt(item.getValue().getVirtualId());
+            msg.writeString(item.getValue().getDefinition().getType().toUpperCase());
+            msg.writeInt(item.getValue().getVirtualId());
+            msg.writeInt(item.getValue().getDefinition().getSpriteId());
 
-            if (i.getDefinition().getItemName().contains("a2")) {
+            if (item.getValue().getDefinition().getItemName().contains("a2")) {
                 msg.writeInt(3);
-            } else if (i.getDefinition().getItemName().contains("wallpaper")) {
+            } else if (item.getValue().getDefinition().getItemName().contains("wallpaper")) {
                 msg.writeInt(2);
-            } else if (i.getDefinition().getItemName().contains("landscape")) {
+            } else if (item.getValue().getDefinition().getItemName().contains("landscape")) {
                 msg.writeInt(4);
             } else {
                 msg.writeInt(1);
             }
 
             msg.writeInt(0);
-            msg.writeString(i.getExtraData());
+            msg.writeString(item.getValue().getExtraData());
 
-            msg.writeBoolean(i.getDefinition().canRecycle());
-            msg.writeBoolean(i.getDefinition().canTrade());
-            msg.writeBoolean(i.getDefinition().canInventoryStack());
-            msg.writeBoolean(i.getDefinition().canMarket());
+            msg.writeBoolean(item.getValue().getDefinition().canRecycle());
+            msg.writeBoolean(item.getValue().getDefinition().canTrade());
+            msg.writeBoolean(item.getValue().getDefinition().canInventoryStack());
+            msg.writeBoolean(item.getValue().getDefinition().canMarket());
             msg.writeInt(-1);
             msg.writeBoolean(false);
             msg.writeInt(-1);
