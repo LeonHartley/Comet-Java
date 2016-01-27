@@ -46,7 +46,7 @@ public class PetEntity extends GenericEntity {
 
     public void leaveRoom(boolean save) {
         if (save) {
-            PetDao.savePet(this.getPosition().getX(), this.getPosition().getY(), this.data.getId());
+            PetDao.savePosition(this.getPosition().getX(), this.getPosition().getY(), this.data.getId());
         }
 
         this.getRoom().getEntities().removeEntity(this);
@@ -61,7 +61,7 @@ public class PetEntity extends GenericEntity {
 
     @Override
     public boolean onRoomDispose() {
-        PetDao.savePet(this.getPosition().getX(), this.getPosition().getY(), this.data.getId());
+        PetDao.savePosition(this.getPosition().getX(), this.getPosition().getY(), this.data.getId());
 
         this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
 
@@ -143,6 +143,10 @@ public class PetEntity extends GenericEntity {
     @Override
     public BotAI getAI() {
         return ai;
+    }
+
+    public PetAI getPetAI() {
+        return this.ai;
     }
 
     @Override

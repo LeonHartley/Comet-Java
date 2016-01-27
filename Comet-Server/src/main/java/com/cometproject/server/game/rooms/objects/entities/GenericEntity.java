@@ -124,6 +124,10 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
         this.walkingGoal = new Position(x, y, 0.0);
     }
 
+    public void moveTo(Position position) {
+        this.moveTo(position.getX(), position.getY());
+    }
+
     @Override
     public void moveTo(int x, int y) {
         RoomTile tile = this.getRoom().getMapping().getTile(x, y);

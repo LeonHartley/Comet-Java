@@ -9,6 +9,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
+import com.cometproject.server.network.messages.outgoing.room.pets.AddExperiencePointsMessageComposer;
 import com.cometproject.server.utilities.RandomInteger;
 
 
@@ -79,6 +80,11 @@ public class PetAI extends AbstractBotAI {
     @Override
     public boolean onTalk(PlayerEntity entity, String message) {
         return false;
+    }
+
+    public void increaseExperience(int amount) {
+        this.getPetEntity().getData().increaseExperience(amount);
+        this.getEntity().getRoom().getEntities().broadcastMessage(new AddExperiencePointsMessageComposer(this.getPetEntity().getData().getId(), this.getPetEntity().getId(), amount));
     }
 
     private PetSpeech getPetSpeech() {

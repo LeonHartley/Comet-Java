@@ -2,6 +2,7 @@ package com.cometproject.server.game.pets.data;
 
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.rooms.objects.misc.Position;
+import com.cometproject.server.storage.queries.pets.PetDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,10 +11,13 @@ import java.sql.SQLException;
 public class PetData {
     private int id;
     private String name;
+
+    private int scratches;
     private int level;
     private int happiness;
     private int experience;
     private int energy;
+
     private int ownerId;
     private String colour;
     private int raceId;
@@ -23,19 +27,6 @@ public class PetData {
     private int hair = -1;
 
     private Position roomPosition;
-
-    public PetData(int id, String name, int level, int happiness, int experience, int energy, int ownerId, String colour, int raceId, int typeId) {
-        this.id = id;
-        this.name = name;
-        this.level = level;
-        this.happiness = happiness;
-        this.experience = experience;
-        this.energy = energy;
-        this.ownerId = ownerId;
-        this.colour = colour;
-        this.raceId = raceId;
-        this.typeId = typeId;
-    }
 
     public PetData(ResultSet data) throws SQLException {
         this.id = data.getInt("id");
@@ -49,6 +40,40 @@ public class PetData {
         this.raceId = data.getInt("race_id");
         this.typeId = data.getInt("type");
         this.roomPosition = new Position(data.getInt("x"), data.getInt("y"));
+    }
+
+    public PetData(int id, String name, int scratches, int level, int happiness, int experience, int energy, int ownerId, String colour, int raceId, int typeId) {
+        this.id = id;
+        this.name = name;
+        this.scratches = scratches;
+        this.level = level;
+        this.happiness = happiness;
+        this.experience = experience;
+        this.energy = energy;
+        this.ownerId = ownerId;
+        this.colour = colour;
+        this.raceId = raceId;
+        this.typeId = typeId;
+    }
+
+    public void saveStats() {
+        PetDao.saveStats(this.scratches, this.level, this.happiness, this.experience, this.energy, this.id);
+    }
+    
+    public void increaseExperience(int amount) {
+        this.experience += amount;
+    }
+
+    public void increaseHappiness(int amount) {
+        this.happiness += amount;
+    }
+    
+    public void incrementLevel() {
+        this.level += 1;
+    }
+    
+    public void incrementScratches() {
+        this.scratches += 1;
     }
 
     public int getId() {

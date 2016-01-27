@@ -157,7 +157,7 @@ public class PetDao {
         return 0;
     }
 
-    public static void savePet(int x, int y, int id) {
+    public static void savePosition(int x, int y, int id) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
@@ -168,6 +168,32 @@ public class PetDao {
             preparedStatement.setInt(1, x);
             preparedStatement.setInt(2, y);
             preparedStatement.setInt(3, id);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
+
+    public static void saveStats(int scratches, int level, int happiness, int experience, int energy, int petId) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE pet_data SET scratches = ?, level = ?, happiness = ?, experience = ?, energy = ? WHERE id = ?", sqlConnection);
+
+            preparedStatement.setInt(1, scratches);
+            preparedStatement.setInt(2, level);
+            preparedStatement.setInt(3, happiness);
+            preparedStatement.setInt(4, experience);
+            preparedStatement.setInt(5, energy);
+
+            preparedStatement.setInt(6, petId);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {
