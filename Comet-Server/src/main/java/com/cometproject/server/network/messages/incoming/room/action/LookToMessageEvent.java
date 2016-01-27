@@ -23,18 +23,6 @@ public class LookToMessageEvent implements Event {
         int x = msg.readInt();
         int y = msg.readInt();
 
-        if (x == avatar.getPosition().getX() && y == avatar.getPosition().getY())
-            return;
-
-        int rotation = Position.calculateRotation(avatar.getPosition().getX(), avatar.getPosition().getY(), x, y, false);
-
-        avatar.unIdle();
-
-        if (!avatar.hasStatus(RoomEntityStatus.SIT) && !avatar.hasStatus(RoomEntityStatus.LAY)) {
-            avatar.setBodyRotation(rotation);
-            avatar.setHeadRotation(rotation);
-
-            avatar.markNeedsUpdate();
-        }
+        avatar.lookTo(x, y);
     }
 }

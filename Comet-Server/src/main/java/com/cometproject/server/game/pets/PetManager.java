@@ -1,15 +1,15 @@
 package com.cometproject.server.game.pets;
 
-import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.storage.queries.pets.PetDao;
 import com.cometproject.server.utilities.Initializable;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class PetManager implements Initializable {
@@ -17,9 +17,11 @@ public class PetManager implements Initializable {
     private Logger log = Logger.getLogger(PetManager.class.getName());
 
     private List<PetRace> petRaces;
-    private Map<Integer, String[]> petSpeech;
+
+    private Map<Integer, PetSpeech> petMessages;
 
     public PetManager() {
+
     }
 
     @Override
@@ -40,8 +42,6 @@ public class PetManager implements Initializable {
     public void loadPetRaces() {
         if (this.petRaces != null) {
             this.petRaces.clear();
-        } else {
-            this.petRaces = new ArrayList<>();
         }
 
         try {
@@ -54,25 +54,17 @@ public class PetManager implements Initializable {
     }
 
     public void loadPetSpeech() {
-        if (this.petSpeech != null) {
-            this.petSpeech.clear();
-        } else {
-            this.petSpeech = new HashMap<>();
+        if (this.petMessages != null) {
+            this.petMessages.clear();
         }
 
         try {
-            for (Map.Entry<String, String> localeEntry : Locale.getAll().entrySet()) {
-                if (localeEntry.getKey().startsWith("game.pet.") && localeEntry.getKey().endsWith(".speech")) {
-                    int petType = Integer.parseInt(localeEntry.getKey().split("\\.")[2]);
-                    String[] speeches = localeEntry.getValue().split(",");
+            AtomicInteger petSpeechCount = new AtomicInteger(0);
+            this.petMessages = PetDao.getMessages(petSpeechCount);
 
-                    this.petSpeech.put(petType, speeches);
-                }
-            }
-
-            log.info("Loaded " + this.petSpeech.size() + " pet speech sets");
-        } catch (Exception e) {
-            log.error("Error while loading pet speech", e);
+            log.info("Loaded " + this.petMessages.size() + " pet message sets and " + petSpeechCount.get() + " total messages");
+        } catch(Exception e) {
+            log.error("Error while loading pet messages");
         }
     }
 
@@ -111,8 +103,11 @@ public class PetManager implements Initializable {
         return this.petRaces;
     }
 
-
-    public String[] getSpeech(int petType) {
-        return this.petSpeech.get(petType);
+    public PetSpeech getSpeech(int petType) {
+        return this.petMessages.get(petType);
     }
+
+//    public String[] getSpeech(int petType) {
+//        return this.petSpeech.get(petType);
+//    }
 }

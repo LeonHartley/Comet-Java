@@ -1,7 +1,6 @@
 package com.cometproject.server.network.messages;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.commands.user.group.DeleteGroupCommand;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.incoming.catalog.*;
 import com.cometproject.server.network.messages.incoming.catalog.ads.CatalogPromotionGetRoomsMessageEvent;
@@ -256,7 +255,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetPetInformationMessageEvent, new PetInformationMessageEvent());
         this.getMessages().put(Events.PickUpPetMessageEvent, new RemovePetMessageEvent());
         this.getMessages().put(Events.RideHorseMessageEvent, new HorseMountOnMessageEvent());
-        this.getMessages().put(Events.RespectPetMessageEvent, new RespectPetMessageEvent());
+        this.getMessages().put(Events.RespectPetMessageEvent, new ScratchPetMessageEvent());
     }
 
     public void registerRoom() {

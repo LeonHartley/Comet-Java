@@ -103,7 +103,7 @@ public class PetData {
         return typeId;
     }
 
-    public String[] getSpeech() {
+    public PetSpeech getSpeech() {
         return PetManager.getInstance().getSpeech(this.typeId);
     }
 

@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
-import com.cometproject.server.game.rooms.objects.RoomFloorObject;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
@@ -13,7 +12,12 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 
 public class RoomTile {
@@ -42,6 +46,8 @@ public class RoomTile {
 
     private List<RoomItemFloor> items;
     public Set<GenericEntity> entities;
+
+    private Map<Integer, Consumer<GenericEntity>> pendingEvents = new ConcurrentHashMap<>();
 
     public RoomTile(RoomMapping mappingInstance, Position position) {
         this.mappingInstance = mappingInstance;
@@ -78,7 +84,7 @@ public class RoomTile {
         boolean hasComponentItem = false;
 
         double highestHeight = 0d;
-        long    highestItem = 0;
+        long highestItem = 0;
 
         Double staticOverrideHeight = null;
         Double overrideHeight = null;
@@ -207,6 +213,16 @@ public class RoomTile {
             this.originalHeight = this.stackHeight;
     }
 
+    public void onEntityEntersTile(GenericEntity entity) {
+        if (this.pendingEvents.containsKey(entity.getId())) {
+            this.pendingEvents.get(entity.getId()).accept(entity);
+        }
+    }
+
+    public void scheduleEvent(int entityId, Consumer<GenericEntity> event) {
+        this.pendingEvents.put(entityId, event);
+    }
+
     public RoomEntityMovementNode getMovementNode() {
         return this.movementNode;
     }
@@ -242,7 +258,7 @@ public class RoomTile {
             }
         }
 
-        if(this.hasAdjustableHeight && roomItemFloor instanceof SeatFloorItem) {
+        if (this.hasAdjustableHeight && roomItemFloor instanceof SeatFloorItem) {
             height += ((SeatFloorItem) roomItemFloor).getSitHeight();
         }
 

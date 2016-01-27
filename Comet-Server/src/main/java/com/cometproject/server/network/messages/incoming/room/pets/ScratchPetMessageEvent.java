@@ -9,7 +9,7 @@ import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class RespectPetMessageEvent implements Event {
+public class ScratchPetMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
         int petId = msg.readInt();
@@ -24,6 +24,5 @@ public class RespectPetMessageEvent implements Event {
         room.getEntities().broadcastMessage(new ActionMessageComposer(client.getPlayer().getEntity().getId(), 7));
 
         client.getPlayer().getAchievements().progressAchievement(AchievementType.PET_RESPECT_GIVEN, 1);
-        // TODO: Flesh this out more
     }
 }

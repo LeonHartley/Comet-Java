@@ -1,9 +1,12 @@
 package com.cometproject.server.storage.queries.pets;
 
 import com.cometproject.server.game.pets.data.PetData;
+import com.cometproject.server.game.pets.data.PetSpeech;
+import com.cometproject.server.game.pets.data.PetMessageType;
 import com.cometproject.server.game.pets.data.StaticPetProperties;
 import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.storage.SqlHelper;
+import com.google.common.collect.Lists;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class PetDao {
@@ -31,6 +36,47 @@ public class PetDao {
 
             while (resultSet.next()) {
                 data.add(new PetRace(resultSet));
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
+    }
+
+    public static Map<Integer, PetSpeech> getMessages(AtomicInteger petSpeechCount) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        Map<Integer, PetSpeech> data = new ConcurrentHashMap<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT * FROM pet_messages", sqlConnection);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int petType = resultSet.getInt("pet_type");
+                PetMessageType messageType = PetMessageType.valueOf(resultSet.getString("message_type"));
+
+                if(!data.containsKey(petType)) {
+                    data.put(petType, new PetSpeech());
+                }
+
+                PetSpeech petSpeech = data.get(petType);
+
+                if(!petSpeech.getMessages().containsKey(messageType)) {
+                    petSpeech.getMessages().put(messageType, Lists.newArrayList());
+                }
+
+                petSpeechCount.incrementAndGet();
+                petSpeech.getMessages().get(messageType).add(resultSet.getString("message_string"));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

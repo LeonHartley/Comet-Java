@@ -305,9 +305,9 @@ public class ProcessComponent implements CometTask {
                     topItem.onEntityStepOn(entity);
                     WiredTriggerWalksOnFurni.executeTriggers(entity, topItem);
                 }
+            } else if(newTile != null) {
+                newTile.onEntityEntersTile(entity);
             }
-
-
         }
 
         return false;

@@ -172,6 +172,22 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
         this.setWalkingPath(path);
     }
 
+    public void lookTo(int x, int y) {
+        if (x == this.getPosition().getX() && y == this.getPosition().getY())
+            return;
+
+        int rotation = Position.calculateRotation(this.getPosition().getX(), this.getPosition().getY(), x, y, false);
+
+        this.unIdle();
+
+        if (!this.hasStatus(RoomEntityStatus.SIT) && !this.hasStatus(RoomEntityStatus.LAY)) {
+            this.setBodyRotation(rotation);
+            this.setHeadRotation(rotation);
+
+            this.markNeedsUpdate();
+        }
+    }
+
     @Override
     public Position getPositionToSet() {
         return this.positionToSet;
