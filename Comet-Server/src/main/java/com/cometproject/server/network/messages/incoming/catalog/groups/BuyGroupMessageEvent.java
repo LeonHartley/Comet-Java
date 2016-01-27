@@ -7,6 +7,7 @@ import com.cometproject.server.game.groups.types.GroupAccessLevel;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.groups.types.GroupMember;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.catalog.BoughtItemMessageComposer;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
@@ -72,11 +73,17 @@ public class BuyGroupMessageEvent implements Event {
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom().getId() != roomId) {
             client.send(new RoomForwardMessageComposer(roomId));
         } else {
-            client.getPlayer().getEntity().getRoom().setGroup(group);
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new GroupBadgesMessageComposer(group.getId(), group.getData().getBadge()));
+            Room room = client.getPlayer().getEntity().getRoom();
 
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));
-            client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
+            room.setGroup(group);
+
+            room.getData().setGroupId(group.getId());
+            room.getData().save();
+
+            room.getEntities().broadcastMessage(new GroupBadgesMessageComposer(group.getId(), group.getData().getBadge()));
+
+            room.getEntities().broadcastMessage(new LeaveRoomMessageComposer(client.getPlayer().getEntity().getId()));
+            room.getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
         }
 
         client.send(new GroupRoomMessageComposer(roomId, group.getId()));

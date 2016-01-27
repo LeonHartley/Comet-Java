@@ -27,6 +27,10 @@ public class DeleteGroupMessageEvent implements Event {
             Group group = GroupManager.getInstance().get(groupId);
             Room room = RoomManager.getInstance().get(group.getData().getRoomId());
 
+            if(group.getData().getOwnerId() != client.getPlayer().getId()) {
+                return;
+            }
+
             for (Integer groupMemberId : group.getMembershipComponent().getMembers().keySet()) {
                 Session groupMemberSession = NetworkManager.getInstance().getSessions().getByPlayerId(groupMemberId);
 
@@ -72,6 +76,10 @@ public class DeleteGroupMessageEvent implements Event {
             GroupManager.getInstance().removeGroup(group.getId());
 
             room.setGroup(null);
+
+            room.getData().setGroupId(0);
+            room.getData().save();
+
             room.setIdleNow();
         }
     }

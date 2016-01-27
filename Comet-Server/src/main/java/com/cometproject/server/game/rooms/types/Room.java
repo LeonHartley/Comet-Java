@@ -73,7 +73,6 @@ public class Room implements Attributable, IRoom {
             if (dynamicRoomModel != null) {
                 this.model = dynamicRoomModel;
             }
-
         }
 
         this.attributes = new HashMap<>();
@@ -94,7 +93,7 @@ public class Room implements Attributable, IRoom {
         this.pets = new PetComponent(this);
 
         // Cache the group.
-        this.group = GroupManager.getInstance().getGroupByRoomId(this.getId());
+        this.group = GroupManager.getInstance().get(this.getData().getGroupId());
 
         this.setAttribute("loadTime", System.currentTimeMillis());
 

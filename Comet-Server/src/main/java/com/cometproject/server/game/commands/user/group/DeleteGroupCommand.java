@@ -83,6 +83,10 @@ public class DeleteGroupCommand extends ChatCommand {
             GroupManager.getInstance().removeGroup(group.getId());
 
             room.setGroup(null);
+
+            room.getData().setGroupId(0);
+            room.getData().save();
+
             room.setIdleNow();
         } else {
             client.send(new AlertMessageComposer(Locale.getOrDefault("command.deletegroup.nogroup", "This room doesn't have a group to delete!")));

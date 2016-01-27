@@ -33,3 +33,8 @@ CREATE TABLE `items_wired_rewards` (
 	PRIMARY KEY (`id`),
 	INDEX `item_id` (`item_id`)
 ) COLLATE='latin1_swedish_ci' ENGINE=InnoDB;
+
+ALTER TABLE `rooms`
+	ADD COLUMN `group_id` INT(11) NOT NULL DEFAULT '0' AFTER `owner_id`;
+
+UPDATE rooms r SET r.group_id = IFNULL((SELECT id FROM groups WHERE room_id = r.id), 0);

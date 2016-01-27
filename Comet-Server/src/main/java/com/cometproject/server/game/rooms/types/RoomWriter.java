@@ -38,7 +38,7 @@ public class RoomWriter {
         }
 
         RoomPromotion promotion = RoomManager.getInstance().getRoomPromotions().get(room.getId());
-        Group group = GroupManager.getInstance().getGroupByRoomId(room.getId());
+        Group group = GroupManager.getInstance().get(room.getGroupId());
 
         composeRoomSpecials(msg, room, promotion, group, room.getType());
     }

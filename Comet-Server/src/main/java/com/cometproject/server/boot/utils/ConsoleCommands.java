@@ -41,7 +41,9 @@ public class ConsoleCommands {
                                     log.error("Invalid command");
                                     break;
                                 case "/":
-                                    log.info("Commands available: /about, /reload_messages, /gc, /reload_permissions, /changemotd, /reload_catalog, /reload_bans, /reload_locale, /reload_permissions, /queries");
+                                case "/help":
+                                case "/commands":
+                                    log.info("Commands available: /about, /reload_messages, /gc, /reload_permissions, /changemotd, /reload_catalog, /reload_bans, /reload_locale, /reload_permissions, /queries, /queries");
                                     break;
 
                                 case "/about":

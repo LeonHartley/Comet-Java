@@ -60,6 +60,8 @@ public class RoomData implements IRoomData {
 
     private List<String> disabledCommands;
 
+    private int groupId;
+
     private long lastReferenced = Comet.getTime();
 
     public RoomData(ResultSet room) throws SQLException {
@@ -117,6 +119,7 @@ public class RoomData implements IRoomData {
         this.chatDistance = room.getInt("chat_distance");
 
         this.disabledCommands = Lists.newArrayList(room.getString("disabled_commands").split(","));
+        this.groupId = room.getInt("group_id");
     }
 
     public void save() {
@@ -145,7 +148,7 @@ public class RoomData implements IRoomData {
         RoomDao.updateRoom(id, name, StringUtils.abbreviate(description, 255), ownerId, owner, category, maxUsers, access, password, score,
                 tagString, decorString.equals("") ? "" : decorString.substring(0, decorString.length() - 1),
                 model, hideWalls, thicknessWall, thicknessFloor, allowWalkthrough, allowPets, heightmap, tradeState,
-                muteState, kickState, banState, bubbleMode, bubbleType, bubbleScroll, chatDistance, antiFloodSettings, this.disabledCommands.isEmpty() ? "" : StringUtils.join(this.disabledCommands, ",")
+                muteState, kickState, banState, bubbleMode, bubbleType, bubbleScroll, chatDistance, antiFloodSettings, this.disabledCommands.isEmpty() ? "" : StringUtils.join(this.disabledCommands, ","), this.groupId
         );
     }
 
@@ -404,5 +407,13 @@ public class RoomData implements IRoomData {
         }
 
         return decorString;
+    }
+
+    public int getGroupId() {
+        return this.groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
     }
 }
