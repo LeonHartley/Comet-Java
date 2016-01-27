@@ -13,6 +13,7 @@ import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateIn
 import com.cometproject.server.storage.queries.items.TradeDao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -294,8 +295,8 @@ public class Trade {
         this.sendToUsers(new TradeUpdateMessageComposer(
                 this.user1.getPlayerId(),
                 this.user2.getPlayerId(),
-                this.user1Items,
-                this.user2Items
+                Collections.unmodifiableList(this.user1Items),
+                Collections.unmodifiableList(this.user2Items)
         ));
     }
 
