@@ -49,7 +49,13 @@ public class PlaceItemMessageEvent implements Event {
                     return;
                 }
 
-                InventoryItem item = client.getPlayer().getInventory().getWallItem(ItemManager.getInstance().getItemIdByVirtualId(id));
+                Long itemId = ItemManager.getInstance().getItemIdByVirtualId(id);
+
+                if(itemId == null) {
+                    return;
+                }
+
+                InventoryItem item = client.getPlayer().getInventory().getWallItem(itemId);
 
                 if (item == null) {
                     return;
