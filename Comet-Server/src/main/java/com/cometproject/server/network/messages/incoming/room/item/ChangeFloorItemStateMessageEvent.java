@@ -19,7 +19,14 @@ import java.util.List;
 
 public class ChangeFloorItemStateMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
-        long itemId = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
+
+        int virtualId = msg.readInt();
+
+        Long itemId = ItemManager.getInstance().getItemIdByVirtualId(virtualId);
+
+        if(itemId == null) {
+            return;
+        }
 
         if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
