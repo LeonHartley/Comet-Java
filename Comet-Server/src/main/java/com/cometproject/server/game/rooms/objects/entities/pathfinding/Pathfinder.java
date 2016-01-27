@@ -1,6 +1,5 @@
 package com.cometproject.server.game.rooms.objects.entities.pathfinding;
 
-import com.cometproject.server.game.rooms.objects.RoomFloorObject;
 import com.cometproject.server.game.rooms.objects.RoomObject;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -8,8 +7,8 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MinMaxPriorityQueue;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public abstract class Pathfinder {
@@ -21,7 +20,7 @@ public abstract class Pathfinder {
     }
 
     public List<Square> makePath(RoomObject roomFloorObject, Position end, byte pathfinderMode) {
-        LinkedList<Square> squares = new LinkedList<>();
+        List<Square> squares = new CopyOnWriteArrayList<>();
 
         PathfinderNode nodes = makePathReversed(roomFloorObject, end, pathfinderMode);
 

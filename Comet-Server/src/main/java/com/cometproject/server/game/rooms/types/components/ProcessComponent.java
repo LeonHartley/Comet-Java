@@ -366,7 +366,7 @@ public class ProcessComponent implements CometTask {
 
         // Check if we are wanting to walk to a location
         if (entity.getWalkingPath() != null) {
-            entity.setProcessingPath(new LinkedList<>(entity.getWalkingPath()));
+            entity.setProcessingPath(new CopyOnWriteArrayList<>(entity.getWalkingPath()));
 
             // Clear the walking path now we have a goal set
             entity.getWalkingPath().clear();
