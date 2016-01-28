@@ -81,6 +81,10 @@ public class PlaceItemMessageEvent implements Event {
 
                 client.getPlayer().getEntity().getRoom().getItems().placeFloorItem(item, x, y, rot, client.getPlayer());
 
+                if(client.getPlayer().getEntity().getRoom().getItems() == null) {
+                    return;
+                }
+
                 RoomItemFloor floorItem = client.getPlayer().getEntity().getRoom().getItems().getFloorItem(item.getId());
 
                 if (floorItem != null) {

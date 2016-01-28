@@ -21,7 +21,12 @@ public class PickUpItemMessageEvent implements Event {
 
         boolean isFloorItem = msg.readInt() == 2;
 
-        long id = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
+        Long id = ItemManager.getInstance().getItemIdByVirtualId(msg.readInt());
+
+        if(id == null) {
+            return;
+        }
+
         Room room = client.getPlayer().getEntity().getRoom();
 
         if (room == null) {

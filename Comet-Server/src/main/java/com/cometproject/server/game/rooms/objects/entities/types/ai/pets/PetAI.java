@@ -145,6 +145,8 @@ public class PetAI extends AbstractBotAI {
     public void increaseExperience(int amount) {
         this.getPetEntity().getData().increaseExperience(amount);
         this.getEntity().getRoom().getEntities().broadcastMessage(new AddExperiencePointsMessageComposer(this.getPetEntity().getData().getId(), this.getPetEntity().getId(), amount));
+
+        // level up
     }
 
     private PetSpeech getPetSpeech() {

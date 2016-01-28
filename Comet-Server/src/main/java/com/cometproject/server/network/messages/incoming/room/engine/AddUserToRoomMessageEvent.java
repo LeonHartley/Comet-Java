@@ -81,7 +81,7 @@ public class AddUserToRoomMessageEvent implements Event {
         if (room.getEntities().getAllEntities().size() > 0)
             client.sendQueue(new AvatarUpdateMessageComposer(room.getEntities().getAllEntities().values()));
 
-        for (GenericEntity av : client.getPlayer().getEntity().getRoom().getEntities().getAllEntities().values()) {
+        for (GenericEntity av : room.getEntities().getAllEntities().values()) {
             if (av.getCurrentEffect() != null) {
                 client.sendQueue(new ApplyEffectMessageComposer(av.getId(), av.getCurrentEffect().getEffectId()));
             }
@@ -99,11 +99,11 @@ public class AddUserToRoomMessageEvent implements Event {
             }
         }
 
-        client.sendQueue(new ConfigureWallAndFloorMessageComposer(client.getPlayer().getEntity().getRoom().getData().getHideWalls(), client.getPlayer().getEntity().getRoom().getData().getWallThickness(), client.getPlayer().getEntity().getRoom().getData().getFloorThickness()));
+        client.sendQueue(new ConfigureWallAndFloorMessageComposer(room.getData().getHideWalls(), room.getData().getWallThickness(), room.getData().getFloorThickness()));
         client.getPlayer().getMessenger().sendStatus(true, true);
 
-        client.sendQueue(new FloorItemsMessageComposer(client.getPlayer().getEntity().getRoom()));
-        client.sendQueue(new WallItemsMessageComposer(client.getPlayer().getEntity().getRoom()));
+        client.sendQueue(new FloorItemsMessageComposer(room));
+        client.sendQueue(new WallItemsMessageComposer(room));
 
         WiredTriggerEnterRoom.executeTriggers(client.getPlayer().getEntity());
 

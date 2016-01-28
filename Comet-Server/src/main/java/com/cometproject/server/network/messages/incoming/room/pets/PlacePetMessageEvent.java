@@ -29,6 +29,10 @@ public class PlacePetMessageEvent implements Event {
             atDoor = true;
         }
 
+        if(client.getPlayer().getEntity() == null) {
+            return;
+        }
+
         Room room = client.getPlayer().getEntity().getRoom();
 
         PetData pet = client.getPlayer().getPets().getPet(petId);

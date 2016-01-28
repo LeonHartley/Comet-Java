@@ -31,6 +31,10 @@ public class NavigatorSearchService implements CometTask {
 
         switch (category.getCategoryType()) {
             case MY_ROOMS:
+                if(player.getRooms() == null) {
+                    break;
+                }
+
                 for (Integer roomId : new LinkedList<>(player.getRooms())) {
                     if (RoomManager.getInstance().getRoomData(roomId) == null) continue;
 

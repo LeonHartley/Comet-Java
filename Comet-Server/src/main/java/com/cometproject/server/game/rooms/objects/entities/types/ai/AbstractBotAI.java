@@ -43,6 +43,10 @@ public abstract class AbstractBotAI implements BotAI {
             if (this.getEntity() instanceof BotEntity) {
                 BotEntity botEntity = ((BotEntity) this.getEntity());
 
+                if(botEntity.getData() == null) {
+                    return;
+                }
+
                 if (botEntity.getData().getMode().equals("relaxed")) {
                     newStep = false;
                 }
