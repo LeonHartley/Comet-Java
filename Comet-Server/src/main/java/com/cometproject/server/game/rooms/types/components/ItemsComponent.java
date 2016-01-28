@@ -180,12 +180,24 @@ public class ItemsComponent {
 
     @Deprecated
     public RoomItemFloor getFloorItem(int id) {
-        return this.floorItems.get(ItemManager.getInstance().getItemIdByVirtualId(id));
+        Long itemId = ItemManager.getInstance().getItemIdByVirtualId(id);
+
+        if(itemId == null) {
+            return null;
+        }
+
+        return this.floorItems.get(itemId);
     }
 
     @Deprecated
     public RoomItemWall getWallItem(int id) {
-        return this.wallItems.get(ItemManager.getInstance().getItemIdByVirtualId(id));
+        Long itemId = ItemManager.getInstance().getItemIdByVirtualId(id);
+
+        if(itemId == null) {
+            return null;
+        }
+
+        return this.wallItems.get(itemId);
     }
 
     public RoomItemFloor getFloorItem(long id) {
