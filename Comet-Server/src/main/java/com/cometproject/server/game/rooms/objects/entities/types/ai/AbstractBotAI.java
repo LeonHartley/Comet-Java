@@ -27,10 +27,10 @@ public abstract class AbstractBotAI implements BotAI {
 
     @Override
     public void onTick() {
-        if(this.ticksUntilComplete != 0) {
+        if (this.ticksUntilComplete != 0) {
             this.ticksUntilComplete--;
 
-            if(this.ticksUntilComplete == 0) {
+            if (this.ticksUntilComplete == 0) {
                 this.onTickComplete();
             }
         }
@@ -89,6 +89,7 @@ public abstract class AbstractBotAI implements BotAI {
 
     }
 
+    @Override
     public void setTicksUntilCompleteInSeconds(double seconds) {
         long realTime = Math.round(seconds * 1000 / 500);
 
@@ -99,12 +100,14 @@ public abstract class AbstractBotAI implements BotAI {
         this.ticksUntilComplete = realTime;
     }
 
-    protected void say(String message) {
+    @Override
+    public void say(String message) {
         this.say(message, ChatEmotion.NONE);
     }
 
-    protected void say(String message, ChatEmotion emotion) {
-        if(message == null) {
+    @Override
+    public void say(String message, ChatEmotion emotion) {
+        if (message == null) {
             return;
         }
 
@@ -115,12 +118,12 @@ public abstract class AbstractBotAI implements BotAI {
         this.getEntity().moveTo(position.getX(), position.getY());
     }
 
-    protected void sit() {
+    public void sit() {
         this.getEntity().addStatus(RoomEntityStatus.SIT, "" + this.getPetEntity().getRoom().getModel().getSquareHeight()[this.getEntity().getPosition().getX()][this.getEntity().getPosition().getY()]);
         this.getEntity().markNeedsUpdate();
     }
 
-    protected void lay() {
+    public void lay() {
         this.getEntity().addStatus(RoomEntityStatus.LAY, "" + this.getPetEntity().getRoom().getModel().getSquareHeight()[this.getEntity().getPosition().getX()][this.getEntity().getPosition().getY()]);
         this.getEntity().markNeedsUpdate();
     }
