@@ -428,9 +428,13 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
 
     @Override
     public void carryItem(int id) {
-        this.handItem = id;
+        this.carryItem(id, 240);
+    }
 
-        this.handItemTimer = 240;
+    public void carryItem(int id, int timer) {
+        this.handItem = id;
+        this.handItemTimer = timer;
+
         this.getRoom().getEntities().broadcastMessage(new HandItemMessageComposer(this.getId(), handItem));
     }
 

@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.Ent
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -71,7 +72,7 @@ public class PullCommand extends ChatCommand {
         pulledEntity.setWalkingPath(path);
 
         room.getEntities().broadcastMessage(
-                new TalkMessageComposer(client.getPlayer().getEntity().getId(), Locale.get("command.pull.message").replace("%playername%", pulledEntity.getUsername()), 0, 0)
+                new TalkMessageComposer(client.getPlayer().getEntity().getId(), Locale.get("command.pull.message").replace("%playername%", pulledEntity.getUsername()), ChatEmotion.NONE, 0)
         );
     }
 

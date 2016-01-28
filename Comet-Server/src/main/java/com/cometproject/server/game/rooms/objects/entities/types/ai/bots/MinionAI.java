@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;
+import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.avatar.DanceMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.utilities.RandomInteger;
@@ -59,7 +60,7 @@ public class MinionAI extends AbstractBotAI {
         if (speechCommands.containsKey(message.toLowerCase())) {
             speechCommands.get(message.toLowerCase()).accept(((BotEntity) this.getEntity()));
         } else {
-            this.getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getEntity().getId(), message, 0, 2));
+            this.getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getEntity().getId(), message, ChatEmotion.NONE, 2));
         }
 
         return false;

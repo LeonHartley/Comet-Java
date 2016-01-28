@@ -5,6 +5,7 @@ import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.EntityPathfinder;
+import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -106,7 +107,7 @@ public class PushCommand extends ChatCommand {
             user.getPlayer().getEntity().setWalkingPath(path);
 
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(
-                    new TalkMessageComposer(client.getPlayer().getEntity().getId(), Locale.get("command.push.message").replace("%playername%", user.getPlayer().getData().getUsername()), 0, 0)
+                    new TalkMessageComposer(client.getPlayer().getEntity().getId(), Locale.get("command.push.message").replace("%playername%", user.getPlayer().getData().getUsername()), ChatEmotion.NONE, 0)
             );
         }
     }

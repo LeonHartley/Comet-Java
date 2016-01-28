@@ -12,6 +12,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.data.BotDataObj
 import com.cometproject.server.game.rooms.objects.entities.types.data.types.SpyBotData;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.utilities.JsonFactory;
@@ -62,7 +63,7 @@ public class BotEntity extends GenericEntity {
     }
 
     public void say(String message) {
-        this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getId(), message, 0, 2));
+        this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getId(), message, ChatEmotion.NONE, 2));
     }
 
     @Override

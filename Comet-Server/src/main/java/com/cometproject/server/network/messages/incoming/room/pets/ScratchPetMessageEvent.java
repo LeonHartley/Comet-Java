@@ -26,17 +26,15 @@ public class ScratchPetMessageEvent implements Event {
 
         if(!playerEntity.getPosition().touching(petEntity.getPosition())) {
             playerEntity.moveTo(petEntity.getPosition().squareInFront(petEntity.getBodyRotation()));
+            petEntity.cancelWalk();
 
             return;
         }
 
-        room.getEntities().broadcastMessage(new ActionMessageComposer(client.getPlayer().getEntity().getId(), 7));
-
         room.getEntities().broadcastMessage(new ScratchPetNotificationMessageComposer(petEntity));
 
-        petEntity.getData().incrementScratches();
-        petEntity.getPetAI().increaseExperience(10);
-        petEntity.getData().saveStats();
+        playerEntity.carryItem(999999999, 5);
+        petEntity.getPetAI().onScratched();
 
         client.getPlayer().getAchievements().progressAchievement(AchievementType.PET_RESPECT_GIVEN, 1);
     }

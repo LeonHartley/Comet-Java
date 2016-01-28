@@ -7,6 +7,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
+import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.utilities.RandomInteger;
 
@@ -95,11 +96,15 @@ public abstract class AbstractBotAI implements BotAI {
     }
 
     protected void say(String message) {
+        this.say(message, ChatEmotion.NONE);
+    }
+
+    protected void say(String message, ChatEmotion emotion) {
         if(message == null) {
             return;
         }
 
-        this.getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getEntity().getId(), message, 0, 0));
+        this.getEntity().getRoom().getEntities().broadcastMessage(new TalkMessageComposer(this.getEntity().getId(), message, emotion, 0));
     }
 
     protected void moveTo(Position position) {

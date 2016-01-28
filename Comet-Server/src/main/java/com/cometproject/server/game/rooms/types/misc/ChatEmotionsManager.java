@@ -67,12 +67,12 @@ public class ChatEmotionsManager {
         RoomManager.log.info("Loaded " + this.emotions.size() + " chat emotions");
     }
 
-    public int getEmotion(String message) {
+    public ChatEmotion getEmotion(String message) {
         for (Map.Entry<String, ChatEmotion> emotion : emotions.entrySet()) {
             if (message.toLowerCase().contains(emotion.getKey().toLowerCase())) {
-                return emotion.getValue().getEmotionId();
+                return emotion.getValue();
             }
         }
-        return 0;
+        return ChatEmotion.NONE;
     }
 }

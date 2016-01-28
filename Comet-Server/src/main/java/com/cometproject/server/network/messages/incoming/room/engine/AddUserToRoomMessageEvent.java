@@ -114,6 +114,13 @@ public class AddUserToRoomMessageEvent implements Event {
 
         client.flush();
 
+        for (GenericEntity entity : room.getEntities().getAllEntities().values()) {
+            if (entity.getAI() != null) {
+                entity.getAI().onPlayerEnter(client.getPlayer().getEntity());
+            }
+        }
+
+
         avatar.markNeedsUpdate();
     }
 }

@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.types.misc;
 
 public enum ChatEmotion {
+    NONE(0),
     SMILE(1),
     ANGRY(2),
     SHOCKED(3),

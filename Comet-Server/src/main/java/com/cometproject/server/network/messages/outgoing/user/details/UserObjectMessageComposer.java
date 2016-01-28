@@ -37,7 +37,7 @@ public class UserObjectMessageComposer extends MessageComposer {
         msg.writeInt(8); // ??? (8)
 
         msg.writeInt(player.getStats().getDailyRespects()); // daily respects!
-        msg.writeInt(3); // (3) pet respects I guess
+        msg.writeInt(50); // (3) pet respects I guess
 
         msg.writeBoolean(true);
         msg.writeString(getDate(player.getData().getLastVisit()));

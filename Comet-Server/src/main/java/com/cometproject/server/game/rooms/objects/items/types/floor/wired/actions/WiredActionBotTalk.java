@@ -5,6 +5,7 @@ import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ShoutMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 
@@ -69,9 +70,9 @@ public class WiredActionBotTalk extends WiredActionItem {
             boolean isShout = (this.getWiredData().getParams().size() == 1 && (this.getWiredData().getParams().get(PARAM_MESSAGE_TYPE) == 1));
 
             if (isShout) {
-                this.getRoom().getEntities().broadcastMessage(new ShoutMessageComposer(botEntity.getId(), message, 0, 2));
+                this.getRoom().getEntities().broadcastMessage(new ShoutMessageComposer(botEntity.getId(), message, ChatEmotion.NONE, 2));
             } else {
-                this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(botEntity.getId(), message, 0, 2));
+                this.getRoom().getEntities().broadcastMessage(new TalkMessageComposer(botEntity.getId(), message, ChatEmotion.NONE, 2));
             }
         }
 

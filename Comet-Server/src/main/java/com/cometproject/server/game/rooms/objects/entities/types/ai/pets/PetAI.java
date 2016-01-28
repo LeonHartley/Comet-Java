@@ -6,12 +6,16 @@ import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
+import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
+import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.pets.AddExperiencePointsMessageComposer;
 import com.cometproject.server.utilities.RandomInteger;
+
+import java.awt.*;
 
 
 public class PetAI extends AbstractBotAI {
@@ -22,11 +26,21 @@ public class PetAI extends AbstractBotAI {
     private String ownerName = "";
 
     private int playTimer = 0;
+    private int gestureTimer = 0;
 
     public PetAI(GenericEntity entity) {
         super(entity);
 
         this.setTicksUntilCompleteInSeconds(25);
+    }
+
+    @Override
+    public boolean onPlayerEnter(PlayerEntity entity) {
+        if(entity.getPlayerId() == this.getPetEntity().getData().getOwnerId()) {
+            this.onAddedToRoom();
+        }
+
+        return false;
     }
 
     @Override
@@ -84,6 +98,16 @@ public class PetAI extends AbstractBotAI {
 
             if(this.playTimer == 0) {
                 this.getPetEntity().removeStatus(RoomEntityStatus.PLAY);
+                this.getPetEntity().markNeedsUpdate();
+            }
+        }
+
+        if(this.gestureTimer != 0) {
+            this.gestureTimer--;
+
+            if(this.gestureTimer == 0) {
+                this.getPetEntity().removeStatus(RoomEntityStatus.GESTURE);
+                this.getPetEntity().markNeedsUpdate();
             }
         }
     }
@@ -98,6 +122,26 @@ public class PetAI extends AbstractBotAI {
         return false;
     }
 
+    public void applyGesture(String gestureType) {
+        this.gestureTimer = 15;
+
+        this.getPetEntity().addStatus(RoomEntityStatus.GESTURE, gestureType);
+        this.getPetEntity().markNeedsUpdate();
+    }
+
+    public void onScratched() {
+        PetEntity petEntity = this.getPetEntity();
+
+        this.say(this.getMessage(PetMessageType.SCRATCHED), ChatEmotion.SMILE);
+        this.getPetEntity().cancelWalk();
+        this.applyGesture("sml");
+
+        this.increaseExperience(10);
+
+        petEntity.getData().incrementScratches();
+        petEntity.getData().saveStats();
+    }
+
     public void increaseExperience(int amount) {
         this.getPetEntity().getData().increaseExperience(amount);
         this.getEntity().getRoom().getEntities().broadcastMessage(new AddExperiencePointsMessageComposer(this.getPetEntity().getData().getId(), this.getPetEntity().getId(), amount));
@@ -108,6 +152,10 @@ public class PetAI extends AbstractBotAI {
     }
 
     private String getMessage(PetMessageType type) {
+        if(this.getPetSpeech() == null) {
+            return null;
+        }
+
         String message = this.getPetSpeech().getMessageByType(type);
 
         if (message.contains("%ownerName%")) {
