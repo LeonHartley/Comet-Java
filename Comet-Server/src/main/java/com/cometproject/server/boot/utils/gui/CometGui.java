@@ -1,9 +1,8 @@
 package com.cometproject.server.boot.utils.gui;
 
 import com.cometproject.server.boot.Comet;
-import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.tasks.CometThreadManager;
+import com.cometproject.server.utilities.CometStats;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +12,7 @@ public class CometGui extends JFrame {
     private JPanel mainPanel;
     private JLabel playersOnline;
     private JLabel roomsLoaded;
+    private JLabel uptime;
 
     public CometGui() {
         super("Comet Server " + Comet.getBuild());
@@ -20,14 +20,17 @@ public class CometGui extends JFrame {
         this.pack();
         this.setContentPane(mainPanel);
 
-        this.setSize(new Dimension(200, 80));
+        this.setSize(new Dimension(350, 120));
         this.setResizable(false);
 
         CometThreadManager.getInstance().executePeriodic(this::update, 0, 500, TimeUnit.MILLISECONDS);
     }
 
     public void update() {
-        playersOnline.setText("Players online: " + PlayerManager.getInstance().size());
-        roomsLoaded.setText("Rooms loaded: " + RoomManager.getInstance().getRoomInstances().size());
+        final CometStats stats = CometStats.get();
+
+        playersOnline.setText("Players online: " + stats.getPlayers());
+        roomsLoaded.setText("Rooms loaded: " + stats.getRooms());
+        uptime.setText("Uptime: " + stats.getUptime());
     }
 }
