@@ -2,6 +2,7 @@ package com.cometproject.server.boot;
 
 import com.cometproject.server.boot.utils.ConsoleCommands;
 import com.cometproject.server.boot.utils.ShutdownHook;
+import com.cometproject.server.boot.utils.gui.CometGui;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -37,6 +38,11 @@ public class Comet {
      * Is Comet running?
      */
     public static volatile boolean isRunning = true;
+
+    /**
+     * Whether or not we want to show the GUI
+     */
+    public static boolean showGui = false;
 
     /**
      * Start the server!
@@ -82,6 +88,11 @@ public class Comet {
             for (int i = 0; i < args.length; i++) {
                 if (args[i].equals("--debug-logging")) {
                     logLevel = Level.DEBUG;
+                }
+
+                if(args[i].equals("--gui")) {
+                    // start GUI!
+                    showGui = true;
                 }
 
                 if (!args[i].contains("="))
