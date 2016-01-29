@@ -290,8 +290,8 @@ public class ProcessComponent implements CometTask {
                 }
             }
 
-            if(entity.getFollowingEntity() != null) {
-                entity.getFollowingEntity().moveTo(oldPosition);
+            if(entity.getFollowingEntities().size() != 0) {
+                entity.getFollowingEntities().forEach(e-> e.moveTo(oldPosition));
             }
 
             if (newTile != null && newTile.getTopItem() != 0) {

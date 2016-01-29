@@ -10,7 +10,7 @@ public class FollowCommand extends PetCommand {
         entity.moveTo(executor.getPosition().squareInFront(executor.getBodyRotation()));
         entity.getPetAI().setFollowingPlayer(executor);
 
-        executor.setFollowingEntity(entity);
+        executor.getFollowingEntities().add(entity);
         return false;
     }
 

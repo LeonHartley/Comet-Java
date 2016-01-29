@@ -12,10 +12,13 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
+import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class GenericEntity extends RoomFloorObject implements AvatarEntity {
     private RoomEntityType entityType;
@@ -63,7 +66,7 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
     private long joinTime;
 
     private GenericEntity mountedEntity;
-    private GenericEntity followingEntity;
+    private Set<GenericEntity> followingEntities = new ConcurrentHashSet<>();
 
     private long privateChatItemId = 0;
 
@@ -644,11 +647,7 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
         return null;
     }
 
-    public GenericEntity getFollowingEntity() {
-        return followingEntity;
-    }
-
-    public void setFollowingEntity(GenericEntity followingEntity) {
-        this.followingEntity = followingEntity;
+    public Set<GenericEntity> getFollowingEntities() {
+        return followingEntities;
     }
 }

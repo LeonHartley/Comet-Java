@@ -182,7 +182,7 @@ public class PetAI extends AbstractBotAI {
         this.walkNow();
         this.getPetEntity().markNeedsUpdate();
 
-        this.followingPlayer.setFollowingEntity(null);
+        this.followingPlayer.getFollowingEntities().remove(this.getPetEntity());
         this.followingPlayer = null;
     }
 

@@ -162,7 +162,7 @@ public abstract class AbstractBotAI implements BotAI {
     @Override
     public boolean onRemovedFromRoom() {
         if(this.followingPlayer != null) {
-            this.followingPlayer.setFollowingEntity(null);
+            this.followingPlayer.getFollowingEntities().remove(this);
             this.followingPlayer = null;
         }
 
