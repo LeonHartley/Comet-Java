@@ -361,9 +361,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             if (time - this.getPlayer().getRoomLastMessageTime() < 750) {
                 this.getPlayer().setRoomFloodFlag(this.getPlayer().getRoomFloodFlag() + 1);
 
-                if (this.getPlayer().getRoomFloodFlag(
-
-                ) >= 3) {
+                if (this.getPlayer().getRoomFloodFlag() >= 3) {
                     this.getPlayer().setRoomFloodTime(this.getPlayer().getPermissions().getRank().floodTime());
                     this.getPlayer().setRoomFloodFlag(0);
 

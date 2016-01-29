@@ -84,7 +84,6 @@ public class PetAI extends AbstractBotAI {
             case SIT:
                 this.sit();
                 break;
-
         }
 
         this.setTicksUntilCompleteInSeconds(25);
