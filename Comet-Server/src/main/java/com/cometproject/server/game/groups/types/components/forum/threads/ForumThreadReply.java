@@ -44,6 +44,7 @@ public class ForumThreadReply {
         msg.writeInt(0); // _adminId
         msg.writeString(""); // _adminName
         msg.writeInt(0); // _adminOperationTimeAsSeccondsAgo
+        msg.writeInt(0); // messages by author
     }
 
     public int getId() {
