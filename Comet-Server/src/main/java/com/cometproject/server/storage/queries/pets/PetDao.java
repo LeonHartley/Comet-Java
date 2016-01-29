@@ -89,6 +89,33 @@ public class PetDao {
         return data;
     }
 
+    public static Map<String, String> getTransformablePets() {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        Map<String, String> data = new ConcurrentHashMap<>();
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("SELECT * FROM pet_transformable", sqlConnection);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                data.put(resultSet.getString("name"), resultSet.getString("data"));
+            }
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(resultSet);
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+
+        return data;
+    }
+
     public static Map<Integer, PetData> getPetsByPlayerId(int playerId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;

@@ -48,3 +48,29 @@ CREATE TABLE `pet_messages` (
 ) COLLATE='latin1_swedish_ci'
 ENGINE=InnoDB
 AUTO_INCREMENT=1;
+
+CREATE TABLE IF NOT EXISTS `pet_transformable` (
+  `name` varchar(50) NOT NULL,
+  `data` varchar(50) NOT NULL COMMENT 'The first number is the pet ID, the rest is what determine the colours, hair etc.',
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `pet_transformable` (`name`, `data`) VALUES
+	('bear', '4 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('bunny', '17 0 FFFFFF 0 0 0 0 0 0 0#0'),
+	('cat', '1 0 F5E759 2 2 -1 0 3 -1 0#0'),
+	('chick', '10 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('crocodile', '2 4 96E75A 2 2 -1 0 3 -1 0#4'),
+	('dog', '0 15 FEE4B2 2 2 -1 0 3 -1 0#15'),
+	('dragon', '12 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('frog', '11 12 FFFFFF 2 2 -1 0 3 -1 0#12'),
+	('horse', '15 3 FFFFFF 2 2 -1 0 3 -1 0#3'),
+	('human', ''),
+	('lion', '6 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('monkey', '14 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('monster_plant', '16 0 FFFFFF 0 0 0 0 0 0 0#0'),
+	('pig', '5 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('rhino', '7 0 CCCCCC 2 2 -1 0 3 -1 0#0'),
+	('spider', '8 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('terrier', '3 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('turtle', '9 0 FFFFFF 2 2 -1 0 3 -1 0#0');

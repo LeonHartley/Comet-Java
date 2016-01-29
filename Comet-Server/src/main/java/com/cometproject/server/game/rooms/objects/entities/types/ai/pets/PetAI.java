@@ -180,11 +180,8 @@ public class PetAI extends AbstractBotAI {
             this.getPetEntity().removeStatus(RoomEntityStatus.SIT);
         }
 
-        System.out.println(this.canMove());
-
         this.walkNow();
         this.getPetEntity().markNeedsUpdate();
-        this.setTicksUntilCompleteInSeconds(0.5);
     }
 
     private PetSpeech getPetSpeech() {

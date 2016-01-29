@@ -158,6 +158,7 @@ public class ReloadCommand extends ChatCommand {
             case "pets":
                 PetManager.getInstance().loadPetRaces();
                 PetManager.getInstance().loadPetSpeech();
+                PetManager.getInstance().loadTransformablePets();
 
                 sendNotif(Locale.get("command.reload.pets"), client);
                 break;
