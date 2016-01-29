@@ -7,4 +7,8 @@ public abstract class PetCommand {
     public abstract boolean execute(PlayerEntity executor, PetEntity entity);
     public abstract int getRequiredLevel();
     public abstract boolean requiresOwner();
+
+    public int experienceGain() {
+        return 0;
+    }
 }

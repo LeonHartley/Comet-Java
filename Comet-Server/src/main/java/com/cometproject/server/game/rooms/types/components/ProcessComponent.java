@@ -246,6 +246,8 @@ public class ProcessComponent implements CometTask {
 
             // Create the new position
             Position newPosition = entity.getPositionToSet().copy();
+            Position oldPosition = entity.getPosition().copy();
+
 
             List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
             List<RoomItemFloor> itemsOnOldSq = this.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY());
@@ -286,6 +288,10 @@ public class ProcessComponent implements CometTask {
                     if (playerEntity.getPlayer() != null && playerEntity.getPlayer().getData().getQuestId() != 0 && playerEntity.getPlayer().getQuests() != null)
                         ((PlayerEntity) entity).getPlayer().getQuests().progressQuest(QuestType.EXPLORE_FIND_ITEM, item.getDefinition().getSpriteId());
                 }
+            }
+
+            if(entity.getFollowingEntity() != null) {
+                entity.getFollowingEntity().moveTo(oldPosition);
             }
 
             if (newTile != null && newTile.getTopItem() != 0) {

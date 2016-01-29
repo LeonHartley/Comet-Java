@@ -181,6 +181,9 @@ public class PetAI extends AbstractBotAI {
 
         this.walkNow();
         this.getPetEntity().markNeedsUpdate();
+
+        this.followingPlayer.setFollowingEntity(null);
+        this.followingPlayer = null;
     }
 
     private PetSpeech getPetSpeech() {
@@ -212,5 +215,9 @@ public class PetAI extends AbstractBotAI {
     @Override
     public boolean canMove() {
         return this.scratchTimer == 0 && this.playTimer == 0 && this.interactionTimer == 0;
+    }
+
+    public void setFollowingPlayer(PlayerEntity followingPlayer) {
+        this.followingPlayer = followingPlayer;
     }
 }

@@ -63,6 +63,7 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
     private long joinTime;
 
     private GenericEntity mountedEntity;
+    private GenericEntity followingEntity;
 
     private long privateChatItemId = 0;
 
@@ -641,5 +642,13 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
 
     public BotAI getAI() {
         return null;
+    }
+
+    public GenericEntity getFollowingEntity() {
+        return followingEntity;
+    }
+
+    public void setFollowingEntity(GenericEntity followingEntity) {
+        this.followingEntity = followingEntity;
     }
 }

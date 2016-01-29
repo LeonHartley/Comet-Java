@@ -1,5 +1,6 @@
 package com.cometproject.server.game.pets.commands;
 
+import com.cometproject.server.game.pets.commands.types.FollowCommand;
 import com.cometproject.server.game.pets.commands.types.FreeCommand;
 import com.cometproject.server.game.pets.commands.types.HereCommand;
 import com.cometproject.server.game.pets.commands.types.SitCommand;
@@ -20,6 +21,7 @@ public class PetCommandManager {
             put("sit", new SitCommand());
             put("free", new FreeCommand());
             put("here", new HereCommand());
+            put("follow", new FollowCommand());
         }};
     }
 

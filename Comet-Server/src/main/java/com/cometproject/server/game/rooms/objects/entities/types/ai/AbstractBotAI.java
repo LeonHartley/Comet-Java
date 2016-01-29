@@ -22,6 +22,8 @@ public abstract class AbstractBotAI implements BotAI {
     private long ticksUntilComplete = 0;
     private boolean walkNow = false;
 
+    protected PlayerEntity followingPlayer;
+
     public AbstractBotAI(GenericEntity entity) {
         this.entity = entity;
     }
@@ -58,7 +60,7 @@ public abstract class AbstractBotAI implements BotAI {
                     this.walkNow = false;
                 }
 
-                if (!this.getEntity().isWalking() && this.canMove()) {
+                if (!this.getEntity().isWalking() && this.canMove() && this.followingPlayer == null) {
                     botPathCalculator.submit(() -> {
                         RoomTile reachableTile = this.getEntity().getRoom().getMapping().getRandomReachableTile(this.getEntity());
 
@@ -159,6 +161,11 @@ public abstract class AbstractBotAI implements BotAI {
 
     @Override
     public boolean onRemovedFromRoom() {
+        if(this.followingPlayer != null) {
+            this.followingPlayer.setFollowingEntity(null);
+            this.followingPlayer = null;
+        }
+
         return false;
     }
 

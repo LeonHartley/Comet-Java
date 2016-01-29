@@ -16,7 +16,10 @@ public class HereCommand extends PetCommand {
             if (e instanceof PetEntity) {
                 ((PetEntity) e).getPetAI().sit();
                 ((PetEntity) e).getPetAI().applyGesture("sml");
+
+                ((PetEntity) e).getPetAI().increaseExperience(this.experienceGain());
             }
+
 
             e.lookTo(executor.getPosition().getX(), executor.getPosition().getY());
         });
@@ -32,5 +35,10 @@ public class HereCommand extends PetCommand {
     @Override
     public boolean requiresOwner() {
         return true;
+    }
+
+    @Override
+    public int experienceGain() {
+        return 10;
     }
 }
