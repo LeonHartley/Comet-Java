@@ -22,6 +22,7 @@ public class ItemPathfinder extends Pathfinder {
         return pathfinderInstance;
     }
 
+    @Override
     public boolean isValidStep(RoomObject roomFloorObject, Position from, Position to, boolean lastStep) {
         if (from.getX() == to.getX() && from.getY() == to.getY()) {
             return true;
