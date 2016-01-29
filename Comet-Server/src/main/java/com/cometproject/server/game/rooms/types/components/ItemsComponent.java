@@ -123,6 +123,10 @@ public class ItemsComponent {
     }
 
     public void commit() {
+        if(!CometSettings.itemStorageQueueEnabled) {
+            return;
+        }
+
         List<RoomItem> floorItems = new ArrayList<>();
 
         for(RoomItemFloor floorItem : this.floorItems.values()) {
