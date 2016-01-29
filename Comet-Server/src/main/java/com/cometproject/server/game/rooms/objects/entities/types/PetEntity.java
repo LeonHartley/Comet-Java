@@ -61,7 +61,7 @@ public class PetEntity extends GenericEntity {
 
     @Override
     public boolean onRoomDispose() {
-        PetDao.savePosition(this.getPosition().getX(), this.getPosition().getY(), this.data.getId());
+//        PetDao.savePosition(this.getPosition().getX(), this.getPosition().getY(), this.data.getId());
 
         this.getRoom().getEntities().broadcastMessage(new LeaveRoomMessageComposer(this.getId()));
 

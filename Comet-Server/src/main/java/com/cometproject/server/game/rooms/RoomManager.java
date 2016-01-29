@@ -165,7 +165,7 @@ public class RoomManager implements Initializable {
 
     public void unloadIdleRooms() {
         for (Room room : this.unloadingRoomInstances.values()) {
-            room.dispose();
+            this.executorService.submit(room::dispose);
         }
 
         this.unloadingRoomInstances.clear();

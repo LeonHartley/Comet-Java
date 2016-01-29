@@ -458,12 +458,12 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             trade.cancel(this.getPlayerId());
         }
 
-        if (this.visitLogEntry != null) {
-            this.visitLogEntry.setExitTime((int) Comet.getTime());
-
-            if (LogManager.ENABLED)
-                LogManager.getInstance().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
-        }
+//        if (this.visitLogEntry != null) {
+//            this.visitLogEntry.setExitTime((int) Comet.getTime());
+//
+//            if (LogManager.ENABLED)
+//                LogManager.getInstance().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
+//        }
 
         if (this.getPlayer() != null) {
             // De-reference things
