@@ -20,6 +20,7 @@ public abstract class AbstractBotAI implements BotAI {
     private GenericEntity entity;
 
     private long ticksUntilComplete = 0;
+    private boolean walkNow = false;
 
     public AbstractBotAI(GenericEntity entity) {
         this.entity = entity;
@@ -52,7 +53,11 @@ public abstract class AbstractBotAI implements BotAI {
                 }
             }
 
-            if (chance < 3 && newStep) {
+            if ((chance < 3 || this.walkNow) && newStep) {
+                if(this.walkNow) {
+                    this.walkNow = false;
+                }
+
                 if (!this.getEntity().isWalking() && this.canMove()) {
                     botPathCalculator.submit(() -> {
                         RoomTile reachableTile = this.getEntity().getRoom().getMapping().getRandomReachableTile(this.getEntity());
@@ -87,6 +92,10 @@ public abstract class AbstractBotAI implements BotAI {
     @Override
     public void onTickComplete() {
 
+    }
+
+    public void walkNow() {
+        this.walkNow = true;
     }
 
     @Override

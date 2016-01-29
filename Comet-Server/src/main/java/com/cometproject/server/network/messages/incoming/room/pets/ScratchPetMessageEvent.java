@@ -3,7 +3,9 @@ package com.cometproject.server.network.messages.incoming.room.pets;
 import com.cometproject.server.game.achievements.types.AchievementType;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.pets.ScratchPetNotificationMessageComposer;
@@ -25,15 +27,41 @@ public class ScratchPetMessageEvent implements Event {
         if (petEntity == null) return;
 
         if(!playerEntity.getPosition().touching(petEntity.getPosition())) {
-            playerEntity.moveTo(petEntity.getPosition().squareInFront(petEntity.getBodyRotation()));
-            petEntity.cancelWalk();
+            Position position = petEntity.getPosition().squareInFront(petEntity.getBodyRotation());
 
+            RoomTile tile = room.getMapping().getTile(position.getX(), position.getY());
+
+            if(tile == null) {
+                position = petEntity.getPosition().squareBehind(petEntity.getBodyRotation());
+                tile = room.getMapping().getTile(position.getX(), position.getY());
+            }
+
+            if(tile != null) {
+                playerEntity.moveTo(position);
+                tile.scheduleEvent(playerEntity.getId(), (e) -> scratch(((PlayerEntity) e).getPlayer().getSession(), petEntity));
+            } else {
+                return;
+            }
+
+            petEntity.getPetAI().waitForScratch();
+            petEntity.cancelWalk();
             return;
         }
 
-        room.getEntities().broadcastMessage(new ScratchPetNotificationMessageComposer(petEntity));
+        this.scratch(client, petEntity);
+    }
 
-        playerEntity.carryItem(999999999, 5);
+    private void scratch(Session client, PetEntity petEntity) {
+        if(client.getPlayer() == null || client.getPlayer().getEntity() == null) {
+            return;
+        }
+
+        client.getPlayer().getEntity().lookTo(petEntity.getPosition().getX(), petEntity.getPosition().getY());
+        client.getPlayer().getEntity().markNeedsUpdate();
+
+        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new ScratchPetNotificationMessageComposer(petEntity));
+
+        client.getPlayer().getEntity().carryItem(999999999, 5);
         petEntity.getPetAI().onScratched();
 
         client.getPlayer().getAchievements().progressAchievement(AchievementType.PET_RESPECT_GIVEN, 1);

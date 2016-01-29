@@ -15,7 +15,7 @@ public class CometGui extends JFrame {
     private JLabel uptime;
 
     public CometGui() {
-        super("Comet Server " + Comet.getBuild());
+        super("Comet Server - " + Comet.getBuild());
 
         this.pack();
         this.setContentPane(mainPanel);

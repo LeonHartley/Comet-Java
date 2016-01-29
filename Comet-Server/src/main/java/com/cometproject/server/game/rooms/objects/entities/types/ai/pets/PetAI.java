@@ -27,6 +27,7 @@ public class PetAI extends AbstractBotAI {
     private int playTimer = 0;
     private int gestureTimer = 0;
     private int interactionTimer = 0;
+    private int scratchTimer = 0;
 
     public PetAI(GenericEntity entity) {
         super(entity);
@@ -114,6 +115,10 @@ public class PetAI extends AbstractBotAI {
         if (this.interactionTimer != 0) {
             this.interactionTimer--;
         }
+
+        if(this.scratchTimer != 0) {
+            this.scratchTimer--;
+        }
     }
 
     @Override
@@ -121,8 +126,9 @@ public class PetAI extends AbstractBotAI {
         if (message.startsWith(this.getPetEntity().getData().getName())) {
             String commandKey = message.replace(this.getPetEntity().getData().getName() + " ", "");
 
-            if (PetCommandManager.getInstance().executeCommand(commandKey, entity, this.getPetEntity())) {
-                this.interactionTimer = 15;
+            if (PetCommandManager.getInstance().executeCommand(commandKey.toLowerCase(), entity, this.getPetEntity())) {
+                // drain energy.
+                this.interactionTimer += 25;
             }
         }
 
@@ -136,7 +142,13 @@ public class PetAI extends AbstractBotAI {
         this.getPetEntity().markNeedsUpdate();
     }
 
+    public void waitForScratch() {
+        this.scratchTimer = 20;
+    }
+
     public void onScratched() {
+        this.scratchTimer = 0;
+
         PetEntity petEntity = this.getPetEntity();
 
         this.say(this.getMessage(PetMessageType.SCRATCHED), ChatEmotion.SMILE);
@@ -154,6 +166,25 @@ public class PetAI extends AbstractBotAI {
         this.getEntity().getRoom().getEntities().broadcastMessage(new AddExperiencePointsMessageComposer(this.getPetEntity().getData().getId(), this.getPetEntity().getId(), amount));
 
         // level up
+    }
+
+    public void free() {
+        this.interactionTimer = 0;
+        this.playTimer = 0;
+
+        if(this.getPetEntity().hasStatus(RoomEntityStatus.LAY)) {
+            this.getPetEntity().removeStatus(RoomEntityStatus.LAY);
+        }
+
+        if(this.getPetEntity().hasStatus(RoomEntityStatus.SIT)) {
+            this.getPetEntity().removeStatus(RoomEntityStatus.SIT);
+        }
+
+        System.out.println(this.canMove());
+
+        this.walkNow();
+        this.getPetEntity().markNeedsUpdate();
+        this.setTicksUntilCompleteInSeconds(0.5);
     }
 
     private PetSpeech getPetSpeech() {
@@ -184,6 +215,6 @@ public class PetAI extends AbstractBotAI {
 
     @Override
     public boolean canMove() {
-        return this.playTimer == 0 || this.interactionTimer == 0;
+        return this.scratchTimer == 0 && this.playTimer == 0 && this.interactionTimer == 0;
     }
 }

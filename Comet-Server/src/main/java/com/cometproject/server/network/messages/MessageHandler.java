@@ -260,6 +260,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.PickUpPetMessageEvent, new RemovePetMessageEvent());
         this.getMessages().put(Events.RideHorseMessageEvent, new HorseMountOnMessageEvent());
         this.getMessages().put(Events.RespectPetMessageEvent, new ScratchPetMessageEvent());
+        this.getMessages().put(Events.GetPetTrainingPanelMessageEvent, new GetPetTrainingPanelMessageEvent());
     }
 
     public void registerRoom() {

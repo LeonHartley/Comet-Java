@@ -9,12 +9,16 @@ public class SitCommand extends PetCommand {
     public boolean execute(PlayerEntity executor, PetEntity entity) {
         entity.cancelWalk();
         entity.getPetAI().sit();
-
         return true;
     }
 
     @Override
     public int getRequiredLevel() {
         return 0;
+    }
+
+    @Override
+    public boolean requiresOwner() {
+        return true;
     }
 }

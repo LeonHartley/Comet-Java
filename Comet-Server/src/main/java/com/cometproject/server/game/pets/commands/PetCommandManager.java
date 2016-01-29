@@ -1,7 +1,7 @@
 package com.cometproject.server.game.pets.commands;
 
-import com.cometproject.server.game.commands.ChatCommand;
 import com.cometproject.server.game.pets.commands.types.FreeCommand;
+import com.cometproject.server.game.pets.commands.types.HereCommand;
 import com.cometproject.server.game.pets.commands.types.SitCommand;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -19,6 +19,7 @@ public class PetCommandManager {
             //todo: locale this stuff
             put("sit", new SitCommand());
             put("free", new FreeCommand());
+            put("here", new HereCommand());
         }};
     }
 
@@ -33,6 +34,9 @@ public class PetCommandManager {
             // too low of a level!
             return false;
         }
+
+        if(command.requiresOwner() && executor.getPlayerId() != petEntity.getData().getOwnerId())
+            return false;
 
         return command.execute(executor, petEntity);
     }
