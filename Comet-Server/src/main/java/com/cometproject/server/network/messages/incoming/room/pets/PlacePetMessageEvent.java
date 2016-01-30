@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.pets;
 
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -8,6 +9,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.network.messages.incoming.Event;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -38,6 +40,11 @@ public class PlacePetMessageEvent implements Event {
         PetData pet = client.getPlayer().getPets().getPet(petId);
 
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
+
+        if(room.getEntities().getPetEntities().size() >= 15) {
+            client.send(new AdvancedAlertMessageComposer(Locale.getOrDefault("game.pets.toomany", "There are already too many pets in this room!")));
+            return;
+        }
 
         if (isOwner || room.getData().isAllowPets()) {
             if (pet == null) {
