@@ -8,6 +8,8 @@ public class FollowCommand extends PetCommand {
     @Override
     public boolean execute(PlayerEntity executor, PetEntity entity) {
         entity.moveTo(executor.getPosition().squareInFront(executor.getBodyRotation()));
+        entity.getPetAI().free();
+
         entity.getPetAI().setFollowingPlayer(executor);
 
         executor.getFollowingEntities().add(entity);

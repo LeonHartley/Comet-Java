@@ -241,7 +241,6 @@ public class PetAI extends AbstractBotAI {
             this.playTimer = RandomInteger.getRandom(10, 50);
 
             this.moveTo(floorItem.getPosition());
-
             return;
         }
     }
