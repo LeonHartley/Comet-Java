@@ -6,6 +6,7 @@ import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
+import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.utilities.RandomInteger;
 
 
@@ -25,7 +26,11 @@ public class VendingMachineFloorItem extends RoomItemFloor {
 
         if (!posInFront.equals(entity.getPosition())) {
             entity.moveTo(posInFront.getX(), posInFront.getY());
-            this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY()).scheduleEvent(entity.getId(), (e) -> onInteract(e, requestData, false));
+            RoomTile tile = this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY());
+
+            if(tile != null) {
+                tile.scheduleEvent(entity.getId(), (e) -> onInteract(e, requestData, false));
+            }
             return false;
         }
 

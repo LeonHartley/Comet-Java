@@ -162,6 +162,8 @@ public class RoomItemFactory {
             put("totem_body", TotemBodyFloorItem.class);
 
             put("pet_toy", PetToyFloorItem.class);
+
+            put("cannon", CannonFloorItem.class);
         }};
     }
 

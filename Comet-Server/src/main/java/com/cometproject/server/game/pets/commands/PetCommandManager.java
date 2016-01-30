@@ -1,5 +1,6 @@
 package com.cometproject.server.game.pets.commands;
 
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.pets.commands.types.*;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -10,18 +11,25 @@ import java.util.Map;
 public class PetCommandManager {
     private static PetCommandManager petCommandManager;
 
-    private final Map<String, PetCommand> petCommands;
+    private Map<String, PetCommand> petCommands;
 
     public PetCommandManager() {
+        this.initialize();
+    }
+
+    public void initialize() {
+        if(this.petCommands != null) {
+            this.petCommands.clear();
+        }
+
         petCommands = new HashMap<String, PetCommand>() {{
-            //todo: locale this stuff
-            put("sit", new SitCommand());
-            put("free", new FreeCommand());
-            put("here", new HereCommand());
-            put("follow", new FollowCommand());
-            put("play", new PlayCommand());
-            put("play dead", new PlayDeadCommand());
-            put("stay", new StayCommand());
+            put(Locale.getOrDefault("game.pet.command.sit", "sit"), new SitCommand());
+            put(Locale.getOrDefault("game.pet.command.free", "free"), new FreeCommand());
+            put(Locale.getOrDefault("game.pet.command.here", "here"), new HereCommand());
+            put(Locale.getOrDefault("game.pet.command.follow", "follow"), new FollowCommand());
+            put(Locale.getOrDefault("game.pet.command.play", "play"), new PlayCommand());
+            put(Locale.getOrDefault("game.pet.command.play_dead", "play dead"), new PlayDeadCommand());
+            put(Locale.getOrDefault("game.pet.command.stay", "stay"), new StayCommand());
         }};
     }
 
