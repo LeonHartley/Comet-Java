@@ -7,12 +7,12 @@
     <parent>
         <groupId>Comet</groupId>
         <artifactId>Comet-Parent</artifactId>
-        <version>1.0.1-TEST8</version>
+        <version>1.1.0-ALPHA1</version>
     </parent>
 
     <groupId>Comet</groupId>
     <artifactId>Comet-Server-Protocol</artifactId>
-    <version>1.0.1-TEST8</version>
+    <version>1.1.0-ALPHA1</version>
 
     <dependencies>
         <dependency>
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>Comet</groupId>
             <artifactId>Comet-API</artifactId>
-            <version>1.0.1-TEST8</version>
+            <version>1.1.0-ALPHA1</version>
         </dependency>
     </dependencies>
 
