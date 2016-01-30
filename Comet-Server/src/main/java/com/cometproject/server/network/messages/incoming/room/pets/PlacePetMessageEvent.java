@@ -10,8 +10,8 @@ import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 public class PlacePetMessageEvent implements Event {
     @Override
@@ -29,7 +29,7 @@ public class PlacePetMessageEvent implements Event {
             atDoor = true;
         }
 
-        if(client.getPlayer().getEntity() == null) {
+        if (client.getPlayer().getEntity() == null) {
             return;
         }
 
@@ -39,7 +39,7 @@ public class PlacePetMessageEvent implements Event {
 
         boolean isOwner = client.getPlayer().getId() == room.getData().getOwnerId();
 
-        if ((isOwner || client.getPlayer().getPermissions().getRank().roomFullControl())) {
+        if (isOwner || room.getData().isAllowPets()) {
             if (pet == null) {
                 return;
             }

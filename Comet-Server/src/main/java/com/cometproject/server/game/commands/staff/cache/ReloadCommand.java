@@ -16,6 +16,7 @@ import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.search.NavigatorSearchService;
 import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.pets.PetManager;
+import com.cometproject.server.game.pets.commands.PetCommandManager;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
@@ -159,6 +160,7 @@ public class ReloadCommand extends ChatCommand {
                 PetManager.getInstance().loadPetRaces();
                 PetManager.getInstance().loadPetSpeech();
                 PetManager.getInstance().loadTransformablePets();
+                PetCommandManager.getInstance().initialize();
 
                 sendNotif(Locale.get("command.reload.pets"), client);
                 break;
