@@ -75,6 +75,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     private int banzaiPlayerAchievement = 0;
 
+    private boolean hasPlacedPet = false;
+
     public PlayerEntity(Player player, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
@@ -307,6 +309,14 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
             if (this.getPlayer().getData() != null) {
                 this.getPlayer().getMessenger().sendStatus(true, false);
+            }
+        }
+        
+        if(this.hasPlacedPet) {
+            for(PetEntity petEntity : this.getRoom().getEntities().getPetEntities()) {
+                if(petEntity.getData().getOwnerId() == this.getPlayerId()) {
+                    petEntity.kick();
+                }
             }
         }
 
@@ -628,4 +638,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.banzaiPlayerAchievement++;
     }
 
+    public void setPlacedPet(boolean hasPlacedPet) {
+        this.hasPlacedPet = hasPlacedPet;
+    }
 }

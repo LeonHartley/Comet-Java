@@ -67,6 +67,7 @@ public class PlacePetMessageEvent implements Event {
             client.getPlayer().getPets().removePet(pet.getId());
             client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));
 
+            client.getPlayer().getEntity().setPlacedPet(true);
             petEntity.getAI().onAddedToRoom();
         }
     }

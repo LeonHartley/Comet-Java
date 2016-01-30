@@ -18,6 +18,11 @@ public class CometGui extends JFrame {
         super("Comet Server - " + Comet.getBuild());
 
         this.pack();
+
+        if(mainPanel == null) {
+            return;
+        }
+
         this.setContentPane(mainPanel);
 
         this.setSize(new Dimension(350, 120));
