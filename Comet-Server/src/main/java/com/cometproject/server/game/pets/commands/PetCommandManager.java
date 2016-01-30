@@ -1,9 +1,6 @@
 package com.cometproject.server.game.pets.commands;
 
-import com.cometproject.server.game.pets.commands.types.FollowCommand;
-import com.cometproject.server.game.pets.commands.types.FreeCommand;
-import com.cometproject.server.game.pets.commands.types.HereCommand;
-import com.cometproject.server.game.pets.commands.types.SitCommand;
+import com.cometproject.server.game.pets.commands.types.*;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 
@@ -22,6 +19,9 @@ public class PetCommandManager {
             put("free", new FreeCommand());
             put("here", new HereCommand());
             put("follow", new FollowCommand());
+            put("play", new PlayCommand());
+            put("play dead", new PlayDeadCommand());
+            put("stay", new StayCommand());
         }};
     }
 

@@ -22,16 +22,26 @@ public class PetTrainingPanelMessageComposer extends MessageComposer {
     public void compose(IComposer msg) {
         msg.writeInt(this.petData.getId());
 
-        msg.writeInt(8);
-        for(int i = 0; i < 8; i++) {
-            msg.writeInt(i);
-        }
+        msg.writeInt(7);
+
+        msg.writeInt(0);
+        msg.writeInt(1);
+        msg.writeInt(3);
+        msg.writeInt(5);
+        msg.writeInt(6);
+        msg.writeInt(7);
+        msg.writeInt(11);
 
         // for now we will enable 8 commands, we will move it to levelling up soon.
-        msg.writeInt(8);
+        msg.writeInt(7);
 
-        for(int i = 0; i < 8; i++) {
-            msg.writeInt(i);
-        }
+        // enabled commands
+        msg.writeInt(0);
+        msg.writeInt(1);
+        msg.writeInt(3);
+        msg.writeInt(5);
+        msg.writeInt(6);
+        msg.writeInt(7);
+        msg.writeInt(11);
     }
 }

@@ -10,6 +10,8 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetToyFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
@@ -19,7 +21,7 @@ import com.cometproject.server.utilities.RandomInteger;
 
 public class PetAI extends AbstractBotAI {
     private static final PetAction[] possibleActions = {
-            PetAction.LAY, PetAction.SIT, PetAction.TALK,
+            PetAction.LAY, PetAction.SIT, PetAction.TALK, PetAction.PLAY
     };
 
     private String ownerName = "";
@@ -28,6 +30,8 @@ public class PetAI extends AbstractBotAI {
     private int gestureTimer = 0;
     private int interactionTimer = 0;
     private int scratchTimer = 0;
+
+    private PetToyFloorItem toyItem;
 
     public PetAI(GenericEntity entity) {
         super(entity);
@@ -70,6 +74,10 @@ public class PetAI extends AbstractBotAI {
 
     @Override
     public void onTickComplete() {
+        if (this.playTimer != 0) {
+            return;
+        }
+
         PetAction petAction = possibleActions[RandomInteger.getRandom(0, possibleActions.length - 1)];
 
         switch (petAction) {
@@ -84,6 +92,10 @@ public class PetAI extends AbstractBotAI {
             case SIT:
                 this.sit();
                 break;
+
+            case PLAY:
+                this.play();
+                break;
         }
 
         this.setTicksUntilCompleteInSeconds(25);
@@ -97,6 +109,10 @@ public class PetAI extends AbstractBotAI {
             this.playTimer--;
 
             if (this.playTimer == 0) {
+                if(this.toyItem != null) {
+                    this.toyItem.onEntityStepOff(this.getPetEntity());
+                }
+
                 this.getPetEntity().removeStatus(RoomEntityStatus.PLAY);
                 this.getPetEntity().markNeedsUpdate();
             }
@@ -113,9 +129,16 @@ public class PetAI extends AbstractBotAI {
 
         if (this.interactionTimer != 0) {
             this.interactionTimer--;
+
+            if(this.interactionTimer == 0) {
+                if (this.getPetEntity().hasStatus(RoomEntityStatus.PLAY_DEAD)) {
+                    this.getPetEntity().removeStatus(RoomEntityStatus.PLAY_DEAD);
+                    this.getPetEntity().markNeedsUpdate();
+                }
+            }
         }
 
-        if(this.scratchTimer != 0) {
+        if (this.scratchTimer != 0) {
             this.scratchTimer--;
         }
     }
@@ -145,6 +168,10 @@ public class PetAI extends AbstractBotAI {
         this.scratchTimer = 20;
     }
 
+    public void stay() {
+        this.interactionTimer = RandomInteger.getRandom(40, 80);
+    }
+
     public void onScratched() {
         this.scratchTimer = 0;
 
@@ -171,19 +198,61 @@ public class PetAI extends AbstractBotAI {
         this.interactionTimer = 0;
         this.playTimer = 0;
 
-        if(this.getPetEntity().hasStatus(RoomEntityStatus.LAY)) {
+        this.clearPetStatuses();
+        this.walkNow();
+
+        this.getPetEntity().markNeedsUpdate();
+
+        if(this.followingPlayer != null) {
+            this.followingPlayer.getFollowingEntities().remove(this.getPetEntity());
+            this.followingPlayer = null;
+        }
+
+        if (this.toyItem != null) {
+            this.toyItem.onEntityStepOff(this.getPetEntity());
+        }
+    }
+
+    private void clearPetStatuses() {
+        if (this.getPetEntity().hasStatus(RoomEntityStatus.LAY)) {
             this.getPetEntity().removeStatus(RoomEntityStatus.LAY);
         }
 
-        if(this.getPetEntity().hasStatus(RoomEntityStatus.SIT)) {
+        if (this.getPetEntity().hasStatus(RoomEntityStatus.SIT)) {
             this.getPetEntity().removeStatus(RoomEntityStatus.SIT);
         }
 
-        this.walkNow();
-        this.getPetEntity().markNeedsUpdate();
 
-        this.followingPlayer.getFollowingEntities().remove(this.getPetEntity());
-        this.followingPlayer = null;
+        if (this.getPetEntity().hasStatus(RoomEntityStatus.PLAY_DEAD)) {
+            this.getPetEntity().removeStatus(RoomEntityStatus.PLAY_DEAD);
+        }
+
+        if (this.getPetEntity().hasStatus(RoomEntityStatus.PLAY)) {
+            this.getPetEntity().removeStatus(RoomEntityStatus.PLAY);
+        }
+    }
+
+    public void play() {
+        // Find item
+        for (RoomItemFloor floorItem : this.getPetEntity().getRoom().getItems().getByClass(PetToyFloorItem.class)) {
+            this.toyItem = (PetToyFloorItem) floorItem;
+
+            // 1 min play timer.
+            this.playTimer = RandomInteger.getRandom(10, 50);
+
+            this.moveTo(floorItem.getPosition());
+
+            return;
+        }
+    }
+
+    public void playDead() {
+        this.getPetEntity().cancelWalk();
+
+        this.clearPetStatuses();
+
+        this.getPetEntity().addStatus(RoomEntityStatus.PLAY_DEAD, "");
+        this.getPetEntity().markNeedsUpdate();
     }
 
     private PetSpeech getPetSpeech() {

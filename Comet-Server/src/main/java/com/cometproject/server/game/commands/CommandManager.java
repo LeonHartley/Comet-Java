@@ -97,7 +97,6 @@ public class CommandManager implements Initializable {
         this.commands.put("roomgrid", new RoomGridCommand());
         this.commands.put("processtimes", new ProcessTimesCommand());
         this.commands.put("011039812438qwidjkasjo83", new FastProcessCommand());
-        this.commands.put("90iqew3905i23905irw9e", new RidePlayerCommand());
     }
 
     /**

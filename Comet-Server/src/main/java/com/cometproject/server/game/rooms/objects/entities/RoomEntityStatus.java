@@ -9,7 +9,8 @@ public enum RoomEntityStatus {
     TRADE("trd"),
     VOTE("vote"),
     GESTURE("gst"),
-    PLAY("pla");
+    PLAY("pla"),
+    PLAY_DEAD("ded");
 
     private final String statusCode;
 

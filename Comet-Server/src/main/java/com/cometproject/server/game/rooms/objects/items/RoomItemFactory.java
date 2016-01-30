@@ -12,6 +12,7 @@ import com.cometproject.server.game.rooms.objects.items.types.floor.football.*;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.hollywood.HaloTileFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetToyFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding.SnowboardSlopeFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.summer.SummerShowerFloorItem;
@@ -159,6 +160,8 @@ public class RoomItemFactory {
             put("totem_planet", TotemPlanetFloorItem.class);
             put("totem_head", TotemHeadFloorItem.class);
             put("totem_body", TotemBodyFloorItem.class);
+
+            put("pet_toy", PetToyFloorItem.class);
         }};
     }
 
