@@ -83,6 +83,8 @@ public class CannonFloorItem extends RoomItemFloor {
             entity.kick();
         }
 
+        this.entitiesToKick.clear();
+
         this.setExtraData("0");
         this.sendUpdate();
     }
