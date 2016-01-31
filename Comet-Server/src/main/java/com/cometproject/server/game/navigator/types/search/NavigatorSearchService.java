@@ -1,5 +1,7 @@
 package com.cometproject.server.game.navigator.types.search;
 
+import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.publics.PublicRoom;
@@ -7,6 +9,7 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
+import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.tasks.CometTask;
 import com.google.common.collect.Lists;
 
@@ -90,6 +93,22 @@ public class NavigatorSearchService implements CometTask {
 
                 rooms.addAll(order(staffPicks, expanded ? 50 : 12));
                 staffPicks.clear();
+                break;
+
+            case MY_GROUPS:
+                for(int groupId : player.getGroups()) {
+                    GroupData groupData = GroupManager.getInstance().getData(groupId);
+
+                    if(groupData != null) {
+                        RoomData roomData = RoomManager.getInstance().getRoomData(groupData.getRoomId());
+
+                        if(roomData != null) {
+                            rooms.add(roomData);
+                        }
+                    }
+                }
+
+
                 break;
         }
 
