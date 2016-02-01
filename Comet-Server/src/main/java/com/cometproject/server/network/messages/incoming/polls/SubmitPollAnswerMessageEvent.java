@@ -50,6 +50,7 @@ public class SubmitPollAnswerMessageEvent implements Event {
                 return;
             }
 
+            poll.getPlayersAnswered().add(client.getPlayer().getId());
             PollDao.saveAnswer(client.getPlayer().getId(), pollId, questionId, answer);
         }
     }

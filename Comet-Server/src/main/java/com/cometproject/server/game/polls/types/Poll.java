@@ -1,6 +1,8 @@
 package com.cometproject.server.game.polls.types;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Poll {
@@ -12,12 +14,15 @@ public class Poll {
 
     private Map<Integer, PollQuestion> pollQuestions;
 
+    private Set<Integer> playersAnswered;
+
     public Poll(int pollId, int roomId, String pollTitle, String thanksMessage) {
         this.pollId = pollId;
         this.roomId = roomId;
         this.pollTitle = pollTitle;
         this.thanksMessage = thanksMessage;
         this.pollQuestions = new ConcurrentHashMap<>();
+        this.playersAnswered = new HashSet<>();
     }
 
     public void addQuestion(int questionId, PollQuestion pollQuestion) {
@@ -54,5 +59,9 @@ public class Poll {
 
     public String getThanksMessage() {
         return thanksMessage;
+    }
+
+    public Set<Integer> getPlayersAnswered() {
+        return playersAnswered;
     }
 }

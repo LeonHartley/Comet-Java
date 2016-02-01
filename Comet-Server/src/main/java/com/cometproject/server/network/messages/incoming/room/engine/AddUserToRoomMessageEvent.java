@@ -110,7 +110,9 @@ public class AddUserToRoomMessageEvent implements Event {
         if(PollManager.getInstance().roomHasPoll(room.getId())) {
             Poll poll = PollManager.getInstance().getPollByRoomId(room.getId());
 
-            client.send(new InitializePollMessageComposer(poll.getPollId(), poll.getPollTitle(), poll.getThanksMessage()));
+            if(!poll.getPlayersAnswered().contains(client.getPlayer().getId())) {
+                client.send(new InitializePollMessageComposer(poll.getPollId(), poll.getPollTitle(), poll.getThanksMessage()));
+            }
         }
 
         client.flush();
