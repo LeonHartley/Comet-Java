@@ -8,6 +8,8 @@ import java.util.Map;
 
 
 public class Composers {
+    public static final short InitializePollMessageComposer = 522;
+    public static final short PollMessageComposer = 1307;
     public static final short AvatarAspectUpdateMessageComposer = 3632;
     public static final short UnknownGroupMessageComposer = 1981;
     public static final short QuestionParserMessageComposer = 1719;

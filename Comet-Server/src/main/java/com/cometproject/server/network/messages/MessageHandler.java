@@ -36,6 +36,8 @@ import com.cometproject.server.network.messages.incoming.moderation.tickets.ModT
 import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolReleaseIssueMessageEvent;
 import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolTicketChatlogMessageEvent;
 import com.cometproject.server.network.messages.incoming.navigator.*;
+import com.cometproject.server.network.messages.incoming.polls.GetPollMessageEvent;
+import com.cometproject.server.network.messages.incoming.polls.SubmitPollAnswerMessageEvent;
 import com.cometproject.server.network.messages.incoming.quests.CancelQuestMessageEvent;
 import com.cometproject.server.network.messages.incoming.quests.OpenQuestsMessageEvent;
 import com.cometproject.server.network.messages.incoming.quests.StartQuestMessageEvent;
@@ -143,6 +145,7 @@ public final class MessageHandler {
         this.registerQuests();
         this.registerPromotions();
         this.registerAchievements();
+        this.registerPolls();
         this.registerMisc();
 //        this.registerCamera();
 //        this.registerMusic();
@@ -446,6 +449,12 @@ public final class MessageHandler {
 //        this.getMessages().put(Events.PlaylistMessageEvent, new PlaylistMessageEvent());
 //    }
 //
+
+    public void registerPolls() {
+        this.getMessages().put(Events.GetPollMessageEvent, new GetPollMessageEvent());
+        this.getMessages().put(Events.SubmitPollAnswerMessageEvent, new SubmitPollAnswerMessageEvent());
+    }
+
     public void registerAchievements() {
         this.getMessages().put(Events.GetAchievementsMessageEvent, new AchievementsListMessageEvent());
     }

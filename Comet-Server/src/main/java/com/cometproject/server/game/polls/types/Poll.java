@@ -1,20 +1,27 @@
 package com.cometproject.server.game.polls.types;
 
-import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Poll {
     private int pollId;
     private int roomId;
 
     private String pollTitle;
+    private String thanksMessage;
 
-    private List<PollQuestion> pollQuestions;
+    private Map<Integer, PollQuestion> pollQuestions;
 
-    public Poll(int pollId, int roomId, String pollTitle, List<PollQuestion> pollQuestions) {
+    public Poll(int pollId, int roomId, String pollTitle, String thanksMessage) {
         this.pollId = pollId;
         this.roomId = roomId;
         this.pollTitle = pollTitle;
-        this.pollQuestions = pollQuestions;
+        this.thanksMessage = thanksMessage;
+        this.pollQuestions = new ConcurrentHashMap<>();
+    }
+
+    public void addQuestion(int questionId, PollQuestion pollQuestion) {
+        this.pollQuestions.put(questionId, pollQuestion);
     }
 
     public int getPollId() {
@@ -41,11 +48,11 @@ public class Poll {
         this.pollTitle = pollTitle;
     }
 
-    public List<PollQuestion> getPollQuestions() {
+    public Map<Integer, PollQuestion> getPollQuestions() {
         return pollQuestions;
     }
 
-    public void setPollQuestions(List<PollQuestion> pollQuestions) {
-        this.pollQuestions = pollQuestions;
+    public String getThanksMessage() {
+        return thanksMessage;
     }
 }
