@@ -7,6 +7,8 @@ import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 public class StayCommand extends PetCommand {
     @Override
     public boolean execute(PlayerEntity executor, PetEntity entity) {
+        entity.getPetAI().setFollowingPlayer(null);
+
         entity.cancelWalk();
         entity.getPetAI().stay();
         return false;

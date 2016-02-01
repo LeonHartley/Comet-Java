@@ -41,6 +41,10 @@ public class PetAI extends AbstractBotAI {
 
     @Override
     public boolean onPlayerEnter(PlayerEntity entity) {
+        if(this.getPetEntity().getData() == null) {
+            return false;
+        }
+
         if (entity.getPlayerId() == this.getPetEntity().getData().getOwnerId()) {
             this.onAddedToRoom();
         }
@@ -286,6 +290,10 @@ public class PetAI extends AbstractBotAI {
     }
 
     public void setFollowingPlayer(PlayerEntity followingPlayer) {
+        if(followingPlayer == null && this.followingPlayer != null) {
+            this.followingPlayer.getFollowingEntities().remove(this.getPetEntity());
+        }
+        
         this.followingPlayer = followingPlayer;
     }
 }
