@@ -12,7 +12,6 @@ public enum NavigatorCategoryType {
     MY_GROUPS,
     MY_HISTORY,
     MY_FRIENDS_ROOMS,
-    MY_FRIENDS_ROOM,
     MY_HISTORY_FREQ,
     TOP_PROMOTIONS,
     PROMOTION_CATEGORY,

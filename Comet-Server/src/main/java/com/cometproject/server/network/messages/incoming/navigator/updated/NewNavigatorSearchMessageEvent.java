@@ -23,13 +23,14 @@ public class NewNavigatorSearchMessageEvent implements Event {
 
             for(Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
                 if(navigatorCategory.getCategory().equals(category)) {
-                    categoryList.add(navigatorCategory);
+                    if(navigatorCategory.isVisible())
+                        categoryList.add(navigatorCategory);
                 }
             }
 
             if(categoryList.size() == 0) {
                 for(Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
-                    if(navigatorCategory.getCategoryType().toString().toLowerCase().equals(category)) {
+                    if(navigatorCategory.getCategoryType().toString().toLowerCase().equals(category) && navigatorCategory.isVisible()) {
                         categoryList.add(navigatorCategory);
                     }
                 }
@@ -37,7 +38,7 @@ public class NewNavigatorSearchMessageEvent implements Event {
 
             if(categoryList.size() == 0) {
                 for(Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
-                    if(navigatorCategory.getCategoryId().equals(category)) {
+                    if(navigatorCategory.getCategoryId().equals(category) && navigatorCategory.isVisible()) {
                         categoryList.add(navigatorCategory);
                     }
                 }
