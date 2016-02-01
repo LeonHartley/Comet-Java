@@ -74,3 +74,36 @@ INSERT INTO `pet_transformable` (`name`, `data`) VALUES
 	('spider', '8 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
 	('terrier', '3 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
 	('turtle', '9 0 FFFFFF 2 2 -1 0 3 -1 0#0');
+
+CREATE TABLE IF NOT EXISTS `polls` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL DEFAULT 'Untitled Poll',
+  `thanks_message` varchar(100) NOT NULL DEFAULT 'Thanks!',
+  `badge_reward` varchar(100) NOT NULL DEFAULT 'US8',
+  `room_id` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `room_id` (`room_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `polls_answers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poll_id` int(11) DEFAULT '0',
+  `question_id` int(11) DEFAULT '0',
+  `player_id` int(11) DEFAULT '0',
+  `answer` varchar(1000) DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `poll_id_question_id_player_id` (`poll_id`,`question_id`,`player_id`),
+  KEY `player_id` (`player_id`),
+  KEY `poll_id` (`poll_id`),
+  KEY `poll_id_question_id` (`poll_id`,`question_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `polls_questions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poll_id` int(11) NOT NULL,
+  `question_type` enum('WORDED','MULTIPLE_CHOICE') NOT NULL DEFAULT 'WORDED',
+  `question` varchar(100) NOT NULL DEFAULT 'What do you think of Comet Server?',
+  `options` text,
+  PRIMARY KEY (`id`),
+  KEY `poll_id` (`poll_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
