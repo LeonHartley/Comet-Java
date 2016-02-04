@@ -85,6 +85,8 @@ public class LoadProfileMessageComposer extends MessageComposer {
             }
         }
 
+        groups.clear();
+
         msg.writeInt((int) Comet.getTime() - player.getLastVisit());
         msg.writeBoolean(true);
     }
