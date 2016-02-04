@@ -6,21 +6,24 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Poll {
-    private int pollId;
-    private int roomId;
+    private final int pollId;
+    private final int roomId;
 
-    private String pollTitle;
-    private String thanksMessage;
+    private final String pollTitle;
+    private final String thanksMessage;
+    private final String badgeReward;
 
-    private Map<Integer, PollQuestion> pollQuestions;
+    private final Map<Integer, PollQuestion> pollQuestions;
 
-    private Set<Integer> playersAnswered;
+    private final Set<Integer> playersAnswered;
 
-    public Poll(int pollId, int roomId, String pollTitle, String thanksMessage) {
+    public Poll(int pollId, int roomId, String pollTitle, String thanksMessage, String badgeReward) {
         this.pollId = pollId;
         this.roomId = roomId;
         this.pollTitle = pollTitle;
         this.thanksMessage = thanksMessage;
+        this.badgeReward = badgeReward;
+
         this.pollQuestions = new ConcurrentHashMap<>();
         this.playersAnswered = new HashSet<>();
     }
@@ -33,24 +36,12 @@ public class Poll {
         return pollId;
     }
 
-    public void setPollId(int pollId) {
-        this.pollId = pollId;
-    }
-
     public int getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
-    }
-
     public String getPollTitle() {
         return pollTitle;
-    }
-
-    public void setPollTitle(String pollTitle) {
-        this.pollTitle = pollTitle;
     }
 
     public Map<Integer, PollQuestion> getPollQuestions() {
@@ -63,5 +54,9 @@ public class Poll {
 
     public Set<Integer> getPlayersAnswered() {
         return playersAnswered;
+    }
+
+    public String getBadgeReward() {
+        return badgeReward;
     }
 }

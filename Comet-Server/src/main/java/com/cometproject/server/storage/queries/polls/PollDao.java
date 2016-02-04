@@ -1,8 +1,6 @@
 package com.cometproject.server.storage.queries.polls;
 
-import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.polls.types.Poll;
-import com.cometproject.server.game.polls.types.PollQuestion;
 import com.cometproject.server.game.polls.types.PollQuestionType;
 import com.cometproject.server.game.polls.types.questions.MultipleChoiceQuestion;
 import com.cometproject.server.game.polls.types.questions.WordedPollQuestion;
@@ -27,7 +25,7 @@ public class PollDao {
             sqlConnection = SqlHelper.getConnection();
 
             preparedStatement = SqlHelper.prepare("SELECT pQ.id AS id, p.id AS pollId, p.title AS pollTitle, p.thanks_message AS pollThanksMessage, p.room_id AS pollRoomId," +
-                    " pQ.question_type AS questionType, pQ.question AS question, pQ.options AS options FROM polls_questions pQ LEFT JOIN polls p ON" +
+                    " p.badge_reward AS badgeReward, pQ.question_type AS questionType, pQ.question AS question, pQ.options AS options FROM polls_questions pQ LEFT JOIN polls p ON" +
                     "(SELECT id FROM polls WHERE id = pQ.poll_id);", sqlConnection);
             resultSet = preparedStatement.executeQuery();
 
@@ -39,8 +37,9 @@ public class PollDao {
                     final String title = resultSet.getString("pollTitle");
                     final int roomId = resultSet.getInt("pollRoomId");
                     final String thanksMessage = resultSet.getString("pollThanksMessage");
+                    final String badgeReward = resultSet.getString("badgeReward");
 
-                    poll = new Poll(pollId, roomId, title, thanksMessage);
+                    poll = new Poll(pollId, roomId, title, thanksMessage, badgeReward);
                     data.put(pollId, poll);
                 } else {
                     poll = data.get(pollId);
