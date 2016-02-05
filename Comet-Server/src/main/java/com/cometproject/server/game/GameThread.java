@@ -85,7 +85,7 @@ public class GameThread implements CometTask, Initializable {
     }
 
     private void processSession() throws Exception {
-        if (CometSettings.quarterlyCreditsEnabled || CometSettings.quarterlyDucketsEnabled) {
+        if (CometSettings.onlineRewardEnabled) {
             for (ISession client : NetworkManager.getInstance().getSessions().getSessions().values()) {
                 try {
                     if (!(client instanceof Session) || client.getPlayer() == null || client.getPlayer().getData() == null) {
@@ -97,12 +97,12 @@ public class GameThread implements CometTask, Initializable {
                     final boolean needsReward = (Comet.getTime() - client.getPlayer().getLastReward()) >= (60 * PLAYER_REWARD_INTERVAL);
 
                     if (needsReward) {
-                        if (CometSettings.quarterlyCreditsEnabled) {
-                            client.getPlayer().getData().increaseCredits(CometSettings.quarterlyCreditsAmount);
+                        if (CometSettings.onlineRewardCredits > 0) {
+                            client.getPlayer().getData().increaseCredits(CometSettings.onlineRewardCredits);
                         }
 
-                        if (CometSettings.quarterlyDucketsEnabled) {
-                            client.getPlayer().getData().increaseActivityPoints(CometSettings.quarterlyDucketsAmount);
+                        if (CometSettings.onlineRewardDuckets > 0) {
+                            client.getPlayer().getData().increaseActivityPoints(CometSettings.onlineRewardDuckets);
                         }
 
                         client.getPlayer().sendBalance();

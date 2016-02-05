@@ -18,12 +18,14 @@ import com.cometproject.server.game.permissions.PermissionsManager;
 import com.cometproject.server.game.pets.PetManager;
 import com.cometproject.server.game.pets.commands.PetCommandManager;
 import com.cometproject.server.game.polls.PollManager;
+import com.cometproject.server.game.polls.types.Poll;
 import com.cometproject.server.game.quests.QuestManager;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.catalog.CatalogPublishMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
+import com.cometproject.server.network.messages.outgoing.room.polls.InitializePollMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 
 
@@ -56,7 +58,8 @@ public class ReloadCommand extends ChatCommand {
                                 "- music" +
                                 "- quests" +
                                 "- achievements" +
-                                "- pets"
+                                "- pets" +
+                                "- polls"
                 ));
 
                 break;
@@ -168,6 +171,12 @@ public class ReloadCommand extends ChatCommand {
 
             case "polls":
                 PollManager.getInstance().initialize();
+
+                if(PollManager.getInstance().roomHasPoll(client.getPlayer().getEntity().getRoom().getId())) {
+                    Poll poll = PollManager.getInstance().getPollByRoomId(client.getPlayer().getEntity().getRoom().getId());
+
+                    client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new InitializePollMessageComposer(poll.getPollId(), poll.getPollTitle(), poll.getThanksMessage()));
+                }
 
                 sendNotif(Locale.get("command.reload.polls"), client);
                 break;
