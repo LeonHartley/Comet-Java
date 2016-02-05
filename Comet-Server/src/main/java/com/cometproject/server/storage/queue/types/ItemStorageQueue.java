@@ -43,6 +43,7 @@ public class ItemStorageQueue implements Initializable, CometTask, StorageQueue<
         RoomItemDao.saveFloorItems(this.itemsToStore);
 
         this.itemsToStoreData.clear();
+        this.itemsToStore.clear();
     }
 
     public void queueSaveData(final RoomItem roomItem) {

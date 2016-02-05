@@ -18,6 +18,7 @@ public class RoomItemEventQueue {
         if (this.eventQueue.size() == 0) {
             return;
         }
+
         final List<RoomItemEventQueueEntry> eventQueueCopy = new LinkedList<>();
 
         synchronized (this.lock) { // reduce lock time by copying (events happen outside lock)

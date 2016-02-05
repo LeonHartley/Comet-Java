@@ -26,15 +26,13 @@ public class ItemProcessComponent implements CometTask {
     private final Logger log;
 
     private ScheduledFuture myFuture;
-    private CometThreadManager mgr;
 
     private boolean active = false;
 
     // TODO: Finish the item event queue.
     private RoomItemEventQueue eventQueue;// = new RoomItemEventQueue();
 
-    public ItemProcessComponent(CometThreadManager mgr, Room room) {
-        this.mgr = mgr;
+    public ItemProcessComponent(Room room) {
         this.room = room;
 
         log = Logger.getLogger("Item Process [" + room.getData().getName() + "]");
@@ -55,7 +53,7 @@ public class ItemProcessComponent implements CometTask {
         }
 
         this.active = true;
-        this.myFuture = this.mgr.executePeriodic(this, 0, INTERVAL, TimeUnit.MILLISECONDS);
+        this.myFuture = CometThreadManager.getInstance().executePeriodic(this, 0, INTERVAL, TimeUnit.MILLISECONDS);
 
         log.debug("Processing started");
     }

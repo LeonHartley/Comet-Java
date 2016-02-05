@@ -407,7 +407,7 @@ public class ItemsComponent {
         }
 
         if (save)
-            RoomItemDao.saveItemPosition(newPosition.getX(), newPosition.getY(), height, rotation, itemId);
+            item.save();
 
         for (Position tileToUpdate : tilesToUpdate) {
             final RoomTile tileInstance = this.room.getMapping().getTile(tileToUpdate.getX(), tileToUpdate.getY());

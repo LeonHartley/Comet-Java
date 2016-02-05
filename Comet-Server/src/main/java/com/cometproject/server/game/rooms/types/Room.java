@@ -79,7 +79,7 @@ public class Room implements Attributable, IRoom {
         this.ratings = new HashSet<>();
 
         this.mapping = new RoomMapping(this);
-        this.itemProcess = new ItemProcessComponent(CometThreadManager.getInstance(), this);
+        this.itemProcess = new ItemProcessComponent(this);
         this.process = new ProcessComponent(this);
         this.rights = new RightsComponent(this);
         this.items = new ItemsComponent(this);
