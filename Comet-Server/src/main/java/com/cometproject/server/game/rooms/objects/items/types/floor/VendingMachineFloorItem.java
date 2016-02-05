@@ -25,7 +25,12 @@ public class VendingMachineFloorItem extends RoomItemFloor {
 
         if (!posInFront.equals(entity.getPosition())) {
             entity.moveTo(posInFront.getX(), posInFront.getY());
-            this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY()).scheduleEvent(entity.getId(), (e) -> onInteract(e, requestData, false));
+
+            try {
+                this.getRoom().getMapping().getTile(posInFront.getX(), posInFront.getY()).scheduleEvent(entity.getId(), (e) -> onInteract(e, requestData, false));
+            } catch(Exception e) {
+                // this isn't important, if we can't find the tile then we might as well just end it here.
+            }
             return false;
         }
 

@@ -29,7 +29,7 @@ public class NavigatorDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("SELECT * FROM navigator_publics WHERE enabled = '1' ORDER BY order_num", sqlConnection);
+            preparedStatement = SqlHelper.prepare("SELECT * FROM navigator_publics WHERE enabled = '1' ORDER BY order_num ASC", sqlConnection);
 
             resultSet = preparedStatement.executeQuery();
 
