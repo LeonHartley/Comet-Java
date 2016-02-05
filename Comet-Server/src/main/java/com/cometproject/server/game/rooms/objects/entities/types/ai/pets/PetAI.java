@@ -1,5 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.types.ai.pets;
 
+import com.cometproject.server.game.pets.commands.PetCommandManager;
 import com.cometproject.server.game.pets.data.PetMessageType;
 import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.players.PlayerManager;
@@ -9,24 +10,28 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.PetToyFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 import com.cometproject.server.network.messages.outgoing.room.pets.AddExperiencePointsMessageComposer;
 import com.cometproject.server.utilities.RandomInteger;
 
-import java.awt.*;
-
 
 public class PetAI extends AbstractBotAI {
     private static final PetAction[] possibleActions = {
-            PetAction.LAY, PetAction.SIT, PetAction.TALK,
+            PetAction.LAY, PetAction.SIT, PetAction.TALK, PetAction.PLAY
     };
 
     private String ownerName = "";
 
     private int playTimer = 0;
     private int gestureTimer = 0;
+    private int interactionTimer = 0;
+    private int scratchTimer = 0;
+
+    private PetToyFloorItem toyItem;
 
     public PetAI(GenericEntity entity) {
         super(entity);
@@ -36,7 +41,11 @@ public class PetAI extends AbstractBotAI {
 
     @Override
     public boolean onPlayerEnter(PlayerEntity entity) {
-        if(entity.getPlayerId() == this.getPetEntity().getData().getOwnerId()) {
+        if(this.getPetEntity().getData() == null) {
+            return false;
+        }
+
+        if (entity.getPlayerId() == this.getPetEntity().getData().getOwnerId()) {
             this.onAddedToRoom();
         }
 
@@ -69,6 +78,10 @@ public class PetAI extends AbstractBotAI {
 
     @Override
     public void onTickComplete() {
+        if (this.playTimer != 0) {
+            return;
+        }
+
         PetAction petAction = possibleActions[RandomInteger.getRandom(0, possibleActions.length - 1)];
 
         switch (petAction) {
@@ -84,6 +97,9 @@ public class PetAI extends AbstractBotAI {
                 this.sit();
                 break;
 
+            case PLAY:
+                this.play();
+                break;
         }
 
         this.setTicksUntilCompleteInSeconds(25);
@@ -93,30 +109,53 @@ public class PetAI extends AbstractBotAI {
     public void onTick() {
         super.onTick();
 
-        if(this.playTimer != 0) {
+        if (this.playTimer != 0) {
             this.playTimer--;
 
-            if(this.playTimer == 0) {
+            if (this.playTimer == 0) {
+                if(this.toyItem != null) {
+                    this.toyItem.onEntityStepOff(this.getPetEntity());
+                }
+
                 this.getPetEntity().removeStatus(RoomEntityStatus.PLAY);
                 this.getPetEntity().markNeedsUpdate();
             }
         }
 
-        if(this.gestureTimer != 0) {
+        if (this.gestureTimer != 0) {
             this.gestureTimer--;
 
-            if(this.gestureTimer == 0) {
+            if (this.gestureTimer == 0) {
                 this.getPetEntity().removeStatus(RoomEntityStatus.GESTURE);
                 this.getPetEntity().markNeedsUpdate();
             }
+        }
+
+        if (this.interactionTimer != 0) {
+            this.interactionTimer--;
+
+            if(this.interactionTimer == 0) {
+                if (this.getPetEntity().hasStatus(RoomEntityStatus.PLAY_DEAD)) {
+                    this.getPetEntity().removeStatus(RoomEntityStatus.PLAY_DEAD);
+                    this.getPetEntity().markNeedsUpdate();
+                }
+            }
+        }
+
+        if (this.scratchTimer != 0) {
+            this.scratchTimer--;
         }
     }
 
     @Override
     public boolean onTalk(PlayerEntity entity, String message) {
-        if(message.equals(this.getPetEntity().getData().getName() + " play")) {
-            this.playTimer = 20;
-            this.getPetEntity().addStatus(RoomEntityStatus.PLAY, "");
+        if (message.startsWith(this.getPetEntity().getData().getName())) {
+            String commandKey = message.replace(this.getPetEntity().getData().getName() + " ", "");
+
+            if (PetCommandManager.getInstance().executeCommand(commandKey.toLowerCase(), entity, this.getPetEntity())) {
+                // drain energy.
+                this.interactionTimer += 25;
+            }
         }
 
         return false;
@@ -129,7 +168,17 @@ public class PetAI extends AbstractBotAI {
         this.getPetEntity().markNeedsUpdate();
     }
 
+    public void waitForScratch() {
+        this.scratchTimer = 20;
+    }
+
+    public void stay() {
+        this.interactionTimer = RandomInteger.getRandom(40, 80);
+    }
+
     public void onScratched() {
+        this.scratchTimer = 0;
+
         PetEntity petEntity = this.getPetEntity();
 
         this.say(this.getMessage(PetMessageType.SCRATCHED), ChatEmotion.SMILE);
@@ -149,12 +198,72 @@ public class PetAI extends AbstractBotAI {
         // level up
     }
 
+    public void free() {
+        this.interactionTimer = 0;
+        this.playTimer = 0;
+
+        this.clearPetStatuses();
+        this.walkNow();
+
+        this.getPetEntity().markNeedsUpdate();
+
+        if(this.followingPlayer != null) {
+            this.followingPlayer.getFollowingEntities().remove(this.getPetEntity());
+            this.followingPlayer = null;
+        }
+
+        if (this.toyItem != null) {
+            this.toyItem.onEntityStepOff(this.getPetEntity());
+        }
+    }
+
+    private void clearPetStatuses() {
+        if (this.getPetEntity().hasStatus(RoomEntityStatus.LAY)) {
+            this.getPetEntity().removeStatus(RoomEntityStatus.LAY);
+        }
+
+        if (this.getPetEntity().hasStatus(RoomEntityStatus.SIT)) {
+            this.getPetEntity().removeStatus(RoomEntityStatus.SIT);
+        }
+
+
+        if (this.getPetEntity().hasStatus(RoomEntityStatus.PLAY_DEAD)) {
+            this.getPetEntity().removeStatus(RoomEntityStatus.PLAY_DEAD);
+        }
+
+        if (this.getPetEntity().hasStatus(RoomEntityStatus.PLAY)) {
+            this.getPetEntity().removeStatus(RoomEntityStatus.PLAY);
+        }
+    }
+
+    public void play() {
+        // Find item
+        for (RoomItemFloor floorItem : this.getPetEntity().getRoom().getItems().getByClass(PetToyFloorItem.class)) {
+            this.toyItem = (PetToyFloorItem) floorItem;
+
+            // 1 min play timer.
+            this.playTimer = RandomInteger.getRandom(10, 50);
+
+            this.moveTo(floorItem.getPosition());
+            return;
+        }
+    }
+
+    public void playDead() {
+        this.getPetEntity().cancelWalk();
+
+        this.clearPetStatuses();
+
+        this.getPetEntity().addStatus(RoomEntityStatus.PLAY_DEAD, "");
+        this.getPetEntity().markNeedsUpdate();
+    }
+
     private PetSpeech getPetSpeech() {
         return this.getPetEntity().getData().getSpeech();
     }
 
     private String getMessage(PetMessageType type) {
-        if(this.getPetSpeech() == null) {
+        if (this.getPetSpeech() == null) {
             return null;
         }
 
@@ -177,6 +286,14 @@ public class PetAI extends AbstractBotAI {
 
     @Override
     public boolean canMove() {
-        return this.playTimer == 0;
+        return this.scratchTimer == 0 && this.playTimer == 0 && this.interactionTimer == 0;
+    }
+
+    public void setFollowingPlayer(PlayerEntity followingPlayer) {
+        if(followingPlayer == null && this.followingPlayer != null) {
+            this.followingPlayer.getFollowingEntities().remove(this.getPetEntity());
+        }
+
+        this.followingPlayer = followingPlayer;
     }
 }

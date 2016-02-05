@@ -20,6 +20,8 @@ public class PetManager implements Initializable {
 
     private Map<Integer, PetSpeech> petMessages;
 
+    private Map<String, String> transformablePets;
+
     public PetManager() {
 
     }
@@ -28,6 +30,7 @@ public class PetManager implements Initializable {
     public void initialize() {
         this.loadPetRaces();
         this.loadPetSpeech();
+        this.loadTransformablePets();
 
         log.info("PetManager initialized");
     }
@@ -68,6 +71,20 @@ public class PetManager implements Initializable {
         }
     }
 
+    public void loadTransformablePets() {
+        if (this.transformablePets != null) {
+            this.transformablePets.clear();
+        }
+
+        try {
+            this.transformablePets = PetDao.getTransformablePets();
+
+            log.info("Loaded " + this.transformablePets.size() + " transformable pets");
+        } catch(Exception e) {
+            log.error("Error while loading transformable pets");
+        }
+    }
+
     public int validatePetName(String petName) {
         String pattern = "^[a-zA-Z0-9]*$";
 
@@ -105,6 +122,14 @@ public class PetManager implements Initializable {
 
     public PetSpeech getSpeech(int petType) {
         return this.petMessages.get(petType);
+    }
+
+    public Map<String, String> getTransformablePets() {
+        return transformablePets;
+    }
+
+    public String getTransformationData(String type) {
+        return this.transformablePets.get(type);
     }
 
 //    public String[] getSpeech(int petType) {

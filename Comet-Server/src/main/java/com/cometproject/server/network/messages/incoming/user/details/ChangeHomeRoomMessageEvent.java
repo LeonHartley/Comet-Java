@@ -11,6 +11,10 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 public class ChangeHomeRoomMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
+        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+            return;
+        }
+
         Room room = client.getPlayer().getEntity().getRoom();
 
         int roomId = room.getId();

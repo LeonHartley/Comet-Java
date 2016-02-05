@@ -208,6 +208,10 @@ public class RoomMapping {
 
         final boolean isAtDoor = this.getModel().getDoorX() == from.getX() && this.getModel().getDoorY() == from.getY();
 
+        if(to.getX() == this.getModel().getDoorX() && to.getY() == this.getModel().getDoorY() && !lastStep) {
+            return false;
+        }
+
         int entityId;
 
         if (entity == null) {

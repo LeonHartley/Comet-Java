@@ -17,8 +17,11 @@ public class Category implements RoomCategory {
     private final NavigatorCategoryType categoryType;
     private final NavigatorSearchAllowance searchAllowance;
     private final int orderId;
+    private final boolean visible;
+    private final int roomCount;
+    private final int roomCountExpanded;
 
-    public Category(int id, String category, String categoryId, String publicName, boolean canDoActions, int colour, int requiredRank, NavigatorViewMode viewMode, String categoryType, String searchAllowance, int orderId) {
+    public Category(int id, String category, String categoryId, String publicName, boolean canDoActions, int colour, int requiredRank, NavigatorViewMode viewMode, String categoryType, String searchAllowance, int orderId, boolean visible, int roomCount, int roomCountExpanded) {
         this.id = id;
         this.category = category;
         this.categoryId = categoryId;
@@ -30,6 +33,9 @@ public class Category implements RoomCategory {
         this.categoryType = NavigatorCategoryType.valueOf(categoryType.toUpperCase());
         this.searchAllowance = NavigatorSearchAllowance.valueOf(searchAllowance.toUpperCase());
         this.orderId = orderId;
+        this.visible = visible;
+        this.roomCount = roomCount;
+        this.roomCountExpanded = roomCountExpanded;
     }
 
     public int getId() {
@@ -74,5 +80,17 @@ public class Category implements RoomCategory {
 
     public int getOrderId() {
         return orderId;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public int getRoomCount() {
+        return roomCount;
+    }
+
+    public int getRoomCountExpanded() {
+        return roomCountExpanded;
     }
 }

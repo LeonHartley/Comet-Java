@@ -1,6 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities.types.ai;
 
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
+import com.cometproject.server.game.rooms.types.misc.ChatEmotion;
 
 
 public interface BotAI {
@@ -17,6 +18,16 @@ public interface BotAI {
     void onTick();
 
     void onTickComplete();
+
+    void sit();
+
+    void lay();
+
+    void setTicksUntilCompleteInSeconds(double seconds);
+
+    void say(String message);
+
+    void say(String message, ChatEmotion emotion);
 
     boolean canMove();
 }

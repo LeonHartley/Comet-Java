@@ -11,8 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -104,8 +102,10 @@ public class NavigatorDao {
                         NavigatorViewMode.valueOf(resultSet.getString("view_mode").toUpperCase()),
                         resultSet.getString("category_type"),
                         resultSet.getString("search_allowance"),
-                        resultSet.getInt("order_id")
-                ));
+                        resultSet.getInt("order_id"),
+                        resultSet.getString("visible").equals("1"),
+                        resultSet.getInt("room_count"),
+                        resultSet.getInt("room_count_expanded")));
             }
         } catch (SQLException e) {
             SqlHelper.handleSqlException(e);

@@ -338,8 +338,8 @@ public class EntityComponent {
     }
 
     public void dispose() {
-        for (GenericEntity entity : entities.values()) {
-            entity.onRoomDispose();
+        for (Map.Entry<Integer, GenericEntity> entity : this.entities.entrySet()) {
+            entity.getValue().onRoomDispose();
         }
 
         this.entities.clear();

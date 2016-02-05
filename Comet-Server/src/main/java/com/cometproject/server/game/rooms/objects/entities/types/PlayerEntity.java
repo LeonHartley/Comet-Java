@@ -75,6 +75,8 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     private int banzaiPlayerAchievement = 0;
 
+    private boolean hasPlacedPet = false;
+
     public PlayerEntity(Player player, int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, startBodyRotation, startHeadRotation, roomInstance);
 
@@ -310,6 +312,14 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             }
         }
 
+        if(this.hasPlacedPet) {
+            for(PetEntity petEntity : this.getRoom().getEntities().getPetEntities()) {
+                if(petEntity.getData().getOwnerId() == this.getPlayerId()) {
+                    petEntity.kick();
+                }
+            }
+        }
+
         // Remove entity from the room
         this.getRoom().getEntities().removeEntity(this);
 
@@ -361,9 +371,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             if (time - this.getPlayer().getRoomLastMessageTime() < 750) {
                 this.getPlayer().setRoomFloodFlag(this.getPlayer().getRoomFloodFlag() + 1);
 
-                if (this.getPlayer().getRoomFloodFlag(
-
-                ) >= 3) {
+                if (this.getPlayer().getRoomFloodFlag() >= 3) {
                     this.getPlayer().setRoomFloodTime(this.getPlayer().getPermissions().getRank().floodTime());
                     this.getPlayer().setRoomFloodFlag(0);
 
@@ -458,12 +466,12 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             trade.cancel(this.getPlayerId());
         }
 
-        if (this.visitLogEntry != null) {
-            this.visitLogEntry.setExitTime((int) Comet.getTime());
-
-            if (LogManager.ENABLED)
-                LogManager.getInstance().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
-        }
+//        if (this.visitLogEntry != null) {
+//            this.visitLogEntry.setExitTime((int) Comet.getTime());
+//
+//            if (LogManager.ENABLED)
+//                LogManager.getInstance().getStore().getRoomVisitContainer().updateExit(this.visitLogEntry);
+//        }
 
         if (this.getPlayer() != null) {
             // De-reference things
@@ -630,4 +638,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         this.banzaiPlayerAchievement++;
     }
 
+    public void setPlacedPet(boolean hasPlacedPet) {
+        this.hasPlacedPet = hasPlacedPet;
+    }
 }

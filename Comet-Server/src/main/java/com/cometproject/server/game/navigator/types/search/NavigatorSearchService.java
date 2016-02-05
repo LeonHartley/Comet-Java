@@ -1,12 +1,17 @@
 package com.cometproject.server.game.navigator.types.search;
 
+import com.cometproject.server.game.groups.GroupManager;
+import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.publics.PublicRoom;
+import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.rooms.RoomManager;
+import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
+import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.tasks.CometTask;
 import com.google.common.collect.Lists;
 
@@ -43,11 +48,11 @@ public class NavigatorSearchService implements CometTask {
                 break;
 
             case POPULAR:
-                rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(-1), expanded ? 50 : 12));
+                rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(-1), expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
                 break;
 
             case CATEGORY:
-                rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(category.getId()), expanded ? 50 : 12));
+                rooms.addAll(order(RoomManager.getInstance().getRoomsByCategory(category.getId()), expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
                 break;
 
             case TOP_PROMOTIONS:
@@ -63,7 +68,7 @@ public class NavigatorSearchService implements CometTask {
                     }
                 }
 
-                rooms.addAll(order(promotedRooms, expanded ? 50 : 12));
+                rooms.addAll(order(promotedRooms, expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
                 promotedRooms.clear();
                 break;
 
@@ -88,8 +93,46 @@ public class NavigatorSearchService implements CometTask {
                     }
                 }
 
-                rooms.addAll(order(staffPicks, expanded ? 50 : 12));
+                rooms.addAll(order(staffPicks, expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
                 staffPicks.clear();
+                break;
+
+            case MY_GROUPS:
+                List<RoomData> groupHomeRooms = Lists.newArrayList();
+
+                for(int groupId : player.getGroups()) {
+                    GroupData groupData = GroupManager.getInstance().getData(groupId);
+
+                    if(groupData != null) {
+                        RoomData roomData = RoomManager.getInstance().getRoomData(groupData.getRoomId());
+
+                        if(roomData != null) {
+                            groupHomeRooms.add(roomData);
+                        }
+                    }
+                }
+
+                rooms.addAll(order(groupHomeRooms, expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
+                groupHomeRooms.clear();
+                break;
+
+            case MY_FRIENDS_ROOMS:
+                List<RoomData> friendsRooms = Lists.newArrayList();
+
+                for(MessengerFriend messengerFriend : player.getMessenger().getFriends().values()) {
+                    if(messengerFriend.isInRoom()) {
+                        PlayerEntity playerEntity = messengerFriend.getSession().getPlayer().getEntity();
+
+                        if(playerEntity != null) {
+                            if(!friendsRooms.contains(playerEntity.getRoom().getData())) {
+                                friendsRooms.add(playerEntity.getRoom().getData());
+                            }
+                        }
+                    }
+                }
+
+                rooms.addAll(order(friendsRooms, expanded ? category.getRoomCountExpanded() : category.getRoomCount()));
+                friendsRooms.clear();
                 break;
         }
 

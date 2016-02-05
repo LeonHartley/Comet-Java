@@ -4,5 +4,6 @@ public enum PetAction {
     WALK,
     TALK,
     SIT,
-    LAY
+    LAY,
+    PLAY
 }

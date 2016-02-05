@@ -1,6 +1,7 @@
 package com.cometproject.server.boot;
 
 import com.cometproject.server.api.APIManager;
+import com.cometproject.server.boot.utils.gui.CometGui;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Configuration;
 import com.cometproject.server.config.Locale;
@@ -97,6 +98,11 @@ public class CometServer {
 
         NetworkManager.getInstance().initialize(ipAddress, port);
         GameThread.getInstance().initialize();
+
+        if(Comet.showGui) {
+            CometGui gui = new CometGui();
+            gui.setVisible(true);
+        }
 
         if (Comet.isDebugging) {
             log.debug("Comet Server is debugging");

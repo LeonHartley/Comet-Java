@@ -131,6 +131,8 @@ public class Room implements Attributable, IRoom {
             return;
         }
 
+        long currentTime = System.currentTimeMillis();
+
         this.getItems().commit();
 
         this.isDisposed = true;
@@ -151,6 +153,12 @@ public class Room implements Attributable, IRoom {
 
         if(this.forcedUnload) {
             RoomManager.getInstance().removeData(this.getId());
+        }
+
+        long timeTaken = System.currentTimeMillis() - currentTime;
+
+        if(timeTaken >= 250) {
+            this.log.warn("Room [" + this.getData().getId() + "][" + this.getData().getName() + "] took " + timeTaken + "ms to dispose");
         }
 
         this.log.debug("Room has been disposed");

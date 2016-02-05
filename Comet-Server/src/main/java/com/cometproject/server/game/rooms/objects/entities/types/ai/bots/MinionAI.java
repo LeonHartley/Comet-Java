@@ -43,6 +43,14 @@ public class MinionAI extends AbstractBotAI {
 
             entity.getData().setMode("default");
         });
+
+        put("minions follow", (entity) -> {
+            PlayerEntity playerEntity = entity.getRoom().getEntities().getEntityByPlayerId(entity.getData().getOwnerId());
+
+            if(playerEntity != null) {
+                playerEntity.getFollowingEntities().add(entity);
+            }
+        });
     }};
 
     public MinionAI(GenericEntity entity) {

@@ -48,3 +48,62 @@ CREATE TABLE `pet_messages` (
 ) COLLATE='latin1_swedish_ci'
 ENGINE=InnoDB
 AUTO_INCREMENT=1;
+
+CREATE TABLE IF NOT EXISTS `pet_transformable` (
+  `name` varchar(50) NOT NULL,
+  `data` varchar(50) NOT NULL COMMENT 'The first number is the pet ID, the rest is what determine the colours, hair etc.',
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `pet_transformable` (`name`, `data`) VALUES
+	('bear', '4 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('bunny', '17 0 FFFFFF 0 0 0 0 0 0 0#0'),
+	('cat', '1 0 F5E759 2 2 -1 0 3 -1 0#0'),
+	('chick', '10 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('crocodile', '2 4 96E75A 2 2 -1 0 3 -1 0#4'),
+	('dog', '0 15 FEE4B2 2 2 -1 0 3 -1 0#15'),
+	('dragon', '12 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('frog', '11 12 FFFFFF 2 2 -1 0 3 -1 0#12'),
+	('horse', '15 3 FFFFFF 2 2 -1 0 3 -1 0#3'),
+	('human', ''),
+	('lion', '6 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('monkey', '14 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('monster_plant', '16 0 FFFFFF 0 0 0 0 0 0 0#0'),
+	('pig', '5 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('rhino', '7 0 CCCCCC 2 2 -1 0 3 -1 0#0'),
+	('spider', '8 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('terrier', '3 0 FFFFFF 2 2 -1 0 3 -1 0#0'),
+	('turtle', '9 0 FFFFFF 2 2 -1 0 3 -1 0#0');
+
+CREATE TABLE IF NOT EXISTS `polls` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL DEFAULT 'Untitled Poll',
+  `thanks_message` varchar(100) NOT NULL DEFAULT 'Thanks!',
+  `badge_reward` varchar(100) NOT NULL DEFAULT 'US8',
+  `room_id` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `room_id` (`room_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `polls_answers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poll_id` int(11) DEFAULT '0',
+  `question_id` int(11) DEFAULT '0',
+  `player_id` int(11) DEFAULT '0',
+  `answer` varchar(1000) DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `poll_id_question_id_player_id` (`poll_id`,`question_id`,`player_id`),
+  KEY `player_id` (`player_id`),
+  KEY `poll_id` (`poll_id`),
+  KEY `poll_id_question_id` (`poll_id`,`question_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `polls_questions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poll_id` int(11) NOT NULL,
+  `question_type` enum('WORDED','MULTIPLE_CHOICE') NOT NULL DEFAULT 'WORDED',
+  `question` varchar(100) NOT NULL DEFAULT 'What do you think of Comet Server?',
+  `options` text,
+  PRIMARY KEY (`id`),
+  KEY `poll_id` (`poll_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

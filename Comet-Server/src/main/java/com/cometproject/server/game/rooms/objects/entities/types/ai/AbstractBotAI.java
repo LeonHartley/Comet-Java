@@ -20,6 +20,9 @@ public abstract class AbstractBotAI implements BotAI {
     private GenericEntity entity;
 
     private long ticksUntilComplete = 0;
+    private boolean walkNow = false;
+
+    protected PlayerEntity followingPlayer;
 
     public AbstractBotAI(GenericEntity entity) {
         this.entity = entity;
@@ -27,10 +30,10 @@ public abstract class AbstractBotAI implements BotAI {
 
     @Override
     public void onTick() {
-        if(this.ticksUntilComplete != 0) {
+        if (this.ticksUntilComplete != 0) {
             this.ticksUntilComplete--;
 
-            if(this.ticksUntilComplete == 0) {
+            if (this.ticksUntilComplete == 0) {
                 this.onTickComplete();
             }
         }
@@ -52,8 +55,12 @@ public abstract class AbstractBotAI implements BotAI {
                 }
             }
 
-            if (chance < 3 && newStep) {
-                if (!this.getEntity().isWalking() && this.canMove()) {
+            if ((chance < 3 || this.walkNow) && newStep) {
+                if(this.walkNow) {
+                    this.walkNow = false;
+                }
+
+                if (!this.getEntity().isWalking() && this.canMove() && this.followingPlayer == null) {
                     botPathCalculator.submit(() -> {
                         RoomTile reachableTile = this.getEntity().getRoom().getMapping().getRandomReachableTile(this.getEntity());
 
@@ -89,6 +96,11 @@ public abstract class AbstractBotAI implements BotAI {
 
     }
 
+    public void walkNow() {
+        this.walkNow = true;
+    }
+
+    @Override
     public void setTicksUntilCompleteInSeconds(double seconds) {
         long realTime = Math.round(seconds * 1000 / 500);
 
@@ -99,12 +111,14 @@ public abstract class AbstractBotAI implements BotAI {
         this.ticksUntilComplete = realTime;
     }
 
-    protected void say(String message) {
+    @Override
+    public void say(String message) {
         this.say(message, ChatEmotion.NONE);
     }
 
-    protected void say(String message, ChatEmotion emotion) {
-        if(message == null) {
+    @Override
+    public void say(String message, ChatEmotion emotion) {
+        if (message == null) {
             return;
         }
 
@@ -115,12 +129,12 @@ public abstract class AbstractBotAI implements BotAI {
         this.getEntity().moveTo(position.getX(), position.getY());
     }
 
-    protected void sit() {
+    public void sit() {
         this.getEntity().addStatus(RoomEntityStatus.SIT, "" + this.getPetEntity().getRoom().getModel().getSquareHeight()[this.getEntity().getPosition().getX()][this.getEntity().getPosition().getY()]);
         this.getEntity().markNeedsUpdate();
     }
 
-    protected void lay() {
+    public void lay() {
         this.getEntity().addStatus(RoomEntityStatus.LAY, "" + this.getPetEntity().getRoom().getModel().getSquareHeight()[this.getEntity().getPosition().getX()][this.getEntity().getPosition().getY()]);
         this.getEntity().markNeedsUpdate();
     }
@@ -147,6 +161,11 @@ public abstract class AbstractBotAI implements BotAI {
 
     @Override
     public boolean onRemovedFromRoom() {
+        if(this.followingPlayer != null) {
+            this.followingPlayer.getFollowingEntities().remove(this);
+            this.followingPlayer = null;
+        }
+
         return false;
     }
 

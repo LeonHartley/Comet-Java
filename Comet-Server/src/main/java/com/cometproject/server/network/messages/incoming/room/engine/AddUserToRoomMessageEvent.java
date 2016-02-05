@@ -108,8 +108,11 @@ public class AddUserToRoomMessageEvent implements Event {
         WiredTriggerEnterRoom.executeTriggers(client.getPlayer().getEntity());
 
         if(PollManager.getInstance().roomHasPoll(room.getId())) {
-            Poll poll = PollManager.getInstance().getPoll(room.getId());
-            client.send(new InitializePollMessageComposer(poll.getPollId(), poll.getPollTitle()));
+            Poll poll = PollManager.getInstance().getPollByRoomId(room.getId());
+
+            if(!poll.getPlayersAnswered().contains(client.getPlayer().getId())) {
+                client.send(new InitializePollMessageComposer(poll.getPollId(), poll.getPollTitle(), poll.getThanksMessage()));
+            }
         }
 
         client.flush();

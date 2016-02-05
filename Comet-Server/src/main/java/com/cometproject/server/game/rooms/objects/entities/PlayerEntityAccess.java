@@ -4,5 +4,5 @@ import com.cometproject.server.game.players.types.Player;
 
 
 public interface PlayerEntityAccess {
-    public Player getPlayer();
+    Player getPlayer();
 }
