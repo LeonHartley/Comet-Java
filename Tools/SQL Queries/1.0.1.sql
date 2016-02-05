@@ -107,3 +107,8 @@ CREATE TABLE IF NOT EXISTS `polls_questions` (
   PRIMARY KEY (`id`),
   KEY `poll_id` (`poll_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `navigator_categories`
+	ADD COLUMN `room_count` INT(11) NULL DEFAULT '12' AFTER `order_id`,
+	ADD COLUMN `room_count_expanded` INT(11) NULL DEFAULT '50' AFTER `room_count`,
+	ADD COLUMN `visible` ENUM('1','0') NULL DEFAULT '1' AFTER `room_count_expanded`;
