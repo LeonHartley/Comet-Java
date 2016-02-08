@@ -32,12 +32,10 @@ public class Session implements ISession {
 
     private Player player;
 
-    private final DiffieHellman diffieHellman;
+    private DiffieHellman diffieHellman;
 
     public Session(ChannelHandlerContext channel) {
         this.channel = channel;
-        this.diffieHellman = new DiffieHellman();
-
         this.channel.attr(SessionManager.SESSION_ATTR).set(this);
         this.eventHandler = new SessionEventHandler(this);
     }
@@ -159,6 +157,10 @@ public class Session implements ISession {
     }
 
     public DiffieHellman getDiffieHellman() {
+        if(this.diffieHellman == null) {
+            this.diffieHellman = new DiffieHellman();
+        }
+
         return diffieHellman;
     }
 }

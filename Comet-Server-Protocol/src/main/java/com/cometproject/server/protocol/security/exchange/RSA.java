@@ -12,7 +12,7 @@ public class RSA {
 
     public boolean encry;
 
-    private BigInteger Zero = new BigInteger("0");
+    private BigInteger zero = new BigInteger("0");
 
     public RSA() {
 
@@ -23,8 +23,8 @@ public class RSA {
         exponent = new BigInteger("3", 16);
         privateKey = new BigInteger("594E8FAF9B8E36A5B1103B3E372BD668B00205DA5D62A9152934F25AE1CF54A5C6255F93F22688434EE216A63542B94AC98391BC57254391D7F13F9AD7851C021703B238CD44EE121992AD950C020B899764A5FDDF9F09D459887AAA26BAAC08450FA6490243CAE1D7E69F372B6CAFE4C5BA0FBC095C9537E33EA795E6A848A3", 16);
 
-        encry = (n != null && n != Zero && exponent != Zero);
-        decryptable = (encry && privateKey != Zero && privateKey != null);
+        encry = (n != null && n != zero && exponent != zero);
+        decryptable = (encry && privateKey != zero && privateKey != null);
     }
 
     public int getBlockSize() {
@@ -36,19 +36,19 @@ public class RSA {
             return x.modPow(new BigInteger(this.exponent + ""), this.n);
         }
 
-        return Zero;
+        return zero;
     }
 
     public String encrypt(String text) {
         BigInteger m = new BigInteger(this.pkcs1pad2(text.getBytes(), this.getBlockSize()));
 
-        if (m.equals(Zero)) {
+        if (m.equals(zero)) {
             return null;
         }
 
         BigInteger c = this.doPublic(m);
 
-        if (c.equals(Zero)) {
+        if (c.equals(zero)) {
             return null;
         }
 
@@ -64,13 +64,13 @@ public class RSA {
     public String sign(String text) {
         BigInteger m = new BigInteger(this.pkcs1pad2(text.getBytes(), this.getBlockSize()));
 
-        if (m.equals(Zero)) {
+        if (m.equals(zero)) {
             return null;
         }
 
         BigInteger c = this.doPrivate(m);
 
-        if (c.equals(Zero)) {
+        if (c.equals(zero)) {
             return null;
         }
 
@@ -80,7 +80,7 @@ public class RSA {
             return result;
         }
 
-        return "0" + result;
+        return result;
     }
 
     private byte[] pkcs1pad2(byte[] data, int n) {
@@ -109,14 +109,14 @@ public class RSA {
             return x.modPow(this.privateKey, this.n);
         }
 
-        return Zero;
+        return zero;
     }
 
     public String decrypt(String ctext) {
         BigInteger c = new BigInteger(ctext, 16);
         BigInteger m = this.doPrivate(c);
 
-        if (m.equals(Zero)) {
+        if (m.equals(zero)) {
             return null;
         }
 

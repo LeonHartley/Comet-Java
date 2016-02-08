@@ -80,7 +80,7 @@ public class Events {
     public static final short KickUserMessageEvent = 3929;//2926
     public static final short GetRoomSettingsMessageEvent = 1014;//3139
     public static final short GetThreadsListDataMessageEvent = 1606;//1775
-    public static final short GetForumUserProfileMessageEvent = 2639;
+    public static final short GetProfileByUsernameMessageEvent = 2639;
     public static final short SaveWiredEffectConfigMessageEvent = 3431;//2554
     public static final short GetAchievementsMessageEvent = 2931;//3919
     public static final short GetRoomEntryDataMessageEvent = 2768;//1880

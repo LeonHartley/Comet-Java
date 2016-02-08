@@ -48,7 +48,6 @@ import com.cometproject.server.network.messages.incoming.room.bots.BotConfigMess
 import com.cometproject.server.network.messages.incoming.room.bots.ModifyBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.PlaceBotMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.bots.RemoveBotMessageEvent;
-import com.cometproject.server.network.messages.incoming.room.engine.AddUserToRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.FollowRoomInfoMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.GetFurnitureAliasesMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
@@ -230,7 +229,7 @@ public final class MessageHandler {
     public void registerUser() {
 //        this.getMessages().put(Events.RetrieveCitizenshipStatus, new CitizenshipStatusMessageEvent());
         this.getMessages().put(Events.OpenPlayerProfileMessageEvent, new GetProfileMessageEvent());
-//        this.getMessages().put(Events.OpenPlayerProfileMessageEvent, new GetProfileByUsernameMessageEvent());
+        this.getMessages().put(Events.GetProfileByUsernameMessageEvent, new GetProfileByUsernameMessageEvent());
         this.getMessages().put(Events.ScrGetUserInfoMessageEvent, new ClubStatusMessageEvent());
         this.getMessages().put(Events.InfoRetrieveMessageEvent, new InfoRetrieveMessageEvent());
         this.getMessages().put(Events.UpdateFigureDataMessageEvent, new ChangeLooksMessageEvent());
