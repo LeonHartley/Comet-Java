@@ -167,7 +167,7 @@ public class SaveRoomDataMessageEvent implements Event {
 
             room.getEntities().broadcastMessage(new ConfigureWallAndFloorMessageComposer(hideWall, wallThick, floorThick));
 //            room.getEntities().broadcastMessage(new RoomDataMessageComposer(room, true, room.getRights().hasRights(client.getPlayer().getId()) || client.getPlayer().getPermissions().getRank().roomFullControl()));
-//            room.getEntities().broadcastMessage(new SettingsUpdatedMessageComposer(data.getId()));
+            room.getEntities().broadcastMessage(new SettingsUpdatedMessageComposer(data.getId()));
             room.getEntities().broadcastMessage(new RoomInfoUpdatedMessageComposer(data.getId()));
         } catch (Exception e) {
             RoomManager.log.error("Error while saving room data", e);
