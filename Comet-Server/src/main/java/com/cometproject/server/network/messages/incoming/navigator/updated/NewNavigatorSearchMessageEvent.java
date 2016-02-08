@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.incoming.navigator.updated;
 import com.cometproject.server.game.navigator.NavigatorManager;
 import com.cometproject.server.game.navigator.types.Category;
 import com.cometproject.server.game.navigator.types.categories.NavigatorCategoryType;
+import com.cometproject.server.game.navigator.types.search.NavigatorSearchService;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.navigator.updated.NavigatorSearchResultSetMessageComposer;
 import com.cometproject.server.network.sessions.Session;
@@ -17,36 +18,6 @@ public class NewNavigatorSearchMessageEvent implements Event {
         String category = msg.readString();
         String data = msg.readString();
 
-        if(data.isEmpty()) {
-            // send categories.
-            List<Category> categoryList = Lists.newArrayList();
-
-            for(Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
-                if(navigatorCategory.getCategory().equals(category)) {
-                    if(navigatorCategory.isVisible())
-                        categoryList.add(navigatorCategory);
-                }
-            }
-
-            if(categoryList.size() == 0) {
-                for(Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
-                    if(navigatorCategory.getCategoryType().toString().toLowerCase().equals(category) && navigatorCategory.isVisible()) {
-                        categoryList.add(navigatorCategory);
-                    }
-                }
-            }
-
-            if(categoryList.size() == 0) {
-                for(Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
-                    if(navigatorCategory.getCategoryId().equals(category) && navigatorCategory.isVisible()) {
-                        categoryList.add(navigatorCategory);
-                    }
-                }
-            }
-
-            client.send(new NavigatorSearchResultSetMessageComposer(category, data, categoryList, client.getPlayer()));
-        } else {
-            client.send(new NavigatorSearchResultSetMessageComposer("hotel_view", data, null, client.getPlayer()));
-        }
+        NavigatorSearchService.getInstance().submitRequest(client.getPlayer(), category, data);
     }
 }

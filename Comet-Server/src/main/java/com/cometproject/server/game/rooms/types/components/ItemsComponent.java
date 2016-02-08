@@ -140,6 +140,8 @@ public class ItemsComponent {
         if(floorItems.size() != 0) {
             RoomItemDao.saveFloorItems(floorItems);
         }
+
+        floorItems.clear();
     }
 
     public boolean isMoodlightMatches(RoomItem item) {

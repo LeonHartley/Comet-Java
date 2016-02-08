@@ -26,6 +26,6 @@ public class RunDiceMessageEvent implements Event {
             return;
         }
 
-        item.onInteract(client.getPlayer().getEntity(), -1, false);
+        item.onInteract(client.getPlayer().getEntity(), 0, false);
     }
 }

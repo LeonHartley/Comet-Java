@@ -15,7 +15,7 @@ public class Composers {
     public static final short QuestionParserMessageComposer = 1719;
     public static final short CatalogItemDiscountMessageComposer = 3322;//3944
     public static final short HelperToolMessageComposer = 224;//1804
-    public static final short RoomErrorNotifMessageComposer = 444;//2527
+    public static final short RoomErrorNotifMessageComposer = 1864;//2527
     public static final short FollowFriendFailedMessageComposer = 1170;//645
     public static final short PurchaseOKMessageComposer = 2843;//3956
     public static final short GroupMembershipRequestedMessageComposer = 423;//3593
@@ -124,7 +124,6 @@ public class Composers {
     public static final short LoveLockDialogueMessageComposer = 173;//2765
     public static final short SendBullyReportMessageComposer = 2094;//3422
     public static final short VoucherRedeemErrorMessageComposer = 3670;//3094
-    public static final short CantConnectMessageComposer = 1864;//458
     public static final short PurchaseErrorMessageComposer = 3016;//2041
     public static final short ThreadReplyMessageComposer = 1936;//2861
     public static final short UnknownCalendarMessageComposer = 1799;//2979

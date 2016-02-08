@@ -34,6 +34,10 @@ public class PetRacesMessageComposer extends MessageComposer {
             msg.writeBoolean(race.hasColour1());
             msg.writeBoolean(race.hasColour2());
         }
+    }
 
+    @Override
+    public void dispose() {
+        this.races.clear();
     }
 }

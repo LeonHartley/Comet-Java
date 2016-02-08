@@ -11,6 +11,7 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.RoomData;
 import com.cometproject.server.game.rooms.types.RoomPromotion;
+import com.cometproject.server.network.messages.outgoing.navigator.updated.NavigatorSearchResultSetMessageComposer;
 import com.cometproject.server.storage.queries.groups.GroupDao;
 import com.cometproject.server.tasks.CometTask;
 import com.google.common.collect.Lists;
@@ -18,9 +19,13 @@ import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class NavigatorSearchService implements CometTask {
     private static NavigatorSearchService searchServiceInstance;
+
+    private Executor searchExecutor = Executors.newFixedThreadPool(2);
 
     public NavigatorSearchService() {
 //        CometThreadManager.getInstance().executePeriodic(this, 0, 3000, TimeUnit.MILLISECONDS);
@@ -29,6 +34,42 @@ public class NavigatorSearchService implements CometTask {
     @Override
     public void run() {
         // TODO: Cache navigator search results.
+    }
+
+    public void submitRequest(Player player, String category, String data) {
+        this.searchExecutor.execute(() -> {
+            if(data.isEmpty()) {
+                // send categories.
+                List<Category> categoryList = Lists.newArrayList();
+
+                for(Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
+                    if(navigatorCategory.getCategory().equals(category)) {
+                        if(navigatorCategory.isVisible())
+                            categoryList.add(navigatorCategory);
+                    }
+                }
+
+                if(categoryList.size() == 0) {
+                    for(Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
+                        if(navigatorCategory.getCategoryType().toString().toLowerCase().equals(category) && navigatorCategory.isVisible()) {
+                            categoryList.add(navigatorCategory);
+                        }
+                    }
+                }
+
+                if(categoryList.size() == 0) {
+                    for(Category navigatorCategory : NavigatorManager.getInstance().getCategories().values()) {
+                        if(navigatorCategory.getCategoryId().equals(category) && navigatorCategory.isVisible()) {
+                            categoryList.add(navigatorCategory);
+                        }
+                    }
+                }
+
+                player.getSession().send(new NavigatorSearchResultSetMessageComposer(category, data, categoryList, player));
+            } else {
+                player.getSession().send(new NavigatorSearchResultSetMessageComposer("hotel_view", data, null, player));
+            }
+        });
     }
 
     public List<RoomData> search(Category category, Player player, boolean expanded) {
