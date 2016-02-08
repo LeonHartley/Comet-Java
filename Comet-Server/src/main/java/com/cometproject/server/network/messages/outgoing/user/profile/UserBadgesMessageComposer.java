@@ -26,11 +26,11 @@ public class UserBadgesMessageComposer extends MessageComposer {
         msg.writeInt(playerId);
         msg.writeInt(badges.size());
 
-        for (Map.Entry<String, Integer> badge : badges.entrySet()) {
-            if (badge.getValue() > 0) {
-                msg.writeInt(badge.getValue());
-                msg.writeString(badge.getKey());
+        badges.forEach((badge, slot) -> {
+            if(slot > 0) {
+                msg.writeInt(slot);
+                msg.writeString(badge);
             }
-        }
+        });
     }
 }

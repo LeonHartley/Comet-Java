@@ -75,9 +75,6 @@ public class AddUserToRoomMessageEvent implements Event {
 
         client.sendQueue(new AvatarsMessageComposer(room));
 
-        if(client.getPlayer().getEntity().isVisible())
-            room.getEntities().broadcastMessage(new AvatarsMessageComposer(client.getPlayer().getEntity()));
-
         if (room.getEntities().getAllEntities().size() > 0)
             client.sendQueue(new AvatarUpdateMessageComposer(room.getEntities().getAllEntities().values()));
 

@@ -28,14 +28,14 @@ public class BadgeInventoryMessageComposer extends MessageComposer {
 
         msg.writeInt(badges.size());
 
-        for (Map.Entry<String, Integer> badge : badges.entrySet()) {
-            if (badge.getValue() > 0) {
-                activeBadges.put(badge.getKey(), badge.getValue());
+        badges.forEach((badge, slot) -> {
+            if (slot > 0) {
+                activeBadges.put(badge,slot);
             }
 
             msg.writeInt(0);
-            msg.writeString(badge.getKey());
-        }
+            msg.writeString(badge);
+        });
 
         msg.writeInt(activeBadges.size());
 

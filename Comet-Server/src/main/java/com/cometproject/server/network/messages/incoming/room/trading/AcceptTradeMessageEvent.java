@@ -8,6 +8,10 @@ import com.cometproject.server.network.sessions.Session;
 
 public class AcceptTradeMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
+        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+            return;
+        }
+
         Trade trade = client.getPlayer().getEntity().getRoom().getTrade().get(client.getPlayer().getEntity());
 
         if (trade == null) {

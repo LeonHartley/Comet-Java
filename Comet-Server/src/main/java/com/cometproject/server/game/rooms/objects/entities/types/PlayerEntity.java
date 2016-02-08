@@ -35,6 +35,7 @@ import com.cometproject.server.network.messages.outgoing.room.access.RoomReadyMe
 import com.cometproject.server.network.messages.outgoing.room.alerts.DoorbellNoAnswerComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomConnectionErrorMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.alerts.RoomErrorMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessageComposer;
@@ -226,13 +227,15 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
         session.send(new RoomRatingMessageComposer(this.getRoom().getData().getScore(), this.canRateRoom()));
 
         InitializeRoomMessageEvent.heightmapMessageEvent.handle(session, null);
-        AddUserToRoomMessageEvent.addUserToRoomMessageEvent.handle(this.getPlayer().getSession(), null);
 
         if (RoomManager.getInstance().hasPromotion(this.getRoom().getId())) {
             session.send(new RoomPromotionMessageComposer(this.getRoom().getData(), this.getRoom().getPromotion()));
         } else {
             session.send(new RoomPromotionMessageComposer(null, null));
         }
+
+        if(this.getPlayer().getEntity().isVisible())
+            this.getRoom().getEntities().broadcastMessage(new AvatarsMessageComposer(this.getPlayer().getEntity()));
 
         this.isFinalized = true;
         this.getPlayer().setSpectatorRoomId(0);
