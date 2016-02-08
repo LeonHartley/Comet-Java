@@ -24,7 +24,7 @@ public class TransformCommand extends ChatCommand {
         } else {
             String data = PetManager.getInstance().getTransformationData(type);
 
-            if(data == null) {
+            if(data == null || data.isEmpty()) {
                 return;
             }
 

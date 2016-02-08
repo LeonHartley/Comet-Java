@@ -93,9 +93,6 @@ public class CatalogManager implements Initializable {
      * Load all catalog pages
      */
     public void loadItemsAndPages() {
-        // todo: probably should do some syncing here or something.. if someone trys loading catalog when this method
-        // todo: is being executed, shit gonna happen bro
-
         if(this.items.size() >= 1) {
             this.items.clear();
         }

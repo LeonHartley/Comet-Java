@@ -60,7 +60,7 @@ public class ConfigDao {
                 CometSettings.maxFriends = config.getInt("messenger_max_friends");
                 CometSettings.logMessengerMessages = config.getBoolean("messenger_log_messages");
                 CometSettings.itemStorageQueueEnabled = config.getBoolean("storage_item_queue_enabled");
-                CometSettings.itemStorageQueueEnabled = config.getBoolean("storage_player_queue_enabled");
+                CometSettings.playerDataStorageQueue = config.getBoolean("storage_player_queue_enabled");
 
                 final String characters = config.getString("word_filter_strict_chars");
 
