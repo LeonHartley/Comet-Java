@@ -147,7 +147,7 @@ public class OldCatalogPurchaseHandler {
                 }
 
                 if (client.getPlayer().getLastGift() != 0 && !client.getPlayer().getPermissions().getRank().floodBypass()) {
-                    if (((int) Comet.getTime() - client.getPlayer().getLastGift()) < CometSettings.giftCooldown) {
+                    if (((int) Comet.getTime() - client.getPlayer().getLastGift()) < CometSettings.playerGiftCooldown) {
                         client.send(new AdvancedAlertMessageComposer(Locale.get("catalog.error.gifttoofast")));
                         client.send(new BoughtItemMessageComposer(BoughtItemMessageComposer.PurchaseType.BADGE));
                         return;
@@ -193,13 +193,13 @@ public class OldCatalogPurchaseHandler {
                 totalCostActivityPoints = item.getCostActivityPoints();
             }
 
-            if ((!CometSettings.infiniteBalance && (client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getActivityPoints() < totalCostActivityPoints)) || client.getPlayer().getData().getVipPoints() < totalCostPoints) {
+            if ((!CometSettings.playerInfiniteBalance && (client.getPlayer().getData().getCredits() < totalCostCredits || client.getPlayer().getData().getActivityPoints() < totalCostActivityPoints)) || client.getPlayer().getData().getVipPoints() < totalCostPoints) {
                 client.getLogger().warn("Player with ID: " + client.getPlayer().getId() + " tried to purchase item with ID: " + item.getId() + " with the incorrect amount of credits or points.");
                 client.send(new AlertMessageComposer(Locale.get("catalog.error.notenough")));
                 return;
             }
 
-            if (!CometSettings.infiniteBalance) {
+            if (!CometSettings.playerInfiniteBalance) {
                 client.getPlayer().getData().decreaseCredits(totalCostCredits);
                 client.getPlayer().getData().decreaseActivityPoints(totalCostActivityPoints);
             }

@@ -139,7 +139,7 @@ public class RoomData implements IRoomData {
             decorString += decoration.getKey() + "=" + decoration.getValue() + ",";
         }
 
-        if (CometSettings.roomPasswordEncryptionEnabled) {
+        if (CometSettings.roomEncryptPasswords) {
             if (!this.password.equals(this.originalPassword)) {
                 this.password = BCrypt.hashpw(this.password, BCrypt.gensalt(CometSettings.roomPasswordEncryptionRounds));
             }

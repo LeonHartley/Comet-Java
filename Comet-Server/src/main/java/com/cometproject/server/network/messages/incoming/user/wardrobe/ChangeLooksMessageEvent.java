@@ -31,7 +31,7 @@ public class ChangeLooksMessageEvent implements Event {
 
         int timeSinceLastUpdate = ((int) Comet.getTime()) - client.getPlayer().getLastFigureUpdate();
 
-        if (timeSinceLastUpdate >= CometSettings.playerFigureUpdateTimeout) {
+        if (timeSinceLastUpdate >= CometSettings.playerChangeFigureCooldown) {
             client.getPlayer().getData().setGender(gender);
             client.getPlayer().getData().setFigure(figure);
             client.getPlayer().getData().save();

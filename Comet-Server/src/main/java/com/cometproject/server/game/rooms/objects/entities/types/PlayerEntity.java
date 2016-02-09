@@ -28,7 +28,6 @@ import com.cometproject.server.game.rooms.types.components.types.Trade;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.RoomVisitLogEntry;
 import com.cometproject.server.network.NetworkManager;
-import com.cometproject.server.network.messages.incoming.room.engine.AddUserToRoomMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.engine.InitializeRoomMessageEvent;
 import com.cometproject.server.network.messages.outgoing.room.access.DoorbellRequestComposer;
 import com.cometproject.server.network.messages.outgoing.room.access.RoomReadyMessageComposer;
@@ -142,7 +141,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             if (this.getRoom().getData().getAccess() == RoomAccessType.PASSWORD) {
                 boolean matched;
 
-                if (CometSettings.roomPasswordEncryptionEnabled) {
+                if (CometSettings.roomEncryptPasswords) {
                     matched = BCrypt.checkpw(password, this.getRoom().getData().getPassword());
                 } else {
                     matched = this.getRoom().getData().getPassword().equals(password);

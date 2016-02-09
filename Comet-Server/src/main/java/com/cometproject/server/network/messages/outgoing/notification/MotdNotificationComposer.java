@@ -14,7 +14,7 @@ public class MotdNotificationComposer extends MessageComposer {
     }
 
     public MotdNotificationComposer() {
-        this(CometSettings.messageOfTheDayText);
+        this(CometSettings.motdMessage);
     }
 
     @Override

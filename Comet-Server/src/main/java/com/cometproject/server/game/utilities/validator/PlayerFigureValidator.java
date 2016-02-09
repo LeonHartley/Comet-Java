@@ -146,7 +146,7 @@ public class PlayerFigureValidator {
     }
 
     public static boolean isValidFigureCode(final String figureCode, final String gender) {
-        if (!CometSettings.figureValidation) {
+        if (!CometSettings.playerFigureValidation) {
             return true;
         }
 

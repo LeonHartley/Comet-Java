@@ -38,7 +38,7 @@ public class SaveFloorMessageEvent implements Event {
         int sizeY = modelData.length;
         int sizeX = modelData[0].length();
 
-        if (sizeX < 2 || sizeY < 2 || sizeX > CometSettings.floorMaxX || sizeY > CometSettings.floorMaxY || CometSettings.floorMaxTotal < (sizeX * sizeY)) {
+        if (sizeX < 2 || sizeY < 2 || sizeX > CometSettings.floorEditorMaxX || sizeY > CometSettings.floorEditorMaxY || CometSettings.floorEditorMaxTotal < (sizeX * sizeY)) {
             client.send(new AdvancedAlertMessageComposer("Invalid Model", Locale.get("command.floor.size")));
             return;
         }

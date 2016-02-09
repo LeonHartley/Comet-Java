@@ -4,8 +4,6 @@ import com.cometproject.api.game.players.IPlayer;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.boot.Comet;
 import com.cometproject.server.config.CometSettings;
-import com.cometproject.server.game.achievements.types.AchievementType;
-import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.*;
 import com.cometproject.server.game.players.data.PlayerData;
 import com.cometproject.server.game.quests.QuestManager;
@@ -15,7 +13,6 @@ import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
-import com.cometproject.server.network.messages.outgoing.catalog.pets.ValidatePetNameMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.quests.QuestStartedMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.UpdateInfoMessageComposer;
@@ -192,14 +189,14 @@ public class Player implements IPlayer {
 
     @Override
     public MessageComposer composeCreditBalance() {
-        return new SendCreditsMessageComposer(CometSettings.infiniteBalance ? Player.INFINITE_BALANCE : session.getPlayer().getData().getCredits());
+        return new SendCreditsMessageComposer(CometSettings.playerInfiniteBalance ? Player.INFINITE_BALANCE : session.getPlayer().getData().getCredits());
     }
 
     @Override
     public MessageComposer composeCurrenciesBalance() {
         Map<Integer, Integer> currencies = new HashMap<>();
 
-        currencies.put(0, CometSettings.infiniteBalance ? Player.INFINITE_BALANCE : getData().getActivityPoints());
+        currencies.put(0, CometSettings.playerInfiniteBalance ? Player.INFINITE_BALANCE : getData().getActivityPoints());
         currencies.put(105, getData().getVipPoints());
         currencies.put(5, getData().getVipPoints());
 

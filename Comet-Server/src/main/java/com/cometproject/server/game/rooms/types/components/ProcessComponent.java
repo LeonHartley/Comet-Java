@@ -7,8 +7,6 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
-import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
-import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GateFloorItem;
@@ -20,15 +18,12 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarUpdateMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.avatar.TalkMessageComposer;
 import com.cometproject.server.tasks.CometTask;
 import com.cometproject.server.tasks.CometThreadManager;
-import com.cometproject.server.utilities.RandomInteger;
 import com.cometproject.server.utilities.TimeSpan;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
@@ -358,7 +353,7 @@ public class ProcessComponent implements CometTask {
             }
 
             if (entity instanceof PlayerEntity && entity.isIdleAndIncrement()) {
-                if (entity.getIdleTime() >= 60 * CometSettings.idleMinutes * 2) {
+                if (entity.getIdleTime() >= 60 * CometSettings.roomIdleMinutes * 2) {
                     if (this.getRoom().getData().getOwnerId() != ((PlayerEntity) entity).getPlayerId())
                         return true;
                 }

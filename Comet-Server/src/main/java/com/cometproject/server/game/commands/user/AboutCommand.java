@@ -24,16 +24,16 @@ public class AboutCommand extends ChatCommand {
         boolean aboutDetailed = client.getPlayer().getPermissions().getRank().aboutDetailed();
         boolean aboutStats = client.getPlayer().getPermissions().getRank().aboutStats();
 
-        if (CometSettings.showActiveRoomsInAbout || CometSettings.showActiveRoomsInAbout || CometSettings.showUptimeInAbout || aboutDetailed) {
+        if (CometSettings.aboutShowRoomsActive || CometSettings.aboutShowRoomsActive || CometSettings.aboutShowUptime || aboutDetailed) {
             about.append("<b>Server Status</b><br>");
 
-            if (CometSettings.showUsersOnlineInAbout || aboutDetailed)
+            if (CometSettings.aboutShowPlayersOnline || aboutDetailed)
                 about.append("Users online: " + format.format(cometStats.getPlayers()) + "<br>");
 
-            if (CometSettings.showActiveRoomsInAbout || aboutDetailed)
+            if (CometSettings.aboutShowRoomsActive || aboutDetailed)
                 about.append("Active rooms: " + format.format(cometStats.getRooms()) + "<br>");
 
-            if (CometSettings.showUptimeInAbout || aboutDetailed)
+            if (CometSettings.aboutShowUptime || aboutDetailed)
                 about.append("Uptime: " + cometStats.getUptime() + "<br>");
 
             about.append("Client version: " + Session.CLIENT_VERSION + "<br>");

@@ -31,8 +31,8 @@ public class PlaceBotMessageEvent implements Event {
             return;
         }
 
-        if (room.getEntities().getBotEntities().size() >= CometSettings.maxBotsInRoom) {
-            client.send(new AlertMessageComposer(String.format(Locale.getOrDefault("comet.game.bots.toomany", "You can only have %s bots per room!"), CometSettings.maxBotsInRoom)));
+        if (room.getEntities().getBotEntities().size() >= CometSettings.roomMaxBots) {
+            client.send(new AlertMessageComposer(String.format(Locale.getOrDefault("comet.game.bots.toomany", "You can only have %s bots per room!"), CometSettings.roomMaxBots)));
             return;
         }
 

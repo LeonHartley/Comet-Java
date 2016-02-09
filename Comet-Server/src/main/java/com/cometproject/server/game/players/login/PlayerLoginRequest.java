@@ -16,7 +16,6 @@ import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessa
 import com.cometproject.server.network.messages.outgoing.handshake.UniqueIDMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.FavouriteRoomsMessageComposer;
-import com.cometproject.server.network.messages.outgoing.navigator.NavigatorMetaDataMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.AvailabilityStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.PlayerSettingsMessageComposer;
@@ -102,7 +101,7 @@ public class PlayerLoginRequest implements CometTask {
             client.getPlayer().getData().setIpAddress(ipAddress);
         }
 
-        if (CometSettings.storeAccess)
+        if (CometSettings.saveLogins)
             PlayerAccessDao.saveAccess(player.getId(), client.getUniqueId(), ipAddress);
 
         RoomManager.getInstance().loadRoomsForUser(player);
@@ -124,7 +123,7 @@ public class PlayerLoginRequest implements CometTask {
             client.sendQueue(new ModToolMessageComposer());
         }
 
-        if (CometSettings.messageOfTheDayEnabled) {
+        if (CometSettings.motdEnabled) {
             client.sendQueue(new MotdNotificationComposer());
         }
 

@@ -9,8 +9,8 @@ import java.util.Map;
 
 
 public class CometSettings {
-    public static boolean messageOfTheDayEnabled = false;
-    public static String messageOfTheDayText = "";
+    public static boolean motdEnabled = false;
+    public static String motdMessage = "";
     public static String hotelName = "";
     public static String hotelUrl = "";
     public static String aboutImg = "";
@@ -22,37 +22,47 @@ public class CometSettings {
 
     public static int groupCost = 0;
 
-    public static boolean showUsersOnlineInAbout = true;
-    public static boolean showUptimeInAbout = true;
-    public static boolean showActiveRoomsInAbout = true;
+    public static boolean aboutShowPlayersOnline = true;
+    public static boolean aboutShowUptime = true;
+    public static boolean aboutShowRoomsActive = true;
 
-    public static int floorMaxX = 0;
-    public static int floorMaxY = 0;
-    public static int floorMaxTotal = 0;
-    public static int maxPlayersInRoom = 150;
-    public static boolean roomPasswordEncryptionEnabled = false;
+    public static int floorEditorMaxX = 0;
+    public static int floorEditorMaxY = 0;
+    public static int floorEditorMaxTotal = 0;
+
+    public static int roomMaxPlayers = 150;
+    public static boolean roomEncryptPasswords = false;
     public static int roomPasswordEncryptionRounds = 10;
+    public static boolean roomCanPlaceItemOnEntity = false;
+    public static int roomMaxBots = 15;
+    public static int roomMaxPets = 15;
+    public static int roomIdleMinutes = 20;
+
     public static FilterMode wordFilterMode = FilterMode.DEFAULT;
+
     public static boolean useDatabaseIp = false;
-    public static boolean storeAccess = false;
-    public static boolean infiniteBalance = false;
-    public static int giftCooldown = 30;
-    public static boolean itemStorageQueueEnabled = false;
+    public static boolean saveLogins = false;
+
+    public static boolean playerInfiniteBalance = false;
+    public static int playerGiftCooldown = 30;
+
     public static final Map<String, String> strictFilterCharacters = Maps.newHashMap();
-    public static boolean placeItemOnEntity = false;
-    public static boolean adaptiveEntityProcessDelay = false;
-    public static int playerFigureUpdateTimeout = 5;
-    public static int maxBotsInRoom = 15;
-    public static int maxPetsInRoom = 15;
-    public static int maxFriends = 1100;
-    public static boolean logMessengerMessages = false;
+    public static boolean playerFigureValidation = false;
+
+    public static int playerChangeFigureCooldown = 5;
+    public static int messengerMaxFriends = 1100;
+
+    public static boolean messengerLogMessages = false;
     public static int cameraPhotoItemId = 50001;
+
     public static String cameraPhotoUrl = "";
-    public static int wiredRewardMinRank = 7;
+    public static int roomWiredRewardMinimumRank = 7;
     public static boolean asyncCatalogPurchase = false;
-    public static int idleMinutes = 20;
-    public static boolean playerDataStorageQueue = false;
-    public static boolean figureValidation = false;
+
+    public static boolean storagePlayerQueueEnabled = false;
+    public static boolean storageItemQueueEnabled = false;
+
+    public static boolean adaptiveEntityProcessDelay = false;
 
     private static final Logger log = Logger.getLogger(CometSettings.class.getName());
 
@@ -70,7 +80,7 @@ public class CometSettings {
      * @param motd The message to display to the user on-login
      */
     public static void setMotd(String motd) {
-        messageOfTheDayEnabled = true;
-        messageOfTheDayText = motd;
+        motdEnabled = true;
+        motdMessage = motd;
     }
 }

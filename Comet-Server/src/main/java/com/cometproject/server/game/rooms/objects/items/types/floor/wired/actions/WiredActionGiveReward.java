@@ -100,7 +100,7 @@ public class WiredActionGiveReward extends WiredActionItem {
             return false;
         }
 
-        if (CometSettings.wiredRewardMinRank > this.ownerRank) return false;
+        if (CometSettings.roomWiredRewardMinimumRank > this.ownerRank) return false;
 
         PlayerEntity playerEntity = ((PlayerEntity) entity);
 

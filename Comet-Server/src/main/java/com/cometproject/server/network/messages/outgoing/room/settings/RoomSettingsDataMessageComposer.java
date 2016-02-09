@@ -30,7 +30,7 @@ public class RoomSettingsDataMessageComposer extends MessageComposer {
         msg.writeInt(RoomWriter.roomAccessToNumber(room.getData().getAccess()));
         msg.writeInt(room.getData().getCategory() == null ? 0 : room.getData().getCategory().getId());
         msg.writeInt(room.getData().getMaxUsers());
-        msg.writeInt(staff ? 500 : CometSettings.maxPlayersInRoom);
+        msg.writeInt(staff ? 500 : CometSettings.roomMaxPlayers);
         msg.writeInt(room.getData().getTags().length);
 
         for (String tag : room.getData().getTags()) {

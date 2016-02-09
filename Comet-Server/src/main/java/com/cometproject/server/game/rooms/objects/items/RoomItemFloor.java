@@ -313,7 +313,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
 
     @Override
     public void save() {
-        if (CometSettings.itemStorageQueueEnabled) {
+        if (CometSettings.storageItemQueueEnabled) {
             ItemStorageQueue.getInstance().queueSave(this);
         } else {
             RoomItemDao.saveItem(this);
@@ -323,7 +323,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
 
     @Override
     public void saveData() {
-        if (CometSettings.itemStorageQueueEnabled) {
+        if (CometSettings.storageItemQueueEnabled) {
             ItemStorageQueue.getInstance().queueSaveData(this);
         } else {
             RoomItemDao.saveData(this.getId(), this.getDataObject());

@@ -90,7 +90,7 @@ public class PlayerData implements PlayerAvatar, IPlayerData {
     }
 
     public void save() {
-        if(CometSettings.playerDataStorageQueue) {
+        if(CometSettings.storagePlayerQueueEnabled) {
             PlayerDataStorageQueue.getInstance().queueSave(this);
         } else {
             this.saveNow();

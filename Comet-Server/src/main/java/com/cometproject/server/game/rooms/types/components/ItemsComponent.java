@@ -123,7 +123,7 @@ public class ItemsComponent {
     }
 
     public void commit() {
-        if(!CometSettings.itemStorageQueueEnabled) {
+        if(!CometSettings.storageItemQueueEnabled) {
             return;
         }
 
@@ -461,7 +461,7 @@ public class ItemsComponent {
                     return false;
             }
 
-            if (!CometSettings.placeItemOnEntity) {
+            if (!CometSettings.roomCanPlaceItemOnEntity) {
                 if (tile.getEntities().size() != 0) {
                     return false;
                 }

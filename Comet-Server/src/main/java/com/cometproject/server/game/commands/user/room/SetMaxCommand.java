@@ -23,8 +23,8 @@ public class SetMaxCommand extends ChatCommand {
         if (hasRights || isStaff) {
             final int maxPlayers = Integer.parseInt(params[0]);
 
-            if ((maxPlayers > CometSettings.maxPlayersInRoom && !isStaff) || maxPlayers < 1) {
-                sendNotif(Locale.get("command.setmax.toomany").replace("%i", CometSettings.maxPlayersInRoom + ""), client);
+            if ((maxPlayers > CometSettings.roomMaxPlayers && !isStaff) || maxPlayers < 1) {
+                sendNotif(Locale.get("command.setmax.toomany").replace("%i", CometSettings.roomMaxPlayers + ""), client);
                 return;
             }
 
