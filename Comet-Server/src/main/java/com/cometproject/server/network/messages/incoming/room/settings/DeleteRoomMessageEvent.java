@@ -1,5 +1,6 @@
 package com.cometproject.server.network.messages.incoming.room.settings;
 
+import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.types.inventory.InventoryBot;
@@ -14,6 +15,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.BotInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
@@ -46,6 +48,7 @@ public class DeleteRoomMessageEvent implements Event {
         final int roomId = room.getId();
 
         if (GroupManager.getInstance().getGroupByRoomId(room.getId()) != null) {
+            client.send(new AlertMessageComposer(Locale.getOrDefault("room.delete.error.group", "You cannot delete a room with a group, please delete the group first!")));
             return;
         }
 
@@ -111,8 +114,8 @@ public class DeleteRoomMessageEvent implements Event {
 //        }
 
         if (client.getPlayer().getSettings().getHomeRoom() == roomId) {
+            client.send(new HomeRoomMessageComposer(client.getPlayer().getSettings().getHomeRoom(), 0));
             client.getPlayer().getSettings().setHomeRoom(0);
-            client.send(new HomeRoomMessageComposer(0));
         }
 
         PlayerDao.resetHomeRoom(roomId);

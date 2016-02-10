@@ -98,7 +98,9 @@ public class Comet {
                 if (!args[i].contains("="))
                     continue;
 
-                cometConfiguration.put(args[i].split("=")[0], args[i].split("=")[1]);
+                String[] splitArgs = args[i].split("=");
+
+                cometConfiguration.put(splitArgs[0], splitArgs.length != 1 ? splitArgs[1] : "");
             }
 
             server = new CometServer(cometConfiguration);

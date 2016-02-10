@@ -2,6 +2,8 @@ package com.cometproject.server.game.catalog.purchase;
 
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.achievements.types.AchievementType;
+import com.cometproject.server.game.catalog.purchase.handlers.BotPurchaseHandler;
+import com.cometproject.server.game.catalog.purchase.handlers.PetPurchaseHandler;
 import com.cometproject.server.game.catalog.purchase.handlers.StickiesPurchaseHandler;
 import com.cometproject.server.game.catalog.purchase.handlers.TrophyPurchaseHandler;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
@@ -23,6 +25,8 @@ public class PurchaseManager {
 
         this.handlers.put("trophy", new TrophyPurchaseHandler());
         this.handlers.put("postit", new StickiesPurchaseHandler());
+        this.handlers.put("pet", new PetPurchaseHandler());
+        this.handlers.put("bot", new BotPurchaseHandler());
     }
 
     public void handlePurchase(Session session, int pageId, int itemId, String data, int amount, GiftData giftData) {

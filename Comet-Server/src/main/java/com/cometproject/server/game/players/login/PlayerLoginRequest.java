@@ -116,7 +116,7 @@ public class PlayerLoginRequest implements CometTask {
                 sendQueue(new FavouriteRoomsMessageComposer()).
                 sendQueue(new AvailabilityStatusMessageComposer()).
                 sendQueue(new PlayerSettingsMessageComposer(player.getSettings())).
-                sendQueue(new HomeRoomMessageComposer(player.getSettings().getHomeRoom())).
+                sendQueue(new HomeRoomMessageComposer(player.getSettings().getHomeRoom(), 0)).
                 sendQueue(new EffectsInventoryMessageComposer());
 
         if (client.getPlayer().getPermissions().getRank().modTool()) {

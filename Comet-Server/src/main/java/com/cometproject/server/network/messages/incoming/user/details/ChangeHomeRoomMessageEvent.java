@@ -18,9 +18,9 @@ public class ChangeHomeRoomMessageEvent implements Event {
         Room room = client.getPlayer().getEntity().getRoom();
 
         int roomId = room.getId();
-        client.getPlayer().getSettings().setHomeRoom(roomId);
 
-        client.send(new HomeRoomMessageComposer(roomId));
+        client.send(new HomeRoomMessageComposer(client.getPlayer().getSettings().getHomeRoom(), roomId));
+        client.getPlayer().getSettings().setHomeRoom(roomId);
 
         PlayerDao.updateHomeRoom(roomId, client.getPlayer().getId());
     }

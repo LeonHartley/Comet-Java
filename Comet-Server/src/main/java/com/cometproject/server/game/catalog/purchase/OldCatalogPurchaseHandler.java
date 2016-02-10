@@ -252,6 +252,7 @@ public class OldCatalogPurchaseHandler {
 
             for (CatalogBundledItem bundledItem : item.getItems()) {
                 ItemDefinition def = ItemManager.getInstance().getDefinition(bundledItem.getItemId());
+
                 if (def == null) {
                     continue;
                 }
@@ -310,7 +311,7 @@ public class OldCatalogPurchaseHandler {
 
                     extraData = data;
                 } else if (def.getType().equals("r")) {
-                    // It's a bot!
+                     // It's a bot!
                     String botName = "New Bot";
                     String botFigure = item.getPresetData();
                     String botGender = "m";
@@ -342,7 +343,8 @@ public class OldCatalogPurchaseHandler {
 
                     extraData = data + "~" + client.getPlayer().getData().getUsername() + "~" + DateTime.now().getDayOfMonth() + "-" + DateTime.now().getMonthOfYear() + "-" + DateTime.now().getYear();
                 } else if (def.getInteraction().equals("group_forum")) {
-                    if (data.isEmpty() || !StringUtils.isNumeric(data)) return;
+                    if (data.isEmpty() || !StringUtils.isNumeric(data))
+                        return;
 
                     if (!client.getPlayer().getGroups().contains(new Integer(data))) {
                         return;

@@ -7,9 +7,11 @@ import com.cometproject.server.protocol.headers.Composers;
 
 public class HomeRoomMessageComposer extends MessageComposer {
     private final int roomId;
+    private final int newRoom;
 
-    public HomeRoomMessageComposer(final int roomId) {
+    public HomeRoomMessageComposer(final int roomId, final int newRoom) {
         this.roomId = roomId;
+        this.newRoom = newRoom;
     }
 
     @Override
@@ -20,6 +22,6 @@ public class HomeRoomMessageComposer extends MessageComposer {
     @Override
     public void compose(IComposer msg) {
         msg.writeInt(this.roomId);
-        msg.writeInt(this.roomId);
+        msg.writeInt(this.newRoom);
     }
 }
