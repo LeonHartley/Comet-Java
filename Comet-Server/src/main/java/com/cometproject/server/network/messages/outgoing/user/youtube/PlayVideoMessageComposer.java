@@ -27,5 +27,6 @@ public class PlayVideoMessageComposer extends MessageComposer {
         msg.writeString(videoId);
         msg.writeInt(0);
         msg.writeInt(videoLength);
+        msg.writeInt(0);
     }
 }

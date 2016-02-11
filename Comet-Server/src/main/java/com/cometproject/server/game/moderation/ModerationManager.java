@@ -6,9 +6,11 @@ import com.cometproject.server.game.moderation.types.tickets.HelpTicketState;
 import com.cometproject.server.game.rooms.types.components.types.ChatMessage;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.outgoing.moderation.tickets.HelpTicketMessageComposer;
+import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.storage.queries.moderation.PresetDao;
 import com.cometproject.server.storage.queries.moderation.TicketDao;
 import com.cometproject.server.utilities.Initializable;
+import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -26,6 +28,8 @@ public class ModerationManager implements Initializable {
 
     private Map<Integer, HelpTicket> tickets;
 
+    private ConcurrentHashSet<Session> moderators;
+
     private Logger log = Logger.getLogger(ModerationManager.class.getName());
 
     public ModerationManager() {
@@ -34,6 +38,8 @@ public class ModerationManager implements Initializable {
 
     @Override
     public void initialize() {
+        this.moderators = new ConcurrentHashSet<>();
+
         loadPresets();
         loadActiveTickets();
 
@@ -78,6 +84,14 @@ public class ModerationManager implements Initializable {
         } catch (Exception e) {
             log.error("Error while loading moderation presets", e);
         }
+    }
+
+    public void addModerator(Session session) {
+        this.moderators.add(session);
+    }
+
+    public void removeModerator(Session session) {
+        this.moderators.remove(session);
     }
 
     public void loadActiveTickets() {
@@ -150,5 +164,10 @@ public class ModerationManager implements Initializable {
 
     public Map<Integer, HelpTicket> getTickets() {
         return tickets;
+    }
+
+
+    public ConcurrentHashSet<Session> getModerators() {
+        return moderators;
     }
 }

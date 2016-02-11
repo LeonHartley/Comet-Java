@@ -1,14 +1,13 @@
 package com.cometproject.server.network.messages.incoming.messenger;
 
-import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.players.components.types.messenger.MessengerFriend;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
 import com.cometproject.server.logging.LogManager;
 import com.cometproject.server.logging.entries.MessengerChatLogEntry;
-import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.messenger.InstantChatMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
@@ -22,9 +21,9 @@ public class PrivateChatMessageEvent implements Event {
         String message = msg.readString();
 
         if (userId == -1 && client.getPlayer().getPermissions().getRank().messengerStaffChat()) {
-            for (ISession user : NetworkManager.getInstance().getSessions().getByPlayerPermission("staff_chat")) {
-                if (user == client) continue;
-                user.send(new InstantChatMessageComposer(client.getPlayer().getData().getUsername() + ": " + message, -1));
+            for (Session player : ModerationManager.getInstance().getModerators()) {
+                if (player == client) continue;
+                player.send(new InstantChatMessageComposer(client.getPlayer().getData().getUsername() + ": " + message, -1));
             }
             return;
         }

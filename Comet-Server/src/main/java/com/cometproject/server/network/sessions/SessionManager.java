@@ -84,38 +84,6 @@ public final class SessionManager implements ISessionManager {
         // TODO: Optimize this
         Set<ISession> sessions = new HashSet<>();
 
-        //so i dont forget :$
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-        Comet.getServer().getLogger().info("FIX THIS LEON FIX THIS FIX THIS FIX THISSSSSSSSS");
-
-//
 //        int rank = PermissionsManager.getInstance().getPermissions().get(permission).getRank();
 //
 //        for (Map.Entry<Integer, ISession> session : this.sessions.entrySet()) {

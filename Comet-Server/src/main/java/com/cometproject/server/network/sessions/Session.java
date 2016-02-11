@@ -3,6 +3,7 @@ package com.cometproject.server.network.sessions;
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.server.config.CometSettings;
+import com.cometproject.server.game.moderation.ModerationManager;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.network.messages.outgoing.notification.LogoutMessageComposer;
@@ -53,6 +54,10 @@ public class Session implements ISession {
         int channelId = this.channel.attr(SessionManager.CHANNEL_ID_ATTR).get();
 
         PlayerManager.getInstance().put(player.getId(), channelId, username, this.getIpAddress());
+
+        if(player.getPermissions().getRank().modTool()) {
+            ModerationManager.getInstance().addModerator(player.getSession());
+        }
     }
 
     public void onDisconnect() {
@@ -62,6 +67,10 @@ public class Session implements ISession {
         this.eventHandler.dispose();
 
         if (this.player != null) {
+            if(this.getPlayer().getPermissions().getRank().modTool()) {
+                ModerationManager.getInstance().removeModerator(this);
+            }
+
             this.getPlayer().dispose();
         }
 

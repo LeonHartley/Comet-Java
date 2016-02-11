@@ -17,7 +17,8 @@ public class EventAlertCommand extends ChatCommand {
         NetworkManager.getInstance().getSessions().broadcast(
                 new AdvancedAlertMessageComposer(
                         Locale.get("command.eventalert.alerttitle"),
-                        this.merge(params) + "<br><br><i> " + client.getPlayer().getData().getUsername() + "</i>",
+                        Locale.get("command.eventalert.message").replace("%message%", this.merge(params)).replace("%username%", client.getPlayer().getData().getUsername()
+                        ) + "<br><br><i> " + client.getPlayer().getData().getUsername() + "</i>",
                         Locale.get("command.eventalert.buttontitle"), "event:navigator/goto/" + client.getPlayer().getEntity().getRoom().getId(), "game_promo_small"));
     }
 

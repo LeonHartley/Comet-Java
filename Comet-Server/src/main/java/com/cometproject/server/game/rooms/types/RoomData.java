@@ -75,7 +75,6 @@ public class RoomData implements IRoomData {
         this.maxUsers = room.getInt("max_users");
 
         String accessType = room.getString("access_type");
-        // TODO: Move this to enum...
         if (!accessType.equals("open") && !accessType.equals("doorbell") && !accessType.equals("password")) {
             accessType = "open";
         }
