@@ -38,7 +38,7 @@ public class SaveFloorMessageEvent implements Event {
         int sizeY = modelData.length;
         int sizeX = modelData[0].length();
 
-        if (sizeX < 2 || sizeY < 2 || sizeX > CometSettings.floorEditorMaxX || sizeY > CometSettings.floorEditorMaxY || CometSettings.floorEditorMaxTotal < (sizeX * sizeY)) {
+        if (sizeX < 2 || sizeY < 2 || (CometSettings.floorEditorMaxX != 0 && sizeX > CometSettings.floorEditorMaxX) || (CometSettings.floorEditorMaxY != 0 && sizeY > CometSettings.floorEditorMaxY) || (CometSettings.floorEditorMaxTotal != 0 && CometSettings.floorEditorMaxTotal < (sizeX * sizeY))) {
             client.send(new AdvancedAlertMessageComposer("Invalid Model", Locale.get("command.floor.size")));
             return;
         }
@@ -81,6 +81,7 @@ public class SaveFloorMessageEvent implements Event {
 
         client.send(new AdvancedAlertMessageComposer("Model Saved", Locale.get("command.floor.complete"), "Go", "event:navigator/goto/" + client.getPlayer().getEntity().getRoom().getId(), ""));
 
+        room.getItems().commit();
         room.setIdleNow();
     }
 }

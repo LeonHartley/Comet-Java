@@ -60,14 +60,17 @@ import java.util.concurrent.Executors;
 
 public class OldCatalogPurchaseHandler {
     private final Logger log = Logger.getLogger(OldCatalogPurchaseHandler.class.getName());
-    private final ExecutorService executorService;
+    private ExecutorService executorService;
 
     public OldCatalogPurchaseHandler() {
-        this.executorService = Executors.newFixedThreadPool(8);
     }
 
     public void purchaseItem(Session client, int pageId, int itemId, String data, int amount, GiftData giftData) {
         if (CometSettings.asyncCatalogPurchase) {
+            if(this.executorService == null) {
+                this.executorService = Executors.newFixedThreadPool(2);
+            }
+
             this.executorService.submit(() -> this.handle(client, pageId, itemId, data, amount, giftData));
         } else {
             this.handle(client, pageId, itemId, data, amount, giftData);

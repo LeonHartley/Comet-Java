@@ -10,7 +10,7 @@ import com.cometproject.server.protocol.headers.Composers;
 public class RelativeHeightmapMessageComposer extends MessageComposer {
     private static char[] characters;
 
-    private static void init() {
+    static {
         characters = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
     }
 
@@ -18,10 +18,6 @@ public class RelativeHeightmapMessageComposer extends MessageComposer {
 
     public RelativeHeightmapMessageComposer(final RoomModel model) {
         this.model = model;
-
-        if (characters == null) {
-            init();
-        }
     }
 
     @Override

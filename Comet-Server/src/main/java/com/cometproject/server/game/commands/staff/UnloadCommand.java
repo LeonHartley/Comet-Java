@@ -10,6 +10,7 @@ public class UnloadCommand extends ChatCommand {
     public void execute(Session client, String[] params) {
         //int roomId = client.getPlayer().getEntity().getRoom().getId();
 
+        client.getPlayer().getEntity().getRoom().getItems().commit();
         client.getPlayer().getEntity().getRoom().setIdleNow();
     }
 

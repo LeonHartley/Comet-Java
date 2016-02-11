@@ -8,6 +8,7 @@ import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.players.types.PlayerComponent;
+import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.network.messages.outgoing.catalog.UnseenItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.wired.WiredRewardMessageComposer;
@@ -271,6 +272,14 @@ public class InventoryComponent implements PlayerComponent {
     }
 
     public void dispose() {
+        for(InventoryItem floorItem : this.floorItems.values()) {
+            ItemManager.getInstance().disposeItemVirtualId(floorItem.getId());
+        }
+
+        for(InventoryItem wallItem : this.wallItems.values()) {
+            ItemManager.getInstance().disposeItemVirtualId(wallItem.getId());
+        }
+
         this.floorItems.clear();
         this.floorItems = null;
 

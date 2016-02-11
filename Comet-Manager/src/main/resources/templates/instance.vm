@@ -6,7 +6,7 @@
             <div class="panel-heading"><b>$instance.name</b></div>
 
             <ul class="list-group">
-                <li class="list-group-item">IP: $instance.config</li>
+                <li class="list-group-item">IP: $instance.config.</li>
             </ul>
         </div>
     </div>

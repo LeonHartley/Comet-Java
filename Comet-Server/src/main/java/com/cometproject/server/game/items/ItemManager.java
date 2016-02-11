@@ -150,6 +150,10 @@ public class ItemManager implements Initializable {
         return null;
     }
 
+    public Map<Long, Integer> getItemIdToVirtualIds() {
+        return itemIdToVirtualId;
+    }
+
     public ItemDefinition getBySpriteId(int spriteId) {
         return this.itemDefinitions.get(this.itemSpriteIdToDefinitionId.get(spriteId));
     }
