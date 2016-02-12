@@ -3,6 +3,7 @@ package com.cometproject.server.network.messages.incoming.room.action;
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
@@ -24,6 +25,29 @@ public class ApplyActionMessageEvent implements Event {
 
             if(!client.getPlayer().getEntity().isVisible()) {
                 return;
+            }
+
+            final long time = System.currentTimeMillis();
+
+            if (!client.getPlayer().getPermissions().getRank().floodBypass()) {
+                if (time - client.getPlayer().getRoomLastMessageTime() < 750) {
+                    client.getPlayer().setRoomFloodFlag(client.getPlayer().getRoomFloodFlag() + 1);
+
+                    if (client.getPlayer().getRoomFloodFlag() >= 3) {
+                        client.getPlayer().setRoomFloodTime(client.getPlayer().getPermissions().getRank().floodTime());
+                        client.getPlayer().setRoomFloodFlag(0);
+
+                        client.getPlayer().getSession().send(new FloodFilterMessageComposer(client.getPlayer().getRoomFloodTime()));
+                    }
+                } else {
+                    client.getPlayer().setRoomFloodFlag(0);
+                }
+
+                if (client.getPlayer().getRoomFloodTime() >= 1) {
+                    return;
+                }
+
+                client.getPlayer().setRoomLastMessageTime(time);
             }
 
             client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new ActionMessageComposer(client.getPlayer().getEntity().getId(), actionId));

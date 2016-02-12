@@ -356,7 +356,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
 
     @Override
     public boolean onChat(String message) {
-        long time = System.currentTimeMillis();
+        final long time = System.currentTimeMillis();
 
         if (!this.getPlayer().getPermissions().getRank().floodBypass()) {
             if (this.lastMessage.equals(message)) {
