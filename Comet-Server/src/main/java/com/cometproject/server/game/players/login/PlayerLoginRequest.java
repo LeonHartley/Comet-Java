@@ -16,16 +16,21 @@ import com.cometproject.server.network.messages.outgoing.handshake.HomeRoomMessa
 import com.cometproject.server.network.messages.outgoing.handshake.UniqueIDMessageComposer;
 import com.cometproject.server.network.messages.outgoing.moderation.ModToolMessageComposer;
 import com.cometproject.server.network.messages.outgoing.navigator.FavouriteRoomsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.notification.MotdNotificationComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.AvailabilityStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.details.PlayerSettingsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.EffectsInventoryMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.permissions.FuserightsMessageComposer;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.network.sessions.SessionManager;
 import com.cometproject.server.storage.queries.player.PlayerAccessDao;
 import com.cometproject.server.storage.queries.player.PlayerDao;
 import com.cometproject.server.tasks.CometTask;
+import com.cometproject.server.tasks.CometThreadManager;
 import org.apache.commons.lang.StringUtils;
+
+import java.util.concurrent.TimeUnit;
 
 public class PlayerLoginRequest implements CometTask {
 
@@ -39,7 +44,7 @@ public class PlayerLoginRequest implements CometTask {
 
     @Override
     public void run() {
-        if(this.client == null || this.client.getChannel().pipeline().get("encryptionDecoder") == null) {
+        if (this.client == null || this.client.getChannel().pipeline().get("encryptionDecoder") == null) {
             return;
         }
 
@@ -156,8 +161,17 @@ public class PlayerLoginRequest implements CometTask {
 
         ModuleManager.getInstance().getEventHandler().handleEvent(new OnPlayerLoginEvent(client.getPlayer()));
 
-        if(!Comet.isDebugging) {
+        if (!Comet.isDebugging) {
             PlayerDao.nullifyAuthTicket(player.getData().getId());
+        }
+
+
+        if (SessionManager.isLocked) {
+            client.send(new AlertMessageComposer("Hotel's closed, come back later!"));
+
+            CometThreadManager.getInstance().executeSchedule(() -> {
+                client.disconnect();
+            }, 5, TimeUnit.SECONDS);
         }
     }
 }

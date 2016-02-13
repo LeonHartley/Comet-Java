@@ -34,11 +34,11 @@ public class AchievementsListMessageComposer extends MessageComposer {
             Achievement achievement = achievementProgress == null ? entry.getValue().getAchievement(1) : entry.getValue().getAchievement(achievementProgress.getLevel());
 
             msg.writeInt(entry.getValue().getId());
-            msg.writeInt(achievement.getLevel());
-            msg.writeString(entry.getKey().getGroupName() + achievement.getLevel());
-            msg.writeInt(achievement.getLevel() == 1 ? 0 : entry.getValue().getAchievement(achievement.getLevel() - 1).getProgressNeeded());
-            msg.writeInt(achievement.getProgressNeeded());
-            msg.writeInt(achievement.getRewardActivityPoints());
+            msg.writeInt(achievement == null ? 0 : achievement.getLevel());
+            msg.writeString(achievement == null ? "" : entry.getKey().getGroupName() + achievement.getLevel());
+            msg.writeInt(achievement == null ? 0 : achievement.getLevel() == 1 ? 0 : entry.getValue().getAchievement(achievement.getLevel() - 1).getProgressNeeded());
+            msg.writeInt(achievement == null ? 0 : achievement.getProgressNeeded());
+            msg.writeInt(achievement == null ? 0 : achievement.getRewardActivityPoints());
             msg.writeInt(0);
             msg.writeInt(achievementProgress != null ? achievementProgress.getProgress() : 0);
 

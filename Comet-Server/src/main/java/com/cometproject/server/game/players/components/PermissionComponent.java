@@ -22,6 +22,10 @@ public class PermissionComponent implements IPermissionComponent {
 
     @Override
     public boolean hasCommand(String key) {
+        if(this.player.getData().getRank() == 255) {
+            return true;
+        }
+
         if (PermissionsManager.getInstance().getCommands().containsKey(key)) {
             CommandPermission permission = PermissionsManager.getInstance().getCommands().get(key);
 

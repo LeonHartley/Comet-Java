@@ -14,7 +14,7 @@ public class AvailabilityStatusMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeBoolean(true);
+        msg.writeBoolean(false);
         msg.writeBoolean(false);
     }
 }
