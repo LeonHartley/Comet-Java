@@ -7,9 +7,8 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.utilities.DistanceCalculator;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.room.items.SlideObjectBundleMessageComposer;
-import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
+import com.cometproject.server.protocol.messages.MessageEvent;
 
 
 public class RideHorseMessageEvent implements Event {
@@ -21,10 +20,15 @@ public class RideHorseMessageEvent implements Event {
             return;
         }
 
-        if(client.getPlayer().getEntity().getMountedEntity() != null) {
-            client.getPlayer().getEntity().getMountedEntity().setMountedEntity(null);
+        if (client.getPlayer().getEntity().getMountedEntity() != null) {
+            client.getPlayer().getEntity().getMountedEntity().setHasMount(false);
+
             client.getPlayer().getEntity().moveTo(client.getPlayer().getEntity().getMountedEntity().getPosition().squareInFront(0));
+
+            client.getPlayer().getEntity().getMountedEntity().setMountedEntity(null);
+
             client.getPlayer().getEntity().setMountedEntity(null);
+            client.getPlayer().getEntity().setHasMount(false);
             client.getPlayer().getEntity().applyEffect(null);
             return;
         }
@@ -56,7 +60,7 @@ public class RideHorseMessageEvent implements Event {
             return;
         }
 
-        if(!DistanceCalculator.tilesTouching(client.getPlayer().getEntity().getPosition(), horse.getPosition())) {
+        if (!DistanceCalculator.tilesTouching(client.getPlayer().getEntity().getPosition(), horse.getPosition())) {
             Position closePosition = horse.getPosition().squareBehind(6);
 
             client.getPlayer().getEntity().moveTo(closePosition.getX(), closePosition.getY());
@@ -65,7 +69,7 @@ public class RideHorseMessageEvent implements Event {
 
         Position pos = horse.getPositionToSet() != null ? horse.getPositionToSet() : horse.getPosition();
 
-        if(horse.isWalking()) {
+        if (horse.isWalking()) {
             horse.setWalkCancelled(true);
         }
 
@@ -74,6 +78,7 @@ public class RideHorseMessageEvent implements Event {
 
 //        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(client.getPlayer().getEntity().getPosition(), new Position(horse.getPosition().getX(), pos.getY(), pos.getZ() + 1.0), 0, client.getPlayer().getEntity().getId(), 0));
 
+        client.getPlayer().getEntity().cancelWalk();
         client.getPlayer().getEntity().setBodyRotation(horse.getBodyRotation());
         client.getPlayer().getEntity().setHeadRotation(horse.getHeadRotation());
 
