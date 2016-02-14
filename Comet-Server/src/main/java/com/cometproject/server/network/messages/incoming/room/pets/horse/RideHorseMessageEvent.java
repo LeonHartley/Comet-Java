@@ -1,4 +1,4 @@
-package com.cometproject.server.network.messages.incoming.room.pets;
+package com.cometproject.server.network.messages.incoming.room.pets.horse;
 
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
@@ -64,13 +64,15 @@ public class RideHorseMessageEvent implements Event {
             Position closePosition = horse.getPosition().squareBehind(6);
 
             client.getPlayer().getEntity().moveTo(closePosition.getX(), closePosition.getY());
+
+            horse.getPetAI().waitForInteraction();
             return;
         }
 
         Position pos = horse.getPositionToSet() != null ? horse.getPositionToSet() : horse.getPosition();
 
         if (horse.isWalking()) {
-            horse.setWalkCancelled(true);
+            horse.cancelWalk();
         }
 
         client.getPlayer().getEntity().applyEffect(new PlayerEffect(103, 0));

@@ -1,6 +1,8 @@
 package com.cometproject.server.network.messages.outgoing.room.pets;
 
 import com.cometproject.api.networking.messages.IComposer;
+import com.cometproject.server.game.players.PlayerManager;
+import com.cometproject.server.game.players.data.PlayerAvatar;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.composers.MessageComposer;
@@ -44,28 +46,21 @@ public class PetInformationMessageComposer extends MessageComposer {
             msg.writeInt(this.petEntity.getData().getScratches()); // SCRATCHES
             msg.writeInt(this.petEntity.getData().getOwnerId());
             msg.writeInt(0); // AGE
-            msg.writeString(PlayerDao.getUsernameByPlayerId(this.petEntity.getData().getOwnerId()));
-            msg.writeInt(1);
+            msg.writeString(PlayerManager.getInstance().getAvatarByPlayerId(this.petEntity.getData().getOwnerId(), PlayerAvatar.USERNAME_FIGURE));
+            msg.writeInt(0);
             msg.writeBoolean(this.petEntity.getData().isSaddled()); // HAS_SADDLE
             msg.writeBoolean(this.petEntity.hasMount()); // HAS_RIDER
             msg.writeInt(0);
 
             msg.writeInt(this.petEntity.getData().isAnyRider() ? 1 : 0); // yes = 1 no = 0
-
-            msg.writeInt(0);
-            msg.writeInt(0);
-            msg.writeInt(0);
-            msg.writeInt(0);
-            msg.writeString("");
             msg.writeBoolean(false);
-            msg.writeBoolean(true); // all can mount
+            msg.writeBoolean(true);
+            msg.writeBoolean(false);
             msg.writeInt(0);
-            msg.writeString("");
-            msg.writeBoolean(false);
-            msg.writeInt(-1);
-            msg.writeInt(-1);
-            msg.writeInt(-1);
-            msg.writeBoolean(false);
+            msg.writeInt(129600);
+            msg.writeInt(128000);
+            msg.writeInt(1000);
+            msg.writeBoolean(true);
         } else {
             msg.writeInt(this.player.getPlayerId());
             msg.writeString(this.player.getUsername());

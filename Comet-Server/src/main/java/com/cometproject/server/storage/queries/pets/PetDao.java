@@ -249,4 +249,29 @@ public class PetDao {
             SqlHelper.closeSilently(sqlConnection);
         }
     }
+
+    public static void saveHorseData(int id, boolean saddled, int hair, int hairDye, boolean anyRider) {
+        Connection sqlConnection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            sqlConnection = SqlHelper.getConnection();
+
+            preparedStatement = SqlHelper.prepare("UPDATE pet_data SET saddled = ?, hair_style = ?, hair_colour = ?, any_rider = ? WHERE id = ?", sqlConnection);
+
+            preparedStatement.setString(1, saddled ? "true" : "false");
+            preparedStatement.setInt(2, hair);
+            preparedStatement.setInt(3, hairDye);
+            preparedStatement.setString(4, anyRider ? "true" : "false");
+
+            preparedStatement.setInt(5, id);
+
+            SqlHelper.executeStatementSilently(preparedStatement, false);
+        } catch (SQLException e) {
+            SqlHelper.handleSqlException(e);
+        } finally {
+            SqlHelper.closeSilently(preparedStatement);
+            SqlHelper.closeSilently(sqlConnection);
+        }
+    }
 }

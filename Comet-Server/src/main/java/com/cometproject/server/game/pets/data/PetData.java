@@ -68,7 +68,11 @@ public class PetData {
     public void saveStats() {
         PetDao.saveStats(this.scratches, this.level, this.happiness, this.experience, this.energy, this.id);
     }
-    
+
+    public void saveHorseData() {
+        PetDao.saveHorseData(this.getId(), this.isSaddled(), this.hair, this.hairDye, this.anyRider);
+    }
+
     public void increaseExperience(int amount) {
         this.experience += amount;
     }
@@ -76,11 +80,11 @@ public class PetData {
     public void increaseHappiness(int amount) {
         this.happiness += amount;
     }
-    
+
     public void incrementLevel() {
         this.level += 1;
     }
-    
+
     public void incrementScratches() {
         this.scratches += 1;
     }

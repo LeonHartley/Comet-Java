@@ -29,6 +29,7 @@ public class ItemManager implements Initializable {
     private Map<Integer, Long> virtualIdToItemId;
 
     private AtomicInteger itemIdCounter;
+    private Integer saddleId;
 
     public ItemManager() {
 
@@ -76,6 +77,10 @@ public class ItemManager implements Initializable {
 
         if (this.itemDefinitions != null) {
             for (ItemDefinition itemDefinition : this.itemDefinitions.values()) {
+                if(itemDefinition.getItemName().equals("horse_saddle1")) {
+                    this.saddleId = itemDefinition.getId();
+                }
+
                 this.itemSpriteIdToDefinitionId.put(itemDefinition.getSpriteId(), itemDefinition.getId());
             }
         }
@@ -164,5 +169,9 @@ public class ItemManager implements Initializable {
 
     public Map<Integer, ItemDefinition> getItemDefinitions() {
         return this.itemDefinitions;
+    }
+
+    public Integer getSaddleId() {
+        return saddleId;
     }
 }

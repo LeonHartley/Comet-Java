@@ -314,7 +314,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
             }
         }
 
-        if(this.hasPlacedPet) {
+        if(this.hasPlacedPet && this.getRoom().getData().getOwnerId() != this.playerId) {
             for(PetEntity petEntity : this.getRoom().getEntities().getPetEntities()) {
                 if(petEntity.getData().getOwnerId() == this.getPlayerId()) {
                     petEntity.kick();

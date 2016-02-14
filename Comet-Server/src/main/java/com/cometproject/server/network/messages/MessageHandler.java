@@ -67,6 +67,9 @@ import com.cometproject.server.network.messages.incoming.room.item.wired.SaveWir
 import com.cometproject.server.network.messages.incoming.room.item.wired.UpdateSnapshotsMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.moderation.*;
 import com.cometproject.server.network.messages.incoming.room.pets.*;
+import com.cometproject.server.network.messages.incoming.room.pets.horse.ApplyHorseEffectMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.pets.horse.RemoveHorseSaddleMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.pets.horse.RideHorseMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.settings.*;
 import com.cometproject.server.network.messages.incoming.room.trading.*;
 import com.cometproject.server.network.messages.incoming.user.achievements.AchievementsListMessageEvent;
@@ -264,6 +267,8 @@ public final class MessageHandler {
         this.getMessages().put(Events.RideHorseMessageEvent, new RideHorseMessageEvent());
         this.getMessages().put(Events.RespectPetMessageEvent, new ScratchPetMessageEvent());
         this.getMessages().put(Events.GetPetTrainingPanelMessageEvent, new GetPetTrainingPanelMessageEvent());
+        this.getMessages().put(Events.ApplyHorseEffectMessageEvent, new ApplyHorseEffectMessageEvent());
+        this.getMessages().put(Events.RemoveHorseSaddleMessageEvent, new RemoveHorseSaddleMessageEvent());
     }
 
     public void registerRoom() {

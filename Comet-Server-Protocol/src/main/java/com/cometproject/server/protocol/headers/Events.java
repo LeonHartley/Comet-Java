@@ -219,7 +219,7 @@ public class Events {
     public static final short Game2GetWeeklyLeaderboardMessageEvent = 2106;//2268
     public static final short BuyOfferMessageEvent = 3699;//82
     public static final short SitMessageEvent = 1565;//302
-    public static final short RemoveSaddleFromHorseMessageEvent = 1892;//1836
+    public static final short RemoveHorseSaddleMessageEvent = 1892;//1836
     public static final short GiveRoomScoreMessageEvent = 336;//3909
     public static final short GetHabboClubWindowMessageEvent = 715;//523
     public static final short DeleteStickyNoteMessageEvent = 2777;//1870
