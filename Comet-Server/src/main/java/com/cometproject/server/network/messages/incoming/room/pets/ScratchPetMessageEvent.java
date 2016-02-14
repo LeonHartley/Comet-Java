@@ -7,7 +7,6 @@ import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.room.avatar.ActionMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.pets.ScratchPetNotificationMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -43,7 +42,7 @@ public class ScratchPetMessageEvent implements Event {
                 return;
             }
 
-            petEntity.getPetAI().waitForScratch();
+            petEntity.getPetAI().waitForInteraction();
             petEntity.cancelWalk();
             return;
         }

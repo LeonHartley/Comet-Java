@@ -556,8 +556,6 @@ public class ItemsComponent {
             }
         }
 
-        RoomItemDao.placeFloorItem(room.getId(), x, y, height, rot, (item.getExtraData().isEmpty() || item.getExtraData().equals(" ")) ? "0" : item.getExtraData(), item.getId());
-
         for (Position tileToUpdate : tilesToUpdate) {
             final RoomTile tileInstance = this.room.getMapping().getTile(tileToUpdate.getX(), tileToUpdate.getY());
 

@@ -29,7 +29,7 @@ public class PetAI extends AbstractBotAI {
     private int playTimer = 0;
     private int gestureTimer = 0;
     private int interactionTimer = 0;
-    private int scratchTimer = 0;
+    private int waitTimer = 0;
 
     private PetToyFloorItem toyItem;
 
@@ -142,8 +142,8 @@ public class PetAI extends AbstractBotAI {
             }
         }
 
-        if (this.scratchTimer != 0) {
-            this.scratchTimer--;
+        if (this.waitTimer != 0) {
+            this.waitTimer--;
         }
     }
 
@@ -168,8 +168,8 @@ public class PetAI extends AbstractBotAI {
         this.getPetEntity().markNeedsUpdate();
     }
 
-    public void waitForScratch() {
-        this.scratchTimer = 20;
+    public void waitForInteraction() {
+        this.waitTimer = 20;
     }
 
     public void stay() {
@@ -177,7 +177,7 @@ public class PetAI extends AbstractBotAI {
     }
 
     public void onScratched() {
-        this.scratchTimer = 0;
+        this.waitTimer = 0;
 
         PetEntity petEntity = this.getPetEntity();
 
@@ -286,7 +286,7 @@ public class PetAI extends AbstractBotAI {
 
     @Override
     public boolean canMove() {
-        return this.scratchTimer == 0 && this.playTimer == 0 && this.interactionTimer == 0 & this.getPetEntity().getMountedEntity() == null;
+        return this.waitTimer == 0 && this.playTimer == 0 && this.interactionTimer == 0 & this.getPetEntity().getMountedEntity() == null;
     }
 
     public void setFollowingPlayer(PlayerEntity followingPlayer) {
