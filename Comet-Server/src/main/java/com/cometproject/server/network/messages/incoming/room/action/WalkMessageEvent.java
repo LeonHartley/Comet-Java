@@ -47,7 +47,7 @@ public class WalkMessageEvent implements Event {
                 entity.moveTo(goalX, goalY);
 
                 if (entity.getMountedEntity() != null) {
-                    entity.getMountedEntity().moveTo(goalX, goalY);
+//                    entity.getMountedEntity().moveTo(goalX, goalY);
                 }
             }
         } catch (Exception e) {

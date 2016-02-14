@@ -109,6 +109,8 @@ public interface AvatarEntity extends Attributable {
 
     void warp(Position position);
 
+    void warpImmediately(Position position);
+
     void kick();
 
     long getJoinTime();

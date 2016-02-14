@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AchievementManager implements Initializable {
     private static AchievementManager achievementManager;
@@ -15,7 +16,7 @@ public class AchievementManager implements Initializable {
     private final Map<AchievementType, AchievementGroup> achievementGroups;
 
     public AchievementManager() {
-        this.achievementGroups = new HashMap<>();
+        this.achievementGroups = new ConcurrentHashMap<>();
     }
 
     @Override

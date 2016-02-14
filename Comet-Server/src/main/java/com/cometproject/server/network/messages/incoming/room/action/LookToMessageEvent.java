@@ -23,6 +23,10 @@ public class LookToMessageEvent implements Event {
         int x = msg.readInt();
         int y = msg.readInt();
 
+        if(avatar.getMountedEntity() != null) {
+            return;
+        }
+
         avatar.lookTo(x, y);
     }
 }

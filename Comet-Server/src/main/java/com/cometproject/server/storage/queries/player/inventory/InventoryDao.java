@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class InventoryDao {
@@ -89,7 +90,7 @@ public class InventoryDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        Map<String, Integer> data = new HashMap<>();
+        Map<String, Integer> data = new ConcurrentHashMap<>();
 
         try {
             sqlConnection = SqlHelper.getConnection();

@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class GenericEntity extends RoomFloorObject implements AvatarEntity {
@@ -70,7 +71,7 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
 
     private long privateChatItemId = 0;
 
-    private Map<RoomEntityStatus, String> statuses = new HashMap<>();
+    private Map<RoomEntityStatus, String> statuses = new ConcurrentHashMap<>();
 
     public GenericEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, roomInstance);
@@ -541,6 +542,12 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
         if (this.needsForcedUpdate) return;
 
         this.warp(position, true);
+    }
+
+    @Override
+    public void warpImmediately(Position position) {
+        this.setPosition(position);
+        this.getRoom().getEntities().broadcastMessage(new AvatarUpdateMessageComposer(this));
     }
 
     public boolean needsUpdateCancel() {

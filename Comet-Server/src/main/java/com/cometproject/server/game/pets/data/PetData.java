@@ -1,6 +1,7 @@
 package com.cometproject.server.game.pets.data;
 
 import com.cometproject.server.game.pets.PetManager;
+import com.cometproject.server.game.pets.races.PetRace;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.storage.queries.pets.PetDao;
 
@@ -23,8 +24,11 @@ public class PetData {
     private int raceId;
     private int typeId;
 
-    private int hairDye = 2;
+    private int hairDye = 0;
     private int hair = -1;
+
+    private boolean anyRider = false;
+    private boolean saddled = false;
 
     private Position roomPosition;
 
@@ -39,6 +43,11 @@ public class PetData {
         this.colour = data.getString("colour");
         this.raceId = data.getInt("race_id");
         this.typeId = data.getInt("type");
+        this.saddled = data.getBoolean("saddled");
+        this.hair = data.getInt("hair_style");
+        this.hairDye = data.getInt("hair_colour");
+        this.anyRider = data.getBoolean("any_rider");
+
         this.roomPosition = new Position(data.getInt("x"), data.getInt("y"));
     }
 
@@ -117,7 +126,7 @@ public class PetData {
     }
 
     public int getHairDye() {
-        return hairDye;
+        return 2;
     }
 
     public int getHair() {
@@ -138,5 +147,33 @@ public class PetData {
 
     public void setRoomPosition(Position position) {
         this.roomPosition = position;
+    }
+
+    public void setHairDye(int hairDye) {
+        this.hairDye = hairDye;
+    }
+
+    public void setHair(int hair) {
+        this.hair = hair;
+    }
+
+    public boolean isSaddled() {
+        return saddled;
+    }
+
+    public void setSaddled(boolean saddled) {
+        this.saddled = saddled;
+    }
+
+    public boolean isAnyRider() {
+        return anyRider;
+    }
+
+    public void setAnyRider(boolean anyRider) {
+        this.anyRider = anyRider;
+    }
+
+    public int getScratches() {
+        return scratches;
     }
 }

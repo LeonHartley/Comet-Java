@@ -78,7 +78,7 @@ public class PetAI extends AbstractBotAI {
 
     @Override
     public void onTickComplete() {
-        if (this.playTimer != 0) {
+        if (this.playTimer != 0 || this.getPetEntity().getData().isSaddled()) {
             return;
         }
 
@@ -286,7 +286,7 @@ public class PetAI extends AbstractBotAI {
 
     @Override
     public boolean canMove() {
-        return this.scratchTimer == 0 && this.playTimer == 0 && this.interactionTimer == 0;
+        return this.scratchTimer == 0 && this.playTimer == 0 && this.interactionTimer == 0 & this.getPetEntity().getMountedEntity() == null;
     }
 
     public void setFollowingPlayer(PlayerEntity followingPlayer) {

@@ -28,6 +28,6 @@ public class PetInformationMessageEvent implements Event {
             return;
         }
 
-        client.send(new PetInformationMessageComposer(petEntity.getData()));
+        client.send(new PetInformationMessageComposer(petEntity));
     }
 }

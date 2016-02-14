@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.room.pets;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.pets.data.PetData;
+import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
@@ -10,16 +10,16 @@ import com.cometproject.server.storage.queries.player.PlayerDao;
 
 public class PetInformationMessageComposer extends MessageComposer {
 
-    private final PetData petData;
+    private final PetEntity petEntity;
     private final PlayerEntity player;
 
-    public PetInformationMessageComposer(final PetData petData) {
-        this.petData = petData;
+    public PetInformationMessageComposer(final PetEntity petEntity) {
+        this.petEntity = petEntity;
         this.player = null;
     }
 
     public PetInformationMessageComposer(final PlayerEntity playerEntity) {
-        this.petData = null;
+        this.petEntity = null;
         this.player = playerEntity;
     }
 
@@ -30,28 +30,27 @@ public class PetInformationMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        if (this.petData != null) {
-            msg.writeInt(petData.getId());
-            msg.writeString(petData.getName());
-            msg.writeInt(petData.getLevel());
+        if (this.petEntity != null && this.petEntity.getData() != null) {
+            msg.writeInt(this.petEntity.getData().getId());
+            msg.writeString(this.petEntity.getData().getName());
+            msg.writeInt(this.petEntity.getData().getLevel());
             msg.writeInt(20); // MAX_LEVEL
-            msg.writeInt(petData.getExperience());
+            msg.writeInt(this.petEntity.getData().getExperience());
             msg.writeInt(200); // EXPERIENCE_GOAL
-            msg.writeInt(petData.getEnergy());
+            msg.writeInt(this.petEntity.getData().getEnergy());
             msg.writeInt(100); // MAX_ENERGY
             msg.writeInt(100); // NUTRITION
             msg.writeInt(100); // MAX_NUTRITION
-            msg.writeInt(0); // SCRATCHES
-            msg.writeInt(petData.getOwnerId());
+            msg.writeInt(this.petEntity.getData().getScratches()); // SCRATCHES
+            msg.writeInt(this.petEntity.getData().getOwnerId());
             msg.writeInt(0); // AGE
-            msg.writeString(PlayerDao.getUsernameByPlayerId(petData.getOwnerId()));
+            msg.writeString(PlayerDao.getUsernameByPlayerId(this.petEntity.getData().getOwnerId()));
             msg.writeInt(1);
-            msg.writeBoolean(false); // HAS_SADDLE
-            msg.writeBoolean(false); // HAS_RIDER
+            msg.writeBoolean(this.petEntity.getData().isSaddled()); // HAS_SADDLE
+            msg.writeBoolean(this.petEntity.hasMount()); // HAS_RIDER
             msg.writeInt(0);
 
-            // CAN ANYONE MOUNT?
-            msg.writeInt(1); // yes = 1 no = 0
+            msg.writeInt(this.petEntity.getData().isAnyRider() ? 1 : 0); // yes = 1 no = 0
 
             msg.writeInt(0);
             msg.writeInt(0);

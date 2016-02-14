@@ -12,12 +12,20 @@ import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
 
-public class HorseMountOnMessageEvent implements Event {
+public class RideHorseMessageEvent implements Event {
     @Override
     public void handle(Session client, MessageEvent msg) throws Exception {
         int entityId = msg.readInt();
 
-        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getMountedEntity() != null) {
+        if (client.getPlayer().getEntity() == null) {
+            return;
+        }
+
+        if(client.getPlayer().getEntity().getMountedEntity() != null) {
+            client.getPlayer().getEntity().getMountedEntity().setMountedEntity(null);
+            client.getPlayer().getEntity().moveTo(client.getPlayer().getEntity().getMountedEntity().getPosition().squareInFront(0));
+            client.getPlayer().getEntity().setMountedEntity(null);
+            client.getPlayer().getEntity().applyEffect(null);
             return;
         }
 
@@ -38,7 +46,6 @@ public class HorseMountOnMessageEvent implements Event {
                     return;
                 }
 
-
                 client.getPlayer().getEntity().setMountedEntity(playerEntity);
                 client.getPlayer().getEntity().applyEffect(new PlayerEffect(103, 0));
                 client.getPlayer().getEntity().warp(playerEntity.getPosition());
@@ -46,7 +53,6 @@ public class HorseMountOnMessageEvent implements Event {
                 playerEntity.setOverriden(true);
                 playerEntity.setHasMount(true);
             }
-
             return;
         }
 
@@ -66,12 +72,16 @@ public class HorseMountOnMessageEvent implements Event {
         client.getPlayer().getEntity().applyEffect(new PlayerEffect(103, 0));
 
 
-        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(client.getPlayer().getEntity().getPosition(), new Position(horse.getPosition().getX(), pos.getY(), pos.getZ() + 1.0), 0, client.getPlayer().getEntity().getId(), 0));
+//        client.getPlayer().getEntity().getRoom().getEntities().broadcastMessage(new SlideObjectBundleMessageComposer(client.getPlayer().getEntity().getPosition(), new Position(horse.getPosition().getX(), pos.getY(), pos.getZ() + 1.0), 0, client.getPlayer().getEntity().getId(), 0));
 
         client.getPlayer().getEntity().setBodyRotation(horse.getBodyRotation());
         client.getPlayer().getEntity().setHeadRotation(horse.getHeadRotation());
 
-        client.getPlayer().getEntity().moveTo(pos.getX(), pos.getY());
+        Position warpPosition = horse.getPosition().copy();
+
+        warpPosition.setZ(warpPosition.getZ() + 1.0);
+
+        client.getPlayer().getEntity().warpImmediately(warpPosition);
 
         client.getPlayer().getEntity().setMountedEntity(horse);
 

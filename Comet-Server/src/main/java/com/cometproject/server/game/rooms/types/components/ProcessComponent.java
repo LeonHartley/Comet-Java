@@ -26,7 +26,9 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 
 public class ProcessComponent implements CometTask {
@@ -55,7 +57,7 @@ public class ProcessComponent implements CometTask {
             return;
         }
 
-        if(this.isProcessing) return;
+        if (this.isProcessing) return;
 
         this.isProcessing = true;
 
@@ -103,8 +105,10 @@ public class ProcessComponent implements CometTask {
                     // do anything special here for bots?
                     processEntity(entity);
                 } else if (entity.getEntityType() == RoomEntityType.PET) {
-                    // do anything special here for pets?
-                    processEntity(entity);
+                    if (entity.getMountedEntity() == null) {
+                        // do anything special here for pets?
+                        processEntity(entity);
+                    }
                 }
 
                 if ((entity.needsUpdate() && !entity.needsUpdateCancel() || entity.needsForcedUpdate) && entity.isVisible()) {
@@ -121,6 +125,15 @@ public class ProcessComponent implements CometTask {
                         entity.updatePhase = 1;
                         entitiesToUpdate.add(entity);
                     } else {
+                        if (entity instanceof PlayerEntity) {
+                            if (entity.getMountedEntity() != null) {
+                                processEntity(entity.getMountedEntity());
+
+                                entity.getMountedEntity().markUpdateComplete();
+                                entitiesToUpdate.add(entity.getMountedEntity());
+                            }
+                        }
+
                         entity.markUpdateComplete();
                         entitiesToUpdate.add(entity);
                     }
@@ -243,7 +256,6 @@ public class ProcessComponent implements CometTask {
             Position newPosition = entity.getPositionToSet().copy();
             Position oldPosition = entity.getPosition().copy();
 
-
             List<RoomItemFloor> itemsOnSq = this.getRoom().getItems().getItemsOnSquare(entity.getPositionToSet().getX(), entity.getPositionToSet().getY());
             List<RoomItemFloor> itemsOnOldSq = this.getRoom().getItems().getItemsOnSquare(entity.getPosition().getX(), entity.getPosition().getY());
 
@@ -285,8 +297,8 @@ public class ProcessComponent implements CometTask {
                 }
             }
 
-            if(entity.getFollowingEntities().size() != 0) {
-                entity.getFollowingEntities().forEach(e-> e.moveTo(oldPosition));
+            if (entity.getFollowingEntities().size() != 0) {
+                entity.getFollowingEntities().forEach(e -> e.moveTo(oldPosition));
             }
 
             if (newTile != null && newTile.getTopItem() != 0) {
@@ -306,7 +318,7 @@ public class ProcessComponent implements CometTask {
                     topItem.onEntityStepOn(entity);
                     WiredTriggerWalksOnFurni.executeTriggers(entity, topItem);
                 }
-            } else if(newTile != null) {
+            } else if (newTile != null) {
                 newTile.onEntityEntersTile(entity);
             }
         }
@@ -336,7 +348,7 @@ public class ProcessComponent implements CometTask {
                     }
                 }
             } else {
-                if(entity.getAI() != null) {
+                if (entity.getAI() != null) {
                     entity.getAI().onTick();
                 }
             }
@@ -396,8 +408,8 @@ public class ProcessComponent implements CometTask {
             if (nextSq != null && entity.getRoom().getMapping().isValidEntityStep(entity, entity.getPosition(), new Position(nextSq.x, nextSq.y, 0), isLastStep) || entity.isOverriden()) {
                 Position currentPos = entity.getPosition() != null ? entity.getPosition() : new Position(0, 0, 0);
                 Position nextPos = new Position(nextSq.x, nextSq.y);
-                entity.setBodyRotation(entity instanceof PlayerEntity && entity.getMountedEntity() != null ? entity.getMountedEntity().getBodyRotation() : Position.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
-                entity.setHeadRotation(entity instanceof PlayerEntity && entity.getMountedEntity() != null ? entity.getMountedEntity().getBodyRotation() : entity.getBodyRotation());
+                entity.setBodyRotation(Position.calculateRotation(currentPos.getX(), currentPos.getY(), nextSq.x, nextSq.y, entity.isMoonwalking()));
+                entity.setHeadRotation(entity.getBodyRotation());
 
                 final double mountHeight = entity instanceof PlayerEntity && entity.getMountedEntity() != null ? 1.0 : 0;//(entity.getMountedEntity() != null) ? (((String) entity.getAttribute("transform")).startsWith("15 ") ? 1.0 : 0.5) : 0;
 
@@ -448,7 +460,7 @@ public class ProcessComponent implements CometTask {
 
                     GenericEntity entityOnTile = this.getRoom().getMapping().getTile(nextPos.getX(), nextPos.getY()).getEntity();
 
-                    if(entityOnTile != null && entityOnTile.getMountedEntity() != null && entityOnTile.getMountedEntity() == entity) {
+                    if (entityOnTile != null && entityOnTile.getMountedEntity() != null && entityOnTile.getMountedEntity() == entity) {
                         isCancelled = false;
                     }
                 }
@@ -456,21 +468,20 @@ public class ProcessComponent implements CometTask {
                 if (!isCancelled) {
                     entity.addStatus(RoomEntityStatus.MOVE, String.valueOf(nextSq.x).concat(",").concat(String.valueOf(nextSq.y)).concat(",").concat(String.valueOf(height)));
 
-                    if (entity.hasStatus(RoomEntityStatus.SIT)) {
-                        entity.removeStatus(RoomEntityStatus.SIT);
-                    }
-
-                    if (entity.hasStatus(RoomEntityStatus.LAY)) {
-                        entity.removeStatus(RoomEntityStatus.LAY);
-                    }
+                    entity.removeStatus(RoomEntityStatus.SIT);
+                    entity.removeStatus(RoomEntityStatus.LAY);
 
                     final Position newPosition = new Position(nextSq.x, nextSq.y, height);
                     entity.updateAndSetPosition(newPosition);
                     entity.markNeedsUpdate();
 
-                    if (tile != null) {
-                        tile.getEntities().add(entity);
+                    if (entity instanceof PlayerEntity && entity.getMountedEntity() != null) {
+                        GenericEntity mountedEntity = entity.getMountedEntity();
+
+                        mountedEntity.moveTo(newPosition.getX(), newPosition.getY());
                     }
+
+                    tile.getEntities().add(entity);
                 } else {
                     if (entity.getWalkingPath() != null) {
                         entity.getWalkingPath().clear();

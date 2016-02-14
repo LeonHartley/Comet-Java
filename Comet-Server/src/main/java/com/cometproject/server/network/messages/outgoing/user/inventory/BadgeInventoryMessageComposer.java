@@ -4,7 +4,6 @@ import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +13,7 @@ public class BadgeInventoryMessageComposer extends MessageComposer {
     private final Map<String, Integer> badges;
 
     public BadgeInventoryMessageComposer(final Map<String, Integer> badges) {
-        this.badges = Collections.unmodifiableMap(badges);
+        this.badges = badges;
     }
 
     @Override
@@ -30,7 +29,7 @@ public class BadgeInventoryMessageComposer extends MessageComposer {
 
         badges.forEach((badge, slot) -> {
             if (slot > 0) {
-                activeBadges.put(badge,slot);
+                activeBadges.put(badge, slot);
             }
 
             msg.writeInt(0);
@@ -39,10 +38,10 @@ public class BadgeInventoryMessageComposer extends MessageComposer {
 
         msg.writeInt(activeBadges.size());
 
-        for (Map.Entry<String, Integer> badge : activeBadges.entrySet()) {
-            msg.writeInt(badge.getValue());
-            msg.writeString(badge.getKey());
-        }
+        activeBadges.forEach((k, v) -> {
+            msg.writeInt(v);
+            msg.writeString(k);
+        });
 
         activeBadges.clear();
     }
