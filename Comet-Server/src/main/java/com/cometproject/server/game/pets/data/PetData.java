@@ -30,6 +30,8 @@ public class PetData {
     private boolean anyRider = false;
     private boolean saddled = false;
 
+    private int birthday;
+
     private Position roomPosition;
 
     public PetData(ResultSet data) throws SQLException {
@@ -47,6 +49,7 @@ public class PetData {
         this.hair = data.getInt("hair_style");
         this.hairDye = data.getInt("hair_colour");
         this.anyRider = data.getBoolean("any_rider");
+        this.birthday = data.getInt("birthday");
 
         this.roomPosition = new Position(data.getInt("x"), data.getInt("y"));
     }
@@ -70,7 +73,7 @@ public class PetData {
     }
 
     public void saveHorseData() {
-        PetDao.saveHorseData(this.getId(), this.isSaddled(), this.hair, this.hairDye, this.anyRider);
+        PetDao.saveHorseData(this.getId(), this.isSaddled(), this.hair, this.hairDye, this.anyRider, this.raceId);
     }
 
     public void increaseExperience(int amount) {
@@ -130,7 +133,7 @@ public class PetData {
     }
 
     public int getHairDye() {
-        return 2;
+        return this.hairDye;
     }
 
     public int getHair() {
@@ -179,5 +182,17 @@ public class PetData {
 
     public int getScratches() {
         return scratches;
+    }
+
+    public void setRaceId(int raceId) {
+        this.raceId = raceId;
+    }
+
+    public int getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(int birthday) {
+        this.birthday = birthday;
     }
 }

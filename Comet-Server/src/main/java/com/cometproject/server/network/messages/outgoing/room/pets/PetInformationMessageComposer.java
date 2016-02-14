@@ -51,7 +51,6 @@ public class PetInformationMessageComposer extends MessageComposer {
             msg.writeBoolean(this.petEntity.getData().isSaddled()); // HAS_SADDLE
             msg.writeBoolean(this.petEntity.hasMount()); // HAS_RIDER
             msg.writeInt(0);
-
             msg.writeInt(this.petEntity.getData().isAnyRider() ? 1 : 0); // yes = 1 no = 0
             msg.writeBoolean(false);
             msg.writeBoolean(true);

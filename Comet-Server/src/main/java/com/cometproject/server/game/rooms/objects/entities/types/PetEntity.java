@@ -98,7 +98,7 @@ public class PetEntity extends GenericEntity {
         String composer = data.getLook().toLowerCase() + " ";
 
         if (this.getData().getTypeId() == 15) {
-            composer += new StringBuilder().append(this.getData().isSaddled() ? "3" : "2").append(" 2 ").append(this.getData().getHair()).append(" ").append(this.getData().getHairDye()).append(" 3 ").append(this.getData().getHair()).append(" ").append(this.getData().getHairDye()).append(this.getData().isSaddled() ? " 4 9 0" : "").toString();
+            composer += new StringBuilder().append(this.getData().isSaddled() ? "3" : "2").append(" 2 ").append(this.getData().getHair()).append(" ").append(this.getData().getHairDye()).append(" 3 ").append(this.getData().getHair()).append(" ").append(this.getData().getHairDye()).append(this.getData().isSaddled() ? "0 4 9 0"/*"0 4 9 0"*/ : "").toString();
         } else {
             composer += "2 2 -1 0 3 -1 0";
         }

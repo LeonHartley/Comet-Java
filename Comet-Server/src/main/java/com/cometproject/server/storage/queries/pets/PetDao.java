@@ -1,5 +1,6 @@
 package com.cometproject.server.storage.queries.pets;
 
+import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.pets.data.PetData;
 import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.pets.data.PetMessageType;
@@ -153,7 +154,7 @@ public class PetDao {
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("INSERT INTO `pet_data` (`owner_id`, `pet_name`, `type`, `race_id`, `colour`, `scratches`, `level`, `happiness`, `experience`, `energy`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", sqlConnection, true);
+            preparedStatement = SqlHelper.prepare("INSERT INTO `pet_data` (`owner_id`, `pet_name`, `type`, `race_id`, `colour`, `scratches`, `level`, `happiness`, `experience`, `energy`, `birthday`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", sqlConnection, true);
 
             preparedStatement.setInt(1, ownerId);
             preparedStatement.setString(2, petName);
@@ -165,6 +166,7 @@ public class PetDao {
             preparedStatement.setInt(8, StaticPetProperties.DEFAULT_HAPPINESS);
             preparedStatement.setInt(9, StaticPetProperties.DEFAULT_EXPERIENCE);
             preparedStatement.setInt(10, StaticPetProperties.DEFAULT_ENERGY);
+            preparedStatement.setInt(11, (int) Comet.getTime());
 
             preparedStatement.execute();
 
@@ -250,21 +252,22 @@ public class PetDao {
         }
     }
 
-    public static void saveHorseData(int id, boolean saddled, int hair, int hairDye, boolean anyRider) {
+    public static void saveHorseData(int id, boolean saddled, int hair, int hairDye, boolean anyRider, int raceId) {
         Connection sqlConnection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             sqlConnection = SqlHelper.getConnection();
 
-            preparedStatement = SqlHelper.prepare("UPDATE pet_data SET saddled = ?, hair_style = ?, hair_colour = ?, any_rider = ? WHERE id = ?", sqlConnection);
+            preparedStatement = SqlHelper.prepare("UPDATE pet_data SET saddled = ?, hair_style = ?, hair_colour = ?, any_rider = ?, race_id = ? WHERE id = ?", sqlConnection);
 
             preparedStatement.setString(1, saddled ? "true" : "false");
             preparedStatement.setInt(2, hair);
             preparedStatement.setInt(3, hairDye);
             preparedStatement.setString(4, anyRider ? "true" : "false");
+            preparedStatement.setInt(5, raceId);
 
-            preparedStatement.setInt(5, id);
+            preparedStatement.setInt(6, id);
 
             SqlHelper.executeStatementSilently(preparedStatement, false);
         } catch (SQLException e) {

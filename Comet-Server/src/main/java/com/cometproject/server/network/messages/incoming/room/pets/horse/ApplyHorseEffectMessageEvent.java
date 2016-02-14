@@ -15,28 +15,42 @@ public class ApplyHorseEffectMessageEvent implements Event {
         final int itemId = msg.readInt();
         final int petId = msg.readInt();
 
-        if(client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
+        if (client.getPlayer().getEntity() == null || client.getPlayer().getEntity().getRoom() == null) {
             return;
         }
 
         final Room room = client.getPlayer().getEntity().getRoom();
-        RoomItemFloor saddleItem = room.getItems().getFloorItem(ItemManager.getInstance().getItemIdByVirtualId(itemId));
+        RoomItemFloor effectItem = room.getItems().getFloorItem(ItemManager.getInstance().getItemIdByVirtualId(itemId));
 
-        if(saddleItem == null) {
+        if (effectItem == null) {
             return;
         }
 
         PetEntity petEntity = room.getEntities().getEntityByPetId(petId);
 
-        if(petEntity == null || petEntity.getData().getOwnerId() != client.getPlayer().getId()) {
+        if (petEntity == null || petEntity.getData().getOwnerId() != client.getPlayer().getId() || effectItem.getOwner() != client.getPlayer().getId()) {
             return;
         }
 
-        petEntity.getData().setSaddled(true);
+        if(effectItem.getDefinition().getItemName().contains("saddle")) {
+            petEntity.getData().setSaddled(true);
+        } else if(effectItem.getDefinition().getItemName().startsWith("horse_dye")) {
+            int race = Integer.valueOf(effectItem.getDefinition().getItemName().split("_")[2]);
+            int raceType = race * 4 - 2;
+            if (race >= 13 && race <= 16) {
+                raceType = (2 + race) * 4 + 1;
+            }
+
+            petEntity.getData().setRaceId(raceType);
+        } else if(effectItem.getDefinition().getItemName().startsWith("horse_hairdye")) {
+            petEntity.getData().setHairDye(48 + Integer.parseInt(effectItem.getDefinition().getItemName().split("_")[2]));
+        } else if(effectItem.getDefinition().getItemName().startsWith("horse_hairstyle")) {
+            petEntity.getData().setHair(100 + Integer.parseInt(effectItem.getDefinition().getItemName().split("_")[2]));
+        }
+
         petEntity.getData().saveHorseData();
-
+        petEntity.markNeedsUpdate();
         room.getEntities().broadcastMessage(new HorseFigureMessageComposer(petEntity));
-
-        room.getItems().removeItem(saddleItem, client, false, true);
+        room.getItems().removeItem(effectItem, client, false, true);
     }
 }

@@ -68,6 +68,7 @@ import com.cometproject.server.network.messages.incoming.room.item.wired.UpdateS
 import com.cometproject.server.network.messages.incoming.room.moderation.*;
 import com.cometproject.server.network.messages.incoming.room.pets.*;
 import com.cometproject.server.network.messages.incoming.room.pets.horse.ApplyHorseEffectMessageEvent;
+import com.cometproject.server.network.messages.incoming.room.pets.horse.ModifyWhoCanRideHorseMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.horse.RemoveHorseSaddleMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.pets.horse.RideHorseMessageEvent;
 import com.cometproject.server.network.messages.incoming.room.settings.*;
@@ -269,6 +270,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.GetPetTrainingPanelMessageEvent, new GetPetTrainingPanelMessageEvent());
         this.getMessages().put(Events.ApplyHorseEffectMessageEvent, new ApplyHorseEffectMessageEvent());
         this.getMessages().put(Events.RemoveHorseSaddleMessageEvent, new RemoveHorseSaddleMessageEvent());
+        this.getMessages().put(Events.ModifyWhoCanRideHorseMessageEvent, new ModifyWhoCanRideHorseMessageEvent());
     }
 
     public void registerRoom() {

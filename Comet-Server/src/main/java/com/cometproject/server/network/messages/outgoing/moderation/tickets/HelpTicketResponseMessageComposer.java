@@ -20,5 +20,6 @@ public class HelpTicketResponseMessageComposer extends MessageComposer {
     @Override
     public void compose(IComposer msg) {
         msg.writeInt(this.response);
+        msg.writeString("");
     }
 }
