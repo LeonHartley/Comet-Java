@@ -45,10 +45,6 @@ public class WalkMessageEvent implements Event {
 
             if (entity.canWalk() && !entity.isOverriden() && entity.isVisible()) {
                 entity.moveTo(goalX, goalY);
-
-                if (entity.getMountedEntity() != null) {
-//                    entity.getMountedEntity().moveTo(goalX, goalY);
-                }
             }
         } catch (Exception e) {
             client.getLogger().error("Error while finding path", e);

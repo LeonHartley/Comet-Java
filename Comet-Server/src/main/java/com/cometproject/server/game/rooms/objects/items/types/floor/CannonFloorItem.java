@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -22,7 +22,7 @@ public class CannonFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         if (!isWiredTrigger) {
             double distance = entity.getPosition().distanceTo(this.getPosition());
 
@@ -59,7 +59,7 @@ public class CannonFloorItem extends RoomItemFloor {
             kickTile = this.getPosition().squareInFront(rotationToFindTile);
         }
 
-        for (GenericEntity kickableEntity : this.getRoom().getMapping().getTile(kickTile).getEntities()) {
+        for (RoomEntity kickableEntity : this.getRoom().getMapping().getTile(kickTile).getEntities()) {
             if (kickableEntity instanceof PlayerEntity) {
                 if (((PlayerEntity) kickableEntity).getPlayerId() != this.getRoom().getData().getOwnerId() && ((PlayerEntity) kickableEntity).getPlayer().getPermissions().getRank().roomKickable()) {
                     ((PlayerEntity) kickableEntity).getPlayer().getSession().send(new AdvancedAlertMessageComposer("Alert", Locale.getOrDefault("game.kicked", "You've been kicked!"), "room_kick_cannonball"));

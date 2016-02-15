@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.types.mapping;
 
 import com.cometproject.server.game.rooms.models.RoomModel;
 import com.cometproject.server.game.rooms.objects.RoomFloorObject;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -63,12 +63,12 @@ public class RoomMapping {
         // clear out the entity grid
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[x].length; y++) {
-                List<GenericEntity> entitiesToRemove = new ArrayList<>();
+                List<RoomEntity> entitiesToRemove = new ArrayList<>();
 
                 try {
                     RoomTile tile = this.tiles[x][y];
 
-                    for (GenericEntity entity : tile.getEntities()) {
+                    for (RoomEntity entity : tile.getEntities()) {
                         if (entity instanceof PlayerEntity) {
                             if (((PlayerEntity) entity).getPlayer() == null) {
                                 entitiesToRemove.add(entity);
@@ -76,7 +76,7 @@ public class RoomMapping {
                         }
                     }
 
-                    for (GenericEntity entityToRemove : entitiesToRemove) {
+                    for (RoomEntity entityToRemove : entitiesToRemove) {
                         tile.getEntities().remove(entityToRemove);
                     }
                 } catch (Exception e) {
@@ -139,8 +139,7 @@ public class RoomMapping {
         if (entityId == null || entityId == -1)
             return false;
 
-
-        for (GenericEntity entity : this.room.getEntities().getEntitiesAt(position)) {
+        for (RoomEntity entity : this.room.getEntities().getEntitiesAt(position)) {
             entitySize++;
 
             if (entity.getMountedEntity() != null) {
@@ -154,7 +153,7 @@ public class RoomMapping {
 //                    return false;
 //                }
 //            } else if(entity instanceof PlayerEntity) {
-//                GenericEntity myEntity = this.getRoom().getEntities().getEntity(entityId);
+//                RoomEntity myEntity = this.getRoom().getEntities().getEntity(entityId);
 //
 //                if(myEntity != null) {
 //                    if (myEntity.getMountedEntity() != null && myEntity.getMountedEntity() == entity)) {
@@ -177,7 +176,7 @@ public class RoomMapping {
         return (height0 - height1) <= 1.5;
     }
 
-    public boolean isValidEntityStep(GenericEntity entity, Position currentPosition, Position toPosition, boolean isFinalMove) {
+    public boolean isValidEntityStep(RoomEntity entity, Position currentPosition, Position toPosition, boolean isFinalMove) {
 
         if (entity != null)
             return isValidStep(entity.getId(), currentPosition, toPosition, isFinalMove, false);

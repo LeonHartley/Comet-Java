@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.football;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
@@ -19,7 +19,7 @@ public class FootballGateFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         if (!(entity instanceof PlayerEntity))
             return;
 

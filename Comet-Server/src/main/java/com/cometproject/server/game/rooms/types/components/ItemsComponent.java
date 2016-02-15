@@ -4,11 +4,11 @@ import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.rares.LimitedEditionItem;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.storage.queue.types.ItemStorageQueue;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -271,12 +271,12 @@ public class ItemsComponent {
     }
 
     public void removeItem(RoomItemFloor item, Session client, boolean toInventory, boolean delete) {
-        List<GenericEntity> affectEntities = room.getEntities().getEntitiesAt(item.getPosition());
+        List<RoomEntity> affectEntities = room.getEntities().getEntitiesAt(item.getPosition());
         List<Position> tilesToUpdate = new ArrayList<>();
 
         tilesToUpdate.add(new Position(item.getPosition().getX(), item.getPosition().getY(), 0d));
 
-        for (GenericEntity entity : affectEntities) {
+        for (RoomEntity entity : affectEntities) {
             item.onEntityStepOff(entity);
         }
 
@@ -287,10 +287,10 @@ public class ItemsComponent {
         }
 
         for (AffectedTile tile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation())) {
-            List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(new Position(tile.x, tile.y));
+            List<RoomEntity> affectEntities0 = room.getEntities().getEntitiesAt(new Position(tile.x, tile.y));
             tilesToUpdate.add(new Position(tile.x, tile.y, 0d));
 
-            for (GenericEntity entity0 : affectEntities0) {
+            for (RoomEntity entity0 : affectEntities0) {
                 item.onEntityStepOff(entity0);
             }
         }
@@ -360,9 +360,9 @@ public class ItemsComponent {
 
         item.onPositionChanged(newPosition);
 
-        List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(item.getPosition());
+        List<RoomEntity> affectEntities0 = room.getEntities().getEntitiesAt(item.getPosition());
 
-        for (GenericEntity entity0 : affectEntities0) {
+        for (RoomEntity entity0 : affectEntities0) {
             item.onEntityStepOff(entity0);
         }
 
@@ -376,9 +376,9 @@ public class ItemsComponent {
             for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), item.getPosition().getX(), item.getPosition().getY(), item.getRotation())) {
                 tilesToUpdate.add(new Position(affectedTile.x, affectedTile.y));
 
-                List<GenericEntity> affectEntities1 = room.getEntities().getEntitiesAt(new Position(affectedTile.x, affectedTile.y));
+                List<RoomEntity> affectEntities1 = room.getEntities().getEntitiesAt(new Position(affectedTile.x, affectedTile.y));
 
-                for (GenericEntity entity1 : affectEntities1) {
+                for (RoomEntity entity1 : affectEntities1) {
                     item.onEntityStepOff(entity1);
                 }
             }
@@ -386,9 +386,9 @@ public class ItemsComponent {
             for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), newPosition.getX(), newPosition.getY(), rotation)) {
                 tilesToUpdate.add(new Position(affectedTile.x, affectedTile.y));
 
-                List<GenericEntity> affectEntities2 = room.getEntities().getEntitiesAt(new Position(affectedTile.x, affectedTile.y));
+                List<RoomEntity> affectEntities2 = room.getEntities().getEntitiesAt(new Position(affectedTile.x, affectedTile.y));
 
-                for (GenericEntity entity2 : affectEntities2) {
+                for (RoomEntity entity2 : affectEntities2) {
                     item.onEntityStepOn(entity2);
                 }
             }
@@ -402,9 +402,9 @@ public class ItemsComponent {
         item.getPosition().setZ(height);
         item.setRotation(rotation);
 
-        List<GenericEntity> affectEntities3 = room.getEntities().getEntitiesAt(newPosition);
+        List<RoomEntity> affectEntities3 = room.getEntities().getEntitiesAt(newPosition);
 
-        for (GenericEntity entity3 : affectEntities3) {
+        for (RoomEntity entity3 : affectEntities3) {
             item.onEntityStepOn(entity3);
         }
 
@@ -549,9 +549,9 @@ public class ItemsComponent {
         for (AffectedTile affTile : AffectedTile.getAffectedBothTilesAt(item.getDefinition().getLength(), item.getDefinition().getWidth(), floorItem.getPosition().getX(), floorItem.getPosition().getY(), floorItem.getRotation())) {
             tilesToUpdate.add(new Position(affTile.x, affTile.y, 0d));
 
-            List<GenericEntity> affectEntities0 = room.getEntities().getEntitiesAt(new Position(affTile.x, affTile.y));
+            List<RoomEntity> affectEntities0 = room.getEntities().getEntitiesAt(new Position(affTile.x, affTile.y));
 
-            for (GenericEntity entity0 : affectEntities0) {
+            for (RoomEntity entity0 : affectEntities0) {
                 floorItem.onEntityStepOn(entity0);
             }
         }

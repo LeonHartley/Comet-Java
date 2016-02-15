@@ -27,25 +27,31 @@ public class HorseFigureMessageComposer extends MessageComposer {
         msg.writeString(this.petEntity.getData().getColour());
 
         if(this.petEntity.getData().isSaddled()) {
-            msg.writeInt(2);
+            msg.writeInt(4);
             msg.writeInt(3);
+            msg.writeInt(3);
+
+            msg.writeInt(this.petEntity.getData().getHair());
+            msg.writeInt(this.petEntity.getData().getHairDye());
+            msg.writeInt(2);
+            msg.writeInt(this.petEntity.getData().getHair());
+            msg.writeInt(this.petEntity.getData().getHairDye());
             msg.writeInt(4);
             msg.writeInt(9);
             msg.writeInt(0);
-            msg.writeInt(3);
         } else {
             msg.writeInt(1);
             msg.writeInt(2);
             msg.writeInt(2);
+
+            msg.writeInt(this.petEntity.getData().getHair());
+            msg.writeInt(this.petEntity.getData().getHairDye());
+            msg.writeInt(3);
+            msg.writeInt(this.petEntity.getData().getHair());
+            msg.writeInt(this.petEntity.getData().getHairDye());
         }
 
-        msg.writeInt(this.petEntity.getData().getHair());
-        msg.writeInt(this.petEntity.getData().getHairDye());
-        msg.writeInt(3);
-        msg.writeInt(this.petEntity.getData().getHair());
-        msg.writeInt(this.petEntity.getData().getHairDye());
-
         msg.writeBoolean(this.petEntity.getData().isSaddled());
-        msg.writeBoolean(false);
+        msg.writeBoolean(this.petEntity.getMountedEntity() != null);
     }
 }

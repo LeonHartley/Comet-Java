@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.types.components.games.banzai;
 
 import com.cometproject.server.game.achievements.types.AchievementType;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -41,7 +41,7 @@ public class BanzaiGame extends RoomGame {
             item.sendUpdate();
         }
 
-        for (GenericEntity entity : this.room.getEntities().getAllEntities().values()) {
+        for (RoomEntity entity : this.room.getEntities().getAllEntities().values()) {
             if (entity.getEntityType().equals(RoomEntityType.PLAYER)) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 
@@ -105,7 +105,7 @@ public class BanzaiGame extends RoomGame {
             }
         }
 
-        for (GenericEntity entity : this.room.getEntities().getAllEntities().values()) {
+        for (RoomEntity entity : this.room.getEntities().getAllEntities().values()) {
             if (entity.getEntityType().equals(RoomEntityType.PLAYER)) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 

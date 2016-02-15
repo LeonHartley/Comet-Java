@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.groups;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -22,7 +22,7 @@ public class GroupFloorItem extends RoomItemFloor {
     }
 
 
-    public void onEntityStepOn(GenericEntity entity, boolean instantUpdate) {
+    public void onEntityStepOn(RoomEntity entity, boolean instantUpdate) {
         if (!this.getDefinition().canSit()) return;
 
         double height = (entity instanceof PetEntity || entity.hasAttribute("transformation")) ? this.getSitHeight() / 2 : this.getSitHeight();
@@ -38,12 +38,12 @@ public class GroupFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         this.onEntityStepOn(entity, false);
     }
 
     @Override
-    public void onEntityStepOff(GenericEntity entity) {
+    public void onEntityStepOff(RoomEntity entity) {
         if (entity.hasStatus(RoomEntityStatus.SIT)) {
             entity.removeStatus(RoomEntityStatus.SIT);
         }

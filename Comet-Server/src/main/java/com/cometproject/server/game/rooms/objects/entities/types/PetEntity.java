@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.objects.entities.types;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.pets.data.PetData;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.BotAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.pets.PetAI;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-public class PetEntity extends GenericEntity {
+public class PetEntity extends RoomEntity {
     private PetData data;
     private PetAI ai;
 
@@ -98,7 +98,7 @@ public class PetEntity extends GenericEntity {
         String composer = data.getLook().toLowerCase() + " ";
 
         if (this.getData().getTypeId() == 15) {
-            composer += new StringBuilder().append(this.getData().isSaddled() ? "3" : "2").append(" 2 ").append(this.getData().getHair()).append(" ").append(this.getData().getHairDye()).append(" 3 ").append(this.getData().getHair()).append(" ").append(this.getData().getHairDye()).append(this.getData().isSaddled() ? "0 4 9 0"/*"0 4 9 0"*/ : "").toString();
+            composer += new StringBuilder().append(this.getData().isSaddled() ? "3" : "2").append(" 2 ").append(this.getData().getHair()).append(" ").append(this.getData().getHairDye()).append(" 3 ").append(this.getData().getHair()).append(" ").append(this.getData().getHairDye()).append(this.getData().isSaddled() ? "0 4 9 0" : "").toString();
         } else {
             composer += "2 2 -1 0 3 -1 0";
         }

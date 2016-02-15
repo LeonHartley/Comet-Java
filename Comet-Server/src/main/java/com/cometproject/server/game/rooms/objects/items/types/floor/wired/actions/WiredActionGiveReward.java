@@ -8,7 +8,7 @@ import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.components.types.inventory.InventoryItem;
 import com.cometproject.server.game.players.data.PlayerData;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -95,7 +95,7 @@ public class WiredActionGiveReward extends WiredActionItem {
     }
 
     @Override
-    public boolean evaluate(GenericEntity entity, Object data) {
+    public boolean evaluate(RoomEntity entity, Object data) {
         if (this.getWiredData().getParams().size() != 4 || !(entity instanceof PlayerEntity) || this.rewards.size() == 0) {
             return false;
         }

@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
@@ -39,7 +39,7 @@ public class WiredActionKickUser extends WiredActionShowMessage {
     }
 
     @Override
-    public boolean evaluate(GenericEntity entity, Object data) {
+    public boolean evaluate(RoomEntity entity, Object data) {
         if (!(entity instanceof PlayerEntity)) {
             return false;
         }

@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.groups;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.UpdateFloorItemMessageComposer;
@@ -12,13 +12,13 @@ public class GroupGateFloorItem extends GroupFloorItem {
     }
 
     @Override
-    public void onEntityPreStepOn(GenericEntity entity) {
+    public void onEntityPreStepOn(RoomEntity entity) {
         this.setExtraData("1");
         this.sendUpdate();
     }
 
     @Override
-    public void onEntityStepOff(GenericEntity entity) {
+    public void onEntityStepOff(RoomEntity entity) {
         this.setTicks(RoomItemFactory.getProcessTime(0.5));
     }
 

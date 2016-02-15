@@ -16,7 +16,7 @@ import com.cometproject.server.game.players.types.Player;
 import com.cometproject.server.game.quests.types.QuestType;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.RoomQueue;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.PlayerEntityAccess;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -55,7 +55,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, Attributable, IPlayerEntity {
+public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attributable, IPlayerEntity {
     private static final Logger log = Logger.getLogger(PlayerEntity.class.getName());
     private Player player;
     private PlayerData playerData;
@@ -443,7 +443,7 @@ public class PlayerEntity extends GenericEntity implements PlayerEntityAccess, A
     }
 
     public void postChat(String message) {
-        for (Map.Entry<Integer, GenericEntity> entity : this.getRoom().getEntities().getAllEntities().entrySet()) {
+        for (Map.Entry<Integer, RoomEntity> entity : this.getRoom().getEntities().getAllEntities().entrySet()) {
             if (entity.getValue().getAI() != null)
                 entity.getValue().getAI().onTalk(this, message);
         }

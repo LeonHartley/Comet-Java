@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.totem;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.game.rooms.types.Room;
@@ -16,7 +16,7 @@ public abstract class TotemPartFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         if (this.isComplete()) {
             // find combinations then give the effect depending on it!
         } else {

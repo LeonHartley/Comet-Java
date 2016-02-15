@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types;
 
 import com.cometproject.server.game.quests.types.QuestType;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
@@ -13,7 +13,7 @@ public class GenericFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         if (!isWiredTrigger) {
             if (!(entity instanceof PlayerEntity)) {
                 return false;
@@ -41,7 +41,7 @@ public class GenericFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         if (entity instanceof PlayerEntity) {
             try {
                 ((PlayerEntity) entity).getPlayer().getQuests().progressQuest(QuestType.EXPLORE_FIND_ITEM, this.getDefinition().getSpriteId());

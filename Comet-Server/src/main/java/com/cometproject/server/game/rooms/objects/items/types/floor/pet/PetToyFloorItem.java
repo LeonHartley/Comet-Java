@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.pet;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.items.types.GenericFloorItem;
@@ -12,7 +12,7 @@ public class PetToyFloorItem extends GenericFloorItem {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         if(!(entity instanceof PetEntity)) {
             return;
         }
@@ -26,7 +26,7 @@ public class PetToyFloorItem extends GenericFloorItem {
     }
 
     @Override
-    public void onEntityStepOff(GenericEntity entity) {
+    public void onEntityStepOff(RoomEntity entity) {
         if(!(entity instanceof PetEntity)) {
             return;
         }

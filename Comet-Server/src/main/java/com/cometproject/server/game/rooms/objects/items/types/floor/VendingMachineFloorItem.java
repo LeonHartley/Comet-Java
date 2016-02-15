@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -10,7 +10,7 @@ import com.cometproject.server.utilities.RandomInteger;
 
 
 public class VendingMachineFloorItem extends RoomItemFloor {
-    private GenericEntity vendingEntity;
+    private RoomEntity vendingEntity;
     private int state = -1;
 
     public VendingMachineFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
@@ -18,7 +18,7 @@ public class VendingMachineFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         if (isWiredTrigger || entity == null) return false;
 
         Position posInFront = this.getPosition().squareInFront(this.getRotation());

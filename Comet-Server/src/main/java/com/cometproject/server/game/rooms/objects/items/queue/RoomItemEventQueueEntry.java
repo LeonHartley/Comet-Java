@@ -1,12 +1,12 @@
 package com.cometproject.server.game.rooms.objects.items.queue;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 
 
 public class RoomItemEventQueueEntry {
     private final RoomItem item;
-    private final GenericEntity entity;
+    private final RoomEntity entity;
 
     private final RoomItemEventType type;
 
@@ -24,7 +24,7 @@ public class RoomItemEventQueueEntry {
         this.isWiredTrigger = false;
     }
 
-    public RoomItemEventQueueEntry(RoomItem item, GenericEntity entity, RoomItemEventType type) {
+    public RoomItemEventQueueEntry(RoomItem item, RoomEntity entity, RoomItemEventType type) {
         this.item = item;
         this.entity = entity;
 
@@ -34,7 +34,7 @@ public class RoomItemEventQueueEntry {
         this.isWiredTrigger = false;
     }
 
-    public RoomItemEventQueueEntry(RoomItem item, GenericEntity entity, RoomItemEventType type, int requestData, boolean isWiredTrigger) {
+    public RoomItemEventQueueEntry(RoomItem item, RoomEntity entity, RoomItemEventType type, int requestData, boolean isWiredTrigger) {
         this.item = item;
         this.entity = entity;
 
@@ -48,7 +48,7 @@ public class RoomItemEventQueueEntry {
         return item;
     }
 
-    public GenericEntity getEntity() {
+    public RoomEntity getEntity() {
         return entity;
     }
 

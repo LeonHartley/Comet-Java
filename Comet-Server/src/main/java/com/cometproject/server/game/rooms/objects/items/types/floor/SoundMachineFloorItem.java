@@ -4,7 +4,7 @@ import com.cometproject.server.boot.Comet;
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.music.MusicData;
 import com.cometproject.server.game.items.music.SongItem;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -50,7 +50,7 @@ public class SoundMachineFloorItem extends RoomItemFloor implements Stateable {
     }
 
     @Override
-    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         if (entity instanceof PlayerEntity) {
             if (((PlayerEntity) entity).getPlayerId() != this.getRoom().getData().getOwnerId() && !((PlayerEntity) entity).getPlayer().getPermissions().getRank().roomFullControl()) {
                 return false;

@@ -1,8 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities.pathfinding.types;
 
-import com.cometproject.server.game.rooms.objects.RoomFloorObject;
 import com.cometproject.server.game.rooms.objects.RoomObject;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Pathfinder;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions.WiredActionChase;
@@ -80,7 +79,7 @@ public class ItemPathfinder extends Pathfinder {
             int target = ((WiredActionChase) roomFloorObject).getTargetId();
 
             if (target != -1) {
-                for (GenericEntity entity : tile.getEntities()) {
+                for (RoomEntity entity : tile.getEntities()) {
                     if (entity.getId() != target) {
                         return false;
                     }
@@ -89,7 +88,7 @@ public class ItemPathfinder extends Pathfinder {
         }
 
         if (roomFloorObject instanceof RollableFloorItem) {
-            for (GenericEntity entity : tile.getEntities()) {
+            for (RoomEntity entity : tile.getEntities()) {
                 return false;
             }
         }

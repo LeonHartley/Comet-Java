@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.types.Room;
 
@@ -33,7 +33,7 @@ public class WiredActionComet extends WiredActionItem {
     }
 
     @Override
-    public boolean evaluate(GenericEntity entity, Object data) {
+    public boolean evaluate(RoomEntity entity, Object data) {
         return false;
     }
 }

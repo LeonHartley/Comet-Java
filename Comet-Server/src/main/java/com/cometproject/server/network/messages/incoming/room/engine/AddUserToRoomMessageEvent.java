@@ -4,7 +4,8 @@ import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.GroupData;
 import com.cometproject.server.game.polls.PollManager;
 import com.cometproject.server.game.polls.types.Poll;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
+import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerEnterRoom;
 import com.cometproject.server.game.rooms.types.Room;
@@ -16,6 +17,7 @@ import com.cometproject.server.network.messages.outgoing.room.engine.RoomEntryDa
 import com.cometproject.server.network.messages.outgoing.room.items.FloorItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.items.WallItemsMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.FloodFilterMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.pets.horse.HorseFigureMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.polls.InitializePollMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.settings.ConfigureWallAndFloorMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -78,7 +80,7 @@ public class AddUserToRoomMessageEvent implements Event {
         if (room.getEntities().getAllEntities().size() > 0)
             client.sendQueue(new AvatarUpdateMessageComposer(room.getEntities().getAllEntities().values()));
 
-        for (GenericEntity av : room.getEntities().getAllEntities().values()) {
+        for (RoomEntity av : room.getEntities().getAllEntities().values()) {
             if (av.getCurrentEffect() != null) {
                 client.sendQueue(new ApplyEffectMessageComposer(av.getId(), av.getCurrentEffect().getEffectId()));
             }
@@ -114,8 +116,12 @@ public class AddUserToRoomMessageEvent implements Event {
 
         client.flush();
 
-        for (GenericEntity entity : room.getEntities().getAllEntities().values()) {
+        for (RoomEntity entity : room.getEntities().getAllEntities().values()) {
             if (entity.getAI() != null) {
+                if(entity instanceof PetEntity && ((PetEntity) entity).getData().getTypeId() == 15) {
+                    client.send(new HorseFigureMessageComposer(((PetEntity) entity)));
+                }
+
                 entity.getAI().onPlayerEnter(client.getPlayer().getEntity());
             }
         }

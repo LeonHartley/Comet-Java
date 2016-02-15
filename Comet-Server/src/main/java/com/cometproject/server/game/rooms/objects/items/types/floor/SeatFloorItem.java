@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -16,7 +16,7 @@ public class SeatFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         if (!isWiredTrigger) {
             if (!(entity instanceof PlayerEntity)) {
                 return false;
@@ -34,7 +34,7 @@ public class SeatFloorItem extends RoomItemFloor {
         this.sendUpdate();
 
         if (this instanceof AdjustableHeightSeatFloorItem) {
-            for (GenericEntity sitter : this.getEntitiesOnItem()) {
+            for (RoomEntity sitter : this.getEntitiesOnItem()) {
                 this.onEntityStepOn(sitter, true);
             }
         }
@@ -43,7 +43,7 @@ public class SeatFloorItem extends RoomItemFloor {
         return true;
     }
 
-    public void onEntityStepOn(GenericEntity entity, boolean instantUpdate) {
+    public void onEntityStepOn(RoomEntity entity, boolean instantUpdate) {
         double height = (entity instanceof PetEntity || entity.hasAttribute("transformation")) ? this.getSitHeight() / 2 : this.getSitHeight();
 
         entity.setBodyRotation(this.getRotation());
@@ -57,12 +57,12 @@ public class SeatFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         this.onEntityStepOn(entity, false);
     }
 
     @Override
-    public void onEntityStepOff(GenericEntity entity) {
+    public void onEntityStepOff(RoomEntity entity) {
         if (entity.hasStatus(RoomEntityStatus.SIT)) {
             entity.removeStatus(RoomEntityStatus.SIT);
         }

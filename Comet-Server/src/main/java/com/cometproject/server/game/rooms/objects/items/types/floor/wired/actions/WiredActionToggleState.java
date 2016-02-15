@@ -1,10 +1,9 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.actions;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.DiceFloorItem;
-import com.cometproject.server.game.rooms.objects.items.types.floor.banzai.BanzaiTimerFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -43,7 +42,7 @@ public class WiredActionToggleState extends WiredActionItem {
     }
 
     @Override
-    public boolean evaluate(GenericEntity entity, Object data) {
+    public boolean evaluate(RoomEntity entity, Object data) {
         if(this.hasTicks()) {
             // we're busy, try again later.
             return false;

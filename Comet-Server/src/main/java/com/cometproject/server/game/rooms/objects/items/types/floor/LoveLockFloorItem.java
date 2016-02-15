@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -18,7 +18,7 @@ public class LoveLockFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         if (isWiredTrigger || entity == null) {
             return false;
         }
@@ -54,8 +54,8 @@ public class LoveLockFloorItem extends RoomItemFloor {
         if (leftTile == null || rightTile == null || leftTile.getEntities().size() != 1 || rightTile.getEntities().size() != 1)
             return false;
 
-        GenericEntity leftEntity = leftTile.getEntity();
-        GenericEntity rightEntity = rightTile.getEntity();
+        RoomEntity leftEntity = leftTile.getEntity();
+        RoomEntity rightEntity = rightTile.getEntity();
 
         if (leftEntity.getEntityType() != RoomEntityType.PLAYER || rightEntity.getEntityType() != RoomEntityType.PLAYER)
             return false;

@@ -3,7 +3,7 @@ package com.cometproject.server.network.messages.incoming.room.action;
 import com.cometproject.server.config.Locale;
 import com.cometproject.server.game.rooms.RoomManager;
 import com.cometproject.server.game.rooms.filter.FilterResult;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
@@ -33,7 +33,7 @@ public class WhisperMessageEvent implements Event {
 
         final Room room = client.getPlayer().getEntity().getRoom();
 
-        GenericEntity userTo = room.getEntities().getEntityByName(user, RoomEntityType.PLAYER);
+        RoomEntity userTo = room.getEntities().getEntityByName(user, RoomEntityType.PLAYER);
 
         if (userTo == null || user.equals(client.getPlayer().getData().getUsername()))
             return;

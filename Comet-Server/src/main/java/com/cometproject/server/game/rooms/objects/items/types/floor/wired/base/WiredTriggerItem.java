@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.base;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
@@ -39,7 +39,7 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
     }
 
     @Override
-    public boolean evaluate(GenericEntity entity, Object data) {
+    public boolean evaluate(RoomEntity entity, Object data) {
         try {
             // create empty list for all wired actions on the current tile
             List<WiredActionItem> wiredActions = Lists.newArrayList();
@@ -139,7 +139,7 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
         return false;
     }
 
-    private boolean executeEffect(WiredActionItem actionItem, GenericEntity entity, Object data) {
+    private boolean executeEffect(WiredActionItem actionItem, RoomEntity entity, Object data) {
         if (this instanceof WiredTriggerEnterRoom && actionItem instanceof WiredActionKickUser) {
             if (entity != null) {
                 if (entity instanceof PlayerEntity && ((PlayerEntity) entity).getPlayer() != null) {
@@ -181,7 +181,7 @@ public abstract class WiredTriggerItem extends WiredFloorItem {
         return incompatibleActions;
     }
 
-    public void preActionTrigger(GenericEntity entity, Object data) {
+    public void preActionTrigger(RoomEntity entity, Object data) {
         // override me if u want to!!!!111one
     }
 

@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.banzai;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -32,7 +32,7 @@ public class BanzaiGateFloorItem extends GenericFloorItem {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         if (!(entity instanceof PlayerEntity)) return;
 
         PlayerEntity playerEntity = (PlayerEntity) entity;
@@ -68,7 +68,7 @@ public class BanzaiGateFloorItem extends GenericFloorItem {
     }
 
     @Override
-    public void onEntityLeaveRoom(GenericEntity entity) {
+    public void onEntityLeaveRoom(RoomEntity entity) {
         if (entity instanceof PlayerEntity) {
             PlayerEntity playerEntity = ((PlayerEntity) entity);
 

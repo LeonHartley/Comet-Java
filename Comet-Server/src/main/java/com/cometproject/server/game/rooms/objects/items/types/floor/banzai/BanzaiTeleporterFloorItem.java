@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.banzai;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
@@ -17,7 +17,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
     private int stage = 0;
 
     private Position teleportPosition;
-    private GenericEntity entity;
+    private RoomEntity entity;
     private RoomItemFloor floorItem;
 
     public BanzaiTeleporterFloorItem(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
@@ -55,7 +55,7 @@ public class BanzaiTeleporterFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         if (this.entity != null) return; // wait yer turn
 
         if (entity.hasAttribute("warp")) {

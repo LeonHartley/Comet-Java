@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
@@ -25,7 +25,7 @@ public class RollerFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         if (entity.isWalking()) return;
 
         if (this.ticksTimer < 1) {
@@ -60,9 +60,9 @@ public class RollerFloorItem extends RoomItemFloor {
 
         boolean retry = false;
 
-        List<GenericEntity> entities = this.getRoom().getEntities().getEntitiesAt(this.getPosition());
+        List<RoomEntity> entities = this.getRoom().getEntities().getEntitiesAt(this.getPosition());
 
-        for (GenericEntity entity : entities) {
+        for (RoomEntity entity : entities) {
             if (entity.getPosition().getX() != this.getPosition().getX() && entity.getPosition().getY() != this.getPosition().getY()) {
                 continue;
             }

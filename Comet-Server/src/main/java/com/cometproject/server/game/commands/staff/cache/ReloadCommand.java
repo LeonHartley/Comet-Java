@@ -33,15 +33,12 @@ public class ReloadCommand extends ChatCommand {
 
     @Override
     public void execute(Session client, String[] params) {
-        if (params.length < 1)
-            return;
-
-        String command = params[0];
+        String command = params.length == 0 ? "" : params[0];
 
         switch (command) {
-            case "list":
+            default:
                 client.send(new MotdNotificationComposer(
-                        "Here's a list of what you can reload using the :reload command!\n\n" +
+                        "Here's a list of what you can reload using the :reload <type> command!\n\n" +
                                 "- bans\n" +
                                 "- catalog\n" +
                                 "- navigator\n" +
@@ -54,11 +51,11 @@ public class ReloadCommand extends ChatCommand {
                                 "- locale\n" +
                                 "- modpresets\n" +
                                 "- groupitems\n" +
-                                "- models" +
-                                "- music" +
-                                "- quests" +
-                                "- achievements" +
-                                "- pets" +
+                                "- models\n" +
+                                "- music\n" +
+                                "- quests\n" +
+                                "- achievements\n" +
+                                "- pets\n" +
                                 "- polls"
                 ));
 

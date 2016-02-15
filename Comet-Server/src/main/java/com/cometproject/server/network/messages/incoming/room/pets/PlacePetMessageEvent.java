@@ -11,6 +11,7 @@ import com.cometproject.server.game.rooms.types.tiles.RoomTileState;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.pets.horse.HorseFigureMessageComposer;
 import com.cometproject.server.network.messages.outgoing.user.inventory.PetInventoryMessageComposer;
 import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
@@ -73,6 +74,10 @@ public class PlacePetMessageEvent implements Event {
 
             client.getPlayer().getPets().removePet(pet.getId());
             client.send(new PetInventoryMessageComposer(client.getPlayer().getPets().getPets()));
+
+            if(pet.getTypeId() == 15) {
+                client.send(new HorseFigureMessageComposer(petEntity));
+            }
 
             client.getPlayer().getEntity().setPlacedPet(true);
             petEntity.getAI().onAddedToRoom();

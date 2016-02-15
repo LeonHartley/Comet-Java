@@ -14,14 +14,12 @@ import com.cometproject.server.game.rooms.types.mapping.RoomTile;
 import com.cometproject.server.network.messages.outgoing.room.avatar.*;
 import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
-public abstract class GenericEntity extends RoomFloorObject implements AvatarEntity {
+public abstract class RoomEntity extends RoomFloorObject implements AvatarEntity {
     private RoomEntityType entityType;
 
     private Position walkingGoal;
@@ -66,14 +64,14 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
 
     private long joinTime;
 
-    private GenericEntity mountedEntity;
-    private Set<GenericEntity> followingEntities = new ConcurrentHashSet<>();
+    private RoomEntity mountedEntity;
+    private Set<RoomEntity> followingEntities = new ConcurrentHashSet<>();
 
     private long privateChatItemId = 0;
 
     private Map<RoomEntityStatus, String> statuses = new ConcurrentHashMap<>();
 
-    public GenericEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
+    public RoomEntity(int identifier, Position startPosition, int startBodyRotation, int startHeadRotation, Room roomInstance) {
         super(identifier, startPosition, roomInstance);
 
         if (this instanceof PlayerEntity) {
@@ -583,7 +581,7 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
         this.walkCancelled = walkCancelled;
     }
 
-    public GenericEntity getMountedEntity() {
+    public RoomEntity getMountedEntity() {
         if (this.mountedEntity == null) return null;
 
         if (this.getRoom().getEntities().getEntity(this.mountedEntity.getId()) == null) {
@@ -593,7 +591,7 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
         return mountedEntity;
     }
 
-    public void setMountedEntity(GenericEntity mountedEntity) {
+    public void setMountedEntity(RoomEntity mountedEntity) {
         this.mountedEntity = mountedEntity;
     }
 
@@ -622,8 +620,8 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
 
     @Override
     public boolean equals(Object entity) {
-        if (entity instanceof GenericEntity) {
-            return ((GenericEntity) entity).getId() == this.getId();
+        if (entity instanceof RoomEntity) {
+            return ((RoomEntity) entity).getId() == this.getId();
         }
 
         return false;
@@ -654,7 +652,7 @@ public abstract class GenericEntity extends RoomFloorObject implements AvatarEnt
         return null;
     }
 
-    public Set<GenericEntity> getFollowingEntities() {
+    public Set<RoomEntity> getFollowingEntities() {
         return followingEntities;
     }
 }

@@ -5,7 +5,7 @@ import com.cometproject.server.game.items.rares.LimitedEditionItem;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.items.types.LowPriorityItemProcessor;
 import com.cometproject.server.game.rooms.objects.BigRoomFloorObject;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.RollableFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredFloorItem;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -98,7 +98,7 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
         // Override this
     }
 
-    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         // Override this
         return true;
     }
@@ -111,7 +111,7 @@ public abstract class RoomItem extends BigRoomFloorObject implements Attributabl
         // Override this
     }
 
-    public void onEntityLeaveRoom(GenericEntity entity) {
+    public void onEntityLeaveRoom(RoomEntity entity) {
         // Override this
     }
 

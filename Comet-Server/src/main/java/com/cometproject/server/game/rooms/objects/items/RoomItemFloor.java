@@ -9,7 +9,7 @@ import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.items.types.ItemDefinition;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.data.BackgroundTonerData;
@@ -43,7 +43,7 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
     private String extraData;
 
     private ItemDefinition itemDefinition;
-    private GenericEntity collidedEntity;
+    private RoomEntity collidedEntity;
     private boolean hasQueuedSave;
 
     public RoomItemFloor(long id, int itemId, Room room, int owner, int x, int y, double z, int rotation, String data) {
@@ -262,15 +262,15 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         // override me
     }
 
-    public void onEntityPreStepOn(GenericEntity entity) {
+    public void onEntityPreStepOn(RoomEntity entity) {
         // override me
     }
 
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         // override me
     }
 
-    public void onEntityStepOff(GenericEntity entity) {
+    public void onEntityStepOff(RoomEntity entity) {
         // override me
     }
 
@@ -356,13 +356,13 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         return floorItems;
     }
 
-    public List<GenericEntity> getEntitiesOnItem() {
-        List<GenericEntity> entities = Lists.newArrayList();
+    public List<RoomEntity> getEntitiesOnItem() {
+        List<RoomEntity> entities = Lists.newArrayList();
 
         entities.addAll(this.getRoom().getEntities().getEntitiesAt(this.getPosition()));
 
         for (AffectedTile affectedTile : AffectedTile.getAffectedTilesAt(this.getDefinition().getLength(), this.getDefinition().getWidth(), this.getPosition().getX(), this.getPosition().getY(), this.getRotation())) {
-            List<GenericEntity> entitiesOnTile = this.getRoom().getEntities().getEntitiesAt(new Position(affectedTile.x, affectedTile.y));
+            List<RoomEntity> entitiesOnTile = this.getRoom().getEntities().getEntitiesAt(new Position(affectedTile.x, affectedTile.y));
 
             entities.addAll(entitiesOnTile);
         }
@@ -398,11 +398,11 @@ public abstract class RoomItemFloor extends RoomItem implements Collidable {
         return null;
     }
 
-    public GenericEntity getCollision() {
+    public RoomEntity getCollision() {
         return this.collidedEntity;
     }
 
-    public void setCollision(GenericEntity entity) {
+    public void setCollision(RoomEntity entity) {
         this.collidedEntity = entity;
     }
 

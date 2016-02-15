@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.game.players.types.Player;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
@@ -30,7 +30,7 @@ public class EntityComponent {
     private Room room;
 
     private AtomicInteger entityIdGenerator = new AtomicInteger();
-    private final Map<Integer, GenericEntity> entities = new ConcurrentHashMap<>();
+    private final Map<Integer, RoomEntity> entities = new ConcurrentHashMap<>();
 
     private final Map<Integer, Integer> playerIdToEntity = new ConcurrentHashMap<>();
     private final Map<Integer, Integer> botIdToEntity = new ConcurrentHashMap<>();
@@ -40,7 +40,7 @@ public class EntityComponent {
         this.room = room;
     }
 
-    public List<GenericEntity> getEntitiesAt(Position position) {
+    public List<RoomEntity> getEntitiesAt(Position position) {
         RoomTile tile = this.getRoom().getMapping().getTile(position.getX(), position.getY());
 
         if (tile != null && tile.getEntities().size() >= 1) {
@@ -87,7 +87,7 @@ public class EntityComponent {
         return entity;
     }
 
-    public void addEntity(GenericEntity entity) {
+    public void addEntity(RoomEntity entity) {
         if (entity.getEntityType() == RoomEntityType.PLAYER) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
 
@@ -105,7 +105,7 @@ public class EntityComponent {
         this.entities.put(entity.getId(), entity);
     }
 
-    public void removeEntity(GenericEntity entity) {
+    public void removeEntity(RoomEntity entity) {
         final RoomTile tile = this.getRoom().getMapping().getTile(entity.getPosition());
 
         if (tile != null) {
@@ -133,7 +133,7 @@ public class EntityComponent {
     public void broadcastMessage(MessageComposer msg, boolean usersWithRightsOnly) {
         if (msg == null) return;
 
-        for (GenericEntity entity : this.entities.values()) {
+        for (RoomEntity entity : this.entities.values()) {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 
@@ -150,7 +150,7 @@ public class EntityComponent {
     }
 
     public void broadcastChatMessage(MessageComposer msg, PlayerEntity sender) {
-        for (GenericEntity entity : this.entities.values()) {
+        for (RoomEntity entity : this.entities.values()) {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 PlayerEntity playerEntity = (PlayerEntity) entity;
 
@@ -167,7 +167,7 @@ public class EntityComponent {
         broadcastMessage(msg, false);
     }
 
-    public GenericEntity getEntity(int id) {
+    public RoomEntity getEntity(int id) {
         return this.entities.get(id);
     }
 
@@ -177,17 +177,17 @@ public class EntityComponent {
         }
 
         int entityId = this.playerIdToEntity.get(id);
-        GenericEntity genericEntity = this.entities.get(entityId);
+        RoomEntity roomEntity = this.entities.get(entityId);
 
-        if (genericEntity == null || genericEntity.getEntityType() != RoomEntityType.PLAYER) {
+        if (roomEntity == null || roomEntity.getEntityType() != RoomEntityType.PLAYER) {
             return null;
         }
 
-        return (PlayerEntity) genericEntity;
+        return (PlayerEntity) roomEntity;
     }
 
-    public GenericEntity getEntityByName(String name, RoomEntityType type) {
-        for (GenericEntity entity : this.getAllEntities().values()) {
+    public RoomEntity getEntityByName(String name, RoomEntityType type) {
+        for (RoomEntity entity : this.getAllEntities().values()) {
             if (entity.getUsername() == null) continue;
 
             if (entity.getUsername().equals(name) && entity.getEntityType() == type) {
@@ -204,13 +204,13 @@ public class EntityComponent {
         }
 
         int entityId = this.botIdToEntity.get(id);
-        GenericEntity genericEntity = this.entities.get(entityId);
+        RoomEntity roomEntity = this.entities.get(entityId);
 
-        if (genericEntity == null || genericEntity.getEntityType() != RoomEntityType.BOT) {
+        if (roomEntity == null || roomEntity.getEntityType() != RoomEntityType.BOT) {
             return null;
         }
 
-        return (BotEntity) genericEntity;
+        return (BotEntity) roomEntity;
     }
 
     public PetEntity getEntityByPetId(int id) {
@@ -219,19 +219,19 @@ public class EntityComponent {
         }
 
         int entityId = this.petIdToEntity.get(id);
-        GenericEntity genericEntity = this.entities.get(entityId);
+        RoomEntity roomEntity = this.entities.get(entityId);
 
-        if (genericEntity == null || genericEntity.getEntityType() != RoomEntityType.PET) {
+        if (roomEntity == null || roomEntity.getEntityType() != RoomEntityType.PET) {
             return null;
         }
 
-        return (PetEntity) genericEntity;
+        return (PetEntity) roomEntity;
     }
 
     public List<BotEntity> getBotEntities() {
         List<BotEntity> entities = new ArrayList<>();
 
-        for (GenericEntity entity : this.entities.values()) {
+        for (RoomEntity entity : this.entities.values()) {
             if (entity.getEntityType() == RoomEntityType.BOT) {
                 entities.add((BotEntity) entity);
             }
@@ -243,7 +243,7 @@ public class EntityComponent {
     public List<PetEntity> getPetEntities() {
         List<PetEntity> entities = new ArrayList<>();
 
-        for (GenericEntity entity : this.entities.values()) {
+        for (RoomEntity entity : this.entities.values()) {
             if (entity.getEntityType() == RoomEntityType.PET) {
                 entities.add((PetEntity) entity);
             }
@@ -259,7 +259,7 @@ public class EntityComponent {
             return entities;
         }
 
-        for (GenericEntity entity : this.entities.values()) {
+        for (RoomEntity entity : this.entities.values()) {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 entities.add((PlayerEntity) entity);
             }
@@ -275,7 +275,7 @@ public class EntityComponent {
             return entities;
         }
 
-        for (GenericEntity entity : this.entities.values()) {
+        for (RoomEntity entity : this.entities.values()) {
             if (entity.getEntityType() == RoomEntityType.PLAYER) {
                 if (((PlayerEntity) entity).getPlayer().getPermissions().getRank().roomSeeWhispers())
                     entities.add((PlayerEntity) entity);
@@ -298,7 +298,7 @@ public class EntityComponent {
     public int count() {
         int count = 0;
 
-        for (GenericEntity entity : this.entities.values()) {
+        for (RoomEntity entity : this.entities.values()) {
             if (entity.isVisible()) count++;
         }
 
@@ -309,7 +309,7 @@ public class EntityComponent {
         List<Integer> countedEntities = Lists.newArrayList();
 
         try {
-            for (GenericEntity entity : this.entities.values()) {
+            for (RoomEntity entity : this.entities.values()) {
                 if (entity instanceof PlayerEntity && entity.isVisible()) {
                     if(!countedEntities.contains(((PlayerEntity) entity).getPlayerId())) {
                         countedEntities.add(((PlayerEntity) entity).getPlayerId());
@@ -329,7 +329,7 @@ public class EntityComponent {
         return this.playerIdToEntity.size();
     }
 
-    public Map<Integer, GenericEntity> getAllEntities() {
+    public Map<Integer, RoomEntity> getAllEntities() {
         return this.entities;
     }
 
@@ -338,7 +338,7 @@ public class EntityComponent {
     }
 
     public void dispose() {
-        for (Map.Entry<Integer, GenericEntity> entity : this.entities.entrySet()) {
+        for (Map.Entry<Integer, RoomEntity> entity : this.entities.entrySet()) {
             entity.getValue().onRoomDispose();
         }
 

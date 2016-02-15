@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.room.avatar;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
@@ -23,11 +23,11 @@ public class UpdateInfoMessageComposer extends MessageComposer {
         this.achievementPoints = achievementPoints;
     }
 
-    public UpdateInfoMessageComposer(GenericEntity entity) {
+    public UpdateInfoMessageComposer(RoomEntity entity) {
         this(entity.getId(), entity.getFigure(), entity.getGender(), entity.getMotto(), (entity instanceof PlayerEntity) ? ((PlayerEntity) entity).getPlayer().getData().getAchievementPoints() : 0);
     }
 
-    public UpdateInfoMessageComposer(int id, GenericEntity entity) {
+    public UpdateInfoMessageComposer(int id, RoomEntity entity) {
         this(id, entity.getFigure(), entity.getGender(), entity.getMotto(), (entity instanceof PlayerEntity) ? ((PlayerEntity) entity).getPlayer().getData().getAchievementPoints() : 0);
     }
 
@@ -45,11 +45,11 @@ public class UpdateInfoMessageComposer extends MessageComposer {
         msg.writeInt(achievementPoints);
     }
 
-//    public static Composer compose(GenericEntity entity) {
+//    public static Composer compose(RoomEntity entity) {
 //        return compose(entity.getId(), entity.getFigure(), entity.getGender(), entity.getMotto(), (entity instanceof PlayerEntity) ? ((PlayerEntity) entity).getPlayer().getData().getAchievementPoints() : 0);
 //    }
 //
-//    public static Composer compose(boolean isMe, GenericEntity entity) {
+//    public static Composer compose(boolean isMe, RoomEntity entity) {
 //        if (!isMe) {
 //            return compose(entity.getId(), entity.getFigure(), entity.getGender(), entity.getMotto(), (entity instanceof PlayerEntity) ? ((PlayerEntity) entity).getPlayer().getData().getAchievementPoints() : 0);
 //        } else {

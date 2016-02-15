@@ -98,6 +98,7 @@ public class CommandManager implements Initializable {
         this.commands.put("processtimes", new ProcessTimesCommand());
         this.commands.put("011039812438qwidjkasjo83", new FastProcessCommand());
         this.commands.put("itemid", new ItemVirtualIdCommand());
+        this.commands.put("comet", new CometCommand());
     }
 
     /**
@@ -106,7 +107,6 @@ public class CommandManager implements Initializable {
     public void loadUserCommands() {
         this.commands.put(Locale.get("command.commands.name"), new CommandsCommand());
         this.commands.put(Locale.get("command.about.name"), new AboutCommand());
-        this.commands.put(Locale.get("command.build.name"), new BuildCommand());
         this.commands.put(Locale.get("command.pickall.name"), new PickAllCommand());
         this.commands.put(Locale.get("command.empty.name"), new EmptyCommand());
         this.commands.put(Locale.get("command.sit.name"), new SitCommand());

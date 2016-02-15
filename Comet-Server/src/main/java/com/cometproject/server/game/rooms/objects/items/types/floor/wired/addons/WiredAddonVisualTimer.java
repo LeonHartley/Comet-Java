@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.addons;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -19,7 +19,7 @@ public class WiredAddonVisualTimer extends RoomItemFloor {
 
 
     @Override
-    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTriggered) {
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTriggered) {
         if (!isWiredTriggered) {
             if (!(entity instanceof PlayerEntity)) {
                 return false;

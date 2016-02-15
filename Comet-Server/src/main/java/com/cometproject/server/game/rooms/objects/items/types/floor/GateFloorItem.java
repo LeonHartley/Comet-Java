@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -14,7 +14,7 @@ public class GateFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public boolean onInteract(GenericEntity entity0, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(RoomEntity entity0, int requestData, boolean isWiredTrigger) {
         if (!isWiredTrigger) {
             if (!(entity0 instanceof PlayerEntity)) {
                 return false;
@@ -38,7 +38,7 @@ public class GateFloorItem extends RoomItemFloor {
             return false;
         }
 
-        for (GenericEntity entity : this.getRoom().getEntities().getAllEntities().values()) {
+        for (RoomEntity entity : this.getRoom().getEntities().getAllEntities().values()) {
             if (this.getPosition().distanceTo(entity.getPosition()) <= 1 && entity.isWalking()) {
                 return false;
             }

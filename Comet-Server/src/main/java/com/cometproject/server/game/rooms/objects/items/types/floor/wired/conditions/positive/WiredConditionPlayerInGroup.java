@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor.wired.condi
 
 import com.cometproject.server.game.groups.GroupManager;
 import com.cometproject.server.game.groups.types.Group;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -33,7 +33,7 @@ public class WiredConditionPlayerInGroup extends WiredConditionItem {
     }
 
     @Override
-    public boolean evaluate(GenericEntity entity, Object data) {
+    public boolean evaluate(RoomEntity entity, Object data) {
         if (entity == null || !(entity instanceof PlayerEntity)) return false;
         final PlayerEntity playerEntity = ((PlayerEntity) entity);
 

@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
 import com.cometproject.server.game.rooms.types.Room;
 
@@ -32,7 +32,7 @@ public class WiredConditionPlayerCountInRoom extends WiredConditionItem {
     }
 
     @Override
-    public boolean evaluate(GenericEntity entity, Object data) {
+    public boolean evaluate(RoomEntity entity, Object data) {
         if (this.getWiredData().getParams().size() != 2) return true;
 
         final int playerCount = this.getRoom().getEntities().getPlayerEntities().size();

@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.room.avatar;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.composers.MessageComposer;
@@ -12,13 +12,13 @@ import java.util.List;
 
 
 public class AvatarsMessageComposer extends MessageComposer {
-    private final GenericEntity singleEntity;
-    private final List<GenericEntity> entities;
+    private final RoomEntity singleEntity;
+    private final List<RoomEntity> entities;
 
     public AvatarsMessageComposer(final Room room) {
         this.entities = Lists.newArrayList();
 
-        for (GenericEntity entity : room.getEntities().getAllEntities().values()) {
+        for (RoomEntity entity : room.getEntities().getAllEntities().values()) {
             if(entity.isVisible()) {
                 if(entity instanceof PlayerEntity) {
                     if(((PlayerEntity) entity).getPlayer() == null) continue;
@@ -31,12 +31,12 @@ public class AvatarsMessageComposer extends MessageComposer {
         this.singleEntity = null;
     }
 
-    public AvatarsMessageComposer(GenericEntity entity) {
+    public AvatarsMessageComposer(RoomEntity entity) {
         this.singleEntity = entity;
         this.entities = null;
     }
 
-    public AvatarsMessageComposer(List<GenericEntity> entities) {
+    public AvatarsMessageComposer(List<RoomEntity> entities) {
         this.singleEntity = null;
         this.entities = entities;
     }
@@ -54,7 +54,7 @@ public class AvatarsMessageComposer extends MessageComposer {
             this.singleEntity.compose(msg);
         } else {
             msg.writeInt(this.entities.size());
-            for(GenericEntity entity : this.entities) {
+            for(RoomEntity entity : this.entities) {
                 entity.compose(msg);
             }
         }

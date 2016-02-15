@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities.pathfinding;
 
 import com.cometproject.server.game.rooms.objects.RoomObject;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.google.common.collect.Lists;
@@ -108,9 +108,9 @@ public abstract class Pathfinder {
     }
 
     public boolean isValidStep(RoomObject roomObject, Position from, Position to, boolean lastStep) {
-        return (roomObject.getRoom().getMapping().isValidStep(roomObject instanceof GenericEntity ? ((GenericEntity) roomObject).getId() : 0,
+        return (roomObject.getRoom().getMapping().isValidStep(roomObject instanceof RoomEntity ? ((RoomEntity) roomObject).getId() : 0,
                 from, to, lastStep, roomObject instanceof RoomItemFloor) ||
-                (roomObject instanceof GenericEntity && ((GenericEntity) roomObject).isOverriden()));
+                (roomObject instanceof RoomEntity && ((RoomEntity) roomObject).isOverriden()));
     }
 
     private Position[] diagonalMovePoints() {

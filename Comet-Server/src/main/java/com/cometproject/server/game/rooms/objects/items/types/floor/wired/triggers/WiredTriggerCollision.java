@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredTriggerItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -34,7 +34,7 @@ public class WiredTriggerCollision extends WiredTriggerItem {
         return 9;
     }
 
-    public static boolean executeTriggers(GenericEntity entity) {
+    public static boolean executeTriggers(RoomEntity entity) {
         boolean wasExecuted = false;
 
         for (RoomItemFloor floorItem : entity.getRoom().getItems().getByClass(WiredTriggerCollision.class)) {

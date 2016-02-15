@@ -1,12 +1,12 @@
 package com.cometproject.server.utilities.attributes;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 
 
 public interface Collidable {
-    public GenericEntity getCollision();
+    public RoomEntity getCollision();
 
-    public void setCollision(GenericEntity entity);
+    public void setCollision(RoomEntity entity);
 
     public void nullifyCollision();
 }

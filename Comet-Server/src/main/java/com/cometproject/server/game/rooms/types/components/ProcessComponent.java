@@ -2,16 +2,18 @@ package com.cometproject.server.game.rooms.types.components;
 
 import com.cometproject.server.config.CometSettings;
 import com.cometproject.server.game.quests.types.QuestType;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.effects.PlayerEffect;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
+import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.GateFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.TeleportPadFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.groups.GroupGateFloorItem;
+import com.cometproject.server.game.rooms.objects.items.types.floor.pet.horse.HorseJumpFloorItem;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOffFurni;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.triggers.WiredTriggerWalksOnFurni;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -77,12 +79,12 @@ public class ProcessComponent implements CometTask {
         }
 
         try {
-            Map<Integer, GenericEntity> entities = this.room.getEntities().getAllEntities();
+            Map<Integer, RoomEntity> entities = this.room.getEntities().getAllEntities();
 
             List<PlayerEntity> playersToRemove = new ArrayList<>();
-            List<GenericEntity> entitiesToUpdate = new ArrayList<>();
+            List<RoomEntity> entitiesToUpdate = new ArrayList<>();
 
-            for (GenericEntity entity : entities.values()) {
+            for (RoomEntity entity : entities.values()) {
                 if (entity.getEntityType() == RoomEntityType.PLAYER) {
                     PlayerEntity playerEntity = (PlayerEntity) entity;
 
@@ -145,7 +147,7 @@ public class ProcessComponent implements CometTask {
                 this.getRoom().getEntities().broadcastMessage(new AvatarUpdateMessageComposer(entitiesToUpdate));
             }
 
-            for (GenericEntity entity : entitiesToUpdate) {
+            for (RoomEntity entity : entitiesToUpdate) {
                 if (entity.updatePhase == 1) continue;
 
                 if (this.updateEntityStuff(entity) && entity instanceof PlayerEntity) {
@@ -230,7 +232,7 @@ public class ProcessComponent implements CometTask {
         this.processFuture = CometThreadManager.getInstance().executePeriodic(this, 0, time, TimeUnit.MILLISECONDS);
     }
 
-    private boolean updateEntityStuff(GenericEntity entity) {
+    private boolean updateEntityStuff(RoomEntity entity) {
         if (entity.getPositionToSet() != null) {
             if ((entity.getPositionToSet().getX() == this.room.getModel().getDoorX()) && (entity.getPositionToSet().getY() == this.room.getModel().getDoorY())) {
                 boolean leaveRoom = true;
@@ -326,11 +328,11 @@ public class ProcessComponent implements CometTask {
         return false;
     }
 
-    private boolean processEntity(GenericEntity entity) {
+    private boolean processEntity(RoomEntity entity) {
         return this.processEntity(entity, false);
     }
 
-    private boolean processEntity(GenericEntity entity, boolean isRetry) {
+    private boolean processEntity(RoomEntity entity, boolean isRetry) {
         boolean isPlayer = entity instanceof PlayerEntity;
 
         if (isPlayer && ((PlayerEntity) entity).getPlayer() == null || entity.getRoom() == null) {
@@ -439,6 +441,10 @@ public class ProcessComponent implements CometTask {
                         } else {
                             isCancelled = true;
                         }
+                    } else if (item instanceof HorseJumpFloorItem) {
+                        if(entity.getMountedEntity() == null) {
+                            isCancelled = true;
+                        }
                     } else {
                         item.onEntityPreStepOn(entity);
                     }
@@ -458,7 +464,7 @@ public class ProcessComponent implements CometTask {
                         isCancelled = true;
                     }
 
-                    GenericEntity entityOnTile = this.getRoom().getMapping().getTile(nextPos.getX(), nextPos.getY()).getEntity();
+                    RoomEntity entityOnTile = this.getRoom().getMapping().getTile(nextPos.getX(), nextPos.getY()).getEntity();
 
                     if (entityOnTile != null && entityOnTile.getMountedEntity() != null && entityOnTile.getMountedEntity() == entity) {
                         isCancelled = false;
@@ -476,7 +482,7 @@ public class ProcessComponent implements CometTask {
                     entity.markNeedsUpdate();
 
                     if (entity instanceof PlayerEntity && entity.getMountedEntity() != null) {
-                        GenericEntity mountedEntity = entity.getMountedEntity();
+                        RoomEntity mountedEntity = entity.getMountedEntity();
 
                         mountedEntity.moveTo(newPosition.getX(), newPosition.getY());
                     }

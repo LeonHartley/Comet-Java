@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.summer;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 
@@ -11,13 +11,13 @@ public class SummerShowerFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         this.setExtraData("1");
         this.sendUpdate();
     }
 
     @Override
-    public void onEntityStepOff(GenericEntity entity) {
+    public void onEntityStepOff(RoomEntity entity) {
         this.setExtraData("0");
         this.sendUpdate();
     }

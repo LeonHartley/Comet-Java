@@ -1,0 +1,31 @@
+package com.cometproject.server.game.commands.user;
+
+import com.cometproject.server.boot.Comet;
+import com.cometproject.server.config.Locale;
+import com.cometproject.server.game.commands.ChatCommand;
+import com.cometproject.server.network.messages.outgoing.notification.AdvancedAlertMessageComposer;
+import com.cometproject.server.network.sessions.Session;
+
+
+public class CometCommand extends ChatCommand {
+
+    @Override
+    public void execute(Session client, String message[]) {
+        client.send(new AdvancedAlertMessageComposer("Comet Server", "Powered by Comet Server. <br><br><b>Waves to:</b><br>- Leon<br>- Matty<br>- Matou19<br>- Helpi<br>- Luck<br>- Johno<br>- Sledmore<br>- Scott<br>- Nillus<br>- Jordan<br>- Burak<br>- Quackster<br>- Jaxter<br><br><b>Fuckings to:</b><br>- Fahd<br>- Magrao<br>- TheGeneral<br><br>Current build: <b>" + Comet.getBuild() + "</b>"));
+    }
+
+    @Override
+    public String getPermission() {
+        return "dev";
+    }
+
+    @Override
+    public String getDescription() {
+        return "";
+    }
+
+    @Override
+    public boolean isHidden() {
+        return true;
+    }
+}

@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.objects.entities.types;
 
 import com.cometproject.api.networking.messages.IComposer;
 import com.cometproject.server.game.bots.BotData;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.*;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.bots.DefaultAI;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.bots.MinionAI;
@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-public class BotEntity extends GenericEntity {
+public class BotEntity extends RoomEntity {
     private BotData data;
     private int cycleCount = 0;
     private BotAI ai;

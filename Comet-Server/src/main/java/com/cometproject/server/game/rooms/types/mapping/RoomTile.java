@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.types.mapping;
 
 import com.cometproject.server.game.rooms.objects.RoomObject;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.AffectedTile;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.ItemPathfinder;
@@ -45,9 +45,9 @@ public class RoomTile {
     private boolean hasAdjustableHeight = false;
 
     private List<RoomItemFloor> items;
-    public Set<GenericEntity> entities;
+    public Set<RoomEntity> entities;
 
-    private Map<Integer, Consumer<GenericEntity>> pendingEvents = new ConcurrentHashMap<>();
+    private Map<Integer, Consumer<RoomEntity>> pendingEvents = new ConcurrentHashMap<>();
 
     public RoomTile(RoomMapping mappingInstance, Position position) {
         this.mappingInstance = mappingInstance;
@@ -219,14 +219,14 @@ public class RoomTile {
         this.entities.clear();
     }
 
-    public void onEntityEntersTile(GenericEntity entity) {
+    public void onEntityEntersTile(RoomEntity entity) {
         if (this.pendingEvents.containsKey(entity.getId())) {
             this.pendingEvents.get(entity.getId()).accept(entity);
             this.pendingEvents.remove(entity.getId());
         }
     }
 
-    public void scheduleEvent(int entityId, Consumer<GenericEntity> event) {
+    public void scheduleEvent(int entityId, Consumer<RoomEntity> event) {
         this.pendingEvents.put(entityId, event);
     }
 
@@ -277,15 +277,15 @@ public class RoomTile {
         return path != null && path.size() > 0;
     }
 
-    public GenericEntity getEntity() {
-        for (GenericEntity entity : this.getEntities()) {
+    public RoomEntity getEntity() {
+        for (RoomEntity entity : this.getEntities()) {
             return entity;
         }
 
         return null;
     }
 
-    public Set<GenericEntity> getEntities() {
+    public Set<RoomEntity> getEntities() {
         return this.entities;
     }
 

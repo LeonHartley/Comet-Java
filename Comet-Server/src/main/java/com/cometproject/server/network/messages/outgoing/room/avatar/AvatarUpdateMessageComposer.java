@@ -1,7 +1,7 @@
 package com.cometproject.server.network.messages.outgoing.room.avatar;
 
 import com.cometproject.api.networking.messages.IComposer;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.misc.Position;
 import com.cometproject.server.network.messages.composers.MessageComposer;
@@ -19,10 +19,10 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
     private AvatarState singleEntity;
     private List<AvatarState> entities;
 
-    public AvatarUpdateMessageComposer(final Collection<GenericEntity> entities) {
+    public AvatarUpdateMessageComposer(final Collection<RoomEntity> entities) {
         this.entities = Lists.newArrayList();
 
-        for (GenericEntity entity : entities) {
+        for (RoomEntity entity : entities) {
             if (!entity.isVisible()) {
                 continue;
             }
@@ -34,7 +34,7 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
         this.singleEntity = null;
     }
 
-    public AvatarUpdateMessageComposer(final GenericEntity entity) {
+    public AvatarUpdateMessageComposer(final RoomEntity entity) {
         this.count = 1;
         this.singleEntity = new AvatarState(entity);
         this.entities = null;
@@ -78,7 +78,7 @@ public class AvatarUpdateMessageComposer extends MessageComposer {
         private int bodyRotation;
         private String statusString;
 
-        public AvatarState(GenericEntity entity) {
+        public AvatarState(RoomEntity entity) {
             this.id = entity.getId();
             this.position = entity.getPosition().copy();
             this.headRotation = entity.getHeadRotation();

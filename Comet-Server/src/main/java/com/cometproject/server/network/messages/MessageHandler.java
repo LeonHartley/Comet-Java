@@ -217,7 +217,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.CreateFlatMessageEvent, new CreateRoomMessageEvent());
         this.getMessages().put(Events.GetEventCategoriesMessageEvent, new EventCategoriesMessageEvent());
         this.getMessages().put(Events.GetPromotableRoomsMessageEvent, new CatalogPromotionGetRoomsMessageEvent());
-        this.getMessages().put(Events.StaffPickRoomMessageEvent, new AddToStaffPickedRoomsMessageEvent());
+//        this.getMessages().put(Events., new AddToStaffPickedRoomsMessageEvent());
 
 //        this.getMessages().put(Events.NavigatorGetMyRoomsMessageEvent, new OwnRoomsMessageEvent());
 //        this.getMessages().put(Events.NavigatorGetPopularRoomsMessageEvent, new PopularRoomsMessageEvent());
@@ -234,7 +234,7 @@ public final class MessageHandler {
     public void registerUser() {
 //        this.getMessages().put(Events.RetrieveCitizenshipStatus, new CitizenshipStatusMessageEvent());
         this.getMessages().put(Events.OpenPlayerProfileMessageEvent, new GetProfileMessageEvent());
-        this.getMessages().put(Events.GetProfileByUsernameMessageEvent, new GetProfileByUsernameMessageEvent());
+        this.getMessages().put(Events.GetForumUserProfileMessageEvent, new GetProfileByUsernameMessageEvent());
         this.getMessages().put(Events.ScrGetUserInfoMessageEvent, new ClubStatusMessageEvent());
         this.getMessages().put(Events.InfoRetrieveMessageEvent, new InfoRetrieveMessageEvent());
         this.getMessages().put(Events.UpdateFigureDataMessageEvent, new ChangeLooksMessageEvent());
@@ -269,7 +269,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.RespectPetMessageEvent, new ScratchPetMessageEvent());
         this.getMessages().put(Events.GetPetTrainingPanelMessageEvent, new GetPetTrainingPanelMessageEvent());
         this.getMessages().put(Events.ApplyHorseEffectMessageEvent, new ApplyHorseEffectMessageEvent());
-        this.getMessages().put(Events.RemoveHorseSaddleMessageEvent, new RemoveHorseSaddleMessageEvent());
+        this.getMessages().put(Events.RemoveSaddleFromHorseMessageEvent, new RemoveHorseSaddleMessageEvent());
         this.getMessages().put(Events.ModifyWhoCanRideHorseMessageEvent, new ModifyWhoCanRideHorseMessageEvent());
     }
 
@@ -458,8 +458,8 @@ public final class MessageHandler {
 //
 
     public void registerPolls() {
-        this.getMessages().put(Events.GetPollMessageEvent, new GetPollMessageEvent());
-        this.getMessages().put(Events.SubmitPollAnswerMessageEvent, new SubmitPollAnswerMessageEvent());
+//        this.getMessages().put(Events.GetPollMessageEvent, new GetPollMessageEvent());
+//        this.getMessages().put(Events.SubmitPollAnswerMessageEvent, new SubmitPollAnswerMessageEvent());
     }
 
     public void registerAchievements() {

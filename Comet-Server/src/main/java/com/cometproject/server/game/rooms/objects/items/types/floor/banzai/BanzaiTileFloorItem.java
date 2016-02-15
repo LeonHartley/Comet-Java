@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.banzai;
 
 import com.cometproject.server.game.achievements.types.AchievementType;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -24,7 +24,7 @@ public class BanzaiTileFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         if (!(entity instanceof PlayerEntity) || ((PlayerEntity) entity).getGameTeam() == GameTeam.NONE || this.getRoom().getGame().getInstance() == null) {
             return;
         }

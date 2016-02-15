@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.types.ai;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
@@ -17,14 +17,14 @@ import java.util.concurrent.Executors;
 public abstract class AbstractBotAI implements BotAI {
     private static final ExecutorService botPathCalculator = Executors.newFixedThreadPool(2);
 
-    private GenericEntity entity;
+    private RoomEntity entity;
 
     private long ticksUntilComplete = 0;
     private boolean walkNow = false;
 
     protected PlayerEntity followingPlayer;
 
-    public AbstractBotAI(GenericEntity entity) {
+    public AbstractBotAI(RoomEntity entity) {
         this.entity = entity;
     }
 
@@ -174,7 +174,7 @@ public abstract class AbstractBotAI implements BotAI {
         return true;
     }
 
-    public GenericEntity getEntity() {
+    public RoomEntity getEntity() {
         return entity;
     }
 

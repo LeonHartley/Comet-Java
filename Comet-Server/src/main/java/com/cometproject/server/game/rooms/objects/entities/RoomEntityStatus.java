@@ -10,7 +10,8 @@ public enum RoomEntityStatus {
     VOTE("vote"),
     GESTURE("gst"),
     PLAY("pla"),
-    PLAY_DEAD("ded");
+    PLAY_DEAD("ded"),
+    JUMP("jmp");
 
     private final String statusCode;
 

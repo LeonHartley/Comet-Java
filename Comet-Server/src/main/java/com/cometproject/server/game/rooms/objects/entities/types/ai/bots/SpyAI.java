@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.entities.types.ai.bots;
 
 import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityType;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.ai.AbstractBotAI;
@@ -11,7 +11,7 @@ public class SpyAI extends AbstractBotAI {
 
     private boolean hasSaidYes = false;
 
-    public SpyAI(GenericEntity entity) {
+    public SpyAI(RoomEntity entity) {
         super(entity);
     }
 

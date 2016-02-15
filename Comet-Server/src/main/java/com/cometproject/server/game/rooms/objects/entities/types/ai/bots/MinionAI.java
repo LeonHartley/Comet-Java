@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.entities.types.ai.bots;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.BotEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -53,7 +53,7 @@ public class MinionAI extends AbstractBotAI {
         });
     }};
 
-    public MinionAI(GenericEntity entity) {
+    public MinionAI(RoomEntity entity) {
         super(entity);
     }
 

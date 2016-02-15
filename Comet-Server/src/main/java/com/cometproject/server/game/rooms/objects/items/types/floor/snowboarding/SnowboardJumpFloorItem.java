@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.snowboarding;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.misc.Position;
@@ -15,7 +15,7 @@ public class SnowboardJumpFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         Position tileGoal = this.getPartnerTile();
 
         boolean increaseY = false;
@@ -48,7 +48,7 @@ public class SnowboardJumpFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOff(GenericEntity entity) {
+    public void onEntityStepOff(RoomEntity entity) {
         if (!(entity instanceof PlayerEntity)) {
             return;
         }

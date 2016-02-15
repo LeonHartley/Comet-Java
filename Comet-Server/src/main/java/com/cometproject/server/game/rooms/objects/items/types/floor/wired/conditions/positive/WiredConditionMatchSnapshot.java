@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired.conditions.positive;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.WiredItemSnapshot;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredConditionItem;
@@ -35,7 +35,7 @@ public class WiredConditionMatchSnapshot extends WiredConditionItem {
     }
 
     @Override
-    public boolean evaluate(GenericEntity entity, Object data) {
+    public boolean evaluate(RoomEntity entity, Object data) {
         if (this.getWiredData().getParams().size() != 3) {
             return false;
         }

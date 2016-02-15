@@ -1,7 +1,7 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.server.game.items.types.LowPriorityItemProcessor;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.Square;
 import com.cometproject.server.game.rooms.objects.entities.pathfinding.types.ItemPathfinder;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -39,7 +39,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         if (this.isRolling) {
             return;
         }
@@ -70,7 +70,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOff(GenericEntity entity) {
+    public void onEntityStepOff(RoomEntity entity) {
         if (!this.skipNext) {
             this.rollBall(this.getPosition(), Direction.get(entity.getBodyRotation()).invert().num);
         }
@@ -140,7 +140,7 @@ public abstract class RollableFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTriggered) {
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTriggered) {
         if (isWiredTriggered) return false;
 
         if (this.isRolling || !entity.getPosition().touching(this.getPosition())) {

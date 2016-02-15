@@ -2,7 +2,7 @@ package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.server.game.items.ItemManager;
 import com.cometproject.server.game.rooms.RoomManager;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFactory;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
@@ -14,8 +14,8 @@ import com.cometproject.server.network.messages.outgoing.room.engine.RoomForward
 
 public class TeleporterFloorItem extends RoomItemFloor {
     private boolean inUse = false;
-    private GenericEntity outgoingEntity;
-    private GenericEntity incomingEntity;
+    private RoomEntity outgoingEntity;
+    private RoomEntity incomingEntity;
 
     private int state = -1;
     private long pairId = -1;
@@ -32,7 +32,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         if (isWiredTrigger) return false;
 
         Position posInFront = this.getPosition().squareInFront(this.getRotation());
@@ -64,7 +64,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         if (this.inUse) {
             return;
         }
@@ -251,7 +251,7 @@ public class TeleporterFloorItem extends RoomItemFloor {
         this.inUse = false;
     }
 
-    public void handleIncomingEntity(GenericEntity entity, TeleporterFloorItem otherItem) {
+    public void handleIncomingEntity(RoomEntity entity, TeleporterFloorItem otherItem) {
         if (otherItem != null)
             otherItem.endTeleporting();
 

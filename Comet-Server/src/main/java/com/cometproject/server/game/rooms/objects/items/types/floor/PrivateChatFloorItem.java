@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.types.GenericFloorItem;
 import com.cometproject.server.game.rooms.types.Room;
@@ -18,7 +18,7 @@ public class PrivateChatFloorItem extends GenericFloorItem {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         if(!(entity instanceof PlayerEntity) || this.entities.contains(entity)) return;
 
         entity.setPrivateChatItemId(this.getId());
@@ -26,7 +26,7 @@ public class PrivateChatFloorItem extends GenericFloorItem {
     }
 
     @Override
-    public void onEntityStepOff(GenericEntity entity) {
+    public void onEntityStepOff(RoomEntity entity) {
         if(!(entity instanceof PlayerEntity)) return;
 
         entity.setPrivateChatItemId(0);

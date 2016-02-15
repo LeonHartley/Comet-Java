@@ -1,7 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor.wired;
 
-import com.cometproject.server.config.Locale;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.objects.items.types.floor.wired.base.WiredActionItem;
@@ -77,7 +76,7 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
     }
 
     @Override
-    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         if (!(entity instanceof PlayerEntity)) {
             return true;
         }
@@ -165,7 +164,7 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
      * @param data   The data passed by the trigger
      * @return Whether or not the evaluation was a success
      */
-    public abstract boolean evaluate(GenericEntity entity, Object data);
+    public abstract boolean evaluate(RoomEntity entity, Object data);
 
     /**
      * Will be executed when the data has been refreshed

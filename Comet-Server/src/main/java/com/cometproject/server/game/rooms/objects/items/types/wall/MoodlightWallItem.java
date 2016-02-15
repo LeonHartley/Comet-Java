@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.wall;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemWall;
 import com.cometproject.server.game.rooms.objects.items.data.MoodlightData;
 import com.cometproject.server.game.rooms.objects.items.data.MoodlightPresetData;
@@ -16,7 +16,7 @@ public class MoodlightWallItem extends RoomItemWall {
     }
 
     @Override
-    public boolean onInteract(GenericEntity entity, int requestData, boolean isWiredTrigger) {
+    public boolean onInteract(RoomEntity entity, int requestData, boolean isWiredTrigger) {
         return true;
     }
 

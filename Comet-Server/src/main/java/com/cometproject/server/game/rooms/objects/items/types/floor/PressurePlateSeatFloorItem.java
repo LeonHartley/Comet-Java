@@ -1,6 +1,6 @@
 package com.cometproject.server.game.rooms.objects.items.types.floor;
 
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.types.Room;
 
 public class PressurePlateSeatFloorItem extends SeatFloorItem {
@@ -9,7 +9,7 @@ public class PressurePlateSeatFloorItem extends SeatFloorItem {
     }
 
     @Override
-    public void onEntityStepOn(GenericEntity entity) {
+    public void onEntityStepOn(RoomEntity entity) {
         super.onEntityStepOn(entity);
 
         this.setExtraData("1");
@@ -17,7 +17,7 @@ public class PressurePlateSeatFloorItem extends SeatFloorItem {
     }
 
     @Override
-    public void onEntityStepOff(GenericEntity entity) {
+    public void onEntityStepOff(RoomEntity entity) {
         super.onEntityStepOff(entity);
 
         this.setExtraData("0");

@@ -5,7 +5,7 @@ import com.cometproject.server.game.pets.data.PetMessageType;
 import com.cometproject.server.game.pets.data.PetSpeech;
 import com.cometproject.server.game.players.PlayerManager;
 import com.cometproject.server.game.players.data.PlayerAvatar;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PetEntity;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
@@ -33,7 +33,7 @@ public class PetAI extends AbstractBotAI {
 
     private PetToyFloorItem toyItem;
 
-    public PetAI(GenericEntity entity) {
+    public PetAI(RoomEntity entity) {
         super(entity);
 
         this.setTicksUntilCompleteInSeconds(25);

@@ -2,11 +2,10 @@ package com.cometproject.server.game.rooms.objects.items.types.floor;
 
 import com.cometproject.server.game.catalog.CatalogManager;
 import com.cometproject.server.game.catalog.types.gifts.GiftData;
-import com.cometproject.server.game.rooms.objects.entities.GenericEntity;
+import com.cometproject.server.game.rooms.objects.entities.RoomEntity;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.outgoing.room.items.RemoveFloorItemMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.items.SendFloorItemMessageComposer;
 import com.cometproject.server.utilities.JsonFactory;
 
 
@@ -25,7 +24,7 @@ public class GiftFloorItem extends RoomItemFloor {
     }
 
     @Override
-    public boolean onInteract(GenericEntity entity, int state, boolean isWiredTrigger) {
+    public boolean onInteract(RoomEntity entity, int state, boolean isWiredTrigger) {
         this.isOpened = true;
 
         this.getRoom().getEntities().broadcastMessage(new RemoveFloorItemMessageComposer(this.getVirtualId(), 1200));
