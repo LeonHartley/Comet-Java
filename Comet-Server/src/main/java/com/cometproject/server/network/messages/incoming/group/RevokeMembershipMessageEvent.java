@@ -13,7 +13,7 @@ import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 import com.google.common.collect.Lists;
@@ -80,7 +80,7 @@ public class
             }
 
             if (client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom().getId() == group.getData().getRoomId()) {
-                client.send(new AccessLevelMessageComposer(0));
+                client.send(new YouAreControllerMessageComposer(0));
 
                 client.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);
                 client.getPlayer().getEntity().addStatus(RoomEntityStatus.CONTROLLER, "0");
@@ -99,7 +99,7 @@ public class
                     }
 
                     if (session.getPlayer().getEntity() != null && session.getPlayer().getEntity().getRoom().getId() == group.getData().getRoomId()) {
-                        session.send(new AccessLevelMessageComposer(0));
+                        session.send(new YouAreControllerMessageComposer(0));
 
                         session.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);
                         session.getPlayer().getEntity().addStatus(RoomEntityStatus.CONTROLLER, "0");

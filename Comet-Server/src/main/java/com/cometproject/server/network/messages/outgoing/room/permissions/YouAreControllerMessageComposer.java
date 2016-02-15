@@ -6,13 +6,19 @@ import com.cometproject.server.protocol.headers.Composers;
 
 
 public class YouAreControllerMessageComposer extends MessageComposer {
+    private final int rightId;
+
+    public YouAreControllerMessageComposer(int rightId) {
+        this.rightId = rightId;
+    }
+
     @Override
     public short getId() {
-        return Composers.YouAreOwnerMessageComposer;
+        return Composers.YouAreControllerMessageComposer;
     }
 
     @Override
     public void compose(IComposer msg) {
-
+        msg.writeInt(rightId);
     }
 }

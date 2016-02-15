@@ -290,6 +290,7 @@ public class RoomItemDao {
             preparedStatement = SqlHelper.prepare("UPDATE items SET x = ?, y = ?, z = ?, rot = ?, extra_data = ? WHERE id = ?", sqlConnection);
 
             for(RoomItem floor : items) {
+                System.out.println("Saving item: " + floor.getId() + ", virtId: " + floor.getVirtualId());
                 preparedStatement.setInt(1, floor.getPosition().getX());
                 preparedStatement.setInt(2, floor.getPosition().getY());
                 preparedStatement.setDouble(3, floor.getPosition().getZ());

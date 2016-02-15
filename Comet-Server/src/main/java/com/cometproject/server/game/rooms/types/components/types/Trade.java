@@ -11,10 +11,10 @@ import com.cometproject.server.network.messages.outgoing.notification.AlertMessa
 import com.cometproject.server.network.messages.outgoing.room.trading.*;
 import com.cometproject.server.network.messages.outgoing.user.inventory.UpdateInventoryMessageComposer;
 import com.cometproject.server.storage.queries.items.TradeDao;
+import com.cometproject.server.storage.queue.types.ItemStorageQueue;
+import com.cometproject.server.utilities.collections.ConcurrentHashSet;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 public class Trade {
@@ -31,7 +31,7 @@ public class Trade {
     /**
      * The items which the entities are trading
      */
-    private List<InventoryItem> user1Items, user2Items;
+    private Set<InventoryItem> user1Items, user2Items;
 
     /**
      * Have the entities accepted the trade?
@@ -53,8 +53,8 @@ public class Trade {
         this.user1 = user1;
         this.user2 = user2;
 
-        user1Items = new ArrayList<>();
-        user2Items = new ArrayList<>();
+        user1Items = new ConcurrentHashSet<>();
+        user2Items = new ConcurrentHashSet<>();
 
         if (!user1.hasStatus(RoomEntityStatus.TRADE)) {
             user1.addStatus(RoomEntityStatus.TRADE, "");
@@ -119,7 +119,7 @@ public class Trade {
      * @param user The user which is adding an item
      * @param item The chosen item
      */
-    public void addItem(int user, InventoryItem item) {
+    public void addItem(int user, InventoryItem item, boolean update) {
         if (user == 1) {
             if (!this.user1Items.contains(item)) {
 
@@ -144,7 +144,13 @@ public class Trade {
         if (this.stage == 2)
             this.stage = 1;
 
-        this.updateWindow();
+        if(update) {
+            this.updateWindow();
+        }
+    }
+
+    public boolean isOffered(InventoryItem item) {
+        return this.user1Items.contains(item) || this.user2Items.contains(item);
     }
 
     /**
@@ -269,14 +275,14 @@ public class Trade {
             user1.getPlayer().getInventory().removeItem(item);
             user2.getPlayer().getInventory().addItem(item);
 
-            TradeDao.updateTradeItems(user2.getPlayer().getId(), item.getId());
+            ItemStorageQueue.getInstance().changeItemOwner(item.getId(), user2.getPlayer().getId());
         }
 
         for (InventoryItem item : this.user2Items) {
             user2.getPlayer().getInventory().removeItem(item);
             user1.getPlayer().getInventory().addItem(item);
 
-            TradeDao.updateTradeItems(user1.getPlayer().getId(), item.getId());
+            ItemStorageQueue.getInstance().changeItemOwner(item.getId(), user1.getPlayer().getId());
         }
 
         user1.getPlayer().getSession().send(new UnseenItemsMessageComposer(user2Items));
@@ -295,8 +301,8 @@ public class Trade {
         this.sendToUsers(new TradeUpdateMessageComposer(
                 this.user1.getPlayerId(),
                 this.user2.getPlayerId(),
-                Collections.unmodifiableList(this.user1Items),
-                Collections.unmodifiableList(this.user2Items)
+                this.user1Items,
+                this.user2Items
         ));
     }
 

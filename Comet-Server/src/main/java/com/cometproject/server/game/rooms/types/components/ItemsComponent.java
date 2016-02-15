@@ -35,6 +35,7 @@ import com.cometproject.server.storage.queries.items.LimitedEditionDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.apache.log4j.Logger;
 
 import java.util.*;
@@ -303,7 +304,7 @@ public class ItemsComponent {
 
             final InventoryItem inventoryItem = client.getPlayer().getInventory().add(item.getId(), item.getItemId(), item.getExtraData(), item instanceof GiftFloorItem ? ((GiftFloorItem) item).getGiftData() : null, item.getLimitedEditionItem());
             client.sendQueue(new UpdateInventoryMessageComposer());
-            client.sendQueue(new UnseenItemsMessageComposer(Lists.newArrayList(inventoryItem)));
+            client.sendQueue(new UnseenItemsMessageComposer(Sets.newHashSet(inventoryItem)));
             client.flush();
         } else {
             if (delete)

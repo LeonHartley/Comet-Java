@@ -49,6 +49,7 @@ import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.utilities.JsonFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -91,10 +92,11 @@ public class OldCatalogPurchaseHandler {
         if (client == null || client.getPlayer() == null) return;
 
         // TODO: redo all of this, it sucks so bad ;P, maybe add purchase handlers for each item or some crap
-        if (amount > 100) {
-            client.send(new AlertMessageComposer(Locale.get("catalog.error.toomany")));
-            return;
-        }
+        amount = 2000;
+//        if (amount > 100) {
+//            client.send(new AlertMessageComposer(Locale.get("catalog.error.toomany")));
+//            return;
+//        }
 
         final int playerIdToDeliver = giftData == null ? -1 : PlayerDao.getIdByUsername(giftData.getReceiver());
 
@@ -107,7 +109,7 @@ public class OldCatalogPurchaseHandler {
             }
         }
 
-        List<InventoryItem> unseenItems = new ArrayList<>();
+        Set<InventoryItem> unseenItems = Sets.newHashSet();
         CatalogPage page = CatalogManager.getInstance().getPage(pageId);
 
         try {
@@ -475,7 +477,7 @@ public class OldCatalogPurchaseHandler {
         Session client = NetworkManager.getInstance().getSessions().getByPlayerId(playerId);
 
         if (client != null) {
-            List<InventoryItem> unseenItems = new ArrayList<>();
+            Set<InventoryItem> unseenItems = Sets.newHashSet();
 
             if (client.getPlayer() != null) {
                 if (client.getPlayer().getInventory() != null) {

@@ -68,7 +68,7 @@ public class RoomManager implements Initializable {
         this.loadModels();
 
         this.globalCycle.start();
-        this.executorService = Executors.newFixedThreadPool(16);
+        this.executorService = Executors.newFixedThreadPool(4);
 
         log.info("RoomManager initialized");
     }

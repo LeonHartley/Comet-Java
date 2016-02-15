@@ -8,7 +8,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
@@ -47,7 +47,7 @@ public class AcceptMembershipMessageEvent implements Event {
                     session.getPlayer().getEntity().addStatus(RoomEntityStatus.CONTROLLER, "1");
 
                     session.getPlayer().getEntity().markNeedsUpdate();
-                    session.send(new AccessLevelMessageComposer(1));
+                    session.send(new YouAreControllerMessageComposer(1));
                 }
             }
         }

@@ -8,7 +8,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.network.NetworkManager;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupMembersMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
@@ -48,7 +48,7 @@ public class RevokeAdminMessageEvent implements Event {
             Session session = NetworkManager.getInstance().getSessions().getByPlayerId(groupMember.getPlayerId());
 
             if (session != null && session.getPlayer().getEntity() != null && session.getPlayer().getEntity().getRoom().getId() == group.getData().getRoomId()) {
-                session.send(new AccessLevelMessageComposer(0));
+                session.send(new YouAreControllerMessageComposer(0));
                 session.getPlayer().getEntity().removeStatus(RoomEntityStatus.CONTROLLER);
                 session.getPlayer().getEntity().addStatus(RoomEntityStatus.CONTROLLER, "0");
                 session.getPlayer().getEntity().markNeedsUpdate();

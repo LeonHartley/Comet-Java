@@ -38,10 +38,7 @@ import com.cometproject.server.network.messages.outgoing.room.avatar.AvatarsMess
 import com.cometproject.server.network.messages.outgoing.room.avatar.IdleStatusMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.LeaveRoomMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.avatar.MutedMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.HotelViewMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.OpenConnectionMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.PapersMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.engine.RoomForwardMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.engine.*;
 import com.cometproject.server.network.messages.outgoing.room.events.RoomPromotionMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.*;
 import com.cometproject.server.network.messages.outgoing.room.queue.RoomQueueStatusMessageComposer;
@@ -210,7 +207,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             accessLevel = 1;
         }
 
-        session.send(new AccessLevelMessageComposer(accessLevel));
+        session.send(new YouAreControllerMessageComposer(accessLevel));
 
         boolean isSpectating = this.getPlayer().isSpectating(this.getRoom().getId());
 
@@ -219,7 +216,7 @@ public class PlayerEntity extends RoomEntity implements PlayerEntityAccess, Attr
             this.updateVisibility(false);
         } else {
             if (this.getRoom().getData().getOwnerId() == this.getPlayerId() || this.getPlayer().getPermissions().getRank().roomFullControl()) {
-                session.send(new YouAreControllerMessageComposer());
+                session.send(new YouAreOwnerMessageComposer());
             }
         }
 

@@ -24,8 +24,8 @@ public class RoomPromotionMessageComposer extends MessageComposer {
     @Override
     public void compose(IComposer msg) {
         if (roomData == null || roomPromotion == null) {
-            msg.writeInt(0);
-            msg.writeInt(0);
+            msg.writeInt(-1);
+            msg.writeInt(-1);
             msg.writeString("");
             msg.writeInt(0);
             msg.writeInt(0);

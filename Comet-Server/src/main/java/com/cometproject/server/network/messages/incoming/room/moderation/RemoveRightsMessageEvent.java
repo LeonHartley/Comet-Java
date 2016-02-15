@@ -4,7 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.RemoveRightsMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -34,7 +34,7 @@ public class RemoveRightsMessageEvent implements Event {
             client.send(new RemoveRightsMessageComposer(playerId, room.getId()));
 
             if (playerEntity != null) {
-                playerEntity.getPlayer().getSession().send(new AccessLevelMessageComposer(0));
+                playerEntity.getPlayer().getSession().send(new YouAreControllerMessageComposer(0));
                 playerEntity.removeStatus(RoomEntityStatus.CONTROLLER);
                 playerEntity.addStatus(RoomEntityStatus.CONTROLLER, "0");
                 playerEntity.markNeedsUpdate();

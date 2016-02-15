@@ -5,11 +5,11 @@ import com.cometproject.server.network.messages.composers.MessageComposer;
 import com.cometproject.server.protocol.headers.Composers;
 
 
-public class RoomEntryDataMessageComposer extends MessageComposer {
+public class RoomEntryInfoMessageComposer extends MessageComposer {
     private final int id;
     private final boolean hasOwnershipPermission;
 
-    public RoomEntryDataMessageComposer(final int id, final boolean hasOwnershipPermission) {
+    public RoomEntryInfoMessageComposer(final int id, final boolean hasOwnershipPermission) {
         this.id = id;
         this.hasOwnershipPermission = hasOwnershipPermission;
     }

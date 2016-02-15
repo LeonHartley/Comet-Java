@@ -26,6 +26,12 @@ public class SaveRoomDataMessageEvent implements Event {
     public void handle(Session client, MessageEvent msg) {
         int id = msg.readInt();
 
+        if(id == 0) {
+            if(client.getPlayer().getEntity() != null && client.getPlayer().getEntity().getRoom() != null) {
+                id = client.getPlayer().getEntity().getRoom().getId();
+            }
+        }
+
         Room room = null;
         RoomData data = null;
 
@@ -120,7 +126,6 @@ public class SaveRoomDataMessageEvent implements Event {
         if (tags.length > 2) {
             return;
         }
-
 
         String filteredName = name;
         String filteredDescription = description;

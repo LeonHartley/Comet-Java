@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class UnseenItemsMessageComposer extends MessageComposer {
@@ -20,7 +21,7 @@ public class UnseenItemsMessageComposer extends MessageComposer {
         this.newObjects = newObjects;
     }
 
-    public UnseenItemsMessageComposer(final List<InventoryItem> inventoryItems) {
+    public UnseenItemsMessageComposer(final Set<InventoryItem> inventoryItems) {
         this.newObjects = new HashMap<>();
 
         for (InventoryItem inventoryItem : inventoryItems) {

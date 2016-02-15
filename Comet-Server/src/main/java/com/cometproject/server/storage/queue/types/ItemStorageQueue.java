@@ -2,6 +2,7 @@ package com.cometproject.server.storage.queue.types;
 
 import com.cometproject.server.game.rooms.objects.items.RoomItem;
 import com.cometproject.server.game.rooms.objects.items.RoomItemFloor;
+import com.cometproject.server.storage.queries.items.TradeDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.cometproject.server.storage.queue.StorageQueue;
 import com.cometproject.server.tasks.CometTask;
@@ -10,6 +11,8 @@ import com.cometproject.server.utilities.Initializable;
 import org.apache.log4j.Logger;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -23,27 +26,33 @@ public class ItemStorageQueue implements Initializable, CometTask, StorageQueue<
     private List<RoomItem> itemsToStoreData;
     private List<RoomItem> itemsToStore;
 
+    private Map<Long, Integer> itemsToChangeOwner;
+
     public ItemStorageQueue() {
         this.itemsToStoreData = new CopyOnWriteArrayList<>();
         this.itemsToStore = new CopyOnWriteArrayList<>();
+
+        this.itemsToChangeOwner = new ConcurrentHashMap<>();
     }
 
     @Override
     public void initialize() {
-        this.future = CometThreadManager.getInstance().executePeriodic(this, 0, 3000, TimeUnit.MILLISECONDS);
+        this.future = CometThreadManager.getInstance().executePeriodic(this, 0, 1500, TimeUnit.MILLISECONDS);
     }
 
     @Override
     public void run() {
-        if (this.itemsToStoreData.size() == 0 && this.itemsToStore.size() == 0) return;
+        if (this.itemsToStoreData.size() == 0 && this.itemsToStore.size() == 0 && this.itemsToChangeOwner.size() == 0) return;
 
-        log.debug("Saving " + (this.itemsToStoreData.size() + this.itemsToStore.size()) + " items");
+        log.debug("Saving " + (this.itemsToStoreData.size() + this.itemsToStore.size() + this.itemsToChangeOwner.size()) + " items");
 
         RoomItemDao.processBatch(this.itemsToStoreData);
         RoomItemDao.saveFloorItems(this.itemsToStore);
+        TradeDao.updateTradeItems(this.itemsToChangeOwner);
 
         this.itemsToStoreData.clear();
         this.itemsToStore.clear();
+        this.itemsToChangeOwner.clear();
     }
 
     public void queueSaveData(final RoomItem roomItem) {
@@ -67,6 +76,14 @@ public class ItemStorageQueue implements Initializable, CometTask, StorageQueue<
     @Override
     public boolean isQueued(RoomItem object) {
         return this.itemsToStore.contains(object) || this.itemsToStoreData.contains(object);
+    }
+
+    public void changeItemOwner(Long itemId, int newOwner) {
+        if(this.itemsToChangeOwner.containsKey(itemId)) {
+            this.itemsToChangeOwner.remove(itemId);
+        }
+
+        this.itemsToChangeOwner.put(itemId, newOwner);
     }
 
     @Override

@@ -36,8 +36,6 @@ import com.cometproject.server.network.messages.incoming.moderation.tickets.ModT
 import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolReleaseIssueMessageEvent;
 import com.cometproject.server.network.messages.incoming.moderation.tickets.ModToolTicketChatlogMessageEvent;
 import com.cometproject.server.network.messages.incoming.navigator.*;
-import com.cometproject.server.network.messages.incoming.polls.GetPollMessageEvent;
-import com.cometproject.server.network.messages.incoming.polls.SubmitPollAnswerMessageEvent;
 import com.cometproject.server.network.messages.incoming.quests.CancelQuestMessageEvent;
 import com.cometproject.server.network.messages.incoming.quests.OpenQuestsMessageEvent;
 import com.cometproject.server.network.messages.incoming.quests.StartQuestMessageEvent;
@@ -317,6 +315,7 @@ public final class MessageHandler {
         this.getMessages().put(Events.CancelOfferMessageEvent, new CancelOfferMessageEvent());
         this.getMessages().put(Events.TradingAcceptMessageEvent, new AcceptTradeMessageEvent());
         this.getMessages().put(Events.TradingConfirmMessageEvent, new ConfirmTradeMessageEvent());
+        this.getMessages().put(Events.TradingOfferItemsMessageEvent, new TradingOfferItemsMessageEvent());
     }
 //
     public void registerRoomModeration() {

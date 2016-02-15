@@ -20,6 +20,7 @@ import com.cometproject.server.storage.queries.items.ItemDao;
 import com.cometproject.server.storage.queries.rooms.RoomItemDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
@@ -226,7 +227,7 @@ public class WiredActionGiveReward extends WiredActionItem {
                             playerEntity.getPlayer().getInventory().addItem(inventoryItem);
 
                             playerEntity.getPlayer().getSession().send(new UpdateInventoryMessageComposer());
-                            playerEntity.getPlayer().getSession().send(new UnseenItemsMessageComposer(Collections.singletonList(inventoryItem)));
+                            playerEntity.getPlayer().getSession().send(new UnseenItemsMessageComposer(Sets.newHashSet(inventoryItem)));
 
                             playerEntity.getPlayer().getSession().send(new WiredRewardMessageComposer(6));
                         }

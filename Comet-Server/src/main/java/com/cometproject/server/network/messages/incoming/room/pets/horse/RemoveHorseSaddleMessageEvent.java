@@ -12,6 +12,7 @@ import com.cometproject.server.network.sessions.Session;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.storage.queries.items.ItemDao;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public class RemoveHorseSaddleMessageEvent implements Event {
     @Override
@@ -39,7 +40,7 @@ public class RemoveHorseSaddleMessageEvent implements Event {
             long itemId = ItemDao.createItem(client.getPlayer().getId(), ItemManager.getInstance().getSaddleId(), "");
 
             InventoryItem inventoryItem = client.getPlayer().getInventory().add(itemId, ItemManager.getInstance().getSaddleId(), "", null, null);
-            client.send(new UnseenItemsMessageComposer(Lists.newArrayList(inventoryItem)));
+            client.send(new UnseenItemsMessageComposer(Sets.newHashSet(inventoryItem)));
             client.send(new UpdateInventoryMessageComposer());
         }
     }

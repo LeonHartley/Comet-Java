@@ -24,6 +24,6 @@ public class SendOfferMessageEvent implements Event {
         Trade trade = client.getPlayer().getEntity().getRoom().getTrade().get(client.getPlayer().getEntity());
         if (trade == null) return;
 
-        trade.addItem(trade.getUserNumber(client.getPlayer().getEntity()), item);
+        trade.addItem(trade.getUserNumber(client.getPlayer().getEntity()), item, true);
     }
 }

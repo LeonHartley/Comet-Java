@@ -4,7 +4,7 @@ import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.game.rooms.objects.entities.types.PlayerEntity;
 import com.cometproject.server.game.rooms.types.Room;
 import com.cometproject.server.network.messages.incoming.Event;
-import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.network.messages.outgoing.room.permissions.GiveRoomRightsMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
@@ -37,7 +37,7 @@ public class GiveRightsMessageEvent implements Event {
             playerEntity.addStatus(RoomEntityStatus.CONTROLLER, "1");
 
             playerEntity.markNeedsUpdate();
-            playerEntity.getPlayer().getSession().send(new AccessLevelMessageComposer(1));
+            playerEntity.getPlayer().getSession().send(new YouAreControllerMessageComposer(1));
         }
     }
 }

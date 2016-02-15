@@ -8,7 +8,7 @@ import com.cometproject.server.game.groups.types.GroupType;
 import com.cometproject.server.game.rooms.objects.entities.RoomEntityStatus;
 import com.cometproject.server.network.messages.incoming.Event;
 import com.cometproject.server.network.messages.outgoing.group.GroupBadgesMessageComposer;
-import com.cometproject.server.network.messages.outgoing.room.permissions.AccessLevelMessageComposer;
+import com.cometproject.server.network.messages.outgoing.room.permissions.YouAreControllerMessageComposer;
 import com.cometproject.server.protocol.messages.MessageEvent;
 import com.cometproject.server.network.sessions.Session;
 
@@ -53,7 +53,7 @@ public class JoinGroupMessageEvent implements Event {
                 client.getPlayer().getEntity().addStatus(RoomEntityStatus.CONTROLLER, "1");
 
                 client.getPlayer().getEntity().markNeedsUpdate();
-                client.send(new AccessLevelMessageComposer(1));
+                client.send(new YouAreControllerMessageComposer(1));
             }
         } else {
             group.getMembershipComponent().createRequest(client.getPlayer().getId());

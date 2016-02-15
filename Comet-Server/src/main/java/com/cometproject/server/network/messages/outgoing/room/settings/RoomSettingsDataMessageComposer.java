@@ -24,7 +24,7 @@ public class RoomSettingsDataMessageComposer extends MessageComposer {
 
     @Override
     public void compose(IComposer msg) {
-        msg.writeInt(room.getId());
+        msg.writeInt(0);// TODO: Fix this.
         msg.writeString(room.getData().getName());
         msg.writeString(room.getData().getDescription());
         msg.writeInt(RoomWriter.roomAccessToNumber(room.getData().getAccess()));
@@ -49,7 +49,7 @@ public class RoomSettingsDataMessageComposer extends MessageComposer {
         msg.writeInt(room.getData().getBubbleScroll());
         msg.writeInt(room.getData().getChatDistance());
         msg.writeInt(room.getData().getAntiFloodSettings());
-        msg.writeBoolean(true);//??
+        msg.writeBoolean(false);//??
         msg.writeInt(room.getData().getMuteState().getState());
         msg.writeInt(room.getData().getKickState().getState());
         msg.writeInt(room.getData().getBanState().getState());

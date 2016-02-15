@@ -53,6 +53,8 @@ public abstract class WiredFloorItem extends RoomItemFloor implements WiredItemS
      * Turn the wired item data into a JSON object, and then save it to the database
      */
     public void save() {
+        super.save();
+
         this.setExtraData(JsonFactory.getInstance().toJson(wiredItemData));
         this.saveData();
     }
